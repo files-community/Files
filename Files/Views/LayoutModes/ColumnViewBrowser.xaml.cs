@@ -9,15 +9,19 @@ using System;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views.LayoutModes
 {
     public sealed partial class ColumnViewBrowser : BaseLayout
     {
+
         public ColumnViewBrowser() : base()
         {
             this.InitializeComponent();
+
+            ColumnPointerPressedHandler = new PointerEventHandler(Column_PointerPressed);
         }
 
         protected override void HookEvents()
@@ -59,14 +63,6 @@ namespace Files.Views.LayoutModes
         private void ContentChanged(IShellPage p)
         {
             (ParentShellPageInstance as ModernShellPage)?.RaiseContentChanged(p, p.TabItemArguments);
-            if (ColumnHost.ActiveBlades != null)
-            {
-                ColumnHost.ActiveBlades.ForEach(x =>
-                {
-                    var shellPage = (x.Content as Frame)?.Content as ColumnShellPage;
-                    shellPage.IsCurrentInstance = ParentShellPageInstance.IsCurrentInstance && (shellPage == LastColumnShellPage);
-                });
-            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -102,6 +98,7 @@ namespace Files.Views.LayoutModes
         {
             base.Dispose();
             ColumnHost.ActiveBlades.ForEach(x => (((x.Content as Frame)?.Content as ColumnShellPage).SlimContentPage as ColumnViewBase).ItemInvoked -= ColumnViewBase_ItemInvoked);
+            ColumnHost.ActiveBlades.ForEach(x => ((x.Content as Frame)?.Content as UIElement).RemoveHandler(UIElement.PointerPressedEvent, ColumnPointerPressedHandler));
             ColumnHost.ActiveBlades.Select(x => (x.Content as Frame)?.Content).OfType<IDisposable>().ForEach(x => x.Dispose());
             UnhookEvents();
             CommandsViewModel?.Dispose();
@@ -128,12 +125,13 @@ namespace Files.Views.LayoutModes
                             disposableContent.Dispose();
                         }
                         (((ColumnHost.ActiveBlades[index + 1].Content as Frame).Content as ColumnShellPage).SlimContentPage as ColumnViewBase).ItemInvoked -= ColumnViewBase_ItemInvoked;
+                        ((ColumnHost.ActiveBlades[index + 1].Content as Frame).Content as UIElement).RemoveHandler(UIElement.PointerPressedEvent, ColumnPointerPressedHandler);
                         ColumnHost.Items.RemoveAt(index + 1);
                         ColumnHost.ActiveBlades.RemoveAt(index + 1);
                     }
                 });
             }
-            ContentChanged(LastColumnShellPage);
+            ContentChanged(ActiveColumnShellPage);
         }
 
         private void Frame_Navigated(object sender, NavigationEventArgs e)
@@ -141,6 +139,7 @@ namespace Files.Views.LayoutModes
             var f = sender as Frame;
             f.Navigated -= Frame_Navigated;
             (f.Content as IShellPage).ContentChanged += ColumnViewBrowser_ContentChanged;
+            (f.Content as UIElement).AddHandler(UIElement.PointerPressedEvent, ColumnPointerPressedHandler, true);
         }
 
         private void ColumnViewBrowser_ContentChanged(object sender, UserControls.MultitaskingControl.TabItemArguments e)
@@ -152,9 +151,23 @@ namespace Files.Views.LayoutModes
             ContentChanged(c);
         }
 
+        private void Column_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (ColumnHost.ActiveBlades != null)
+            {
+                ColumnHost.ActiveBlades.ForEach(x =>
+                {
+                    var shellPage = (x.Content as Frame)?.Content as ColumnShellPage;
+                    shellPage.IsCurrentInstance = false;
+                });
+            }
+            (sender as IShellPage).IsCurrentInstance = true;
+            ContentChanged(sender as IShellPage);
+        }
+
         public void UpColumn()
         {
-            if (!IsLastColumnBase)
+            if (ColumnHost.ActiveBlades?.Count > 1)
             {
                 DismissOtherBlades(ColumnHost.ActiveBlades[ColumnHost.ActiveBlades.Count - 2]);
             }
@@ -166,7 +179,7 @@ namespace Files.Views.LayoutModes
 
         public void SetSelectedPathOrNavigate(PathNavigationEventArgs e)
         {
-            if (!IsLastColumnBase)
+            if (ColumnHost.ActiveBlades?.Count > 1)
             {
                 foreach (var item in ColumnHost.ActiveBlades)
                 {
@@ -190,8 +203,21 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        public IShellPage LastColumnShellPage => (ColumnHost.ActiveBlades?.Last().Content as Frame)?.Content as ColumnShellPage ?? ParentShellPageInstance;
+        public IShellPage ActiveColumnShellPage
+        {
+            get
+            {
+                if (ColumnHost.ActiveBlades?.Count() > 0)
+                {
+                    var shellPages = ColumnHost.ActiveBlades.Select(x => (x.Content as Frame).Content as IShellPage);
+                    var activeInstance = shellPages.SingleOrDefault(x => x.IsCurrentInstance);
+                    return activeInstance ?? shellPages.Last();
+                }
+                
+                return ParentShellPageInstance;
+            }
+        }
 
-        public bool IsLastColumnBase => ColumnHost.ActiveBlades?.Count == 1;
+        private PointerEventHandler ColumnPointerPressedHandler { get; }
     }
 }

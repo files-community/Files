@@ -147,7 +147,7 @@ namespace Files.Views
             {
                 if (ActivePane.IsColumnView)
                 {
-                    return (ActivePane.SlimContentPage as ColumnViewBrowser).LastColumnShellPage;
+                    return (ActivePane.SlimContentPage as ColumnViewBrowser).ActiveColumnShellPage;
                 }
 
                 return ActivePane;
