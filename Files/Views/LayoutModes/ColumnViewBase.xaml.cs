@@ -149,8 +149,6 @@ namespace Files.Views.LayoutModes
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            var param = (eventArgs.Parameter as NavigationArguments);
-            ParentShellPageInstance.IsCurrentInstance = true;
         }
 
         protected override void InitializeCommandsViewModel()

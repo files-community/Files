@@ -637,9 +637,7 @@ namespace Files.Views
             var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
             var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
             var tabInstance = CurrentPageType == (typeof(DetailsLayoutBrowser))
-                || CurrentPageType == typeof(GridViewBrowser)
-                || CurrentPageType == typeof(ColumnViewBrowser)
-                || CurrentPageType == typeof(ColumnViewBase);
+                || CurrentPageType == typeof(GridViewBrowser);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
@@ -759,8 +757,8 @@ namespace Files.Views
                     }
                     break;
 
-                case (false, false, true, _, VirtualKey.D): // alt + d, select address bar (english)
-                case (true, false, false, _, VirtualKey.L): // ctrl + l, select address bar
+                case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
+                case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
                     NavToolbarViewModel.IsEditModeEnabled = true;
                     break;
 

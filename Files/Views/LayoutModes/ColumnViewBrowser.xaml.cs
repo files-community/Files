@@ -15,8 +15,6 @@ namespace Files.Views.LayoutModes
 {
     public sealed partial class ColumnViewBrowser : BaseLayout
     {
-        private IBaseLayout mainPageLayout;
-
         public ColumnViewBrowser() : base()
         {
             this.InitializeComponent();
@@ -24,77 +22,10 @@ namespace Files.Views.LayoutModes
 
         protected override void HookEvents()
         {
-            UnhookEvents();
-            ItemManipulationModel.FocusFileListInvoked += ItemManipulationModel_FocusFileListInvoked;
-            ItemManipulationModel.SelectAllItemsInvoked += ItemManipulationModel_SelectAllItemsInvoked;
-            ItemManipulationModel.ClearSelectionInvoked += ItemManipulationModel_ClearSelectionInvoked;
-            ItemManipulationModel.InvertSelectionInvoked += ItemManipulationModel_InvertSelectionInvoked;
-            ItemManipulationModel.AddSelectedItemInvoked += ItemManipulationModel_AddSelectedItemInvoked;
-            ItemManipulationModel.RemoveSelectedItemInvoked += ItemManipulationModel_RemoveSelectedItemInvoked;
-            ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
-            ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
-            ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
-        }
-
-        private void ItemManipulationModel_FocusFileListInvoked(object sender, EventArgs e)
-        {
-            mainPageLayout?.ItemManipulationModel.FocusFileList();
-        }
-
-        private void ItemManipulationModel_SelectAllItemsInvoked(object sender, EventArgs e)
-        {
-            mainPageLayout?.ItemManipulationModel.SelectAllItems();
-        }
-
-        private void ItemManipulationModel_ClearSelectionInvoked(object sender, EventArgs e)
-        {
-            mainPageLayout?.ItemManipulationModel.ClearSelection();
-        }
-
-        private void ItemManipulationModel_InvertSelectionInvoked(object sender, EventArgs e)
-        {
-            mainPageLayout?.ItemManipulationModel.InvertSelection();
-        }
-
-        private void ItemManipulationModel_AddSelectedItemInvoked(object sender, ListedItem e)
-        {
-            mainPageLayout?.ItemManipulationModel.AddSelectedItem(e);
-        }
-
-        private void ItemManipulationModel_RemoveSelectedItemInvoked(object sender, ListedItem e)
-        {
-            mainPageLayout?.ItemManipulationModel.RemoveSelectedItem(e);
-        }
-
-        private void ItemManipulationModel_FocusSelectedItemsInvoked(object sender, EventArgs e)
-        {
-            mainPageLayout?.ItemManipulationModel.FocusSelectedItems();
-        }
-
-        private void ItemManipulationModel_StartRenameItemInvoked(object sender, EventArgs e)
-        {
-            mainPageLayout?.ItemManipulationModel.StartRenameItem();
-        }
-
-        private void ItemManipulationModel_ScrollIntoViewInvoked(object sender, ListedItem e)
-        {
-            mainPageLayout?.ItemManipulationModel.ScrollIntoView(e);
         }
 
         protected override void UnhookEvents()
         {
-            if (ItemManipulationModel != null)
-            {
-                ItemManipulationModel.FocusFileListInvoked -= ItemManipulationModel_FocusFileListInvoked;
-                ItemManipulationModel.SelectAllItemsInvoked -= ItemManipulationModel_SelectAllItemsInvoked;
-                ItemManipulationModel.ClearSelectionInvoked -= ItemManipulationModel_ClearSelectionInvoked;
-                ItemManipulationModel.InvertSelectionInvoked -= ItemManipulationModel_InvertSelectionInvoked;
-                ItemManipulationModel.AddSelectedItemInvoked -= ItemManipulationModel_AddSelectedItemInvoked;
-                ItemManipulationModel.RemoveSelectedItemInvoked -= ItemManipulationModel_RemoveSelectedItemInvoked;
-                ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
-                ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
-                ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
-            }
         }
 
         protected override ListedItem GetItemFromElement(object element)
@@ -128,9 +59,13 @@ namespace Files.Views.LayoutModes
         private void ContentChanged(IShellPage p)
         {
             (ParentShellPageInstance as ModernShellPage)?.RaiseContentChanged(p, p.TabItemArguments);
-            if (p == MainPageFrame.Content)
+            if (ColumnHost.ActiveBlades != null)
             {
-                mainPageLayout = p.SlimContentPage;
+                ColumnHost.ActiveBlades.ForEach(x =>
+                {
+                    var shellPage = (x.Content as Frame)?.Content as ColumnShellPage;
+                    shellPage.IsCurrentInstance = ParentShellPageInstance.IsCurrentInstance && (shellPage == LastColumnShellPage);
+                });
             }
         }
 
@@ -213,17 +148,6 @@ namespace Files.Views.LayoutModes
             ContentChanged(c);
         }
 
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
-        {
-            var itemContainer = (sender as Grid)?.FindAscendant<ListViewItem>();
-            if (itemContainer is null)
-            {
-                return;
-            }
-
-            itemContainer.ContextFlyout = ItemContextMenuFlyout;
-        }
-
         public void UpColumn()
         {
             if (!IsLastColumnBase)
@@ -258,8 +182,8 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        public IShellPage LastColumnShellPage => IsLastColumnBase ? ParentShellPageInstance : ((ColumnHost.ActiveBlades.Last().Content as Frame).Content as ColumnShellPage);
+        public IShellPage LastColumnShellPage => (ColumnHost.ActiveBlades?.Last().Content as Frame)?.Content as ColumnShellPage ?? ParentShellPageInstance;
 
-        public bool IsLastColumnBase => (ColumnHost?.ActiveBlades is null) || ColumnHost.ActiveBlades.Count == 1;
+        public bool IsLastColumnBase => ColumnHost.ActiveBlades?.Count == 1;
     }
 }
