@@ -735,11 +735,11 @@ namespace Files.Views.LayoutModes
                 2 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagUI?.TagName?.Length ?? 0).Max(), // file tag column
                 3 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemOriginalPath?.Length ?? 0).Max(), // original path column
                 4 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
-                5 => 20, // cloud status column
-                6 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
-                7 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
-                8 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
-                _ => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
+                5 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
+                6 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
+                7 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
+                8 => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
+                _ => 20 // cloud status column
             };
             var colunmSizeToFit = new[] { 5 }.Contains(columnToResize) ? maxItemLength : MeasureTextColumn(columnToResize, 5, maxItemLength);
             if (colunmSizeToFit > 0)
