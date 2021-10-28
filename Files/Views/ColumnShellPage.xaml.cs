@@ -327,8 +327,7 @@ namespace Files.Views
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            Column = (eventArgs.Parameter as ColumnParam).Column;
-            NavParams = new NavigationParams { NavPath = (eventArgs.Parameter as ColumnParam).Path.ToString() };
+            ColumnParams = eventArgs.Parameter as ColumnParam;
         }
 
         private void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
@@ -434,17 +433,16 @@ namespace Files.Views
             }
         }
 
-        private NavigationParams navParams;
-        private int Column;
+        private ColumnParam columnParams;
 
-        public NavigationParams NavParams
+        public ColumnParam ColumnParams
         {
-            get => navParams;
+            get => columnParams;
             set
             {
-                if (value != navParams)
+                if (value != columnParams)
                 {
-                    navParams = value;
+                    columnParams = value;
                     if (IsLoaded)
                     {
                         OnNavigationParamsChanged();
@@ -455,25 +453,16 @@ namespace Files.Views
 
         private void OnNavigationParamsChanged()
         {
-            if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home".GetLocalized())
-            {
-                ItemDisplayFrame.Navigate(typeof(WidgetsPage),
-                    new NavigationArguments()
-                    {
-                        NavPathParam = NavParams?.NavPath,
-                        AssociatedTabInstance = this
-                    });
-            }
-            else
-            {
-                ItemDisplayFrame.Navigate(typeof(ColumnViewBase),
-                    new NavigationArguments()
-                    {
-                        NavPathParam = NavParams.NavPath,
-                        SelectItems = !string.IsNullOrWhiteSpace(NavParams.SelectItem) ? new[] { NavParams.SelectItem } : null,
-                        AssociatedTabInstance = this
-                    });
-            }
+            ItemDisplayFrame.Navigate(typeof(ColumnViewBase),
+                new NavigationArguments()
+                {
+                    IsSearchResultPage = columnParams.IsSearchResultPage,
+                    SearchQuery = columnParams.SearchQuery,
+                    NavPathParam = columnParams.NavPathParam,
+                    SearchUnindexedItems = columnParams.SearchUnindexedItems,
+                    SearchPathParam = columnParams.SearchPathParam,
+                    AssociatedTabInstance = this
+                });
         }
 
         public static readonly DependencyProperty NavParamsProperty =
@@ -722,9 +711,9 @@ namespace Files.Views
             switch (args.KeyboardAccelerator.Key)
             {
                 case VirtualKey.F2: //F2, rename
-                    if (CurrentPageType == typeof(DetailsLayoutBrowser) 
-                        || CurrentPageType == typeof(GridViewBrowser) 
-                        || CurrentPageType == typeof(ColumnViewBrowser) 
+                    if (CurrentPageType == typeof(DetailsLayoutBrowser)
+                        || CurrentPageType == typeof(GridViewBrowser)
+                        || CurrentPageType == typeof(ColumnViewBrowser)
                         || CurrentPageType == typeof(ColumnViewBase))
                     {
                         if (ContentPage.IsItemSelected)

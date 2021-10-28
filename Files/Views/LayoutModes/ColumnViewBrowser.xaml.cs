@@ -52,7 +52,7 @@ namespace Files.Views.LayoutModes
             frame.Navigate(typeof(ColumnShellPage), new ColumnParam
             {
                 Column = ColumnHost.ActiveBlades.IndexOf(newblade),
-                Path = column.Path
+                NavPathParam = column.NavPathParam
             });
         }
 
@@ -78,7 +78,11 @@ namespace Files.Views.LayoutModes
             MainPageFrame.Navigate(typeof(ColumnShellPage), new ColumnParam
             {
                 Column = 0,
-                Path = navigationArguments.NavPathParam
+                IsSearchResultPage = navigationArguments.IsSearchResultPage,
+                SearchQuery = navigationArguments.SearchQuery,
+                SearchUnindexedItems = navigationArguments.SearchUnindexedItems,
+                SearchPathParam = navigationArguments.SearchPathParam,
+                NavPathParam = navigationArguments.NavPathParam
             });
         }
 

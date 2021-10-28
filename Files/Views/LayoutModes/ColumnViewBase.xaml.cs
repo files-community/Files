@@ -389,7 +389,7 @@ namespace Files.Views.LayoutModes
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
                     listViewItem = FileList.ContainerFromItem(item) as ListViewItem;
-                    ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
+                    ItemInvoked?.Invoke(new ColumnParam { NavPathParam = item.ItemPath, ListView = FileList }, EventArgs.Empty);
                 }
                 else
                 {
@@ -446,7 +446,7 @@ namespace Files.Views.LayoutModes
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
                     listViewItem = FileList.ContainerFromItem(item) as ListViewItem;
-                    ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
+                    ItemInvoked?.Invoke(new ColumnParam { NavPathParam = item.ItemPath, ListView = FileList }, EventArgs.Empty);
                 }
                 else
                 {
@@ -545,25 +545,19 @@ namespace Files.Views.LayoutModes
             var parent = this.FindAscendant<ModernShellPage>();
             if (parent != null)
             {
-                var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, false);
-
-                if (layoutType != ParentShellPageInstance.CurrentPageType)
+                switch (e.LayoutMode)
                 {
-                    parent.FolderSettings.LayoutMode = e.LayoutMode;
-                    parent.FolderSettings.IsLayoutModeChanging = true;
-                    parent.NavigateWithArguments(layoutType, new NavigationArguments()
-                    {
-                        NavPathParam = navigationArguments.NavPathParam,
-                        IsSearchResultPage = navigationArguments.IsSearchResultPage,
-                        SearchPathParam = navigationArguments.SearchPathParam,
-                        SearchQuery = navigationArguments.SearchQuery,
-                        SearchUnindexedItems = navigationArguments.SearchUnindexedItems,
-                        IsLayoutSwitch = true,
-                        AssociatedTabInstance = parent
-                    });
-
-                    // Remove old layout from back stack
-                    parent.RemoveLastPageFromBackStack();
+                    case Enums.FolderLayoutModes.ColumnView:
+                        break;
+                    case Enums.FolderLayoutModes.DetailsView:
+                        parent.FolderSettings.ToggleLayoutModeDetailsView.Execute(true);
+                        break;
+                    case Enums.FolderLayoutModes.TilesView:
+                        parent.FolderSettings.ToggleLayoutModeTiles.Execute(true);
+                        break;
+                    case Enums.FolderLayoutModes.GridView:
+                        parent.FolderSettings.ToggleLayoutModeGridView.Execute(e.GridViewSize);
+                        break;
                 }
             }
         }
