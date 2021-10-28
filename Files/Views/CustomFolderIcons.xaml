@@ -52,6 +52,7 @@
             Grid.Row="2"
             Grid.ColumnSpan="3"
             HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             ScrollViewer.HorizontalScrollMode="Disabled"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -60,7 +61,7 @@
             SelectionMode="Single">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid MaximumRowsOrColumns="4" Orientation="Vertical" />
+                    <ItemsWrapGrid MaximumRowsOrColumns="5" Orientation="Vertical" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
             <GridView.ItemTemplate>
