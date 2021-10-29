@@ -24,7 +24,6 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System;
@@ -328,8 +327,7 @@ namespace Files.Views
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            Column = (eventArgs.Parameter as ColumnParam).Column;
-            NavParams = new NavigationParams { NavPath = (eventArgs.Parameter as ColumnParam).Path.ToString() };
+            ColumnParams = eventArgs.Parameter as ColumnParam;
         }
 
         private void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
@@ -435,17 +433,16 @@ namespace Files.Views
             }
         }
 
-        private NavigationParams navParams;
-        private int Column;
+        private ColumnParam columnParams;
 
-        public NavigationParams NavParams
+        public ColumnParam ColumnParams
         {
-            get => navParams;
+            get => columnParams;
             set
             {
-                if (value != navParams)
+                if (value != columnParams)
                 {
-                    navParams = value;
+                    columnParams = value;
                     if (IsLoaded)
                     {
                         OnNavigationParamsChanged();
@@ -456,25 +453,16 @@ namespace Files.Views
 
         private void OnNavigationParamsChanged()
         {
-            if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home".GetLocalized())
-            {
-                ItemDisplayFrame.Navigate(typeof(WidgetsPage),
-                    new NavigationArguments()
-                    {
-                        NavPathParam = NavParams?.NavPath,
-                        AssociatedTabInstance = this
-                    });
-            }
-            else
-            {
-                ItemDisplayFrame.Navigate(typeof(ColumnViewBase),
-                    new NavigationArguments()
-                    {
-                        NavPathParam = NavParams.NavPath,
-                        SelectItems = !string.IsNullOrWhiteSpace(NavParams.SelectItem) ? new[] { NavParams.SelectItem } : null,
-                        AssociatedTabInstance = this
-                    });
-            }
+            ItemDisplayFrame.Navigate(typeof(ColumnViewBase),
+                new NavigationArguments()
+                {
+                    IsSearchResultPage = columnParams.IsSearchResultPage,
+                    SearchQuery = columnParams.SearchQuery,
+                    NavPathParam = columnParams.NavPathParam,
+                    SearchUnindexedItems = columnParams.SearchUnindexedItems,
+                    SearchPathParam = columnParams.SearchPathParam,
+                    AssociatedTabInstance = this
+                });
         }
 
         public static readonly DependencyProperty NavParamsProperty =
@@ -617,6 +605,11 @@ namespace Files.Views
                         break;
                     }
 
+                case (false, false, false, true, VirtualKey.F3): //f3
+                case (true, false, false, true, VirtualKey.F): // ctrl + f
+                    NavToolbarViewModel.SwitchSearchBoxVisibility();
+                    break;
+
                 case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
                     if (InstanceViewModel.CanCreateFileInPage)
                     {
@@ -705,8 +698,8 @@ namespace Files.Views
                     }
                     break;
 
-                case (false, false, true, _, VirtualKey.D): // alt + d, select address bar (english)
-                case (true, false, false, _, VirtualKey.L): // ctrl + l, select address bar
+                case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
+                case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
                     NavToolbarViewModel.IsEditModeEnabled = true;
                     break;
 
@@ -718,9 +711,9 @@ namespace Files.Views
             switch (args.KeyboardAccelerator.Key)
             {
                 case VirtualKey.F2: //F2, rename
-                    if (CurrentPageType == typeof(DetailsLayoutBrowser) 
-                        || CurrentPageType == typeof(GridViewBrowser) 
-                        || CurrentPageType == typeof(ColumnViewBrowser) 
+                    if (CurrentPageType == typeof(DetailsLayoutBrowser)
+                        || CurrentPageType == typeof(GridViewBrowser)
+                        || CurrentPageType == typeof(ColumnViewBrowser)
                         || CurrentPageType == typeof(ColumnViewBase))
                     {
                         if (ContentPage.IsItemSelected)
@@ -835,7 +828,6 @@ namespace Files.Views
             NavToolbarViewModel.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
             NavToolbarViewModel.ItemDraggedOverPathItem -= ColumnShellPage_NavigationRequested;
             NavToolbarViewModel.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
-            //NavToolbarViewModel.RefreshWidgetsRequested -= ColumnShellPage_RefreshWidgetsRequested;
 
             NavToolbarViewModel.SearchBox.TextChanged -= ColumnShellPage_TextChanged;
             NavToolbarViewModel.SearchBox.SuggestionChosen -= ColumnShellPage_SuggestionChosen;
