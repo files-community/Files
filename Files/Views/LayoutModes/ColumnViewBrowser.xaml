@@ -138,6 +138,7 @@
             <controls:BladeView.ItemContainerTransitions>
                 <TransitionCollection />
             </controls:BladeView.ItemContainerTransitions>
+
             <controls:BladeItem>
                 <Frame x:Name="MainPageFrame" />
             </controls:BladeItem>
