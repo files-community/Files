@@ -13,7 +13,7 @@
         bool OpenFoldersInNewTab { get; set; }
 
         /// <summary>
-        /// Enables saving recent items opened.
+        /// Enables saving recent items for quick access and the recent items widget
         /// </summary>
         bool IsSavingRecentItemsEnabled { get; set; }
     }
