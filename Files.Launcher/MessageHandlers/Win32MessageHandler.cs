@@ -21,6 +21,7 @@ namespace FilesFullTrust.MessageHandlers
         {
             DetectIsSetAsDefaultFileManager();
             DetectIsSetAsOpenFileDialog();
+            ApplicationData.Current.LocalSettings.Values["TEMP"] = Environment.GetEnvironmentVariable("TEMP");
         }
 
         private void DetectIsSetAsDefaultFileManager()
