@@ -143,7 +143,7 @@
     <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
     <Compile Include="DataModels\FilesystemItemsOperationDataModel.cs" />
     <Compile Include="DataModels\NavigationControlItems\WslDistroItem.cs" />
-    <Compile Include="DataModels\ShellNewEntry.cs" />
+    <Compile Include="Extensions\ShellNewEntryExtensions.cs" />
     <Compile Include="Dialogs\DecompressArchiveDialog.xaml.cs">
       <DependentUpon>DecompressArchiveDialog.xaml</DependentUpon>
     </Compile>
@@ -305,7 +305,6 @@
     <Compile Include="Helpers\IntervalSampler.cs" />
     <Compile Include="Helpers\QuickLookHelpers.cs" />
     <Compile Include="Helpers\MultitaskingTabsHelpers.cs" />
-    <Compile Include="Helpers\RegistryHelper.cs" />
     <Compile Include="Helpers\SidebarHelpers.cs" />
     <Compile Include="Helpers\XamlHelpers\DependencyObjectHelpers.cs" />
     <Compile Include="Helpers\XamlHelpers\SystemTypeToXaml.cs" />

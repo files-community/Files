@@ -1,6 +1,4 @@
 ﻿using Files.Common;
-using Files.DataModels;
-using Files.Filesystem;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -11,9 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Files.Helpers
+namespace FilesFullTrust.Helpers
 {
-    public static class RegistryHelper
+    public static class ShellNewMenuHelper
     {
         public static async Task<List<ShellNewEntry>> GetNewContextMenuEntries()
         {
@@ -97,11 +95,20 @@ namespace Files.Helpers
                 }
             }
 
-            var sampleFile = await FilesystemTasks.Wrap(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("extensions", CreationCollisionOption.OpenIfExists).AsTask())
-                .OnSuccess(t => t.CreateFileAsync("file" + extension, CreationCollisionOption.OpenIfExists).AsTask());
+            var folder = await Extensions.IgnoreExceptions(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("extensions", CreationCollisionOption.OpenIfExists).AsTask());
+            var sampleFile = folder != null ? await Extensions.IgnoreExceptions(() => folder.CreateFileAsync("file" + extension, CreationCollisionOption.OpenIfExists).AsTask()) : null;
 
-            var displayType = sampleFile ? sampleFile.Result.DisplayType : string.Format("{0} {1}", "file", extension);
-            var thumbnail = sampleFile ? await FilesystemTasks.Wrap(() => sampleFile.Result.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale).AsTask()) : null;
+            var displayType = sampleFile != null ? sampleFile.DisplayType : string.Format("{0} {1}", "file", extension);
+            var thumbnail = sampleFile != null ? await Extensions.IgnoreExceptions(() => sampleFile.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale).AsTask()) : null;
+
+            string iconString = null;
+            if (thumbnail != null)
+            {
+                var readStream = thumbnail.AsStreamForRead();
+                var bitmapData = new byte[readStream.Length];
+                await readStream.ReadAsync(bitmapData, 0, bitmapData.Length);
+                iconString = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+            }
 
             var entry = new ShellNewEntry()
             {
@@ -109,9 +116,7 @@ namespace Files.Helpers
                 Template = fileName,
                 Name = displayType,
                 Command = (string)key.GetValue("Command"),
-                //Name = (string)key.GetValue("ItemName"),
-                //IconPath = (string)key.GetValue("IconPath"),
-                Icon = thumbnail?.Result,
+                IconBase64 = iconString,
                 Data = data
             };
 
