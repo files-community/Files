@@ -1,7 +1,6 @@
-﻿using Files.Enums;
-using System;
+﻿using System;
 
-namespace Files.Filesystem.Cloud
+namespace Files.Common
 {
     public class CloudProvider : IEquatable<CloudProvider>
     {
@@ -29,5 +28,17 @@ namespace Files.Filesystem.Cloud
         {
             return other != null && other.ID == ID && other.SyncFolder == SyncFolder;
         }
+    }
+
+    public enum CloudProviders
+    {
+        OneDrive,
+        OneDriveCommercial,
+        Mega,
+        GoogleDrive,
+        DropBox,
+        AppleCloud,
+        AmazonDrive,
+        Box
     }
 }
