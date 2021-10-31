@@ -1,11 +1,12 @@
-﻿using Files.DataModels;
-using Files.Helpers;
+﻿using Files.Common;
+using Files.Extensions;
 using Files.Services;
 using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using Windows.UI.ViewManagement;
@@ -160,13 +161,12 @@ namespace Files.UserControls
                 foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
                 {
                     MenuFlyoutItem menuLayoutItem;
-                    if (newEntry.Icon != null)
+                    if (!string.IsNullOrEmpty(newEntry.IconBase64))
                     {
-                        BitmapImage image = null;
-                        image = new BitmapImage();
-#pragma warning disable CS4014
-                        image.SetSourceAsync(newEntry.Icon);
-#pragma warning restore CS4014
+                        byte[] bitmapData = Convert.FromBase64String(newEntry.IconBase64);
+                        using var ms = new MemoryStream(bitmapData);
+                        var image = new BitmapImage();
+                        _ = image.SetSourceAsync(ms.AsRandomAccessStream());
                         menuLayoutItem = new MenuFlyoutItemWithImage()
                         {
                             Text = newEntry.Name,
@@ -195,7 +195,7 @@ namespace Files.UserControls
 
         private async void ContextCommandBar_Loaded(object sender, RoutedEventArgs e)
         {
-            cachedNewContextMenuEntries = await RegistryHelper.GetNewContextMenuEntries();
+            cachedNewContextMenuEntries = await ShellNewEntryExtensions.GetNewContextMenuEntries();
         }
     }
 }

@@ -164,6 +164,10 @@ namespace FilesFullTrust
                     BeginRead(nextInfo);
                 }
             }
+            else // Disconnected
+            {
+                appServiceExit.Set();
+            }
         }
 
         private static async void Connection_RequestReceived(PipeStream conn, Dictionary<string, object> message)

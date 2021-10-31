@@ -1,5 +1,6 @@
 ﻿using Files.Common;
 using FilesFullTrust.Helpers;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,21 @@ namespace FilesFullTrust.MessageHandlers
     {
         public void Initialize(PipeStream connection)
         {
+            DetectIsSetAsDefaultFileManager();
+            DetectIsSetAsOpenFileDialog();
+            ApplicationData.Current.LocalSettings.Values["TEMP"] = Environment.GetEnvironmentVariable("TEMP");
+        }
+
+        private void DetectIsSetAsDefaultFileManager()
+        {
+            using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\Directory\shell");
+            ApplicationData.Current.LocalSettings.Values["IsSetAsDefaultFileManager"] = subkey?.GetValue(string.Empty) as string == "openinfiles";
+        }
+
+        private void DetectIsSetAsOpenFileDialog()
+        {
+            using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\CLSID\{DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7}");
+            ApplicationData.Current.LocalSettings.Values["IsSetAsOpenFileDialog"] = subkey?.GetValue(string.Empty) as string == "FilesOpenDialog class";
         }
 
         public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
@@ -127,11 +143,13 @@ namespace FilesFullTrust.MessageHandlers
                         {
                             using var regProcess = Process.Start("regedit.exe", @$"/s ""{Path.Combine(destFolder, enable ? "SetFilesAsDefault.reg" : "UnsetFilesAsDefault.reg")}""");
                             regProcess.WaitForExit();
+                            DetectIsSetAsDefaultFileManager();
                             await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", true } }, message.Get("RequestID", (string)null));
                         }
                         catch
                         {
                             // Canceled UAC
+                            DetectIsSetAsDefaultFileManager();
                             await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
                         }
                     }
@@ -157,10 +175,12 @@ namespace FilesFullTrust.MessageHandlers
                             using var regProc64 = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialog64.dll")}""");
                             regProc64.WaitForExit();
 
+                            DetectIsSetAsOpenFileDialog();
                             await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", true } }, message.Get("RequestID", (string)null));
                         }
                         catch
                         {
+                            DetectIsSetAsOpenFileDialog();
                             await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
                         }
                     }
