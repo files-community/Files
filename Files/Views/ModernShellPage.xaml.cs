@@ -661,9 +661,12 @@ namespace Files.Views
                         break;
                     }
 
-                case (false, false, false, true, VirtualKey.F3): //f3
-                case (true, false, false, true, VirtualKey.F): // ctrl + f
-                    NavToolbarViewModel.SwitchSearchBoxVisibility();
+                case (false, false, false, _, VirtualKey.F3): //f3
+                case (true, false, false, _, VirtualKey.F): // ctrl + f
+                    if (tabInstance || CurrentPageType == typeof(WidgetsPage))
+                    {
+                        NavToolbarViewModel.SwitchSearchBoxVisibility();
+                    }
                     break;
 
                 case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
@@ -1137,7 +1140,7 @@ namespace Files.Views
     public class NavigationParams
     {
         public string NavPath { get; set; }
-        public string SelectItem { get; set;}
+        public string SelectItem { get; set; }
     }
 
     public class NavigationArguments

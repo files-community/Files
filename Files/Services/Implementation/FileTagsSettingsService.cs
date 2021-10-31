@@ -44,7 +44,7 @@ namespace Files.Services.Implementation
 
         public IEnumerable<FileTag> GetTagsByName(string tagName)
         {
-            return FileTagList.Where(x => x.TagName.Equals(tagName, StringComparison.OrdinalIgnoreCase));
+            return FileTagList.Where(x => x.TagName.StartsWith(tagName, StringComparison.OrdinalIgnoreCase));
         }
     }
 }
