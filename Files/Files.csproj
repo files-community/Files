@@ -143,7 +143,7 @@
     <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
     <Compile Include="DataModels\FilesystemItemsOperationDataModel.cs" />
     <Compile Include="DataModels\NavigationControlItems\WslDistroItem.cs" />
-    <Compile Include="DataModels\ShellNewEntry.cs" />
+    <Compile Include="Extensions\ShellNewEntryExtensions.cs" />
     <Compile Include="Dialogs\DecompressArchiveDialog.xaml.cs">
       <DependentUpon>DecompressArchiveDialog.xaml</DependentUpon>
     </Compile>
@@ -207,10 +207,8 @@
     <Compile Include="EventArguments\LayoutModeEventArgs.cs" />
     <Compile Include="Filesystem\CloudDrivesManager.cs" />
     <Compile Include="Helpers\AdaptiveLayoutHelpers.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\OneDriveSharePointCloudProvider.cs" />
     <Compile Include="Filesystem\NetworkDrivesManager.cs" />
     <Compile Include="Helpers\AppServiceConnectionHelper.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\AmazonDriveProvider.cs" />
     <Compile Include="Helpers\AppUpdater.cs" />
     <Compile Include="DataModels\DefaultLanguageModel.cs" />
     <Compile Include="Enums\FileOperationType.cs" />
@@ -305,7 +303,6 @@
     <Compile Include="Helpers\IntervalSampler.cs" />
     <Compile Include="Helpers\QuickLookHelpers.cs" />
     <Compile Include="Helpers\MultitaskingTabsHelpers.cs" />
-    <Compile Include="Helpers\RegistryHelper.cs" />
     <Compile Include="Helpers\SidebarHelpers.cs" />
     <Compile Include="Helpers\XamlHelpers\DependencyObjectHelpers.cs" />
     <Compile Include="Helpers\XamlHelpers\SystemTypeToXaml.cs" />
@@ -413,17 +410,14 @@
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Filesystem\Cloud\CloudDriveSyncStatusUI.cs" />
-    <Compile Include="Filesystem\Cloud\CloudProvider.cs" />
     <Compile Include="Filesystem\Cloud\Providers\AppleCloudProvider.cs" />
     <Compile Include="Filesystem\Cloud\Providers\BoxCloudProvider.cs" />
     <Compile Include="Enums\CloudDriveSyncStatus.cs" />
     <Compile Include="Filesystem\Cloud\CloudProviderController.cs" />
-    <Compile Include="Enums\CloudProviders.cs" />
     <Compile Include="Filesystem\Cloud\Providers\DropBoxCloudProvider.cs" />
     <Compile Include="Filesystem\Cloud\Providers\GoogleDriveCloudProvider.cs" />
     <Compile Include="Filesystem\Cloud\ICloudProviderDetector.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\MegaCloudProvider.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\OneDriveCloudProvider.cs" />
+    <Compile Include="Filesystem\Cloud\Providers\GenericCloudProvider.cs" />
     <Compile Include="Filesystem\FilesystemOperations\FilesystemItemType.cs" />
     <Compile Include="Filesystem\FilesystemOperations\FilesystemOperations.cs" />
     <Compile Include="Filesystem\FilesystemOperations\Helpers\FilesystemHelpers.cs" />
@@ -1042,6 +1036,7 @@
     <Content Include="Assets\tile-0-300x300.png" />
     <Content Include="Resources\AppCenterKey.txt" />
     <Content Include="Resources\BingMapsKey.txt" />
+    <PRIResource Include="Strings\hr-HR\Resources.resw" />
     <PRIResource Include="Strings\vi\Resources.resw" />
     <PRIResource Include="Strings\ca\Resources.resw" />
     <PRIResource Include="Strings\en-GB\Resources.resw" />
@@ -1053,6 +1048,7 @@
     <XliffResource Include="MultilingualResources\Files.ca.xlf" />
     <XliffResource Include="MultilingualResources\Files.el.xlf" />
     <XliffResource Include="MultilingualResources\Files.en-GB.xlf" />
+    <XliffResource Include="MultilingualResources\Files.hr-HR.xlf" />
     <XliffResource Include="MultilingualResources\Files.id-ID.xlf" />
     <XliffResource Include="MultilingualResources\Files.es-419.xlf" />
     <XliffResource Include="MultilingualResources\Files.ka.xlf" />
@@ -1453,25 +1449,25 @@
       <Version>6.2.13</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Mvvm">
-      <Version>7.1.0</Version>
+      <Version>7.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp">
-      <Version>7.1.0</Version>
+      <Version>7.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
-      <Version>7.1.0</Version>
+      <Version>7.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
-      <Version>7.1.0</Version>
+      <Version>7.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Animations">
-      <Version>7.1.0</Version>
+      <Version>7.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Behaviors">
-      <Version>7.1.0</Version>
+      <Version>7.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
-      <Version>7.1.0</Version>
+      <Version>7.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
       <Version>2.7.0</Version>
@@ -1489,7 +1485,7 @@
       <Version>1.3.3</Version>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_green">
-      <Version>2.0.6</Version>
+      <Version>2.0.7</Version>
     </PackageReference>
     <PackageReference Include="Ude.NetStandard">
       <Version>1.2.0</Version>

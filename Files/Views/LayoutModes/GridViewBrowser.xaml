@@ -162,8 +162,7 @@
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
                         x:Phase="2"
-                        FontSize="18"
-                        Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
+                        FontSize="12"
                         Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
                     <Ellipse
                         Grid.Column="1"
@@ -237,10 +236,9 @@
                     <FontIcon
                         x:Name="CloudDriveSyncStatusGlyph"
                         Grid.Column="0"
-                        Width="20"
                         HorizontalAlignment="Center"
                         x:Phase="2"
-                        Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
+                        FontSize="12"
                         Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
                         Visibility="{Binding InstanceViewModel.IsPageTypeCloudDrive, ElementName=PageRoot, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                 </StackPanel>

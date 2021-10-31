@@ -298,15 +298,6 @@ namespace Files
             SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
             DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
 
-            // QuickLook Integration
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            var isQuickLookIntegrationEnabled = localSettings.Values["quicklook_enabled"];
-
-            if (isQuickLookIntegrationEnabled != null && isQuickLookIntegrationEnabled.Equals(true))
-            {
-                App.MainViewModel.IsQuickLookEnabled = true;
-            }
-
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
             tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
@@ -460,6 +451,9 @@ namespace Files
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
+
+                await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.SearchPathParam);
+
                 if (!navigationArguments.IsLayoutSwitch)
                 {
                     var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;

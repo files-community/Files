@@ -294,8 +294,7 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             x:Phase="2"
-                                            FontSize="18"
-                                            Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
+                                            FontSize="12"
                                             Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
                                             Visibility="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}" />
                                         <Ellipse

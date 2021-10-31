@@ -128,6 +128,26 @@ namespace Files
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
+        public static async Task SpawnUnelevatedUwpAppInstance(int pid)
+        {
+            IActivatedEventArgs activatedArgs = AppInstance.GetActivatedEventArgs();
+            if (activatedArgs is CommandLineActivatedEventArgs cmdLineArgs)
+            {
+                var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineArgs.Operation.Arguments);
+                switch (parsedCommands.FirstOrDefault()?.Type)
+                {
+                    case ParsedCommandType.ExplorerShellCommand:
+                    case ParsedCommandType.OpenDirectory:
+                    case ParsedCommandType.OpenPath:
+                        ApplicationData.Current.LocalSettings.Values["Folder"] = parsedCommands[0].Payload;
+                        break;
+                }
+            }
+            ApplicationData.Current.LocalSettings.Values["Arguments"] = "StartUwp";
+            ApplicationData.Current.LocalSettings.Values["pid"] = pid;
+            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+        }
+
         public static async Task TerminateUwpAppInstance(int pid)
         {
             ApplicationData.Current.LocalSettings.Values["Arguments"] = "TerminateUwp";

@@ -408,6 +408,10 @@ namespace Files.ViewModels
                     {
                         await AddNewTabByPathAsync(typeof(PaneHolderPage), navArgs);
                     }
+                    else if (e.Parameter is PaneNavigationArguments paneArgs)
+                    {
+                        await AddNewTabByParam(typeof(PaneHolderPage), paneArgs);
+                    }
                     else if (e.Parameter is TabItemArguments tabArgs)
                     {
                         await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);

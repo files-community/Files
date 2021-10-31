@@ -1,4 +1,5 @@
-﻿using Files.Filesystem.Cloud.Providers;
+﻿using Files.Common;
+using Files.Filesystem.Cloud.Providers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,12 +12,9 @@ namespace Files.Filesystem.Cloud
             {
                 new GoogleDriveCloudProvider(),
                 new DropBoxCloudProvider(),
-                new OneDriveCloudProvider(),
-                new MegaCloudProvider(),
                 new BoxCloudProvider(),
                 new AppleCloudProvider(),
-                new AmazonDriveProvider(),
-                new OneDriveSharePointCloudProvider(),
+                new GenericCloudProvider()
             };
 
         public async Task<List<CloudProvider>> DetectInstalledCloudProvidersAsync()

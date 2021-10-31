@@ -7,8 +7,8 @@ namespace FilesFullTrust.MessageHandlers
 {
     public interface IMessageHandler : IDisposable
     {
-        Task ParseArgumentsAsync(NamedPipeServerStream connection, Dictionary<string, object> message, string arguments);
+        Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments);
 
-        void Initialize(NamedPipeServerStream connection);
+        void Initialize(PipeStream connection);
     }
 }

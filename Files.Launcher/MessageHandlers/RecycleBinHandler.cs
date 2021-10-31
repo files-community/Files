@@ -18,9 +18,9 @@ namespace FilesFullTrust.MessageHandlers
     public class RecycleBinHandler : IMessageHandler
     {
         private IList<FileSystemWatcher> binWatchers;
-        private NamedPipeServerStream connection;
+        private PipeStream connection;
 
-        public void Initialize(NamedPipeServerStream connection)
+        public void Initialize(PipeStream connection)
         {
             this.connection = connection;
 
@@ -57,7 +57,7 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        public async Task ParseArgumentsAsync(NamedPipeServerStream connection, Dictionary<string, object> message, string arguments)
+        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
         {
             switch (arguments)
             {
@@ -68,7 +68,7 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        private async Task ParseRecycleBinActionAsync(NamedPipeServerStream connection, Dictionary<string, object> message, string action)
+        private async Task ParseRecycleBinActionAsync(PipeStream connection, Dictionary<string, object> message, string action)
         {
             switch (action)
             {

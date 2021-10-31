@@ -1,4 +1,4 @@
-﻿using Files.DataModels;
+﻿using Files.Common;
 using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
@@ -9,7 +9,6 @@ using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;

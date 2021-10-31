@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp;
+﻿using Files.Common;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using Windows.Storage;
@@ -20,7 +21,7 @@ namespace Files.Helpers
 
         public static string MyComputerPath = Constants.CommonPaths.MyComputerPath;
 
-        public static readonly string TempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
+        public static readonly string TempPath = ApplicationData.Current.LocalSettings.Values.Get("TEMP", "");
 
         public static readonly string HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 

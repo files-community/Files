@@ -4,7 +4,6 @@ using Files.Filesystem.Cloud;
 using Files.Helpers;
 using Files.Services;
 using Files.UserControls;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;

@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Foundation.Collections;
-using Windows.Storage;
 
 namespace FilesFullTrust.MessageHandlers
 {
@@ -23,15 +22,11 @@ namespace FilesFullTrust.MessageHandlers
             handleTable = new DisposableDictionary();
         }
 
-        public void Initialize(NamedPipeServerStream connection)
+        public void Initialize(PipeStream connection)
         {
-            // Preload context menu for better performance
-            // We query the context menu for the app's local folder
-            var preloadPath = ApplicationData.Current.LocalFolder.Path;
-            using var _ = ContextMenu.GetContextMenuForFiles(new string[] { preloadPath }, Shell32.CMF.CMF_NORMAL | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(false));
         }
 
-        public async Task ParseArgumentsAsync(NamedPipeServerStream connection, Dictionary<string, object> message, string arguments)
+        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
         {
             switch (arguments)
             {
@@ -41,7 +36,6 @@ namespace FilesFullTrust.MessageHandlers
                     var cMenuLoad = await loadThreadWithMessageQueue.PostMessageAsync<ContextMenu>(message);
                     contextMenuResponse.Add("Handle", handleTable.AddValue(loadThreadWithMessageQueue));
                     contextMenuResponse.Add("ContextMenu", JsonConvert.SerializeObject(cMenuLoad));
-                    var serializedCm = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(contextMenuResponse));
                     await Win32API.SendMessageAsync(connection, contextMenuResponse, message.Get("RequestID", (string)null));
                     break;
 
@@ -68,6 +62,17 @@ namespace FilesFullTrust.MessageHandlers
                         var result = cMenu?.InvokeVerb(verb);
                         await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result } }, message.Get("RequestID", (string)null));
                     }
+                    break;
+
+                case "GetNewContextMenuEntries":
+                    var entries = await Extensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntries(), Program.Logger);
+                    await Win32API.SendMessageAsync(connection, new ValueSet() { { "Entries", JsonConvert.SerializeObject(entries) } }, message.Get("RequestID", (string)null));
+                    break;
+
+                case "GetNewContextMenuEntryForType":
+                    var fileExtension = (string)message["extension"];
+                    var entry = await Extensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntryForType(fileExtension), Program.Logger);
+                    await Win32API.SendMessageAsync(connection, new ValueSet() { { "Entry", JsonConvert.SerializeObject(entry) } }, message.Get("RequestID", (string)null));
                     break;
             }
         }

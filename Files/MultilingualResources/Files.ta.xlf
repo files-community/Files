@@ -96,8 +96,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutDetails.Text" translate="yes" xml:space="preserve">
           <source>Details</source>
-          <target state="needs-review-translation">பட்டியல் காட்சி</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">விவரங்கள்</target>
         </trans-unit>
         <trans-unit id="PropertiesModified.Text" translate="yes" xml:space="preserve">
           <source>Modified:</source>
@@ -129,13 +128,11 @@
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
           <source>Submit feedback</source>
-          <target state="needs-review-translation">பின்னூட்டத்தைச் சமர்ப்பி</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">பின்னூட்டத்தைச் சமர்ப்பி</target>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
           <source>Third party licenses</source>
-          <target state="needs-review-translation">மூன்றாம் தரப்பு உரிமங்கள்</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">மூன்றாம் தரப்பு உரிமங்கள்</target>
         </trans-unit>
         <trans-unit id="About" translate="yes" xml:space="preserve">
           <source>About</source>
@@ -147,9 +144,8 @@
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
           <source>Files &amp; Folders</source>
-          <target state="needs-review-translation">கோப்புகள் &amp; கோப்புறைகள்</target>
+          <target state="translated">கோப்புகள் &amp; கோப்புறைகள்</target>
           <note from="MultilingualEditor" annotates="source" priority="4">Replaced and (மற்றும்) with the &amp; symbol to fit the text on the screen</note>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
@@ -161,9 +157,8 @@
         </trans-unit>
         <trans-unit id="SettingsNavFilesAndFolders.Content" translate="yes" xml:space="preserve">
           <source>Files &amp; Folders</source>
-          <target state="needs-review-translation">கோப்புகள் &amp; கோப்புறைகள்</target>
+          <target state="translated">கோப்புகள் &amp; கோப்புறைகள்</target>
           <note from="MultilingualEditor" annotates="source" priority="4">Replaced and (மற்றும்) with the &amp;amp; symbol to fit the text on the screen</note>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsNavOnStartup.Content" translate="yes" xml:space="preserve">
           <source>On Startup</source>
@@ -351,8 +346,7 @@
         </trans-unit>
         <trans-unit id="SystemTheme" translate="yes" xml:space="preserve">
           <source>Default</source>
-          <target state="needs-review-translation">Windows இயல்புநிலை</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">இயல்புநிலை</target>
         </trans-unit>
         <trans-unit id="LightTheme" translate="yes" xml:space="preserve">
           <source>Light</source>
@@ -380,18 +374,15 @@
         </trans-unit>
         <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Back (Alt+Left Arrow)</source>
-          <target state="needs-review-translation">பின் (Alt + இடது அம்பு)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">பின் (Alt + இடது அம்பு)</target>
         </trans-unit>
         <trans-unit id="NavForwardButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Forward (Alt+Right Arrow)</source>
-          <target state="needs-review-translation">முன் (Alt + வலது அம்பு)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">முன் (Alt + வலது அம்பு)</target>
         </trans-unit>
         <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Up (Alt+Up Arrow)</source>
-          <target state="needs-review-translation">மேல் (Alt + மேல் அம்பு)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">மேல் (Alt + மேல் அம்பு)</target>
         </trans-unit>
         <trans-unit id="NavRefreshButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Refresh (F5)</source>
@@ -399,8 +390,7 @@
         </trans-unit>
         <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Search (Ctrl+F)</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">தேடு</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated" state-qualifier="tm-suggestion">தேடு (Ctrl + F)</target>
         </trans-unit>
         <trans-unit id="PropertiesTitle" translate="yes" xml:space="preserve">
           <source>Properties</source>
@@ -432,23 +422,19 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLargeIcons.Text" translate="yes" xml:space="preserve">
           <source>Large Icons</source>
-          <target state="needs-review-translation">கட்ட காட்சி (பெரிய)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">பெரிய சின்னங்கள்</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutMediumIcons.Text" translate="yes" xml:space="preserve">
           <source>Medium Icons</source>
-          <target state="needs-review-translation">கட்ட காட்சி (நடுத்தரம்)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">நடுத்தர சின்னங்கள்</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSmallIcons.Text" translate="yes" xml:space="preserve">
           <source>Small Icons</source>
-          <target state="needs-review-translation">கட்ட காட்சி (சிறிய)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">சிறிய சின்னங்கள்</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutTiles.Text" translate="yes" xml:space="preserve">
           <source>Tiles</source>
-          <target state="needs-review-translation">ஓடுகள் காட்சி</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="needs-review-translation">ஓடுகள்</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogOKButton.Content" translate="yes" xml:space="preserve">
           <source>OK</source>
@@ -588,8 +574,7 @@
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to permanently delete all these items?</source>
-          <target state="needs-review-translation">அனைத்து உருப்படிகலையும் நிச்சயம் நீக்க விரும்புகிறீர்களா?</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">இந்த உருப்படிகள் அனைத்தையும் நிரந்தரமாக நீக்க விரும்புகிறீர்களா?</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogTitle" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
@@ -597,8 +582,7 @@
         </trans-unit>
         <trans-unit id="Yes" translate="yes" xml:space="preserve">
           <source>Yes</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">சரி</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated" state-qualifier="tm-suggestion">சரி</target>
         </trans-unit>
         <trans-unit id="ItemSizeBytes" translate="yes" xml:space="preserve">
           <source>bytes</source>
@@ -638,8 +622,7 @@
         </trans-unit>
         <trans-unit id="RecycleInProgress.Title" translate="yes" xml:space="preserve">
           <source>Moving files to the Recycle Bin</source>
-          <target state="needs-review-translation">கோப்புகளை மறுசுழற்சிக் கூடைக்கு நகர்த்துதல்</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">கோப்புகளை மறுசுழற்சிக் கூடைக்கு நகர்த்துதல்</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Unlock</source>
@@ -668,7 +651,6 @@
         <trans-unit id="PropertiesFilesAndFoldersCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} files, {1:#,##0} folders</source>
           <target state="needs-review-translation">{0:#,##0} கோப்புகள், {1:#,##0} கோப்புறைகள்</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
@@ -724,8 +706,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
           <source>When opening a folder in Files</source>
-          <target state="needs-review-translation">பொருத்தப்பட்ட கோப்புறையை இயக்கும்பொது</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">கோப்புகளில் ஒரு கோப்புறையைத் திறக்கும்போது</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
           <source>Always open a new instance</source>
@@ -858,8 +839,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
           <source>Release notes</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">வெளியீட்டுக் குறிப்புகள்</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated" state-qualifier="tm-suggestion">வெளியீட்டுக் குறிப்புகள்</target>
         </trans-unit>
         <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
           <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</source>
@@ -1016,8 +996,7 @@
         </trans-unit>
         <trans-unit id="AccessDenied" translate="yes" xml:space="preserve">
           <source>Access Denied</source>
-          <target state="translated">Access Denied
-அணுகல் மறுக்கப்பட்டது</target>
+          <target state="translated">அணுகல் மறுக்கப்பட்டது</target>
         </trans-unit>
         <trans-unit id="PinToSidebarByDraggingCaptionText" translate="yes" xml:space="preserve">
           <source>Move here</source>
@@ -1073,36 +1052,35 @@
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlNewTab.Text" translate="yes" xml:space="preserve">
           <source>New tab</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">புதிய தாவல்</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated" state-qualifier="tm-suggestion">புதிய தாவல்</target>
         </trans-unit>
         <trans-unit id="NavSearchButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Search</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">தேடு</target>
+          <target state="translated" state-qualifier="tm-suggestion">தேடு</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogReadOnly.Text" translate="yes" xml:space="preserve">
           <source>Read-only</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">படிக்க மட்டும்</target>
+          <target state="translated" state-qualifier="tm-suggestion">படிக்க மட்டும்</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogHidden.Text" translate="yes" xml:space="preserve">
           <source>Hidden</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">மறைந்த</target>
+          <target state="translated" state-qualifier="tm-suggestion">மறைந்த</target>
         </trans-unit>
         <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
           <source>Rating</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">தரமதிப்பு</target>
+          <target state="translated" state-qualifier="tm-suggestion">தரமதிப்பு</target>
         </trans-unit>
         <trans-unit id="PropertyItemTypeText" translate="yes" xml:space="preserve">
           <source>Item Type</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">உருப்படி வகை</target>
+          <target state="translated" state-qualifier="tm-suggestion">உருப்படி வகை</target>
         </trans-unit>
         <trans-unit id="PropertyTitle" translate="yes" xml:space="preserve">
           <source>Title</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">தலைப்பு</target>
+          <target state="translated" state-qualifier="tm-suggestion">தலைப்பு</target>
         </trans-unit>
         <trans-unit id="PropertySubject" translate="yes" xml:space="preserve">
           <source>Subject</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">பொருள்</target>
+          <target state="translated" state-qualifier="tm-suggestion">பொருள்</target>
         </trans-unit>
         <trans-unit id="PropertyComment" translate="yes" xml:space="preserve">
           <source>Comment</source>

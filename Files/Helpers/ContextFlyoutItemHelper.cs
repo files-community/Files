@@ -1,5 +1,6 @@
-﻿using Files.DataModels;
+﻿using Files.Common;
 using Files.Enums;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Interacts;
 using Files.Services;
@@ -28,7 +29,7 @@ namespace Files.Helpers
         {
             get
             {
-                cachedNewContextMenuEntries ??= Task.Run(() => RegistryHelper.GetNewContextMenuEntries()).Result;
+                cachedNewContextMenuEntries ??= Task.Run(() => ShellNewEntryExtensions.GetNewContextMenuEntries()).Result;
                 return cachedNewContextMenuEntries;
             }
         }
@@ -1054,14 +1055,16 @@ namespace Files.Helpers
 
             CachedNewContextMenuEntries?.ForEach(i =>
             {
-                if (i.Icon != null)
+                if (!string.IsNullOrEmpty(i.IconBase64))
                 {
                     // loading the bitmaps takes a while, so this caches them
                     var bitmap = cachedNewItemItems?.Where(x => x.Text == i.Name).FirstOrDefault()?.BitmapIcon;
                     if (bitmap == null)
                     {
+                        byte[] bitmapData = Convert.FromBase64String(i.IconBase64);
+                        using var ms = new MemoryStream(bitmapData);
                         bitmap = new BitmapImage();
-                        bitmap.SetSourceAsync(i.Icon).AsTask().Wait(50);
+                        _ = bitmap.SetSourceAsync(ms.AsRandomAccessStream());
                     }
                     list.Add(new ContextMenuFlyoutItemViewModel()
                     {

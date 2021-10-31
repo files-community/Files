@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Files.Common;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Files.Filesystem.Cloud

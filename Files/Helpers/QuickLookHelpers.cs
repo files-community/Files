@@ -11,35 +11,29 @@ namespace Files.Helpers
 {
     public static class QuickLookHelpers
     {
-        public static async Task ToggleQuickLook(IShellPage associatedInstance)
+        public static async Task ToggleQuickLook(IShellPage associatedInstance, bool switchPreview = false)
         {
-            try
+            if (!App.MainViewModel.IsQuickLookEnabled || !associatedInstance.SlimContentPage.IsItemSelected || associatedInstance.SlimContentPage.IsRenamingItem)
             {
-                if (associatedInstance.SlimContentPage.IsItemSelected && !associatedInstance.SlimContentPage.IsRenamingItem)
-                {
-                    Debug.WriteLine("Toggle QuickLook");
-                    var connection = await AppServiceConnectionHelper.Instance;
+                return;
+            }
+            
+            await Common.Extensions.IgnoreExceptions(async () =>
+            {
+                Debug.WriteLine("Toggle QuickLook");
+                var connection = await AppServiceConnectionHelper.Instance;
 
-                    if (connection != null)
-                    {
-                        await connection.SendMessageAsync(new ValueSet()
-                        {
-                            { "path", associatedInstance.SlimContentPage.SelectedItem.ItemPath },
-                            { "Arguments", "ToggleQuickLook" }
-                        });
-                    }
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundPreviewDialog/Text".GetLocalized());
-                associatedInstance.NavToolbarViewModel.CanRefresh = false;
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                if (connection != null)
                 {
-                    var ContentOwnedViewModelInstance = associatedInstance.FilesystemViewModel;
-                    ContentOwnedViewModelInstance?.RefreshItems(null);
-                });
-            }
+                    await connection.SendMessageAsync(new ValueSet()
+                    {
+                        { "path", associatedInstance.SlimContentPage.SelectedItem.ItemPath },
+                        { "switch", switchPreview },
+                        { "Arguments", "ToggleQuickLook" }
+                    });
+                }
+                
+            }, App.Logger);
         }
     }
 }

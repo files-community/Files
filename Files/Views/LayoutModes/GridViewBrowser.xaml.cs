@@ -222,9 +222,13 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
+            if (SelectedItems.Count == 1)
+            {
+                await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
+            }
         }
 
         override public void StartRenameItem()
@@ -384,10 +388,7 @@ namespace Files.Views.LayoutModes
                 if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
                 {
                     e.Handled = true;
-                    if (MainViewModel.IsQuickLookEnabled)
-                    {
-                        await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
-                    }
+                    await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                 }
             }
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
@@ -487,7 +488,7 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
+        private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
         {
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);

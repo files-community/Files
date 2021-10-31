@@ -1693,16 +1693,16 @@
     <value>Dateisymbol</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
-    <value>Spalte: Ursprünglicher Pfad</value>
+    <value>Ursprünglicher Pfad</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
-    <value>Spalte: Dateityp</value>
+    <value>Dateityp</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
-    <value>Spalte: Änderungsdatum</value>
+    <value>Änderungsdatum</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
-    <value>Spalte: Löschdatum</value>
+    <value>Löschdatum</value>
   </data>
   <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
     <value>Größe ändern: Seitenleiste</value>
@@ -2646,5 +2646,29 @@ Wir benutzen das App Center um einen Überblick über die Nutzung von Files zu e
   </data>
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
     <value>Nach ganz oben verschieben</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
+    <value>Erstellungsdatum</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
+    <value>Größe</value>
+  </data>
+  <data name="SettingsDefaultExplorer" xml:space="preserve">
+    <value>Standard Explorer</value>
+  </data>
+  <data name="SettingsSetAsDefaultExplorer" xml:space="preserve">
+    <value>Files als Standard-Explorer verwenden</value>
+  </data>
+  <data name="SettingsSetAsOpenDialog" xml:space="preserve">
+    <value>Files als Standard-Dateidialog verwenden</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
+    <value>Dateien mit einfachem Klick öffnen</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>Ordnerpfad</value>
   </data>
 </root>

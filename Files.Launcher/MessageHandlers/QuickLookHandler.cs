@@ -13,11 +13,11 @@ namespace FilesFullTrust.MessageHandlers
     {
         private static readonly Logger Logger = Program.Logger;
 
-        public void Initialize(NamedPipeServerStream connection)
+        public void Initialize(PipeStream connection)
         {
         }
 
-        public async Task ParseArgumentsAsync(NamedPipeServerStream connection, Dictionary<string, object> message, string arguments)
+        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
         {
             switch (arguments)
             {
@@ -29,17 +29,18 @@ namespace FilesFullTrust.MessageHandlers
 
                 case "ToggleQuickLook":
                     var path = (string)message["path"];
-                    ToggleQuickLook(path);
+                    var switchPreview = (bool)message["switch"];
+                    Extensions.IgnoreExceptions(() => ToggleQuickLook(path, switchPreview), Logger);
                     break;
             }
         }
 
-        public void ToggleQuickLook(string path)
+        public void ToggleQuickLook(string path, bool switchPreview)
         {
             Logger.Info("Toggle QuickLook");
 
             string PipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
-            string Toggle = "QuickLook.App.PipeMessages.Toggle";
+            string Message = switchPreview ? "QuickLook.App.PipeMessages.Switch" : "QuickLook.App.PipeMessages.Toggle";
 
             using (var client = new NamedPipeClientStream(".", PipeName, PipeDirection.Out))
             {
@@ -47,7 +48,7 @@ namespace FilesFullTrust.MessageHandlers
 
                 using (var writer = new StreamWriter(client))
                 {
-                    writer.WriteLine($"{Toggle}|{path}");
+                    writer.WriteLine($"{Message}|{path}");
                     writer.Flush();
                 }
             }

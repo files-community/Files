@@ -1,4 +1,4 @@
-﻿using Files.DataModels;
+﻿using Files.Common;
 using Files.Dialogs;
 using Files.Enums;
 using Files.EventArguments;
@@ -349,7 +349,14 @@ namespace Files.Views
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            NavParams = eventArgs.Parameter.ToString();
+            if (eventArgs.Parameter is string navPath)
+            {
+                NavParams = new NavigationParams { NavPath = navPath };
+            }
+            else if (eventArgs.Parameter is NavigationParams navParams)
+            {
+                NavParams = navParams;
+            }
         }
 
         private void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
@@ -469,9 +476,9 @@ namespace Files.Views
             }
         }
 
-        private string navParams;
+        private NavigationParams navParams;
 
-        public string NavParams
+        public NavigationParams NavParams
         {
             get => navParams;
             set
@@ -489,28 +496,29 @@ namespace Files.Views
 
         private void OnNavigationParamsChanged()
         {
-            if (string.IsNullOrEmpty(NavParams) || NavParams == "Home".GetLocalized())
+            if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home".GetLocalized())
             {
                 ItemDisplayFrame.Navigate(typeof(WidgetsPage),
                     new NavigationArguments()
                     {
-                        NavPathParam = NavParams,
+                        NavPathParam = NavParams?.NavPath,
                         AssociatedTabInstance = this
                     }, new EntranceNavigationTransitionInfo());
             }
             else
             {
-                ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(NavParams),
+                ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(NavParams.NavPath),
                     new NavigationArguments()
                     {
-                        NavPathParam = NavParams,
+                        NavPathParam = NavParams.NavPath,
+                        SelectItems = !string.IsNullOrWhiteSpace(NavParams?.SelectItem) ? new[] { NavParams.SelectItem } : null,
                         AssociatedTabInstance = this
                     });
             }
         }
 
         public static readonly DependencyProperty NavParamsProperty =
-            DependencyProperty.Register("NavParams", typeof(string), typeof(ModernShellPage), new PropertyMetadata(null));
+            DependencyProperty.Register("NavParams", typeof(NavigationParams), typeof(ModernShellPage), new PropertyMetadata(null));
 
         private TabItemArguments tabItemArguments;
 
@@ -629,9 +637,7 @@ namespace Files.Views
             var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
             var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
             var tabInstance = CurrentPageType == (typeof(DetailsLayoutBrowser))
-                || CurrentPageType == typeof(GridViewBrowser)
-                || CurrentPageType == typeof(ColumnViewBrowser)
-                || CurrentPageType == typeof(ColumnViewBase);
+                || CurrentPageType == typeof(GridViewBrowser);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
@@ -751,8 +757,8 @@ namespace Files.Views
                     }
                     break;
 
-                case (false, false, true, _, VirtualKey.D): // alt + d, select address bar (english)
-                case (true, false, false, _, VirtualKey.L): // ctrl + l, select address bar
+                case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
+                case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
                     NavToolbarViewModel.IsEditModeEnabled = true;
                     break;
 
@@ -789,9 +795,7 @@ namespace Files.Views
             {
                 case VirtualKey.F2: //F2, rename
                     if (CurrentPageType == typeof(DetailsLayoutBrowser)
-                        || CurrentPageType == typeof(GridViewBrowser)
-                        || CurrentPageType == typeof(ColumnViewBrowser)
-                        || CurrentPageType == typeof(ColumnViewBase))
+                        || CurrentPageType == typeof(GridViewBrowser))
                     {
                         if (ContentPage.IsItemSelected)
                         {
@@ -1128,6 +1132,12 @@ namespace Files.Views
     {
         public string Title { get; set; }
         public string Path { get; set; }
+    }
+
+    public class NavigationParams
+    {
+        public string NavPath { get; set; }
+        public string SelectItem { get; set;}
     }
 
     public class NavigationArguments

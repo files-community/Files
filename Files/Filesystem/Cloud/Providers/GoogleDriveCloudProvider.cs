@@ -1,4 +1,5 @@
-﻿using Files.Enums;
+﻿using Files.Common;
+using Files.Enums;
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;

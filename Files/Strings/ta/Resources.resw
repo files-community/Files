@@ -79,7 +79,7 @@
     <value>தேர்வை அழி</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
-    <value>பட்டியல் காட்சி</value>
+    <value>விவரங்கள்</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>திருத்தியது;</value>
@@ -265,7 +265,7 @@
     <value>பெயரை அமை</value>
   </data>
   <data name="SystemTheme" xml:space="preserve">
-    <value>Windows இயல்புநிலை</value>
+    <value>இயல்புநிலை</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>வெளிச்சம்</value>
@@ -298,7 +298,7 @@
     <value>புதுப்பி (F5)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>தேடு</value>
+    <value>தேடு (Ctrl + F)</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>பண்புகள்</value>
@@ -322,16 +322,16 @@
     <value>பூட்டுத்திரை பின்புலமாக அமை</value>
   </data>
   <data name="BaseLayoutContextFlyoutLargeIcons.Text" xml:space="preserve">
-    <value>கட்ட காட்சி (பெரிய)</value>
+    <value>பெரிய சின்னங்கள்</value>
   </data>
   <data name="BaseLayoutContextFlyoutMediumIcons.Text" xml:space="preserve">
-    <value>கட்ட காட்சி (நடுத்தரம்)</value>
+    <value>நடுத்தர சின்னங்கள்</value>
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
-    <value>கட்ட காட்சி (சிறிய)</value>
+    <value>சிறிய சின்னங்கள்</value>
   </data>
   <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>ஓடுகள் காட்சி</value>
+    <value>ஓடுகள்</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>சரி</value>
@@ -436,7 +436,7 @@
     <value>அணுகியது:</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>அனைத்து உருப்படிகலையும் நிச்சயம் நீக்க விரும்புகிறீர்களா?</value>
+    <value>இந்த உருப்படிகள் அனைத்தையும் நிரந்தரமாக நீக்க விரும்புகிறீர்களா?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>மறுசுழற்சிக் கூடையை வெறுமையாக்கு</value>
@@ -535,7 +535,7 @@
     <value>பக்கங்கள்:</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>பொருத்தப்பட்ட கோப்புறையை இயக்கும்பொது</value>
+    <value>கோப்புகளில் ஒரு கோப்புறையைத் திறக்கும்போது</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
     <value>Always open a new instance</value>
@@ -731,8 +731,7 @@
     <value>இந்த உருப்படியை எங்களால் உருவாக்க இயலவில்லை</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
-    <value>Access Denied
-அணுகல் மறுக்கப்பட்டது</value>
+    <value>அணுகல் மறுக்கப்பட்டது</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>இங்கே நகர்த்து</value>
