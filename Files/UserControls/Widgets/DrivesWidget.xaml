@@ -226,6 +226,7 @@
                                         Background="Transparent"
                                         BorderBrush="Transparent"
                                         Click="GoToStorageSense_Click"
+                                        Tag="{x:Bind Path}"
                                         ToolTipService.ToolTip="Open Storage Sense">
                                         <FontIcon
                                             HorizontalAlignment="Center"
