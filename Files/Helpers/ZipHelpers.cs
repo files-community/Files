@@ -112,7 +112,7 @@ namespace Files.Helpers
                     {
                         int currentBlockSize = 0;
 
-                        if (!await Common.Extensions.IgnoreExceptions(async () =>
+                        try
                         {
                             using (Stream entryStream = zipFile.GetInputStream(entry))
                             {
@@ -126,8 +126,10 @@ namespace Files.Helpers
                                     }
                                 }
                             }
-                        }, App.Logger))
+                        }
+                        catch (Exception ex)
                         {
+                            App.Logger.Warn(ex, $"Error extracting file: {filePath}");
                             return; // TODO: handle error
                         }
                     }
