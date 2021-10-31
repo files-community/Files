@@ -41,6 +41,8 @@ namespace Files.Filesystem.Search
 
         public EventHandler SearchTick;
 
+        public bool IsAQSQuery => Query is not null && (Query.StartsWith("$") || Query.Contains(":"));
+
         public string AQSQuery
         {
             get
@@ -56,6 +58,13 @@ namespace Files.Filesystem.Search
                 }
                 else
                 {
+                    if (!string.IsNullOrEmpty(Query) && Query.Contains('.')) // ".docx" -> "*.docx"
+                    {
+                        var split = Query.Split('.');
+                        var leading = string.Join('.', split.SkipLast(1));
+                        var query = $"{leading}*.{split.Last()}";
+                        return $"System.FileName:\"{query}*\"";
+                    }
                     return $"System.FileName:\"{Query}*\"";
                 }
             }
@@ -245,20 +254,12 @@ namespace Files.Filesystem.Search
                 if (workingFolder)
                 {
                     await SearchAsync(workingFolder, results, token);
-                    //foreach (var item in await SearchAsync(workingFolder))
-                    //{
-                    //    results.Add(item);
-                    //}
                     hiddenOnlyFromWin32 = true;
                 }
 
-                if (!hiddenOnlyFromWin32 || UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible)
+                if (!IsAQSQuery && (!hiddenOnlyFromWin32 || UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible))
                 {
                     await SearchWithWin32Async(folder, hiddenOnlyFromWin32, UsedMaxItemCount - (uint)results.Count, results, token);
-                    //foreach (var item in)
-                    //{
-                    //    results.Add(item);
-                    //}
                 }
             }
         }
