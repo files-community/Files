@@ -2,7 +2,7 @@
 
 namespace Files.Services.Implementation
 {
-    public class WidgetsSettingsService : BaseJsonSettingsModel, IWidgetsSettingsService
+    public class WidgetsSettingsService : BaseObservableJsonSettingsModel, IWidgetsSettingsService
     {
         public WidgetsSettingsService(ISettingsSharingContext settingsSharingContext)
         {

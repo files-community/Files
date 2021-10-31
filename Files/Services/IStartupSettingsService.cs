@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Files.Services
 {
-    public interface IStartupSettingsService
+    public interface IStartupSettingsService : INotifyPropertyChanged
     {
         /// <summary>
         /// Gets or sets a value indicating whether or not to navigate to a specific location when launching the app.

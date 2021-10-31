@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Files.Common;
 
 namespace Files.Models.JsonSettings.Implementation
@@ -127,6 +128,13 @@ namespace Files.Models.JsonSettings.Implementation
             }
         }
 
+        public virtual object ExportSettings()
+        {
+            settingsCache = GetNewSettingsCache();
+
+            return settingsCache;
+        }
+
         public virtual bool FlushSettings()
         {
             try
@@ -148,11 +156,22 @@ namespace Files.Models.JsonSettings.Implementation
             }
         }
 
-        public virtual object ExportSettings()
+        public Dictionary<string, object> TakeDifferent(Dictionary<string, object> other)
         {
-            settingsCache = GetNewSettingsCache();
+            Dictionary<string, object> difference = new Dictionary<string, object>();
 
-            return settingsCache;
+            foreach (var item in other)
+            {
+                foreach (var item2 in settingsCache)
+                {
+                    if (item.Key == item2.Key && (!item.Value?.Equals(item2.Value) ?? false))
+                    {
+                        difference.Add(item.Key, item.Value);
+                    }
+                }
+            }
+
+            return difference;
         }
     }
 }

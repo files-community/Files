@@ -2,7 +2,7 @@
 
 namespace Files.Services.Implementation
 {
-    public class PreferencesSettingsService : BaseJsonSettingsModel, IPreferencesSettingsService
+    public class PreferencesSettingsService : BaseObservableJsonSettingsModel, IPreferencesSettingsService
     {
         public PreferencesSettingsService(ISettingsSharingContext settingsSharingContext)
         {

@@ -1,6 +1,8 @@
-﻿namespace Files.Services
+﻿using System.ComponentModel;
+
+namespace Files.Services
 {
-    public interface IMultitaskingSettingsService
+    public interface IMultitaskingSettingsService : INotifyPropertyChanged
     {
         /// <summary>
         /// Gets or sets a value indicating whether or not to enable the vertical tab flyout.

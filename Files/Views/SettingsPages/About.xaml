@@ -55,6 +55,52 @@
                     Content="Copy" />
             </local:SettingsBlockControl>
 
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=ManageSettings}" HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE713;" />
+                </local:SettingsBlockControl.Icon>
+                <local:SettingsBlockControl.ExpandableContent>
+                    <StackPanel>
+
+                        <!--  Export  -->
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=ExportSettings}">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xEDE1;" />
+                            </local:SettingsBlockControl.Icon>
+
+                            <Button
+                                Padding="8"
+                                AutomationProperties.Name="{helpers:ResourceString Name=ExportSettings}"
+                                Command="{Binding ExportSettingsCommand}"
+                                ToolTipService.ToolTip="{helpers:ResourceString Name=ExportSettings}">
+                                <FontIcon
+                                    FontSize="14"
+                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                    Glyph="&#xE2B4;" />
+                            </Button>
+                        </local:SettingsBlockControl>
+
+                        <!--  Import  -->
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=ImportSettings}">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE8B5;" />
+                            </local:SettingsBlockControl.Icon>
+
+                            <Button
+                                Padding="8"
+                                AutomationProperties.Name="{helpers:ResourceString Name=ImportSettings}"
+                                Command="{Binding ImportSettingsCommand}"
+                                ToolTipService.ToolTip="{helpers:ResourceString Name=ImportSettings}">
+                                <FontIcon
+                                    FontSize="14"
+                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                    Glyph="&#xE2B4;" />
+                            </Button>
+                        </local:SettingsBlockControl>
+                    </StackPanel>
+                </local:SettingsBlockControl.ExpandableContent>
+            </local:SettingsBlockControl>
+
             <local:SettingsBlockControl
                 x:Uid="SettingsUsefulLinks"
                 Title="Useful links"

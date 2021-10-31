@@ -2,7 +2,7 @@
 
 namespace Files.Services.Implementation
 {
-    public class AppearanceSettingsService : BaseJsonSettingsModel, IAppearanceSettingsService
+    public class AppearanceSettingsService : BaseObservableJsonSettingsModel, IAppearanceSettingsService
     {
         public AppearanceSettingsService(ISettingsSharingContext settingsSharingContext)
         {
