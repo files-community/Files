@@ -112,17 +112,23 @@ namespace Files.Helpers
                     {
                         int currentBlockSize = 0;
 
-                        using (Stream entryStream = zipFile.GetInputStream(entry))
+                        if (!await Common.Extensions.IgnoreExceptions(async () =>
                         {
-                            while ((currentBlockSize = await entryStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                            using (Stream entryStream = zipFile.GetInputStream(entry))
                             {
-                                await destinationStream.WriteAsync(buffer, 0, currentBlockSize);
-
-                                if (cancellationToken.IsCancellationRequested) // Check if cancelled
+                                while ((currentBlockSize = await entryStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
                                 {
-                                    return;
+                                    await destinationStream.WriteAsync(buffer, 0, currentBlockSize);
+
+                                    if (cancellationToken.IsCancellationRequested) // Check if cancelled
+                                    {
+                                        return;
+                                    }
                                 }
                             }
+                        }, App.Logger))
+                        {
+                            return; // TODO: handle error
                         }
                     }
 
