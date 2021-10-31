@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace Files.Services
 {
-    public interface IFilesAndFoldersSettingsService
+    public interface IFilesAndFoldersSettingsService : INotifyPropertyChanged
     {
         /// <summary>
         /// Gets or sets a value indicating whether or not file extensions should be visible.

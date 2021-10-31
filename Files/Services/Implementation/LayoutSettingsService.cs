@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Files.Services.Implementation
 {
-    public sealed class LayoutSettingsService : BaseJsonSettingsModel, ILayoutSettingsService
+    public sealed class LayoutSettingsService : BaseObservableJsonSettingsModel, ILayoutSettingsService
     {
         public LayoutSettingsService(ISettingsSharingContext settingsSharingContext)
         {
