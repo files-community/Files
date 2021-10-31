@@ -56,7 +56,7 @@ namespace Files.Filesystem.Search
                 }
                 else
                 {
-                    return $"System.FileName:\"{Query}\"";
+                    return $"System.FileName:\"{Query}*\"";
                 }
             }
         }
@@ -269,7 +269,7 @@ namespace Files.Filesystem.Search
             (IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
             {
                 int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-                IntPtr hFileTsk = FindFirstFileExFromApp($"{folder}\\*{Query}*.*", FINDEX_INFO_LEVELS.FindExInfoBasic,
+                IntPtr hFileTsk = FindFirstFileExFromApp($"{folder}\\{Query}*.*", FINDEX_INFO_LEVELS.FindExInfoBasic,
                     out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
                 return (hFileTsk, findDataTsk);
             }).WithTimeoutAsync(TimeSpan.FromSeconds(5));
