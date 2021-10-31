@@ -1,4 +1,5 @@
-﻿using Files.DataModels;
+﻿using Files.Common;
+using Files.Extensions;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -33,22 +34,22 @@ namespace Files.Dialogs
                 ItemType = new AddItemResult() { ItemType = AddItemType.Folder }
             });
 
-            var itemTypes = await RegistryHelper.GetNewContextMenuEntries();
+            var itemTypes = await ShellNewEntryExtensions.GetNewContextMenuEntries();
 
             foreach (var itemType in itemTypes)
             {
                 BitmapImage image = null;
-                if (itemType.Icon != null)
+                if (!string.IsNullOrEmpty(itemType.IconBase64))
                 {
-                    image = new BitmapImage();
-                    await image.SetSourceAsync(itemType.Icon);
+                    byte[] bitmapData = Convert.FromBase64String(itemType.IconBase64);
+                    image = await bitmapData.ToBitmapAsync();
                 }
 
                 AddItemsList.Add(new AddListItem
                 {
                     Header = itemType.Name,
                     SubHeader = itemType.Extension,
-                    Glyph = itemType.Icon != null ? null : "\xE8A5",
+                    Glyph = image != null ? null : "\xE8A5",
                     Icon = image,
                     IsItemEnabled = true,
                     ItemType = new AddItemResult()

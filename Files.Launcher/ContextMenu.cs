@@ -122,6 +122,41 @@ namespace FilesFullTrust
             return contextMenu;
         }
 
+        public static ContextMenu GetContextMenuForFolder(string folderPath, Shell32.CMF flags, Func<string, bool> itemFilter = null)
+        {
+            ShellFolder fsi = null;
+            try
+            {
+                fsi = new ShellFolder(folderPath);
+                return GetContextMenuForFolder(fsi, flags, itemFilter);
+            }
+            catch (Exception ex) when (ex is ArgumentException || ex is FileNotFoundException)
+            {
+                // Return empty context menu
+                return null;
+            }
+            finally
+            {
+                fsi?.Dispose();
+            }
+        }
+
+        private static ContextMenu GetContextMenuForFolder(ShellFolder shellFolder, Shell32.CMF flags, Func<string, bool> itemFilter = null)
+        {
+            if (shellFolder == null)
+            {
+                return null;
+            }
+
+            var sv = shellFolder.GetViewObject<Shell32.IShellView>(null);
+            Shell32.IContextMenu menu = sv.GetItemObject<Shell32.IContextMenu>(Shell32.SVGIO.SVGIO_BACKGROUND);
+            var hMenu = User32.CreatePopupMenu();
+            menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
+            var contextMenu = new ContextMenu(menu, hMenu, new[] { shellFolder.ParsingName });
+            ContextMenu.EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
+            return contextMenu;
+        }
+
         #endregion FactoryMethods
 
         private static void EnumMenuItems(

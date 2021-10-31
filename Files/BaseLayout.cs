@@ -451,6 +451,9 @@ namespace Files
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
+
+                await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.SearchPathParam);
+
                 if (!navigationArguments.IsLayoutSwitch)
                 {
                     var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;

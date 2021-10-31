@@ -335,7 +335,6 @@
         Background="{ThemeResource NavigationToolbarBackgroundBrush}"
         ColumnSpacing="0"
         CornerRadius="{StaticResource NavToolbarCornerRadius}">
-        
         <Grid Padding="8,0,8,8" ColumnSpacing="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -558,7 +557,11 @@
                             </Flyout>
                         </Button.Flyout>
                     </Button>
-                    <muxc:InfoBadge x:Name="StatusInfoBadge" HorizontalAlignment="Right" VerticalAlignment="Top" Value="{x:Bind OngoingTasksViewModel.InfoBadgeValue, Mode=OneWay}" />
+                    <muxc:InfoBadge
+                        x:Name="StatusInfoBadge"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Value="{x:Bind OngoingTasksViewModel.InfoBadgeValue, Mode=OneWay}" />
                 </Grid>
 
                 <Button
@@ -607,7 +610,10 @@
             <VisualStateGroup>
                 <VisualState x:Name="TasksSuccess">
                     <VisualState.StateTriggers>
-                        <triggers:CompareStateTrigger Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}" Comparison="Equal" To="0" />
+                        <triggers:CompareStateTrigger
+                            Comparison="Equal"
+                            Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}"
+                            To="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="StatusInfoBadge.Style" Value="{StaticResource SuccessIconInfoBadgeStyle}" />
@@ -615,7 +621,10 @@
                 </VisualState>
                 <VisualState x:Name="TasksOnging">
                     <VisualState.StateTriggers>
-                        <triggers:CompareStateTrigger Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}" Comparison="Equal" To="1" />
+                        <triggers:CompareStateTrigger
+                            Comparison="Equal"
+                            Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}"
+                            To="1" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="StatusInfoBadge.Style" Value="{StaticResource AttentionValueInfoBadgeStyle}" />
@@ -623,7 +632,10 @@
                 </VisualState>
                 <VisualState x:Name="TasksFailure">
                     <VisualState.StateTriggers>
-                        <triggers:CompareStateTrigger Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}" Comparison="Equal" To="2" />
+                        <triggers:CompareStateTrigger
+                            Comparison="Equal"
+                            Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}"
+                            To="2" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="StatusInfoBadge.Style" Value="{StaticResource CriticalValueInfoBadgeStyle}" />
@@ -631,7 +643,10 @@
                 </VisualState>
                 <VisualState x:Name="TasksCompletionWithFailure">
                     <VisualState.StateTriggers>
-                        <triggers:CompareStateTrigger Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}" Comparison="Equal" To="3" />
+                        <triggers:CompareStateTrigger
+                            Comparison="Equal"
+                            Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}"
+                            To="3" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="StatusInfoBadge.Style" Value="{StaticResource CriticalIconInfoBadgeStyle}" />
@@ -639,6 +654,5 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-
     </Grid>
 </UserControl>

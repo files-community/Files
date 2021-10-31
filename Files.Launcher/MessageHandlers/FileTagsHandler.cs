@@ -109,7 +109,7 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        public Task ParseArgumentsAsync(NamedPipeServerStream connection, Dictionary<string, object> message, string arguments)
+        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
         {
             switch (arguments)
             {
@@ -120,7 +120,7 @@ namespace FilesFullTrust.MessageHandlers
             return Task.CompletedTask;
         }
 
-        public void Initialize(NamedPipeServerStream connection)
+        public void Initialize(PipeStream connection)
         {
         }
 
