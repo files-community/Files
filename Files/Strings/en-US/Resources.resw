@@ -2785,4 +2785,10 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="ManageSettings" xml:space="preserve">
     <value>Manage Settings</value>
   </data>
+  <data name="SettingsImportErrorDescription" xml:space="preserve">
+    <value>Couldn't import settings. The settings file is corrupted.</value>
+  </data>
+  <data name="SettingsImportErrorTitle" xml:space="preserve">
+    <value>Error importing settings</value>
+  </data>
 </root>

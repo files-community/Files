@@ -72,6 +72,10 @@ namespace Files.Services.Implementation
         public override object ExportSettings()
         {
             var export = (Dictionary<string, object>)base.ExportSettings();
+
+            // Remove session settings
+            export.Remove(nameof(StartupSettingsService.LastSessionTabList));
+
             return jsonSettingsSerializer.SerializeToJson(export);
         }
 

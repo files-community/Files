@@ -1,4 +1,5 @@
 ﻿using Files.Extensions;
+using Files.Helpers;
 using Files.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -59,8 +60,16 @@ namespace Files.ViewModels.SettingsViewModels
             StorageFile file = await filePicker.PickSingleFileAsync();
             if (file != null)
             {
-                string import = await FileIO.ReadTextAsync(file);
-                UserSettingsService.ImportSettings(import);
+                try
+                {
+                    string import = await FileIO.ReadTextAsync(file);
+                    UserSettingsService.ImportSettings(import);
+                }
+                catch
+                {
+                    UIHelpers.CloseAllDialogs();
+                    await DialogDisplayHelper.ShowDialogAsync("SettingsImportErrorTitle".GetLocalized(), "SettingsImportErrorDescription".GetLocalized());
+                }
             }
         }
 
