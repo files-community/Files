@@ -786,6 +786,19 @@ namespace Files.Views.LayoutModes
             var contentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
             contentScroller.ViewChanged -= ContentScroller_ViewChanged;
             contentScroller.ViewChanged += ContentScroller_ViewChanged;
+
+            // Show empty space after last column
+            var presenter = contentScroller.FindDescendant<ScrollContentPresenter>(x => x.Name == "ScrollContentPresenter");
+            if (presenter is not null)
+            {
+                var parentGrid = presenter.Parent as Grid;
+                if (parentGrid is not null && parentGrid.ColumnDefinitions.Count == 2)
+                {
+                    presenter.SetValue(Grid.ColumnSpanProperty, 1);
+                    parentGrid.ColumnDefinitions[0].Width = GridLength.Auto;
+                    parentGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
+                }
+            }
         }
 
         private void ContentScroller_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)

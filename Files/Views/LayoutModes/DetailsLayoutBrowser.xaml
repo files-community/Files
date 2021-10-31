@@ -793,29 +793,14 @@
                                                         VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
                                                         VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
                                                         ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                                                        <Grid>
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="*" />
-                                                                <RowDefinition Height="Auto" />
-                                                            </Grid.RowDefinitions>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto" />
-                                                                <ColumnDefinition Width="*" />
-                                                            </Grid.ColumnDefinitions>
-                                                            <ItemsPresenter
-                                                                Padding="{TemplateBinding Padding}"
-                                                                HorizontalAlignment="Stretch"
-                                                                FooterTemplate="{TemplateBinding FooterTemplate}"
-                                                                FooterTransitions="{TemplateBinding FooterTransitions}"
-                                                                HeaderTemplate="{TemplateBinding HeaderTemplate}"
-                                                                HeaderTransitions="{TemplateBinding HeaderTransitions}" />
-
-                                                            <ContentPresenter
-                                                                Grid.Row="1"
-                                                                Grid.ColumnSpan="2"
-                                                                Padding="8,0,8,8"
-                                                                Content="{TemplateBinding Footer}" />
-                                                        </Grid>
+                                                        <ItemsPresenter
+                                                            Padding="{TemplateBinding Padding}"
+                                                            HorizontalAlignment="Stretch"
+                                                            Footer="{TemplateBinding Footer}"
+                                                            FooterTemplate="{TemplateBinding FooterTemplate}"
+                                                            FooterTransitions="{TemplateBinding FooterTransitions}"
+                                                            HeaderTemplate="{TemplateBinding HeaderTemplate}"
+                                                            HeaderTransitions="{TemplateBinding HeaderTransitions}" />
                                                     </ScrollViewer>
                                                 </Grid>
                                             </Border>
