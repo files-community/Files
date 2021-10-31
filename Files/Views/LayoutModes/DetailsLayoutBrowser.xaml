@@ -779,6 +779,7 @@
                                                     <ScrollViewer
                                                         x:Name="ScrollViewer"
                                                         Grid.Row="1"
+                                                        Padding="0,0,8,0"
                                                         HorizontalContentAlignment="Stretch"
                                                         AutomationProperties.AccessibilityView="Raw"
                                                         BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
