@@ -103,7 +103,7 @@
                     <TextBlock FontSize="13" TextWrapping="Wrap" FontWeight="Bold" Text="{x:Bind Label, Mode=OneWay}" />
                 </StackPanel>
                 <CalendarDatePicker Grid.Row="1" Header="From" Date="{x:Bind MinOffset, Mode=TwoWay}" HorizontalAlignment="Stretch"  />
-                <CalendarDatePicker Grid.Row="2" Header="To" Date="{x:Bind MaxOffset, Mode=TwoWay}" HorizontalAlignment="Stretch"  />
+                <CalendarDatePicker Grid.Row="2" Header="To" Date="{x:Bind MaxOffset, Mode=TwoWay}" HorizontalAlignment="Stretch" MaxDate="{x:Bind Today, Mode=OneWay}" />
                 <HyperlinkButton x:Uid="SearchPickerDateRange_Clear"
                     Grid.Row="3" HorizontalAlignment="Right"
                     Content="Clear" Command="{x:Bind ClearCommand, Mode=OneWay}" />
@@ -158,7 +158,7 @@
 
         <ControlTemplate x:Name="HeaderItemTemplate" x:Key="HeaderItemTemplate" TargetType="MenuFlyoutItem">
             <Button
-                Background="Transparent" BorderBrush="Transparent"
+                MaxWidth="240" Background="Transparent" BorderBrush="Transparent"
                 HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Content="{TemplateBinding Tag}"
                 Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}">
                 <Button.ContentTemplate>

@@ -25,6 +25,10 @@ namespace Files.UserControls.Search
         {
             if (SearchBox is not null)
             {
+                if (string.IsNullOrWhiteSpace(SearchBox.Query))
+                {
+                    SearchBox.Query = "*";
+                }
                 SearchBox.Search();
                 SearchBox.IsMenuOpen = false;
             }

@@ -14,7 +14,7 @@
             ItemsSource="{x:Bind ViewModel.Headers}" SelectedValue="{x:Bind ViewModel.Header, Mode=TwoWay}">
             <ComboBox.ItemTemplate>
                 <DataTemplate x:DataType="vm:ISearchFilterHeader">
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" MaxWidth="240">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="32" />
@@ -24,8 +24,8 @@
                             <TextBlock Grid.Column="1" FontSize="16" FontWeight="SemiBold" Text="{x:Bind Title}" />
                         </Grid>
                         <TextBlock
-                                FontSize="14" TextWrapping="Wrap" Text="{x:Bind Description}"
-                                Visibility="{Binding IsDropDownOpen, ElementName=HeaderCombo}" />
+                            FontSize="14" TextWrapping="Wrap" Text="{x:Bind Description}"
+                            Visibility="{Binding IsDropDownOpen, ElementName=HeaderCombo}" />
                     </StackPanel>
                 </DataTemplate>
             </ComboBox.ItemTemplate>

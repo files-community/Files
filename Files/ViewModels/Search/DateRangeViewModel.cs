@@ -21,6 +21,7 @@ namespace Files.ViewModels.Search
         string Label { get; }
         DateRange Range { get; set; }
 
+        DateTimeOffset Today { get; }
         DateTimeOffset? MinOffset { get; set; }
         DateTimeOffset? MaxOffset { get; set; }
 
@@ -147,6 +148,8 @@ namespace Files.ViewModels.Search
     public class DateRangePickerViewModel : ObservableObject, IDateRangePickerViewModel
     {
         public bool IsEmpty => range == DateRange.Always;
+
+        public DateTimeOffset Today => Date.Today.Offset;
 
         private DateRange range = DateRange.Always;
         public DateRange Range

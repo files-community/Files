@@ -93,7 +93,15 @@ namespace Files.Filesystem.Search
         static DateRange() => UpdateToday();
 
         public DateRange(Date minDate, Date maxDate)
-            => (MinDate, MaxDate) = (minDate <= maxDate) ? (minDate, maxDate) : (maxDate, minDate);
+        {
+            var today = Date.Today;
+
+            minDate = minDate < today ? minDate : today;
+            maxDate = maxDate < today ? maxDate : today;
+
+            (MinDate, MaxDate) = (minDate <= maxDate) ? (minDate, maxDate) : (maxDate, minDate);
+        }
+
         public DateRange(Date minDate, DateRange maxRange)
             : this(Min(minDate, maxRange.MinDate), Max(minDate, maxRange.MaxDate)) {}
         public DateRange(DateRange minRange, Date maxDate)
