@@ -8,6 +8,11 @@
         <Setter Property="VerticalAlignment" Value="Top" />
     </Style>
 
+    <Style x:Key="PropertiesTabGrid" TargetType="Grid">
+        <Setter Property="Padding" Value="14,0,14,14" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+    </Style>
+    
     <Thickness x:Key="PropertyNameMargin">7</Thickness>
     <Thickness x:Key="PropertyValueMargin">20,0,0,0</Thickness>
     <VerticalAlignment x:Key="PropertyValueVerticalAlignment">Center</VerticalAlignment>
