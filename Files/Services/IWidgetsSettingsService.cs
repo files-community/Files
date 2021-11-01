@@ -1,6 +1,8 @@
-﻿namespace Files.Services
+﻿using System.ComponentModel;
+
+namespace Files.Services
 {
-    public interface IWidgetsSettingsService
+    public interface IWidgetsSettingsService : INotifyPropertyChanged
     {
         /// <summary>
         /// Gets or sets a value indicating whether or not the library cards widget should be visible.

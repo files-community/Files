@@ -37,7 +37,7 @@ namespace Files.Filesystem
                 return new PathBoxItem()
                 {
                     Title = allDrives.FirstOrDefault(y => y.ItemType == NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase)) != null ?
-                            allDrives.FirstOrDefault(y => y.ItemType == NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase)).Text : $@"Drive ({component}\)",
+                            allDrives.FirstOrDefault(y => y.ItemType == NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase)).Text : $@"Drive ({component})",
                     Path = path,
                 };
             }

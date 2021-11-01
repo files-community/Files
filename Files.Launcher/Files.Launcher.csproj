@@ -118,8 +118,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DeviceWatcher.cs" />
+    <Compile Include="Helpers\CloudDrivesDetector.cs" />
     <Compile Include="Helpers\DisposableDictionary.cs" />
     <Compile Include="Helpers\ShellFolderHelpers.cs" />
+    <Compile Include="Helpers\ShellNewMenuHelper.cs" />
     <Compile Include="Helpers\ThreadWithMessageQueue.cs" />
     <Compile Include="MessageHandlers\FileTagsHandler.cs" />
     <Compile Include="MessageHandlers\LibrariesHandler.cs" />
@@ -160,10 +162,10 @@
       <Version>3.0.7</Version>
     </PackageReference>
     <PackageReference Include="Vanara.PInvoke.Mpr">
-      <Version>3.3.13</Version>
+      <Version>3.3.14</Version>
     </PackageReference>
     <PackageReference Include="Vanara.Windows.Shell">
-      <Version>3.3.13</Version>
+      <Version>3.3.14</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

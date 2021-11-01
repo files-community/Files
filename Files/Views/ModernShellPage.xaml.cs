@@ -1,4 +1,4 @@
-﻿using Files.DataModels;
+﻿using Files.Common;
 using Files.Dialogs;
 using Files.Enums;
 using Files.EventArguments;
@@ -637,9 +637,7 @@ namespace Files.Views
             var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
             var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
             var tabInstance = CurrentPageType == (typeof(DetailsLayoutBrowser))
-                || CurrentPageType == typeof(GridViewBrowser)
-                || CurrentPageType == typeof(ColumnViewBrowser)
-                || CurrentPageType == typeof(ColumnViewBase);
+                || CurrentPageType == typeof(GridViewBrowser);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
@@ -663,9 +661,12 @@ namespace Files.Views
                         break;
                     }
 
-                case (false, false, false, true, VirtualKey.F3): //f3
-                case (true, false, false, true, VirtualKey.F): // ctrl + f
-                    NavToolbarViewModel.SwitchSearchBoxVisibility();
+                case (false, false, false, _, VirtualKey.F3): //f3
+                case (true, false, false, _, VirtualKey.F): // ctrl + f
+                    if (tabInstance || CurrentPageType == typeof(WidgetsPage))
+                    {
+                        NavToolbarViewModel.SwitchSearchBoxVisibility();
+                    }
                     break;
 
                 case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
@@ -759,8 +760,8 @@ namespace Files.Views
                     }
                     break;
 
-                case (false, false, true, _, VirtualKey.D): // alt + d, select address bar (english)
-                case (true, false, false, _, VirtualKey.L): // ctrl + l, select address bar
+                case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
+                case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
                     NavToolbarViewModel.IsEditModeEnabled = true;
                     break;
 
@@ -797,9 +798,7 @@ namespace Files.Views
             {
                 case VirtualKey.F2: //F2, rename
                     if (CurrentPageType == typeof(DetailsLayoutBrowser)
-                        || CurrentPageType == typeof(GridViewBrowser)
-                        || CurrentPageType == typeof(ColumnViewBrowser)
-                        || CurrentPageType == typeof(ColumnViewBase))
+                        || CurrentPageType == typeof(GridViewBrowser))
                     {
                         if (ContentPage.IsItemSelected)
                         {
@@ -1141,7 +1140,7 @@ namespace Files.Views
     public class NavigationParams
     {
         public string NavPath { get; set; }
-        public string SelectItem { get; set;}
+        public string SelectItem { get; set; }
     }
 
     public class NavigationArguments

@@ -13,6 +13,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -198,7 +199,22 @@ namespace Files.UserControls.Widgets
 
         private async void GoToStorageSense_Click(object sender, RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri("ms-settings:storagesense"));
+            string clickedCard = (sender as Button).Tag.ToString();
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null
+                && !clickedCard.StartsWith("C:", StringComparison.OrdinalIgnoreCase)
+                && ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                await connection.SendMessageAsync(new ValueSet()
+                {
+                    { "Arguments", "LaunchSettings" },
+                    { "page", "page=SettingsPageStorageSenseStorageOverview&target=SystemSettings_StorageSense_VolumeListLink" }
+                });
+            }
+            else
+            {
+                await Launcher.LaunchUriAsync(new Uri("ms-settings:storagesense"));
+            }
         }
 
         private async Task<bool> CheckEmptyDrive(string drivePath)

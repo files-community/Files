@@ -488,7 +488,7 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
+        private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
         {
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);

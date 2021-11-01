@@ -19,9 +19,6 @@
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Light">
-                            <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
-                            <SolidColorBrush x:Key="CloudDriveSyncStatusOfflineColor" Color="#30BB03" />
-                            <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
                             <Color x:Key="SolidBackgroundAcrylic">#FFFFFF</Color>
                             <!--  Corner Radius  -->
                             <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
@@ -57,9 +54,6 @@
                             <Color x:Key="LayerFillColorDefault">#11000000</Color>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Default">
-                            <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
-                            <SolidColorBrush x:Key="CloudDriveSyncStatusOfflineColor" Color="#30BB03" />
-                            <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
                             <Color x:Key="SolidBackgroundAcrylic">#2C2C2C</Color>
                             <!--  Corner Radius  -->
                             <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
@@ -108,9 +102,6 @@
                             <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{StaticResource SystemColorWindowColor}" />
                             <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{StaticResource SystemColorWindowColor}" />
                             <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{StaticResource SystemColorWindowColor}" />
-                            <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
-                            <SolidColorBrush x:Key="CloudDriveSyncStatusOfflineColor" Color="#30BB03" />
-                            <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
                             <Color x:Key="SolidBackgroundAcrylic">#2C2C2C</Color>
                             <!--  Corner Radius  -->
                             <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>

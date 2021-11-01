@@ -1,9 +1,9 @@
-﻿using Files.Helpers;
+﻿using Files.Common;
+using Files.Helpers;
 using Files.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Win32;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -107,14 +107,12 @@ namespace Files.ViewModels.SettingsViewModels
 
         private bool DetectIsSetAsDefaultFileManager()
         {
-            using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\Directory\shell");
-            return subkey?.GetValue(string.Empty) as string == "openinfiles";
+            return ApplicationData.Current.LocalSettings.Values.Get("IsSetAsDefaultFileManager", false);
         }
 
         private bool DetectIsSetAsOpenFileDialog()
         {
-            using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\CLSID\{DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7}");
-            return subkey?.GetValue(string.Empty) as string == "FilesOpenDialog class";
+            return ApplicationData.Current.LocalSettings.Values.Get("IsSetAsOpenFileDialog", false);
         }
 
         private bool isSetAsDefaultFileManager;

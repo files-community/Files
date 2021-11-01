@@ -1,5 +1,7 @@
-﻿using Files.Enums;
+﻿using Files.Common;
+using Files.Enums;
 using Files.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ using Windows.Foundation.Collections;
 
 namespace Files.Filesystem.Cloud.Providers
 {
-    public class OneDriveSharePointCloudProvider : ICloudProviderDetector
+    public class GenericCloudProvider : ICloudProviderDetector
     {
         public async Task<IList<CloudProvider>> DetectAsync()
         {
@@ -20,23 +22,15 @@ namespace Files.Filesystem.Cloud.Providers
                 {
                     var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
                     {
-                        { "Arguments", "GetSharePointSyncLocationsFromOneDrive" }
+                        { "Arguments", "DetectCloudDrives" }
                     });
-                    if (status == AppServiceResponseStatus.Success && response.ContainsKey("Count"))
+                    if (status == AppServiceResponseStatus.Success && response.ContainsKey("Drives"))
                     {
-                        var results = new List<CloudProvider>();
-                        foreach (var key in response.Keys
-                            .Where(k => k != "Count" && k != "RequestID"))
+                        var results = JsonConvert.DeserializeObject<List<CloudProvider>>((string)response["Drives"]);
+                        if (results != null)
                         {
-                            results.Add(new CloudProvider()
-                            {
-                                ID = CloudProviders.OneDrive,
-                                Name = key,
-                                SyncFolder = (string)response[key]
-                            });
+                            return results;
                         }
-
-                        return results;
                     }
                 }
                 return Array.Empty<CloudProvider>();

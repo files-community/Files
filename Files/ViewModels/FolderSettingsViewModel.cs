@@ -8,6 +8,7 @@ using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Linq;
 using Windows.Storage;
 using static Files.ViewModels.FolderLayoutInformation;
@@ -538,7 +539,7 @@ namespace Files.ViewModels
 
         private static LayoutPreferences ReadLayoutPreferencesFromAds(string folderPath)
         {
-            var str = NativeFileOperationsHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
+            var str = NativeFileOperationsHelper.ReadStringFromFile(Path.Combine(folderPath, "desktop.files.json"));
             try
             {
                 return string.IsNullOrEmpty(str) ? null : JsonConvert.DeserializeObject<LayoutPreferences>(str);
@@ -551,12 +552,14 @@ namespace Files.ViewModels
 
         private static bool WriteLayoutPreferencesToAds(string folderPath, LayoutPreferences prefs)
         {
+            var prefsFilePath = Path.Combine(folderPath, "desktop.files.json");
             if (LayoutPreferences.DefaultLayoutPreferences.Equals(prefs))
             {
-                NativeFileOperationsHelper.DeleteFileFromApp($"{folderPath}:files_layoutmode");
+                NativeFileOperationsHelper.DeleteFileFromApp(prefsFilePath);
                 return false;
             }
-            return NativeFileOperationsHelper.WriteStringToFile($"{folderPath}:files_layoutmode", JsonConvert.SerializeObject(prefs));
+            return NativeFileOperationsHelper.WriteStringToFile(
+                prefsFilePath, JsonConvert.SerializeObject(prefs), NativeFileOperationsHelper.File_Attributes.Hidden);
         }
 
         private static LayoutPreferences ReadLayoutPreferencesFromSettings(string folderPath)

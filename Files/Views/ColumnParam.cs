@@ -2,10 +2,9 @@
 
 namespace Files.Views
 {
-    public class ColumnParam
+    public class ColumnParam : NavigationArguments
     {
         public int Column { get; set; }
-        public string Path { get; set; }
         public ListView ListView { get; set; }
     }
 }

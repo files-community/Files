@@ -23,14 +23,14 @@ namespace FilesFullTrust.MessageHandlers
         private FileTagsDb dbInstance;
         private ProgressHandler progressHandler;
 
-        public void Initialize(NamedPipeServerStream connection)
+        public void Initialize(PipeStream connection)
         {
             string fileTagsDbPath = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "filetags.db");
             dbInstance = new FileTagsDb(fileTagsDbPath, true);
             progressHandler = new ProgressHandler(connection);
         }
 
-        public async Task ParseArgumentsAsync(NamedPipeServerStream connection, Dictionary<string, object> message, string arguments)
+        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
         {
             switch (arguments)
             {
@@ -40,7 +40,7 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        private async Task ParseFileOperationAsync(NamedPipeServerStream connection, Dictionary<string, object> message)
+        private async Task ParseFileOperationAsync(PipeStream connection, Dictionary<string, object> message)
         {
             switch (message.Get("fileop", ""))
             {
@@ -748,7 +748,7 @@ namespace FilesFullTrust.MessageHandlers
         private class ProgressHandler : IDisposable
         {
             private ManualResetEvent operationsCompletedEvent;
-            private NamedPipeServerStream connection;
+            private PipeStream connection;
 
             private class OperationWithProgress
             {
@@ -761,7 +761,7 @@ namespace FilesFullTrust.MessageHandlers
 
             public System.Windows.Forms.IWin32Window OwnerWindow { get; set; }
 
-            public ProgressHandler(NamedPipeServerStream conn)
+            public ProgressHandler(PipeStream conn)
             {
                 taskbar = Win32API.CreateTaskbarObject();
                 operations = new ConcurrentDictionary<string, OperationWithProgress>();

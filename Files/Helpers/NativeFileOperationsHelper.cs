@@ -148,7 +148,7 @@ namespace Files.Helpers
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetFileAttributesFromApp(
             string lpFileName,
-            System.IO.FileAttributes dwFileAttributes);
+            FileAttributes dwFileAttributes);
 
         [DllImport("api-ms-win-core-file-l1-2-1.dll", ExactSpelling = true,
         CallingConvention = CallingConvention.StdCall,
@@ -202,7 +202,7 @@ namespace Files.Helpers
         [StructLayout(LayoutKind.Sequential)]
         public struct WIN32_FILE_ATTRIBUTE_DATA
         {
-            public System.IO.FileAttributes dwFileAttributes;
+            public FileAttributes dwFileAttributes;
             public FILETIME ftCreationTime;
             public FILETIME ftLastAccessTime;
             public FILETIME ftLastWriteTime;
@@ -210,7 +210,7 @@ namespace Files.Helpers
             public uint nFileSizeLow;
         }
 
-        public static bool HasFileAttribute(string lpFileName, System.IO.FileAttributes dwAttrs)
+        public static bool HasFileAttribute(string lpFileName, FileAttributes dwAttrs)
         {
             if (GetFileAttributesExFromApp(
                 lpFileName, GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo))
@@ -220,7 +220,7 @@ namespace Files.Helpers
             return false;
         }
 
-        public static bool SetFileAttribute(string lpFileName, System.IO.FileAttributes dwAttrs)
+        public static bool SetFileAttribute(string lpFileName, FileAttributes dwAttrs)
         {
             if (!GetFileAttributesExFromApp(
                 lpFileName, GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo))
@@ -230,7 +230,7 @@ namespace Files.Helpers
             return SetFileAttributesFromApp(lpFileName, lpFileInfo.dwFileAttributes | dwAttrs);
         }
 
-        public static bool UnsetFileAttribute(string lpFileName, System.IO.FileAttributes dwAttrs)
+        public static bool UnsetFileAttribute(string lpFileName, FileAttributes dwAttrs)
         {
             if (!GetFileAttributesExFromApp(
                 lpFileName, GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo))
@@ -267,10 +267,10 @@ namespace Files.Helpers
             return str;
         }
 
-        public static bool WriteStringToFile(string filePath, string str)
+        public static bool WriteStringToFile(string filePath, string str, File_Attributes flags = 0)
         {
             IntPtr hStream = CreateFileFromApp(filePath,
-                GENERIC_WRITE, 0, IntPtr.Zero, CREATE_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero);
+                GENERIC_WRITE, 0, IntPtr.Zero, CREATE_ALWAYS, (uint)(File_Attributes.BackupSemantics | flags), IntPtr.Zero);
             if (hStream.ToInt64() == -1)
             {
                 return false;

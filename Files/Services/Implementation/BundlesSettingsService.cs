@@ -4,7 +4,7 @@ using Windows.Storage;
 
 namespace Files.Services.Implementation
 {
-    public sealed class BundlesSettingsService : BaseJsonSettingsModel, IBundlesSettingsService
+    public sealed class BundlesSettingsService : BaseObservableJsonSettingsModel, IBundlesSettingsService
     {
         public BundlesSettingsService()
             : base(System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.BundlesSettingsFileName),

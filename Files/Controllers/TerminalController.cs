@@ -1,11 +1,13 @@
 ﻿using Files.DataModels;
 using Files.Enums;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Newtonsoft.Json;
 using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
@@ -138,64 +140,64 @@ namespace Files.Controllers
             {
                 StorageFile defaultFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(defaultTerminalPath));
                 var defaultContent = await FileIO.ReadTextAsync(defaultFile);
-                return JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
+                var model = JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
+                await GetInstalledTerminalsAsync(model);
+                model.ResetToDefaultTerminal();
+                return model;
             }
             catch
             {
                 var model = new TerminalFileModel();
-                model.Terminals.Add(new Terminal()
-                {
-                    Name = "CMD",
-                    Path = "cmd.exe",
-                    Arguments = "",
-                    Icon = ""
-                });
+                await GetInstalledTerminalsAsync(model);
                 model.ResetToDefaultTerminal();
                 return model;
             }
         }
 
-        public async Task GetInstalledTerminalsAsync()
+        private async Task GetInstalledTerminalsAsync()
         {
-            var windowsTerminal = new Terminal()
+            await GetInstalledTerminalsAsync(Model);
+            SaveModel();
+        }
+
+        private async Task GetInstalledTerminalsAsync(TerminalFileModel model)
+        {
+            var terminalDefs = new Dictionary<Terminal, bool>();
+
+            terminalDefs.Add(new Terminal()
             {
                 Name = "Windows Terminal",
                 Path = "wt.exe",
                 Arguments = "-d .",
                 Icon = ""
-            };
+            }, await IsWindowsTerminalBuildInstalled());
 
-            var fluentTerminal = new Terminal()
+            terminalDefs.Add(new Terminal()
             {
                 Name = "Fluent Terminal",
                 Path = "flute.exe",
                 Arguments = "",
                 Icon = ""
-            };
+            }, await PackageHelper.IsAppInstalledAsync("53621FSApps.FluentTerminal_87x1pks76srcp"));
 
+            terminalDefs.Add(new Terminal()
+            {
+                Name = "CMD",
+                Path = "cmd.exe",
+                Arguments = "",
+                Icon = ""
+            }, true);    // CMD will always be present (for now at least)
+
+            terminalDefs.Where(x => x.Value).ForEach(x => model.AddTerminal(x.Key));
+            terminalDefs.Where(x => !x.Value).ForEach(x => model.RemoveTerminal(x.Key));
+        }
+
+        public async static Task<bool> IsWindowsTerminalBuildInstalled()
+        {
             bool isWindowsTerminalInstalled = await PackageHelper.IsAppInstalledAsync("Microsoft.WindowsTerminal_8wekyb3d8bbwe");
             bool isWindowsTerminalPreviewInstalled = await PackageHelper.IsAppInstalledAsync("Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe");
-            bool isFluentTerminalInstalled = await PackageHelper.IsAppInstalledAsync("53621FSApps.FluentTerminal_87x1pks76srcp");
 
-            if (isWindowsTerminalInstalled || isWindowsTerminalPreviewInstalled)
-            {
-                Model.AddTerminal(windowsTerminal);
-            }
-            else
-            {
-                Model.RemoveTerminal(windowsTerminal);
-            }
-
-            if (isFluentTerminalInstalled)
-            {
-                Model.AddTerminal(fluentTerminal);
-            }
-            else
-            {
-                Model.RemoveTerminal(fluentTerminal);
-            }
-
-            SaveModel();
+            return isWindowsTerminalPreviewInstalled || isWindowsTerminalInstalled;
         }
 
         public void SaveModel()

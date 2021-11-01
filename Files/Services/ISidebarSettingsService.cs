@@ -1,6 +1,8 @@
-﻿namespace Files.Services
+﻿using System.ComponentModel;
+
+namespace Files.Services
 {
-    public interface ISidebarSettingsService
+    public interface ISidebarSettingsService : INotifyPropertyChanged
     {
         #region Internal Settings
 

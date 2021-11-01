@@ -140,7 +140,7 @@ namespace Files
             TerminalController ??= new TerminalController();
         }
 
-        private static async void StartAppCenter()
+        private static async Task StartAppCenter()
         {
             try
             {
@@ -161,6 +161,7 @@ namespace Files
         public static async Task LoadOtherStuffAsync()
         {
             // Start off a list of tasks we need to run before we can continue startup
+            await StartAppCenter();
             await Task.Run(async () =>
             {
                 await Task.WhenAll(

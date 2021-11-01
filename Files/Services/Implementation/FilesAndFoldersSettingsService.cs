@@ -2,7 +2,7 @@
 
 namespace Files.Services.Implementation
 {
-    public class FilesAndFoldersSettingsService : BaseJsonSettingsModel, IFilesAndFoldersSettingsService
+    public class FilesAndFoldersSettingsService : BaseObservableJsonSettingsModel, IFilesAndFoldersSettingsService
     {
         public FilesAndFoldersSettingsService(ISettingsSharingContext settingsSharingContext)
         {

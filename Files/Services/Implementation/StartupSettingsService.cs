@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Files.Services.Implementation
 {
-    public class StartupSettingsService : BaseJsonSettingsModel, IStartupSettingsService
+    public class StartupSettingsService : BaseObservableJsonSettingsModel, IStartupSettingsService
     {
         public StartupSettingsService(ISettingsSharingContext settingsSharingContext)
         {

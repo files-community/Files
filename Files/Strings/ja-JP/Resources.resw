@@ -292,7 +292,7 @@
     <value>次に進む (Alt+右矢印)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>上のレベルに戻る (Alt+上矢印)</value>
+    <value>1つ上のディレクトリへ行く (Alt+上矢印)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>最新の情報に更新 (F5)</value>
@@ -502,7 +502,7 @@
     <value>別のユーザーとして実行</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
-    <value>すべでの種類の {0}</value>
+    <value>すべての種類の {0}</value>
   </data>
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>他の種類</value>
@@ -622,7 +622,7 @@
     <value>ログの場所を開く</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
-    <value>ファイルは、開発者がまだ準備していない問題に遭遇しました。</value>
+    <value>Filesは、開発者がまだ想定していない問題に遭遇しました。</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
     <value>問題が発生しました</value>
@@ -736,7 +736,7 @@
     <value>フォルダの最新情報に更新</value>
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
-    <value>上のレベルに戻る</value>
+    <value>1つ上のディレクトリへ行く</value>
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>ターミナルアプリを編集</value>
@@ -889,7 +889,7 @@
     <value>撮影日</value>
   </data>
   <data name="PropertyChannelCount" xml:space="preserve">
-    <value>チャネル数</value>
+    <value>チャンネル数</value>
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>エンコード ビットレート</value>
@@ -2436,7 +2436,7 @@
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
 *個人情報の収集*
-ファイルは、個人情報を収集、保存、共有、または公開することはありません。
+Filesは、個人情報を収集、保存、共有、または公開することはありません。
 
 *非個人情報の収集*
 
