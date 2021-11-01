@@ -179,7 +179,7 @@ namespace Files.DataModels.NavigationControlItems
                 var properties = await Root.Properties.RetrievePropertiesAsync(new[] { "System.FreeSpace", "System.Capacity" })
                     .AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
-                if (properties["System.Capacity"] != null && properties["System.FreeSpace"] != null)
+                if (properties != null && properties["System.Capacity"] != null && properties["System.FreeSpace"] != null)
                 {
                     MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
                     FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
