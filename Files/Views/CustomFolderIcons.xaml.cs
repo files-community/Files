@@ -78,9 +78,12 @@ namespace Files.Views
                 if (status == AppServiceResponseStatus.Success && response.ContainsKey("IconInfos"))
                 {
                     var icons = JsonConvert.DeserializeObject<IList<IconFileInfo>>(response["IconInfos"] as string);
-                    foreach (IconFileInfo iFInfo in icons)
+                    if (icons != null)
                     {
-                        iFInfo.IconDataBytes = Convert.FromBase64String(iFInfo.IconData);
+                        foreach (IconFileInfo iFInfo in icons)
+                        {
+                            iFInfo.IconDataBytes = Convert.FromBase64String(iFInfo.IconData);
+                        }
                     }
                     IconSelectionGrid.ItemsSource = icons;
                 }
