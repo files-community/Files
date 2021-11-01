@@ -41,7 +41,15 @@ namespace Files.Filesystem.Search
 
         public EventHandler SearchTick;
 
-        private bool IsAQSQuery => Query is not null && (Query.StartsWith("$") || Query.Contains(":"));
+        private bool IsAQSQuery
+        {
+            get
+            {
+                var isManualAqs = Query is not null && (Query.StartsWith("$") || Query.Contains(":"));
+                var hasSearchFilter = !string.IsNullOrEmpty(SearchSettings.Instance.Filter.ToAdvancedQuerySyntax());
+                return isManualAqs || hasSearchFilter;
+            }
+        }
 
         private string QueryWithWildcard
         {
