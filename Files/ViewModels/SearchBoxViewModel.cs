@@ -20,6 +20,13 @@ namespace Files.ViewModels
             set => SetProperty(ref query, value);
         }
 
+        private bool isMenuOpen = false;
+        public bool IsMenuOpen
+        {
+            get => isMenuOpen;
+            set => SetProperty(ref isMenuOpen, value);
+        }
+
         public event TypedEventHandler<ISearchBox, SearchBoxTextChangedEventArgs> TextChanged;
 
         public event TypedEventHandler<ISearchBox, SearchBoxSuggestionChosenEventArgs> SuggestionChosen;

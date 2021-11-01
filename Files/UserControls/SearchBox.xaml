@@ -98,7 +98,7 @@
                 <FontIcon FontSize="14" Glyph="&#xE71C;" />
             </Button.Content>
             <Button.Flyout>
-                <Flyout Placement="BottomEdgeAlignedRight" Opened="Flyout_Opened" Closed="Flyout_Closed">
+                <Flyout x:Name="MenuButtonFlyout" Placement="BottomEdgeAlignedRight" Opened="MenuButtonFlyout_Opened" Closed="MenuButtonFlyout_Closed">
                     <Frame x:Name="MenuFrame" Width="232" Loaded="MenuFrame_Loaded" />
                 </Flyout>
             </Button.Flyout>

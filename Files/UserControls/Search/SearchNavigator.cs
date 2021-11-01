@@ -21,7 +21,14 @@ namespace Files.UserControls.Search
         public ISearchBox SearchBox { get; set; }
         public Frame Frame { get; set; }
 
-        public void Search() => SearchBox?.Search();
+        public void Search()
+        {
+            if (SearchBox is not null)
+            {
+                SearchBox.Search();
+                SearchBox.IsMenuOpen = false;
+            }
+        }
 
         public void GoBack()
         {

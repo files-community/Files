@@ -2,6 +2,7 @@
 using Files.UserControls.Search;
 using Files.ViewModels;
 using Files.ViewModels.Search;
+using System.ComponentModel;
 using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -20,7 +21,18 @@ namespace Files.UserControls
         public SearchBoxViewModel SearchBoxViewModel
         {
             get => (SearchBoxViewModel)GetValue(SearchBoxViewModelProperty);
-            set => SetValue(SearchBoxViewModelProperty, value);
+            set
+            {
+                if (SearchBoxViewModel is not null)
+                {
+                    SearchBoxViewModel.PropertyChanged -= SearchBoxViewModel_PropertyChanged;
+                }
+                SetValue(SearchBoxViewModelProperty, value);
+                if (SearchBoxViewModel is not null)
+                {
+                    SearchBoxViewModel.PropertyChanged += SearchBoxViewModel_PropertyChanged;
+                }
+            }
         }
 
         public SearchBox() => InitializeComponent();
@@ -50,8 +62,32 @@ namespace Files.UserControls
             }
         }
 
-        private void Flyout_Opened(object sender, object e) => GoRootPage();
-        private void Flyout_Closed(object sender, object e) => navigator.GoPage(null);
+        private void MenuButtonFlyout_Opened(object sender, object e)
+        {
+            SearchBoxViewModel.IsMenuOpen = true;
+            GoRootPage();
+
+        }
+        private void MenuButtonFlyout_Closed(object sender, object e)
+        {
+            SearchBoxViewModel.IsMenuOpen = false;
+            navigator.GoPage(null);
+        }
+
+        private void SearchBoxViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ISearchBox.IsMenuOpen))
+            {
+                if (SearchBoxViewModel.IsMenuOpen)
+                {
+                    MenuButtonFlyout.ShowAt(MenuButton);
+                }
+                else
+                {
+                    MenuButtonFlyout.Hide();
+                }
+            }
+        }
 
         private void GoRootPage()
         {
