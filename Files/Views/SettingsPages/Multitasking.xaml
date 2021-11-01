@@ -13,13 +13,12 @@
 
     <Grid>
         <StackPanel
-            Margin="12,12,8,8"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Spacing="4">
             <StackPanel.ChildrenTransitions>
                 <TransitionCollection>
-                    <ReorderThemeTransition />
+                    <EntranceThemeTransition />
                 </TransitionCollection>
             </StackPanel.ChildrenTransitions>
 

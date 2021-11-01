@@ -29,26 +29,13 @@ namespace Files.Dialogs
 
         private void UpdateDialogLayout()
         {
-            if (Window.Current.Bounds.Width <= 700)
-            {
-                SettingsPane.PaneDisplayMode = Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.LeftCompact;
-                SettingsContentFrame.Width = 410;
-                Column0.Width = new GridLength(60);
-            }
-            else
-            {
-                SettingsPane.PaneDisplayMode = Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.Left;
-                SettingsContentFrame.Width = 460;
-                Column0.Width = new GridLength(0, GridUnitType.Auto);
-            }
-
             if (Window.Current.Bounds.Height <= 600)
             {
-                ContainerGrid.Height = Window.Current.Bounds.Height;
+                SettingsScrollViewer.Height = Window.Current.Bounds.Height - 40;
             }
             else
             {
-                ContainerGrid.Height = 600;
+                SettingsScrollViewer.Height = 560;
             }
         }
 
