@@ -6,6 +6,7 @@
     xmlns:common="using:Files.Common"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     MaxWidth="372"
     Background="Transparent"
@@ -15,54 +16,69 @@
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
     </Page.Resources>
 
-    <Grid>
-        <StackPanel Orientation="Vertical" Spacing="4">
-            <TextBlock
-                Padding="0,8"
-                FontWeight="SemiBold"
-                Text="Pick a custom folder icon" />
-            <Grid ColumnSpacing="4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBox
-                    x:Name="ItemDisplayedPath"
-                    Grid.Column="0"
-                    IsReadOnly="True" />
-                <Button
-                    x:Name="PickDllButton"
-                    Grid.Column="1"
-                    Click="PickDllButton_Click"
-                    Content="Browse..." />
-            </Grid>
-            <GridView
-                x:Name="IconSelectionGrid"
-                HorizontalAlignment="Stretch"
-                ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                ScrollViewer.HorizontalScrollMode="Auto"
-                ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                ScrollViewer.VerticalScrollMode="Disabled"
-                SelectionChanged="IconSelectionGrid_SelectionChanged"
-                SelectionMode="Single">
-                <GridView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <ItemsWrapGrid MaximumRowsOrColumns="4" Orientation="Vertical" />
-                    </ItemsPanelTemplate>
-                </GridView.ItemsPanel>
-                <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="common:IconFileInfo">
-                        <Grid Width="16" Height="16">
-                            <Image UserControls:ImageFromBytes.SourceBytes="{x:Bind IconDataBytes, Mode=OneWay}" />
-                        </Grid>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
-            <Button
-                x:Name="RestoreDefaultButton"
-                x:Load="{x:Bind IsShortcutItem, Converter={StaticResource BoolNegationConverter}}"
-                Command="{x:Bind RestoreDefaultIconCommand}"
-                Content="Restore default" />
-        </StackPanel>
+    <Grid ColumnSpacing="4" RowSpacing="4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            Grid.ColumnSpan="2"
+            FontWeight="SemiBold"
+            Text="{helpers:ResourceString Name=ChooseCustomIcon}" />
+
+        <TextBox
+            x:Name="ItemDisplayedPath"
+            Grid.Row="1"
+            Grid.Column="0"
+            IsReadOnly="True" />
+        <Button
+            x:Name="PickDllButton"
+            Grid.Row="1"
+            Grid.Column="1"
+            Click="PickDllButton_Click"
+            Content="{helpers:ResourceString Name=Browse}" />
+
+        <GridView
+            x:Name="IconSelectionGrid"
+            Grid.Row="2"
+            Grid.ColumnSpan="3"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            ScrollViewer.HorizontalScrollMode="Disabled"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            ScrollViewer.VerticalScrollMode="Auto"
+            SelectionChanged="IconSelectionGrid_SelectionChanged"
+            SelectionMode="Single">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid MaximumRowsOrColumns="5" Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="common:IconFileInfo">
+                    <Grid Width="16" Height="16">
+                        <Image UserControls:ImageFromBytes.SourceBytes="{x:Bind IconDataBytes, Mode=OneWay}" />
+                    </Grid>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+
+        <Button
+            x:Name="RestoreDefaultButton"
+            Grid.Row="3"
+            Grid.Column="0"
+            x:Load="{x:Bind IsShortcutItem, Converter={StaticResource BoolNegationConverter}}"
+            Command="{x:Bind RestoreDefaultIconCommand}"
+            Content="{helpers:ResourceString Name=RestoreDefault}" />
     </Grid>
 </Page>
