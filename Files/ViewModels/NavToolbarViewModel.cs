@@ -700,17 +700,6 @@ namespace Files.ViewModels
             IsSearchBoxVisible = false;
         }
 
-        public void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
-        {
-            var focusedElement = FocusManager.GetFocusedElement();
-            if ((focusedElement is Button bttn && bttn.Name == "SearchButton") || focusedElement is FlyoutBase || focusedElement is AppBarButton)
-            {
-                return;
-            }
-
-            CloseSearchBox();
-        }
-
         private void SearchRegion_SuggestionChosen(ISearchBox sender, SearchBoxSuggestionChosenEventArgs args) => IsSearchBoxVisible = false;
 
         private void SearchRegion_Escaped(object sender, ISearchBox searchBox) => IsSearchBoxVisible = false;
