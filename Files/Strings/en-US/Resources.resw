@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -2790,5 +2790,134 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="SettingsImportErrorTitle" xml:space="preserve">
     <value>Error importing settings</value>
+  </data>
+  <data name="SearchDateRange_After" xml:space="preserve">
+    <value>After {0}</value>
+  </data>
+  <data name="SearchDateRange_Before" xml:space="preserve">
+    <value>Before {1}</value>
+  </data>
+  <data name="SearchDateRange_Between" xml:space="preserve">
+    <value>Between {0} and {1}</value>
+  </data>
+  <data name="SearchSizeRange_GreaterThan" xml:space="preserve">
+    <value>Greater than {0}</value>
+  </data>
+  <data name="SearchSizeRange_LessThan" xml:space="preserve">
+    <value>Less than {1}</value>
+  </data>
+  <data name="SearchSizeRange_Between" xml:space="preserve">
+    <value>Between {0} and {1}</value>
+  </data>
+  <data name="SearchSizeRange_Empty" xml:space="preserve">
+    <value>Empty</value>
+  </data>
+  <data name="SearchSize_NoLimit" xml:space="preserve">
+    <value>No limit</value>
+  </data>
+  <data name="SearchAndFilterCollection_Title" xml:space="preserve">
+    <value>And</value>
+  </data>
+  <data name="SearchAndFilterCollection_Description" xml:space="preserve">
+    <value>Finds items that meet all the conditions in the list.</value>
+  </data>
+  <data name="SearchOrFilterCollection_Title" xml:space="preserve">
+    <value>Or</value>
+  </data>
+  <data name="SearchOrFilterCollection_Description" xml:space="preserve">
+    <value>Finds items that meet at least one condition in the list.</value>
+  </data>
+  <data name="SearchNotFilterCollection_Title" xml:space="preserve">
+    <value>Not</value>
+  </data>
+  <data name="SearchNotFilterCollection_Description" xml:space="preserve">
+    <value>Finds items that do not meet any condition in the list.</value>
+  </data>
+  <data name="SearchCreatedFilter_Title" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="SearchCreatedFilter_Description" xml:space="preserve">
+    <value>Date of creation</value>
+  </data>
+  <data name="SearchModifiedFilter_Title" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="SearchModifiedFilter_Description" xml:space="preserve">
+    <value>Date of last modification</value>
+  </data>
+  <data name="SearchAccessedFilter_Title" xml:space="preserve">
+    <value>Accessed</value>
+  </data>
+  <data name="SearchAccessedFilter_Description" xml:space="preserve">
+    <value>Date of last access</value>
+  </data>
+  <data name="SearchSizeFilter_Title" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="SearchSizeFilter_Description" xml:space="preserve">
+    <value>Size of the item</value>
+  </data>
+  <data name="SearchGroupHeader_ItemSuffixe" xml:space="preserve">
+    <value>({0} item)</value>
+  </data>
+  <data name="SearchGroupHeader_ItemsSuffixe" xml:space="preserve">
+    <value>({0} items)</value>
+  </data>
+  <data name="SearchSettingOptions_Title.Text" xml:space="preserve">
+    <value>Search Options</value>
+  </data>
+  <data name="SearchPickerAddMenu_File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="SearchPickerAddMenu_Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="SearchPickerLocation_In.Text" xml:space="preserve">
+    <value>Search in</value>
+  </data>
+  <data name="SearchPickerLocation_Subfolders.Content" xml:space="preserve">
+    <value>Subfolders</value>
+  </data>
+  <data name="SearchPickerGroup_NoSelected.Text" xml:space="preserve">
+    <value>No filter selected.</value>
+  </data>
+  <data name="SearchPickerGroup_Add.Label" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="SearchPickerGroup_Clear.Label" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="SearchPickerDateRange_NoSelected.Text" xml:space="preserve">
+    <value>No date range selected.</value>
+  </data>
+  <data name="SearchPickerDateRange_Clear.Content" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="SearchPickerDateRange_Choose.Text" xml:space="preserve">
+    <value>Or choose a date range</value>
+  </data>
+  <data name="SearchPickerSizeRange_NoSelected.Text" xml:space="preserve">
+    <value>No size range selected.</value>
+  </data>
+  <data name="SearchPickerSizeRange_Clear.Content" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="SearchPickerSizeRange_Choose.Text" xml:space="preserve">
+    <value>Or choose a size range</value>
+  </data>
+  <data name="SearchSettingsPage_Search.Content" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchFilterPage_Save.Content" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SearchFilterPage_Cancel.Content" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SearchMultiFilterPage_Save.Content" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SearchMultiFilterPage_Cancel.Content" xml:space="preserve">
+    <value>Cancel</value>
   </data>
 </root>

@@ -18,6 +18,8 @@ namespace Files
 
         string Query { get; set; }
 
+        void Search();
+
         void ClearSuggestions();
 
         void SetSuggestions(IEnumerable<ListedItem> suggestions);

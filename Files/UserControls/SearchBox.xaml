@@ -62,23 +62,48 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <AutoSuggestBox
-        x:Name="SearchRegion"
-        x:Uid="NavigationToolbarSearchReigon"
-        ItemTemplate="{StaticResource SuggestionTemplate}"
-        ItemsSource="{x:Bind SearchBoxViewModel.Suggestions, Mode=OneWay}"
-        PlaceholderText="Search"
-        QuerySubmitted="SearchRegion_QuerySubmitted"
-        SuggestionChosen="SearchRegion_SuggestionChosen"
-        Text="{x:Bind SearchBoxViewModel.Query, Mode=TwoWay}"
-        TextBoxStyle="{StaticResource TextBoxStyle}"
-        TextChanged="SearchRegion_TextChanged"
-        UpdateTextOnSelect="False">
-        <AutoSuggestBox.QueryIcon>
-            <FontIcon FontSize="14" Glyph="&#xE094;" />
-        </AutoSuggestBox.QueryIcon>
-        <AutoSuggestBox.KeyboardAccelerators>
-            <KeyboardAccelerator Key="Escape" Invoked="SearchRegion_Escaped" />
-        </AutoSuggestBox.KeyboardAccelerators>
-    </AutoSuggestBox>
+    <Grid x:Name="RootPanel" ColumnSpacing="4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="36" />
+        </Grid.ColumnDefinitions>
+
+        <AutoSuggestBox
+            x:Name="SearchRegion"
+            x:Uid="NavigationToolbarSearchReigon"
+            ItemTemplate="{StaticResource SuggestionTemplate}"
+            ItemsSource="{x:Bind SearchBoxViewModel.Suggestions, Mode=OneWay}"
+            PlaceholderText="Search"
+            QuerySubmitted="SearchRegion_QuerySubmitted"
+            SuggestionChosen="SearchRegion_SuggestionChosen"
+            Text="{x:Bind SearchBoxViewModel.Query, Mode=TwoWay}"
+            TextBoxStyle="{StaticResource TextBoxStyle}"
+            TextChanged="SearchRegion_TextChanged"
+            UpdateTextOnSelect="False">
+            <AutoSuggestBox.QueryIcon>
+                <FontIcon FontSize="14" Glyph="&#xE094;" />
+            </AutoSuggestBox.QueryIcon>
+            <AutoSuggestBox.KeyboardAccelerators>
+                <KeyboardAccelerator Key="Escape" Invoked="SearchRegion_Escaped" />
+            </AutoSuggestBox.KeyboardAccelerators>
+        </AutoSuggestBox>
+
+        <Button x:Name="MenuButton" Grid.Column="1"
+            Loaded="MenuButton_Loaded"
+            Width="36" Height="32" Padding="0"
+            Foreground="{StaticResource SystemControlForegroundBaseHighBrush}"
+            Background="Transparent" BorderBrush="Transparent"
+            AutomationProperties.AccessibilityView="Raw">
+            <Button.Content>
+                <FontIcon FontSize="14" Glyph="&#xE71C;" />
+            </Button.Content>
+            <Button.Flyout>
+                <Flyout Placement="BottomEdgeAlignedRight" Opened="Flyout_Opened" Closed="Flyout_Closed">
+                    <Frame x:Name="MenuFrame" Width="232" Loaded="MenuFrame_Loaded" />
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+
+    </Grid>
+
 </UserControl>
