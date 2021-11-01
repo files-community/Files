@@ -121,8 +121,8 @@ namespace Files.Filesystem.Search
                 .Where(filter => filter is not null)
                 .Select(filter => (filter.ToAdvancedQuerySyntax() ?? string.Empty).Trim())
                 .Where(query => !string.IsNullOrEmpty(query))
-                .Select(query => query.Contains(' ') ? $"NOT({query})" : query);
-            return string.Join(' ', queries);
+                .Select(query => $"NOT({query})");
+            return string.Join(" ", queries);
         }
     }
 
@@ -148,10 +148,10 @@ namespace Files.Filesystem.Search
             return (hasMin, hasMax) switch
             {
                 (false, false) => string.Empty,
-                _ when min == max => $"{QueryKey}:={min:yyyyMMdd}",
-                (false, _) => $"{QueryKey}:<={max:yyyyMMdd}",
-                (_, false) => $"{QueryKey}:>={min:yyyyMMdd}",
-                _ => $"{QueryKey}:{min:yyyyMMdd}..{max:yyyyMMdd}"
+                _ when min == max => $"{QueryKey}:={min:yyyy-MM-dd}",
+                (false, _) => $"{QueryKey}:<={max:yyyy-MM-dd}",
+                (_, false) => $"{QueryKey}:>={min:yyyy-MM-dd}",
+                _ => $"{QueryKey}:{min:yyyy-MM-dd}..{max:yyyy-MM-dd}"
             };
         }
     }
