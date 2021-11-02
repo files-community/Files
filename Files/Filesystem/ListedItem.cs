@@ -204,11 +204,14 @@ namespace Files.Filesystem
 
                 if (image.PixelWidth > 0)
                 {
-                    LoadFileIcon = true;
-                    PlaceholderDefaultIcon = null;
-                    NeedsPlaceholderGlyph = false;
-                    LoadDefaultIcon = false;
-                    LoadWebShortcutGlyph = false;
+                    Common.Extensions.IgnoreExceptions(() =>
+                    {
+                        LoadFileIcon = true;
+                        PlaceholderDefaultIcon = null;
+                        NeedsPlaceholderGlyph = false;
+                        LoadDefaultIcon = false;
+                        LoadWebShortcutGlyph = false;
+                    }, App.Logger); // 2009482836u
                 }
             }
         }

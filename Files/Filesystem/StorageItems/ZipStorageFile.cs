@@ -391,7 +391,7 @@ namespace Files.Filesystem.StorageItems
 
         public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
         {
-            var marker = path.IndexOf(".zip");
+            var marker = path.IndexOf(".zip", StringComparison.OrdinalIgnoreCase);
             if (marker != -1)
             {
                 var containerPath = path.Substring(0, marker + ".zip".Length);
