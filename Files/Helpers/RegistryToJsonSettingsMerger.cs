@@ -28,16 +28,16 @@ namespace Files.Helpers
                     userSettingsService.PreviewPaneSettingsService.PreviewPaneMediaVolume = appSettings.Get(1.0d, "MediaVolume");
 
                     // Files and folders
-                    userSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions = appSettings.Get(true, "ShowFileExtensions");
-                    userSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible = appSettings.Get(false, "AreHiddenItemsVisible");
-                    userSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden = appSettings.Get(true, "AreSystemItemsHidden");
-                    userSettingsService.FilesAndFoldersSettingsService.ListAndSortDirectoriesAlongsideFiles = appSettings.Get(false, "ListAndSortDirectoriesAlongsideFiles");
-                    userSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick = appSettings.Get(false, "OpenItemsWithOneClick");
-                    userSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick = appSettings.Get(false, "OpenItemsWithOneClick");
-                    userSettingsService.FilesAndFoldersSettingsService.SearchUnindexedItems = appSettings.Get(false, "SearchUnindexedItems");
-                    userSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder = appSettings.Get(true, "AreLayoutPreferencesPerFolder");
-                    userSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled = appSettings.Get(true, "AdaptiveLayoutEnabled");
-                    userSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled = appSettings.Get(false, "AreFileTagsEnabled");
+                    userSettingsService.PreferencesSettingsService.ShowFileExtensions = appSettings.Get(true, "ShowFileExtensions");
+                    userSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = appSettings.Get(false, "AreHiddenItemsVisible");
+                    userSettingsService.PreferencesSettingsService.AreSystemItemsHidden = appSettings.Get(true, "AreSystemItemsHidden");
+                    userSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles = appSettings.Get(false, "ListAndSortDirectoriesAlongsideFiles");
+                    userSettingsService.PreferencesSettingsService.OpenFilesWithOneClick = appSettings.Get(false, "OpenItemsWithOneClick");
+                    userSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick = appSettings.Get(false, "OpenItemsWithOneClick");
+                    userSettingsService.PreferencesSettingsService.SearchUnindexedItems = appSettings.Get(false, "SearchUnindexedItems");
+                    userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder = appSettings.Get(true, "AreLayoutPreferencesPerFolder");
+                    userSettingsService.PreferencesSettingsService.AdaptiveLayoutEnabled = appSettings.Get(true, "AdaptiveLayoutEnabled");
+                    userSettingsService.PreferencesSettingsService.AreFileTagsEnabled = appSettings.Get(false, "AreFileTagsEnabled");
 
                     // Multitasking
                     userSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled = appSettings.Get(true, "IsVerticalTabFlyoutEnabled");

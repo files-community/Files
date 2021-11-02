@@ -97,7 +97,6 @@ namespace Files
                 // Base IUserSettingsService as parent settings store (to get ISettingsSharingContext from)
                 .AddSingleton<IUserSettingsService, UserSettingsService>()
                 // Children settings (from IUserSettingsService)
-                .AddSingleton<IFilesAndFoldersSettingsService, FilesAndFoldersSettingsService>((sp) => new FilesAndFoldersSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 .AddSingleton<IStartupSettingsService, StartupSettingsService>((sp) => new StartupSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 .AddSingleton<IMultitaskingSettingsService, MultitaskingSettingsService>((sp) => new MultitaskingSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 .AddSingleton<IWidgetsSettingsService, WidgetsSettingsService>((sp) => new WidgetsSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))

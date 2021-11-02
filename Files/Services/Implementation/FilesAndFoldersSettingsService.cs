@@ -2,9 +2,9 @@
 
 namespace Files.Services.Implementation
 {
-    public class FilesAndFoldersSettingsService : BaseObservableJsonSettingsModel, IFilesAndFoldersSettingsService
+    public class PreferencesSettingsService : BaseObservableJsonSettingsModel, IPreferencesSettingsService
     {
-        public FilesAndFoldersSettingsService(ISettingsSharingContext settingsSharingContext)
+        public PreferencesSettingsService(ISettingsSharingContext settingsSharingContext)
         {
             // Initialize settings
             this.RegisterSettingsContext(settingsSharingContext);

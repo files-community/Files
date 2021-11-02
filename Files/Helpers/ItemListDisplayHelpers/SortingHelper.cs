@@ -46,7 +46,7 @@ namespace Files.Helpers
             {
                 if (directorySortOption == SortOption.Name)
                 {
-                    if (userSettingsService.FilesAndFoldersSettingsService.ListAndSortDirectoriesAlongsideFiles)
+                    if (userSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles)
                     {
                         ordered = filesAndFolders.OrderBy(orderFunc, naturalStringComparer);
                     }
@@ -57,7 +57,7 @@ namespace Files.Helpers
                 }
                 else if (directorySortOption == SortOption.FileTag)
                 {
-                    if (userSettingsService.FilesAndFoldersSettingsService.ListAndSortDirectoriesAlongsideFiles)
+                    if (userSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles)
                     {
                         ordered = filesAndFolders.OrderBy(x => string.IsNullOrEmpty(orderFunc(x) as string)).ThenBy(orderFunc);
                     }
@@ -68,7 +68,7 @@ namespace Files.Helpers
                 }
                 else
                 {
-                    if (userSettingsService.FilesAndFoldersSettingsService.ListAndSortDirectoriesAlongsideFiles)
+                    if (userSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles)
                     {
                         ordered = filesAndFolders.OrderBy(orderFunc);
                     }
@@ -82,7 +82,7 @@ namespace Files.Helpers
             {
                 if (directorySortOption == SortOption.Name)
                 {
-                    if (userSettingsService.FilesAndFoldersSettingsService.ListAndSortDirectoriesAlongsideFiles)
+                    if (userSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles)
                     {
                         ordered = filesAndFolders.OrderByDescending(orderFunc, naturalStringComparer);
                     }
@@ -93,7 +93,7 @@ namespace Files.Helpers
                 }
                 else if (directorySortOption == SortOption.FileTag)
                 {
-                    if (userSettingsService.FilesAndFoldersSettingsService.ListAndSortDirectoriesAlongsideFiles)
+                    if (userSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles)
                     {
                         ordered = filesAndFolders.OrderBy(x => string.IsNullOrEmpty(orderFunc(x) as string)).ThenByDescending(orderFunc);
                     }
@@ -104,7 +104,7 @@ namespace Files.Helpers
                 }
                 else
                 {
-                    if (userSettingsService.FilesAndFoldersSettingsService.ListAndSortDirectoriesAlongsideFiles)
+                    if (userSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles)
                     {
                         ordered = filesAndFolders.OrderByDescending(orderFunc);
                     }

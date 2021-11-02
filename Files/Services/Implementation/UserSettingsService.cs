@@ -9,10 +9,10 @@ namespace Files.Services.Implementation
 {
     public class UserSettingsService : BaseJsonSettingsModel, IUserSettingsService
     {
-        private IFilesAndFoldersSettingsService _FilesAndFoldersSettingsService;
-        public IFilesAndFoldersSettingsService FilesAndFoldersSettingsService
+        private IPreferencesSettingsService _PreferencesSettingsService;
+        public IPreferencesSettingsService PreferencesSettingsService
         {
-            get => GetSettingsService(ref _FilesAndFoldersSettingsService);
+            get => GetSettingsService(ref _PreferencesSettingsService);
         }
 
         private IMultitaskingSettingsService _MultitaskingSettingsService;

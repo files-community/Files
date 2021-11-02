@@ -2,7 +2,7 @@
 
 namespace Files.Services
 {
-    public interface IFilesAndFoldersSettingsService : INotifyPropertyChanged
+    public interface IPreferencesSettingsService : INotifyPropertyChanged
     {
         /// <summary>
         /// Gets or sets a value indicating whether or not file extensions should be visible.

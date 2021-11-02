@@ -163,12 +163,12 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool AreHiddenItemsVisible
         {
-            get => UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible;
+            get => UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible;
             set
             {
-                if (value != UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible)
+                if (value != UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible)
                 {
-                    UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible = value;
+                    UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = value;
                     OnPropertyChanged();
                 }
             }
@@ -176,12 +176,12 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool AreSystemItemsHidden
         {
-            get => UserSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden;
+            get => UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden;
             set
             {
-                if (value != UserSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden)
+                if (value != UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden)
                 {
-                    UserSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden = value;
+                    UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden = value;
                     OnPropertyChanged();
                 }
             }
@@ -189,12 +189,12 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool ShowFileExtensions
         {
-            get => UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions;
+            get => UserSettingsService.PreferencesSettingsService.ShowFileExtensions;
             set
             {
-                if (value != UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions)
+                if (value != UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
                 {
-                    UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions = value;
+                    UserSettingsService.PreferencesSettingsService.ShowFileExtensions = value;
                     OnPropertyChanged();
                 }
             }
@@ -202,12 +202,12 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool OpenFilesWithOneClick
         {
-            get => UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick;
+            get => UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick;
             set
             {
-                if (value != UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick)
+                if (value != UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick)
                 {
-                    UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick = value;
+                    UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick = value;
                     OnPropertyChanged();
                 }
             }
@@ -215,12 +215,12 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool OpenFoldersWithOneClick
         {
-            get => UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick;
+            get => UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick;
             set
             {
-                if (value != UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick)
+                if (value != UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick)
                 {
-                    UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick = value;
+                    UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick = value;
                     OnPropertyChanged();
                 }
             }
@@ -228,12 +228,12 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool ListAndSortDirectoriesAlongsideFiles
         {
-            get => UserSettingsService.FilesAndFoldersSettingsService.ListAndSortDirectoriesAlongsideFiles;
+            get => UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles;
             set
             {
-                if (value != UserSettingsService.FilesAndFoldersSettingsService.ListAndSortDirectoriesAlongsideFiles)
+                if (value != UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles)
                 {
-                    UserSettingsService.FilesAndFoldersSettingsService.ListAndSortDirectoriesAlongsideFiles = value;
+                    UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles = value;
                     OnPropertyChanged();
                 }
             }
@@ -241,12 +241,12 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool SearchUnindexedItems
         {
-            get => UserSettingsService.FilesAndFoldersSettingsService.SearchUnindexedItems;
+            get => UserSettingsService.PreferencesSettingsService.SearchUnindexedItems;
             set
             {
-                if (value != UserSettingsService.FilesAndFoldersSettingsService.SearchUnindexedItems)
+                if (value != UserSettingsService.PreferencesSettingsService.SearchUnindexedItems)
                 {
-                    UserSettingsService.FilesAndFoldersSettingsService.SearchUnindexedItems = value;
+                    UserSettingsService.PreferencesSettingsService.SearchUnindexedItems = value;
                     OnPropertyChanged();
                 }
             }
@@ -254,12 +254,12 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool AreLayoutPreferencesPerFolder
         {
-            get => UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder;
+            get => UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder;
             set
             {
-                if (value != UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder)
+                if (value != UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
                 {
-                    UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder = value;
+                    UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder = value;
                     OnPropertyChanged();
                 }
             }

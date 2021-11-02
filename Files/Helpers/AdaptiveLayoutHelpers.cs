@@ -14,7 +14,7 @@ namespace Files.Helpers
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 
-            if (userSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder && userSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled && !folderSettings.LayoutPreference.IsAdaptiveLayoutOverridden)
+            if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder && userSettingsService.PreferencesSettingsService.AdaptiveLayoutEnabled && !folderSettings.LayoutPreference.IsAdaptiveLayoutOverridden)
             {
                 Action layoutDetails = () => folderSettings.ToggleLayoutModeDetailsView.Execute(false);
                 Action layoutTiles = () => folderSettings.ToggleLayoutModeTiles.Execute(false);
