@@ -97,19 +97,10 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
-                    x:Uid="SettingsNavFilesAndFolders"
-                    AccessKey="F"
-                    Content="Files &amp; Folders"
-                    Tag="5">
-                    <muxc:NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE8B7;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
                     x:Uid="SettingsNavExperimental"
                     AccessKey="E"
                     Content="Experimental"
-                    Tag="6">
+                    Tag="5">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF1AD;" />
                     </muxc:NavigationViewItem.Icon>
@@ -120,7 +111,7 @@
                 <muxc:NavigationViewItem
                     AccessKey="B"
                     Content="{helpers:ResourceString Name=About}"
-                    Tag="7">
+                    Tag="6">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xE946;" />
                     </muxc:NavigationViewItem.Icon>

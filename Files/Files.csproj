@@ -534,7 +534,6 @@
     <Compile Include="ViewModels\SettingsViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\AppearanceViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\ExperimentalViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModels\FilesAndFoldersViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\MultitaskingViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\OnStartupViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\PreferencesViewModel.cs" />
@@ -604,9 +603,6 @@
     </Compile>
     <Compile Include="Views\SettingsPages\OnStartup.xaml.cs">
       <DependentUpon>OnStartup.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SettingsPages\FilesAndFolders.xaml.cs">
-      <DependentUpon>FilesAndFolders.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPages\Appearance.xaml.cs">
       <DependentUpon>Appearance.xaml</DependentUpon>
@@ -1388,10 +1384,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsPages\OnStartup.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\SettingsPages\FilesAndFolders.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
