@@ -45,8 +45,9 @@ namespace Files.Filesystem.Search
         {
             get
             {
+                ISearchSettings settings = Ioc.Default.GetService<ISearchSettings>();
                 var isManualAqs = Query is not null && (Query.StartsWith("$") || Query.Contains(":"));
-                var hasSearchFilter = !string.IsNullOrEmpty(SearchSettings.Instance.Filter.ToAdvancedQuerySyntax());
+                var hasSearchFilter = !string.IsNullOrEmpty(settings.Filter.ToAdvancedQuerySyntax());
                 return isManualAqs || hasSearchFilter;
             }
         }
@@ -460,7 +461,7 @@ namespace Files.Filesystem.Search
 
         private QueryOptions ToQueryOptions()
         {
-            ISearchSettings settings = SearchSettings.Instance;
+            ISearchSettings settings = Ioc.Default.GetService<ISearchSettings>();
 
             var query = new QueryOptions
             {

@@ -3557,6 +3557,198 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
           <source>Folder path</source>
           <target state="new">Folder path</target>
         </trans-unit>
+        <trans-unit id="ExportSettings" translate="yes" xml:space="preserve">
+          <source>Export Settings</source>
+          <target state="new">Export Settings</target>
+        </trans-unit>
+        <trans-unit id="ImportSettings" translate="yes" xml:space="preserve">
+          <source>Import Settings</source>
+          <target state="new">Import Settings</target>
+        </trans-unit>
+        <trans-unit id="ManageSettings" translate="yes" xml:space="preserve">
+          <source>Manage Settings</source>
+          <target state="new">Manage Settings</target>
+        </trans-unit>
+        <trans-unit id="SettingsImportErrorDescription" translate="yes" xml:space="preserve">
+          <source>Couldn't import settings. The settings file is corrupted.</source>
+          <target state="new">Couldn't import settings. The settings file is corrupted.</target>
+        </trans-unit>
+        <trans-unit id="SettingsImportErrorTitle" translate="yes" xml:space="preserve">
+          <source>Error importing settings</source>
+          <target state="new">Error importing settings</target>
+        </trans-unit>
+        <trans-unit id="SearchDateRange_After" translate="yes" xml:space="preserve">
+          <source>After {0}</source>
+          <target state="new">After {0}</target>
+        </trans-unit>
+        <trans-unit id="SearchDateRange_Before" translate="yes" xml:space="preserve">
+          <source>Before {1}</source>
+          <target state="new">Before {1}</target>
+        </trans-unit>
+        <trans-unit id="SearchDateRange_Between" translate="yes" xml:space="preserve">
+          <source>Between {0} and {1}</source>
+          <target state="new">Between {0} and {1}</target>
+        </trans-unit>
+        <trans-unit id="SearchSizeRange_GreaterThan" translate="yes" xml:space="preserve">
+          <source>Greater than {0}</source>
+          <target state="new">Greater than {0}</target>
+        </trans-unit>
+        <trans-unit id="SearchSizeRange_LessThan" translate="yes" xml:space="preserve">
+          <source>Less than {1}</source>
+          <target state="new">Less than {1}</target>
+        </trans-unit>
+        <trans-unit id="SearchSizeRange_Between" translate="yes" xml:space="preserve">
+          <source>Between {0} and {1}</source>
+          <target state="new">Between {0} and {1}</target>
+        </trans-unit>
+        <trans-unit id="SearchSizeRange_Empty" translate="yes" xml:space="preserve">
+          <source>Empty</source>
+          <target state="new">Empty</target>
+        </trans-unit>
+        <trans-unit id="SearchSize_NoLimit" translate="yes" xml:space="preserve">
+          <source>No limit</source>
+          <target state="new">No limit</target>
+        </trans-unit>
+        <trans-unit id="SearchAndFilterCollection_Title" translate="yes" xml:space="preserve">
+          <source>And</source>
+          <target state="new">And</target>
+        </trans-unit>
+        <trans-unit id="SearchAndFilterCollection_Description" translate="yes" xml:space="preserve">
+          <source>Finds items that meet all the conditions in the list.</source>
+          <target state="new">Finds items that meet all the conditions in the list.</target>
+        </trans-unit>
+        <trans-unit id="SearchOrFilterCollection_Title" translate="yes" xml:space="preserve">
+          <source>Or</source>
+          <target state="new">Or</target>
+        </trans-unit>
+        <trans-unit id="SearchOrFilterCollection_Description" translate="yes" xml:space="preserve">
+          <source>Finds items that meet at least one condition in the list.</source>
+          <target state="new">Finds items that meet at least one condition in the list.</target>
+        </trans-unit>
+        <trans-unit id="SearchNotFilterCollection_Title" translate="yes" xml:space="preserve">
+          <source>Not</source>
+          <target state="new">Not</target>
+        </trans-unit>
+        <trans-unit id="SearchNotFilterCollection_Description" translate="yes" xml:space="preserve">
+          <source>Finds items that do not meet any condition in the list.</source>
+          <target state="new">Finds items that do not meet any condition in the list.</target>
+        </trans-unit>
+        <trans-unit id="SearchCreatedFilter_Title" translate="yes" xml:space="preserve">
+          <source>Created</source>
+          <target state="new">Created</target>
+        </trans-unit>
+        <trans-unit id="SearchCreatedFilter_Description" translate="yes" xml:space="preserve">
+          <source>Date of creation</source>
+          <target state="new">Date of creation</target>
+        </trans-unit>
+        <trans-unit id="SearchModifiedFilter_Title" translate="yes" xml:space="preserve">
+          <source>Modified</source>
+          <target state="new">Modified</target>
+        </trans-unit>
+        <trans-unit id="SearchModifiedFilter_Description" translate="yes" xml:space="preserve">
+          <source>Date of last modification</source>
+          <target state="new">Date of last modification</target>
+        </trans-unit>
+        <trans-unit id="SearchAccessedFilter_Title" translate="yes" xml:space="preserve">
+          <source>Accessed</source>
+          <target state="new">Accessed</target>
+        </trans-unit>
+        <trans-unit id="SearchAccessedFilter_Description" translate="yes" xml:space="preserve">
+          <source>Date of last access</source>
+          <target state="new">Date of last access</target>
+        </trans-unit>
+        <trans-unit id="SearchSizeFilter_Title" translate="yes" xml:space="preserve">
+          <source>Size</source>
+          <target state="new">Size</target>
+        </trans-unit>
+        <trans-unit id="SearchSizeFilter_Description" translate="yes" xml:space="preserve">
+          <source>Size of the item</source>
+          <target state="new">Size of the item</target>
+        </trans-unit>
+        <trans-unit id="SearchGroupHeader_ItemSuffixe" translate="yes" xml:space="preserve">
+          <source>({0} item)</source>
+          <target state="new">({0} item)</target>
+        </trans-unit>
+        <trans-unit id="SearchGroupHeader_ItemsSuffixe" translate="yes" xml:space="preserve">
+          <source>({0} items)</source>
+          <target state="new">({0} items)</target>
+        </trans-unit>
+        <trans-unit id="SearchSettingOptions_Title.Text" translate="yes" xml:space="preserve">
+          <source>Search Options</source>
+          <target state="new">Search Options</target>
+        </trans-unit>
+        <trans-unit id="SearchPickerAddMenu_File" translate="yes" xml:space="preserve">
+          <source>File</source>
+          <target state="new">File</target>
+        </trans-unit>
+        <trans-unit id="SearchPickerAddMenu_Group" translate="yes" xml:space="preserve">
+          <source>Group</source>
+          <target state="new">Group</target>
+        </trans-unit>
+        <trans-unit id="SearchPickerLocation_In.Text" translate="yes" xml:space="preserve">
+          <source>Search in</source>
+          <target state="new">Search in</target>
+        </trans-unit>
+        <trans-unit id="SearchPickerLocation_Subfolders.Content" translate="yes" xml:space="preserve">
+          <source>Subfolders</source>
+          <target state="new">Subfolders</target>
+        </trans-unit>
+        <trans-unit id="SearchPickerGroup_NoSelected.Text" translate="yes" xml:space="preserve">
+          <source>No filter selected.</source>
+          <target state="new">No filter selected.</target>
+        </trans-unit>
+        <trans-unit id="SearchPickerGroup_Add.Label" translate="yes" xml:space="preserve">
+          <source>Add</source>
+          <target state="new">Add</target>
+        </trans-unit>
+        <trans-unit id="SearchPickerGroup_Clear.Label" translate="yes" xml:space="preserve">
+          <source>Clear</source>
+          <target state="new">Clear</target>
+        </trans-unit>
+        <trans-unit id="SearchPickerDateRange_NoSelected.Text" translate="yes" xml:space="preserve">
+          <source>No date range selected.</source>
+          <target state="new">No date range selected.</target>
+        </trans-unit>
+        <trans-unit id="SearchPickerDateRange_Clear.Content" translate="yes" xml:space="preserve">
+          <source>Clear</source>
+          <target state="new">Clear</target>
+        </trans-unit>
+        <trans-unit id="SearchPickerDateRange_Choose.Text" translate="yes" xml:space="preserve">
+          <source>Or choose a date range</source>
+          <target state="new">Or choose a date range</target>
+        </trans-unit>
+        <trans-unit id="SearchPickerSizeRange_NoSelected.Text" translate="yes" xml:space="preserve">
+          <source>No size range selected.</source>
+          <target state="new">No size range selected.</target>
+        </trans-unit>
+        <trans-unit id="SearchPickerSizeRange_Clear.Content" translate="yes" xml:space="preserve">
+          <source>Clear</source>
+          <target state="new">Clear</target>
+        </trans-unit>
+        <trans-unit id="SearchPickerSizeRange_Choose.Text" translate="yes" xml:space="preserve">
+          <source>Or choose a size range</source>
+          <target state="new">Or choose a size range</target>
+        </trans-unit>
+        <trans-unit id="SearchSettingsPage_Search.Content" translate="yes" xml:space="preserve">
+          <source>Search</source>
+          <target state="new">Search</target>
+        </trans-unit>
+        <trans-unit id="SearchFilterPage_Save.Content" translate="yes" xml:space="preserve">
+          <source>Save</source>
+          <target state="new">Save</target>
+        </trans-unit>
+        <trans-unit id="SearchFilterPage_Cancel.Content" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
+        <trans-unit id="SearchMultiFilterPage_Save.Content" translate="yes" xml:space="preserve">
+          <source>Save</source>
+          <target state="new">Save</target>
+        </trans-unit>
+        <trans-unit id="SearchMultiFilterPage_Cancel.Content" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
       </group>
     </body>
   </file>

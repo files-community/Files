@@ -47,12 +47,8 @@ namespace Files.Filesystem.Search
 
     public class SearchSettings : ObservableObject, ISearchSettings
     {
-        public static SearchSettings Instance { get; } = new();
-
         public ISearchLocation Location { get; } = new SearchLocation();
         public ISearchFilter Filter { get; } = new AndFilterCollection();
-
-        private SearchSettings() {}
     }
 
     public class SearchLocation : ObservableObject, ISearchLocation

@@ -2,6 +2,7 @@
 using Files.UserControls.Search;
 using Files.ViewModels;
 using Files.ViewModels.Search;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System.ComponentModel;
 using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
@@ -91,7 +92,7 @@ namespace Files.UserControls
 
         private void GoRootPage()
         {
-            ISearchSettings settings = SearchSettings.Instance;
+            ISearchSettings settings = Ioc.Default.GetService<ISearchSettings>();
             ISearchPageContext context = new SearchPageContext(navigator, settings.Filter);
             ISearchSettingsViewModel viewModel = new SearchSettingsViewModel(context, settings);
             navigator.GoPage(viewModel);
