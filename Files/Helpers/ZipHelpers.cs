@@ -112,17 +112,25 @@ namespace Files.Helpers
                     {
                         int currentBlockSize = 0;
 
-                        using (Stream entryStream = zipFile.GetInputStream(entry))
+                        try
                         {
-                            while ((currentBlockSize = await entryStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                            using (Stream entryStream = zipFile.GetInputStream(entry))
                             {
-                                await destinationStream.WriteAsync(buffer, 0, currentBlockSize);
-
-                                if (cancellationToken.IsCancellationRequested) // Check if cancelled
+                                while ((currentBlockSize = await entryStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
                                 {
-                                    return;
+                                    await destinationStream.WriteAsync(buffer, 0, currentBlockSize);
+
+                                    if (cancellationToken.IsCancellationRequested) // Check if cancelled
+                                    {
+                                        return;
+                                    }
                                 }
                             }
+                        }
+                        catch (Exception ex)
+                        {
+                            App.Logger.Warn(ex, $"Error extracting file: {filePath}");
+                            return; // TODO: handle error
                         }
                     }
 
