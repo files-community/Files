@@ -33,12 +33,6 @@ namespace Files.Services.Implementation
             get => GetSettingsService(ref _SidebarSettingsService);
         }
 
-        private IPreferencesSettingsService _PreferencesSettingsService;
-        public IPreferencesSettingsService PreferencesSettingsService
-        {
-            get => GetSettingsService(ref _PreferencesSettingsService);
-        }
-
         private IAppearanceSettingsService _AppearanceSettingsService;
         public IAppearanceSettingsService AppearanceSettingsService
         {
