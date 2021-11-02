@@ -193,22 +193,6 @@
                 ShowError="{x:Bind ViewModel.ItemMD5HashCalcError, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.ItemMD5HashProgressVisibility, Mode=OneWay}" />
 
-            <TextBlock
-                x:Name="PropertiesCount"
-                x:Uid="PropertiesFilesAndFoldersCount"
-                Grid.Row="7"
-                Grid.Column="0"
-                Style="{StaticResource PropertyName}"
-                Text="Contains:"
-                Visibility="{x:Bind ViewModel.FilesAndFoldersCountVisibility, Mode=OneWay}" />
-            <TextBlock
-                x:Name="itemFilesAndFoldersCountValue"
-                Grid.Row="7"
-                Grid.Column="1"
-                Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.FilesAndFoldersCountString, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.FilesAndFoldersCountVisibility, Mode=OneWay}" />
-
             <MenuFlyoutSeparator
                 Grid.Row="8"
                 Grid.Column="0"

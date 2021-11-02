@@ -507,7 +507,7 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
             {
-                var marker = path.IndexOf(".zip");
+                var marker = path.IndexOf(".zip", StringComparison.OrdinalIgnoreCase);
                 if (marker != -1)
                 {
                     var containerPath = path.Substring(0, marker + ".zip".Length);
@@ -526,7 +526,7 @@ namespace Files.Filesystem.StorageItems
 
         public static bool IsZipPath(string path)
         {
-            var marker = path.IndexOf(".zip");
+            var marker = path.IndexOf(".zip", StringComparison.OrdinalIgnoreCase);
             if (marker != -1)
             {
                 marker += ".zip".Length;

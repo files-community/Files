@@ -46,6 +46,8 @@ namespace Files.Views.LayoutModes
 
         private RelayCommand<string> UpdateSortOptionsCommand { get; set; }
 
+        public ScrollViewer ContentScroller { get; private set; }
+
         public DetailsLayoutBrowser() : base()
         {
             InitializeComponent();
@@ -72,6 +74,7 @@ namespace Files.Views.LayoutModes
         private void ItemManipulationModel_ScrollIntoViewInvoked(object sender, ListedItem e)
         {
             FileList.ScrollIntoView(e);
+            ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * 36, null, true); // Scroll to index * item height
         }
 
         private void ItemManipulationModel_StartRenameItemInvoked(object sender, EventArgs e)
@@ -783,9 +786,9 @@ namespace Files.Views.LayoutModes
 
         private void FileList_Loaded(object sender, RoutedEventArgs e)
         {
-            var contentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
-            contentScroller.ViewChanged -= ContentScroller_ViewChanged;
-            contentScroller.ViewChanged += ContentScroller_ViewChanged;
+            ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
+            ContentScroller.ViewChanged -= ContentScroller_ViewChanged;
+            ContentScroller.ViewChanged += ContentScroller_ViewChanged;
         }
 
         private void ContentScroller_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
