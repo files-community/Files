@@ -27,12 +27,6 @@ namespace Files.Services.Implementation
             get => GetSettingsService(ref _WidgetsSettingsService);
         }
 
-        private ISidebarSettingsService _SidebarSettingsService;
-        public ISidebarSettingsService SidebarSettingsService
-        {
-            get => GetSettingsService(ref _SidebarSettingsService);
-        }
-
         private IAppearanceSettingsService _AppearanceSettingsService;
         public IAppearanceSettingsService AppearanceSettingsService
         {

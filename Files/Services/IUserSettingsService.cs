@@ -20,7 +20,7 @@ namespace Files.Services
 
         IWidgetsSettingsService WidgetsSettingsService { get; }
 
-        ISidebarSettingsService SidebarSettingsService { get; }
+        IAppearanceSettingsService SidebarSettingsService { get; }
 
         IAppearanceSettingsService AppearanceSettingsService { get; }
 

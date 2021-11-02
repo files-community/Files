@@ -2229,12 +2229,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Unknown owner</value>
   </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Sidebar</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>Sidebar</value>
-  </data>
   <data name="SettingsVerticalTabFlyout" xml:space="preserve">
     <value>Display the vertical tab flyout on the title bar</value>
   </data>
@@ -2784,5 +2778,8 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="SettingsImportErrorTitle" xml:space="preserve">
     <value>Error importing settings</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Sidebar</value>
   </data>
 </root>
