@@ -51,15 +51,15 @@ namespace Files.Helpers
                     userSettingsService.WidgetsSettingsService.ShowBundlesWidget = appSettings.Get(false, "ShowBundlesWidget");
 
                     // Sidebar
-                    userSettingsService.SidebarSettingsService.SidebarWidth = appSettings.Get(255d, "SidebarWidth");
-                    userSettingsService.SidebarSettingsService.IsSidebarOpen = appSettings.Get(true, "IsSidebarOpen");
-                    userSettingsService.SidebarSettingsService.ShowFavoritesSection = appSettings.Get(true, "ShowFavoritesSection");
-                    userSettingsService.SidebarSettingsService.ShowLibrarySection = appSettings.Get(false, "ShowLibrarySection");
-                    userSettingsService.SidebarSettingsService.ShowDrivesSection = appSettings.Get(true, "ShowDrivesSection");
-                    userSettingsService.SidebarSettingsService.ShowCloudDrivesSection = appSettings.Get(true, "ShowCloudDrivesSection");
-                    userSettingsService.SidebarSettingsService.ShowNetworkDrivesSection = appSettings.Get(true, "ShowNetworkDrivesSection");
-                    userSettingsService.SidebarSettingsService.ShowWslSection = appSettings.Get(true, "ShowWslSection");
-                    userSettingsService.SidebarSettingsService.PinRecycleBinToSidebar = appSettings.Get(true, "PinRecycleBinToSideBar");
+                    userSettingsService.AppearanceSettingsService.SidebarWidth = appSettings.Get(255d, "SidebarWidth");
+                    userSettingsService.AppearanceSettingsService.IsSidebarOpen = appSettings.Get(true, "IsSidebarOpen");
+                    userSettingsService.AppearanceSettingsService.ShowFavoritesSection = appSettings.Get(true, "ShowFavoritesSection");
+                    userSettingsService.AppearanceSettingsService.ShowLibrarySection = appSettings.Get(false, "ShowLibrarySection");
+                    userSettingsService.AppearanceSettingsService.ShowDrivesSection = appSettings.Get(true, "ShowDrivesSection");
+                    userSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = appSettings.Get(true, "ShowCloudDrivesSection");
+                    userSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = appSettings.Get(true, "ShowNetworkDrivesSection");
+                    userSettingsService.AppearanceSettingsService.ShowWslSection = appSettings.Get(true, "ShowWslSection");
+                    userSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = appSettings.Get(true, "PinRecycleBinToSideBar");
 
                     // Preferences
                     userSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog = appSettings.Get(true, "ShowConfirmDeleteDialog");

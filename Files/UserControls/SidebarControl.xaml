@@ -16,7 +16,7 @@
     IsTitleBarAutoPaddingEnabled="False"
     ItemInvoked="Sidebar_ItemInvoked"
     MenuItemsSource="{x:Bind local:SidebarControl.SideBarItems, Mode=OneWay}"
-    OpenPaneLength="{x:Bind UserSettingsService.SidebarSettingsService.SidebarWidth, Mode=OneTime}"
+    OpenPaneLength="{x:Bind UserSettingsService.AppearanceSettingsService.SidebarWidth, Mode=OneTime}"
     SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
     mc:Ignorable="d">
     <muxc:NavigationView.Resources>

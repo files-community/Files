@@ -10,12 +10,12 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool ShowFavoritesSection
         {
-            get => UserSettingsService.SidebarSettingsService.ShowFavoritesSection;
+            get => UserSettingsService.AppearanceSettingsService.ShowFavoritesSection;
             set
             {
-                if (value != UserSettingsService.SidebarSettingsService.ShowFavoritesSection)
+                if (value != UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
                 {
-                    UserSettingsService.SidebarSettingsService.ShowFavoritesSection = value;
+                    UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = value;
                     App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
                     OnPropertyChanged();
                 }
@@ -24,12 +24,12 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool PinRecycleBinToSideBar
         {
-            get => UserSettingsService.SidebarSettingsService.PinRecycleBinToSidebar;
+            get => UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar;
             set
             {
-                if (value != UserSettingsService.SidebarSettingsService.PinRecycleBinToSidebar)
+                if (value != UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar)
                 {
-                    UserSettingsService.SidebarSettingsService.PinRecycleBinToSidebar = value;
+                    UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = value;
                     _= App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(value);
                     OnPropertyChanged();
                 }
@@ -38,12 +38,12 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool ShowLibrarySection
         {
-            get => UserSettingsService.SidebarSettingsService.ShowLibrarySection;
+            get => UserSettingsService.AppearanceSettingsService.ShowLibrarySection;
             set
             {
-                if (value != UserSettingsService.SidebarSettingsService.ShowLibrarySection)
+                if (value != UserSettingsService.AppearanceSettingsService.ShowLibrarySection)
                 {
-                    UserSettingsService.SidebarSettingsService.ShowLibrarySection = value;
+                    UserSettingsService.AppearanceSettingsService.ShowLibrarySection = value;
                     App.LibraryManager.UpdateLibrariesSectionVisibility();
                     OnPropertyChanged();
                 }
@@ -52,12 +52,12 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool ShowDrivesSection
         {
-            get => UserSettingsService.SidebarSettingsService.ShowDrivesSection;
+            get => UserSettingsService.AppearanceSettingsService.ShowDrivesSection;
             set
             {
-                if (value != UserSettingsService.SidebarSettingsService.ShowDrivesSection)
+                if (value != UserSettingsService.AppearanceSettingsService.ShowDrivesSection)
                 {
-                    UserSettingsService.SidebarSettingsService.ShowDrivesSection = value;
+                    UserSettingsService.AppearanceSettingsService.ShowDrivesSection = value;
                     App.DrivesManager.UpdateDrivesSectionVisibility();
                     OnPropertyChanged();
                 }
@@ -66,12 +66,12 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool ShowCloudDrivesSection
         {
-            get => UserSettingsService.SidebarSettingsService.ShowCloudDrivesSection;
+            get => UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection;
             set
             {
-                if (value != UserSettingsService.SidebarSettingsService.ShowCloudDrivesSection)
+                if (value != UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection)
                 {
-                    UserSettingsService.SidebarSettingsService.ShowCloudDrivesSection = value;
+                    UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = value;
                     App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
                     OnPropertyChanged();
                 }
@@ -80,12 +80,12 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool ShowNetworkDrivesSection
         {
-            get => UserSettingsService.SidebarSettingsService.ShowNetworkDrivesSection;
+            get => UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection;
             set
             {
-                if (value != UserSettingsService.SidebarSettingsService.ShowNetworkDrivesSection)
+                if (value != UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
                 {
-                    UserSettingsService.SidebarSettingsService.ShowNetworkDrivesSection = value;
+                    UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = value;
                     App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
                     OnPropertyChanged();
                 }
@@ -94,12 +94,12 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool ShowWslSection
         {
-            get => UserSettingsService.SidebarSettingsService.ShowWslSection;
+            get => UserSettingsService.AppearanceSettingsService.ShowWslSection;
             set
             {
-                if (value != UserSettingsService.SidebarSettingsService.ShowWslSection)
+                if (value != UserSettingsService.AppearanceSettingsService.ShowWslSection)
                 {
-                    UserSettingsService.SidebarSettingsService.ShowWslSection = value;
+                    UserSettingsService.AppearanceSettingsService.ShowWslSection = value;
                     App.WSLDistroManager.UpdateWslSectionVisibility();
                     OnPropertyChanged();
                 }

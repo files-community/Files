@@ -154,32 +154,32 @@ namespace Files.UserControls
         {
             if ("SidebarFavorites".GetLocalized().Equals(RightClickedItem.Text))
             {
-                UserSettingsService.SidebarSettingsService.ShowFavoritesSection = false;
+                UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = false;
                 App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
             }
             else if ("SidebarLibraries".GetLocalized().Equals(RightClickedItem.Text))
             {
-                UserSettingsService.SidebarSettingsService.ShowLibrarySection = false;
+                UserSettingsService.AppearanceSettingsService.ShowLibrarySection = false;
                 App.LibraryManager.UpdateLibrariesSectionVisibility();
             }
             else if ("SidebarCloudDrives".GetLocalized().Equals(RightClickedItem.Text))
             {
-                UserSettingsService.SidebarSettingsService.ShowCloudDrivesSection = false;
+                UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = false;
                 App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
             }
             else if ("SidebarDrives".GetLocalized().Equals(RightClickedItem.Text))
             {
-                UserSettingsService.SidebarSettingsService.ShowDrivesSection = false;
+                UserSettingsService.AppearanceSettingsService.ShowDrivesSection = false;
                 App.DrivesManager.UpdateDrivesSectionVisibility();
             }
             else if ("SidebarNetworkDrives".GetLocalized().Equals(RightClickedItem.Text))
             {
-                UserSettingsService.SidebarSettingsService.ShowNetworkDrivesSection = false;
+                UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = false;
                 App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
             }
             else if ("WSL".GetLocalized().Equals(RightClickedItem.Text))
             {
-                UserSettingsService.SidebarSettingsService.ShowWslSection = false;
+                UserSettingsService.AppearanceSettingsService.ShowWslSection = false;
                 App.WSLDistroManager.UpdateWslSectionVisibility();
             }
         }
@@ -188,7 +188,7 @@ namespace Files.UserControls
         {
             if (string.Equals(CommonPaths.RecycleBinPath, RightClickedItem.Path, StringComparison.OrdinalIgnoreCase))
             {
-                UserSettingsService.SidebarSettingsService.PinRecycleBinToSidebar = false;
+                UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = false;
             }
             else if (RightClickedItem.Section == SectionType.Favorites)
             {
@@ -889,7 +889,7 @@ namespace Files.UserControls
         {
             var step = 1;
             var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
-            originalSize = IsPaneOpen ? UserSettingsService.SidebarSettingsService.SidebarWidth : CompactPaneLength;
+            originalSize = IsPaneOpen ? UserSettingsService.AppearanceSettingsService.SidebarWidth : CompactPaneLength;
 
             if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
             {
@@ -921,7 +921,7 @@ namespace Files.UserControls
                 return;
             }
 
-            UserSettingsService.SidebarSettingsService.SidebarWidth = OpenPaneLength;
+            UserSettingsService.AppearanceSettingsService.SidebarWidth = OpenPaneLength;
         }
 
         /// <summary>
@@ -989,7 +989,7 @@ namespace Files.UserControls
         {
             Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
             VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
-            UserSettingsService.SidebarSettingsService.SidebarWidth = OpenPaneLength;
+            UserSettingsService.AppearanceSettingsService.SidebarWidth = OpenPaneLength;
             dragging = false;
         }
 
@@ -1011,7 +1011,7 @@ namespace Files.UserControls
         {
             if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
             {
-                originalSize = IsPaneOpen ? UserSettingsService.SidebarSettingsService.SidebarWidth : CompactPaneLength;
+                originalSize = IsPaneOpen ? UserSettingsService.AppearanceSettingsService.SidebarWidth : CompactPaneLength;
                 Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPressed", true);
                 dragging = true;
