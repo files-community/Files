@@ -127,7 +127,7 @@ namespace Files.Models.JsonSettings
 
         public virtual object ExportSettings()
         {
-            return  JsonSettingsDatabase.ExportSettings();
+            return JsonSettingsDatabase.ExportSettings();
         }
 
         public virtual bool ImportSettings(object import)
@@ -155,14 +155,8 @@ namespace Files.Models.JsonSettings
 
         public virtual void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
-            if (settingsSharingContext != null)
-            {
-                settingsSharingContext.RaiseOnSettingChangedEvent(sender, e);
-            }
-            else
-            {
-                OnSettingChangedEvent?.Invoke(sender, e);
-            }
+            OnSettingChangedEvent?.Invoke(sender, e);
+            settingsSharingContext?.RaiseOnSettingChangedEvent(sender, e);
         }
 
         #endregion Helpers

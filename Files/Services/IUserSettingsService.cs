@@ -10,6 +10,10 @@ namespace Files.Services
 
         ISettingsSharingContext GetSharingContext();
 
+        bool ImportSettings(object import);
+
+        object ExportSettings();
+
         IFilesAndFoldersSettingsService FilesAndFoldersSettingsService { get; }
 
         IMultitaskingSettingsService MultitaskingSettingsService { get; }

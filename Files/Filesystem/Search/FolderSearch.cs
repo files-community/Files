@@ -41,6 +41,23 @@ namespace Files.Filesystem.Search
 
         public EventHandler SearchTick;
 
+        private bool IsAQSQuery => Query is not null && (Query.StartsWith("$") || Query.Contains(":"));
+
+        private string QueryWithWildcard
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(Query) && Query.Contains('.')) // ".docx" -> "*.docx"
+                {
+                    var split = Query.Split('.');
+                    var leading = string.Join('.', split.SkipLast(1));
+                    var query = $"{leading}*.{split.Last()}";
+                    return $"{query}*";
+                }
+                return $"{Query}*";
+            }
+        }
+
         public string AQSQuery
         {
             get
@@ -56,7 +73,7 @@ namespace Files.Filesystem.Search
                 }
                 else
                 {
-                    return $"System.FileName:\"{Query}\"";
+                    return $"System.FileName:\"{QueryWithWildcard}\"";
                 }
             }
         }
@@ -245,20 +262,12 @@ namespace Files.Filesystem.Search
                 if (workingFolder)
                 {
                     await SearchAsync(workingFolder, results, token);
-                    //foreach (var item in await SearchAsync(workingFolder))
-                    //{
-                    //    results.Add(item);
-                    //}
-                    hiddenOnlyFromWin32 = true;
+                    hiddenOnlyFromWin32 = (results.Count != 0);
                 }
 
-                if (!hiddenOnlyFromWin32 || UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible)
+                if (!IsAQSQuery && (!hiddenOnlyFromWin32 || UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible))
                 {
                     await SearchWithWin32Async(folder, hiddenOnlyFromWin32, UsedMaxItemCount - (uint)results.Count, results, token);
-                    //foreach (var item in)
-                    //{
-                    //    results.Add(item);
-                    //}
                 }
             }
         }
@@ -269,7 +278,7 @@ namespace Files.Filesystem.Search
             (IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
             {
                 int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-                IntPtr hFileTsk = FindFirstFileExFromApp($"{folder}\\*{Query}*.*", FINDEX_INFO_LEVELS.FindExInfoBasic,
+                IntPtr hFileTsk = FindFirstFileExFromApp($"{folder}\\{QueryWithWildcard}", FINDEX_INFO_LEVELS.FindExInfoBasic,
                     out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
                 return (hFileTsk, findDataTsk);
             }).WithTimeoutAsync(TimeSpan.FromSeconds(5));

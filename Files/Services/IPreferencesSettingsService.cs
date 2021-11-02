@@ -1,6 +1,8 @@
-﻿namespace Files.Services
+﻿using System.ComponentModel;
+
+namespace Files.Services
 {
-    public interface IPreferencesSettingsService
+    public interface IPreferencesSettingsService : INotifyPropertyChanged
     {
         /// <summary>
         /// Gets or sets a value indicating whether or not to show the delete confirmation dialog when deleting items.

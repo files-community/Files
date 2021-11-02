@@ -6,7 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Helpers
@@ -22,6 +24,19 @@ namespace Files.Helpers
             catch // A content dialog is already open
             {
                 return ContentDialogResult.None;
+            }
+        }
+
+        public static void CloseAllDialogs()
+        {
+            var openedDialogs = VisualTreeHelper.GetOpenPopups(Window.Current);
+
+            foreach (var item in openedDialogs)
+            {
+                if (item.Child is ContentDialog dialog)
+                {
+                    dialog.Hide();
+                }
             }
         }
 

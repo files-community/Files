@@ -3,7 +3,7 @@ using Files.Models.JsonSettings;
 
 namespace Files.Services.Implementation
 {
-    public class SidebarSettingsService : BaseJsonSettingsModel, ISidebarSettingsService
+    public class SidebarSettingsService : BaseObservableJsonSettingsModel, ISidebarSettingsService
     {
         public SidebarSettingsService(ISettingsSharingContext settingsSharingContext)
         {

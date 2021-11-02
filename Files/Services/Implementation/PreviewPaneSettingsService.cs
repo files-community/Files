@@ -4,7 +4,7 @@ using Files.Models.JsonSettings;
 
 namespace Files.Services.Implementation
 {
-    public class PreviewPaneSettingsService : BaseJsonSettingsModel, IPreviewPaneSettingsService
+    public class PreviewPaneSettingsService : BaseObservableJsonSettingsModel, IPreviewPaneSettingsService
     {
         public PreviewPaneSettingsService(ISettingsSharingContext settingsSharingContext)
         {

@@ -1,4 +1,6 @@
-﻿namespace Files.Models.JsonSettings
+﻿using System.Collections.Generic;
+
+namespace Files.Models.JsonSettings
 {
     public interface IJsonSettingsDatabase
     {
@@ -15,5 +17,7 @@
         bool ImportSettings(object import);
 
         object ExportSettings();
+
+        Dictionary<string, object> TakeDifferent(Dictionary<string, object> other);
     }
 }

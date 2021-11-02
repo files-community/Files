@@ -2,7 +2,7 @@
 
 namespace Files.Services.Implementation
 {
-    public class MultitaskingSettingsService : BaseJsonSettingsModel, IMultitaskingSettingsService
+    public class MultitaskingSettingsService : BaseObservableJsonSettingsModel, IMultitaskingSettingsService
     {
         public MultitaskingSettingsService(ISettingsSharingContext settingsSharingContext)
         {

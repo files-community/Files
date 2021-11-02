@@ -1,8 +1,9 @@
 ﻿using Files.Enums;
+using System.ComponentModel;
 
 namespace Files.Services
 {
-    public interface ILayoutSettingsService
+    public interface ILayoutSettingsService : INotifyPropertyChanged
     {
         /// <summary>
         /// Gets or sets a value indicating whether or not the date column should be visible.
