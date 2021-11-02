@@ -88,11 +88,12 @@
             </AutoSuggestBox.KeyboardAccelerators>
         </AutoSuggestBox>
 
-        <Button x:Name="MenuButton" Grid.Column="1"
-            Loaded="MenuButton_Loaded"
+        <Button x:Name="MenuButton" x:Uid="SearchMenuButton"
+            Grid.Column="1" Loaded="MenuButton_Loaded"
             Width="36" Height="32" Padding="0"
             Foreground="{StaticResource SystemControlForegroundBaseHighBrush}"
             Background="Transparent" BorderBrush="Transparent"
+            ToolTipService.ToolTip="Search Options"
             AutomationProperties.AccessibilityView="Raw">
             <Button.Content>
                 <FontIcon FontSize="14" Glyph="&#xE71C;" />
