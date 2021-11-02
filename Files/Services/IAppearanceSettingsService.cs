@@ -59,4 +59,3 @@ namespace Files.Services
         bool PinRecycleBinToSidebar { get; set; }
     }
 }
-}
