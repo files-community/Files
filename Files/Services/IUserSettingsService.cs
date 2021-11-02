@@ -22,8 +22,6 @@ namespace Files.Services
 
         IAppearanceSettingsService AppearanceSettingsService { get; }
 
-        IAppearanceSettingsService AppearanceSettingsService { get; }
-
         IStartupSettingsService StartupSettingsService { get; }
 
         IPreviewPaneSettingsService PreviewPaneSettingsService { get; }
