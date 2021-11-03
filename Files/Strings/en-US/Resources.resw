@@ -2793,6 +2793,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="InnerEmptyRecycleBinButton.Label" xml:space="preserve">
     <value>Empty</value>
+  </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
     <value>Choose a custom folder icon</value>
   </data>
