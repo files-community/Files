@@ -220,6 +220,10 @@ namespace Files.Views
                 case "Customization":
                     contentFrame.Navigate(typeof(PropertiesCustomization), navParam, args.RecommendedNavigationTransitionInfo);
                     break;
+
+                case "Compatibility":
+                    contentFrame.Navigate(typeof(PropertiesCompatibility), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
             }
         }
 

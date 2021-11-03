@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Files.Enums;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace Files.ViewModels.Properties
 {
@@ -146,9 +147,13 @@ namespace Files.ViewModels.Properties
         public List<LocalizedEnum<OSCompatibility>> OSCompatibilityList { get; } = Enum.GetValues(typeof(OSCompatibility)).Cast<OSCompatibility>().Select(x => new LocalizedEnum<OSCompatibility>(x)).ToList();
         public List<LocalizedEnum<ReducedColorMode>> ReducedColorModeList { get; } = Enum.GetValues(typeof(ReducedColorMode)).Cast<ReducedColorMode>().Select(x => new LocalizedEnum<ReducedColorMode>(x)).ToList();
 
+        public IRelayCommand RunTroubleshooterCommand { get; set; }
+
         public CompatibilityProperties(ListedItem item)
         {
             Item = item;
+
+            RunTroubleshooterCommand = new AsyncRelayCommand(RunTroubleshooter);
         }
 
         public async void GetCompatibilityOptions()
@@ -190,7 +195,7 @@ namespace Files.ViewModels.Properties
             return false;
         }
 
-        public async void RunTroubleshooter()
+        public async Task RunTroubleshooter()
         {
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection != null)
