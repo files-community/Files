@@ -10,7 +10,7 @@
     Unloaded="{x:Bind ViewModel.PreviewControlBase_Unloaded}"
     mc:Ignorable="d">
     <UserControl.KeyboardAccelerators>
-        <KeyboardAccelerator Key="P" Modifiers="Control,Menu" Invoked="{x:Bind PlayerContext.MediaPlayer.Play}"/>
+        <KeyboardAccelerator Key="P" Modifiers="Control,Menu" Invoked="TogglePlaybackAcceleratorInvoked"/>
     </UserControl.KeyboardAccelerators>
     <Grid CornerRadius="{StaticResource ControlCornerRadius}">
         <MediaPlayerElement
