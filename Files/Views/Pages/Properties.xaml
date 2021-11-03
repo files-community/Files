@@ -34,7 +34,7 @@
                 <!--  Tabs  -->
                 <settings:SettingsBlockControl
                     x:Name="TabGeneral"
-                    Title="General"
+                    Title="{helpers:ResourceString Name=General}"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     Click="SettingsBlockControl_Click"
@@ -50,7 +50,7 @@
 
                 <settings:SettingsBlockControl
                     x:Name="TabSecurity"
-                    Title="Security"
+                    Title="{helpers:ResourceString Name=Security}"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     Click="SettingsBlockControl_Click"
@@ -66,7 +66,7 @@
 
                 <settings:SettingsBlockControl
                     x:Name="TabShorcut"
-                    Title="Shortcut"
+                    Title="{helpers:ResourceString Name=Shortcut}"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     Click="SettingsBlockControl_Click"
@@ -82,7 +82,7 @@
 
                 <settings:SettingsBlockControl
                     x:Name="TabLibrary"
-                    Title="Library"
+                    Title="{helpers:ResourceString Name=Library}"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     Click="SettingsBlockControl_Click"
@@ -98,7 +98,7 @@
 
                 <settings:SettingsBlockControl
                     x:Name="TabDetails"
-                    Title="Details"
+                    Title="{helpers:ResourceString Name=Details}"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     Click="SettingsBlockControl_Click"
@@ -114,7 +114,7 @@
 
                 <settings:SettingsBlockControl
                     x:Name="TabCustomization"
-                    Title="Customization"
+                    Title="{helpers:ResourceString Name=Customization}"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     Click="SettingsBlockControl_Click"
@@ -130,7 +130,7 @@
 
                 <settings:SettingsBlockControl
                     x:Name="TabCompatibility"
-                    Title="Compatibility"
+                    Title="{helpers:ResourceString Name=Compatibility}"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     Click="SettingsBlockControl_Click"

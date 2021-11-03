@@ -621,10 +621,10 @@
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Enllaç web</value>
   </data>
-  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+  <data name="General" xml:space="preserve">
     <value>General</value>
   </data>
-  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+  <data name="Shortcut" xml:space="preserve">
     <value>Accés directe</value>
   </data>
   <data name="ShortcutFileType" xml:space="preserve">

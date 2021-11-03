@@ -594,10 +594,10 @@
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>वेब लिंक</value>
   </data>
-  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+  <data name="General" xml:space="preserve">
     <value>सामान्य</value>
   </data>
-  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+  <data name="Shortcut" xml:space="preserve">
     <value>शॉर्टकट</value>
   </data>
   <data name="ShortcutFileType" xml:space="preserve">
@@ -891,7 +891,7 @@
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>खोज परिणाम</value>
   </data>
-  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+  <data name="Details" xml:space="preserve">
     <value>विवरण</value>
   </data>
   <data name="UpdateClose" xml:space="preserve">
@@ -1059,7 +1059,7 @@
   <data name="LibraryItemAutomation" xml:space="preserve">
     <value>लायब्रेरी</value>
   </data>
-  <data name="PropertiesDialogTabLibrary.Content" xml:space="preserve">
+  <data name="Library" xml:space="preserve">
     <value>लायब्रेरी</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
@@ -1266,7 +1266,7 @@
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>नया(N)</value>
   </data>
-  <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
+  <data name="Security" xml:space="preserve">
     <value>सुरक्षा</value>
   </data>
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
