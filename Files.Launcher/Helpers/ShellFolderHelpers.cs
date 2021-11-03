@@ -34,7 +34,7 @@ namespace FilesFullTrust.Helpers
             {
                 return null;
             }
-            bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";
+            bool isFolder = folderItem.IsFolder && !".zip".Equals(Path.GetExtension(folderItem.Name), StringComparison.OrdinalIgnoreCase);
             if (folderItem.Properties == null)
             {
                 return new ShellFileItem(isFolder, folderItem.FileSystemPath, Path.GetFileName(folderItem.Name), folderItem.Name, DateTime.Now, DateTime.Now, DateTime.Now, null, 0, null);

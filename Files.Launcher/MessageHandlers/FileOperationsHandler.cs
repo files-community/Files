@@ -498,9 +498,9 @@ namespace FilesFullTrust.MessageHandlers
                     break;
 
                 case "ParseLink":
-                    var linkPath = (string)message["filepath"];
                     try
                     {
+                        var linkPath = (string)message["filepath"];
                         if (linkPath.EndsWith(".lnk"))
                         {
                             using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
@@ -537,22 +537,23 @@ namespace FilesFullTrust.MessageHandlers
                         // Could not parse shortcut
                         Program.Logger.Warn(ex, ex.Message);
                         await Win32API.SendMessageAsync(connection, new ValueSet()
-                            {
-                                { "TargetPath", null },
-                                { "Arguments", null },
-                                { "WorkingDirectory", null },
-                                { "RunAsAdmin", false },
-                                { "IsFolder", false }
-                            }, message.Get("RequestID", (string)null));
+                        {
+                            { "TargetPath", null },
+                            { "Arguments", null },
+                            { "WorkingDirectory", null },
+                            { "RunAsAdmin", false },
+                            { "IsFolder", false }
+                        }, message.Get("RequestID", (string)null));
                     }
                     break;
 
                 case "CreateLink":
                 case "UpdateLink":
-                    var linkSavePath = (string)message["filepath"];
-                    var targetPath = (string)message["targetpath"];
                     try
                     {
+                        var linkSavePath = (string)message["filepath"];
+                        var targetPath = (string)message["targetpath"];
+
                         bool success = false;
                         if (linkSavePath.EndsWith(".lnk"))
                         {
@@ -575,6 +576,23 @@ namespace FilesFullTrust.MessageHandlers
                             });
                         }
                         await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", success } }, message.Get("RequestID", (string)null));
+                    }
+                    catch (Exception ex)
+                    {
+                        // Could not create shortcut
+                        Program.Logger.Warn(ex, ex.Message);
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
+                    }
+                    break;
+
+                case "SetLinkIcon":
+                    try
+                    {
+                        var linkPath = (string)message["filepath"];
+                        using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
+                        link.IconLocation = new IconLocation((string)message["iconFile"], (int)message.Get("iconIndex", 0L));
+                        link.SaveAs(linkPath); // Overwrite if exists
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", true } }, message.Get("RequestID", (string)null));
                     }
                     catch (Exception ex)
                     {

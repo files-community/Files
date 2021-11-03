@@ -319,7 +319,7 @@ namespace Files.Filesystem.StorageEnumerators
                     opacity = Constants.UI.DimItemOpacity;
                 }
 
-                if (itemFileExtension == ".zip" && await ZipStorageFolder.CheckDefaultZipApp(itemPath))
+                if (".zip".Equals(itemFileExtension, StringComparison.OrdinalIgnoreCase) && await ZipStorageFolder.CheckDefaultZipApp(itemPath))
                 {
                     return new ZipItem(null, dateReturnFormat)
                     {
