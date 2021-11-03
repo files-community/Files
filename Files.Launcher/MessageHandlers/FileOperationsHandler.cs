@@ -1,6 +1,7 @@
 ﻿using Common;
 using Files.Common;
 using FilesFullTrust.Helpers;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -659,6 +660,51 @@ namespace FilesFullTrust.MessageHandlers
                     {
                         { "PickedObject", pickedObject }
                     }, message.Get("RequestID", (string)null));
+                    break;
+
+                case "ReadCompatOptions":
+                    {
+                        var filePath = (string)message["filepath"];
+                        var compatOptions = Extensions.IgnoreExceptions(() =>
+                        {
+                            using var compatKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers");
+                            if (compatKey == null)
+                            {
+                                return null;
+                            }
+                            return (string)compatKey.GetValue(filePath, null);
+                        }, Program.Logger);
+                        await Win32API.SendMessageAsync(connection, new ValueSet()
+                        {
+                            { "CompatOptions", compatOptions }
+                        }, message.Get("RequestID", (string)null));
+                    }
+                    break;
+
+                case "SetCompatOptions":
+                    {
+                        var filePath = (string)message["filepath"];
+                        var compatOptions = (string)message["options"];
+                        var success = Extensions.IgnoreExceptions(() =>
+                        {
+                            using var compatKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers");
+                            if (compatKey != null)
+                            {
+                                if (string.IsNullOrEmpty(compatOptions) || compatOptions == "~")
+                                {
+                                    compatKey.DeleteValue(filePath);
+                                }
+                                else
+                                {
+                                    compatKey.SetValue(filePath, compatOptions);
+                                }
+                            }
+                        }, Program.Logger);
+                        await Win32API.SendMessageAsync(connection, new ValueSet()
+                        {
+                            { "Success", success }
+                        }, message.Get("RequestID", (string)null));
+                    }
                     break;
             }
         }
