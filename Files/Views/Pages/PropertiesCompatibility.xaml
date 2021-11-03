@@ -26,7 +26,8 @@
             <TextBlock
                 FontWeight="Bold"
                 Style="{StaticResource PropertyName}"
-                Text="Compatibility mode" />
+                Text="{helpers:ResourceString Name=CompatibilityMode}"
+                TextTrimming="CharacterEllipsis" />
             <ComboBox
                 DisplayMemberPath="Name"
                 ItemsSource="{x:Bind CompatibilityProperties.OSCompatibilityList, Mode=OneWay}"
@@ -35,7 +36,8 @@
             <TextBlock
                 FontWeight="Bold"
                 Style="{StaticResource PropertyName}"
-                Text="Reduced color mode" />
+                Text="{helpers:ResourceString Name=ReducedColorMode}"
+                TextTrimming="CharacterEllipsis" />
             <ComboBox
                 DisplayMemberPath="Name"
                 ItemsSource="{x:Bind CompatibilityProperties.ReducedColorModeList, Mode=OneWay}"
@@ -44,7 +46,8 @@
             <TextBlock
                 FontWeight="Bold"
                 Style="{StaticResource PropertyName}"
-                Text="Options" />
+                Text="{helpers:ResourceString Name=Options}"
+                TextTrimming="CharacterEllipsis" />
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -59,8 +62,10 @@
 
                 <TextBlock
                     Grid.Row="0"
+                    Margin="0,0,12,0"
                     VerticalAlignment="Center"
-                    Text="Run in 640 x 480 screen resolution" />
+                    Text="{helpers:ResourceString Name=ExecuteAt640X480}"
+                    TextTrimming="CharacterEllipsis" />
                 <ToggleSwitch
                     Grid.Row="0"
                     Grid.Column="1"
@@ -69,8 +74,10 @@
 
                 <TextBlock
                     Grid.Row="1"
+                    Margin="0,0,12,0"
                     VerticalAlignment="Center"
-                    Text="Disable fullscreen optimizations" />
+                    Text="{helpers:ResourceString Name=DisableFullscreenOptimizations}"
+                    TextTrimming="CharacterEllipsis" />
                 <ToggleSwitch
                     Grid.Row="1"
                     Grid.Column="1"
@@ -79,8 +86,10 @@
 
                 <TextBlock
                     Grid.Row="2"
+                    Margin="0,0,12,0"
                     VerticalAlignment="Center"
-                    Text="Run as administrator" />
+                    Text="{helpers:ResourceString Name=RunAsAdministrator}"
+                    TextTrimming="CharacterEllipsis" />
                 <ToggleSwitch
                     Grid.Row="2"
                     Grid.Column="1"
@@ -89,8 +98,10 @@
 
                 <TextBlock
                     Grid.Row="3"
+                    Margin="0,0,12,0"
                     VerticalAlignment="Center"
-                    Text="Register for restart" />
+                    Text="{helpers:ResourceString Name=RegisterForRestart}"
+                    TextTrimming="CharacterEllipsis" />
                 <ToggleSwitch
                     Grid.Row="3"
                     Grid.Column="1"
@@ -101,7 +112,8 @@
             <TextBlock
                 FontWeight="Bold"
                 Style="{StaticResource PropertyName}"
-                Text="Use DPI settings of the main monitor" />
+                Text="{helpers:ResourceString Name=UseMainMonitorDPISettings}"
+                TextTrimming="CharacterEllipsis" />
             <ComboBox
                 DisplayMemberPath="Name"
                 ItemsSource="{x:Bind CompatibilityProperties.HighDpiOptionList, Mode=OneWay}"
@@ -110,16 +122,16 @@
             <TextBlock
                 FontWeight="Bold"
                 Style="{StaticResource PropertyName}"
-                Text="Override high DPI scaling behaviour" />
+                Text="{helpers:ResourceString Name=OverrideDPIScalingBehaviour}"
+                TextTrimming="CharacterEllipsis" />
             <ComboBox
                 DisplayMemberPath="Name"
                 ItemsSource="{x:Bind CompatibilityProperties.HighDpiOverrideList, Mode=OneWay}"
                 SelectedValue="{x:Bind CompatibilityProperties.HighDpiOverride, Mode=TwoWay}" />
 
-            <Button
-                Margin="0,7,0,0"
-                Command="{x:Bind CompatibilityProperties.RunTroubleshooterCommand}"
-                Content="Run compatibility troubleshooter" />
+            <Button Margin="0,7,0,0" Command="{x:Bind CompatibilityProperties.RunTroubleshooterCommand}">
+                <TextBlock Text="{helpers:ResourceString Name=RunCompatibilityTroubleShooter}" TextTrimming="CharacterEllipsis" />
+            </Button>
         </StackPanel>
     </ScrollViewer>
 </local1:PropertiesTab>

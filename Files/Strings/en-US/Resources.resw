@@ -2838,7 +2838,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
     <value>Windows Vista SP1</value>
-    <comment> </comment>
   </data>
   <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
     <value>Windows Vista SP2</value>
@@ -2851,5 +2850,35 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="ReducedColorMode_None" xml:space="preserve">
     <value>None</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Compatibility mode</value>
+  </data>
+  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+    <value>Disable fullscreen optimizations</value>
+  </data>
+  <data name="ExecuteAt640X480" xml:space="preserve">
+    <value>Run at 640 x 480 screen resolution</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
+    <value>Override high DPI scaling behaviour</value>
+  </data>
+  <data name="ReducedColorMode" xml:space="preserve">
+    <value>Reduced color mode</value>
+  </data>
+  <data name="RegisterForRestart" xml:space="preserve">
+    <value>Register for restart</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>Run as administrator</value>
+  </data>
+  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+    <value>Run compatibility troubleshooter</value>
+  </data>
+  <data name="UseMainMonitorDPISettings" xml:space="preserve">
+    <value>Use DPI settings of the main monitor</value>
   </data>
 </root>
