@@ -55,10 +55,12 @@
         <Grid x:Name="ExpanderPreGrid" x:Load="{x:Bind ExpandableContent, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}">
             <Grid x:Name="ExpanderGrid" x:Load="{x:Bind IsClickable, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}">
                 <muxc:Expander
+                    x:Name="ExpanderControl"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     Collapsed="Expander_Collapsed"
-                    Expanding="Expander_Expanding">
+                    Expanding="Expander_Expanding"
+                    IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}">
                     <muxc:Expander.Header>
                         <local:SettingsDisplayControl
                             Title="{x:Bind Title, Mode=OneWay}"
