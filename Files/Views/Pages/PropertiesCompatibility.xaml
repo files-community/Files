@@ -23,19 +23,28 @@
 
     <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="0,7,0,0" Style="{StaticResource PropertiesTab}">
-            <TextBlock Style="{StaticResource PropertyName}" Text="Compatibility mode" />
+            <TextBlock
+                FontWeight="Bold"
+                Style="{StaticResource PropertyName}"
+                Text="Compatibility mode" />
             <ComboBox
                 DisplayMemberPath="Name"
                 ItemsSource="{x:Bind CompatibilityProperties.OSCompatibilityList, Mode=OneWay}"
                 SelectedValue="{x:Bind CompatibilityProperties.OSCompatibility, Mode=TwoWay}" />
 
-            <TextBlock Style="{StaticResource PropertyName}" Text="Reduced color mode" />
+            <TextBlock
+                FontWeight="Bold"
+                Style="{StaticResource PropertyName}"
+                Text="Reduced color mode" />
             <ComboBox
                 DisplayMemberPath="Name"
                 ItemsSource="{x:Bind CompatibilityProperties.ReducedColorModeList, Mode=OneWay}"
                 SelectedValue="{x:Bind CompatibilityProperties.ReducedColorMode, Mode=TwoWay}" />
 
-            <TextBlock Style="{StaticResource PropertyName}" Text="Options" />
+            <TextBlock
+                FontWeight="Bold"
+                Style="{StaticResource PropertyName}"
+                Text="Options" />
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -89,19 +98,28 @@
                     IsOn="{x:Bind CompatibilityProperties.RegisterForRestart, Mode=TwoWay}" />
             </Grid>
 
-            <TextBlock Style="{StaticResource PropertyName}" Text="Use DPI settings of the main monitor" />
+            <TextBlock
+                FontWeight="Bold"
+                Style="{StaticResource PropertyName}"
+                Text="Use DPI settings of the main monitor" />
             <ComboBox
                 DisplayMemberPath="Name"
                 ItemsSource="{x:Bind CompatibilityProperties.HighDpiOptionList, Mode=OneWay}"
                 SelectedValue="{x:Bind CompatibilityProperties.HighDpiOption, Mode=TwoWay}" />
 
-            <TextBlock Style="{StaticResource PropertyName}" Text="Override high DPI scaling behaviour" />
+            <TextBlock
+                FontWeight="Bold"
+                Style="{StaticResource PropertyName}"
+                Text="Override high DPI scaling behaviour" />
             <ComboBox
                 DisplayMemberPath="Name"
                 ItemsSource="{x:Bind CompatibilityProperties.HighDpiOverrideList, Mode=OneWay}"
                 SelectedValue="{x:Bind CompatibilityProperties.HighDpiOverride, Mode=TwoWay}" />
 
-            <Button Command="{x:Bind CompatibilityProperties.RunTroubleshooterCommand}" Content="Run compatibility troubleshooter" />
+            <Button
+                Margin="0,7,0,0"
+                Command="{x:Bind CompatibilityProperties.RunTroubleshooterCommand}"
+                Content="Run compatibility troubleshooter" />
         </StackPanel>
     </ScrollViewer>
 </local1:PropertiesTab>

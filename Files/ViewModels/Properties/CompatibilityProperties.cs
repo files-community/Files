@@ -143,7 +143,7 @@ namespace Files.ViewModels.Properties
         }
 
         public List<LocalizedEnum<HighDpiOption>> HighDpiOptionList { get; } = Enum.GetValues(typeof(HighDpiOption)).Cast<HighDpiOption>().Select(x => new LocalizedEnum<HighDpiOption>(x)).ToList();
-        public List<LocalizedEnum<HighDpiOverride>> HighDpiOverrideList { get; } = Enum.GetValues(typeof(HighDpiOverride)).Cast<HighDpiOverride>().Select(x => new LocalizedEnum<HighDpiOverride>(x)).ToList();
+        public List<LocalizedEnum<HighDpiOverride>> HighDpiOverrideList { get; } = Enum.GetValues(typeof(HighDpiOverride)).Cast<HighDpiOverride>().Where(x => x != Common.HighDpiOverride.Advanced).Select(x => new LocalizedEnum<HighDpiOverride>(x)).ToList();
         public List<LocalizedEnum<OSCompatibility>> OSCompatibilityList { get; } = Enum.GetValues(typeof(OSCompatibility)).Cast<OSCompatibility>().Select(x => new LocalizedEnum<OSCompatibility>(x)).ToList();
         public List<LocalizedEnum<ReducedColorMode>> ReducedColorModeList { get; } = Enum.GetValues(typeof(ReducedColorMode)).Cast<ReducedColorMode>().Select(x => new LocalizedEnum<ReducedColorMode>(x)).ToList();
 
