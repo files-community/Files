@@ -685,21 +685,15 @@ namespace FilesFullTrust.MessageHandlers
                     {
                         var filePath = (string)message["filepath"];
                         var compatOptions = (string)message["options"];
-                        var success = Extensions.IgnoreExceptions(() =>
+                        bool success = false;
+                        if (string.IsNullOrEmpty(compatOptions) || compatOptions == "~")
                         {
-                            using var compatKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers", true);
-                            if (compatKey != null)
-                            {
-                                if (string.IsNullOrEmpty(compatOptions) || compatOptions == "~")
-                                {
-                                    compatKey.DeleteValue(filePath);
-                                }
-                                else
-                                {
-                                    compatKey.SetValue(filePath, compatOptions);
-                                }
-                            }
-                        }, Program.Logger);
+                            success = Win32API.RunPowershellCommand(@$"Remove-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' | Out-Null", false); 
+                        }
+                        else
+                        {
+                            success = Win32API.RunPowershellCommand(@$"New-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' -Value '{compatOptions}' -PropertyType String -Force | Out-Null", false);
+                        }
                         await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", success } }, message.Get("RequestID", (string)null));
                     }
                     break;
