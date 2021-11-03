@@ -33,6 +33,11 @@ namespace Files.Services.Implementation
 
         public FileTag GetTagById(string uid)
         {
+            if (FileTagList.Any(x => x.Uid == null))
+            {
+                // Tags file is invalid, regenerate
+                FileTagList = s_defaultFileTags;
+            }
             var tag = FileTagList.SingleOrDefault(x => x.Uid == uid);
             if (!string.IsNullOrEmpty(uid) && tag == null)
             {
