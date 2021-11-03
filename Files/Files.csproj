@@ -280,6 +280,7 @@
     <Compile Include="UserControls\FolderEmptyIndicator.xaml.cs">
       <DependentUpon>FolderEmptyIndicator.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ImageFromBytes.cs" />
     <Compile Include="UserControls\InnerNavigationToolbar.xaml.cs">
       <DependentUpon>InnerNavigationToolbar.xaml</DependentUpon>
     </Compile>
@@ -546,11 +547,17 @@
     <Compile Include="Views\ColumnShellPage.xaml.cs">
       <DependentUpon>ColumnShellPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CustomFolderIcons.xaml.cs">
+      <DependentUpon>CustomFolderIcons.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LayoutModes\ColumnViewBase.xaml.cs">
       <DependentUpon>ColumnViewBase.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LayoutModes\ColumnViewBrowser.xaml.cs">
       <DependentUpon>ColumnViewBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\PropertiesCustomization.xaml.cs">
+      <DependentUpon>PropertiesCustomization.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LayoutModes\DetailsLayoutBrowser.xaml.cs">
       <DependentUpon>DetailsLayoutBrowser.xaml</DependentUpon>
@@ -1311,6 +1318,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\CustomFolderIcons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LayoutModes\ColumnViewBase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1322,6 +1333,10 @@
     <Page Include="Views\LayoutModes\DetailsLayoutBrowser.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Pages\PropertiesCustomization.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Pages\PropertiesLibrary.xaml">
       <Generator>MSBuild:Compile</Generator>

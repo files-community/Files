@@ -59,6 +59,9 @@ namespace Files.Views
             TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcutItem && !listedItem.IsLibraryItem ? Visibility.Visible : Visibility.Collapsed;
             TabSecurity.Visibility = args.Item is DriveItem ||
                 (listedItem != null && !listedItem.IsLibraryItem && !listedItem.IsRecycleBinItem) ? Visibility.Visible : Visibility.Collapsed;
+            TabCustomization.Visibility = listedItem != null && (
+                (listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !listedItem.IsZipItem) || 
+                (listedItem.IsShortcutItem && !listedItem.IsLinkItem)) ? Visibility.Visible : Visibility.Collapsed;
             base.OnNavigatedTo(e);
         }
 
@@ -209,6 +212,10 @@ namespace Files.Views
 
                 case "Security":
                     contentFrame.Navigate(typeof(PropertiesSecurity), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
+
+                case "Customization":
+                    contentFrame.Navigate(typeof(PropertiesCustomization), navParam, args.RecommendedNavigationTransitionInfo);
                     break;
             }
         }
