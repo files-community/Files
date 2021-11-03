@@ -290,7 +290,7 @@ namespace FilesFullTrust.MessageHandlers
                         var newName = (string)message["newName"];
                         var operationID = (string)message["operationID"];
                         var overwriteOnRename = (bool)message["overwrite"];
-                        var (succcess, shellOperationResult) = await Win32API.StartSTATask(async () =>
+                        var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
                         {
                             using (var op = new ShellFileOperations())
                             {
@@ -335,7 +335,7 @@ namespace FilesFullTrust.MessageHandlers
                             }
                         });
                         await Win32API.SendMessageAsync(connection, new ValueSet() {
-                            { "Success", succcess },
+                            { "Success", success },
                             { "Result", JsonConvert.SerializeObject(shellOperationResult) },
                         }, message.Get("RequestID", (string)null));
                     }
@@ -423,7 +423,7 @@ namespace FilesFullTrust.MessageHandlers
                         var operationID = (string)message["operationID"];
                         var overwriteOnCopy = (bool)message["overwrite"];
                         var ownerHwnd = (long)message["HWND"];
-                        var (succcess, shellOperationResult) = await Win32API.StartSTATask(async () =>
+                        var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
                         {
                             using (var op = new ShellFileOperations())
                             {
@@ -485,7 +485,7 @@ namespace FilesFullTrust.MessageHandlers
                             }
                         });
                         await Win32API.SendMessageAsync(connection, new ValueSet() {
-                            { "Success", succcess },
+                            { "Success", success },
                             { "Result", JsonConvert.SerializeObject(shellOperationResult) }
                         }, message.Get("RequestID", (string)null));
                     }
@@ -700,10 +700,7 @@ namespace FilesFullTrust.MessageHandlers
                                 }
                             }
                         }, Program.Logger);
-                        await Win32API.SendMessageAsync(connection, new ValueSet()
-                        {
-                            { "Success", success }
-                        }, message.Get("RequestID", (string)null));
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", success } }, message.Get("RequestID", (string)null));
                     }
                     break;
             }
