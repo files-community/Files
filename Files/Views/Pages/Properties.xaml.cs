@@ -97,7 +97,7 @@ namespace Files.Views
         {
             AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
             sender.Closed -= PropertiesDialog_Closed;
-            this.FindDescendants().Where(x => x is SettingsBlockControl).Cast<SettingsBlockControl>().Select(x => (x.ExpandableContent as Frame).Content as PropertiesTab).ForEach(x => x?.Dispose());
+            this.FindDescendants().Where(x => x is SettingsBlockControl).Cast<SettingsBlockControl>().Select(x => (x.ExpandableContent as Frame).Content as PropertiesTab).Where(x => x != null).ForEach(tab => tab.Dispose());
             if (tokenSource != null && !tokenSource.IsCancellationRequested)
             {
                 tokenSource.Cancel();
@@ -142,9 +142,9 @@ namespace Files.Views
 
         private async void OKButton_Click(object sender, RoutedEventArgs e)
         {
-            var saveTaks = this.FindDescendants().Where(x => x is SettingsBlockControl).Cast<SettingsBlockControl>().Select(x => (x.ExpandableContent as Frame).Content as PropertiesTab).Select(async (x) =>
+            var saveTaks = this.FindDescendants().Where(x => x is SettingsBlockControl).Cast<SettingsBlockControl>().Select(x => (x.ExpandableContent as Frame).Content as PropertiesTab).Where(x => x != null).Select(async (tab) =>
             {
-                return await x?.SaveChangesAsync(listedItem);
+                return await tab.SaveChangesAsync(listedItem);
             });
             if (!(await Task.WhenAll(saveTaks)).All(x => x))
             {
