@@ -1003,6 +1003,20 @@ namespace Files.ViewModels
             }
         }
 
+        private bool hasItem = true;
+        public bool HasItem
+        {
+            get => hasItem;
+            set
+            {
+                if (SetProperty(ref hasItem, value))
+                {
+                    OnPropertyChanged(nameof(CanEmptyRecycleBin));
+                }
+            }
+
+        }
+
         private List<ListedItem> selectedItems;
 
         public List<ListedItem> SelectedItems
@@ -1022,6 +1036,7 @@ namespace Files.ViewModels
         public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
         public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcutItem && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem));
         public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
+        public bool CanEmptyRecycleBin => HasItem;
 
         public void Dispose()
         {

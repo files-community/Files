@@ -58,6 +58,7 @@
                     x:Name="EmptyRecycleBinButton"
                     x:Uid="InnerEmptyRecycleBinButton"
                     Label="Empty"
+                    IsEnabled="{x:Bind ViewModel.CanEmptyRecycleBin, Mode=OneWay}"
                     Command="{x:Bind ViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
                     Visibility="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}">
                     <AppBarButton.Icon>
