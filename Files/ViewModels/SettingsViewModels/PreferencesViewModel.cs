@@ -161,6 +161,110 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
+        public bool AreHiddenItemsVisible
+        {
+            get => UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible)
+                {
+                    UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool AreSystemItemsHidden
+        {
+            get => UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden)
+                {
+                    UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool ShowFileExtensions
+        {
+            get => UserSettingsService.PreferencesSettingsService.ShowFileExtensions;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+                {
+                    UserSettingsService.PreferencesSettingsService.ShowFileExtensions = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool OpenFilesWithOneClick
+        {
+            get => UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick)
+                {
+                    UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool OpenFoldersWithOneClick
+        {
+            get => UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick)
+                {
+                    UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool ListAndSortDirectoriesAlongsideFiles
+        {
+            get => UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles)
+                {
+                    UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool SearchUnindexedItems
+        {
+            get => UserSettingsService.PreferencesSettingsService.SearchUnindexedItems;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.SearchUnindexedItems)
+                {
+                    UserSettingsService.PreferencesSettingsService.SearchUnindexedItems = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool AreLayoutPreferencesPerFolder
+        {
+            get => UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
+                {
+                    UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public void Dispose()
         {
             if (!disposed)

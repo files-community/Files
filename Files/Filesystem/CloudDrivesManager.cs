@@ -36,7 +36,7 @@ namespace Files.Filesystem
 
         public async Task EnumerateDrivesAsync()
         {
-            if (!UserSettingsService.SidebarSettingsService.ShowCloudDrivesSection)
+            if (!UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection)
             {
                 return;
             }
@@ -105,7 +105,7 @@ namespace Files.Filesystem
                 try
                 {
                     var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarCloudDrives".GetLocalized()) as LocationItem;
-                    if (UserSettingsService.SidebarSettingsService.ShowCloudDrivesSection && section == null && Drives.Any())
+                    if (UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection && section == null && Drives.Any())
                     {
                         section = new LocationItem()
                         {
@@ -146,7 +146,7 @@ namespace Files.Filesystem
             try
             {
                 var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarCloudDrives".GetLocalized()) select n).FirstOrDefault();
-                if (!UserSettingsService.SidebarSettingsService.ShowCloudDrivesSection && item != null)
+                if (!UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection && item != null)
                 {
                     SidebarControl.SideBarItems.Remove(item);
                 }
@@ -157,7 +157,7 @@ namespace Files.Filesystem
 
         public async void UpdateCloudDrivesSectionVisibility()
         {
-            if (UserSettingsService.SidebarSettingsService.ShowCloudDrivesSection)
+            if (UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection)
             {
                 await EnumerateDrivesAsync();
             }

@@ -28,16 +28,16 @@ namespace Files.Helpers
                     userSettingsService.PreviewPaneSettingsService.PreviewPaneMediaVolume = appSettings.Get(1.0d, "MediaVolume");
 
                     // Files and folders
-                    userSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions = appSettings.Get(true, "ShowFileExtensions");
-                    userSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible = appSettings.Get(false, "AreHiddenItemsVisible");
-                    userSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden = appSettings.Get(true, "AreSystemItemsHidden");
-                    userSettingsService.FilesAndFoldersSettingsService.ListAndSortDirectoriesAlongsideFiles = appSettings.Get(false, "ListAndSortDirectoriesAlongsideFiles");
-                    userSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick = appSettings.Get(false, "OpenItemsWithOneClick");
-                    userSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick = appSettings.Get(false, "OpenItemsWithOneClick");
-                    userSettingsService.FilesAndFoldersSettingsService.SearchUnindexedItems = appSettings.Get(false, "SearchUnindexedItems");
-                    userSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder = appSettings.Get(true, "AreLayoutPreferencesPerFolder");
-                    userSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled = appSettings.Get(true, "AdaptiveLayoutEnabled");
-                    userSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled = appSettings.Get(false, "AreFileTagsEnabled");
+                    userSettingsService.PreferencesSettingsService.ShowFileExtensions = appSettings.Get(true, "ShowFileExtensions");
+                    userSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = appSettings.Get(false, "AreHiddenItemsVisible");
+                    userSettingsService.PreferencesSettingsService.AreSystemItemsHidden = appSettings.Get(true, "AreSystemItemsHidden");
+                    userSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles = appSettings.Get(false, "ListAndSortDirectoriesAlongsideFiles");
+                    userSettingsService.PreferencesSettingsService.OpenFilesWithOneClick = appSettings.Get(false, "OpenItemsWithOneClick");
+                    userSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick = appSettings.Get(false, "OpenItemsWithOneClick");
+                    userSettingsService.PreferencesSettingsService.SearchUnindexedItems = appSettings.Get(false, "SearchUnindexedItems");
+                    userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder = appSettings.Get(true, "AreLayoutPreferencesPerFolder");
+                    userSettingsService.PreferencesSettingsService.AdaptiveLayoutEnabled = appSettings.Get(true, "AdaptiveLayoutEnabled");
+                    userSettingsService.PreferencesSettingsService.AreFileTagsEnabled = appSettings.Get(false, "AreFileTagsEnabled");
 
                     // Multitasking
                     userSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled = appSettings.Get(true, "IsVerticalTabFlyoutEnabled");
@@ -51,15 +51,15 @@ namespace Files.Helpers
                     userSettingsService.WidgetsSettingsService.ShowBundlesWidget = appSettings.Get(false, "ShowBundlesWidget");
 
                     // Sidebar
-                    userSettingsService.SidebarSettingsService.SidebarWidth = appSettings.Get(255d, "SidebarWidth");
-                    userSettingsService.SidebarSettingsService.IsSidebarOpen = appSettings.Get(true, "IsSidebarOpen");
-                    userSettingsService.SidebarSettingsService.ShowFavoritesSection = appSettings.Get(true, "ShowFavoritesSection");
-                    userSettingsService.SidebarSettingsService.ShowLibrarySection = appSettings.Get(false, "ShowLibrarySection");
-                    userSettingsService.SidebarSettingsService.ShowDrivesSection = appSettings.Get(true, "ShowDrivesSection");
-                    userSettingsService.SidebarSettingsService.ShowCloudDrivesSection = appSettings.Get(true, "ShowCloudDrivesSection");
-                    userSettingsService.SidebarSettingsService.ShowNetworkDrivesSection = appSettings.Get(true, "ShowNetworkDrivesSection");
-                    userSettingsService.SidebarSettingsService.ShowWslSection = appSettings.Get(true, "ShowWslSection");
-                    userSettingsService.SidebarSettingsService.PinRecycleBinToSidebar = appSettings.Get(true, "PinRecycleBinToSideBar");
+                    userSettingsService.AppearanceSettingsService.SidebarWidth = appSettings.Get(255d, "SidebarWidth");
+                    userSettingsService.AppearanceSettingsService.IsSidebarOpen = appSettings.Get(true, "IsSidebarOpen");
+                    userSettingsService.AppearanceSettingsService.ShowFavoritesSection = appSettings.Get(true, "ShowFavoritesSection");
+                    userSettingsService.AppearanceSettingsService.ShowLibrarySection = appSettings.Get(false, "ShowLibrarySection");
+                    userSettingsService.AppearanceSettingsService.ShowDrivesSection = appSettings.Get(true, "ShowDrivesSection");
+                    userSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = appSettings.Get(true, "ShowCloudDrivesSection");
+                    userSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = appSettings.Get(true, "ShowNetworkDrivesSection");
+                    userSettingsService.AppearanceSettingsService.ShowWslSection = appSettings.Get(true, "ShowWslSection");
+                    userSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = appSettings.Get(true, "PinRecycleBinToSideBar");
 
                     // Preferences
                     userSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog = appSettings.Get(true, "ShowConfirmDeleteDialog");

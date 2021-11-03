@@ -253,7 +253,7 @@ namespace Files.Helpers
             }
             else
             {
-                if (item.IsShortcutItem || !userSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions)
+                if (item.IsShortcutItem || !userSettingsService.PreferencesSettingsService.ShowFileExtensions)
                 {
                     newName += item.FileExtension;
                 }

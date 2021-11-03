@@ -289,7 +289,7 @@ namespace Files.Helpers
                             Text = "BaseLayoutContextFlyoutSortByFileTag/Text".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedByFileTag,
                             Command = new RelayCommand(() => itemViewModel.IsSortedByFileTag = true),
-                            ShowItem = userSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled,
+                            ShowItem = userSettingsService.PreferencesSettingsService.AreFileTagsEnabled,
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
                             ItemType = ItemType.Toggle
@@ -439,7 +439,7 @@ namespace Files.Helpers
                         {
                             Text = "BaseLayoutContextFlyoutSortByFileTag/Text".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FileTag,
-                            ShowItem = userSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled,
+                            ShowItem = userSettingsService.PreferencesSettingsService.AreFileTagsEnabled,
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
                             Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
@@ -547,7 +547,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalized(),
                     Glyph = "\uE840",
                     Command = commandsViewModel.PinDirectoryToFavoritesCommand,
-                    ShowItem = !itemViewModel.CurrentFolder.IsPinned & userSettingsService.SidebarSettingsService.ShowFavoritesSection,
+                    ShowItem = !itemViewModel.CurrentFolder.IsPinned & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
                     ShowInFtpPage = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -555,7 +555,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutContextFlyoutUnpinFromFavorites/Text".GetLocalized(),
                     Glyph = "\uE77A",
                     Command = commandsViewModel.UnpinDirectoryFromFavoritesCommand,
-                    ShowItem = itemViewModel.CurrentFolder.IsPinned & userSettingsService.SidebarSettingsService.ShowFavoritesSection,
+                    ShowItem = itemViewModel.CurrentFolder.IsPinned & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
                     ShowInFtpPage = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -975,7 +975,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalized(),
                     Glyph = "\uE840",
                     Command = commandsViewModel.SidebarPinItemCommand,
-                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem && !x.IsPinned) & userSettingsService.SidebarSettingsService.ShowFavoritesSection,
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem && !x.IsPinned) & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
                     ShowInSearchPage = true,
                     ShowInFtpPage = true,
                 },
@@ -984,7 +984,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutContextFlyoutUnpinFromFavorites/Text".GetLocalized(),
                     Glyph = "\uE77A",
                     Command = commandsViewModel.SidebarUnpinItemCommand,
-                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem && x.IsPinned) & userSettingsService.SidebarSettingsService.ShowFavoritesSection,
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem && x.IsPinned) & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
                     ShowInSearchPage = true,
                     ShowInFtpPage = true,
                 },

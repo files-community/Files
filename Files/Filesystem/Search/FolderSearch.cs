@@ -209,7 +209,7 @@ namespace Files.Filesystem.Search
                     var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
                     var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
                     
-                    bool shouldBeListed = !isHidden || (UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible && (!isSystem || !UserSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden));
+                    bool shouldBeListed = !isHidden || (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden));
 
                     if (shouldBeListed)
                     {
@@ -265,7 +265,7 @@ namespace Files.Filesystem.Search
                     hiddenOnlyFromWin32 = (results.Count != 0);
                 }
 
-                if (!IsAQSQuery && (!hiddenOnlyFromWin32 || UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible))
+                if (!IsAQSQuery && (!hiddenOnlyFromWin32 || UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible))
                 {
                     await SearchWithWin32Async(folder, hiddenOnlyFromWin32, UsedMaxItemCount - (uint)results.Count, results, token);
                 }
@@ -299,8 +299,8 @@ namespace Files.Filesystem.Search
                         var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
                         var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
                         bool shouldBeListed = hiddenOnly ?
-                            isHidden && (!isSystem || !UserSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden) :
-                            !isHidden || (UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible && (!isSystem || !UserSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden));
+                            isHidden && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden) :
+                            !isHidden || (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden));
 
                         if (shouldBeListed)
                         {

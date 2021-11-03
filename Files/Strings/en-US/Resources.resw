@@ -255,9 +255,6 @@
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Show hidden files and folders</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Files &amp; Folders</value>
-  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimental</value>
   </data>
@@ -266,9 +263,6 @@
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Experimental</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Files &amp; Folders</value>
   </data>
   <data name="SettingsNavOnStartup.Content" xml:space="preserve">
     <value>On Startup</value>
@@ -2235,12 +2229,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Unknown owner</value>
   </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Sidebar</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>Sidebar</value>
-  </data>
   <data name="SettingsVerticalTabFlyout" xml:space="preserve">
     <value>Display the vertical tab flyout on the title bar</value>
   </data>
@@ -2790,6 +2778,9 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="SettingsImportErrorTitle" xml:space="preserve">
     <value>Error importing settings</value>
+  </data>
+   <data name="Sidebar" xml:space="preserve">
+    <value>Sidebar</value>
   </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
     <value>Choose a custom folder icon</value>

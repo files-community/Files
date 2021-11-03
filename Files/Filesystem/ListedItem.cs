@@ -127,7 +127,7 @@ namespace Files.Filesystem
 
         public FileTag FileTagUI
         {
-            get => UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled ? FileTagsSettingsService.GetTagById(FileTag) : null;
+            get => UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled ? FileTagsSettingsService.GetTagById(FileTag) : null;
         }
 
         private Uri customIconSource;
