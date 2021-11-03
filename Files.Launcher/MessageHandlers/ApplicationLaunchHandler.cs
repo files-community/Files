@@ -46,6 +46,16 @@ namespace FilesFullTrust.MessageHandlers
                         HandleApplicationsLaunch(applicationList, message);
                     }
                     break;
+
+                case "RunCompatibilityTroubleshooter":
+                    {
+                        var filePath = (string)message["filepath"];
+                        var afPath = Path.Combine(Path.GetTempPath(), "CompatibilityTroubleshooterAnswerFile.xml");
+                        File.WriteAllText(afPath, string.Format("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Answers Version=\"1.0\"><Interaction ID=\"IT_LaunchMethod\"><Value>CompatTab</Value></Interaction><Interaction ID=\"IT_BrowseForFile\"><Value>{0}</Value></Interaction></Answers>", filePath));
+                        message["Parameters"] = $"/id PCWDiagnostic /af \"{afPath}\"";
+                        HandleApplicationLaunch("msdt.exe", message);
+                    }
+                    break;
             }
             return Task.CompletedTask;
         }

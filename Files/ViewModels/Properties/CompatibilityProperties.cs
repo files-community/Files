@@ -151,7 +151,7 @@ namespace Files.ViewModels.Properties
             Item = item;
         }
 
-        public async Task GetCompatibilityOptions()
+        public async void GetCompatibilityOptions()
         {
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection != null)
@@ -188,6 +188,20 @@ namespace Files.ViewModels.Properties
                     && response.Get("Success", false));
             }
             return false;
+        }
+
+        public async void RunTroubleshooter()
+        {
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                var value = new ValueSet()
+                {
+                    { "Arguments", "RunCompatibilityTroubleshooter" },
+                    { "filepath", ExePath }
+                };
+                await connection.SendMessageAsync(value);
+            }
         }
     }
 }

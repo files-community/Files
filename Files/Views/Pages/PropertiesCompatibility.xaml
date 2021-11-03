@@ -9,6 +9,7 @@
     d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:Height="550"
     d:Width="400"
+    Loaded="Properties_Loaded"
     mc:Ignorable="d">
 
     <local1:PropertiesTab.Resources>
