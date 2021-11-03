@@ -821,6 +821,11 @@ namespace Files
                 return;
             }
 
+            var onlyStandard = selectedStorageItems.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);
+            if (onlyStandard)
+            {
+                selectedStorageItems = await selectedStorageItems.ToStandardStorageItemsAsync();
+            }
             if (selectedStorageItems.Count == 1)
             {
                 if (selectedStorageItems[0] is IStorageFile file)
