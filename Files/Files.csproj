@@ -372,6 +372,7 @@
     <Compile Include="ViewModels\NavToolbarViewModel.cs" />
     <Compile Include="ViewModels\Previews\ArchivePreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
+    <Compile Include="ViewModels\Properties\CompatibilityProperties.cs" />
     <Compile Include="ViewModels\Properties\SecurityProperties.cs" />
     <Compile Include="ViewModels\SettingsViewModels\SidebarViewModel.cs" />
     <Compile Include="ViewModels\SearchBoxViewModel.cs" />
@@ -555,6 +556,9 @@
     </Compile>
     <Compile Include="Views\LayoutModes\ColumnViewBrowser.xaml.cs">
       <DependentUpon>ColumnViewBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\PropertiesCompatibility.xaml.cs">
+      <DependentUpon>PropertiesCompatibility.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\PropertiesCustomization.xaml.cs">
       <DependentUpon>PropertiesCustomization.xaml</DependentUpon>
@@ -1331,6 +1335,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LayoutModes\DetailsLayoutBrowser.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Pages\PropertiesCompatibility.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

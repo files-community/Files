@@ -62,6 +62,9 @@ namespace Files.Views
             TabCustomization.Visibility = listedItem != null && (
                 (listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !listedItem.IsZipItem) || 
                 (listedItem.IsShortcutItem && !listedItem.IsLinkItem)) ? Visibility.Visible : Visibility.Collapsed;
+            TabCompatibility.Visibility = listedItem != null && (
+                    ".exe".Equals(listedItem is ShortcutItem sht ? System.IO.Path.GetExtension(sht.TargetPath) : listedItem.FileExtension, StringComparison.OrdinalIgnoreCase)
+                ) ? Visibility.Visible : Visibility.Collapsed;
             base.OnNavigatedTo(e);
         }
 

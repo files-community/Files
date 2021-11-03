@@ -105,6 +105,15 @@
                         <FontIcon Glyph="&#xE771;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem
+                    x:Name="TabCompatibility"
+                    Content="{helpers:ResourceString Name=Compatibility}"
+                    Tag="Compatibility"
+                    Visibility="Collapsed">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xECAA;" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
             </muxc:NavigationView.MenuItems>
 
             <Frame
