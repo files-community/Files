@@ -2800,4 +2800,56 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="RestoreDefault" xml:space="preserve">
     <value>Restore default</value>
   </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>Compatibility</value>
+  </data>
+  <data name="HighDpiOption_None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
+    <value>On Windows login</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
+    <value>On program start</value>
+  </data>
+  <data name="HighDpiOverride_Application" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="HighDpiOverride_None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
+    <value>System (advanced)</value>
+  </data>
+  <data name="OSCompatibility_None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="OSCompatibility_Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="OSCompatibility_Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
+    <value>Windows Vista SP1</value>
+    <comment> </comment>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
+    <value>Windows Vista SP2</value>
+  </data>
+  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
+    <value>16 Bit Colors (65536)</value>
+  </data>
+  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
+    <value>8 Bit Colors (256)</value>
+  </data>
+  <data name="ReducedColorMode_None" xml:space="preserve">
+    <value>None</value>
+  </data>
 </root>

@@ -687,7 +687,7 @@ namespace FilesFullTrust.MessageHandlers
                         var compatOptions = (string)message["options"];
                         var success = Extensions.IgnoreExceptions(() =>
                         {
-                            using var compatKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers");
+                            using var compatKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers", true);
                             if (compatKey != null)
                             {
                                 if (string.IsNullOrEmpty(compatOptions) || compatOptions == "~")
