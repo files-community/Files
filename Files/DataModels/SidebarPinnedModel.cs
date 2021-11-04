@@ -113,17 +113,14 @@ namespace Files.DataModels
                 {
                     Text = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                     IsDefaultLocation = true,
+                    Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.RecycleBin)),
                     Path = CommonPaths.RecycleBinPath
                 };
                 // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
                 // TODO: the very first time the app is launched localized name not available
                 if (!favoriteSection.ChildItems.Any(x => x.Path == CommonPaths.RecycleBinPath))
                 {
-                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
-                    {
-                        favoriteSection.ChildItems.Add(recycleBinItem);
-                        UIHelpers.LoadIconResource(recycleBinItem, Constants.ImageRes.RecycleBin);
-                    });
+                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => favoriteSection.ChildItems.Add(recycleBinItem));
                 }
             }
             else
@@ -340,6 +337,7 @@ namespace Files.DataModels
                     Text = "SidebarFavorites".GetLocalized(),
                     Section = SectionType.Favorites,
                     SelectsOnInvoked = false,
+                    Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.Shell32.QuickAccess)),
                     Font = MainViewModel.FontName,
                     ChildItems = new ObservableCollection<INavigationControlItem>()
                 };
@@ -354,11 +352,7 @@ namespace Files.DataModels
                     SidebarControl.SideBarItems.BeginBulkOperation();
                     var index = 0; // First section
                     SidebarControl.SideBarItems.Insert(index, favoriteSection);
-                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
-                    {
-                        SidebarControl.SideBarItems.EndBulkOperation();
-                        UIHelpers.LoadIconResource(favoriteSection, Constants.Shell32.QuickAccess);
-                    });
+                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => SidebarControl.SideBarItems.EndBulkOperation());
                 }
             }
             finally

@@ -21,7 +21,6 @@ using Windows.Devices.Portable;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Core;
-using Windows.UI.Xaml.Media.Imaging;
 using DriveType = Files.DataModels.NavigationControlItems.DriveType;
 
 namespace Files.Filesystem
@@ -142,6 +141,7 @@ namespace Files.Filesystem
                             Text = "SidebarDrives".GetLocalized(),
                             Section = SectionType.Drives,
                             SelectsOnInvoked = false,
+                            Icon = await UIHelpers.GetIconResource(Constants.ImageRes.ThisPC),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
                         var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
@@ -149,8 +149,6 @@ namespace Files.Filesystem
                         SidebarControl.SideBarItems.BeginBulkOperation();
                         SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), section);
                         SidebarControl.SideBarItems.EndBulkOperation();
-
-                        UIHelpers.LoadIconResource(section, Constants.ImageRes.ThisPC);
                     }
 
                     // Sync drives to sidebar
