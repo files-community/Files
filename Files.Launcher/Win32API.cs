@@ -157,6 +157,8 @@ namespace FilesFullTrust
             }
         }
 
+        private static object lockObject = new object();
+
         public static (string icon, string overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool getOverlay = true, bool onlyGetOverlay = false)
         {
             string iconStr = null, overlayStr = null;
@@ -197,24 +199,31 @@ namespace FilesFullTrust
                 }
 
                 User32.DestroyIcon(shfi.hIcon);
-                Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var tmp);
-                using var imageList = ComCtl32.SafeHIMAGELIST.FromIImageList(tmp);
-                if (imageList.IsNull || imageList.IsInvalid)
-                {
-                    return (iconStr, null);
-                }
 
-                var overlayIdx = shfi.iIcon >> 24;
-                if (overlayIdx != 0)
+                lock (lockObject)
                 {
-                    var overlayImage = imageList.Interface.GetOverlayImage(overlayIdx);
-                    using var hOverlay = imageList.Interface.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
-                    if (!hOverlay.IsNull && !hOverlay.IsInvalid)
+                    if (!Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var imageList).Succeeded)
                     {
-                        using var image = hOverlay.ToIcon().ToBitmap();
-                        byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                        overlayStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                        return (iconStr, null);
                     }
+
+                    var overlayIdx = shfi.iIcon >> 24;
+                    if (overlayIdx != 0)
+                    {
+                        var overlayImage = imageList.GetOverlayImage(overlayIdx);
+                        using var hOverlay = imageList.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
+                        if (!hOverlay.IsNull && !hOverlay.IsInvalid)
+                        {
+                            using (var icon = hOverlay.ToIcon())
+                            using (var image = icon.ToBitmap())
+                            {
+                                byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                                overlayStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                            }
+                        }
+                    }
+
+                    Marshal.ReleaseComObject(imageList);
                 }
 
                 return (iconStr, overlayStr);
