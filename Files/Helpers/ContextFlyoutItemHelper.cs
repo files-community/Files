@@ -23,18 +23,7 @@ namespace Files.Helpers
 {
     public static class ContextFlyoutItemHelper
     {
-        private static List<ShellNewEntry> cachedNewContextMenuEntries;
-
-        public static List<ShellNewEntry> CachedNewContextMenuEntries
-        {
-            get
-            {
-                cachedNewContextMenuEntries ??= Task.Run(() => ShellNewEntryExtensions.GetNewContextMenuEntries()).Result;
-                return cachedNewContextMenuEntries;
-            }
-        }
-
-        private static List<ContextMenuFlyoutItemViewModel> cachedNewItemItems;
+        public static Task<List<ShellNewEntry>> CachedNewContextMenuEntries = ShellNewEntryExtensions.GetNewContextMenuEntries();
 
         public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, string workingDir, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, bool showOpenMenu, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel)
         {
@@ -1053,19 +1042,16 @@ namespace Files.Helpers
                 }
             };
 
-            CachedNewContextMenuEntries?.ForEach(i =>
+            var cachedNewContextMenuEntries = CachedNewContextMenuEntries.IsCompletedSuccessfully ? CachedNewContextMenuEntries.Result : null;
+            cachedNewContextMenuEntries?.ForEach(i =>
             {
                 if (!string.IsNullOrEmpty(i.IconBase64))
                 {
                     // loading the bitmaps takes a while, so this caches them
-                    var bitmap = cachedNewItemItems?.Where(x => x.Text == i.Name).FirstOrDefault()?.BitmapIcon;
-                    if (bitmap == null)
-                    {
-                        byte[] bitmapData = Convert.FromBase64String(i.IconBase64);
-                        using var ms = new MemoryStream(bitmapData);
-                        bitmap = new BitmapImage();
-                        _ = bitmap.SetSourceAsync(ms.AsRandomAccessStream());
-                    }
+                    byte[] bitmapData = Convert.FromBase64String(i.IconBase64);
+                    using var ms = new MemoryStream(bitmapData);
+                    var bitmap = new BitmapImage();
+                    _ = bitmap.SetSourceAsync(ms.AsRandomAccessStream());
                     list.Add(new ContextMenuFlyoutItemViewModel()
                     {
                         Text = i.Name,
@@ -1086,7 +1072,6 @@ namespace Files.Helpers
                 }
             });
 
-            cachedNewItemItems = list;
             return list;
         }
     }
