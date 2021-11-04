@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="16.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -394,7 +394,6 @@
     <Compile Include="ViewModels\Search\SearchPageViewModel.cs" />
     <Compile Include="ViewModels\Search\SearchSettingsViewModel.cs" />
     <Compile Include="ViewModels\Search\SizeRangeViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModels\SidebarViewModel.cs" />
     <Compile Include="ViewModels\SearchBoxViewModel.cs" />
     <Compile Include="ViewModels\SidebarViewModel.cs" />
     <Compile Include="Models\JsonSettings\BaseJsonSettingsModel.cs" />
