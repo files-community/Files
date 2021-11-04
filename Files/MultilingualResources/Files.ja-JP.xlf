@@ -3556,6 +3556,38 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
           <source>Folder path</source>
           <target state="new">Folder path</target>
         </trans-unit>
+        <trans-unit id="ExportSettings" translate="yes" xml:space="preserve">
+          <source>Export Settings</source>
+          <target state="new">Export Settings</target>
+        </trans-unit>
+        <trans-unit id="ImportSettings" translate="yes" xml:space="preserve">
+          <source>Import Settings</source>
+          <target state="new">Import Settings</target>
+        </trans-unit>
+        <trans-unit id="ManageSettings" translate="yes" xml:space="preserve">
+          <source>Manage Settings</source>
+          <target state="new">Manage Settings</target>
+        </trans-unit>
+        <trans-unit id="SettingsImportErrorDescription" translate="yes" xml:space="preserve">
+          <source>Couldn't import settings. The settings file is corrupted.</source>
+          <target state="new">Couldn't import settings. The settings file is corrupted.</target>
+        </trans-unit>
+        <trans-unit id="SettingsImportErrorTitle" translate="yes" xml:space="preserve">
+          <source>Error importing settings</source>
+          <target state="new">Error importing settings</target>
+        </trans-unit>
+        <trans-unit id="ChooseCustomIcon" translate="yes" xml:space="preserve">
+          <source>Choose a custom folder icon</source>
+          <target state="new">Choose a custom folder icon</target>
+        </trans-unit>
+        <trans-unit id="Customization" translate="yes" xml:space="preserve">
+          <source>Customization</source>
+          <target state="new">Customization</target>
+        </trans-unit>
+        <trans-unit id="RestoreDefault" translate="yes" xml:space="preserve">
+          <source>Restore default</source>
+          <target state="new">Restore default</target>
+        </trans-unit>
       </group>
     </body>
   </file>

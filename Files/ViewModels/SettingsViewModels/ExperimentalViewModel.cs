@@ -35,12 +35,12 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool AreFileTagsEnabled
         {
-            get => UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled;
+            get => UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled;
             set
             {
-                if (value != UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled)
+                if (value != UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled)
                 {
-                    UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled = value;
+                    UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled = value;
                     OnPropertyChanged();
                 }
             }

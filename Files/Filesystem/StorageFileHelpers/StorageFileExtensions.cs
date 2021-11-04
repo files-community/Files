@@ -369,7 +369,7 @@ namespace Files.Filesystem
                 }
                 catch (NotSupportedException)
                 {
-                    // Ignore items that can0t be converted
+                    // Ignore items that can't be converted
                 }
             }
             return newItems;

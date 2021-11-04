@@ -355,7 +355,7 @@
                                 x:Uid="NavToolbarArrangementOptionFileTag"
                                 IsChecked="{x:Bind ViewModel.IsSortedByFileTag, Mode=TwoWay}"
                                 Text="File tag"
-                                Visibility="{x:Bind UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled, Mode=OneWay}" />
+                                Visibility="{x:Bind UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled, Mode=OneWay}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionOriginalFolder"
                                 IsChecked="{x:Bind ViewModel.IsSortedByOriginalFolder, Mode=TwoWay}"
@@ -401,7 +401,7 @@
                                 x:Uid="NavToolbarArrangementOptionFileTag"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByFileTag, Mode=TwoWay}"
                                 Text="File tag"
-                                Visibility="{x:Bind UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled, Mode=OneWay}" />
+                                Visibility="{x:Bind UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled, Mode=OneWay}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionOriginalFolder"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByOriginalFolder, Mode=TwoWay}"
@@ -668,7 +668,7 @@
                                     Grid.Column="1"
                                     HorizontalAlignment="Right"
                                     AutomationProperties.Name="Show hidden items"
-                                    IsOn="{x:Bind UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible, Mode=TwoWay}"
+                                    IsOn="{x:Bind UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible, Mode=TwoWay}"
                                     Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 
                                 <TextBlock
@@ -683,7 +683,7 @@
                                     Grid.Column="1"
                                     HorizontalAlignment="Right"
                                     AutomationProperties.Name="Show file extensions"
-                                    IsOn="{x:Bind UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions, Mode=TwoWay}"
+                                    IsOn="{x:Bind UserSettingsService.PreferencesSettingsService.ShowFileExtensions, Mode=TwoWay}"
                                     Rotation="1"
                                     Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                             </Grid>

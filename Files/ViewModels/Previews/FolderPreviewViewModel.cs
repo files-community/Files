@@ -74,7 +74,7 @@ namespace Files.ViewModels.Previews
                 }
             };
 
-            if (UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled)
+            if (UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled)
             {
                 Item.FileDetails.Add(new FileProperty()
                 {

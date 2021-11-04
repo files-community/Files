@@ -49,7 +49,7 @@ namespace Files.Filesystem.StorageEnumerators
             {
                 var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
                 var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-                if (!isHidden || (userSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible && (!isSystem || !userSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden)))
+                if (!isHidden || (userSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && (!isSystem || !userSettingsService.PreferencesSettingsService.AreSystemItemsHidden)))
                 {
                     if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                     {
@@ -184,7 +184,7 @@ namespace Files.Filesystem.StorageEnumerators
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
             string itemName;
-            if (userSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions && !findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
+            if (userSettingsService.PreferencesSettingsService.ShowFileExtensions && !findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
             {
                 itemName = findData.cFileName; // never show extension for shortcuts
             }

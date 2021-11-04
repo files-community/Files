@@ -62,7 +62,7 @@ namespace Files.DataModels
             try
             {
                 var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarFavorites".GetLocalized()) select n).FirstOrDefault();
-                if (!UserSettingsService.SidebarSettingsService.ShowFavoritesSection && item != null)
+                if (!UserSettingsService.AppearanceSettingsService.ShowFavoritesSection && item != null)
                 {
                     SidebarControl.SideBarItems.Remove(item);
                 }
@@ -73,7 +73,7 @@ namespace Files.DataModels
 
         public async void UpdateFavoritesSectionVisibility()
         {
-            if (UserSettingsService.SidebarSettingsService.ShowFavoritesSection)
+            if (UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
             {
                 await AddAllItemsToSidebar();
             }
@@ -314,7 +314,7 @@ namespace Files.DataModels
         /// </summary>
         public async Task AddAllItemsToSidebar()
         {
-            if (!UserSettingsService.SidebarSettingsService.ShowFavoritesSection)
+            if (!UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
             {
                 return;
             }
@@ -366,7 +366,7 @@ namespace Files.DataModels
                 await AddItemToSidebarAsync(path);
             }
 
-            await ShowHideRecycleBinItemAsync(UserSettingsService.SidebarSettingsService.PinRecycleBinToSidebar);
+            await ShowHideRecycleBinItemAsync(UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar);
         }
 
         /// <summary>

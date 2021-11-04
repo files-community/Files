@@ -134,7 +134,7 @@ namespace Files.Filesystem
                 try
                 {
                     var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarDrives".GetLocalized()) as LocationItem;
-                    if (UserSettingsService.SidebarSettingsService.ShowDrivesSection && section == null)
+                    if (UserSettingsService.AppearanceSettingsService.ShowDrivesSection && section == null)
                     {
                         section = new LocationItem()
                         {
@@ -317,7 +317,7 @@ namespace Files.Filesystem
             try
             {
                 var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarDrives".GetLocalized()) select n).FirstOrDefault();
-                if (!UserSettingsService.SidebarSettingsService.ShowDrivesSection && item != null)
+                if (!UserSettingsService.AppearanceSettingsService.ShowDrivesSection && item != null)
                 {
                     SidebarControl.SideBarItems.Remove(item);
                 }
@@ -328,7 +328,7 @@ namespace Files.Filesystem
 
         public async void UpdateDrivesSectionVisibility()
         {
-            if (UserSettingsService.SidebarSettingsService.ShowDrivesSection)
+            if (UserSettingsService.AppearanceSettingsService.ShowDrivesSection)
             {
                 await EnumerateDrivesAsync();
             }

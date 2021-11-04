@@ -269,7 +269,7 @@ namespace Files.Views
                         Query = sender.Query,
                         Folder = FilesystemViewModel.WorkingDirectory,
                         MaxItemCount = 10,
-                        SearchUnindexedItems = UserSettingsService.FilesAndFoldersSettingsService.SearchUnindexedItems
+                        SearchUnindexedItems = UserSettingsService.PreferencesSettingsService.SearchUnindexedItems
                     };
                     sender.SetSuggestions(await search.SearchAsync());
                 }
@@ -301,7 +301,7 @@ namespace Files.Views
         {
             if (e.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(sender.Query))
             {
-                SubmitSearch(sender.Query, UserSettingsService.FilesAndFoldersSettingsService.SearchUnindexedItems);
+                SubmitSearch(sender.Query, UserSettingsService.PreferencesSettingsService.SearchUnindexedItems);
             }
         }
 

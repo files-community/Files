@@ -49,7 +49,7 @@ namespace Files.Filesystem
                     if ((await distroFolder.GetFoldersAsync()).Count != 0)
                     {
                         var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "WSL".GetLocalized()) as LocationItem;
-                        if (UserSettingsService.SidebarSettingsService.ShowWslSection && section == null)
+                        if (UserSettingsService.AppearanceSettingsService.ShowWslSection && section == null)
                         {
                             section = new LocationItem()
                             {
@@ -128,7 +128,7 @@ namespace Files.Filesystem
             try
             {
                 var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("WSL".GetLocalized()) select n).FirstOrDefault();
-                if (!UserSettingsService.SidebarSettingsService.ShowWslSection && item != null)
+                if (!UserSettingsService.AppearanceSettingsService.ShowWslSection && item != null)
                 {
                     SidebarControl.SideBarItems.Remove(item);
                 }
@@ -139,7 +139,7 @@ namespace Files.Filesystem
 
         public async void UpdateWslSectionVisibility()
         {
-            if (UserSettingsService.SidebarSettingsService.ShowWslSection)
+            if (UserSettingsService.AppearanceSettingsService.ShowWslSection)
             {
                 await EnumerateDrivesAsync();
             }

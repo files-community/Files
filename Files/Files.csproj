@@ -246,25 +246,21 @@
     <Compile Include="Models\JsonSettings\ISettingsSerializer.cs" />
     <Compile Include="Services\IAppearanceSettingsService.cs" />
     <Compile Include="Services\IBundlesSettingsService.cs" />
-    <Compile Include="Services\IFilesAndFoldersSettingsService.cs" />
     <Compile Include="Services\IFileTagsSettingsService.cs" />
     <Compile Include="Services\ILayoutSettingsService.cs" />
     <Compile Include="Services\Implementation\AppearanceSettingsService.cs" />
     <Compile Include="Services\Implementation\BundlesSettingsService.cs" />
-    <Compile Include="Services\Implementation\FilesAndFoldersSettingsService.cs" />
     <Compile Include="Services\Implementation\FileTagsSettingsService.cs" />
     <Compile Include="Services\Implementation\LayoutSettingsService.cs" />
     <Compile Include="Services\Implementation\MultitaskingSettingsService.cs" />
     <Compile Include="Services\Implementation\PreferencesSettingsService.cs" />
     <Compile Include="Services\Implementation\PreviewPaneSettingsService.cs" />
-    <Compile Include="Services\Implementation\SidebarSettingsService.cs" />
     <Compile Include="Services\Implementation\StartupSettingsService.cs" />
     <Compile Include="Services\Implementation\UserSettingsService.cs" />
     <Compile Include="Services\Implementation\WidgetsSettingsService.cs" />
     <Compile Include="Services\IMultitaskingSettingsService.cs" />
     <Compile Include="Services\IPreferencesSettingsService.cs" />
     <Compile Include="Services\IPreviewPaneSettingsService.cs" />
-    <Compile Include="Services\ISidebarSettingsService.cs" />
     <Compile Include="Services\IStartupSettingsService.cs" />
     <Compile Include="Services\IUserSettingsService.cs" />
     <Compile Include="Services\IWidgetsSettingsService.cs" />
@@ -373,7 +369,6 @@
     <Compile Include="ViewModels\Previews\ArchivePreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
     <Compile Include="ViewModels\Properties\SecurityProperties.cs" />
-    <Compile Include="ViewModels\SettingsViewModels\SidebarViewModel.cs" />
     <Compile Include="ViewModels\SearchBoxViewModel.cs" />
     <Compile Include="ViewModels\SidebarViewModel.cs" />
     <Compile Include="Models\JsonSettings\BaseJsonSettingsModel.cs" />
@@ -535,7 +530,6 @@
     <Compile Include="ViewModels\SettingsViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\AppearanceViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\ExperimentalViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModels\FilesAndFoldersViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\MultitaskingViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\OnStartupViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\PreferencesViewModel.cs" />
@@ -612,9 +606,6 @@
     <Compile Include="Views\SettingsPages\OnStartup.xaml.cs">
       <DependentUpon>OnStartup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingsPages\FilesAndFolders.xaml.cs">
-      <DependentUpon>FilesAndFolders.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\SettingsPages\Appearance.xaml.cs">
       <DependentUpon>Appearance.xaml</DependentUpon>
     </Compile>
@@ -623,9 +614,6 @@
     </Compile>
     <Compile Include="Views\SettingsPages\Multitasking.xaml.cs">
       <DependentUpon>Multitasking.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SettingsPages\Sidebar.xaml.cs">
-      <DependentUpon>Sidebar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPages\Preferences.xaml.cs">
       <DependentUpon>Preferences.xaml</DependentUpon>
@@ -1406,10 +1394,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\SettingsPages\FilesAndFolders.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\SettingsPages\Appearance.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1419,10 +1403,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SettingsPages\Multitasking.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\SettingsPages\Sidebar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
