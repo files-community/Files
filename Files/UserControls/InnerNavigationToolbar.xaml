@@ -56,11 +56,11 @@
             <CommandBar.PrimaryCommands>
                 <AppBarButton
                     x:Name="EmptyRecycleBinButton"
-                    x:Uid="InnerEmptyRecycleBinButton"
-                    Label="Empty"
+                    Label="{helpers:ResourceString Name=Empty}"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=EmptyRecycleBin}"
                     IsEnabled="{x:Bind ViewModel.CanEmptyRecycleBin, Mode=OneWay}"
                     Command="{x:Bind ViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
-                    Visibility="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}">
+                    x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xEF88;" FontFamily="{StaticResource RecycleBinIcons}" />
                     </AppBarButton.Icon>
@@ -69,7 +69,7 @@
                     x:Name="NewEmptySpaceAppBarButton"
                     x:Uid="BaseLayoutContextFlyoutNew"
                     IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
-                    Visibility="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
+                    x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                     KeyboardAcceleratorTextOverride="Ctrl+Shift+N"
                     Label="New">
                     <AppBarButton.KeyboardAccelerators>
