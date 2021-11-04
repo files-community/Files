@@ -29,26 +29,13 @@ namespace Files.Dialogs
 
         private void UpdateDialogLayout()
         {
-            if (Window.Current.Bounds.Width <= 700)
-            {
-                SettingsPane.PaneDisplayMode = Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.LeftCompact;
-                SettingsContentFrame.Width = 410;
-                Column0.Width = new GridLength(60);
-            }
-            else
-            {
-                SettingsPane.PaneDisplayMode = Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.Left;
-                SettingsContentFrame.Width = 460;
-                Column0.Width = new GridLength(0, GridUnitType.Auto);
-            }
-
             if (Window.Current.Bounds.Height <= 600)
             {
-                ContainerGrid.Height = Window.Current.Bounds.Height;
+                SettingsScrollViewer.Height = Window.Current.Bounds.Height - 40;
             }
             else
             {
-                ContainerGrid.Height = 600;
+                SettingsScrollViewer.Height = 560;
             }
         }
 
@@ -62,11 +49,9 @@ namespace Files.Dialogs
                 0 => SettingsContentFrame.Navigate(typeof(Appearance)),
                 1 => SettingsContentFrame.Navigate(typeof(OnStartup)),
                 2 => SettingsContentFrame.Navigate(typeof(Preferences)),
-                3 => SettingsContentFrame.Navigate(typeof(Sidebar)),
-                4 => SettingsContentFrame.Navigate(typeof(Multitasking)),
-                5 => SettingsContentFrame.Navigate(typeof(FilesAndFolders)),
-                6 => SettingsContentFrame.Navigate(typeof(Experimental)),
-                7 => SettingsContentFrame.Navigate(typeof(About)),
+                3 => SettingsContentFrame.Navigate(typeof(Multitasking)),
+                4 => SettingsContentFrame.Navigate(typeof(Experimental)),
+                5 => SettingsContentFrame.Navigate(typeof(About)),
                 _ => SettingsContentFrame.Navigate(typeof(Appearance))
             };
         }

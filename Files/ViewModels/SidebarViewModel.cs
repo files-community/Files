@@ -105,12 +105,12 @@ namespace Files.ViewModels
 
         public bool IsSidebarOpen
         {
-            get => UserSettingsService.SidebarSettingsService.IsSidebarOpen;
+            get => UserSettingsService.AppearanceSettingsService.IsSidebarOpen;
             set
             {
-                if (value != UserSettingsService.SidebarSettingsService.IsSidebarOpen)
+                if (value != UserSettingsService.AppearanceSettingsService.IsSidebarOpen)
                 {
-                    UserSettingsService.SidebarSettingsService.IsSidebarOpen = value;
+                    UserSettingsService.AppearanceSettingsService.IsSidebarOpen = value;
                     OnPropertyChanged();
                 }
             }
@@ -139,8 +139,8 @@ namespace Files.ViewModels
         {
             switch (e.settingName)
             {
-                case nameof(UserSettingsService.SidebarSettingsService.IsSidebarOpen):
-                    if (UserSettingsService.SidebarSettingsService.IsSidebarOpen != IsSidebarOpen)
+                case nameof(UserSettingsService.AppearanceSettingsService.IsSidebarOpen):
+                    if (UserSettingsService.AppearanceSettingsService.IsSidebarOpen != IsSidebarOpen)
                     {
                         OnPropertyChanged(nameof(IsSidebarOpen));
                     }

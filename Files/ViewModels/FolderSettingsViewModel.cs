@@ -171,7 +171,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeGridViewLarge => new RelayCommand<bool>((manuallySet) =>
         {
-            if (UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled)
+            if (UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.PreferencesSettingsService.AdaptiveLayoutEnabled)
             {
                 if (LastLayoutModeSelected == FolderLayout.GridViewLarge && LayoutPreference.IsAdaptiveLayoutOverridden)
                 {
@@ -200,7 +200,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeColumnView => new RelayCommand<bool>((manuallySet) =>
         {
-            if (UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled)
+            if (UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.PreferencesSettingsService.AdaptiveLayoutEnabled)
             {
                 if (LastLayoutModeSelected == FolderLayout.ColumnView)
                 {
@@ -222,7 +222,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeGridViewMedium => new RelayCommand<bool>((manuallySet) =>
         {
-            if (UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled)
+            if (UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.PreferencesSettingsService.AdaptiveLayoutEnabled)
             {
                 if (LastLayoutModeSelected == FolderLayout.GridViewMedium && LayoutPreference.IsAdaptiveLayoutOverridden)
                 {
@@ -251,7 +251,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeGridViewSmall => new RelayCommand<bool>((manuallySet) =>
         {
-            if (UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled)
+            if (UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.PreferencesSettingsService.AdaptiveLayoutEnabled)
             {
                 if (LastLayoutModeSelected == FolderLayout.GridViewSmall && LayoutPreference.IsAdaptiveLayoutOverridden)
                 {
@@ -293,7 +293,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeTiles => new RelayCommand<bool>((manuallySet) =>
         {
-            if (UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled)
+            if (UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.PreferencesSettingsService.AdaptiveLayoutEnabled)
             {
                 if (LastLayoutModeSelected == FolderLayout.TilesView && LayoutPreference.IsAdaptiveLayoutOverridden)
                 {
@@ -316,7 +316,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeDetailsView => new RelayCommand<bool>((manuallySet) =>
         {
-            if (UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled)
+            if (UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.PreferencesSettingsService.AdaptiveLayoutEnabled)
             {
                 if (LastLayoutModeSelected == FolderLayout.DetailsView && LayoutPreference.IsAdaptiveLayoutOverridden)
                 {
@@ -489,7 +489,7 @@ namespace Files.ViewModels
         public static LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-            if (userSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder)
+            if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
             {
                 var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath.TrimEnd('\\'));
                 return layoutPrefs ?? ReadLayoutPreferencesFromSettings(folderPath.TrimEnd('\\').Replace('\\', '_'));
@@ -501,7 +501,7 @@ namespace Files.ViewModels
         public void UpdateLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-            if (userSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder)
+            if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
             {
                 // Sanitize the folderPath by removing the trailing '\\'. This has to be performed because paths to drives
                 // include an '\\' at the end (unlike paths to folders)

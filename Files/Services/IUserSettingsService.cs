@@ -14,15 +14,11 @@ namespace Files.Services
 
         object ExportSettings();
 
-        IFilesAndFoldersSettingsService FilesAndFoldersSettingsService { get; }
+        IPreferencesSettingsService PreferencesSettingsService { get; }
 
         IMultitaskingSettingsService MultitaskingSettingsService { get; }
 
         IWidgetsSettingsService WidgetsSettingsService { get; }
-
-        ISidebarSettingsService SidebarSettingsService { get; }
-
-        IPreferencesSettingsService PreferencesSettingsService { get; }
 
         IAppearanceSettingsService AppearanceSettingsService { get; }
 

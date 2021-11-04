@@ -191,7 +191,7 @@ namespace Files.Filesystem.StorageEnumerators
 
             var basicProperties = await file.GetBasicPropertiesAsync();
             // Display name does not include extension
-            var itemName = string.IsNullOrEmpty(file.DisplayName) || userSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions ?
+            var itemName = string.IsNullOrEmpty(file.DisplayName) || userSettingsService.PreferencesSettingsService.ShowFileExtensions ?
                 file.Name : file.DisplayName;
             var itemModifiedDate = basicProperties.DateModified;
             var itemCreatedDate = file.DateCreated;

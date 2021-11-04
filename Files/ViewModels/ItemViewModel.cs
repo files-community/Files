@@ -356,7 +356,7 @@ namespace Files.ViewModels
             loadPropsCTS = new CancellationTokenSource();
             operationEvent = new AsyncManualResetEvent();
             enumFolderSemaphore = new SemaphoreSlim(1, 1);
-            shouldDisplayFileExtensions =  UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions;
+            shouldDisplayFileExtensions =  UserSettingsService.PreferencesSettingsService.ShowFileExtensions;
 
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
             AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
@@ -366,10 +366,10 @@ namespace Files.ViewModels
         {
             switch (e.settingName)
             {
-                case nameof(UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions):
-                case nameof(UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible):
-                case nameof(UserSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden):
-                case nameof(UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled):
+                case nameof(UserSettingsService.PreferencesSettingsService.ShowFileExtensions):
+                case nameof(UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible):
+                case nameof(UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden):
+                case nameof(UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled):
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                     {
                         if (WorkingDirectory != "Home".GetLocalized())
@@ -1975,7 +1975,7 @@ namespace Files.ViewModels
             {
                 // File
                 string itemName;
-                if (UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions && !item.FileName.EndsWith(".lnk") && !item.FileName.EndsWith(".url"))
+                if (UserSettingsService.PreferencesSettingsService.ShowFileExtensions && !item.FileName.EndsWith(".lnk") && !item.FileName.EndsWith(".url"))
                 {
                     itemName = item.FileName; // never show extension for shortcuts
                 }
@@ -2064,7 +2064,7 @@ namespace Files.ViewModels
 
             var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
             var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-            if (isHidden && (!UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible || (isSystem && UserSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden)))
+            if (isHidden && (!UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible || (isSystem && UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden)))
             {
                 // Do not add to file list if hidden/system attribute is set and system/hidden file are not to be shown
                 return;

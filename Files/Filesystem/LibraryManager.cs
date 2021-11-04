@@ -37,7 +37,7 @@ namespace Files.Filesystem
 
         private async void Libraries_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (!UserSettingsService.SidebarSettingsService.ShowLibrarySection)
+            if (!UserSettingsService.AppearanceSettingsService.ShowLibrarySection)
             {
                 return;
             }
@@ -138,7 +138,7 @@ namespace Files.Filesystem
             try
             {
                 var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarLibraries".GetLocalized()) select n).FirstOrDefault();
-                if (!UserSettingsService.SidebarSettingsService.ShowLibrarySection && item != null)
+                if (!UserSettingsService.AppearanceSettingsService.ShowLibrarySection && item != null)
                 {
                     SidebarControl.SideBarItems.Remove(item);
                 }
@@ -148,7 +148,7 @@ namespace Files.Filesystem
 
         public async void UpdateLibrariesSectionVisibility()
         {
-            if (UserSettingsService.SidebarSettingsService.ShowLibrarySection)
+            if (UserSettingsService.AppearanceSettingsService.ShowLibrarySection)
             {
                 await EnumerateLibrariesAsync();
             }
@@ -194,7 +194,7 @@ namespace Files.Filesystem
                 try
                 {
                     var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarLibraries".GetLocalized()) as LocationItem;
-                    if (UserSettingsService.SidebarSettingsService.ShowLibrarySection && section == null)
+                    if (UserSettingsService.AppearanceSettingsService.ShowLibrarySection && section == null)
                     {
                         librarySection = new LocationItem
                         {
