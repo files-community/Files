@@ -1,7 +1,9 @@
 ﻿using Files.Common;
+using Files.DataModels.NavigationControlItems;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
@@ -82,14 +84,29 @@ namespace Files.Helpers
             return null;
         }
 
-        public static async Task<BitmapImage> GetIconResource(int index)
+        public static async void LoadIconResource(LocationItem item, int index)
         {
-            var iconInfo = await GetIconResourceInfo(index);
-            if (iconInfo != null)
+            await Common.Extensions.IgnoreExceptions(async () =>
             {
-                return await iconInfo.IconDataBytes.ToBitmapAsync();
-            }
-            return null;
+                var iconInfo = await GetIconResourceInfo(index);
+                if (iconInfo != null)
+                {
+                    item.Icon = await iconInfo.IconDataBytes.ToBitmapAsync();
+                }
+            }, App.Logger);
+        }
+
+        public static async void LoadIconResource(DriveItem item, int index)
+        {
+            await Common.Extensions.IgnoreExceptions(async () =>
+            {
+                var iconInfo = await GetIconResourceInfo(index);
+                if (iconInfo != null)
+                {
+                    item.IconData = iconInfo.IconDataBytes;
+                    item.Icon = await iconInfo.IconDataBytes.ToBitmapAsync();
+                }
+            }, App.Logger);
         }
 
         private static async Task<IEnumerable<IconFileInfo>> LoadSidebarIconResources()
@@ -100,7 +117,7 @@ namespace Files.Helpers
                     Constants.ImageRes.NetworkDrives,
                     Constants.ImageRes.Libraries,
                     Constants.ImageRes.ThisPC,
-                    Constants.ImageRes.CloudDrives,
+                    //Constants.ImageRes.CloudDrives,
                     Constants.ImageRes.Folder
                 }, 32);
 

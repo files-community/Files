@@ -17,6 +17,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
 {
@@ -201,13 +202,14 @@ namespace Files.Filesystem
                             Text = "SidebarLibraries".GetLocalized(),
                             Section = SectionType.Library,
                             SelectsOnInvoked = false,
-                            Icon = await UIHelpers.GetIconResource(Constants.ImageRes.Libraries),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
                         var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0); // After favorites section
                         SidebarControl.SideBarItems.BeginBulkOperation();
                         SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), librarySection);
                         SidebarControl.SideBarItems.EndBulkOperation();
+
+                        UIHelpers.LoadIconResource(section, Constants.ImageRes.Libraries);
                     }
                 }
                 finally

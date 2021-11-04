@@ -16,6 +16,7 @@ using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
 {
@@ -129,7 +130,6 @@ namespace Files.Filesystem
                             Text = "SidebarNetworkDrives".GetLocalized(),
                             Section = SectionType.Network,
                             SelectsOnInvoked = false,
-                            Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
                         var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
@@ -139,6 +139,8 @@ namespace Files.Filesystem
                         SidebarControl.SideBarItems.BeginBulkOperation();
                         SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), section);
                         SidebarControl.SideBarItems.EndBulkOperation();
+
+                        UIHelpers.LoadIconResource(section, Constants.ImageRes.NetworkDrives);
                     }
 
                     if (section != null)
@@ -147,15 +149,10 @@ namespace Files.Filesystem
                         .OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                         .ThenBy(o => o.Text))
                         {
-                            var resource = await UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder);
-                            if (resource != null)
-                            {
-                                drive.IconData = resource.IconDataBytes;
-                                drive.Icon = await drive.IconData.ToBitmapAsync();
-                            }
                             if (!section.ChildItems.Contains(drive))
                             {
                                 section.ChildItems.Add(drive);
+                                UIHelpers.LoadIconResource(drive, Constants.ImageRes.Folder);
                             }
                         }
                     }
