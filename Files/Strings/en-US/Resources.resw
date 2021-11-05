@@ -2779,9 +2779,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="SettingsImportErrorTitle" xml:space="preserve">
     <value>Error importing settings</value>
   </data>
-  <data name="Empty" xml:space="preserve">
-    <value>Empty</value>
-  </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
     <value>Empty Recycle Bin</value>
   </data>

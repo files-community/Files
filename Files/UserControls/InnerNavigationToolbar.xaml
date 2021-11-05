@@ -184,7 +184,7 @@
                 <AppBarSeparator x:Name="AdditionalActionSeparator" x:Load="{x:Bind ViewModel.HasAdditionnalAction, Mode=OneWay}" />
                 <AppBarButton
                     x:Name="EmptyRecycleBinButton"
-                    Label="{helpers:ResourceString Name=Empty}"
+                    Label="{helpers:ResourceString Name=EmptyRecycleBin}"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=EmptyRecycleBin}"
                     IsEnabled="{x:Bind ViewModel.CanEmptyRecycleBin, Mode=OneWay}"
                     Command="{x:Bind ViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
