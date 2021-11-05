@@ -80,7 +80,10 @@
                 FontWeight="Medium"
                 Text="{helpers:ResourceString Name=SettingsDefaultExplorer}" />
 
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsSetAsDefaultExplorer}" HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl
+                Title="{helpers:ResourceString Name=SettingsSetAsDefaultExplorer}"
+                HorizontalAlignment="Stretch"
+                Description="{helpers:ResourceString Name=SettingsSetAsDefaultExplorerDescription}">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xEC50;" />
                 </local:SettingsBlockControl.Icon>

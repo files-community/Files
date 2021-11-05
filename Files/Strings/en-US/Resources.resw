@@ -2800,4 +2800,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="RestoreDefault" xml:space="preserve">
     <value>Restore default</value>
   </data>
+  <data name="SettingsSetAsDefaultExplorerDescription" xml:space="preserve">
+    <value>Please use this setting at your own risk. This setting modifies the registry and uninstalling the app will not undo those changes.</value>
+  </data>
 </root>

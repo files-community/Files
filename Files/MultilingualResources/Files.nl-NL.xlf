@@ -3611,6 +3611,10 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
           <source>Restore default</source>
           <target state="new">Restore default</target>
         </trans-unit>
+        <trans-unit id="SettingsSetAsDefaultExplorerDescription" translate="yes" xml:space="preserve">
+          <source>Please use this setting at your own risk. This setting modifies the registry and uninstalling the app will not undo those changes.</source>
+          <target state="new">Please use this setting at your own risk. This setting modifies the registry and uninstalling the app will not undo those changes.</target>
+        </trans-unit>
       </group>
     </body>
   </file>
