@@ -32,8 +32,11 @@ namespace FilesFullTrust.MessageHandlers
 
         private void DetectIsSetAsOpenFileDialog()
         {
-            using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\CLSID\{DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7}");
-            ApplicationData.Current.LocalSettings.Values["IsSetAsOpenFileDialog"] = subkey?.GetValue(string.Empty) as string == "FilesOpenDialog class";
+            using var subkeyOpen = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\CLSID\{DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7}");
+            using var subkeySave = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\CLSID\{C0B4E2F3-BA21-4773-8DBA-335EC946EB8B}");
+            var isSetAsOpenDialog = subkeyOpen?.GetValue(string.Empty) as string == "FilesOpenDialog class";
+            var isSetAsSaveDialog = subkeySave?.GetValue(string.Empty) as string == "FilesSaveDialog class";
+            ApplicationData.Current.LocalSettings.Values["IsSetAsOpenFileDialog"] = isSetAsOpenDialog || isSetAsSaveDialog;
         }
 
         public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
@@ -191,12 +194,16 @@ namespace FilesFullTrust.MessageHandlers
 
                         try
                         {
-                            using var regProc32 = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialog32.dll")}""");
-                            regProc32.WaitForExit();
-                            using var regProc64 = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialog64.dll")}""");
-                            regProc64.WaitForExit();
-                            using var regProcARM64 = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialogARM64.dll")}""");
-                            regProcARM64.WaitForExit();
+                            using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialog32.dll")}"""))
+                                regProc.WaitForExit();
+                            using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialog64.dll")}"""))
+                                regProc.WaitForExit();
+                            using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomSaveDialog32.dll")}"""))
+                                regProc.WaitForExit();
+                            using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomSaveDialog64.dll")}"""))
+                                regProc.WaitForExit();
+                            using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialogARM64.dll")}"""))
+                                regProc.WaitForExit();
 
                             DetectIsSetAsOpenFileDialog();
                             await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", true } }, message.Get("RequestID", (string)null));
