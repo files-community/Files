@@ -1,0 +1,31 @@
+// CustomSaveDialog.idl: origine IDL per CustomSaveDialog
+//
+
+// Questo file verrà elaborato dallo strumento MIDL per
+// produce la libreria dei tipi (CustomSaveDialog.tlb) e il codice di marshalling.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(21533617-c1cd-4d33-a190-21fb069b55f4),
+	version(1.0),
+]
+library CustomSaveDialogLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(C0B4E2F3-BA21-4773-8DBA-335EC946EB8B)
+	]
+	coclass FilesSaveDialog
+	{
+		[default] interface IFileSaveDialog;
+		interface IFileDialog;
+		interface IFileDialogCustomize;
+		interface IFileDialog2;
+		interface IObjectWithSite;
+		//interface IFileDialogPrivate;
+	};
+};
+
+import "shobjidl.idl";
