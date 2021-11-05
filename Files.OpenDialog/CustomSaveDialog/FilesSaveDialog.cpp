@@ -9,7 +9,7 @@
 #include <locale>
 #include <codecvt>
 
-//#define SYSTEMDIALOG
+#define SYSTEMDIALOG
 
 using std::cout;
 using std::wcout;
@@ -55,6 +55,40 @@ CComPtr<T> AsInterface(CComPtr<IFileSaveDialog> dialog)
 
 CFilesSaveDialog::CFilesSaveDialog()
 {
+	_fos = FOS_FILEMUSTEXIST | FOS_PATHMUSTEXIST;
+	_systemDialog = nullptr;
+	_debugStream = NULL;
+	_dialogEvents = NULL;
+
+	PWSTR pszPath = NULL;
+	HRESULT hr = SHGetKnownFolderPath(FOLDERID_Desktop, 0, NULL, &pszPath);
+	if (SUCCEEDED(hr))
+	{
+		TCHAR debugPath[MAX_PATH];
+		wsprintf(debugPath, L"%s\\%s", pszPath, L"save_dialog.txt");
+#ifdef  DEBUGLOG
+		_wfreopen_s(&_debugStream, debugPath, L"w", stdout);
+#endif
+		CoTaskMemFree(pszPath);
+	}
+	cout << "Create" << endl;
+
+	TCHAR tempPath[MAX_PATH];
+	GetTempPath(MAX_PATH, tempPath);
+	TCHAR tempName[MAX_PATH];
+	GetTempFileName(tempPath, L"fsd", 0, tempName);
+	_outputPath = tempName;
+
+	(void)SHGetKnownFolderItem(FOLDERID_Documents, KF_FLAG_DEFAULT_PATH, NULL, IID_IShellItem, (void**)&_initFolder);
+	hr = _initFolder->GetDisplayName(SIGDN_NORMALDISPLAY, &pszPath);
+	if (SUCCEEDED(hr))
+	{
+		wcout << L"_outputPath: " << _outputPath << L", _initFolder: " << pszPath << endl;
+	}
+
+#ifdef  SYSTEMDIALOG
+	_systemDialog = GetSystemDialog();
+#endif
 }
 
 void CFilesSaveDialog::FinalRelease()
@@ -62,6 +96,10 @@ void CFilesSaveDialog::FinalRelease()
 	if (_systemDialog)
 	{
 		_systemDialog.Release();
+	}
+	if (_initFolder)
+	{
+		_initFolder->Release();
 	}
 	if (_debugStream)
 	{
@@ -71,445 +109,856 @@ void CFilesSaveDialog::FinalRelease()
 
 HRESULT __stdcall CFilesSaveDialog::SetSite(IUnknown* pUnkSite)
 {
-	return E_NOTIMPL;
+	cout << "SetSite" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IObjectWithSite>(_systemDialog)->SetSite(pUnkSite);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::GetSite(REFIID riid, void** ppvSite)
 {
+	cout << "GetSite" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IObjectWithSite>(_systemDialog)->GetSite(riid, ppvSite);
+#endif
 	return E_NOTIMPL;
 }
 
 HRESULT __stdcall CFilesSaveDialog::EnableOpenDropDown(DWORD dwIDCtl)
 {
-	return E_NOTIMPL;
+	cout << "EnableOpenDropDown" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->EnableOpenDropDown(dwIDCtl);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::AddMenu(DWORD dwIDCtl, LPCWSTR pszLabel)
 {
-	return E_NOTIMPL;
+	cout << "AddMenu" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->AddMenu(dwIDCtl, pszLabel);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::AddPushButton(DWORD dwIDCtl, LPCWSTR pszLabel)
 {
-	return E_NOTIMPL;
+	cout << "AddPushButton" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->AddPushButton(dwIDCtl, pszLabel);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::AddComboBox(DWORD dwIDCtl)
 {
-	return E_NOTIMPL;
+	cout << "AddComboBox" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->AddComboBox(dwIDCtl);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::AddRadioButtonList(DWORD dwIDCtl)
 {
-	return E_NOTIMPL;
+	cout << "AddRadioButtonList" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->AddRadioButtonList(dwIDCtl);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::AddCheckButton(DWORD dwIDCtl, LPCWSTR pszLabel, BOOL bChecked)
 {
-	return E_NOTIMPL;
+	cout << "AddCheckButton" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->AddCheckButton(dwIDCtl, pszLabel, bChecked);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::AddEditBox(DWORD dwIDCtl, LPCWSTR pszText)
 {
-	return E_NOTIMPL;
+	cout << "AddEditBox" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->AddEditBox(dwIDCtl, pszText);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::AddSeparator(DWORD dwIDCtl)
 {
-	return E_NOTIMPL;
+	cout << "AddSeparator" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->AddSeparator(dwIDCtl);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::AddText(DWORD dwIDCtl, LPCWSTR pszText)
 {
-	return E_NOTIMPL;
+	cout << "AddText" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->AddText(dwIDCtl, pszText);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetControlLabel(DWORD dwIDCtl, LPCWSTR pszLabel)
 {
-	return E_NOTIMPL;
+	cout << "SetControlLabel" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->SetControlLabel(dwIDCtl, pszLabel);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::GetControlState(DWORD dwIDCtl, CDCONTROLSTATEF* pdwState)
 {
-	return E_NOTIMPL;
+	cout << "GetControlState" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->GetControlState(dwIDCtl, pdwState);
+#endif
+	* pdwState = CDCS_ENABLEDVISIBLE;
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetControlState(DWORD dwIDCtl, CDCONTROLSTATEF dwState)
 {
-	return E_NOTIMPL;
+	cout << "SetControlState" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->SetControlState(dwIDCtl, dwState);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::GetEditBoxText(DWORD dwIDCtl, WCHAR** ppszText)
 {
-	return E_NOTIMPL;
+	cout << "GetEditBoxText" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->GetEditBoxText(dwIDCtl, ppszText);
+#endif
+	SHStrDupW(L"", ppszText);
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetEditBoxText(DWORD dwIDCtl, LPCWSTR pszText)
 {
-	return E_NOTIMPL;
+	cout << "SetEditBoxText" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->SetEditBoxText(dwIDCtl, pszText);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::GetCheckButtonState(DWORD dwIDCtl, BOOL* pbChecked)
 {
-	return E_NOTIMPL;
+	cout << "GetCheckButtonState" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->GetCheckButtonState(dwIDCtl, pbChecked);
+#endif
+	* pbChecked = false;
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetCheckButtonState(DWORD dwIDCtl, BOOL bChecked)
 {
-	return E_NOTIMPL;
+	cout << "SetCheckButtonState" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->SetCheckButtonState(dwIDCtl, bChecked);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::AddControlItem(DWORD dwIDCtl, DWORD dwIDItem, LPCWSTR pszLabel)
 {
-	return E_NOTIMPL;
+	cout << "AddControlItem" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->AddControlItem(dwIDCtl, dwIDItem, pszLabel);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::RemoveControlItem(DWORD dwIDCtl, DWORD dwIDItem)
 {
-	return E_NOTIMPL;
+	cout << "RemoveControlItem" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->RemoveControlItem(dwIDCtl, dwIDItem);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::RemoveAllControlItems(DWORD dwIDCtl)
 {
-	return E_NOTIMPL;
+	cout << "RemoveAllControlItems" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->RemoveAllControlItems(dwIDCtl);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::GetControlItemState(DWORD dwIDCtl, DWORD dwIDItem, CDCONTROLSTATEF* pdwState)
 {
-	return E_NOTIMPL;
+	cout << "GetControlItemState" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->GetControlItemState(dwIDCtl, dwIDItem, pdwState);
+#endif
+	* pdwState = CDCS_ENABLEDVISIBLE;
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetControlItemState(DWORD dwIDCtl, DWORD dwIDItem, CDCONTROLSTATEF dwState)
 {
-	return E_NOTIMPL;
+	cout << "SetControlItemState" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->SetControlItemState(dwIDCtl, dwIDItem, dwState);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::GetSelectedControlItem(DWORD dwIDCtl, DWORD* pdwIDItem)
 {
-	return E_NOTIMPL;
+	cout << "GetSelectedControlItem" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->GetSelectedControlItem(dwIDCtl, pdwIDItem);
+#endif
+	* pdwIDItem = 0;
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetSelectedControlItem(DWORD dwIDCtl, DWORD dwIDItem)
 {
-	return E_NOTIMPL;
+	cout << "SetSelectedControlItem" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->SetSelectedControlItem(dwIDCtl, dwIDItem);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::StartVisualGroup(DWORD dwIDCtl, LPCWSTR pszLabel)
 {
-	return E_NOTIMPL;
+	cout << "StartVisualGroup" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->StartVisualGroup(dwIDCtl, pszLabel);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::EndVisualGroup(void)
 {
-	return E_NOTIMPL;
+	cout << "EndVisualGroup" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->EndVisualGroup();
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::MakeProminent(DWORD dwIDCtl)
 {
-	return E_NOTIMPL;
+	cout << "MakeProminent" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->MakeProminent(dwIDCtl);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetControlItemText(DWORD dwIDCtl, DWORD dwIDItem, LPCWSTR pszLabel)
 {
-	return E_NOTIMPL;
+	cout << "SetControlItemText" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogCustomize>(_systemDialog)->SetControlItemText(dwIDCtl, dwIDItem, pszLabel);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 {
-	return E_NOTIMPL;
+	cout << "Show, hwndOwner: " << hwndOwner << endl;
+
+#ifdef  SYSTEMDIALOG
+	return _systemDialog->Show(hwndOwner);
+#endif
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetFileTypes(UINT cFileTypes, const COMDLG_FILTERSPEC* rgFilterSpec)
 {
-	return E_NOTIMPL;
+	cout << "SetFileTypes, cFileTypes: " << cFileTypes << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->SetFileTypes(cFileTypes, rgFilterSpec);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetFileTypeIndex(UINT iFileType)
 {
-	return E_NOTIMPL;
+	cout << "SetFileTypeIndex, iFileType: " << iFileType << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->SetFileTypeIndex(iFileType);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::GetFileTypeIndex(UINT* piFileType)
 {
-	return E_NOTIMPL;
+	cout << "GetFileTypeIndex" << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->GetFileTypeIndex(piFileType);
+#endif
+	* piFileType = 1;
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::Advise(IFileDialogEvents* pfde, DWORD* pdwCookie)
 {
-	return E_NOTIMPL;
+	cout << "Advise" << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->Advise(pfde, pdwCookie);
+#endif
+	_dialogEvents = pfde;
+	*pdwCookie = 0;
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::Unadvise(DWORD dwCookie)
 {
-	return E_NOTIMPL;
+	cout << "Unadvise, dwCookie: " << dwCookie << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->Unadvise(dwCookie);
+#endif
+	_dialogEvents = NULL;
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetOptions(FILEOPENDIALOGOPTIONS fos)
 {
-	return E_NOTIMPL;
+	cout << "SetOptions, fos: " << fos << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->SetOptions(fos);
+#endif
+	_fos = fos;
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::GetOptions(FILEOPENDIALOGOPTIONS* pfos)
 {
-	return E_NOTIMPL;
+	cout << "GetOptions, fos: " << _fos << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->GetOptions(pfos);
+#endif
+	* pfos = _fos;
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetDefaultFolder(IShellItem* psi)
 {
-	return E_NOTIMPL;
+	PWSTR pszPath = NULL;
+	if (SUCCEEDED(psi->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszPath)))
+	{
+		wcout << L"SetDefaultFolder, psi: " << pszPath << endl;
+		CoTaskMemFree(pszPath);
+	}
+#ifdef SYSTEMDIALOG
+	return _systemDialog->SetDefaultFolder(psi);
+#endif
+	if (_initFolder)
+	{
+		_initFolder->Release();
+	}
+	_initFolder = CloneShellItem(psi);
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetFolder(IShellItem* psi)
 {
-	return E_NOTIMPL;
+	PWSTR pszPath = NULL;
+	if (SUCCEEDED(psi->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszPath)))
+	{
+		wcout << L"SetFolder, psi: " << pszPath << endl;
+		CoTaskMemFree(pszPath);
+	}
+#ifdef SYSTEMDIALOG
+	return _systemDialog->SetFolder(psi);
+#endif
+	if (_initFolder)
+	{
+		_initFolder->Release();
+	}
+	_initFolder = CloneShellItem(psi);
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::GetFolder(IShellItem** ppsi)
 {
+	cout << "GetFolder" << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->GetFolder(ppsi);
+#endif
+	* ppsi = NULL;
 	return E_NOTIMPL;
 }
 
 HRESULT __stdcall CFilesSaveDialog::GetCurrentSelection(IShellItem** ppsi)
 {
-	return E_NOTIMPL;
+	cout << "GetCurrentSelection" << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->GetCurrentSelection(ppsi);
+#endif
+	return GetResult(ppsi);
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetFileName(LPCWSTR pszName)
 {
-	return E_NOTIMPL;
+	wcout << L"SetFileName, pszName: " << pszName << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->SetFileName(pszName);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::GetFileName(LPWSTR* pszName)
 {
-	return E_NOTIMPL;
+	cout << "GetFileName" << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->GetFileName(pszName);
+#endif
+	SHStrDupW(L"", pszName);
+	if (!_selectedItem.empty())
+	{
+		SHStrDupW(_selectedItem.c_str(), pszName);
+	}
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetTitle(LPCWSTR pszTitle)
 {
-	return E_NOTIMPL;
+	cout << "SetTitle, title: " << pszTitle << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->SetTitle(pszTitle);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetOkButtonLabel(LPCWSTR pszText)
 {
-	return E_NOTIMPL;
+	cout << "SetOkButtonLabel, pszText: " << pszText << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->SetOkButtonLabel(pszText);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetFileNameLabel(LPCWSTR pszLabel)
 {
-	return E_NOTIMPL;
+	cout << "SetFileNameLabel, pszLabel: " << pszLabel << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->SetFileNameLabel(pszLabel);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::GetResult(IShellItem** ppsi)
 {
+	cout << "GetResult" << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->GetResult(ppsi);
+#endif
+	if (!_selectedItem.empty())
+	{
+		SHCreateItemFromParsingName(_selectedItem.c_str(), NULL, IID_IShellItem, (void**)ppsi);
+		return S_OK;
+	}
 	return E_NOTIMPL;
 }
 
 HRESULT __stdcall CFilesSaveDialog::AddPlace(IShellItem* psi, FDAP fdap)
 {
-	return E_NOTIMPL;
+	PWSTR pszPath = NULL;
+	if (SUCCEEDED(psi->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszPath)))
+	{
+		wcout << L"AddPlace, psi: " << pszPath << endl;
+		CoTaskMemFree(pszPath);
+	}
+#ifdef SYSTEMDIALOG
+	return _systemDialog->AddPlace(psi, fdap);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetDefaultExtension(LPCWSTR pszDefaultExtension)
 {
-	return E_NOTIMPL;
+	cout << "SetDefaultExtension, pszDefaultExtension: " << pszDefaultExtension << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->SetDefaultExtension(pszDefaultExtension);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::Close(HRESULT hr)
 {
+	cout << "Close, hr: " << hr << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->Close(hr);
+#endif
 	return E_NOTIMPL;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetClientGuid(REFGUID guid)
 {
-	return E_NOTIMPL;
+	cout << "SetClientGuid" << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->SetClientGuid(guid);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::ClearClientData(void)
 {
-	return E_NOTIMPL;
+	cout << "ClearClientData" << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->ClearClientData();
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetFilter(IShellItemFilter* pFilter)
 {
-	return E_NOTIMPL;
+	cout << "SetFilter" << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->SetFilter(pFilter);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetCancelButtonLabel(LPCWSTR pszLabel)
 {
-	return E_NOTIMPL;
+	cout << "SetCancelButtonLabel" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialog2>(_systemDialog)->SetCancelButtonLabel(pszLabel);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetNavigationRoot(IShellItem* psi)
 {
-	return E_NOTIMPL;
+	cout << "SetNavigationRoot" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialog2>(_systemDialog)->SetNavigationRoot(psi);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::HideControlsForHostedPickerProviderApp(void)
 {
+	cout << "HideControlsForHostedPickerProviderApp" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->HideControlsForHostedPickerProviderApp();
+#endif
 	return E_NOTIMPL;
 }
 
 HRESULT __stdcall CFilesSaveDialog::EnableControlsForHostedPickerProviderApp(void)
 {
+	cout << "EnableControlsForHostedPickerProviderApp" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->EnableControlsForHostedPickerProviderApp();
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::GetPrivateOptions(unsigned long*)
+HRESULT __stdcall CFilesSaveDialog::GetPrivateOptions(unsigned long* pfos)
 {
-	return E_NOTIMPL;
+	cout << "GetPrivateOptions" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->GetPrivateOptions(pfos);
+#endif
+	* pfos = 0;
+	return S_OK;
 }
 
-HRESULT __stdcall CFilesSaveDialog::SetPrivateOptions(unsigned long)
+HRESULT __stdcall CFilesSaveDialog::SetPrivateOptions(unsigned long fos)
 {
-	return E_NOTIMPL;
+	cout << "SetPrivateOptions" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->SetPrivateOptions(fos);
+#endif
+	return S_OK;
 }
 
-HRESULT __stdcall CFilesSaveDialog::SetPersistenceKey(unsigned short const*)
+HRESULT __stdcall CFilesSaveDialog::SetPersistenceKey(unsigned short const* pkey)
 {
+	cout << "SetPersistenceKey" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->SetPersistenceKey(pkey);
+#endif
 	return E_NOTIMPL;
 }
 
 HRESULT __stdcall CFilesSaveDialog::HasPlaces(void)
 {
+	cout << "HasPlaces" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->HasPlaces();
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::EnumPlaces(int, _GUID const&, void**)
+HRESULT __stdcall CFilesSaveDialog::EnumPlaces(int plc, _GUID const& riid, void** ppv)
 {
+	cout << "EnumPlaces" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->EnumPlaces(plc, riid, ppv);
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::EnumControls(void**)
+HRESULT __stdcall CFilesSaveDialog::EnumControls(void** ppv)
 {
+	cout << "EnumControls" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->EnumControls(ppv);
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::GetPersistRegkey(unsigned short**)
+HRESULT __stdcall CFilesSaveDialog::GetPersistRegkey(unsigned short** preg)
 {
+	cout << "GetPersistRegkey" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->GetPersistRegkey(preg);
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::GetSavePropertyStore(IPropertyStore**, IPropertyDescriptionList**)
+HRESULT __stdcall CFilesSaveDialog::GetSavePropertyStore(IPropertyStore** ppstore, IPropertyDescriptionList** ppdesclist)
 {
+	cout << "GetSavePropertyStore" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->GetSavePropertyStore(ppstore, ppdesclist);
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::GetSaveExtension(unsigned short**)
+HRESULT __stdcall CFilesSaveDialog::GetSaveExtension(unsigned short** pext)
 {
+	cout << "GetSaveExtension" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->GetSaveExtension(pext);
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::GetFileTypeControl(void**)
+HRESULT __stdcall CFilesSaveDialog::GetFileTypeControl(void** ftp)
 {
+	cout << "GetFileTypeControl" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->GetFileTypeControl(ftp);
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::GetFileNameControl(void**)
+HRESULT __stdcall CFilesSaveDialog::GetFileNameControl(void** pctrl)
 {
+	cout << "GetFileNameControl" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->GetFileNameControl(pctrl);
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::GetFileProtectionControl(void**)
+HRESULT __stdcall CFilesSaveDialog::GetFileProtectionControl(void** pfctrl)
 {
+	cout << "GetFileProtectionControl" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->GetFileProtectionControl(pfctrl);
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::SetFolderPrivate(IShellItem*, int)
+HRESULT __stdcall CFilesSaveDialog::SetFolderPrivate(IShellItem* psi, int arg)
 {
+	cout << "SetFolderPrivate" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->SetFolderPrivate(psi, arg);
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::SetCustomControlAreaHeight(unsigned int)
+HRESULT __stdcall CFilesSaveDialog::SetCustomControlAreaHeight(unsigned int height)
 {
+	cout << "SetCustomControlAreaHeight" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->SetCustomControlAreaHeight(height);
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::GetDialogState(unsigned long, unsigned long*)
+HRESULT __stdcall CFilesSaveDialog::GetDialogState(unsigned long arg, unsigned long* pstate)
 {
+	cout << "GetDialogState" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->GetDialogState(arg, pstate);
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::SetAppControlsModule(void*)
+HRESULT __stdcall CFilesSaveDialog::SetAppControlsModule(void* papp)
 {
+	cout << "SetAppControlsModule" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->SetAppControlsModule(papp);
+#endif
 	return E_NOTIMPL;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetUserEditedSaveProperties(void)
 {
+	cout << "SetUserEditedSaveProperties" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->SetUserEditedSaveProperties();
+#endif
 	return E_NOTIMPL;
 }
 
 HRESULT __stdcall CFilesSaveDialog::ShouldShowStandardNavigationRoots(void)
 {
+	cout << "ShouldShowStandardNavigationRoots" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->ShouldShowStandardNavigationRoots();
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::GetNavigationRoot(_GUID const&, void**)
+HRESULT __stdcall CFilesSaveDialog::GetNavigationRoot(_GUID const& riid, void** ppv)
 {
+	cout << "GetNavigationRoot" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->GetNavigationRoot(riid, ppv);
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::ShouldShowFileProtectionControl(int*)
+HRESULT __stdcall CFilesSaveDialog::ShouldShowFileProtectionControl(int* pfpc)
 {
+	cout << "ShouldShowFileProtectionControl" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->ShouldShowFileProtectionControl(pfpc);
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::GetCurrentDialogView(_GUID const&, void**)
+HRESULT __stdcall CFilesSaveDialog::GetCurrentDialogView(_GUID const& riid, void** ppv)
 {
+	cout << "GetCurrentDialogView" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->GetCurrentDialogView(riid, ppv);
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::SetSaveDialogEditBoxTextAndFileType(int, unsigned short const*)
+HRESULT __stdcall CFilesSaveDialog::SetSaveDialogEditBoxTextAndFileType(int arg, unsigned short const* pargb)
 {
+	cout << "SetSaveDialogEditBoxTextAndFileType" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->SetSaveDialogEditBoxTextAndFileType(arg, pargb);
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::MoveFocusFromBrowser(int)
+HRESULT __stdcall CFilesSaveDialog::MoveFocusFromBrowser(int arg)
 {
+	cout << "MoveFocusFromBrowser" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->MoveFocusFromBrowser(arg);
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::EnableOkButton(int)
+HRESULT __stdcall CFilesSaveDialog::EnableOkButton(int enbl)
 {
+	cout << "EnableOkButton" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->EnableOkButton(enbl);
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::InitEnterpriseId(unsigned short const*)
+HRESULT __stdcall CFilesSaveDialog::InitEnterpriseId(unsigned short const* pid)
 {
+	cout << "InitEnterpriseId" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->InitEnterpriseId(pid);
+#endif
 	return E_NOTIMPL;
 }
 
-HRESULT __stdcall CFilesSaveDialog::AdviseFirst(IFileDialogEvents*, unsigned long*)
+HRESULT __stdcall CFilesSaveDialog::AdviseFirst(IFileDialogEvents* pfde, unsigned long* pdwCookie)
 {
+	cout << "AdviseFirst" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->AdviseFirst(pfde, pdwCookie);
+#endif
 	return E_NOTIMPL;
 }
 
 HRESULT __stdcall CFilesSaveDialog::HandleTab(void)
 {
+	cout << "HandleTab" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->HandleTab();
+#endif
 	return E_NOTIMPL;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetSaveAsItem(IShellItem* psi)
 {
-	return E_NOTIMPL;
+	PWSTR pszPath = NULL;
+	if (SUCCEEDED(psi->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszPath)))
+	{
+		wcout << L"SetSaveAsItem, psi: " << pszPath << endl;
+		CoTaskMemFree(pszPath);
+	}
+#ifdef SYSTEMDIALOG
+	return _systemDialog->SetSaveAsItem(psi);
+#endif
+	_selectedItem = pszPath;
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetProperties(IPropertyStore* pStore)
 {
-	return E_NOTIMPL;
+	cout << "SetProperties" << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->SetProperties(pStore);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetCollectedProperties(IPropertyDescriptionList* pList, BOOL fAppendDefault)
 {
-	return E_NOTIMPL;
+	cout << "SetCollectedProperties" << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->SetCollectedProperties(pList, fAppendDefault);
+#endif
+	return S_OK;
 }
 
 HRESULT __stdcall CFilesSaveDialog::GetProperties(IPropertyStore** ppStore)
 {
+	cout << "GetProperties" << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->GetProperties(ppStore);
+#endif
+	* ppStore = 0;
 	return E_NOTIMPL;
 }
 
 HRESULT __stdcall CFilesSaveDialog::ApplyProperties(IShellItem* psi, IPropertyStore* pStore, HWND hwnd, IFileOperationProgressSink* pSink)
 {
-	return E_NOTIMPL;
+	cout << "ApplyProperties" << endl;
+#ifdef SYSTEMDIALOG
+	return _systemDialog->ApplyProperties(psi, pStore, hwnd, pSink);
+#endif
+	return S_OK;
 }

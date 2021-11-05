@@ -60,7 +60,7 @@ END_COM_MAP()
 
 	FILEOPENDIALOGOPTIONS _fos;
 
-	std::vector<std::wstring> _selectedItems;
+	std::wstring _selectedItem;
 	std::wstring _outputPath;
 	IShellItem* _initFolder;
 	IFileDialogEvents* _dialogEvents;
