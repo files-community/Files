@@ -7,18 +7,18 @@ namespace Files.Common
     {
         public OSCompatibility OSCompatibility { get; set; }
         public ReducedColorMode ReducedColorMode { get; set; }
-        public bool ExecuteAt640X480 { get; set; } // 640X480
-        public bool DisableMaximized { get; set; } // DISABLEDXMAXIMIZEDWINDOWEDMODE
-        public bool RunAsAdministrator { get; set; } // RUNASADMIN
-        public bool RegisterForRestart { get; set; } // REGISTERAPPRESTART
+        public bool ExecuteAt640X480 { get; set; }
+        public bool DisableMaximized { get; set; }
+        public bool RunAsAdministrator { get; set; }
+        public bool RegisterForRestart { get; set; }
         public HighDpiOption HighDpiOption { get; set; }
         public HighDpiOverride HighDpiOverride { get; set; }
 
         public override string ToString()
         {
             var value = $"~ {OSCompatibility.GetDescription()} {ReducedColorMode.GetDescription()} {HighDpiOption.GetDescription()} {HighDpiOverride.GetDescription()} " +
-                $"{(ExecuteAt640X480 ? "640X480" : "")} {(DisableMaximized ? "DISABLEDXMAXIMIZEDWINDOWEDMODE" : "")}" +
-                $"{(RunAsAdministrator ? "RUNASADMIN" : "")} {(RegisterForRestart ? "REGISTERAPPRESTART" : "")}";
+                $"{(ExecuteAt640X480 ? CompatOptions.RegExecuteAt640X480 : "")} {(DisableMaximized ? CompatOptions.RegDisableMaximized : "")}" +
+                $"{(RunAsAdministrator ? CompatOptions.RegRunAsAdministrator : "")} {(RegisterForRestart ? CompatOptions.RegRegisterForRestart : "")}";
             return System.Text.RegularExpressions.Regex.Replace(value.Trim(), @"\s+", " ");
         }
 
@@ -34,13 +34,21 @@ namespace Files.Common
                     compatOptions.HighDpiOverride |= Extensions.GetValueFromDescription<HighDpiOverride>(value);
                     compatOptions.ReducedColorMode |= Extensions.GetValueFromDescription<ReducedColorMode>(value);
                     compatOptions.OSCompatibility |= Extensions.GetValueFromDescription<OSCompatibility>(value);
-                    compatOptions.ExecuteAt640X480 |= value == "640X480";
-                    compatOptions.DisableMaximized |= value == "DISABLEDXMAXIMIZEDWINDOWEDMODE";
-                    compatOptions.RunAsAdministrator |= value == "RUNASADMIN";
-                    compatOptions.RegisterForRestart |= value == "REGISTERAPPRESTART";
+                    compatOptions.ExecuteAt640X480 |= value == CompatOptions.RegExecuteAt640X480;
+                    compatOptions.DisableMaximized |= value == CompatOptions.RegDisableMaximized;
+                    compatOptions.RunAsAdministrator |= value == CompatOptions.RegRunAsAdministrator;
+                    compatOptions.RegisterForRestart |= value == CompatOptions.RegRegisterForRestart;
                 }
             }    
             return compatOptions;
+        }
+
+        private class CompatOptions
+        {
+            public const string RegExecuteAt640X480 = "640X480";
+            public const string RegDisableMaximized = "DISABLEDXMAXIMIZEDWINDOWEDMODE";
+            public const string RegRunAsAdministrator = "RUNASADMIN";
+            public const string RegRegisterForRestart = "REGISTERAPPRESTART";
         }
     }
 
