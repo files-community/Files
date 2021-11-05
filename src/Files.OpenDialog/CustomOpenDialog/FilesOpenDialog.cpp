@@ -315,7 +315,7 @@ HRESULT __stdcall CFilesOpenDialog::GetFileName(LPWSTR* pszName)
 
 HRESULT __stdcall CFilesOpenDialog::SetTitle(LPCWSTR pszTitle)
 {
-	cout << "SetTitle, title: " << pszTitle << endl;
+	wcout << L"SetTitle, title: " << pszTitle << endl;
 #ifdef SYSTEMDIALOG
 	return _systemDialog->SetTitle(pszTitle);
 #endif
@@ -324,7 +324,7 @@ HRESULT __stdcall CFilesOpenDialog::SetTitle(LPCWSTR pszTitle)
 
 HRESULT __stdcall CFilesOpenDialog::SetOkButtonLabel(LPCWSTR pszText)
 {
-	cout << "SetOkButtonLabel, pszText: " << pszText << endl;
+	wcout << L"SetOkButtonLabel, pszText: " << pszText << endl;
 #ifdef SYSTEMDIALOG
 	return _systemDialog->SetOkButtonLabel(pszText);
 #endif
@@ -333,7 +333,7 @@ HRESULT __stdcall CFilesOpenDialog::SetOkButtonLabel(LPCWSTR pszText)
 
 HRESULT __stdcall CFilesOpenDialog::SetFileNameLabel(LPCWSTR pszLabel)
 {
-	cout << "SetFileNameLabel, pszLabel: " << pszLabel << endl;
+	wcout << L"SetFileNameLabel, pszLabel: " << pszLabel << endl;
 #ifdef SYSTEMDIALOG
 	return _systemDialog->SetFileNameLabel(pszLabel);
 #endif
@@ -370,7 +370,7 @@ HRESULT __stdcall CFilesOpenDialog::AddPlace(IShellItem* psi, FDAP fdap)
 
 HRESULT __stdcall CFilesOpenDialog::SetDefaultExtension(LPCWSTR pszDefaultExtension)
 {
-	cout << "SetDefaultExtension, pszDefaultExtension: " << pszDefaultExtension << endl;
+	wcout << L"SetDefaultExtension, pszDefaultExtension: " << pszDefaultExtension << endl;
 #ifdef SYSTEMDIALOG
 	return _systemDialog->SetDefaultExtension(pszDefaultExtension);
 #endif

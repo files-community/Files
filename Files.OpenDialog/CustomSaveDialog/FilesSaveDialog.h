@@ -4,7 +4,7 @@
 #include "resource.h"       // simboli principali
 
 
-//#define DEBUGLOG
+#define DEBUGLOG
 
 
 #include "CustomSaveDialog_i.h"
