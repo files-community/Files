@@ -632,6 +632,12 @@ namespace Files.ViewModels
             }
         }
 
+        public void UpdateAdditionnalActions()
+        {
+            OnPropertyChanged(nameof(HasAdditionnalAction));
+            OnPropertyChanged(nameof(CanEmptyRecycleBin));
+        }
+
         private NavigationToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<NavigationToolbar>();
 
         #region WidgetsPage Widgets
@@ -1033,10 +1039,12 @@ namespace Files.ViewModels
             }
         }
 
+        public bool HasAdditionnalAction => InstanceViewModel.IsPageTypeRecycleBin;
+
         public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
         public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcutItem && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem));
         public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
-        public bool CanEmptyRecycleBin => HasItem;
+        public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
 
         public void Dispose()
         {
