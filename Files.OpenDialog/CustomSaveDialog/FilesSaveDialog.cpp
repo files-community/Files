@@ -9,7 +9,7 @@
 #include <locale>
 #include <codecvt>
 
-#define SYSTEMDIALOG
+//#define SYSTEMDIALOG
 
 using std::cout;
 using std::wcout;
@@ -380,6 +380,54 @@ HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 #ifdef  SYSTEMDIALOG
 	return _systemDialog->Show(hwndOwner);
 #endif
+
+	SHELLEXECUTEINFO ShExecInfo = { 0 };
+	ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+	ShExecInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
+	ShExecInfo.lpFile = L"files.exe";
+	PWSTR pszPath = NULL;
+	if (_initFolder && SUCCEEDED(_initFolder->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszPath)))
+	{
+		TCHAR args[1024];
+		wsprintf(args, L"-directory \"%s\" -outputpath \"%s\"", pszPath, _outputPath.c_str());
+		wcout << L"Invoking: " << args << endl;
+		ShExecInfo.lpParameters = args;
+		CoTaskMemFree(pszPath);
+	}
+	ShExecInfo.nShow = SW_SHOW;
+	ShellExecuteEx(&ShExecInfo);
+	if (ShExecInfo.hProcess)
+	{
+		WaitForSingleObject(ShExecInfo.hProcess, INFINITE);
+		CloseHandle(ShExecInfo.hProcess);
+	}
+
+	if (hwndOwner)
+	{
+		SetForegroundWindow(hwndOwner);
+	}
+
+	std::ifstream file(_outputPath);
+	if (file.good())
+	{
+		std::string str;
+		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+		while (std::getline(file, str))
+		{
+			std::wstring wide = converter.from_bytes(str);
+			_selectedItem = wide;
+		}
+	}
+	DeleteFile(_outputPath.c_str());
+
+	if (!_selectedItem.empty())
+	{
+		if (_dialogEvents)
+		{
+			_dialogEvents->OnFileOk(this);
+		}
+	}
+	return !_selectedItem.empty() ? S_OK : HRESULT_FROM_WIN32(ERROR_CANCELLED);
 }
 
 HRESULT __stdcall CFilesSaveDialog::SetFileTypes(UINT cFileTypes, const COMDLG_FILTERSPEC* rgFilterSpec)
