@@ -19,67 +19,67 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
+    <ClInclude Include="..\CustomSaveDialog\dllmain.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="..\CustomSaveDialog\FilesSaveDialog.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="Resource.h">
+    <ClInclude Include="..\CustomSaveDialog\framework.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="dllmain.h">
+    <ClInclude Include="..\CustomSaveDialog\pch.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h">
+    <ClInclude Include="..\CustomSaveDialog\Resource.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="FilesSaveDialog.h">
+    <ClInclude Include="..\CustomSaveDialog\targetver.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="UndefInterfaces.h">
+    <ClInclude Include="..\CustomSaveDialog\UndefInterfaces.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="CustomSaveDialog_i.h">
+    <ClInclude Include="..\CustomSaveDialog\CustomSaveDialog_i.h">
       <Filter>File generati</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CustomSaveDialog.cpp">
+    <ClCompile Include="..\CustomSaveDialog\CustomSaveDialog.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="dllmain.cpp">
+    <ClCompile Include="..\CustomSaveDialog\dllmain.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="..\CustomSaveDialog\FilesSaveDialog.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="FilesSaveDialog.cpp">
+    <ClCompile Include="..\CustomSaveDialog\pch.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="CustomSaveDialog_i.c">
+    <ClCompile Include="..\CustomSaveDialog\CustomSaveDialog_i.c">
       <Filter>File generati</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="CustomSaveDialog.rc">
-      <Filter>File di risorse</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="CustomSaveDialog.rgs">
-      <Filter>File di risorse</Filter>
-    </None>
-    <None Include="CustomSaveDialog.def">
+    <None Include="..\CustomSaveDialog\CustomSaveDialog.def">
       <Filter>File di origine</Filter>
     </None>
-    <None Include="FilesSaveDialog.rgs">
+    <None Include="..\CustomSaveDialog\CustomSaveDialog.rgs">
+      <Filter>File di risorse</Filter>
+    </None>
+    <None Include="..\CustomSaveDialog\FilesSaveDialog.rgs">
       <Filter>File di risorse</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="CustomSaveDialog.idl">
+    <Midl Include="..\CustomSaveDialog\CustomSaveDialog.idl">
       <Filter>File di origine</Filter>
     </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\CustomSaveDialog\CustomSaveDialog.rc">
+      <Filter>File di risorse</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

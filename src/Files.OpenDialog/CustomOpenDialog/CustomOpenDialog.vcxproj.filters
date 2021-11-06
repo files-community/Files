@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="File di origine">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="File di intestazione">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
@@ -16,6 +12,9 @@
     <Filter Include="File generati">
       <UniqueIdentifier>{abc5c222-f2d9-4149-b7c5-c26f1a437824}</UniqueIdentifier>
       <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="File di origine">
+      <UniqueIdentifier>{61930b81-88a9-49a7-9dff-ba407cac44b7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -31,9 +30,6 @@
     <ClInclude Include="dllmain.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="CustomOpenDialog_i.h">
-      <Filter>File generati</Filter>
-    </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
@@ -43,6 +39,9 @@
     <ClInclude Include="UndefInterfaces.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="CustomOpenDialog_i.h">
+      <Filter>File generati</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CustomOpenDialog.cpp">
@@ -51,14 +50,14 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="CustomOpenDialog_i.c">
-      <Filter>File generati</Filter>
+    <ClCompile Include="FilesOpenDialog.cpp">
+      <Filter>File di origine</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="FilesOpenDialog.cpp">
-      <Filter>File di origine</Filter>
+    <ClCompile Include="CustomOpenDialog_i.c">
+      <Filter>File generati</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -70,11 +69,11 @@
     <None Include="CustomOpenDialog.rgs">
       <Filter>File di risorse</Filter>
     </None>
-    <None Include="CustomOpenDialog.def">
-      <Filter>File di origine</Filter>
-    </None>
     <None Include="FilesOpenDialog.rgs">
       <Filter>File di risorse</Filter>
+    </None>
+    <None Include="CustomOpenDialog.def">
+      <Filter>File di origine</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
