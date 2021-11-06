@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\CustomSaveDialog\CustomSaveDialog_i.h" />
     <ClInclude Include="..\CustomSaveDialog\dllmain.h" />
+    <ClInclude Include="..\CustomSaveDialog\FilesDialogEvents.h" />
     <ClInclude Include="..\CustomSaveDialog\FilesSaveDialog.h" />
     <ClInclude Include="..\CustomSaveDialog\framework.h" />
     <ClInclude Include="..\CustomSaveDialog\pch.h" />
@@ -58,6 +59,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\CustomSaveDialog\FilesDialogEvents.cpp" />
     <ClCompile Include="..\CustomSaveDialog\FilesSaveDialog.cpp" />
     <ClCompile Include="..\CustomSaveDialog\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

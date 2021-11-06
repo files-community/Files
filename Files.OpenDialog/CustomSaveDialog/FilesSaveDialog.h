@@ -31,7 +31,8 @@ class ATL_NO_VTABLE CFilesSaveDialog :
 	public IFileSaveDialog,
 	public IFileDialogCustomize,
 	public IObjectWithSite,
-	public IFileDialogPrivate
+	public IFileDialogPrivate,
+	public IOleWindow
 {
 public:
 	CFilesSaveDialog();
@@ -45,6 +46,7 @@ CUSTOM_BEGIN_COM_MAP(CFilesSaveDialog)
 	COM_INTERFACE_ENTRY(IFileDialogCustomize)
 	COM_INTERFACE_ENTRY(IObjectWithSite)
 	COM_INTERFACE_ENTRY(IFileDialogPrivate)
+	COM_INTERFACE_ENTRY(IOleWindow)
 END_COM_MAP()
 
 	DECLARE_PROTECT_FINAL_CONSTRUCT()
@@ -257,6 +259,12 @@ public:
 	HRESULT __stdcall GetProperties(IPropertyStore** ppStore) override;
 
 	HRESULT __stdcall ApplyProperties(IShellItem* psi, IPropertyStore* pStore, HWND hwnd, IFileOperationProgressSink* pSink) override;
+
+
+	// Ereditato tramite IOleWindow
+	virtual HRESULT __stdcall GetWindow(HWND* phwnd) override;
+
+	virtual HRESULT __stdcall ContextSensitiveHelp(BOOL fEnterMode) override;
 
 };
 

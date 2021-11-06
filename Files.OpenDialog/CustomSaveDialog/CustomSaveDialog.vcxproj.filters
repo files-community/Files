@@ -43,6 +43,9 @@
     <ClInclude Include="CustomSaveDialog_i.h">
       <Filter>File generati</Filter>
     </ClInclude>
+    <ClInclude Include="FilesDialogEvents.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CustomSaveDialog.cpp">
@@ -59,6 +62,9 @@
     </ClCompile>
     <ClCompile Include="CustomSaveDialog_i.c">
       <Filter>File generati</Filter>
+    </ClCompile>
+    <ClCompile Include="FilesDialogEvents.cpp">
+      <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

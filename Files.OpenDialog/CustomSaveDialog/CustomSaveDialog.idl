@@ -25,6 +25,7 @@ library CustomSaveDialogLib
 		interface IFileDialog2;
 		interface IObjectWithSite;
 		//interface IFileDialogPrivate;
+		interface IOleWindow;
 	};
 };
 

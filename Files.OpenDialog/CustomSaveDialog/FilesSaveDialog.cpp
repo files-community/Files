@@ -1,6 +1,7 @@
 // FilesSaveDialog.cpp: implementazione di CFilesSaveDialog
 
 #include "pch.h"
+#include "FilesDialogEvents.h"
 #include "FilesSaveDialog.h"
 #include <shlobj.h>
 #include <iostream>
@@ -66,7 +67,7 @@ CFilesSaveDialog::CFilesSaveDialog()
 	{
 		TCHAR debugPath[MAX_PATH];
 		wsprintf(debugPath, L"%s\\%s", pszPath, L"save_dialog.txt");
-#ifdef  DEBUGLOG
+#ifdef DEBUGLOG
 		_wfreopen_s(&_debugStream, debugPath, L"w", stdout);
 #endif
 		CoTaskMemFree(pszPath);
@@ -86,7 +87,7 @@ CFilesSaveDialog::CFilesSaveDialog()
 		wcout << L"_outputPath: " << _outputPath << L", _initFolder: " << pszPath << endl;
 	}
 
-#ifdef  SYSTEMDIALOG
+#ifdef SYSTEMDIALOG
 	_systemDialog = GetSystemDialog();
 #endif
 }
@@ -373,15 +374,111 @@ HRESULT __stdcall CFilesSaveDialog::SetControlItemText(DWORD dwIDCtl, DWORD dwID
 	return S_OK;
 }
 
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	CFilesSaveDialog* pThis;
+
+	switch (uMsg)
+	{
+	case WM_CREATE:
+	{
+		pThis = static_cast<CFilesSaveDialog*>(reinterpret_cast<CREATESTRUCT*>(lParam)->lpCreateParams);
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pThis));
+
+		CreateWindow(TEXT("button"), TEXT("OnFileOk"),
+			WS_VISIBLE | WS_CHILD,
+			20, 50, 80, 25,
+			hwnd, (HMENU)1, NULL, NULL);
+
+		CreateWindow(TEXT("button"), TEXT("Quit"),
+			WS_VISIBLE | WS_CHILD,
+			120, 50, 80, 25,
+			hwnd, (HMENU)2, NULL, NULL);
+		break;
+	}
+	case WM_COMMAND:
+	{
+		pThis = reinterpret_cast<CFilesSaveDialog*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+
+		if (LOWORD(wParam) == 1)
+		{
+			if (pThis && pThis->_dialogEvents)
+			{
+				pThis->_dialogEvents->OnFileOk(pThis);
+				DestroyWindow(hwnd);
+			}
+		}
+
+		if (LOWORD(wParam) == 2)
+		{
+			DestroyWindow(hwnd);
+			//PostQuitMessage(0);
+		}
+
+		break;
+	}
+	case WM_DESTROY:
+	{
+		PostQuitMessage(0);
+		break;
+	}
+	}
+	return DefWindowProc(hwnd, uMsg, wParam, lParam);
+}
+
 HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 {
 	cout << "Show, hwndOwner: " << hwndOwner << endl;
 
-#ifdef  SYSTEMDIALOG
-	return _systemDialog->Show(hwndOwner);
+	_selectedItem = L"C:\\Users\\Marco\\Desktop\\aaaa.cpp";
+
+#ifdef SYSTEMDIALOG
+	HRESULT res = _systemDialog->Show(NULL);
+	cout << "Show, DONE: " << res << endl;
+	return res;
 #endif
 
-	SHELLEXECUTEINFO ShExecInfo = { 0 };
+	/*
+	WNDCLASS wc = { };
+
+	wc.lpfnWndProc = WindowProc;
+	wc.hInstance = 0;
+	wc.lpszClassName = L"Sample Window Class";
+
+	RegisterClass(&wc);
+
+	// Create the window.
+
+	HWND m_hwnd = CreateWindowEx(
+		0,                              // Optional window styles.
+		L"Sample Window Class",         // Window class
+		L"Learn to Program Windows",    // Window text
+		WS_OVERLAPPEDWINDOW,            // Window style
+
+		// Size and position
+		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+
+		hwndOwner,  // Parent window    
+		NULL,       // Menu
+		0,          // Instance handle
+		(void*)this        // Additional application data
+	);
+
+	ShowWindow(m_hwnd, SW_SHOW);
+	UpdateWindow(m_hwnd);
+
+	MSG msg;
+	while (GetMessage(&msg, NULL, 0, 0))
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}*/
+
+	wchar_t wnd_title[1024];
+	GetWindowText(hwndOwner, wnd_title, 1024);
+	wcout << wnd_title << endl;
+
+	/*SHELLEXECUTEINFO ShExecInfo = { 0 };
 	ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
 	ShExecInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
 	ShExecInfo.lpFile = L"files.exe";
@@ -425,15 +522,15 @@ HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 			_selectedItem = wide;
 		}
 	}
-	DeleteFile(_outputPath.c_str());
+	DeleteFile(_outputPath.c_str());*/
 
-	if (!_selectedItem.empty())
+	/*if (!_selectedItem.empty())
 	{
 		if (_dialogEvents)
 		{
 			_dialogEvents->OnFileOk(this);
 		}
-	}
+	}*/
 	return !_selectedItem.empty() ? S_OK : HRESULT_FROM_WIN32(ERROR_CANCELLED);
 }
 
@@ -444,7 +541,7 @@ HRESULT __stdcall CFilesSaveDialog::SetFileTypes(UINT cFileTypes, const COMDLG_F
 	return _systemDialog->SetFileTypes(cFileTypes, rgFilterSpec);
 #endif
 	return S_OK;
-}
+	}
 
 HRESULT __stdcall CFilesSaveDialog::SetFileTypeIndex(UINT iFileType)
 {
@@ -453,7 +550,7 @@ HRESULT __stdcall CFilesSaveDialog::SetFileTypeIndex(UINT iFileType)
 	return _systemDialog->SetFileTypeIndex(iFileType);
 #endif
 	return S_OK;
-}
+	}
 
 HRESULT __stdcall CFilesSaveDialog::GetFileTypeIndex(UINT* piFileType)
 {
@@ -468,11 +565,14 @@ HRESULT __stdcall CFilesSaveDialog::GetFileTypeIndex(UINT* piFileType)
 HRESULT __stdcall CFilesSaveDialog::Advise(IFileDialogEvents* pfde, DWORD* pdwCookie)
 {
 	cout << "Advise" << endl;
+#ifdef DEBUGLOG
+	pfde = new FilesDialogEvents(pfde, this);
+#endif
 #ifdef SYSTEMDIALOG
 	return _systemDialog->Advise(pfde, pdwCookie);
 #endif
 	_dialogEvents = pfde;
-	*pdwCookie = 0;
+	*pdwCookie = 4;
 	return S_OK;
 }
 
@@ -523,7 +623,7 @@ HRESULT __stdcall CFilesSaveDialog::SetDefaultFolder(IShellItem* psi)
 	}
 	_initFolder = CloneShellItem(psi);
 	return S_OK;
-}
+	}
 
 HRESULT __stdcall CFilesSaveDialog::SetFolder(IShellItem* psi)
 {
@@ -542,7 +642,7 @@ HRESULT __stdcall CFilesSaveDialog::SetFolder(IShellItem* psi)
 	}
 	_initFolder = CloneShellItem(psi);
 	return S_OK;
-}
+	}
 
 HRESULT __stdcall CFilesSaveDialog::GetFolder(IShellItem** ppsi)
 {
@@ -640,7 +740,7 @@ HRESULT __stdcall CFilesSaveDialog::AddPlace(IShellItem* psi, FDAP fdap)
 	return _systemDialog->AddPlace(psi, fdap);
 #endif
 	return S_OK;
-}
+	}
 
 HRESULT __stdcall CFilesSaveDialog::SetDefaultExtension(LPCWSTR pszDefaultExtension)
 {
@@ -988,7 +1088,7 @@ HRESULT __stdcall CFilesSaveDialog::SetSaveAsItem(IShellItem* psi)
 		_initName = pszPath;
 	}
 	return S_OK;
-}
+	}
 
 HRESULT __stdcall CFilesSaveDialog::SetProperties(IPropertyStore* pStore)
 {
@@ -1023,6 +1123,25 @@ HRESULT __stdcall CFilesSaveDialog::ApplyProperties(IShellItem* psi, IPropertySt
 	cout << "ApplyProperties" << endl;
 #ifdef SYSTEMDIALOG
 	return _systemDialog->ApplyProperties(psi, pStore, hwnd, pSink);
+#endif
+	return S_OK;
+}
+
+HRESULT __stdcall CFilesSaveDialog::GetWindow(HWND* phwnd)
+{
+	cout << "GetWindow" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IOleWindow>(_systemDialog)->GetWindow(phwnd);
+#endif
+	* phwnd = NULL;
+	return S_OK;
+}
+
+HRESULT __stdcall CFilesSaveDialog::ContextSensitiveHelp(BOOL fEnterMode)
+{
+	cout << "ContextSensitiveHelp" << endl;
+#ifdef SYSTEMDIALOG
+	return AsInterface<IOleWindow>(_systemDialog)->ContextSensitiveHelp(fEnterMode);
 #endif
 	return S_OK;
 }
