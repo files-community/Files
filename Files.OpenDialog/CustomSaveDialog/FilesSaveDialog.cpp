@@ -389,7 +389,14 @@ HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 	if (_initFolder && SUCCEEDED(_initFolder->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszPath)))
 	{
 		TCHAR args[1024];
-		wsprintf(args, L"-directory \"%s\" -outputpath \"%s\"", pszPath, _outputPath.c_str());
+		if (!_initName.empty())
+		{
+			wsprintf(args, L"-directory \"%s\" -outputpath \"%s\" -select \"%s\"", pszPath, _outputPath.c_str(), _initName.c_str());
+		}
+		else
+		{
+			wsprintf(args, L"-directory \"%s\" -outputpath \"%s\"", pszPath, _outputPath.c_str());
+		}
 		wcout << L"Invoking: " << args << endl;
 		ShExecInfo.lpParameters = args;
 		CoTaskMemFree(pszPath);
@@ -562,6 +569,7 @@ HRESULT __stdcall CFilesSaveDialog::SetFileName(LPCWSTR pszName)
 #ifdef SYSTEMDIALOG
 	return _systemDialog->SetFileName(pszName);
 #endif
+	_initName = pszName;
 	return S_OK;
 }
 
@@ -970,7 +978,15 @@ HRESULT __stdcall CFilesSaveDialog::SetSaveAsItem(IShellItem* psi)
 #ifdef SYSTEMDIALOG
 	return _systemDialog->SetSaveAsItem(psi);
 #endif
-	_selectedItem = pszPath;
+	if (_initFolder)
+	{
+		_initFolder->Release();
+	}
+	psi->GetParent(&_initFolder);
+	if (SUCCEEDED(psi->GetDisplayName(SIGDN_NORMALDISPLAY, &pszPath)))
+	{
+		_initName = pszPath;
+	}
 	return S_OK;
 }
 
