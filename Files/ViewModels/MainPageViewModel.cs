@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
@@ -199,6 +200,36 @@ namespace Files.ViewModels
             App.MainViewModel.TabStripSelectedIndex = index;
         }
 
+        public async void UpdateInstanceProperties(object navigationArg)
+        {
+            string windowTitle = string.Empty;
+            if (navigationArg is PaneNavigationArguments paneArgs)
+            {
+                if (!string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam) && !string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam))
+                {
+                    var leftTabInfo = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
+                    var rightTabInfo = await GetSelectedTabInfoAsync(paneArgs.RightPaneNavPathParam);
+                    windowTitle = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
+                }
+                else
+                {
+                    (windowTitle, _) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
+                }
+            }
+            else if (navigationArg is string pathArgs)
+            {
+                (windowTitle, _) = await GetSelectedTabInfoAsync(pathArgs);
+            }
+            if (AppInstances.Count > 1)
+            {
+                windowTitle = $"{windowTitle} ({AppInstances.Count})";
+            }
+            if (navigationArg == SelectedTabItem?.TabItemArguments?.NavigationArg)
+            {
+                ApplicationView.GetForCurrentView().Title = windowTitle;
+            }
+        }
+
         public static async Task UpdateTabInfo(TabItem tabItem, object navigationArg)
         {
             tabItem.AllowStorageItemDrop = true;
@@ -335,10 +366,10 @@ namespace Files.ViewModels
                     try
                     {
                         // add last session tabs to closed tabs stack if those tabs are not about to be opened
-                        if(!App.AppSettings.ResumeAfterRestart && !UserSettingsService.StartupSettingsService.ContinueLastSessionOnStartUp && UserSettingsService.StartupSettingsService.LastSessionTabList != null)
+                        if (!App.AppSettings.ResumeAfterRestart && !UserSettingsService.StartupSettingsService.ContinueLastSessionOnStartUp && UserSettingsService.StartupSettingsService.LastSessionTabList != null)
                         {
                             var items = new TabItemArguments[UserSettingsService.StartupSettingsService.LastSessionTabList.Count];
-                            for(int i = 0; i < items.Length; i++)
+                            for (int i = 0; i < items.Length; i++)
                             {
                                 var tabArgs = TabItemArguments.Deserialize(UserSettingsService.StartupSettingsService.LastSessionTabList[i]);
                                 items[i] = tabArgs;
