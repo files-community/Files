@@ -180,6 +180,18 @@
                         <local:ColoredIcon BaseLayerGlyph="&#xF035;" OverlayLayerGlyph="&#xF036;" />
                     </AppBarButton.Content>
                 </AppBarButton>
+                <AppBarSeparator x:Name="AdditionalActionSeparator" x:Load="{x:Bind ViewModel.HasAdditionnalAction, Mode=OneWay}" />
+                <AppBarButton
+                    x:Name="EmptyRecycleBinButton"
+                    Label="{helpers:ResourceString Name=EmptyRecycleBin}"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=EmptyRecycleBin}"
+                    IsEnabled="{x:Bind ViewModel.CanEmptyRecycleBin, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xEF88;" FontFamily="{StaticResource RecycleBinIcons}" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
             </CommandBar.PrimaryCommands>
         </CommandBar>
         <CommandBar

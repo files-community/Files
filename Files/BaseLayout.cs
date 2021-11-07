@@ -26,6 +26,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -108,10 +109,19 @@ namespace Files
             get => collectionViewSource;
             set
             {
-                if (collectionViewSource != value)
+                if (collectionViewSource == value)
                 {
-                    collectionViewSource = value;
-                    NotifyPropertyChanged(nameof(CollectionViewSource));
+                    return;
+                }
+                if (collectionViewSource?.View is not null)
+                {
+                    collectionViewSource.View.VectorChanged -= View_VectorChanged;
+                }
+                collectionViewSource = value;
+                NotifyPropertyChanged(nameof(CollectionViewSource));
+                if (collectionViewSource?.View is not null)
+                {
+                    collectionViewSource.View.VectorChanged += View_VectorChanged;
                 }
             }
         }
@@ -1096,6 +1106,11 @@ namespace Files
                     listedItem.Opacity = 1;
                 }
             }
+        }
+
+        private void View_VectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs @event)
+        {
+            ParentShellPageInstance.NavToolbarViewModel.HasItem = CollectionViewSource.View.Any();
         }
 
         virtual public void StartRenameItem() { }
