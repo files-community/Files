@@ -240,7 +240,7 @@
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE7E8;" />
                 </local:SettingsBlockControl.Icon>
-                <ComboBox SelectedIndex="{Binding selectedStartupSettingIndex, Mode=OneWay}">
+                <ComboBox SelectedIndex="{Binding SelectedStartupSettingIndex, Mode=OneWay}">
                     <ComboBoxItem
                         x:Uid="SettingsOnStartupOpenANewTab"
                         Content="Open a new tab"

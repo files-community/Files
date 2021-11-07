@@ -30,9 +30,10 @@ namespace Files.ViewModels.SettingsViewModels
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         private int selectedLanguageIndex = App.AppSettings.DefaultLanguages.IndexOf(App.AppSettings.DefaultLanguage);
-        private bool showRestartControl;
         private Terminal selectedTerminal = App.TerminalController.Model.GetDefaultTerminal();
         private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
+
+        private bool showRestartControl;
         private List<Terminal> terminals;
         private bool disposed;
         private int selectedPageIndex = -1;
@@ -141,6 +142,8 @@ namespace Files.ViewModels.SettingsViewModels
                 UserSettingsService.PreferencesSettingsService.TabsOnStartupList = null;
             }
         }
+
+        public int SelectedStartupSettingIndex => ContinueLastSessionOnStartUp ? 1 : OpenASpecificPageOnStartup ? 2 : 0;
 
         public bool OpenNewTabPageOnStartup
         {
