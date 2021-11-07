@@ -366,12 +366,12 @@ namespace Files.ViewModels
                     try
                     {
                         // add last session tabs to closed tabs stack if those tabs are not about to be opened
-                        if (!App.AppSettings.ResumeAfterRestart && !UserSettingsService.StartupSettingsService.ContinueLastSessionOnStartUp && UserSettingsService.StartupSettingsService.LastSessionTabList != null)
+                        if (!App.AppSettings.ResumeAfterRestart && !UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp && UserSettingsService.PreferencesSettingsService.LastSessionTabList != null)
                         {
-                            var items = new TabItemArguments[UserSettingsService.StartupSettingsService.LastSessionTabList.Count];
+                            var items = new TabItemArguments[UserSettingsService.PreferencesSettingsService.LastSessionTabList.Count];
                             for (int i = 0; i < items.Length; i++)
                             {
-                                var tabArgs = TabItemArguments.Deserialize(UserSettingsService.StartupSettingsService.LastSessionTabList[i]);
+                                var tabArgs = TabItemArguments.Deserialize(UserSettingsService.PreferencesSettingsService.LastSessionTabList[i]);
                                 items[i] = tabArgs;
                             }
                             BaseMultitaskingControl.RecentlyClosedTabs.Add(items);
@@ -381,22 +381,22 @@ namespace Files.ViewModels
                         {
                             App.AppSettings.ResumeAfterRestart = false;
 
-                            foreach (string tabArgsString in UserSettingsService.StartupSettingsService.LastSessionTabList)
+                            foreach (string tabArgsString in UserSettingsService.PreferencesSettingsService.LastSessionTabList)
                             {
                                 var tabArgs = TabItemArguments.Deserialize(tabArgsString);
                                 await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
                             }
 
-                            if (!UserSettingsService.StartupSettingsService.ContinueLastSessionOnStartUp)
+                            if (!UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp)
                             {
-                                UserSettingsService.StartupSettingsService.LastSessionTabList = null;
+                                UserSettingsService.PreferencesSettingsService.LastSessionTabList = null;
                             }
                         }
-                        else if (UserSettingsService.StartupSettingsService.OpenSpecificPageOnStartup)
+                        else if (UserSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup)
                         {
-                            if (UserSettingsService.StartupSettingsService.TabsOnStartupList != null)
+                            if (UserSettingsService.PreferencesSettingsService.TabsOnStartupList != null)
                             {
-                                foreach (string path in UserSettingsService.StartupSettingsService.TabsOnStartupList)
+                                foreach (string path in UserSettingsService.PreferencesSettingsService.TabsOnStartupList)
                                 {
                                     await AddNewTabByPathAsync(typeof(PaneHolderPage), path);
                                 }
@@ -406,17 +406,17 @@ namespace Files.ViewModels
                                 await AddNewTabAsync();
                             }
                         }
-                        else if (UserSettingsService.StartupSettingsService.ContinueLastSessionOnStartUp)
+                        else if (UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp)
                         {
-                            if (UserSettingsService.StartupSettingsService.LastSessionTabList != null)
+                            if (UserSettingsService.PreferencesSettingsService.LastSessionTabList != null)
                             {
-                                foreach (string tabArgsString in UserSettingsService.StartupSettingsService.LastSessionTabList)
+                                foreach (string tabArgsString in UserSettingsService.PreferencesSettingsService.LastSessionTabList)
                                 {
                                     var tabArgs = TabItemArguments.Deserialize(tabArgsString);
                                     await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
                                 }
                                 var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalized() };
-                                UserSettingsService.StartupSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
+                                UserSettingsService.PreferencesSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
                             }
                             else
                             {
