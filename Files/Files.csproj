@@ -255,13 +255,11 @@
     <Compile Include="Services\Implementation\MultitaskingSettingsService.cs" />
     <Compile Include="Services\Implementation\PreferencesSettingsService.cs" />
     <Compile Include="Services\Implementation\PreviewPaneSettingsService.cs" />
-    <Compile Include="Services\Implementation\StartupSettingsService.cs" />
     <Compile Include="Services\Implementation\UserSettingsService.cs" />
     <Compile Include="Services\Implementation\WidgetsSettingsService.cs" />
     <Compile Include="Services\IMultitaskingSettingsService.cs" />
     <Compile Include="Services\IPreferencesSettingsService.cs" />
     <Compile Include="Services\IPreviewPaneSettingsService.cs" />
-    <Compile Include="Services\IStartupSettingsService.cs" />
     <Compile Include="Services\IUserSettingsService.cs" />
     <Compile Include="Services\IWidgetsSettingsService.cs" />
     <Compile Include="UserControls\ColoredIcon.xaml.cs">
@@ -531,7 +529,6 @@
     <Compile Include="ViewModels\SettingsViewModels\AppearanceViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\ExperimentalViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\MultitaskingViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModels\OnStartupViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\PreferencesViewModel.cs" />
     <Compile Include="ViewModels\Widgets\ICustomWidgetItemModel.cs" />
     <Compile Include="ViewModels\Widgets\IWidgetItemModel.cs" />
@@ -602,9 +599,6 @@
     </Compile>
     <Compile Include="Views\SettingsPages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SettingsPages\OnStartup.xaml.cs">
-      <DependentUpon>OnStartup.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPages\Appearance.xaml.cs">
       <DependentUpon>Appearance.xaml</DependentUpon>
@@ -1389,10 +1383,6 @@
     <Page Include="Views\SettingsPages\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SettingsPages\OnStartup.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SettingsPages\Appearance.xaml">
       <SubType>Designer</SubType>

@@ -68,8 +68,6 @@
                 <ComboBox
                     x:Name="TerminalApplicationsComboBox"
                     x:Uid="TerminalApplicationsComboBox"
-                    Width="Auto"
-                    MaxWidth="140"
                     AutomationProperties.Name="Terminal application"
                     ItemsSource="{Binding Terminals, Mode=OneWay}"
                     SelectedItem="{Binding SelectedTerminal, Mode=TwoWay}">
@@ -119,114 +117,226 @@
                     SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}" />
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl
-                x:Uid="SettingsPreferencesShowConfirmDeleteDialog"
-                Title="Show a confirmation dialog when deleting files or folders"
-                HorizontalAlignment="Stretch">
-                <local:SettingsBlockControl.Icon>
-                    <FontIcon Glyph="&#xE107;" />
-                </local:SettingsBlockControl.Icon>
-                <ToggleSwitch
-                    x:Name="ShowConfirmDeleteDialogSwitch"
-                    x:Uid="SettingsShowConfirmDeleteDialogToggleSwitch"
-                    AutomationProperties.Name="Show a confirmation dialog when deleting files or folders"
-                    IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}"
-                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-            </local:SettingsBlockControl>
-
-            <local:SettingsBlockControl
-                x:Uid="SettingsPreferencesOpenFoldersNewTab"
-                Title="Open folders in new tab"
-                HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=FilesAndFolders}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xF12B;" />
                 </local:SettingsBlockControl.Icon>
-                <ToggleSwitch
-                    x:Name="OpenFoldersNewTab"
-                    x:Uid="SettingsOpenFoldersNewTabToggleSwitch"
-                    AutomationProperties.Name="Open folders in new tab"
-                    IsOn="{Binding OpenFoldersNewTab, Mode=TwoWay}"
-                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                <local:SettingsBlockControl.ExpandableContent>
+                    <StackPanel>
+                        <local:SettingsBlockControl
+                            x:Uid="SettingsPreferencesShowConfirmDeleteDialog"
+                            Title="Show a confirmation dialog when deleting files or folders"
+                            HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE107;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                x:Name="ShowConfirmDeleteDialogSwitch"
+                                x:Uid="SettingsShowConfirmDeleteDialogToggleSwitch"
+                                AutomationProperties.Name="Show a confirmation dialog when deleting files or folders"
+                                IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+
+                        <local:SettingsBlockControl
+                            x:Uid="SettingsPreferencesOpenFoldersNewTab"
+                            Title="Open folders in new tab"
+                            HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xF12B;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                x:Name="OpenFoldersNewTab"
+                                x:Uid="SettingsOpenFoldersNewTabToggleSwitch"
+                                AutomationProperties.Name="Open folders in new tab"
+                                IsOn="{Binding OpenFoldersNewTab, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE7B3;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}"
+                                IsOn="{Binding AreHiddenItemsVisible, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon contract13NotPresent:Glyph="&#xE72E;" contract13Present:Glyph="&#xED1A;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}"
+                                IsOn="{Binding AreSystemItemsHidden, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowFileExtensions}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE160;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowFileExtensions}"
+                                IsOn="{Binding ShowFileExtensions, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFilesWithOneClick}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE8B0;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFilesWithOneClick}"
+                                IsOn="{Binding OpenFilesWithOneClick, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFoldersWithOneClick}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE8B0;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFoldersWithOneClick}"
+                                IsOn="{Binding OpenFoldersWithOneClick, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE174;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}"
+                                IsOn="{Binding ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsSearchUnindexedItems}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE721;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsSearchUnindexedItems}"
+                                IsOn="{Binding SearchUnindexedItems, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsEnableLayoutPreferencesPerFolder}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE8B7;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsEnableLayoutPreferencesPerFolder}"
+                                IsOn="{Binding AreLayoutPreferencesPerFolder, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+                    </StackPanel>
+                </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}" HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=StartupSettings}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
-                    <FontIcon Glyph="&#xE7B3;" />
+                    <FontIcon Glyph="&#xE7E8;" />
                 </local:SettingsBlockControl.Icon>
-                <ToggleSwitch
-                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}"
-                    IsOn="{Binding AreHiddenItemsVisible, Mode=TwoWay}"
-                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-            </local:SettingsBlockControl>
+                <ComboBox SelectedIndex="{Binding SelectedStartupSettingIndex, Mode=OneWay}">
+                    <ComboBoxItem
+                        x:Uid="SettingsOnStartupOpenANewTab"
+                        Content="Open a new tab"
+                        IsSelected="{Binding OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}" HorizontalAlignment="Stretch">
-                <local:SettingsBlockControl.Icon>
-                    <FontIcon contract13NotPresent:Glyph="&#xE72E;" contract13Present:Glyph="&#xED1A;" />
-                </local:SettingsBlockControl.Icon>
-                <ToggleSwitch
-                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}"
-                    IsOn="{Binding AreSystemItemsHidden, Mode=TwoWay}"
-                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-            </local:SettingsBlockControl>
+                    <ComboBoxItem
+                        x:Uid="SettingsOnStartupContinueWhereYouLeftOff"
+                        Content="Continue where you left off"
+                        IsSelected="{Binding ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowFileExtensions}" HorizontalAlignment="Stretch">
-                <local:SettingsBlockControl.Icon>
-                    <FontIcon Glyph="&#xE160;" />
-                </local:SettingsBlockControl.Icon>
-                <ToggleSwitch
-                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowFileExtensions}"
-                    IsOn="{Binding ShowFileExtensions, Mode=TwoWay}"
-                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-            </local:SettingsBlockControl>
+                    <ComboBoxItem
+                        x:Name="OpenSpecificPage"
+                        x:Uid="SettingsOnStartupOpenASpecificPage"
+                        Content="Open a specific page or pages"
+                        IsSelected="{Binding OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </ComboBox>
+                <local:SettingsBlockControl.ExpandableContent>
+                    <StackPanel>
+                        <local:SettingsBlockControl HorizontalAlignment="Stretch" Visibility="{Binding OpenASpecificPageOnStartup, Mode=OneWay}">
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    x:Uid="SettingsOnStartupPages"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontSize="16"
+                                    Text="Pages: " />
+                                <CommandBar
+                                    Grid.Column="1"
+                                    Background="Transparent"
+                                    DefaultLabelPosition="Right"
+                                    IsOpen="False">
+                                    <AppBarButton
+                                        x:Uid="AppBarButtonAdd"
+                                        Icon="Add"
+                                        Label="Add">
+                                        <AppBarButton.Flyout>
+                                            <MenuFlyout helpers:MenuFlyoutHelper.ItemsSource="{Binding AddFlyoutItemsSource}" Placement="Bottom" />
+                                        </AppBarButton.Flyout>
+                                    </AppBarButton>
+                                    <AppBarButton
+                                        x:Uid="AppBarButtonEdit"
+                                        Command="{Binding ChangePageCommand}"
+                                        Icon="Edit"
+                                        IsEnabled="{Binding IsPageListEditEnabled}"
+                                        Label="Edit" />
+                                    <AppBarButton
+                                        x:Uid="AppBarButtonRemove"
+                                        Command="{Binding RemovePageCommand}"
+                                        Icon="Delete"
+                                        IsEnabled="{Binding IsPageListEditEnabled}"
+                                        Label="Remove" />
+                                </CommandBar>
 
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFilesWithOneClick}" HorizontalAlignment="Stretch">
-                <local:SettingsBlockControl.Icon>
-                    <FontIcon Glyph="&#xE8B0;" />
-                </local:SettingsBlockControl.Icon>
-                <ToggleSwitch
-                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFilesWithOneClick}"
-                    IsOn="{Binding OpenFilesWithOneClick, Mode=TwoWay}"
-                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-            </local:SettingsBlockControl>
+                                <ListView
+                                    x:Name="PagesList"
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="2"
+                                    Margin="0,10"
+                                    HorizontalAlignment="Stretch"
+                                    AllowDrop="True"
+                                    CanReorderItems="True"
+                                    IsItemClickEnabled="True"
+                                    ItemsSource="{Binding PagesOnStartupList, Mode=TwoWay}"
+                                    SelectedIndex="{Binding SelectedPageIndex, Mode=TwoWay}"
+                                    SelectionMode="Single">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock
+                                                Text="{Binding Text}"
+                                                TextTrimming="CharacterEllipsis"
+                                                ToolTipService.ToolTip="{Binding Text}" />
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Grid>
+                        </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFoldersWithOneClick}" HorizontalAlignment="Stretch">
-                <local:SettingsBlockControl.Icon>
-                    <FontIcon Glyph="&#xE8B0;" />
-                </local:SettingsBlockControl.Icon>
-                <ToggleSwitch
-                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFoldersWithOneClick}"
-                    IsOn="{Binding OpenFoldersWithOneClick, Mode=TwoWay}"
-                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-            </local:SettingsBlockControl>
-
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}" HorizontalAlignment="Stretch">
-                <local:SettingsBlockControl.Icon>
-                    <FontIcon Glyph="&#xE174;" />
-                </local:SettingsBlockControl.Icon>
-                <ToggleSwitch
-                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}"
-                    IsOn="{Binding ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}"
-                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-            </local:SettingsBlockControl>
-
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsSearchUnindexedItems}" HorizontalAlignment="Stretch">
-                <local:SettingsBlockControl.Icon>
-                    <FontIcon Glyph="&#xE721;" />
-                </local:SettingsBlockControl.Icon>
-                <ToggleSwitch
-                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsSearchUnindexedItems}"
-                    IsOn="{Binding SearchUnindexedItems, Mode=TwoWay}"
-                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-            </local:SettingsBlockControl>
-
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsEnableLayoutPreferencesPerFolder}" HorizontalAlignment="Stretch">
-                <local:SettingsBlockControl.Icon>
-                    <FontIcon Glyph="&#xE8B7;" />
-                </local:SettingsBlockControl.Icon>
-                <ToggleSwitch
-                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsEnableLayoutPreferencesPerFolder}"
-                    IsOn="{Binding AreLayoutPreferencesPerFolder, Mode=TwoWay}"
-                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=OpenNewInstance}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE7E8;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=OpenNewInstance}"
+                                IsOn="{Binding AlwaysOpenANewInstance, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+                    </StackPanel>
+                </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
         </StackPanel>
 

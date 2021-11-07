@@ -97,7 +97,6 @@ namespace Files
                 // Base IUserSettingsService as parent settings store (to get ISettingsSharingContext from)
                 .AddSingleton<IUserSettingsService, UserSettingsService>()
                 // Children settings (from IUserSettingsService)
-                .AddSingleton<IStartupSettingsService, StartupSettingsService>((sp) => new StartupSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 .AddSingleton<IMultitaskingSettingsService, MultitaskingSettingsService>((sp) => new MultitaskingSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 .AddSingleton<IWidgetsSettingsService, WidgetsSettingsService>((sp) => new WidgetsSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 .AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
@@ -530,9 +529,9 @@ namespace Files
             {
                 bundlesSettingsService.FlushSettings();
             }
-            if (userSettingsService?.StartupSettingsService != null)
+            if (userSettingsService?.PreferencesSettingsService != null)
             {
-                userSettingsService.StartupSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
+                userSettingsService.PreferencesSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
                 {
                     if (tab != null && tab.TabItemArguments != null)
                     {
