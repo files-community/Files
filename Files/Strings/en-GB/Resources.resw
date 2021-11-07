@@ -153,20 +153,11 @@
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Show hidden files and folders</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Files &amp; Folders</value>
-  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimental</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Experimental</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Files &amp; Folders</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>On Startup</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferences</value>
@@ -182,9 +173,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Open a specific page or pages</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>On Startup</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferences</value>
@@ -605,15 +593,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Pages:</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Always open a new instance</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Open folder in a new tab</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>When opening a folder in Files</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows default</value>
@@ -1362,9 +1341,6 @@
   <data name="SettingsTabCustomization.Text" xml:space="preserve">
     <value>Tab customisation</value>
   </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>When launching Files</value>
-  </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Cloud Drives</value>
   </data>
@@ -2087,12 +2063,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Unknown owner</value>
-  </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Sidebar</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>Sidebar</value>
   </data>
   <data name="SettingsVerticalTabFlyout" xml:space="preserve">
     <value>Display the vertical tab flyout on the title bar</value>

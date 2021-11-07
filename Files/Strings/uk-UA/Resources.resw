@@ -90,15 +90,6 @@
   <data name="Appearance" xml:space="preserve">
     <value>Оформлення</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Файли та папки</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Файли та папки</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>При запуску</value>
-  </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Налаштування</value>
   </data>
@@ -110,9 +101,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Відкрити певну сторінку або сторінки</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>При запуску</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Налаштування</value>
@@ -533,15 +521,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Сторінки:</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>При відкритті елемента зі списку швидкого запуску</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Завжди відкривати у новому вікні</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Відкривати у новій вкладці</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Стандартна</value>
@@ -1182,9 +1161,6 @@
   <data name="SettingsTabCustomization.Text" xml:space="preserve">
     <value>Налаштування вкладок</value>
   </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>При запуску Files</value>
-  </data>
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>Створити</value>
   </data>
@@ -1679,12 +1655,6 @@
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Власник</value>
-  </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Бічна панель</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>Бічна панель</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>За замовчуванням</value>

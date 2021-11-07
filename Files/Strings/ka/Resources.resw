@@ -150,20 +150,11 @@
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>დამალული ფაილების და საქაღალდეების ჩვენება</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>ფაილები და საქაღალდეები</value>
-  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>ექსპერიმენტალური</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>ექსპერიმენტალური</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>ფაილები და საქაღალდეები</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>გაშვებისთანავე</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>უპირატესობები</value>
@@ -179,9 +170,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>კონკრეტული გვერდის ან გვერდების გახსნა</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>გაშვებისთანავე</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>უპირატესობები</value>
@@ -599,15 +587,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>გვერდები:</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>ყოველთვის გახსენით ახალი მაგალითი</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>საქაღალდის გახსნა ახალ ჩანართში</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>საქაღალდის გახსნისას ფაილებში</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>ვინდოუსის ნაგულისხმევი</value>
@@ -1347,9 +1326,6 @@
   <data name="SettingsTabCustomization.Text" xml:space="preserve">
     <value>ჩანართის მორგება</value>
   </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>ფაილების გაშვებისას</value>
-  </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>ღრუბლოვანი დისკები</value>
   </data>
@@ -2066,12 +2042,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>უცნობი მფლობელი</value>
-  </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>გვერდითა ზოლი</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>გვერდითა ზოლი</value>
   </data>
   <data name="SettingsVerticalTabFlyout" xml:space="preserve">
     <value>ვერტიკალური ჩანართის გამოფრენის ჩვენება სათაურის ზოლზე</value>

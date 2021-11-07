@@ -54,15 +54,6 @@
   <data name="Appearance" xml:space="preserve">
     <value>Внешний вид</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Файлы и папки</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Файлы и папки</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>При запуске</value>
-  </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Предпочтения</value>
   </data>
@@ -74,9 +65,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Открыть определенную страницу(-ы)</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>При запуске</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Предпочтения</value>
@@ -533,15 +521,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Страницы:</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>При открытии папки в Files</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Всегда открывать в новом окне</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Открыть в новой вкладке</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Стандартный</value>
@@ -1199,9 +1178,6 @@
   </data>
   <data name="SettingsTabCustomization.Text" xml:space="preserve">
     <value>Настройка вкладок</value>
-  </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>При запуске Files</value>
   </data>
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>Создать</value>
@@ -1964,12 +1940,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Неизвестный владелец</value>
-  </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Боковая панель</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>Боковая панель</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>По умолчанию</value>

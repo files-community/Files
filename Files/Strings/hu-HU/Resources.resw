@@ -117,20 +117,11 @@
   <data name="Appearance" xml:space="preserve">
     <value>Megjelenés</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Fájlok és mappák</value>
-  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Kísérleti beállítások</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Kísérleti beállítások</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Fájlok és mappák</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>Induláskor</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Működés</value>
@@ -146,9 +137,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Megadott mappák megnyitása</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>Induláskor</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Működés</value>
@@ -536,15 +524,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Oldalak:</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Új ablakban</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Új lapon</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Mappa megnyitása</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Rendszer</value>
@@ -1226,9 +1205,6 @@
   </data>
   <data name="SettingsTabCustomization.Text" xml:space="preserve">
     <value>Lap testreszabása</value>
-  </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>A Files indulásakor</value>
   </data>
   <data name="PropertyItemPathDisplay" xml:space="preserve">
     <value>Elérési út</value>
@@ -1992,12 +1968,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Ismeretlen tulajdonos</value>
   </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Oldalsáv</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>Oldalsáv</value>
-  </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>Alapértelmezett</value>
   </data>
@@ -2338,7 +2308,7 @@
     <value>Bezárás</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Firssítés</value>
+    <value>Frissítés</value>
   </data>
   <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
     <value>Fájl hozzáadása</value>

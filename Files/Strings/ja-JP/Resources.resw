@@ -114,20 +114,11 @@
   <data name="Appearance" xml:space="preserve">
     <value>外観</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>ファイルとフォルダ</value>
-  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>実験的機能</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>実験的機能</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>ファイルとフォルダ</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>起動時</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>個人用設定</value>
@@ -143,9 +134,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>特定のページを開く</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>起動時</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>個人用設定</value>
@@ -533,15 +521,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>ページ:</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>フォルダーを開くときの設定</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>常に新しいインスタンスを開く</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>新しいタブでフォルダを開く</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows の既定</value>
@@ -1226,9 +1205,6 @@
   </data>
   <data name="SettingsTabCustomization.Text" xml:space="preserve">
     <value>タブのカスタマイズ</value>
-  </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>起動時の設定</value>
   </data>
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>確定</value>
@@ -1991,12 +1967,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>不明な所有者</value>
-  </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>サイドバー</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>サイドバー</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>既定</value>

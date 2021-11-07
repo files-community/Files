@@ -150,20 +150,11 @@
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Εμφάνιση κρυφών αρχείων και φακέλων</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Αρχεία &amp; φάκελοι</value>
-  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Πειραματικό</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Πειραματικό</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Αρχεία &amp; φάκελοι</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>Κατά την εκκίνηση</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Προτιμήσεις</value>
@@ -179,9 +170,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Άνοιγμα συγκεκριμένης σελίδας ή σελίδων</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>Κατά την εκκίνηση</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Προτιμήσεις</value>
@@ -602,15 +590,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Σελίδες:</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Ανοίγετε πάντα μια νέα περίπτωση</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Άνοιγμα φακέλου σε νέα καρτέλα</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Κατά το άνοιγμα ενός φακέλου στα Αρχεία</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Προεπιλογή των Windows</value>
@@ -1350,9 +1329,6 @@
   <data name="SettingsTabCustomization.Text" xml:space="preserve">
     <value>Προσαρμογή καρτελών</value>
   </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>Κατά την εκκίνηση του Files</value>
-  </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Δίσκοι Cloud</value>
   </data>
@@ -2072,12 +2048,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Άγνωστος ιδιοκτήτης</value>
-  </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Πλαϊνή μπάρα</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>Πλαϊνή μπάρα</value>
   </data>
   <data name="SettingsVerticalTabFlyout" xml:space="preserve">
     <value>Εμφάνιση της κατακόρυφης πτυσσόμενης καρτέλας στη γραμμή τίτλου</value>

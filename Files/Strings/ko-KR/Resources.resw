@@ -54,15 +54,6 @@
   <data name="Appearance" xml:space="preserve">
     <value>모양</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>파일 및 폴더</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>파일 및 폴더</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>시작 시</value>
-  </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>환경 설정</value>
   </data>
@@ -74,9 +65,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>특정 페이지 열기</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>시작 시</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>환경 설정</value>
@@ -518,15 +506,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>페이지:</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Files 프로그램으로 폴더를 열 때</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>항상 새 인스턴스 열기</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>새 탭에서 폴더 열기</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows 기본값</value>
@@ -1233,9 +1212,6 @@
   <data name="SettingsTabCustomization.Text" xml:space="preserve">
     <value>탭 커스터마이징</value>
   </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>Files 실행 시</value>
-  </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>클라우드 드라이브</value>
   </data>
@@ -1772,12 +1748,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>알 수 없는 소유자입니다.</value>
-  </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>사이드바</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>사이드바</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>기본값</value>

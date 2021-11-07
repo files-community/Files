@@ -54,15 +54,6 @@
   <data name="Appearance" xml:space="preserve">
     <value>Apparence</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Fichiers et dossiers</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Fichiers et dossiers</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>Au démarrage</value>
-  </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Préférences</value>
   </data>
@@ -74,9 +65,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Ouvrir un ensemble de pages</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>Au démarrage</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Préférences</value>
@@ -533,15 +521,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Pages :</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Lors de l'ouverture d'un dossier dans Files</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Toujours ouvrir une nouvelle instance</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Ouvrir le dossier dans un nouvel onglet</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Système</value>
@@ -1226,9 +1205,6 @@
   </data>
   <data name="SettingsTabCustomization.Text" xml:space="preserve">
     <value>Paramètres des onglets</value>
-  </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>Au lancement de Files</value>
   </data>
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>Confirmer</value>
@@ -1991,12 +1967,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Propriétaire inconnu</value>
-  </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Barre latérale</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>Barre latérale</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>Défaut</value>

@@ -194,10 +194,6 @@
           <source>Show hidden files and folders</source>
           <target state="translated" state-qualifier="tm-suggestion">Show hidden files and folders</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
-          <source>Files &amp; Folders</source>
-          <target state="translated">Files &amp; Folders</target>
-        </trans-unit>
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
           <target state="translated">Experimental</target>
@@ -205,14 +201,6 @@
         <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
           <source>Experimental</source>
           <target state="translated">Experimental</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavFilesAndFolders.Content" translate="yes" xml:space="preserve">
-          <source>Files &amp; Folders</source>
-          <target state="translated">Files &amp; Folders</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavOnStartup.Content" translate="yes" xml:space="preserve">
-          <source>On Startup</source>
-          <target state="translated">On Startup</target>
         </trans-unit>
         <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
           <source>Preferences</source>
@@ -233,10 +221,6 @@
         <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
           <source>Open a specific page or pages</source>
           <target state="translated">Open a specific page or pages</target>
-        </trans-unit>
-        <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
-          <source>On Startup</source>
-          <target state="translated">On Startup</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTitle.Text" translate="yes" xml:space="preserve">
           <source>Preferences</source>
@@ -797,18 +781,6 @@
         <trans-unit id="SettingsOnStartupPages.Text" translate="yes" xml:space="preserve">
           <source>Pages:</source>
           <target state="translated" state-qualifier="tm-suggestion">Pages:</target>
-        </trans-unit>
-        <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
-          <source>Always open a new instance</source>
-          <target state="translated">Always open a new instance</target>
-        </trans-unit>
-        <trans-unit id="SettingsOnStartupLaunchNewTab.Content" translate="yes" xml:space="preserve">
-          <source>Open folder in a new tab</source>
-          <target state="translated">Open folder in a new tab</target>
-        </trans-unit>
-        <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
-          <source>When opening a folder in Files</source>
-          <target state="translated">When opening a folder in Files</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
           <source>Windows default</source>
@@ -1680,8 +1652,9 @@
           <target state="translated" state-qualifier="tm-suggestion">Hide protected operating system files (Recommended)</target>
         </trans-unit>
         <trans-unit id="SettingsSearchUnindexedItems" translate="yes" xml:space="preserve">
-          <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
-          <target state="translated">Show unindexed items when searching for files and folders (searches may take longer)</target>
+          <source>Show unindexed items when searching for files and folders</source>
+          <target state="needs-review-translation">Show unindexed items when searching for files and folders (searches may take longer)</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsEnableLayoutPreferencesPerFolder" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
@@ -1806,10 +1779,6 @@
         <trans-unit id="SettingsTabCustomization.Text" translate="yes" xml:space="preserve">
           <source>Tab customization</source>
           <target state="translated">Tab customisation</target>
-        </trans-unit>
-        <trans-unit id="SettingsWhenLaunchingFiles.Text" translate="yes" xml:space="preserve">
-          <source>When launching Files</source>
-          <target state="translated">When launching Files</target>
         </trans-unit>
         <trans-unit id="SidebarCloudDrives" translate="yes" xml:space="preserve">
           <source>Cloud Drives</source>
@@ -2775,14 +2744,6 @@
           <source>Unknown owner</source>
           <target state="translated">Unknown owner</target>
         </trans-unit>
-        <trans-unit id="SettingsNavSidebar.Content" translate="yes" xml:space="preserve">
-          <source>Sidebar</source>
-          <target state="translated" state-qualifier="tm-suggestion">Sidebar</target>
-        </trans-unit>
-        <trans-unit id="SettingsSidebarTitle.Text" translate="yes" xml:space="preserve">
-          <source>Sidebar</source>
-          <target state="translated" state-qualifier="tm-suggestion">Sidebar</target>
-        </trans-unit>
         <trans-unit id="SettingsVerticalTabFlyout" translate="yes" xml:space="preserve">
           <source>Display the vertical tab flyout on the title bar</source>
           <target state="translated">Display the vertical tab flyout on the title bar</target>
@@ -3588,6 +3549,26 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="RestoreDefault" translate="yes" xml:space="preserve">
           <source>Restore default</source>
           <target state="new">Restore default</target>
+        </trans-unit>
+        <trans-unit id="EmptyRecycleBin" translate="yes" xml:space="preserve">
+          <source>Empty Recycle Bin</source>
+          <target state="new">Empty Recycle Bin</target>
+        </trans-unit>
+        <trans-unit id="Sidebar" translate="yes" xml:space="preserve">
+          <source>Sidebar</source>
+          <target state="new">Sidebar</target>
+        </trans-unit>
+        <trans-unit id="FilesAndFolders" translate="yes" xml:space="preserve">
+          <source>Files and folders</source>
+          <target state="new">Files and folders</target>
+        </trans-unit>
+        <trans-unit id="OpenNewInstance" translate="yes" xml:space="preserve">
+          <source>Open new instance when opening directories from the taskbar jumplist</source>
+          <target state="new">Open new instance when opening directories from the taskbar jumplist</target>
+        </trans-unit>
+        <trans-unit id="StartupSettings" translate="yes" xml:space="preserve">
+          <source>Startup settings</source>
+          <target state="new">Startup settings</target>
         </trans-unit>
       </group>
     </body>
