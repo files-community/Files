@@ -144,6 +144,7 @@ namespace Files.Views
                 UpdateStatusBarProperties();
                 UpdatePreviewPaneProperties();
                 UpdateNavToolbarProperties();
+                ViewModel.UpdateInstanceProperties(paneArgs);
             }
         }
 
@@ -153,12 +154,14 @@ namespace Files.Views
             {
                 SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
             }
+            var navArgs = e.CurrentInstance.TabItemArguments?.NavigationArg;
             SidebarAdaptiveViewModel.PaneHolder = e.CurrentInstance as IPaneHolder;
             SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
-            SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((e.CurrentInstance.TabItemArguments?.NavigationArg as PaneNavigationArguments).LeftPaneNavPathParam);
+            SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((navArgs as PaneNavigationArguments).LeftPaneNavPathParam);
             UpdateStatusBarProperties();
             UpdateNavToolbarProperties();
             UpdatePreviewPaneProperties();
+            ViewModel.UpdateInstanceProperties(navArgs);
             e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
             e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
         }
