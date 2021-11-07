@@ -8,7 +8,6 @@ using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System;
-using System.IO;
 using System.Linq;
 using Windows.Storage;
 using static Files.ViewModels.FolderLayoutInformation;
@@ -171,7 +170,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeGridViewLarge => new RelayCommand<bool>((manuallySet) =>
         {
-            if (UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled)
+            if (UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.PreferencesSettingsService.AdaptiveLayoutEnabled)
             {
                 if (LastLayoutModeSelected == FolderLayout.GridViewLarge && LayoutPreference.IsAdaptiveLayoutOverridden)
                 {
@@ -200,7 +199,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeColumnView => new RelayCommand<bool>((manuallySet) =>
         {
-            if (UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled)
+            if (UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.PreferencesSettingsService.AdaptiveLayoutEnabled)
             {
                 if (LastLayoutModeSelected == FolderLayout.ColumnView)
                 {
@@ -222,7 +221,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeGridViewMedium => new RelayCommand<bool>((manuallySet) =>
         {
-            if (UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled)
+            if (UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.PreferencesSettingsService.AdaptiveLayoutEnabled)
             {
                 if (LastLayoutModeSelected == FolderLayout.GridViewMedium && LayoutPreference.IsAdaptiveLayoutOverridden)
                 {
@@ -251,7 +250,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeGridViewSmall => new RelayCommand<bool>((manuallySet) =>
         {
-            if (UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled)
+            if (UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.PreferencesSettingsService.AdaptiveLayoutEnabled)
             {
                 if (LastLayoutModeSelected == FolderLayout.GridViewSmall && LayoutPreference.IsAdaptiveLayoutOverridden)
                 {
@@ -293,7 +292,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeTiles => new RelayCommand<bool>((manuallySet) =>
         {
-            if (UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled)
+            if (UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.PreferencesSettingsService.AdaptiveLayoutEnabled)
             {
                 if (LastLayoutModeSelected == FolderLayout.TilesView && LayoutPreference.IsAdaptiveLayoutOverridden)
                 {
@@ -316,7 +315,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeDetailsView => new RelayCommand<bool>((manuallySet) =>
         {
-            if (UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled)
+            if (UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.PreferencesSettingsService.AdaptiveLayoutEnabled)
             {
                 if (LastLayoutModeSelected == FolderLayout.DetailsView && LayoutPreference.IsAdaptiveLayoutOverridden)
                 {
@@ -489,7 +488,7 @@ namespace Files.ViewModels
         public static LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-            if (userSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder)
+            if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
             {
                 var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath.TrimEnd('\\'));
                 return layoutPrefs ?? ReadLayoutPreferencesFromSettings(folderPath.TrimEnd('\\').Replace('\\', '_'));
@@ -501,7 +500,7 @@ namespace Files.ViewModels
         public void UpdateLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-            if (userSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder)
+            if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
             {
                 // Sanitize the folderPath by removing the trailing '\\'. This has to be performed because paths to drives
                 // include an '\\' at the end (unlike paths to folders)
@@ -539,7 +538,7 @@ namespace Files.ViewModels
 
         private static LayoutPreferences ReadLayoutPreferencesFromAds(string folderPath)
         {
-            var str = NativeFileOperationsHelper.ReadStringFromFile(Path.Combine(folderPath, "desktop.files.json"));
+            var str = NativeFileOperationsHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
             try
             {
                 return string.IsNullOrEmpty(str) ? null : JsonConvert.DeserializeObject<LayoutPreferences>(str);
@@ -552,14 +551,12 @@ namespace Files.ViewModels
 
         private static bool WriteLayoutPreferencesToAds(string folderPath, LayoutPreferences prefs)
         {
-            var prefsFilePath = Path.Combine(folderPath, "desktop.files.json");
             if (LayoutPreferences.DefaultLayoutPreferences.Equals(prefs))
             {
-                NativeFileOperationsHelper.DeleteFileFromApp(prefsFilePath);
+                NativeFileOperationsHelper.DeleteFileFromApp($"{folderPath}:files_layoutmode");
                 return false;
             }
-            return NativeFileOperationsHelper.WriteStringToFile(
-                prefsFilePath, JsonConvert.SerializeObject(prefs), NativeFileOperationsHelper.File_Attributes.Hidden);
+            return NativeFileOperationsHelper.WriteStringToFile($"{folderPath}:files_layoutmode", JsonConvert.SerializeObject(prefs));
         }
 
         private static LayoutPreferences ReadLayoutPreferencesFromSettings(string folderPath)

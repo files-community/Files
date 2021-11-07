@@ -202,7 +202,7 @@ namespace Files.Views.LayoutModes
             textBox.KeyDown += RenameTextBox_KeyDown;
 
             int selectedTextLength = SelectedItem.ItemName.Length;
-            if (!SelectedItem.IsShortcutItem && UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions)
+            if (!SelectedItem.IsShortcutItem && UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
             {
                 selectedTextLength -= extensionLength;
             }
@@ -383,13 +383,13 @@ namespace Files.Views.LayoutModes
         {
             var clickedItem = e.OriginalSource as FrameworkElement;
             if (clickedItem?.DataContext is ListedItem item
-                 && ((!UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
-                 || (!UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)))
+                 && ((!UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
+                 || (!UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)))
             {
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
                     listViewItem = FileList.ContainerFromItem(item) as ListViewItem;
-                    ItemInvoked?.Invoke(new ColumnParam { NavPathParam = item.ItemPath, ListView = FileList }, EventArgs.Empty);
+                    ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
                 }
                 else
                 {
@@ -439,14 +439,14 @@ namespace Files.Views.LayoutModes
             }
             // Check if the setting to open items with a single click is turned on
             if (item != null
-                && ((UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder) || (UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)))
+                && ((UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder) || (UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)))
             {
                 ResetRenameDoubleClick();
 
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
                     listViewItem = FileList.ContainerFromItem(item) as ListViewItem;
-                    ItemInvoked?.Invoke(new ColumnParam { NavPathParam = item.ItemPath, ListView = FileList }, EventArgs.Empty);
+                    ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
                 }
                 else
                 {

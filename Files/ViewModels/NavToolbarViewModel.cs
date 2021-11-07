@@ -632,6 +632,12 @@ namespace Files.ViewModels
             }
         }
 
+        public void UpdateAdditionnalActions()
+        {
+            OnPropertyChanged(nameof(HasAdditionnalAction));
+            OnPropertyChanged(nameof(CanEmptyRecycleBin));
+        }
+
         private NavigationToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<NavigationToolbar>();
 
         #region WidgetsPage Widgets
@@ -744,6 +750,8 @@ namespace Files.ViewModels
         public ICommand Share { get; set; }
 
         public ICommand CutCommand { get; set; }
+
+        public ICommand EmptyRecycleBinCommand { get; set; }
 
         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
         {
@@ -1001,6 +1009,20 @@ namespace Files.ViewModels
             }
         }
 
+        private bool hasItem = true;
+        public bool HasItem
+        {
+            get => hasItem;
+            set
+            {
+                if (SetProperty(ref hasItem, value))
+                {
+                    OnPropertyChanged(nameof(CanEmptyRecycleBin));
+                }
+            }
+
+        }
+
         private List<ListedItem> selectedItems;
 
         public List<ListedItem> SelectedItems
@@ -1017,9 +1039,12 @@ namespace Files.ViewModels
             }
         }
 
+        public bool HasAdditionnalAction => InstanceViewModel.IsPageTypeRecycleBin;
+
         public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
         public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcutItem && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem));
         public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
+        public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
 
         public void Dispose()
         {

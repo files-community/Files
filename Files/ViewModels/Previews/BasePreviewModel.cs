@@ -92,7 +92,7 @@ namespace Files.ViewModels.Previews
                                                                                             (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
             // adds the value for the file tag
-            if (UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled)
+            if (UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled)
             {
                 list.FirstOrDefault(x => x.ID == "filetag").Value = Item.FileTagUI?.TagName;
             }

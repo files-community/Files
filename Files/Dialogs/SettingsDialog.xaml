@@ -13,7 +13,7 @@
     mc:Ignorable="d">
     <ContentDialog.Resources>
         <ResourceDictionary>
-            <x:Double x:Key="ContentDialogMaxWidth">1300</x:Double>
+            <x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
             <Thickness x:Key="ContentDialogPadding">0</Thickness>
             <SolidColorBrush x:Key="ContentDialogTopOverlay" Color="Transparent" />
             <ResourceDictionary.ThemeDictionaries>
@@ -36,26 +36,18 @@
     <Grid
         x:Name="ContainerGrid"
         Width="Auto"
-        Height="600"
+        MaxHeight="600"
         HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
         Background="{ThemeResource SolidBackgroundFillColorTertiary}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition x:Name="Column0" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
         <muxc:NavigationView
             x:Name="SettingsPane"
-            Grid.Column="0"
-            Width="200"
-            Margin="12,12,0,12"
             IsBackButtonVisible="Collapsed"
             IsBackEnabled="False"
-            IsPaneOpen="True"
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
             IsTitleBarAutoPaddingEnabled="False"
-            OpenPaneLength="200"
-            PaneDisplayMode="Left"
+            PaneDisplayMode="Top"
             SelectionChanged="SettingsPane_SelectionChanged">
 
             <muxc:NavigationView.MenuItems>
@@ -87,37 +79,19 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
-                    x:Uid="SettingsNavSidebar"
-                    AccessKey="S"
-                    Content="Sidebar"
-                    Tag="3">
-                    <muxc:NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE145;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
                     x:Uid="SettingsNavMultitasking"
                     AccessKey="M"
                     Content="Multitasking"
-                    Tag="4">
+                    Tag="3">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xEE40;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
-                    x:Uid="SettingsNavFilesAndFolders"
-                    AccessKey="F"
-                    Content="Files &amp; Folders"
-                    Tag="5">
-                    <muxc:NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE8B7;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavExperimental"
                     AccessKey="E"
                     Content="Experimental"
-                    Tag="6">
+                    Tag="4">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF1AD;" />
                     </muxc:NavigationViewItem.Icon>
@@ -128,27 +102,24 @@
                 <muxc:NavigationViewItem
                     AccessKey="B"
                     Content="{helpers:ResourceString Name=About}"
-                    Tag="7">
+                    Tag="5">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xE946;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.FooterMenuItems>
-        </muxc:NavigationView>
 
-        <ScrollViewer
-            Grid.Column="1"
-            Margin="12,0,0,0"
-            Padding="4,12,8,0"
-            Background="{ThemeResource SolidBackgroundFillColorBase}"
-            HorizontalScrollMode="Disabled"
-            VerticalScrollBarVisibility="Auto"
-            VerticalScrollMode="Enabled">
-            <Frame
-                x:Name="SettingsContentFrame"
-                Width="460"
-                Height="Auto" />
-        </ScrollViewer>
+            <ScrollViewer
+                x:Name="SettingsScrollViewer"
+                VerticalAlignment="Stretch"
+                VerticalScrollBarVisibility="Visible"
+                VerticalScrollMode="Enabled">
+                <Frame
+                    x:Name="SettingsContentFrame"
+                    Padding="12"
+                    Background="{ThemeResource SolidBackgroundFillColorBase}" />
+            </ScrollViewer>
+        </muxc:NavigationView>
 
         <Button
             x:Name="ButtonClose"

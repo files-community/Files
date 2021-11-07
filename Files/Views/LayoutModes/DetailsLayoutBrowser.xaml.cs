@@ -287,7 +287,7 @@ namespace Files.Views.LayoutModes
                 ColumnsViewModel.StatusColumn.Show();
             }
 
-            if (!UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled)
+            if (!UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled)
             {
                 ColumnsViewModel.TagColumn.Hide();
             }
@@ -366,7 +366,7 @@ namespace Files.Views.LayoutModes
             textBox.KeyDown += RenameTextBox_KeyDown;
 
             int selectedTextLength = SelectedItem.ItemName.Length;
-            if (!SelectedItem.IsShortcutItem && UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions)
+            if (!SelectedItem.IsShortcutItem && UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
             {
                 selectedTextLength -= extensionLength;
             }
@@ -590,7 +590,7 @@ namespace Files.Views.LayoutModes
 
             // Check if the setting to open items with a single click is turned on
             if (item != null
-                && ((UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder) || (UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)))
+                && ((UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder) || (UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)))
             {
                 ResetRenameDoubleClick();
                 NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
@@ -618,8 +618,8 @@ namespace Files.Views.LayoutModes
         {
             // Skip opening selected items if the double tap doesn't capture an item
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
-                 && ((!UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File) 
-                 || (!UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)))
+                 && ((!UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File) 
+                 || (!UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)))
             {
                 if (!MainViewModel.MultiselectEnabled)
                 {
@@ -761,7 +761,7 @@ namespace Files.Views.LayoutModes
                 };
                 if (columnToResize == 1)
                 {
-                    colunmSizeToFit += UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled ? 20 : 0;
+                    colunmSizeToFit += UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled ? 20 : 0;
                 }
                 column.UserLength = new GridLength(Math.Min(colunmSizeToFit + 30, column.NormalMaxLength), GridUnitType.Pixel);
             }

@@ -62,7 +62,7 @@ namespace FilesFullTrust.MessageHandlers
                     var fileIconPath = (string)message["filePath"];
                     var thumbnailSize = (int)(long)message["thumbnailSize"];
                     var isOverlayOnly = (bool)message["isOverlayOnly"];
-                    var iconOverlay = Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize, true, isOverlayOnly)).Result;
+                    var iconOverlay = await Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize, true, isOverlayOnly));
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
                         { "Icon", iconOverlay.icon },
@@ -73,7 +73,7 @@ namespace FilesFullTrust.MessageHandlers
                 case "GetIconWithoutOverlay":
                     var fileIconPath2 = (string)message["filePath"];
                     var thumbnailSize2 = (int)(long)message["thumbnailSize"];
-                    var icon2 = Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath2, thumbnailSize2, false)).Result;
+                    var icon2 = await Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath2, thumbnailSize2, false));
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
                         { "Icon", icon2.icon },
@@ -146,11 +146,14 @@ namespace FilesFullTrust.MessageHandlers
                         var enable = (bool)message["Value"];
                         var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
                         Directory.CreateDirectory(destFolder);
-                        if (enable)
+                        foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.Launcher", "Assets", "FilesOpenDialog")))
                         {
-                            foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.Launcher", "Assets", "FilesOpenDialog")))
+                            if (!Extensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), Program.Logger))
                             {
-                                File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true);
+                                // Error copying files
+                                DetectIsSetAsDefaultFileManager();
+                                await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
+                                return;
                             }
                         }
 
@@ -175,11 +178,14 @@ namespace FilesFullTrust.MessageHandlers
                         var enable = (bool)message["Value"];
                         var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
                         Directory.CreateDirectory(destFolder);
-                        if (enable)
+                        foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.Launcher", "Assets", "FilesOpenDialog")))
                         {
-                            foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.Launcher", "Assets", "FilesOpenDialog")))
+                            if (!Extensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), Program.Logger))
                             {
-                                File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true);
+                                // Error copying files
+                                DetectIsSetAsOpenFileDialog();
+                                await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
+                                return;
                             }
                         }
 

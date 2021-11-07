@@ -23,18 +23,7 @@ namespace Files.Helpers
 {
     public static class ContextFlyoutItemHelper
     {
-        private static List<ShellNewEntry> cachedNewContextMenuEntries;
-
-        public static List<ShellNewEntry> CachedNewContextMenuEntries
-        {
-            get
-            {
-                cachedNewContextMenuEntries ??= Task.Run(() => ShellNewEntryExtensions.GetNewContextMenuEntries()).Result;
-                return cachedNewContextMenuEntries;
-            }
-        }
-
-        private static List<ContextMenuFlyoutItemViewModel> cachedNewItemItems;
+        public static Task<List<ShellNewEntry>> CachedNewContextMenuEntries = ShellNewEntryExtensions.GetNewContextMenuEntries();
 
         public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, string workingDir, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, bool showOpenMenu, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel)
         {
@@ -289,7 +278,7 @@ namespace Files.Helpers
                             Text = "BaseLayoutContextFlyoutSortByFileTag/Text".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedByFileTag,
                             Command = new RelayCommand(() => itemViewModel.IsSortedByFileTag = true),
-                            ShowItem = userSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled,
+                            ShowItem = userSettingsService.PreferencesSettingsService.AreFileTagsEnabled,
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
                             ItemType = ItemType.Toggle
@@ -439,7 +428,7 @@ namespace Files.Helpers
                         {
                             Text = "BaseLayoutContextFlyoutSortByFileTag/Text".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FileTag,
-                            ShowItem = userSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled,
+                            ShowItem = userSettingsService.PreferencesSettingsService.AreFileTagsEnabled,
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
                             Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
@@ -547,7 +536,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalized(),
                     Glyph = "\uE840",
                     Command = commandsViewModel.PinDirectoryToFavoritesCommand,
-                    ShowItem = !itemViewModel.CurrentFolder.IsPinned & userSettingsService.SidebarSettingsService.ShowFavoritesSection,
+                    ShowItem = !itemViewModel.CurrentFolder.IsPinned & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
                     ShowInFtpPage = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -555,7 +544,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutContextFlyoutUnpinFromFavorites/Text".GetLocalized(),
                     Glyph = "\uE77A",
                     Command = commandsViewModel.UnpinDirectoryFromFavoritesCommand,
-                    ShowItem = itemViewModel.CurrentFolder.IsPinned & userSettingsService.SidebarSettingsService.ShowFavoritesSection,
+                    ShowItem = itemViewModel.CurrentFolder.IsPinned & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
                     ShowInFtpPage = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -975,7 +964,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalized(),
                     Glyph = "\uE840",
                     Command = commandsViewModel.SidebarPinItemCommand,
-                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem && !x.IsPinned) & userSettingsService.SidebarSettingsService.ShowFavoritesSection,
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem && !x.IsPinned) & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
                     ShowInSearchPage = true,
                     ShowInFtpPage = true,
                 },
@@ -984,7 +973,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutContextFlyoutUnpinFromFavorites/Text".GetLocalized(),
                     Glyph = "\uE77A",
                     Command = commandsViewModel.SidebarUnpinItemCommand,
-                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem && x.IsPinned) & userSettingsService.SidebarSettingsService.ShowFavoritesSection,
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem && x.IsPinned) & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
                     ShowInSearchPage = true,
                     ShowInFtpPage = true,
                 },
@@ -1053,19 +1042,16 @@ namespace Files.Helpers
                 }
             };
 
-            CachedNewContextMenuEntries?.ForEach(i =>
+            var cachedNewContextMenuEntries = CachedNewContextMenuEntries.IsCompletedSuccessfully ? CachedNewContextMenuEntries.Result : null;
+            cachedNewContextMenuEntries?.ForEach(i =>
             {
                 if (!string.IsNullOrEmpty(i.IconBase64))
                 {
                     // loading the bitmaps takes a while, so this caches them
-                    var bitmap = cachedNewItemItems?.Where(x => x.Text == i.Name).FirstOrDefault()?.BitmapIcon;
-                    if (bitmap == null)
-                    {
-                        byte[] bitmapData = Convert.FromBase64String(i.IconBase64);
-                        using var ms = new MemoryStream(bitmapData);
-                        bitmap = new BitmapImage();
-                        _ = bitmap.SetSourceAsync(ms.AsRandomAccessStream());
-                    }
+                    byte[] bitmapData = Convert.FromBase64String(i.IconBase64);
+                    using var ms = new MemoryStream(bitmapData);
+                    var bitmap = new BitmapImage();
+                    _ = bitmap.SetSourceAsync(ms.AsRandomAccessStream());
                     list.Add(new ContextMenuFlyoutItemViewModel()
                     {
                         Text = i.Name,
@@ -1086,7 +1072,6 @@ namespace Files.Helpers
                 }
             });
 
-            cachedNewItemItems = list;
             return list;
         }
     }

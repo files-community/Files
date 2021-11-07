@@ -416,8 +416,12 @@ namespace Files.Filesystem
                     // Open with piggybacks off of the link operation, since there isn't one for it
                     if (isTargetExecutable)
                     {
-                        var items = await packageView.GetStorageItemsAsync();
-                        NavigationHelpers.OpenItemsWithExecutable(associatedInstance, items.ToList(), destination);
+                        var handledByFtp = await CheckDragNeedsFulltrust(packageView);
+                        if (!handledByFtp)
+                        {
+                            var items = await GetDraggedStorageItems(packageView);
+                            NavigationHelpers.OpenItemsWithExecutable(associatedInstance, items.ToList(), destination);
+                        }
                         return ReturnResult.Success;
                     }
                     else

@@ -55,7 +55,7 @@ namespace Files.Filesystem
 
         public async Task EnumerateDrivesAsync()
         {
-            if (!UserSettingsService.SidebarSettingsService.ShowNetworkDrivesSection)
+            if (!UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
             {
                 return;
             }
@@ -122,7 +122,7 @@ namespace Files.Filesystem
                 try
                 {
                     var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarNetworkDrives".GetLocalized()) as LocationItem;
-                    if (UserSettingsService.SidebarSettingsService.ShowNetworkDrivesSection && section == null)
+                    if (UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection && section == null)
                     {
                         section = new LocationItem()
                         {
@@ -172,7 +172,7 @@ namespace Files.Filesystem
             try
             {
                 var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarNetworkDrives".GetLocalized()) select n).FirstOrDefault();
-                if (!UserSettingsService.SidebarSettingsService.ShowNetworkDrivesSection && item != null)
+                if (!UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection && item != null)
                 {
                     SidebarControl.SideBarItems.Remove(item);
                 }
@@ -183,7 +183,7 @@ namespace Files.Filesystem
 
         public async void UpdateNetworkDrivesSectionVisibility()
         {
-            if (UserSettingsService.SidebarSettingsService.ShowNetworkDrivesSection)
+            if (UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
             {
                 await EnumerateDrivesAsync();
             }
