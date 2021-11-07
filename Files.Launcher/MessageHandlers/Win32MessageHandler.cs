@@ -62,7 +62,7 @@ namespace FilesFullTrust.MessageHandlers
                     var fileIconPath = (string)message["filePath"];
                     var thumbnailSize = (int)(long)message["thumbnailSize"];
                     var isOverlayOnly = (bool)message["isOverlayOnly"];
-                    var iconOverlay = Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize, true, isOverlayOnly)).Result;
+                    var iconOverlay = await Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize, true, isOverlayOnly));
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
                         { "Icon", iconOverlay.icon },
@@ -73,7 +73,7 @@ namespace FilesFullTrust.MessageHandlers
                 case "GetIconWithoutOverlay":
                     var fileIconPath2 = (string)message["filePath"];
                     var thumbnailSize2 = (int)(long)message["thumbnailSize"];
-                    var icon2 = Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath2, thumbnailSize2, false)).Result;
+                    var icon2 = await Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath2, thumbnailSize2, false));
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
                         { "Icon", icon2.icon },

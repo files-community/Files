@@ -45,8 +45,7 @@
             Grid.Column="0"
             HorizontalAlignment="Left"
             VerticalAlignment="Stretch"
-            DefaultLabelPosition="Right"
-            Loaded="ContextCommandBar_Loaded">
+            DefaultLabelPosition="Right">
             <CommandBar.Resources>
                 <ResourceDictionary>
                     <SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
