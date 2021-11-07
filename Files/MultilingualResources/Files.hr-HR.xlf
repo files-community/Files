@@ -64,7 +64,7 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarOpenInTerminal.Label" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
-          <target state="translated">Otovri u Terminalu...</target>
+          <target state="translated">Otvori u Terminalu...</target>
         </trans-unit>
         <trans-unit id="PropertiesCreated.Text" translate="yes" xml:space="preserve">
           <source>Created:</source>
@@ -196,7 +196,7 @@
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
           <source>Files &amp; Folders</source>
-          <target state="translated">Datoteke &amp; Mape</target>
+          <target state="translated">Datoteke &amp; mape</target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
@@ -208,7 +208,7 @@
         </trans-unit>
         <trans-unit id="SettingsNavFilesAndFolders.Content" translate="yes" xml:space="preserve">
           <source>Files &amp; Folders</source>
-          <target state="translated">Datoteke &amp; Mape</target>
+          <target state="translated">Datoteke &amp; mape</target>
         </trans-unit>
         <trans-unit id="SettingsNavOnStartup.Content" translate="yes" xml:space="preserve">
           <source>On Startup</source>
@@ -648,7 +648,7 @@
         </trans-unit>
         <trans-unit id="ItemsSelected.Text" translate="yes" xml:space="preserve">
           <source>items selected</source>
-          <target state="translated">odabrano stavki</target>
+          <target state="translated">stavki odabrano</target>
         </trans-unit>
         <trans-unit id="ItemCount.Text" translate="yes" xml:space="preserve">
           <source>item</source>
@@ -656,7 +656,7 @@
         </trans-unit>
         <trans-unit id="ItemsCount.Text" translate="yes" xml:space="preserve">
           <source>items</source>
-          <target state="translated">stavke</target>
+          <target state="translated">stavki</target>
         </trans-unit>
         <trans-unit id="DeleteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Deleting files</source>
@@ -1088,11 +1088,11 @@
         </trans-unit>
         <trans-unit id="VerticalTabFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Vertical tab flyout</source>
-          <target state="translated">Vertikalni izlet kartice</target>
+          <target state="translated">Vertikalni prozoričić kartica</target>
         </trans-unit>
         <trans-unit id="VerticalTabFlyout.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Vertical tab flyout</source>
-          <target state="translated">Vertikalni izlet kartice</target>
+          <target state="translated">Vertikalni prozorčić kartica</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
@@ -1116,11 +1116,11 @@
         </trans-unit>
         <trans-unit id="SettingsContextMenuOverflow" translate="yes" xml:space="preserve">
           <source>Move overflow items into a sub menu</source>
-          <target state="translated">Premjestite prekomjerne stavke u podizbornik</target>
+          <target state="translated">Premjesti prekomjerne stavke u podizbornik</target>
         </trans-unit>
         <trans-unit id="SettingsPinRecycleBin.Title" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to favorites</source>
-          <target state="translated">Prikvačite Koš za smeće u favorite</target>
+          <target state="translated">Prikvači Koš za smeće u favorite</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
@@ -1684,11 +1684,11 @@
         </trans-unit>
         <trans-unit id="SettingsEnableLayoutPreferencesPerFolder" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
-          <target state="translated">Omogućite pojedinačne postavke za pojedinačne mape</target>
+          <target state="translated">Omogući pojedinačne postavke za pojedinačne mape</target>
         </trans-unit>
         <trans-unit id="SettingsContextMenu.Text" translate="yes" xml:space="preserve">
           <source>Customize the right click context menu</source>
-          <target state="translated">Prilagodite kontekstni izbornik desnog klika</target>
+          <target state="translated">Prilagodi kontekstni izbornik desnog klika</target>
         </trans-unit>
         <trans-unit id="originalPathColumn.Header" translate="yes" xml:space="preserve">
           <source>Original path</source>
@@ -2120,7 +2120,7 @@
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlCloseTabsToTheRight.Text" translate="yes" xml:space="preserve">
           <source>Close tabs to the right</source>
-          <target state="translated">Zatvorite kartice s desne strane</target>
+          <target state="translated">Zatvori kartice s desne strane</target>
         </trans-unit>
         <trans-unit id="StatusDeletionFailed" translate="yes" xml:space="preserve">
           <source>Deletion Failed</source>
@@ -2256,11 +2256,11 @@
         </trans-unit>
         <trans-unit id="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Open Storage Sense</source>
-          <target state="translated">Otvorite Sense za pohranu</target>
+          <target state="translated">Otvori Sense za pohranu</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open Storage Sense</source>
-          <target state="translated">Otvorite Sense za pohranu</target>
+          <target state="translated">Otvori Sense za pohranu</target>
         </trans-unit>
         <trans-unit id="CopyItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Copy</source>
@@ -2332,7 +2332,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Title" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>
-          <target state="translated">Otvorite mape u novoj kartici</target>
+          <target state="translated">Otvori mape u novoj kartici</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowBundlesWidget.Header" translate="yes" xml:space="preserve">
           <source>Show Bundles widget</source>
@@ -2364,7 +2364,7 @@
         </trans-unit>
         <trans-unit id="SearchUnindexedItemsButton.Content" translate="yes" xml:space="preserve">
           <source>Search unindexed items.</source>
-          <target state="translated">Pretražite neindeksirane stavke.</target>
+          <target state="translated">Pretraži neindeksirane stavke.</target>
         </trans-unit>
         <trans-unit id="NavToolbarManageWidgetsFlyoutHeader.Text" translate="yes" xml:space="preserve">
           <source>Manage Widgets</source>
@@ -2784,7 +2784,7 @@
         </trans-unit>
         <trans-unit id="SettingsVerticalTabFlyout" translate="yes" xml:space="preserve">
           <source>Display the vertical tab flyout on the title bar</source>
-          <target state="translated">Prikažite vertikalnu karticu na naslovnoj traci</target>
+          <target state="translated">Prikaži prozorčić vertikalnih kartica na naslovnoj traci</target>
         </trans-unit>
         <trans-unit id="SettingsThemesLearnMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Learn more about custom themes</source>
@@ -2812,7 +2812,7 @@
         </trans-unit>
         <trans-unit id="DecompressArchiveDialogOpenDestinationWhenComplete.Content" translate="yes" xml:space="preserve">
           <source>Open destination folder when complete</source>
-          <target state="translated">Otvorite odredišnu mapu kada se završi</target>
+          <target state="translated">Otvori odredišnu mapu pri završetku</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutExtractFilesOption" translate="yes" xml:space="preserve">
           <source>Extract files</source>
@@ -2944,15 +2944,15 @@
         </trans-unit>
         <trans-unit id="SecurityChangePermissionsLabel.Text" translate="yes" xml:space="preserve">
           <source>Change permission</source>
-          <target state="translated">Promijenite dopuštenje</target>
+          <target state="translated">Promijeni dopuštenje</target>
         </trans-unit>
         <trans-unit id="SecurityCreateDirectoriesLabel.Text" translate="yes" xml:space="preserve">
           <source>Create folders</source>
-          <target state="translated">Napravite mape</target>
+          <target state="translated">Napravi mape</target>
         </trans-unit>
         <trans-unit id="SecurityCreateFilesLabel.Text" translate="yes" xml:space="preserve">
           <source>Create files</source>
-          <target state="translated">Napravite datoteke</target>
+          <target state="translated">Napravi datoteke</target>
         </trans-unit>
         <trans-unit id="Delete" translate="yes" xml:space="preserve">
           <source>Delete</source>
@@ -2960,11 +2960,11 @@
         </trans-unit>
         <trans-unit id="SecurityDeleteSubdirectoriesAndFilesLabel.Text" translate="yes" xml:space="preserve">
           <source>Delete subdirectories and files</source>
-          <target state="translated">Izbrišite podmape i datoteke</target>
+          <target state="translated">Izbriši podmape i datoteke</target>
         </trans-unit>
         <trans-unit id="SecurityExecuteFileLabel.Text" translate="yes" xml:space="preserve">
           <source>Execute files</source>
-          <target state="translated">Izvršite datoteke</target>
+          <target state="translated">Izvrši datoteke</target>
         </trans-unit>
         <trans-unit id="SecurityReadAttributesLabel.Text" translate="yes" xml:space="preserve">
           <source>Read attributes</source>
@@ -3008,7 +3008,7 @@
         </trans-unit>
         <trans-unit id="SecurityAdvancedInheritedConvert.Text" translate="yes" xml:space="preserve">
           <source>Convert inherited permissions into explicit permissions</source>
-          <target state="translated">Pretvorite naslijeđena dopuštenja u eksplicitna dopuštenja</target>
+          <target state="translated">Pretvori naslijeđena dopuštenja u eksplicitna dopuštenja</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedInheritedEnable.Text" translate="yes" xml:space="preserve">
           <source>Enable inheritance</source>
@@ -3309,7 +3309,7 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenParentFolder.Text" translate="yes" xml:space="preserve">
           <source>Open parent folder</source>
-          <target state="translated">Otvorite nadređenu mapu</target>
+          <target state="translated">Otvori nadređenu mapu</target>
         </trans-unit>
         <trans-unit id="FileTagUnknown" translate="yes" xml:space="preserve">
           <source>Unknown</source>
@@ -3401,7 +3401,7 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
         </trans-unit>
         <trans-unit id="OpenLogLocation" translate="yes" xml:space="preserve">
           <source>Open log location</source>
-          <target state="translated">Otvorite lokaciju zapisnika</target>
+          <target state="translated">Otvori lokaciju zapisnika</target>
         </trans-unit>
         <trans-unit id="LinkToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Create link in {0}</source>
@@ -3481,7 +3481,7 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>
-          <target state="translated">Otvorite mape u novoj kartici</target>
+          <target state="translated">Otvori mape u novoj kartici</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Language</source>
@@ -3509,11 +3509,11 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveOneDown" translate="yes" xml:space="preserve">
           <source>Move one down</source>
-          <target state="translated">Pomakni jednu dolje</target>
+          <target state="translated">Pomakni dolje</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveOneUp" translate="yes" xml:space="preserve">
           <source>Move one up</source>
-          <target state="translated">Pomakni jednu gore</target>
+          <target state="translated">Pomakni gore</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveToBottom" translate="yes" xml:space="preserve">
           <source>Move to bottom</source>
@@ -3537,11 +3537,11 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultExplorer" translate="yes" xml:space="preserve">
           <source>Set Files as default file explorer</source>
-          <target state="translated">Postavite Files aplikaciju kao zadani preglednik datoteka</target>
+          <target state="translated">Postavi Files aplikaciju kao zadani preglednik datoteka</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsOpenDialog" translate="yes" xml:space="preserve">
           <source>Use Files as Open File Dialog</source>
-          <target state="translated">Koristite Files aplikciju kao dijalog za otvorenje datoteka</target>
+          <target state="translated">Koristi Files aplikciju kao dijalog za otvarenje datoteka</target>
         </trans-unit>
         <trans-unit id="Tag" translate="yes" xml:space="preserve">
           <source>Tag</source>
@@ -3557,35 +3557,35 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
         </trans-unit>
         <trans-unit id="ExportSettings" translate="yes" xml:space="preserve">
           <source>Export Settings</source>
-          <target state="new">Export Settings</target>
+          <target state="translated">Izvoz postavki</target>
         </trans-unit>
         <trans-unit id="ImportSettings" translate="yes" xml:space="preserve">
           <source>Import Settings</source>
-          <target state="new">Import Settings</target>
+          <target state="translated">Uvoz postavki</target>
         </trans-unit>
         <trans-unit id="ManageSettings" translate="yes" xml:space="preserve">
           <source>Manage Settings</source>
-          <target state="new">Manage Settings</target>
+          <target state="translated">Upravljaj postavkama</target>
         </trans-unit>
         <trans-unit id="SettingsImportErrorDescription" translate="yes" xml:space="preserve">
           <source>Couldn't import settings. The settings file is corrupted.</source>
-          <target state="new">Couldn't import settings. The settings file is corrupted.</target>
+          <target state="translated">Nije moguće uvesti postavke. Datoteka postavki je oštećena.</target>
         </trans-unit>
         <trans-unit id="SettingsImportErrorTitle" translate="yes" xml:space="preserve">
           <source>Error importing settings</source>
-          <target state="new">Error importing settings</target>
+          <target state="translated">Pogreška pri uvozu postavki</target>
         </trans-unit>
         <trans-unit id="ChooseCustomIcon" translate="yes" xml:space="preserve">
           <source>Choose a custom folder icon</source>
-          <target state="new">Choose a custom folder icon</target>
+          <target state="translated">Odaberite prilagođenu ikonu za mapu</target>
         </trans-unit>
         <trans-unit id="Customization" translate="yes" xml:space="preserve">
           <source>Customization</source>
-          <target state="new">Customization</target>
+          <target state="translated">Prilagodba</target>
         </trans-unit>
         <trans-unit id="RestoreDefault" translate="yes" xml:space="preserve">
           <source>Restore default</source>
-          <target state="new">Restore default</target>
+          <target state="translated">Vrati izvorno</target>
         </trans-unit>
       </group>
     </body>
