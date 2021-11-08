@@ -1411,7 +1411,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ByteSize">
-      <Version>2.1.0</Version>
+      <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="FluentFTP">
       <Version>35.0.5</Version>
