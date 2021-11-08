@@ -28,7 +28,6 @@ namespace Files.Helpers
                 RequestedOperation = DataPackageOperation.Move
             };
             ConcurrentBag<IStorageItem> items = new ConcurrentBag<IStorageItem>();
-            FilesystemResult result = (FilesystemResult)false;
 
             var canFlush = true;
             if (associatedInstance.SlimContentPage.IsItemSelected)
@@ -61,27 +60,27 @@ namespace Files.Helpers
                         }
                         else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)
                         {
-                            result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
+                            var result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
                                 .OnSuccess(t => items.Add(t));
                             if (!result)
                             {
-                                throw new IOException($"Failed to process {listedItem.ItemPath}.");
+                                throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
                             }
                         }
                         else
                         {
-                            result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
+                            var result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
                                 .OnSuccess(t => items.Add(t));
                             if (!result)
                             {
-                                throw new IOException($"Failed to process {listedItem.ItemPath}.");
+                                throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
                             }
                         }
                     }));
                 }
-                catch
+                catch (Exception ex)
                 {
-                    if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
+                    if (ex.HResult == (int)FileSystemStatusCode.Unauthorized)
                     {
                         // Try again with fulltrust process
                         var connection = await AppServiceConnectionHelper.Instance;
@@ -139,7 +138,6 @@ namespace Files.Helpers
             ConcurrentBag<IStorageItem> items = new ConcurrentBag<IStorageItem>();
 
             string copySourcePath = associatedInstance.FilesystemViewModel.WorkingDirectory;
-            FilesystemResult result = (FilesystemResult)false;
 
             var canFlush = true;
             if (associatedInstance.SlimContentPage.IsItemSelected)
@@ -162,27 +160,27 @@ namespace Files.Helpers
                         }
                         else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)
                         {
-                            result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
+                            var result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
                                 .OnSuccess(t => items.Add(t));
                             if (!result)
                             {
-                                throw new IOException($"Failed to process {listedItem.ItemPath}.");
+                                throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
                             }
                         }
                         else
                         {
-                            result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
+                            var result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
                                 .OnSuccess(t => items.Add(t));
                             if (!result)
                             {
-                                throw new IOException($"Failed to process {listedItem.ItemPath}.");
+                                throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
                             }
                         }
                     }));
                 }
-                catch
+                catch (Exception ex)
                 {
-                    if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
+                    if (ex.HResult == (int)FileSystemStatusCode.Unauthorized)
                     {
                         // Try again with fulltrust process
                         var connection = await AppServiceConnectionHelper.Instance;
