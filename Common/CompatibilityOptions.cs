@@ -17,7 +17,7 @@ namespace Files.Common
         public override string ToString()
         {
             var value = $"~ {OSCompatibility.GetDescription()} {ReducedColorMode.GetDescription()} {HighDpiOption.GetDescription()} {HighDpiOverride.GetDescription()} " +
-                $"{(ExecuteAt640X480 ? CompatOptions.RegExecuteAt640X480 : "")} {(DisableMaximized ? CompatOptions.RegDisableMaximized : "")}" +
+                $"{(ExecuteAt640X480 ? CompatOptions.RegExecuteAt640X480 : "")} {(DisableMaximized ? CompatOptions.RegDisableMaximized : "")} " +
                 $"{(RunAsAdministrator ? CompatOptions.RegRunAsAdministrator : "")} {(RegisterForRestart ? CompatOptions.RegRegisterForRestart : "")}";
             return System.Text.RegularExpressions.Regex.Replace(value.Trim(), @"\s+", " ");
         }
