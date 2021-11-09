@@ -24,22 +24,11 @@
             SizeRangeTemplate="{StaticResource SizeRangePickerTemplate}" />
 
         <DataTemplate x:Key="LocationPickerTemplate" x:DataType="vm:ILocationPickerViewModel">
-            <Grid Margin="0,8,0,0" RowSpacing="8">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <TextBlock
-                    x:Uid="SearchPickerLocation_In"
-                    FontSize="14"
-                    FontWeight="SemiBold"
-                    Text="Search in" />
-                <CheckBox
-                    x:Uid="SearchPickerLocation_Subfolders"
-                    Grid.Row="1"
-                    Content="Subfolders"
-                    IsChecked="{x:Bind SearchInSubFolders, Mode=TwoWay}" />
-            </Grid>
+            <CheckBox
+                x:Uid="SearchPickerLocation_Subfolders"
+                Grid.Row="1"
+                Content="Subfolders"
+                IsChecked="{x:Bind SearchInSubFolders, Mode=TwoWay}" />
         </DataTemplate>
 
         <DataTemplate x:Key="GroupPickerTemplate" x:DataType="vm:IGroupPickerViewModel">
@@ -51,8 +40,9 @@
                 </Grid.RowDefinitions>
                 <TextBlock
                     x:Uid="SearchPickerGroup_NoSelected"
+                    VerticalAlignment="Top"
                     Text="No filter selected."
-                    TextWrapping="Wrap"
+                    Style="{StaticResource IndicatorStyle}"
                     Visibility="{x:Bind IsEmpty, Mode=OneWay}" />
                 <Grid Visibility="{x:Bind HasDescription}">
                     <TextBlock
@@ -76,38 +66,33 @@
                                 PointerEntered="ContextItem_PointerEntered"
                                 PointerExited="ContextItem_PointerExited">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="16" />
+                                    <ColumnDefinition Width="18" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="16" />
+                                    <ColumnDefinition Width="18" />
                                 </Grid.ColumnDefinitions>
-                                <FontIcon
-                                    Width="16"
-                                    VerticalAlignment="Center"
-                                    FontSize="14"
-                                    Glyph="{x:Bind Glyph}" />
-                                <Button
-                                    Grid.Column="1"
-                                    Command="{x:Bind OpenCommand}"
-                                    CornerRadius="8">
+                                <FontIcon Width="18" FontSize="18" VerticalAlignment="Center" Glyph="{x:Bind Glyph}" />
+                                <Button Grid.Column="1" CornerRadius="8" Command="{x:Bind OpenCommand}" Style="{StaticResource AccentButtonStyle}">
                                     <Button.Content>
-                                        <TextBlock TextWrapping="Wrap">
-                                            <Run Text="{x:Bind Label}" />
-                                            <Run FontWeight="Light" Text="{x:Bind Parameter}" />
-                                        </TextBlock>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock TextWrapping="Wrap">
+                                                <Run Text="{x:Bind Label}" />
+                                                <Run FontWeight="Light" Text="{x:Bind Parameter}" />
+                                            </TextBlock>
+                                            <Grid Width="12" Margin="0,0,-8,0">
+                                                <Button x:Name="CloseButton" Command="{x:Bind ClearCommand}"
+                                                Width="12" Padding="0" Opacity="0.60" VerticalAlignment="Center" Visibility="Collapsed"
+                                                Background="Transparent" BorderBrush="Transparent" Style="{StaticResource AccentButtonStyle}">
+                                                    <Button.Content>
+                                                        <FontIcon FontSize="10" Glyph="&#xE10A;" />
+                                                    </Button.Content>
+                                                </Button>
+                                            </Grid>
+                                        </StackPanel>
                                     </Button.Content>
                                 </Button>
-                                <Button
-                                    x:Name="CloseButton"
-                                    Grid.Column="2"
-                                    Width="16"
-                                    Padding="0"
-                                    VerticalAlignment="Center"
-                                    Background="Transparent"
-                                    BorderBrush="Transparent"
-                                    Command="{x:Bind ClearCommand}"
-                                    Visibility="Collapsed">
+                                <Button Grid.Column="2" Width="18" Margin="0" Padding="0" Background="Transparent" BorderBrush="Transparent" Command="{x:Bind OpenCommand}">
                                     <Button.Content>
-                                        <FontIcon FontSize="10" Glyph="&#xE10A;" />
+                                        <FontIcon Width="18" FontSize="18" Opacity="0.60" HorizontalAlignment="Right" Glyph="&#xE974;" />
                                     </Button.Content>
                                 </Button>
                             </Grid>
@@ -127,12 +112,6 @@
                         Icon="Add"
                         Label="Add"
                         Loaded="AddFilterButton_Loaded" />
-                    <AppBarButton
-                        x:Uid="SearchPickerGroup_Clear"
-                        Command="{x:Bind ClearCommand}"
-                        Icon="Clear"
-                        IsEnabled="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}"
-                        Label="Clear" />
                 </CommandBar>
             </Grid>
         </DataTemplate>
@@ -149,8 +128,9 @@
                 </Grid.RowDefinitions>
                 <TextBlock
                     x:Uid="SearchPickerDateRange_NoSelected"
+                    VerticalAlignment="Top"
                     Text="No date range selected."
-                    TextWrapping="Wrap"
+                    Style="{StaticResource IndicatorStyle}"
                     Visibility="{x:Bind IsEmpty, Mode=OneWay}" />
                 <StackPanel Orientation="Vertical" Visibility="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
                     <TextBlock Text="{x:Bind Description, Mode=OneWay}" TextWrapping="Wrap" />
@@ -171,17 +151,11 @@
                     Date="{x:Bind MaxOffset, Mode=TwoWay}"
                     Header="To"
                     MaxDate="{x:Bind Today, Mode=OneWay}" />
-                <HyperlinkButton
-                    x:Uid="SearchPickerDateRange_Clear"
-                    Grid.Row="3"
-                    HorizontalAlignment="Right"
-                    Command="{x:Bind ClearCommand, Mode=OneWay}"
-                    Content="Clear" />
                 <TextBlock
                     x:Uid="SearchPickerDateRange_Choose"
                     Grid.Row="4"
                     Text="Or choose a date range"
-                    TextWrapping="Wrap" />
+                    Style="{StaticResource IndicatorStyle}" />
                 <ItemsControl Grid.Row="5" ItemsSource="{x:Bind Links}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="vm:IDateRangeLink">
@@ -210,8 +184,9 @@
                 </Grid.RowDefinitions>
                 <TextBlock
                     x:Uid="SearchPickerSizeRange_NoSelected"
+                    VerticalAlignment="Top"
                     Text="No size range selected."
-                    TextWrapping="Wrap"
+                    Style="{StaticResource IndicatorStyle}"
                     Visibility="{x:Bind IsEmpty, Mode=OneWay}" />
                 <StackPanel Orientation="Vertical" Visibility="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
                     <TextBlock Text="{x:Bind Description}" TextWrapping="Wrap" />
@@ -225,17 +200,11 @@
                     Grid.Row="1"
                     HorizontalAlignment="Stretch"
                     Range="{x:Bind Range, Mode=TwoWay}" />
-                <HyperlinkButton
-                    x:Uid="SearchPickerSizeRange_Clear"
-                    Grid.Row="2"
-                    HorizontalAlignment="Right"
-                    Command="{x:Bind ClearCommand, Mode=OneWay}"
-                    Content="Clear" />
                 <TextBlock
                     x:Uid="SearchPickerSizeRange_Choose"
-                    Grid.Row="3"
+                    Grid.Row="3" Margin="0,8,0,-12"
                     Text="Or choose a size range"
-                    TextWrapping="Wrap" />
+                    Style="{StaticResource IndicatorStyle}" />
                 <ItemsControl Grid.Row="4" ItemsSource="{x:Bind Links}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="vm:ISizeRangeLink">
@@ -312,6 +281,15 @@
                 </Button.ContentTemplate>
             </Button>
         </ControlTemplate>
+
+        <Style x:Key="IndicatorStyle" BasedOn="{StaticResource CaptionTextBlockStyle}" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
 
     </UserControl.Resources>
 

@@ -3,6 +3,7 @@ using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 
 namespace Files.UserControls.Search
@@ -23,6 +24,7 @@ namespace Files.UserControls.Search
         private void AddFilterButton_Loaded(object sender, RoutedEventArgs e)
         {
             var menu = new MenuFlyout();
+            menu.Placement = FlyoutPlacementMode.BottomEdgeAlignedRight;
 
             var file = new MenuFlyoutSubItem { Text = "SearchPickerAddMenu_File".GetLocalized() };
             file.Items.Add(GetItem(new SizeRangeHeader()));

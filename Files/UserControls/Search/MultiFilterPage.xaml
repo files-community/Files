@@ -4,43 +4,69 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="using:Files.ViewModels.Search"
     xmlns:local="using:Files.UserControls.Search"
+    xmlns:converters="using:Files.Converters"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        <converters:VisiblityInvertConverter x:Key="VisibilityInvertConverter" />
+    </Page.Resources>
+
     <StackPanel x:Name="RootPanel" Orientation="Vertical" HorizontalAlignment="Stretch">
-        <ComboBox x:Name="HeaderCombo" PointerEntered="HeaderCombo_PointerEntered"
-            HorizontalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent"
-            ItemsSource="{x:Bind ViewModel.Headers}" SelectedValue="{x:Bind ViewModel.Header, Mode=TwoWay}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate x:DataType="vm:ISearchFilterHeader">
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" MaxWidth="240">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="32" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <FontIcon FontSize="18" HorizontalAlignment="Left" Glyph="{x:Bind Glyph}" />
-                            <TextBlock Grid.Column="1" FontSize="16" FontWeight="SemiBold" Text="{x:Bind Title}" />
-                        </Grid>
-                        <TextBlock
-                            FontSize="14" TextWrapping="Wrap" Text="{x:Bind Description}"
-                            Visibility="{Binding IsDropDownOpen, ElementName=HeaderCombo}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <Rectangle Margin="0,0,0,8" Height="1" HorizontalAlignment="Stretch" Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
+        <Grid Height="34">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button
+                VerticalAlignment="Bottom"
+                Background="Transparent" BorderBrush="Transparent"
+                Command="{x:Bind ViewModel.Navigator.BackCommand}">
+                <Button.Content>
+                    <FontIcon FontSize="16" FontWeight="SemiBold" Glyph="&#xE72B;" />
+                </Button.Content>
+            </Button>
+            <ComboBox x:Name="HeaderCombo" Grid.Column="1" PointerEntered="HeaderCombo_PointerEntered"
+                HorizontalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent"
+                ItemsSource="{x:Bind ViewModel.Headers}" SelectedValue="{x:Bind ViewModel.Header, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:ISearchFilterHeader">
+                        <StackPanel VerticalAlignment="Stretch" Orientation="Vertical">
+                            <TextBlock Grid.Column="1" FontSize="16" FontWeight="SemiBold" Text="{x:Bind Title}"
+                                Visibility="{Binding IsDropDownOpen, ElementName=HeaderCombo, Converter={StaticResource VisibilityInvertConverter}}" />
+                            <Grid Visibility="{Binding IsDropDownOpen, ElementName=HeaderCombo}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="32" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <FontIcon FontSize="18" HorizontalAlignment="Left" Glyph="{x:Bind Glyph}" />
+                                <TextBlock Grid.Column="1" FontSize="16" FontWeight="SemiBold" Text="{x:Bind Title}" />
+                            </Grid>
+                            <TextBlock FontSize="14" TextWrapping="Wrap" Text="{x:Bind Description}"
+                                Visibility="{Binding IsDropDownOpen, ElementName=HeaderCombo}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
         <local:Picker HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" ViewModel="{x:Bind ViewModel.Picker, Mode=OneWay}" />
         <Grid Margin="0,24,0,0" HorizontalAlignment="Stretch" ColumnSpacing="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button x:Name="AcceptButton" x:Uid="SearchMultiFilterPage_Save"
-                HorizontalAlignment="Stretch" Content="Save" Command="{x:Bind ViewModel.AcceptCommand}" />
-            <Button x:Name="CancelButton" x:Uid="SearchMultiFilterPage_Cancel" Grid.Column="1"
-                HorizontalAlignment="Stretch" Content="Cancel" Command="{x:Bind ViewModel.BackCommand}" />
+            <Button x:Name="SearchButton"
+                HorizontalAlignment="Stretch" Content="{helpers:ResourceString Name=SearchMenu_Search}" Command="{x:Bind ViewModel.Navigator.SearchCommand}" />
+            <Button x:Name="ClearButton" Grid.Column="1"
+                HorizontalAlignment="Stretch" Content="{helpers:ResourceString Name=SearchMenu_Clear}" Command="{x:Bind ViewModel.Picker.ClearCommand}"
+                IsEnabled="{x:Bind ViewModel.Picker.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}" />
         </Grid>
     </StackPanel>
 

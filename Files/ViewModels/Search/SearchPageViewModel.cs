@@ -9,12 +9,9 @@ namespace Files.ViewModels.Search
 {
     public interface ISearchPageViewModel : INotifyPropertyChanged
     {
+        ISearchPageNavigator Navigator { get; }
         ISearchFilterHeader Header { get; }
         IPickerViewModel Picker { get; }
-
-        ICommand BackCommand { get; }
-        ICommand SaveCommand { get; }
-        ICommand AcceptCommand { get; }
     }
 
     public interface IMultiSearchPageViewModel : ISearchPageViewModel
@@ -23,10 +20,17 @@ namespace Files.ViewModels.Search
         new ISearchFilterHeader Header { get; set; }
     }
 
-    public interface ISearchPageContext
+    public interface ISearchPageNavigator
     {
+        ICommand SearchCommand { get; }
+        ICommand BackCommand { get; }
+
         void Search();
         void Back();
+    }
+
+    public interface ISearchPageContext : ISearchPageNavigator
+    {
         void GoPage(ISearchFilter filter);
         void Save(ISearchFilter filter);
 
@@ -58,6 +62,8 @@ namespace Files.ViewModels.Search
     {
         bool IsEmpty { get; }
         ICommand ClearCommand { get; }
+
+        void Clear();
     }
 
     public interface ISearchPageViewModelFactory
@@ -123,15 +129,23 @@ namespace Files.ViewModels.Search
         private readonly ISearchNavigator navigator;
 
         private readonly ISearchFilterCollection collection;
-        private readonly ISearchFilter filter;
+        private ISearchFilter filter;
 
-        public SearchPageContext(ISearchNavigator navigator, ISearchFilter filter)
+        public ICommand SearchCommand { get; }
+        public ICommand BackCommand { get; }
+
+        private SearchPageContext()
+        {
+            SearchCommand = new RelayCommand(Search);
+            BackCommand = new RelayCommand(Back);
+        }
+        public SearchPageContext(ISearchNavigator navigator, ISearchFilter filter) : this()
             => (this.navigator, this.filter) = (navigator, filter);
         private SearchPageContext(ISearchNavigator navigator, ISearchFilterCollection collection, ISearchFilter filter) : this(navigator, filter)
             => this.collection = collection;
 
-        public void Search() => navigator.Search();
-        public void Back() => navigator.GoBack();
+        public void Search() => navigator?.Search();
+        public void Back() => navigator?.Back();
 
         public void GoPage(ISearchFilter filter)
         {
@@ -164,6 +178,7 @@ namespace Files.ViewModels.Search
                     collection.Add(filter);
                 }
             }
+            this.filter = filter;
         }
 
         public ISearchPageContext GetChild(ISearchFilter filter)

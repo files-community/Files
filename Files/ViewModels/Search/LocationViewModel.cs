@@ -32,7 +32,7 @@ namespace Files.ViewModels.Search
             location.PropertyChanged += Location_PropertyChanged;
         }
 
-        private void Clear() => SearchInSubFolders = true;
+        public void Clear() => SearchInSubFolders = true;
 
         private void Location_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {

@@ -71,6 +71,8 @@ namespace Files.ViewModels.Search
     {
         private readonly ISearchPageContext context;
 
+        ISearchPageNavigator ISearchPageViewModel.Navigator => context;
+
         public IEnumerable<ISearchFilterHeader> Headers { get; } = new List<ISearchFilterHeader>
         {
             new AndHeader(),
@@ -87,16 +89,13 @@ namespace Files.ViewModels.Search
                 if (SetProperty(ref header, value))
                 {
                     Picker.Description = header.Description;
+                    Save();
                 }
             }
         }
 
         IPickerViewModel ISearchPageViewModel.Picker => Picker;
         public IGroupPickerViewModel Picker { get; }
-
-        public ICommand BackCommand { get; }
-        public ICommand SaveCommand { get; }
-        public ICommand AcceptCommand { get; }
 
         public GroupPageViewModel(ISearchPageContext context) : this(context, null)
         {
@@ -117,14 +116,9 @@ namespace Files.ViewModels.Search
 
             Picker = new GroupPickerViewModel(context, filter);
             Picker.Description = header?.Description;
-
-            BackCommand = new RelayCommand(Back);
-            SaveCommand = new RelayCommand(Save);
-            AcceptCommand = new RelayCommand(Accept);
         }
 
-        public void Back() => context.Back();
-        public void Save()
+        private void Save()
         {
             if (Picker.IsEmpty)
             {
@@ -136,11 +130,6 @@ namespace Files.ViewModels.Search
                 var filter = header.GetFilter(Picker.Filters);
                 context.Save(filter);
             }
-        }
-        public void Accept()
-        {
-            Save();
-            Back();
         }
     }
 
@@ -178,7 +167,7 @@ namespace Files.ViewModels.Search
         public ICommand ClearCommand { get; }
         public ICommand OpenCommand { get; }
 
-        public GroupPickerViewModel(ISearchPageContext context, ISearchFilterCollection filters) : base()
+        public GroupPickerViewModel(ISearchPageContext context, ISearchFilterCollection filters)
         {
             this.context = context;
 
@@ -202,6 +191,5 @@ namespace Files.ViewModels.Search
             OnPropertyChanged(nameof(IsEmpty));
             OnPropertyChanged(nameof(Contexts));
         }
-
     }
 }

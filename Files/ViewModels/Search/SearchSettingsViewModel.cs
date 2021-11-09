@@ -7,14 +7,16 @@ namespace Files.ViewModels.Search
 {
     public interface ISearchSettingsViewModel
     {
+        ISearchPageNavigator Navigator { get; }
+
         IPickerViewModel LocationViewModel { get; }
         IPickerViewModel FilterViewModel { get; }
-
-        ICommand SearchCommand { get; }
     }
 
     public class SearchSettingsViewModel : ObservableObject, ISearchSettingsViewModel
     {
+        public ISearchPageNavigator Navigator { get; }
+
         public IPickerViewModel LocationViewModel { get; }
         public IPickerViewModel FilterViewModel { get; }
 
@@ -22,6 +24,7 @@ namespace Files.ViewModels.Search
 
         public SearchSettingsViewModel(ISearchPageContext context, ISearchSettings settings)
         {
+            Navigator = context;
             var filter = settings.Filter as ISearchFilterCollection;
 
             LocationViewModel = new LocationPickerViewModel(settings.Location);

@@ -2,6 +2,7 @@
 using Files.Filesystem.Search;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -51,14 +52,12 @@ namespace Files.ViewModels.Search
     {
         private readonly ISearchPageContext context;
 
+        ISearchPageNavigator ISearchPageViewModel.Navigator => context;
+
         public ISearchFilterHeader Header { get; } = new SizeRangeHeader();
 
         IPickerViewModel ISearchPageViewModel.Picker => Picker;
-        public ISizeRangePickerViewModel Picker { get; } = new SizeRangePickerViewModel();
-
-        public ICommand BackCommand { get; }
-        public ICommand SaveCommand { get; }
-        public ICommand AcceptCommand { get; }
+        public ISizeRangePickerViewModel Picker { get; }
 
         public SizeRangePageViewModel(ISearchPageContext context) : this(context, new SizeRangeFilter())
         {
@@ -67,131 +66,123 @@ namespace Files.ViewModels.Search
         {
             this.context = context;
 
+            Picker = new PickerViewModel(Save);
             if (filter is not null)
             {
                 Picker.Range = filter.Range;
             }
-
-            BackCommand = new RelayCommand(Back);
-            SaveCommand = new RelayCommand(Save);
-            AcceptCommand = new RelayCommand(Accept);
         }
 
-        public void Back() => context.Back();
+        private void Save() => context.Save(!Picker.IsEmpty ? new SizeRangeFilter(Picker.Range) : null);
 
-        public void Save() => context.Save(!Picker.IsEmpty ? new SizeRangeFilter(Picker.Range) : null);
-
-        public void Accept()
+        private class PickerViewModel : ObservableObject, ISizeRangePickerViewModel
         {
-            Save();
-            Back();
-        }
-    }
+            private readonly Action saveAction;
 
-    public class SizeRangePickerViewModel : ObservableObject, ISizeRangePickerViewModel
-    {
-        public bool IsEmpty => range == SizeRange.All;
+            public bool IsEmpty => range == SizeRange.All;
 
-        private SizeRange range = SizeRange.All;
-        public SizeRange Range
-        {
-            get => range;
-            set
+            private SizeRange range = SizeRange.All;
+            public SizeRange Range
             {
-                if (value.Equals(SizeRange.None))
-                {
-                    value = SizeRange.All;
-                }
-                if (SetProperty(ref range, value))
-                {
-                    OnPropertyChanged(nameof(IsEmpty));
-                    OnPropertyChanged(nameof(Label));
-
-                    links.ForEach(link => link.UpSizeProperties());
-                }
-            }
-        }
-
-        public string Description { get; }
-        public string Label => range.ToString("N");
-
-        private readonly IReadOnlyList<SizeRangeLink> links;
-        public IReadOnlyList<ISizeRangeLink> Links => links;
-
-        public ICommand ClearCommand { get; }
-
-        public SizeRangePickerViewModel() : this(SizeRange.All)
-        {
-        }
-        public SizeRangePickerViewModel(SizeRange range)
-        {
-            Description = new SizeRangeHeader().Description;
-            Range = range;
-
-            links = new List<SizeRange>
-            {
-                SizeRange.Empty,
-                SizeRange.Tiny,
-                SizeRange.Small,
-                SizeRange.Medium,
-                SizeRange.Large,
-                SizeRange.VeryLarge,
-                SizeRange.Huge,
-            }.Select(range => new SizeRangeLink(this, range)).ToList().AsReadOnly();
-
-            ClearCommand = new RelayCommand(Clear);
-        }
-
-        public void Clear() => Range = SizeRange.All;
-
-        private class SizeRangeLink : ObservableObject, ISizeRangeLink
-        {
-            private readonly ISizeRangePickerViewModel picker;
-            private readonly SizeRange range;
-
-            public bool IsSelected
-            {
-                get => !picker.IsEmpty && picker.Range.IsNamed && picker.Range.Contains(range);
+                get => range;
                 set
                 {
-                    if (IsSelected != value)
+                    if (value.Equals(SizeRange.None))
                     {
-                        Toggle();
+                        value = SizeRange.All;
+                    }
+                    if (SetProperty(ref range, value))
+                    {
+                        OnPropertyChanged(nameof(IsEmpty));
+                        OnPropertyChanged(nameof(Label));
+
+                        links.ForEach(link => link.UpSizeProperties());
+
+                        saveAction();
                     }
                 }
             }
 
-            public string NameLabel => range.ToString("n");
-            public string ValueLabel => range.ToString("r");
+            public string Description { get; }
+            public string Label => range.ToString("N");
 
-            public ICommand ToggleCommand { get; }
+            private readonly IReadOnlyList<SizeRangeLink> links;
+            public IReadOnlyList<ISizeRangeLink> Links => links;
 
-            public SizeRangeLink(ISizeRangePickerViewModel picker, SizeRange range)
+            public ICommand ClearCommand { get; }
+
+            public PickerViewModel(Action saveAction)
             {
-                this.picker = picker;
-                this.range = range;
-                ToggleCommand = new RelayCommand(Toggle);
+                this.saveAction = saveAction;
+
+                Description = new SizeRangeHeader().Description;
+                Range = range;
+
+                links = new List<SizeRange>
+                {
+                    SizeRange.Empty,
+                    SizeRange.Tiny,
+                    SizeRange.Small,
+                    SizeRange.Medium,
+                    SizeRange.Large,
+                    SizeRange.VeryLarge,
+                    SizeRange.Huge,
+                }.Select(range => new SizeRangeLink(this, range)).ToList().AsReadOnly();
+
+                ClearCommand = new RelayCommand(Clear);
             }
 
-            public void UpSizeProperties() => OnPropertyChanged(nameof(IsSelected));
+            public void Clear() => Range = SizeRange.All;
 
-            private void Toggle()
+            private class SizeRangeLink : ObservableObject, ISizeRangeLink
             {
-                if (picker.IsEmpty)
+                private readonly ISizeRangePickerViewModel picker;
+                private readonly SizeRange range;
+
+                public bool IsSelected
                 {
-                    picker.Range = range;
+                    get => !picker.IsEmpty && picker.Range.IsNamed && picker.Range.Contains(range);
+                    set
+                    {
+                        if (IsSelected != value)
+                        {
+                            Toggle();
+                        }
+                    }
                 }
-                else if (IsSelected)
+
+                public string NameLabel => range.ToString("n");
+                public string ValueLabel => range.ToString("r");
+
+                public ICommand ToggleCommand { get; }
+
+                public SizeRangeLink(ISizeRangePickerViewModel picker, SizeRange range)
                 {
-                    picker.Range -= range;
+                    this.picker = picker;
+                    this.range = range;
+                    ToggleCommand = new RelayCommand(Toggle);
                 }
-                else if (picker.Range.IsNamed)
+
+                public void UpSizeProperties() => OnPropertyChanged(nameof(IsSelected));
+
+                private void Toggle()
                 {
-                    picker.Range += range;
-                }
-                else
-                {
-                    picker.Range = range;
+                    if (picker.IsEmpty)
+                    {
+                        picker.Range = range;
+                    }
+                    else if (IsSelected)
+                    {
+                        picker.Range -= range;
+                    }
+                    else if (picker.Range.IsNamed)
+                    {
+                        picker.Range += range;
+                    }
+                    else
+                    {
+                        picker.Range = range;
+                    }
                 }
             }
         }

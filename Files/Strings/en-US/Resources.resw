@@ -2842,11 +2842,8 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="SearchPickerAddMenu_Group" xml:space="preserve">
     <value>Group</value>
   </data>
-  <data name="SearchPickerLocation_In.Text" xml:space="preserve">
-    <value>Search in</value>
-  </data>
   <data name="SearchPickerLocation_Subfolders.Content" xml:space="preserve">
-    <value>Subfolders</value>
+    <value>Include Subfolders</value>
   </data>
   <data name="SearchPickerGroup_NoSelected.Text" xml:space="preserve">
     <value>No filter selected.</value>
@@ -2854,14 +2851,11 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="SearchPickerGroup_Add.Label" xml:space="preserve">
     <value>Add</value>
   </data>
-  <data name="SearchPickerGroup_Clear.Label" xml:space="preserve">
+  <data name="SearchMenu_Clear" xml:space="preserve">
     <value>Clear</value>
   </data>
   <data name="SearchPickerDateRange_NoSelected.Text" xml:space="preserve">
     <value>No date range selected.</value>
-  </data>
-  <data name="SearchPickerDateRange_Clear.Content" xml:space="preserve">
-    <value>Clear</value>
   </data>
   <data name="SearchPickerDateRange_Choose.Text" xml:space="preserve">
     <value>Or choose a date range</value>
@@ -2869,23 +2863,14 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="SearchPickerSizeRange_NoSelected.Text" xml:space="preserve">
     <value>No size range selected.</value>
   </data>
-  <data name="SearchPickerSizeRange_Clear.Content" xml:space="preserve">
-    <value>Clear</value>
-  </data>
   <data name="SearchPickerSizeRange_Choose.Text" xml:space="preserve">
     <value>Or choose a size range</value>
   </data>
-  <data name="SearchSettingsPage_Search.Content" xml:space="preserve">
+  <data name="SearchMenu_Search" xml:space="preserve">
     <value>Search</value>
-  </data>
-  <data name="SearchFilterPage_Save.Content" xml:space="preserve">
-    <value>Save</value>
   </data>
   <data name="SearchFilterPage_Cancel.Content" xml:space="preserve">
     <value>Cancel</value>
-  </data>
-  <data name="SearchMultiFilterPage_Save.Content" xml:space="preserve">
-    <value>Save</value>
   </data>
   <data name="SearchMultiFilterPage_Cancel.Content" xml:space="preserve">
     <value>Cancel</value>

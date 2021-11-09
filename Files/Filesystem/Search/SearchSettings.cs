@@ -124,7 +124,7 @@ namespace Files.Filesystem.Search
 
     public abstract class DateRangeFilter : IDateRangeFilter
     {
-        public virtual string Glyph => "\uE163";
+        public virtual string Glyph => "\uEC92";
         public abstract string Title { get; }
         public abstract string Description { get; }
 
@@ -181,7 +181,7 @@ namespace Files.Filesystem.Search
 
     public class SizeRangeFilter : ISizeRangeFilter
     {
-        public string Glyph => "\uE130";
+        public string Glyph => "\uE2B2";
         public string Title => "SearchSizeFilter_Title".GetLocalized();
         public string Description => "SearchSizeFilter_Description".GetLocalized();
 

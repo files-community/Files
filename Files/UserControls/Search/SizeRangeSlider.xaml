@@ -10,13 +10,13 @@
     <UserControl.Resources>
 
         <ControlTemplate x:Key="SelectorTemplate" TargetType="c:RangeSelector">
-            <Grid x:Name="ControlGrid" Height="24">
-                <Border x:Name="OutOfRangeContentContainer" Grid.Column="1" Background="Transparent">
-                    <Rectangle x:Name="BackgroundElement" Height="2" Fill="{TemplateBinding Background}" />
+            <Grid x:Name="ControlGrid" Height="18">
+                <Border x:Name="OutOfRangeContentContainer" Grid.Column="1" Background="Transparent" CornerRadius="4" Height="4">
+                    <Rectangle x:Name="BackgroundElement" Height="4" Fill="{TemplateBinding Background}" />
                 </Border>
                 <Canvas x:Name="ContainerCanvas" Grid.Column="1" Background="Transparent">
                     <Rectangle x:Name="ActiveRectangle"
-                        Height="2" Fill="{TemplateBinding Foreground}"
+                        Height="4" Fill="{TemplateBinding Foreground}"
                         HorizontalAlignment="Stretch" VerticalAlignment="Center" />
                     <Grid x:Name="ToolTip"
                         Margin="0,-44,0,8" BorderThickness="1" Visibility="Collapsed"
@@ -90,15 +90,13 @@
             <Setter Property="UseSystemFocusVisuals" Value="True" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Background" Value="{ThemeResource SliderThumbBackground}" />
-            <Setter Property="Width" Value="12" />
-            <Setter Property="Height" Value="12" />
-            <Setter Property="Margin" Value="0,6,0,6" />
-            <Setter Property="FocusVisualMargin" Value="-14,-6,-14,-6" />
+            <Setter Property="Width" Value="18" />
+            <Setter Property="Height" Value="18" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Thumb">
                         <Border
-                            BorderThickness="2" CornerRadius="12"
+                            BorderThickness="3" CornerRadius="15"
                             Background="{ThemeResource SliderThumbBackground}"
                             BorderBrush="{ThemeResource SolidBackgroundAcrylic}" />
                     </ControlTemplate>

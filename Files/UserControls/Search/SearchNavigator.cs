@@ -7,7 +7,7 @@ namespace Files.UserControls.Search
     public interface ISearchNavigator
     {
         void Search();
-        void GoBack();
+        void Back();
         void GoPage(object viewModel);
     }
 
@@ -34,7 +34,7 @@ namespace Files.UserControls.Search
             }
         }
 
-        public void GoBack()
+        public void Back()
         {
             if (Frame is not null && Frame.CanGoBack)
             {

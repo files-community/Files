@@ -4,8 +4,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Files.UserControls.Search"
+    xmlns:converters="using:Files.Converters"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -22,8 +28,11 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button x:Name="SearchButton" x:Uid="SearchSettingsPage_Search"
-                HorizontalAlignment="Stretch" Content="Search" Command="{x:Bind ViewModel.SearchCommand}" />
+            <Button x:Name="SearchButton"
+                HorizontalAlignment="Stretch" Content="{helpers:ResourceString Name=SearchMenu_Search}" Command="{x:Bind ViewModel.Navigator.SearchCommand}" />
+            <Button x:Name="ClearButton" Grid.Column="1"
+                HorizontalAlignment="Stretch" Content="{helpers:ResourceString Name=SearchMenu_Clear}" Command="{x:Bind ViewModel.FilterViewModel.ClearCommand}"
+                IsEnabled="{x:Bind ViewModel.FilterViewModel.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}" />
         </Grid>
     </Grid>
 
