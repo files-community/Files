@@ -69,13 +69,13 @@ namespace Files.Helpers
                     userSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu = appSettings.Get(true, "MoveOverflowMenuItemsToSubMenu");
 
                     // Startup
-                    userSettingsService.StartupSettingsService.OpenSpecificPageOnStartup = appSettings.Get(false, "OpenASpecificPageOnStartup");
-                    userSettingsService.StartupSettingsService.OpenSpecificPageOnStartupPath = appSettings.Get("", "OpenASpecificPageOnStartupPath");
-                    userSettingsService.StartupSettingsService.ContinueLastSessionOnStartUp = appSettings.Get(false, "ContinueLastSessionOnStartUp");
-                    userSettingsService.StartupSettingsService.OpenNewTabOnStartup = appSettings.Get(true, "OpenNewTabPageOnStartup");
-                    userSettingsService.StartupSettingsService.AlwaysOpenNewInstance = appSettings.Get(false, "AlwaysOpenANewInstance");
-                    userSettingsService.StartupSettingsService.TabsOnStartupList = appSettings.Get<string[]>(null, "PagesOnStartupList")?.ToList();
-                    userSettingsService.StartupSettingsService.LastSessionTabList = appSettings.Get<string[]>(null, "LastSessionPages")?.ToList();
+                    userSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup = appSettings.Get(false, "OpenASpecificPageOnStartup");
+                    userSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartupPath = appSettings.Get("", "OpenASpecificPageOnStartupPath");
+                    userSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp = appSettings.Get(false, "ContinueLastSessionOnStartUp");
+                    userSettingsService.PreferencesSettingsService.OpenNewTabOnStartup = appSettings.Get(true, "OpenNewTabPageOnStartup");
+                    userSettingsService.PreferencesSettingsService.AlwaysOpenNewInstance = appSettings.Get(false, "AlwaysOpenANewInstance");
+                    userSettingsService.PreferencesSettingsService.TabsOnStartupList = appSettings.Get<string[]>(null, "PagesOnStartupList")?.ToList();
+                    userSettingsService.PreferencesSettingsService.LastSessionTabList = appSettings.Get<string[]>(null, "LastSessionPages")?.ToList();
 
                     // Layout settings
                     userSettingsService.LayoutSettingsService.ShowDateColumn = appSettings.Get(true, "ShowDateColumn");

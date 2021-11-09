@@ -157,7 +157,7 @@ namespace FilesFullTrust
                 {
                     var message = info.Message.ToString().TrimEnd('\0');
 
-                    Connection_RequestReceived(connection, JsonConvert.DeserializeObject<Dictionary<string, object>>(message));
+                    OnConnectionRequestReceived(connection, JsonConvert.DeserializeObject<Dictionary<string, object>>(message));
 
                     // Begin a new reading operation
                     var nextInfo = (Buffer: new byte[connection.InBufferSize], Message: new StringBuilder());
@@ -170,7 +170,7 @@ namespace FilesFullTrust
             }
         }
 
-        private static async void Connection_RequestReceived(PipeStream conn, Dictionary<string, object> message)
+        private static async void OnConnectionRequestReceived(PipeStream conn, Dictionary<string, object> message)
         {
             // Get a deferral because we use an awaitable API below to respond to the message
             // and we don't want this call to get cancelled while we are waiting.
@@ -187,7 +187,10 @@ namespace FilesFullTrust
                 var arguments = (string)message["Arguments"];
                 Logger.Info($"Argument: {arguments}");
 
-                await ParseArgumentsAsync(message, arguments);
+                await Extensions.IgnoreExceptions(async () =>
+                {
+                    await Task.Run(() => ParseArgumentsAsync(message, arguments));
+                }, Logger);
             }
         }
 

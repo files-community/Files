@@ -1,5 +1,6 @@
 ﻿using Files.Common;
 using Files.Extensions;
+using Files.Helpers;
 using Files.Services;
 using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -141,8 +142,6 @@ namespace Files.UserControls
         /// <returns></returns>
         private string GetLocalizedString(string str) => str.GetLocalized();
 
-        private List<ShellNewEntry> cachedNewContextMenuEntries { get; set; }
-
         private void NewEmptySpace_Opening(object sender, object e)
         {
             if (!ViewModel.InstanceViewModel.CanCreateFileInPage)
@@ -151,6 +150,7 @@ namespace Files.UserControls
                 shell.ForEach(x => NewEmptySpace.Items.Remove(x));
                 return;
             }
+            var cachedNewContextMenuEntries = ContextFlyoutItemHelper.CachedNewContextMenuEntries.IsCompletedSuccessfully ? ContextFlyoutItemHelper.CachedNewContextMenuEntries.Result : null;
             if (cachedNewContextMenuEntries == null)
             {
                 return;
@@ -191,11 +191,6 @@ namespace Files.UserControls
                     NewEmptySpace.Items.Insert(separatorIndex + 1, menuLayoutItem);
                 }
             }
-        }
-
-        private async void ContextCommandBar_Loaded(object sender, RoutedEventArgs e)
-        {
-            cachedNewContextMenuEntries = await ShellNewEntryExtensions.GetNewContextMenuEntries();
         }
     }
 }

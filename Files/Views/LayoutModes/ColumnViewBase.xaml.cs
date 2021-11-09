@@ -389,7 +389,7 @@ namespace Files.Views.LayoutModes
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
                     listViewItem = FileList.ContainerFromItem(item) as ListViewItem;
-                    ItemInvoked?.Invoke(new ColumnParam { NavPathParam = item.ItemPath, ListView = FileList }, EventArgs.Empty);
+                    ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
                 }
                 else
                 {
@@ -446,7 +446,7 @@ namespace Files.Views.LayoutModes
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
                     listViewItem = FileList.ContainerFromItem(item) as ListViewItem;
-                    ItemInvoked?.Invoke(new ColumnParam { NavPathParam = item.ItemPath, ListView = FileList }, EventArgs.Empty);
+                    ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
                 }
                 else
                 {

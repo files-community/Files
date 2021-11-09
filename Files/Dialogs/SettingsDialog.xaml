@@ -61,19 +61,10 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
-                    x:Uid="SettingsNavOnStartup"
-                    AccessKey="O"
-                    Content="On Startup"
-                    Tag="1">
-                    <muxc:NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE7E8;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
                     x:Uid="SettingsNavPreferences"
                     AccessKey="P"
                     Content="Preferences"
-                    Tag="2">
+                    Tag="1">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF116;" />
                     </muxc:NavigationViewItem.Icon>
@@ -82,7 +73,7 @@
                     x:Uid="SettingsNavMultitasking"
                     AccessKey="M"
                     Content="Multitasking"
-                    Tag="3">
+                    Tag="2">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xEE40;" />
                     </muxc:NavigationViewItem.Icon>
@@ -91,7 +82,7 @@
                     x:Uid="SettingsNavExperimental"
                     AccessKey="E"
                     Content="Experimental"
-                    Tag="4">
+                    Tag="3">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF1AD;" />
                     </muxc:NavigationViewItem.Icon>
@@ -102,7 +93,7 @@
                 <muxc:NavigationViewItem
                     AccessKey="B"
                     Content="{helpers:ResourceString Name=About}"
-                    Tag="5">
+                    Tag="4">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xE946;" />
                     </muxc:NavigationViewItem.Icon>

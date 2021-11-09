@@ -33,12 +33,6 @@ namespace Files.Services.Implementation
             get => GetSettingsService(ref _AppearanceSettingsService);
         }
 
-        private IStartupSettingsService _StartupSettingsService;
-        public IStartupSettingsService StartupSettingsService
-        {
-            get => GetSettingsService(ref _StartupSettingsService);
-        }
-
         private IPreviewPaneSettingsService _PreviewPaneSettingsService;
         public IPreviewPaneSettingsService PreviewPaneSettingsService
         {
@@ -62,7 +56,7 @@ namespace Files.Services.Implementation
             var export = (Dictionary<string, object>)base.ExportSettings();
 
             // Remove session settings
-            export.Remove(nameof(StartupSettingsService.LastSessionTabList));
+            export.Remove(nameof(PreferencesSettingsService.LastSessionTabList));
 
             return jsonSettingsSerializer.SerializeToJson(export);
         }
