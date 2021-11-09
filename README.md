@@ -10,7 +10,7 @@
 ![Files](Files/Assets/FilesHome.png)
 
 ## What is Files?
-Files is a file manager with a powerful yet intuitive design. It has features like multiple tabs, panes, columns, shell extensions in the context menu and tags.
+Files is a file manager for Windows with a powerful yet intuitive design. It has features like multiple tabs, panes, columns, shell extensions in the context menu and tags.
 
 ## Where to get Files
 - [Microsoft Store](https://www.microsoft.com/store/apps/9NGHP3DX8HDX)
