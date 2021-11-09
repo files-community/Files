@@ -609,10 +609,10 @@
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Web link</value>
   </data>
-  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+  <data name="General" xml:space="preserve">
     <value>Generelt</value>
   </data>
-  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+  <data name="Shortcut" xml:space="preserve">
     <value>Genvej</value>
   </data>
   <data name="ShortcutFileType" xml:space="preserve">
@@ -1146,7 +1146,7 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Støt os på PayPal</value>
   </data>
-  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+  <data name="Details" xml:space="preserve">
     <value>Detaljer</value>
   </data>
   <data name="UpdateClose" xml:space="preserve">
@@ -1362,7 +1362,7 @@
   <data name="LibraryItemAutomation" xml:space="preserve">
     <value>Bibliotek</value>
   </data>
-  <data name="PropertiesDialogTabLibrary.Content" xml:space="preserve">
+  <data name="Library" xml:space="preserve">
     <value>Bibliotek</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
@@ -1581,7 +1581,7 @@
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nyt</value>
   </data>
-  <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
+  <data name="Security" xml:space="preserve">
     <value>Sikkerhed</value>
   </data>
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">

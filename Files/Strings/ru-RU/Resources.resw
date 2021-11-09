@@ -597,10 +597,10 @@
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Ссылка</value>
   </data>
-  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+  <data name="General" xml:space="preserve">
     <value>Общие</value>
   </data>
-  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+  <data name="Shortcut" xml:space="preserve">
     <value>Ярлык</value>
   </data>
   <data name="ShortcutFileType" xml:space="preserve">
@@ -1107,7 +1107,7 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Поддержите нас через PayPal</value>
   </data>
-  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+  <data name="Details" xml:space="preserve">
     <value>Подробно</value>
   </data>
   <data name="UpdateClose" xml:space="preserve">
@@ -1491,7 +1491,7 @@
   <data name="LibraryItemAutomation" xml:space="preserve">
     <value>Библиотека</value>
   </data>
-  <data name="PropertiesDialogTabLibrary.Content" xml:space="preserve">
+  <data name="Library" xml:space="preserve">
     <value>Библиотека</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
@@ -1917,7 +1917,7 @@
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Новая панель</value>
   </data>
-  <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
+  <data name="Security" xml:space="preserve">
     <value>Безопасность</value>
   </data>
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">

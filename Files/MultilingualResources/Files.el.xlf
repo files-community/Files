@@ -874,11 +874,11 @@
           <source>Web link</source>
           <target state="translated">Διαδικτυακός σύνδεσμος</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogTabGeneral.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="General" translate="yes" xml:space="preserve">
           <source>General</source>
           <target state="translated">Γενικά</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogTabShortcut.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="Shortcut" translate="yes" xml:space="preserve">
           <source>Shortcut</source>
           <target state="translated">Συντόμευση</target>
         </trans-unit>
@@ -1644,7 +1644,7 @@
           <source>List and sort directories alongside files</source>
           <target state="translated">Λίστα και ταξινόμηση καταλόγων μαζί με αρχεία</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogTabDetails.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="Details" translate="yes" xml:space="preserve">
           <source>Details</source>
           <target state="translated">Λεπτομέρειες</target>
         </trans-unit>
@@ -2188,7 +2188,7 @@
           <source>Library</source>
           <target state="translated">Βιβλιοθήκη</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogTabLibrary.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="Library" translate="yes" xml:space="preserve">
           <source>Library</source>
           <target state="translated">Βιβλιοθήκη</target>
         </trans-unit>
@@ -2692,7 +2692,7 @@
           <source>Widgets</source>
           <target state="translated">Widgets</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogTabSecurity.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="Security" translate="yes" xml:space="preserve">
           <source>Security</source>
           <target state="translated">Ασφάλεια</target>
         </trans-unit>
@@ -3591,6 +3591,114 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="RestoreDefault" translate="yes" xml:space="preserve">
           <source>Restore default</source>
           <target state="new">Restore default</target>
+        </trans-unit>
+        <trans-unit id="Compatibility" translate="yes" xml:space="preserve">
+          <source>Compatibility</source>
+          <target state="new">Compatibility</target>
+        </trans-unit>
+        <trans-unit id="HighDpiOption_None" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="new">None</target>
+        </trans-unit>
+        <trans-unit id="HighDpiOption_UseDPIOnLogin" translate="yes" xml:space="preserve">
+          <source>On Windows login</source>
+          <target state="new">On Windows login</target>
+        </trans-unit>
+        <trans-unit id="HighDpiOption_UseDPIOnProgramStart" translate="yes" xml:space="preserve">
+          <source>On program start</source>
+          <target state="new">On program start</target>
+        </trans-unit>
+        <trans-unit id="HighDpiOverride_Application" translate="yes" xml:space="preserve">
+          <source>Application</source>
+          <target state="new">Application</target>
+        </trans-unit>
+        <trans-unit id="HighDpiOverride_None" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="new">None</target>
+        </trans-unit>
+        <trans-unit id="HighDpiOverride_System" translate="yes" xml:space="preserve">
+          <source>System</source>
+          <target state="new">System</target>
+        </trans-unit>
+        <trans-unit id="HighDpiOverride_SystemAdvanced" translate="yes" xml:space="preserve">
+          <source>System (advanced)</source>
+          <target state="new">System (advanced)</target>
+        </trans-unit>
+        <trans-unit id="OSCompatibility_None" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="new">None</target>
+        </trans-unit>
+        <trans-unit id="OSCompatibility_Windows7" translate="yes" xml:space="preserve">
+          <source>Windows 7</source>
+          <target state="new">Windows 7</target>
+        </trans-unit>
+        <trans-unit id="OSCompatibility_Windows8" translate="yes" xml:space="preserve">
+          <source>Windows 8</source>
+          <target state="new">Windows 8</target>
+        </trans-unit>
+        <trans-unit id="OSCompatibility_WindowsVista" translate="yes" xml:space="preserve">
+          <source>Windows Vista</source>
+          <target state="new">Windows Vista</target>
+        </trans-unit>
+        <trans-unit id="OSCompatibility_WindowsVistaSP1" translate="yes" xml:space="preserve">
+          <source>Windows Vista SP1</source>
+          <target state="new">Windows Vista SP1</target>
+        </trans-unit>
+        <trans-unit id="OSCompatibility_WindowsVistaSP2" translate="yes" xml:space="preserve">
+          <source>Windows Vista SP2</source>
+          <target state="new">Windows Vista SP2</target>
+        </trans-unit>
+        <trans-unit id="ReducedColorMode_Color16Bit" translate="yes" xml:space="preserve">
+          <source>16 Bit Colors (65536)</source>
+          <target state="new">16 Bit Colors (65536)</target>
+        </trans-unit>
+        <trans-unit id="ReducedColorMode_Color8Bit" translate="yes" xml:space="preserve">
+          <source>8 Bit Colors (256)</source>
+          <target state="new">8 Bit Colors (256)</target>
+        </trans-unit>
+        <trans-unit id="ReducedColorMode_None" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="new">None</target>
+        </trans-unit>
+        <trans-unit id="CompatibilityMode" translate="yes" xml:space="preserve">
+          <source>Compatibility mode</source>
+          <target state="new">Compatibility mode</target>
+        </trans-unit>
+        <trans-unit id="DisableFullscreenOptimizations" translate="yes" xml:space="preserve">
+          <source>Disable fullscreen optimizations</source>
+          <target state="new">Disable fullscreen optimizations</target>
+        </trans-unit>
+        <trans-unit id="ExecuteAt640X480" translate="yes" xml:space="preserve">
+          <source>Run at 640 x 480 screen resolution</source>
+          <target state="new">Run at 640 x 480 screen resolution</target>
+        </trans-unit>
+        <trans-unit id="Options" translate="yes" xml:space="preserve">
+          <source>Options</source>
+          <target state="new">Options</target>
+        </trans-unit>
+        <trans-unit id="OverrideDPIScalingBehaviour" translate="yes" xml:space="preserve">
+          <source>Override high DPI scaling behaviour</source>
+          <target state="new">Override high DPI scaling behaviour</target>
+        </trans-unit>
+        <trans-unit id="ReducedColorMode" translate="yes" xml:space="preserve">
+          <source>Reduced color mode</source>
+          <target state="new">Reduced color mode</target>
+        </trans-unit>
+        <trans-unit id="RegisterForRestart" translate="yes" xml:space="preserve">
+          <source>Register for restart</source>
+          <target state="new">Register for restart</target>
+        </trans-unit>
+        <trans-unit id="RunAsAdministrator" translate="yes" xml:space="preserve">
+          <source>Run as administrator</source>
+          <target state="new">Run as administrator</target>
+        </trans-unit>
+        <trans-unit id="RunCompatibilityTroubleShooter" translate="yes" xml:space="preserve">
+          <source>Run compatibility troubleshooter</source>
+          <target state="new">Run compatibility troubleshooter</target>
+        </trans-unit>
+        <trans-unit id="UseMainMonitorDPISettings" translate="yes" xml:space="preserve">
+          <source>Use DPI settings of the main monitor</source>
+          <target state="new">Use DPI settings of the main monitor</target>
         </trans-unit>
       </group>
     </body>

@@ -598,10 +598,10 @@
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>வலை இணைப்பு</value>
   </data>
-  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+  <data name="General" xml:space="preserve">
     <value>பொது</value>
   </data>
-  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+  <data name="Shortcut" xml:space="preserve">
     <value>குறுக்குவழி</value>
   </data>
   <data name="ShortcutFileType" xml:space="preserve">
@@ -931,7 +931,7 @@
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>தேடல் முடிவுகள்</value>
   </data>
-  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+  <data name="Details" xml:space="preserve">
     <value>விவரங்கள்</value>
   </data>
   <data name="UpdateClose" xml:space="preserve">
@@ -1081,7 +1081,7 @@
   <data name="LibraryItemAutomation" xml:space="preserve">
     <value>நூலகம்</value>
   </data>
-  <data name="PropertiesDialogTabLibrary.Content" xml:space="preserve">
+  <data name="Library" xml:space="preserve">
     <value>நூலகம்</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
@@ -1279,7 +1279,7 @@
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>புதிது</value>
   </data>
-  <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
+  <data name="Security" xml:space="preserve">
     <value>பாதுகாப்பு</value>
   </data>
   <data name="SecurityAllowLabel.Text" xml:space="preserve">
