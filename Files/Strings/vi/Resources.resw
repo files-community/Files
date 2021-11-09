@@ -660,10 +660,10 @@
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Liên kết web</value>
   </data>
-  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+  <data name="General" xml:space="preserve">
     <value>Chung</value>
   </data>
-  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+  <data name="Shortcut" xml:space="preserve">
     <value>Lối tắt</value>
   </data>
   <data name="ShortcutFileType" xml:space="preserve">
@@ -1218,7 +1218,7 @@
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>Danh và sắp xếp danh mụch kế bên tệp tin</value>
   </data>
-  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+  <data name="Details" xml:space="preserve">
     <value>Chi tiết</value>
   </data>
   <data name="UpdateClose" xml:space="preserve">
@@ -1620,7 +1620,7 @@
   <data name="LibraryItemAutomation" xml:space="preserve">
     <value>Thư viện</value>
   </data>
-  <data name="PropertiesDialogTabLibrary.Content" xml:space="preserve">
+  <data name="Library" xml:space="preserve">
     <value>Thư viện</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
@@ -1989,7 +1989,7 @@
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Phụ tùng</value>
   </data>
-  <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
+  <data name="Security" xml:space="preserve">
     <value>Bảo mật</value>
   </data>
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">

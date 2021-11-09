@@ -522,10 +522,10 @@
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>קישור אינטרנט</value>
   </data>
-  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+  <data name="General" xml:space="preserve">
     <value>כללי</value>
   </data>
-  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+  <data name="Shortcut" xml:space="preserve">
     <value>קיצור דרך</value>
   </data>
   <data name="ShortcutFileType" xml:space="preserve">
@@ -951,7 +951,7 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>תמכו בנו באמצעות PayPal</value>
   </data>
-  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+  <data name="Details" xml:space="preserve">
     <value>פרטים</value>
   </data>
   <data name="UpdateClose" xml:space="preserve">

@@ -597,10 +597,10 @@
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Web リンク</value>
   </data>
-  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+  <data name="General" xml:space="preserve">
     <value>概要</value>
   </data>
-  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+  <data name="Shortcut" xml:space="preserve">
     <value>ショートカット</value>
   </data>
   <data name="ShortcutFileType" xml:space="preserve">
@@ -1134,7 +1134,7 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>PayPal で私たちを支援してください</value>
   </data>
-  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+  <data name="Details" xml:space="preserve">
     <value>詳細</value>
   </data>
   <data name="UpdateClose" xml:space="preserve">
@@ -1518,7 +1518,7 @@
   <data name="LibraryItemAutomation" xml:space="preserve">
     <value>ライブラリ</value>
   </data>
-  <data name="PropertiesDialogTabLibrary.Content" xml:space="preserve">
+  <data name="Library" xml:space="preserve">
     <value>ライブラリ</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
@@ -1944,7 +1944,7 @@
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>新しいペイン</value>
   </data>
-  <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
+  <data name="Security" xml:space="preserve">
     <value>セキュリティ</value>
   </data>
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">

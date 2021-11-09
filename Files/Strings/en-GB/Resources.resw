@@ -666,10 +666,10 @@
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Web link</value>
   </data>
-  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+  <data name="General" xml:space="preserve">
     <value>General</value>
   </data>
-  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+  <data name="Shortcut" xml:space="preserve">
     <value>Shortcut</value>
   </data>
   <data name="ShortcutFileType" xml:space="preserve">
@@ -1251,7 +1251,7 @@
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>List and sort directories alongside files</value>
   </data>
-  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+  <data name="Details" xml:space="preserve">
     <value>Details</value>
   </data>
   <data name="UpdateClose" xml:space="preserve">
@@ -1659,7 +1659,7 @@
   <data name="LibraryItemAutomation" xml:space="preserve">
     <value>Library</value>
   </data>
-  <data name="PropertiesDialogTabLibrary.Content" xml:space="preserve">
+  <data name="Library" xml:space="preserve">
     <value>Library</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
@@ -2040,7 +2040,7 @@
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgets</value>
   </data>
-  <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
+  <data name="Security" xml:space="preserve">
     <value>Security</value>
   </data>
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
