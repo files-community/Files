@@ -45,5 +45,5 @@ body:
         | This proposal will allow end users to accomplish Z | Won't |
   - type: textarea
     attributes:
-      label: Additional comment
-      description: Any other comments or screenshots about the feature request?
+      label: Additional Information
+      description: Anymore info, comments or screenshots about the feature request?
