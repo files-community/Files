@@ -98,7 +98,7 @@ jobs:
       Destination: 'AzureBlob'
       storage: 'filescommunity'
       ContainerName: 'files'
-      BlobPrefix: 'dev'
+      BlobPrefix: 'preview'
 
 ### Store release ###
 - job: StoreRelease
