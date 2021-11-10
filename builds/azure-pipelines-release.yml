@@ -31,10 +31,10 @@ jobs:
         $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
       failOnStderr: true
 
-  - task: AzureFileCopy@4
+  - task: AzureFileCopy@3
     inputs:
       SourcePath: '$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest'
-      azureSubscription: 'filesapp'
+      azureSubscription: 'Files(002dfe14-2009-4cfe-96a6-05a5b0aa7a21)'
       Destination: 'AzureBlob'
       storage: 'filescommunity'
       ContainerName: 'files'
