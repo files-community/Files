@@ -29,15 +29,15 @@ body:
     id: files-version
     attributes:
       label: Files Version
-      description: Which version of Files are you using?
-      placeholder: v1.5
+      description: Which version of Files are you using? Go to the About page in Files' settings, and press "Copy"
+      placeholder: e. g. Version: 2.0.34.0 OS Version: 10.0.22000.282
     validations:
       required: true
   - type: input
     attributes:
       label: Windows Version
       description: Which version of Windows are you using? Press <kbd>Win</kbd> + <kbd>Pause/Break</kbd> and copy.
-      placeholder: e.g. Windows 11 21H2 22000.194
+      placeholder: e. g. Windows 11 21H2 22000.194
     validations:
       required: true
   - type: textarea
