@@ -73,12 +73,16 @@
                                 <FontIcon Width="18" FontSize="18" VerticalAlignment="Center" Glyph="{x:Bind Glyph}" />
                                 <Button Grid.Column="1" CornerRadius="8" Command="{x:Bind OpenCommand}" Style="{StaticResource AccentButtonStyle}">
                                     <Button.Content>
-                                        <StackPanel Orientation="Horizontal">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
                                             <TextBlock TextWrapping="Wrap">
                                                 <Run Text="{x:Bind Label}" />
                                                 <Run FontWeight="Light" Text="{x:Bind Parameter}" />
                                             </TextBlock>
-                                            <Grid Width="12" Margin="0,0,-8,0">
+                                            <Grid Grid.Column="1" Width="12" Margin="0,0,-8,0">
                                                 <Button x:Name="CloseButton" Command="{x:Bind ClearCommand}"
                                                 Width="12" Padding="0" Opacity="0.60" VerticalAlignment="Center" Visibility="Collapsed"
                                                 Background="Transparent" BorderBrush="Transparent" Style="{StaticResource AccentButtonStyle}">
@@ -87,7 +91,7 @@
                                                     </Button.Content>
                                                 </Button>
                                             </Grid>
-                                        </StackPanel>
+                                        </Grid>
                                     </Button.Content>
                                 </Button>
                                 <Button Grid.Column="2" Width="18" Margin="0" Padding="0" Background="Transparent" BorderBrush="Transparent" Command="{x:Bind OpenCommand}">
