@@ -93,7 +93,7 @@ jobs:
 
   - task: AzureFileCopy@4
     inputs:
-      SourcePath: '$(build.artifactstagingdirectory)'
+      SourcePath: '$(build.artifactstagingdirectory)\AppxPackages\*'
       azureSubscription: 'azureconnection'
       Destination: 'AzureBlob'
       storage: 'filescommunity'
