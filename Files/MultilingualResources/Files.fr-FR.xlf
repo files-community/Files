@@ -508,7 +508,7 @@
         </trans-unit>
         <trans-unit id="HourAgo" translate="yes" xml:space="preserve">
           <source>{0} hour ago</source>
-          <target state="translated" state-qualifier="tm-suggestion">il y a {0} heure</target>
+          <target state="translated">Il y a {0} heure</target>
         </trans-unit>
         <trans-unit id="MinutesAgo" translate="yes" xml:space="preserve">
           <source>{0} minutes ago</source>
@@ -516,11 +516,11 @@
         </trans-unit>
         <trans-unit id="MinuteAgo" translate="yes" xml:space="preserve">
           <source>{0} minute ago</source>
-          <target state="translated" state-qualifier="tm-suggestion">il y a {0} minute</target>
+          <target state="translated">Il y a {0} minute</target>
         </trans-unit>
         <trans-unit id="SecondsAgo" translate="yes" xml:space="preserve">
           <source>{0} seconds ago</source>
-          <target state="translated" state-qualifier="tm-suggestion">il y a {0} secondes</target>
+          <target state="translated">Il y a {0} secondes</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" translate="yes" xml:space="preserve">
           <source>New Tab</source>
@@ -786,11 +786,11 @@
           <source>Web link</source>
           <target state="translated">Lien web</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogTabGeneral.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="General" translate="yes" xml:space="preserve">
           <source>General</source>
           <target state="translated">Général</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogTabShortcut.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="Shortcut" translate="yes" xml:space="preserve">
           <source>Shortcut</source>
           <target state="translated">Raccourci</target>
         </trans-unit>
@@ -1502,7 +1502,7 @@
           <source>Support us on PayPal</source>
           <target state="translated">Soutenez-nous sur PayPal</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogTabDetails.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="Details" translate="yes" xml:space="preserve">
           <source>Details</source>
           <target state="translated">Détails</target>
         </trans-unit>
@@ -2014,7 +2014,7 @@
           <source>Library</source>
           <target state="translated">Bibliothèque</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogTabLibrary.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="Library" translate="yes" xml:space="preserve">
           <source>Library</source>
           <target state="translated">Bibliothèque</target>
         </trans-unit>
@@ -2582,7 +2582,7 @@
           <source>New pane</source>
           <target state="translated">Nouveau panneau</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogTabSecurity.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="Security" translate="yes" xml:space="preserve">
           <source>Security</source>
           <target state="translated">Sécurité</target>
         </trans-unit>
@@ -3048,8 +3048,7 @@
         </trans-unit>
         <trans-unit id="SettingsOpenFilesWithOneClick" translate="yes" xml:space="preserve">
           <source>Open files with a single click</source>
-          <target state="needs-review-translation">Ouvrir les éléments d'un seul clic</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Ouvrir les éléments d'un seul clic</target>
         </trans-unit>
         <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles" translate="yes" xml:space="preserve">
           <source>List and sort directories alongside files</source>
@@ -3547,35 +3546,35 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
         </trans-unit>
         <trans-unit id="Tag" translate="yes" xml:space="preserve">
           <source>Tag</source>
-          <target state="new">Tag</target>
+          <target state="translated">Étiquette</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersWithOneClick" translate="yes" xml:space="preserve">
           <source>Open folders with a single click</source>
-          <target state="new">Open folders with a single click</target>
+          <target state="translated">Ouvrir les dossiers d'un seul clic</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionFolderPath.Text" translate="yes" xml:space="preserve">
           <source>Folder path</source>
-          <target state="new">Folder path</target>
+          <target state="translated">Chemin du dossier</target>
         </trans-unit>
         <trans-unit id="ExportSettings" translate="yes" xml:space="preserve">
           <source>Export Settings</source>
-          <target state="new">Export Settings</target>
+          <target state="translated">Exporter les paramètres</target>
         </trans-unit>
         <trans-unit id="ImportSettings" translate="yes" xml:space="preserve">
           <source>Import Settings</source>
-          <target state="new">Import Settings</target>
+          <target state="translated">Importer les paramètres</target>
         </trans-unit>
         <trans-unit id="ManageSettings" translate="yes" xml:space="preserve">
           <source>Manage Settings</source>
-          <target state="new">Manage Settings</target>
+          <target state="translated">Gérer les paramètres</target>
         </trans-unit>
         <trans-unit id="SettingsImportErrorDescription" translate="yes" xml:space="preserve">
           <source>Couldn't import settings. The settings file is corrupted.</source>
-          <target state="new">Couldn't import settings. The settings file is corrupted.</target>
+          <target state="translated">Importation des paramètres impossible. Le fichier de paramètres est corrompu.</target>
         </trans-unit>
         <trans-unit id="SettingsImportErrorTitle" translate="yes" xml:space="preserve">
           <source>Error importing settings</source>
-          <target state="new">Error importing settings</target>
+          <target state="translated">Erreur lors de l'importation des paramètres</target>
         </trans-unit>
         <trans-unit id="ChooseCustomIcon" translate="yes" xml:space="preserve">
           <source>Choose a custom folder icon</source>
@@ -3583,11 +3582,119 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
         </trans-unit>
         <trans-unit id="Customization" translate="yes" xml:space="preserve">
           <source>Customization</source>
-          <target state="new">Customization</target>
+          <target state="translated">Customisation</target>
         </trans-unit>
         <trans-unit id="RestoreDefault" translate="yes" xml:space="preserve">
           <source>Restore default</source>
-          <target state="new">Restore default</target>
+          <target state="translated">Restorer par défaut</target>
+        </trans-unit>
+        <trans-unit id="Compatibility" translate="yes" xml:space="preserve">
+          <source>Compatibility</source>
+          <target state="translated">Compatibilité</target>
+        </trans-unit>
+        <trans-unit id="HighDpiOption_None" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="translated">Aucun</target>
+        </trans-unit>
+        <trans-unit id="HighDpiOption_UseDPIOnLogin" translate="yes" xml:space="preserve">
+          <source>On Windows login</source>
+          <target state="new">On Windows login</target>
+        </trans-unit>
+        <trans-unit id="HighDpiOption_UseDPIOnProgramStart" translate="yes" xml:space="preserve">
+          <source>On program start</source>
+          <target state="new">On program start</target>
+        </trans-unit>
+        <trans-unit id="HighDpiOverride_Application" translate="yes" xml:space="preserve">
+          <source>Application</source>
+          <target state="translated">Application</target>
+        </trans-unit>
+        <trans-unit id="HighDpiOverride_None" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="translated">Aucun</target>
+        </trans-unit>
+        <trans-unit id="HighDpiOverride_System" translate="yes" xml:space="preserve">
+          <source>System</source>
+          <target state="translated">Système</target>
+        </trans-unit>
+        <trans-unit id="HighDpiOverride_SystemAdvanced" translate="yes" xml:space="preserve">
+          <source>System (advanced)</source>
+          <target state="translated">Système (avancé)</target>
+        </trans-unit>
+        <trans-unit id="OSCompatibility_None" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="translated">Aucun</target>
+        </trans-unit>
+        <trans-unit id="OSCompatibility_Windows7" translate="yes" xml:space="preserve">
+          <source>Windows 7</source>
+          <target state="translated">Windows 7</target>
+        </trans-unit>
+        <trans-unit id="OSCompatibility_Windows8" translate="yes" xml:space="preserve">
+          <source>Windows 8</source>
+          <target state="translated">Windows 8</target>
+        </trans-unit>
+        <trans-unit id="OSCompatibility_WindowsVista" translate="yes" xml:space="preserve">
+          <source>Windows Vista</source>
+          <target state="translated">Windows Vista</target>
+        </trans-unit>
+        <trans-unit id="OSCompatibility_WindowsVistaSP1" translate="yes" xml:space="preserve">
+          <source>Windows Vista SP1</source>
+          <target state="translated">Windows Vista SP1</target>
+        </trans-unit>
+        <trans-unit id="OSCompatibility_WindowsVistaSP2" translate="yes" xml:space="preserve">
+          <source>Windows Vista SP2</source>
+          <target state="translated">Windows Vista SP2</target>
+        </trans-unit>
+        <trans-unit id="ReducedColorMode_Color16Bit" translate="yes" xml:space="preserve">
+          <source>16 Bit Colors (65536)</source>
+          <target state="translated">16 Bit couleurs (65536)</target>
+        </trans-unit>
+        <trans-unit id="ReducedColorMode_Color8Bit" translate="yes" xml:space="preserve">
+          <source>8 Bit Colors (256)</source>
+          <target state="translated">8 Bit Couleurs (256)</target>
+        </trans-unit>
+        <trans-unit id="ReducedColorMode_None" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="translated">Aucun</target>
+        </trans-unit>
+        <trans-unit id="CompatibilityMode" translate="yes" xml:space="preserve">
+          <source>Compatibility mode</source>
+          <target state="translated">Mode compatibilité</target>
+        </trans-unit>
+        <trans-unit id="DisableFullscreenOptimizations" translate="yes" xml:space="preserve">
+          <source>Disable fullscreen optimizations</source>
+          <target state="new">Disable fullscreen optimizations</target>
+        </trans-unit>
+        <trans-unit id="ExecuteAt640X480" translate="yes" xml:space="preserve">
+          <source>Run at 640 x 480 screen resolution</source>
+          <target state="translated">Execute avec une résolution de 640 x 480</target>
+        </trans-unit>
+        <trans-unit id="Options" translate="yes" xml:space="preserve">
+          <source>Options</source>
+          <target state="translated">Options</target>
+        </trans-unit>
+        <trans-unit id="OverrideDPIScalingBehaviour" translate="yes" xml:space="preserve">
+          <source>Override high DPI scaling behaviour</source>
+          <target state="new">Override high DPI scaling behaviour</target>
+        </trans-unit>
+        <trans-unit id="ReducedColorMode" translate="yes" xml:space="preserve">
+          <source>Reduced color mode</source>
+          <target state="translated">Mode couleurs réduites</target>
+        </trans-unit>
+        <trans-unit id="RegisterForRestart" translate="yes" xml:space="preserve">
+          <source>Register for restart</source>
+          <target state="new">Register for restart</target>
+        </trans-unit>
+        <trans-unit id="RunAsAdministrator" translate="yes" xml:space="preserve">
+          <source>Run as administrator</source>
+          <target state="translated">Exécuter en tant qu'administrateur</target>
+        </trans-unit>
+        <trans-unit id="RunCompatibilityTroubleShooter" translate="yes" xml:space="preserve">
+          <source>Run compatibility troubleshooter</source>
+          <target state="new">Run compatibility troubleshooter</target>
+        </trans-unit>
+        <trans-unit id="UseMainMonitorDPISettings" translate="yes" xml:space="preserve">
+          <source>Use DPI settings of the main monitor</source>
+          <target state="new">Use DPI settings of the main monitor</target>
         </trans-unit>
       </group>
     </body>

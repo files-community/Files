@@ -582,10 +582,10 @@
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>링크</value>
   </data>
-  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+  <data name="General" xml:space="preserve">
     <value>일반</value>
   </data>
-  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+  <data name="Shortcut" xml:space="preserve">
     <value>바로 가기</value>
   </data>
   <data name="ShortcutFileType" xml:space="preserve">
@@ -1152,7 +1152,7 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>PayPal 후원하기</value>
   </data>
-  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+  <data name="Details" xml:space="preserve">
     <value>자세히</value>
   </data>
   <data name="UpdateClose" xml:space="preserve">
@@ -1512,7 +1512,7 @@
   <data name="LibraryItemAutomation" xml:space="preserve">
     <value>라이브러리</value>
   </data>
-  <data name="PropertiesDialogTabLibrary.Content" xml:space="preserve">
+  <data name="Library" xml:space="preserve">
     <value>라이브러리</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
@@ -1734,7 +1734,7 @@
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>새로 만들기</value>
   </data>
-  <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
+  <data name="Security" xml:space="preserve">
     <value>보안</value>
   </data>
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">

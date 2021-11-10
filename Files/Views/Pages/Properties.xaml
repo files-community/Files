@@ -6,6 +6,7 @@
     xmlns:helpers="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:settings="using:Files.UserControls.Settings"
     d:DesignHeight="700"
     d:DesignWidth="400"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="False"
@@ -28,90 +29,122 @@
             VerticalAlignment="Center"
             Text="Properties" />
 
-        <muxc:NavigationView
-            x:Name="NavigationView"
-            Grid.Row="1"
-            AllowDrop="False"
-            IsBackButtonVisible="Collapsed"
-            IsPaneOpen="False"
-            IsPaneToggleButtonVisible="False"
-            IsSettingsVisible="False"
-            PaneDisplayMode="Top"
-            SelectedItem="{x:Bind TabGeneral}"
-            SelectionChanged="NavigationView_SelectionChanged"
-            SelectionFollowsFocus="Disabled">
-            <!--  SelectionFollowsFocus disabled to fix #5387  -->
-
-            <!--  Tabs  -->
-            <muxc:NavigationView.MenuItems>
-                <muxc:NavigationViewItem
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
+                <!--  Tabs  -->
+                <settings:SettingsBlockControl
                     x:Name="TabGeneral"
-                    x:Uid="PropertiesDialogTabGeneral"
-                    AccessKey="G"
-                    Content="General"
+                    Title="{helpers:ResourceString Name=General}"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Click="SettingsBlockControl_Click"
+                    IsExpanded="True"
                     Tag="General">
-                    <muxc:NavigationViewItem.Icon>
+                    <settings:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xE7C3;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
+                    </settings:SettingsBlockControl.Icon>
+                    <settings:SettingsBlockControl.ExpandableContent>
+                        <Frame />
+                    </settings:SettingsBlockControl.ExpandableContent>
+                </settings:SettingsBlockControl>
+
+                <settings:SettingsBlockControl
                     x:Name="TabSecurity"
-                    x:Uid="PropertiesDialogTabSecurity"
-                    Content="Security"
-                    Tag="Security">
-                    <muxc:NavigationViewItem.Icon>
+                    Title="{helpers:ResourceString Name=Security}"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Click="SettingsBlockControl_Click"
+                    Tag="Security"
+                    Visibility="Collapsed">
+                    <settings:SettingsBlockControl.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE730;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
+                    </settings:SettingsBlockControl.Icon>
+                    <settings:SettingsBlockControl.ExpandableContent>
+                        <Frame />
+                    </settings:SettingsBlockControl.ExpandableContent>
+                </settings:SettingsBlockControl>
+
+                <settings:SettingsBlockControl
                     x:Name="TabShorcut"
-                    x:Uid="PropertiesDialogTabShortcut"
-                    AccessKey="S"
-                    Content="Shortcut"
+                    Title="{helpers:ResourceString Name=Shortcut}"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Click="SettingsBlockControl_Click"
                     Tag="Shortcut"
                     Visibility="Collapsed">
-                    <muxc:NavigationViewItem.Icon>
+                    <settings:SettingsBlockControl.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
+                    </settings:SettingsBlockControl.Icon>
+                    <settings:SettingsBlockControl.ExpandableContent>
+                        <Frame />
+                    </settings:SettingsBlockControl.ExpandableContent>
+                </settings:SettingsBlockControl>
+
+                <settings:SettingsBlockControl
                     x:Name="TabLibrary"
-                    x:Uid="PropertiesDialogTabLibrary"
-                    AccessKey="L"
-                    Content="Library"
+                    Title="{helpers:ResourceString Name=Library}"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Click="SettingsBlockControl_Click"
                     Tag="Library"
                     Visibility="Collapsed">
-                    <muxc:NavigationViewItem.Icon>
+                    <settings:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xE1D3;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
+                    </settings:SettingsBlockControl.Icon>
+                    <settings:SettingsBlockControl.ExpandableContent>
+                        <Frame />
+                    </settings:SettingsBlockControl.ExpandableContent>
+                </settings:SettingsBlockControl>
+
+                <settings:SettingsBlockControl
                     x:Name="TabDetails"
-                    x:Uid="PropertiesDialogTabDetails"
-                    AccessKey="D"
-                    Content="Details"
+                    Title="{helpers:ResourceString Name=Details}"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Click="SettingsBlockControl_Click"
                     Tag="Details"
                     Visibility="Collapsed">
-                    <muxc:NavigationViewItem.Icon>
+                    <settings:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xE946;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
+                    </settings:SettingsBlockControl.Icon>
+                    <settings:SettingsBlockControl.ExpandableContent>
+                        <Frame />
+                    </settings:SettingsBlockControl.ExpandableContent>
+                </settings:SettingsBlockControl>
+
+                <settings:SettingsBlockControl
                     x:Name="TabCustomization"
-                    Content="{helpers:ResourceString Name=Customization}"
+                    Title="{helpers:ResourceString Name=Customization}"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Click="SettingsBlockControl_Click"
                     Tag="Customization"
                     Visibility="Collapsed">
-                    <muxc:NavigationViewItem.Icon>
+                    <settings:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xE771;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-            </muxc:NavigationView.MenuItems>
+                    </settings:SettingsBlockControl.Icon>
+                    <settings:SettingsBlockControl.ExpandableContent>
+                        <Frame />
+                    </settings:SettingsBlockControl.ExpandableContent>
+                </settings:SettingsBlockControl>
 
-            <Frame
-                x:Name="contentFrame"
-                Grid.Row="1"
-                IsNavigationStackEnabled="False" />
-        </muxc:NavigationView>
+                <settings:SettingsBlockControl
+                    x:Name="TabCompatibility"
+                    Title="{helpers:ResourceString Name=Compatibility}"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Click="SettingsBlockControl_Click"
+                    Tag="Compatibility"
+                    Visibility="Collapsed">
+                    <settings:SettingsBlockControl.Icon>
+                        <FontIcon Glyph="&#xECAA;" />
+                    </settings:SettingsBlockControl.Icon>
+                    <settings:SettingsBlockControl.ExpandableContent>
+                        <Frame />
+                    </settings:SettingsBlockControl.ExpandableContent>
+                </settings:SettingsBlockControl>
+            </StackPanel>
+        </ScrollViewer>
 
         <Grid Grid.Row="2" Padding="8">
             <Grid.ColumnDefinitions>

@@ -597,10 +597,10 @@
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Documento web</value>
   </data>
-  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+  <data name="General" xml:space="preserve">
     <value>Generale</value>
   </data>
-  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+  <data name="Shortcut" xml:space="preserve">
     <value>Collegamento</value>
   </data>
   <data name="ShortcutFileType" xml:space="preserve">
@@ -1134,7 +1134,7 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Supportaci su PayPal</value>
   </data>
-  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+  <data name="Details" xml:space="preserve">
     <value>Dettagli</value>
   </data>
   <data name="UpdateClose" xml:space="preserve">
@@ -1518,7 +1518,7 @@
   <data name="LibraryItemAutomation" xml:space="preserve">
     <value>Raccolta</value>
   </data>
-  <data name="PropertiesDialogTabLibrary.Content" xml:space="preserve">
+  <data name="Library" xml:space="preserve">
     <value>Raccolta</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
@@ -1923,7 +1923,7 @@
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Layout</value>
   </data>
-  <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
+  <data name="Security" xml:space="preserve">
     <value>Sicurezza</value>
   </data>
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
@@ -2293,7 +2293,7 @@
     <value>Nascondi file protetti e di sistema (Raccomandato)</value>
   </data>
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Apri le cartelle con un solo click</value>
+    <value>Apri i file con un solo click</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>Ordina le cartelle insieme ai file</value>
@@ -2661,5 +2661,119 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Usa Files per le finestre di dialogo "Apri" e "Salva con nome"</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
+    <value>Apri le cartelle con un solo click</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>Percorso</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>Esporta le impostazioni</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>Importa le impostazioni</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>Gestisci le impostazioni</value>
+  </data>
+  <data name="SettingsImportErrorDescription" xml:space="preserve">
+    <value>Impossibile importare le impostazioni. File corrotto.</value>
+  </data>
+  <data name="SettingsImportErrorTitle" xml:space="preserve">
+    <value>Errore nell'importazione</value>
+  </data>
+  <data name="ChooseCustomIcon" xml:space="preserve">
+    <value>Seleziona una icona personalizzata</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Personalizzazione</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>Ripristina prederfinita</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>Compatibilità</value>
+  </data>
+  <data name="HighDpiOption_None" xml:space="preserve">
+    <value>Nessuno</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
+    <value>Al login di Windows</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
+    <value>All'avvio del programma</value>
+  </data>
+  <data name="HighDpiOverride_Application" xml:space="preserve">
+    <value>Applicazione</value>
+  </data>
+  <data name="HighDpiOverride_None" xml:space="preserve">
+    <value>Nessuno</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>Sistema</value>
+  </data>
+  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
+    <value>Sistema (avanzato)</value>
+  </data>
+  <data name="OSCompatibility_None" xml:space="preserve">
+    <value>Nessuno</value>
+  </data>
+  <data name="OSCompatibility_Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="OSCompatibility_Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
+    <value>Windows Vista SP1</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
+    <value>Windows Vista SP2</value>
+  </data>
+  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
+    <value>Colori a 16 Bit (65536)</value>
+  </data>
+  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
+    <value>Colori a 8 Bit (256)</value>
+  </data>
+  <data name="ReducedColorMode_None" xml:space="preserve">
+    <value>Nessuno</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Modalità di compatibilità</value>
+  </data>
+  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+    <value>Disabilita ottimizzazione schermo intero</value>
+  </data>
+  <data name="ExecuteAt640X480" xml:space="preserve">
+    <value>Esegui a risoluzione 640 x 480</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Opzioni</value>
+  </data>
+  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
+    <value>Esegui l'override del comportamento di scaling per alti DPI</value>
+  </data>
+  <data name="ReducedColorMode" xml:space="preserve">
+    <value>Modalità colore Ridotto</value>
+  </data>
+  <data name="RegisterForRestart" xml:space="preserve">
+    <value>Registra per il riavvio</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>Esegui come amministratore</value>
+  </data>
+  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+    <value>Esegui lo strumento di risoluzione problemi di compatibilità</value>
+  </data>
+  <data name="UseMainMonitorDPISettings" xml:space="preserve">
+    <value>Usa le impostazioni DPI del monitor principale</value>
   </data>
 </root>

@@ -1,6 +1,7 @@
 ﻿using Common;
 using Files.Common;
 using FilesFullTrust.Helpers;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -289,7 +290,7 @@ namespace FilesFullTrust.MessageHandlers
                         var newName = (string)message["newName"];
                         var operationID = (string)message["operationID"];
                         var overwriteOnRename = (bool)message["overwrite"];
-                        var (succcess, shellOperationResult) = await Win32API.StartSTATask(async () =>
+                        var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
                         {
                             using (var op = new ShellFileOperations())
                             {
@@ -334,7 +335,7 @@ namespace FilesFullTrust.MessageHandlers
                             }
                         });
                         await Win32API.SendMessageAsync(connection, new ValueSet() {
-                            { "Success", succcess },
+                            { "Success", success },
                             { "Result", JsonConvert.SerializeObject(shellOperationResult) },
                         }, message.Get("RequestID", (string)null));
                     }
@@ -422,7 +423,7 @@ namespace FilesFullTrust.MessageHandlers
                         var operationID = (string)message["operationID"];
                         var overwriteOnCopy = (bool)message["overwrite"];
                         var ownerHwnd = (long)message["HWND"];
-                        var (succcess, shellOperationResult) = await Win32API.StartSTATask(async () =>
+                        var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
                         {
                             using (var op = new ShellFileOperations())
                             {
@@ -484,7 +485,7 @@ namespace FilesFullTrust.MessageHandlers
                             }
                         });
                         await Win32API.SendMessageAsync(connection, new ValueSet() {
-                            { "Success", succcess },
+                            { "Success", success },
                             { "Result", JsonConvert.SerializeObject(shellOperationResult) }
                         }, message.Get("RequestID", (string)null));
                     }
@@ -659,6 +660,42 @@ namespace FilesFullTrust.MessageHandlers
                     {
                         { "PickedObject", pickedObject }
                     }, message.Get("RequestID", (string)null));
+                    break;
+
+                case "ReadCompatOptions":
+                    {
+                        var filePath = (string)message["filepath"];
+                        var compatOptions = Extensions.IgnoreExceptions(() =>
+                        {
+                            using var compatKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers");
+                            if (compatKey == null)
+                            {
+                                return null;
+                            }
+                            return (string)compatKey.GetValue(filePath, null);
+                        }, Program.Logger);
+                        await Win32API.SendMessageAsync(connection, new ValueSet()
+                        {
+                            { "CompatOptions", compatOptions }
+                        }, message.Get("RequestID", (string)null));
+                    }
+                    break;
+
+                case "SetCompatOptions":
+                    {
+                        var filePath = (string)message["filepath"];
+                        var compatOptions = (string)message["options"];
+                        bool success = false;
+                        if (string.IsNullOrEmpty(compatOptions) || compatOptions == "~")
+                        {
+                            success = Win32API.RunPowershellCommand(@$"Remove-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' | Out-Null", false); 
+                        }
+                        else
+                        {
+                            success = Win32API.RunPowershellCommand(@$"New-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' -Value '{compatOptions}' -PropertyType String -Force | Out-Null", false);
+                        }
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", success } }, message.Get("RequestID", (string)null));
+                    }
                     break;
             }
         }

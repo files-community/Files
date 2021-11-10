@@ -597,10 +597,10 @@
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Web bağlantısı</value>
   </data>
-  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+  <data name="General" xml:space="preserve">
     <value>Genel</value>
   </data>
-  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+  <data name="Shortcut" xml:space="preserve">
     <value>Kısayol</value>
   </data>
   <data name="ShortcutFileType" xml:space="preserve">
@@ -1134,7 +1134,7 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Bizi PayPal ile destekleyin</value>
   </data>
-  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+  <data name="Details" xml:space="preserve">
     <value>Ayrıntılar</value>
   </data>
   <data name="UpdateClose" xml:space="preserve">
@@ -1518,7 +1518,7 @@
   <data name="LibraryItemAutomation" xml:space="preserve">
     <value>Kütüphane</value>
   </data>
-  <data name="PropertiesDialogTabLibrary.Content" xml:space="preserve">
+  <data name="Library" xml:space="preserve">
     <value>Kütüphane</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
@@ -1944,7 +1944,7 @@
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Yeni bölme</value>
   </data>
-  <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
+  <data name="Security" xml:space="preserve">
     <value>Güvenlik</value>
   </data>
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">

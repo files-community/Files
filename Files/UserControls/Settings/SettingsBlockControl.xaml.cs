@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
 
@@ -87,10 +88,23 @@ namespace Files.UserControls.Settings
             set => SetValue(IsClickableProperty, value);
         }
 
+        public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register(
+          "IsExpanded",
+          typeof(bool),
+          typeof(SettingsBlockControl),
+          new PropertyMetadata(false)
+        );
+
+        public bool IsExpanded
+        {
+            get => (bool)GetValue(IsExpandedProperty);
+            set => SetValue(IsExpandedProperty, value);
+        }
+
         //
         // Summary:
         //     Occurs when a button control is clicked.
-        public event RoutedEventHandler Click;
+        public event EventHandler<bool> Click;
 
         public SettingsBlockControl()
         {
@@ -99,17 +113,17 @@ namespace Files.UserControls.Settings
 
         private void ActionableButton_Click(object sender, RoutedEventArgs e)
         {
-            Click?.Invoke(this, e);
+            Click?.Invoke(this, ExpanderControl.IsExpanded);
         }
 
         private void Expander_Expanding(Microsoft.UI.Xaml.Controls.Expander sender, Microsoft.UI.Xaml.Controls.ExpanderExpandingEventArgs args)
         {
-            Click?.Invoke(this, new RoutedEventArgs());
+            Click?.Invoke(this, true);
         }
 
         private void Expander_Collapsed(Microsoft.UI.Xaml.Controls.Expander sender, Microsoft.UI.Xaml.Controls.ExpanderCollapsedEventArgs args)
         {
-            Click?.Invoke(this, new RoutedEventArgs());
+            Click?.Invoke(this, false);
         }
     }
 }

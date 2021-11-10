@@ -36,7 +36,7 @@ namespace FilesFullTrust
                 catch (Exception ex)
                 {
                     tcs.SetResult(default);
-                    Program.Logger.Info(ex, ex.Message);
+                    Program.Logger.Warn(ex, ex.Message);
                     //tcs.SetException(e);
                 }
                 finally
@@ -94,7 +94,7 @@ namespace FilesFullTrust
                     return uwpApps.First().PackageFamilyName;
                 }
                 return null;
-            };
+            }
 
             // Find desktop apps
             string GetDesktopAssoc()
