@@ -91,84 +91,10 @@ jobs:
       ArtifactName: 'Sideload'
       publishLocation: 'Container'
 
-### Store release ###
-- job: StoreRelease
-  timeoutInMinutes: 120
-
-  steps:
-  - task: PowerShell@2
+  - task: AzureFileCopy@4
     inputs:
-      targetType: 'inline'
-      script: |
-        [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\Files.Package\Package.appxmanifest
-        $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
-        $xmlDoc.Package.Properties.DisplayName="Files"
-        $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
-        $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
-      failOnStderr: true
-
-  - task: DownloadSecureFile@1
-    name: mapsDevKey
-    displayName: 'Download Bing Maps Dev Key'
-    inputs:
-      secureFile: 'BingMapsKey.txt'
-
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: '$(Agent.TempDirectory)'
-      Contents: '$(mapsDevKey.secureFilePath)'
-      TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
-      overWrite: true
-
-  - task: DownloadSecureFile@1
-    name: appCenterDevKey
-    displayName: 'Download AppCenter Dev Key'
-    inputs:
-      secureFile: 'AppCenterKey.txt'
-
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: '$(Agent.TempDirectory)'
-      Contents: '$(appCenterDevKey.secureFilePath)'
-      TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
-      overWrite: true
-
-  - task: NuGetToolInstaller@1
-
-  - task: NuGetCommand@2
-    inputs:
-      restoreSolution: '$(solution)'
-
-  - task: MSBuild@1
-    inputs:
-      solution: '**/*.wapproj'
-      platform: 'x86'
-      configuration: '$(buildConfiguration)'
-      msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
-      maximumCpuCount: true
-    
-  - task: CopyFiles@2
-    displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
-    inputs:
-      SourceFolder: '$(system.defaultworkingdirectory)'
-      Contents: '**\bin\$(BuildConfiguration)\**'
-      TargetFolder: '$(build.artifactstagingdirectory)'
-
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: Store'
-    inputs:
-      PathtoPublish: '$(build.artifactstagingdirectory)'
-      ArtifactName: 'Store'
-      publishLocation: 'Container'
-
-  - task: store-flight@0
-    inputs:
-      serviceEndpoint: 'Files'
-      appId: '9NGHP3DX8HDX'
-      flightName: 'Files - Canary'
-      packagePath: '$(appxPackageDir)\**\*.msixupload'
-      force: false
-      skipPolling: false
-      deletePackages: true
-      numberOfPackagesToKeep: '5'
-      isMandatoryUpdate: true
+      SourcePath: '$(build.artifactstagingdirectory)'
+      azureSubscription: 'Files(002dfe14-2009-4cfe-96a6-05a5b0aa7a21)'
+      Destination: 'AzureBlob'
+      storage: 'https://filescommunity.blob.core.windows.net/'
+      ContainerName: 'files'
