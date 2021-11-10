@@ -37,7 +37,7 @@ body:
     attributes:
       label: Windows Version
       description: Which version of Windows are you using? Press <kbd>Win</kbd> + <kbd>Pause/Break</kbd> and copy.
-      placeholder: e. g. Windows 11 21H2 22000.194
+      placeholder: e.g. Windows 11 21H2 22000.194
     validations:
       required: true
   - type: textarea
