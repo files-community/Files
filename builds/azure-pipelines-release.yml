@@ -91,7 +91,7 @@ jobs:
       ArtifactName: 'Sideload'
       publishLocation: 'Container'
 
-  - task: AzureFileCopy@3
+  - task: AzureFileCopy@4
     inputs:
       SourcePath: '$(build.artifactstagingdirectory)'
       azureSubscription: 'azureconnection'
