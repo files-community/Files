@@ -94,7 +94,7 @@ jobs:
   - task: AzureFileCopy@4
     inputs:
       SourcePath: '$(build.artifactstagingdirectory)'
-      azureSubscription: 'Files(3)(002dfe14-2009-4cfe-96a6-05a5b0aa7a21)'
+      azureSubscription: 'azureconnection'
       Destination: 'AzureBlob'
       storage: 'filescommunity'
       ContainerName: 'files'
