@@ -29,7 +29,6 @@ jobs:
         $xmlDoc.Package.Properties.DisplayName="Files"
         $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
         $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
-        Uninstall-AzureRm
       failOnStderr: true
 
   - task: DownloadSecureFile@1
@@ -99,4 +98,3 @@ jobs:
       Destination: 'AzureBlob'
       storage: 'filescommunity'
       ContainerName: 'files'
-      BlobPrefix: 'test'
