@@ -31,6 +31,14 @@ jobs:
         $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
       failOnStderr: true
 
+  - task: AzureFileCopy@4
+    inputs:
+      SourcePath: '$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest'
+      azureSubscription: 'filesapp'
+      Destination: 'AzureBlob'
+      storage: 'filescommunity'
+      ContainerName: 'files'
+
   - task: DownloadSecureFile@1
     name: mapsDevKey
     displayName: 'Download Bing Maps Dev Key'
@@ -91,10 +99,3 @@ jobs:
       ArtifactName: 'Sideload'
       publishLocation: 'Container'
 
-  - task: AzureFileCopy@4
-    inputs:
-      SourcePath: '$(build.artifactstagingdirectory)'
-      azureSubscription: 'Files(002dfe14-2009-4cfe-96a6-05a5b0aa7a21)'
-      Destination: 'AzureBlob'
-      storage: 'filescommunity'
-      ContainerName: 'files'
