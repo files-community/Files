@@ -98,4 +98,3 @@ jobs:
       Destination: 'AzureBlob'
       storage: 'filescommunity'
       ContainerName: 'files'
-      BlobPrefix: 'packages'
