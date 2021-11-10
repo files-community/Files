@@ -242,29 +242,58 @@ namespace Files.Helpers
 
         public static string ReadStringFromFile(string filePath)
         {
-            IntPtr hStream = CreateFileFromApp(filePath,
-                GENERIC_READ, 0, IntPtr.Zero, OPEN_EXISTING, (uint)File_Attributes.BackupSemantics, IntPtr.Zero);
-            if (hStream.ToInt64() == -1)
+            IntPtr hFile = CreateFileFromApp(filePath,
+                GENERIC_READ,
+                FILE_SHARE_READ,
+                IntPtr.Zero,
+                OPEN_EXISTING,
+                (uint)File_Attributes.BackupSemantics,
+                IntPtr.Zero);
+
+            if (hFile.ToInt64() == -1)
             {
                 return null;
             }
-            byte[] buff = new byte[4096];
+
+            const int BUFFER_LENGTH = 4096;
+
+            byte[] buffer = new byte[BUFFER_LENGTH];
             int dwBytesRead;
-            string str = null;
+            string szRead = string.Empty;
+
             unsafe
             {
-                fixed (byte* pBuff = buff)
+                bool bRead = false;
+
+                using (MemoryStream msBuffer = new MemoryStream(buffer))
                 {
-                    ReadFile(hStream, pBuff, 4096 - 1, &dwBytesRead, IntPtr.Zero);
-                    //str = Encoding.UTF8.GetString(pBuff, dwBytesRead);
+                    using (StreamReader reader = new StreamReader(msBuffer, true))
+                    {
+                        do
+                        {
+                            fixed (byte* pBuffer = buffer)
+                            {
+                                Array.Clear(buffer, 0, buffer.Length);
+                                msBuffer.Position = 0;
+
+                                if (bRead = ReadFile(hFile, pBuffer, BUFFER_LENGTH - 1, &dwBytesRead, IntPtr.Zero) && dwBytesRead > 0)
+                                {
+                                    szRead += reader.ReadToEnd().Substring(0, dwBytesRead);
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+
+                        } while (bRead);
+                    }
                 }
             }
-            using (var reader = new StreamReader(new MemoryStream(buff, 0, dwBytesRead), true))
-            {
-                str = reader.ReadToEnd();
-            }
-            CloseHandle(hStream);
-            return str;
+
+            CloseHandle(hFile);
+
+            return szRead;
         }
 
         public static bool WriteStringToFile(string filePath, string str, File_Attributes flags = 0)
