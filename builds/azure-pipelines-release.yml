@@ -91,10 +91,11 @@ jobs:
       ArtifactName: 'Sideload'
       publishLocation: 'Container'
 
-  - task: AzureFileCopy@3
+  - task: AzureFileCopy@2
     inputs:
       SourcePath: '$(build.artifactstagingdirectory)'
-      azureSubscription: 'Files(002dfe14-2009-4cfe-96a6-05a5b0aa7a21)'
+      azureConnectionType: 'ConnectedServiceName'
+      azureClassicSubscription: 'Files(002dfe14-2009-4cfe-96a6-05a5b0aa7a21)'
       Destination: 'AzureBlob'
-      storage: 'filescommunity'
+      classicStorage: 'filescommunity'
       ContainerName: 'files'
