@@ -29,7 +29,7 @@ body:
     id: files-version
     attributes:
       label: Files Version
-      description: Which version of Files are you using? Version number can be found by going to Files' Settings > About
+      description: Which version of Files are you using? The version number can be found by going to Files' Settings > About
       placeholder: "e.g. Version: 2.0.34.0 OS Version: 10.0.22000.282"
     validations:
       required: true
