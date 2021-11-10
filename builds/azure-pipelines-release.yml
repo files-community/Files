@@ -96,5 +96,5 @@ jobs:
       SourcePath: '$(build.artifactstagingdirectory)'
       azureSubscription: 'Files(002dfe14-2009-4cfe-96a6-05a5b0aa7a21)'
       Destination: 'AzureBlob'
-      storage: 'https://filescommunity.blob.core.windows.net/'
+      storage: 'filescommunity'
       ContainerName: 'files'
