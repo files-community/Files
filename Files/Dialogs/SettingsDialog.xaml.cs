@@ -29,13 +29,22 @@ namespace Files.Dialogs
 
         private void UpdateDialogLayout()
         {
-            if (Window.Current.Bounds.Height <= 600)
+            if (Window.Current.Bounds.Height <= 640)
             {
                 SettingsScrollViewer.Height = Window.Current.Bounds.Height - 40;
             }
             else
             {
-                SettingsScrollViewer.Height = 560;
+                SettingsScrollViewer.Height = 600;
+            }
+
+            if (Window.Current.Bounds.Width <= 800)
+            {
+                ContainerGrid.Width = Window.Current.Bounds.Width;
+            }
+            else
+            {
+                ContainerGrid.Width = 800;
             }
         }
 
