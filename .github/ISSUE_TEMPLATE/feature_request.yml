@@ -50,5 +50,5 @@ body:
       placeholder: e.g. Windows 11 21H2 22000.194
   - type: textarea
     attributes:
-      label: Additional Information
-      description: Anymore info, comments or screenshots about the feature request?
+      label: Comments
+      description: Additional information, comments or screenshots about the feature request.
