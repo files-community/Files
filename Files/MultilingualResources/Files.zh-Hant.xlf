@@ -3590,111 +3590,111 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
         </trans-unit>
         <trans-unit id="Compatibility" translate="yes" xml:space="preserve">
           <source>Compatibility</source>
-          <target state="new">Compatibility</target>
+          <target state="translated">相容性</target>
         </trans-unit>
         <trans-unit id="HighDpiOption_None" translate="yes" xml:space="preserve">
           <source>None</source>
-          <target state="new">None</target>
+          <target state="translated">無</target>
         </trans-unit>
         <trans-unit id="HighDpiOption_UseDPIOnLogin" translate="yes" xml:space="preserve">
           <source>On Windows login</source>
-          <target state="new">On Windows login</target>
+          <target state="translated">使用者登入 Windows 時</target>
         </trans-unit>
         <trans-unit id="HighDpiOption_UseDPIOnProgramStart" translate="yes" xml:space="preserve">
           <source>On program start</source>
-          <target state="new">On program start</target>
+          <target state="translated">使用者開啟該程式時</target>
         </trans-unit>
         <trans-unit id="HighDpiOverride_Application" translate="yes" xml:space="preserve">
           <source>Application</source>
-          <target state="new">Application</target>
+          <target state="translated">應用程式</target>
         </trans-unit>
         <trans-unit id="HighDpiOverride_None" translate="yes" xml:space="preserve">
           <source>None</source>
-          <target state="new">None</target>
+          <target state="translated">無</target>
         </trans-unit>
         <trans-unit id="HighDpiOverride_System" translate="yes" xml:space="preserve">
           <source>System</source>
-          <target state="new">System</target>
+          <target state="translated">系統</target>
         </trans-unit>
         <trans-unit id="HighDpiOverride_SystemAdvanced" translate="yes" xml:space="preserve">
           <source>System (advanced)</source>
-          <target state="new">System (advanced)</target>
+          <target state="translated">系統（增強）</target>
         </trans-unit>
         <trans-unit id="OSCompatibility_None" translate="yes" xml:space="preserve">
           <source>None</source>
-          <target state="new">None</target>
+          <target state="translated">無</target>
         </trans-unit>
         <trans-unit id="OSCompatibility_Windows7" translate="yes" xml:space="preserve">
           <source>Windows 7</source>
-          <target state="new">Windows 7</target>
+          <target state="translated">Windows 7</target>
         </trans-unit>
         <trans-unit id="OSCompatibility_Windows8" translate="yes" xml:space="preserve">
           <source>Windows 8</source>
-          <target state="new">Windows 8</target>
+          <target state="translated">Windows 8</target>
         </trans-unit>
         <trans-unit id="OSCompatibility_WindowsVista" translate="yes" xml:space="preserve">
           <source>Windows Vista</source>
-          <target state="new">Windows Vista</target>
+          <target state="translated">Windows Vista</target>
         </trans-unit>
         <trans-unit id="OSCompatibility_WindowsVistaSP1" translate="yes" xml:space="preserve">
           <source>Windows Vista SP1</source>
-          <target state="new">Windows Vista SP1</target>
+          <target state="translated">Windows Vista SP1</target>
         </trans-unit>
         <trans-unit id="OSCompatibility_WindowsVistaSP2" translate="yes" xml:space="preserve">
           <source>Windows Vista SP2</source>
-          <target state="new">Windows Vista SP2</target>
+          <target state="translated">Windows Vista SP2</target>
         </trans-unit>
         <trans-unit id="ReducedColorMode_Color16Bit" translate="yes" xml:space="preserve">
           <source>16 Bit Colors (65536)</source>
-          <target state="new">16 Bit Colors (65536)</target>
+          <target state="translated">16 位元（65536）色</target>
         </trans-unit>
         <trans-unit id="ReducedColorMode_Color8Bit" translate="yes" xml:space="preserve">
           <source>8 Bit Colors (256)</source>
-          <target state="new">8 Bit Colors (256)</target>
+          <target state="translated">8 位元（256）色</target>
         </trans-unit>
         <trans-unit id="ReducedColorMode_None" translate="yes" xml:space="preserve">
           <source>None</source>
-          <target state="new">None</target>
+          <target state="translated">無</target>
         </trans-unit>
         <trans-unit id="CompatibilityMode" translate="yes" xml:space="preserve">
           <source>Compatibility mode</source>
-          <target state="new">Compatibility mode</target>
+          <target state="translated">程式相容模式</target>
         </trans-unit>
         <trans-unit id="DisableFullscreenOptimizations" translate="yes" xml:space="preserve">
           <source>Disable fullscreen optimizations</source>
-          <target state="new">Disable fullscreen optimizations</target>
+          <target state="translated">停用全螢幕最佳化</target>
         </trans-unit>
         <trans-unit id="ExecuteAt640X480" translate="yes" xml:space="preserve">
           <source>Run at 640 x 480 screen resolution</source>
-          <target state="new">Run at 640 x 480 screen resolution</target>
+          <target state="translated">在 640 x 480 的螢幕解析度下執行</target>
         </trans-unit>
         <trans-unit id="Options" translate="yes" xml:space="preserve">
           <source>Options</source>
-          <target state="new">Options</target>
+          <target state="translated">設定</target>
         </trans-unit>
         <trans-unit id="OverrideDPIScalingBehaviour" translate="yes" xml:space="preserve">
           <source>Override high DPI scaling behaviour</source>
-          <target state="new">Override high DPI scaling behaviour</target>
+          <target state="translated">高 DPI 縮放比例覆寫</target>
         </trans-unit>
         <trans-unit id="ReducedColorMode" translate="yes" xml:space="preserve">
           <source>Reduced color mode</source>
-          <target state="new">Reduced color mode</target>
+          <target state="translated">色彩相容模式</target>
         </trans-unit>
         <trans-unit id="RegisterForRestart" translate="yes" xml:space="preserve">
           <source>Register for restart</source>
-          <target state="new">Register for restart</target>
+          <target state="translated">註冊此程式以重新啟動</target>
         </trans-unit>
         <trans-unit id="RunAsAdministrator" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
-          <target state="new">Run as administrator</target>
+          <target state="translated">以系統管理員的身分執行此程式</target>
         </trans-unit>
         <trans-unit id="RunCompatibilityTroubleShooter" translate="yes" xml:space="preserve">
           <source>Run compatibility troubleshooter</source>
-          <target state="new">Run compatibility troubleshooter</target>
+          <target state="translated">執行相容性疑難排解員</target>
         </trans-unit>
         <trans-unit id="UseMainMonitorDPISettings" translate="yes" xml:space="preserve">
           <source>Use DPI settings of the main monitor</source>
-          <target state="new">Use DPI settings of the main monitor</target>
+          <target state="translated">是否將程式 DPI 覆寫為目前使用的顯示器的 DPI</target>
         </trans-unit>
       </group>
     </body>
