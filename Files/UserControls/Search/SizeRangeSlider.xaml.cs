@@ -10,6 +10,7 @@ namespace Files.UserControls.Search
 {
     public sealed partial class SizeRangeSlider : UserControl
     {
+        private Grid ToolTipGrid;
         private TextBlock ToolTipBlock;
 
         private bool isInUpdateRange = false;
@@ -90,6 +91,12 @@ namespace Files.UserControls.Search
                         _ => Steps[index / 3],
                     };
                     ToolTipBlock.Text = size.ToString("N");
+
+                    // show fake tooltip inside popup.
+                    var margin = ToolTipGrid.Margin;
+                    margin.Left = 16 * (1 - index / Steps.Count);
+                    ToolTipGrid.Margin = margin;
+                    ToolTipGrid.UpdateLayout();
                 }
             }
         }
@@ -106,8 +113,8 @@ namespace Files.UserControls.Search
             Selector.ValueChanged += Selector_ValueChanged;
         }
 
-        private void ToolTipBlock_Loaded(object sender, RoutedEventArgs _)
-            => ToolTipBlock = sender as TextBlock;
+        private void ToolTip_Loaded(object sender, RoutedEventArgs _) => ToolTipGrid = sender as Grid;
+        private void ToolTipBlock_Loaded(object sender, RoutedEventArgs _) => ToolTipBlock = sender as TextBlock;
 
         private void Selector_ValueChanged(object sender, RangeChangedEventArgs e)
         {

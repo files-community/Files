@@ -18,8 +18,8 @@
                     <Rectangle x:Name="ActiveRectangle"
                         Height="4" Fill="{TemplateBinding Foreground}"
                         HorizontalAlignment="Stretch" VerticalAlignment="Center" />
-                    <Grid x:Name="ToolTip"
-                        Margin="0,-44,0,8" BorderThickness="1" Visibility="Collapsed"
+                    <Grid x:Name="ToolTip" Loaded="ToolTip_Loaded"
+                        Margin="16,-44,0,8" BorderThickness="1" Visibility="Collapsed"
                         Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
                         BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}">
                         <TextBlock x:Name="ToolTipText" Text="{x:Bind Tag, Mode=TwoWay}" Visibility="Collapsed" />
