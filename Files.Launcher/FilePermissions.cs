@@ -64,11 +64,11 @@ namespace FilesFullTrust
                     }
                     if (IsFolder)
                     {
-                        Directory.SetAccessControl(FilePath, acs as DirectorySecurity);
+                        FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(FilePath), acs as DirectorySecurity);
                     }
                     else
                     {
-                        File.SetAccessControl(FilePath, acs as FileSecurity);
+                        FileSystemAclExtensions.SetAccessControl(new FileInfo(FilePath), acs as FileSecurity);
                     }
                     return true;
                 }
@@ -95,11 +95,11 @@ namespace FilesFullTrust
                     acs.SetAccessRuleProtection(isProtected, preserveInheritance);
                     if (IsFolder)
                     {
-                        Directory.SetAccessControl(FilePath, acs as DirectorySecurity);
+                        FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(FilePath), acs as DirectorySecurity);
                     }
                     else
                     {
-                        File.SetAccessControl(FilePath, acs as FileSecurity);
+                        FileSystemAclExtensions.SetAccessControl(new FileInfo(FilePath), acs as FileSecurity);
                     }
                     return true;
                 }
@@ -126,11 +126,11 @@ namespace FilesFullTrust
                     acs.SetOwner(new SecurityIdentifier(ownerSid));
                     if (IsFolder)
                     {
-                        Directory.SetAccessControl(FilePath, acs as DirectorySecurity);
+                        FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(FilePath), acs as DirectorySecurity);
                     }
                     else
                     {
-                        File.SetAccessControl(FilePath, acs as FileSecurity);
+                        FileSystemAclExtensions.SetAccessControl(new FileInfo(FilePath), acs as FileSecurity);
                     }
                     return true;
                 }
@@ -153,12 +153,12 @@ namespace FilesFullTrust
             {
                 if (isFolder && Directory.Exists(filePath))
                 {
-                    fss = Directory.GetAccessControl(filePath);
+                    fss = FileSystemAclExtensions.GetAccessControl(new DirectoryInfo(filePath));
                     return true;
                 }
                 else if (File.Exists(filePath))
                 {
-                    fss = File.GetAccessControl(filePath);
+                    fss = FileSystemAclExtensions.GetAccessControl(new FileInfo(filePath));
                     return true;
                 }
                 else
