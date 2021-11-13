@@ -9,7 +9,7 @@ variables:
 - name: solution
   value: '**/*.sln'
 - name: buildPlatform
-  value: 'x86|x64'
+  value: 'x86|x64|arm64'
 - name: buildConfiguration
   value: 'Release'
 - name: appxPackageDir
@@ -56,6 +56,11 @@ jobs:
       Contents: '$(appCenterDevKey.secureFilePath)'
       TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
       overWrite: true
+
+  - task: UseDotNet@2
+    inputs:
+      packageType: sdk
+      version: 6.x
 
   - task: NuGetToolInstaller@1
 
@@ -141,6 +146,11 @@ jobs:
       Contents: '$(appCenterDevKey.secureFilePath)'
       TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
       overWrite: true
+
+  - task: UseDotNet@2
+    inputs:
+      packageType: sdk
+      version: 6.x
 
   - task: NuGetToolInstaller@1
 

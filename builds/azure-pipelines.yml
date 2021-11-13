@@ -48,6 +48,11 @@ steps:
     TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
     overWrite: true
 
+- task: UseDotNet@2
+  inputs:
+    packageType: sdk
+    version: 6.x
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
