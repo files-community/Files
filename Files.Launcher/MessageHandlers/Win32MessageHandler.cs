@@ -195,6 +195,8 @@ namespace FilesFullTrust.MessageHandlers
                             regProc32.WaitForExit();
                             using var regProc64 = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialog64.dll")}""");
                             regProc64.WaitForExit();
+                            using var regProcARM64 = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialogARM64.dll")}""");
+                            regProcARM64.WaitForExit();
 
                             DetectIsSetAsOpenFileDialog();
                             await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", true } }, message.Get("RequestID", (string)null));

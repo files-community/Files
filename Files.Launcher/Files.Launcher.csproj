@@ -46,6 +46,7 @@
   <ItemGroup>
     <Content Include="Assets\FilesOpenDialog\CustomOpenDialog32.dll" />
     <Content Include="Assets\FilesOpenDialog\CustomOpenDialog64.dll" />
+    <Content Include="Assets\FilesOpenDialog\CustomOpenDialogARM64.dll" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
