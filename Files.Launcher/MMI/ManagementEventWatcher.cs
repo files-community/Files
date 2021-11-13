@@ -143,12 +143,10 @@ namespace FilesFullTrust.MMI
 
         public void OnCompleted()
         {
-
         }
 
         public void OnError(Exception error)
         {
-
         }
 
         public void OnNext(CimSubscriptionResult cimSubscriptionResult)
