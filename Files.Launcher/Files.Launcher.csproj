@@ -40,13 +40,33 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
-    <Content Include="Assets\FilesOpenDialog\SetFilesAsDefault.reg" />
-    <Content Include="Assets\FilesOpenDialog\UnsetFilesAsDefault.reg" />
+    <Content Include="Assets\FilesOpenDialog\SetFilesAsDefault.reg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FilesOpenDialog\UnsetFilesAsDefault.reg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\FilesOpenDialog\CustomOpenDialog32.dll" />
+  <ItemGroup Condition=" '$(Platform)' == 'x86' ">
+    <Content Include="Assets\FilesOpenDialog\CustomOpenDialog32.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\FilesOpenDialog\CustomOpenDialog64.dll" />
     <Content Include="Assets\FilesOpenDialog\CustomOpenDialogARM64.dll" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Platform)' == 'x64' ">
+    <Content Include="Assets\FilesOpenDialog\CustomOpenDialog32.dll" />
+    <Content Include="Assets\FilesOpenDialog\CustomOpenDialog64.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FilesOpenDialog\CustomOpenDialogARM64.dll" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Platform)' == 'arm64' ">
+    <Content Include="Assets\FilesOpenDialog\CustomOpenDialog32.dll" />
+    <Content Include="Assets\FilesOpenDialog\CustomOpenDialog64.dll" />
+    <Content Include="Assets\FilesOpenDialog\CustomOpenDialogARM64.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
