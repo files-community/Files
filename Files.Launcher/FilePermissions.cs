@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Management;
+using Microsoft.Management.Infrastructure;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -220,8 +220,11 @@ namespace FilesFullTrust
         {
             try
             {
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher($"select * from Win32_Account where Name like '%{userName}%' and Domain like '%{domain}%'");
-                return searcher.Get().Cast<ManagementObject>().Select(x => x.Properties["SID"].Value as string);
+                using var session = CimSession.Create(null);
+                var users = session
+                    .QueryInstances(@"root\cimv2", "WQL", $"select * from Win32_Account where Name like '%{userName}%' and Domain like '%{domain}%'");
+
+                return users.Select(x => x.CimInstanceProperties["SID"].Value as string);
             }
             catch
             {
@@ -233,13 +236,15 @@ namespace FilesFullTrust
         {
             try
             {
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher($"select * from Win32_UserAccount where SID='{sid}'");
-                var user = searcher.Get().Cast<ManagementObject>().FirstOrDefault();
+                using var session = CimSession.Create(null);
+                var user = session
+                    .QueryInstances(@"root\cimv2", "WQL", $"select * from Win32_UserAccount where SID='{sid}'")
+                    .FirstOrDefault();
 
                 if (user != null)
                 {
-                    var groups = user.GetRelated("Win32_Group");
-                    return groups.Cast<ManagementObject>().Select(x => x.Properties["SID"].Value as string);
+                    var groups = session.EnumerateAssociatedInstances(@"root\cimv2", user, "Win32_GroupUser", "Win32_Group", null, null);
+                    return groups.Select(x => x.CimInstanceProperties["SID"].Value as string);
                 }
                 return null;
             }
