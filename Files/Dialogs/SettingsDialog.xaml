@@ -90,7 +90,8 @@
 
             <muxc:NavigationView.MenuItems>
                 <muxc:NavigationViewItem
-                    AccessKey="A" CornerRadius="4,0,0,4"
+                    AccessKey="A"
+                    CornerRadius="4,0,0,4"
                     Content="{helpers:ResourceString Name=Appearance}"
                     IsSelected="True"
                     Tag="0">
