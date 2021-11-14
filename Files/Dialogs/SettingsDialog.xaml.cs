@@ -29,7 +29,7 @@ namespace Files.Dialogs
 
         private void UpdateDialogLayout()
         {
-            if (Window.Current.Bounds.Height <= 640)
+            if (Window.Current.Bounds.Height <= 710)
             {
                 SettingsScrollViewer.Height = Window.Current.Bounds.Height - 40;
             }
