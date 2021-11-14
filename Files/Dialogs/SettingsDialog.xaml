@@ -130,7 +130,8 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
-                    AccessKey="B" CornerRadius="0,4,4,0"
+                    AccessKey="B"
+                    CornerRadius="0,4,4,0"
                     Content="{helpers:ResourceString Name=About}"
                     Tag="4"> 
                     <muxc:NavigationViewItem.Icon>
