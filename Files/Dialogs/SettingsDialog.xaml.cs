@@ -35,7 +35,7 @@ namespace Files.Dialogs
             }
             else
             {
-                SettingsScrollViewer.Height = 600;
+                ContainerGrid.Height = 640;
             }
 
             if (Window.Current.Bounds.Width <= 800)
