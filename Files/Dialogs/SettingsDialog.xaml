@@ -101,7 +101,8 @@
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavPreferences"
-                    AccessKey="P" CornerRadius="0"
+                    AccessKey="P"
+                    CornerRadius="0"
                     Content="Preferences"
                     Tag="1">
                     <muxc:NavigationViewItem.Icon>
