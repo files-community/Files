@@ -111,7 +111,8 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavMultitasking"
                     AccessKey="M"
-                    Content="Multitasking" CornerRadius="0"
+                    Content="Multitasking"
+                    CornerRadius="0"
                     Tag="2">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xEE40;" />
