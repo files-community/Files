@@ -159,7 +159,7 @@ namespace FilesFullTrust.MessageHandlers
 
                         try
                         {
-                            using var regProcess = Process.Start("regedit.exe", @$"/s ""{Path.Combine(destFolder, enable ? "SetFilesAsDefault.reg" : "UnsetFilesAsDefault.reg")}""");
+                            using var regProcess = Process.Start(new ProcessStartInfo("regedit.exe", @$"/s ""{Path.Combine(destFolder, enable ? "SetFilesAsDefault.reg" : "UnsetFilesAsDefault.reg")}""") { UseShellExecute = true, Verb = "runas" });
                             regProcess.WaitForExit();
                             DetectIsSetAsDefaultFileManager();
                             await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", true } }, message.Get("RequestID", (string)null));
