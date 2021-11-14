@@ -122,7 +122,8 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavExperimental"
                     AccessKey="E"
-                    Content="Experimental" CornerRadius="0"
+                    Content="Experimental"
+                    CornerRadius="0"
                     Tag="3">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF1AD;" />
