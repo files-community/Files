@@ -3536,7 +3536,7 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
           <source>Default file explorer</source>
           <target state="translated">Noklusējuma failu pārlūks</target>
         </trans-unit>
-        <trans-unit id="SettingsSetAsDefaultExplorer" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsSetAsDefaultManager" translate="yes" xml:space="preserve">
           <source>Set Files as default file explorer</source>
           <target state="translated">Iestatīt Files kā noklusējuma failu pārlūku</target>
         </trans-unit>

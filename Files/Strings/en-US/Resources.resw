@@ -237,9 +237,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Submit feedback</value>
   </data>
-  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Third party licenses</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>About</value>
   </data>
@@ -1451,9 +1448,6 @@
   </data>
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>Date deleted</value>
-  </data>
-  <data name="SettingsTabCustomization.Text" xml:space="preserve">
-    <value>Tab customization</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Cloud Drives</value>
@@ -2728,11 +2722,11 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>Item size column</value>
   </data>
-  <data name="SettingsDefaultExplorer" xml:space="preserve">
-    <value>Default file explorer</value>
+  <data name="SettingsDefaultFilesManager" xml:space="preserve">
+    <value>Default file manager</value>
   </data>
-  <data name="SettingsSetAsDefaultExplorer" xml:space="preserve">
-    <value>Set Files as default file explorer</value>
+  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
+    <value>Set Files as the default file manager</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Use Files as Open File Dialog</value>
@@ -2865,5 +2859,11 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
     <value>Use DPI settings of the main monitor</value>
+  </data>
+  <data name="ThirdPartyLicenses" xml:space="preserve">
+    <value>Third party licenses</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
+    <value>This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</value>
   </data>
 </root>

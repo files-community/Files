@@ -3538,7 +3538,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
           <source>Default file explorer</source>
           <target state="translated">Gestore file predefinito</target>
         </trans-unit>
-        <trans-unit id="SettingsSetAsDefaultExplorer" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsSetAsDefaultManager" translate="yes" xml:space="preserve">
           <source>Set Files as default file explorer</source>
           <target state="translated">Imposta Files come gestore file predefinito</target>
         </trans-unit>

@@ -2629,7 +2629,7 @@ Kami menggunakan App Center untuk melacak penggunaan aplikasi, menemukan bug, da
   <data name="SettingsDefaultExplorer" xml:space="preserve">
     <value>Penjelajah file default</value>
   </data>
-  <data name="SettingsSetAsDefaultExplorer" xml:space="preserve">
+  <data name="SettingsSetAsDefaultManager" xml:space="preserve">
     <value>Atur Files sebagai penjelajah file default</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">

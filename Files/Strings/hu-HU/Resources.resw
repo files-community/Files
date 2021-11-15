@@ -2657,7 +2657,7 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   <data name="SettingsDefaultExplorer" xml:space="preserve">
     <value>Alapértelmezett fájlkezelő</value>
   </data>
-  <data name="SettingsSetAsDefaultExplorer" xml:space="preserve">
+  <data name="SettingsSetAsDefaultManager" xml:space="preserve">
     <value>A Files beállítása az alapértelmezett fájlkezelőként</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">

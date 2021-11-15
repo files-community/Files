@@ -3537,7 +3537,7 @@ Kami menggunakan App Center untuk melacak penggunaan aplikasi, menemukan bug, da
           <source>Default file explorer</source>
           <target state="translated">Penjelajah file default</target>
         </trans-unit>
-        <trans-unit id="SettingsSetAsDefaultExplorer" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsSetAsDefaultManager" translate="yes" xml:space="preserve">
           <source>Set Files as default file explorer</source>
           <target state="translated">Atur Files sebagai penjelajah file default</target>
         </trans-unit>

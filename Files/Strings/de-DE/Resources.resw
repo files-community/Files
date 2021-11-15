@@ -2656,7 +2656,7 @@ Wir benutzen das App Center um einen Überblick über die Nutzung von Files zu e
   <data name="SettingsDefaultExplorer" xml:space="preserve">
     <value>Standard Explorer</value>
   </data>
-  <data name="SettingsSetAsDefaultExplorer" xml:space="preserve">
+  <data name="SettingsSetAsDefaultManager" xml:space="preserve">
     <value>Files als Standard-Explorer verwenden</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">

@@ -2656,7 +2656,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="SettingsDefaultExplorer" xml:space="preserve">
     <value>Default file explorer</value>
   </data>
-  <data name="SettingsSetAsDefaultExplorer" xml:space="preserve">
+  <data name="SettingsSetAsDefaultManager" xml:space="preserve">
     <value>Set Files as default file explorer</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
