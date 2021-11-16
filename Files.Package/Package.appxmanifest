@@ -35,7 +35,7 @@
                 </uap:DefaultTile>
                 <uap:SplashScreen Image="Assets\AppTiles\SplashScreen.png" uap5:Optional="true" />
             </uap:VisualElements>
-            <Extensions>
+            <Extensions>				
               <uap3:Extension Category="windows.appExtensionHost">
                 <uap3:AppExtensionHost>
                   <uap3:Name>com.files.filepreview</uap3:Name>
@@ -70,6 +70,15 @@
             </Extensions>
         </Application>
     </Applications>
+	<Extensions>
+	    <desktop6:Extension Category="windows.customInstall">
+		    <desktop6:CustomInstall Folder="Files.Launcher">
+			    <desktop6:UninstallActions>
+				    <desktop6:UninstallAction File="FilesFullTrust.exe" Name="AC_1" Arguments="/SetAsDefaultExplorer /false" />
+		    	</desktop6:UninstallActions>
+		    </desktop6:CustomInstall>
+	    </desktop6:Extension>			
+    </Extensions>
     <Capabilities>
         <!--<rescap:Capability Name="packageQuery"/>-->
         <rescap:Capability Name="runFullTrust" />
