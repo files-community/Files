@@ -172,7 +172,7 @@ jobs:
     inputs:
       serviceEndpoint: 'Files'
       appId: '9NGHP3DX8HDX'
-      flightName: 'Files - Dev'
+      flightName: 'Files - Preview'
       packagePath: '$(appxPackageDir)\**\*.msixupload'
       force: false
       skipPolling: false
