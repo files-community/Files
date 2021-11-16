@@ -25,9 +25,9 @@ jobs:
       targetType: 'inline'
       script: |
         [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\Files.Package\Package.appxmanifest
-        $xmlDoc.Package.Identity.Name="Files"
-        $xmlDoc.Package.Properties.DisplayName="Files"
-        $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
+        $xmlDoc.Package.Identity.Name="FilesPreview"
+        $xmlDoc.Package.Properties.DisplayName="Files - Preview"
+        $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files - Preview"
         $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
       failOnStderr: true
 
@@ -172,7 +172,7 @@ jobs:
     inputs:
       serviceEndpoint: 'Files'
       appId: '9NGHP3DX8HDX'
-      flightName: 'Files - Dev'
+      flightName: 'Files - Preview'
       packagePath: '$(appxPackageDir)\**\*.msixupload'
       force: false
       skipPolling: false
