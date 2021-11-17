@@ -48,18 +48,17 @@ steps:
     TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
     overWrite: true
 
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
+- task: UseDotNet@2
   inputs:
-    restoreSolution: '$(solution)'
+    packageType: sdk
+    version: 6.x
 
 - task: MSBuild@1
   inputs:
     platform: 'x64'
     solution: '**/*.wapproj'
     configuration: '$(buildConfiguration)'
-    msbuildArguments: '/t:build;_GenerateAppxPackage /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)"'
+    msbuildArguments: '/t:build;_GenerateAppxPackage /restore /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)"'
     maximumCpuCount: true
 
 - task: CopyFiles@2
