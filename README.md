@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/files-community/Files/main/Files/Assets/AppTiles/StoreLogo.scale-400.png" />
 </p>
 
-[![Build Status](https://dev.azure.com/lukeblevins150823/Files%20UWP/_apis/build/status/Build%20Pipeline?branchName=main)](https://dev.azure.com/lukeblevins150823/Files%20UWP/_build/latest?definitionId=4&branchName=master)
+[![Build Status](https://dev.azure.com/filescommunity/Files/_apis/build/status/Build%20Pipeline?branchName=main)](https://dev.azure.com/filescommunity/Files/_build/latest?definitionId=4&branchName=main)
 [![Discord](https://discordapp.com/api/guilds/725513575971684472/widget.png)](https://discord.gg/files)
 
 ## Welcome to the Files repository

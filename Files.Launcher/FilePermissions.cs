@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Management;
+using Microsoft.Management.Infrastructure;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -64,11 +64,11 @@ namespace FilesFullTrust
                     }
                     if (IsFolder)
                     {
-                        Directory.SetAccessControl(FilePath, acs as DirectorySecurity);
+                        FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(FilePath), acs as DirectorySecurity);
                     }
                     else
                     {
-                        File.SetAccessControl(FilePath, acs as FileSecurity);
+                        FileSystemAclExtensions.SetAccessControl(new FileInfo(FilePath), acs as FileSecurity);
                     }
                     return true;
                 }
@@ -95,11 +95,11 @@ namespace FilesFullTrust
                     acs.SetAccessRuleProtection(isProtected, preserveInheritance);
                     if (IsFolder)
                     {
-                        Directory.SetAccessControl(FilePath, acs as DirectorySecurity);
+                        FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(FilePath), acs as DirectorySecurity);
                     }
                     else
                     {
-                        File.SetAccessControl(FilePath, acs as FileSecurity);
+                        FileSystemAclExtensions.SetAccessControl(new FileInfo(FilePath), acs as FileSecurity);
                     }
                     return true;
                 }
@@ -126,11 +126,11 @@ namespace FilesFullTrust
                     acs.SetOwner(new SecurityIdentifier(ownerSid));
                     if (IsFolder)
                     {
-                        Directory.SetAccessControl(FilePath, acs as DirectorySecurity);
+                        FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(FilePath), acs as DirectorySecurity);
                     }
                     else
                     {
-                        File.SetAccessControl(FilePath, acs as FileSecurity);
+                        FileSystemAclExtensions.SetAccessControl(new FileInfo(FilePath), acs as FileSecurity);
                     }
                     return true;
                 }
@@ -153,12 +153,12 @@ namespace FilesFullTrust
             {
                 if (isFolder && Directory.Exists(filePath))
                 {
-                    fss = Directory.GetAccessControl(filePath);
+                    fss = FileSystemAclExtensions.GetAccessControl(new DirectoryInfo(filePath));
                     return true;
                 }
                 else if (File.Exists(filePath))
                 {
-                    fss = File.GetAccessControl(filePath);
+                    fss = FileSystemAclExtensions.GetAccessControl(new FileInfo(filePath));
                     return true;
                 }
                 else
@@ -220,8 +220,11 @@ namespace FilesFullTrust
         {
             try
             {
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher($"select * from Win32_Account where Name like '%{userName}%' and Domain like '%{domain}%'");
-                return searcher.Get().Cast<ManagementObject>().Select(x => x.Properties["SID"].Value as string);
+                using var session = CimSession.Create(null);
+                var users = session
+                    .QueryInstances(@"root\cimv2", "WQL", $"select * from Win32_Account where Name like '%{userName}%' and Domain like '%{domain}%'");
+
+                return users.Select(x => x.CimInstanceProperties["SID"].Value as string);
             }
             catch
             {
@@ -233,13 +236,15 @@ namespace FilesFullTrust
         {
             try
             {
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher($"select * from Win32_UserAccount where SID='{sid}'");
-                var user = searcher.Get().Cast<ManagementObject>().FirstOrDefault();
+                using var session = CimSession.Create(null);
+                var user = session
+                    .QueryInstances(@"root\cimv2", "WQL", $"select * from Win32_UserAccount where SID='{sid}'")
+                    .FirstOrDefault();
 
                 if (user != null)
                 {
-                    var groups = user.GetRelated("Win32_Group");
-                    return groups.Cast<ManagementObject>().Select(x => x.Properties["SID"].Value as string);
+                    var groups = session.EnumerateAssociatedInstances(@"root\cimv2", user, "Win32_GroupUser", "Win32_Group", null, null);
+                    return groups.Select(x => x.CimInstanceProperties["SID"].Value as string);
                 }
                 return null;
             }

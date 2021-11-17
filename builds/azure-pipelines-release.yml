@@ -9,7 +9,7 @@ variables:
 - name: solution
   value: '**/*.sln'
 - name: buildPlatform
-  value: 'x86|x64'
+  value: 'x86|x64|arm64'
 - name: buildConfiguration
   value: 'Release'
 - name: appxPackageDir
@@ -57,11 +57,10 @@ jobs:
       TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
       overWrite: true
 
-  - task: NuGetToolInstaller@1
-
-  - task: NuGetCommand@2
+  - task: UseDotNet@2
     inputs:
-      restoreSolution: '$(solution)'
+      packageType: sdk
+      version: 6.x
 
   - task: DownloadSecureFile@1
     name: caCertificate
@@ -74,7 +73,7 @@ jobs:
       solution: '**/*.wapproj'
       platform: 'x86'
       configuration: '$(buildConfiguration)'
-      msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=Sideload /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="$(caCertificate.secureFilePath)" /p:PackageCertificatePassword="$(signingCert.password)" /p:PackageCertificateThumbprint=""'
+      msbuildArguments: '/t:build;_GenerateAppxPackage /restore /p:AppxLogTelemetryFromSideloadingScript=False /p:GenerateAppInstallerFile=True /p:AppInstallerUri=https://filescommunity.blob.core.windows.net/files/preview/ /p:AppInstallerCheckForUpdateFrequency=OnApplicationRun /p:AppInstallerUpdateFrequency=1 /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=Sideload /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="$(caCertificate.secureFilePath)" /p:PackageCertificatePassword="$(signingCert.password)" /p:PackageCertificateThumbprint=""'
       maximumCpuCount: true
 
   - task: CopyFiles@2
@@ -90,6 +89,15 @@ jobs:
       PathtoPublish: '$(build.artifactstagingdirectory)'
       ArtifactName: 'Sideload'
       publishLocation: 'Container'
+
+  - task: AzureFileCopy@4
+    inputs:
+      SourcePath: '$(build.artifactstagingdirectory)\AppxPackages\*'
+      azureSubscription: 'azureconnection'
+      Destination: 'AzureBlob'
+      storage: 'filescommunity'
+      ContainerName: 'files'
+      BlobPrefix: 'preview'
 
 ### Store release ###
 - job: StoreRelease
@@ -133,18 +141,17 @@ jobs:
       TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
       overWrite: true
 
-  - task: NuGetToolInstaller@1
-
-  - task: NuGetCommand@2
+  - task: UseDotNet@2
     inputs:
-      restoreSolution: '$(solution)'
+      packageType: sdk
+      version: 6.x
 
   - task: MSBuild@1
     inputs:
       solution: '**/*.wapproj'
       platform: 'x86'
       configuration: '$(buildConfiguration)'
-      msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+      msbuildArguments: '/t:build;_GenerateAppxPackage /restore /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
       maximumCpuCount: true
     
   - task: CopyFiles@2
@@ -165,7 +172,7 @@ jobs:
     inputs:
       serviceEndpoint: 'Files'
       appId: '9NGHP3DX8HDX'
-      flightName: 'Files - Canary'
+      flightName: 'Files - Preview'
       packagePath: '$(appxPackageDir)\**\*.msixupload'
       force: false
       skipPolling: false
