@@ -74,14 +74,8 @@
 	<Extensions>
 		<desktop6:Extension Category="windows.customInstall">
 			<desktop6:CustomInstall Folder="Files.Launcher">
-				<desktop6:InstallActions>
-					<desktop6:InstallAction File="FilesFullTrust.exe" Name="DM" Arguments="SetAsDefaultExplorer" />
-				</desktop6:InstallActions>
-				<desktop6:RepairActions>
-					<desktop6:RepairAction File="FilesFullTrust.exe" Name="DM" Arguments="SetAsDefaultExplorer" />
-				</desktop6:RepairActions>
 				<desktop6:UninstallActions>
-					<desktop6:UninstallAction File="FilesFullTrust.exe" Name="DM" Arguments="SetAsDefaultExplorer" />
+					<desktop6:UninstallAction File="FilesFullTrust.exe" Name="DM" Arguments="/SetAsDefaultExplorer false" />
 				</desktop6:UninstallActions>
 			</desktop6:CustomInstall>
 		</desktop6:Extension>
