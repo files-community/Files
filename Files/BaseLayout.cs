@@ -666,6 +666,62 @@ namespace Files
             });
         }
 
+        private void AddShellItemsHelper1(AppBarButton overflowItem, Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenuFlyout, List<ICommandBarElement> mainItems, List<MenuFlyoutItemBase> overflowItems)
+        {
+            var overflowItemFlyout = overflowItem.Flyout as MenuFlyout;
+            if (overflowItemFlyout.Items.Count > 0)
+            {
+                overflowItemFlyout.Items.Insert(0, new MenuFlyoutSeparator());
+            }
+
+            var index = contextMenuFlyout.SecondaryCommands.Count - 2;
+            foreach (var i in mainItems)
+            {
+                index++;
+                contextMenuFlyout.SecondaryCommands.Insert(index, i);
+            }
+
+            index = 0;
+            foreach (var i in overflowItems)
+            {
+                overflowItemFlyout.Items.Insert(index, i);
+                index++;
+            }
+
+            if (overflowItemFlyout.Items.Count > 0)
+            {
+                (contextMenuFlyout.SecondaryCommands.First(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator).Visibility = Visibility.Visible;
+                overflowItem.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void AddShellItemsHelper2(ItemsControl itemsControl, Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenuFlyout)
+        {
+            itemsControl.Items.OfType<FrameworkElement>().ForEach(item =>
+            {
+                if (item.FindDescendant("OverflowTextLabel") is TextBlock label) // Enable CharacterEllipsis text trimming for menu items
+                {
+                    label.TextTrimming = TextTrimming.CharacterEllipsis;
+                }
+                if ((item as AppBarButton)?.Flyout as MenuFlyout is MenuFlyout flyout) // Close main menu when clicking on subitems (#5508)
+                {
+                    Action<IList<MenuFlyoutItemBase>> clickAction = null;
+                    clickAction = (items) =>
+                    {
+                        items.OfType<MenuFlyoutItem>().ForEach(i =>
+                        {
+                            i.Click += new RoutedEventHandler((s, e) => contextMenuFlyout.Hide());
+                        });
+                        items.OfType<MenuFlyoutSubItem>().ForEach(i =>
+                        {
+                            clickAction(i.Items);
+                        });
+                    };
+                    clickAction(flyout.Items);
+                }
+            });
+        }
+
         private void AddShellItemsToMenu(List<ContextMenuFlyoutItemViewModel> shellMenuItems, Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenuFlyout, bool shiftPressed)
         {
             var openWithSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetOpenWithItems(shellMenuItems));
@@ -697,31 +753,7 @@ namespace Files
             var overflowItem = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
             if (overflowItem is not null)
             {
-                var overflowItemFlyout = overflowItem.Flyout as MenuFlyout;
-                if (overflowItemFlyout.Items.Count > 0)
-                {
-                    overflowItemFlyout.Items.Insert(0, new MenuFlyoutSeparator());
-                }
-
-                var index = contextMenuFlyout.SecondaryCommands.Count - 2;
-                foreach (var i in mainItems)
-                {
-                    index++;
-                    contextMenuFlyout.SecondaryCommands.Insert(index, i);
-                }
-
-                index = 0;
-                foreach (var i in overflowItems)
-                {
-                    overflowItemFlyout.Items.Insert(index, i);
-                    index++;
-                }
-
-                if (overflowItemFlyout.Items.Count > 0)
-                {
-                    (contextMenuFlyout.SecondaryCommands.First(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator).Visibility = Visibility.Visible;
-                    overflowItem.Visibility = Visibility.Visible;
-                }
+                AddShellItemsHelper1(overflowItem, contextMenuFlyout, mainItems, overflowItems);
             }
             else
             {
@@ -748,29 +780,7 @@ namespace Files
 
             if (itemsControl is not null)
             {
-                itemsControl.Items.OfType<FrameworkElement>().ForEach(item =>
-                {
-                    if (item.FindDescendant("OverflowTextLabel") is TextBlock label) // Enable CharacterEllipsis text trimming for menu items
-                    {
-                        label.TextTrimming = TextTrimming.CharacterEllipsis;
-                    }
-                    if ((item as AppBarButton)?.Flyout as MenuFlyout is MenuFlyout flyout) // Close main menu when clicking on subitems (#5508)
-                    {
-                        Action<IList<MenuFlyoutItemBase>> clickAction = null;
-                        clickAction = (items) =>
-                        {
-                            items.OfType<MenuFlyoutItem>().ForEach(i =>
-                            {
-                                i.Click += new RoutedEventHandler((s, e) => contextMenuFlyout.Hide());
-                            });
-                            items.OfType<MenuFlyoutSubItem>().ForEach(i =>
-                            {
-                                clickAction(i.Items);
-                            });
-                        };
-                        clickAction(flyout.Items);
-                    }
-                });
+                AddShellItemsHelper2(itemsControl, contextMenuFlyout);
             }
         }
 
