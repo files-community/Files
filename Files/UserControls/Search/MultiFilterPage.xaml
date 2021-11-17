@@ -26,7 +26,7 @@
                 Background="Transparent" BorderBrush="Transparent"
                 Command="{x:Bind ViewModel.Navigator.BackCommand}">
                 <Button.Content>
-                    <FontIcon FontSize="16" FontWeight="SemiBold" Glyph="&#xE72B;" />
+                    <FontIcon FontSize="16" FontWeight="SemiBold" Glyph="&#xE76B;" />
                 </Button.Content>
             </Button>
             <ComboBox x:Name="HeaderCombo" Grid.Column="1" PointerEntered="HeaderCombo_PointerEntered"

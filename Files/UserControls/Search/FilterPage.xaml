@@ -24,7 +24,7 @@
                 Background="Transparent" BorderBrush="Transparent"
                 Command="{x:Bind ViewModel.Navigator.BackCommand}">
                 <Button.Content>
-                    <FontIcon FontSize="16" FontWeight="SemiBold" Glyph="&#xE72B;" />
+                    <FontIcon FontSize="16" FontWeight="SemiBold" Glyph="&#xE76B;" />
                 </Button.Content>
             </Button>
             <TextBlock Grid.Column="1" Margin="12,0,0,0" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" Text="{x:Bind ViewModel.Header.Title}" />
