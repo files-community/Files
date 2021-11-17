@@ -71,7 +71,9 @@
                                     <ColumnDefinition Width="18" />
                                 </Grid.ColumnDefinitions>
                                 <FontIcon Width="18" FontSize="18" VerticalAlignment="Center" Glyph="{x:Bind Glyph}" />
-                                <Button Grid.Column="1" CornerRadius="8" Command="{x:Bind OpenCommand}" Style="{StaticResource AccentButtonStyle}">
+                                <Button Grid.Column="1" CornerRadius="18" FontSize="17" Command="{x:Bind OpenCommand}"
+                                        Style="{StaticResource FilterButtonStyle}">
+                                    <!--Background="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}" BorderBrush="Transparent"-->
                                     <Button.Content>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
@@ -85,7 +87,7 @@
                                             <Grid Grid.Column="1" Width="12" Margin="0,0,-8,0">
                                                 <Button x:Name="CloseButton" Command="{x:Bind ClearCommand}"
                                                 Width="12" Padding="0" Opacity="0.60" VerticalAlignment="Center" Visibility="Collapsed"
-                                                Background="Transparent" BorderBrush="Transparent" Style="{StaticResource AccentButtonStyle}">
+                                                      Background="Transparent" BorderBrush="Transparent"  Style="{StaticResource FilterButtonStyle}">
                                                     <Button.Content>
                                                         <FontIcon FontSize="10" Glyph="&#xE10A;" />
                                                     </Button.Content>
@@ -293,6 +295,41 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="Opacity" Value="0.6" />
+        </Style>
+
+        <Style x:Key="FilterButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}" />
+            <Setter Property="BackgroundSizing" Value="OuterBorderEdge" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter x:Name="ContentPresenter"
+                            Background="{TemplateBinding Background}"
+                            BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            ContentTransitions="{TemplateBinding ContentTransitions}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            AutomationProperties.AccessibilityView="Raw">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </ContentPresenter>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
     </UserControl.Resources>
