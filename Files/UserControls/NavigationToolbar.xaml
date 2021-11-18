@@ -478,7 +478,7 @@
             <uc:SearchBox
                 x:Name="SearchRegion"
                 Grid.Column="2"
-                Width="264"
+                Width="255"
                 Height="33"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"

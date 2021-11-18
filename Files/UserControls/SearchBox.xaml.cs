@@ -3,7 +3,6 @@ using Files.UserControls.Search;
 using Files.ViewModels;
 using Files.ViewModels.Search;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using System.ComponentModel;
 using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -15,25 +14,13 @@ namespace Files.UserControls
     {
         private readonly SearchNavigator navigator = new SearchNavigator();
 
-        // Using a DependencyProperty as the backing store for SearchBoxViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SearchBoxViewModelProperty =
             DependencyProperty.Register(nameof(SearchBoxViewModel), typeof(SearchBoxViewModel), typeof(SearchBox), new PropertyMetadata(null));
 
         public SearchBoxViewModel SearchBoxViewModel
         {
             get => (SearchBoxViewModel)GetValue(SearchBoxViewModelProperty);
-            set
-            {
-                if (SearchBoxViewModel is not null)
-                {
-                    SearchBoxViewModel.PropertyChanged -= SearchBoxViewModel_PropertyChanged;
-                }
-                SetValue(SearchBoxViewModelProperty, value);
-                if (SearchBoxViewModel is not null)
-                {
-                    SearchBoxViewModel.PropertyChanged += SearchBoxViewModel_PropertyChanged;
-                }
-            }
+            set => SetValue(SearchBoxViewModelProperty, value);
         }
 
         public SearchBox() => InitializeComponent();
@@ -47,13 +34,13 @@ namespace Files.UserControls
         private void SearchRegion_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)
             => SearchBoxViewModel.SearchRegion_Escaped(sender, e);
 
+
         private void MenuFrame_Loaded(object sender, RoutedEventArgs e)
         {
             navigator.SearchBox = SearchBoxViewModel;
             navigator.Frame = sender as Frame;
             GoRootPage();
         }
-
         private void MenuButton_Loaded(object sender, RoutedEventArgs e)
         {
             var allowFocusOnInteractionAvailable = ApiInformation.IsPropertyPresent("Windows.UI.Xaml.FrameworkElement", "AllowFocusOnInteraction");
@@ -62,33 +49,8 @@ namespace Files.UserControls
                 element.AllowFocusOnInteraction = true;
             }
         }
-
-        private void MenuButtonFlyout_Opened(object sender, object e)
-        {
-            SearchBoxViewModel.IsMenuOpen = true;
-            GoRootPage();
-
-        }
-        private void MenuButtonFlyout_Closed(object sender, object e)
-        {
-            SearchBoxViewModel.IsMenuOpen = false;
-            navigator.GoPage(null);
-        }
-
-        private void SearchBoxViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(ISearchBox.IsMenuOpen))
-            {
-                if (SearchBoxViewModel.IsMenuOpen)
-                {
-                    MenuButtonFlyout.ShowAt(MenuButton);
-                }
-                else
-                {
-                    MenuButtonFlyout.Hide();
-                }
-            }
-        }
+        private void MenuFlyout_Opened(object sender, object e) => GoRootPage();
+        private void MenuFlyout_Closed(object sender, object e) => navigator.GoPage(null);
 
         private void GoRootPage()
         {
