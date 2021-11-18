@@ -43,7 +43,14 @@ namespace FilesFullTrust.Helpers
                 Ole32.PROPERTYKEY.System.ParsingPath, out var parsingPath);
             parsingPath ??= folderItem.FileSystemPath; // True path on disk
             folderItem.Properties.TryGetValue<string>(
+                Ole32.PROPERTYKEY.System.ItemName, out var rawFileName);
+            folderItem.Properties.TryGetValue<string>(
                 Ole32.PROPERTYKEY.System.ItemNameDisplay, out var fileName);
+            if (!isFolder && !string.IsNullOrEmpty(rawFileName) && !string.IsNullOrEmpty(fileName)
+                && Path.GetExtension(rawFileName) is string realExtension && !string.IsNullOrEmpty(realExtension) && !fileName.EndsWith(realExtension))
+            {
+                fileName = $"{fileName}{realExtension}";
+            }
             fileName ??= Path.GetFileName(folderItem.Name); // Original file name
             string filePath = folderItem.Name; // Original file path + name (recycle bin only)
             folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
@@ -60,6 +67,7 @@ namespace FilesFullTrust.Helpers
                 folderItem.Properties.GetPropertyString(Ole32.PROPERTYKEY.System.Size) : null;
             folderItem.Properties.TryGetValue<string>(
                 Ole32.PROPERTYKEY.System.ItemTypeText, out var fileType);
+            folderItem.Properties.TryGetValue<string>(Ole32.PROPERTYKEY.System.FileExtension, out var fileExtension);
             return new ShellFileItem(isFolder, parsingPath, fileName, filePath, recycleDate, modifiedDate, createdDate, fileSize, fileSizeBytes ?? 0, fileType);
         }
     }
