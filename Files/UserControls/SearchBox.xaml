@@ -43,7 +43,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Border x:Name="BorderElement" Grid.Row="1" Grid.ColumnSpan="4"
+                <Border x:Name="BorderElement" Grid.Row="1" Grid.ColumnSpan="4" CornerRadius="{StaticResource ControlCornerRadius}"
                     Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
                 <ContentPresenter x:Name="HeaderContentPresenter" Grid.ColumnSpan="4" x:DeferLoadStrategy="Lazy"
                     Margin="{ThemeResource AutoSuggestBoxTopHeaderMargin}" Visibility="Collapsed"
