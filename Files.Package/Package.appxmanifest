@@ -9,8 +9,7 @@
          xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
          xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
          xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
-		 xmlns:desktop8="http://schemas.microsoft.com/appx/manifest/desktop/windows10/8"
-         IgnorableNamespaces="uap uap5 mp rescap desktop desktop4 desktop6 desktop8">
+         IgnorableNamespaces="uap uap5 mp rescap desktop desktop4 desktop6">
 	<Identity Name="FilesDev" Publisher="CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7" Version="2.0.34.0" />
 	<Properties>
 		<DisplayName>Files - Dev</DisplayName>
@@ -89,5 +88,6 @@
 		<uap:Capability Name="removableStorage" />
 		<Capability Name="internetClient"/>
 		<Capability Name="privateNetworkClientServer"/>
+		<uap4:CustomCapability Name="Microsoft.classicAppInstaller_8wekyb3d8bbwe" />
 	</Capabilities>
 </Package>
