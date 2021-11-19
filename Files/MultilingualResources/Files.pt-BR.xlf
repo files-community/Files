@@ -3536,7 +3536,7 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
           <source>Default file explorer</source>
           <target state="translated">Explorador de arquivos padrão</target>
         </trans-unit>
-        <trans-unit id="SettingsSetAsDefaultExplorer" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsSetAsDefaultManager" translate="yes" xml:space="preserve">
           <source>Set Files as default file explorer</source>
           <target state="translated">Definir Files como o explorador de arquivos padrão</target>
         </trans-unit>

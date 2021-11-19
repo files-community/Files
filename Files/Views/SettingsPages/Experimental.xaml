@@ -74,12 +74,12 @@
             </local:SettingsBlockControl>
 
             <TextBlock
-                Padding="0,12,0,0"
+                Padding="0,12,0,4"
                 FontSize="14"
                 FontWeight="Medium"
-                Text="{helpers:ResourceString Name=SettingsDefaultExplorer}" />
+                Text="{helpers:ResourceString Name=SettingsDefaultFilesManager}" />
 
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsSetAsDefaultExplorer}" HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Description="{helpers:ResourceString Name=SettingsSetAsDefaultFileManagerDescription}" Title="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xEC50;" />
                 </local:SettingsBlockControl.Icon>

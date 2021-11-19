@@ -3537,7 +3537,7 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
           <source>Default file explorer</source>
           <target state="translated">Alapértelmezett fájlkezelő</target>
         </trans-unit>
-        <trans-unit id="SettingsSetAsDefaultExplorer" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsSetAsDefaultManager" translate="yes" xml:space="preserve">
           <source>Set Files as default file explorer</source>
           <target state="translated">A Files beállítása az alapértelmezett fájlkezelőként</target>
         </trans-unit>

@@ -3553,7 +3553,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Default file explorer</source>
           <target state="new">Default file explorer</target>
         </trans-unit>
-        <trans-unit id="SettingsSetAsDefaultExplorer" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsSetAsDefaultManager" translate="yes" xml:space="preserve">
           <source>Set Files as default file explorer</source>
           <target state="new">Set Files as default file explorer</target>
         </trans-unit>

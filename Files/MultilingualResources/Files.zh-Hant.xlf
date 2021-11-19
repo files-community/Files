@@ -3536,7 +3536,7 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
           <source>Default file explorer</source>
           <target state="translated">預設應用程式</target>
         </trans-unit>
-        <trans-unit id="SettingsSetAsDefaultExplorer" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsSetAsDefaultManager" translate="yes" xml:space="preserve">
           <source>Set Files as default file explorer</source>
           <target state="translated">將 Files 設定為預設應用程式</target>
         </trans-unit>

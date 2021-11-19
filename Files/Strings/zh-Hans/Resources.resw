@@ -2658,7 +2658,7 @@ Files 不收集、存储、共享或发布任何个人信息。
   <data name="SettingsDefaultExplorer" xml:space="preserve">
     <value>默认文件资源管理器</value>
   </data>
-  <data name="SettingsSetAsDefaultExplorer" xml:space="preserve">
+  <data name="SettingsSetAsDefaultManager" xml:space="preserve">
     <value>设置Files为默认文件资源管理器</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
