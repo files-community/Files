@@ -75,6 +75,7 @@ namespace FilesFullTrust
                 deviceWatcher?.Dispose();
                 connection?.Dispose();
                 appServiceExit?.Dispose();
+                appServiceExit = null;
             }
         }
 
@@ -115,7 +116,7 @@ namespace FilesFullTrust
             }
             else
             {
-                appServiceExit.Set();
+                appServiceExit?.Set();
             }
         }
 
@@ -135,7 +136,7 @@ namespace FilesFullTrust
             }
             if (!isConnected)
             {
-                appServiceExit.Set();
+                appServiceExit?.Set();
             }
         }
 
@@ -166,7 +167,7 @@ namespace FilesFullTrust
             }
             else // Disconnected
             {
-                appServiceExit.Set();
+                appServiceExit?.Set();
             }
         }
 
@@ -207,7 +208,7 @@ namespace FilesFullTrust
             {
                 case "Terminate":
                     // Exit fulltrust process (UWP is closed or suspended)
-                    appServiceExit.Set();
+                    appServiceExit?.Set();
                     break;
 
                 case "Elevate":
@@ -225,7 +226,7 @@ namespace FilesFullTrust
                                 elevatedProcess.Start();
                             }
                             await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", 0 } }, message.Get("RequestID", (string)null));
-                            appServiceExit.Set();
+                            appServiceExit?.Set();
                         }
                         catch (Win32Exception)
                         {
