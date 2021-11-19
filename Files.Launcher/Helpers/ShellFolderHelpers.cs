@@ -34,7 +34,7 @@ namespace FilesFullTrust.Helpers
             {
                 return null;
             }
-            bool isFolder = folderItem.IsFolder && !".zip".Equals(Path.GetExtension(folderItem.Name), StringComparison.OrdinalIgnoreCase);
+            bool isFolder = folderItem.IsFolder && !folderItem.Attributes.HasFlag(ShellItemAttribute.Stream);
             if (folderItem.Properties == null)
             {
                 return new ShellFileItem(isFolder, folderItem.FileSystemPath, Path.GetFileName(folderItem.Name), folderItem.Name, DateTime.Now, DateTime.Now, DateTime.Now, null, 0, null);
@@ -43,11 +43,9 @@ namespace FilesFullTrust.Helpers
                 Ole32.PROPERTYKEY.System.ParsingPath, out var parsingPath);
             parsingPath ??= folderItem.FileSystemPath; // True path on disk
             folderItem.Properties.TryGetValue<string>(
-                Ole32.PROPERTYKEY.System.ItemName, out var rawFileName);
-            folderItem.Properties.TryGetValue<string>(
                 Ole32.PROPERTYKEY.System.ItemNameDisplay, out var fileName);
             string filePath = folderItem.Name; // Original file path + name (recycle bin only)
-            if (!isFolder && !string.IsNullOrEmpty(rawFileName) && Path.GetExtension(rawFileName) is string realExtension && !string.IsNullOrEmpty(realExtension))
+            if (!isFolder && !string.IsNullOrEmpty(parsingPath) && Path.GetExtension(parsingPath) is string realExtension && !string.IsNullOrEmpty(realExtension))
             {
                 if (!string.IsNullOrEmpty(fileName) && !fileName.EndsWith(realExtension))
                 {
@@ -73,7 +71,6 @@ namespace FilesFullTrust.Helpers
                 folderItem.Properties.GetPropertyString(Ole32.PROPERTYKEY.System.Size) : null;
             folderItem.Properties.TryGetValue<string>(
                 Ole32.PROPERTYKEY.System.ItemTypeText, out var fileType);
-            folderItem.Properties.TryGetValue<string>(Ole32.PROPERTYKEY.System.FileExtension, out var fileExtension);
             return new ShellFileItem(isFolder, parsingPath, fileName, filePath, recycleDate, modifiedDate, createdDate, fileSize, fileSizeBytes ?? 0, fileType);
         }
     }
