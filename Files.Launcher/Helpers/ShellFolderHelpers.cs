@@ -44,6 +44,7 @@ namespace FilesFullTrust.Helpers
             parsingPath ??= folderItem.FileSystemPath; // True path on disk
             folderItem.Properties.TryGetValue<string>(
                 Ole32.PROPERTYKEY.System.ItemNameDisplay, out var fileName);
+            fileName ??= Path.GetFileName(folderItem.Name); // Original file name
             string filePath = folderItem.Name; // Original file path + name (recycle bin only)
             if (!isFolder && !string.IsNullOrEmpty(parsingPath) && Path.GetExtension(parsingPath) is string realExtension && !string.IsNullOrEmpty(realExtension))
             {
@@ -56,7 +57,6 @@ namespace FilesFullTrust.Helpers
                     filePath = $"{filePath}{realExtension}";
                 }
             }
-            fileName ??= Path.GetFileName(folderItem.Name); // Original file name
             folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
                 Ole32.PROPERTYKEY.System.Recycle.DateDeleted, out var fileTime);
             var recycleDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
