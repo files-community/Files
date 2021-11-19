@@ -2657,7 +2657,7 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
   <data name="SettingsDefaultExplorer" xml:space="preserve">
     <value>Explorador de ficheiros pré-definido</value>
   </data>
-  <data name="SettingsSetAsDefaultExplorer" xml:space="preserve">
+  <data name="SettingsSetAsDefaultManager" xml:space="preserve">
     <value>Definir Files como explorador de ficheiros pré-definido</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">

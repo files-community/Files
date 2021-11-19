@@ -3592,7 +3592,7 @@ Wir benutzen das App Center um einen Überblick über die Nutzung von Files zu e
           <source>Default file explorer</source>
           <target state="translated">Standard Explorer</target>
         </trans-unit>
-        <trans-unit id="SettingsSetAsDefaultExplorer" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsSetAsDefaultManager" translate="yes" xml:space="preserve">
           <source>Set Files as default file explorer</source>
           <target state="translated">Files als Standard-Explorer verwenden</target>
         </trans-unit>

@@ -41,9 +41,9 @@ namespace FilesFullTrust
         private async void DeviceModifiedEvent(object sender, EventArrivedEventArgs e)
         {
             CimInstance obj = e.NewEvent.Instance;
-            var deviceName = (string)obj.CimInstanceProperties["Name"].Value;
-            var deviceId = (string)obj.CimInstanceProperties["DeviceID"].Value;
-            var volumeName = (string)obj.CimInstanceProperties["VolumeName"].Value;
+            var deviceName = (string)obj.CimInstanceProperties["Name"]?.Value;
+            var deviceId = (string)obj.CimInstanceProperties["DeviceID"]?.Value;
+            var volumeName = (string)obj.CimInstanceProperties["VolumeName"]?.Value;
             var eventType = volumeName != null ? DeviceEvent.Inserted : DeviceEvent.Ejected;
             System.Diagnostics.Debug.WriteLine($"Drive modify event: {deviceName}, {deviceId}, {eventType}");
             await SendEvent(deviceName, deviceId, eventType);
