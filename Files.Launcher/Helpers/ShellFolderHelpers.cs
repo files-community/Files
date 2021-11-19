@@ -34,18 +34,28 @@ namespace FilesFullTrust.Helpers
             {
                 return null;
             }
-            bool isFolder = folderItem.IsFolder && !".zip".Equals(Path.GetExtension(folderItem.Name), StringComparison.OrdinalIgnoreCase);
+            bool isFolder = folderItem.IsFolder && !folderItem.Attributes.HasFlag(ShellItemAttribute.Stream);
             if (folderItem.Properties == null)
             {
                 return new ShellFileItem(isFolder, folderItem.FileSystemPath, Path.GetFileName(folderItem.Name), folderItem.Name, DateTime.Now, DateTime.Now, DateTime.Now, null, 0, null);
             }
-            folderItem.Properties.TryGetValue<string>(
-                Ole32.PROPERTYKEY.System.ParsingPath, out var parsingPath);
+            var parsingPath = folderItem.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing);
             parsingPath ??= folderItem.FileSystemPath; // True path on disk
             folderItem.Properties.TryGetValue<string>(
                 Ole32.PROPERTYKEY.System.ItemNameDisplay, out var fileName);
             fileName ??= Path.GetFileName(folderItem.Name); // Original file name
             string filePath = folderItem.Name; // Original file path + name (recycle bin only)
+            if (!isFolder && !string.IsNullOrEmpty(parsingPath) && Path.GetExtension(parsingPath) is string realExtension && !string.IsNullOrEmpty(realExtension))
+            {
+                if (!string.IsNullOrEmpty(fileName) && !fileName.EndsWith(realExtension))
+                {
+                    fileName = $"{fileName}{realExtension}";
+                }
+                if (!string.IsNullOrEmpty(filePath) && !filePath.EndsWith(realExtension))
+                {
+                    filePath = $"{filePath}{realExtension}";
+                }
+            }
             folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
                 Ole32.PROPERTYKEY.System.Recycle.DateDeleted, out var fileTime);
             var recycleDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime

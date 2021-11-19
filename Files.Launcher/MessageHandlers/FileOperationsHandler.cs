@@ -252,7 +252,7 @@ namespace FilesFullTrust.MessageHandlers
                                         HRresult = (int)e.Result
                                     });
                                 };
-                                op.PostDeleteItem += (s, e) => UpdateFileTageDb(s, e, "delete");
+                                op.PostDeleteItem += (s, e) => UpdateFileTagsDb(s, e, "delete");
                                 op.FinishOperations += (s, e) => deleteTcs.TrySetResult(e.Result.Succeeded);
                                 op.UpdateProgress += (s, e) =>
                                 {
@@ -317,7 +317,7 @@ namespace FilesFullTrust.MessageHandlers
                                         HRresult = (int)e.Result
                                     });
                                 };
-                                op.PostRenameItem += (s, e) => UpdateFileTageDb(s, e, "rename");
+                                op.PostRenameItem += (s, e) => UpdateFileTagsDb(s, e, "rename");
                                 op.FinishOperations += (s, e) => renameTcs.TrySetResult(e.Result.Succeeded);
 
                                 try
@@ -384,7 +384,7 @@ namespace FilesFullTrust.MessageHandlers
                                         HRresult = (int)e.Result
                                     });
                                 };
-                                op.PostMoveItem += (s, e) => UpdateFileTageDb(s, e, "move");
+                                op.PostMoveItem += (s, e) => UpdateFileTagsDb(s, e, "move");
                                 op.FinishOperations += (s, e) => moveTcs.TrySetResult(e.Result.Succeeded);
                                 op.UpdateProgress += (s, e) =>
                                 {
@@ -459,7 +459,7 @@ namespace FilesFullTrust.MessageHandlers
                                         HRresult = (int)e.Result
                                     });
                                 };
-                                op.PostCopyItem += (s, e) => UpdateFileTageDb(s, e, "copy");
+                                op.PostCopyItem += (s, e) => UpdateFileTagsDb(s, e, "copy");
                                 op.FinishOperations += (s, e) => copyTcs.TrySetResult(e.Result.Succeeded);
                                 op.UpdateProgress += (s, e) =>
                                 {
@@ -705,7 +705,7 @@ namespace FilesFullTrust.MessageHandlers
             progressHandler.WaitForCompletion();
         }
 
-        private void UpdateFileTageDb(object sender, ShellFileOperations.ShellFileOpEventArgs e, string operationType)
+        private void UpdateFileTagsDb(object sender, ShellFileOperations.ShellFileOpEventArgs e, string operationType)
         {
             if (e.Result.Succeeded)
             {
