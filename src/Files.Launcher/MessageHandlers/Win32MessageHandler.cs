@@ -198,11 +198,13 @@ namespace FilesFullTrust.MessageHandlers
                                 regProc.WaitForExit();
                             using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialog64.dll")}"""))
                                 regProc.WaitForExit();
+                            using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialogARM64.dll")}"""))
+                                regProc.WaitForExit();
                             using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomSaveDialog32.dll")}"""))
                                 regProc.WaitForExit();
                             using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomSaveDialog64.dll")}"""))
                                 regProc.WaitForExit();
-                            using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialogARM64.dll")}"""))
+                            using (var regProc = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomSaveDialogARM64.dll")}"""))
                                 regProc.WaitForExit();
 
                             DetectIsSetAsOpenFileDialog();
