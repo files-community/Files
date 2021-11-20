@@ -42,6 +42,17 @@ namespace Files.Helpers
             FirstPipeInstance = 0x00080000
         }
 
+        [Flags]
+        public enum FinalPathFlags : uint
+        {
+            VOLUME_NAME_DOS = 0x0,
+            FILE_NAME_NORMALIZED = 0x0,
+            VOLUME_NAME_GUID = 0x1,
+            VOLUME_NAME_NT = 0x2,
+            VOLUME_NAME_NONE = 0x4,
+            FILE_NAME_OPENED = 0x8
+        }
+
         public const uint GENERIC_READ = 0x80000000;
         public const uint GENERIC_WRITE = 0x40000000;
         public const uint FILE_APPEND_DATA = 0x0004;
@@ -75,17 +86,58 @@ namespace Files.Helpers
             IntPtr hTemplateFile
         );
 
+        [DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto,
+        CallingConvention = CallingConvention.StdCall,
+        SetLastError = true)]
+        public static extern uint GetFinalPathNameByHandle(
+            IntPtr hFile,
+            [MarshalAs(UnmanagedType.LPTStr)]
+            StringBuilder lpszFilePath,
+            uint cchFilePath,
+            FinalPathFlags dwFlags
+        );
+
         public static SafeFileHandle CreateFileForWrite(string filePath, bool overwrite = true)
         {
             return new SafeFileHandle(CreateFileFromApp(filePath,
                 GENERIC_WRITE, 0, IntPtr.Zero, overwrite ? CREATE_ALWAYS : OPEN_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero), true);
         }
 
-        public static SafeFileHandle OpenFileForRead(string filePath, bool readWrite = false)
+        public static SafeFileHandle OpenFileForRead(string filePath, bool readWrite = false, uint flags = 0)
         {
             return new SafeFileHandle(CreateFileFromApp(filePath,
-                GENERIC_READ | (readWrite ? GENERIC_WRITE : 0), FILE_SHARE_READ | FILE_SHARE_WRITE, IntPtr.Zero, OPEN_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero), true);
+                GENERIC_READ | (readWrite ? GENERIC_WRITE : 0), FILE_SHARE_READ | FILE_SHARE_WRITE, IntPtr.Zero, OPEN_ALWAYS, (uint)File_Attributes.BackupSemantics | flags, IntPtr.Zero), true);
         }
+
+        public const int MAXIMUM_REPARSE_DATA_BUFFER_SIZE = 16 * 1024;
+        public const int FSCTL_GET_REPARSE_POINT = 0x000900A8;
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct REPARSE_DATA_BUFFER
+        {
+            public uint ReparseTag;
+            public short ReparseDataLength;
+            public short Reserved;
+            public short SubsNameOffset;
+            public short SubsNameLength;
+            public short PrintNameOffset;
+            public short PrintNameLength;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAXIMUM_REPARSE_DATA_BUFFER_SIZE)]
+            public char[] PathBuffer;
+        }
+
+        [DllImport("api-ms-win-core-io-l1-1-0.dll", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DeviceIoControl(
+            IntPtr hDevice,
+            uint dwIoControlCode,
+            IntPtr lpInBuffer,
+            uint nInBufferSize,
+            //IntPtr lpOutBuffer, 
+            out REPARSE_DATA_BUFFER outBuffer,
+            uint nOutBufferSize,
+            out uint lpBytesReturned,
+            IntPtr lpOverlapped);
 
         [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
         CallingConvention = CallingConvention.StdCall,
