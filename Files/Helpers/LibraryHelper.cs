@@ -211,7 +211,7 @@ namespace Files.Helpers
                     }
                 },
                 TitleText = "FolderWidgetCreateNewLibraryDialogTitleText".GetLocalized(),
-                SubtitleText = "FolderWidgetCreateNewLibraryDialogSubtitleText".GetLocalized(),
+                SubtitleText = "SideBarCreateNewLibrary/Text".GetLocalized(),
                 PrimaryButtonText = "DialogCreateLibraryButtonText".GetLocalized(),
                 CloseButtonText = "Cancel".GetLocalized(),
                 PrimaryButtonAction = async (vm, e) =>

@@ -272,7 +272,7 @@ namespace Files.Filesystem
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                return (false, "CreateLibraryErrorInputEmpty".GetLocalized());
+                return (false, "ErrorInputEmpty".GetLocalized());
             }
             if (FilesystemHelpers.ContainsRestrictedCharacters(name))
             {
