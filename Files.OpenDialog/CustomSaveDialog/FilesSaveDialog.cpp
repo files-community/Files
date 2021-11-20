@@ -374,63 +374,20 @@ HRESULT __stdcall CFilesSaveDialog::SetControlItemText(DWORD dwIDCtl, DWORD dwID
 	return S_OK;
 }
 
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+DWORD threadProc(LPVOID lParam)
 {
-	CFilesSaveDialog* pThis;
-
-	switch (uMsg)
-	{
-	case WM_CREATE:
-	{
-		pThis = static_cast<CFilesSaveDialog*>(reinterpret_cast<CREATESTRUCT*>(lParam)->lpCreateParams);
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pThis));
-
-		CreateWindow(TEXT("button"), TEXT("OnFileOk"),
-			WS_VISIBLE | WS_CHILD,
-			20, 50, 80, 25,
-			hwnd, (HMENU)1, NULL, NULL);
-
-		CreateWindow(TEXT("button"), TEXT("Quit"),
-			WS_VISIBLE | WS_CHILD,
-			120, 50, 80, 25,
-			hwnd, (HMENU)2, NULL, NULL);
-		break;
-	}
-	case WM_COMMAND:
-	{
-		pThis = reinterpret_cast<CFilesSaveDialog*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
-
-		if (LOWORD(wParam) == 1)
-		{
-			if (pThis && pThis->_dialogEvents)
-			{
-				pThis->_dialogEvents->OnFileOk(pThis);
-				DestroyWindow(hwnd);
-			}
-		}
-
-		if (LOWORD(wParam) == 2)
-		{
-			DestroyWindow(hwnd);
-			//PostQuitMessage(0);
-		}
-
-		break;
-	}
-	case WM_DESTROY:
-	{
-		PostQuitMessage(0);
-		break;
-	}
-	}
-	return DefWindowProc(hwnd, uMsg, wParam, lParam);
+	CFilesSaveDialog* pThis = (CFilesSaveDialog*)lParam;
+	pThis->_dialogEvents->OnFileOk(pThis);
+	return 0;
 }
 
 HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 {
-	cout << "Show, hwndOwner: " << hwndOwner << endl;
+	wchar_t wnd_title[1024];
+	GetWindowText(hwndOwner, wnd_title, 1024);
+	wcout << L"Show, hwndOwner: " << wnd_title << endl;
 
-	_selectedItem = L"C:\\Users\\Marco\\Desktop\\aaaa.cpp";
+	//_selectedItem = L"C:\\Users\\Marco\\Desktop\\aaaa.cpp";
 
 #ifdef SYSTEMDIALOG
 	HRESULT res = _systemDialog->Show(NULL);
@@ -438,47 +395,7 @@ HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 	return res;
 #endif
 
-	/*
-	WNDCLASS wc = { };
-
-	wc.lpfnWndProc = WindowProc;
-	wc.hInstance = 0;
-	wc.lpszClassName = L"Sample Window Class";
-
-	RegisterClass(&wc);
-
-	// Create the window.
-
-	HWND m_hwnd = CreateWindowEx(
-		0,                              // Optional window styles.
-		L"Sample Window Class",         // Window class
-		L"Learn to Program Windows",    // Window text
-		WS_OVERLAPPEDWINDOW,            // Window style
-
-		// Size and position
-		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-
-		hwndOwner,  // Parent window    
-		NULL,       // Menu
-		0,          // Instance handle
-		(void*)this        // Additional application data
-	);
-
-	ShowWindow(m_hwnd, SW_SHOW);
-	UpdateWindow(m_hwnd);
-
-	MSG msg;
-	while (GetMessage(&msg, NULL, 0, 0))
-	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-	}*/
-
-	wchar_t wnd_title[1024];
-	GetWindowText(hwndOwner, wnd_title, 1024);
-	wcout << wnd_title << endl;
-
-	/*SHELLEXECUTEINFO ShExecInfo = { 0 };
+	SHELLEXECUTEINFO ShExecInfo = { 0 };
 	ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
 	ShExecInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
 	ShExecInfo.lpFile = L"files.exe";
@@ -509,6 +426,7 @@ HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 	if (hwndOwner)
 	{
 		SetForegroundWindow(hwndOwner);
+		//EnableWindow(hwndOwner, TRUE);
 	}
 
 	std::ifstream file(_outputPath);
@@ -522,15 +440,18 @@ HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 			_selectedItem = wide;
 		}
 	}
-	DeleteFile(_outputPath.c_str());*/
+	DeleteFile(_outputPath.c_str());
 
-	/*if (!_selectedItem.empty())
+	if (!_selectedItem.empty())
 	{
 		if (_dialogEvents)
 		{
-			_dialogEvents->OnFileOk(this);
+			DWORD m_idThread;
+			HANDLE threadHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)threadProc, this, 0, &m_idThread);
+			WaitForSingleObject(threadHandle, 100);
 		}
-	}*/
+	}
+
 	return !_selectedItem.empty() ? S_OK : HRESULT_FROM_WIN32(ERROR_CANCELLED);
 }
 
