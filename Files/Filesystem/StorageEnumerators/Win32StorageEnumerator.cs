@@ -253,43 +253,31 @@ namespace Files.Filesystem.StorageEnumerators
 
             // https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
             bool isReparsePoint = ((FileAttributes)findData.dwFileAttributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint;
-            bool isSymlink = isReparsePoint && findData.dwReserved0 == 0xA000000C; // IO_REPARSE_TAG_SYMLINK
+            bool isSymlink = isReparsePoint && findData.dwReserved0 == NativeFileOperationsHelper.IO_REPARSE_TAG_SYMLINK;
 
             if (isSymlink)
             {
-                using var handle = NativeFileOperationsHelper.OpenFileForRead(itemPath, false, 0x00200000);
-                if (!handle.IsInvalid)
+                var targetPath = NativeFileOperationsHelper.ParseSymLink(itemPath);
+                return new ShortcutItem(null, dateReturnFormat)
                 {
-                    NativeFileOperationsHelper.REPARSE_DATA_BUFFER buffer = new NativeFileOperationsHelper.REPARSE_DATA_BUFFER();
-                    if (NativeFileOperationsHelper.DeviceIoControl(handle.DangerousGetHandle(), NativeFileOperationsHelper.FSCTL_GET_REPARSE_POINT, IntPtr.Zero, 0, out buffer, NativeFileOperationsHelper.MAXIMUM_REPARSE_DATA_BUFFER_SIZE, out var bytesRet, IntPtr.Zero))
-                    {
-                        var targetPath = new string(buffer.PathBuffer, buffer.SubsNameOffset / 2 + 2, buffer.SubsNameLength / 2);
-                        if (targetPath.StartsWith(@"\??\"))
-                        {
-                            targetPath = targetPath.Substring(4);
-                        }
-                        return new ShortcutItem(null, dateReturnFormat)
-                        {
-                            PrimaryItemAttribute = StorageItemTypes.File,
-                            FileExtension = itemFileExtension,
-                            IsHiddenItem = isHidden,
-                            Opacity = opacity,
-                            FileImage = null,
-                            LoadFileIcon = itemThumbnailImgVis,
-                            LoadWebShortcutGlyph = false,
-                            ItemName = itemName,
-                            ItemDateModifiedReal = itemModifiedDate,
-                            ItemDateAccessedReal = itemLastAccessDate,
-                            ItemDateCreatedReal = itemCreatedDate,
-                            ItemType = "ShortcutFileType".GetLocalized(),
-                            ItemPath = itemPath,
-                            FileSize = itemSize,
-                            FileSizeBytes = itemSizeBytes,
-                            TargetPath = targetPath,
-                            IsSymLink = true
-                        };
-                    }
-                }
+                    PrimaryItemAttribute = StorageItemTypes.File,
+                    FileExtension = itemFileExtension,
+                    IsHiddenItem = isHidden,
+                    Opacity = opacity,
+                    FileImage = null,
+                    LoadFileIcon = itemThumbnailImgVis,
+                    LoadWebShortcutGlyph = false,
+                    ItemName = itemName,
+                    ItemDateModifiedReal = itemModifiedDate,
+                    ItemDateAccessedReal = itemLastAccessDate,
+                    ItemDateCreatedReal = itemCreatedDate,
+                    ItemType = "ShortcutFileType".GetLocalized(),
+                    ItemPath = itemPath,
+                    FileSize = itemSize,
+                    FileSizeBytes = itemSizeBytes,
+                    TargetPath = targetPath,
+                    IsSymLink = true
+                };
             }
             else if (findData.cFileName.EndsWith(".lnk") || findData.cFileName.EndsWith(".url"))
             {

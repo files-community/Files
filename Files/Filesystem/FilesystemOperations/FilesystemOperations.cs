@@ -248,7 +248,7 @@ namespace Files.Filesystem
 
                         if (fsCopyResult)
                         {
-                            if (FolderHelpers.CheckFolderForHiddenAttribute(source.Path))
+                            if (NativeFileOperationsHelper.HasFileAttribute(source.Path, FileAttributes.Hidden))
                             {
                                 // The source folder was hidden, apply hidden attribute to destination
                                 NativeFileOperationsHelper.SetFileAttribute(fsCopyResult.Result.Path, FileAttributes.Hidden);
@@ -469,7 +469,7 @@ namespace Files.Filesystem
 
                             if (fsResultMove)
                             {
-                                if (FolderHelpers.CheckFolderForHiddenAttribute(source.Path))
+                                if (NativeFileOperationsHelper.HasFileAttribute(source.Path, FileAttributes.Hidden))
                                 {
                                     // The source folder was hidden, apply hidden attribute to destination
                                     NativeFileOperationsHelper.SetFileAttribute(fsResultMove.Result.Path, FileAttributes.Hidden);

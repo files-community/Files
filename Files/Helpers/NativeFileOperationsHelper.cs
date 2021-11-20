@@ -42,17 +42,6 @@ namespace Files.Helpers
             FirstPipeInstance = 0x00080000
         }
 
-        [Flags]
-        public enum FinalPathFlags : uint
-        {
-            VOLUME_NAME_DOS = 0x0,
-            FILE_NAME_NORMALIZED = 0x0,
-            VOLUME_NAME_GUID = 0x1,
-            VOLUME_NAME_NT = 0x2,
-            VOLUME_NAME_NONE = 0x4,
-            FILE_NAME_OPENED = 0x8
-        }
-
         public const uint GENERIC_READ = 0x80000000;
         public const uint GENERIC_WRITE = 0x40000000;
         public const uint FILE_APPEND_DATA = 0x0004;
@@ -86,17 +75,6 @@ namespace Files.Helpers
             IntPtr hTemplateFile
         );
 
-        [DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto,
-        CallingConvention = CallingConvention.StdCall,
-        SetLastError = true)]
-        public static extern uint GetFinalPathNameByHandle(
-            IntPtr hFile,
-            [MarshalAs(UnmanagedType.LPTStr)]
-            StringBuilder lpszFilePath,
-            uint cchFilePath,
-            FinalPathFlags dwFlags
-        );
-
         public static SafeFileHandle CreateFileForWrite(string filePath, bool overwrite = true)
         {
             return new SafeFileHandle(CreateFileFromApp(filePath,
@@ -109,11 +87,13 @@ namespace Files.Helpers
                 GENERIC_READ | (readWrite ? GENERIC_WRITE : 0), FILE_SHARE_READ | FILE_SHARE_WRITE, IntPtr.Zero, OPEN_ALWAYS, (uint)File_Attributes.BackupSemantics | flags, IntPtr.Zero), true);
         }
 
-        public const int MAXIMUM_REPARSE_DATA_BUFFER_SIZE = 16 * 1024;
-        public const int FSCTL_GET_REPARSE_POINT = 0x000900A8;
+        private const int MAXIMUM_REPARSE_DATA_BUFFER_SIZE = 16 * 1024;
+        private const int FSCTL_GET_REPARSE_POINT = 0x000900A8;
+        public const uint IO_REPARSE_TAG_MOUNT_POINT = 0xA0000003;
+        public const uint IO_REPARSE_TAG_SYMLINK = 0xA000000C;
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct REPARSE_DATA_BUFFER
+        private struct REPARSE_DATA_BUFFER
         {
             public uint ReparseTag;
             public short ReparseDataLength;
@@ -128,7 +108,7 @@ namespace Files.Helpers
 
         [DllImport("api-ms-win-core-io-l1-1-0.dll", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Auto)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DeviceIoControl(
+        private static extern bool DeviceIoControl(
             IntPtr hDevice,
             uint dwIoControlCode,
             IntPtr lpInBuffer,
@@ -408,6 +388,39 @@ namespace Files.Helpers
                 }
             }
             return new SafeFileHandle(new IntPtr(-1), true);
+        }
+
+        // https://github.com/rad1oactive/BetterExplorer/blob/master/Windows%20API%20Code%20Pack%201.1/source/WindowsAPICodePack/Shell/ReparsePoint.cs
+        public static string ParseSymLink(string path)
+        {
+            using var handle = OpenFileForRead(path, false, 0x00200000);
+            if (!handle.IsInvalid)
+            {
+                REPARSE_DATA_BUFFER buffer = new REPARSE_DATA_BUFFER();
+                if (DeviceIoControl(handle.DangerousGetHandle(), FSCTL_GET_REPARSE_POINT, IntPtr.Zero, 0, out buffer, MAXIMUM_REPARSE_DATA_BUFFER_SIZE, out _, IntPtr.Zero))
+                {
+                    var subsString = new string(buffer.PathBuffer, (buffer.SubsNameOffset / 2 + 2), buffer.SubsNameLength / 2);
+                    var printString = new string(buffer.PathBuffer, (buffer.PrintNameOffset / 2 + 2), buffer.PrintNameLength / 2);
+                    var normalisedTarget = printString ?? subsString;
+                    if (string.IsNullOrEmpty(normalisedTarget))
+                    {
+                        normalisedTarget = subsString;
+                        if (normalisedTarget.StartsWith(@"\??\"))
+                        {
+                            normalisedTarget = normalisedTarget.Substring(4);
+                        }
+                    }
+                    if (buffer.ReparseTag == IO_REPARSE_TAG_SYMLINK && (normalisedTarget.Length < 2 || normalisedTarget[1] != ':'))
+                    {
+                        // Target is relative, get the absolute path
+                        normalisedTarget = normalisedTarget.TrimStart(Path.DirectorySeparatorChar);
+                        path = path.TrimEnd(Path.DirectorySeparatorChar);
+                        normalisedTarget = Path.GetFullPath(Path.Combine(path.Substring(0, path.LastIndexOf(Path.DirectorySeparatorChar)), normalisedTarget));
+                    }
+                    return normalisedTarget;
+                }
+            }
+            return null;
         }
     }
 }
