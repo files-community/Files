@@ -56,7 +56,7 @@ CComPtr<T> AsInterface(CComPtr<IFileSaveDialog> dialog)
 
 CFilesSaveDialog::CFilesSaveDialog()
 {
-	_fos = FOS_FILEMUSTEXIST | FOS_PATHMUSTEXIST;
+	_fos = FOS_PATHMUSTEXIST;
 	_systemDialog = nullptr;
 	_debugStream = NULL;
 	_dialogEvents = NULL;
@@ -374,20 +374,11 @@ HRESULT __stdcall CFilesSaveDialog::SetControlItemText(DWORD dwIDCtl, DWORD dwID
 	return S_OK;
 }
 
-DWORD threadProc(LPVOID lParam)
-{
-	CFilesSaveDialog* pThis = (CFilesSaveDialog*)lParam;
-	pThis->_dialogEvents->OnFileOk(pThis);
-	return 0;
-}
-
 HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 {
 	wchar_t wnd_title[1024];
 	GetWindowText(hwndOwner, wnd_title, 1024);
 	wcout << L"Show, hwndOwner: " << wnd_title << endl;
-
-	//_selectedItem = L"C:\\Users\\Marco\\Desktop\\aaaa.cpp";
 
 #ifdef SYSTEMDIALOG
 	HRESULT res = _systemDialog->Show(NULL);
@@ -426,7 +417,6 @@ HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 	if (hwndOwner)
 	{
 		SetForegroundWindow(hwndOwner);
-		//EnableWindow(hwndOwner, TRUE);
 	}
 
 	std::ifstream file(_outputPath);
@@ -444,11 +434,22 @@ HRESULT __stdcall CFilesSaveDialog::Show(HWND hwndOwner)
 
 	if (!_selectedItem.empty())
 	{
-		if (_dialogEvents)
+		// Create destination file if not existing
+		HANDLE hFile = CreateFile(_selectedItem.c_str(), GENERIC_WRITE, 0, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+		if (hFile != INVALID_HANDLE_VALUE)
 		{
-			DWORD m_idThread;
-			HANDLE threadHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)threadProc, this, 0, &m_idThread);
-			WaitForSingleObject(threadHandle, 100);
+			CloseHandle(hFile);
+		}
+		else
+		{
+			_selectedItem = L"";
+		}
+	}
+	if (!_selectedItem.empty())
+	{
+		if (_dialogEvents && std::wstring(wnd_title).find(L"Visual Studio") == std::string::npos)
+		{
+			_dialogEvents->OnFileOk(this);
 		}
 	}
 
@@ -462,7 +463,7 @@ HRESULT __stdcall CFilesSaveDialog::SetFileTypes(UINT cFileTypes, const COMDLG_F
 	return _systemDialog->SetFileTypes(cFileTypes, rgFilterSpec);
 #endif
 	return S_OK;
-	}
+}
 
 HRESULT __stdcall CFilesSaveDialog::SetFileTypeIndex(UINT iFileType)
 {
@@ -471,7 +472,7 @@ HRESULT __stdcall CFilesSaveDialog::SetFileTypeIndex(UINT iFileType)
 	return _systemDialog->SetFileTypeIndex(iFileType);
 #endif
 	return S_OK;
-	}
+}
 
 HRESULT __stdcall CFilesSaveDialog::GetFileTypeIndex(UINT* piFileType)
 {
@@ -544,7 +545,7 @@ HRESULT __stdcall CFilesSaveDialog::SetDefaultFolder(IShellItem* psi)
 	}
 	_initFolder = CloneShellItem(psi);
 	return S_OK;
-	}
+}
 
 HRESULT __stdcall CFilesSaveDialog::SetFolder(IShellItem* psi)
 {
@@ -563,7 +564,7 @@ HRESULT __stdcall CFilesSaveDialog::SetFolder(IShellItem* psi)
 	}
 	_initFolder = CloneShellItem(psi);
 	return S_OK;
-	}
+}
 
 HRESULT __stdcall CFilesSaveDialog::GetFolder(IShellItem** ppsi)
 {
@@ -590,7 +591,8 @@ HRESULT __stdcall CFilesSaveDialog::SetFileName(LPCWSTR pszName)
 #ifdef SYSTEMDIALOG
 	return _systemDialog->SetFileName(pszName);
 #endif
-	_initName = pszName;
+	std::wstring absPath = std::wstring(pszName);
+	_initName = absPath.substr(absPath.find_last_of(L"/\\") + 1);
 	return S_OK;
 }
 
@@ -661,7 +663,7 @@ HRESULT __stdcall CFilesSaveDialog::AddPlace(IShellItem* psi, FDAP fdap)
 	return _systemDialog->AddPlace(psi, fdap);
 #endif
 	return S_OK;
-	}
+}
 
 HRESULT __stdcall CFilesSaveDialog::SetDefaultExtension(LPCWSTR pszDefaultExtension)
 {
@@ -1009,7 +1011,7 @@ HRESULT __stdcall CFilesSaveDialog::SetSaveAsItem(IShellItem* psi)
 		_initName = pszPath;
 	}
 	return S_OK;
-	}
+}
 
 HRESULT __stdcall CFilesSaveDialog::SetProperties(IPropertyStore* pStore)
 {
