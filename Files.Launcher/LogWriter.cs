@@ -11,41 +11,32 @@ namespace FilesFullTrust
 {
     internal class LogWriter : ILogWriter
     {
-        private StorageFile logFile;
+        private string logFilePath;
         private bool initialized = false;
 
         public async Task InitializeAsync(string name)
         {
             if (!initialized)
             {
-                logFile = await ApplicationData.Current.LocalFolder.CreateFileAsync(name, CreationCollisionOption.OpenIfExists);
+                logFilePath = System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, name);
                 initialized = true;
             }
+            await Task.CompletedTask;
         }
 
         public async Task WriteLineToLogAsync(string text)
         {
-            if (logFile is null)
-            {
-                return;
-            }
-            using var stream = await logFile.OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.AllowOnlyReaders);
-            using var outputStream = stream.GetOutputStreamAt(stream.Size);
-            using var dataWriter = new DataWriter(outputStream);
-            dataWriter.WriteString("\n" + text);
-            await dataWriter.StoreAsync();
-            await outputStream.FlushAsync();
-
+            await Task.Run(() => WriteLineToLog(text));
             Debug.WriteLine($"Logged event: {text}");
         }
 
         public void WriteLineToLog(string text)
         {
-            if (logFile is null)
+            if (logFilePath is null)
             {
                 return;
             }
-            using SafeHFILE hStream = CreateFile(logFile.Path,
+            using SafeHFILE hStream = CreateFile(logFilePath,
                 FileAccess.GENERIC_WRITE, System.IO.FileShare.Read, null, System.IO.FileMode.OpenOrCreate, Vanara.PInvoke.FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS, IntPtr.Zero);
             if (hStream.IsInvalid)
             {

@@ -179,7 +179,7 @@ namespace Files.Filesystem
                     Libraries.Remove(changedLibrary);
                 }
                 // library is null in case it was deleted
-                if (library != null)
+                if (library != null && !Libraries.Any(x => x.Path == library.FullPath))
                 {
                     Libraries.AddSorted(new LibraryLocationItem(library));
                 }

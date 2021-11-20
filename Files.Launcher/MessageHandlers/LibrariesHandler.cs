@@ -142,7 +142,6 @@ namespace FilesFullTrust.MessageHandlers
                         {
                             Program.Logger.Warn(e);
                         }
-                        Program.Logger.Warn("wrong thread??");
                         return response;
                     });
                     await Win32API.SendMessageAsync(connection, createResponse, message.Get("RequestID", (string)null));
