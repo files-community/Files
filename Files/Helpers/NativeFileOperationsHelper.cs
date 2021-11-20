@@ -399,8 +399,8 @@ namespace Files.Helpers
                 REPARSE_DATA_BUFFER buffer = new REPARSE_DATA_BUFFER();
                 if (DeviceIoControl(handle.DangerousGetHandle(), FSCTL_GET_REPARSE_POINT, IntPtr.Zero, 0, out buffer, MAXIMUM_REPARSE_DATA_BUFFER_SIZE, out _, IntPtr.Zero))
                 {
-                    var subsString = new string(buffer.PathBuffer, (buffer.SubsNameOffset / 2 + 2), buffer.SubsNameLength / 2);
-                    var printString = new string(buffer.PathBuffer, (buffer.PrintNameOffset / 2 + 2), buffer.PrintNameLength / 2);
+                    var subsString = new string(buffer.PathBuffer, ((buffer.SubsNameOffset / 2) + 2), buffer.SubsNameLength / 2);
+                    var printString = new string(buffer.PathBuffer, ((buffer.PrintNameOffset / 2) + 2), buffer.PrintNameLength / 2);
                     var normalisedTarget = printString ?? subsString;
                     if (string.IsNullOrEmpty(normalisedTarget))
                     {
