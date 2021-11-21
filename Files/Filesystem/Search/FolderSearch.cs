@@ -346,7 +346,7 @@ namespace Files.Filesystem.Search
                 listedItem = new ListedItem(null)
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,
-                    ItemName = findData.cFileName,
+                    ItemNameRaw = findData.cFileName,
                     ItemPath = itemPath,
                     IsHiddenItem = isHidden,
                     LoadFileIcon = false,
@@ -362,7 +362,7 @@ namespace Files.Filesystem.Search
                     listedItem = new ListedItem(null)
                     {
                         PrimaryItemAttribute = StorageItemTypes.Folder,
-                        ItemName = findData.cFileName,
+                        ItemNameRaw = findData.cFileName,
                         ItemPath = itemPath,
                         IsHiddenItem = isHidden,
                         LoadFileIcon = false,
@@ -397,7 +397,7 @@ namespace Files.Filesystem.Search
                 listedItem = new ListedItem(null)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemName = folder.DisplayName,
+                    ItemNameRaw = folder.DisplayName,
                     ItemPath = folder.Path,
                     ItemDateModifiedReal = props.DateModified,
                     ItemDateCreatedReal = folder.DateCreated,
@@ -422,7 +422,7 @@ namespace Files.Filesystem.Search
                 listedItem = new ListedItem(null)
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,
-                    ItemName = file.DisplayName,
+                    ItemNameRaw = file.Name,
                     ItemPath = file.Path,
                     LoadFileIcon = false,
                     FileExtension = itemFileExtension,

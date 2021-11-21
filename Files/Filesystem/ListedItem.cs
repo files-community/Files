@@ -24,9 +24,9 @@ namespace Files.Filesystem
 {
     public class ListedItem : ObservableObject, IGroupableItem
     {
-        private static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        private static IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
+        protected static IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
 
         public bool IsHiddenItem { get; set; } = false;
 
@@ -43,7 +43,7 @@ namespace Files.Filesystem
         {
             get
             {
-                return $"{"ToolTipDescriptionName".GetLocalized()} {itemName}{Environment.NewLine}" +
+                return $"{"ToolTipDescriptionName".GetLocalized()} {ItemName}{Environment.NewLine}" +
                     $"{"ToolTipDescriptionType".GetLocalized()} {itemType}{Environment.NewLine}" +
                     $"{"ToolTipDescriptionDate".GetLocalized()} {ItemDateModified}";
             }
@@ -246,11 +246,33 @@ namespace Files.Filesystem
             set => SetProperty(ref itemPath, value);
         }
 
-        private string itemName;
-        public string ItemName
+        private string itemNameRaw;
+        public string ItemNameRaw
         {
-            get => itemName;
-            set => SetProperty(ref itemName, value);
+            get => itemNameRaw;
+            set
+            {
+                if (SetProperty(ref itemNameRaw, value))
+                {
+                    OnPropertyChanged(nameof(ItemName));
+                }
+            }
+        }
+
+        public virtual string ItemName
+        {
+            get
+            {
+                if (PrimaryItemAttribute == StorageItemTypes.File)
+                {
+                    var nameWithoutExtension = Path.GetFileNameWithoutExtension(itemNameRaw);
+                    if (!string.IsNullOrEmpty(nameWithoutExtension) && !UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+                    {
+                        return nameWithoutExtension;
+                    }
+                }
+                return itemNameRaw;
+            }
         }
 
         private string itemType;
@@ -462,7 +484,7 @@ namespace Files.Filesystem
             var isFile = item.Type == FtpFileSystemObjectType.File;
             ItemDateCreatedReal = item.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawCreated;
             ItemDateModifiedReal = item.RawModified < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawModified;
-            ItemName = item.Name;
+            ItemNameRaw = item.Name;
             FileExtension = Path.GetExtension(item.Name);
             ItemPath = PathNormalization.Combine(folder, item.Name);
             PrimaryItemAttribute = isFile ? StorageItemTypes.File : StorageItemTypes.Folder;
@@ -497,6 +519,8 @@ namespace Files.Filesystem
         // For shortcut elements (.lnk and .url)
         public string TargetPath { get; set; }
 
+        public override string ItemName => Path.GetFileNameWithoutExtension(ItemNameRaw); // Always hide extension
+
         public string Arguments { get; set; }
         public string WorkingDirectory { get; set; }
         public bool RunAsAdmin { get; set; }
@@ -510,6 +534,19 @@ namespace Files.Filesystem
         {
         }
 
+        public override string ItemName
+        {
+            get
+            {
+                var nameWithoutExtension = Path.GetFileNameWithoutExtension(ItemNameRaw);
+                if (!string.IsNullOrEmpty(nameWithoutExtension) && !UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+                {
+                    return nameWithoutExtension;
+                }
+                return ItemNameRaw;
+            }
+        }
+
         // Parameterless constructor for JsonConvert
         public ZipItem() : base()
         { }
@@ -520,7 +557,7 @@ namespace Files.Filesystem
         public LibraryItem(LibraryLocationItem lib, string returnFormat = null) : base(null, returnFormat)
         {
             ItemPath = lib.Path;
-            ItemName = lib.Text;
+            ItemNameRaw = lib.Text;
             PrimaryItemAttribute = StorageItemTypes.Folder;
             ItemType = "ItemTypeLibrary".GetLocalized();
             LoadCustomIcon = true;
@@ -536,6 +573,8 @@ namespace Files.Filesystem
         public bool IsEmpty { get; }
 
         public string DefaultSaveFolder { get; }
+
+        public override string ItemName => ItemNameRaw;
 
         public ReadOnlyCollection<string> Folders { get; }
     }

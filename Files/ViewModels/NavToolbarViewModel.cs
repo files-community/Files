@@ -938,7 +938,7 @@ namespace Files.ViewModels
                         suggestions = currPath.Select(x => new ListedItem(null)
                         {
                             ItemPath = x.Path,
-                            ItemName = x.Folder.DisplayName
+                            ItemNameRaw = x.Folder.DisplayName
                         }).ToList();
                     }
                     else if (currPath.Any())
@@ -947,19 +947,19 @@ namespace Files.ViewModels
                         suggestions = currPath.Select(x => new ListedItem(null)
                         {
                             ItemPath = x.Path,
-                            ItemName = x.Folder.DisplayName
+                            ItemNameRaw = x.Folder.DisplayName
                         }).Concat(
                             subPath.Select(x => new ListedItem(null)
                             {
                                 ItemPath = x.Path,
-                                ItemName = PathNormalization.Combine(currPath.First().Folder.DisplayName, x.Folder.DisplayName)
+                                ItemNameRaw = PathNormalization.Combine(currPath.First().Folder.DisplayName, x.Folder.DisplayName)
                             })).ToList();
                     }
                     else
                     {
                         suggestions = new List<ListedItem>() { new ListedItem(null) {
                         ItemPath = shellpage.FilesystemViewModel.WorkingDirectory,
-                        ItemName = "NavigationToolbarVisiblePathNoResults".GetLocalized() } };
+                        ItemNameRaw = "NavigationToolbarVisiblePathNoResults".GetLocalized() } };
                     }
 
                     // NavigationBarSuggestions becoming empty causes flickering of the suggestion box
@@ -971,7 +971,7 @@ namespace Files.ViewModels
                         {
                             if (si < NavigationBarSuggestions.Count)
                             {
-                                NavigationBarSuggestions[si].ItemName = suggestions[si].ItemName;
+                                NavigationBarSuggestions[si].ItemNameRaw = suggestions[si].ItemNameRaw;
                                 NavigationBarSuggestions[si].ItemPath = suggestions[si].ItemPath;
                             }
                             else
@@ -987,11 +987,11 @@ namespace Files.ViewModels
                     else
                     {
                         // At least an element in common, show animation
-                        foreach (var s in NavigationBarSuggestions.ExceptBy(suggestions, x => x.ItemName).ToList())
+                        foreach (var s in NavigationBarSuggestions.ExceptBy(suggestions, x => x.ItemNameRaw).ToList())
                         {
                             NavigationBarSuggestions.Remove(s);
                         }
-                        foreach (var s in suggestions.ExceptBy(NavigationBarSuggestions, x => x.ItemName).ToList())
+                        foreach (var s in suggestions.ExceptBy(NavigationBarSuggestions, x => x.ItemNameRaw).ToList())
                         {
                             NavigationBarSuggestions.Insert(suggestions.IndexOf(s), s);
                         }
@@ -1003,7 +1003,7 @@ namespace Files.ViewModels
                     NavigationBarSuggestions.Add(new ListedItem(null)
                     {
                         ItemPath = shellpage.FilesystemViewModel.WorkingDirectory,
-                        ItemName = "NavigationToolbarVisiblePathNoResults".GetLocalized()
+                        ItemNameRaw = "NavigationToolbarVisiblePathNoResults".GetLocalized()
                     });
                 }
             }

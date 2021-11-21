@@ -501,7 +501,7 @@ namespace Files
                     List<ListedItem> liItemsToSelect = new List<ListedItem>();
                     foreach (string item in navigationArguments.SelectItems)
                     {
-                        liItemsToSelect.Add(ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Where((li) => li.ItemName == item).First());
+                        liItemsToSelect.Add(ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Where((li) => li.ItemNameRaw == item).First());
                     }
 
                     ItemManipulationModel.SetSelectedItems(liItemsToSelect);
