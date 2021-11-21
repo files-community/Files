@@ -2190,7 +2190,7 @@
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" translate="yes" xml:space="preserve">
           <source>There is one conflicting file name, and {0} outgoing item(s).</source>
-          <target state="translated">Er is een conflicterende itemnaam en {1} uitgaand(e) item(s).</target>
+          <target state="translated">Er is een conflicterende itemnaam en {0} uitgaand(e) item(s).</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
