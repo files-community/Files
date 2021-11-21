@@ -246,6 +246,11 @@ namespace Files.Helpers
             ReturnResult renamed = ReturnResult.InProgress;
             if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
+                if (item.IsShortcutItem)
+                {
+                    newName += item.FileExtension;
+                }
+
                 renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageItemHelpers.FromPathAndType(item.ItemPath, FilesystemItemType.Directory),
                     newName, NameCollisionOption.FailIfExists, true);
             }
