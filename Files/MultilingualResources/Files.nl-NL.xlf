@@ -2190,7 +2190,7 @@
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" translate="yes" xml:space="preserve">
           <source>There is one conflicting file name, and {0} outgoing item(s).</source>
-          <target state="translated">Er is een conflicterende itemnaam en {1} uitgaand(e) item(s).</target>
+          <target state="translated">Er is een conflicterende itemnaam en {0} uitgaand(e) item(s).</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
@@ -3559,7 +3559,7 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
           <source>Default file explorer</source>
           <target state="new">Default file explorer</target>
         </trans-unit>
-        <trans-unit id="SettingsSetAsDefaultExplorer" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsSetAsDefaultManager" translate="yes" xml:space="preserve">
           <source>Set Files as default file explorer</source>
           <target state="new">Set Files as default file explorer</target>
         </trans-unit>

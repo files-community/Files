@@ -3535,7 +3535,7 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
           <source>Default file explorer</source>
           <target state="translated">Zadani preglednik datoteka</target>
         </trans-unit>
-        <trans-unit id="SettingsSetAsDefaultExplorer" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsSetAsDefaultManager" translate="yes" xml:space="preserve">
           <source>Set Files as default file explorer</source>
           <target state="translated">Postavi Files aplikaciju kao zadani preglednik datoteka</target>
         </trans-unit>

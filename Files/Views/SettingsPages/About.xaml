@@ -262,29 +262,27 @@
                 </Button>
             </local:SettingsBlockControl>
 
-            <TextBlock
-                x:Uid="SettingsAboutThirdPartyLicenses"
-                Padding="0,12,0,0"
-                FontSize="14"
-                FontWeight="Medium"
-                Text="Third party licenses">
-                <TextBlock.Transitions>
-                    <TransitionCollection>
-                        <RepositionThemeTransition />
-                    </TransitionCollection>
-                </TextBlock.Transitions>
-            </TextBlock>
+            <local:SettingsBlockControl
+                Title="{helpers:ResourceString Name=ThirdPartyLicenses}"
+                HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE99A;" />
+                </local:SettingsBlockControl.Icon>
+                <local:SettingsBlockControl.ExpandableContent>
+                    <StackPanel Spacing="4" Padding="4">
+                        <HyperlinkButton
+                            AutomationProperties.Name="QuickLook"
+                            Content="QuickLook"
+                            NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt" />
 
-            <HyperlinkButton
-                AutomationProperties.Name="QuickLook"
-                Content="QuickLook"
-                NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt" />
-
-            <HyperlinkButton
-                x:Uid="SettingsFluentUISystemIconsLicenseButton"
-                AutomationProperties.Name="Fluent UI System Icons"
-                Content="Fluent UI System Icons"
-                NavigateUri="https://github.com/microsoft/fluentui-system-icons/blob/master/LICENSE" />
+                        <HyperlinkButton
+                            x:Uid="SettingsFluentUISystemIconsLicenseButton"
+                            AutomationProperties.Name="Fluent UI System Icons"
+                            Content="Fluent UI System Icons"
+                            NavigateUri="https://github.com/microsoft/fluentui-system-icons/blob/master/LICENSE" />
+                    </StackPanel>
+                </local:SettingsBlockControl.ExpandableContent>
+            </local:SettingsBlockControl>
         </StackPanel>
     </Grid>
 </Page>

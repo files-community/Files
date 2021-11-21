@@ -2656,7 +2656,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   <data name="SettingsDefaultExplorer" xml:space="preserve">
     <value>Gestore file predefinito</value>
   </data>
-  <data name="SettingsSetAsDefaultExplorer" xml:space="preserve">
+  <data name="SettingsSetAsDefaultManager" xml:space="preserve">
     <value>Imposta Files come gestore file predefinito</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">

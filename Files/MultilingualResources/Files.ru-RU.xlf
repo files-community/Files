@@ -3545,7 +3545,7 @@ Files не собирает, хранит, распространяет или �
           <source>Default file explorer</source>
           <target state="translated">Файловый менеджер по умолчанию</target>
         </trans-unit>
-        <trans-unit id="SettingsSetAsDefaultExplorer" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsSetAsDefaultManager" translate="yes" xml:space="preserve">
           <source>Set Files as default file explorer</source>
           <target state="translated">Установить Files как файловый менеджер по умолчанию</target>
         </trans-unit>

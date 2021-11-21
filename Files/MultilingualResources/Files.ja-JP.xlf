@@ -3536,7 +3536,7 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
           <source>Default file explorer</source>
           <target state="new">Default file explorer</target>
         </trans-unit>
-        <trans-unit id="SettingsSetAsDefaultExplorer" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsSetAsDefaultManager" translate="yes" xml:space="preserve">
           <source>Set Files as default file explorer</source>
           <target state="new">Set Files as default file explorer</target>
         </trans-unit>

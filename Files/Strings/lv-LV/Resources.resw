@@ -2608,7 +2608,7 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
   <data name="SettingsDefaultExplorer" xml:space="preserve">
     <value>Noklusējuma failu pārlūks</value>
   </data>
-  <data name="SettingsSetAsDefaultExplorer" xml:space="preserve">
+  <data name="SettingsSetAsDefaultManager" xml:space="preserve">
     <value>Iestatīt Files kā noklusējuma failu pārlūku</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">

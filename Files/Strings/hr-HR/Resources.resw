@@ -2655,7 +2655,7 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   <data name="SettingsDefaultExplorer" xml:space="preserve">
     <value>Zadani preglednik datoteka</value>
   </data>
-  <data name="SettingsSetAsDefaultExplorer" xml:space="preserve">
+  <data name="SettingsSetAsDefaultManager" xml:space="preserve">
     <value>Postavite Files aplikaciju kao zadani preglednik datoteka</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">

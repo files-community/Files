@@ -318,7 +318,7 @@
 
             <TextBlock
                 x:Uid="SettingsContextMenu"
-                Padding="0,12,0,0"
+                Padding="0,12,0,4"
                 FontSize="14"
                 FontWeight="Medium"
                 Text="Customize the right click context menu" />

@@ -2627,7 +2627,7 @@ Files не собирает, хранит, распространяет или �
   <data name="SettingsDefaultExplorer" xml:space="preserve">
     <value>Файловый менеджер по умолчанию</value>
   </data>
-  <data name="SettingsSetAsDefaultExplorer" xml:space="preserve">
+  <data name="SettingsSetAsDefaultManager" xml:space="preserve">
     <value>Установить Files как файловый менеджер по умолчанию</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">

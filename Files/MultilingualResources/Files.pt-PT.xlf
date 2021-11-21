@@ -3539,7 +3539,7 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
           <source>Default file explorer</source>
           <target state="translated">Explorador de ficheiros pré-definido</target>
         </trans-unit>
-        <trans-unit id="SettingsSetAsDefaultExplorer" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsSetAsDefaultManager" translate="yes" xml:space="preserve">
           <source>Set Files as default file explorer</source>
           <target state="translated">Definir Files como explorador de ficheiros pré-definido</target>
         </trans-unit>
