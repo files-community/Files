@@ -204,7 +204,7 @@ namespace Files.Filesystem.Search
                     return (hFileTsk, findDataTsk);
                 }).WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
-                if (hFile != IntPtr.Zero)
+                if (hFile != IntPtr.Zero && hFile.ToInt64() != -1)
                 {
                     var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
                     var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
@@ -283,7 +283,7 @@ namespace Files.Filesystem.Search
                 return (hFileTsk, findDataTsk);
             }).WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
-            if (hFile != IntPtr.Zero)
+            if (hFile != IntPtr.Zero && hFile.ToInt64() != -1)
             {
                 await Task.Run(() =>
                 {
