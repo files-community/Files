@@ -34,11 +34,14 @@ namespace Files.UserControls
 
         private void DismissAllBannersButton_Click(object sender, RoutedEventArgs e)
         { 
-           while (OngoingTasksViewModel.StatusBannersSource.Count > 0)
-           {
-                var itemToDismiss = OngoingTasksViewModel.StatusBannersSource[0];
-                OngoingTasksViewModel.CloseBanner(itemToDismiss);
-           }
+           for (int i = OngoingTasksViewModel.StatusBannersSource.Count - 1; i >= 0; i--)
+            {
+                var itemToDismiss = OngoingTasksViewModel.StatusBannersSource[i];
+                if (!itemToDismiss.IsProgressing)
+                {
+                    OngoingTasksViewModel.CloseBanner(itemToDismiss);
+                }
+            }
         }
     }
 }
