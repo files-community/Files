@@ -139,7 +139,7 @@
                 ToolTipService.ToolTip="Dismiss All" 
                 HorizontalAlignment="Right">
                 <Button.Content>
-                    <TextBlock Text="Dismis All" />
+                    <TextBlock Text="Dismiss All" />
                 </Button.Content>
             </Button>
         </Grid>
