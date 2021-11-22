@@ -29,7 +29,7 @@ namespace Files.DataModels
                 ResetToDefaultTerminal();
             }
 
-            return Terminals.First();
+            return Terminals.FirstOrDefault();
         }
 
         public void ResetToDefaultTerminal()

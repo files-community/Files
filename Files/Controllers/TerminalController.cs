@@ -35,6 +35,7 @@ namespace Files.Controllers
 
         public TerminalController()
         {
+            Model = new TerminalFileModel();
         }
 
         public async Task InitializeAsync()
@@ -42,6 +43,10 @@ namespace Files.Controllers
             await LoadAsync();
             await GetInstalledTerminalsAsync();
             await StartWatchConfigChangeAsync();
+            CoreApplication.MainView.DispatcherQueue.TryEnqueue(() =>
+            {
+                ModelChanged?.Invoke(this);
+            });
         }
 
         private async Task LoadAsync()
