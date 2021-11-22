@@ -81,10 +81,10 @@ namespace Files.Controllers
                 Model = JsonConvert.DeserializeObject<TerminalFileModel>(content);
                 if (Model == null)
                 {
-                    throw new JsonParsingNullException(JsonFileName);
+                    throw new ArgumentException($"{JsonFileName} is empty, regenerating...");
                 }
             }
-            catch (JsonParsingNullException)
+            catch (ArgumentException)
             {
                 Model = await GetDefaultTerminalFileModel();
                 SaveModel();
@@ -220,13 +220,6 @@ namespace Files.Controllers
             catch
             {
             }
-        }
-    }
-
-    public class JsonParsingNullException : Exception
-    {
-        public JsonParsingNullException(string jsonFileName) : base($"{jsonFileName} is empty, regenerating...")
-        {
         }
     }
 }
