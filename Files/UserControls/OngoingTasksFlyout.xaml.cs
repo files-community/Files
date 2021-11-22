@@ -31,5 +31,14 @@ namespace Files.UserControls
             await Task.Run(itemToDismiss.PrimaryButtonClick);
             OngoingTasksViewModel.CloseBanner(itemToDismiss);
         }
+
+        private void DismissAllBannersButton_Click(object sender, RoutedEventArgs e)
+        { 
+           while (OngoingTasksViewModel.StatusBannersSource.Count > 0)
+           {
+                var itemToDismiss = OngoingTasksViewModel.StatusBannersSource[0];
+                OngoingTasksViewModel.CloseBanner(itemToDismiss);
+           }
+        }
     }
 }
