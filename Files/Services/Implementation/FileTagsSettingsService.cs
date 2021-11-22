@@ -35,7 +35,7 @@ namespace Files.Services.Implementation
         {
             if (FileTagList.Any(x => x.Uid == null))
             {
-                // Tags file is invalid, regenerate
+                App.Logger.Warn("Tags file is invalid, regenerate");
                 FileTagList = s_defaultFileTags;
             }
             var tag = FileTagList.SingleOrDefault(x => x.Uid == uid);
