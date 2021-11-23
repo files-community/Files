@@ -2176,7 +2176,7 @@
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" translate="yes" xml:space="preserve">
           <source>There is one conflicting file name, and {0} outgoing item(s).</source>
-          <target state="translated">Nincsenek ütköző fájlnevek, {1} kimenő elem.</target>
+          <target state="translated">Nincsenek ütköző fájlnevek, {0} kimenő elem.</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>

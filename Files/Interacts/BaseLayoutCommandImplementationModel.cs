@@ -255,7 +255,7 @@ namespace Files.Interacts
             associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
             {
                 NavPathParam = folderPath,
-                SelectItems = new[] { item.ItemName },
+                SelectItems = new[] { item.ItemNameRaw },
                 AssociatedTabInstance = associatedInstance
             });
         }

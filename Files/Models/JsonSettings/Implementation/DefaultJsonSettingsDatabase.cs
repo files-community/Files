@@ -23,7 +23,7 @@ namespace Files.Models.JsonSettings.Implementation
 
         protected virtual Dictionary<string, object> GetNewSettingsCache()
         {
-            string settingsData = settingsSerializer.ReadFromFile();
+            string settingsData = settingsSerializer.ReadFromFile() ?? string.Empty;
 
             return jsonSettingsSerializer.DeserializeFromJson<Dictionary<string, object>>(settingsData) ?? new Dictionary<string, object>();
         }

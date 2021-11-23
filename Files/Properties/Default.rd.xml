@@ -29,6 +29,7 @@
 
     <Type Name="Files.Views.PaneNavigationArguments" Dynamic="Required All" />
 	<Type Name="Files.UserControls.MultitaskingControl.TabItemArguments" Dynamic="Required All" />
+	<Type Name="Files.Filesystem.FileTag" Dynamic="Required All" />
 
     <!-- Add your application specific runtime directives here. -->
   </Application>

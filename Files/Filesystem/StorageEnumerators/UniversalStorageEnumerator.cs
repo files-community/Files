@@ -164,7 +164,7 @@ namespace Files.Filesystem.StorageEnumerators
                 return new ListedItem(folder.FolderRelativeId, dateReturnFormat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemName = folder.DisplayName,
+                    ItemNameRaw = folder.DisplayName,
                     ItemDateModifiedReal = basicProperties.DateModified,
                     ItemDateCreatedReal = folder.DateCreated,
                     ItemType = folder.DisplayType,
@@ -191,8 +191,7 @@ namespace Files.Filesystem.StorageEnumerators
 
             var basicProperties = await file.GetBasicPropertiesAsync();
             // Display name does not include extension
-            var itemName = string.IsNullOrEmpty(file.DisplayName) || userSettingsService.PreferencesSettingsService.ShowFileExtensions ?
-                file.Name : file.DisplayName;
+            var itemName = file.Name;
             var itemModifiedDate = basicProperties.DateModified;
             var itemCreatedDate = file.DateCreated;
             var itemPath = string.IsNullOrEmpty(file.Path) ? PathNormalization.Combine(currentStorageFolder.Path, file.Name) : file.Path;
@@ -231,7 +230,7 @@ namespace Files.Filesystem.StorageEnumerators
                     Opacity = 1,
                     FileImage = null,
                     LoadFileIcon = itemThumbnailImgVis,
-                    ItemName = itemName,
+                    ItemNameRaw = itemName,
                     ItemDateModifiedReal = itemModifiedDate,
                     ItemDateCreatedReal = itemCreatedDate,
                     ItemType = itemType,
