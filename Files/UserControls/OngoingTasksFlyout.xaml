@@ -129,17 +129,15 @@
                 Text="{helpers:ResourceString Name=OngoingTasks}" />
 
             <Button
-                x:Name="DismissAllBannersButton"
-                x:Uid="OngoingTasksDismissAllBannersButton"                               
+                x:Name="DismissAllBannersButton"                             
                 Height="32"                                
-                AutomationProperties.Name="Dismiss All"
                 Background="Transparent"
                 BorderBrush="Transparent"
                 Click="DismissAllBannersButton_Click"
-                ToolTipService.ToolTip="Dismiss All" 
+                ToolTipService.ToolTip="{helpers:ResourceString Name=ClearAll}" 
                 HorizontalAlignment="Right">
                 <Button.Content>
-                    <TextBlock Text="Dismiss All" />
+                    <TextBlock Text="{helpers:ResourceString Name=ClearAll}" />
                 </Button.Content>
             </Button>
         </Grid>
