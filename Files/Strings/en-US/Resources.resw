@@ -213,9 +213,6 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Enter a path</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
-    <value>Search</value>
-  </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Files you've previously accessed will show up here</value>
   </data>
@@ -2860,14 +2857,8 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="SearchPickerSizeRange_Choose.Text" xml:space="preserve">
     <value>Or choose a size range</value>
   </data>
-  <data name="SearchMenu_Search" xml:space="preserve">
+  <data name="Search" xml:space="preserve">
     <value>Search</value>
-  </data>
-  <data name="SearchFilterPage_Cancel.Content" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="SearchMultiFilterPage_Cancel.Content" xml:space="preserve">
-    <value>Cancel</value>
   </data>
   <data name="SearchMenuButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Search Options</value>
