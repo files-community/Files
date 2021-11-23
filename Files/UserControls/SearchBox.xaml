@@ -107,7 +107,7 @@
                                 </Style>
                             </Flyout.FlyoutPresenterStyle>
                             <Grid>
-                                <Frame x:Name="MenuFrame" Width="231" Loaded="MenuFrame_Loaded" />
+                                <Frame x:Name="MenuFrame" Width="232" Loaded="MenuFrame_Loaded" />
                             </Grid>
                         </Flyout>
                     </Button.Flyout>

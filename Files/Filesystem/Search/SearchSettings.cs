@@ -64,7 +64,7 @@ namespace Files.Filesystem.Search
     public class AndFilterCollection : ObservableCollection<ISearchFilter>, ISearchFilterCollection
     {
         public string Glyph => "\uEC26";
-        public string Title => "SearchAndFilterCollection_Title".GetLocalized();
+        public string Title => "And".GetLocalized();
         public string Description => "SearchAndFilterCollection_Description".GetLocalized();
 
         public AndFilterCollection() : base() {}
@@ -84,7 +84,7 @@ namespace Files.Filesystem.Search
     public class OrFilterCollection : ObservableCollection<ISearchFilter>, ISearchFilterCollection
     {
         public string Glyph => "\uEC26";
-        public string Title => "SearchOrFilterCollection_Title".GetLocalized();
+        public string Title => "Or".GetLocalized();
         public string Description => "SearchOrFilterCollection_Description".GetLocalized();
 
         public OrFilterCollection() : base() {}
@@ -104,7 +104,7 @@ namespace Files.Filesystem.Search
     public class NotFilterCollection : ObservableCollection<ISearchFilter>, ISearchFilterCollection
     {
         public string Glyph => "\uEC26";
-        public string Title => "SearchNotFilterCollection_Title".GetLocalized();
+        public string Title => "Not".GetLocalized();
         public string Description => "SearchNotFilterCollection_Description".GetLocalized();
 
         public NotFilterCollection() : base() {}
@@ -153,7 +153,7 @@ namespace Files.Filesystem.Search
     }
     public class CreatedFilter : DateRangeFilter
     {
-        public override string Title => "SearchCreatedFilter_Title".GetLocalized();
+        public override string Title => "Created".GetLocalized();
         public override string Description => "SearchCreatedFilter_Description".GetLocalized();
         protected override string QueryKey => "System.ItemDate";
 
@@ -162,7 +162,7 @@ namespace Files.Filesystem.Search
     }
     public class ModifiedFilter : DateRangeFilter
     {
-        public override string Title => "SearchModifiedFilter_Title".GetLocalized();
+        public override string Title => "Modified".GetLocalized();
         public override string Description => "SearchModifiedFilter_Description".GetLocalized();
         protected override string QueryKey => "System.DateModified";
 
@@ -171,7 +171,7 @@ namespace Files.Filesystem.Search
     }
     public class AccessedFilter : DateRangeFilter
     {
-        public override string Title => "SearchAccessedFilter_Title".GetLocalized();
+        public override string Title => "Accessed".GetLocalized();
         public override string Description => "SearchAccessedFilter_Description".GetLocalized();
         protected override string QueryKey => "System.DateAccessed";
 
@@ -182,7 +182,7 @@ namespace Files.Filesystem.Search
     public class SizeRangeFilter : ISizeRangeFilter
     {
         public string Glyph => "\uE2B2";
-        public string Title => "SearchSizeFilter_Title".GetLocalized();
+        public string Title => "Size".GetLocalized();
         public string Description => "SearchSizeFilter_Description".GetLocalized();
 
         public SizeRange Range { get; }

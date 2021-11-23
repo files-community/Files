@@ -65,7 +65,7 @@
             <Button x:Name="SearchButton"
                 HorizontalAlignment="Stretch" Content="{helpers:ResourceString Name=Search}" Command="{x:Bind ViewModel.Navigator.SearchCommand}" />
             <Button x:Name="ClearButton" Grid.Column="1"
-                HorizontalAlignment="Stretch" Content="{helpers:ResourceString Name=SearchMenu_Clear}" Command="{x:Bind ViewModel.Picker.ClearCommand}"
+                HorizontalAlignment="Stretch" Content="{helpers:ResourceString Name=Clear}" Command="{x:Bind ViewModel.Picker.ClearCommand}"
                 IsEnabled="{x:Bind ViewModel.Picker.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}" />
         </Grid>
     </StackPanel>

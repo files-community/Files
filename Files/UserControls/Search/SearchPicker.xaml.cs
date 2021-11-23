@@ -26,7 +26,7 @@ namespace Files.UserControls.Search
             var menu = new MenuFlyout();
             menu.Placement = FlyoutPlacementMode.BottomEdgeAlignedRight;
 
-            var file = new MenuFlyoutSubItem { Text = "SearchPickerAddMenu_File".GetLocalized() };
+            var file = new MenuFlyoutSubItem { Text = "File".GetLocalized() };
             file.Items.Add(GetItem(new SizeRangeHeader()));
             file.Items.Add(new MenuFlyoutSeparator());
             file.Items.Add(GetItem(new CreatedHeader()));
@@ -34,7 +34,7 @@ namespace Files.UserControls.Search
             file.Items.Add(GetItem(new AccessedHeader()));
             menu.Items.Add(file);
 
-            var group = new MenuFlyoutSubItem { Text = "SearchPickerAddMenu_Group".GetLocalized() };
+            var group = new MenuFlyoutSubItem { Text = "Group".GetLocalized() };
             group.Items.Add(GetItem(new AndHeader()));
             group.Items.Add(GetItem(new OrHeader()));
             group.Items.Add(GetItem(new NotHeader()));

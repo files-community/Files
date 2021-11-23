@@ -5,6 +5,7 @@
     xmlns:converters="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls.Search"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Files.ViewModels.Search"
     d:DesignHeight="300"
@@ -112,12 +113,7 @@
                     DefaultLabelPosition="Right"
                     IsDynamicOverflowEnabled="False"
                     IsOpen="False">
-                    <AppBarButton
-                        x:Name="AddFilterButton"
-                        x:Uid="SearchPickerGroup_Add"
-                        Icon="Add"
-                        Label="Add"
-                        Loaded="AddFilterButton_Loaded" />
+                    <AppBarButton x:Name="AddFilterButton" Icon="Add" Label="{helpers:ResourceString Name=Add}" Loaded="AddFilterButton_Loaded" />
                 </CommandBar>
             </Grid>
         </DataTemplate>

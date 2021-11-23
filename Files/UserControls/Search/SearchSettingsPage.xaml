@@ -20,7 +20,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock x:Uid="SearchSettingOptions_Title" FontSize="18" FontWeight="SemiBold" Text="Search Options" />
+        <TextBlock x:Uid="SearchSettingOptions_Title" FontSize="18" FontWeight="SemiBold" Text="{helpers:ResourceString Name=SearchOptions}" />
         <local:Picker Grid.Row="1" ViewModel="{x:Bind ViewModel.FilterViewModel}" />
         <local:Picker Grid.Row="2" ViewModel="{x:Bind ViewModel.LocationViewModel}" />
         <Grid Grid.Row="3" Margin="0,24,0,0" HorizontalAlignment="Stretch" ColumnSpacing="8">
@@ -31,7 +31,7 @@
             <Button x:Name="SearchButton"
                 HorizontalAlignment="Stretch" Content="{helpers:ResourceString Name=Search}" Command="{x:Bind ViewModel.Navigator.SearchCommand}" />
             <Button x:Name="ClearButton" Grid.Column="1"
-                HorizontalAlignment="Stretch" Content="{helpers:ResourceString Name=SearchMenu_Clear}" Command="{x:Bind ViewModel.FilterViewModel.ClearCommand}"
+                HorizontalAlignment="Stretch" Content="{helpers:ResourceString Name=Clear}" Command="{x:Bind ViewModel.FilterViewModel.ClearCommand}"
                 IsEnabled="{x:Bind ViewModel.FilterViewModel.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}" />
         </Grid>
     </Grid>

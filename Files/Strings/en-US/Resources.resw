@@ -2776,43 +2776,43 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="SearchSize_NoLimit" xml:space="preserve">
     <value>No limit</value>
   </data>
-  <data name="SearchAndFilterCollection_Title" xml:space="preserve">
+  <data name="And" xml:space="preserve">
     <value>And</value>
   </data>
   <data name="SearchAndFilterCollection_Description" xml:space="preserve">
     <value>Finds items that meet all the conditions in the list.</value>
   </data>
-  <data name="SearchOrFilterCollection_Title" xml:space="preserve">
+  <data name="Or" xml:space="preserve">
     <value>Or</value>
   </data>
   <data name="SearchOrFilterCollection_Description" xml:space="preserve">
     <value>Finds items that meet at least one condition in the list.</value>
   </data>
-  <data name="SearchNotFilterCollection_Title" xml:space="preserve">
+  <data name="Not" xml:space="preserve">
     <value>Not</value>
   </data>
   <data name="SearchNotFilterCollection_Description" xml:space="preserve">
     <value>Finds items that do not meet any condition in the list.</value>
   </data>
-  <data name="SearchCreatedFilter_Title" xml:space="preserve">
+  <data name="Created" xml:space="preserve">
     <value>Created</value>
   </data>
   <data name="SearchCreatedFilter_Description" xml:space="preserve">
     <value>Date of creation</value>
   </data>
-  <data name="SearchModifiedFilter_Title" xml:space="preserve">
+  <data name="Modified" xml:space="preserve">
     <value>Modified</value>
   </data>
   <data name="SearchModifiedFilter_Description" xml:space="preserve">
     <value>Date of last modification</value>
   </data>
-  <data name="SearchAccessedFilter_Title" xml:space="preserve">
+  <data name="Accessed" xml:space="preserve">
     <value>Accessed</value>
   </data>
   <data name="SearchAccessedFilter_Description" xml:space="preserve">
     <value>Date of last access</value>
   </data>
-  <data name="SearchSizeFilter_Title" xml:space="preserve">
+  <data name="Size" xml:space="preserve">
     <value>Size</value>
   </data>
   <data name="SearchSizeFilter_Description" xml:space="preserve">
@@ -2824,13 +2824,13 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="SearchGroupHeader_ItemsSuffixe" xml:space="preserve">
     <value>({0} items)</value>
   </data>
-  <data name="SearchSettingOptions_Title.Text" xml:space="preserve">
+  <data name="SearchOptions" xml:space="preserve">
     <value>Search Options</value>
   </data>
-  <data name="SearchPickerAddMenu_File" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>File</value>
   </data>
-  <data name="SearchPickerAddMenu_Group" xml:space="preserve">
+  <data name="Group" xml:space="preserve">
     <value>Group</value>
   </data>
   <data name="SearchPickerLocation_Subfolders.Content" xml:space="preserve">
@@ -2839,10 +2839,10 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="SearchPickerGroup_NoSelected.Text" xml:space="preserve">
     <value>No filter selected.</value>
   </data>
-  <data name="SearchPickerGroup_Add.Label" xml:space="preserve">
+  <data name="Add" xml:space="preserve">
     <value>Add</value>
   </data>
-  <data name="SearchMenu_Clear" xml:space="preserve">
+  <data name="Clear" xml:space="preserve">
     <value>Clear</value>
   </data>
   <data name="SearchPickerDateRange_NoSelected.Text" xml:space="preserve">
@@ -2859,9 +2859,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
-  </data>
-  <data name="SearchMenuButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Search Options</value>
   </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
     <value>Empty Recycle Bin</value>
