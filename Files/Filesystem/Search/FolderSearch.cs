@@ -204,7 +204,7 @@ namespace Files.Filesystem.Search
                     return (hFileTsk, findDataTsk);
                 }).WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
-                if (hFile != IntPtr.Zero)
+                if (hFile != IntPtr.Zero && hFile.ToInt64() != -1)
                 {
                     var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
                     var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
@@ -283,7 +283,7 @@ namespace Files.Filesystem.Search
                 return (hFileTsk, findDataTsk);
             }).WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
-            if (hFile != IntPtr.Zero)
+            if (hFile != IntPtr.Zero && hFile.ToInt64() != -1)
             {
                 await Task.Run(() =>
                 {
@@ -346,7 +346,7 @@ namespace Files.Filesystem.Search
                 listedItem = new ListedItem(null)
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,
-                    ItemName = findData.cFileName,
+                    ItemNameRaw = findData.cFileName,
                     ItemPath = itemPath,
                     IsHiddenItem = isHidden,
                     LoadFileIcon = false,
@@ -362,7 +362,7 @@ namespace Files.Filesystem.Search
                     listedItem = new ListedItem(null)
                     {
                         PrimaryItemAttribute = StorageItemTypes.Folder,
-                        ItemName = findData.cFileName,
+                        ItemNameRaw = findData.cFileName,
                         ItemPath = itemPath,
                         IsHiddenItem = isHidden,
                         LoadFileIcon = false,
@@ -397,7 +397,7 @@ namespace Files.Filesystem.Search
                 listedItem = new ListedItem(null)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemName = folder.DisplayName,
+                    ItemNameRaw = folder.DisplayName,
                     ItemPath = folder.Path,
                     ItemDateModifiedReal = props.DateModified,
                     ItemDateCreatedReal = folder.DateCreated,
@@ -422,7 +422,7 @@ namespace Files.Filesystem.Search
                 listedItem = new ListedItem(null)
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,
-                    ItemName = file.DisplayName,
+                    ItemNameRaw = file.Name,
                     ItemPath = file.Path,
                     LoadFileIcon = false,
                     FileExtension = itemFileExtension,

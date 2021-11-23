@@ -304,7 +304,7 @@ namespace Files.Views
             }
         }
 
-        public async void SubmitSearch(string query, bool searchUnindexedItems)
+        public void SubmitSearch(string query, bool searchUnindexedItems)
         {
             FilesystemViewModel.CancelSearch();
             InstanceViewModel.CurrentSearchQuery = query;
@@ -317,14 +317,6 @@ namespace Files.Views
                 SearchQuery = query,
                 SearchUnindexedItems = searchUnindexedItems,
             });
-            var searchInstance = new FolderSearch
-            {
-                Query = InstanceViewModel.CurrentSearchQuery,
-                Folder = FilesystemViewModel.WorkingDirectory,
-                ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
-                SearchUnindexedItems = InstanceViewModel.SearchedUnindexedItems
-            };
-            await FilesystemViewModel.SearchAsync(searchInstance);
         }
 
         private void ModernShellPage_RefreshRequested(object sender, EventArgs e)
