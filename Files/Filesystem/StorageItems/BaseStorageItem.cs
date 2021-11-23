@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
@@ -460,6 +461,41 @@ namespace Files.Filesystem.StorageItems
                 }
                 return null;
             }
+        }
+
+        public async Task<string> ReadTextAsync(int maxLength = -1)
+        {
+            using var inputStream = await OpenSequentialReadAsync();
+            using var dataReader = new DataReader(inputStream);
+            StringBuilder builder = new StringBuilder();
+            uint bytesRead, bytesToRead;
+            do
+            {
+                bytesToRead = maxLength < 0 ? 4096 : (uint)Math.Min(maxLength, 4096);
+                bytesRead = await dataReader.LoadAsync(bytesToRead);
+                builder.Append(dataReader.ReadString(bytesRead));
+            } while (bytesRead > 0);
+            return builder.ToString();
+        }
+
+        public async Task WriteTextAsync(string text)
+        {
+            using var stream = await OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.AllowOnlyReaders);
+            using var outputStream = stream.GetOutputStreamAt(0);
+            using var dataWriter = new DataWriter(outputStream);
+            dataWriter.WriteString(text);
+            await dataWriter.StoreAsync();
+            await stream.FlushAsync();
+        }
+
+        public async Task WriteBytesAsync(byte[] dataBytes)
+        {
+            using var stream = await OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.AllowOnlyReaders);
+            using var outputStream = stream.GetOutputStreamAt(0);
+            using var dataWriter = new DataWriter(outputStream);
+            dataWriter.WriteBytes(dataBytes);
+            await dataWriter.StoreAsync();
+            await stream.FlushAsync();
         }
     }
 }
