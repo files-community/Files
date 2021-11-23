@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using Files.EventArguments;
+using System;
+using System.Collections.Generic;
 
 namespace Files.Services
 {
     public interface IBundlesSettingsService
     {
+        event EventHandler<SettingChangedEventArgs> OnSettingChangedEvent;
+
         bool FlushSettings();
 
         object ExportSettings();

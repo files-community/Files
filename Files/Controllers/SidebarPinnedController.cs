@@ -29,6 +29,12 @@ namespace Files.Controllers
             await LoadAsync();
         }
 
+        public async Task ReloadAsync()
+        {
+            await LoadAsync();
+            Model.RemoveStaleSidebarItems();
+        }
+
         private async Task LoadAsync()
         {
             StorageFolder Folder = await FilesystemTasks.Wrap(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists).AsTask());

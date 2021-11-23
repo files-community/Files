@@ -104,6 +104,8 @@ namespace Files.ViewModels.Widgets.Bundles
             AddBundleCommand = new RelayCommand(() => AddBundle(BundleNameTextInput));
             ImportBundlesCommand = new AsyncRelayCommand(ImportBundles);
             ExportBundlesCommand = new AsyncRelayCommand(ExportBundles);
+
+            BundlesSettingsService.OnSettingChangedEvent += BundlesSettingsService_OnSettingChangedEvent;
         }
 
         #endregion Constructor
@@ -228,15 +230,12 @@ namespace Files.ViewModels.Widgets.Bundles
             filePicker.FileTypeFilter.Add(System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName));
 
             StorageFile file = await filePicker.PickSingleFileAsync();
-
             if (file != null)
             {
                 try
                 {
                     string data = NativeFileOperationsHelper.ReadStringFromFile(file.Path);
-                    var deserialized = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data);
-                    BundlesSettingsService.ImportSettings(JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data));
-                    await Load(); // Update the collection
+                    BundlesSettingsService.ImportSettings(data);
                 }
                 catch // Couldn't deserialize, data is corrupted
                 {
@@ -250,7 +249,6 @@ namespace Files.ViewModels.Widgets.Bundles
             filePicker.FileTypeChoices.Add("Json File", new List<string>() { System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName) });
 
             StorageFile file = await filePicker.PickSaveFileAsync();
-
             if (file != null)
             {
                 NativeFileOperationsHelper.WriteStringToFile(file.Path, (string)BundlesSettingsService.ExportSettings());
@@ -260,6 +258,16 @@ namespace Files.ViewModels.Widgets.Bundles
         #endregion Command Implementation
 
         #region Handlers
+
+        private async void BundlesSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        {
+            switch (e.settingName)
+            {
+                case nameof(BundlesSettingsService.SavedBundles):
+                    await Load();
+                    break;
+            }
+        }
 
         private void OpenPathHandle(string path, FilesystemItemType itemType, bool openSilent, bool openViaApplicationPicker, IEnumerable<string> selectItems)
         {
@@ -277,6 +285,8 @@ namespace Files.ViewModels.Widgets.Bundles
         /// <param name="item"></param>
         private void NotifyItemRemovedHandle(BundleContainerViewModel item)
         {
+            BundlesSettingsService.OnSettingChangedEvent -= BundlesSettingsService_OnSettingChangedEvent;
+
             Items.Remove(item);
             item?.Dispose();
 

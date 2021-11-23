@@ -51,5 +51,33 @@ namespace Files.Services.Implementation
         {
             return FileTagList.Where(x => x.TagName.StartsWith(tagName, StringComparison.OrdinalIgnoreCase));
         }
+
+        public override bool ImportSettings(object import)
+        {
+            if (import is string importString)
+            {
+                FileTagList = jsonSettingsSerializer.DeserializeFromJson<List<FileTag>>(importString);
+            }
+            else if (import is List<FileTag> importList)
+            {
+                FileTagList = importList;
+            }
+
+            FileTagList ??= s_defaultFileTags;
+
+            if (FileTagList != null)
+            {
+                FlushSettings();
+                return true;
+            }
+
+            return false;
+        }
+
+        public override object ExportSettings()
+        {
+            // Return string in Json format
+            return jsonSettingsSerializer.SerializeToJson(FileTagList);
+        }
     }
 }

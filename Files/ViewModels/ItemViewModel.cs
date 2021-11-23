@@ -58,6 +58,7 @@ namespace Files.ViewModels
         private List<ListedItem> filesAndFolders;
 
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
 
         // only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
         public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
@@ -359,7 +360,18 @@ namespace Files.ViewModels
             shouldDisplayFileExtensions =  UserSettingsService.PreferencesSettingsService.ShowFileExtensions;
 
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+            FileTagsSettingsService.OnSettingChangedEvent += FileTagsSettingsService_OnSettingChangedEvent;
             AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
+        }
+
+        private void FileTagsSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
+        {
+            switch (e.settingName)
+            {
+                case nameof(FileTagsSettingsService.FileTagList):
+                    // Reload tags
+                    break;
+            }
         }
 
         private async void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
@@ -2251,6 +2263,7 @@ namespace Files.ViewModels
                 Connection.RequestReceived -= Connection_RequestReceived;
             }
             UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+            FileTagsSettingsService.OnSettingChangedEvent -= FileTagsSettingsService_OnSettingChangedEvent;
             AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
             DefaultIcons.Clear();
         }
