@@ -265,7 +265,7 @@ namespace Files.Filesystem.StorageEnumerators
                     FileImage = null,
                     LoadFileIcon = itemThumbnailImgVis,
                     LoadWebShortcutGlyph = false,
-                    ItemName = itemName,
+                    ItemNameRaw = itemName,
                     ItemDateModifiedReal = itemModifiedDate,
                     ItemDateAccessedReal = itemLastAccessDate,
                     ItemDateCreatedReal = itemCreatedDate,
