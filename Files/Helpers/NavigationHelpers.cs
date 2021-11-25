@@ -127,11 +127,13 @@ namespace Files.Helpers
         {
             string previousDir = associatedInstance.FilesystemViewModel.WorkingDirectory;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
-            bool isShortcutItem = path.EndsWith(".lnk") || path.EndsWith(".url"); // Determine
+            bool isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory);
+            bool isReparsePoint = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.ReparsePoint);
+            bool isShortcutItem = path.EndsWith(".lnk") || path.EndsWith(".url");
             FilesystemResult opened = (FilesystemResult)false;
 
             var shortcutInfo = new ShortcutItem();
-            if (itemType == null || isShortcutItem || isHiddenItem)
+            if (itemType == null || isShortcutItem || isHiddenItem || isReparsePoint)
             {
                 if (isShortcutItem)
                 {
@@ -161,6 +163,20 @@ namespace Files.Helpers
                     {
                         return false;
                     }
+                }
+                else if (isReparsePoint)
+                {
+                    if (!isDirectory)
+                    {
+                        if (NativeFindStorageItemHelper.GetWin32FindDataForPath(path, out var findData))
+                        {
+                            if (findData.dwReserved0 == NativeFileOperationsHelper.IO_REPARSE_TAG_SYMLINK)
+                            {
+                                shortcutInfo.TargetPath = NativeFileOperationsHelper.ParseSymLink(path);
+                            }
+                        }
+                    }
+                    itemType ??= isDirectory ? FilesystemItemType.Directory : FilesystemItemType.File;
                 }
                 else if (isHiddenItem)
                 {
@@ -340,7 +356,7 @@ namespace Files.Helpers
         {
             var opened = (FilesystemResult)false;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
-            bool isShortcutItem = path.EndsWith(".lnk") || path.EndsWith(".url"); // Determine
+            bool isShortcutItem = path.EndsWith(".lnk") || path.EndsWith(".url") || !string.IsNullOrEmpty(shortcutInfo.TargetPath);
             if (isShortcutItem)
             {
                 if (string.IsNullOrEmpty(shortcutInfo.TargetPath))
