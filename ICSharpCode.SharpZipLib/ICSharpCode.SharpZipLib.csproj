@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net45</TargetFrameworks>
     <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>../../assets/ICSharpCode.SharpZipLib.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>assets/ICSharpCode.SharpZipLib.snk</AssemblyOriginatorKeyFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
@@ -33,12 +33,12 @@ Please see https://github.com/icsharpcode/SharpZipLib/wiki/Release-1.3.3 for mor
 	<ItemGroup>
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
 	</ItemGroup>
-	 
-	 <ItemGroup>
-	   <None Include="../../assets/sharpziplib-nuget-256x256.png">
+
+  <ItemGroup>
+    <None Include="assets/sharpziplib-nuget-256x256.png">
       <Pack>True</Pack>
       <PackagePath>images</PackagePath>
     </None>
-	 </ItemGroup>
-	 
+  </ItemGroup>
+  
 </Project>
