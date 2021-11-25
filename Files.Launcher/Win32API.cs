@@ -504,7 +504,7 @@ namespace FilesFullTrust
 
                 for (ushort count = 1; File.Exists(uniquePath); count++)
                 {
-                    if (Regex.IsMatch(nameWithoutExt, @".*\(\d+\)"))
+                    if (Regex.IsMatch(nameWithoutExt, @".*\(\d+\)$"))
                     {
                         uniquePath = Path.Combine(directory, $"{nameWithoutExt.Substring(0, nameWithoutExt.LastIndexOf("(", StringComparison.InvariantCultureIgnoreCase))}({count}){extension}");
                     }
@@ -521,7 +521,7 @@ namespace FilesFullTrust
 
                 for (ushort Count = 1; Directory.Exists(uniquePath); Count++)
                 {
-                    if (Regex.IsMatch(Name, @".*\(\d+\)"))
+                    if (Regex.IsMatch(Name, @".*\(\d+\)$"))
                     {
                         uniquePath = Path.Combine(directory, $"{Name.Substring(0, Name.LastIndexOf("(", StringComparison.InvariantCultureIgnoreCase))}({Count})");
                     }
