@@ -28,7 +28,7 @@ namespace Files.DataModels
 
         private SidebarPinnedController controller;
 
-        private LocationItem favoriteSection, homeSection;
+        private LocationItem favoriteSection;
 
         [JsonIgnore]
         public MainViewModel MainViewModel => App.MainViewModel;
@@ -43,6 +43,7 @@ namespace Files.DataModels
 
         public SidebarPinnedModel()
         {
+            favoriteSection = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarFavorites".GetLocalized()) as LocationItem;
         }
 
         /// <summary>
@@ -282,7 +283,7 @@ namespace Files.DataModels
                     }
                 }
 
-                if (!favoriteSection.ChildItems.Contains(locationItem))
+                if (!favoriteSection.ChildItems.Any(x => x.Path == locationItem.Path))
                 {
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => favoriteSection.ChildItems.Insert(insertIndex, locationItem));
                 }
@@ -303,7 +304,7 @@ namespace Files.DataModels
             var lastItem = favoriteSection.ChildItems.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(CommonPaths.RecycleBinPath));
             int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
 
-            if (!favoriteSection.ChildItems.Contains(section))
+            if (!favoriteSection.ChildItems.Any(x => x.Section == section.Section))
             {
                 favoriteSection.ChildItems.Insert(insertIndex, section);
             }
@@ -322,7 +323,7 @@ namespace Files.DataModels
             await SidebarControl.SideBarItemsSemaphore.WaitAsync();
             try
             {
-                homeSection = new LocationItem()
+                var homeSection = new LocationItem()
                 {
                     Text = "SidebarHome".GetLocalized(),
                     Section = SectionType.Home,
@@ -332,7 +333,7 @@ namespace Files.DataModels
                     Path = "Home".GetLocalized(),
                     ChildItems = new ObservableCollection<INavigationControlItem>()
                 };
-                favoriteSection = new LocationItem()
+                favoriteSection ??= new LocationItem()
                 {
                     Text = "SidebarFavorites".GetLocalized(),
                     Section = SectionType.Favorites,
@@ -347,7 +348,7 @@ namespace Files.DataModels
                     AddItemToSidebarAsync(homeSection);
                 }
 
-                if (!SidebarControl.SideBarItems.Contains(favoriteSection))
+                if (!SidebarControl.SideBarItems.Any(x => x.Text == "SidebarFavorites".GetLocalized()))
                 {
                     SidebarControl.SideBarItems.BeginBulkOperation();
                     var index = 0; // First section

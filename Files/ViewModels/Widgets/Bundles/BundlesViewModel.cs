@@ -105,7 +105,7 @@ namespace Files.ViewModels.Widgets.Bundles
             ImportBundlesCommand = new AsyncRelayCommand(ImportBundles);
             ExportBundlesCommand = new AsyncRelayCommand(ExportBundles);
 
-            BundlesSettingsService.OnSettingChangedEvent += BundlesSettingsService_OnSettingChangedEvent;
+            BundlesSettingsService.OnSettingImportedEvent += BundlesSettingsService_OnSettingImportedEvent;
         }
 
         #endregion Constructor
@@ -259,14 +259,9 @@ namespace Files.ViewModels.Widgets.Bundles
 
         #region Handlers
 
-        private async void BundlesSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        private async void BundlesSettingsService_OnSettingImportedEvent(object sender, EventArgs e)
         {
-            switch (e.settingName)
-            {
-                case nameof(BundlesSettingsService.SavedBundles):
-                    await Load();
-                    break;
-            }
+            await Load();
         }
 
         private void OpenPathHandle(string path, FilesystemItemType itemType, bool openSilent, bool openViaApplicationPicker, IEnumerable<string> selectItems)
@@ -285,8 +280,6 @@ namespace Files.ViewModels.Widgets.Bundles
         /// <param name="item"></param>
         private void NotifyItemRemovedHandle(BundleContainerViewModel item)
         {
-            BundlesSettingsService.OnSettingChangedEvent -= BundlesSettingsService_OnSettingChangedEvent;
-
             Items.Remove(item);
             item?.Dispose();
 
@@ -464,6 +457,7 @@ namespace Files.ViewModels.Widgets.Bundles
             }
 
             Items.CollectionChanged -= Items_CollectionChanged;
+            BundlesSettingsService.OnSettingImportedEvent -= BundlesSettingsService_OnSettingImportedEvent;
         }
 
         #endregion IDisposable

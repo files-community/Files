@@ -360,18 +360,19 @@ namespace Files.ViewModels
             shouldDisplayFileExtensions =  UserSettingsService.PreferencesSettingsService.ShowFileExtensions;
 
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-            FileTagsSettingsService.OnSettingChangedEvent += FileTagsSettingsService_OnSettingChangedEvent;
+            FileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingImportedEvent;
             AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
         }
 
-        private void FileTagsSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
+        private async void FileTagsSettingsService_OnSettingImportedEvent(object sender, EventArgs e)
         {
-            switch (e.settingName)
+            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
             {
-                case nameof(FileTagsSettingsService.FileTagList):
-                    // Reload tags
-                    break;
-            }
+                if (WorkingDirectory != "Home".GetLocalized())
+                {
+                    RefreshItems(null);
+                }
+            });
         }
 
         private async void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
@@ -2263,7 +2264,7 @@ namespace Files.ViewModels
                 Connection.RequestReceived -= Connection_RequestReceived;
             }
             UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
-            FileTagsSettingsService.OnSettingChangedEvent -= FileTagsSettingsService_OnSettingChangedEvent;
+            FileTagsSettingsService.OnSettingImportedEvent -= FileTagsSettingsService_OnSettingImportedEvent;
             AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
             DefaultIcons.Clear();
         }

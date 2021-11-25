@@ -328,6 +328,21 @@ namespace Files.ViewModels
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
             SearchBox.SuggestionChosen += SearchRegion_SuggestionChosen;
             SearchBox.Escaped += SearchRegion_Escaped;
+            UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+        }
+
+        private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        {
+            switch (e.settingName)
+            {
+                case nameof(ShowFoldersWidget):
+                case nameof(ShowDrivesWidget):
+                case nameof(ShowBundlesWidget):
+                case nameof(ShowRecentFilesWidget):
+                    RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
+                    OnPropertyChanged(e.settingName);
+                    break;
+            }
         }
 
         private DispatcherQueueTimer dragOverTimer;
@@ -642,7 +657,7 @@ namespace Files.ViewModels
 
         #region WidgetsPage Widgets
 
-        public bool ShowFolderWidgetWidget
+        public bool ShowFoldersWidget
         {
             get => UserSettingsService.WidgetsSettingsService.ShowFoldersWidget;
             set
@@ -1050,6 +1065,7 @@ namespace Files.ViewModels
         {
             SearchBox.SuggestionChosen -= SearchRegion_SuggestionChosen;
             SearchBox.Escaped -= SearchRegion_Escaped;
+            UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;

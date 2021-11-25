@@ -231,7 +231,7 @@
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowFolderWidget"
                                     Header="Show Folders widget"
-                                    IsOn="{x:Bind ViewModel.ShowFolderWidgetWidget, Mode=TwoWay}" />
+                                    IsOn="{x:Bind ViewModel.ShowFoldersWidget, Mode=TwoWay}" />
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowDrivesWidget"
                                     Header="Show Drives widget"

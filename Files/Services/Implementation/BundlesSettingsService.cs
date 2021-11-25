@@ -1,5 +1,6 @@
 ﻿using Files.Extensions;
 using Files.Models.JsonSettings;
+using System;
 using System.Collections.Generic;
 using Windows.Storage;
 
@@ -7,6 +8,8 @@ namespace Files.Services.Implementation
 {
     public sealed class BundlesSettingsService : BaseObservableJsonSettingsModel, IBundlesSettingsService
     {
+        public event EventHandler OnSettingImportedEvent;
+
         public BundlesSettingsService()
             : base(System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.BundlesSettingsFileName),
                   isCachingEnabled: true)
@@ -33,6 +36,7 @@ namespace Files.Services.Implementation
             if (SavedBundles != null)
             {
                 FlushSettings();
+                OnSettingImportedEvent?.Invoke(this, null);
                 return true;
             }
 

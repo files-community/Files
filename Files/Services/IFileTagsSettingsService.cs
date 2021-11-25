@@ -1,5 +1,4 @@
-﻿using Files.EventArguments;
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using System;
 using System.Collections.Generic;
 
@@ -7,7 +6,7 @@ namespace Files.Services
 {
     public interface IFileTagsSettingsService
     {
-        event EventHandler<SettingChangedEventArgs> OnSettingChangedEvent;
+        event EventHandler OnSettingImportedEvent;
 
         IList<FileTag> FileTagList { get; set; }
 

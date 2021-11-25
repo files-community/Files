@@ -10,6 +10,8 @@ namespace Files.Services.Implementation
 {
     public sealed class FileTagsSettingsService : BaseJsonSettingsModel, IFileTagsSettingsService
     {
+        public event EventHandler OnSettingImportedEvent;
+
         private static readonly List<FileTag> s_defaultFileTags = new List<FileTag>()
         {
             new FileTag("Blue", "#0072BD"),
@@ -68,6 +70,7 @@ namespace Files.Services.Implementation
             if (FileTagList != null)
             {
                 FlushSettings();
+                OnSettingImportedEvent?.Invoke(this, null);
                 return true;
             }
 

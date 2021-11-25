@@ -45,7 +45,7 @@ namespace Files.Helpers
                     userSettingsService.MultitaskingSettingsService.AlwaysOpenDualPaneInNewTab = appSettings.Get(false, "AlwaysOpenDualPaneInNewTab");
 
                     // Widgets
-                    userSettingsService.WidgetsSettingsService.ShowFoldersWidget = appSettings.Get(true, "ShowFolderWidgetWidget");
+                    userSettingsService.WidgetsSettingsService.ShowFoldersWidget = appSettings.Get(true, "ShowFoldersWidget");
                     userSettingsService.WidgetsSettingsService.ShowRecentFilesWidget = appSettings.Get(true, "ShowRecentFilesWidget");
                     userSettingsService.WidgetsSettingsService.ShowDrivesWidget = appSettings.Get(true, "ShowDrivesWidget");
                     userSettingsService.WidgetsSettingsService.ShowBundlesWidget = appSettings.Get(false, "ShowBundlesWidget");

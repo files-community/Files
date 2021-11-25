@@ -1,12 +1,11 @@
-﻿using Files.EventArguments;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Files.Services
 {
     public interface IBundlesSettingsService
     {
-        event EventHandler<SettingChangedEventArgs> OnSettingChangedEvent;
+        event EventHandler OnSettingImportedEvent;
 
         bool FlushSettings();
 
