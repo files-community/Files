@@ -99,7 +99,91 @@ namespace Files.Filesystem.StorageItems
         }
     }
 
-    public class NonSeekableRandomAccessStream : IRandomAccessStream
+    public class NonSeekableRandomAccessStreamForWrite : IRandomAccessStream
+    {
+        private Stream stream;
+        private IRandomAccessStream imrac;
+        private bool isWritten;
+        
+        public Action DisposeCallback { get; set; }
+
+        public NonSeekableRandomAccessStreamForWrite(Stream baseStream)
+        {
+            this.stream = baseStream;
+            this.imrac = new InMemoryRandomAccessStream();
+        }
+
+        public IInputStream GetInputStreamAt(ulong position)
+        {
+            throw new NotSupportedException();
+        }
+
+        public IOutputStream GetOutputStreamAt(ulong position)
+        {
+            if (position != 0)
+            {
+                throw new NotSupportedException();
+            }
+            return this;
+        }
+
+        public void Seek(ulong position)
+        {
+            if (position != 0)
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        public IRandomAccessStream CloneStream() => throw new NotSupportedException();
+
+        public bool CanRead => false;
+
+        public bool CanWrite => stream.CanWrite;
+
+        public ulong Position => (ulong)stream.Position;
+
+        public ulong Size
+        {
+            get => (ulong)stream.Length;
+            set => throw new NotSupportedException();
+        }
+
+        public IAsyncOperationWithProgress<IBuffer, uint> ReadAsync(IBuffer buffer, uint count, InputStreamOptions options)
+        {
+            throw new NotSupportedException();
+        }
+
+        public IAsyncOperationWithProgress<uint, uint> WriteAsync(IBuffer buffer)
+        {
+            return stream.AsOutputStream().WriteAsync(buffer);
+        }
+
+        public IAsyncOperation<bool> FlushAsync()
+        {
+            if (isWritten)
+            {
+                return imrac.FlushAsync();
+            }
+
+            isWritten = true;
+
+            return AsyncInfo.Run<bool>(async (cancellationToken) =>
+            {
+                await stream.FlushAsync();
+                return true;
+            });
+        }
+
+        public void Dispose()
+        {
+            stream.Dispose();
+            imrac.Dispose();
+            DisposeCallback?.Invoke();
+        }
+    }
+
+    public class NonSeekableRandomAccessStreamForRead : IRandomAccessStream
     {
         private Stream stream;
         private IRandomAccessStream imrac;
@@ -109,7 +193,7 @@ namespace Files.Filesystem.StorageItems
 
         public Action DisposeCallback { get; set; }
 
-        public NonSeekableRandomAccessStream(Stream baseStream, ulong size)
+        public NonSeekableRandomAccessStreamForRead(Stream baseStream, ulong size)
         {
             this.stream = baseStream;
             this.imrac = new InMemoryRandomAccessStream();

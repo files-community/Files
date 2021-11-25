@@ -178,7 +178,7 @@ namespace Files.Filesystem.StorageItems
                 if (accessMode == FileAccessMode.Read)
                 {
                     var inStream = await ftpClient.OpenReadAsync(FtpPath, cancellationToken);
-                    return new NonSeekableRandomAccessStream(inStream, (ulong)inStream.Length)
+                    return new NonSeekableRandomAccessStreamForRead(inStream, (ulong)inStream.Length)
                     {
                         DisposeCallback = () => ftpClient.Dispose()
                     };
@@ -267,7 +267,7 @@ namespace Files.Filesystem.StorageItems
                 }
 
                 var inStream = await ftpClient.OpenReadAsync(FtpPath, cancellationToken);
-                var nsStream = new NonSeekableRandomAccessStream(inStream, (ulong)inStream.Length)
+                var nsStream = new NonSeekableRandomAccessStreamForRead(inStream, (ulong)inStream.Length)
                 {
                     DisposeCallback = () => ftpClient.Dispose()
                 };

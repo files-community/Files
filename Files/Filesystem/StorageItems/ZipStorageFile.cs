@@ -56,19 +56,19 @@ namespace Files.Filesystem.StorageItems
                     }
                 }
 
-                ZipFile zipFile = await OpenZipFileAsync(rw);
-                if (zipFile == null)
-                {
-                    return null;
-                }
-                zipFile.IsStreamOwner = true;
-                var znt = new ZipNameTransform(ContainerPath);
-                var entry = zipFile.GetEntry(znt.TransformFile(Path));
                 if (!rw)
                 {
+                    ZipFile zipFile = await OpenZipFileAsync(rw);
+                    if (zipFile == null)
+                    {
+                        return null;
+                    }
+                    zipFile.IsStreamOwner = true;
+                    var znt = new ZipNameTransform(ContainerPath);
+                    var entry = zipFile.GetEntry(znt.TransformFile(Path));
                     if (entry != null)
                     {
-                        return new NonSeekableRandomAccessStream(zipFile.GetInputStream(entry), (ulong)entry.Size)
+                        return new NonSeekableRandomAccessStreamForRead(zipFile.GetInputStream(entry), (ulong)entry.Size)
                         {
                             DisposeCallback = () => zipFile.Close()
                         };
@@ -76,11 +76,37 @@ namespace Files.Filesystem.StorageItems
                 }
                 else
                 {
-                    return new RandomAccessStreamWithFlushCallback()
+                    var znt = new ZipNameTransform(ContainerPath);
+                    var zipDesiredName = znt.TransformFile(Path);
+
+                    using (ZipFile zipFile = await OpenZipFileAsync(rw))
                     {
-                        DisposeCallback = () => zipFile.Close(),
-                        FlushCallback = WriteZipEntry(zipFile)
-                    };
+                        var entry = zipFile.GetEntry(zipDesiredName);
+                        if (entry != null)
+                        {
+                            zipFile.BeginUpdate(new MemoryArchiveStorage(FileUpdateMode.Direct));
+                            zipFile.Delete(entry);
+                            zipFile.CommitUpdate();
+                        }
+                    }
+
+                    if (BackingFile != null)
+                    {
+                        var zos = new ZipOutputStream((await BackingFile.OpenAsync(FileAccessMode.ReadWrite)).AsStream(), true);
+                        await zos.PutNextEntryAsync(new ZipEntry(zipDesiredName));
+                        return new NonSeekableRandomAccessStreamForWrite(zos);
+                    }
+                    else
+                    {
+                        var hFile = NativeFileOperationsHelper.OpenFileForRead(ContainerPath, true);
+                        if (hFile.IsInvalid)
+                        {
+                            return null;
+                        }
+                        var zos = new ZipOutputStream(new FileStream(hFile, FileAccess.ReadWrite), true);
+                        await zos.PutNextEntryAsync(new ZipEntry(zipDesiredName));
+                        return new NonSeekableRandomAccessStreamForWrite(zos);
+                    }
                 }
                 return null;
             });
@@ -249,7 +275,7 @@ namespace Files.Filesystem.StorageItems
                 var entry = zipFile.GetEntry(znt.TransformFile(Path));
                 if (entry != null)
                 {
-                    var nsStream = new NonSeekableRandomAccessStream(zipFile.GetInputStream(entry), (ulong)entry.Size)
+                    var nsStream = new NonSeekableRandomAccessStreamForRead(zipFile.GetInputStream(entry), (ulong)entry.Size)
                     {
                         DisposeCallback = () => zipFile.Close()
                     };
@@ -425,32 +451,6 @@ namespace Files.Filesystem.StorageItems
                     request.FailAndClose(StreamedFileFailureMode.Failed);
                 }
             };
-        }
-
-        private Func<IRandomAccessStream, IAsyncOperation<bool>> WriteZipEntry(ZipFile zipFile)
-        {
-            return (stream) => AsyncInfo.Run((cancellationToken) => Task.Run(() =>
-            {
-                try
-                {
-                    var znt = new ZipNameTransform(ContainerPath);
-                    var zipDesiredName = znt.TransformFile(Path);
-                    var entry = zipFile.GetEntry(zipDesiredName);
-
-                    zipFile.BeginUpdate(new MemoryArchiveStorage(FileUpdateMode.Direct));
-                    if (entry != null)
-                    {
-                        zipFile.Delete(entry);
-                    }
-                    zipFile.Add(new StreamDataSource(stream), zipDesiredName);
-                    zipFile.CommitUpdate();
-                }
-                catch (Exception ex)
-                {
-                    App.Logger.Warn(ex, "Error writing zip file");
-                }
-                return true;
-            }));
         }
 
         private async Task<BaseBasicProperties> GetBasicProperties()
