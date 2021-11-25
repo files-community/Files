@@ -232,7 +232,7 @@ namespace Files.Filesystem
                 type = DriveType.Removable;
             }
 
-            using var thumbnail = await root.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale);
+            using var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(() => root.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask());
             lock (drivesList)
             {
                 // If drive already in list, skip.
@@ -288,8 +288,7 @@ namespace Files.Filesystem
                     continue;
                 }
 
-                using var thumbnail = await res.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale);
-
+                using var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(() => res.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask());
                 lock (drivesList)
                 {
                     // If drive already in list, skip.
@@ -460,7 +459,7 @@ namespace Files.Filesystem
                         }
                     }
 
-                    using (var thumbnail = await rootAdded.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale))
+                    using (var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(() => rootAdded.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask()))
                     {
                         var type = GetDriveType(driveAdded);
                         var driveItem = await DriveItem.CreateFromPropertiesAsync(rootAdded, deviceId, type, thumbnail);
