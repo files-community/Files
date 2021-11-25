@@ -256,7 +256,7 @@
     <value>대상 폴더</value>
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
-    <value>는 원본 폴더의 하위 폴더입니다</value>
+    <value>은(는) 원본 폴더의 하위 폴더입니다</value>
   </data>
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>건너뛰기</value>
@@ -418,19 +418,19 @@
     <value>바이트</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
-    <value>KB</value>
+    <value>킬로바이트(KB)</value>
   </data>
   <data name="MegaByteSymbol" xml:space="preserve">
-    <value>MB</value>
+    <value>메가바이트(MB)</value>
   </data>
   <data name="GigaByteSymbol" xml:space="preserve">
-    <value>GB</value>
+    <value>기가바이트(GB)</value>
   </data>
   <data name="TeraByteSymbol" xml:space="preserve">
-    <value>TB</value>
+    <value>테라바이트(TB)</value>
   </data>
   <data name="PetaByteSymbol" xml:space="preserve">
-    <value>PB</value>
+    <value>페타바이트(PB)</value>
   </data>
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
@@ -2392,10 +2392,10 @@
     <value>개인정보취급방침</value>
   </data>
   <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
+    <value>플루언트(Fluent) UI 시스템 아이콘</value>
   </data>
   <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
+    <value>플루언트(Fluent) UI 시스템 아이콘</value>
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
@@ -2523,24 +2523,6 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>{0} 폴더로 링크 생성</value>
-  </data>
-  <data name="NavToolbarColumnsHeader.Text" xml:space="preserve">
-    <value>열 보기</value>
-  </data>
-  <data name="NavToolbarDetailsHeader.Text" xml:space="preserve">
-    <value>자세히</value>
-  </data>
-  <data name="NavToolbarLargeIconsHeader.Text" xml:space="preserve">
-    <value>큰 아이콘</value>
-  </data>
-  <data name="NavToolbarMediumIconsHeader.Text" xml:space="preserve">
-    <value>중간 아이콘</value>
-  </data>
-  <data name="NavToolbarSmallIconsHeader.Text" xml:space="preserve">
-    <value>작은 아이콘</value>
-  </data>
-  <data name="NavToolbarTilesHeader.Text" xml:space="preserve">
-    <value>타일</value>
   </data>
   <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
     <value>파일 확장자 표시</value>
@@ -2681,19 +2663,19 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
     <value>없음</value>
   </data>
   <data name="OSCompatibility_Windows7" xml:space="preserve">
-    <value>Windows 7</value>
+    <value>윈도우 7</value>
   </data>
   <data name="OSCompatibility_Windows8" xml:space="preserve">
-    <value>Windows 8</value>
+    <value>윈도우 8</value>
   </data>
   <data name="OSCompatibility_WindowsVista" xml:space="preserve">
-    <value>Windows Vista</value>
+    <value>윈도우 비스타(Vista)</value>
   </data>
   <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
-    <value>Windows Vista SP1</value>
+    <value>윈도우 비스타(Vista) SP1</value>
   </data>
   <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
-    <value>Windows Vista SP2</value>
+    <value>윈도우 비스타(Vista) SP2</value>
   </data>
   <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
     <value>16비트 색상 (65536)</value>
@@ -2733,5 +2715,35 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
   </data>
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
     <value>주 모니터의 DPI 설정 사용</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>빈 휴지통</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>사이드바</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>파일들과 폴더들</value>
+  </data>
+  <data name="OpenNewInstance" xml:space="preserve">
+    <value>작업 표시줄 점프 목록에서 디렉터리를 열 때 새 인스턴스에서 열기</value>
+  </data>
+  <data name="StartupSettings" xml:space="preserve">
+    <value>프로그램 시작시 설정</value>
+  </data>
+  <data name="SettingsDefaultFilesManager" xml:space="preserve">
+    <value>기본 파일 탐색기</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
+    <value>Files를 기본 파일 탐색기로 설정</value>
+  </data>
+  <data name="ThirdPartyLicenses" xml:space="preserve">
+    <value>제 3자 라이선스</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
+    <value>이 설정은 시스템 파일을 수정하며 예기치 않은 부작용을 낳을 수 있습니다. 개발자는 이로 인해서 일어날 일에 대해 책임을 지지 않습니다. 이 행동으로 일어날 위험에 대해서 인지하고 이 옵션을 계속합니다. Files를 제거하는 것으로는 이 설정을 되돌릴 수 없으며, 기기에서 Files를 제거하기 전 이 설정을 끄기 전까지는 파일 탐색기를 열지 못할 수도 있습니다.</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>모두 비우기</value>
   </data>
 </root>

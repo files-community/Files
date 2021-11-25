@@ -1474,9 +1474,6 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
     </PackageReference>
-    <PackageReference Include="SharpZipLib">
-      <Version>1.3.4</Version>
-    </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_green">
       <Version>2.0.7</Version>
     </PackageReference>
@@ -1525,6 +1522,10 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{0533133f-2559-4b53-a0fd-0970bc0e312e}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ICSharpCode.SharpZipLib\ICSharpCode.SharpZipLib.csproj">
+      <Project>{02ab5173-64af-488b-8d5e-87b8d16ea25c}</Project>
+      <Name>ICSharpCode.SharpZipLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
