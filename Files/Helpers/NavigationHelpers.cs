@@ -49,9 +49,12 @@ namespace Files.Helpers
         public static async Task OpenDirectoryInTerminal(string workingDir)
         {
             var terminal = App.TerminalController.Model.GetDefaultTerminal();
+            if (terminal == null)
+            {
+                return;
+            }
 
             var connection = await AppServiceConnectionHelper.Instance;
-
             if (connection != null)
             {
                 var value = new ValueSet()

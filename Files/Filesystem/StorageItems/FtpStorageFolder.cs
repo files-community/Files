@@ -20,7 +20,7 @@ namespace Files.Filesystem.StorageItems
         public FtpStorageFolder(FtpItem ftpItem)
         {
             DateCreated = ftpItem.ItemDateCreatedReal;
-            Name = ftpItem.ItemName;
+            Name = ftpItem.ItemNameRaw;
             Path = ftpItem.ItemPath;
             FtpPath = FtpHelpers.GetFtpPath(ftpItem.ItemPath);
         }

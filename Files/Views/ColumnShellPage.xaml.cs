@@ -990,7 +990,7 @@ namespace Files.Views
             ItemDisplayFrame.BackStack.Remove(ItemDisplayFrame.BackStack.Last());
         }
 
-        public async void SubmitSearch(string query, bool searchUnindexedItems)
+        public void SubmitSearch(string query, bool searchUnindexedItems)
         {
             FilesystemViewModel.CancelSearch();
             InstanceViewModel.CurrentSearchQuery = query;
@@ -1003,15 +1003,6 @@ namespace Files.Views
                 SearchQuery = query,
                 SearchUnindexedItems = searchUnindexedItems,
             });
-
-            var searchInstance = new FolderSearch
-            {
-                Query = query,
-                Folder = FilesystemViewModel.WorkingDirectory,
-                ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
-                SearchUnindexedItems = searchUnindexedItems
-            };
-            await FilesystemViewModel.SearchAsync(searchInstance);
         }
     }
 }

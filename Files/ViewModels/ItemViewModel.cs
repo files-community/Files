@@ -978,7 +978,7 @@ namespace Files.ViewModels
                                         cts.Token.ThrowIfCancellationRequested();
                                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                                         {
-                                            item.ItemName = matchingStorageFolder.DisplayName;
+                                            item.ItemNameRaw = matchingStorageFolder.DisplayName;
                                         });
                                         await fileListCache.SaveFileDisplayNameToCache(item.ItemPath, matchingStorageFolder.DisplayName);
                                         if (folderSettings.DirectorySortOption == SortOption.Name && !isLoadingItems)
@@ -1316,7 +1316,7 @@ namespace Files.ViewModels
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
                 ItemPropertiesInitialized = true,
-                ItemName = path.StartsWith(CommonPaths.RecycleBinPath) ? ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin") :
+                ItemNameRaw = path.StartsWith(CommonPaths.RecycleBinPath) ? ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin") :
                            path.StartsWith(CommonPaths.NetworkFolderPath) ? "Network".GetLocalized() : isFtp ? "FTP" : "Unknown",
                 ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
                 ItemDateCreatedReal = DateTimeOffset.Now, // Fake for now
@@ -1526,7 +1526,7 @@ namespace Files.ViewModels
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemPropertiesInitialized = true,
-                    ItemName = rootFolder.DisplayName,
+                    ItemNameRaw = rootFolder.DisplayName,
                     ItemDateModifiedReal = basicProps.DateModified,
                     ItemType = rootFolder.DisplayType,
                     FileImage = null,
@@ -1584,7 +1584,7 @@ namespace Files.ViewModels
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemPropertiesInitialized = true,
-                    ItemName = Path.GetFileName(path.TrimEnd('\\')),
+                    ItemNameRaw = Path.GetFileName(path.TrimEnd('\\')),
                     ItemDateModifiedReal = itemModifiedDate,
                     ItemDateCreatedReal = itemCreatedDate,
                     ItemType = folderTypeTextLocalized,
@@ -1950,7 +1950,7 @@ namespace Files.ViewModels
                 var binItem = new RecycleBinItem(null, dateReturnFormat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemName = item.FileName,
+                    ItemNameRaw = item.FileName,
                     ItemDateModifiedReal = item.ModifiedDate,
                     ItemDateCreatedReal = item.CreatedDate,
                     ItemDateDeletedReal = item.RecycleDate,
@@ -1974,23 +1974,7 @@ namespace Files.ViewModels
             else
             {
                 // File
-                string itemName;
-                if (UserSettingsService.PreferencesSettingsService.ShowFileExtensions && !item.FileName.EndsWith(".lnk") && !item.FileName.EndsWith(".url"))
-                {
-                    itemName = item.FileName; // never show extension for shortcuts
-                }
-                else
-                {
-                    if (item.FileName.StartsWith("."))
-                    {
-                        itemName = item.FileName; // Always show full name for dotfiles.
-                    }
-                    else
-                    {
-                        itemName = Path.GetFileNameWithoutExtension(item.FileName);
-                    }
-                }
-
+                string itemName = item.FileName;
                 string itemFileExtension = null;
                 if (item.FileName.Contains('.'))
                 {
@@ -2004,7 +1988,7 @@ namespace Files.ViewModels
                     LoadFileIcon = false,
                     IsHiddenItem = false,
                     Opacity = 1,
-                    ItemName = itemName,
+                    ItemNameRaw = itemName,
                     ItemDateModifiedReal = item.ModifiedDate,
                     ItemDateCreatedReal = item.CreatedDate,
                     ItemDateDeletedReal = item.RecycleDate,

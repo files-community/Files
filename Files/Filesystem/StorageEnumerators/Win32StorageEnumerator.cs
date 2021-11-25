@@ -157,7 +157,7 @@ namespace Files.Filesystem.StorageEnumerators
             return new ListedItem(null, dateReturnFormat)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
-                ItemName = itemName,
+                ItemNameRaw = itemName,
                 ItemDateModifiedReal = itemModifiedDate,
                 ItemDateCreatedReal = itemCreatedDate,
                 ItemType = folderTypeTextLocalized,
@@ -182,23 +182,7 @@ namespace Files.Filesystem.StorageEnumerators
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
-
-            string itemName;
-            if (userSettingsService.PreferencesSettingsService.ShowFileExtensions && !findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
-            {
-                itemName = findData.cFileName; // never show extension for shortcuts
-            }
-            else
-            {
-                if (findData.cFileName.StartsWith("."))
-                {
-                    itemName = findData.cFileName; // Always show full name for dotfiles.
-                }
-                else
-                {
-                    itemName = Path.GetFileNameWithoutExtension(itemPath);
-                }
-            }
+            var itemName = findData.cFileName;
 
             DateTime itemModifiedDate, itemCreatedDate, itemLastAccessDate;
             try
@@ -307,7 +291,7 @@ namespace Files.Filesystem.StorageEnumerators
                             FileImage = null,
                             LoadFileIcon = !(bool)response["IsFolder"] && itemThumbnailImgVis,
                             LoadWebShortcutGlyph = !(bool)response["IsFolder"] && isUrl && itemEmptyImgVis,
-                            ItemName = itemName,
+                            ItemNameRaw = itemName,
                             ItemDateModifiedReal = itemModifiedDate,
                             ItemDateAccessedReal = itemLastAccessDate,
                             ItemDateCreatedReal = itemCreatedDate,
@@ -342,7 +326,7 @@ namespace Files.Filesystem.StorageEnumerators
                         FileExtension = itemFileExtension,
                         FileImage = null,
                         LoadFileIcon = itemThumbnailImgVis,
-                        ItemName = itemName,
+                        ItemNameRaw = itemName,
                         IsHiddenItem = isHidden,
                         Opacity = opacity,
                         ItemDateModifiedReal = itemModifiedDate,
@@ -362,7 +346,7 @@ namespace Files.Filesystem.StorageEnumerators
                         FileExtension = itemFileExtension,
                         FileImage = null,
                         LoadFileIcon = itemThumbnailImgVis,
-                        ItemName = itemName,
+                        ItemNameRaw = itemName,
                         IsHiddenItem = isHidden,
                         Opacity = opacity,
                         ItemDateModifiedReal = itemModifiedDate,
