@@ -525,6 +525,7 @@ namespace Files.Filesystem
         public string WorkingDirectory { get; set; }
         public bool RunAsAdmin { get; set; }
         public bool IsUrl { get; set; }
+        public bool IsSymLink { get; set; }
         public override bool IsExecutable => Path.GetExtension(TargetPath)?.ToLower() == ".exe";
     }
 
