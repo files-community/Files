@@ -10,91 +10,25 @@ namespace Files.Filesystem.StorageItems
 {
     public class InputStreamWithDisposeCallback : IInputStream
     {
-        private IInputStream stream;
+        private Stream stream;
+        private IInputStream iStream;
         public Action DisposeCallback { get; set; }
 
         public InputStreamWithDisposeCallback(Stream stream)
         {
-            this.stream = stream.AsInputStream();
+            this.stream = stream;
+            this.iStream = stream.AsInputStream();
         }
 
         public IAsyncOperationWithProgress<IBuffer, uint> ReadAsync(IBuffer buffer, uint count, InputStreamOptions options)
         {
-            return stream.ReadAsync(buffer, count, options);
+            return iStream.ReadAsync(buffer, count, options);
         }
 
         public void Dispose()
         {
+            iStream.Dispose();
             stream.Dispose();
-            DisposeCallback?.Invoke();
-        }
-    }
-
-    public class RandomAccessStreamWithFlushCallback : IRandomAccessStream
-    {
-        private IRandomAccessStream imrac;
-        private bool isWritten;
-        public Func<IRandomAccessStream, IAsyncOperation<bool>> FlushCallback { get; set; }
-        public Action DisposeCallback { get; set; }
-
-        public RandomAccessStreamWithFlushCallback()
-        {
-            this.imrac = new InMemoryRandomAccessStream();
-        }
-
-        public IInputStream GetInputStreamAt(ulong position)
-        {
-            return imrac.GetInputStreamAt(position);
-        }
-
-        public IOutputStream GetOutputStreamAt(ulong position)
-        {
-            return imrac.GetOutputStreamAt(position);
-        }
-
-        public void Seek(ulong position)
-        {
-            imrac.Seek(position);
-        }
-
-        public IRandomAccessStream CloneStream()
-        {
-            return imrac.CloneStream();
-        }
-
-        public bool CanRead => imrac.CanRead;
-
-        public bool CanWrite => imrac.CanWrite;
-
-        public ulong Position => imrac.Position;
-
-        public ulong Size { get => imrac.Size; set => imrac.Size = value; }
-
-        public IAsyncOperationWithProgress<IBuffer, uint> ReadAsync(IBuffer buffer, uint count, InputStreamOptions options)
-        {
-            return imrac.ReadAsync(buffer, count, options);
-        }
-
-        public IAsyncOperationWithProgress<uint, uint> WriteAsync(IBuffer buffer)
-        {
-            return imrac.WriteAsync(buffer);
-        }
-
-        public IAsyncOperation<bool> FlushAsync()
-        {
-            if (isWritten)
-            {
-                return imrac.FlushAsync();
-            }
-
-            isWritten = true;
-
-            return FlushCallback(this) ?? imrac.FlushAsync();
-        }
-
-        public void Dispose()
-        {
-            imrac.Dispose();
             DisposeCallback?.Invoke();
         }
     }
@@ -102,14 +36,17 @@ namespace Files.Filesystem.StorageItems
     public class NonSeekableRandomAccessStreamForWrite : IRandomAccessStream
     {
         private Stream stream;
+        private IOutputStream oStream;
         private IRandomAccessStream imrac;
+        private ulong byteSize;
         private bool isWritten;
         
         public Action DisposeCallback { get; set; }
 
-        public NonSeekableRandomAccessStreamForWrite(Stream baseStream)
+        public NonSeekableRandomAccessStreamForWrite(Stream stream)
         {
-            this.stream = baseStream;
+            this.stream = stream;
+            this.oStream = stream.AsOutputStream();
             this.imrac = new InMemoryRandomAccessStream();
         }
 
@@ -139,13 +76,13 @@ namespace Files.Filesystem.StorageItems
 
         public bool CanRead => false;
 
-        public bool CanWrite => stream.CanWrite;
+        public bool CanWrite => true;
 
-        public ulong Position => (ulong)stream.Position;
+        public ulong Position => byteSize;
 
         public ulong Size
         {
-            get => (ulong)stream.Length;
+            get => byteSize;
             set => throw new NotSupportedException();
         }
 
@@ -156,7 +93,15 @@ namespace Files.Filesystem.StorageItems
 
         public IAsyncOperationWithProgress<uint, uint> WriteAsync(IBuffer buffer)
         {
-            return stream.AsOutputStream().WriteAsync(buffer);
+            Func<CancellationToken, IProgress<uint>, Task<uint>> taskProvider =
+                async (token, progress) =>
+                {
+                    var res = await oStream.WriteAsync(buffer);
+                    byteSize += res;
+                    return res;
+                };
+
+            return AsyncInfo.Run(taskProvider);
         }
 
         public IAsyncOperation<bool> FlushAsync()
@@ -177,6 +122,7 @@ namespace Files.Filesystem.StorageItems
 
         public void Dispose()
         {
+            oStream.Dispose();
             stream.Dispose();
             imrac.Dispose();
             DisposeCallback?.Invoke();
@@ -219,9 +165,9 @@ namespace Files.Filesystem.StorageItems
             this.virtualPosition = position;
         }
 
-        public IRandomAccessStream CloneStream() => imrac.CloneStream();
+        public IRandomAccessStream CloneStream() => throw new NotSupportedException();
 
-        public bool CanRead => imrac.CanRead;
+        public bool CanRead => true;
 
         public bool CanWrite => false;
 

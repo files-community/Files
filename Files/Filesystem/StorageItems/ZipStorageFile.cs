@@ -509,18 +509,6 @@ namespace Files.Filesystem.StorageItems
             public override ulong Size => (ulong)zipEntry.Size;
         }
 
-        private class StreamDataSource : IStaticDataSource
-        {
-            private IRandomAccessStream stream;
-
-            public StreamDataSource(IRandomAccessStream stream)
-            {
-                this.stream = stream;
-            }
-
-            public Stream GetSource() => stream.CloneStream().AsStream();
-        }
-
         #endregion
     }
 }

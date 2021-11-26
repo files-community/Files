@@ -185,21 +185,11 @@ namespace Files.Filesystem.StorageItems
                 }
                 else
                 {
-                    return new RandomAccessStreamWithFlushCallback()
+                    return new NonSeekableRandomAccessStreamForWrite(await ftpClient.OpenWriteAsync(FtpPath, cancellationToken))
                     {
-                        DisposeCallback = () => ftpClient.Dispose(),
-                        FlushCallback = UploadFile(ftpClient)
+                        DisposeCallback = () => ftpClient.Dispose()
                     };
                 }
-            });
-        }
-
-        private Func<IRandomAccessStream, IAsyncOperation<bool>> UploadFile(FtpClient ftpClient)
-        {
-            return (stream) => AsyncInfo.Run(async (cancellationToken) =>
-            {
-                await ftpClient.UploadAsync(stream.CloneStream().AsStream(), FtpPath, FtpRemoteExists.Overwrite);
-                return true;
             });
         }
 
