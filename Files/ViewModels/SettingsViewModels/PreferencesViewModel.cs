@@ -133,7 +133,7 @@ namespace Files.ViewModels.SettingsViewModels
 
         private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (PagesOnStartupList.Count() > 0)
+            if (PagesOnStartupList.Count > 0)
             {
                 UserSettingsService.PreferencesSettingsService.TabsOnStartupList = PagesOnStartupList.Select((p) => p.Path).ToList();
             }

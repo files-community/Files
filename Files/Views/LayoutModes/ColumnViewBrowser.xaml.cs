@@ -207,7 +207,7 @@ namespace Files.Views.LayoutModes
         {
             get
             {
-                if (ColumnHost.ActiveBlades?.Count() > 0)
+                if (ColumnHost.ActiveBlades?.Count > 0)
                 {
                     var shellPages = ColumnHost.ActiveBlades.Select(x => (x.Content as Frame).Content as IShellPage);
                     var activeInstance = shellPages.SingleOrDefault(x => x.IsCurrentInstance);

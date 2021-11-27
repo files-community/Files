@@ -933,7 +933,7 @@ namespace Files.ViewModels
                     var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
                     var folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
                     var currPath = await folder.Result.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
-                    if (currPath.Count() >= maxSuggestions)
+                    if (currPath.Count >= maxSuggestions)
                     {
                         suggestions = currPath.Select(x => new ListedItem(null)
                         {
@@ -943,7 +943,7 @@ namespace Files.ViewModels
                     }
                     else if (currPath.Any())
                     {
-                        var subPath = await currPath.First().GetFoldersWithPathAsync((uint)(maxSuggestions - currPath.Count()));
+                        var subPath = await currPath.First().GetFoldersWithPathAsync((uint)(maxSuggestions - currPath.Count));
                         suggestions = currPath.Select(x => new ListedItem(null)
                         {
                             ItemPath = x.Path,

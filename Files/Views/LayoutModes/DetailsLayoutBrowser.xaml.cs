@@ -109,7 +109,7 @@ namespace Files.Views.LayoutModes
 
         private void ItemManipulationModel_InvertSelectionInvoked(object sender, EventArgs e)
         {
-            if (SelectedItems.Count < GetAllItems().Cast<ListedItem>().Count() / 2)
+            if (SelectedItems.Count < GetAllItems().Count() / 2)
             {
                 var oldSelectedItems = SelectedItems.ToList();
                 ItemManipulationModel.SelectAllItems();
