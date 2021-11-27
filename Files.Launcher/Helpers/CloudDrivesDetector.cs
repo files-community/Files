@@ -1,4 +1,4 @@
-﻿using Files.Common;
+using Files.Common;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -24,7 +24,7 @@ namespace FilesFullTrust.Helpers
             return tasks.Where(o => o.Result != null).SelectMany(o => o.Result).OrderBy(o => o.ID.ToString()).ThenBy(o => o.Name).Distinct().ToList();
         }
 
-        private static async Task<List<CloudProvider>> DetectGenericCloudDrive()
+        private static Task<List<CloudProvider>> DetectGenericCloudDrive()
         {
             var results = new List<CloudProvider>();
             using var clsidKey = Registry.ClassesRoot.OpenSubKey(@"CLSID");
@@ -72,16 +72,16 @@ namespace FilesFullTrust.Helpers
                     });
                 }
             }
-            return await Task.FromResult(results);
+            return Task.FromResult(results);
         }
 
-        private static async Task<List<CloudProvider>> DetectOneDrive()
+        private static Task<List<CloudProvider>> DetectOneDrive()
         {
             using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts");
 
             if (oneDriveAccountsKey == null)
             {
-                return null;
+                return Task.FromResult<List<CloudProvider>>(null);
             }
 
             var oneDriveAccounts = new List<CloudProvider>();
@@ -101,16 +101,16 @@ namespace FilesFullTrust.Helpers
                     });
                 }
             }
-            return await Task.FromResult(oneDriveAccounts);
+            return Task.FromResult(oneDriveAccounts);
         }
 
-        private static async Task<List<CloudProvider>> DetectSharepoint()
+        private static Task<List<CloudProvider>> DetectSharepoint()
         {
             using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts");
 
             if (oneDriveAccountsKey == null)
             {
-                return null;
+                return Task.FromResult<List<CloudProvider>>(null);
             }
 
             var sharepointAccounts = new List<CloudProvider>();
@@ -157,7 +157,7 @@ namespace FilesFullTrust.Helpers
                 }
             }
 
-            return await Task.FromResult(sharepointAccounts);
+            return Task.FromResult(sharepointAccounts);
         }
     }
 }
