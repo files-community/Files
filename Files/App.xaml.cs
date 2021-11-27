@@ -158,10 +158,10 @@ namespace Files
         public static async Task LoadOtherStuffAsync()
         {
             // Start off a list of tasks we need to run before we can continue startup
-            await StartAppCenter();
             await Task.Run(async () =>
             {
                 await Task.WhenAll(
+                    StartAppCenter(),
                     DrivesManager.EnumerateDrivesAsync(),
                     CloudDrivesManager.EnumerateDrivesAsync(),
                     LibraryManager.EnumerateLibrariesAsync(),
@@ -196,12 +196,13 @@ namespace Files
         {
             await logWriter.InitializeAsync("debug.log");
             Logger.Info($"App launched. Prelaunch: {e.PrelaunchActivated}");
-
+            
             //start tracking app usage
             SystemInformation.Instance.TrackAppUse(e);
 
             bool canEnablePrelaunch = ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
 
+            LoadOtherStuffAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during LoadOtherStuffAsync()"), TaskContinuationOptions.OnlyOnFaulted);
             await EnsureSettingsAndConfigurationAreBootstrapped();
 
             var rootFrame = EnsureWindowIsInitialized();
@@ -259,6 +260,7 @@ namespace Files
             //start tracking app usage
             SystemInformation.Instance.TrackAppUse(e);
 
+            LoadOtherStuffAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during LoadOtherStuffAsync()"), TaskContinuationOptions.OnlyOnFaulted);
             await EnsureSettingsAndConfigurationAreBootstrapped();
 
             var rootFrame = EnsureWindowIsInitialized();
@@ -325,6 +327,7 @@ namespace Files
             Logger.Info($"App activated by {args.Kind.ToString()}");
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
+            LoadOtherStuffAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during LoadOtherStuffAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
             var rootFrame = EnsureWindowIsInitialized();
 
