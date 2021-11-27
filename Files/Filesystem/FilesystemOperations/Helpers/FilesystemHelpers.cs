@@ -399,7 +399,7 @@ namespace Files.Filesystem
                 {
                     return default;
                 }
-                if (destination.StartsWith(CommonPaths.RecycleBinPath))
+                if (destination.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
                 {
                     return await RecycleItemsFromClipboard(packageView, destination, showDialog, registerHistory);
                 }
@@ -1131,7 +1131,7 @@ namespace Files.Filesystem
             foreach (string name in RestrictedFileNames)
             {
                 Regex regex = new Regex($"^{name}($|\\.)(.+)?");
-                MatchCollection matches = regex.Matches(input.ToUpper());
+                MatchCollection matches = regex.Matches(input.ToUpperInvariant());
 
                 if (matches.Count > 0)
                 {

@@ -491,7 +491,7 @@ namespace Files.Filesystem
             ItemPropertiesInitialized = false;
 
             var itemType = isFile ? "ItemTypeFile".GetLocalized() : "FileFolderListItem".GetLocalized();
-            if (isFile && ItemName.Contains("."))
+            if (isFile && ItemName.Contains(".", StringComparison.Ordinal))
             {
                 itemType = FileExtension.Trim('.') + " " + itemType;
             }
@@ -526,7 +526,7 @@ namespace Files.Filesystem
         public bool RunAsAdmin { get; set; }
         public bool IsUrl { get; set; }
         public bool IsSymLink { get; set; }
-        public override bool IsExecutable => Path.GetExtension(TargetPath)?.ToLower() == ".exe";
+        public override bool IsExecutable => string.Equals(Path.GetExtension(TargetPath), ".exe", StringComparison.OrdinalIgnoreCase);
     }
 
     public class ZipItem : ListedItem

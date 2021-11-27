@@ -414,7 +414,7 @@ namespace Files.ViewModels.Properties
             {
                 return "";
             }
-            return CryptographicBuffer.EncodeToHexString(hash.GetValueAndReset()).ToLower();
+            return CryptographicBuffer.EncodeToHexString(hash.GetValueAndReset()).ToLowerInvariant();
         }
     }
 }

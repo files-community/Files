@@ -132,7 +132,7 @@ namespace Files.Views
             }
             catch (ArgumentException)
             {
-                if (new DirectoryInfo(e.ItemPath).Root.ToString().Contains(@"C:\"))
+                if (new DirectoryInfo(e.ItemPath).Root.ToString().Contains(@"C:\", StringComparison.Ordinal))
                 {
                     AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
                     {

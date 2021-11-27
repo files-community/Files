@@ -492,7 +492,7 @@ namespace Files.ViewModels
 
             if (!storageItems.Any(storageItem =>
                 !string.IsNullOrEmpty(storageItem?.Path) &&
-                storageItem.Path.Replace(pathBoxItem.Path, string.Empty).
+                storageItem.Path.Replace(pathBoxItem.Path, string.Empty, StringComparison.Ordinal).
                 Trim(Path.DirectorySeparatorChar).
                 Contains(Path.DirectorySeparatorChar)))
             {
@@ -816,9 +816,9 @@ namespace Files.ViewModels
 
         public async Task CheckPathInput(string currentInput, string currentSelectedPath, IShellPage shellPage)
         {
-            currentInput = currentInput.Replace("\\\\", "\\");
+            currentInput = currentInput.Replace("\\\\", "\\", StringComparison.Ordinal);
 
-            if (currentInput.StartsWith("\\") && !currentInput.StartsWith("\\\\"))
+            if (currentInput.StartsWith('\\') && !currentInput.StartsWith("\\\\", StringComparison.Ordinal))
             {
                 currentInput = currentInput.Insert(0, "\\");
             }
@@ -847,7 +847,7 @@ namespace Files.ViewModels
                     var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
                     if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
                     {
-                        var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path)));
+                        var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
                         if (matchingDrive != null && matchingDrive.Type == DataModels.NavigationControlItems.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
                         {
                             bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "Close".GetLocalized());

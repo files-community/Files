@@ -236,7 +236,7 @@ namespace Files.Helpers
 
         public static async Task<bool> RenameFileItemAsync(ListedItem item, string newName, IShellPage associatedInstance)
         {
-            newName = item.ItemNameRaw.Replace(item.ItemName, newName);
+            newName = item.ItemNameRaw.Replace(item.ItemName, newName, StringComparison.Ordinal);
             if (item.ItemNameRaw == newName || string.IsNullOrEmpty(newName))
             {
                 return true;

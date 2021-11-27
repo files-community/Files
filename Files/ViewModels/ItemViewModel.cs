@@ -973,7 +973,7 @@ namespace Files.ViewModels
                                 {
                                     cts.Token.ThrowIfCancellationRequested();
                                     await LoadItemThumbnail(item, thumbnailSize, matchingStorageFolder);
-                                    if (matchingStorageFolder.DisplayName != item.ItemName && !matchingStorageFolder.DisplayName.StartsWith("$R"))
+                                    if (matchingStorageFolder.DisplayName != item.ItemName && !matchingStorageFolder.DisplayName.StartsWith("$R", StringComparison.Ordinal))
                                     {
                                         cts.Token.ThrowIfCancellationRequested();
                                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
@@ -1153,7 +1153,7 @@ namespace Files.ViewModels
 
                 Connection ??= await AppServiceConnectionHelper.Instance;
 
-                if (path.ToLower().EndsWith(ShellLibraryItem.EXTENSION))
+                if (path.ToLowerInvariant().EndsWith(ShellLibraryItem.EXTENSION, StringComparison.Ordinal))
                 {
                     if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library) && !library.IsEmpty)
                     {
@@ -1182,7 +1182,7 @@ namespace Files.ViewModels
                     // Find and select README file
                     foreach (var item in filesAndFolders)
                     {
-                        if (item.PrimaryItemAttribute == StorageItemTypes.File && item.ItemName.Contains("readme", StringComparison.InvariantCultureIgnoreCase))
+                        if (item.PrimaryItemAttribute == StorageItemTypes.File && item.ItemName.Contains("readme", StringComparison.OrdinalIgnoreCase))
                         {
                             OnSelectionRequestedEvent?.Invoke(this, new List<ListedItem>() { item });
                             break;
@@ -1211,9 +1211,9 @@ namespace Files.ViewModels
 
             await GetDefaultItemIcons(folderSettings.GetIconSize());
 
-            var isRecycleBin = path.StartsWith(CommonPaths.RecycleBinPath);
+            var isRecycleBin = path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
             if (isRecycleBin ||
-                path.StartsWith(CommonPaths.NetworkFolderPath) ||
+                path.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.Ordinal) ||
                 FtpHelpers.IsFtpPath(path))
             {
                 // Recycle bin and network are enumerated by the fulltrust process
@@ -1316,8 +1316,8 @@ namespace Files.ViewModels
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
                 ItemPropertiesInitialized = true,
-                ItemNameRaw = path.StartsWith(CommonPaths.RecycleBinPath) ? ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin") :
-                           path.StartsWith(CommonPaths.NetworkFolderPath) ? "Network".GetLocalized() : isFtp ? "FTP" : "Unknown",
+                ItemNameRaw = path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal) ? ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin") :
+                           path.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.Ordinal) ? "Network".GetLocalized() : isFtp ? "FTP" : "Unknown",
                 ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
                 ItemDateCreatedReal = DateTimeOffset.Now, // Fake for now
                 ItemType = "FileFolderListItem".GetLocalized(),

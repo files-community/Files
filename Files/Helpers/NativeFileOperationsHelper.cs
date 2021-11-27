@@ -405,7 +405,7 @@ namespace Files.Helpers
                     if (string.IsNullOrEmpty(normalisedTarget))
                     {
                         normalisedTarget = subsString;
-                        if (normalisedTarget.StartsWith(@"\??\"))
+                        if (normalisedTarget.StartsWith(@"\??\", StringComparison.Ordinal))
                         {
                             normalisedTarget = normalisedTarget.Substring(4);
                         }

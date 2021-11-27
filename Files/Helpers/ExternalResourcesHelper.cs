@@ -42,7 +42,7 @@ namespace Files.Helpers
                 var pathStr = path as string;
                 App.AppSettings.SelectedTheme = new AppTheme()
                 {
-                    Name = pathStr.Replace(".xaml", ""),
+                    Name = pathStr.Replace(".xaml", "", StringComparison.Ordinal),
                     Path = pathStr,
                 };
                 ApplicationData.Current.LocalSettings.Values.Remove("PathToThemeFile");
@@ -77,7 +77,7 @@ namespace Files.Helpers
             {
                 Themes.Add(new AppTheme()
                 {
-                    Name = file.Name.Replace(".xaml", ""),
+                    Name = file.Name.Replace(".xaml", "", StringComparison.Ordinal),
                     Path = file.Name,
                     AbsolutePath = file.Path,
                     IsFromOptionalPackage = isOptionalPackage
