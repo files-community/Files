@@ -456,7 +456,7 @@ namespace FilesFullTrust
             while (true)
             {
                 prevHwnd = User32.FindWindowEx(HWND.NULL, prevHwnd, null, null);
-                if (prevHwnd == null || prevHwnd == HWND.NULL)
+                if (prevHwnd == HWND.NULL)
                 {
                     break;
                 }
