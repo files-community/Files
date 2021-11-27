@@ -12,13 +12,13 @@ namespace FilesFullTrust.Helpers
     {
         public static async Task<List<CloudProvider>> DetectCloudDrives()
         {
-            var tasks = new List<Task<List<CloudProvider>>>()
+            var tasks = new Task<List<CloudProvider>>[]
             {
                 Extensions.IgnoreExceptions(DetectOneDrive, Program.Logger),
                 Extensions.IgnoreExceptions(DetectSharepoint, Program.Logger),
                 Extensions.IgnoreExceptions(DetectGenericCloudDrive, Program.Logger)
             };
-            
+
             await Task.WhenAll(tasks);
 
             return tasks.Where(o => o.Result != null).SelectMany(o => o.Result).OrderBy(o => o.ID.ToString()).ThenBy(o => o.Name).Distinct().ToList();
