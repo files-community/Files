@@ -209,7 +209,7 @@ namespace Files.Filesystem.StorageItems
                     {
                         items.Add(new FtpStorageFolder(Path, item));
                     }
-                };
+                }
                 return (IReadOnlyList<IStorageItem>)items;
             });
         }

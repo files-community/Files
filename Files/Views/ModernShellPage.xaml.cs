@@ -786,7 +786,7 @@ namespace Files.Views
                 case (true, true, false, _, VirtualKey.Number6): // ctrl+shift+6, column view
                     InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView.Execute(true);
                     break;
-            };
+            }
 
             switch (args.KeyboardAccelerator.Key)
             {
