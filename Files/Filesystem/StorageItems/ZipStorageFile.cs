@@ -56,7 +56,7 @@ namespace Files.Filesystem.StorageItems
                     }
                 }
 
-                ZipFile zipFile = await OpenZipFileAsync(rw);
+                ZipFile zipFile = await OpenZipFileAsync(accessMode);
                 if (zipFile == null)
                 {
                     return null;
@@ -102,7 +102,7 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<BaseStorageFile>(async (cancellationToken) =>
             {
-                using (ZipFile zipFile = await OpenZipFileAsync(false))
+                using (ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.Read))
                 {
                     if (zipFile == null)
                     {
@@ -132,7 +132,7 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run(async (cancellationToken) =>
             {
-                using (ZipFile zipFile = await OpenZipFileAsync(false))
+                using (ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.Read))
                 {
                     if (zipFile == null)
                     {
@@ -239,7 +239,7 @@ namespace Files.Filesystem.StorageItems
                     }
                 }
 
-                ZipFile zipFile = await OpenZipFileAsync(false);
+                ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.Read);
                 if (zipFile == null)
                 {
                     return null;
@@ -280,7 +280,7 @@ namespace Files.Filesystem.StorageItems
                     }
                 }
 
-                ZipFile zipFile = await OpenZipFileAsync(false);
+                ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.Read);
                 if (zipFile == null)
                 {
                     return null;
@@ -364,13 +364,14 @@ namespace Files.Filesystem.StorageItems
 
         #region Private
 
-        private IAsyncOperation<ZipFile> OpenZipFileAsync(bool readWrite, bool openProtected = false)
+        private IAsyncOperation<ZipFile> OpenZipFileAsync(FileAccessMode accessMode, bool openProtected = false)
         {
             return AsyncInfo.Run<ZipFile>(async (cancellationToken) =>
             {
+                bool readWrite = accessMode == FileAccessMode.ReadWrite;
                 if (BackingFile != null)
                 {
-                    return new ZipFile((await BackingFile.OpenAsync(readWrite ? FileAccessMode.ReadWrite : FileAccessMode.Read)).AsStream());
+                    return new ZipFile((await BackingFile.OpenAsync(accessMode)).AsStream());
                 }
                 else
                 {
@@ -394,7 +395,7 @@ namespace Files.Filesystem.StorageItems
                 {
                     // If called from here it fails with Access Denied?!
                     //var hFile = NativeFileOperationsHelper.OpenFileForRead(ContainerPath);
-                    using (ZipFile zipFile = await OpenZipFileAsync(false, openProtected: true))
+                    using (ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.Read, openProtected: true))
                     {
                         if (zipFile == null)
                         {
@@ -455,7 +456,7 @@ namespace Files.Filesystem.StorageItems
 
         private async Task<BaseBasicProperties> GetBasicProperties()
         {
-            using (ZipFile zipFile = await OpenZipFileAsync(false))
+            using (ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.Read))
             {
                 if (zipFile == null)
                 {

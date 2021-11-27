@@ -125,7 +125,7 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<BaseStorageFile>(async (cancellationToken) =>
             {
-                using (ZipFile zipFile = await OpenZipFileAsync(true))
+                using (ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.ReadWrite))
                 {
                     if (zipFile == null)
                     {
@@ -165,7 +165,7 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
             {
-                using (ZipFile zipFile = await OpenZipFileAsync(true))
+                using (ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.ReadWrite))
                 {
                     if (zipFile == null)
                     {
@@ -220,7 +220,7 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<IStorageItem>(async (cancellationToken) =>
             {
-                using (ZipFile zipFile = await OpenZipFileAsync(false))
+                using (ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.Read))
                 {
                     if (zipFile == null)
                     {
@@ -270,7 +270,7 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken) =>
             {
-                using (ZipFile zipFile = await OpenZipFileAsync(false))
+                using (ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.Read))
                 {
                     if (zipFile == null)
                     {
@@ -564,13 +564,14 @@ namespace Files.Filesystem.StorageItems
 
         #region Private
 
-        private IAsyncOperation<ZipFile> OpenZipFileAsync(bool readWrite)
+        private IAsyncOperation<ZipFile> OpenZipFileAsync(FileAccessMode accessMode)
         {
             return AsyncInfo.Run<ZipFile>(async (cancellationToken) =>
             {
+                bool readWrite = accessMode == FileAccessMode.ReadWrite;
                 if (BackingFile != null)
                 {
-                    return new ZipFile((await BackingFile.OpenAsync(readWrite ? FileAccessMode.ReadWrite : FileAccessMode.Read)).AsStream());
+                    return new ZipFile((await BackingFile.OpenAsync(accessMode)).AsStream());
                 }
                 else
                 {
@@ -625,7 +626,7 @@ namespace Files.Filesystem.StorageItems
 
         private async Task<BaseBasicProperties> GetBasicProperties()
         {
-            using (ZipFile zipFile = await OpenZipFileAsync(false))
+            using (ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.Read))
             {
                 if (zipFile == null)
                 {
