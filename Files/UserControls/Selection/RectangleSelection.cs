@@ -48,12 +48,12 @@ namespace Files.UserControls.Selection
 
         protected void OnSelectionStarted()
         {
-            SelectionStarted?.Invoke(this, new EventArgs());
+            SelectionStarted?.Invoke(this, EventArgs.Empty);
         }
 
         protected void OnSelectionEnded()
         {
-            SelectionEnded?.Invoke(this, new EventArgs());
+            SelectionEnded?.Invoke(this, EventArgs.Empty);
         }
 
         public enum SelectionState

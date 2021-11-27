@@ -525,7 +525,7 @@ namespace Files.ViewModels
             {
                 if (value)
                 {
-                    EditModeEnabled?.Invoke(this, new EventArgs());
+                    EditModeEnabled?.Invoke(this, EventArgs.Empty);
 
                     var visiblePath = NavToolbar.FindDescendant<AutoSuggestBox>(x => x.Name == "VisiblePath");
                     visiblePath?.Focus(FocusState.Programmatic);
