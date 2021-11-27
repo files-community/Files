@@ -261,7 +261,7 @@ namespace Files.Filesystem.StorageEnumerators
                     IsSymLink = true
                 };
             }
-            else if (findData.cFileName.EndsWith(".lnk") || findData.cFileName.EndsWith(".url"))
+            else if (findData.cFileName.EndsWith(".lnk", StringComparison.Ordinal) || findData.cFileName.EndsWith(".url", StringComparison.Ordinal))
             {
                 if (connection != null)
                 {
@@ -279,7 +279,7 @@ namespace Files.Filesystem.StorageEnumerators
                     if (status == AppServiceResponseStatus.Success
                         && response.ContainsKey("TargetPath"))
                     {
-                        var isUrl = findData.cFileName.EndsWith(".url");
+                        var isUrl = findData.cFileName.EndsWith(".url", StringComparison.Ordinal);
                         string target = (string)response["TargetPath"];
 
                         return new ShortcutItem(null, dateReturnFormat)

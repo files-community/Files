@@ -101,7 +101,7 @@ namespace Files.Helpers
                 {
                     // Launch fulltrust process
                     ApplicationData.Current.LocalSettings.Values["PackageSid"] =
-                        WebAuthenticationBroker.GetCurrentApplicationCallbackUri().Host.ToUpper();
+                        WebAuthenticationBroker.GetCurrentApplicationCallbackUri().Host.ToUpperInvariant();
                     await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
                 }
 

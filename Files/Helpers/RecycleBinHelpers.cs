@@ -104,7 +104,7 @@ namespace Files.Helpers
 
         public async Task<bool> HasRecycleBin(string path)
         {
-            if (string.IsNullOrEmpty(path) || path.StartsWith(@"\\?\"))
+            if (string.IsNullOrEmpty(path) || path.StartsWith(@"\\?\", StringComparison.Ordinal))
             {
                 return false;
             }

@@ -16,7 +16,7 @@ namespace FilesFullTrust.Helpers
         public static async Task<List<ShellNewEntry>> GetNewContextMenuEntries()
         {
             var newMenuItems = new List<ShellNewEntry>();
-            foreach (var keyName in Registry.ClassesRoot.GetSubKeyNames().Where(x => x.StartsWith(".") && !new string[] { ShellLibraryItem.EXTENSION, ".url", ".lnk" }.Contains(x)))
+            foreach (var keyName in Registry.ClassesRoot.GetSubKeyNames().Where(x => x.StartsWith('.') && !new string[] { ShellLibraryItem.EXTENSION, ".url", ".lnk" }.Contains(x)))
             {
                 using var key = Registry.ClassesRoot.OpenSubKeySafe(keyName);
                 if (key != null)

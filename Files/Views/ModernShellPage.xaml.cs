@@ -899,10 +899,10 @@ namespace Files.Views
             {
                 string parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.TrimEnd('\\', '/');
 
-                var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
+                var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\", StringComparison.Ordinal);
                 if (lastSlashIndex == -1)
                 {
-                    lastSlashIndex = parentDirectoryOfPath.LastIndexOf("/");
+                    lastSlashIndex = parentDirectoryOfPath.LastIndexOf("/", StringComparison.Ordinal);
                 }
                 if (lastSlashIndex != -1)
                 {
@@ -989,10 +989,10 @@ namespace Files.Views
                     // Select previous directory
                     if (!InstanceViewModel.IsPageTypeSearchResults && !string.IsNullOrWhiteSpace(e.PreviousDirectory))
                     {
-                        if (e.PreviousDirectory.Contains(e.Path) && !e.PreviousDirectory.Contains("Shell:RecycleBinFolder"))
+                        if (e.PreviousDirectory.Contains(e.Path, StringComparison.Ordinal) && !e.PreviousDirectory.Contains("Shell:RecycleBinFolder", StringComparison.Ordinal))
                         {
                             // Remove the WorkingDir from previous dir
-                            e.PreviousDirectory = e.PreviousDirectory.Replace(e.Path, string.Empty);
+                            e.PreviousDirectory = e.PreviousDirectory.Replace(e.Path, string.Empty, StringComparison.Ordinal);
 
                             // Get previous dir name
                             if (e.PreviousDirectory.StartsWith('\\'))
@@ -1008,7 +1008,7 @@ namespace Files.Views
                             string folderToSelect = string.Format("{0}\\{1}", e.Path, e.PreviousDirectory);
 
                             // Make sure we don't get double \\ in the e.Path
-                            folderToSelect = folderToSelect.Replace("\\\\", "\\");
+                            folderToSelect = folderToSelect.Replace("\\\\", "\\", StringComparison.Ordinal);
 
                             if (folderToSelect.EndsWith('\\'))
                             {

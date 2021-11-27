@@ -502,7 +502,7 @@ namespace FilesFullTrust.MessageHandlers
                     try
                     {
                         var linkPath = (string)message["filepath"];
-                        if (linkPath.EndsWith(".lnk"))
+                        if (linkPath.EndsWith(".lnk", StringComparison.Ordinal))
                         {
                             using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
                             await Win32API.SendMessageAsync(connection, new ValueSet()
@@ -514,7 +514,7 @@ namespace FilesFullTrust.MessageHandlers
                                 { "IsFolder", !string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder }
                             }, message.Get("RequestID", (string)null));
                         }
-                        else if (linkPath.EndsWith(".url"))
+                        else if (linkPath.EndsWith(".url", StringComparison.Ordinal))
                         {
                             var linkUrl = await Win32API.StartSTATask(() =>
                             {
@@ -556,7 +556,7 @@ namespace FilesFullTrust.MessageHandlers
                         var targetPath = (string)message["targetpath"];
 
                         bool success = false;
-                        if (linkSavePath.EndsWith(".lnk"))
+                        if (linkSavePath.EndsWith(".lnk", StringComparison.Ordinal))
                         {
                             var arguments = (string)message["arguments"];
                             var workingDirectory = (string)message["workingdir"];
@@ -566,7 +566,7 @@ namespace FilesFullTrust.MessageHandlers
                             newLink.SaveAs(linkSavePath); // Overwrite if exists
                             success = true;
                         }
-                        else if (linkSavePath.EndsWith(".url"))
+                        else if (linkSavePath.EndsWith(".url", StringComparison.Ordinal))
                         {
                             success = await Win32API.StartSTATask(() =>
                             {
@@ -755,7 +755,7 @@ namespace FilesFullTrust.MessageHandlers
                             {
                                 Extensions.IgnoreExceptions(() =>
                                 {
-                                    var subPath = t.FilePath.Replace(e.SourceItem.FileSystemPath, destination);
+                                    var subPath = t.FilePath.Replace(e.SourceItem.FileSystemPath, destination, StringComparison.Ordinal);
                                     dbInstance.SetTag(subPath, FileTagsHandler.GetFileFRN(subPath), t.Tag);
                                 }, Program.Logger);
                             });
@@ -766,7 +766,7 @@ namespace FilesFullTrust.MessageHandlers
                             {
                                 Extensions.IgnoreExceptions(() =>
                                 {
-                                    var subPath = t.FilePath.Replace(e.SourceItem.FileSystemPath, destination);
+                                    var subPath = t.FilePath.Replace(e.SourceItem.FileSystemPath, destination, StringComparison.Ordinal);
                                     dbInstance.UpdateTag(t.FilePath, FileTagsHandler.GetFileFRN(subPath), subPath);
                                 }, Program.Logger);
                             });

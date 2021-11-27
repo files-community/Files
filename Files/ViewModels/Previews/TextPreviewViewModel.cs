@@ -36,7 +36,7 @@ namespace Files.ViewModels.Previews
 
         public static async Task<TextPreview> TryLoadAsTextAsync(ListedItem item)
         {
-            if (ExcludedExtensions.Contains(item.FileExtension?.ToLower()) || item.FileSizeBytes > Constants.PreviewPane.TryLoadAsTextSizeLimit || item.FileSizeBytes == 0)
+            if (ExcludedExtensions.Contains(item.FileExtension?.ToLowerInvariant()) || item.FileSizeBytes > Constants.PreviewPane.TryLoadAsTextSizeLimit || item.FileSizeBytes == 0)
             {
                 return null;
             }
@@ -47,7 +47,7 @@ namespace Files.ViewModels.Previews
                 var text = await ReadFileAsText(item.ItemFile); // await FileIO.ReadTextAsync(item.ItemFile);
 
                 // Check if file is binary
-                if (text.Contains("\0\0\0\0"))
+                if (text.Contains("\0\0\0\0", StringComparison.Ordinal))
                 {
                     return null;
                 }
