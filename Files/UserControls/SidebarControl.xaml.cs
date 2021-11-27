@@ -192,7 +192,7 @@ namespace Files.UserControls
             }
             else if (RightClickedItem.Section == SectionType.Favorites)
             {
-                App.SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
+                App.SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path);
             }
         }
 
