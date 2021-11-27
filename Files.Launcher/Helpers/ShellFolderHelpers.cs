@@ -47,11 +47,11 @@ namespace FilesFullTrust.Helpers
             string filePath = folderItem.Name; // Original file path + name (recycle bin only)
             if (!isFolder && !string.IsNullOrEmpty(parsingPath) && Path.GetExtension(parsingPath) is string realExtension && !string.IsNullOrEmpty(realExtension))
             {
-                if (!string.IsNullOrEmpty(fileName) && !fileName.EndsWith(realExtension, StringComparison.Ordinal))
+                if (!string.IsNullOrEmpty(fileName) && !fileName.EndsWith(realExtension, StringComparison.OrdinalIgnoreCase))
                 {
                     fileName = $"{fileName}{realExtension}";
                 }
-                if (!string.IsNullOrEmpty(filePath) && !filePath.EndsWith(realExtension, StringComparison.Ordinal))
+                if (!string.IsNullOrEmpty(filePath) && !filePath.EndsWith(realExtension, StringComparison.OrdinalIgnoreCase))
                 {
                     filePath = $"{filePath}{realExtension}";
                 }

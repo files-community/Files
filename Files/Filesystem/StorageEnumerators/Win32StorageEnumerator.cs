@@ -279,7 +279,7 @@ namespace Files.Filesystem.StorageEnumerators
                     if (status == AppServiceResponseStatus.Success
                         && response.ContainsKey("TargetPath"))
                     {
-                        var isUrl = findData.cFileName.EndsWith(".url", StringComparison.Ordinal);
+                        var isUrl = findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
                         string target = (string)response["TargetPath"];
 
                         return new ShortcutItem(null, dateReturnFormat)

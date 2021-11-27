@@ -502,7 +502,7 @@ namespace FilesFullTrust.MessageHandlers
                     try
                     {
                         var linkPath = (string)message["filepath"];
-                        if (linkPath.EndsWith(".lnk", StringComparison.Ordinal))
+                        if (linkPath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
                         {
                             using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
                             await Win32API.SendMessageAsync(connection, new ValueSet()
@@ -514,7 +514,7 @@ namespace FilesFullTrust.MessageHandlers
                                 { "IsFolder", !string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder }
                             }, message.Get("RequestID", (string)null));
                         }
-                        else if (linkPath.EndsWith(".url", StringComparison.Ordinal))
+                        else if (linkPath.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
                         {
                             var linkUrl = await Win32API.StartSTATask(() =>
                             {
