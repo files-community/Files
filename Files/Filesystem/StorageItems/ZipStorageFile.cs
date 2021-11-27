@@ -52,7 +52,7 @@ namespace Files.Filesystem.StorageItems
                         {
                             return null;
                         }
-                        return new FileStream(hFile, FileAccess.Read).AsRandomAccessStream();
+                        return new FileStream(hFile, rw ? FileAccess.ReadWrite : FileAccess.Read).AsRandomAccessStream();
                     }
                 }
 

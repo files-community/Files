@@ -50,7 +50,7 @@ namespace Files.Controllers
             {
                 if (JsonFile == FileSystemStatusCode.NotFound)
                 {
-                    var oldItems = await ReadV1PinnedItemsFile() ?? await ReadV2PinnedItemsFile();
+                    var oldItems = await ReadV2PinnedItemsFile() ?? await ReadV1PinnedItemsFile();
                     if (oldItems != null)
                     {
                         foreach (var item in oldItems)
