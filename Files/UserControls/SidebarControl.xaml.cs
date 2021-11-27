@@ -271,7 +271,7 @@ namespace Files.UserControls
                 }
 
                 int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
-                App.SidebarPinnedController.Model.MoveItem(RightClickedItem, oldIndex, App.SidebarPinnedController.Model.FavoriteItems.Count());
+                App.SidebarPinnedController.Model.MoveItem(RightClickedItem, oldIndex, App.SidebarPinnedController.Model.FavoriteItems.Count);
 
                 if (isSelectedSidebarItem)
                 {
@@ -357,7 +357,7 @@ namespace Files.UserControls
                 IsLibrariesHeader = false;
                 ShowUnpinItem = ((library || favorite) && !item.IsDefaultLocation);
                 ShowMoveItemUp = ShowUnpinItem && App.SidebarPinnedController.Model.IndexOfItem(item) > 1;
-                ShowMoveItemDown = ShowUnpinItem && App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count();
+                ShowMoveItemDown = ShowUnpinItem && App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count;
                 ShowHideSection = false;
                 ShowEjectDevice = false;
 

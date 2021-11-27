@@ -191,7 +191,7 @@ namespace Files.Filesystem
                 }
             }
 
-            errorCode?.Report(createdSources.Count() == source.Count() ? FileSystemStatusCode.Success : FileSystemStatusCode.Generic);
+            errorCode?.Report(createdSources.Count == source.Count() ? FileSystemStatusCode.Success : FileSystemStatusCode.Generic);
             return new StorageHistory(FileOperationType.CreateLink, createdSources, createdDestination);
         }
 
