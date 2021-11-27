@@ -179,8 +179,8 @@ namespace Files.ViewModels.Properties
                 .Where(fileProp => !(fileProp.Value == null && fileProp.IsReadOnly))
                 .GroupBy(fileProp => fileProp.SectionResource)
                 .Select(group => new FilePropertySection(group) { Key = group.Key })
-                .OrderBy(group => group.Priority)
-                .Where(section => !section.All(fileProp => fileProp.Value == null));
+                .Where(section => !section.All(fileProp => fileProp.Value == null))
+                .OrderBy(group => group.Priority);
             ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
             ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value != null));
         }
