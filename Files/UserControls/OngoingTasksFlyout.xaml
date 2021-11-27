@@ -134,12 +134,9 @@
                 Background="Transparent"
                 BorderBrush="Transparent"
                 Click="DismissAllBannersButton_Click"
+                Content="{helpers:ResourceString Name=ClearAll}"
                 ToolTipService.ToolTip="{helpers:ResourceString Name=ClearAll}" 
-                HorizontalAlignment="Right">
-                <Button.Content>
-                    <TextBlock Text="{helpers:ResourceString Name=ClearAll}" />
-                </Button.Content>
-            </Button>
+                HorizontalAlignment="Right"/>
         </Grid>
 
         <ListView
