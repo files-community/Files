@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
@@ -48,7 +47,9 @@ namespace Files.Filesystem
 
         #region Helpers Members
 
-        private static readonly List<string> RestrictedFileNames = new List<string>()
+        private static readonly char[] RestrictedCharacters = new[] { '\\', '/', ':', '*', '?', '"', '<', '>', '|' };
+
+        private static readonly string[] RestrictedFileNames = new string[]
         {
                 "CON", "PRN", "AUX",
                 "NUL", "COM1", "COM2",
@@ -1115,28 +1116,15 @@ namespace Files.Filesystem
 
         public static bool ContainsRestrictedCharacters(string input)
         {
-            Regex regex = new Regex("\\\\|\\/|\\:|\\*|\\?|\\\"|\\<|\\>|\\|"); // Restricted symbols for file names
-            MatchCollection matches = regex.Matches(input);
-
-            if (matches.Count > 0)
-            {
-                return true;
-            }
-
-            return false;
+            return input.IndexOfAny(RestrictedCharacters) >= 0;
         }
 
         public static bool ContainsRestrictedFileName(string input)
         {
             foreach (string name in RestrictedFileNames)
             {
-                Regex regex = new Regex($"^{name}($|\\.)(.+)?");
-                MatchCollection matches = regex.Matches(input.ToUpperInvariant());
-
-                if (matches.Count > 0)
-                {
+                if (input.StartsWith(name, StringComparison.OrdinalIgnoreCase) && (input.Length == name.Length || input[name.Length] == '.'))
                     return true;
-                }
             }
 
             return false;
