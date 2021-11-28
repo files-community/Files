@@ -324,7 +324,7 @@ namespace Files.Filesystem.StorageItems
 
         public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
         {
-            return AsyncInfo.Run<BaseStorageFile>(async (cancellationToken) =>
+            return AsyncInfo.Run<BaseStorageFile>(cancellationToken =>
             {
                 var marker = path.IndexOf(".zip", StringComparison.OrdinalIgnoreCase);
                 if (marker != -1)
@@ -332,14 +332,14 @@ namespace Files.Filesystem.StorageItems
                     var containerPath = path.Substring(0, marker + ".zip".Length);
                     if (path == containerPath)
                     {
-                        return null; // Root
+                        return Task.FromResult<BaseStorageFile>(null); // Root
                     }
                     if (CheckAccess(containerPath))
                     {
-                        return new ZipStorageFile(path, containerPath);
+                        return Task.FromResult<BaseStorageFile>(new ZipStorageFile(path, containerPath));
                     }
                 }
-                return null;
+                return Task.FromResult<BaseStorageFile>(null);
             });
         }
 
@@ -375,8 +375,8 @@ namespace Files.Filesystem.StorageItems
                 }
                 else
                 {
-                    var hFile = openProtected ? 
-                        await NativeFileOperationsHelper.OpenProtectedFileForRead(ContainerPath) : 
+                    var hFile = openProtected ?
+                        await NativeFileOperationsHelper.OpenProtectedFileForRead(ContainerPath) :
                         NativeFileOperationsHelper.OpenFileForRead(ContainerPath, readWrite);
                     if (hFile.IsInvalid)
                     {
