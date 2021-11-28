@@ -45,23 +45,11 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Отправить отзыв</value>
   </data>
-  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Сторонние лицензии</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>О приложении</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Внешний вид</value>
-  </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Файлы и папки</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Файлы и папки</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>При запуске</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Предпочтения</value>
@@ -74,9 +62,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Открыть определенную страницу(-ы)</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>При запуске</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Предпочтения</value>
@@ -533,15 +518,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Страницы:</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>При открытии папки в Files</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Всегда открывать в новом окне</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Открыть в новой вкладке</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Стандартный</value>
@@ -1196,12 +1172,6 @@
   </data>
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>Дата удаления</value>
-  </data>
-  <data name="SettingsTabCustomization.Text" xml:space="preserve">
-    <value>Настройка вкладок</value>
-  </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>При запуске Files</value>
   </data>
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>Создать</value>
@@ -1965,12 +1935,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Неизвестный владелец</value>
   </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Боковая панель</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>Боковая панель</value>
-  </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>По умолчанию</value>
   </data>
@@ -2623,12 +2587,6 @@ Files не собирает, хранит, распространяет или �
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>Размер</value>
-  </data>
-  <data name="SettingsDefaultExplorer" xml:space="preserve">
-    <value>Файловый менеджер по умолчанию</value>
-  </data>
-  <data name="SettingsSetAsDefaultManager" xml:space="preserve">
-    <value>Установить Files как файловый менеджер по умолчанию</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Иcпользовать Files как диалог для открытия файлов</value>

@@ -105,29 +105,17 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>பின்னூட்டத்தைச் சமர்ப்பி</value>
   </data>
-  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>மூன்றாம் தரப்பு உரிமங்கள்</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>பற்றி</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>தோற்றம்</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>கோப்புகள் &amp; கோப்புறைகள்</value>
-  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>சோதனை</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>சோதனை</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>கோப்புகள் &amp; கோப்புறைகள்</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>தொடக்கத்தில்</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>விருப்பங்கள்</value>
@@ -143,9 +131,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>ஒரு குறிப்பிட்ட பக்கத்தை அல்லது பக்கங்களைத் திற</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>தொடக்கத்தில்</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>விருப்பங்கள்</value>
@@ -533,15 +518,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>பக்கங்கள்:</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>கோப்புகளில் ஒரு கோப்புறையைத் திறக்கும்போது</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Always open a new instance</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>கோப்புறையைப் புதியத் தாவலில் திற</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows இயல்புநிலை</value>
@@ -1308,12 +1284,6 @@
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>உரிமையாளர்</value>
-  </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>துணைப்பட்டி</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>துணைப்பட்டி</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>இயல்புநிலை</value>

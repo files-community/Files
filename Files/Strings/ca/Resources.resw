@@ -132,9 +132,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Enviar comentaris</value>
   </data>
-  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Licències de tercers</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>Sobre</value>
   </data>
@@ -150,15 +147,6 @@
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Ensenya arxius i carpetes ocultes</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Arxius &amp; carpetes</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Arxius &amp; carpetes</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>Al arrencar</value>
-  </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferència</value>
   </data>
@@ -173,9 +161,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Obre una o vàries pàgines</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>Al arrencar</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferències</value>
@@ -560,15 +545,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Pàgines:</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Obre sempre un entorn nou</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Obre la carpeta a una pestanya nova</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Quan obris una carpeta a Files</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Configuració per defecte de Windows</value>

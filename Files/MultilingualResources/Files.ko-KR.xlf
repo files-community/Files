@@ -50,10 +50,6 @@
           <source>Submit feedback</source>
           <target state="translated">피드백 제출</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
-          <source>Third party licenses</source>
-          <target state="translated">외부 라이센스</target>
-        </trans-unit>
         <trans-unit id="About" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">정보</target>
@@ -1601,10 +1597,6 @@
         <trans-unit id="dateDeletedColumn.Header" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
           <target state="translated">삭제된 날짜</target>
-        </trans-unit>
-        <trans-unit id="SettingsTabCustomization.Text" translate="yes" xml:space="preserve">
-          <source>Tab customization</source>
-          <target state="translated">탭 커스터마이징</target>
         </trans-unit>
         <trans-unit id="SidebarCloudDrives" translate="yes" xml:space="preserve">
           <source>Cloud Drives</source>
@@ -3493,14 +3485,6 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
           <source>Item size column</source>
           <target state="translated">항목 크기 열</target>
         </trans-unit>
-        <trans-unit id="SettingsDefaultExplorer" translate="yes" xml:space="preserve">
-          <source>Default file explorer</source>
-          <target state="translated">기본 파일 탐색기</target>
-        </trans-unit>
-        <trans-unit id="SettingsSetAsDefaultManager" translate="yes" xml:space="preserve">
-          <source>Set Files as default file explorer</source>
-          <target state="translated">Files를 기본 파일 탐색기로 설정</target>
-        </trans-unit>
         <trans-unit id="SettingsSetAsOpenDialog" translate="yes" xml:space="preserve">
           <source>Use Files as Open File Dialog</source>
           <target state="translated">파일 열기 대화 창에서 Files 사용</target>
@@ -3676,6 +3660,26 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
         <trans-unit id="StartupSettings" translate="yes" xml:space="preserve">
           <source>Startup settings</source>
           <target state="new">Startup settings</target>
+        </trans-unit>
+        <trans-unit id="SettingsDefaultFilesManager" translate="yes" xml:space="preserve">
+          <source>Default file manager</source>
+          <target state="new">Default file manager</target>
+        </trans-unit>
+        <trans-unit id="SettingsSetAsDefaultFileManager" translate="yes" xml:space="preserve">
+          <source>Set Files as the default file manager</source>
+          <target state="new">Set Files as the default file manager</target>
+        </trans-unit>
+        <trans-unit id="ThirdPartyLicenses" translate="yes" xml:space="preserve">
+          <source>Third party licenses</source>
+          <target state="new">Third party licenses</target>
+        </trans-unit>
+        <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
+          <source>This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</source>
+          <target state="new">This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</target>
+        </trans-unit>
+        <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
+          <source>Clear all</source>
+          <target state="new">Clear all</target>
         </trans-unit>
       </group>
     </body>
