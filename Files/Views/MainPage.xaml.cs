@@ -237,7 +237,7 @@ namespace Files.Views
                 ListedItem listedItem = new ListedItem(null)
                 {
                     ItemPath = locationItem.Path,
-                    ItemName = locationItem.Text,
+                    ItemNameRaw = locationItem.Text,
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemType = "FileFolderListItem".GetLocalized(),
                 };

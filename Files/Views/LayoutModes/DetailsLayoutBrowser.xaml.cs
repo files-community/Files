@@ -109,7 +109,7 @@ namespace Files.Views.LayoutModes
 
         private void ItemManipulationModel_InvertSelectionInvoked(object sender, EventArgs e)
         {
-            if (SelectedItems.Count < GetAllItems().Cast<ListedItem>().Count() / 2)
+            if (SelectedItems.Count < GetAllItems().Count() / 2)
             {
                 var oldSelectedItems = SelectedItems.ToList();
                 ItemManipulationModel.SelectAllItems();
@@ -423,12 +423,7 @@ namespace Files.Views.LayoutModes
         {
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');
-
-            bool successful = await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, OldItemName, newItemName, ParentShellPageInstance);
-            if (!successful)
-            {
-                RenamingItem.ItemName = OldItemName;
-            }
+            await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
         }
 
         private void EndRename(TextBox textBox)

@@ -31,7 +31,7 @@ namespace Files.ViewModels.Properties
         {
             Item = new ListedItem()
             {
-                ItemName = item.Text,
+                ItemNameRaw = item.Text,
                 ItemPath = item.Path,
                 PrimaryItemAttribute = Windows.Storage.StorageItemTypes.Folder
             };

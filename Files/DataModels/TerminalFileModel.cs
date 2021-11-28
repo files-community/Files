@@ -29,7 +29,7 @@ namespace Files.DataModels
                 ResetToDefaultTerminal();
             }
 
-            return Terminals.First();
+            return Terminals.FirstOrDefault();
         }
 
         public void ResetToDefaultTerminal()
@@ -47,7 +47,7 @@ namespace Files.DataModels
         public void AddTerminal(Terminal terminal)
         {
             //Ensure terminal is not already in List
-            if (Terminals.FirstOrDefault(x => x.Name.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase)) == null)
+            if (!Terminals.Any(x => x.Name.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase)))
             {
                 Terminals.Add(terminal);
             }
@@ -55,7 +55,8 @@ namespace Files.DataModels
 
         public void RemoveTerminal(Terminal terminal)
         {
-            if (Terminals.Remove(Terminals.FirstOrDefault(x => x.Name.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase))))
+            Terminal existingTerminal = Terminals.FirstOrDefault(x => x.Name.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase));
+            if (existingTerminal != null && Terminals.Remove(existingTerminal))
             {
                 if (string.IsNullOrWhiteSpace(DefaultTerminalName))
                 {

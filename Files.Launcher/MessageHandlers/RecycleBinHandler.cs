@@ -109,7 +109,7 @@ namespace FilesFullTrust.MessageHandlers
         private async void RecycleBinWatcher_Changed(object sender, FileSystemEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine($"Recycle bin event: {e.ChangeType}, {e.FullPath}");
-            if (e.Name.StartsWith("$I"))
+            if (e.Name.StartsWith("$I", StringComparison.Ordinal))
             {
                 // Recycle bin also stores a file starting with $I for each item
                 return;

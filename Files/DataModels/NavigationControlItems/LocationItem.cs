@@ -32,7 +32,7 @@ namespace Files.DataModels.NavigationControlItems
             set
             {
                 path = value;
-                HoverDisplayText = string.IsNullOrEmpty(Path) || Path.Contains("?") || Path.ToLower().StartsWith("shell:") || Path.ToLower().EndsWith(ShellLibraryItem.EXTENSION) || Path == "Home".GetLocalized() ? Text : Path;
+                HoverDisplayText = string.IsNullOrEmpty(Path) || Path.Contains("?", StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home".GetLocalized() ? Text : Path;
             }
         }
 

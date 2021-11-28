@@ -18,7 +18,7 @@ namespace Files.Filesystem.StorageItems
         public FtpStorageFile(FtpItem ftpItem)
         {
             DateCreated = ftpItem.ItemDateCreatedReal;
-            Name = ftpItem.ItemName;
+            Name = ftpItem.ItemNameRaw;
             Path = ftpItem.ItemPath;
             FtpPath = FtpHelpers.GetFtpPath(ftpItem.ItemPath);
         }
@@ -336,7 +336,7 @@ namespace Files.Filesystem.StorageItems
             get
             {
                 var itemType = "ItemTypeFile".GetLocalized();
-                if (Name.Contains("."))
+                if (Name.Contains(".", StringComparison.Ordinal))
                 {
                     itemType = System.IO.Path.GetExtension(Name).Trim('.') + " " + itemType;
                 }

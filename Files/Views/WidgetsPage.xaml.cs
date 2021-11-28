@@ -132,7 +132,7 @@ namespace Files.Views
             }
             catch (ArgumentException)
             {
-                if (new DirectoryInfo(e.ItemPath).Root.ToString().Contains(@"C:\"))
+                if (new DirectoryInfo(e.ItemPath).Root.ToString().Contains(@"C:\", StringComparison.Ordinal))
                 {
                     AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
                     {
@@ -143,7 +143,7 @@ namespace Files.Views
                 {
                     foreach (DriveItem drive in Enumerable.Concat(App.DrivesManager.Drives, App.CloudDrivesManager.Drives))
                     {
-                        if (drive.Path.ToString() == new DirectoryInfo(e.ItemPath).Root.ToString())
+                        if (drive.Path == new DirectoryInfo(e.ItemPath).Root.ToString())
                         {
                             AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
                             {

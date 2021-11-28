@@ -234,11 +234,10 @@ namespace Files.Helpers
             }
         }
 
-        public static async Task<bool> RenameFileItemAsync(ListedItem item, string oldName, string newName, IShellPage associatedInstance)
+        public static async Task<bool> RenameFileItemAsync(ListedItem item, string newName, IShellPage associatedInstance)
         {
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-
-            if (oldName == newName || string.IsNullOrEmpty(newName))
+            newName = item.ItemNameRaw.Replace(item.ItemName, newName, StringComparison.Ordinal);
+            if (item.ItemNameRaw == newName || string.IsNullOrEmpty(newName))
             {
                 return true;
             }
@@ -251,11 +250,6 @@ namespace Files.Helpers
             }
             else
             {
-                if (item.IsShortcutItem || !userSettingsService.PreferencesSettingsService.ShowFileExtensions)
-                {
-                    newName += item.FileExtension;
-                }
-
                 renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageItemHelpers.FromPathAndType(item.ItemPath, FilesystemItemType.File),
                     newName, NameCollisionOption.FailIfExists, true);
             }

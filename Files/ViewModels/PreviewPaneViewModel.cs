@@ -147,7 +147,7 @@ namespace Files.ViewModels
                 return null;
             }
 
-            var ext = item.FileExtension.ToLower();
+            var ext = item.FileExtension.ToLowerInvariant();
             if (MediaPreviewViewModel.Extensions.Contains(ext))
             {
                 var model = new MediaPreviewViewModel(item);
@@ -211,27 +211,6 @@ namespace Files.ViewModels
             }
 
             return null;
-        }
-
-        private async Task<UIElement> LoadPreviewControlFromExtension(ListedItem item, Extension extension)
-        {
-            UIElement control = null;
-            var file = await StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath);
-            string sharingToken = SharedStorageAccessManager.AddFile(file);
-            var result = await extension.Invoke(new ValueSet() { { "token", sharingToken } });
-
-            if (result.TryGetValue("preview", out object preview))
-            {
-                control = XamlReader.Load(preview as string) as UIElement;
-            }
-
-            if (result.TryGetValue("details", out object details))
-            {
-                var detailsList = JsonConvert.DeserializeObject<List<FileProperty>>(details as string);
-                await BasePreviewModel.LoadDetailsOnly(item, detailsList);
-            }
-
-            return control;
         }
 
         public async void UpdateSelectedItemPreview(bool downloadItem = false)

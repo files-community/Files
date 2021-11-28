@@ -255,7 +255,7 @@ namespace Files.Interacts
             associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
             {
                 NavPathParam = folderPath,
-                SelectItems = new[] { item.ItemName },
+                SelectItems = new[] { item.ItemNameRaw },
                 AssociatedTabInstance = associatedInstance
             });
         }
@@ -327,7 +327,7 @@ namespace Files.Interacts
                     var path = SlimContentPage.SelectedItem != null ? SlimContentPage.SelectedItem.ItemPath : associatedInstance.FilesystemViewModel.WorkingDirectory;
                     if (FtpHelpers.IsFtpPath(path))
                     {
-                        path = path.Replace("\\", "/");
+                        path = path.Replace("\\", "/", StringComparison.Ordinal);
                     }
                     DataPackage data = new DataPackage();
                     data.SetText(path);
@@ -546,7 +546,7 @@ namespace Files.Interacts
                 }
                 else if (handledByFtp)
                 {
-                    if (pwd.StartsWith(CommonPaths.RecycleBinPath))
+                    if (pwd.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
                     {
                         e.AcceptedOperation = DataPackageOperation.None;
                     }
@@ -564,7 +564,7 @@ namespace Files.Interacts
                 else
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
-                    if (pwd.StartsWith(CommonPaths.RecycleBinPath))
+                    if (pwd.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
                     {
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Move;

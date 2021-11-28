@@ -202,7 +202,7 @@ namespace Files.ViewModels
 
         public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
         {
-            propertyName = propertyName != null && propertyName.StartsWith("set_", StringComparison.InvariantCultureIgnoreCase)
+            propertyName = propertyName != null && propertyName.StartsWith("set_", StringComparison.OrdinalIgnoreCase)
                 ? propertyName.Substring(4)
                 : propertyName;
 
@@ -231,7 +231,7 @@ namespace Files.ViewModels
             var name = propertyName ??
                        throw new ArgumentNullException(nameof(propertyName), "Cannot store property of unnamed.");
 
-            name = name.StartsWith("get_", StringComparison.InvariantCultureIgnoreCase)
+            name = name.StartsWith("get_", StringComparison.OrdinalIgnoreCase)
                 ? propertyName.Substring(4)
                 : propertyName;
 

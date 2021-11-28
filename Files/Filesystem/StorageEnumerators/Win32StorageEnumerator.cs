@@ -157,7 +157,7 @@ namespace Files.Filesystem.StorageEnumerators
             return new ListedItem(null, dateReturnFormat)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
-                ItemName = itemName,
+                ItemNameRaw = itemName,
                 ItemDateModifiedReal = itemModifiedDate,
                 ItemDateCreatedReal = itemCreatedDate,
                 ItemType = folderTypeTextLocalized,
@@ -182,23 +182,7 @@ namespace Files.Filesystem.StorageEnumerators
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
-
-            string itemName;
-            if (userSettingsService.PreferencesSettingsService.ShowFileExtensions && !findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
-            {
-                itemName = findData.cFileName; // never show extension for shortcuts
-            }
-            else
-            {
-                if (findData.cFileName.StartsWith("."))
-                {
-                    itemName = findData.cFileName; // Always show full name for dotfiles.
-                }
-                else
-                {
-                    itemName = Path.GetFileNameWithoutExtension(itemPath);
-                }
-            }
+            var itemName = findData.cFileName;
 
             DateTime itemModifiedDate, itemCreatedDate, itemLastAccessDate;
             try
@@ -246,7 +230,38 @@ namespace Files.Filesystem.StorageEnumerators
                 return null;
             }
 
-            if (findData.cFileName.EndsWith(".lnk") || findData.cFileName.EndsWith(".url"))
+            bool isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+            double opacity = isHidden ? Constants.UI.DimItemOpacity : 1;
+
+            // https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
+            bool isReparsePoint = ((FileAttributes)findData.dwFileAttributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint;
+            bool isSymlink = isReparsePoint && findData.dwReserved0 == NativeFileOperationsHelper.IO_REPARSE_TAG_SYMLINK;
+
+            if (isSymlink)
+            {
+                var targetPath = NativeFileOperationsHelper.ParseSymLink(itemPath);
+                return new ShortcutItem(null, dateReturnFormat)
+                {
+                    PrimaryItemAttribute = StorageItemTypes.File,
+                    FileExtension = itemFileExtension,
+                    IsHiddenItem = isHidden,
+                    Opacity = opacity,
+                    FileImage = null,
+                    LoadFileIcon = itemThumbnailImgVis,
+                    LoadWebShortcutGlyph = false,
+                    ItemNameRaw = itemName,
+                    ItemDateModifiedReal = itemModifiedDate,
+                    ItemDateAccessedReal = itemLastAccessDate,
+                    ItemDateCreatedReal = itemCreatedDate,
+                    ItemType = "ShortcutFileType".GetLocalized(),
+                    ItemPath = itemPath,
+                    FileSize = itemSize,
+                    FileSizeBytes = itemSizeBytes,
+                    TargetPath = targetPath,
+                    IsSymLink = true
+                };
+            }
+            else if (findData.cFileName.EndsWith(".lnk", StringComparison.Ordinal) || findData.cFileName.EndsWith(".url", StringComparison.Ordinal))
             {
                 if (connection != null)
                 {
@@ -264,16 +279,8 @@ namespace Files.Filesystem.StorageEnumerators
                     if (status == AppServiceResponseStatus.Success
                         && response.ContainsKey("TargetPath"))
                     {
-                        var isUrl = findData.cFileName.EndsWith(".url");
+                        var isUrl = findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
                         string target = (string)response["TargetPath"];
-
-                        bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
-                        double opacity = 1;
-
-                        if (isHidden)
-                        {
-                            opacity = Constants.UI.DimItemOpacity;
-                        }
 
                         return new ShortcutItem(null, dateReturnFormat)
                         {
@@ -284,7 +291,7 @@ namespace Files.Filesystem.StorageEnumerators
                             FileImage = null,
                             LoadFileIcon = !(bool)response["IsFolder"] && itemThumbnailImgVis,
                             LoadWebShortcutGlyph = !(bool)response["IsFolder"] && isUrl && itemEmptyImgVis,
-                            ItemName = itemName,
+                            ItemNameRaw = itemName,
                             ItemDateModifiedReal = itemModifiedDate,
                             ItemDateAccessedReal = itemLastAccessDate,
                             ItemDateCreatedReal = itemCreatedDate,
@@ -311,14 +318,6 @@ namespace Files.Filesystem.StorageEnumerators
             }
             else
             {
-                bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
-                double opacity = 1;
-
-                if (isHidden)
-                {
-                    opacity = Constants.UI.DimItemOpacity;
-                }
-
                 if (".zip".Equals(itemFileExtension, StringComparison.OrdinalIgnoreCase) && await ZipStorageFolder.CheckDefaultZipApp(itemPath))
                 {
                     return new ZipItem(null, dateReturnFormat)
@@ -327,7 +326,7 @@ namespace Files.Filesystem.StorageEnumerators
                         FileExtension = itemFileExtension,
                         FileImage = null,
                         LoadFileIcon = itemThumbnailImgVis,
-                        ItemName = itemName,
+                        ItemNameRaw = itemName,
                         IsHiddenItem = isHidden,
                         Opacity = opacity,
                         ItemDateModifiedReal = itemModifiedDate,
@@ -347,7 +346,7 @@ namespace Files.Filesystem.StorageEnumerators
                         FileExtension = itemFileExtension,
                         FileImage = null,
                         LoadFileIcon = itemThumbnailImgVis,
-                        ItemName = itemName,
+                        ItemNameRaw = itemName,
                         IsHiddenItem = isHidden,
                         Opacity = opacity,
                         ItemDateModifiedReal = itemModifiedDate,

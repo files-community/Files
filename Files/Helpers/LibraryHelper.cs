@@ -246,6 +246,6 @@ namespace Files.Helpers
             await dialog.ShowAsync();
         }
 
-        public static bool IsLibraryPath(string path) => !string.IsNullOrEmpty(path) && path.ToLower().EndsWith(ShellLibraryItem.EXTENSION);
+        public static bool IsLibraryPath(string path) => !string.IsNullOrEmpty(path) && path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase);
     }
 }
