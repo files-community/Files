@@ -121,19 +121,7 @@ namespace Files.ViewModels.Search
             };
         }
 
-        private void Save()
-        {
-            if (Picker.IsEmpty)
-            {
-                context.Save(null);
-            }
-            else
-            {
-                var header = Header as IGroupHeader;
-                var filter = header.GetFilter(Picker.Filters);
-                context.Save(filter);
-            }
-        }
+        private void Save() => context.Save(!Picker.IsEmpty ? Picker.Filters : null);
     }
 
     public class GroupPickerViewModel : ObservableObject, IGroupPickerViewModel
