@@ -184,7 +184,7 @@ namespace Files.Helpers
                 }
                 else
                 {
-                    itemType = await StorageItemHelpers.GetTypeFromPath(path);
+                    itemType = await StorageHelpers.GetTypeFromPath(path);
                 }
             }
 

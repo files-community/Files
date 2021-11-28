@@ -825,7 +825,7 @@ namespace Files
 
             if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
             {
-                var itemList = e.Items.OfType<ListedItem>().Select(x => StorageItemHelpers.FromPathAndType(
+                var itemList = e.Items.OfType<ListedItem>().Select(x => StorageHelpers.FromPathAndType(
                     x.ItemPath, x.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
                 e.Data.Properties["FileDrop"] = itemList.ToList();
                 return;
