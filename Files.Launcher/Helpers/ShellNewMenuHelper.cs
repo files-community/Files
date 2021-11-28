@@ -16,7 +16,7 @@ namespace FilesFullTrust.Helpers
         public static async Task<List<ShellNewEntry>> GetNewContextMenuEntries()
         {
             var newMenuItems = new List<ShellNewEntry>();
-            foreach (var keyName in Registry.ClassesRoot.GetSubKeyNames().Where(x => x.StartsWith(".") && !new string[] { ShellLibraryItem.EXTENSION, ".url", ".lnk" }.Contains(x)))
+            foreach (var keyName in Registry.ClassesRoot.GetSubKeyNames().Where(x => x.StartsWith('.') && !new string[] { ShellLibraryItem.EXTENSION, ".url", ".lnk" }.Contains(x, StringComparer.OrdinalIgnoreCase)))
             {
                 using var key = Registry.ClassesRoot.OpenSubKeySafe(keyName);
                 if (key != null)
@@ -65,9 +65,10 @@ namespace FilesFullTrust.Helpers
 
         private static async Task<ShellNewEntry> ParseShellNewRegistryEntry(RegistryKey key, RegistryKey root)
         {
-            if (!key.GetValueNames().Contains("NullFile") &&
-                !key.GetValueNames().Contains("ItemName") &&
-                !key.GetValueNames().Contains("FileName"))
+            var valueNames = key.GetValueNames();
+            if (!valueNames.Contains("NullFile") &&
+                !valueNames.Contains("ItemName") &&
+                !valueNames.Contains("FileName"))
             {
                 return null;
             }

@@ -22,7 +22,7 @@ namespace Files.Filesystem
 
         private static PathBoxItem GetPathItem(string component, string path)
         {
-            if (component.StartsWith(CommonPaths.RecycleBinPath))
+            if (component.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
             {
                 // Handle the recycle bin: use the localized folder name
                 return new PathBoxItem()
@@ -31,7 +31,7 @@ namespace Files.Filesystem
                     Path = path,
                 };
             }
-            else if (component.Contains(":"))
+            else if (component.Contains(":", StringComparison.Ordinal))
             {
                 var allDrives = SidebarControl.SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => (x as LocationItem).ChildItems);
                 return new PathBoxItem()
@@ -55,14 +55,14 @@ namespace Files.Filesystem
         {
             List<PathBoxItem> pathBoxItems = new List<PathBoxItem>();
 
-            if (value.Contains("/"))
+            if (value.Contains("/", StringComparison.Ordinal))
             {
-                if (!value.EndsWith("/"))
+                if (!value.EndsWith('/'))
                 {
                     value += "/";
                 }
             }
-            else if (!value.EndsWith("\\"))
+            else if (!value.EndsWith('\\'))
             {
                 value += "\\";
             }
@@ -231,7 +231,7 @@ namespace Files.Filesystem
 
         public static string GetPathWithoutEnvironmentVariable(string path)
         {
-            if (path.StartsWith("~\\"))
+            if (path.StartsWith("~\\", StringComparison.Ordinal))
             {
                 path = $"{CommonPaths.HomePath}{path.Remove(0, 1)}";
             }

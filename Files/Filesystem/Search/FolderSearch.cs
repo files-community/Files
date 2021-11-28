@@ -72,11 +72,11 @@ namespace Files.Filesystem.Search
             get
             {
                 // if the query starts with a $, assume the query is in aqs format, otherwise assume the user is searching for the file name
-                if (Query is not null && Query.StartsWith("$"))
+                if (Query is not null && Query.StartsWith('$'))
                 {
                     return Query.Substring(1);
                 }
-                else if (Query is not null && Query.Contains(":"))
+                else if (Query is not null && Query.Contains(":", StringComparison.Ordinal))
                 {
                     return Query;
                 }
@@ -259,7 +259,7 @@ namespace Files.Filesystem.Search
 
         private async Task AddItemsAsync(string folder, IList<ListedItem> results, CancellationToken token)
         {
-            if (AQSQuery.StartsWith("tag:"))
+            if (AQSQuery.StartsWith("tag:", StringComparison.Ordinal))
             {
                 await SearchTagsAsync(folder, results, token);
             }
@@ -346,7 +346,7 @@ namespace Files.Filesystem.Search
             {
                 string itemFileExtension = null;
                 string itemType = null;
-                if (findData.cFileName.Contains("."))
+                if (findData.cFileName.Contains(".", StringComparison.Ordinal))
                 {
                     itemFileExtension = Path.GetExtension(itemPath);
                     itemType = itemFileExtension.Trim('.') + " " + itemType;
@@ -420,7 +420,7 @@ namespace Files.Filesystem.Search
                 var props = await file.GetBasicPropertiesAsync();
                 string itemFileExtension = null;
                 string itemType = null;
-                if (file.Name.Contains("."))
+                if (file.Name.Contains(".", StringComparison.Ordinal))
                 {
                     itemFileExtension = Path.GetExtension(file.Path);
                     itemType = itemFileExtension.Trim('.') + " " + itemType;

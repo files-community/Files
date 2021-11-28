@@ -232,12 +232,12 @@ namespace Files.Filesystem
                 type = DriveType.Removable;
             }
 
-            using var thumbnail = await root.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale);
+            using var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(() => root.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask());
             lock (drivesList)
             {
                 // If drive already in list, skip.
                 if (drivesList.Any(x => x.DeviceID == deviceId ||
-                string.IsNullOrEmpty(root.Path) ? x.Path.Contains(root.Name) : x.Path == root.Path))
+                string.IsNullOrEmpty(root.Path) ? x.Path.Contains(root.Name, StringComparison.Ordinal) : x.Path == root.Path))
                 {
                     return;
                 }
@@ -288,8 +288,7 @@ namespace Files.Filesystem
                     continue;
                 }
 
-                using var thumbnail = await res.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale);
-
+                using var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(() => res.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask());
                 lock (drivesList)
                 {
                     // If drive already in list, skip.
@@ -394,7 +393,7 @@ namespace Files.Filesystem
                 return null;
             }
             var rootPath = Path.GetPathRoot(devicePath);
-            if (devicePath.StartsWith("\\\\?\\")) // USB device
+            if (devicePath.StartsWith("\\\\?\\", StringComparison.Ordinal)) // USB device
             {
                 // Check among already discovered drives
                 StorageFolder matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x =>
@@ -408,7 +407,7 @@ namespace Files.Filesystem
                         try
                         {
                             var root = StorageDevice.FromId(item.Id);
-                            if (Helpers.PathNormalization.NormalizePath(rootPath).Replace("\\\\?\\", "") == root.Name.ToUpperInvariant())
+                            if (Helpers.PathNormalization.NormalizePath(rootPath).Replace("\\\\?\\", "", StringComparison.Ordinal) == root.Name.ToUpperInvariant())
                             {
                                 matchingDrive = root;
                                 break;
@@ -425,9 +424,9 @@ namespace Files.Filesystem
                     return new StorageFolderWithPath(matchingDrive, rootPath);
                 }
             }
-            else if (devicePath.StartsWith("\\\\")) // Network share
+            else if (devicePath.StartsWith("\\\\", StringComparison.Ordinal)) // Network share
             {
-                rootPath = rootPath.LastIndexOf("\\") > 1 ? rootPath.Substring(0, rootPath.LastIndexOf("\\")) : rootPath; // Remove share name
+                rootPath = rootPath.LastIndexOf("\\", StringComparison.Ordinal) > 1 ? rootPath.Substring(0, rootPath.LastIndexOf("\\", StringComparison.Ordinal)) : rootPath; // Remove share name
                 return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(rootPath), rootPath);
             }
             // It's ok to return null here, on normal drives StorageFolder.GetFolderFromPathAsync works
@@ -451,7 +450,7 @@ namespace Files.Filesystem
                     {
                         // If drive already in list, skip.
                         var matchingDrive = drivesList.FirstOrDefault(x => x.DeviceID == deviceId ||
-                        string.IsNullOrEmpty(rootAdded.Result.Path) ? x.Path.Contains(rootAdded.Result.Name) : x.Path == rootAdded.Result.Path);
+                        string.IsNullOrEmpty(rootAdded.Result.Path) ? x.Path.Contains(rootAdded.Result.Name, StringComparison.Ordinal) : x.Path == rootAdded.Result.Path);
                         if (matchingDrive != null)
                         {
                             // Update device id to match drive letter
@@ -460,7 +459,7 @@ namespace Files.Filesystem
                         }
                     }
 
-                    using (var thumbnail = await rootAdded.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale))
+                    using (var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(() => rootAdded.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask()))
                     {
                         var type = GetDriveType(driveAdded);
                         var driveItem = await DriveItem.CreateFromPropertiesAsync(rootAdded, deviceId, type, thumbnail);

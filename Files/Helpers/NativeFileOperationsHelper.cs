@@ -81,11 +81,43 @@ namespace Files.Helpers
                 GENERIC_WRITE, 0, IntPtr.Zero, overwrite ? CREATE_ALWAYS : OPEN_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero), true);
         }
 
-        public static SafeFileHandle OpenFileForRead(string filePath, bool readWrite = false)
+        public static SafeFileHandle OpenFileForRead(string filePath, bool readWrite = false, uint flags = 0)
         {
             return new SafeFileHandle(CreateFileFromApp(filePath,
-                GENERIC_READ | (readWrite ? GENERIC_WRITE : 0), FILE_SHARE_READ | FILE_SHARE_WRITE, IntPtr.Zero, OPEN_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero), true);
+                GENERIC_READ | (readWrite ? GENERIC_WRITE : 0), FILE_SHARE_READ | FILE_SHARE_WRITE, IntPtr.Zero, OPEN_ALWAYS, (uint)File_Attributes.BackupSemantics | flags, IntPtr.Zero), true);
         }
+
+        private const int MAXIMUM_REPARSE_DATA_BUFFER_SIZE = 16 * 1024;
+        private const int FSCTL_GET_REPARSE_POINT = 0x000900A8;
+        public const uint IO_REPARSE_TAG_MOUNT_POINT = 0xA0000003;
+        public const uint IO_REPARSE_TAG_SYMLINK = 0xA000000C;
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        private struct REPARSE_DATA_BUFFER
+        {
+            public uint ReparseTag;
+            public short ReparseDataLength;
+            public short Reserved;
+            public short SubsNameOffset;
+            public short SubsNameLength;
+            public short PrintNameOffset;
+            public short PrintNameLength;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAXIMUM_REPARSE_DATA_BUFFER_SIZE)]
+            public char[] PathBuffer;
+        }
+
+        [DllImport("api-ms-win-core-io-l1-1-0.dll", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool DeviceIoControl(
+            IntPtr hDevice,
+            uint dwIoControlCode,
+            IntPtr lpInBuffer,
+            uint nInBufferSize,
+            //IntPtr lpOutBuffer, 
+            out REPARSE_DATA_BUFFER outBuffer,
+            uint nOutBufferSize,
+            out uint lpBytesReturned,
+            IntPtr lpOverlapped);
 
         [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
         CallingConvention = CallingConvention.StdCall,
@@ -356,6 +388,39 @@ namespace Files.Helpers
                 }
             }
             return new SafeFileHandle(new IntPtr(-1), true);
+        }
+
+        // https://github.com/rad1oactive/BetterExplorer/blob/master/Windows%20API%20Code%20Pack%201.1/source/WindowsAPICodePack/Shell/ReparsePoint.cs
+        public static string ParseSymLink(string path)
+        {
+            using var handle = OpenFileForRead(path, false, 0x00200000);
+            if (!handle.IsInvalid)
+            {
+                REPARSE_DATA_BUFFER buffer = new REPARSE_DATA_BUFFER();
+                if (DeviceIoControl(handle.DangerousGetHandle(), FSCTL_GET_REPARSE_POINT, IntPtr.Zero, 0, out buffer, MAXIMUM_REPARSE_DATA_BUFFER_SIZE, out _, IntPtr.Zero))
+                {
+                    var subsString = new string(buffer.PathBuffer, ((buffer.SubsNameOffset / 2) + 2), buffer.SubsNameLength / 2);
+                    var printString = new string(buffer.PathBuffer, ((buffer.PrintNameOffset / 2) + 2), buffer.PrintNameLength / 2);
+                    var normalisedTarget = printString ?? subsString;
+                    if (string.IsNullOrEmpty(normalisedTarget))
+                    {
+                        normalisedTarget = subsString;
+                        if (normalisedTarget.StartsWith(@"\??\", StringComparison.Ordinal))
+                        {
+                            normalisedTarget = normalisedTarget.Substring(4);
+                        }
+                    }
+                    if (buffer.ReparseTag == IO_REPARSE_TAG_SYMLINK && (normalisedTarget.Length < 2 || normalisedTarget[1] != ':'))
+                    {
+                        // Target is relative, get the absolute path
+                        normalisedTarget = normalisedTarget.TrimStart(Path.DirectorySeparatorChar);
+                        path = path.TrimEnd(Path.DirectorySeparatorChar);
+                        normalisedTarget = Path.GetFullPath(Path.Combine(path.Substring(0, path.LastIndexOf(Path.DirectorySeparatorChar)), normalisedTarget));
+                    }
+                    return normalisedTarget;
+                }
+            }
+            return null;
         }
     }
 }

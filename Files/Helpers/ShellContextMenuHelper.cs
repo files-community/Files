@@ -115,7 +115,7 @@ namespace Files.Helpers
                 {
                     var menuLayoutSubItem = new ContextMenuFlyoutItemViewModel()
                     {
-                        Text = menuFlyoutItem.Label.Replace("&", ""),
+                        Text = menuFlyoutItem.Label.Replace("&", "", StringComparison.Ordinal),
                         Tag = (menuFlyoutItem, menuHandle),
                         Items = new List<ContextMenuFlyoutItemViewModel>(),
                     };
@@ -126,7 +126,7 @@ namespace Files.Helpers
                 {
                     var menuLayoutItem = new ContextMenuFlyoutItemViewModel()
                     {
-                        Text = menuFlyoutItem.Label.Replace("&", ""),
+                        Text = menuFlyoutItem.Label.Replace("&", "", StringComparison.Ordinal),
                         Tag = (menuFlyoutItem, menuHandle),
                         BitmapIcon = image
                     };

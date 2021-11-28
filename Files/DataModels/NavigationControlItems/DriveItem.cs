@@ -29,7 +29,7 @@ namespace Files.DataModels.NavigationControlItems
             set
             {
                 path = value;
-                HoverDisplayText = Path.Contains("?") ? Text : Path;
+                HoverDisplayText = Path.Contains("?", StringComparison.Ordinal) ? Text : Path;
             }
         }
 

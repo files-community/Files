@@ -229,7 +229,7 @@ namespace Files.Filesystem
 
         public bool TryGetLibrary(string path, out LibraryLocationItem library)
         {
-            if (string.IsNullOrWhiteSpace(path) || !path.ToLower().EndsWith(ShellLibraryItem.EXTENSION))
+            if (string.IsNullOrWhiteSpace(path) || !path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase))
             {
                 library = null;
                 return false;

@@ -37,7 +37,7 @@ namespace Files.Helpers
         public static bool VerifyFtpPath(string path)
         {
             var authority = GetFtpAuthority(path);
-            var index = authority.IndexOf(":");
+            var index = authority.IndexOf(":", StringComparison.Ordinal);
 
             if (index == -1)
             {
@@ -50,7 +50,7 @@ namespace Files.Helpers
         public static string GetFtpHost(string path)
         {
             var authority = GetFtpAuthority(path);
-            var index = authority.IndexOf(":");
+            var index = authority.IndexOf(":", StringComparison.Ordinal);
 
             if (index == -1)
             {
@@ -63,7 +63,7 @@ namespace Files.Helpers
         public static ushort GetFtpPort(string path)
         {
             var authority = GetFtpAuthority(path);
-            var index = authority.IndexOf(":");
+            var index = authority.IndexOf(":", StringComparison.Ordinal);
 
             if (index == -1)
             {
@@ -80,9 +80,9 @@ namespace Files.Helpers
 
         public static string GetFtpAuthority(string path)
         {
-            path = path.Replace("\\", "/");
-            var schemaIndex = path.IndexOf("://") + 3;
-            var hostIndex = path.IndexOf("/", schemaIndex);
+            path = path.Replace("\\", "/", StringComparison.Ordinal);
+            var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
+            var hostIndex = path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
 
             if (hostIndex == -1)
             {
@@ -94,9 +94,9 @@ namespace Files.Helpers
 
         public static string GetFtpPath(string path)
         {
-            path = path.Replace("\\", "/");
-            var schemaIndex = path.IndexOf("://") + 3;
-            var hostIndex = path.IndexOf("/", schemaIndex);
+            path = path.Replace("\\", "/", StringComparison.Ordinal);
+            var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
+            var hostIndex = path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
             return hostIndex == -1 ? "/" : path.Substring(hostIndex);
         }
     }

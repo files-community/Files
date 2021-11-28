@@ -8,8 +8,9 @@ namespace Files.Common
 {
     public class Logger
     {
-        ILogWriter LogWriter { get; }
-        SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1);
+        private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1);
+
+        private ILogWriter LogWriter { get; }
 
         public Logger(ILogWriter logWriter)
         {
@@ -58,9 +59,9 @@ namespace Files.Common
 
         private async void LogAsync(string type, string caller, string message, int attemptNumber = 0)
         {
+            await semaphoreSlim.WaitAsync();
             try
             {
-                await semaphoreSlim.WaitAsync();
                 await LogWriter.WriteLineToLogAsync($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.ffff}|{type}|{caller}|{message}");
             }
             catch (IOException e) when (!(e is FileNotFoundException))
@@ -88,9 +89,9 @@ namespace Files.Common
 
         private void LogSync(string type, string caller, string message)
         {
+            semaphoreSlim.Wait();
             try
             {
-                semaphoreSlim.Wait();
                 LogWriter.WriteLineToLog($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.ffff}|{type}|{caller}|{message}");
             }
             catch (Exception e)

@@ -99,12 +99,12 @@ namespace FilesFullTrust.MessageHandlers
                         switch (message.Get("CommandString", (string)null))
                         {
                             case "mount":
-                                var vhdPath = cMenuExec.ItemsPath.First();
+                                var vhdPath = cMenuExec.ItemsPath[0];
                                 Win32API.MountVhdDisk(vhdPath);
                                 break;
 
                             case "format":
-                                var drivePath = cMenuExec.ItemsPath.First();
+                                var drivePath = cMenuExec.ItemsPath[0];
                                 Win32API.OpenFormatDriveDialog(drivePath);
                                 break;
 

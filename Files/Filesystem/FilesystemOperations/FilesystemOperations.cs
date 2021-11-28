@@ -184,7 +184,7 @@ namespace Files.Filesystem
                                                      IProgress<FileSystemStatusCode> errorCode,
                                                      CancellationToken cancellationToken)
         {
-            if (destination.StartsWith(CommonPaths.RecycleBinPath))
+            if (destination.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
             {
                 errorCode?.Report(FileSystemStatusCode.Unauthorized);
                 progress?.Report(100.0f);
@@ -248,7 +248,7 @@ namespace Files.Filesystem
 
                         if (fsCopyResult)
                         {
-                            if (FolderHelpers.CheckFolderForHiddenAttribute(source.Path))
+                            if (NativeFileOperationsHelper.HasFileAttribute(source.Path, FileAttributes.Hidden))
                             {
                                 // The source folder was hidden, apply hidden attribute to destination
                                 NativeFileOperationsHelper.SetFileAttribute(fsCopyResult.Result.Path, FileAttributes.Hidden);
@@ -339,7 +339,7 @@ namespace Files.Filesystem
                 {
                     await Task.Delay(50); // Small delay for the item to appear in the file list
                     List<ListedItem> copiedListedItems = associatedInstance.FilesystemViewModel.FilesAndFolders
-                        .Where(listedItem => destination.Contains(listedItem.ItemPath)).ToList();
+                        .Where(listedItem => destination.Contains(listedItem.ItemPath, StringComparison.Ordinal)).ToList();
 
                     if (copiedListedItems.Count > 0)
                     {
@@ -400,7 +400,7 @@ namespace Files.Filesystem
                 return await CopyAsync(source, destination, collision, progress, errorCode, cancellationToken);
             }
 
-            if (destination.StartsWith(CommonPaths.RecycleBinPath))
+            if (destination.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
             {
                 errorCode?.Report(FileSystemStatusCode.Unauthorized);
                 progress?.Report(100.0f);
@@ -469,7 +469,7 @@ namespace Files.Filesystem
 
                             if (fsResultMove)
                             {
-                                if (FolderHelpers.CheckFolderForHiddenAttribute(source.Path))
+                                if (NativeFileOperationsHelper.HasFileAttribute(source.Path, FileAttributes.Hidden))
                                 {
                                     // The source folder was hidden, apply hidden attribute to destination
                                     NativeFileOperationsHelper.SetFileAttribute(fsResultMove.Result.Path, FileAttributes.Hidden);
@@ -544,7 +544,7 @@ namespace Files.Filesystem
                 {
                     await Task.Delay(50); // Small delay for the item to appear in the file list
                     List<ListedItem> movedListedItems = associatedInstance.FilesystemViewModel.FilesAndFolders
-                        .Where(listedItem => destination.Contains(listedItem.ItemPath)).ToList();
+                        .Where(listedItem => destination.Contains(listedItem.ItemPath, StringComparison.Ordinal)).ToList();
 
                     if (movedListedItems.Count > 0)
                     {
@@ -636,7 +636,7 @@ namespace Files.Filesystem
             if (deleteFromRecycleBin)
             {
                 // Recycle bin also stores a file starting with $I for each item
-                string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I"));
+                string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I", StringComparison.Ordinal));
                 await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
                     .OnSuccess(iFile => iFile.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
             }
@@ -851,7 +851,7 @@ namespace Files.Filesystem
             if (fsResult)
             {
                 // Recycle bin also stores a file starting with $I for each item
-                string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I"));
+                string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I", StringComparison.Ordinal));
                 await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
                     .OnSuccess(iFile => iFile.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
             }

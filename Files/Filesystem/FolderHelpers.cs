@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using static Files.Helpers.NativeFindStorageItemHelper;
-using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Filesystem
 {
@@ -22,25 +21,6 @@ namespace Files.Filesystem
                 return true;
             }
             return false;
-        }
-
-        public static bool CheckFolderForHiddenAttribute(string path)
-        {
-            if (string.IsNullOrEmpty(path))
-            {
-                return false;
-            }
-            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-            IntPtr hFileTsk = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
-                additionalFlags);
-            if (hFileTsk.ToInt64() == -1)
-            {
-                return false;
-            }
-            var isHidden = ((FileAttributes)findDataTsk.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-            FindClose(hFileTsk);
-            return isHidden;
         }
 
         public static async Task<bool> CheckBitlockerStatusAsync(BaseStorageFolder rootFolder, string path)

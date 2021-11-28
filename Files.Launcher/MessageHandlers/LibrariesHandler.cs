@@ -55,7 +55,7 @@ namespace FilesFullTrust.MessageHandlers
 
         private async void OnLibraryChanged(WatcherChangeTypes changeType, string oldPath, string newPath)
         {
-            if (newPath != null && (!newPath.ToLower().EndsWith(ShellLibraryItem.EXTENSION) || !File.Exists(newPath)))
+            if (newPath != null && (!newPath.ToLowerInvariant().EndsWith(ShellLibraryItem.EXTENSION, StringComparison.Ordinal) || !File.Exists(newPath)))
             {
                 System.Diagnostics.Debug.WriteLine($"Ignored library event: {changeType}, {oldPath} -> {newPath}");
                 return;

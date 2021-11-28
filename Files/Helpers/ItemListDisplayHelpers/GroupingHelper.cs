@@ -14,11 +14,11 @@ namespace Files.Helpers
         {
             return option switch
             {
-                GroupOption.Name => x => new string(x.ItemName.Take(1).ToArray()).ToUpper(),
+                GroupOption.Name => x => new string(x.ItemName.Take(1).ToArray()).ToUpperInvariant(),
                 GroupOption.Size => x => x.PrimaryItemAttribute != StorageItemTypes.Folder ? GetGroupSizeKey(x.FileSizeBytes) : x.FileSizeDisplay,
                 GroupOption.DateCreated => x => x.ItemDateCreatedReal.GetUserSettingsFriendlyTimeSpan().text,
                 GroupOption.DateModified => x => x.ItemDateModifiedReal.GetUserSettingsFriendlyTimeSpan().text,
-                GroupOption.FileType => x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsShortcutItem ? x.ItemType : x.FileExtension?.ToLower() ?? " ",
+                GroupOption.FileType => x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsShortcutItem ? x.ItemType : x.FileExtension?.ToLowerInvariant() ?? " ",
                 GroupOption.SyncStatus => x => x.SyncStatusString,
                 GroupOption.FileTag => x => x.FileTag,
                 GroupOption.OriginalFolder => x => (x as RecycleBinItem)?.ItemOriginalFolder,
