@@ -20,25 +20,21 @@ namespace Files.Extensions
 
         private static async Task<byte[]> ToByteArrayAsync(this Stream stream, CancellationToken cancellationToken = default)
         {
-            MemoryStream memoryStream = null;
-            try
+            MemoryStream memoryStream;
+            if (stream.CanSeek)
             {
-                if (stream.CanSeek)
-                {
-                    var length = stream.Length - stream.Position;
-                    memoryStream = new MemoryStream((int)length);
-                }
-                else
-                {
-                    memoryStream = new MemoryStream();
-                }
+                var length = stream.Length - stream.Position;
+                memoryStream = new MemoryStream((int)length);
+            }
+            else
+            {
+                memoryStream = new MemoryStream();
+            }
 
+            using (memoryStream)
+            {
                 await stream.CopyToAsync(memoryStream, bufferSize: 81920, cancellationToken).ConfigureAwait(false);
                 return memoryStream.ToArray();
-            }
-            finally
-            {
-                memoryStream?.Dispose();
             }
         }
     }
