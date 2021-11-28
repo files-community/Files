@@ -164,7 +164,7 @@ namespace Files.DataModels
                 return false;
             }
 
-            if (oldIndex >= 1 && newIndex >= 1 && newIndex <= FavoriteItems.Count())
+            if (oldIndex >= 1 && newIndex >= 1 && newIndex <= FavoriteItems.Count)
             {
                 // A backup of the items, because the swapping of items requires removing and inserting them in the correct position
                 var sidebarItemsBackup = new List<string>(FavoriteItems);
@@ -361,7 +361,7 @@ namespace Files.DataModels
                 SidebarControl.SideBarItemsSemaphore.Release();
             }
 
-            for (int i = 0; i < FavoriteItems.Count(); i++)
+            for (int i = 0; i < FavoriteItems.Count; i++)
             {
                 string path = FavoriteItems[i];
                 await AddItemToSidebarAsync(path);
@@ -376,7 +376,7 @@ namespace Files.DataModels
         public void RemoveStaleSidebarItems()
         {
             // Remove unpinned items from sidebar
-            for (int i = 0; i < favoriteSection.ChildItems.Count(); i++)
+            for (int i = 0; i < favoriteSection.ChildItems.Count; i++)
             {
                 if (favoriteSection.ChildItems[i] is LocationItem)
                 {

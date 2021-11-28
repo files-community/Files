@@ -113,7 +113,7 @@ namespace FilesFullTrust
                 return null;
             }
 
-            using var sf = shellItems.First().Parent; // HP: the items are all in the same folder
+            using var sf = shellItems[0].Parent; // HP: the items are all in the same folder
             Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(null, shellItems);
             var hMenu = User32.CreatePopupMenu();
             menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);

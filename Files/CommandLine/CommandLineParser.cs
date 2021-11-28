@@ -48,7 +48,7 @@ namespace Files.CommandLine
                         //case "-Cmdless":
                         try
                         {
-                            if (kvp.Value.StartsWith("::{") || kvp.Value.StartsWith("shell:"))
+                            if (kvp.Value.StartsWith("::{", StringComparison.Ordinal) || kvp.Value.StartsWith("shell:", StringComparison.Ordinal))
                             {
                                 command.Type = ParsedCommandType.ExplorerShellCommand;
                             }
@@ -94,7 +94,7 @@ namespace Files.CommandLine
                 }
             }
 
-            return new string(commandLineCharArray).Replace("\"", "").Split('\n');
+            return new string(commandLineCharArray).Replace("\"", "", StringComparison.Ordinal).Split('\n');
         }
 
         public static List<KeyValuePair<string, string>> Parse(string[] args = null)
@@ -110,7 +110,7 @@ namespace Files.CommandLine
                 {
                     for (int i = 0; i < args.Length; i++)
                     {
-                        if (args[i].StartsWith("-") || args[i].StartsWith("/"))
+                        if (args[i].StartsWith('-') || args[i].StartsWith('/'))
                         {
                             var data = ParseData(args, i);
 
@@ -143,9 +143,9 @@ namespace Files.CommandLine
         {
             string key = null;
             string val = null;
-            if (args[index].StartsWith("-") || args[index].StartsWith("/"))
+            if (args[index].StartsWith('-') || args[index].StartsWith('/'))
             {
-                if (args[index].Contains(":"))
+                if (args[index].Contains(":", StringComparison.Ordinal))
                 {
                     string argument = args[index];
                     int endIndex = argument.IndexOf(':');
@@ -158,7 +158,7 @@ namespace Files.CommandLine
                 {
                     key = args[index];
                     int argIndex = 1 + index;
-                    if (argIndex < args.Length && !(args[argIndex].StartsWith("-") || args[argIndex].StartsWith("/")))
+                    if (argIndex < args.Length && !(args[argIndex].StartsWith('-') || args[argIndex].StartsWith('/')))
                     {
                         val = args[argIndex];
                     }

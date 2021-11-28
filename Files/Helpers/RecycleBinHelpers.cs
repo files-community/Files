@@ -17,7 +17,7 @@ namespace Files.Helpers
     {
         #region Private Members
 
-        private static readonly Regex recycleBinPathRegex = new Regex(@"\w:\\\$Recycle\.Bin\\.*", RegexOptions.IgnoreCase);
+        private static readonly Regex recycleBinPathRegex = new Regex(@"^[A-Z]:\\\$Recycle\.Bin\\", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
         private Task<NamedPipeAsAppServiceConnection> ServiceConnection => AppServiceConnectionHelper.Instance;
 
@@ -104,7 +104,7 @@ namespace Files.Helpers
 
         public async Task<bool> HasRecycleBin(string path)
         {
-            if (string.IsNullOrEmpty(path) || path.StartsWith(@"\\?\"))
+            if (string.IsNullOrEmpty(path) || path.StartsWith(@"\\?\", StringComparison.Ordinal))
             {
                 return false;
             }

@@ -74,7 +74,7 @@ namespace FilesFullTrust.MessageHandlers
             var workingDirectory = message.Get("WorkingDirectory", "");
             var currentWindows = Win32API.GetDesktopWindows();
 
-            if (new[] { ".vhd", ".vhdx" }.Contains(Path.GetExtension(application).ToLower()))
+            if (new[] { ".vhd", ".vhdx" }.Contains(Path.GetExtension(application).ToLowerInvariant()))
             {
                 // Use powershell to mount vhds as this requires admin rights
                 Win32API.MountVhdDisk(application);
@@ -92,7 +92,7 @@ namespace FilesFullTrust.MessageHandlers
                 {
                     process.StartInfo.UseShellExecute = true;
                     process.StartInfo.Verb = "runas";
-                    if (Path.GetExtension(application).ToLower() == ".msi")
+                    if (string.Equals(Path.GetExtension(application), ".msi", StringComparison.OrdinalIgnoreCase))
                     {
                         process.StartInfo.FileName = "msiexec.exe";
                         process.StartInfo.Arguments = $"/a \"{application}\"";
@@ -102,7 +102,7 @@ namespace FilesFullTrust.MessageHandlers
                 {
                     process.StartInfo.UseShellExecute = true;
                     process.StartInfo.Verb = "runasuser";
-                    if (Path.GetExtension(application).ToLower() == ".msi")
+                    if (string.Equals(Path.GetExtension(application), ".msi", StringComparison.OrdinalIgnoreCase))
                     {
                         process.StartInfo.FileName = "msiexec.exe";
                         process.StartInfo.Arguments = $"/i \"{application}\"";
@@ -187,10 +187,10 @@ namespace FilesFullTrust.MessageHandlers
 
         private string GetMtpPath(string executable)
         {
-            if (executable.StartsWith("\\\\?\\"))
+            if (executable.StartsWith("\\\\?\\", StringComparison.Ordinal))
             {
                 using var computer = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_ComputerFolder);
-                using var device = computer.FirstOrDefault(i => executable.Replace("\\\\?\\", "").StartsWith(i.Name));
+                using var device = computer.FirstOrDefault(i => executable.Replace("\\\\?\\", "", StringComparison.Ordinal).StartsWith(i.Name, StringComparison.Ordinal));
                 var deviceId = device?.ParsingName;
                 var itemPath = Regex.Replace(executable, @"^\\\\\?\\[^\\]*\\?", "");
                 return deviceId != null ? Path.Combine(deviceId, itemPath) : executable;

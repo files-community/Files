@@ -7,15 +7,16 @@ namespace FilesFullTrust.Helpers
 {
     public class ThreadWithMessageQueue<T> : IDisposable
     {
-        private BlockingCollection<Internal> messageQueue;
-        private Thread thread;
-        private DisposableDictionary state;
+        private readonly BlockingCollection<Internal> messageQueue;
+        private readonly Thread thread;
+        private readonly DisposableDictionary state;
 
         public void Dispose()
         {
             messageQueue.CompleteAdding();
             thread.Join();
             state.Dispose();
+            messageQueue.Dispose();
         }
 
         public async Task<V> PostMessageAsync<V>(T payload)

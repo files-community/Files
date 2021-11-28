@@ -147,7 +147,7 @@ namespace Files.ViewModels
                 return null;
             }
 
-            var ext = item.FileExtension.ToLower();
+            var ext = item.FileExtension.ToLowerInvariant();
             if (MediaPreviewViewModel.Extensions.Contains(ext))
             {
                 var model = new MediaPreviewViewModel(item);

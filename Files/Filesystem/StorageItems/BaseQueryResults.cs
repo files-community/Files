@@ -45,12 +45,12 @@ namespace Files.Filesystem.StorageItems
                         {
                             if (colonSplit[0] == "System.FileName" || colonSplit[0] == "fileName" || colonSplit[0] == "name")
                             {
-                                items = items.Where(x => Regex.IsMatch(x.Name, colonSplit[1].Replace("\"", "").Replace("*", "(.*?)"), RegexOptions.IgnoreCase)).ToList();
+                                items = items.Where(x => Regex.IsMatch(x.Name, colonSplit[1].Replace("\"", "", StringComparison.Ordinal).Replace("*", "(.*?)", StringComparison.Ordinal), RegexOptions.IgnoreCase)).ToList();
                             }
                         }
                         else
                         {
-                            items = items.Where(x => Regex.IsMatch(x.Name, split.Replace("\"", "").Replace("*", "(.*?)"), RegexOptions.IgnoreCase)).ToList();
+                            items = items.Where(x => Regex.IsMatch(x.Name, split.Replace("\"", "", StringComparison.Ordinal).Replace("*", "(.*?)", StringComparison.Ordinal), RegexOptions.IgnoreCase)).ToList();
                         }
                     }
                 }
@@ -97,12 +97,12 @@ namespace Files.Filesystem.StorageItems
                         {
                             if (colonSplit[0] == "System.FileName" || colonSplit[0] == "fileName" || colonSplit[0] == "name")
                             {
-                                items = items.Where(x => Regex.IsMatch(x.Name, colonSplit[1].Replace("\"", "").Replace("*", "(.*?)"), RegexOptions.IgnoreCase)).ToList();
+                                items = items.Where(x => Regex.IsMatch(x.Name, colonSplit[1].Replace("\"", "", StringComparison.Ordinal).Replace("*", "(.*?)", StringComparison.Ordinal), RegexOptions.IgnoreCase)).ToList();
                             }
                         }
                         else
                         {
-                            items = items.Where(x => Regex.IsMatch(x.Name, split.Replace("\"", "").Replace("*", "(.*?)"), RegexOptions.IgnoreCase)).ToList();
+                            items = items.Where(x => Regex.IsMatch(x.Name, split.Replace("\"", "", StringComparison.Ordinal).Replace("*", "(.*?)", StringComparison.Ordinal), RegexOptions.IgnoreCase)).ToList();
                         }
                     }
                 }
@@ -149,12 +149,12 @@ namespace Files.Filesystem.StorageItems
                         {
                             if (colonSplit[0] == "System.FileName" || colonSplit[0] == "fileName" || colonSplit[0] == "name")
                             {
-                                items = items.Where(x => Regex.IsMatch(x.Name, colonSplit[1].Replace("\"", "").Replace("*", "(.*?)"), RegexOptions.IgnoreCase)).ToList();
+                                items = items.Where(x => Regex.IsMatch(x.Name, colonSplit[1].Replace("\"", "", StringComparison.Ordinal).Replace("*", "(.*?)", StringComparison.Ordinal), RegexOptions.IgnoreCase)).ToList();
                             }
                         }
                         else
                         {
-                            items = items.Where(x => Regex.IsMatch(x.Name, split.Replace("\"", "").Replace("*", "(.*?)"), RegexOptions.IgnoreCase)).ToList();
+                            items = items.Where(x => Regex.IsMatch(x.Name, split.Replace("\"", "", StringComparison.Ordinal).Replace("*", "(.*?)", StringComparison.Ordinal), RegexOptions.IgnoreCase)).ToList();
                         }
                     }
                 }

@@ -1,4 +1,4 @@
-﻿using Files.Common;
+using Files.Common;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -12,19 +12,19 @@ namespace FilesFullTrust.Helpers
     {
         public static async Task<List<CloudProvider>> DetectCloudDrives()
         {
-            var tasks = new List<Task<List<CloudProvider>>>()
+            var tasks = new Task<List<CloudProvider>>[]
             {
                 Extensions.IgnoreExceptions(DetectOneDrive, Program.Logger),
                 Extensions.IgnoreExceptions(DetectSharepoint, Program.Logger),
                 Extensions.IgnoreExceptions(DetectGenericCloudDrive, Program.Logger)
             };
-            
+
             await Task.WhenAll(tasks);
 
             return tasks.Where(o => o.Result != null).SelectMany(o => o.Result).OrderBy(o => o.ID.ToString()).ThenBy(o => o.Name).Distinct().ToList();
         }
 
-        private static async Task<List<CloudProvider>> DetectGenericCloudDrive()
+        private static Task<List<CloudProvider>> DetectGenericCloudDrive()
         {
             var results = new List<CloudProvider>();
             using var clsidKey = Registry.ClassesRoot.OpenSubKey(@"CLSID");
@@ -72,16 +72,16 @@ namespace FilesFullTrust.Helpers
                     });
                 }
             }
-            return await Task.FromResult(results);
+            return Task.FromResult(results);
         }
 
-        private static async Task<List<CloudProvider>> DetectOneDrive()
+        private static Task<List<CloudProvider>> DetectOneDrive()
         {
             using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts");
 
             if (oneDriveAccountsKey == null)
             {
-                return null;
+                return Task.FromResult<List<CloudProvider>>(null);
             }
 
             var oneDriveAccounts = new List<CloudProvider>();
@@ -101,16 +101,16 @@ namespace FilesFullTrust.Helpers
                     });
                 }
             }
-            return await Task.FromResult(oneDriveAccounts);
+            return Task.FromResult(oneDriveAccounts);
         }
 
-        private static async Task<List<CloudProvider>> DetectSharepoint()
+        private static Task<List<CloudProvider>> DetectSharepoint()
         {
             using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts");
 
             if (oneDriveAccountsKey == null)
             {
-                return null;
+                return Task.FromResult<List<CloudProvider>>(null);
             }
 
             var sharepointAccounts = new List<CloudProvider>();
@@ -142,7 +142,8 @@ namespace FilesFullTrust.Helpers
                     }
                 }
 
-                foreach (var sharePointSyncFolder in sharePointSyncFolders.OrderBy(o => o))
+                sharePointSyncFolders.Sort(StringComparer.Ordinal);
+                foreach (var sharePointSyncFolder in sharePointSyncFolders)
                 {
                     var parentFolder = Directory.GetParent(sharePointSyncFolder)?.FullName ?? string.Empty;
                     if (!sharepointAccounts.Any(acc => string.Equals(acc.Name, accountName, StringComparison.OrdinalIgnoreCase)) && !string.IsNullOrWhiteSpace(parentFolder))
@@ -157,7 +158,7 @@ namespace FilesFullTrust.Helpers
                 }
             }
 
-            return await Task.FromResult(sharepointAccounts);
+            return Task.FromResult(sharepointAccounts);
         }
     }
 }
