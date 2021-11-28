@@ -72,9 +72,7 @@
                                     <ColumnDefinition Width="18" />
                                 </Grid.ColumnDefinitions>
                                 <FontIcon Width="18" FontSize="18" VerticalAlignment="Center" Glyph="{x:Bind Glyph}" />
-                                <Button Grid.Column="1" CornerRadius="18" FontSize="17" Command="{x:Bind OpenCommand}"
-                                        Style="{StaticResource FilterButtonStyle}">
-                                    <!--Background="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}" BorderBrush="Transparent"-->
+                                <Button Grid.Column="1" Style="{StaticResource FilterButtonStyle}" Command="{x:Bind OpenCommand}">
                                     <Button.Content>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
@@ -294,6 +292,8 @@
         </Style>
 
         <Style x:Key="FilterButtonStyle" TargetType="Button">
+            <Setter Property="FontSize" Value="17" />
+            <Setter Property="CornerRadius" Value="18" />
             <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowRevealBackgroundBrush}" />
             <Setter Property="BackgroundSizing" Value="OuterBorderEdge" />
             <Setter Property="BorderBrush" Value="Transparent" />
