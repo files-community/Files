@@ -703,6 +703,9 @@ namespace Files.Views
                 case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
                     NavToolbarViewModel.IsEditModeEnabled = true;
                     break;
+                case (true, false, false, true, VirtualKey.H): // ctrl + h, show/hide hidden items
+                    UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = !UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible;
+                    break;
 
                 case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
                     await Launcher.LaunchUriAsync(new Uri(@"https://files.community/docs"));
