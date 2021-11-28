@@ -23,7 +23,7 @@ namespace Files.Helpers
             FilesystemResult<BaseStorageFile> file = null;
             FilesystemResult<BaseStorageFolder> folder = null;
 
-            if (path.ToLowerInvariant().EndsWith(".lnk", StringComparison.OrdinalIgnoreCase) || path.ToLowerInvariant().EndsWith(".url", StringComparison.OrdinalIgnoreCase))
+            if (path.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase) || path.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
             {
                 // TODO: In the future, when IStorageItemWithPath will inherit from IStorageItem,
                 // we could implement this code here for getting .lnk files
@@ -82,7 +82,7 @@ namespace Files.Helpers
                     {
                         await GetFolder();
 
-                        if (file != null && (!folder || folder.Result == null))
+                        if (file == null && (!folder || folder.Result == null))
                         {
                             // Try file because it wasn't checked
                             await GetFile();
