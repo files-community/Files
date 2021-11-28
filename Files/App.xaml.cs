@@ -155,7 +155,7 @@ namespace Files
             }
         }
 
-        private static async Task LoadOtherStuffAsync()
+        private static async Task InitializeAppComponentsAsync()
         {
             // Start off a list of tasks we need to run before we can continue startup
             await Task.Run(async () =>
@@ -202,8 +202,8 @@ namespace Files
 
             bool canEnablePrelaunch = ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
 
-            LoadOtherStuffAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during LoadOtherStuffAsync()"), TaskContinuationOptions.OnlyOnFaulted);
             await EnsureSettingsAndConfigurationAreBootstrapped();
+            InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during LoadOtherStuffAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
             var rootFrame = EnsureWindowIsInitialized();
 
@@ -260,8 +260,8 @@ namespace Files
             //start tracking app usage
             SystemInformation.Instance.TrackAppUse(e);
 
-            LoadOtherStuffAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during LoadOtherStuffAsync()"), TaskContinuationOptions.OnlyOnFaulted);
             await EnsureSettingsAndConfigurationAreBootstrapped();
+            InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during LoadOtherStuffAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
             var rootFrame = EnsureWindowIsInitialized();
 
@@ -327,7 +327,7 @@ namespace Files
             Logger.Info($"App activated by {args.Kind.ToString()}");
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
-            LoadOtherStuffAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during LoadOtherStuffAsync()"), TaskContinuationOptions.OnlyOnFaulted);
+            InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during LoadOtherStuffAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
             var rootFrame = EnsureWindowIsInitialized();
 
