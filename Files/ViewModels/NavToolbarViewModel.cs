@@ -604,6 +604,27 @@ namespace Files.ViewModels
             (this as INavigationToolbar).IsEditModeEnabled = false;
         }
 
+        public async Task PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e)
+		{
+            var itemTappedPath = ((sender as Border).DataContext as PathBoxItem).Path;
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                Windows.UI.Input.PointerPoint ptrPt = e.GetCurrentPoint(NavToolbar);
+                if (ptrPt.Properties.IsMiddleButtonPressed)
+                {
+                    await Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
+                    {
+                        await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
+                    });
+                    e.Handled = true;
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+
         public void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
         {
             var itemTappedPath = ((sender as Border).DataContext as PathBoxItem).Path;
