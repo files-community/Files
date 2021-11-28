@@ -46,8 +46,8 @@ namespace Files.Filesystem.Search
             get
             {
                 ISearchSettings settings = Ioc.Default.GetService<ISearchSettings>();
-                var isManualAqs = Query is not null && (Query.StartsWith("$") || Query.Contains(":"));
-                var hasSearchFilter = !string.IsNullOrEmpty(settings.Filter.ToAdvancedQuerySyntax());
+                bool isManualAqs = Query is not null && (Query.StartsWith("$") || Query.Contains(":", StringComparison.Ordinal));
+                bool hasSearchFilter = !string.IsNullOrEmpty(settings.Filter.ToAdvancedQuerySyntax());
                 return isManualAqs || hasSearchFilter;
             }
         }
@@ -219,7 +219,7 @@ namespace Files.Filesystem.Search
                     var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 
                     bool shouldBeListed = !isHidden || (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden));
- 
+
                     if (shouldBeListed)
                     {
                         var item = GetListedItemAsync(match.FilePath, findData);
