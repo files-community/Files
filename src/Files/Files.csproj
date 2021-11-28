@@ -1518,6 +1518,10 @@
     <XliffResource Include="MultilingualResources\Files.zh-Hant.xlf" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\SevenZipExtractor\SevenZipExtractor\SevenZipExtractor.csproj">
+      <Project>{2caa786b-6be4-437c-810c-758e6a3a1d8d}</Project>
+      <Name>SevenZipExtractor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj">
       <Project>{3d19293f-0e3a-4946-ade3-680a1e9123ec}</Project>
       <Name>BackgroundTasks</Name>
