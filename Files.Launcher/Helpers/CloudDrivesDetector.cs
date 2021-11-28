@@ -142,7 +142,8 @@ namespace FilesFullTrust.Helpers
                     }
                 }
 
-                foreach (var sharePointSyncFolder in sharePointSyncFolders.OrderBy(o => o))
+                sharePointSyncFolders.Sort(StringComparer.Ordinal);
+                foreach (var sharePointSyncFolder in sharePointSyncFolders)
                 {
                     var parentFolder = Directory.GetParent(sharePointSyncFolder)?.FullName ?? string.Empty;
                     if (!sharepointAccounts.Any(acc => string.Equals(acc.Name, accountName, StringComparison.OrdinalIgnoreCase)) && !string.IsNullOrWhiteSpace(parentFolder))
