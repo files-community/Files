@@ -2,6 +2,8 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -63,6 +65,8 @@ namespace Files.Helpers
             }
             else // Does not exist or is not present on local storage
             {
+                Debug.WriteLine($"Path does not exist. Trying to find storage item manually (HRESULT: {Marshal.GetLastWin32Error()})");
+
                 if (typeof(IStorageFile).IsAssignableFrom(typeof(TRequested)))
                 {
                     await GetFile();

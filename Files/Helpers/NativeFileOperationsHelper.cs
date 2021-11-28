@@ -224,9 +224,6 @@ namespace Files.Helpers
             [In] ref NativeOverlapped lpOverlapped,
             LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
 
-        [DllImport("api-ms-win-core-errorhandling-l1-1-1.dll")]
-        public static extern uint GetLastError();
-
         public delegate void LPOVERLAPPED_COMPLETION_ROUTINE(uint dwErrorCode, uint dwNumberOfBytesTransfered, ref NativeOverlapped lpOverlapped);
 
         public enum GET_FILEEX_INFO_LEVELS
