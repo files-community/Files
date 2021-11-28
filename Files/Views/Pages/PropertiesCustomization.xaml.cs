@@ -27,9 +27,9 @@ namespace Files.Views
             }, new SuppressNavigationTransitionInfo());
         }
 
-        public override async Task<bool> SaveChangesAsync(ListedItem item)
+        public override Task<bool> SaveChangesAsync(ListedItem item)
         {
-            return await Task.FromResult(true);
+            return Task.FromResult(true);
         }
 
         public override void Dispose()
