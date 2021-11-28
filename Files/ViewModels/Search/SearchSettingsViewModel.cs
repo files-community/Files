@@ -28,7 +28,7 @@ namespace Files.ViewModels.Search
             var filter = settings.Filter as ISearchFilterCollection;
 
             LocationViewModel = new LocationPickerViewModel(settings.Location);
-            FilterViewModel = new GroupPickerViewModel(context, filter);
+            FilterViewModel = new GroupPageViewModel(context, filter).Picker;
 
             SearchCommand = new RelayCommand(context.Search);
         }

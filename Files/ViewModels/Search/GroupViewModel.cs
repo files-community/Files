@@ -2,6 +2,7 @@
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -114,8 +115,10 @@ namespace Files.ViewModels.Search
                 _ => Headers.First(),
             };
 
-            Picker = new GroupPickerViewModel(context, filter);
-            Picker.Description = header?.Description;
+            Picker = new GroupPickerViewModel(context, filter, Save)
+            {
+                Description = header?.Description
+            };
         }
 
         private void Save()
@@ -136,6 +139,7 @@ namespace Files.ViewModels.Search
     public class GroupPickerViewModel : ObservableObject, IGroupPickerViewModel
     {
         private readonly ISearchPageContext context;
+        private readonly Action saveAction;
 
         public bool IsEmpty => !Filters.Any();
         public bool HasDescription => !string.IsNullOrEmpty(Description);
@@ -167,9 +171,10 @@ namespace Files.ViewModels.Search
         public ICommand ClearCommand { get; }
         public ICommand OpenCommand { get; }
 
-        public GroupPickerViewModel(ISearchPageContext context, ISearchFilterCollection filters)
+        public GroupPickerViewModel(ISearchPageContext context, ISearchFilterCollection filters, Action saveAction)
         {
             this.context = context;
+            this.saveAction = saveAction;
 
             Filters = filters;
             Filters.PropertyChanged += Filters_PropertyChanged;
@@ -190,6 +195,7 @@ namespace Files.ViewModels.Search
         {
             OnPropertyChanged(nameof(IsEmpty));
             OnPropertyChanged(nameof(Contexts));
+            saveAction();
         }
     }
 }
