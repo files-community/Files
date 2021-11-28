@@ -23,7 +23,7 @@ namespace Files.Helpers
             FilesystemResult<BaseStorageFile> file = null;
             FilesystemResult<BaseStorageFolder> folder = null;
 
-            if (path.ToLowerInvariant().EndsWith(".lnk", StringComparison.Ordinal) || path.ToLowerInvariant().EndsWith(".url", StringComparison.Ordinal))
+            if (path.ToLowerInvariant().EndsWith(".lnk", StringComparison.OrdinalIgnoreCase) || path.ToLowerInvariant().EndsWith(".url", StringComparison.OrdinalIgnoreCase))
             {
                 // TODO: In the future, when IStorageItemWithPath will inherit from IStorageItem,
                 // we could implement this code here for getting .lnk files
@@ -33,7 +33,7 @@ namespace Files.Helpers
 
             // Fast get attributes
             bool exists = NativeFileOperationsHelper.GetFileAttributesExFromApp(path, NativeFileOperationsHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out NativeFileOperationsHelper.WIN32_FILE_ATTRIBUTE_DATA itemAttributes);
-            if (exists) // Exists on local storage - get TRequested
+            if (exists) // Exists on local storage
             {
                 // Directory
                 if (itemAttributes.dwFileAttributes.HasFlag(System.IO.FileAttributes.Directory))
@@ -61,7 +61,7 @@ namespace Files.Helpers
                     }
                 }
             }
-            else // Does not exist or is not on local storage
+            else // Does not exist or is not present on local storage
             {
                 if (typeof(IStorageFile).IsAssignableFrom(typeof(TRequested)))
                 {
