@@ -502,7 +502,6 @@
                     AutomationProperties.Name="Search"
                     Background="Transparent"
                     Click="SearchButton_Click"
-                    IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Search (Ctrl+F)"
                     Visibility="Collapsed">
