@@ -1474,6 +1474,9 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
     </PackageReference>
+    <PackageReference Include="SharpZipLib">
+      <Version>1.3.4</Version>
+    </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_green">
       <Version>2.0.7</Version>
     </PackageReference>
