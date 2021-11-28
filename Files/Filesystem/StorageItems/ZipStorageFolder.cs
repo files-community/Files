@@ -580,7 +580,7 @@ namespace Files.Filesystem.StorageItems
                     {
                         return null;
                     }
-                    return new ZipFile(new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read));
+                    return new ZipFile((Stream)new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read));
                 }
             });
         }
