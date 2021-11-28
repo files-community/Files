@@ -136,11 +136,6 @@
           <target state="needs-review-translation">Skicka feedback</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
-          <source>Third party licenses</source>
-          <target state="needs-review-translation">Tredjepartslicenser</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
-        </trans-unit>
         <trans-unit id="About" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Om</target>
@@ -149,11 +144,6 @@
           <source>Appearance</source>
           <target state="translated">Utseende</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
-          <source>Files &amp; Folders</source>
-          <target state="needs-review-translation">Filer och mappar</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
-        </trans-unit>
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
           <target state="translated">Experimentellt</target>
@@ -161,15 +151,6 @@
         <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
           <source>Experimental</source>
           <target state="translated">Experimentellt</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavFilesAndFolders.Content" translate="yes" xml:space="preserve">
-          <source>Files &amp; Folders</source>
-          <target state="needs-review-translation">Filer och mappar</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
-        </trans-unit>
-        <trans-unit id="SettingsNavOnStartup.Content" translate="yes" xml:space="preserve">
-          <source>On Startup</source>
-          <target state="translated">Vid start</target>
         </trans-unit>
         <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
           <source>Preferences</source>
@@ -190,10 +171,6 @@
         <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
           <source>Open a specific page or pages</source>
           <target state="translated">Öppna en specifik sida eller specifika sidor</target>
-        </trans-unit>
-        <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
-          <source>On Startup</source>
-          <target state="translated">Vid start</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTitle.Text" translate="yes" xml:space="preserve">
           <source>Preferences</source>
@@ -741,19 +718,6 @@
         <trans-unit id="SettingsOnStartupPages.Text" translate="yes" xml:space="preserve">
           <source>Pages:</source>
           <target state="translated">Sidor:</target>
-        </trans-unit>
-        <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
-          <source>Always open a new instance</source>
-          <target state="translated">Öppna alltid en ny instans</target>
-        </trans-unit>
-        <trans-unit id="SettingsOnStartupLaunchNewTab.Content" translate="yes" xml:space="preserve">
-          <source>Open folder in a new tab</source>
-          <target state="translated">Öppna mapp i en ny flik</target>
-        </trans-unit>
-        <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
-          <source>When opening a folder in Files</source>
-          <target state="needs-review-translation">När ett objekt öppnas från Start-menyn eller aktivitetsfältet</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
           <source>Windows default</source>
@@ -1661,16 +1625,6 @@
         <trans-unit id="dateDeletedColumn.Header" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
           <target state="translated">Borttagningsdatum</target>
-        </trans-unit>
-        <trans-unit id="SettingsTabCustomization.Text" translate="yes" xml:space="preserve">
-          <source>Tab customization</source>
-          <target state="needs-review-translation">Flikanpassning</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
-        </trans-unit>
-        <trans-unit id="SettingsWhenLaunchingFiles.Text" translate="yes" xml:space="preserve">
-          <source>When launching Files</source>
-          <target state="needs-review-translation">När Files startas</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SidebarCloudDrives" translate="yes" xml:space="preserve">
           <source>Cloud Drives</source>
@@ -2684,14 +2638,6 @@
           <source>Unknown owner</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Okänd ägare.</target>
         </trans-unit>
-        <trans-unit id="SettingsNavSidebar.Content" translate="yes" xml:space="preserve">
-          <source>Sidebar</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Sidofält</target>
-        </trans-unit>
-        <trans-unit id="SettingsSidebarTitle.Text" translate="yes" xml:space="preserve">
-          <source>Sidebar</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Sidofält</target>
-        </trans-unit>
         <trans-unit id="DefaultTheme" translate="yes" xml:space="preserve">
           <source>Default</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Standard</target>
@@ -3093,8 +3039,8 @@
           <target state="new">List and sort directories alongside files</target>
         </trans-unit>
         <trans-unit id="SettingsSearchUnindexedItems" translate="yes" xml:space="preserve">
-          <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
-          <target state="new">Show unindexed items when searching for files and folders (searches may take longer)</target>
+          <source>Show unindexed items when searching for files and folders</source>
+          <target state="new">Show unindexed items when searching for files and folders</target>
         </trans-unit>
         <trans-unit id="SettingsEnableLayoutPreferencesPerFolder" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
@@ -3570,14 +3516,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Item size column</source>
           <target state="new">Item size column</target>
         </trans-unit>
-        <trans-unit id="SettingsDefaultExplorer" translate="yes" xml:space="preserve">
-          <source>Default file explorer</source>
-          <target state="new">Default file explorer</target>
-        </trans-unit>
-        <trans-unit id="SettingsSetAsDefaultManager" translate="yes" xml:space="preserve">
-          <source>Set Files as default file explorer</source>
-          <target state="new">Set Files as default file explorer</target>
-        </trans-unit>
         <trans-unit id="SettingsSetAsOpenDialog" translate="yes" xml:space="preserve">
           <source>Use Files as Open File Dialog</source>
           <target state="new">Use Files as Open File Dialog</target>
@@ -3733,6 +3671,46 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="UseMainMonitorDPISettings" translate="yes" xml:space="preserve">
           <source>Use DPI settings of the main monitor</source>
           <target state="new">Use DPI settings of the main monitor</target>
+        </trans-unit>
+        <trans-unit id="SettingsDefaultFilesManager" translate="yes" xml:space="preserve">
+          <source>Default file manager</source>
+          <target state="new">Default file manager</target>
+        </trans-unit>
+        <trans-unit id="SettingsSetAsDefaultFileManager" translate="yes" xml:space="preserve">
+          <source>Set Files as the default file manager</source>
+          <target state="new">Set Files as the default file manager</target>
+        </trans-unit>
+        <trans-unit id="EmptyRecycleBin" translate="yes" xml:space="preserve">
+          <source>Empty Recycle Bin</source>
+          <target state="new">Empty Recycle Bin</target>
+        </trans-unit>
+        <trans-unit id="Sidebar" translate="yes" xml:space="preserve">
+          <source>Sidebar</source>
+          <target state="new">Sidebar</target>
+        </trans-unit>
+        <trans-unit id="FilesAndFolders" translate="yes" xml:space="preserve">
+          <source>Files and folders</source>
+          <target state="new">Files and folders</target>
+        </trans-unit>
+        <trans-unit id="OpenNewInstance" translate="yes" xml:space="preserve">
+          <source>Open new instance when opening directories from the taskbar jumplist</source>
+          <target state="new">Open new instance when opening directories from the taskbar jumplist</target>
+        </trans-unit>
+        <trans-unit id="StartupSettings" translate="yes" xml:space="preserve">
+          <source>Startup settings</source>
+          <target state="new">Startup settings</target>
+        </trans-unit>
+        <trans-unit id="ThirdPartyLicenses" translate="yes" xml:space="preserve">
+          <source>Third party licenses</source>
+          <target state="new">Third party licenses</target>
+        </trans-unit>
+        <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
+          <source>This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</source>
+          <target state="new">This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</target>
+        </trans-unit>
+        <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
+          <source>Clear all</source>
+          <target state="new">Clear all</target>
         </trans-unit>
       </group>
     </body>
