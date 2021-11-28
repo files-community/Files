@@ -63,7 +63,15 @@ namespace Files.Services.Implementation
 
         public override bool ImportSettings(object import)
         {
-            var settingsImport = jsonSettingsSerializer.DeserializeFromJson<Dictionary<string, object>>((string)import);
+            Dictionary<string, object> settingsImport = null;
+            if (import is string importString)
+            {
+                settingsImport = jsonSettingsSerializer.DeserializeFromJson<Dictionary<string, object>>(importString);
+            }
+            else if (import is Dictionary<string, object> importDict)
+            {
+                settingsImport = importDict;
+            }
 
             if (!settingsImport.IsEmpty())
             {

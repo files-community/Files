@@ -1,4 +1,6 @@
-﻿using Files.Models.JsonSettings;
+﻿using Files.Extensions;
+using Files.Models.JsonSettings;
+using System;
 using System.Collections.Generic;
 using Windows.Storage;
 
@@ -6,6 +8,8 @@ namespace Files.Services.Implementation
 {
     public sealed class BundlesSettingsService : BaseObservableJsonSettingsModel, IBundlesSettingsService
     {
+        public event EventHandler OnSettingImportedEvent;
+
         public BundlesSettingsService()
             : base(System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.BundlesSettingsFileName),
                   isCachingEnabled: true)
@@ -20,19 +24,23 @@ namespace Files.Services.Implementation
 
         public override bool ImportSettings(object import)
         {
-            try
+            if (import is string importString)
             {
-                SavedBundles = (Dictionary<string, List<string>>)import;
-                
-                FlushSettings();
+                SavedBundles = jsonSettingsSerializer.DeserializeFromJson<Dictionary<string, List<string>>>(importString);
+            }
+            else if (import is Dictionary<string, List<string>> importDict)
+            {
+                SavedBundles = importDict;
+            }
 
+            if (SavedBundles != null)
+            {
+                FlushSettings();
+                OnSettingImportedEvent?.Invoke(this, null);
                 return true;
             }
-            catch
-            {
-                // TODO: Display the error?
-                return false;
-            }
+
+            return false;
         }
 
         public override object ExportSettings()

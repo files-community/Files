@@ -1,6 +1,7 @@
 ﻿using LiteDB;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Common
 {
@@ -147,6 +148,18 @@ namespace Common
         public void Dispose()
         {
             db.Dispose();
+        }
+
+        public void Import(string json)
+        {
+            var dataValues = JsonSerializer.DeserializeArray(json);
+            db.Engine.Delete("taggedfiles", Query.All());
+            db.Engine.InsertBulk("taggedfiles", dataValues.Select(x => x.AsDocument));
+        }
+
+        public string Export()
+        {
+            return JsonSerializer.Serialize(new BsonArray(db.Engine.FindAll("taggedfiles")));
         }
 
         public class TaggedFile

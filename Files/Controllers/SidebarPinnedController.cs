@@ -1,6 +1,9 @@
 ﻿using Files.DataModels;
+using Files.Enums;
+using Files.Filesystem;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -9,11 +12,11 @@ namespace Files.Controllers
 {
     public class SidebarPinnedController : IJson
     {
-        private StorageFolder Folder { get; set; }
-        private StorageFile JsonFile { get; set; }
-
         public SidebarPinnedModel Model { get; set; }
+
         public string JsonFileName { get; } = "PinnedItems.json";
+
+        private string folderPath => Path.Combine(ApplicationData.Current.LocalFolder.Path, "settings");
 
         public SidebarPinnedController()
         {
@@ -26,51 +29,66 @@ namespace Files.Controllers
             await LoadAsync();
         }
 
+        public async Task ReloadAsync()
+        {
+            await LoadAsync();
+            Model.RemoveStaleSidebarItems();
+        }
+
         private async Task LoadAsync()
         {
-            Folder = ApplicationData.Current.LocalCacheFolder;
-
-            try
+            StorageFolder Folder = await FilesystemTasks.Wrap(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists).AsTask());
+            if (Folder == null)
             {
-                JsonFile = await Folder.GetFileAsync(JsonFileName);
+                Model.AddDefaultItems();
+                await Model.AddAllItemsToSidebar();
+                return;
             }
-            catch (FileNotFoundException)
-            {
-                try
-                {
-                    var oldPinnedItemsFile = await Folder.GetFileAsync("PinnedItems.txt");
-                    var oldPinnedItems = await FileIO.ReadLinesAsync(oldPinnedItemsFile);
-                    await oldPinnedItemsFile.DeleteAsync();
 
-                    foreach (var line in oldPinnedItems)
+            var JsonFile = await FilesystemTasks.Wrap(() => Folder.GetFileAsync(JsonFileName).AsTask());
+            if (!JsonFile)
+            {
+                if (JsonFile == FileSystemStatusCode.NotFound)
+                {
+                    var oldItems = await ReadV2PinnedItemsFile() ?? await ReadV1PinnedItemsFile();
+                    if (oldItems != null)
                     {
-                        if (!Model.FavoriteItems.Contains(line))
+                        foreach (var item in oldItems)
                         {
-                            Model.FavoriteItems.Add(line);
+                            if (!Model.FavoriteItems.Contains(item))
+                            {
+                                Model.FavoriteItems.Add(item);
+                            }
                         }
                     }
+                    else
+                    {
+                        Model.AddDefaultItems();
+                    }
+
+                    Model.Save();
+                    await Model.AddAllItemsToSidebar();
+                    return;
                 }
-                catch (FileNotFoundException)
+                else
                 {
                     Model.AddDefaultItems();
+                    await Model.AddAllItemsToSidebar();
+                    return;
                 }
-
-                JsonFile = await Folder.CreateFileAsync(JsonFileName, CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteTextAsync(JsonFile, JsonConvert.SerializeObject(Model, Formatting.Indented));
             }
 
             try
             {
-                Model = JsonConvert.DeserializeObject<SidebarPinnedModel>(await FileIO.ReadTextAsync(JsonFile));
+                Model = JsonConvert.DeserializeObject<SidebarPinnedModel>(await FileIO.ReadTextAsync(JsonFile.Result));
                 if (Model == null)
                 {
-                    throw new Exception($"{JsonFileName} is empty, regenerating...");
+                    throw new ArgumentException($"{JsonFileName} is empty, regenerating...");
                 }
                 Model.SetController(this);
             }
             catch (Exception)
             {
-                await JsonFile.DeleteAsync();
                 Model = new SidebarPinnedModel();
                 Model.SetController(this);
                 Model.AddDefaultItems();
@@ -82,12 +100,40 @@ namespace Files.Controllers
 
         public void SaveModel()
         {
-            using (var file = File.CreateText(ApplicationData.Current.LocalCacheFolder.Path + Path.DirectorySeparatorChar + JsonFileName))
+            try
             {
-                JsonSerializer serializer = new JsonSerializer();
-                serializer.Formatting = Formatting.Indented;
-                serializer.Serialize(file, Model);
+                using (var file = File.CreateText(Path.Combine(folderPath, JsonFileName)))
+                {
+                    JsonSerializer serializer = new JsonSerializer();
+                    serializer.Formatting = Formatting.Indented;
+                    serializer.Serialize(file, Model);
+                }
             }
+            catch
+            {
+            }
+        }
+
+        private async Task<IEnumerable<string>> ReadV1PinnedItemsFile()
+        {
+            return await Common.Extensions.IgnoreExceptions(async () =>
+            {
+                var oldPinnedItemsFile = await ApplicationData.Current.LocalCacheFolder.GetFileAsync("PinnedItems.txt");
+                var oldPinnedItems = await FileIO.ReadLinesAsync(oldPinnedItemsFile);
+                await oldPinnedItemsFile.DeleteAsync();
+                return oldPinnedItems;
+            });
+        }
+
+        private async Task<IEnumerable<string>> ReadV2PinnedItemsFile()
+        {
+            return await Common.Extensions.IgnoreExceptions(async () =>
+            {
+                var oldPinnedItemsFile = await ApplicationData.Current.LocalCacheFolder.GetFileAsync("PinnedItems.json");
+                var model = JsonConvert.DeserializeObject<SidebarPinnedModel>(await FileIO.ReadTextAsync(oldPinnedItemsFile));
+                await oldPinnedItemsFile.DeleteAsync();
+                return model.FavoriteItems;
+            });
         }
     }
 }
