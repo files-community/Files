@@ -997,7 +997,7 @@ namespace Files.Filesystem
                 }
                 collisions.AddIfNotPresent(incomingItems.ElementAt(i).SourcePath, FileNameConflictResolveOptionType.GenerateNewName);
 
-                if (destination.Count() > 0 && StorageItemHelpers.Exists(destination.ElementAt(i))) // Same item names in both directories
+                if (destination.Count() > 0 && StorageHelpers.Exists(destination.ElementAt(i))) // Same item names in both directories
                 {
                     conflictingItems.Add(incomingItems.ElementAt(i));
                 }

@@ -14,7 +14,7 @@ namespace Files.Helpers
             if (UserProfilePersonalizationSettings.IsSupported())
             {
                 // Get the path of the selected file
-                BaseStorageFile sourceFile = await StorageItemHelpers.ToStorageItem<BaseStorageFile>(filePath, associatedInstance);
+                BaseStorageFile sourceFile = await StorageHelpers.ToStorageItem<BaseStorageFile>(filePath, associatedInstance);
                 if (sourceFile == null)
                 {
                     return;

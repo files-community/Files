@@ -2,7 +2,6 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -12,7 +11,7 @@ namespace Files.Helpers
     /// <summary>
     /// <see cref="IStorageItem"/> related Helpers
     /// </summary>
-    public static class StorageItemHelpers
+    public static class StorageHelpers
     {
         public static async Task<IStorageItem> ToStorageItem(this IStorageItemWithPath item, IShellPage associatedInstance = null)
         {
@@ -34,36 +33,61 @@ namespace Files.Helpers
 
             // Fast get attributes
             bool exists = NativeFileOperationsHelper.GetFileAttributesExFromApp(path, NativeFileOperationsHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out NativeFileOperationsHelper.WIN32_FILE_ATTRIBUTE_DATA itemAttributes);
-            if (!exists)
+            if (exists) // Exists on local storage - get TRequested
             {
-                uint hresult = NativeFileOperationsHelper.GetLastError();
-                Debug.WriteLine($"ToStorageItem() failed, hresult: {hresult}");
-                return default;
-            }
-
-            // Directory
-            if (itemAttributes.dwFileAttributes.HasFlag(System.IO.FileAttributes.Directory))
-            {
-                if (typeof(IStorageFile).IsAssignableFrom(typeof(TRequested))) // Wanted file
+                // Directory
+                if (itemAttributes.dwFileAttributes.HasFlag(System.IO.FileAttributes.Directory))
                 {
-                    // NotAFile
-                    return default;
+                    if (typeof(IStorageFile).IsAssignableFrom(typeof(TRequested))) // Wanted file
+                    {
+                        // NotAFile
+                        return default;
+                    }
+                    else // Just get the directory
+                    {
+                        await GetFolder();
+                    }
                 }
-                else // Just get the directory
+                else // File
+                {
+                    if (typeof(IStorageFolder).IsAssignableFrom(typeof(TRequested))) // Wanted directory
+                    {
+                        // NotAFile
+                        return default;
+                    }
+                    else // Just get the file
+                    {
+                        await GetFile();
+                    }
+                }
+            }
+            else // Does not exist or is not on local storage
+            {
+                if (typeof(IStorageFile).IsAssignableFrom(typeof(TRequested)))
+                {
+                    await GetFile();
+                }
+                else if (typeof(IStorageFolder).IsAssignableFrom(typeof(TRequested)))
                 {
                     await GetFolder();
                 }
-            }
-            else // File
-            {
-                if (typeof(IStorageFolder).IsAssignableFrom(typeof(TRequested))) // Wanted directory
+                else if (typeof(IStorageItem).IsAssignableFrom(typeof(TRequested)))
                 {
-                    // NotAFile
-                    return default;
-                }
-                else // Just get the file
-                {
-                    await GetFile();
+                    if (System.IO.Path.HasExtension(path)) // Possibly a file
+                    {
+                        await GetFile();
+                    }
+                    
+                    if (!file || file.Result == null) // Possibly a folder
+                    {
+                        await GetFolder();
+
+                        if (file != null && (!folder || folder.Result == null))
+                        {
+                            // Try file because it wasn't checked
+                            await GetFile();
+                        }
+                    }
                 }
             }
 

@@ -138,7 +138,7 @@ namespace Files.Filesystem
                 if (copiedSources.Any())
                 {
                     return new StorageHistory(FileOperationType.Copy, copiedSources.Select(x => sourceRename.Single(s => s.Path == x.Source)),
-                        copiedSources.Select(item => StorageItemHelpers.FromPathAndType(item.Destination, sourceRename.Single(s => s.Path == item.Source).ItemType)));
+                        copiedSources.Select(item => StorageHelpers.FromPathAndType(item.Destination, sourceRename.Single(s => s.Path == item.Source).ItemType)));
                 }
                 return null; // Cannot undo overwrite operation
             }
@@ -185,7 +185,7 @@ namespace Files.Filesystem
                     if (success)
                     {
                         createdSources.Add(items.ElementAt(i).src);
-                        createdDestination.Add(StorageItemHelpers.FromPathAndType(items.ElementAt(i).dest, FilesystemItemType.File));
+                        createdDestination.Add(StorageHelpers.FromPathAndType(items.ElementAt(i).dest, FilesystemItemType.File));
                     }
                     progress?.Report(i / (float)source.Count() * 100.0f);
                 }
@@ -275,7 +275,7 @@ namespace Files.Filesystem
                 if (recycledSources.Any())
                 {
                     return new StorageHistory(FileOperationType.Recycle, recycledSources.Select(x => source.Single(s => s.Path == x.Source)),
-                        recycledSources.Select(item => StorageItemHelpers.FromPathAndType(item.Destination, source.Single(s => s.Path == item.Source).ItemType)));
+                        recycledSources.Select(item => StorageHelpers.FromPathAndType(item.Destination, source.Single(s => s.Path == item.Source).ItemType)));
                 }
                 return new StorageHistory(FileOperationType.Delete, source, null);
             }
@@ -385,7 +385,7 @@ namespace Files.Filesystem
                 if (movedSources.Any())
                 {
                     return new StorageHistory(FileOperationType.Move, movedSources.Select(x => sourceRename.Single(s => s.Path == x.Source)),
-                        movedSources.Select(item => StorageItemHelpers.FromPathAndType(item.Destination, sourceRename.Single(s => s.Path == item.Source).ItemType)));
+                        movedSources.Select(item => StorageHelpers.FromPathAndType(item.Destination, sourceRename.Single(s => s.Path == item.Source).ItemType)));
                 }
                 return null; // Cannot undo overwrite operation
             }
@@ -403,7 +403,7 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            return await RenameAsync(StorageItemHelpers.FromStorageItem(source), newName, collision, errorCode, cancellationToken);
+            return await RenameAsync(StorageHelpers.FromStorageItem(source), newName, collision, errorCode, cancellationToken);
         }
 
         public async Task<IStorageHistory> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
@@ -439,7 +439,7 @@ namespace Files.Filesystem
                 if (renamedSources.Any())
                 {
                     return new StorageHistory(FileOperationType.Rename, source,
-                        StorageItemHelpers.FromPathAndType(renamedSources.Single().Destination, source.ItemType));
+                        StorageHelpers.FromPathAndType(renamedSources.Single().Destination, source.ItemType));
                 }
                 return null; // Cannot undo overwrite operation
             }
@@ -496,11 +496,11 @@ namespace Files.Filesystem
                 if (movedSources.Any())
                 {
                     // Recycle bin also stores a file starting with $I for each item
-                    await DeleteItemsAsync(movedSources.Select(src => StorageItemHelpers.FromPathAndType(
+                    await DeleteItemsAsync(movedSources.Select(src => StorageHelpers.FromPathAndType(
                         Path.Combine(Path.GetDirectoryName(src.Source), Path.GetFileName(src.Source).Replace("$R", "$I", StringComparison.Ordinal)),
                         new[] { source }.Single(s => s.Path == src.Source).ItemType)), null, null, true, cancellationToken);
                     return new StorageHistory(FileOperationType.Restore, source,
-                        StorageItemHelpers.FromPathAndType(movedSources.Single().Destination, source.ItemType));
+                        StorageHelpers.FromPathAndType(movedSources.Single().Destination, source.ItemType));
                 }
                 return null; // Cannot undo overwrite operation
             }

@@ -377,7 +377,7 @@ namespace Files.ViewModels.Widgets.Bundles
                         {
                             if (bundleItem != null)
                             {
-                                bundleItems.Add(new BundleItemViewModel(bundleItem, await StorageItemHelpers.GetTypeFromPath(bundleItem))
+                                bundleItems.Add(new BundleItemViewModel(bundleItem, await StorageHelpers.GetTypeFromPath(bundleItem))
                                 {
                                     ParentBundleName = bundle.Key,
                                     NotifyItemRemoved = NotifyBundleItemRemovedHandle,
