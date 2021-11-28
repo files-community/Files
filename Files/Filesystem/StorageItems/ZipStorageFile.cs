@@ -52,13 +52,13 @@ namespace Files.Filesystem.StorageItems
                         {
                             return null;
                         }
-                        return new FileStream(hFile, FileAccess.Read).AsRandomAccessStream();
+                        return new FileStream(hFile, rw ? FileAccess.ReadWrite : FileAccess.Read).AsRandomAccessStream();
                     }
                 }
 
                 if (!rw)
                 {
-                    ZipFile zipFile = await OpenZipFileAsync(rw);
+                    ZipFile zipFile = await OpenZipFileAsync(accessMode);
                     if (zipFile == null)
                     {
                         return null;
@@ -79,7 +79,7 @@ namespace Files.Filesystem.StorageItems
                     var znt = new ZipNameTransform(ContainerPath);
                     var zipDesiredName = znt.TransformFile(Path);
 
-                    using (ZipFile zipFile = await OpenZipFileAsync(rw))
+                    using (ZipFile zipFile = await OpenZipFileAsync(accessMode))
                     {
                         var entry = zipFile.GetEntry(zipDesiredName);
                         if (entry != null)
@@ -128,7 +128,7 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<BaseStorageFile>(async (cancellationToken) =>
             {
-                using (ZipFile zipFile = await OpenZipFileAsync(false))
+                using (ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.Read))
                 {
                     if (zipFile == null)
                     {
@@ -158,7 +158,7 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run(async (cancellationToken) =>
             {
-                using (ZipFile zipFile = await OpenZipFileAsync(false))
+                using (ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.Read))
                 {
                     if (zipFile == null)
                     {
@@ -265,7 +265,7 @@ namespace Files.Filesystem.StorageItems
                     }
                 }
 
-                ZipFile zipFile = await OpenZipFileAsync(false);
+                ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.Read);
                 if (zipFile == null)
                 {
                     return null;
@@ -306,7 +306,7 @@ namespace Files.Filesystem.StorageItems
                     }
                 }
 
-                ZipFile zipFile = await OpenZipFileAsync(false);
+                ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.Read);
                 if (zipFile == null)
                 {
                     return null;
@@ -350,7 +350,7 @@ namespace Files.Filesystem.StorageItems
 
         public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
         {
-            return AsyncInfo.Run<BaseStorageFile>(async (cancellationToken) =>
+            return AsyncInfo.Run<BaseStorageFile>(cancellationToken =>
             {
                 var marker = path.IndexOf(".zip", StringComparison.OrdinalIgnoreCase);
                 if (marker != -1)
@@ -358,14 +358,14 @@ namespace Files.Filesystem.StorageItems
                     var containerPath = path.Substring(0, marker + ".zip".Length);
                     if (path == containerPath)
                     {
-                        return null; // Root
+                        return Task.FromResult<BaseStorageFile>(null); // Root
                     }
                     if (CheckAccess(containerPath))
                     {
-                        return new ZipStorageFile(path, containerPath);
+                        return Task.FromResult<BaseStorageFile>(new ZipStorageFile(path, containerPath));
                     }
                 }
-                return null;
+                return Task.FromResult<BaseStorageFile>(null);
             });
         }
 
@@ -376,7 +376,7 @@ namespace Files.Filesystem.StorageItems
             get
             {
                 var itemType = "ItemTypeFile".GetLocalized();
-                if (Name.Contains("."))
+                if (Name.Contains(".", StringComparison.Ordinal))
                 {
                     itemType = System.IO.Path.GetExtension(Name).Trim('.') + " " + itemType;
                 }
@@ -390,18 +390,19 @@ namespace Files.Filesystem.StorageItems
 
         #region Private
 
-        private IAsyncOperation<ZipFile> OpenZipFileAsync(bool readWrite, bool openProtected = false)
+        private IAsyncOperation<ZipFile> OpenZipFileAsync(FileAccessMode accessMode, bool openProtected = false)
         {
             return AsyncInfo.Run<ZipFile>(async (cancellationToken) =>
             {
+                bool readWrite = accessMode == FileAccessMode.ReadWrite;
                 if (BackingFile != null)
                 {
-                    return new ZipFile((await BackingFile.OpenAsync(readWrite ? FileAccessMode.ReadWrite : FileAccessMode.Read)).AsStream());
+                    return new ZipFile((await BackingFile.OpenAsync(accessMode)).AsStream());
                 }
                 else
                 {
-                    var hFile = openProtected ? 
-                        await NativeFileOperationsHelper.OpenProtectedFileForRead(ContainerPath) : 
+                    var hFile = openProtected ?
+                        await NativeFileOperationsHelper.OpenProtectedFileForRead(ContainerPath) :
                         NativeFileOperationsHelper.OpenFileForRead(ContainerPath, readWrite);
                     if (hFile.IsInvalid)
                     {
@@ -420,7 +421,7 @@ namespace Files.Filesystem.StorageItems
                 {
                     // If called from here it fails with Access Denied?!
                     //var hFile = NativeFileOperationsHelper.OpenFileForRead(ContainerPath);
-                    using (ZipFile zipFile = await OpenZipFileAsync(false, openProtected: true))
+                    using (ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.Read, openProtected: true))
                     {
                         if (zipFile == null)
                         {
@@ -455,7 +456,7 @@ namespace Files.Filesystem.StorageItems
 
         private async Task<BaseBasicProperties> GetBasicProperties()
         {
-            using (ZipFile zipFile = await OpenZipFileAsync(false))
+            using (ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.Read))
             {
                 if (zipFile == null)
                 {

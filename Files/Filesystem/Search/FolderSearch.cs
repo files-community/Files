@@ -41,7 +41,7 @@ namespace Files.Filesystem.Search
 
         public EventHandler SearchTick;
 
-        private bool IsAQSQuery => Query is not null && (Query.StartsWith("$") || Query.Contains(":"));
+        private bool IsAQSQuery => Query is not null && (Query.StartsWith('$') || Query.Contains(":", StringComparison.Ordinal));
 
         private string QueryWithWildcard
         {
@@ -63,11 +63,11 @@ namespace Files.Filesystem.Search
             get
             {
                 // if the query starts with a $, assume the query is in aqs format, otherwise assume the user is searching for the file name
-                if (Query is not null && Query.StartsWith("$"))
+                if (Query is not null && Query.StartsWith('$'))
                 {
                     return Query.Substring(1);
                 }
-                else if (Query is not null && Query.Contains(":"))
+                else if (Query is not null && Query.Contains(":", StringComparison.Ordinal))
                 {
                     return Query;
                 }
@@ -204,7 +204,7 @@ namespace Files.Filesystem.Search
                     return (hFileTsk, findDataTsk);
                 }).WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
-                if (hFile != IntPtr.Zero)
+                if (hFile != IntPtr.Zero && hFile.ToInt64() != -1)
                 {
                     var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
                     var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
@@ -250,7 +250,7 @@ namespace Files.Filesystem.Search
 
         private async Task AddItemsAsync(string folder, IList<ListedItem> results, CancellationToken token)
         {
-            if (AQSQuery.StartsWith("tag:"))
+            if (AQSQuery.StartsWith("tag:", StringComparison.Ordinal))
             {
                 await SearchTagsAsync(folder, results, token);
             }
@@ -283,7 +283,7 @@ namespace Files.Filesystem.Search
                 return (hFileTsk, findDataTsk);
             }).WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
-            if (hFile != IntPtr.Zero)
+            if (hFile != IntPtr.Zero && hFile.ToInt64() != -1)
             {
                 await Task.Run(() =>
                 {
@@ -337,7 +337,7 @@ namespace Files.Filesystem.Search
             {
                 string itemFileExtension = null;
                 string itemType = null;
-                if (findData.cFileName.Contains("."))
+                if (findData.cFileName.Contains(".", StringComparison.Ordinal))
                 {
                     itemFileExtension = Path.GetExtension(itemPath);
                     itemType = itemFileExtension.Trim('.') + " " + itemType;
@@ -346,7 +346,7 @@ namespace Files.Filesystem.Search
                 listedItem = new ListedItem(null)
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,
-                    ItemName = findData.cFileName,
+                    ItemNameRaw = findData.cFileName,
                     ItemPath = itemPath,
                     IsHiddenItem = isHidden,
                     LoadFileIcon = false,
@@ -362,7 +362,7 @@ namespace Files.Filesystem.Search
                     listedItem = new ListedItem(null)
                     {
                         PrimaryItemAttribute = StorageItemTypes.Folder,
-                        ItemName = findData.cFileName,
+                        ItemNameRaw = findData.cFileName,
                         ItemPath = itemPath,
                         IsHiddenItem = isHidden,
                         LoadFileIcon = false,
@@ -397,7 +397,7 @@ namespace Files.Filesystem.Search
                 listedItem = new ListedItem(null)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemName = folder.DisplayName,
+                    ItemNameRaw = folder.DisplayName,
                     ItemPath = folder.Path,
                     ItemDateModifiedReal = props.DateModified,
                     ItemDateCreatedReal = folder.DateCreated,
@@ -411,7 +411,7 @@ namespace Files.Filesystem.Search
                 var props = await file.GetBasicPropertiesAsync();
                 string itemFileExtension = null;
                 string itemType = null;
-                if (file.Name.Contains("."))
+                if (file.Name.Contains(".", StringComparison.Ordinal))
                 {
                     itemFileExtension = Path.GetExtension(file.Path);
                     itemType = itemFileExtension.Trim('.') + " " + itemType;
@@ -422,7 +422,7 @@ namespace Files.Filesystem.Search
                 listedItem = new ListedItem(null)
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,
-                    ItemName = file.DisplayName,
+                    ItemNameRaw = file.Name,
                     ItemPath = file.Path,
                     LoadFileIcon = false,
                     FileExtension = itemFileExtension,

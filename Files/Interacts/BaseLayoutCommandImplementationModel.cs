@@ -189,7 +189,7 @@ namespace Files.Interacts
                     if (listedItem is RecycleBinItem binItem)
                     {
                         FilesystemItemType itemType = binItem.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
-                        await FilesystemHelpers.RestoreFromTrashAsync(StorageItemHelpers.FromPathAndType(
+                        await FilesystemHelpers.RestoreFromTrashAsync(StorageHelpers.FromPathAndType(
                             (listedItem as RecycleBinItem).ItemPath,
                             itemType), (listedItem as RecycleBinItem).ItemOriginalPath, true);
                     }
@@ -199,7 +199,7 @@ namespace Files.Interacts
 
         public virtual async void DeleteItem(RoutedEventArgs e)
         {
-            var items = await Task.Run(() => SlimContentPage.SelectedItems.ToList().Select((item) => StorageItemHelpers.FromPathAndType(
+            var items = await Task.Run(() => SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
                 item.ItemPath,
                 item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)));
             await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
@@ -255,7 +255,7 @@ namespace Files.Interacts
             associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
             {
                 NavPathParam = folderPath,
-                SelectItems = new[] { item.ItemName },
+                SelectItems = new[] { item.ItemNameRaw },
                 AssociatedTabInstance = associatedInstance
             });
         }
@@ -327,7 +327,7 @@ namespace Files.Interacts
                     var path = SlimContentPage.SelectedItem != null ? SlimContentPage.SelectedItem.ItemPath : associatedInstance.FilesystemViewModel.WorkingDirectory;
                     if (FtpHelpers.IsFtpPath(path))
                     {
-                        path = path.Replace("\\", "/");
+                        path = path.Replace("\\", "/", StringComparison.Ordinal);
                     }
                     DataPackage data = new DataPackage();
                     data.SetText(path);
@@ -379,14 +379,14 @@ namespace Files.Interacts
                     }
                     else if (item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsZipItem)
                     {
-                        if (await StorageItemHelpers.ToStorageItem<BaseStorageFolder>(item.ItemPath, associatedInstance) is BaseStorageFolder folder)
+                        if (await StorageHelpers.ToStorageItem<BaseStorageFolder>(item.ItemPath, associatedInstance) is BaseStorageFolder folder)
                         {
                             items.Add(folder);
                         }
                     }
                     else
                     {
-                        if (await StorageItemHelpers.ToStorageItem<BaseStorageFile>(item.ItemPath, associatedInstance) is BaseStorageFile file)
+                        if (await StorageHelpers.ToStorageItem<BaseStorageFile>(item.ItemPath, associatedInstance) is BaseStorageFile file)
                         {
                             items.Add(file);
                         }
@@ -546,7 +546,7 @@ namespace Files.Interacts
                 }
                 else if (handledByFtp)
                 {
-                    if (pwd.StartsWith(CommonPaths.RecycleBinPath))
+                    if (pwd.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
                     {
                         e.AcceptedOperation = DataPackageOperation.None;
                     }
@@ -564,7 +564,7 @@ namespace Files.Interacts
                 else
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
-                    if (pwd.StartsWith(CommonPaths.RecycleBinPath))
+                    if (pwd.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
                     {
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Move;
@@ -636,7 +636,7 @@ namespace Files.Interacts
 
         public async void DecompressArchive()
         {
-            BaseStorageFile archive = await StorageItemHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
+            BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
 
             if (archive != null)
             {
@@ -649,7 +649,7 @@ namespace Files.Interacts
                 if (option == ContentDialogResult.Primary)
                 {
                     // Check if archive still exists
-                    if (!StorageItemHelpers.Exists(archive.Path))
+                    if (!StorageHelpers.Exists(archive.Path))
                     {
                         return;
                     }
@@ -668,7 +668,7 @@ namespace Files.Interacts
 
                     if (destinationFolder == null)
                     {
-                        BaseStorageFolder parentFolder = await StorageItemHelpers.ToStorageItem<BaseStorageFolder>(Path.GetDirectoryName(archive.Path));
+                        BaseStorageFolder parentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(Path.GetDirectoryName(archive.Path));
                         destinationFolder = await FilesystemTasks.Wrap(() => parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName).AsTask());
                     }
                     if (destinationFolder == null)
@@ -704,8 +704,8 @@ namespace Files.Interacts
 
         public async void DecompressArchiveHere()
         {
-            BaseStorageFile archive = await StorageItemHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
-            BaseStorageFolder currentFolder = await StorageItemHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
+            BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
+            BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
 
             if (archive != null && currentFolder != null)
             {
@@ -746,8 +746,8 @@ namespace Files.Interacts
                 return;
             }
 
-            BaseStorageFile archive = await StorageItemHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
-            BaseStorageFolder currentFolder = await StorageItemHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
+            BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
+            BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
             BaseStorageFolder destinationFolder = null;
 
             if (currentFolder != null)

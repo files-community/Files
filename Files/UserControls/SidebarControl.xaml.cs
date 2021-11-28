@@ -192,7 +192,7 @@ namespace Files.UserControls
             }
             else if (RightClickedItem.Section == SectionType.Favorites)
             {
-                App.SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
+                App.SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path);
             }
         }
 
@@ -271,7 +271,7 @@ namespace Files.UserControls
                 }
 
                 int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
-                App.SidebarPinnedController.Model.MoveItem(RightClickedItem, oldIndex, App.SidebarPinnedController.Model.FavoriteItems.Count());
+                App.SidebarPinnedController.Model.MoveItem(RightClickedItem, oldIndex, App.SidebarPinnedController.Model.FavoriteItems.Count);
 
                 if (isSelectedSidebarItem)
                 {
@@ -357,7 +357,7 @@ namespace Files.UserControls
                 IsLibrariesHeader = false;
                 ShowUnpinItem = ((library || favorite) && !item.IsDefaultLocation);
                 ShowMoveItemUp = ShowUnpinItem && App.SidebarPinnedController.Model.IndexOfItem(item) > 1;
-                ShowMoveItemDown = ShowUnpinItem && App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count();
+                ShowMoveItemDown = ShowUnpinItem && App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count;
                 ShowHideSection = false;
                 ShowEjectDevice = false;
 
@@ -615,7 +615,7 @@ namespace Files.UserControls
                 }
                 else if (handledByFtp)
                 {
-                    if (locationItem.Path.StartsWith(CommonPaths.RecycleBinPath))
+                    if (locationItem.Path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
                     {
                         e.AcceptedOperation = DataPackageOperation.None;
                     }
@@ -633,7 +633,7 @@ namespace Files.UserControls
                 else
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
-                    if (locationItem.Path.StartsWith(CommonPaths.RecycleBinPath))
+                    if (locationItem.Path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
                     {
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Move;
@@ -1022,7 +1022,7 @@ namespace Files.UserControls
         {
             if (drivePath is not null)
             {
-                var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => drivePath.StartsWith(x.Path));
+                var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
                 if (matchingDrive != null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
                 {
                     bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "Close".GetLocalized());

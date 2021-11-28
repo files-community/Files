@@ -83,7 +83,6 @@ namespace Files.Views
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
                     return await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.RenameFileItemAsync(item,
-                          ViewModel.OriginalItemName,
                           ViewModel.ItemName,
                           AppInstance));
                 }

@@ -44,7 +44,7 @@ namespace Files.Filesystem.Cloud.Providers
                         // By default, the path will be prefixed with "\\?\" (unless another app has explicitly changed it).
                         // \\?\ indicates to Win32 that the filename may be longer than MAX_PATH (see MSDN).
                         // Parts of .NET (e.g. the File class) don't handle this very well, so remove this prefix.
-                        if (path.StartsWith(@"\\?\"))
+                        if (path.StartsWith(@"\\?\", StringComparison.Ordinal))
                         {
                             path = path.Substring(@"\\?\".Length);
                         }

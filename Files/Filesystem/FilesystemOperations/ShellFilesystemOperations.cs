@@ -65,7 +65,7 @@ namespace Files.Filesystem
         public async Task<IStorageHistory> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, IEnumerable<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
             var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\")) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\") || FtpHelpers.IsFtpPath(x)))
+            if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x)))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.CopyItemsAsync(source, destination, collisions, progress, errorCode, cancellationToken);
@@ -138,7 +138,7 @@ namespace Files.Filesystem
                 if (copiedSources.Any())
                 {
                     return new StorageHistory(FileOperationType.Copy, copiedSources.Select(x => sourceRename.Single(s => s.Path == x.Source)),
-                        copiedSources.Select(item => StorageItemHelpers.FromPathAndType(item.Destination, sourceRename.Single(s => s.Path == item.Source).ItemType)));
+                        copiedSources.Select(item => StorageHelpers.FromPathAndType(item.Destination, sourceRename.Single(s => s.Path == item.Source).ItemType)));
                 }
                 return null; // Cannot undo overwrite operation
             }
@@ -185,13 +185,13 @@ namespace Files.Filesystem
                     if (success)
                     {
                         createdSources.Add(items.ElementAt(i).src);
-                        createdDestination.Add(StorageItemHelpers.FromPathAndType(items.ElementAt(i).dest, FilesystemItemType.File));
+                        createdDestination.Add(StorageHelpers.FromPathAndType(items.ElementAt(i).dest, FilesystemItemType.File));
                     }
                     progress?.Report(i / (float)source.Count() * 100.0f);
                 }
             }
 
-            errorCode?.Report(createdSources.Count() == source.Count() ? FileSystemStatusCode.Success : FileSystemStatusCode.Generic);
+            errorCode?.Report(createdSources.Count == source.Count() ? FileSystemStatusCode.Success : FileSystemStatusCode.Generic);
             return new StorageHistory(FileOperationType.CreateLink, createdSources, createdDestination);
         }
 
@@ -217,7 +217,7 @@ namespace Files.Filesystem
         public async Task<IStorageHistory> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, bool permanently, CancellationToken cancellationToken)
         {
             var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\") || FtpHelpers.IsFtpPath(x.Path)))
+            if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x.Path)))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.DeleteItemsAsync(source, progress, errorCode, permanently, cancellationToken);
@@ -232,7 +232,7 @@ namespace Files.Filesystem
             if (deleteFromRecycleBin)
             {
                 // Recycle bin also stores a file starting with $I for each item
-                deleleFilePaths = deleleFilePaths.Concat(source.Select(x => Path.Combine(Path.GetDirectoryName(x.Path), Path.GetFileName(x.Path).Replace("$R", "$I")))).Distinct();
+                deleleFilePaths = deleleFilePaths.Concat(source.Select(x => Path.Combine(Path.GetDirectoryName(x.Path), Path.GetFileName(x.Path).Replace("$R", "$I", StringComparison.Ordinal)))).Distinct();
             }
 
             var operationID = Guid.NewGuid().ToString();
@@ -275,7 +275,7 @@ namespace Files.Filesystem
                 if (recycledSources.Any())
                 {
                     return new StorageHistory(FileOperationType.Recycle, recycledSources.Select(x => source.Single(s => s.Path == x.Source)),
-                        recycledSources.Select(item => StorageItemHelpers.FromPathAndType(item.Destination, source.Single(s => s.Path == item.Source).ItemType)));
+                        recycledSources.Select(item => StorageHelpers.FromPathAndType(item.Destination, source.Single(s => s.Path == item.Source).ItemType)));
                 }
                 return new StorageHistory(FileOperationType.Delete, source, null);
             }
@@ -312,7 +312,7 @@ namespace Files.Filesystem
         public async Task<IStorageHistory> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, IEnumerable<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
             var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\")) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\") || FtpHelpers.IsFtpPath(x)))
+            if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x)))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.MoveItemsAsync(source, destination, collisions, progress, errorCode, cancellationToken);
@@ -385,7 +385,7 @@ namespace Files.Filesystem
                 if (movedSources.Any())
                 {
                     return new StorageHistory(FileOperationType.Move, movedSources.Select(x => sourceRename.Single(s => s.Path == x.Source)),
-                        movedSources.Select(item => StorageItemHelpers.FromPathAndType(item.Destination, sourceRename.Single(s => s.Path == item.Source).ItemType)));
+                        movedSources.Select(item => StorageHelpers.FromPathAndType(item.Destination, sourceRename.Single(s => s.Path == item.Source).ItemType)));
                 }
                 return null; // Cannot undo overwrite operation
             }
@@ -403,13 +403,13 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            return await RenameAsync(StorageItemHelpers.FromStorageItem(source), newName, collision, errorCode, cancellationToken);
+            return await RenameAsync(StorageHelpers.FromStorageItem(source), newName, collision, errorCode, cancellationToken);
         }
 
         public async Task<IStorageHistory> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
             var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null || string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\") || FtpHelpers.IsFtpPath(source.Path))
+            if (connection == null || string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(source.Path))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
@@ -439,7 +439,7 @@ namespace Files.Filesystem
                 if (renamedSources.Any())
                 {
                     return new StorageHistory(FileOperationType.Rename, source,
-                        StorageItemHelpers.FromPathAndType(renamedSources.Single().Destination, source.ItemType));
+                        StorageHelpers.FromPathAndType(renamedSources.Single().Destination, source.ItemType));
                 }
                 return null; // Cannot undo overwrite operation
             }
@@ -453,7 +453,7 @@ namespace Files.Filesystem
         public async Task<IStorageHistory> RestoreFromTrashAsync(IStorageItemWithPath source, string destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
             var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null || string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\") || string.IsNullOrWhiteSpace(destination) || destination.StartsWith(@"\\?\") || FtpHelpers.IsFtpPath(destination))
+            if (connection == null || string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || string.IsNullOrWhiteSpace(destination) || destination.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(destination))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.RestoreFromTrashAsync(source, destination, progress, errorCode, cancellationToken);
@@ -496,11 +496,11 @@ namespace Files.Filesystem
                 if (movedSources.Any())
                 {
                     // Recycle bin also stores a file starting with $I for each item
-                    await DeleteItemsAsync(movedSources.Select(src => StorageItemHelpers.FromPathAndType(
-                        Path.Combine(Path.GetDirectoryName(src.Source), Path.GetFileName(src.Source).Replace("$R", "$I")),
+                    await DeleteItemsAsync(movedSources.Select(src => StorageHelpers.FromPathAndType(
+                        Path.Combine(Path.GetDirectoryName(src.Source), Path.GetFileName(src.Source).Replace("$R", "$I", StringComparison.Ordinal)),
                         new[] { source }.Single(s => s.Path == src.Source).ItemType)), null, null, true, cancellationToken);
                     return new StorageHistory(FileOperationType.Restore, source,
-                        StorageItemHelpers.FromPathAndType(movedSources.Single().Destination, source.ItemType));
+                        StorageHelpers.FromPathAndType(movedSources.Single().Destination, source.ItemType));
                 }
                 return null; // Cannot undo overwrite operation
             }

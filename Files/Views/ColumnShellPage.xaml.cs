@@ -629,7 +629,7 @@ namespace Files.Views
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
                     if (ContentPage.IsItemSelected && !NavToolbarViewModel.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
                     {
-                        var items = await Task.Run(() => SlimContentPage.SelectedItems.ToList().Select((item) => StorageItemHelpers.FromPathAndType(
+                        var items = await Task.Run(() => SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
                             item.ItemPath,
                             item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)));
                         await FilesystemHelpers.DeleteItemsAsync(items, true, true, true);
@@ -673,7 +673,7 @@ namespace Files.Views
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
                     if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
                     {
-                        var items = await Task.Run(() => SlimContentPage.SelectedItems.ToList().Select((item) => StorageItemHelpers.FromPathAndType(
+                        var items = await Task.Run(() => SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
                             item.ItemPath,
                             item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)));
                         await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
@@ -703,11 +703,14 @@ namespace Files.Views
                 case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
                     NavToolbarViewModel.IsEditModeEnabled = true;
                     break;
+                case (true, false, false, true, VirtualKey.H): // ctrl + h, show/hide hidden items
+                    UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = !UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible;
+                    break;
 
                 case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
                     await Launcher.LaunchUriAsync(new Uri(@"https://files.community/docs"));
                     break;
-            };
+            }
 
             switch (args.KeyboardAccelerator.Key)
             {
@@ -875,10 +878,10 @@ namespace Files.Views
                     // Select previous directory
                     if (!string.IsNullOrWhiteSpace(e.PreviousDirectory))
                     {
-                        if (e.PreviousDirectory.Contains(e.Path) && !e.PreviousDirectory.Contains("Shell:RecycleBinFolder"))
+                        if (e.PreviousDirectory.Contains(e.Path, StringComparison.Ordinal) && !e.PreviousDirectory.Contains("Shell:RecycleBinFolder", StringComparison.Ordinal))
                         {
                             // Remove the WorkingDir from previous dir
-                            e.PreviousDirectory = e.PreviousDirectory.Replace(e.Path, string.Empty);
+                            e.PreviousDirectory = e.PreviousDirectory.Replace(e.Path, string.Empty, StringComparison.Ordinal);
 
                             // Get previous dir name
                             if (e.PreviousDirectory.StartsWith('\\'))
@@ -894,7 +897,7 @@ namespace Files.Views
                             string folderToSelect = string.Format("{0}\\{1}", e.Path, e.PreviousDirectory);
 
                             // Make sure we don't get double \\ in the e.Path
-                            folderToSelect = folderToSelect.Replace("\\\\", "\\");
+                            folderToSelect = folderToSelect.Replace("\\\\", "\\", StringComparison.Ordinal);
 
                             if (folderToSelect.EndsWith('\\'))
                             {
@@ -990,7 +993,7 @@ namespace Files.Views
             ItemDisplayFrame.BackStack.Remove(ItemDisplayFrame.BackStack.Last());
         }
 
-        public async void SubmitSearch(string query, bool searchUnindexedItems)
+        public void SubmitSearch(string query, bool searchUnindexedItems)
         {
             FilesystemViewModel.CancelSearch();
             InstanceViewModel.CurrentSearchQuery = query;
@@ -1003,15 +1006,6 @@ namespace Files.Views
                 SearchQuery = query,
                 SearchUnindexedItems = searchUnindexedItems,
             });
-
-            var searchInstance = new FolderSearch
-            {
-                Query = query,
-                Folder = FilesystemViewModel.WorkingDirectory,
-                ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
-                SearchUnindexedItems = searchUnindexedItems
-            };
-            await FilesystemViewModel.SearchAsync(searchInstance);
         }
     }
 }

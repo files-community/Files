@@ -71,7 +71,7 @@ namespace Files.Helpers
 
         public static async void OpenSelectedItems(IShellPage associatedInstance, bool openViaApplicationPicker = false)
         {
-            if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(CommonPaths.RecycleBinPath))
+            if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
             {
                 // Do not open files and folders inside the recycle bin
                 return;
@@ -91,7 +91,7 @@ namespace Files.Helpers
 
         public static async void OpenItemsWithExecutable(IShellPage associatedInstance, List<IStorageItemWithPath> items, string executable)
         {
-            if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(CommonPaths.RecycleBinPath))
+            if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
             {
                 // Do not open files and folders inside the recycle bin
                 return;
@@ -127,11 +127,13 @@ namespace Files.Helpers
         {
             string previousDir = associatedInstance.FilesystemViewModel.WorkingDirectory;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
-            bool isShortcutItem = path.EndsWith(".lnk") || path.EndsWith(".url"); // Determine
+            bool isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory);
+            bool isReparsePoint = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.ReparsePoint);
+            bool isShortcutItem = path.EndsWith(".lnk", StringComparison.Ordinal) || path.EndsWith(".url", StringComparison.Ordinal);
             FilesystemResult opened = (FilesystemResult)false;
 
             var shortcutInfo = new ShortcutItem();
-            if (itemType == null || isShortcutItem || isHiddenItem)
+            if (itemType == null || isShortcutItem || isHiddenItem || isReparsePoint)
             {
                 if (isShortcutItem)
                 {
@@ -162,13 +164,27 @@ namespace Files.Helpers
                         return false;
                     }
                 }
+                else if (isReparsePoint)
+                {
+                    if (!isDirectory)
+                    {
+                        if (NativeFindStorageItemHelper.GetWin32FindDataForPath(path, out var findData))
+                        {
+                            if (findData.dwReserved0 == NativeFileOperationsHelper.IO_REPARSE_TAG_SYMLINK)
+                            {
+                                shortcutInfo.TargetPath = NativeFileOperationsHelper.ParseSymLink(path);
+                            }
+                        }
+                    }
+                    itemType ??= isDirectory ? FilesystemItemType.Directory : FilesystemItemType.File;
+                }
                 else if (isHiddenItem)
                 {
                     itemType = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory) ? FilesystemItemType.Directory : FilesystemItemType.File;
                 }
                 else
                 {
-                    itemType = await StorageItemHelpers.GetTypeFromPath(path);
+                    itemType = await StorageHelpers.GetTypeFromPath(path);
                 }
             }
 
@@ -252,7 +268,7 @@ namespace Files.Helpers
 
             var opened = (FilesystemResult)false;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
-            bool isShortcutItem = path.EndsWith(".lnk") || path.EndsWith(".url"); // Determine
+            bool isShortcutItem = path.EndsWith(".lnk", StringComparison.Ordinal) || path.EndsWith(".url", StringComparison.Ordinal); // Determine
 
             if (isShortcutItem)
             {
@@ -340,7 +356,7 @@ namespace Files.Helpers
         {
             var opened = (FilesystemResult)false;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
-            bool isShortcutItem = path.EndsWith(".lnk") || path.EndsWith(".url"); // Determine
+            bool isShortcutItem = path.EndsWith(".lnk", StringComparison.Ordinal) || path.EndsWith(".url", StringComparison.Ordinal) || !string.IsNullOrEmpty(shortcutInfo.TargetPath);
             if (isShortcutItem)
             {
                 if (string.IsNullOrEmpty(shortcutInfo.TargetPath))
@@ -349,7 +365,7 @@ namespace Files.Helpers
                 }
                 else
                 {
-                    if (!path.EndsWith(".url"))
+                    if (!path.EndsWith(".url", StringComparison.Ordinal))
                     {
                         StorageFileWithPath childFile = await associatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(shortcutInfo.TargetPath);
                         if (childFile != null)

@@ -62,11 +62,11 @@ namespace Files.Filesystem.StorageItems
     {
         public virtual IAsyncOperation<IDictionary<string, object>> RetrievePropertiesAsync(IEnumerable<string> propertiesToRetrieve)
         {
-            return AsyncInfo.Run<IDictionary<string, object>>(async (cancellationToken) =>
+            return AsyncInfo.Run<IDictionary<string, object>>((cancellationToken) =>
             {
                 var props = new Dictionary<string, object>();
                 propertiesToRetrieve.ForEach(x => props[x] = null);
-                return props;
+                return Task.FromResult<IDictionary<string, object>>(props);
             });
         }
 

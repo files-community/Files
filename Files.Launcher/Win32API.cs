@@ -456,7 +456,7 @@ namespace FilesFullTrust
             while (true)
             {
                 prevHwnd = User32.FindWindowEx(HWND.NULL, prevHwnd, null, null);
-                if (prevHwnd == null || prevHwnd == HWND.NULL)
+                if (prevHwnd == HWND.NULL)
                 {
                     break;
                 }
@@ -501,12 +501,13 @@ namespace FilesFullTrust
                 string nameWithoutExt = Path.GetFileNameWithoutExtension(path);
                 string extension = Path.GetExtension(path);
                 string directory = Path.GetDirectoryName(path);
+                var countMatch = Regex.Match(nameWithoutExt, @"\(\d+\)", RegexOptions.RightToLeft);
 
                 for (ushort count = 1; File.Exists(uniquePath); count++)
                 {
-                    if (Regex.IsMatch(nameWithoutExt, @".*\(\d+\)"))
+                    if (countMatch != null)
                     {
-                        uniquePath = Path.Combine(directory, $"{nameWithoutExt.Substring(0, nameWithoutExt.LastIndexOf("(", StringComparison.InvariantCultureIgnoreCase))}({count}){extension}");
+                        uniquePath = Path.Combine(directory, $"{nameWithoutExt.Substring(0, countMatch.Index)}({count}){extension}");
                     }
                     else
                     {
@@ -518,12 +519,13 @@ namespace FilesFullTrust
             {
                 string directory = Path.GetDirectoryName(path);
                 string Name = Path.GetFileName(path);
+                var countMatch = Regex.Match(Name, @"\(\d+\)", RegexOptions.RightToLeft);
 
                 for (ushort Count = 1; Directory.Exists(uniquePath); Count++)
                 {
-                    if (Regex.IsMatch(Name, @".*\(\d+\)"))
+                    if (countMatch != null)
                     {
-                        uniquePath = Path.Combine(directory, $"{Name.Substring(0, Name.LastIndexOf("(", StringComparison.InvariantCultureIgnoreCase))}({Count})");
+                        uniquePath = Path.Combine(directory, $"{Name.Substring(0, countMatch.Index)}({Count})");
                     }
                     else
                     {

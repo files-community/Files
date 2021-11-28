@@ -83,7 +83,7 @@ namespace Files.Filesystem
                                     if (fsAdminResult)
                                     {
                                         fsResult = fsAdminResult;
-                                        item = StorageItemHelpers.FromPathAndType(shellOpRes.Items.SingleOrDefault()?.Destination, FilesystemItemType.File);
+                                        item = StorageHelpers.FromPathAndType(shellOpRes.Items.SingleOrDefault()?.Destination, FilesystemItemType.File);
                                     }
                                 }
                             }
@@ -108,7 +108,7 @@ namespace Files.Filesystem
                                     if (fsAdminResult && shellOpRes.Items.Count == 1)
                                     {
                                         fsResult = fsAdminResult;
-                                        item = StorageItemHelpers.FromPathAndType(shellOpRes.Items.Single().Destination, FilesystemItemType.File);
+                                        item = StorageHelpers.FromPathAndType(shellOpRes.Items.Single().Destination, FilesystemItemType.File);
                                     }
                                 }
                             }
@@ -137,7 +137,7 @@ namespace Files.Filesystem
                                 if (fsAdminResult && shellOpRes.Items.Count == 1)
                                 {
                                     fsResult = fsAdminResult;
-                                    item = StorageItemHelpers.FromPathAndType(shellOpRes.Items.Single().Destination, FilesystemItemType.Directory);
+                                    item = StorageHelpers.FromPathAndType(shellOpRes.Items.Single().Destination, FilesystemItemType.Directory);
                                 }
                             }
                             break;
@@ -184,7 +184,7 @@ namespace Files.Filesystem
                                                      IProgress<FileSystemStatusCode> errorCode,
                                                      CancellationToken cancellationToken)
         {
-            if (destination.StartsWith(CommonPaths.RecycleBinPath))
+            if (destination.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
             {
                 errorCode?.Report(FileSystemStatusCode.Unauthorized);
                 progress?.Report(100.0f);
@@ -248,7 +248,7 @@ namespace Files.Filesystem
 
                         if (fsCopyResult)
                         {
-                            if (FolderHelpers.CheckFolderForHiddenAttribute(source.Path))
+                            if (NativeFileOperationsHelper.HasFileAttribute(source.Path, FileAttributes.Hidden))
                             {
                                 // The source folder was hidden, apply hidden attribute to destination
                                 NativeFileOperationsHelper.SetFileAttribute(fsCopyResult.Result.Path, FileAttributes.Hidden);
@@ -339,7 +339,7 @@ namespace Files.Filesystem
                 {
                     await Task.Delay(50); // Small delay for the item to appear in the file list
                     List<ListedItem> copiedListedItems = associatedInstance.FilesystemViewModel.FilesAndFolders
-                        .Where(listedItem => destination.Contains(listedItem.ItemPath)).ToList();
+                        .Where(listedItem => destination.Contains(listedItem.ItemPath, StringComparison.Ordinal)).ToList();
 
                     if (copiedListedItems.Count > 0)
                     {
@@ -400,7 +400,7 @@ namespace Files.Filesystem
                 return await CopyAsync(source, destination, collision, progress, errorCode, cancellationToken);
             }
 
-            if (destination.StartsWith(CommonPaths.RecycleBinPath))
+            if (destination.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
             {
                 errorCode?.Report(FileSystemStatusCode.Unauthorized);
                 progress?.Report(100.0f);
@@ -469,7 +469,7 @@ namespace Files.Filesystem
 
                             if (fsResultMove)
                             {
-                                if (FolderHelpers.CheckFolderForHiddenAttribute(source.Path))
+                                if (NativeFileOperationsHelper.HasFileAttribute(source.Path, FileAttributes.Hidden))
                                 {
                                     // The source folder was hidden, apply hidden attribute to destination
                                     NativeFileOperationsHelper.SetFileAttribute(fsResultMove.Result.Path, FileAttributes.Hidden);
@@ -544,7 +544,7 @@ namespace Files.Filesystem
                 {
                     await Task.Delay(50); // Small delay for the item to appear in the file list
                     List<ListedItem> movedListedItems = associatedInstance.FilesystemViewModel.FilesAndFolders
-                        .Where(listedItem => destination.Contains(listedItem.ItemPath)).ToList();
+                        .Where(listedItem => destination.Contains(listedItem.ItemPath, StringComparison.Ordinal)).ToList();
 
                     if (movedListedItems.Count > 0)
                     {
@@ -636,7 +636,7 @@ namespace Files.Filesystem
             if (deleteFromRecycleBin)
             {
                 // Recycle bin also stores a file starting with $I for each item
-                string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I"));
+                string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I", StringComparison.Ordinal));
                 await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
                     .OnSuccess(iFile => iFile.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
             }
@@ -665,7 +665,7 @@ namespace Files.Filesystem
                     // Get newest file
                     ShellFileItem item = nameMatchItems.Where((item) => item.RecycleDate != null).OrderBy((item) => item.RecycleDate).FirstOrDefault();
 
-                    return new StorageHistory(FileOperationType.Recycle, source, StorageItemHelpers.FromPathAndType(item?.RecyclePath, source.ItemType));
+                    return new StorageHistory(FileOperationType.Recycle, source, StorageHelpers.FromPathAndType(item?.RecyclePath, source.ItemType));
                 }
 
                 return new StorageHistory(FileOperationType.Delete, source, null);
@@ -683,7 +683,7 @@ namespace Files.Filesystem
                                                        IProgress<FileSystemStatusCode> errorCode,
                                                        CancellationToken cancellationToken)
         {
-            return await RenameAsync(StorageItemHelpers.FromStorageItem(source), newName, collision, errorCode, cancellationToken);
+            return await RenameAsync(StorageHelpers.FromStorageItem(source), newName, collision, errorCode, cancellationToken);
         }
 
         public async Task<IStorageHistory> RenameAsync(IStorageItemWithPath source,
@@ -728,7 +728,7 @@ namespace Files.Filesystem
                     if (NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination))
                     {
                         errorCode?.Report(FileSystemStatusCode.Success);
-                        return new StorageHistory(FileOperationType.Rename, source, StorageItemHelpers.FromPathAndType(destination, source.ItemType));
+                        return new StorageHistory(FileOperationType.Rename, source, StorageHelpers.FromPathAndType(destination, source.ItemType));
                     }
                     else
                     {
@@ -743,7 +743,7 @@ namespace Files.Filesystem
                         if (fsResult)
                         {
                             errorCode?.Report(FileSystemStatusCode.Success);
-                            return new StorageHistory(FileOperationType.Rename, source, StorageItemHelpers.FromPathAndType(destination, source.ItemType));
+                            return new StorageHistory(FileOperationType.Rename, source, StorageHelpers.FromPathAndType(destination, source.ItemType));
                         }
                     }
                 }
@@ -851,7 +851,7 @@ namespace Files.Filesystem
             if (fsResult)
             {
                 // Recycle bin also stores a file starting with $I for each item
-                string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I"));
+                string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I", StringComparison.Ordinal));
                 await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
                     .OnSuccess(iFile => iFile.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
             }
@@ -873,7 +873,7 @@ namespace Files.Filesystem
                 }
             }
 
-            return new StorageHistory(FileOperationType.Restore, source, StorageItemHelpers.FromPathAndType(destination, source.ItemType));
+            return new StorageHistory(FileOperationType.Restore, source, StorageHelpers.FromPathAndType(destination, source.ItemType));
         }
 
         #endregion IFilesystemOperations

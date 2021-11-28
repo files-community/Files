@@ -68,7 +68,7 @@ namespace Files.Extensions
         public static async Task<FilesystemResult<BaseStorageFile>> Create(this ShellNewEntry shellEntry, BaseStorageFolder parentFolder, string fileName)
         {
             FilesystemResult<BaseStorageFile> createdFile = null;
-            if (!fileName.EndsWith(shellEntry.Extension))
+            if (!fileName.EndsWith(shellEntry.Extension, StringComparison.Ordinal))
             {
                 fileName += shellEntry.Extension;
             }

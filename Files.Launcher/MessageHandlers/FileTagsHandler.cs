@@ -75,11 +75,11 @@ namespace FilesFullTrust.MessageHandlers
                 if (pathFromFrn != null)
                 {
                     // Frn is valid, update file path
-                    var tag = ReadFileTag(pathFromFrn.Replace(@"\\?\", ""));
+                    var tag = ReadFileTag(pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal));
                     if (tag != null)
                     {
-                        dbInstance.UpdateTag(file.Frn ?? 0, null, pathFromFrn.Replace(@"\\?\", ""));
-                        dbInstance.SetTag(pathFromFrn.Replace(@"\\?\", ""), file.Frn, tag);
+                        dbInstance.UpdateTag(file.Frn ?? 0, null, pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal));
+                        dbInstance.SetTag(pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal), file.Frn, tag);
                     }
                     else
                     {

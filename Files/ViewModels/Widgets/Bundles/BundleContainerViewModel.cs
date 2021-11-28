@@ -332,7 +332,7 @@ namespace Files.ViewModels.Widgets.Bundles
                     string itemPath = null;
                     string originBundle = null;
 
-                    if (itemText.Contains("|"))
+                    if (itemText.Contains("|", StringComparison.Ordinal))
                     {
                         dragFromBundle = true;
 
@@ -345,12 +345,12 @@ namespace Files.ViewModels.Widgets.Bundles
                         itemPath = itemText;
                     }
 
-                    IStorageItem item = await StorageItemHelpers.ToStorageItem<IStorageItem>(itemPath);
+                    IStorageItem item = await StorageHelpers.ToStorageItem<IStorageItem>(itemPath);
 
-                    if (item != null || (itemPath.EndsWith(".lnk") || itemPath.EndsWith(".url")))
+                    if (item != null || (itemPath.EndsWith(".lnk", StringComparison.Ordinal) || itemPath.EndsWith(".url", StringComparison.Ordinal)))
                     {
                         if (await AddItemFromPath(itemPath,
-                            itemPath.EndsWith(".lnk") || itemPath.EndsWith(".url") ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File)))
+                            itemPath.EndsWith(".lnk", StringComparison.Ordinal) || itemPath.EndsWith(".url", StringComparison.Ordinal) ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File)))
                         {
                             itemsAdded = true;
                         }

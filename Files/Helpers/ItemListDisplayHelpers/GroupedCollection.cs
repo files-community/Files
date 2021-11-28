@@ -151,7 +151,7 @@ namespace Files.Helpers
             {
                 return;
             }
-            var name = propName.StartsWith("get_", StringComparison.InvariantCultureIgnoreCase)
+            var name = propName.StartsWith("get_", StringComparison.OrdinalIgnoreCase)
                 ? propName.Substring(4)
                 : propName;
 

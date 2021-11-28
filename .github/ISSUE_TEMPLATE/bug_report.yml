@@ -29,8 +29,8 @@ body:
     id: files-version
     attributes:
       label: Files Version
-      description: Which version of Files are you using?
-      placeholder: v1.5
+      description: Which version of Files are you using? The version number can be found by going to Files' Settings > About
+      placeholder: "e.g. Version: 2.0.34.0 OS Version: 10.0.22000.282"
     validations:
       required: true
   - type: input
@@ -42,7 +42,7 @@ body:
       required: true
   - type: textarea
     attributes:
-      label: Relevant Assets
+      label: Relevant Assets/Logs
       description: |
         A list of assets (logs, screenshots, etc) relevant to this bug.
 
@@ -51,3 +51,5 @@ body:
         To upload the log, access it from Settings -> About -> Open log location; Or
         - Copy the `debug.log` and `debug_fulltrust.log` files from `%localappdata%\Packages\49306atecsolution.FilesUWP_et10x9a9vyk8t\LocalState`
         - Drag and drop them into this text area.
+    validations:
+      required: true

@@ -43,7 +43,7 @@ namespace Files.Extensions
             for (int i = 0; i <= ending.Length; i++)
             {
                 string tmp = result + ending.Right(i);
-                if (tmp.EndsWith(ending))
+                if (tmp.EndsWith(ending, StringComparison.Ordinal))
                 {
                     return tmp;
                 }
@@ -85,7 +85,7 @@ namespace Files.Extensions
         {
             foreach (var item in abbreviations)
             {
-                value = value.Replace(item.Key, item.Value);
+                value = value.Replace(item.Key, item.Value, StringComparison.Ordinal);
             }
             return value;
         }

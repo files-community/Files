@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
     <OutputType>WinExe</OutputType>
@@ -11,11 +11,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <LangVersion>8.0</LangVersion>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -24,20 +22,10 @@
     <PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />
     <PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="2.0.1" />
     <PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker">
-      <Version>3.0.7</Version>
-    </PackageReference>
-    <PackageReference Include="Vanara.PInvoke.Mpr">
-      <Version>3.3.14</Version>
-    </PackageReference>
-    <PackageReference Include="Vanara.Windows.Shell">
-      <Version>3.3.14</Version>
-    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.7" />
+    <PackageReference Include="Vanara.PInvoke.Mpr" Version="3.3.14" />
+    <PackageReference Include="Vanara.Windows.Shell" Version="3.3.14" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
@@ -52,9 +40,6 @@
     <Content Include="Assets\FilesOpenDialog\CustomOpenDialog32.dll" />
     <Content Include="Assets\FilesOpenDialog\CustomOpenDialog64.dll" />
     <Content Include="Assets\FilesOpenDialog\CustomOpenDialogARM64.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="FolderNames.cs" />

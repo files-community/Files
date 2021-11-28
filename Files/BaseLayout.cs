@@ -165,7 +165,7 @@ namespace Files
                     ListedItem previouslySelectedItem = null;
 
                     // Use FilesAndFolders because only displayed entries should be jumped to
-                    IEnumerable<ListedItem> candidateItems = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Where(f => f.ItemName.Length >= value.Length && f.ItemName.Substring(0, value.Length).ToLower() == value);
+                    IEnumerable<ListedItem> candidateItems = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Where(f => f.ItemName.Length >= value.Length && string.Equals(f.ItemName.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
 
                     if (IsItemSelected)
                     {
@@ -424,7 +424,7 @@ namespace Files
                 // pathRoot will be empty on recycle bin path
                 var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory ?? string.Empty;
                 string pathRoot = GetPathRoot(workingDir);
-                if (string.IsNullOrEmpty(pathRoot) || workingDir.StartsWith(CommonPaths.RecycleBinPath)) // Can't go up from recycle bin
+                if (string.IsNullOrEmpty(pathRoot) || workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal)) // Can't go up from recycle bin
                 {
                     ParentShellPageInstance.NavToolbarViewModel.CanNavigateToParent = false;
                 }
@@ -433,8 +433,8 @@ namespace Files
                     ParentShellPageInstance.NavToolbarViewModel.CanNavigateToParent = true;
                 }
 
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(CommonPaths.RecycleBinPath);
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\", StringComparison.Ordinal);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = LibraryHelper.IsLibraryPath(workingDir);
@@ -501,7 +501,7 @@ namespace Files
                     List<ListedItem> liItemsToSelect = new List<ListedItem>();
                     foreach (string item in navigationArguments.SelectItems)
                     {
-                        liItemsToSelect.Add(ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Where((li) => li.ItemName == item).First());
+                        liItemsToSelect.Add(ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Where((li) => li.ItemNameRaw == item).First());
                     }
 
                     ItemManipulationModel.SetSelectedItems(liItemsToSelect);
@@ -825,7 +825,7 @@ namespace Files
 
             if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
             {
-                var itemList = e.Items.OfType<ListedItem>().Select(x => StorageItemHelpers.FromPathAndType(
+                var itemList = e.Items.OfType<ListedItem>().Select(x => StorageHelpers.FromPathAndType(
                     x.ItemPath, x.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
                 e.Data.Properties["FileDrop"] = itemList.ToList();
                 return;

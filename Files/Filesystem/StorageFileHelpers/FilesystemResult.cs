@@ -40,7 +40,7 @@ namespace Files.Filesystem
         public static implicit operator FilesystemResult(FileSystemStatusCode res) => new FilesystemResult(res);
 
         public static implicit operator bool(FilesystemResult res) =>
-            res.ErrorCode == FileSystemStatusCode.Success;
+            res != null && res.ErrorCode == FileSystemStatusCode.Success;
 
         public static explicit operator FilesystemResult(bool res) =>
             new FilesystemResult(res ? FileSystemStatusCode.Success : FileSystemStatusCode.Generic);

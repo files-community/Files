@@ -2,6 +2,8 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -11,58 +13,95 @@ namespace Files.Helpers
     /// <summary>
     /// <see cref="IStorageItem"/> related Helpers
     /// </summary>
-    public static class StorageItemHelpers
+    public static class StorageHelpers
     {
         public static async Task<IStorageItem> ToStorageItem(this IStorageItemWithPath item, IShellPage associatedInstance = null)
         {
             return (await item.ToStorageItemResult(associatedInstance)).Result;
         }
 
-        public static async Task<TOut> ToStorageItem<TOut>(string path, IShellPage associatedInstance = null) where TOut : IStorageItem
+        public static async Task<TRequested> ToStorageItem<TRequested>(string path, IShellPage associatedInstance = null) where TRequested : IStorageItem
         {
             FilesystemResult<BaseStorageFile> file = null;
             FilesystemResult<BaseStorageFolder> folder = null;
 
-            if (path.ToLower().EndsWith(".lnk") || path.ToLower().EndsWith(".url"))
+            if (path.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase) || path.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
             {
                 // TODO: In the future, when IStorageItemWithPath will inherit from IStorageItem,
                 // we could implement this code here for getting .lnk files
                 // for now, we can't
                 return default;
             }
-            else if (typeof(IStorageFile).IsAssignableFrom(typeof(TOut)))
+
+            // Fast get attributes
+            bool exists = NativeFileOperationsHelper.GetFileAttributesExFromApp(path, NativeFileOperationsHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out NativeFileOperationsHelper.WIN32_FILE_ATTRIBUTE_DATA itemAttributes);
+            if (exists) // Exists on local storage
             {
-                await GetFile();
+                // Directory
+                if (itemAttributes.dwFileAttributes.HasFlag(System.IO.FileAttributes.Directory))
+                {
+                    if (typeof(IStorageFile).IsAssignableFrom(typeof(TRequested))) // Wanted file
+                    {
+                        // NotAFile
+                        return default;
+                    }
+                    else // Just get the directory
+                    {
+                        await GetFolder();
+                    }
+                }
+                else // File
+                {
+                    if (typeof(IStorageFolder).IsAssignableFrom(typeof(TRequested))) // Wanted directory
+                    {
+                        // NotAFile
+                        return default;
+                    }
+                    else // Just get the file
+                    {
+                        await GetFile();
+                    }
+                }
             }
-            else if (typeof(IStorageFolder).IsAssignableFrom(typeof(TOut)))
+            else // Does not exist or is not present on local storage
             {
-                await GetFolder();
-            }
-            else if (typeof(IStorageItem).IsAssignableFrom(typeof(TOut)))
-            {
-                if (System.IO.Path.HasExtension(path)) // Probably a file
+                Debug.WriteLine($"Path does not exist. Trying to find storage item manually (HRESULT: {Marshal.GetLastWin32Error()})");
+
+                if (typeof(IStorageFile).IsAssignableFrom(typeof(TRequested)))
                 {
                     await GetFile();
                 }
-                else // Possibly a folder
+                else if (typeof(IStorageFolder).IsAssignableFrom(typeof(TRequested)))
                 {
                     await GetFolder();
-
-                    if (!folder)
+                }
+                else if (typeof(IStorageItem).IsAssignableFrom(typeof(TRequested)))
+                {
+                    if (System.IO.Path.HasExtension(path)) // Possibly a file
                     {
-                        // It wasn't a folder, so check file then because it wasn't checked
                         await GetFile();
+                    }
+                    
+                    if (!file || file.Result == null) // Possibly a folder
+                    {
+                        await GetFolder();
+
+                        if (file == null && (!folder || folder.Result == null))
+                        {
+                            // Try file because it wasn't checked
+                            await GetFile();
+                        }
                     }
                 }
             }
 
             if (file != null && file)
             {
-                return (TOut)(IStorageItem)file.Result;
+                return (TRequested)(IStorageItem)file.Result;
             }
             else if (folder != null && folder)
             {
-                return (TOut)(IStorageItem)folder.Result;
+                return (TRequested)(IStorageItem)folder.Result;
             }
 
             return default;
