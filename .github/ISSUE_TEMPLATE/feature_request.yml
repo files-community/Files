@@ -48,17 +48,13 @@ body:
     attributes:
       label: Files Version
       description: Which version of Files are you using?
-      placeholder: v1.5
-    validations:
-      required: true
+      placeholder: 'Version: 2.0.36.0'
   - type: input
     attributes:
       label: Windows Version
       description: Which version of Windows are you using? Press <kbd>Win</kbd> + <kbd>Pause/Break</kbd> and copy.
       placeholder: e.g. Windows 11 21H2 22000.194
-    validations:
-      required: true
   - type: textarea
     attributes:
-      label: Additional comment
-      description: Add any other comments or screenshots about the feature request here. What device type/UI layout and app version?
+      label: Comments
+      description: Additional information, comments or screenshots about the feature request.
