@@ -44,6 +44,12 @@ body:
         | This proposal will allow developers to accomplish Y | Could |
         | This proposal will allow end users to accomplish Z | Won't |
   - type: input
+    id: files-version
+    attributes:
+      label: Files Version
+      description: Which version of Files are you using?
+      placeholder: 'Version: 2.0.36.0'
+  - type: input
     attributes:
       label: Windows Version
       description: Which version of Windows are you using? Press <kbd>Win</kbd> + <kbd>Pause/Break</kbd> and copy.
