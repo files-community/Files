@@ -104,6 +104,18 @@ namespace Files.Filesystem.StorageItems
             DateCreated = entry.DateTime;
         }
 
+        public ZipStorageFolder(BaseStorageFile backingFile)
+        {
+            if (string.IsNullOrEmpty(backingFile.Path))
+            {
+                throw new ArgumentException("Backing file Path cannot be null");
+            }
+            Name = System.IO.Path.GetFileName(backingFile.Path.TrimEnd('\\', '/'));
+            Path = backingFile.Path;
+            ContainerPath = backingFile.Path;
+            BackingFile = backingFile;
+        }
+
         public override IAsyncOperation<BaseStorageFile> CreateFileAsync(string desiredName)
         {
             return CreateFileAsync(desiredName, CreationCollisionOption.FailIfExists);
@@ -113,13 +125,12 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<BaseStorageFile>(async (cancellationToken) =>
             {
-                var hFile = NativeFileOperationsHelper.OpenFileForRead(ContainerPath, true);
-                if (hFile.IsInvalid)
+                using (ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.ReadWrite))
                 {
-                    return null;
-                }
-                using (ZipFile zipFile = new ZipFile(new FileStream(hFile, FileAccess.ReadWrite)))
-                {
+                    if (zipFile == null)
+                    {
+                        return null;
+                    }
                     zipFile.IsStreamOwner = true;
 
                     var znt = new ZipNameTransform(ContainerPath);
@@ -140,7 +151,7 @@ namespace Files.Filesystem.StorageItems
                     zipFile.CommitUpdate();
 
                     var wnt = new WindowsNameTransform(ContainerPath);
-                    return new ZipStorageFile(wnt.TransformFile(zipDesiredName), ContainerPath);
+                    return new ZipStorageFile(wnt.TransformFile(zipDesiredName), ContainerPath) { BackingFile = BackingFile };
                 }
             });
         }
@@ -154,13 +165,12 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
             {
-                var hFile = NativeFileOperationsHelper.OpenFileForRead(ContainerPath, true);
-                if (hFile.IsInvalid)
+                using (ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.ReadWrite))
                 {
-                    return null;
-                }
-                using (ZipFile zipFile = new ZipFile(new FileStream(hFile, FileAccess.ReadWrite)))
-                {
+                    if (zipFile == null)
+                    {
+                        return null;
+                    }
                     zipFile.IsStreamOwner = true;
 
                     var znt = new ZipNameTransform(ContainerPath);
@@ -181,7 +191,11 @@ namespace Files.Filesystem.StorageItems
                     zipFile.CommitUpdate();
 
                     var wnt = new WindowsNameTransform(ContainerPath);
-                    return new ZipStorageFolder(wnt.TransformFile(zipDesiredName), ContainerPath) { ZipEncoding = ZipEncoding };
+                    return new ZipStorageFolder(wnt.TransformFile(zipDesiredName), ContainerPath)
+                    {
+                        ZipEncoding = ZipEncoding,
+                        BackingFile = BackingFile
+                    };
                 }
             });
         }
@@ -206,13 +220,12 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<IStorageItem>(async (cancellationToken) =>
             {
-                var hFile = NativeFileOperationsHelper.OpenFileForRead(ContainerPath);
-                if (hFile.IsInvalid)
+                using (ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.Read))
                 {
-                    return null;
-                }
-                using (ZipFile zipFile = new ZipFile(new FileStream(hFile, FileAccess.Read)))
-                {
+                    if (zipFile == null)
+                    {
+                        return null;
+                    }
                     zipFile.IsStreamOwner = true;
                     ZipEncoding ??= DetectFileEncoding(zipFile);
                     var entry = zipFile.GetEntry(name);
@@ -221,11 +234,15 @@ namespace Files.Filesystem.StorageItems
                         var wnt = new WindowsNameTransform(ContainerPath);
                         if (entry.IsDirectory)
                         {
-                            return new ZipStorageFolder(wnt.TransformDirectory(DecodeEntryName(entry, ZipEncoding)), ContainerPath, entry) { ZipEncoding = ZipEncoding };
+                            return new ZipStorageFolder(wnt.TransformDirectory(DecodeEntryName(entry, ZipEncoding)), ContainerPath, entry)
+                            {
+                                ZipEncoding = ZipEncoding,
+                                BackingFile = BackingFile
+                            };
                         }
                         else
                         {
-                            return new ZipStorageFile(wnt.TransformFile(DecodeEntryName(entry, ZipEncoding)), ContainerPath, entry);
+                            return new ZipStorageFile(wnt.TransformFile(DecodeEntryName(entry, ZipEncoding)), ContainerPath, entry) { BackingFile = BackingFile };
                         }
                     }
                     return null;
@@ -253,13 +270,12 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken) =>
             {
-                var hFile = NativeFileOperationsHelper.OpenFileForRead(ContainerPath);
-                if (hFile.IsInvalid)
+                using (ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.Read))
                 {
-                    return null;
-                }
-                using (ZipFile zipFile = new ZipFile(new FileStream(hFile, FileAccess.Read)))
-                {
+                    if (zipFile == null)
+                    {
+                        return null;
+                    }
                     zipFile.IsStreamOwner = true;
                     ZipEncoding ??= DetectFileEncoding(zipFile);
                     var wnt = new WindowsNameTransform(ContainerPath, true); // Check with Path.GetFullPath
@@ -277,12 +293,16 @@ namespace Files.Filesystem.StorageItems
                                     var itemPath = System.IO.Path.Combine(Path, split[0]);
                                     if (!items.Any(x => x.Path == itemPath))
                                     {
-                                        items.Add(new ZipStorageFolder(itemPath, ContainerPath, entry) { ZipEncoding = ZipEncoding });
+                                        items.Add(new ZipStorageFolder(itemPath, ContainerPath, entry)
+                                        {
+                                            ZipEncoding = ZipEncoding,
+                                            BackingFile = BackingFile
+                                        });
                                     }
                                 }
                                 else
                                 {
-                                    items.Add(new ZipStorageFile(winPath, ContainerPath, entry));
+                                    items.Add(new ZipStorageFile(winPath, ContainerPath, entry) { BackingFile = BackingFile });
                                 }
                             }
                         }
@@ -321,32 +341,8 @@ namespace Files.Filesystem.StorageItems
                     var zipFile = new SystemStorageFile(await StorageFile.GetFileFromPathAsync(Path));
                     return await zipFile.GetBasicPropertiesAsync();
                 }
-                return GetBasicProperties();
+                return await GetBasicProperties();
             });
-        }
-
-        private BaseBasicProperties GetBasicProperties()
-        {
-            if (Path == ContainerPath)
-            {
-                return new BaseBasicProperties();
-            }
-            var hFile = NativeFileOperationsHelper.OpenFileForRead(ContainerPath);
-            if (hFile.IsInvalid)
-            {
-                return new BaseBasicProperties();
-            }
-            using (ZipFile zipFile = new ZipFile(new FileStream(hFile, FileAccess.Read)))
-            {
-                zipFile.IsStreamOwner = true;
-                var znt = new ZipNameTransform(ContainerPath);
-                var entry = zipFile.GetEntry(znt.TransformFile(Path));
-                if (entry != null)
-                {
-                    return new ZipFolderBasicProperties(entry);
-                }
-                return new BaseBasicProperties();
-            }
         }
 
         public override bool IsOfType(StorageItemTypes type) => type == StorageItemTypes.Folder;
@@ -360,6 +356,8 @@ namespace Files.Filesystem.StorageItems
         public override string Path { get; }
 
         public string ContainerPath { get; private set; }
+
+        public BaseStorageFile BackingFile { get; set; }
 
         public override IAsyncOperation<IndexedState> GetIndexedStateAsync()
         {
@@ -524,6 +522,18 @@ namespace Files.Filesystem.StorageItems
             });
         }
 
+        public static IAsyncOperation<BaseStorageFolder> FromStorageFileAsync(BaseStorageFile file)
+        {
+            return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
+            {
+                if (await CheckAccess(file))
+                {
+                    return new ZipStorageFolder(file);
+                }
+                return null;
+            });
+        }
+
         public static bool IsZipPath(string path)
         {
             var marker = path.IndexOf(".zip", StringComparison.OrdinalIgnoreCase);
@@ -536,27 +546,6 @@ namespace Files.Filesystem.StorageItems
                 }
             }
             return false;
-        }
-
-        private static bool CheckAccess(string path)
-        {
-            try
-            {
-                var hFile = NativeFileOperationsHelper.OpenFileForRead(path);
-                if (hFile.IsInvalid)
-                {
-                    return false;
-                }
-                using (ZipFile zipFile = new ZipFile(new FileStream(hFile, FileAccess.Read)))
-                {
-                    zipFile.IsStreamOwner = true;
-                }
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
         }
 
         public override string DisplayName => Name;
@@ -572,6 +561,87 @@ namespace Files.Filesystem.StorageItems
         public override string FolderRelativeId => $"0\\{Name}";
 
         public override IStorageItemExtraProperties Properties => new BaseBasicStorageItemExtraProperties(this);
+
+        #region Private
+
+        private IAsyncOperation<ZipFile> OpenZipFileAsync(FileAccessMode accessMode)
+        {
+            return AsyncInfo.Run<ZipFile>(async (cancellationToken) =>
+            {
+                bool readWrite = accessMode == FileAccessMode.ReadWrite;
+                if (BackingFile != null)
+                {
+                    return new ZipFile((await BackingFile.OpenAsync(accessMode)).AsStream());
+                }
+                else
+                {
+                    var hFile = NativeFileOperationsHelper.OpenFileForRead(ContainerPath, readWrite);
+                    if (hFile.IsInvalid)
+                    {
+                        return null;
+                    }
+                    return new ZipFile(new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read));
+                }
+            });
+        }
+
+        private static bool CheckAccess(string path)
+        {
+            return Common.Extensions.IgnoreExceptions(() =>
+            {
+                var hFile = NativeFileOperationsHelper.OpenFileForRead(path);
+                if (hFile.IsInvalid)
+                {
+                    return false;
+                }
+                using (var stream = new FileStream(hFile, FileAccess.Read))
+                {
+                    return CheckAccess(stream);
+                }
+            });
+        }
+
+        private static async Task<bool> CheckAccess(IStorageFile file)
+        {
+            return await Common.Extensions.IgnoreExceptions(async () =>
+            {
+                using (var stream = await file.OpenReadAsync())
+                {
+                    return CheckAccess(stream.AsStream());
+                }
+            });
+        }
+
+        private static bool CheckAccess(Stream stream)
+        {
+            return Common.Extensions.IgnoreExceptions(() =>
+            {
+                using (ZipFile zipFile = new ZipFile(stream))
+                {
+                    zipFile.IsStreamOwner = false;
+                }
+                return true;
+            });
+        }
+
+        private async Task<BaseBasicProperties> GetBasicProperties()
+        {
+            using (ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.Read))
+            {
+                if (zipFile == null)
+                {
+                    return new BaseBasicProperties();
+                }
+                zipFile.IsStreamOwner = true;
+                var znt = new ZipNameTransform(ContainerPath);
+                var entry = zipFile.GetEntry(znt.TransformFile(Path));
+                if (entry != null)
+                {
+                    return new ZipFolderBasicProperties(entry);
+                }
+                return new BaseBasicProperties();
+            }
+        }
 
         private class FileDataSource : IStaticDataSource
         {
@@ -595,5 +665,7 @@ namespace Files.Filesystem.StorageItems
 
             public override ulong Size => (ulong)zipEntry.Size;
         }
+
+        #endregion
     }
 }

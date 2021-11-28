@@ -85,12 +85,8 @@ namespace Files.Extensions
             {
                 if (shellEntry.Data != null)
                 {
-                    //await FileIO.WriteBytesAsync(createdFile.Result, this.Data); // Calls unsupported OpenTransactedWriteAsync
-                    using (var fileStream = await createdFile.Result.OpenStreamForWriteAsync())
-                    {
-                        await fileStream.WriteAsync(shellEntry.Data, 0, shellEntry.Data.Length);
-                        await fileStream.FlushAsync();
-                    }
+                    //await FileIO.WriteBytesAsync(createdFile.Result, shellEntry.Data); // Calls unsupported OpenTransactedWriteAsync
+                    await createdFile.Result.WriteBytesAsync(shellEntry.Data);
                 }
             }
             return createdFile;

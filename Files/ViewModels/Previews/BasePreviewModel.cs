@@ -153,18 +153,7 @@ namespace Files.ViewModels.Previews
 
         public static async Task<string> ReadFileAsText(BaseStorageFile file, int maxLength = 10 * 1024 * 1024)
         {
-            using (var stream = await file.OpenStreamForReadAsync())
-            {
-                var result = new StringBuilder();
-                var bytesRead = 0;
-                do
-                {
-                    var buffer = new byte[maxLength];
-                    bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
-                    result.Append(Encoding.UTF8.GetString(buffer, 0, bytesRead));
-                } while (bytesRead > 0 && result.Length <= maxLength);
-                return result.ToString();
-            }
+            return await file.ReadTextAsync(maxLength);
         }
     }
 }

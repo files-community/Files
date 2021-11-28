@@ -120,7 +120,8 @@ namespace Files.Filesystem.StorageItems
 
         public IInputStream GetInputStreamAt(ulong position)
         {
-            throw new NotSupportedException();
+            Seek(position);
+            return this;
         }
 
         public IOutputStream GetOutputStreamAt(ulong position)
