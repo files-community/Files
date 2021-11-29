@@ -1308,7 +1308,7 @@
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>Исключено из синхронизации</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Не рассчитано</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">

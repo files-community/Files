@@ -1461,7 +1461,7 @@
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>Εξαιρείται από το συγχρονισμό</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Δεν έχει υπολογιστεί</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">

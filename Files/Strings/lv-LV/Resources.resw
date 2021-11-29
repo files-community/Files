@@ -1344,7 +1344,7 @@
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>Izslēgts no sinhronizēšanas</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Nav aprēķināts</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">

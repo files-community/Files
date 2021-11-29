@@ -1952,7 +1952,7 @@
           <source>Excluded from sync</source>
           <target state="needs-review-translation">Đã trừ từ đồng bộ hóa</target>
         </trans-unit>
-        <trans-unit id="ItemSizeNotCalcluated" translate="yes" xml:space="preserve">
+        <trans-unit id="ItemSizeNotCalculated" translate="yes" xml:space="preserve">
           <source>Not calculated</source>
           <target state="translated">Không tính</target>
         </trans-unit>

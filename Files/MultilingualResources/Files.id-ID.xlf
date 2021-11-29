@@ -1826,7 +1826,7 @@
           <source>Excluded from sync</source>
           <target state="translated">Dikecualikan dari sinkronisasi</target>
         </trans-unit>
-        <trans-unit id="ItemSizeNotCalcluated" translate="yes" xml:space="preserve">
+        <trans-unit id="ItemSizeNotCalculated" translate="yes" xml:space="preserve">
           <source>Not calculated</source>
           <target state="translated">Tidak dihitung</target>
         </trans-unit>

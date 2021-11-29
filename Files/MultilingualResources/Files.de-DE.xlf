@@ -1793,7 +1793,7 @@
           <source>Excluded from sync</source>
           <target state="translated">Von Synchronisierung ausschließen</target>
         </trans-unit>
-        <trans-unit id="ItemSizeNotCalcluated" translate="yes" xml:space="preserve">
+        <trans-unit id="ItemSizeNotCalculated" translate="yes" xml:space="preserve">
           <source>Not calculated</source>
           <target state="translated">Nicht berechnet</target>
         </trans-unit>

@@ -1780,7 +1780,7 @@
           <source>Excluded from sync</source>
           <target state="translated">Eşitlemeye katılmayan</target>
         </trans-unit>
-        <trans-unit id="ItemSizeNotCalcluated" translate="yes" xml:space="preserve">
+        <trans-unit id="ItemSizeNotCalculated" translate="yes" xml:space="preserve">
           <source>Not calculated</source>
           <target state="translated">Hesaplanmamış</target>
         </trans-unit>

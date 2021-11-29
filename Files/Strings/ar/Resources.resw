@@ -1290,7 +1290,7 @@
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
     <value>‏‏مزامنة</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>غير محسوب</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
