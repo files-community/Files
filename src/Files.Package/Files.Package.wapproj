@@ -479,7 +479,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="nupkgs\microsoft.management.infrastructure.runtime.win.2.0.1.nupkg" />
-    <None Include="nupkgs\SharpZipLib.1.3.4.nupkg" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>

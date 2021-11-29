@@ -6,14 +6,14 @@ namespace SevenZipExtractor
 {
     internal static class Kernel32Dll
     {
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        internal static extern SafeLibraryHandle LoadLibrary([MarshalAs(UnmanagedType.LPTStr)] string lpFileName);
+        [DllImport("api-ms-win-core-libraryloader-l2-1-0.dll", SetLastError = true)]
+        public static extern SafeLibraryHandle LoadPackagedLibrary([MarshalAs(UnmanagedType.LPWStr)] string libraryName, int reserved = 0);
 
-        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, SetLastError = true)]
+        [DllImport("api-ms-win-core-libraryloader-l1-2-0.dll", CharSet = CharSet.Ansi, SetLastError = true)]
         internal static extern IntPtr GetProcAddress(SafeLibraryHandle hModule, [MarshalAs(UnmanagedType.LPStr)] string procName);
 
         [SuppressUnmanagedCodeSecurity]
-        [DllImport("kernel32.dll")]
+        [DllImport("api-ms-win-core-libraryloader-l1-2-0.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool FreeLibrary(IntPtr hModule);
     }

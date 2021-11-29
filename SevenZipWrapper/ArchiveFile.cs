@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Windows.ApplicationModel;
 
 namespace SevenZipExtractor
 {
@@ -254,9 +255,9 @@ namespace SevenZipExtractor
             {
                 string currentArchitecture = IntPtr.Size == 4 ? "x86" : "x64"; // magic check
 
-                if (File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SevenZipWrapper", currentArchitecture, "7z.dll")))
+                if (File.Exists(Path.Combine(Package.Current.InstalledLocation.Path, "SevenZipWrapper", currentArchitecture, "7z.dll")))
                 {
-                    this.libraryFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SevenZipWrapper", currentArchitecture, "7z.dll");
+                    this.libraryFilePath = Path.Combine("SevenZipWrapper", currentArchitecture, "7z.dll");
                 }
             }
 
