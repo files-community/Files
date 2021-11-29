@@ -37,7 +37,6 @@ namespace FilesFullTrust.MMI
         private CimSession _cimSession;
         private CimAsyncMultipleResults<CimSubscriptionResult> _cimObservable;
         private IDisposable _subscription;
-        private bool disposedValue;
         internal static readonly string DefaultNameSpace = @"root\cimv2";
         internal static readonly string DefaultQueryDialect = "WQL";
 
@@ -196,7 +195,7 @@ namespace FilesFullTrust.MMI
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!_isDisposed)
             {
                 if (disposing)
                 {
@@ -204,7 +203,7 @@ namespace FilesFullTrust.MMI
                     _cimSession?.Dispose();
                 }
 
-                disposedValue = true;
+                _isDisposed = true;
             }
         }
 
