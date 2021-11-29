@@ -155,9 +155,20 @@ namespace FilesFullTrust.MessageHandlers
 
                                 var shellOperationResult = new ShellOperationResult();
 
-                                using var shd = new ShellFolder(Path.GetDirectoryName(filePath));
-                                op.QueueNewItemOperation(shd, Path.GetFileName(filePath),
-                                    (string)message["fileop"] == "CreateFolder" ? FileAttributes.Directory : FileAttributes.Normal, template);
+                                if (!Extensions.IgnoreExceptions(() =>
+                                {
+                                    using var shd = new ShellFolder(Path.GetDirectoryName(filePath));
+                                    op.QueueNewItemOperation(shd, Path.GetFileName(filePath),
+                                        (string)message["fileop"] == "CreateFolder" ? FileAttributes.Directory : FileAttributes.Normal, template);
+                                }))
+                                {
+                                    shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                    {
+                                        Succeeded = false,
+                                        Destination = filePath,
+                                        HRresult = (int)-1
+                                    });
+                                }
 
                                 var createTcs = new TaskCompletionSource<bool>();
                                 op.PostNewItem += (s, e) =>
@@ -227,8 +238,19 @@ namespace FilesFullTrust.MessageHandlers
 
                                 for (var i = 0; i < fileToDeletePath.Length; i++)
                                 {
-                                    using var shi = new ShellItem(fileToDeletePath[i]);
-                                    op.QueueDeleteOperation(shi);
+                                    if (!Extensions.IgnoreExceptions(() =>
+                                    {
+                                        using var shi = new ShellItem(fileToDeletePath[i]);
+                                        op.QueueDeleteOperation(shi);
+                                    }))
+                                    {
+                                        shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                        {
+                                            Succeeded = false,
+                                            Source = fileToDeletePath[i],
+                                            HRresult = (int)-1
+                                        });
+                                    }
                                 }
 
                                 progressHandler.OwnerWindow = op.OwnerWindow;
@@ -300,8 +322,19 @@ namespace FilesFullTrust.MessageHandlers
                                           | ShellFileOperations.OperationFlags.NoErrorUI;
                                 op.Options |= !overwriteOnRename ? ShellFileOperations.OperationFlags.RenameOnCollision : 0;
 
-                                using var shi = new ShellItem(fileToRenamePath);
-                                op.QueueRenameOperation(shi, newName);
+                                if (!Extensions.IgnoreExceptions(() =>
+                                {
+                                    using var shi = new ShellItem(fileToRenamePath);
+                                    op.QueueRenameOperation(shi, newName);
+                                }))
+                                {
+                                    shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                    {
+                                        Succeeded = false,
+                                        Source = fileToRenamePath,
+                                        HRresult = (int)-1
+                                    });
+                                }
 
                                 progressHandler.OwnerWindow = op.OwnerWindow;
                                 progressHandler.AddOperation(operationID);
@@ -363,10 +396,22 @@ namespace FilesFullTrust.MessageHandlers
 
                                 for (var i = 0; i < fileToMovePath.Length; i++)
                                 {
-                                    using (ShellItem shi = new ShellItem(fileToMovePath[i]))
-                                    using (ShellFolder shd = new ShellFolder(Path.GetDirectoryName(moveDestination[i])))
+                                    if (!Extensions.IgnoreExceptions(() =>
                                     {
-                                        op.QueueMoveOperation(shi, shd, Path.GetFileName(moveDestination[i]));
+                                        using (ShellItem shi = new ShellItem(fileToMovePath[i]))
+                                        using (ShellFolder shd = new ShellFolder(Path.GetDirectoryName(moveDestination[i])))
+                                        {
+                                            op.QueueMoveOperation(shi, shd, Path.GetFileName(moveDestination[i]));
+                                        }
+                                    }))
+                                    {
+                                        shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                        {
+                                            Succeeded = false,
+                                            Source = fileToMovePath[i],
+                                            Destination = moveDestination[i],
+                                            HRresult = (int)-1
+                                        });
                                     }
                                 }
 
@@ -438,10 +483,22 @@ namespace FilesFullTrust.MessageHandlers
 
                                 for (var i = 0; i < fileToCopyPath.Length; i++)
                                 {
-                                    using (ShellItem shi = new ShellItem(fileToCopyPath[i]))
-                                    using (ShellFolder shd = new ShellFolder(Path.GetDirectoryName(copyDestination[i])))
+                                    if (!Extensions.IgnoreExceptions(() =>
                                     {
-                                        op.QueueCopyOperation(shi, shd, Path.GetFileName(copyDestination[i]));
+                                        using (ShellItem shi = new ShellItem(fileToCopyPath[i]))
+                                        using (ShellFolder shd = new ShellFolder(Path.GetDirectoryName(copyDestination[i])))
+                                        {
+                                            op.QueueCopyOperation(shi, shd, Path.GetFileName(copyDestination[i]));
+                                        }
+                                    }))
+                                    {
+                                        shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                        {
+                                            Succeeded = false,
+                                            Source = fileToCopyPath[i],
+                                            Destination = copyDestination[i],
+                                            HRresult = (int)-1
+                                        });
                                     }
                                 }
 
@@ -676,7 +733,7 @@ namespace FilesFullTrust.MessageHandlers
                         bool success = false;
                         if (string.IsNullOrEmpty(compatOptions) || compatOptions == "~")
                         {
-                            success = Win32API.RunPowershellCommand(@$"Remove-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' | Out-Null", false); 
+                            success = Win32API.RunPowershellCommand(@$"Remove-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' | Out-Null", false);
                         }
                         else
                         {

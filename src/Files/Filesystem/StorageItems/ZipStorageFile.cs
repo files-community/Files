@@ -145,7 +145,10 @@ namespace Files.Filesystem.StorageItems
                     {
                         var destFolder = destinationFolder.AsBaseStorageFolder();
                         var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
-                        entry.Extract(await destFile.OpenStreamForWriteAsync());
+                        using (var outStream = await destFile.OpenStreamForWriteAsync())
+                        {
+                            entry.Extract(outStream);
+                        }
                         return destFile;
                     }
                     return null;
@@ -168,7 +171,10 @@ namespace Files.Filesystem.StorageItems
                     if (entry != null)
                     {
                         using var hDestFile = fileToReplace.CreateSafeFileHandle(FileAccess.ReadWrite);
-                        entry.Extract(new FileStream(hDestFile, FileAccess.Write));
+                        using (var outStream = new FileStream(hDestFile, FileAccess.Write))
+                        {
+                            entry.Extract(outStream);
+                        }
                     }
                 }
             });
@@ -443,7 +449,10 @@ namespace Files.Filesystem.StorageItems
                         var entry = zipFile.Entries.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == name);
                         if (entry != null)
                         {
-                            entry.Extract(request.AsStreamForWrite());
+                            using (var outStream = request.AsStreamForWrite())
+                            {
+                                entry.Extract(outStream);
+                            }
                             request.Dispose();
                         }
                         else
