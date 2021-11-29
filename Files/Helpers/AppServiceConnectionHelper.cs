@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Pipes;
 using System.Text;
 using System.Threading;
@@ -135,46 +136,36 @@ namespace Files.Helpers
             this.messageList = new ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>>();
         }
 
-        private void BeginRead((byte[] Buffer, StringBuilder Message) info)
+        private async Task BeginRead(NamedPipeServerStream serverStream)
         {
-            serverStream?.BeginRead(info.Buffer, 0, info.Buffer.Length, EndReadCallBack, info);
-        }
+            using var memoryStream = new MemoryStream();
+            var buffer = new byte[serverStream.InBufferSize];
 
-        private void EndReadCallBack(IAsyncResult result)
-        {
-            var readBytes = serverStream?.EndRead(result) ?? 0;
-            if (readBytes > 0)
+            try
             {
-                var info = ((byte[] Buffer, StringBuilder Message))result.AsyncState;
-
-                // Get the read bytes and append them
-                info.Message.Append(Encoding.UTF8.GetString(info.Buffer, 0, readBytes));
-
-                if (!serverStream.IsMessageComplete) // Message is not complete, continue reading
+                while (serverStream.IsConnected)
                 {
-                    BeginRead(info);
-                }
-                else // Message is completed
-                {
-                    var message = info.Message.ToString().TrimEnd('\0');
-
-                    var msg = JsonConvert.DeserializeObject<Dictionary<string, object>>(message);
-                    if (msg.Get("RequestID", (string)null) == null)
+                    var readCount = await serverStream.ReadAsync(buffer, 0, buffer.Length);
+                    memoryStream.Write(buffer, 0, readCount);
+                    if (serverStream.IsMessageComplete)
                     {
-                        RequestReceived?.Invoke(this, msg);
-                    }
-                    else
-                    {
-                        if (messageList.TryRemove((string)msg["RequestID"], out var tcs))
+                        var message = Encoding.UTF8.GetString(memoryStream.ToArray()).TrimEnd('\0');
+                        var msg = JsonConvert.DeserializeObject<Dictionary<string, object>>(message);
+                        if (msg.Get("RequestID", (string)null) == null)
+                        {
+                            RequestReceived?.Invoke(this, msg);
+                        }
+                        else if (messageList.TryRemove((string)msg["RequestID"], out var tcs))
                         {
                             tcs.TrySetResult(msg);
                         }
-                    }
 
-                    // Begin a new reading operation
-                    var nextInfo = (Buffer: new byte[serverStream?.InBufferSize ?? 0], Message: new StringBuilder());
-                    BeginRead(nextInfo);
+                        memoryStream.SetLength(0);
+                    }
                 }
+            }
+            catch
+            {
             }
         }
 
@@ -186,8 +177,7 @@ namespace Files.Helpers
             cts.CancelAfter(timeout);
             await serverStream.WaitForConnectionAsync(cts.Token);
 
-            var info = (Buffer: new byte[serverStream.InBufferSize], Message: new StringBuilder());
-            BeginRead(info);
+            _ = BeginRead(serverStream);
 
             return true;
         }
@@ -214,7 +204,7 @@ namespace Files.Helpers
             catch (System.IO.IOException)
             {
                 // Pipe is disconnected
-                ServiceClosed?.Invoke(this, null);
+                ServiceClosed?.Invoke(this, EventArgs.Empty);
                 this.Cleanup();
             }
             catch (Exception ex)
@@ -243,7 +233,7 @@ namespace Files.Helpers
             catch (System.IO.IOException)
             {
                 // Pipe is disconnected
-                ServiceClosed?.Invoke(this, null);
+                ServiceClosed?.Invoke(this, EventArgs.Empty);
                 this.Cleanup();
             }
             catch (Exception ex)
