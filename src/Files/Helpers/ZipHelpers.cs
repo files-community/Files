@@ -1,6 +1,5 @@
 ﻿using Files.Filesystem.StorageItems;
-using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip;
+using SevenZipExtractor;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +13,7 @@ namespace Files.Helpers
     {
         public static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder destinationFolder, IProgress<float> progressDelegate, CancellationToken cancellationToken)
         {
-            ZipFile zipFile = await Filesystem.FilesystemTasks.Wrap(async () => new ZipFile(await archive.OpenStreamForReadAsync()));
+            ArchiveFile zipFile = await Filesystem.FilesystemTasks.Wrap(async () => new ArchiveFile(await archive.OpenStreamForReadAsync()));
             if (zipFile == null)
             {
                 return;
@@ -24,9 +23,9 @@ namespace Files.Helpers
                 zipFile.IsStreamOwner = true;
                 List<ZipEntry> directoryEntries = new List<ZipEntry>();
                 List<ZipEntry> fileEntries = new List<ZipEntry>();
-                foreach (ZipEntry entry in zipFile)
+                foreach (ZipEntry entry in zipFile.Entries)
                 {
-                    if (entry.IsFile)
+                    if (!entry.IsFolder)
                     {
                         fileEntries.Add(entry);
                     }
@@ -41,20 +40,20 @@ namespace Files.Helpers
                     return;
                 }
 
-                var wnt = new WindowsNameTransform(destinationFolder.Path);
+                //var wnt = new WindowsNameTransform(destinationFolder.Path);
                 var zipEncoding = ZipStorageFolder.DetectFileEncoding(zipFile);
 
                 var directories = new List<string>();
                 try
                 {
-                    directories.AddRange(directoryEntries.Select((entry) => wnt.TransformDirectory(ZipStorageFolder.DecodeEntryName(entry, zipEncoding))));
-                    directories.AddRange(fileEntries.Select((entry) => Path.GetDirectoryName(wnt.TransformFile(ZipStorageFolder.DecodeEntryName(entry, zipEncoding)))));
+                    directories.AddRange(directoryEntries.Select((entry) => ZipStorageFolder.DecodeEntryName(entry, zipEncoding)));
+                    directories.AddRange(fileEntries.Select((entry) => Path.GetDirectoryName(ZipStorageFolder.DecodeEntryName(entry, zipEncoding))));
                 }
-                catch (InvalidNameException ex)
+                catch (Exception ex)
                 {
                     App.Logger.Warn(ex, $"Error transforming zip names into: {destinationFolder.Path}\n" +
-                        $"Directories: {string.Join(", ", directoryEntries.Select(x => x.Name))}\n" +
-                        $"Files: {string.Join(", ", fileEntries.Select(x => x.Name))}");
+                        $"Directories: {string.Join(", ", directoryEntries.Select(x => x.FileName))}\n" +
+                        $"Files: {string.Join(", ", fileEntries.Select(x => x.FileName))}");
                     return;
                 }
 
@@ -93,13 +92,13 @@ namespace Files.Helpers
                     {
                         return;
                     }
-                    if (entry.IsCrypted)
+                    if (entry.IsEncrypted)
                     {
-                        App.Logger.Info($"Skipped encrypted zip entry: {entry.Name}");
+                        App.Logger.Info($"Skipped encrypted zip entry: {entry.FileName}");
                         continue; // TODO: support password protected archives
                     }
 
-                    string filePath = wnt.TransformFile(ZipStorageFolder.DecodeEntryName(entry, zipEncoding));
+                    string filePath = ZipStorageFolder.DecodeEntryName(entry, zipEncoding);
 
                     var hFile = NativeFileOperationsHelper.CreateFileForWrite(filePath);
                     if (hFile.IsInvalid)
@@ -110,22 +109,9 @@ namespace Files.Helpers
                     // We don't close hFile because FileStream.Dispose() already does that
                     using (FileStream destinationStream = new FileStream(hFile, FileAccess.Write))
                     {
-                        int currentBlockSize = 0;
-
                         try
                         {
-                            using (Stream entryStream = zipFile.GetInputStream(entry))
-                            {
-                                while ((currentBlockSize = await entryStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
-                                {
-                                    await destinationStream.WriteAsync(buffer, 0, currentBlockSize);
-
-                                    if (cancellationToken.IsCancellationRequested) // Check if cancelled
-                                    {
-                                        return;
-                                    }
-                                }
-                            }
+                            entry.Extract(destinationStream);
                         }
                         catch (Exception ex)
                         {

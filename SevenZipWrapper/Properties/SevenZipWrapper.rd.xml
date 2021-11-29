@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Questo file contiene le direttive di runtime, le specifiche relative ai tipi a cui l'applicazione accede
+    tramite reflection e altri modelli di codice dinamico. Le direttive di runtime consentono di controllare 
+    l'ottimizzatore di .NET Native e assicurano che questo non rimuova codice usato dalla libreria.
+    Se la libreria non esegue la reflection, non è in genere necessario modificare questo file. Se però
+    la libreria esegue la reflection sui tipi, in particolare quelli passati alla libreria o derivati da tipi della libreria,
+    è consigliabile scrivere le direttive di runtime.
+
+    La reflection viene generalmente usata nelle librerie per individuare informazioni sui tipi
+    passati alla libreria. Con le librerie di runtime è possibile scegliere tra diversi modi per esprimere i
+    requisiti relativi ai tipi passati alla libreria.
+
+    1. Parameter, GenericParameter, TypeParameter, TypeEnumerableParameter
+        Usare queste direttive per eseguire la reflection sui tipi passati come parametro.
+
+    2. SubTypes
+        Usare una direttiva SubTypes per eseguire la reflection su tipi derivati da un altro tipo.
+
+    3. AttributeImplies
+        Usare una direttiva AttributeImplies per indicare che la libreria deve eseguire la reflection
+        su tipi o metodi decorati con un attributo.
+
+    Per altre informazioni sulla scrittura di direttive di runtime per le librerie, vedere
+    https://go.microsoft.com/fwlink/?LinkID=391919
+-->
+<Directives xmlns="http://schemas.microsoft.com/netfx/2013/01/metadata">
+  <Library Name="SevenZipWrapper">
+
+  	<!-- aggiungere qui le direttive per la libreria -->
+
+  </Library>
+</Directives>
