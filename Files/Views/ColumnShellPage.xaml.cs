@@ -174,9 +174,7 @@ namespace Files.Views
             NavToolbarViewModel.EditModeEnabled += NavigationToolbar_EditModeEnabled;
             NavToolbarViewModel.ItemDraggedOverPathItem += ColumnShellPage_NavigationRequested;
             NavToolbarViewModel.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
-
             NavToolbarViewModel.SearchBox.TextChanged += ColumnShellPage_TextChanged;
-            NavToolbarViewModel.SearchBox.SuggestionChosen += ColumnShellPage_SuggestionChosen;
             NavToolbarViewModel.SearchBox.QuerySubmitted += ColumnShellPage_QuerySubmitted;
 
             NavToolbarViewModel.InstanceViewModel = InstanceViewModel;
@@ -280,26 +278,25 @@ namespace Files.Views
             }
         }
 
-        private async void ColumnShellPage_SuggestionChosen(ISearchBox sender, SearchBoxSuggestionChosenEventArgs e)
+        private async void ColumnShellPage_QuerySubmitted(ISearchBox sender, SearchBoxQuerySubmittedEventArgs e)
         {
-            if (e.SelectedSuggestion.PrimaryItemAttribute == StorageItemTypes.Folder)
+            if (e.ChosenSuggestion is ListedItem item)
             {
-                ItemDisplayFrame.Navigate(typeof(ColumnViewBase), new NavigationArguments()
+                if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    NavPathParam = e.SelectedSuggestion.ItemPath,
-                    AssociatedTabInstance = this
-                });
+                    ItemDisplayFrame.Navigate(typeof(ColumnViewBase), new NavigationArguments()
+                    {
+                        NavPathParam = item.ItemPath,
+                        AssociatedTabInstance = this,
+                    });
+                }
+                else
+                {
+                    // TODO: Add fancy file launch options similar to Interactions.cs OpenSelectedItems()
+                    await Win32Helpers.InvokeWin32ComponentAsync(item.ItemPath, this);
+                }
             }
-            else
-            {
-                // TODO: Add fancy file launch options similar to Interactions.cs OpenSelectedItems()
-                await Win32Helpers.InvokeWin32ComponentAsync(e.SelectedSuggestion.ItemPath, this);
-            }
-        }
-
-        private void ColumnShellPage_QuerySubmitted(ISearchBox sender, SearchBoxQuerySubmittedEventArgs e)
-        {
-            if (e.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(sender.Query))
+            else if (e.ChosenSuggestion is null && !string.IsNullOrWhiteSpace(sender.Query))
             {
                 SubmitSearch(sender.Query, UserSettingsService.PreferencesSettingsService.SearchUnindexedItems);
             }
@@ -834,7 +831,6 @@ namespace Files.Views
             NavToolbarViewModel.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
 
             NavToolbarViewModel.SearchBox.TextChanged -= ColumnShellPage_TextChanged;
-            NavToolbarViewModel.SearchBox.SuggestionChosen -= ColumnShellPage_SuggestionChosen;
             NavToolbarViewModel.SearchBox.QuerySubmitted -= ColumnShellPage_QuerySubmitted;
 
             InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired -= FolderSettings_LayoutPreferencesUpdateRequired;
