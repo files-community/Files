@@ -87,12 +87,9 @@ namespace SevenZipExtractor
                 case VarEnum.VT_FILETIME:
                     return DateTime.FromFileTime(this.longValue);
 
-                //case VarEnum.VT_BSTR:
-                    //return PropVariantToStringWithDefault(ref this, null);
-
                 default:
-                    PropVariantToWinRTPropertyValue(ref this, typeof(PropertyValue).GUID, out var ppv);
-                    return null;
+                    PropVariantToWinRTPropertyValue(ref this, typeof(IPropertyValue).GUID, out var ppv);
+                    return ppv;
             }
         }
     }

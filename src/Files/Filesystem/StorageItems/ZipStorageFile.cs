@@ -18,16 +18,16 @@ namespace Files.Filesystem.StorageItems
         public ZipStorageFile(string path, string containerPath)
         {
             Name = System.IO.Path.GetFileName(path.TrimEnd('\\', '/'));
-            Path = path;
+            Path = System.IO.Path.Combine(containerPath, path);
             ContainerPath = containerPath;
         }
 
         public ZipStorageFile(string path, string containerPath, ZipEntry entry)
         {
             Name = System.IO.Path.GetFileName(path.TrimEnd('\\', '/'));
-            Path = path;
+            Path = System.IO.Path.Combine(containerPath, path);
             ContainerPath = containerPath;
-            DateCreated = entry.CreationTime;
+            DateCreated = entry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.CreationTime;
         }
 
         public override IAsyncOperation<StorageFile> ToStorageFileAsync()
@@ -65,9 +65,7 @@ namespace Files.Filesystem.StorageItems
                         return null;
                     }
                     zipFile.IsStreamOwner = true;
-                    //var znt = new ZipNameTransform(ContainerPath);
-                    //var entry = zipFile.GetEntry(znt.TransformFile(Path));
-                    var entry = zipFile.Entries.FirstOrDefault(x => x.FileName == Path);
+                    var entry = zipFile.Entries.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == Path);
                     if (entry != null)
                     {
                         var ms = new MemoryStream();
@@ -85,12 +83,9 @@ namespace Files.Filesystem.StorageItems
                 else
                 {
                     /*
-                    var znt = new ZipNameTransform(ContainerPath);
-                    var zipDesiredName = znt.TransformFile(Path);
-
                     using (ArchiveFile zipFile = await OpenZipFileAsync(accessMode))
                     {
-                        var entry = zipFile.GetEntry(zipDesiredName);
+                        var entry = zipFile.Entries.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == Path);
                         if (entry != null)
                         {
                             zipFile.BeginUpdate(new MemoryArchiveStorage(FileUpdateMode.Direct));
@@ -145,9 +140,7 @@ namespace Files.Filesystem.StorageItems
                         return null;
                     }
                     zipFile.IsStreamOwner = true;
-                    //var znt = new ZipNameTransform(ContainerPath);
-                    //var entry = zipFile.GetEntry(znt.TransformFile(Path));
-                    var entry = zipFile.Entries.FirstOrDefault(x => x.FileName == Path);
+                    var entry = zipFile.Entries.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == Path);
                     if (entry != null)
                     {
                         var destFolder = destinationFolder.AsBaseStorageFolder();
@@ -171,9 +164,7 @@ namespace Files.Filesystem.StorageItems
                         return;
                     }
                     zipFile.IsStreamOwner = true;
-                    //var znt = new ZipNameTransform(ContainerPath);
-                    //var entry = zipFile.GetEntry(znt.TransformFile(Path));
-                    var entry = zipFile.Entries.FirstOrDefault(x => x.FileName == Path);
+                    var entry = zipFile.Entries.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == Path);
                     if (entry != null)
                     {
                         using var hDestFile = fileToReplace.CreateSafeFileHandle(FileAccess.ReadWrite);
@@ -273,9 +264,7 @@ namespace Files.Filesystem.StorageItems
                     return null;
                 }
                 zipFile.IsStreamOwner = true;
-                //var znt = new ZipNameTransform(ContainerPath);
-                //var entry = zipFile.GetEntry(znt.TransformFile(Path));
-                var entry = zipFile.Entries.FirstOrDefault(x => x.FileName == Path);
+                var entry = zipFile.Entries.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == Path);
                 if (entry != null)
                 {
                     var ms = new MemoryStream();
@@ -321,9 +310,7 @@ namespace Files.Filesystem.StorageItems
                     return null;
                 }
                 zipFile.IsStreamOwner = true;
-                //var znt = new ZipNameTransform(ContainerPath);
-                //var entry = zipFile.GetEntry(znt.TransformFile(Path));
-                var entry = zipFile.Entries.FirstOrDefault(x => x.FileName == Path);
+                var entry = zipFile.Entries.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == Path);
                 if (entry != null)
                 {
                     var ms = new MemoryStream();
@@ -448,9 +435,7 @@ namespace Files.Filesystem.StorageItems
                             return;
                         }
                         zipFile.IsStreamOwner = true;
-                        //var znt = new ZipNameTransform(ContainerPath);
-                        //var entry = zipFile.GetEntry(znt.TransformFile(name));
-                        var entry = zipFile.Entries.FirstOrDefault(x => x.FileName == name);
+                        var entry = zipFile.Entries.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == name);
                         if (entry != null)
                         {
                             entry.Extract(request.AsStreamForWrite());
@@ -478,9 +463,7 @@ namespace Files.Filesystem.StorageItems
                     return null;
                 }
                 zipFile.IsStreamOwner = true;
-                //var znt = new ZipNameTransform(ContainerPath);
-                //var entry = zipFile.GetEntry(znt.TransformFile(Path));
-                var entry = zipFile.Entries.FirstOrDefault(x => x.FileName == Path);
+                var entry = zipFile.Entries.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == Path);
                 if (entry != null)
                 {
                     return new ZipFileBasicProperties(entry);
@@ -519,9 +502,9 @@ namespace Files.Filesystem.StorageItems
                 this.zipEntry = entry;
             }
 
-            public override DateTimeOffset DateModified => zipEntry.CreationTime;
+            public override DateTimeOffset DateModified => zipEntry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : zipEntry.CreationTime;
 
-            public override DateTimeOffset ItemDate => zipEntry.CreationTime;
+            public override DateTimeOffset ItemDate => zipEntry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : zipEntry.CreationTime;
 
             public override ulong Size => (ulong)zipEntry.Size;
         }
