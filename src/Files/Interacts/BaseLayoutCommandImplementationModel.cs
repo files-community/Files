@@ -752,7 +752,7 @@ namespace Files.Interacts
 
             if (currentFolder != null)
             {
-                destinationFolder = await FilesystemTasks.Wrap(() => currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.OpenIfExists).AsTask());
+                destinationFolder = await FilesystemTasks.Wrap(() => currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
             }
 
             if (archive != null && destinationFolder != null)

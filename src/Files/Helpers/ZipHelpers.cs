@@ -40,7 +40,6 @@ namespace Files.Helpers
                     return;
                 }
 
-                //var wnt = new WindowsNameTransform(destinationFolder.Path);
                 var zipEncoding = ZipStorageFolder.DetectFileEncoding(zipFile);
 
                 var directories = new List<string>();
@@ -62,7 +61,7 @@ namespace Files.Helpers
                     if (!NativeFileOperationsHelper.CreateDirectoryFromApp(dir, IntPtr.Zero))
                     {
                         var dirName = destinationFolder.Path;
-                        foreach (var component in dir.Substring(destinationFolder.Path.Length).Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
+                        foreach (var component in dir.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
                         {
                             dirName = Path.Combine(dirName, component);
                             NativeFileOperationsHelper.CreateDirectoryFromApp(dirName, IntPtr.Zero);
@@ -92,13 +91,8 @@ namespace Files.Helpers
                     {
                         return;
                     }
-                    if (entry.IsEncrypted)
-                    {
-                        App.Logger.Info($"Skipped encrypted zip entry: {entry.FileName}");
-                        continue; // TODO: support password protected archives
-                    }
 
-                    string filePath = ZipStorageFolder.DecodeEntryName(entry, zipEncoding);
+                    string filePath = Path.Combine(destinationFolder.Path, ZipStorageFolder.DecodeEntryName(entry, zipEncoding));
 
                     var hFile = NativeFileOperationsHelper.CreateFileForWrite(filePath);
                     if (hFile.IsInvalid)
