@@ -21,6 +21,11 @@ namespace Files.Filesystem.StorageItems
     {
         public Encoding ZipEncoding { get; set; } = null;
 
+        public static List<string> Extensions => new List<string>()
+        {
+            ".zip", ".7z", ".rar"
+        };
+
         private static bool? IsDefaultZipApp;
         public static async Task<bool> CheckDefaultZipApp(string filePath)
         {
@@ -463,10 +468,15 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
             {
-                var marker = path.IndexOf(".zip", StringComparison.OrdinalIgnoreCase);
+                var ext = ZipStorageFolder.Extensions.FirstOrDefault(x => path.Contains(x, StringComparison.OrdinalIgnoreCase));
+                if (string.IsNullOrEmpty(ext))
+                {
+                    return null;
+                }
+                var marker = path.IndexOf(ext, StringComparison.OrdinalIgnoreCase);
                 if (marker != -1)
                 {
-                    var containerPath = path.Substring(0, marker + ".zip".Length);
+                    var containerPath = path.Substring(0, marker + ext.Length);
                     if (!await CheckDefaultZipApp(path))
                     {
                         return null;
@@ -494,10 +504,15 @@ namespace Files.Filesystem.StorageItems
 
         public static bool IsZipPath(string path)
         {
-            var marker = path.IndexOf(".zip", StringComparison.OrdinalIgnoreCase);
+            var ext = ZipStorageFolder.Extensions.FirstOrDefault(x => path.Contains(x, StringComparison.OrdinalIgnoreCase));
+            if (string.IsNullOrEmpty(ext))
+            {
+                return false;
+            }
+            var marker = path.IndexOf(ext, StringComparison.OrdinalIgnoreCase);
             if (marker != -1)
             {
-                marker += ".zip".Length;
+                marker += ext.Length;
                 if (marker == path.Length || path[marker] == '\\')
                 {
                     return true;

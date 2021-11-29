@@ -14,7 +14,7 @@ namespace Files.ViewModels.Previews
     {
         public static List<string> Extensions => new List<string>()
         {
-            ".zip",
+            ".zip", ".7z", ".rar"
         };
 
         public ArchivePreviewViewModel(ListedItem item) : base(item)

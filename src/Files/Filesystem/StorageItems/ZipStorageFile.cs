@@ -358,10 +358,15 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<BaseStorageFile>(cancellationToken =>
             {
-                var marker = path.IndexOf(".zip", StringComparison.OrdinalIgnoreCase);
+                var ext = ZipStorageFolder.Extensions.FirstOrDefault(x => path.Contains(x, StringComparison.OrdinalIgnoreCase));
+                if (string.IsNullOrEmpty(ext))
+                {
+                    return Task.FromResult<BaseStorageFile>(null);
+                }
+                var marker = path.IndexOf(ext, StringComparison.OrdinalIgnoreCase);
                 if (marker != -1)
                 {
-                    var containerPath = path.Substring(0, marker + ".zip".Length);
+                    var containerPath = path.Substring(0, marker + ext.Length);
                     if (path == containerPath)
                     {
                         return Task.FromResult<BaseStorageFile>(null); // Root
