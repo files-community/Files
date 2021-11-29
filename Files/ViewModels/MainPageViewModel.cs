@@ -182,6 +182,9 @@ namespace Files.ViewModels
                 path = "Home".GetLocalized();
             }
 
+            // Support drives launched through jumplist by stripping away the question mark at the endy.
+            if (path.EndsWith("\\?")) path = path.Remove(path.Length - 1);
+
             TabItem tabItem = new TabItem()
             {
                 Header = null,

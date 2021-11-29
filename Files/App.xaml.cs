@@ -246,6 +246,7 @@ namespace Files
                 {
                     if (!(string.IsNullOrEmpty(e.Arguments) && MainPageViewModel.AppInstances.Count > 0))
                     {
+
                         await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
                     }
                 }

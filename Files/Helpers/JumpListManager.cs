@@ -1,5 +1,6 @@
 using Files.Common;
 using Files.Filesystem;
+using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -59,42 +60,52 @@ namespace Files.Helpers
         {
             if (instance != null && !JumpListItemPaths.Contains(path))
             {
-                string displayName;
-                if (path.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
+                string displayName = null;
+                if (path.EndsWith("\\"))
                 {
-                    displayName = "ms-resource:///Resources/SidebarDesktop";
+                    // Jumplist item argument can't end with a slash so append a character that can't exist in a directory name to support listing drives.
+                    displayName = App.DrivesManager.Drives.Where(drive => drive.Path == path).First().Text;
+                    path += '?';
                 }
-                else if (path.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    displayName = "ms-resource:///Resources/SidebarDownloads";
-                }
-                else if (path.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    var localSettings = ApplicationData.Current.LocalSettings;
-                    displayName = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
-                }
-                else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
-                {
-                    var libName = Path.GetFileNameWithoutExtension(library.Path);
-                    switch (libName)
-                    {
-                        case "Documents":
-                        case "Pictures":
-                        case "Music":
-                        case "Videos":
-                            // Use localized name
-                            displayName = $"ms-resource:///Resources/Sidebar{libName}";
-                            break;
 
-                        default:
-                            // Use original name
-                            displayName = library.Text;
-                            break;
+                if (displayName == null)
+				{
+                    if (path.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
+                    {
+                        displayName = "ms-resource:///Resources/SidebarDesktop";
                     }
-                }
-                else
-                {
-                    displayName = Path.GetFileName(path);
+                    else if (path.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
+                    {
+                        displayName = "ms-resource:///Resources/SidebarDownloads";
+                    }
+                    else if (path.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                    {
+                        var localSettings = ApplicationData.Current.LocalSettings;
+                        displayName = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
+                    }
+                    else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
+                    {
+                        var libName = Path.GetFileNameWithoutExtension(library.Path);
+                        switch (libName)
+                        {
+                            case "Documents":
+                            case "Pictures":
+                            case "Music":
+                            case "Videos":
+                                // Use localized name
+                                displayName = $"ms-resource:///Resources/Sidebar{libName}";
+                                break;
+
+                            default:
+                                // Use original name
+                                displayName = library.Text;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        displayName = Path.GetFileName(path);
+                    }
                 }
 
                 var jumplistItem = JumpListItem.CreateWithArguments(path, displayName);
