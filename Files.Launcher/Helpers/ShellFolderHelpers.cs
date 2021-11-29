@@ -9,7 +9,7 @@ namespace FilesFullTrust.Helpers
 {
     public static class ShellFolderExtensions
     {
-        public static ShellLibraryItem GetShellLibraryItem(ShellLibrary library, string filePath)
+        public static ShellLibraryItem GetShellLibraryItem(ShellLibrary2 library, string filePath)
         {
             var libraryItem = new ShellLibraryItem
             {

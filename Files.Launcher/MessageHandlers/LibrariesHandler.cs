@@ -78,7 +78,7 @@ namespace FilesFullTrust.MessageHandlers
                 }
                 if (!changeType.HasFlag(WatcherChangeTypes.Deleted))
                 {
-                    var library = ShellItem.Open(newPath) as ShellLibrary;
+                    var library = new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(newPath), true);
                     if (library == null)
                     {
                         Program.Logger.Warn($"Failed to open library after {changeType}: {newPath}");
@@ -108,8 +108,8 @@ namespace FilesFullTrust.MessageHandlers
                             var libFiles = Directory.EnumerateFiles(ShellLibraryItem.LibrariesPath, "*" + ShellLibraryItem.EXTENSION);
                             foreach (var libFile in libFiles)
                             {
-                                using var shellItem = ShellItem.Open(libFile);
-                                if (shellItem is ShellLibrary library)
+                                using var shellItem = new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(libFile), true);
+                                if (shellItem is ShellLibrary2 library)
                                 {
                                     libraryItems.Add(ShellFolderExtensions.GetShellLibraryItem(library, libFile));
                                 }
@@ -132,7 +132,10 @@ namespace FilesFullTrust.MessageHandlers
                         var response = new ValueSet();
                         try
                         {
-                            using var library = new ShellLibrary((string)message["library"], Shell32.KNOWNFOLDERID.FOLDERID_Libraries, false);
+                            using var library = new ShellLibrary2((string)message["library"], Shell32.KNOWNFOLDERID.FOLDERID_Libraries, false);
+                            library.Folders.Add(ShellItem.Open(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))); // Add default folder so it's not empty
+                            library.Commit();
+                            library.Reload();
                             response.Add("Create", JsonConvert.SerializeObject(ShellFolderExtensions.GetShellLibraryItem(library, library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing))));
                         }
                         catch (Exception e)
@@ -157,7 +160,7 @@ namespace FilesFullTrust.MessageHandlers
 
                             bool updated = false;
                             var libPath = (string)message["library"];
-                            using var library = ShellItem.Open(libPath) as ShellLibrary;
+                            using var library = new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(libPath), false);
                             if (folders != null)
                             {
                                 if (folders.Length > 0)
@@ -195,8 +198,7 @@ namespace FilesFullTrust.MessageHandlers
                             if (updated)
                             {
                                 library.Commit();
-                                var libField = typeof(ShellLibrary).GetField("folders", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                                libField.SetValue(library, null); // Force library folder reload
+                                library.Reload(); // Reload folders list
                                 response.Add("Update", JsonConvert.SerializeObject(ShellFolderExtensions.GetShellLibraryItem(library, libPath)));
                             }
                         }

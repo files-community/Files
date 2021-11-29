@@ -98,7 +98,7 @@ namespace Files.DataModels
         /// <param name="item">Item to remove</param>
         public async void AddItem(string item)
         {
-            if (!FavoriteItems.Contains(item))
+            if (!string.IsNullOrEmpty(item) && !FavoriteItems.Contains(item))
             {
                 FavoriteItems.Add(item);
                 await AddItemToSidebarAsync(item);
