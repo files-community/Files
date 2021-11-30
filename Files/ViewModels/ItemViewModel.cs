@@ -1572,16 +1572,10 @@ namespace Files.ViewModels
                 try
                 {
                     FileTimeToSystemTime(ref findData.ftLastWriteTime, out var systemModifiedTimeOutput);
-                    itemModifiedDate = new DateTime(
-                        systemModifiedTimeOutput.Year, systemModifiedTimeOutput.Month, systemModifiedTimeOutput.Day,
-                        systemModifiedTimeOutput.Hour, systemModifiedTimeOutput.Minute, systemModifiedTimeOutput.Second, systemModifiedTimeOutput.Milliseconds,
-                        DateTimeKind.Utc);
+                    itemModifiedDate = systemModifiedTimeOutput.ToDateTime();
 
                     FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedTimeOutput);
-                    itemCreatedDate = new DateTime(
-                        systemCreatedTimeOutput.Year, systemCreatedTimeOutput.Month, systemCreatedTimeOutput.Day,
-                        systemCreatedTimeOutput.Hour, systemCreatedTimeOutput.Minute, systemCreatedTimeOutput.Second, systemCreatedTimeOutput.Milliseconds,
-                        DateTimeKind.Utc);
+                    itemCreatedDate = systemCreatedTimeOutput.ToDateTime();
                 }
                 catch (ArgumentException) { }
 
