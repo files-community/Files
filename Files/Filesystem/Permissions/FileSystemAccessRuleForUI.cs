@@ -21,8 +21,9 @@ namespace Files.Filesystem.Permissions
 
             ChangeInheritanceFlagsCommand = new RelayCommand<string>(x =>
             {
-                InheritanceFlags = Enum.Parse<InheritanceFlags>(x.Split(',')[0]);
-                PropagationFlags = Enum.Parse<PropagationFlags>(x.Split(',')[1]);
+                var parts = x.Split(',');
+                InheritanceFlags = Enum.Parse<InheritanceFlags>(parts[0]);
+                PropagationFlags = Enum.Parse<PropagationFlags>(parts[1]);
             });
 
             GrantedPermissions = GetGrantedPermissions();
