@@ -187,8 +187,6 @@ namespace Files.Filesystem.StorageEnumerators
             CancellationToken cancellationToken
         )
         {
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-
             var basicProperties = await file.GetBasicPropertiesAsync();
             // Display name does not include extension
             var itemName = file.Name;
