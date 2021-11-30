@@ -1311,7 +1311,7 @@
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>Kizárva a szinkronizálásból</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Nem meghatározott</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">

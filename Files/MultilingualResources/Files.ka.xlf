@@ -1932,7 +1932,7 @@
           <source>Excluded from sync</source>
           <target state="translated">გამორიცხულია სინქრონიზაციისგან</target>
         </trans-unit>
-        <trans-unit id="ItemSizeNotCalcluated" translate="yes" xml:space="preserve">
+        <trans-unit id="ItemSizeNotCalculated" translate="yes" xml:space="preserve">
           <source>Not calculated</source>
           <target state="translated">არ არის გათვლილი</target>
         </trans-unit>

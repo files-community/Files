@@ -1939,7 +1939,7 @@
           <source>Excluded from sync</source>
           <target state="translated">Εξαιρείται από το συγχρονισμό</target>
         </trans-unit>
-        <trans-unit id="ItemSizeNotCalcluated" translate="yes" xml:space="preserve">
+        <trans-unit id="ItemSizeNotCalculated" translate="yes" xml:space="preserve">
           <source>Not calculated</source>
           <target state="translated">Δεν έχει υπολογιστεί</target>
         </trans-unit>

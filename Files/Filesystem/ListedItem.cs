@@ -301,7 +301,7 @@ namespace Files.Filesystem
             }
         }
 
-        public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? "ItemSizeNotCalcluated".GetLocalized() : FileSize;
+        public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? "ItemSizeNotCalculated".GetLocalized() : FileSize;
 
         public long FileSizeBytes { get; set; }
 

@@ -1236,7 +1236,7 @@
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
     <value>Synchronizace</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Nevypočítáno</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">

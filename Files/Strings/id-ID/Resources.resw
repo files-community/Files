@@ -1377,7 +1377,7 @@
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>Dikecualikan dari sinkronisasi</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Tidak dihitung</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">

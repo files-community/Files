@@ -1050,7 +1050,7 @@
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
     <value>מתבצע סינכרון</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>לא חושב</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
