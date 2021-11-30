@@ -6,7 +6,7 @@
     </header>
     <body>
       <group id="FILES/STRINGS/EN-US/RESOURCES.RESW" datatype="resx">
-          <trans-unit id="SideBarOpenInNewTab.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SideBarOpenInNewTab.Text" translate="yes" xml:space="preserve">
           <source>Open in new tab</source>
           <target state="translated">Abrir num novo separador</target>
         </trans-unit>
