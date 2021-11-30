@@ -32,7 +32,7 @@ namespace Files.Filesystem
             return obj is LibraryLocationItem other && string.Equals(Path, other.Path, System.StringComparison.OrdinalIgnoreCase);
         }
 
-        public override int GetHashCode() => Path.GetHashCode();
+        public override int GetHashCode() => Path.GetHashCode(System.StringComparison.OrdinalIgnoreCase);
 
         public async Task<bool> CheckDefaultSaveFolderAccess()
         {
