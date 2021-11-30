@@ -179,8 +179,6 @@ namespace Files.Filesystem.StorageEnumerators
             CancellationToken cancellationToken
         )
         {
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
             var itemName = findData.cFileName;
 
