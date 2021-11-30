@@ -56,7 +56,7 @@
                 <AppBarButton
                     x:Name="NewEmptySpaceAppBarButton"
                     x:Uid="BaseLayoutContextFlyoutNew"
-                    IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay, FallbackValue=False}"
                     KeyboardAcceleratorTextOverride="Ctrl+Shift+N"
                     Label="New">
                     <AppBarButton.KeyboardAccelerators>
@@ -102,7 +102,7 @@
                     Width="Auto"
                     MinWidth="40"
                     Command="{x:Bind ViewModel.CutCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
                     Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutCut/Text')}"
                     LabelPosition="Collapsed"
                     ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutCut/Text')}">
@@ -115,7 +115,7 @@
                     Width="Auto"
                     MinWidth="40"
                     Command="{x:Bind ViewModel.CopyCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind ViewModel.CanCopy, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanCopy, Mode=OneWay, FallbackValue=False}"
                     Label="Copy"
                     LabelPosition="Collapsed"
                     ToolTipService.ToolTip="Copy">
@@ -127,7 +127,7 @@
                     Width="Auto"
                     MinWidth="40"
                     Command="{x:Bind ViewModel.PasteItemsFromClipboardCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.InstanceViewModel.CanPasteInPage, local1:App.MainViewModel.IsPasteEnabled), Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.InstanceViewModel.CanPasteInPage, local1:App.MainViewModel.IsPasteEnabled), Mode=OneWay, FallbackValue=False}"
                     Label="Paste"
                     LabelPosition="Collapsed"
                     ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutContextFlyoutPaste/Text')}">
@@ -145,7 +145,7 @@
                     Width="Auto"
                     MinWidth="40"
                     Command="{x:Bind ViewModel.Rename, Mode=OneWay}"
-                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanRename, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanRename, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
                     Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutRename/Text')}"
                     LabelPosition="Collapsed"
                     ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutRename/Text')}">
@@ -159,7 +159,7 @@
                     Width="Auto"
                     MinWidth="40"
                     Command="{x:Bind ViewModel.Share, Mode=OneWay}"
-                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanShare, ViewModel.InstanceViewModel.CanShareInPage), Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanShare, ViewModel.InstanceViewModel.CanShareInPage), Mode=OneWay, FallbackValue=False}"
                     Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutShare/Text')}"
                     LabelPosition="Collapsed"
                     ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutShare/Text')}">
@@ -172,7 +172,7 @@
                     Width="Auto"
                     MinWidth="40"
                     Command="{x:Bind ViewModel.DeleteCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
                     Label="{helpers:ResourceString Name=Delete}"
                     LabelPosition="Collapsed"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}">
