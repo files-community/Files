@@ -14,7 +14,7 @@ namespace Files.Extensions
         /// <param name="item">The item</param>
         /// <returns><see cref="IEnumerable{T}"/> with <paramref name="item"/></returns>
         internal static IEnumerable<T> CreateEnumerable<T>(this T item) =>
-            CreateList<T>(item);
+            new[] { item };
 
         internal static List<T> CreateList<T>(this T item) =>
             new List<T>() { item };
