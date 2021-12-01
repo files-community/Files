@@ -1030,6 +1030,7 @@
     <Content Include="Assets\tile-0-300x300.png" />
     <Content Include="Resources\AppCenterKey.txt" />
     <Content Include="Resources\BingMapsKey.txt" />
+    <PRIResource Include="Strings\af\Resources.resw" />
     <PRIResource Include="Strings\hr-HR\Resources.resw" />
     <PRIResource Include="Strings\vi\Resources.resw" />
     <PRIResource Include="Strings\ca\Resources.resw" />
@@ -1039,6 +1040,7 @@
     <PRIResource Include="Strings\id-ID\Resources.resw" />
     <PRIResource Include="Strings\es-419\Resources.resw" />
     <PRIResource Include="Strings\pt-PT\Resources.resw" />
+    <XliffResource Include="MultilingualResources\Files.af.xlf" />
     <XliffResource Include="MultilingualResources\Files.ca.xlf" />
     <XliffResource Include="MultilingualResources\Files.el.xlf" />
     <XliffResource Include="MultilingualResources\Files.en-GB.xlf" />
