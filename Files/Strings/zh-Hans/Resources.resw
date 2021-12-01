@@ -45,23 +45,11 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>提交反馈</value>
   </data>
-  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>第三方许可证</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>关于</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>外观</value>
-  </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>文件 &amp; 文件夹</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>文件 &amp; 文件夹</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>启动时</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>偏好</value>
@@ -74,9 +62,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>打开指定页面</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>启动时</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>偏好</value>
@@ -534,15 +519,6 @@
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>页数:</value>
   </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>在打开新文件夹时</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>始终打开新实例</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>在新选项卡中打开文件夹</value>
-  </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows 默认</value>
   </data>
@@ -808,7 +784,7 @@
     <value>分级</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
-    <value>项类型</value>
+    <value>项目类型</value>
   </data>
   <data name="PropertyTitle" xml:space="preserve">
     <value>标题</value>
@@ -1224,12 +1200,6 @@
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>删除日期</value>
   </data>
-  <data name="SettingsTabCustomization.Text" xml:space="preserve">
-    <value>选项卡自定义</value>
-  </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>启动时</value>
-  </data>
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>确认</value>
   </data>
@@ -1365,7 +1335,7 @@
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>从同步中排除</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>未计算</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
@@ -1486,7 +1456,7 @@
     <value>你想要以管理员权限继续吗？</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>关闭选项卡到右侧</value>
+    <value>关闭右侧选项卡</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>管理员</value>
@@ -1698,10 +1668,10 @@
     <value>原始路径列</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
-    <value>项类型列</value>
+    <value>类型</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
-    <value>日期修改列</value>
+    <value>修改日期</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
     <value>删除日期列</value>
@@ -1944,7 +1914,7 @@
     <value>新建</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
-    <value>新窗格</value>
+    <value>新面板</value>
   </data>
   <data name="Security" xml:space="preserve">
     <value>安全</value>
@@ -1994,12 +1964,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>未知所有者。</value>
   </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>侧边栏</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>侧边栏</value>
-  </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>默认</value>
   </data>
@@ -2046,7 +2010,7 @@
     <value>最近使用的文件</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>在新窗格中打开</value>
+    <value>在新面板中打开</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>所有者</value>
@@ -2187,7 +2151,7 @@
     <value>创建包</value>
   </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>关闭窗格</value>
+    <value>关闭面板</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
     <value>文件说明</value>
@@ -2247,10 +2211,10 @@
     <value>隐藏 {0} 部分</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>始终以双窗格模式打开新选项卡</value>
+    <value>始终以双面板模式打开新选项卡</value>
   </data>
   <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
-    <value>启用双窗格视图</value>
+    <value>启用双面板视图</value>
   </data>
   <data name="SettingsVerticalTabFlyout" xml:space="preserve">
     <value>在标题栏上显示垂直选项卡弹出按钮</value>
@@ -2438,6 +2402,7 @@
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
 *个人信息收集* 
+
 Files 不收集、存储、共享或发布任何个人信息。
 
 *非个人信息收集*
@@ -2563,7 +2528,7 @@ Files 不收集、存储、共享或发布任何个人信息。
     <value>在 {0} 处创建链接</value>
   </data>
   <data name="NavToolbarColumnsHeader.Text" xml:space="preserve">
-    <value>列表</value>
+    <value>列视图</value>
   </data>
   <data name="NavToolbarDetailsHeader.Text" xml:space="preserve">
     <value>详细信息</value>
@@ -2653,13 +2618,7 @@ Files 不收集、存储、共享或发布任何个人信息。
     <value>创建日期</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
-    <value>项目大小</value>
-  </data>
-  <data name="SettingsDefaultExplorer" xml:space="preserve">
-    <value>默认文件资源管理器</value>
-  </data>
-  <data name="SettingsSetAsDefaultManager" xml:space="preserve">
-    <value>设置Files为默认文件资源管理器</value>
+    <value>大小</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>使用Files打开文件对话框</value>
@@ -2672,5 +2631,110 @@ Files 不收集、存储、共享或发布任何个人信息。
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>文件夹路径</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>导出设置</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>导入设置</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>管理设置</value>
+  </data>
+  <data name="SettingsImportErrorDescription" xml:space="preserve">
+    <value>无法导入设置。设置文件已损坏。</value>
+  </data>
+  <data name="SettingsImportErrorTitle" xml:space="preserve">
+    <value>导入设置错误</value>
+  </data>
+  <data name="ChooseCustomIcon" xml:space="preserve">
+    <value>选择自定义文件夹图标</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>定制化</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>还原至默认</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>兼容性</value>
+  </data>
+  <data name="HighDpiOption_None" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
+    <value>已登录到Windows</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
+    <value>打开此程序</value>
+  </data>
+  <data name="HighDpiOverride_Application" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="HighDpiOverride_None" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>系统</value>
+  </data>
+  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
+    <value>系统（进阶）</value>
+  </data>
+  <data name="OSCompatibility_None" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="OSCompatibility_Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="OSCompatibility_Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
+    <value>Windows Vista SP1</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
+    <value>Windows Vista SP2</value>
+  </data>
+  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
+    <value>16 位（65536）色</value>
+  </data>
+  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
+    <value>8 位（256）色</value>
+  </data>
+  <data name="ReducedColorMode_None" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>兼容模式</value>
+  </data>
+  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+    <value>禁用全屏优化</value>
+  </data>
+  <data name="ExecuteAt640X480" xml:space="preserve">
+    <value>用 640 x 480 屏幕分辨率运行</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
+    <value>替代高DPI缩放行为</value>
+  </data>
+  <data name="ReducedColorMode" xml:space="preserve">
+    <value>简化的颜色模式</value>
+  </data>
+  <data name="RegisterForRestart" xml:space="preserve">
+    <value>注册此程序以重新启动</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>以管理员身份运行此程序</value>
+  </data>
+  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+    <value>运行兼容性疑难解答</value>
+  </data>
+  <data name="UseMainMonitorDPISettings" xml:space="preserve">
+    <value>使用主屏幕的DPI设置</value>
   </data>
 </root>

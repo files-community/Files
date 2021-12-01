@@ -337,8 +337,6 @@ namespace Files.Views
             {
                 _ = VisualStateManager.GoToState(this, nameof(HorizontalTabViewCollapsed), true);
             }
-
-            App.LoadOtherStuffAsync().ContinueWith(t => App.Logger.Warn(t.Exception, "Error during LoadOtherStuffAsync()"), TaskContinuationOptions.OnlyOnFaulted);
         }
 
         private void ToggleFullScreenAccelerator(KeyboardAcceleratorInvokedEventArgs e)

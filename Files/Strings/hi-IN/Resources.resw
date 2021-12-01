@@ -108,29 +108,17 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>प्रतिक्रिया सबमिट करें</value>
   </data>
-  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>तृतीय पक्ष लाइसेंस</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>बारे में</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>उपस्थिति</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>फ़ाइलें और फ़ोल्डर्स</value>
-  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>प्रयोगात्मक</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>प्रयोगात्मक</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>फ़ाइलें और फ़ोल्डर्स</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>शुरू पर</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>प्राथमिकताएँ</value>
@@ -146,9 +134,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>एक विशिष्ट पन्ना या पन्ने खोलें</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>शुरू पर</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>प्राथमिकताएँ</value>
@@ -533,15 +518,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>पन्ने:</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>पिन किए गए फ़ोल्डर को खोलते समय</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>हमेशा एक नया दृष्टांत खोलें</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>फ़ोल्डर को एक नए टैब में खोलें</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>विन्डोज़ डिफ़ॉल्ट</value>
@@ -1298,12 +1274,6 @@
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>स्वामी</value>
-  </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>साइडबार</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>साइडबार</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>डिफ़ॉल्ट</value>

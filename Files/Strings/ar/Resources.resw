@@ -108,29 +108,17 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>إرسال ملاحظات</value>
   </data>
-  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>تراخيص الطرف الثالث</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>حول التطبيق</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>المظهر</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>ملفات ومجلدات</value>
-  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>تجريبي</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>تجريبي</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>ملفات ومجلدات</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>عند بدء التشغيل</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>التفضيلات</value>
@@ -146,9 +134,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>فتح صفحة معينة</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>عند بدء التشغيل</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>التفضيلات</value>
@@ -545,15 +530,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>الصفحات</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>افتح دائمًا مثيلًا جديدًا</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>افتح المجلد في علامة تبويب جديدة</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>عند إطلاق عنصر من jumplist</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>ويندوز الافتراضي</value>
@@ -1212,12 +1188,6 @@
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>‏‏تاريخ الحذف</value>
   </data>
-  <data name="SettingsTabCustomization.Text" xml:space="preserve">
-    <value>تخصيص علامة التبويب</value>
-  </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>عند تشغيل الملفات</value>
-  </data>
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>خيارات إضافية</value>
   </data>
@@ -1320,7 +1290,7 @@
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
     <value>‏‏مزامنة</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>غير محسوب</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
@@ -1646,12 +1616,6 @@
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>المالك</value>
-  </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>شريط جانبي</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>شريط جانبي</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>افتراضي</value>

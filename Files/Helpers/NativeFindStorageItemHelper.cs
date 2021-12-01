@@ -30,6 +30,8 @@ namespace Files.Helpers
                 Second = (short)dt.Second;
                 Milliseconds = (short)dt.Millisecond;
             }
+            
+            public DateTime ToDateTime() => new DateTime(Year, Month, Day, Hour, Minute, Second, Milliseconds, DateTimeKind.Utc);
         }
 
         public enum FINDEX_INFO_LEVELS

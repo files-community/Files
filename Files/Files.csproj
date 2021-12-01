@@ -458,7 +458,7 @@
     <Compile Include="Filesystem\StorageHistory\StorageHistoryWrapper.cs" />
     <Compile Include="Helpers\AcrylicTheme.cs" />
     <Compile Include="Helpers\Convert\ErrorCodeConverter.cs" />
-    <Compile Include="Helpers\StorageItemHelpers.cs" />
+    <Compile Include="Helpers\StorageHelpers.cs" />
     <Compile Include="Helpers\DialogDisplayHelper.cs" />
     <Compile Include="Helpers\DispatcherHelper.cs" />
     <Compile Include="ViewModels\Properties\FilePropertySection.cs" />
@@ -1467,7 +1467,7 @@
       <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="FluentFTP">
-      <Version>35.2.0</Version>
+      <Version>35.2.1</Version>
     </PackageReference>
     <PackageReference Include="ini-parser-netstandard">
       <Version>2.5.2</Version>

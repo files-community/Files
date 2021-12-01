@@ -45,23 +45,11 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Geri bildirim gönder</value>
   </data>
-  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Üçüncü taraf lisansları</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>Hakkında</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Görünüm</value>
-  </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Dosyalar &amp; Klasörler</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Dosyalar &amp; Klasörler</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>Başlangıçta</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Ayarlar</value>
@@ -74,9 +62,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Belirli bir sayfayı ya da sayfaları aç</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>Başlangıçta</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Ayarlar</value>
@@ -533,15 +518,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Sayfa:</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Files'ta bir klasör açarken</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Her zaman yeni bir kopya açılsın</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Klasörü yeni sekmede aç</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows varsayılanı</value>
@@ -1224,12 +1200,6 @@
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>Silinme tarihi</value>
   </data>
-  <data name="SettingsTabCustomization.Text" xml:space="preserve">
-    <value>Sekme özelleştirmesi</value>
-  </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>Files başlatılırken</value>
-  </data>
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>Onayla</value>
   </data>
@@ -1365,7 +1335,7 @@
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>Eşitlemeye katılmayan</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Hesaplanmamış</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
@@ -1991,12 +1961,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Bilinmeyen sahip</value>
-  </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Kenar çubuğu</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>Kenar çubuğu</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>Varsayılan</value>

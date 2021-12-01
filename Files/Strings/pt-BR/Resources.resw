@@ -79,7 +79,7 @@
     <value>Limpar Seleção</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
-    <value>Detalhado</value>
+    <value>Detalhes</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Modificado em:</value>
@@ -108,29 +108,17 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Submeter feedback</value>
   </data>
-  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Licenças de terceiros</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>Sobre</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Aparência</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Arquivos e Pastas</value>
-  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimental</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Experimental</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Arquivos e Pastas</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>Ao Iniciar</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferências</value>
@@ -146,9 +134,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Abra uma página ou páginas específicas</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>Ao Iniciar</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferências</value>
@@ -325,13 +310,13 @@
     <value>Definir como plano de fundo da tela de bloqueio</value>
   </data>
   <data name="BaseLayoutContextFlyoutLargeIcons.Text" xml:space="preserve">
-    <value>Ícones grandes</value>
+    <value>Ícones Grandes</value>
   </data>
   <data name="BaseLayoutContextFlyoutMediumIcons.Text" xml:space="preserve">
-    <value>Ícones médios</value>
+    <value>Ícones Médios</value>
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
-    <value>Ícones pequenos</value>
+    <value>Ícones Pequenos</value>
   </data>
   <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
     <value>Blocos</value>
@@ -533,15 +518,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Páginas:</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Ao abrir uma pasta em Files</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Abrir sempre uma nova instância</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Abrir pasta em uma nova guia</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Padrão do Windows</value>
@@ -1117,7 +1093,7 @@
     <value>Centro de Status</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>Resultados da pesquisa em</value>
+    <value>Resultados da pesquisa em {1} para {0}</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Resultados da pesquisa</value>
@@ -1193,12 +1169,6 @@
   </data>
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>Data de exclusão</value>
-  </data>
-  <data name="SettingsTabCustomization.Text" xml:space="preserve">
-    <value>Personalização das guias</value>
-  </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>Ao Abrir Files</value>
   </data>
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>Confirmar</value>
@@ -1335,7 +1305,7 @@
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>Excluído da sincronização</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Não calculado</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
@@ -1426,22 +1396,22 @@
     <value>Detalhado (Ctrl+Shift+1)</value>
   </data>
   <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>Detalhado</value>
+    <value>Detalhes</value>
   </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Ícones grandes</value>
+    <value>Ícones Grandes</value>
   </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ícones grandes (Ctrl+Shift+5)</value>
   </data>
   <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Ícones médios</value>
+    <value>Ícones Médios</value>
   </data>
   <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ícones médios (Ctrl+Shift+4)</value>
   </data>
   <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Ícones pequenos</value>
+    <value>Ícones Pequenos</value>
   </data>
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ícones pequenos (Ctrl+Shift+3)</value>
@@ -1498,7 +1468,7 @@
     <value>Administrador</value>
   </data>
   <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
-    <value>Vista em Coluna</value>
+    <value>Colunas</value>
   </data>
   <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Vista em Coluna (Ctrl+Shift+6)</value>
@@ -1510,7 +1480,7 @@
     <value>Desafixar do Menu Inicar</value>
   </data>
   <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
-    <value>Vista em Coluna</value>
+    <value>Colunas</value>
   </data>
   <data name="ItemTypeLibrary" xml:space="preserve">
     <value>Biblioteca</value>
@@ -1992,26 +1962,20 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Proprietário desconhecido</value>
   </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Barra lateral</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>Barra lateral</value>
-  </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>Padrão</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>Abrir pasta de themes</value>
+    <value>Abrir a pasta de temas</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Saiba mais sobre themes personalizadas</value>
+    <value>Saiba mais sobre temas personalizados</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Saiba mais sobre themes personalizadas</value>
+    <value>Saiba mais sobre temas personalizados</value>
   </data>
   <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Themes personalizadas proporcionam uma ótima maneira de personalizar o Files.</value>
+    <value>Os temas personalizados são uma ótima maneira de deixar o Files com a sua cara.</value>
   </data>
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Ver a documentação.</value>
@@ -2242,7 +2206,7 @@
     <value>WSL</value>
   </data>
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
-    <value>Esconder {0} seção</value>
+    <value>Ocultar a seção {0}</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>Sempre abra novas guias no modo de painel duplo</value>
@@ -2254,28 +2218,28 @@
     <value>Exibe o menu da guia vertical na barra de título</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
-    <value>Mostrar seção de drives em nuvem na barra lateral</value>
+    <value>Mostrar seção de drives em nuvem</value>
   </data>
   <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>Mostrar seção de drives na barra lateral</value>
+    <value>Mostrar seção de unidades de armazenamento</value>
   </data>
   <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>Mostrar seção WSL na barra lateral</value>
+    <value>Mostrar seção WSL</value>
   </data>
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>Mostrar seção de drives de rede na barra lateral</value>
+    <value>Mostrar seção de rede</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Fixar Lixeira nos Favoritos</value>
+    <value>Fixar a Lixeira nos Favoritos</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>Mostrar seção da biblioteca na barra lateral</value>
+    <value>Mostrar a seção de bibliotecas</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Escolha a sua cor</value>
   </data>
   <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Visuais personalizados</value>
+    <value>Temas personalizados</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Mova os itens restantes para um submenu</value>
@@ -2293,7 +2257,7 @@
     <value>Ocultar arquivos protegidos do sistema operacional (Recomendado)</value>
   </data>
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Abra os itens com um único clique</value>
+    <value>Abrir arquivos com um único clique</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>Listar e classificar diretórios ao lado dos arquivos</value>
@@ -2440,7 +2404,7 @@ O Files não coleta, armazena, compartilha ou publica qualquer informação pess
 
 *Coleta de informações não pessoais*
 
-Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigir falhas. Todas as informações enviadas para o App Center são anônimas e livres de qualquer usuário ou dados contextuais.
+Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigir falhas. Todas as informações enviadas para o App Center são anônimas e livres de qualquer dado de usuário ou contextual.
   </value>
   </data>
   <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
@@ -2477,7 +2441,7 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
     <value>Status de sincronização</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>Mostrar seção de favoritos na barra lateral</value>
+    <value>Mostrar a seção de favoritos</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
     <value>Etiqueta de arquivo</value>
@@ -2543,10 +2507,10 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
     <value>Nenhum item encontrado</value>
   </data>
   <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Pacotes de Widget</value>
+    <value>Widget de Pacotes</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget de Drives</value>
+    <value>Widget de Unidades</value>
   </data>
   <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widget de Bibliotecas</value>
@@ -2603,7 +2567,7 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
     <value>Mostrar seção de Unidades</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar seção de Biblioteca</value>
+    <value>Mostrar a seção de Bibliotecas</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar seção de Rede</value>
@@ -2618,7 +2582,7 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
     <value>Abrir pastas em uma nova guia</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Linguagem</value>
+    <value>Idioma</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostra diálogo de confirmação ao deletar arquivos ou pastas</value>
@@ -2630,7 +2594,7 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
     <value>Tarefas em andamento</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
-    <value>Carregar pré-visualização completa</value>
+    <value>Carregar previsualização completa</value>
   </data>
   <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
     <value>Mostrar apenas a pré-visualização</value>
@@ -2653,13 +2617,106 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>Coluna de tamanho do item</value>
   </data>
-  <data name="SettingsDefaultExplorer" xml:space="preserve">
-    <value>Explorador de ficheiros pré-definido</value>
-  </data>
-  <data name="SettingsSetAsDefaultManager" xml:space="preserve">
-    <value>Definir Files como explorador de ficheiros pré-definido</value>
-  </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
-    <value>Utilizar Files como diálogo para Abrir Ficheiros</value>
+    <value>Usar o Files como diálogo para Abrir Arquivos</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Etiqueta</value>
+  </data>
+  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
+    <value>Abrir pastas com somente um toque</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>Caminho da pasta</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>Exportar Configurações</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>Importar Configurações</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>Gerenciar Configurações</value>
+  </data>
+  <data name="SettingsImportErrorDescription" xml:space="preserve">
+    <value>Não foi possível importar. O arquivo de configurações está corrompido.</value>
+  </data>
+  <data name="SettingsImportErrorTitle" xml:space="preserve">
+    <value>Erro ao importar configurações</value>
+  </data>
+  <data name="ChooseCustomIcon" xml:space="preserve">
+    <value>Escolha um ícone de pasta personalizado</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Personalização</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>Restaurar padrão</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>Compatibilidade</value>
+  </data>
+  <data name="HighDpiOption_None" xml:space="preserve">
+    <value>Nenhuma</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
+    <value>Quando entrar no Windows</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
+    <value>Quando iniciar o programa</value>
+  </data>
+  <data name="HighDpiOverride_Application" xml:space="preserve">
+    <value>Aplicativo</value>
+  </data>
+  <data name="HighDpiOverride_None" xml:space="preserve">
+    <value>Nenhuma</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>Sistema</value>
+  </data>
+  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
+    <value>Sistema (avancado)</value>
+  </data>
+  <data name="OSCompatibility_None" xml:space="preserve">
+    <value>Nenhuma</value>
+  </data>
+  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
+    <value>Cores de 16 Bits (65536)</value>
+  </data>
+  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
+    <value>Cores de 8 Bits (256)</value>
+  </data>
+  <data name="ReducedColorMode_None" xml:space="preserve">
+    <value>Nenhuma</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Modo de compatibilidade</value>
+  </data>
+  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+    <value>Desativar otimizações de tela cheia</value>
+  </data>
+  <data name="ExecuteAt640X480" xml:space="preserve">
+    <value>Executar em resolução de 640 x 480</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Opções</value>
+  </data>
+  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
+    <value>Substituir o ajuste de DPI alto</value>
+  </data>
+  <data name="ReducedColorMode" xml:space="preserve">
+    <value>Modo de cor reduzido</value>
+  </data>
+  <data name="RegisterForRestart" xml:space="preserve">
+    <value>Registrar para reinicialização</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>Executar como administrador</value>
+  </data>
+  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+    <value>Executar solução de problemas de compatibilidade</value>
+  </data>
+  <data name="UseMainMonitorDPISettings" xml:space="preserve">
+    <value>Usar o DPI definido para minha tela principal</value>
   </data>
 </root>

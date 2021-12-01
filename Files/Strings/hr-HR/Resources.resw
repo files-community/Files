@@ -55,7 +55,7 @@
     <value>Veličina</value>
   </data>
   <data name="NavigationToolbarOpenInTerminal.Label" xml:space="preserve">
-    <value>Otovri u Terminalu...</value>
+    <value>Otvori u Terminalu...</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Napravljeno:</value>
@@ -132,9 +132,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Pošalji povratne informacije</value>
   </data>
-  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Licence trećih strana</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>O aplikaciji</value>
   </data>
@@ -153,20 +150,11 @@
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Prikaz skrivenih datoteka i mapa</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Datoteke &amp; Mape</value>
-  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Eksperimentalno</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Eksperimentalno</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Datoteke &amp; Mape</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>Kod pokretanja</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Postavke</value>
@@ -182,9 +170,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Otvori specifičnu stranicu ili stranice</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>Kod pokretanja</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Postavke</value>
@@ -493,13 +478,13 @@
     <value>stavka odabrana</value>
   </data>
   <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>odabrano stavki</value>
+    <value>stavki odabrano</value>
   </data>
   <data name="ItemCount.Text" xml:space="preserve">
     <value>stavka</value>
   </data>
   <data name="ItemsCount.Text" xml:space="preserve">
-    <value>stavke</value>
+    <value>stavki</value>
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Brisanje datoteka</value>
@@ -605,15 +590,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Stranice:</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Uvijek otvori novu instancu</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Otvori mapu na novoj kartici</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Prilikom otvaranja mape u Files aplikaciji</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows zadana postavka</value>
@@ -823,10 +799,10 @@
     <value>Idi jednu mapu gore</value>
   </data>
   <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Vertikalni izlet kartice</value>
+    <value>Vertikalni prozoričić kartica</value>
   </data>
   <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vertikalni izlet kartice</value>
+    <value>Vertikalni prozorčić kartica</value>
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Uredi terminal aplikacije</value>
@@ -844,10 +820,10 @@
     <value>Uredi terminal aplikacije</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Premjestite prekomjerne stavke u podizbornik</value>
+    <value>Premjesti prekomjerne stavke u podizbornik</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Prikvačite Koš za smeće u favorite</value>
+    <value>Prikvači Koš za smeće u favorite</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
     <value>Prikaz dijaloga za potvrdu prilikom brisanja datoteka ili mapa</value>
@@ -1270,10 +1246,10 @@
     <value>Prikaži neindeksirane stavke pri traženju datoteka i mapa (pretraživanja mogu potrajati dulje)</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
-    <value>Omogućite pojedinačne postavke za pojedinačne mape</value>
+    <value>Omogući pojedinačne postavke za pojedinačne mape</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
-    <value>Prilagodite kontekstni izbornik desnog klika</value>
+    <value>Prilagodi kontekstni izbornik desnog klika</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Originalna putanja</value>
@@ -1358,12 +1334,6 @@
   </data>
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>Datum brisanja</value>
-  </data>
-  <data name="SettingsTabCustomization.Text" xml:space="preserve">
-    <value>Prilagodba kartice</value>
-  </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>Kod pokretanja Files aplikacije</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Pogoni u oblaku</value>
@@ -1503,7 +1473,7 @@
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>Isključeno iz sinkronizacije</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Nije izračunato</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
@@ -1597,7 +1567,7 @@
     <value>Broj stavki</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Zatvorite kartice s desne strane</value>
+    <value>Zatvori kartice s desne strane</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>Brisanje nije uspjelo</value>
@@ -1699,10 +1669,10 @@
     <value>Napravi</value>
   </data>
   <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Otvorite Sense za pohranu</value>
+    <value>Otvori Sense za pohranu</value>
   </data>
   <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Otvorite Sense za pohranu</value>
+    <value>Otvori Sense za pohranu</value>
   </data>
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Kopiraj</value>
@@ -1756,7 +1726,7 @@
     <value>ISO brzina</value>
   </data>
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
-    <value>Otvorite mape u novoj kartici</value>
+    <value>Otvori mape u novoj kartici</value>
   </data>
   <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
     <value>Prikaži programčić Paketi</value>
@@ -1780,7 +1750,7 @@
     <value>Niste pronašli ono što tražite?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Pretražite neindeksirane stavke.</value>
+    <value>Pretraži neindeksirane stavke.</value>
   </data>
   <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
     <value>Upravljaj programčićima</value>
@@ -2088,14 +2058,8 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Nepoznati vlasnik</value>
   </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Bočna traka</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>Bočna traka</value>
-  </data>
   <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>Prikažite vertikalnu karticu na naslovnoj traci</value>
+    <value>Prikaži prozorčić vertikalnih kartica na naslovnoj traci</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Saznajte više o prilagođenim temama</value>
@@ -2116,7 +2080,7 @@
     <value>Pretraži</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
-    <value>Otvorite odredišnu mapu kada se završi</value>
+    <value>Otvori odredišnu mapu pri završetku</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
     <value>Raspakiraj datoteke</value>
@@ -2215,22 +2179,22 @@
     <value>Dodaj podatke</value>
   </data>
   <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
-    <value>Promijenite dopuštenje</value>
+    <value>Promijeni dopuštenje</value>
   </data>
   <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
-    <value>Napravite mape</value>
+    <value>Napravi mape</value>
   </data>
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
-    <value>Napravite datoteke</value>
+    <value>Napravi datoteke</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Izbriši</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
-    <value>Izbrišite podmape i datoteke</value>
+    <value>Izbriši podmape i datoteke</value>
   </data>
   <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
-    <value>Izvršite datoteke</value>
+    <value>Izvrši datoteke</value>
   </data>
   <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
     <value>Atributi čitanja</value>
@@ -2263,7 +2227,7 @@
     <value>Ništa</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
-    <value>Pretvorite naslijeđena dopuštenja u eksplicitna dopuštenja</value>
+    <value>Pretvori naslijeđena dopuštenja u eksplicitna dopuštenja</value>
   </data>
   <data name="SecurityAdvancedInheritedEnable.Text" xml:space="preserve">
     <value>Omogući nasljeđivanje</value>
@@ -2485,7 +2449,7 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
     <value>Oznaka datoteke</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>Otvorite nadređenu mapu</value>
+    <value>Otvori nadređenu mapu</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>Nepoznato</value>
@@ -2554,7 +2518,7 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
     <value>Programčić nedavnih datoteka</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
-    <value>Otvorite lokaciju zapisnika</value>
+    <value>Otvori lokaciju zapisnika</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Napravi vezu u {0}</value>
@@ -2614,7 +2578,7 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
     <value>Oblik datuma</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Otvorite mape u novoj kartici</value>
+    <value>Otvori mape u novoj kartici</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Jezik</value>
@@ -2635,10 +2599,10 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
     <value>Prikaži samo pregled</value>
   </data>
   <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
-    <value>Pomakni jednu dolje</value>
+    <value>Pomakni dolje</value>
   </data>
   <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
-    <value>Pomakni jednu gore</value>
+    <value>Pomakni gore</value>
   </data>
   <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
     <value>Premjesti na dno</value>
@@ -2652,14 +2616,8 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>Stupac veličine stavke</value>
   </data>
-  <data name="SettingsDefaultExplorer" xml:space="preserve">
-    <value>Zadani preglednik datoteka</value>
-  </data>
-  <data name="SettingsSetAsDefaultManager" xml:space="preserve">
-    <value>Postavite Files aplikaciju kao zadani preglednik datoteka</value>
-  </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
-    <value>Koristite Files aplikciju kao dijalog za otvorenje datoteka</value>
+    <value>Koristi Files aplikciju kao dijalog za otvarenje datoteka</value>
   </data>
   <data name="Tag" xml:space="preserve">
     <value>Oznaka</value>
@@ -2669,5 +2627,110 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Putanja mape</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>Izvoz postavki</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>Uvoz postavki</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>Upravljaj postavkama</value>
+  </data>
+  <data name="SettingsImportErrorDescription" xml:space="preserve">
+    <value>Nije moguće uvesti postavke. Datoteka postavki je oštećena.</value>
+  </data>
+  <data name="SettingsImportErrorTitle" xml:space="preserve">
+    <value>Pogreška pri uvozu postavki</value>
+  </data>
+  <data name="ChooseCustomIcon" xml:space="preserve">
+    <value>Odaberite prilagođenu ikonu za mapu</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Prilagodba</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>Vrati izvorno</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>Kompatibilnost</value>
+  </data>
+  <data name="HighDpiOption_None" xml:space="preserve">
+    <value>Ništa</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
+    <value>Kod pokretanja Windowsa</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
+    <value>Kod pokretanja aplikacije</value>
+  </data>
+  <data name="HighDpiOverride_Application" xml:space="preserve">
+    <value>Aplikacija</value>
+  </data>
+  <data name="HighDpiOverride_None" xml:space="preserve">
+    <value>Ništa</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>Sustav</value>
+  </data>
+  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
+    <value>Sustav (napredno)</value>
+  </data>
+  <data name="OSCompatibility_None" xml:space="preserve">
+    <value>Ništa</value>
+  </data>
+  <data name="OSCompatibility_Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="OSCompatibility_Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
+    <value>Windows Vista SP1</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
+    <value>Windows Vista SP2</value>
+  </data>
+  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
+    <value>16 bitne boje (65536)</value>
+  </data>
+  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
+    <value>8 bitne boje (256)</value>
+  </data>
+  <data name="ReducedColorMode_None" xml:space="preserve">
+    <value>Ništa</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Način kompatibilnosti</value>
+  </data>
+  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+    <value>Onemogući optimizacije punog zaslona</value>
+  </data>
+  <data name="ExecuteAt640X480" xml:space="preserve">
+    <value>Pokreni u rezoluciji zaslona 640 x 480</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Opcije</value>
+  </data>
+  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
+    <value>Nadjačajte ponašanje skaliranja visokog DPI-ja</value>
+  </data>
+  <data name="ReducedColorMode" xml:space="preserve">
+    <value>Način rada s manje boja</value>
+  </data>
+  <data name="RegisterForRestart" xml:space="preserve">
+    <value>Registriraj za ponovno pokretanje</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>Pokreni kao administrator</value>
+  </data>
+  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+    <value>Pokreni alat za rješavanje problema s kompatibilnošću</value>
+  </data>
+  <data name="UseMainMonitorDPISettings" xml:space="preserve">
+    <value>Koristi DPI postavke glavnog monitora</value>
   </data>
 </root>

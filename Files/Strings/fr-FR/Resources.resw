@@ -45,23 +45,11 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Soumettre un commentaire</value>
   </data>
-  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Licences tierces</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>À propos</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Apparence</value>
-  </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Fichiers et dossiers</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Fichiers et dossiers</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>Au démarrage</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Préférences</value>
@@ -74,9 +62,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Ouvrir un ensemble de pages</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>Au démarrage</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Préférences</value>
@@ -388,16 +373,16 @@
     <value>Il y a {0} jour</value>
   </data>
   <data name="HourAgo" xml:space="preserve">
-    <value>il y a {0} heure</value>
+    <value>Il y a {0} heure</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>Il y a {0} minutes</value>
   </data>
   <data name="MinuteAgo" xml:space="preserve">
-    <value>il y a {0} minute</value>
+    <value>Il y a {0} minute</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>il y a {0} secondes</value>
+    <value>Il y a {0} secondes</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
     <value>Nouvel onglet</value>
@@ -533,15 +518,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Pages :</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Lors de l'ouverture d'un dossier dans Files</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Toujours ouvrir une nouvelle instance</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Ouvrir le dossier dans un nouvel onglet</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Système</value>
@@ -1224,12 +1200,6 @@
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>Date de suppression</value>
   </data>
-  <data name="SettingsTabCustomization.Text" xml:space="preserve">
-    <value>Paramètres des onglets</value>
-  </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>Au lancement de Files</value>
-  </data>
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>Confirmer</value>
   </data>
@@ -1365,7 +1335,7 @@
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>Exclu de la synchronisation</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Non calculée</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
@@ -1991,12 +1961,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Propriétaire inconnu</value>
-  </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Barre latérale</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>Barre latérale</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>Défaut</value>
@@ -2646,5 +2610,95 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
   </data>
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
     <value>Monter tout en haut</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Étiquette</value>
+  </data>
+  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
+    <value>Ouvrir les dossiers d'un seul clic</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>Chemin du dossier</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>Exporter les paramètres</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>Importer les paramètres</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>Gérer les paramètres</value>
+  </data>
+  <data name="SettingsImportErrorDescription" xml:space="preserve">
+    <value>Importation des paramètres impossible. Le fichier de paramètres est corrompu.</value>
+  </data>
+  <data name="SettingsImportErrorTitle" xml:space="preserve">
+    <value>Erreur lors de l'importation des paramètres</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Customisation</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>Restorer par défaut</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>Compatibilité</value>
+  </data>
+  <data name="HighDpiOption_None" xml:space="preserve">
+    <value>Aucun</value>
+  </data>
+  <data name="HighDpiOverride_Application" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="HighDpiOverride_None" xml:space="preserve">
+    <value>Aucun</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>Système</value>
+  </data>
+  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
+    <value>Système (avancé)</value>
+  </data>
+  <data name="OSCompatibility_None" xml:space="preserve">
+    <value>Aucun</value>
+  </data>
+  <data name="OSCompatibility_Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="OSCompatibility_Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
+    <value>Windows Vista SP1</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
+    <value>Windows Vista SP2</value>
+  </data>
+  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
+    <value>16 Bit couleurs (65536)</value>
+  </data>
+  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
+    <value>8 Bit Couleurs (256)</value>
+  </data>
+  <data name="ReducedColorMode_None" xml:space="preserve">
+    <value>Aucun</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Mode compatibilité</value>
+  </data>
+  <data name="ExecuteAt640X480" xml:space="preserve">
+    <value>Execute avec une résolution de 640 x 480</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="ReducedColorMode" xml:space="preserve">
+    <value>Mode couleurs réduites</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>Exécuter en tant qu'administrateur</value>
   </data>
 </root>

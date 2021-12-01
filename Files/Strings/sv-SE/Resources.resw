@@ -108,29 +108,17 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Skicka feedback</value>
   </data>
-  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Tredjepartslicenser</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>Om</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Utseende</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Filer och mappar</value>
-  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimentellt</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Experimentellt</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Filer och mappar</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>Vid start</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Alternativ</value>
@@ -146,9 +134,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Öppna en specifik sida eller specifika sidor</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>Vid start</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Alternativ</value>
@@ -551,15 +536,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Sidor:</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Öppna alltid en ny instans</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Öppna mapp i en ny flik</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>När ett objekt öppnas från Start-menyn eller aktivitetsfältet</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows-standard</value>
@@ -1230,12 +1206,6 @@
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>Borttagningsdatum</value>
   </data>
-  <data name="SettingsTabCustomization.Text" xml:space="preserve">
-    <value>Flikanpassning</value>
-  </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>När Files startas</value>
-  </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Molnenheter</value>
   </data>
@@ -1359,7 +1329,7 @@
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>Undantagen från synkronisering</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Inte beräknat</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
@@ -1712,12 +1682,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Okänd ägare.</value>
-  </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Sidofält</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>Sidofält</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>Standard</value>

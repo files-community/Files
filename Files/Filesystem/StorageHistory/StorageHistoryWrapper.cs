@@ -64,7 +64,7 @@ namespace Files.Filesystem.FilesystemHistory
 
         public IStorageHistory GetCurrentHistory()
         {
-            return this.storageHistory.ElementAt(this.storageHistoryIndex);
+            return this.storageHistory[this.storageHistoryIndex];
         }
 
         public void IncreaseIndex()
@@ -89,9 +89,11 @@ namespace Files.Filesystem.FilesystemHistory
 
         public void Dispose()
         {
-            storageHistory?.ForEach((item) => item?.Dispose());
-            storageHistory?.ForEach((item) => item = null);
-            storageHistory = null;
+            if (storageHistory != null)
+            {
+                storageHistory.ForEach(item => item?.Dispose());
+                storageHistory = null;
+            }
         }
 
         #endregion IDisposable

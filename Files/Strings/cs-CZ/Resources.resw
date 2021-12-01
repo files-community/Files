@@ -108,29 +108,17 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Odeslat zpětnou vazbu</value>
   </data>
-  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Licence třetích stran</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>O aplikaci</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Přizpůsobení</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Soubory a složky</value>
-  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimentální funkce</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Experimentální</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Soubory a složky</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>Po spuštení</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Předvolby</value>
@@ -146,9 +134,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Otevřete konkrétní stránku nebo stránky</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>Po spuštění</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Předvolby</value>
@@ -548,15 +533,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Stránky:</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Vždy otevřít novou instanci</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Otevřete složku v nové kartě</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Při spouštění položky z jumplistu</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Výchozí ve Windows</value>
@@ -1260,7 +1236,7 @@
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
     <value>Synchronizace</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Nevypočítáno</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
@@ -1616,12 +1592,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Neznámý vlastník</value>
-  </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Boční panel</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>Boční panel</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>Výchozí</value>

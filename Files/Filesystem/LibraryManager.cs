@@ -179,7 +179,7 @@ namespace Files.Filesystem
                     Libraries.Remove(changedLibrary);
                 }
                 // library is null in case it was deleted
-                if (library != null)
+                if (library != null && !Libraries.Any(x => x.Path == library.FullPath))
                 {
                     Libraries.AddSorted(new LibraryLocationItem(library));
                 }
@@ -272,7 +272,7 @@ namespace Files.Filesystem
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                return (false, "CreateLibraryErrorInputEmpty".GetLocalized());
+                return (false, "ErrorInputEmpty".GetLocalized());
             }
             if (FilesystemHelpers.ContainsRestrictedCharacters(name))
             {

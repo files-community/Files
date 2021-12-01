@@ -132,9 +132,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Gửi phản hồi</value>
   </data>
-  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Những giấy phép nhóm thứ ba</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>Giới thiệu</value>
   </data>
@@ -150,20 +147,11 @@
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Hiển thị tệp và thư mục đang giấu</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Tệp &amp; Thư mục</value>
-  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Thực nghiệm</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Thực nghiệm</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Tệp &amp; Thư mục</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>Khi khởi động</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Tùy chọn</value>
@@ -179,9 +167,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Mở một trang cụ thể hoặc những trang</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>Khi khởi động</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Tùy chọn</value>
@@ -599,15 +584,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Trang</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Mở trường hợp mới luôn luôn</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Mở thư mục trong tab mới</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Lúc mở một thư mục trong Files</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Mặc định của Windows</value>
@@ -1323,12 +1299,6 @@
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>Ngày xóa</value>
   </data>
-  <data name="SettingsTabCustomization.Text" xml:space="preserve">
-    <value>Tùy chỉnh Tab</value>
-  </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>Khi khởi động Files</value>
-  </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Ổ lưu trữ đám mây</value>
   </data>
@@ -1467,7 +1437,7 @@
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>Đã trừ từ đồng bộ hóa</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Không tính</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
@@ -2036,12 +2006,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Chủ sở hữu không xác định</value>
-  </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Thanh bên</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>Thanh bên</value>
   </data>
   <data name="SettingsVerticalTabFlyout" xml:space="preserve">
     <value>Hiển thị thực đơn bay ra dọc trên thanh tiểu đề.</value>

@@ -134,10 +134,6 @@
           <source>Submit feedback</source>
           <target state="translated">Enviar Feedback</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
-          <source>Third party licenses</source>
-          <target state="translated">Licenças de Terceiros</target>
-        </trans-unit>
         <trans-unit id="About" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Acerca de</target>
@@ -146,10 +142,6 @@
           <source>Appearance</source>
           <target state="translated">Aparência</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
-          <source>Files &amp; Folders</source>
-          <target state="translated">Ficheiros &amp; Pastas</target>
-        </trans-unit>
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
           <target state="translated">Experimental</target>
@@ -157,14 +149,6 @@
         <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
           <source>Experimental</source>
           <target state="translated">Experimental</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavFilesAndFolders.Content" translate="yes" xml:space="preserve">
-          <source>Files &amp; Folders</source>
-          <target state="translated">Ficheiros &amp; Pastas</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavOnStartup.Content" translate="yes" xml:space="preserve">
-          <source>On Startup</source>
-          <target state="translated">No Arranque</target>
         </trans-unit>
         <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
           <source>Preferences</source>
@@ -185,10 +169,6 @@
         <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
           <source>Open a specific page or pages</source>
           <target state="translated">Abra uma(s) página(s) específica(s)</target>
-        </trans-unit>
-        <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
-          <source>On Startup</source>
-          <target state="translated">No Arranque</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTitle.Text" translate="yes" xml:space="preserve">
           <source>Preferences</source>
@@ -701,18 +681,6 @@
         <trans-unit id="SettingsOnStartupPages.Text" translate="yes" xml:space="preserve">
           <source>Pages:</source>
           <target state="translated">Páginas:</target>
-        </trans-unit>
-        <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
-          <source>When opening a folder in Files</source>
-          <target state="translated">Ao abrir uma pasta no Files</target>
-        </trans-unit>
-        <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
-          <source>Always open a new instance</source>
-          <target state="translated">Abrir sempre uma nova instância</target>
-        </trans-unit>
-        <trans-unit id="SettingsOnStartupLaunchNewTab.Content" translate="yes" xml:space="preserve">
-          <source>Open folder in a new tab</source>
-          <target state="translated">Abrir pasta em um novo separador</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
           <source>Windows default</source>
@@ -1622,14 +1590,6 @@
           <source>Date deleted</source>
           <target state="translated">Data da eliminação</target>
         </trans-unit>
-        <trans-unit id="SettingsTabCustomization.Text" translate="yes" xml:space="preserve">
-          <source>Tab customization</source>
-          <target state="translated">Personalização dos separadores</target>
-        </trans-unit>
-        <trans-unit id="SettingsWhenLaunchingFiles.Text" translate="yes" xml:space="preserve">
-          <source>When launching Files</source>
-          <target state="translated">Ao iniciar Files</target>
-        </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleConfirm.Content" translate="yes" xml:space="preserve">
           <source>Confirm</source>
           <target state="translated">Confirmar</target>
@@ -1810,7 +1770,7 @@
           <source>Excluded from sync</source>
           <target state="translated">Excluído da sincronização</target>
         </trans-unit>
-        <trans-unit id="ItemSizeNotCalcluated" translate="yes" xml:space="preserve">
+        <trans-unit id="ItemSizeNotCalculated" translate="yes" xml:space="preserve">
           <source>Not calculated</source>
           <target state="translated">Não calculado</target>
         </trans-unit>
@@ -2646,14 +2606,6 @@
           <source>Unknown owner</source>
           <target state="translated">Proprietário desconhecido</target>
         </trans-unit>
-        <trans-unit id="SettingsNavSidebar.Content" translate="yes" xml:space="preserve">
-          <source>Sidebar</source>
-          <target state="translated">Barra Lateral</target>
-        </trans-unit>
-        <trans-unit id="SettingsSidebarTitle.Text" translate="yes" xml:space="preserve">
-          <source>Sidebar</source>
-          <target state="translated">Barra Lateral</target>
-        </trans-unit>
         <trans-unit id="DefaultTheme" translate="yes" xml:space="preserve">
           <source>Default</source>
           <target state="translated">Predefinição</target>
@@ -3056,8 +3008,9 @@
           <target state="translated">Listar e ordenar diretórios ao lado dos ficheiros</target>
         </trans-unit>
         <trans-unit id="SettingsSearchUnindexedItems" translate="yes" xml:space="preserve">
-          <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
-          <target state="translated">Mostrar itens não indexados ao pesquisar ficheiros e pastas (as pesquisas podem demorar mais)</target>
+          <source>Show unindexed items when searching for files and folders</source>
+          <target state="needs-review-translation">Mostrar itens não indexados ao pesquisar ficheiros e pastas (as pesquisas podem demorar mais)</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsEnableLayoutPreferencesPerFolder" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
@@ -3535,14 +3488,6 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
           <source>Item size column</source>
           <target state="translated">Coluna de tamanho do item</target>
         </trans-unit>
-        <trans-unit id="SettingsDefaultExplorer" translate="yes" xml:space="preserve">
-          <source>Default file explorer</source>
-          <target state="translated">Explorador de ficheiros pré-definido</target>
-        </trans-unit>
-        <trans-unit id="SettingsSetAsDefaultManager" translate="yes" xml:space="preserve">
-          <source>Set Files as default file explorer</source>
-          <target state="translated">Definir Files como explorador de ficheiros pré-definido</target>
-        </trans-unit>
         <trans-unit id="SettingsSetAsOpenDialog" translate="yes" xml:space="preserve">
           <source>Use Files as Open File Dialog</source>
           <target state="translated">Utilizar Files como diálogo para Abrir Ficheiros</target>
@@ -3557,7 +3502,7 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionFolderPath.Text" translate="yes" xml:space="preserve">
           <source>Folder path</source>
-          <target state="translated">Localização da Pasta</target>
+          <target state="translated">Localização da pasta</target>
         </trans-unit>
         <trans-unit id="ExportSettings" translate="yes" xml:space="preserve">
           <source>Export Settings</source>
@@ -3573,7 +3518,7 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
         </trans-unit>
         <trans-unit id="SettingsImportErrorDescription" translate="yes" xml:space="preserve">
           <source>Couldn't import settings. The settings file is corrupted.</source>
-          <target state="translated">Não pudemos importas as definições. O ficheiro das definições está corrompido.</target>
+          <target state="translated">Não pudemos importar as definições. O ficheiro das definições está corrompido.</target>
         </trans-unit>
         <trans-unit id="SettingsImportErrorTitle" translate="yes" xml:space="preserve">
           <source>Error importing settings</source>
@@ -3698,6 +3643,46 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
         <trans-unit id="UseMainMonitorDPISettings" translate="yes" xml:space="preserve">
           <source>Use DPI settings of the main monitor</source>
           <target state="translated">Utilizar as definições de DPI do monitor principal</target>
+        </trans-unit>
+        <trans-unit id="SettingsDefaultFilesManager" translate="yes" xml:space="preserve">
+          <source>Default file manager</source>
+          <target state="translated">Gestor de ficheiros predefinido</target>
+        </trans-unit>
+        <trans-unit id="SettingsSetAsDefaultFileManager" translate="yes" xml:space="preserve">
+          <source>Set Files as the default file manager</source>
+          <target state="translated">Definir Files como gestor de ficheiros predefinido</target>
+        </trans-unit>
+        <trans-unit id="EmptyRecycleBin" translate="yes" xml:space="preserve">
+          <source>Empty Recycle Bin</source>
+          <target state="translated">Esvaziar Reciclagem</target>
+        </trans-unit>
+        <trans-unit id="Sidebar" translate="yes" xml:space="preserve">
+          <source>Sidebar</source>
+          <target state="translated">Barra lateral</target>
+        </trans-unit>
+        <trans-unit id="FilesAndFolders" translate="yes" xml:space="preserve">
+          <source>Files and folders</source>
+          <target state="translated">Ficheiros e pastas</target>
+        </trans-unit>
+        <trans-unit id="OpenNewInstance" translate="yes" xml:space="preserve">
+          <source>Open new instance when opening directories from the taskbar jumplist</source>
+          <target state="translated">Abrir nova instância ao abrir diretórios na jumplist da barra de tarefas</target>
+        </trans-unit>
+        <trans-unit id="StartupSettings" translate="yes" xml:space="preserve">
+          <source>Startup settings</source>
+          <target state="translated">Definições de inicialização</target>
+        </trans-unit>
+        <trans-unit id="ThirdPartyLicenses" translate="yes" xml:space="preserve">
+          <source>Third party licenses</source>
+          <target state="translated">Licenças de terceiros</target>
+        </trans-unit>
+        <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
+          <source>This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</source>
+          <target state="translated">Esta definição modifica os ficheiros do sistema e pode ter efeitos secundários inesperados no seu dispositivo. Os programadores não assumem qualquer responsabilidade no caso de ocorrer um problema como resultado. A continuação desta opção é um reconhecimento dos riscos envolvidos com esta ação. Note que a desinstalação de Files não desfaz estas alterações e pode impedi-lo de abrir o explorador de ficheiros, a menos que desligue esta definição antes de remover o Files do seu dispositivo.</target>
+        </trans-unit>
+        <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
+          <source>Clear all</source>
+          <target state="translated">Limpar tudo</target>
         </trans-unit>
       </group>
     </body>

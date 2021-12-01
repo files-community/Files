@@ -45,23 +45,11 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Feedback verzenden</value>
   </data>
-  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Licenties van derden</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>Info</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Vormgeving</value>
-  </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Bestanden &amp; mappen</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Bestanden &amp; mappen</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>Bij het opstarten</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Voorkeuren</value>
@@ -74,9 +62,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Specifieke pagina('s) openen</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>Bij het opstarten</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Voorkeuren</value>
@@ -533,15 +518,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Pagina's:</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Bij het openen van een map in Files</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Altijd in nieuwe instantie openen</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Map in nieuw tabblad openen</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows-standaard</value>
@@ -1224,12 +1200,6 @@
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>Verwijderd op</value>
   </data>
-  <data name="SettingsTabCustomization.Text" xml:space="preserve">
-    <value>Tabbladaanpassing</value>
-  </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>Bij het opstarten van Files</value>
-  </data>
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>Bevestigen</value>
   </data>
@@ -1365,7 +1335,7 @@
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>Uitgesloten van synchronisatie</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Niet berekend</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
@@ -1639,7 +1609,7 @@
     <value>Er zijn {0} conflicterende itemnamen en {1} uitgaand(e) item(s).</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
-    <value>Er is een conflicterende itemnaam en {1} uitgaand(e) item(s).</value>
+    <value>Er is een conflicterende itemnaam en {0} uitgaand(e) item(s).</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>Bestaand(e) item(s) vervangen</value>
@@ -1991,12 +1961,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Onbekende gebruiker</value>
-  </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Zijbalk</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>Zijbalk</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>Standaard</value>

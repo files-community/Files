@@ -175,7 +175,7 @@ namespace Files.Filesystem.Search
 
                     if (results.Count == 32 || results.Count % 300 == 0 /*|| sampler.CheckNow()*/)
                     {
-                        SearchTick?.Invoke(this, new());
+                        SearchTick?.Invoke(this, EventArgs.Empty);
                     }
                 }
 
@@ -252,7 +252,7 @@ namespace Files.Filesystem.Search
 
                 if (results.Count == 32 || results.Count % 300 == 0 /*|| sampler.CheckNow()*/)
                 {
-                    SearchTick?.Invoke(this, new());
+                    SearchTick?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -327,7 +327,7 @@ namespace Files.Filesystem.Search
 
                         if (results.Count == 32 || results.Count % 300 == 0 /*|| sampler.CheckNow()*/)
                         {
-                            SearchTick?.Invoke(this, new());
+                            SearchTick?.Invoke(this, EventArgs.Empty);
                         }
 
                         hasNextFile = FindNextFile(hFile, out findData);

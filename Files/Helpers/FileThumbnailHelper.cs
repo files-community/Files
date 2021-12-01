@@ -113,7 +113,7 @@ namespace Files.Helpers
         {
             if (!filePath.EndsWith(".lnk", StringComparison.Ordinal) && !filePath.EndsWith(".url", StringComparison.Ordinal))
             {
-                var item = await StorageItemHelpers.ToStorageItem<IStorageItem>(filePath);
+                var item = await StorageHelpers.ToStorageItem<IStorageItem>(filePath);
                 if (item != null)
                 {
                     var iconData = await LoadIconFromStorageItemAsync(item, thumbnailSize, thumbnailMode);

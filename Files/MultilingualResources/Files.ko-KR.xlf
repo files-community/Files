@@ -50,10 +50,6 @@
           <source>Submit feedback</source>
           <target state="translated">피드백 제출</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
-          <source>Third party licenses</source>
-          <target state="translated">외부 라이센스</target>
-        </trans-unit>
         <trans-unit id="About" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">정보</target>
@@ -336,7 +332,7 @@
         </trans-unit>
         <trans-unit id="ErrorDialogIsASubfolder" translate="yes" xml:space="preserve">
           <source>is a subfolder of the source folder</source>
-          <target state="translated">는 원본 폴더의 하위 폴더입니다</target>
+          <target state="translated">은(는) 원본 폴더의 하위 폴더입니다</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSkip" translate="yes" xml:space="preserve">
           <source>Skip</source>
@@ -552,23 +548,23 @@
         </trans-unit>
         <trans-unit id="KiloByteSymbol" translate="yes" xml:space="preserve">
           <source>KB</source>
-          <target state="translated">KB</target>
+          <target state="translated">킬로바이트(KB)</target>
         </trans-unit>
         <trans-unit id="MegaByteSymbol" translate="yes" xml:space="preserve">
           <source>MB</source>
-          <target state="translated">MB</target>
+          <target state="translated">메가바이트(MB)</target>
         </trans-unit>
         <trans-unit id="GigaByteSymbol" translate="yes" xml:space="preserve">
           <source>GB</source>
-          <target state="translated">GB</target>
+          <target state="translated">기가바이트(GB)</target>
         </trans-unit>
         <trans-unit id="TeraByteSymbol" translate="yes" xml:space="preserve">
           <source>TB</source>
-          <target state="translated">TB</target>
+          <target state="translated">테라바이트(TB)</target>
         </trans-unit>
         <trans-unit id="PetaByteSymbol" translate="yes" xml:space="preserve">
           <source>PB</source>
-          <target state="translated">PB</target>
+          <target state="translated">페타바이트(PB)</target>
         </trans-unit>
         <trans-unit id="ByteSymbol" translate="yes" xml:space="preserve">
           <source>B</source>
@@ -1602,10 +1598,6 @@
           <source>Date deleted</source>
           <target state="translated">삭제된 날짜</target>
         </trans-unit>
-        <trans-unit id="SettingsTabCustomization.Text" translate="yes" xml:space="preserve">
-          <source>Tab customization</source>
-          <target state="translated">탭 커스터마이징</target>
-        </trans-unit>
         <trans-unit id="SidebarCloudDrives" translate="yes" xml:space="preserve">
           <source>Cloud Drives</source>
           <target state="translated">클라우드 드라이브</target>
@@ -1770,7 +1762,7 @@
           <source>Excluded from sync</source>
           <target state="translated">동기화에서 제외됨</target>
         </trans-unit>
-        <trans-unit id="ItemSizeNotCalcluated" translate="yes" xml:space="preserve">
+        <trans-unit id="ItemSizeNotCalculated" translate="yes" xml:space="preserve">
           <source>Not calculated</source>
           <target state="translated">계산되지 않음</target>
         </trans-unit>
@@ -3189,11 +3181,11 @@
         </trans-unit>
         <trans-unit id="SettingsFluentUISystemIconsLicenseButton.Content" translate="yes" xml:space="preserve">
           <source>Fluent UI System Icons</source>
-          <target state="translated">Fluent UI System Icons</target>
+          <target state="translated">플루언트(Fluent) UI 시스템 아이콘</target>
         </trans-unit>
         <trans-unit id="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Fluent UI System Icons</source>
-          <target state="translated">Fluent UI System Icons</target>
+          <target state="translated">플루언트(Fluent) UI 시스템 아이콘</target>
         </trans-unit>
         <trans-unit id="SettingsPrivacyPolicyMarkdownBlock.Text" translate="yes" xml:space="preserve">
           <source>
@@ -3493,14 +3485,6 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
           <source>Item size column</source>
           <target state="translated">항목 크기 열</target>
         </trans-unit>
-        <trans-unit id="SettingsDefaultExplorer" translate="yes" xml:space="preserve">
-          <source>Default file explorer</source>
-          <target state="translated">기본 파일 탐색기</target>
-        </trans-unit>
-        <trans-unit id="SettingsSetAsDefaultManager" translate="yes" xml:space="preserve">
-          <source>Set Files as default file explorer</source>
-          <target state="translated">Files를 기본 파일 탐색기로 설정</target>
-        </trans-unit>
         <trans-unit id="SettingsSetAsOpenDialog" translate="yes" xml:space="preserve">
           <source>Use Files as Open File Dialog</source>
           <target state="translated">파일 열기 대화 창에서 Files 사용</target>
@@ -3587,23 +3571,23 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
         </trans-unit>
         <trans-unit id="OSCompatibility_Windows7" translate="yes" xml:space="preserve">
           <source>Windows 7</source>
-          <target state="translated">Windows 7</target>
+          <target state="translated">윈도우 7</target>
         </trans-unit>
         <trans-unit id="OSCompatibility_Windows8" translate="yes" xml:space="preserve">
           <source>Windows 8</source>
-          <target state="translated">Windows 8</target>
+          <target state="translated">윈도우 8</target>
         </trans-unit>
         <trans-unit id="OSCompatibility_WindowsVista" translate="yes" xml:space="preserve">
           <source>Windows Vista</source>
-          <target state="translated">Windows Vista</target>
+          <target state="translated">윈도우 비스타(Vista)</target>
         </trans-unit>
         <trans-unit id="OSCompatibility_WindowsVistaSP1" translate="yes" xml:space="preserve">
           <source>Windows Vista SP1</source>
-          <target state="translated">Windows Vista SP1</target>
+          <target state="translated">윈도우 비스타(Vista) SP1</target>
         </trans-unit>
         <trans-unit id="OSCompatibility_WindowsVistaSP2" translate="yes" xml:space="preserve">
           <source>Windows Vista SP2</source>
-          <target state="translated">Windows Vista SP2</target>
+          <target state="translated">윈도우 비스타(Vista) SP2</target>
         </trans-unit>
         <trans-unit id="ReducedColorMode_Color16Bit" translate="yes" xml:space="preserve">
           <source>16 Bit Colors (65536)</source>
@@ -3659,23 +3643,43 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
         </trans-unit>
         <trans-unit id="EmptyRecycleBin" translate="yes" xml:space="preserve">
           <source>Empty Recycle Bin</source>
-          <target state="new">Empty Recycle Bin</target>
+          <target state="translated">빈 휴지통</target>
         </trans-unit>
         <trans-unit id="Sidebar" translate="yes" xml:space="preserve">
           <source>Sidebar</source>
-          <target state="new">Sidebar</target>
+          <target state="translated">사이드바</target>
         </trans-unit>
         <trans-unit id="FilesAndFolders" translate="yes" xml:space="preserve">
           <source>Files and folders</source>
-          <target state="new">Files and folders</target>
+          <target state="translated">파일들과 폴더들</target>
         </trans-unit>
         <trans-unit id="OpenNewInstance" translate="yes" xml:space="preserve">
           <source>Open new instance when opening directories from the taskbar jumplist</source>
-          <target state="new">Open new instance when opening directories from the taskbar jumplist</target>
+          <target state="translated">작업 표시줄 점프 목록에서 디렉터리를 열 때 새 인스턴스에서 열기</target>
         </trans-unit>
         <trans-unit id="StartupSettings" translate="yes" xml:space="preserve">
           <source>Startup settings</source>
-          <target state="new">Startup settings</target>
+          <target state="translated">프로그램 시작시 설정</target>
+        </trans-unit>
+        <trans-unit id="SettingsDefaultFilesManager" translate="yes" xml:space="preserve">
+          <source>Default file manager</source>
+          <target state="translated">기본 파일 탐색기</target>
+        </trans-unit>
+        <trans-unit id="SettingsSetAsDefaultFileManager" translate="yes" xml:space="preserve">
+          <source>Set Files as the default file manager</source>
+          <target state="translated">Files를 기본 파일 탐색기로 설정</target>
+        </trans-unit>
+        <trans-unit id="ThirdPartyLicenses" translate="yes" xml:space="preserve">
+          <source>Third party licenses</source>
+          <target state="translated">제 3자 라이선스</target>
+        </trans-unit>
+        <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
+          <source>This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</source>
+          <target state="translated">이 설정은 시스템 파일을 수정하며 예기치 않은 부작용을 낳을 수 있습니다. 개발자는 이로 인해서 일어날 일에 대해 책임을 지지 않습니다. 이 행동으로 일어날 위험에 대해서 인지하고 이 옵션을 계속합니다. Files를 제거하는 것으로는 이 설정을 되돌릴 수 없으며, 기기에서 Files를 제거하기 전 이 설정을 끄기 전까지는 파일 탐색기를 열지 못할 수도 있습니다.</target>
+        </trans-unit>
+        <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
+          <source>Clear all</source>
+          <target state="translated">모두 비우기</target>
         </trans-unit>
       </group>
     </body>

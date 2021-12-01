@@ -108,29 +108,17 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Enviar Feedback</value>
   </data>
-  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Licenças de Terceiros</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>Acerca de</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Aparência</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Ficheiros &amp; Pastas</value>
-  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimental</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Experimental</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Ficheiros &amp; Pastas</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>No Arranque</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferências</value>
@@ -146,9 +134,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Abra uma(s) página(s) específica(s)</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>No Arranque</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferências</value>
@@ -533,15 +518,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Páginas:</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Ao abrir uma pasta no Files</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Abrir sempre uma nova instância</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Abrir pasta em um novo separador</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Padrão do Windows</value>
@@ -1224,12 +1200,6 @@
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>Data da eliminação</value>
   </data>
-  <data name="SettingsTabCustomization.Text" xml:space="preserve">
-    <value>Personalização dos separadores</value>
-  </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>Ao iniciar Files</value>
-  </data>
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>Confirmar</value>
   </data>
@@ -1365,7 +1335,7 @@
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>Excluído da sincronização</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Não calculado</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
@@ -1991,12 +1961,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Proprietário desconhecido</value>
-  </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Barra Lateral</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>Barra Lateral</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>Predefinição</value>
@@ -2654,12 +2618,6 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>Coluna de tamanho do item</value>
   </data>
-  <data name="SettingsDefaultExplorer" xml:space="preserve">
-    <value>Explorador de ficheiros pré-definido</value>
-  </data>
-  <data name="SettingsSetAsDefaultManager" xml:space="preserve">
-    <value>Definir Files como explorador de ficheiros pré-definido</value>
-  </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Utilizar Files como diálogo para Abrir Ficheiros</value>
   </data>
@@ -2668,5 +2626,113 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>Abrir pastas com um clique único</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>Localização da Pasta</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>Exportar Definições</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>Importar Definições</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>Gerir Definições</value>
+  </data>
+  <data name="SettingsImportErrorDescription" xml:space="preserve">
+    <value>Não pudemos importas as definições. O ficheiro das definições está corrompido.</value>
+  </data>
+  <data name="SettingsImportErrorTitle" xml:space="preserve">
+    <value>Erro ao importar as definições</value>
+  </data>
+  <data name="ChooseCustomIcon" xml:space="preserve">
+    <value>Escolha um ícone personalizado para a pasta</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Personalização</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>Restaurar predefinição</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>Compatibilidade</value>
+  </data>
+  <data name="HighDpiOption_None" xml:space="preserve">
+    <value>Nenhum</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
+    <value>Ao iniciar sessão no Windows</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
+    <value>Ao iniciar o programa</value>
+  </data>
+  <data name="HighDpiOverride_Application" xml:space="preserve">
+    <value>Aplicação</value>
+  </data>
+  <data name="HighDpiOverride_None" xml:space="preserve">
+    <value>Nenhum</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>Sistema</value>
+  </data>
+  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
+    <value>Sistema (avançado)</value>
+  </data>
+  <data name="OSCompatibility_None" xml:space="preserve">
+    <value>Nenhum</value>
+  </data>
+  <data name="OSCompatibility_Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="OSCompatibility_Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
+    <value>Windows Vista SP1</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
+    <value>Windows Vista SP2</value>
+  </data>
+  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
+    <value>16 Bit Colors (65536)</value>
+  </data>
+  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
+    <value>8 Bit Colors (256)</value>
+  </data>
+  <data name="ReducedColorMode_None" xml:space="preserve">
+    <value>Nenhum</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Modo de compatibilidade</value>
+  </data>
+  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+    <value>Desativar otimizações de ecrã inteiro</value>
+  </data>
+  <data name="ExecuteAt640X480" xml:space="preserve">
+    <value>Executar na resolução de ecrã 640 x 480</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Opções</value>
+  </data>
+  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
+    <value>Substituir o comportamento de escala de DPI elevado</value>
+  </data>
+  <data name="ReducedColorMode" xml:space="preserve">
+    <value>Modo de cores reduzido</value>
+  </data>
+  <data name="RegisterForRestart" xml:space="preserve">
+    <value>Registar para reínicio</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>Executar como administrador</value>
+  </data>
+  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+    <value>Executar a resolução de problemas de compatibilidade</value>
+  </data>
+  <data name="UseMainMonitorDPISettings" xml:space="preserve">
+    <value>Utilizar as definições de DPI do monitor principal</value>
   </data>
 </root>

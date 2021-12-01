@@ -345,7 +345,7 @@ namespace Files.ViewModels.Widgets.Bundles
                         itemPath = itemText;
                     }
 
-                    IStorageItem item = await StorageItemHelpers.ToStorageItem<IStorageItem>(itemPath);
+                    IStorageItem item = await StorageHelpers.ToStorageItem<IStorageItem>(itemPath);
 
                     if (item != null || (itemPath.EndsWith(".lnk", StringComparison.Ordinal) || itemPath.EndsWith(".url", StringComparison.Ordinal)))
                     {

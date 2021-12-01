@@ -45,23 +45,11 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>提交意見反應</value>
   </data>
-  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>第三方憑證</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>關於</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>外觀</value>
-  </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>檔案和資料夾</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>檔案和資料夾</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>啟動時</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>個人化</value>
@@ -74,9 +62,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>開啟特定頁面</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>啟動時</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>個人化</value>
@@ -223,13 +208,13 @@
     <value>命名</value>
   </data>
   <data name="SystemTheme" xml:space="preserve">
-    <value>預設</value>
+    <value>與系統相同</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>淺色</value>
+    <value>淺色模式</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>深色</value>
+    <value>深色模式</value>
   </data>
   <data name="ApplicationTimeStye" xml:space="preserve">
     <value>應用程式</value>
@@ -259,7 +244,7 @@
     <value>搜尋（Ctrl + F）</value>
   </data>
   <data name="SidebarDrives" xml:space="preserve">
-    <value>磁碟機</value>
+    <value>本機</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>檔案</value>
@@ -295,10 +280,10 @@
     <value>內容</value>
   </data>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
-    <value>在新索引標籤打開</value>
+    <value>在新索引標籤開啟</value>
   </data>
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
-    <value>在新視窗打開</value>
+    <value>在新視窗開啟</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>實驗</value>
@@ -536,15 +521,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>頁面：</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>在新視窗開啟</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>在新索引標籤開啟資料夾</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>資料夾開啟時</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>您的系統語言</value>
@@ -1224,12 +1200,6 @@
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>刪除日期</value>
   </data>
-  <data name="SettingsTabCustomization.Text" xml:space="preserve">
-    <value>自訂索引標籤</value>
-  </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>啟動 Files 時</value>
-  </data>
   <data name="PropertyItemPathDisplay" xml:space="preserve">
     <value>項目位置</value>
   </data>
@@ -1350,7 +1320,7 @@
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>不同步</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>未計算</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
@@ -1429,7 +1399,7 @@
     <value>更多磁碟機選項</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
-    <value>我的最愛</value>
+    <value>快速存取</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>瀏覽</value>
@@ -1627,7 +1597,7 @@
     <value>顯示磁碟機小工具</value>
   </data>
   <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
-    <value>顯示最近使用檔案小工具</value>
+    <value>顯示最近使用過的檔案小工具</value>
   </data>
   <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
     <value>管理小工具</value>
@@ -1992,12 +1962,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>擁有者不詳</value>
   </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>側邊欄</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>側邊欄</value>
-  </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>預設</value>
   </data>
@@ -2041,7 +2005,7 @@
     <value>重置媒體櫃</value>
   </data>
   <data name="RecentFilesHeader.Text" xml:space="preserve">
-    <value>最近使用檔案</value>
+    <value>最近使用過的檔案</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
     <value>在副畫面中開啟</value>
@@ -2257,22 +2221,22 @@
     <value>於側邊欄顯示雲端硬碟選項</value>
   </data>
   <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>於側邊欄顯示磁碟機選項</value>
+    <value>於側邊欄顯示本機選項</value>
   </data>
   <data name="SettingsShowWslSection.Title" xml:space="preserve">
     <value>於側邊欄顯示 WSL 選項</value>
   </data>
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>於側邊欄顯示網路選項</value>
+    <value>於側邊欄顯示網路探索選項</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>將資源回收桶釘選至我的最愛中</value>
+    <value>將資源回收桶釘選至快速存取選項中</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
     <value>於側邊欄顯示媒體櫃選項</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>選擇您的色彩配置</value>
+    <value>選擇您的色彩模式</value>
   </data>
   <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
     <value>客製化主題</value>
@@ -2293,7 +2257,7 @@
     <value>隱藏受保護的作業系統檔案（建議開啟）</value>
   </data>
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>按一下以開啟項目</value>
+    <value>按一下即可開啟檔案</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>將檔案與資料夾視為同一項目進行排序</value>
@@ -2311,7 +2275,7 @@
     <value>複製</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
-    <value>釘選至我的最愛</value>
+    <value>釘選至快速存取</value>
   </data>
   <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
     <value>取消釘選</value>
@@ -2435,12 +2399,12 @@
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
-* 個人資料收集聲明 *
+*個人資料收集聲明*
 Files 不會收集、存儲、共享或發布任何使用者的個資。
 
-* 非個資數據收集聲明 *
+*非個資數據收集聲明*
 
-我們使用 App Center 來追蹤使用者在應用程式的使用情況，並藉此查找錯誤及修復問題。所有數據都是以匿名身分回傳至 App Center，你的個資也不會被回傳。
+我們使用 App Center 來追蹤使用者在應用程式的使用情況，並藉此查找錯誤及修復問題。所有資料都是以匿名身分回傳至 App Center，您的個資也不會被回傳。
   </value>
   </data>
   <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
@@ -2477,7 +2441,7 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
     <value>同步狀態</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>於側邊欄顯示我的最愛選項</value>
+    <value>於側邊欄顯示快速存取選項</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
     <value>檔案標籤</value>
@@ -2507,7 +2471,7 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
     <value>開啟檔案標籤功能</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>開啟磁碟機</value>
+    <value>開啟該磁碟機</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
     <value>請將光碟放入 磁碟機 {0} 中</value>
@@ -2552,7 +2516,7 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
     <value>媒體櫃小工具</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>最近使用檔案小工具</value>
+    <value>最近使用過的檔案小工具</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>開啟執行紀錄檔資料夾</value>
@@ -2591,22 +2555,22 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
     <value>顯示隱藏項目</value>
   </data>
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>於側邊欄顯示我的最愛選項</value>
+    <value>於側邊欄顯示快速存取選項</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>將資源回收桶釘選至我的最愛中</value>
+    <value>將資源回收桶釘選至快速存取選項中</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>於側邊欄顯示雲端硬碟選項</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>於側邊欄顯示磁碟機選項</value>
+    <value>於側邊欄顯示本機選項</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>於側邊欄顯示媒體櫃選項</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>於側邊欄顯示網路選項</value>
+    <value>於側邊欄顯示網路探索選項</value>
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>於側邊欄顯示 WSL 選項</value>
@@ -2646,5 +2610,128 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
   </data>
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
     <value>移至最上層</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
+    <value>建立日期</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
+    <value>大小</value>
+  </data>
+  <data name="SettingsSetAsOpenDialog" xml:space="preserve">
+    <value>將 Files 設定為檔案開啟之預設應用程式</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>標籤</value>
+  </data>
+  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
+    <value>按一下即可開啟資料夾</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>資料夾位置</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>匯出設定</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>匯入設定</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>匯入/匯出設定</value>
+  </data>
+  <data name="SettingsImportErrorDescription" xml:space="preserve">
+    <value>設定檔已損壞，無法將其匯入。</value>
+  </data>
+  <data name="SettingsImportErrorTitle" xml:space="preserve">
+    <value>發生錯誤，無法匯出設定</value>
+  </data>
+  <data name="ChooseCustomIcon" xml:space="preserve">
+    <value>更改資料夾圖示</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>自訂</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>重設回預設圖示</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>相容性</value>
+  </data>
+  <data name="HighDpiOption_None" xml:space="preserve">
+    <value>無</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
+    <value>使用者登入 Windows 時</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
+    <value>使用者開啟該程式時</value>
+  </data>
+  <data name="HighDpiOverride_Application" xml:space="preserve">
+    <value>應用程式</value>
+  </data>
+  <data name="HighDpiOverride_None" xml:space="preserve">
+    <value>無</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>系統</value>
+  </data>
+  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
+    <value>系統（增強）</value>
+  </data>
+  <data name="OSCompatibility_None" xml:space="preserve">
+    <value>無</value>
+  </data>
+  <data name="OSCompatibility_Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="OSCompatibility_Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
+    <value>Windows Vista SP1</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
+    <value>Windows Vista SP2</value>
+  </data>
+  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
+    <value>16 位元（65536）色</value>
+  </data>
+  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
+    <value>8 位元（256）色</value>
+  </data>
+  <data name="ReducedColorMode_None" xml:space="preserve">
+    <value>無</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>程式相容模式</value>
+  </data>
+  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+    <value>停用全螢幕最佳化</value>
+  </data>
+  <data name="ExecuteAt640X480" xml:space="preserve">
+    <value>在 640 x 480 的螢幕解析度下執行</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
+    <value>高 DPI 縮放比例覆寫</value>
+  </data>
+  <data name="ReducedColorMode" xml:space="preserve">
+    <value>色彩相容模式</value>
+  </data>
+  <data name="RegisterForRestart" xml:space="preserve">
+    <value>註冊此程式以重新啟動</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>以系統管理員的身分執行此程式</value>
+  </data>
+  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+    <value>執行相容性疑難排解員</value>
+  </data>
+  <data name="UseMainMonitorDPISettings" xml:space="preserve">
+    <value>是否將程式 DPI 覆寫為目前使用的顯示器的 DPI</value>
   </data>
 </root>

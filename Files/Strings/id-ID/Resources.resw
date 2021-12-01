@@ -111,29 +111,17 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Kirim tanggapan</value>
   </data>
-  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Lisensi pihak ketiga</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>Tentang</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Tampilan</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>File dan Folder</value>
-  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimental</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Experimental</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>File dan Folder</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>Di Awal</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferensi</value>
@@ -149,9 +137,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Buka halaman tertentu</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>Di Awal</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferensi</value>
@@ -563,15 +548,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Halaman:</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Selalu buka jendela baru</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Buka folder di tab baru</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Ketika membuka folder di Files</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Default dari Windows</value>
@@ -1266,12 +1242,6 @@
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>Tanggal dihapus</value>
   </data>
-  <data name="SettingsTabCustomization.Text" xml:space="preserve">
-    <value>Kostumisasi tab</value>
-  </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>Ketika membuka Files</value>
-  </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Cloud Drive</value>
   </data>
@@ -1407,7 +1377,7 @@
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>Dikecualikan dari sinkronisasi</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Tidak dihitung</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
@@ -1991,12 +1961,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Pemilik tidak diketahui</value>
-  </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Bilah Sisi</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>Bilah Sisi</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>Default</value>
@@ -2625,12 +2589,6 @@ Kami menggunakan App Center untuk melacak penggunaan aplikasi, menemukan bug, da
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>Kolom ukuran item</value>
-  </data>
-  <data name="SettingsDefaultExplorer" xml:space="preserve">
-    <value>Penjelajah file default</value>
-  </data>
-  <data name="SettingsSetAsDefaultManager" xml:space="preserve">
-    <value>Atur Files sebagai penjelajah file default</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Gunakan Files sebagai dialog Buka File</value>

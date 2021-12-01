@@ -111,29 +111,17 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Iesniegt atsauksmes</value>
   </data>
-  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Trešās puses licences</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>Par</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Izskats</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Faili &amp; mapes</value>
-  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Eksperimentāli</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Eksperimentāli</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Faili &amp; mapes</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>Startējot</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Iestatījumi</value>
@@ -149,9 +137,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Atvērt konkrētu lapu vai lapas</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>Startējot</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Iestatījumi</value>
@@ -554,15 +539,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Lapas:</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Vienmēr atvērt jaunu instanci</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>Atvērt mapi jaunā cilnē</value>
-  </data>
-  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Atverot vienumu no izlēcošā saraksta</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows noklusējums</value>
@@ -1233,12 +1209,6 @@
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>Dzēšanas datums</value>
   </data>
-  <data name="SettingsTabCustomization.Text" xml:space="preserve">
-    <value>Ciļņu pielāgošana</value>
-  </data>
-  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>Atverot lietotni Faili</value>
-  </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Tiešsaites diski</value>
   </data>
@@ -1374,7 +1344,7 @@
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>Izslēgts no sinhronizēšanas</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Nav aprēķināts</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
@@ -1992,12 +1962,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Nezināms īpašnieks</value>
   </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>Sānu josla</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>Sānu josla</value>
-  </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>Noklusējums</value>
   </data>
@@ -2604,12 +2568,6 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>Vienumu lieluma kolonna</value>
-  </data>
-  <data name="SettingsDefaultExplorer" xml:space="preserve">
-    <value>Noklusējuma failu pārlūks</value>
-  </data>
-  <data name="SettingsSetAsDefaultManager" xml:space="preserve">
-    <value>Iestatīt Files kā noklusējuma failu pārlūku</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Lietot Files kā failu atvēršanas dialogu</value>

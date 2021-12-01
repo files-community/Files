@@ -124,16 +124,10 @@ namespace Files.Filesystem.StorageEnumerators
             try
             {
                 FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemModifiedTimeOutput);
-                itemModifiedDate = new DateTime(
-                    systemModifiedTimeOutput.Year, systemModifiedTimeOutput.Month, systemModifiedTimeOutput.Day,
-                    systemModifiedTimeOutput.Hour, systemModifiedTimeOutput.Minute, systemModifiedTimeOutput.Second, systemModifiedTimeOutput.Milliseconds,
-                    DateTimeKind.Utc);
+                itemModifiedDate = systemModifiedTimeOutput.ToDateTime();
 
                 FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedTimeOutput);
-                itemCreatedDate = new DateTime(
-                    systemCreatedTimeOutput.Year, systemCreatedTimeOutput.Month, systemCreatedTimeOutput.Day,
-                    systemCreatedTimeOutput.Hour, systemCreatedTimeOutput.Minute, systemCreatedTimeOutput.Second, systemCreatedTimeOutput.Milliseconds,
-                    DateTimeKind.Utc);
+                itemCreatedDate = systemCreatedTimeOutput.ToDateTime();
             }
             catch (ArgumentException)
             {
@@ -179,8 +173,6 @@ namespace Files.Filesystem.StorageEnumerators
             CancellationToken cancellationToken
         )
         {
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
             var itemName = findData.cFileName;
 
@@ -188,22 +180,13 @@ namespace Files.Filesystem.StorageEnumerators
             try
             {
                 FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemModifiedDateOutput);
-                itemModifiedDate = new DateTime(
-                    systemModifiedDateOutput.Year, systemModifiedDateOutput.Month, systemModifiedDateOutput.Day,
-                    systemModifiedDateOutput.Hour, systemModifiedDateOutput.Minute, systemModifiedDateOutput.Second, systemModifiedDateOutput.Milliseconds,
-                    DateTimeKind.Utc);
+                itemModifiedDate = systemModifiedDateOutput.ToDateTime();
 
                 FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedDateOutput);
-                itemCreatedDate = new DateTime(
-                    systemCreatedDateOutput.Year, systemCreatedDateOutput.Month, systemCreatedDateOutput.Day,
-                    systemCreatedDateOutput.Hour, systemCreatedDateOutput.Minute, systemCreatedDateOutput.Second, systemCreatedDateOutput.Milliseconds,
-                    DateTimeKind.Utc);
+                itemCreatedDate = systemCreatedDateOutput.ToDateTime();
 
                 FileTimeToSystemTime(ref findData.ftLastAccessTime, out SYSTEMTIME systemLastAccessOutput);
-                itemLastAccessDate = new DateTime(
-                    systemLastAccessOutput.Year, systemLastAccessOutput.Month, systemLastAccessOutput.Day,
-                    systemLastAccessOutput.Hour, systemLastAccessOutput.Minute, systemLastAccessOutput.Second, systemLastAccessOutput.Milliseconds,
-                    DateTimeKind.Utc);
+                itemLastAccessDate = systemLastAccessOutput.ToDateTime();
             }
             catch (ArgumentException)
             {

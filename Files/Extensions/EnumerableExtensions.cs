@@ -14,7 +14,7 @@ namespace Files.Extensions
         /// <param name="item">The item</param>
         /// <returns><see cref="IEnumerable{T}"/> with <paramref name="item"/></returns>
         internal static IEnumerable<T> CreateEnumerable<T>(this T item) =>
-            CreateList<T>(item);
+            new[] { item };
 
         internal static List<T> CreateList<T>(this T item) =>
             new List<T>() { item };
@@ -43,30 +43,22 @@ namespace Files.Extensions
             return block.Completion;
         }
 
-        public static bool AddIfNotPresent<T>(this IList<T> list, T element)
+        public static IList<T> AddIfNotPresent<T>(this IList<T> list, T element)
         {
             if (!list.Contains(element))
             {
                 list.Add(element);
-                return true;
             }
-            else
-            {
-                return false;
-            }
+            return list;
         }
 
-        public static bool AddIfNotPresent<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
+        public static IDictionary<TKey, TValue> AddIfNotPresent<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
             if (!dictionary.ContainsKey(key))
             {
                 dictionary.Add(key, value);
-                return true;
             }
-            else
-            {
-                return false;
-            }
+            return dictionary;
         }
     }
 }

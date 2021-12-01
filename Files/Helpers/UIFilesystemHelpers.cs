@@ -245,12 +245,12 @@ namespace Files.Helpers
             ReturnResult renamed = ReturnResult.InProgress;
             if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
-                renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageItemHelpers.FromPathAndType(item.ItemPath, FilesystemItemType.Directory),
+                renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageHelpers.FromPathAndType(item.ItemPath, FilesystemItemType.Directory),
                     newName, NameCollisionOption.FailIfExists, true);
             }
             else
             {
-                renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageItemHelpers.FromPathAndType(item.ItemPath, FilesystemItemType.File),
+                renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageHelpers.FromPathAndType(item.ItemPath, FilesystemItemType.File),
                     newName, NameCollisionOption.FailIfExists, true);
             }
 
@@ -304,7 +304,7 @@ namespace Files.Helpers
                         created = await FilesystemTasks.Wrap(async () =>
                         {
                             return await associatedInstance.FilesystemHelpers.CreateAsync(
-                                StorageItemHelpers.FromPathAndType(PathNormalization.Combine(folderRes.Result.Path, userInput), FilesystemItemType.Directory),
+                                StorageHelpers.FromPathAndType(PathNormalization.Combine(folderRes.Result.Path, userInput), FilesystemItemType.Directory),
                                 true);
                         });
                         break;
@@ -314,7 +314,7 @@ namespace Files.Helpers
                         created = await FilesystemTasks.Wrap(async () =>
                         {
                             return await associatedInstance.FilesystemHelpers.CreateAsync(
-                                StorageItemHelpers.FromPathAndType(PathNormalization.Combine(folderRes.Result.Path, userInput + itemInfo?.Extension), FilesystemItemType.File),
+                                StorageHelpers.FromPathAndType(PathNormalization.Combine(folderRes.Result.Path, userInput + itemInfo?.Extension), FilesystemItemType.File),
                                 true);
                         });
                         break;

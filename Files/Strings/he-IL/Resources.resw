@@ -105,29 +105,17 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>שלח משוב</value>
   </data>
-  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>רישיונות צד שלישי</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>אודות</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>מראה</value>
   </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>קבצים ותיקיות</value>
-  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>תכונות ניסיוניות</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>תכונות ניסיוניות</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>קבצים ותיקיות</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>בזמן העלייה</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>העדפות</value>
@@ -143,9 +131,6 @@
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>פתח דף או דפים מסוימים</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>בזמן העלייה</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>העדפות</value>
@@ -467,12 +452,6 @@
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>עמודים</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>תמיד תפתח מופע חדש</value>
-  </data>
-  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>פתח את התיקיה בכרטיסיה חדשה</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>ברירת מחדל של Windows</value>
@@ -1071,7 +1050,7 @@
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
     <value>מתבצע סינכרון</value>
   </data>
-  <data name="ItemSizeNotCalcluated" xml:space="preserve">
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>לא חושב</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
@@ -1190,12 +1169,6 @@
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>הדבק</value>
-  </data>
-  <data name="SettingsNavSidebar.Content" xml:space="preserve">
-    <value>סרגל הצד</value>
-  </data>
-  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
-    <value>סרגל הצד</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>ברירת מחדל</value>

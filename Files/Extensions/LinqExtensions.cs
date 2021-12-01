@@ -33,22 +33,22 @@ namespace Files.Extensions
                 action(value);
         }
 
-        internal static void AddSorted<T>(this IList<T> list, T item) where T : IComparable<T>
+        internal static IList<T> AddSorted<T>(this IList<T> list, T item) where T : IComparable<T>
         {
             if (list.Count == 0)
             {
                 list.Add(item);
-                return;
+                return list;
             }
             if (list[list.Count - 1].CompareTo(item) <= 0)
             {
                 list.Add(item);
-                return;
+                return list;
             }
             if (list[0].CompareTo(item) >= 0)
             {
                 list.Insert(0, item);
-                return;
+                return list;
             }
             int index = list.ToList().BinarySearch(item);
             if (index < 0)
@@ -56,6 +56,7 @@ namespace Files.Extensions
                 index = ~index;
             }
             list.Insert(index, item);
+            return list;
         }
 
         /// <summary>
