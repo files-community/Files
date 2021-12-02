@@ -48,12 +48,12 @@ namespace FilesFullTrust.MessageHandlers
                         var netl = new ValueSet();
                         using (var nethood = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_NetHood))
                         {
-                            foreach (var link in nethood)
+                            foreach (var item in nethood)
                             {
-                                var linkPath = (string)link.Properties["System.Link.TargetParsingPath"];
+                                var linkPath = item is ShellLink link ? link.TargetPath : (string)item.Properties["System.Link.TargetParsingPath"];
                                 if (linkPath != null)
                                 {
-                                    netl.Add(link.Name, linkPath);
+                                    netl.Add(item.Name, linkPath);
                                 }
                             }
                         }
