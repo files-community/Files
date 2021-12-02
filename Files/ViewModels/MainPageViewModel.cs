@@ -183,7 +183,10 @@ namespace Files.ViewModels
             }
 
             // Support drives launched through jump list by stripping away the question mark at the end.
-            if (path.EndsWith("\\?")) path = path.Remove(path.Length - 1);
+            if (path.EndsWith("\\?"))
+            {
+                path = path.Remove(path.Length - 1);
+            }
 
             TabItem tabItem = new TabItem()
             {
