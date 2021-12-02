@@ -2,6 +2,7 @@
     x:Class="Files.Views.PropertiesCompatibility"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Files.Helpers"
     xmlns:local1="using:Files.ViewModels.Properties"
@@ -18,6 +19,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <converters:NullToTrueConverter x:Key="NullToFalseConverter" Inverse="True" />
         </ResourceDictionary>
     </local1:PropertiesTab.Resources>
 
@@ -30,6 +32,7 @@
                 TextTrimming="CharacterEllipsis" />
             <ComboBox
                 DisplayMemberPath="Name"
+                IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
                 ItemsSource="{x:Bind CompatibilityProperties.OSCompatibilityList, Mode=OneWay}"
                 SelectedValue="{x:Bind CompatibilityProperties.OSCompatibility, Mode=TwoWay}" />
 
@@ -40,6 +43,7 @@
                 TextTrimming="CharacterEllipsis" />
             <ComboBox
                 DisplayMemberPath="Name"
+                IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
                 ItemsSource="{x:Bind CompatibilityProperties.ReducedColorModeList, Mode=OneWay}"
                 SelectedValue="{x:Bind CompatibilityProperties.ReducedColorMode, Mode=TwoWay}" />
 
@@ -70,6 +74,7 @@
                     Grid.Row="0"
                     Grid.Column="1"
                     VerticalAlignment="Center"
+                    IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
                     IsOn="{x:Bind CompatibilityProperties.ExecuteAt640X480, Mode=TwoWay}" />
 
                 <TextBlock
@@ -82,6 +87,7 @@
                     Grid.Row="1"
                     Grid.Column="1"
                     VerticalAlignment="Center"
+                    IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
                     IsOn="{x:Bind CompatibilityProperties.DisableMaximized, Mode=TwoWay}" />
 
                 <TextBlock
@@ -94,6 +100,7 @@
                     Grid.Row="2"
                     Grid.Column="1"
                     VerticalAlignment="Center"
+                    IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
                     IsOn="{x:Bind CompatibilityProperties.RunAsAdministrator, Mode=TwoWay}" />
 
                 <TextBlock
@@ -106,6 +113,7 @@
                     Grid.Row="3"
                     Grid.Column="1"
                     VerticalAlignment="Center"
+                    IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
                     IsOn="{x:Bind CompatibilityProperties.RegisterForRestart, Mode=TwoWay}" />
             </Grid>
 
@@ -116,6 +124,7 @@
                 TextTrimming="CharacterEllipsis" />
             <ComboBox
                 DisplayMemberPath="Name"
+                IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
                 ItemsSource="{x:Bind CompatibilityProperties.HighDpiOptionList, Mode=OneWay}"
                 SelectedValue="{x:Bind CompatibilityProperties.HighDpiOption, Mode=TwoWay}" />
 
@@ -126,6 +135,7 @@
                 TextTrimming="CharacterEllipsis" />
             <ComboBox
                 DisplayMemberPath="Name"
+                IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
                 ItemsSource="{x:Bind CompatibilityProperties.HighDpiOverrideList, Mode=OneWay}"
                 SelectedValue="{x:Bind CompatibilityProperties.HighDpiOverride, Mode=TwoWay}" />
 
