@@ -285,7 +285,7 @@ namespace Files.Filesystem.StorageItems
                         string winPath = System.IO.Path.GetFullPath(entry.IsDirectory ? wnt.TransformDirectory(DecodeEntryName(entry, ZipEncoding)) : wnt.TransformFile(DecodeEntryName(entry, ZipEncoding)));
                         if (winPath.StartsWith(Path.WithEnding("\\"), StringComparison.Ordinal)) // Child of self
                         {
-                            var split = winPath.Substring(Path.Length).Split(new[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
+                            var split = winPath.Substring(Path.Length).Split('\\', StringSplitOptions.RemoveEmptyEntries);
                             if (split.Length > 0)
                             {
                                 if (entry.IsDirectory || split.Length > 1) // Not all folders have a ZipEntry

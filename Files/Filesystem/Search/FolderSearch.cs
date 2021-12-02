@@ -123,7 +123,7 @@ namespace Files.Filesystem.Search
             ObservableCollection<ListedItem> results = new ObservableCollection<ListedItem>();
             try
             {
-                var token = new CancellationTokenSource().Token;
+                var token = CancellationToken.None;
                 if (App.LibraryManager.TryGetLibrary(Folder, out var library))
                 {
                     await AddItemsAsyncForLibrary(library, results, token);
