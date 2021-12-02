@@ -69,7 +69,7 @@ namespace Files.Helpers
                 }
 
                 if (displayName == null)
-				{
+		{
                     if (path.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
                     {
                         displayName = "ms-resource:///Resources/SidebarDesktop";
