@@ -17,7 +17,7 @@ namespace Files.Services.Implementation
                 case nameof(IsVerticalTabFlyoutEnabled):
                 case nameof(IsDualPaneEnabled):
                 case nameof(AlwaysOpenDualPaneInNewTab):
-                    Microsoft.AppCenter.Analytics.Analytics.TrackEvent($"{nameof(e.settingName)} {e.newValue}");
+                    Microsoft.AppCenter.Analytics.Analytics.TrackEvent($"{e.settingName} {e.newValue}");
                     break;
             }
 
