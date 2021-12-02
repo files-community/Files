@@ -212,7 +212,10 @@ namespace Files.Views
         private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
         {
             WidgetsPage currentPage = ItemDisplayFrame?.Content as WidgetsPage;
-            currentPage.RefreshWidgetList();
+            if (currentPage != null)
+            {
+                currentPage.RefreshWidgetList();
+            }
         }
 
         private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
