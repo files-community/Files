@@ -118,8 +118,12 @@ namespace Files.Helpers
                 jumplistItem.Description = jumplistItem.Arguments;
                 jumplistItem.GroupName = "ms-resource:///Resources/JumpListRecentGroupHeader";
                 jumplistItem.Logo = new Uri("ms-appx:///Assets/FolderIcon.png");
-                instance.Items.Add(jumplistItem);
-                JumpListItemPaths.Add(path);
+                
+	        // Keep newer items at the top.
+		instance.Items.Remove(instance.Items.FirstOrDefault(x => x.Arguments.Equals(path, StringComparison.OrdinalIgnoreCase)));
+		instance.Items.Insert(0, jumplistItem); 
+		JumpListItemPaths.Remove(JumpListItemPaths.FirstOrDefault(x => x.Equals(path, StringComparison.OrdinalIgnoreCase)));
+		JumpListItemPaths.Add(path);
             }
         }
 
