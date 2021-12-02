@@ -486,10 +486,12 @@
                                 </RadioButton>
 
                                 <TextBlock
+                                    x:Name="NavToolbarDetailsHeader"
                                     x:Uid="NavToolbarDetailsHeader"
                                     Grid.Row="0"
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
+                                    PointerReleased="NavToolbarDetailsHeader_PointerReleased"
                                     Text="Details" />
 
                                 <RadioButton
@@ -513,10 +515,12 @@
                                 </RadioButton>
 
                                 <TextBlock
+                                    x:Name="NavToolbarTilesHeader"
                                     x:Uid="NavToolbarTilesHeader"
                                     Grid.Row="1"
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
+                                    PointerReleased="NavToolbarTilesHeader_PointerReleased"
                                     Text="Tiles" />
 
                                 <RadioButton
@@ -540,10 +544,12 @@
                                 </RadioButton>
 
                                 <TextBlock
+                                    x:Name="NavToolbarSmallIconsHeader"
                                     x:Uid="NavToolbarSmallIconsHeader"
                                     Grid.Row="2"
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
+                                    PointerReleased="NavToolbarSmallIconsHeader_PointerReleased"
                                     Text="Small Icons" />
 
                                 <Border
@@ -576,10 +582,12 @@
                                 </RadioButton>
 
                                 <TextBlock
+                                    x:Name="NavToolbarMediumIconsHeader"
                                     x:Uid="NavToolbarMediumIconsHeader"
                                     Grid.Row="0"
                                     Grid.Column="4"
                                     VerticalAlignment="Center"
+                                    PointerReleased="NavToolbarMediumIconsHeader_PointerReleased"
                                     Text="Medium Icons" />
 
                                 <RadioButton
@@ -603,10 +611,12 @@
                                 </RadioButton>
 
                                 <TextBlock
+                                    x:Name="NavToolbarLargeIconsHeader"
                                     x:Uid="NavToolbarLargeIconsHeader"
                                     Grid.Row="1"
                                     Grid.Column="4"
                                     VerticalAlignment="Center"
+                                    PointerReleased="NavToolbarLargeIconsHeader_PointerReleased"
                                     Text="Large Icons" />
 
                                 <RadioButton
@@ -633,10 +643,12 @@
                                 </RadioButton>
 
                                 <TextBlock
+                                    x:Name="NavToolbarColumnsHeader"
                                     x:Uid="NavToolbarColumnsHeader"
                                     Grid.Row="2"
                                     Grid.Column="4"
                                     VerticalAlignment="Center"
+                                    PointerReleased="NavToolbarColumnsHeader_PointerReleased"
                                     Text="Columns" />
                             </Grid>
 

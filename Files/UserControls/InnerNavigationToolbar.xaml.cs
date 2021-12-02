@@ -13,6 +13,7 @@ using System.Windows.Input;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -26,7 +27,7 @@ namespace Files.UserControls
             this.InitializeComponent();
         }
 
-        public IUserSettingsService UserSettingsService { get; } = 
+        public IUserSettingsService UserSettingsService { get; } =
             Ioc.Default.GetService<IUserSettingsService>();
 
         public MainViewModel MainViewModel => App.MainViewModel;
@@ -192,5 +193,18 @@ namespace Files.UserControls
                 }
             }
         }
+
+        private void NavToolbarDetailsHeader_PointerReleased(object sender, PointerRoutedEventArgs e)
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(true);
+        private void NavToolbarTilesHeader_PointerReleased(object sender, PointerRoutedEventArgs e)
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles.Execute(true);
+        private void NavToolbarSmallIconsHeader_PointerReleased(object sender, PointerRoutedEventArgs e)
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall.Execute(true);
+        private void NavToolbarMediumIconsHeader_PointerReleased(object sender, PointerRoutedEventArgs e)
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium.Execute(true);
+        private void NavToolbarLargeIconsHeader_PointerReleased(object sender, PointerRoutedEventArgs e)
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge.Execute(true);
+        private void NavToolbarColumnsHeader_PointerReleased(object sender, PointerRoutedEventArgs e)
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView.Execute(true);
     }
 }
