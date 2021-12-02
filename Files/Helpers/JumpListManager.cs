@@ -64,7 +64,13 @@ namespace Files.Helpers
                 if (path.EndsWith("\\"))
                 {
                     // Jumplist item argument can't end with a slash so append a character that can't exist in a directory name to support listing drives.
-                    displayName = App.DrivesManager.Drives.Where(drive => drive.Path == path).First().Text;
+                    var drive = App.DrivesManager.Drives.Where(drive => drive.Path == path).FirstOrDefault();
+		    if (drive == null)
+		    {
+			return;
+		    }
+		    
+		    displayName = drive.Text;
                     path += '?';
                 }
 
