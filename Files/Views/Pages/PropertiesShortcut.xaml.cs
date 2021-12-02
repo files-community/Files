@@ -11,14 +11,10 @@ namespace Files.Views
             InitializeComponent();
         }
 
-#pragma warning disable 1998
-
-        public async override Task<bool> SaveChangesAsync(ListedItem item)
+        public override Task<bool> SaveChangesAsync(ListedItem item)
         {
-            return false;
+            return Task.FromResult(true);
         }
-
-#pragma warning restore 1998
 
         public override void Dispose()
         {
