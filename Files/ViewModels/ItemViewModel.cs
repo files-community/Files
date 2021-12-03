@@ -489,6 +489,15 @@ namespace Files.ViewModels
                 {
                     FilesAndFolders.Insert(Math.Min(newIndex, FilesAndFolders.Count), item);
                 }
+                if (folderSettings.DirectoryGroupOption != GroupOption.None)
+                {
+                    var key = FilesAndFolders.ItemGroupKeySelector?.Invoke(item);
+                    var group = FilesAndFolders.GroupedCollection?.FirstOrDefault(x => x.Model.Key == key);
+                    if (group != null)
+                    {
+                        group.OrderOne(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection), item);
+                    }
+                }
                 UpdateEmptyTextType();
                 DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
             });
