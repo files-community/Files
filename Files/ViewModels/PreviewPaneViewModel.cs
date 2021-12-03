@@ -220,6 +220,11 @@ namespace Files.ViewModels
             {
                 SelectedItem?.FileDetails?.Clear();
 
+                if(SelectedItem.IsRecycleBinItem)
+                {
+                    await LoadBasicPreviewAsync();
+                }
+
                 try
                 {
                     PreviewPaneState = PreviewPaneStates.LoadingPreview;
@@ -234,18 +239,8 @@ namespace Files.ViewModels
                     // If that fails, revert to no preview/details available as long as the item is not a shortcut or folder
                     if (SelectedItem != null && !SelectedItem.IsShortcutItem && SelectedItem.PrimaryItemAttribute != StorageItemTypes.Folder)
                     {
-                        try
-                        {
-                            var basicModel = new BasicPreviewViewModel(SelectedItem);
-                            await basicModel.LoadAsync();
-                            PreviewPaneContent = new BasicPreview(basicModel);
-                            PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
-                            return;
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.WriteLine(ex);
-                        }
+                        await LoadBasicPreviewAsync();
+                        return;
                     }
 
                     PreviewPaneContent = null;
@@ -274,6 +269,21 @@ namespace Files.ViewModels
                     // the preview will need refreshing as the file details won't be accurate
                     needsRefresh = true;
                     break;
+            }
+        }
+
+        private async Task LoadBasicPreviewAsync()
+        {
+            try
+            {
+                var basicModel = new BasicPreviewViewModel(SelectedItem);
+                await basicModel.LoadAsync();
+                PreviewPaneContent = new BasicPreview(basicModel);
+                PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
             }
         }
 
