@@ -144,7 +144,7 @@
         </trans-unit>
         <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
-          <target state="translated">Ανοίγμα τοποθεσίας αρχείου</target>
+          <target state="translated">Ανοίγμα θέσης αρχείου</target>
         </trans-unit>
         <trans-unit id="RecentItemRemove.Text" translate="yes" xml:space="preserve">
           <source>Remove this item</source>
@@ -864,7 +864,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
-          <target state="translated">Άνοιγμα τοποθεσίας αρχείου</target>
+          <target state="translated">Άνοιγμα θέσης αρχείου</target>
         </trans-unit>
         <trans-unit id="DriveCapacityUnknown" translate="yes" xml:space="preserve">
           <source>Unknown</source>
