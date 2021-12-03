@@ -52,6 +52,7 @@ namespace Files.ViewModels.Properties
                 {
                     ViewModel.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Drive.Path, 80);
                 }
+                ViewModel.IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Drive.DeviceID, 80); // For network shortcuts
             }
 
             if (diskRoot == null || diskRoot.Properties == null)

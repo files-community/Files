@@ -7,6 +7,7 @@ using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -132,7 +133,7 @@ namespace Files.Helpers
             bool isShortcutItem = path.EndsWith(".lnk", StringComparison.Ordinal) || path.EndsWith(".url", StringComparison.Ordinal);
             FilesystemResult opened = (FilesystemResult)false;
 
-            var shortcutInfo = new ShortcutItem();
+            var shortcutInfo = new ShellLinkItem();
             if (itemType == null || isShortcutItem || isHiddenItem || isReparsePoint)
             {
                 if (isShortcutItem)
@@ -149,15 +150,14 @@ namespace Files.Helpers
                         { "filepath", path }
                     });
 
-                    if (status == AppServiceResponseStatus.Success)
+                    if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShortcutInfo"))
                     {
-                        shortcutInfo.TargetPath = response.Get("TargetPath", string.Empty);
-                        shortcutInfo.Arguments = response.Get("Arguments", string.Empty);
-                        shortcutInfo.WorkingDirectory = response.Get("WorkingDirectory", string.Empty);
-                        shortcutInfo.RunAsAdmin = response.Get("RunAsAdmin", false);
-                        shortcutInfo.PrimaryItemAttribute = response.Get("IsFolder", false) ? StorageItemTypes.Folder : StorageItemTypes.File;
-
-                        itemType = response.Get("IsFolder", false) ? FilesystemItemType.Directory : FilesystemItemType.File;
+                        var shInfo = JsonConvert.DeserializeObject<ShellLinkItem>((string)response["ShortcutInfo"]);
+                        if (shInfo != null)
+                        {
+                            shortcutInfo = shInfo;
+                        }
+                        itemType = shInfo != null && shInfo.IsFolder ? FilesystemItemType.Directory : FilesystemItemType.File;
                     }
                     else
                     {
@@ -262,7 +262,7 @@ namespace Files.Helpers
             return opened;
         }
 
-        private static async Task<FilesystemResult> OpenDirectory(string path, IShellPage associatedInstance, IEnumerable<string> selectItems, ShortcutItem shortcutInfo)
+        private static async Task<FilesystemResult> OpenDirectory(string path, IShellPage associatedInstance, IEnumerable<string> selectItems, ShellLinkItem shortcutInfo)
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 
@@ -352,7 +352,7 @@ namespace Files.Helpers
             return opened;
         }
 
-        private static async Task<FilesystemResult> OpenFile(string path, IShellPage associatedInstance, IEnumerable<string> selectItems, ShortcutItem shortcutInfo, bool openViaApplicationPicker = false, string args = default)
+        private static async Task<FilesystemResult> OpenFile(string path, IShellPage associatedInstance, IEnumerable<string> selectItems, ShellLinkItem shortcutInfo, bool openViaApplicationPicker = false, string args = default)
         {
             var opened = (FilesystemResult)false;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
