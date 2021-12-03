@@ -543,6 +543,14 @@ namespace Files.ViewModels
             set => SetProperty(ref shortcutItemPath, value);
         }
 
+        private bool isShortcutItemPathReadOnly;
+
+        public bool IsShortcutItemPathReadOnly
+        {
+            get => isShortcutItemPathReadOnly;
+            set => SetProperty(ref isShortcutItemPathReadOnly, value);
+        }
+
         private string shortcutItemWorkingDir;
 
         public string ShortcutItemWorkingDir
