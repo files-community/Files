@@ -824,7 +824,7 @@ namespace Files.ViewModels
                             wasIconLoaded = true;
                         }
 
-                        var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath);
+                        var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath, thumbnailSize);
                         if (overlayInfo != null)
                         {
                             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
@@ -883,7 +883,7 @@ namespace Files.ViewModels
                             wasIconLoaded = true;
                         }
 
-                        var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath);
+                        var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath, thumbnailSize);
                         if (overlayInfo != null)
                         {
                             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>

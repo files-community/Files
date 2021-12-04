@@ -39,7 +39,7 @@ namespace Files.Helpers
             return (null, null);
         }
 
-        public static async Task<byte[]> LoadOverlayAsync(string filePath)
+        public static async Task<byte[]> LoadOverlayAsync(string filePath, uint thumbnailSize)
         {
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection != null)
@@ -48,7 +48,7 @@ namespace Files.Helpers
                 {
                     { "Arguments", "GetIconOverlay" },
                     { "filePath", filePath },
-                    { "thumbnailSize", 0 }, // Must pass in arbitrary int value for this to work
+                    { "thumbnailSize", thumbnailSize },
                     { "isOverlayOnly", true }
                 };
                 var (status, response) = await connection.SendMessageForResponseAsync(value);

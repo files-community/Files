@@ -203,7 +203,14 @@ namespace FilesFullTrust
 
                 lock (lockObject)
                 {
-                    if (!Shell32.SHGetImageList(Shell32.SHIL.SHIL_EXTRALARGE, typeof(ComCtl32.IImageList).GUID, out var imageList).Succeeded)
+                    var imageListSize = thumbnailSize switch
+                    {
+                        <= 16 => Shell32.SHIL.SHIL_SMALL,
+                        <= 32 => Shell32.SHIL.SHIL_LARGE,
+                        <= 48 => Shell32.SHIL.SHIL_EXTRALARGE,
+                        _ => Shell32.SHIL.SHIL_JUMBO,
+                    };
+                    if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.IImageList).GUID, out var imageList).Succeeded)
                     {
                         return (iconStr, null);
                     }
