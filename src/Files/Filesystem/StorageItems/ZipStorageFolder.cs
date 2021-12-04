@@ -1,5 +1,7 @@
 ﻿using Files.Extensions;
 using Files.Helpers;
+using Files.Services;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using SevenZipExtractor;
 using System;
@@ -24,20 +26,20 @@ namespace Files.Filesystem.StorageItems
             ".zip", ".7z", ".rar"
         };
 
-        private static bool? IsDefaultZipApp;
         public static async Task<bool> CheckDefaultZipApp(string filePath)
         {
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
             Func<Task<bool>> queryFileAssoc = async () =>
             {
                 var assoc = await NativeWinApiHelper.GetFileAssociationAsync(filePath);
                 if (assoc != null)
                 {
-                    IsDefaultZipApp = assoc == Package.Current.Id.FamilyName
+                    return assoc == Package.Current.Id.FamilyName
                         || assoc.Equals(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe"), StringComparison.OrdinalIgnoreCase);
                 }
                 return true;
             };
-            return IsDefaultZipApp ?? await queryFileAssoc();
+            return userSettingsService.PreferencesSettingsService.OpenArchivesInFiles || await queryFileAssoc();
         }
 
         public ZipStorageFolder(string path, string containerPath)
