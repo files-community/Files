@@ -1,4 +1,4 @@
-﻿using Files.Common;
+using Files.Common;
 using Files.Extensions;
 using System;
 using System.Collections;
@@ -113,9 +113,9 @@ namespace Files.Helpers
             {
                 if (countChanged)
                 {
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
+                    PropertyChanged?.Invoke(this, EventArgsCache.CountPropertyChanged);
                 }
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
+                PropertyChanged?.Invoke(this, EventArgsCache.IndexerPropertyChanged);
                 CollectionChanged?.Invoke(this, e);
             }
 
@@ -212,9 +212,9 @@ namespace Files.Helpers
             GroupedCollection?.ForEach(gp => gp.EndBulkOperation());
             GroupedCollection?.EndBulkOperation();
 
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
+            OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
+            PropertyChanged?.Invoke(this, EventArgsCache.CountPropertyChanged);
+            PropertyChanged?.Invoke(this, EventArgsCache.IndexerPropertyChanged);
         }
 
         public void Add(T item)
@@ -235,7 +235,7 @@ namespace Files.Helpers
             }
             GroupedCollection?.Clear();
 
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
         }
 
         public bool Contains(T item)
@@ -308,7 +308,7 @@ namespace Files.Helpers
 
         public void AddRange(IEnumerable<T> items)
         {
-            if (items.Count() == 0)
+            if (!items.Any())
             {
                 return;
             }
@@ -323,7 +323,7 @@ namespace Files.Helpers
 
         public void InsertRange(int index, IEnumerable<T> items)
         {
-            if (items.Count() == 0)
+            if (!items.Any())
             {
                 return;
             }
@@ -438,5 +438,12 @@ namespace Files.Helpers
         void IList.Remove(object value) => Remove((T)value);
 
         void ICollection.CopyTo(Array array, int index) => CopyTo((T[])array, index);
+
+        private static class EventArgsCache
+        {
+            internal static readonly PropertyChangedEventArgs CountPropertyChanged = new PropertyChangedEventArgs("Count");
+            internal static readonly PropertyChangedEventArgs IndexerPropertyChanged = new PropertyChangedEventArgs("Item[]");
+            internal static readonly NotifyCollectionChangedEventArgs ResetCollectionChanged = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
+        }
     }
 }
