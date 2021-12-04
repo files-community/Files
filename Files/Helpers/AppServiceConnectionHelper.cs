@@ -151,7 +151,7 @@ namespace Files.Helpers
                     {
                         var message = Encoding.UTF8.GetString(memoryStream.ToArray()).TrimEnd('\0');
                         var msg = JsonConvert.DeserializeObject<Dictionary<string, object>>(message);
-                        if (msg.Get("RequestID", (string)null) == null)
+                        if (msg != null && msg.Get("RequestID", (string)null) == null)
                         {
                             RequestReceived?.Invoke(this, msg);
                         }
