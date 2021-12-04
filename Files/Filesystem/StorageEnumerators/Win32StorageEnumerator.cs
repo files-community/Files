@@ -1,4 +1,5 @@
 ﻿using ByteSizeLib;
+using Files.Common;
 using Files.Extensions;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
@@ -6,6 +7,7 @@ using Files.Helpers.FileListCache;
 using Files.Services;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -259,21 +261,20 @@ namespace Files.Filesystem.StorageEnumerators
                     {
                         return null;
                     }
-                    if (status == AppServiceResponseStatus.Success
-                        && response.ContainsKey("TargetPath"))
+                    if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShortcutInfo"))
                     {
                         var isUrl = findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
-                        string target = (string)response["TargetPath"];
+                        var shInfo = JsonConvert.DeserializeObject<ShellLinkItem>((string)response["ShortcutInfo"]);
 
                         return new ShortcutItem(null, dateReturnFormat)
                         {
-                            PrimaryItemAttribute = (bool)response["IsFolder"] ? StorageItemTypes.Folder : StorageItemTypes.File,
+                            PrimaryItemAttribute = shInfo.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File,
                             FileExtension = itemFileExtension,
                             IsHiddenItem = isHidden,
                             Opacity = opacity,
                             FileImage = null,
-                            LoadFileIcon = !(bool)response["IsFolder"] && itemThumbnailImgVis,
-                            LoadWebShortcutGlyph = !(bool)response["IsFolder"] && isUrl && itemEmptyImgVis,
+                            LoadFileIcon = !shInfo.IsFolder && itemThumbnailImgVis,
+                            LoadWebShortcutGlyph = !shInfo.IsFolder && isUrl && itemEmptyImgVis,
                             ItemNameRaw = itemName,
                             ItemDateModifiedReal = itemModifiedDate,
                             ItemDateAccessedReal = itemLastAccessDate,
@@ -282,10 +283,10 @@ namespace Files.Filesystem.StorageEnumerators
                             ItemPath = itemPath,
                             FileSize = itemSize,
                             FileSizeBytes = itemSizeBytes,
-                            TargetPath = target,
-                            Arguments = (string)response["Arguments"],
-                            WorkingDirectory = (string)response["WorkingDirectory"],
-                            RunAsAdmin = (bool)response["RunAsAdmin"],
+                            TargetPath = shInfo.TargetPath,
+                            Arguments = shInfo.Arguments,
+                            WorkingDirectory = shInfo.WorkingDirectory,
+                            RunAsAdmin = shInfo.RunAsAdmin,
                             IsUrl = isUrl,
                         };
                     }

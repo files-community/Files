@@ -44,7 +44,7 @@ namespace FilesFullTrust.Helpers
             folderItem.Properties.TryGetValue<string>(
                 Ole32.PROPERTYKEY.System.ItemNameDisplay, out var fileName);
             fileName ??= Path.GetFileName(folderItem.Name); // Original file name
-            string filePath = folderItem.Name; // Original file path + name (recycle bin only)
+            string filePath = Path.Combine(Path.GetDirectoryName(parsingPath), folderItem.Name); // In recycle bin "Name" contains original file path + name
             if (!isFolder && !string.IsNullOrEmpty(parsingPath) && Path.GetExtension(parsingPath) is string realExtension && !string.IsNullOrEmpty(realExtension))
             {
                 if (!string.IsNullOrEmpty(fileName) && !fileName.EndsWith(realExtension, StringComparison.OrdinalIgnoreCase))
@@ -71,6 +71,26 @@ namespace FilesFullTrust.Helpers
             folderItem.Properties.TryGetValue<string>(
                 Ole32.PROPERTYKEY.System.ItemTypeText, out var fileType);
             return new ShellFileItem(isFolder, parsingPath, fileName, filePath, recycleDate, modifiedDate, createdDate, fileSize, fileSizeBytes ?? 0, fileType);
+        }
+
+        public static ShellLinkItem GetShellLinkItem(ShellLink linkItem)
+        {
+            if (linkItem == null)
+            {
+                return null;
+            }
+            var baseItem = GetShellFileItem(linkItem);
+            if (baseItem == null)
+            {
+                return null;
+            }
+            var link = new ShellLinkItem(baseItem);
+            link.IsFolder = !string.IsNullOrEmpty(link.TargetPath) && linkItem.Target.IsFolder;
+            link.RunAsAdmin = linkItem.RunAsAdministrator;
+            link.Arguments = linkItem.Arguments;
+            link.WorkingDirectory = linkItem.WorkingDirectory;
+            link.TargetPath = linkItem.TargetPath;
+            return link;
         }
     }
 }

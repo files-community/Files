@@ -45,23 +45,31 @@ namespace FilesFullTrust.MessageHandlers
                 case "GetNetworkLocations":
                     var networkLocations = await Win32API.StartSTATask(() =>
                     {
-                        var netl = new ValueSet();
+                        var locations = new List<ShellLinkItem>();
                         using (var nethood = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_NetHood))
                         {
-                            foreach (var link in nethood)
+                            foreach (var item in nethood)
                             {
-                                var linkPath = (string)link.Properties["System.Link.TargetParsingPath"];
-                                if (linkPath != null)
+                                if (item is ShellLink link)
                                 {
-                                    netl.Add(link.Name, linkPath);
+                                    locations.Add(ShellFolderExtensions.GetShellLinkItem(link));
+                                }
+                                else
+                                {
+                                    var linkPath = (string)item.Properties["System.Link.TargetParsingPath"];
+                                    if (linkPath != null)
+                                    {
+                                        var linkItem = ShellFolderExtensions.GetShellFileItem(item);
+                                        locations.Add(new ShellLinkItem(linkItem) { TargetPath = linkPath });
+                                    }
                                 }
                             }
                         }
-                        return netl;
+                        return locations;
                     });
-                    networkLocations ??= new ValueSet();
-                    networkLocations.Add("Count", networkLocations.Count);
-                    await Win32API.SendMessageAsync(connection, networkLocations, message.Get("RequestID", (string)null));
+                    var response = new ValueSet();
+                    response.Add("NetworkLocations", JsonConvert.SerializeObject(networkLocations));
+                    await Win32API.SendMessageAsync(connection, response, message.Get("RequestID", (string)null));
                     break;
 
                 case "OpenMapNetworkDriveDialog":
