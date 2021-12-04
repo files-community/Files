@@ -2,24 +2,17 @@
 using Files.Services;
 using Files.UserControls.FilePreviews;
 using Files.ViewModels.Previews;
-using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Markup;
 
 namespace Files.ViewModels
 {
@@ -112,8 +105,23 @@ namespace Files.ViewModels
 
         private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item, bool downloadItem)
         {
-
             ShowCloudItemButton = false;
+
+            if (SelectedItem.IsRecycleBinItem)
+            {
+                if (item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsZipItem)
+                {
+                    var model = new FolderPreviewViewModel(item);
+                    await model.LoadAsync();
+                    return new FolderPreview(model);
+                }
+                else
+                {
+                    var model = new BasicPreviewViewModel(SelectedItem);
+                    await model.LoadAsync();
+                    return new BasicPreview(model);
+                }
+            }
 
             if (item.IsShortcutItem)
             {
@@ -122,16 +130,16 @@ namespace Files.ViewModels
                 return new BasicPreview(model);
             }
 
-            if (SelectedItem.IsZipItem)
+            if (item.IsZipItem)
             {
                 var model = new ArchivePreviewViewModel(item);
                 await model.LoadAsync();
                 return new BasicPreview(model);
             }
 
-            if (SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+            if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
-                var model = new FolderPreviewViewModel(SelectedItem);
+                var model = new FolderPreviewViewModel(item);
                 await model.LoadAsync();
                 return new FolderPreview(model);
             }
@@ -204,7 +212,7 @@ namespace Files.ViewModels
                 return new CodePreview(model);
             }
 
-            var control = await TextPreviewViewModel.TryLoadAsTextAsync(SelectedItem);
+            var control = await TextPreviewViewModel.TryLoadAsTextAsync(item);
             if (control != null)
             {
                 return control;
@@ -219,11 +227,6 @@ namespace Files.ViewModels
             if (SelectedItem != null && IsItemSelected)
             {
                 SelectedItem?.FileDetails?.Clear();
-
-                if(SelectedItem.IsRecycleBinItem)
-                {
-                    await LoadBasicPreviewAsync();
-                }
 
                 try
                 {
