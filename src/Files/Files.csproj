@@ -1477,9 +1477,6 @@
     <PackageReference Include="SQLitePCLRaw.bundle_green">
       <Version>2.0.7</Version>
     </PackageReference>
-    <PackageReference Include="Ude.NetStandard">
-      <Version>1.2.0</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="..\Files.Package\Package.appxmanifest">

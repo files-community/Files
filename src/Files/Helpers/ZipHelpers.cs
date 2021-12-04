@@ -40,13 +40,11 @@ namespace Files.Helpers
                     return;
                 }
 
-                var zipEncoding = ZipStorageFolder.DetectFileEncoding(zipFile);
-
                 var directories = new List<string>();
                 try
                 {
-                    directories.AddRange(directoryEntries.Select((entry) => ZipStorageFolder.DecodeEntryName(entry, zipEncoding)));
-                    directories.AddRange(fileEntries.Select((entry) => Path.GetDirectoryName(ZipStorageFolder.DecodeEntryName(entry, zipEncoding))));
+                    directories.AddRange(directoryEntries.Select((entry) => entry.FileName));
+                    directories.AddRange(fileEntries.Select((entry) => Path.GetDirectoryName(entry.FileName)));
                 }
                 catch (Exception ex)
                 {
@@ -92,7 +90,7 @@ namespace Files.Helpers
                         return;
                     }
 
-                    string filePath = Path.Combine(destinationFolder.Path, ZipStorageFolder.DecodeEntryName(entry, zipEncoding));
+                    string filePath = Path.Combine(destinationFolder.Path, entry.FileName);
 
                     var hFile = NativeFileOperationsHelper.CreateFileForWrite(filePath);
                     if (hFile.IsInvalid)

@@ -19,8 +19,6 @@ namespace Files.Filesystem.StorageItems
 {
     public sealed class ZipStorageFolder : BaseStorageFolder
     {
-        public Encoding ZipEncoding { get; set; } = null;
-
         public static List<string> Extensions => new List<string>()
         {
             ".zip", ".7z", ".rar"
@@ -40,18 +38,6 @@ namespace Files.Filesystem.StorageItems
                 return true;
             };
             return IsDefaultZipApp ?? await queryFileAssoc();
-        }
-
-        public static string DecodeEntryName(ZipEntry entry, Encoding zipEncoding)
-        {
-            // TODO
-            return entry.FileName;
-        }
-
-        public static Encoding DetectFileEncoding(ArchiveFile zipFile)
-        {
-            // TODO
-            return Encoding.UTF8;
         }
 
         public ZipStorageFolder(string path, string containerPath)
@@ -156,7 +142,6 @@ namespace Files.Filesystem.StorageItems
 
                     return new ZipStorageFolder(desiredName, ContainerPath)
                     {
-                        ZipEncoding = ZipEncoding,
                         BackingFile = BackingFile
                     };
                     */
@@ -192,21 +177,19 @@ namespace Files.Filesystem.StorageItems
                         return null;
                     }
                     zipFile.IsStreamOwner = true;
-                    ZipEncoding ??= DetectFileEncoding(zipFile);
                     var entry = zipFile.Entries.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == System.IO.Path.Combine(Path, name));
                     if (entry != null)
                     {
                         if (entry.IsFolder)
                         {
-                            return new ZipStorageFolder(DecodeEntryName(entry, ZipEncoding), ContainerPath, entry)
+                            return new ZipStorageFolder(entry.FileName, ContainerPath, entry)
                             {
-                                ZipEncoding = ZipEncoding,
                                 BackingFile = BackingFile
                             };
                         }
                         else
                         {
-                            return new ZipStorageFile(DecodeEntryName(entry, ZipEncoding), ContainerPath, entry) { BackingFile = BackingFile };
+                            return new ZipStorageFile(entry.FileName, ContainerPath, entry) { BackingFile = BackingFile };
                         }
                     }
                     return null;
@@ -241,11 +224,10 @@ namespace Files.Filesystem.StorageItems
                         return null;
                     }
                     zipFile.IsStreamOwner = true;
-                    ZipEncoding ??= DetectFileEncoding(zipFile);
                     var items = new List<IStorageItem>();
                     foreach (var entry in zipFile.Entries) // Returns all items recursively
                     {
-                        string winPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(ContainerPath, DecodeEntryName(entry, ZipEncoding)));
+                        string winPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(ContainerPath, entry.FileName));
                         if (winPath.StartsWith(Path.WithEnding("\\"), StringComparison.Ordinal)) // Child of self
                         {
                             var split = winPath.Substring(Path.Length).Split('\\', StringSplitOptions.RemoveEmptyEntries);
@@ -258,7 +240,6 @@ namespace Files.Filesystem.StorageItems
                                     {
                                         items.Add(new ZipStorageFolder(itemPath, ContainerPath, entry)
                                         {
-                                            ZipEncoding = ZipEncoding,
                                             BackingFile = BackingFile
                                         });
                                     }
