@@ -477,5 +477,9 @@
     <Content Include="Assets\AppTiles\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\AppTiles\Wide310x150Logo.scale-400.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="nupkgs\microsoft.management.infrastructure.runtime.win.2.0.1.nupkg" />
+    <None Include="nupkgs\SharpZipLib.1.3.4.nupkg" />
+  </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>
