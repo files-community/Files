@@ -59,6 +59,23 @@ namespace Files.Common
             return (TOut)(object)dictionary[key];
         }
 
+        public static async Task<TOut> Get<TOut, TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Task<TOut> defaultValue = default)
+        {
+            // If dictionary is null or key is invalid, return default.
+            if (dictionary == null || key == null)
+            {
+                return await defaultValue;
+            }
+
+            // If setting doesn't exist, create it.
+            if (!dictionary.ContainsKey(key))
+            {
+                dictionary[key] = (TValue)(object)(await defaultValue);
+            }
+
+            return (TOut)(object)dictionary[key];
+        }
+
         public static DateTime ToDateTime(this System.Runtime.InteropServices.ComTypes.FILETIME time)
         {
             ulong high = (ulong)time.dwHighDateTime;

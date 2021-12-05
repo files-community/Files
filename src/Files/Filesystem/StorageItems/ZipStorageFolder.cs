@@ -1,4 +1,5 @@
-﻿using Files.Extensions;
+﻿using Files.Common;
+using Files.Extensions;
 using Files.Helpers;
 using Files.Services;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -9,7 +10,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Foundation;
@@ -26,6 +26,7 @@ namespace Files.Filesystem.StorageItems
             ".zip", ".7z", ".rar"
         };
 
+        private static Dictionary<string, bool> defaultAppDict = new Dictionary<string, bool>();
         public static async Task<bool> CheckDefaultZipApp(string filePath)
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
@@ -39,7 +40,8 @@ namespace Files.Filesystem.StorageItems
                 }
                 return true;
             };
-            return userSettingsService.PreferencesSettingsService.OpenArchivesInFiles || await queryFileAssoc();
+            var ext = System.IO.Path.GetExtension(filePath)?.ToLowerInvariant();
+            return userSettingsService.PreferencesSettingsService.OpenArchivesInFiles || await defaultAppDict.Get(ext, queryFileAssoc());
         }
 
         public ZipStorageFolder(string path, string containerPath)

@@ -308,7 +308,7 @@ namespace Files.Filesystem.StorageEnumerators
             }
             else
             {
-                if (ZipStorageFolder.Extensions.Any(x => x.Equals(itemFileExtension, StringComparison.OrdinalIgnoreCase)) && await ZipStorageFolder.CheckDefaultZipApp(itemPath))
+                if (ZipStorageFolder.IsZipPath(itemPath) && await ZipStorageFolder.CheckDefaultZipApp(itemPath))
                 {
                     return new ZipItem(null, dateReturnFormat)
                     {
