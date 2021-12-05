@@ -1632,7 +1632,7 @@
         </trans-unit>
         <trans-unit id="SettingsSearchUnindexedItems" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders</source>
-          <target state="needs-review-translation">Εμφάνιση μη ευρετηριασμένων στοιχείων κατά την αναζήτηση αρχείων και φακέλων</target>
+          <target state="translated">Εμφάνιση μη ευρετηριασμένων στοιχείων κατά την αναζήτηση αρχείων και φακέλων</target>
         </trans-unit>
         <trans-unit id="SettingsEnableLayoutPreferencesPerFolder" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
@@ -3644,23 +3644,23 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         </trans-unit>
         <trans-unit id="SettingsDefaultFilesManager" translate="yes" xml:space="preserve">
           <source>Default file manager</source>
-          <target state="new">Προεπιλεγμένο πρόγραμμα διαχείρησης αρχείων</target>
+          <target state="translated">Προεπιλεγμένο πρόγραμμα διαχείρησης αρχείων</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManager" translate="yes" xml:space="preserve">
           <source>Set Files as the default file manager</source>
-          <target state="new">Ορισμός του Files ως το προεπιλεγμένο πρόγραμμα διαχείρησης αρχείων</target>
+          <target state="translated">Ορισμός του Files ως το προεπιλεγμένο πρόγραμμα διαχείρησης αρχείων</target>
         </trans-unit>
         <trans-unit id="EmptyRecycleBin" translate="yes" xml:space="preserve">
           <source>Empty Recycle Bin</source>
-          <target state="new">Άδειασμα κάδου ανακύκλωσης</target>
+          <target state="translated">Άδειασμα κάδου ανακύκλωσης</target>
         </trans-unit>
         <trans-unit id="Sidebar" translate="yes" xml:space="preserve">
           <source>Sidebar</source>
-          <target state="new">Πλαϊνή μπάρα</target>
+          <target state="translated">Πλαϊνή μπάρα</target>
         </trans-unit>
         <trans-unit id="FilesAndFolders" translate="yes" xml:space="preserve">
           <source>Files and folders</source>
-          <target state="new">Αρχεία και φάκελοι</target>
+          <target state="translated">Αρχεία και φάκελοι</target>
         </trans-unit>
         <trans-unit id="OpenNewInstance" translate="yes" xml:space="preserve">
           <source>Open new instance when opening directories from the taskbar jumplist</source>
@@ -3668,19 +3668,19 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         </trans-unit>
         <trans-unit id="StartupSettings" translate="yes" xml:space="preserve">
           <source>Startup settings</source>
-          <target state="new">Ρυθμίσεις εκκίνησης</target>
+          <target state="translated">Ρυθμίσεις εκκίνησης</target>
         </trans-unit>
         <trans-unit id="ThirdPartyLicenses" translate="yes" xml:space="preserve">
           <source>Third party licenses</source>
-          <target state="new">Άδειες τρίτων</target>
+          <target state="translated">Άδειες τρίτων</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
           <source>This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</source>
-          <target state="new">Αυτή η ρύθμιση τροποποιεί αρχεία του συστήματος και μπορεί να έχει απροσδόκητες παρενέργειες στη συσκευή σας. Οι προγραμματιστές δεν λαμβάνουν καμία ευθύνη σε περίπτωση που κάποιο πρόβλημα προκύψει ως αποτέλεσμα. Αν συνεχίσετε με αυτή την επιλογή αναγνωρίζετε τους κινδύνους που ενέχει αυτή η ενέργεια. Προσέξτε πως η απεγκατάση του Files δεν θα αναιρέσει αυτές τις αλλαγές και μπορεί να σας αποτρέψει από το άνοιγμα της εξερεύνησης αρχείων, εκτός αν απενεργοποιήσετε αυτή τη ρύθμιση πριν αφαιρέσετε το Files από τη συσκευή σας.</target>
+          <target state="translated">Αυτή η ρύθμιση τροποποιεί αρχεία του συστήματος και μπορεί να έχει απροσδόκητες παρενέργειες στη συσκευή σας. Οι προγραμματιστές δεν λαμβάνουν καμία ευθύνη σε περίπτωση που κάποιο πρόβλημα προκύψει ως αποτέλεσμα. Αν συνεχίσετε με αυτή την επιλογή αναγνωρίζετε τους κινδύνους που ενέχει αυτή η ενέργεια. Προσέξτε πως η απεγκατάση του Files δεν θα αναιρέσει αυτές τις αλλαγές και μπορεί να σας αποτρέψει από το άνοιγμα της εξερεύνησης αρχείων, εκτός αν απενεργοποιήσετε αυτή τη ρύθμιση πριν αφαιρέσετε το Files από τη συσκευή σας.</target>
         </trans-unit>
         <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
           <source>Clear all</source>
-          <target state="new">Εκκαθάριση όλων</target>
+          <target state="translated">Εκκαθάριση όλων</target>
         </trans-unit>
       </group>
     </body>
