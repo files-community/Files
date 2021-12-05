@@ -1520,9 +1520,9 @@
       <Project>{0533133f-2559-4b53-a0fd-0970bc0e312e}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SevenZipWrapper\SevenZipWrapper.csproj">
-      <Project>{fc45a0d3-7aea-473a-b5e0-716a3814f331}</Project>
-      <Name>SevenZipWrapper</Name>
+    <ProjectReference Include="..\SevenZip\SevenZip.csproj">
+      <Project>{c0cc2a3f-cb5b-46b4-afe0-8f1ac03c24b8}</Project>
+      <Name>SevenZip</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

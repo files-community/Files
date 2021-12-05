@@ -3,7 +3,7 @@ using Files.Helpers;
 using Files.Services;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
-using SevenZipExtractor;
+using SevenZip;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -49,7 +49,7 @@ namespace Files.Filesystem.StorageItems
             ContainerPath = containerPath;
         }
 
-        public ZipStorageFolder(string path, string containerPath, ZipEntry entry)
+        public ZipStorageFolder(string path, string containerPath, ArchiveFileInfo entry)
         {
             Name = System.IO.Path.GetFileName(path.TrimEnd('\\', '/'));
             Path = System.IO.Path.Combine(containerPath, path);
@@ -78,7 +78,7 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<BaseStorageFile>(async (cancellationToken) =>
             {
-                using (ArchiveFile zipFile = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+                using (SevenZipExtractor zipFile = await OpenZipFileAsync(FileAccessMode.ReadWrite))
                 {
                     return null;
                     /*
@@ -117,7 +117,7 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
             {
-                using (ArchiveFile zipFile = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+                using (SevenZipExtractor zipFile = await OpenZipFileAsync(FileAccessMode.ReadWrite))
                 {
                     /*
                     if (zipFile == null)
@@ -172,17 +172,17 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<IStorageItem>(async (cancellationToken) =>
             {
-                using (ArchiveFile zipFile = await OpenZipFileAsync(FileAccessMode.Read))
+                using (SevenZipExtractor zipFile = await OpenZipFileAsync(FileAccessMode.Read))
                 {
                     if (zipFile == null)
                     {
                         return null;
                     }
-                    zipFile.IsStreamOwner = true;
-                    var entry = zipFile.Entries.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == System.IO.Path.Combine(Path, name));
+                    //zipFile.IsStreamOwner = true;
+                    var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == System.IO.Path.Combine(Path, name));
                     if (entry != null)
                     {
-                        if (entry.IsFolder)
+                        if (entry.IsDirectory)
                         {
                             return new ZipStorageFolder(entry.FileName, ContainerPath, entry)
                             {
@@ -219,15 +219,15 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken) =>
             {
-                using (ArchiveFile zipFile = await OpenZipFileAsync(FileAccessMode.Read))
+                using (SevenZipExtractor zipFile = await OpenZipFileAsync(FileAccessMode.Read))
                 {
                     if (zipFile == null)
                     {
                         return null;
                     }
-                    zipFile.IsStreamOwner = true;
+                    //zipFile.IsStreamOwner = true;
                     var items = new List<IStorageItem>();
-                    foreach (var entry in zipFile.Entries) // Returns all items recursively
+                    foreach (var entry in zipFile.ArchiveFileData) // Returns all items recursively
                     {
                         string winPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(ContainerPath, entry.FileName));
                         if (winPath.StartsWith(Path.WithEnding("\\"), StringComparison.Ordinal)) // Child of self
@@ -235,7 +235,7 @@ namespace Files.Filesystem.StorageItems
                             var split = winPath.Substring(Path.Length).Split('\\', StringSplitOptions.RemoveEmptyEntries);
                             if (split.Length > 0)
                             {
-                                if (entry.IsFolder || split.Length > 1) // Not all folders have a ZipEntry
+                                if (entry.IsDirectory || split.Length > 1) // Not all folders have a ZipEntry
                                 {
                                     var itemPath = System.IO.Path.Combine(Path, split[0]);
                                     if (!items.Any(x => x.Path == itemPath))
@@ -520,14 +520,14 @@ namespace Files.Filesystem.StorageItems
 
         #region Private
 
-        private IAsyncOperation<ArchiveFile> OpenZipFileAsync(FileAccessMode accessMode)
+        private IAsyncOperation<SevenZipExtractor> OpenZipFileAsync(FileAccessMode accessMode)
         {
-            return AsyncInfo.Run<ArchiveFile>(async (cancellationToken) =>
+            return AsyncInfo.Run<SevenZipExtractor>(async (cancellationToken) =>
             {
                 bool readWrite = accessMode == FileAccessMode.ReadWrite;
                 if (BackingFile != null)
                 {
-                    return new ArchiveFile((await BackingFile.OpenAsync(accessMode)).AsStream());
+                    return new SevenZipExtractor((await BackingFile.OpenAsync(accessMode)).AsStream());
                 }
                 else
                 {
@@ -536,7 +536,7 @@ namespace Files.Filesystem.StorageItems
                     {
                         return null;
                     }
-                    return new ArchiveFile((Stream)new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read));
+                    return new SevenZipExtractor((Stream)new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read));
                 }
             });
         }
@@ -572,9 +572,9 @@ namespace Files.Filesystem.StorageItems
         {
             return Common.Extensions.IgnoreExceptions(() =>
             {
-                using (ArchiveFile zipFile = new ArchiveFile(stream))
+                using (SevenZipExtractor zipFile = new SevenZipExtractor(stream))
                 {
-                    zipFile.IsStreamOwner = false;
+                    //zipFile.IsStreamOwner = false;
                 }
                 return true;
             });
@@ -582,14 +582,14 @@ namespace Files.Filesystem.StorageItems
 
         private async Task<BaseBasicProperties> GetBasicProperties()
         {
-            using (ArchiveFile zipFile = await OpenZipFileAsync(FileAccessMode.Read))
+            using (SevenZipExtractor zipFile = await OpenZipFileAsync(FileAccessMode.Read))
             {
                 if (zipFile == null)
                 {
                     return new BaseBasicProperties();
                 }
-                zipFile.IsStreamOwner = true;
-                var entry = zipFile.Entries.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == Path);
+                //zipFile.IsStreamOwner = true;
+                var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == Path);
                 if (entry != null)
                 {
                     return new ZipFolderBasicProperties(entry);
@@ -600,9 +600,9 @@ namespace Files.Filesystem.StorageItems
 
         private class ZipFolderBasicProperties : BaseBasicProperties
         {
-            private ZipEntry zipEntry;
+            private ArchiveFileInfo zipEntry;
 
-            public ZipFolderBasicProperties(ZipEntry entry)
+            public ZipFolderBasicProperties(ArchiveFileInfo entry)
             {
                 this.zipEntry = entry;
             }

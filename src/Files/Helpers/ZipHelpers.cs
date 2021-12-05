@@ -1,5 +1,5 @@
 ﻿using Files.Filesystem.StorageItems;
-using SevenZipExtractor;
+using SevenZip;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,19 +13,19 @@ namespace Files.Helpers
     {
         public static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder destinationFolder, IProgress<float> progressDelegate, CancellationToken cancellationToken)
         {
-            ArchiveFile zipFile = await Filesystem.FilesystemTasks.Wrap(async () => new ArchiveFile(await archive.OpenStreamForReadAsync()));
+            SevenZipExtractor zipFile = await Filesystem.FilesystemTasks.Wrap(async () => new SevenZipExtractor(await archive.OpenStreamForReadAsync()));
             if (zipFile == null)
             {
                 return;
             }
             using (zipFile)
             {
-                zipFile.IsStreamOwner = true;
-                List<ZipEntry> directoryEntries = new List<ZipEntry>();
-                List<ZipEntry> fileEntries = new List<ZipEntry>();
-                foreach (ZipEntry entry in zipFile.Entries)
+                //zipFile.IsStreamOwner = true;
+                List<ArchiveFileInfo> directoryEntries = new List<ArchiveFileInfo>();
+                List<ArchiveFileInfo> fileEntries = new List<ArchiveFileInfo>();
+                foreach (ArchiveFileInfo entry in zipFile.ArchiveFileData)
                 {
-                    if (!entry.IsFolder)
+                    if (!entry.IsDirectory)
                     {
                         fileEntries.Add(entry);
                     }
@@ -103,7 +103,7 @@ namespace Files.Helpers
                     {
                         try
                         {
-                            entry.Extract(destinationStream);
+                            await zipFile.ExtractFileAsync(entry.FileName, destinationStream);
                         }
                         catch (Exception ex)
                         {

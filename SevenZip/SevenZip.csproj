@@ -1,0 +1,72 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>SevenZipSharp</AssemblyName>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>SevenZip.snk</AssemblyOriginatorKeyFile>
+    <AssemblyTitle>SevenZipSharp</AssemblyTitle>
+    <Company>Markovtsev Vadim</Company>
+    <Product>SevenZipSharp</Product>
+    <Description>7-zip native library wrapper</Description>
+    <Copyright>Copyright (C) Markovtsev Vadim 2009, 2010, licensed under LGPLv3</Copyright>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <DefaultItemExcludes>$(DefaultItemExcludes);sfx\*</DefaultItemExcludes>
+    <Configurations>Debug;Release</Configurations>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DefineConstants>TRACE;DEBUG;UNMANAGED</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DefineConstants>TRACE;UNMANAGED</DefineConstants>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="7z.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="7z64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="SevenZip.snk" />
+  </ItemGroup>
+  <!--<ItemGroup Condition="$(DefineConstants.Contains('SFX'))">
+    <EmbeddedResource Include="sfx\7z.sfx" />
+    <EmbeddedResource Include="sfx\7zCon.sfx" />
+    <EmbeddedResource Include="sfx\7zS.sfx" />
+    <EmbeddedResource Include="sfx\7zSD.sfx" />
+    <EmbeddedResource Include="sfx\7zxSD_All.sfx" />
+    <EmbeddedResource Include="sfx\7zxSD_All_x64.sfx" />
+    <EmbeddedResource Include="sfx\7zxSD_Deflate.sfx" />
+    <EmbeddedResource Include="sfx\7zxSD_Deflate_x64.sfx" />
+    <EmbeddedResource Include="sfx\7zxSD_LZMA.sfx" />
+    <EmbeddedResource Include="sfx\7zxSD_LZMA_x64.sfx" />
+    <EmbeddedResource Include="sfx\7zxSD_LZMA2.sfx" />
+    <EmbeddedResource Include="sfx\7zxSD_LZMA2_x64.sfx" />
+    <EmbeddedResource Include="sfx\7zxSD_PPMd.sfx" />
+    <EmbeddedResource Include="sfx\7zxSD_PPMd_x64.sfx" />
+    <EmbeddedResource Include="sfx\Configs.xml" />
+    <EmbeddedResource Include="sfx\Configs.xsd" />
+    <EmbeddedResource Include="sfx\Configs.xslt" />
+  </ItemGroup>-->
+  <!--<ItemGroup>
+    <EmbeddedResource Include="arch\Test.bzip2.7z" />
+    <EmbeddedResource Include="arch\Test.lzma.7z" />
+    <EmbeddedResource Include="arch\Test.lzma2.7z" />
+    <EmbeddedResource Include="arch\Test.ppmd.7z" />
+    <EmbeddedResource Include="arch\Test.rar" />
+    <EmbeddedResource Include="arch\Test.tar" />
+    <EmbeddedResource Include="arch\Test.txt" />
+    <EmbeddedResource Include="arch\Test.txt.bz2" />
+    <EmbeddedResource Include="arch\Test.txt.gz" />
+    <EmbeddedResource Include="arch\Test.txt.xz" />
+    <EmbeddedResource Include="arch\Test.zip" /> 
+  </ItemGroup>-->
+  <ItemGroup>
+    <PackageReference Condition="'$(TargetFramework)' == 'netstandard2.0'" Include="System.Security.Permissions" Version="4.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Configuration" Condition="'$(TargetFramework)' == 'net45'">
+      <HintPath>C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Configuration\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Configuration.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

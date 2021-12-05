@@ -2,7 +2,7 @@
 using Files.Extensions;
 using Files.Filesystem;
 using Files.ViewModels.Properties;
-using SevenZipExtractor;
+using SevenZip;
 using Microsoft.Toolkit.Uwp;
 using System.Collections.Generic;
 using System.IO;
@@ -24,16 +24,16 @@ namespace Files.ViewModels.Previews
         public override async Task<List<FileProperty>> LoadPreviewAndDetails()
         {
             var details = new List<FileProperty>();
-            using ArchiveFile zipFile = new ArchiveFile(await Item.ItemFile.OpenStreamForReadAsync());
-            zipFile.IsStreamOwner = true;
+            using SevenZipExtractor zipFile = new SevenZipExtractor(await Item.ItemFile.OpenStreamForReadAsync());
+            //zipFile.IsStreamOwner = true;
 
             var folderCount = 0;
             var fileCount = 0;
             ulong totalSize = 0;
 
-            foreach (ZipEntry entry in zipFile.Entries)
+            foreach (ArchiveFileInfo entry in zipFile.ArchiveFileData)
             {
-                if (!entry.IsFolder)
+                if (!entry.IsDirectory)
                 {
                     fileCount++;
                     totalSize += entry.Size;
@@ -47,7 +47,7 @@ namespace Files.ViewModels.Previews
             details.Add(new FileProperty()
             {
                 NameResource = "PropertyItemCount",
-                Value = string.Format("DetailsArchiveItemCount".GetLocalized(), zipFile.Entries.Count, fileCount, folderCount),
+                Value = string.Format("DetailsArchiveItemCount".GetLocalized(), zipFile.ArchiveFileData.Count, fileCount, folderCount),
             });
 
             details.Add(new FileProperty()
