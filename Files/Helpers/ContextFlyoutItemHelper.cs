@@ -527,7 +527,7 @@ namespace Files.Helpers
                         Modifiers = Windows.System.VirtualKeyModifiers.Control,
                         IsEnabled = false,
                     },
-                    Items = GetNewItemItems(commandsViewModel),
+                    Items = GetNewItemItems(commandsViewModel, currentInstanceViewModel.CanCreateFileInPage),
                     ShowInFtpPage = true,
                     ShowInZipPage = true,
                 },
@@ -1017,7 +1017,7 @@ namespace Files.Helpers
             };
         }
 
-        public static List<ContextMenuFlyoutItemViewModel> GetNewItemItems(BaseLayoutCommandsViewModel commandsViewModel)
+        public static List<ContextMenuFlyoutItemViewModel> GetNewItemItems(BaseLayoutCommandsViewModel commandsViewModel, bool canCreateFileInPage)
         {
             var list = new List<ContextMenuFlyoutItemViewModel>()
             {
@@ -1035,6 +1035,9 @@ namespace Files.Helpers
                     Glyph = "\uE7C3",
                     Command = commandsViewModel.CreateNewFileCommand,
                     CommandParameter = null,
+                    ShowInFtpPage = true,
+                    ShowInZipPage = true,
+                    IsEnabled = canCreateFileInPage
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -1042,35 +1045,38 @@ namespace Files.Helpers
                 }
             };
 
-            var cachedNewContextMenuEntries = CachedNewContextMenuEntries.IsCompletedSuccessfully ? CachedNewContextMenuEntries.Result : null;
-            cachedNewContextMenuEntries?.ForEach(i =>
+            if (canCreateFileInPage)
             {
-                if (!string.IsNullOrEmpty(i.IconBase64))
+                var cachedNewContextMenuEntries = CachedNewContextMenuEntries.IsCompletedSuccessfully ? CachedNewContextMenuEntries.Result : null;
+                cachedNewContextMenuEntries?.ForEach(i =>
                 {
-                    // loading the bitmaps takes a while, so this caches them
-                    byte[] bitmapData = Convert.FromBase64String(i.IconBase64);
-                    using var ms = new MemoryStream(bitmapData);
-                    var bitmap = new BitmapImage();
-                    _ = bitmap.SetSourceAsync(ms.AsRandomAccessStream());
-                    list.Add(new ContextMenuFlyoutItemViewModel()
+                    if (!string.IsNullOrEmpty(i.IconBase64))
                     {
-                        Text = i.Name,
-                        BitmapIcon = bitmap,
-                        Command = commandsViewModel.CreateNewFileCommand,
-                        CommandParameter = i,
-                    });
-                }
-                else
-                {
-                    list.Add(new ContextMenuFlyoutItemViewModel()
+                        // loading the bitmaps takes a while, so this caches them
+                        byte[] bitmapData = Convert.FromBase64String(i.IconBase64);
+                        using var ms = new MemoryStream(bitmapData);
+                        var bitmap = new BitmapImage();
+                        _ = bitmap.SetSourceAsync(ms.AsRandomAccessStream());
+                        list.Add(new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = i.Name,
+                            BitmapIcon = bitmap,
+                            Command = commandsViewModel.CreateNewFileCommand,
+                            CommandParameter = i,
+                        });
+                    }
+                    else
                     {
-                        Text = i.Name,
-                        Glyph = "\xE7C3",
-                        Command = commandsViewModel.CreateNewFileCommand,
-                        CommandParameter = i,
-                    });
-                }
-            });
+                        list.Add(new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = i.Name,
+                            Glyph = "\xE7C3",
+                            Command = commandsViewModel.CreateNewFileCommand,
+                            CommandParameter = i,
+                        });
+                    }
+                });
+            }
 
             return list;
         }

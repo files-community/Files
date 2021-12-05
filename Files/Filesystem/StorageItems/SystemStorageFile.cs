@@ -46,6 +46,11 @@ namespace Files.Filesystem.StorageItems
             return AsyncInfo.Run<BaseStorageFile>(async (cancellationToken) =>
             {
                 var destFolder = destinationFolder.AsBaseStorageFolder(); // Avoid calling IStorageFolder method
+                if (destFolder is SystemStorageFolder sysFolder)
+                {
+                    // File created by CreateFileAsync will get immediately deleted on MTP?! (#7206)
+                    return await File.CopyAsync(sysFolder.Folder, desiredNewName, option);
+                }
                 var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
                 using (var inStream = await this.OpenStreamForReadAsync())
                 using (var outStream = await destFile.OpenStreamForWriteAsync())
