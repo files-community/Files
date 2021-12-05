@@ -288,38 +288,31 @@ namespace Files.Helpers
             }
 
             const int BUFFER_LENGTH = 4096;
-
             byte[] buffer = new byte[BUFFER_LENGTH];
             int dwBytesRead;
             string szRead = string.Empty;
 
             unsafe
             {
-                bool bRead = false;
-
-                using (MemoryStream msBuffer = new MemoryStream(buffer))
+                using (MemoryStream ms = new MemoryStream())
+                using (StreamReader reader = new StreamReader(ms, true))
                 {
-                    using (StreamReader reader = new StreamReader(msBuffer, true))
+                    while (true)
                     {
-                        do
+                        fixed (byte* pBuffer = buffer)
                         {
-                            fixed (byte* pBuffer = buffer)
+                            if (ReadFile(hFile, pBuffer, BUFFER_LENGTH - 1, &dwBytesRead, IntPtr.Zero) && dwBytesRead > 0)
                             {
-                                Array.Clear(buffer, 0, buffer.Length);
-                                msBuffer.Position = 0;
-
-                                if (bRead = ReadFile(hFile, pBuffer, BUFFER_LENGTH - 1, &dwBytesRead, IntPtr.Zero) && dwBytesRead > 0)
-                                {
-                                    szRead += reader.ReadToEnd().Substring(0, dwBytesRead);
-                                }
-                                else
-                                {
-                                    break;
-                                }
+                                ms.Write(buffer, 0, dwBytesRead);
                             }
-
-                        } while (bRead);
+                            else
+                            {
+                                break;
+                            }
+                        }
                     }
+                    ms.Position = 0;
+                    szRead = reader.ReadToEnd();
                 }
             }
 
