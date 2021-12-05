@@ -40,7 +40,7 @@ namespace FilesFullTrust
 
         private async void DeviceModifiedEvent(object sender, EventArrivedEventArgs e)
         {
-            CimInstance obj = e.NewEvent.Instance;
+            CimInstance obj = (CimInstance)e.NewEvent.Instance.CimInstanceProperties["TargetInstance"].Value;
             var deviceName = (string)obj.CimInstanceProperties["Name"]?.Value;
             var deviceId = (string)obj.CimInstanceProperties["DeviceID"]?.Value;
             var volumeName = (string)obj.CimInstanceProperties["VolumeName"]?.Value;
@@ -51,7 +51,7 @@ namespace FilesFullTrust
 
         private async void DeviceRemovedEvent(object sender, EventArrivedEventArgs e)
         {
-            CimInstance obj = e.NewEvent.Instance;
+            CimInstance obj = (CimInstance)e.NewEvent.Instance.CimInstanceProperties["TargetInstance"].Value;
             var deviceName = (string)obj.CimInstanceProperties["Name"].Value;
             var deviceId = (string)obj.CimInstanceProperties["DeviceID"].Value;
             System.Diagnostics.Debug.WriteLine($"Drive removed event: {deviceName}, {deviceId}");
@@ -60,7 +60,7 @@ namespace FilesFullTrust
 
         private async void DeviceInsertedEvent(object sender, EventArrivedEventArgs e)
         {
-            CimInstance obj = e.NewEvent.Instance;
+            CimInstance obj = (CimInstance)e.NewEvent.Instance.CimInstanceProperties["TargetInstance"].Value;
             var deviceName = (string)obj.CimInstanceProperties["Name"].Value;
             var deviceId = (string)obj.CimInstanceProperties["DeviceID"].Value;
             System.Diagnostics.Debug.WriteLine($"Drive added event: {deviceName}, {deviceId}");
