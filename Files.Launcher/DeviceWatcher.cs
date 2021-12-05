@@ -40,37 +40,31 @@ namespace FilesFullTrust
 
         private async void DeviceModifiedEvent(object sender, EventArrivedEventArgs e)
         {
-            if (e.NewEvent.Instance.CimInstanceProperties["TargetInstance"]?.Value is CimInstance obj)
-            {
-                var deviceName = (string)obj.CimInstanceProperties["Name"]?.Value;
-                var deviceId = (string)obj.CimInstanceProperties["DeviceID"]?.Value;
-                var volumeName = (string)obj.CimInstanceProperties["VolumeName"]?.Value;
-                var eventType = volumeName != null ? DeviceEvent.Inserted : DeviceEvent.Ejected;
-                System.Diagnostics.Debug.WriteLine($"Drive modify event: {deviceName}, {deviceId}, {eventType}");
-                await SendEvent(deviceName, deviceId, eventType);
-            }
+            CimInstance obj = e.NewEvent.Instance;
+            var deviceName = (string)obj.CimInstanceProperties["Name"]?.Value;
+            var deviceId = (string)obj.CimInstanceProperties["DeviceID"]?.Value;
+            var volumeName = (string)obj.CimInstanceProperties["VolumeName"]?.Value;
+            var eventType = volumeName != null ? DeviceEvent.Inserted : DeviceEvent.Ejected;
+            System.Diagnostics.Debug.WriteLine($"Drive modify event: {deviceName}, {deviceId}, {eventType}");
+            await SendEvent(deviceName, deviceId, eventType);
         }
 
         private async void DeviceRemovedEvent(object sender, EventArrivedEventArgs e)
         {
-            if (e.NewEvent.Instance.CimInstanceProperties["TargetInstance"]?.Value is CimInstance obj)
-            {
-                var deviceName = (string)obj.CimInstanceProperties["Name"]?.Value;
-                var deviceId = (string)obj.CimInstanceProperties["DeviceID"]?.Value;
-                System.Diagnostics.Debug.WriteLine($"Drive removed event: {deviceName}, {deviceId}");
-                await SendEvent(deviceName, deviceId, DeviceEvent.Removed);
-            }
+            CimInstance obj = e.NewEvent.Instance;
+            var deviceName = (string)obj.CimInstanceProperties["Name"].Value;
+            var deviceId = (string)obj.CimInstanceProperties["DeviceID"].Value;
+            System.Diagnostics.Debug.WriteLine($"Drive removed event: {deviceName}, {deviceId}");
+            await SendEvent(deviceName, deviceId, DeviceEvent.Removed);
         }
 
         private async void DeviceInsertedEvent(object sender, EventArrivedEventArgs e)
         {
-            if (e.NewEvent.Instance.CimInstanceProperties["TargetInstance"]?.Value is CimInstance obj)
-            {
-                var deviceName = (string)obj.CimInstanceProperties["Name"]?.Value;
-                var deviceId = (string)obj.CimInstanceProperties["DeviceID"]?.Value;
-                System.Diagnostics.Debug.WriteLine($"Drive added event: {deviceName}, {deviceId}");
-                await SendEvent(deviceName, deviceId, DeviceEvent.Added);
-            }
+            CimInstance obj = e.NewEvent.Instance;
+            var deviceName = (string)obj.CimInstanceProperties["Name"].Value;
+            var deviceId = (string)obj.CimInstanceProperties["DeviceID"].Value;
+            System.Diagnostics.Debug.WriteLine($"Drive added event: {deviceName}, {deviceId}");
+            await SendEvent(deviceName, deviceId, DeviceEvent.Added);
         }
 
         private async Task SendEvent(string deviceName, string deviceId, DeviceEvent eventType)
