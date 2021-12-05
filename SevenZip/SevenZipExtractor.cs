@@ -447,7 +447,7 @@ namespace SevenZip
             {
                 if (OpenArchiveInner(archiveStream, openCallback) != OperationResult.Ok)
                 {
-                    if (!ThrowException(null, new SevenZipArchiveException()))
+                    //if (!ThrowException(null, new SevenZipArchiveException()))
                     {
                         return false;
                     }

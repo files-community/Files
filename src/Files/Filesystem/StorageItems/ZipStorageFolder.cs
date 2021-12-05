@@ -82,7 +82,7 @@ namespace Files.Filesystem.StorageItems
                 {
                     return null;
                     /*
-                    if (zipFile == null)
+                    if (zipFile == null || zipFile.ArchiveFileData == null)
                     {
                         return null;
                     }
@@ -120,7 +120,7 @@ namespace Files.Filesystem.StorageItems
                 using (SevenZipExtractor zipFile = await OpenZipFileAsync(FileAccessMode.ReadWrite))
                 {
                     /*
-                    if (zipFile == null)
+                    if (zipFile == null || zipFile.ArchiveFileData == null)
                     {
                         return null;
                     }
@@ -174,7 +174,7 @@ namespace Files.Filesystem.StorageItems
             {
                 using (SevenZipExtractor zipFile = await OpenZipFileAsync(FileAccessMode.Read))
                 {
-                    if (zipFile == null)
+                    if (zipFile == null || zipFile.ArchiveFileData == null)
                     {
                         return null;
                     }
@@ -221,7 +221,7 @@ namespace Files.Filesystem.StorageItems
             {
                 using (SevenZipExtractor zipFile = await OpenZipFileAsync(FileAccessMode.Read))
                 {
-                    if (zipFile == null)
+                    if (zipFile == null || zipFile.ArchiveFileData == null)
                     {
                         return null;
                     }
@@ -575,8 +575,8 @@ namespace Files.Filesystem.StorageItems
                 using (SevenZipExtractor zipFile = new SevenZipExtractor(stream))
                 {
                     //zipFile.IsStreamOwner = false;
+                    return zipFile.ArchiveFileData != null;
                 }
-                return true;
             });
         }
 
@@ -584,7 +584,7 @@ namespace Files.Filesystem.StorageItems
         {
             using (SevenZipExtractor zipFile = await OpenZipFileAsync(FileAccessMode.Read))
             {
-                if (zipFile == null)
+                if (zipFile == null || zipFile.ArchiveFileData == null)
                 {
                     return new BaseBasicProperties();
                 }

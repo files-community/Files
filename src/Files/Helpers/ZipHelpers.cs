@@ -13,13 +13,12 @@ namespace Files.Helpers
     {
         public static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder destinationFolder, IProgress<float> progressDelegate, CancellationToken cancellationToken)
         {
-            SevenZipExtractor zipFile = await Filesystem.FilesystemTasks.Wrap(async () => new SevenZipExtractor(await archive.OpenStreamForReadAsync()));
-            if (zipFile == null)
+            using (SevenZipExtractor zipFile = await Filesystem.FilesystemTasks.Wrap(async () => new SevenZipExtractor(await archive.OpenStreamForReadAsync())))
             {
-                return;
-            }
-            using (zipFile)
-            {
+                if (zipFile == null || zipFile.ArchiveFileData == null)
+                {
+                    return;
+                }
                 //zipFile.IsStreamOwner = true;
                 List<ArchiveFileInfo> directoryEntries = new List<ArchiveFileInfo>();
                 List<ArchiveFileInfo> fileEntries = new List<ArchiveFileInfo>();
@@ -88,6 +87,11 @@ namespace Files.Helpers
                     if (cancellationToken.IsCancellationRequested) // Check if canceled
                     {
                         return;
+                    }
+                    if (entry.Encrypted)
+                    {
+                        App.Logger.Info($"Skipped encrypted zip entry: {entry.FileName}");
+                        continue; // TODO: support password protected archives
                     }
 
                     string filePath = Path.Combine(destinationFolder.Path, entry.FileName);

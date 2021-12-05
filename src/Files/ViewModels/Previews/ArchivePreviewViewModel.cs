@@ -24,7 +24,12 @@ namespace Files.ViewModels.Previews
         public override async Task<List<FileProperty>> LoadPreviewAndDetails()
         {
             var details = new List<FileProperty>();
-            using SevenZipExtractor zipFile = new SevenZipExtractor(await Item.ItemFile.OpenStreamForReadAsync());
+            using SevenZipExtractor zipFile = await FilesystemTasks.Wrap(async () => new SevenZipExtractor(await Item.ItemFile.OpenStreamForReadAsync()));
+            if (zipFile == null || zipFile.ArchiveFileData == null)
+            {
+                _ = await base.LoadPreviewAndDetails(); // Loads the thumbnail preview
+                return details;
+            }
             //zipFile.IsStreamOwner = true;
 
             var folderCount = 0;
