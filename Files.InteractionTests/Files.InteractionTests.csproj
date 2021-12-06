@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>UWPResourcesGallery.AppInteractionTests</RootNamespace>
+    <RootNamespace>Files.InteractionTests</RootNamespace>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>

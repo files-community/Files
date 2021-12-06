@@ -1,5 +1,3 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace Files.InteractionTests.Tests
 {
     [TestClass]
@@ -8,21 +6,8 @@ namespace Files.InteractionTests.Tests
         [TestMethod]
         public void SessionGetsInitialized()
         {
-            Assert.IsNotNull(TestRunInitializer.Session);
-            TestHelper.VerifyNoAccessibilityErrors();
-        }
-
-        [TestMethod]
-        public void SettingsAreAccessible()
-        {
-            TestHelper.InvokeButton("Settings");
-            TestHelper.VerifyNoAccessibilityErrors();
-
-            TestHelper.InvokeButton("Preferences");
-            TestHelper.VerifyNoAccessibilityErrors();
-
-            TestHelper.InvokeButton("Experimental");
-            TestHelper.VerifyNoAccessibilityErrors();
+            Assert.IsNotNull(SessionManager.Session);
+            AxeHelper.AssertNoAccessibilityErrors();
         }
     }
 }

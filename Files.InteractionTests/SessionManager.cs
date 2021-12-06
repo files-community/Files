@@ -9,7 +9,7 @@ using System.Threading;
 namespace Files.InteractionTests
 {
     [TestClass]
-    internal class TestRunInitializer
+    internal class SessionManager
     {
         private const string WindowsApplicationDriverUrl = "http://127.0.0.1:4723";
         private const string FilesAppId = "FilesDev_et10x9a9vyk8t!App";
@@ -65,7 +65,7 @@ namespace Files.InteractionTests
                 _session.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
                 _session.Manage().Window.Maximize();
 
-                TestHelper.InitializeAxe();
+                AxeHelper.InitializeAxe();
             }
         }
 

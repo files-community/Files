@@ -1,41 +1,18 @@
 ﻿using Axe.Windows.Automation;
 using Axe.Windows.Core.Enums;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Files.InteractionTests
+namespace Files.InteractionTests.Helper
 {
-    internal class TestHelper
+    public static class TestHelper
     {
 
-        public static IScanner AccessibilityScanner;
-
-        internal static void InitializeAxe()
-        {
-            var processes = Process.GetProcessesByName("Files");
-            Assert.IsTrue(processes.Length > 0);
-
-            var config = Config.Builder.ForProcessId(processes[0].Id).Build();
-
-            AccessibilityScanner = ScannerFactory.CreateScanner(config);
-        }
-
-        public static void VerifyNoAccessibilityErrors()
-        {
-            var testResult = TestHelper.AccessibilityScanner.Scan().Errors.Where(error => error.Rule.ID != RuleId.BoundingRectangleNotNull);
-            if(testResult.Count() != 0)
-            {
-                var mappedResult = testResult.Select(result => "Element " + result.Element.Properties["ControlType"] + " violated rule '" + result.Rule.Description + "'.");
-                Assert.Fail("Failed with the following accessibility errors \r\n" + string.Join("\r\n", mappedResult));
-            }
-        }
-
         public static ICollection<WindowsElement> GetElementsOfType(string elementType)
-            => TestRunInitializer.Session.FindElementsByTagName(elementType);
+            => SessionManager.Session.FindElementsByTagName(elementType);
 
         public static List<WindowsElement> GetElementsOfTypeWithContent(string elementType, string content)
             => GetItemsWithContent(GetElementsOfType(elementType), content);
@@ -64,7 +41,10 @@ namespace Files.InteractionTests
             return elementsToReturn;
         }
 
-        public static void InvokeButton(string uiaName)
-            => TestRunInitializer.Session.FindElementByName(uiaName).Click();
+        public static void InvokeButtonByName(string uiaName)
+            => SessionManager.Session.FindElementByName(uiaName).Click();
+
+        public static void InvokeButtonById(string uiaName)
+                    => SessionManager.Session.FindElementByAccessibilityId(uiaName).Click();
     }
 }
