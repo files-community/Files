@@ -47,6 +47,11 @@ to group your changes into a small number of commits which we can review one at 
 When completing a pull request, we will generally squash your changes into a single commit. Please
 let us know if your pull request needs to be merged as separate commits.
 
+## Running interaction tests
+First, you will need to install WinAppDriver. You can download the latest version from [here](https://github.com/microsoft/WinAppDriver/releases).
+After installing WinAppDriver, you will need to run the Files.Package at least once to have the debug version be registered on your machine.
+Once you have the debug version registered, you can run the tests from the test explorer in Visual Studio.
+
 ## Review Process
 After submitting a pull request, members of the Files team will review your code. We will
 assign the request to an appropriate reviewer. Any member of the community may
