@@ -282,19 +282,7 @@ namespace Files.Views
         {
             if (e.ChosenSuggestion is ListedItem item)
             {
-                if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                {
-                    ItemDisplayFrame.Navigate(typeof(ColumnViewBase), new NavigationArguments()
-                    {
-                        NavPathParam = item.ItemPath,
-                        AssociatedTabInstance = this,
-                    });
-                }
-                else
-                {
-                    // TODO: Add fancy file launch options similar to Interactions.cs OpenSelectedItems()
-                    await Win32Helpers.InvokeWin32ComponentAsync(item.ItemPath, this);
-                }
+                await NavigationHelpers.OpenPath(item.ItemPath, this);
             }
             else if (e.ChosenSuggestion is null && !string.IsNullOrWhiteSpace(sender.Query))
             {
