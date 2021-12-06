@@ -962,6 +962,7 @@ namespace SevenZip
         {
             if (_inStream != null)
             {
+                _inStream.Position = 0;
                 return new InStreamWrapper(_inStream, true);
             }
             else

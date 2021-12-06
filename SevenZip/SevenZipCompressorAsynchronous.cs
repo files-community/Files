@@ -25,11 +25,12 @@
         private delegate void CompressStreamDictionaryDelegate(IDictionary<string, Stream> streamDictionary, Stream archiveStream, string password);
 
         private delegate void ModifyArchiveDelegate(string archiveName, IDictionary<int, string> newFileNames, string password);
+        private delegate void ModifyArchive2Delegate(Stream archiveStream, IDictionary<int, string> newFileNames, string password);
 
         #endregion
 
         #region BeginCompressFiles overloads
-        
+
         /// <summary>
         /// Packs files into the archive asynchronously.
         /// </summary>
@@ -468,6 +469,19 @@
             {
                 SaveContext();
                 await Task.Run(() => new ModifyArchiveDelegate(ModifyArchive).Invoke(archiveName, newFileNames, password));
+            }
+            finally
+            {
+                ReleaseContext();
+            }
+        }
+
+        public async Task ModifyArchiveAsync(Stream archiveStream, IDictionary<int, string> newFileNames, string password = "")
+        {
+            try
+            {
+                SaveContext();
+                await Task.Run(() => new ModifyArchive2Delegate(ModifyArchive).Invoke(archiveStream, newFileNames, password));
             }
             finally
             {
