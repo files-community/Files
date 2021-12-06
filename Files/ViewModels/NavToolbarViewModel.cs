@@ -326,7 +326,6 @@ namespace Files.ViewModels
         public NavToolbarViewModel()
         {
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
-            SearchBox.SuggestionChosen += SearchRegion_SuggestionChosen;
             SearchBox.Escaped += SearchRegion_Escaped;
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
         }
@@ -721,8 +720,6 @@ namespace Files.ViewModels
             IsSearchBoxVisible = false;
         }
 
-        private void SearchRegion_SuggestionChosen(ISearchBox sender, SearchBoxSuggestionChosenEventArgs args) => IsSearchBoxVisible = false;
-
         private void SearchRegion_Escaped(object sender, ISearchBox searchBox) => IsSearchBoxVisible = false;
 
         public ICommand SelectAllContentPageItemsCommand { get; set; }
@@ -1052,7 +1049,6 @@ namespace Files.ViewModels
 
         public void Dispose()
         {
-            SearchBox.SuggestionChosen -= SearchRegion_SuggestionChosen;
             SearchBox.Escaped -= SearchRegion_Escaped;
             UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 

@@ -29,11 +29,8 @@ namespace Files.UserControls
             => SearchBoxViewModel.SearchRegion_TextChanged(sender, e);
         private void SearchRegion_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs e)
             => SearchBoxViewModel.SearchRegion_QuerySubmitted(sender, e);
-        private void SearchRegion_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs e)
-            => SearchBoxViewModel.SearchRegion_SuggestionChosen(sender, e);
         private void SearchRegion_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)
             => SearchBoxViewModel.SearchRegion_Escaped(sender, e);
-
 
         private void MenuFrame_Loaded(object sender, RoutedEventArgs e)
         {

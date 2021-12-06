@@ -507,11 +507,7 @@ namespace FilesFullTrust.MessageHandlers
                             using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
                             await Win32API.SendMessageAsync(connection, new ValueSet()
                             {
-                                { "TargetPath", link.TargetPath },
-                                { "Arguments", link.Arguments },
-                                { "WorkingDirectory", link.WorkingDirectory },
-                                { "RunAsAdmin", link.RunAsAdministrator },
-                                { "IsFolder", !string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder }
+                                { "ShortcutInfo", JsonConvert.SerializeObject(ShellFolderExtensions.GetShellLinkItem(link)) }
                             }, message.Get("RequestID", (string)null));
                         }
                         else if (linkPath.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
@@ -525,11 +521,7 @@ namespace FilesFullTrust.MessageHandlers
                             });
                             await Win32API.SendMessageAsync(connection, new ValueSet()
                             {
-                                { "TargetPath", linkUrl },
-                                { "Arguments", null },
-                                { "WorkingDirectory", null },
-                                { "RunAsAdmin", false },
-                                { "IsFolder", false }
+                                { "ShortcutInfo", JsonConvert.SerializeObject(new ShellLinkItem() { TargetPath = linkUrl }) }
                             }, message.Get("RequestID", (string)null));
                         }
                     }
@@ -539,11 +531,7 @@ namespace FilesFullTrust.MessageHandlers
                         Program.Logger.Warn(ex, ex.Message);
                         await Win32API.SendMessageAsync(connection, new ValueSet()
                         {
-                            { "TargetPath", null },
-                            { "Arguments", null },
-                            { "WorkingDirectory", null },
-                            { "RunAsAdmin", false },
-                            { "IsFolder", false }
+                            { "ShortcutInfo", JsonConvert.SerializeObject(null) }
                         }, message.Get("RequestID", (string)null));
                     }
                     break;
@@ -810,7 +798,7 @@ namespace FilesFullTrust.MessageHandlers
             {
                 get
                 {
-                    var ongoing = operations.ToList().Where(x => !x.Value.Canceled);
+                    var ongoing = operations.ToArray().Where(x => !x.Value.Canceled);
                     return ongoing.Any() ? (int)ongoing.Average(x => x.Value.Progress) : 0;
                 }
             }

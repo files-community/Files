@@ -204,7 +204,7 @@ namespace Files
             bool canEnablePrelaunch = ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
-            InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during LoadOtherStuffAsync()"), TaskContinuationOptions.OnlyOnFaulted);
+            _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
             var rootFrame = EnsureWindowIsInitialized();
 
@@ -262,7 +262,7 @@ namespace Files
             SystemInformation.Instance.TrackAppUse(e);
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
-            InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during LoadOtherStuffAsync()"), TaskContinuationOptions.OnlyOnFaulted);
+            _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
             var rootFrame = EnsureWindowIsInitialized();
 
@@ -328,7 +328,7 @@ namespace Files
             Logger.Info($"App activated by {args.Kind.ToString()}");
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
-            InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during LoadOtherStuffAsync()"), TaskContinuationOptions.OnlyOnFaulted);
+            _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
             var rootFrame = EnsureWindowIsInitialized();
 

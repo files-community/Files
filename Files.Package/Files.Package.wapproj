@@ -55,7 +55,7 @@
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-    <AppxDefaultResourceQualifiers>Language=en-US;ar;ca;da;da-DK;de-DE;el;en-GB;es-ES;es-419;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;id-ID;it-IT;ja-JP;ka;ko-KR;lv-LV;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ru-RU;sv-SE;cs-CZ;ta;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
+    <AppxDefaultResourceQualifiers>Language=en-US;af;ar;ca;da;da-DK;de-DE;el;en-GB;es-ES;es-419;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;id-ID;it-IT;ja-JP;ka;ko-KR;lv-LV;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ru-RU;sv-SE;cs-CZ;ta;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
     <UapAppxPackageBuildMode>StoreUpload</UapAppxPackageBuildMode>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <EntryPointProjectUniqueName>..\Files\Files.csproj</EntryPointProjectUniqueName>
@@ -476,6 +476,10 @@
     <Content Include="Assets\AppTiles\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\AppTiles\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\AppTiles\Wide310x150Logo.scale-400.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="nupkgs\microsoft.management.infrastructure.runtime.win.2.0.1.nupkg" />
+    <None Include="nupkgs\SharpZipLib.1.3.4.nupkg" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>

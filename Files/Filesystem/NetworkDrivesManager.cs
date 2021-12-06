@@ -7,6 +7,7 @@ using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -68,15 +69,16 @@ namespace Files.Filesystem
                     { "Arguments", "NetworkDriveOperation" },
                     { "netdriveop", "GetNetworkLocations" }
                 });
-                if (status == AppServiceResponseStatus.Success && response.ContainsKey("Count"))
+                if (status == AppServiceResponseStatus.Success && response.ContainsKey("NetworkLocations"))
                 {
-                    foreach (var key in response.Keys
-                        .Where(k => k != "Count" && k != "RequestID"))
+                    var items = JsonConvert.DeserializeObject<List<ShellLinkItem>>((string)response["NetworkLocations"]);
+                    foreach (var item in items ?? new())
                     {
                         var networkItem = new DriveItem()
                         {
-                            Text = key,
-                            Path = (string)response[key],
+                            Text = System.IO.Path.GetFileNameWithoutExtension(item.FileName),
+                            Path = item.TargetPath,
+                            DeviceID = item.FilePath,
                             Type = DriveType.Network,
                             ItemType = NavigationControlItemType.Drive
                         };
@@ -147,12 +149,16 @@ namespace Files.Filesystem
                         .OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                         .ThenBy(o => o.Text))
                         {
-                            var resource = await UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder);
-                            if (resource != null)
+                            if (!string.IsNullOrEmpty(drive.DeviceID))
                             {
-                                drive.IconData = resource.IconDataBytes;
-                                drive.Icon = await drive.IconData.ToBitmapAsync();
+                                drive.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(drive.DeviceID, 24);
                             }
+                            if (drive.IconData == null)
+                            {
+                                var resource = await UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder);
+                                drive.IconData = resource?.IconDataBytes;
+                            }
+                            drive.Icon = await drive.IconData.ToBitmapAsync();
                             if (!section.ChildItems.Contains(drive))
                             {
                                 section.ChildItems.Add(drive);

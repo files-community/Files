@@ -325,7 +325,9 @@
 
     </UserControl.Resources>
 
-    <AutoSuggestBox x:Name="SearchRegion" x:Uid="NavigationToolbarSearchReigon"
+    <AutoSuggestBox
+        x:Name="SearchRegion"
+        x:Uid="NavigationToolbarSearchReigon"
         Text="{x:Bind SearchBoxViewModel.Query, Mode=TwoWay}"
         PlaceholderText="{helpers:ResourceString Name=Search}"
         UpdateTextOnSelect="False"

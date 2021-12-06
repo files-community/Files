@@ -109,69 +109,34 @@ namespace FilesFullTrust
                 Logger.Warn(ex, "Could not initialize pipe!");
             }
 
-            if (connection.IsConnected)
-            {
-                var info = (Buffer: new byte[connection.InBufferSize], Message: new StringBuilder());
-                BeginRead(info);
-            }
-            else
-            {
-                appServiceExit?.Set();
-            }
+            await BeginRead();
+            appServiceExit?.Set();
         }
 
-        private static void BeginRead((byte[] Buffer, StringBuilder Message) info)
+        private static async Task BeginRead()
         {
-            var isConnected = connection.IsConnected;
-            if (isConnected)
+            try
             {
-                try
+                using var memoryStream = new MemoryStream();
+                var buffer = new byte[connection.InBufferSize];
+                while (connection.IsConnected)
                 {
-                    connection.BeginRead(info.Buffer, 0, info.Buffer.Length, EndReadCallBack, info);
-                }
-                catch
-                {
-                    isConnected = false;
-                }
-            }
-            if (!isConnected)
-            {
-                appServiceExit?.Set();
-            }
-        }
-
-        private static void EndReadCallBack(IAsyncResult result)
-        {
-            var readBytes = connection.EndRead(result);
-            if (readBytes > 0)
-            {
-                var info = ((byte[] Buffer, StringBuilder Message))result.AsyncState;
-
-                // Get the read bytes and append them
-                info.Message.Append(Encoding.UTF8.GetString(info.Buffer, 0, readBytes));
-
-                if (!connection.IsMessageComplete) // Message is not complete, continue reading
-                {
-                    BeginRead(info);
-                }
-                else
-                {
-                    var message = info.Message.ToString().TrimEnd('\0');
-
-                    OnConnectionRequestReceived(connection, JsonConvert.DeserializeObject<Dictionary<string, object>>(message));
-
-                    // Begin a new reading operation
-                    var nextInfo = (Buffer: new byte[connection.InBufferSize], Message: new StringBuilder());
-                    BeginRead(nextInfo);
+                    var readCount = await connection.ReadAsync(buffer);
+                    memoryStream.Write(buffer, 0, readCount);
+                    if (connection.IsMessageComplete)
+                    {
+                        var message = Encoding.UTF8.GetString(memoryStream.ToArray()).TrimEnd('\0');
+                        OnConnectionRequestReceived(JsonConvert.DeserializeObject<Dictionary<string, object>>(message));
+                        memoryStream.SetLength(0);
+                    }
                 }
             }
-            else // Disconnected
+            catch
             {
-                appServiceExit?.Set();
             }
         }
 
-        private static async void OnConnectionRequestReceived(PipeStream conn, Dictionary<string, object> message)
+        private static async void OnConnectionRequestReceived(Dictionary<string, object> message)
         {
             // Get a deferral because we use an awaitable API below to respond to the message
             // and we don't want this call to get cancelled while we are waiting.

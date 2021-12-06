@@ -1,4 +1,5 @@
-﻿using Files.Extensions;
+using Files.Common;
+using Files.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -110,12 +111,12 @@ namespace Files.Helpers
         {
             if (!isBulkOperationStarted)
             {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
-                CollectionChanged?.Invoke(this, e);
                 if (countChanged)
                 {
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
+                    PropertyChanged?.Invoke(this, EventArgsCache.CountPropertyChanged);
                 }
+                PropertyChanged?.Invoke(this, EventArgsCache.IndexerPropertyChanged);
+                CollectionChanged?.Invoke(this, e);
             }
 
             if (IsGrouped)
@@ -211,9 +212,9 @@ namespace Files.Helpers
             GroupedCollection?.ForEach(gp => gp.EndBulkOperation());
             GroupedCollection?.EndBulkOperation();
 
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
+            OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
+            PropertyChanged?.Invoke(this, EventArgsCache.CountPropertyChanged);
+            PropertyChanged?.Invoke(this, EventArgsCache.IndexerPropertyChanged);
         }
 
         public void Add(T item)
@@ -223,7 +224,7 @@ namespace Files.Helpers
                 collection.Add(item);
             }
 
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, collection.Count - 1));
         }
 
         public void Clear()
@@ -234,7 +235,7 @@ namespace Files.Helpers
             }
             GroupedCollection?.Clear();
 
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
         }
 
         public bool Contains(T item)
@@ -307,7 +308,7 @@ namespace Files.Helpers
 
         public void AddRange(IEnumerable<T> items)
         {
-            if (items.Count() == 0)
+            if (!items.Any())
             {
                 return;
             }
@@ -317,12 +318,12 @@ namespace Files.Helpers
                 collection.AddRange(items);
             }
 
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items.ToList()));
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items.ToList(), collection.Count - items.Count()));
         }
 
         public void InsertRange(int index, IEnumerable<T> items)
         {
-            if (items.Count() == 0)
+            if (!items.Any())
             {
                 return;
             }
@@ -373,7 +374,7 @@ namespace Files.Helpers
                 collection.RemoveRange(index + count, count);
             }
 
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItems, oldItems, index));
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItems, oldItems, index), false);
         }
 
         public void Sort()
@@ -403,6 +404,18 @@ namespace Files.Helpers
             ReplaceRange(0, result);
         }
 
+        public void OrderOne(Func<List<T>, IEnumerable<T>> func, T item)
+        {
+            IList<T> result;
+            lock (SyncRoot)
+            {
+                result = func.Invoke(collection).ToList();
+            }
+
+            Remove(item);
+            Insert(result.IndexOf(item), item);
+        }
+
         int IList.Add(object value)
         {
             int index;
@@ -412,7 +425,7 @@ namespace Files.Helpers
                 index = ((IList)collection).Add((T)value);
             }
 
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value));
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value, collection.Count - 1));
             return index;
         }
 
@@ -425,5 +438,12 @@ namespace Files.Helpers
         void IList.Remove(object value) => Remove((T)value);
 
         void ICollection.CopyTo(Array array, int index) => CopyTo((T[])array, index);
+
+        private static class EventArgsCache
+        {
+            internal static readonly PropertyChangedEventArgs CountPropertyChanged = new PropertyChangedEventArgs("Count");
+            internal static readonly PropertyChangedEventArgs IndexerPropertyChanged = new PropertyChangedEventArgs("Item[]");
+            internal static readonly NotifyCollectionChangedEventArgs ResetCollectionChanged = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
+        }
     }
 }
