@@ -75,17 +75,35 @@ namespace Files.Filesystem.StorageItems
                         await zipFile.ExtractFileAsync(entry.FileName, ms);
                         return new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size)
                         {
-                            DisposeCallback = () =>
-                            {
-                                zipFile.Dispose();
-                                ms.Dispose();
-                            }
+                            DisposeCallback = () => zipFile.Dispose()
                         };
                     }
                 }
                 else
                 {
-                    
+                    await DeleteAsync();
+
+                    var ms = new MemoryStream();
+                    var archiveStream = await OpenZipFileAsync(FileAccessMode.Read);
+                    SevenZipCompressor compressor = new SevenZipCompressor(archiveStream)
+                    {
+                        CompressionMode = CompressionMode.Append
+                    };
+                    compressor.CompressionFinished += async (s, e) =>
+                    {
+                        archiveStream.Dispose();
+                        using (var outStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+                        {
+                            ms.Position = 0;
+                            await ms.CopyToAsync(outStream);
+                            await ms.FlushAsync();
+                            ms.Dispose();
+                        }
+                    };
+                    var proxiStream = new ProxiRandomAccessStream();
+                    var fileName = System.IO.Path.GetRelativePath(ContainerPath, Path);
+                    _ = compressor.CompressStreamDictionaryAsync(new Dictionary<string, Stream>() { { fileName, proxiStream.AsStreamForRead() } }, ms);
+                    return proxiStream;
                 }
                 return null;
             });
@@ -340,11 +358,7 @@ namespace Files.Filesystem.StorageItems
                     await zipFile.ExtractFileAsync(entry.FileName, ms);
                     var nsStream = new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size)
                     {
-                        DisposeCallback = () =>
-                        {
-                            zipFile.Dispose();
-                            ms.Dispose();
-                        }
+                        DisposeCallback = () => zipFile.Dispose()
                     };
                     return new StreamWithContentType(nsStream);
                 }
@@ -386,11 +400,7 @@ namespace Files.Filesystem.StorageItems
                     await zipFile.ExtractFileAsync(entry.FileName, ms);
                     return new InputStreamWithDisposeCallback(ms)
                     {
-                        DisposeCallback = () =>
-                        {
-                            zipFile.Dispose();
-                            ms.Dispose();
-                        }
+                        DisposeCallback = () => zipFile.Dispose()
                     };
                 }
                 return null;

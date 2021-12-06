@@ -280,7 +280,10 @@ namespace Files.Filesystem.StorageItems
                 }
 
                 var inStream = await ftpClient.OpenReadAsync(FtpPath, cancellationToken);
-                return new InputStreamWithDisposeCallback(inStream) { DisposeCallback = () => ftpClient.Dispose() };
+                return new InputStreamWithDisposeCallback(inStream)
+                {
+                    DisposeCallback = () => ftpClient.Dispose()
+                };
             });
         }
 

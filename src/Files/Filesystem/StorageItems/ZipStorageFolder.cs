@@ -94,25 +94,26 @@ namespace Files.Filesystem.StorageItems
                     await item.DeleteAsync();
                 }
 
-                using (var ms = new MemoryStream())
-                {
-                    using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
-                    {
-                        SevenZipCompressor compressor = new SevenZipCompressor(archiveStream)
-                        {
-                            CompressionMode = CompressionMode.Append
-                        };
-                        var fileName = System.IO.Path.GetRelativePath(ContainerPath, zipDesiredName);
-                        await compressor.CompressStreamDictionaryAsync(new Dictionary<string, Stream>() { { fileName, new MemoryStream() } }, ms);
-                    }
-                    using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
-                    {
-                        ms.Position = 0;
-                        await ms.CopyToAsync(archiveStream);
-                        await ms.FlushAsync();
-                    }
-                }
+                //using (var ms = new MemoryStream())
+                //{
+                //    using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
+                //    {
+                //        SevenZipCompressor compressor = new SevenZipCompressor(archiveStream)
+                //        {
+                //            CompressionMode = CompressionMode.Append
+                //        };
+                //        var fileName = System.IO.Path.GetRelativePath(ContainerPath, zipDesiredName);
+                //        await compressor.CompressStreamDictionaryAsync(new Dictionary<string, Stream>() { { fileName, new MemoryStream() } }, ms);
+                //    }
+                //    using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+                //    {
+                //        ms.Position = 0;
+                //        await ms.CopyToAsync(archiveStream);
+                //        await ms.FlushAsync();
+                //    }
+                //}
 
+                // No point in creating an empty file inside an archive, simply return a ZipStorageFile
                 return new ZipStorageFile(zipDesiredName, ContainerPath) { BackingFile = BackingFile };
             });
         }

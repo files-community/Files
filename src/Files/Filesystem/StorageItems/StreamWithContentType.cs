@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Files.Helpers;
+using System;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
@@ -33,6 +34,124 @@ namespace Files.Filesystem.StorageItems
         }
     }
 
+    public class ProxiRandomAccessStream : IRandomAccessStream
+    {
+        private IRandomAccessStream imrac;
+        private bool isWritten, isRead;
+        private ulong byteSize, readPos;
+        private AsyncManualResetEvent readFlag, writeFlag;
+
+        public ProxiRandomAccessStream()
+        {
+            this.imrac = new InMemoryRandomAccessStream();
+            this.readFlag = new AsyncManualResetEvent();
+            this.writeFlag = new AsyncManualResetEvent();
+            this.writeFlag.Set();
+        }
+
+        public IInputStream GetInputStreamAt(ulong position)
+        {
+            if (position != 0)
+            {
+                throw new NotSupportedException();
+            }
+            return this;
+        }
+
+        public IOutputStream GetOutputStreamAt(ulong position)
+        {
+            if (position != 0)
+            {
+                throw new NotSupportedException();
+            }
+            return this;
+        }
+
+        public void Seek(ulong position)
+        {
+            if (position != 0)
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        public IRandomAccessStream CloneStream() => throw new NotSupportedException();
+
+        public bool CanRead => true;
+
+        public bool CanWrite => true;
+
+        public ulong Position => readPos;
+
+        public ulong Size
+        {
+            get => byteSize;
+            set => throw new NotSupportedException();
+        }
+
+        public IAsyncOperationWithProgress<IBuffer, uint> ReadAsync(IBuffer buffer, uint count, InputStreamOptions options)
+        {
+            Func<CancellationToken, IProgress<uint>, Task<IBuffer>> taskProvider =
+                async (token, progress) =>
+                {
+                    if (!isWritten)
+                    {
+                        await readFlag.WaitAsync();
+                    }
+                    if (readPos >= byteSize)
+                    {
+                        isRead = true;
+                        buffer.Length = 0;
+                        return buffer;
+                    }
+                    var res = await imrac.ReadAsync(buffer, count, InputStreamOptions.Partial);
+                    readPos += res.Length;
+                    if (readPos >= byteSize)
+                    {
+                        readFlag.Reset();
+                        writeFlag.Set();
+                    }
+                    return res;
+                };
+
+            return AsyncInfo.Run(taskProvider);
+        }
+
+        public IAsyncOperationWithProgress<uint, uint> WriteAsync(IBuffer buffer)
+        {
+            Func<CancellationToken, IProgress<uint>, Task<uint>> taskProvider =
+                async (token, progress) =>
+                {
+                    await writeFlag.WaitAsync();
+                    imrac.Seek(0);
+                    imrac.Size = 0;
+                    var res = await imrac.WriteAsync(buffer);
+                    imrac.Seek(0);
+                    byteSize += res;
+                    writeFlag.Reset();
+                    readFlag.Set();
+                    return res;
+                };
+
+            return AsyncInfo.Run(taskProvider);
+        }
+
+        public IAsyncOperation<bool> FlushAsync()
+        {
+            isWritten = true;
+
+            return imrac.FlushAsync();
+        }
+
+        public void Dispose()
+        {
+            if (isWritten && isRead)
+            {
+                imrac.Dispose();
+            }
+        }
+    }
+
     public class NonSeekableRandomAccessStreamForWrite : IRandomAccessStream
     {
         private Stream stream;
@@ -40,7 +159,7 @@ namespace Files.Filesystem.StorageItems
         private IRandomAccessStream imrac;
         private ulong byteSize;
         private bool isWritten;
-        
+
         public Action DisposeCallback { get; set; }
 
         public NonSeekableRandomAccessStreamForWrite(Stream stream)

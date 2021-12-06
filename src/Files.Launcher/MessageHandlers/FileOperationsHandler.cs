@@ -768,7 +768,7 @@ namespace FilesFullTrust.MessageHandlers
                 };
                 if (destination == null)
                 {
-                    dbInstance.SetTag(e.SourceItem.FileSystemPath, null, null); // remove tag from deleted files
+                    dbInstance.SetTag(sourcePath, null, null); // remove tag from deleted files
                 }
                 else
                 {
@@ -776,7 +776,7 @@ namespace FilesFullTrust.MessageHandlers
                     {
                         if (operationType == "copy")
                         {
-                            var tag = dbInstance.GetTag(e.SourceItem.FileSystemPath);
+                            var tag = dbInstance.GetTag(sourcePath);
                             dbInstance.SetTag(destination, FileTagsHandler.GetFileFRN(destination), tag); // copy tag to new files
                             using var si = new ShellItem(destination);
                             if (si.IsFolder) // File tag is not copied automatically for folders
@@ -786,13 +786,13 @@ namespace FilesFullTrust.MessageHandlers
                         }
                         else
                         {
-                            dbInstance.UpdateTag(e.SourceItem.FileSystemPath, FileTagsHandler.GetFileFRN(destination), destination); // move tag to new files
+                            dbInstance.UpdateTag(sourcePath, FileTagsHandler.GetFileFRN(destination), destination); // move tag to new files
                         }
                     }, Program.Logger);
                 }
                 if (e.Result == HRESULT.COPYENGINE_S_DONT_PROCESS_CHILDREN) // child items not processed, update manually
                 {
-                    var tags = dbInstance.GetAllUnderPath(e.SourceItem.FileSystemPath).ToList();
+                    var tags = dbInstance.GetAllUnderPath(sourcePath).ToList();
                     if (destination == null) // remove tag for items contained in the folder
                     {
                         tags.ForEach(t => dbInstance.SetTag(t.FilePath, null, null));
@@ -805,7 +805,7 @@ namespace FilesFullTrust.MessageHandlers
                             {
                                 Extensions.IgnoreExceptions(() =>
                                 {
-                                    var subPath = t.FilePath.Replace(e.SourceItem.FileSystemPath, destination, StringComparison.Ordinal);
+                                    var subPath = t.FilePath.Replace(sourcePath, destination, StringComparison.Ordinal);
                                     dbInstance.SetTag(subPath, FileTagsHandler.GetFileFRN(subPath), t.Tag);
                                 }, Program.Logger);
                             });
@@ -816,7 +816,7 @@ namespace FilesFullTrust.MessageHandlers
                             {
                                 Extensions.IgnoreExceptions(() =>
                                 {
-                                    var subPath = t.FilePath.Replace(e.SourceItem.FileSystemPath, destination, StringComparison.Ordinal);
+                                    var subPath = t.FilePath.Replace(sourcePath, destination, StringComparison.Ordinal);
                                     dbInstance.UpdateTag(t.FilePath, FileTagsHandler.GetFileFRN(subPath), subPath);
                                 }, Program.Logger);
                             });

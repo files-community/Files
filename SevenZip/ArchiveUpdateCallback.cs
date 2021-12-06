@@ -251,6 +251,7 @@ namespace SevenZip
                     _bytesCount += str.Length;
                 }
             }
+            _bytesCount = _bytesCount > 0 ? _bytesCount : -1;
             CommonInit(compressor, updateData, directoryStructure);
         }
 
