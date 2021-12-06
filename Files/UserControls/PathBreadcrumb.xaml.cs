@@ -36,6 +36,8 @@ namespace Files.UserControls
 
         private void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e) => ViewModel.PathBoxItem_Tapped(sender, e);
 
+        private void PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e) => ViewModel.PathBoxItem_PointerPressed(sender, e);
+
         private void PathItemSeparator_Loaded(object sender, RoutedEventArgs e)
         {
             var pathSeparatorIcon = sender as FontIcon;
