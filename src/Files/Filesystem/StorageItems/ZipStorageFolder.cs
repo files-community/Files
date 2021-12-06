@@ -80,33 +80,47 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<BaseStorageFile>(async (cancellationToken) =>
             {
-                using (SevenZipExtractor zipFile = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+                var zipDesiredName = System.IO.Path.Combine(Path, desiredName);
+
+                using (SevenZipExtractor zipFile = await OpenZipFileAsync())
                 {
-                    return null;
-                    /*
                     if (zipFile == null || zipFile.ArchiveFileData == null)
                     {
                         return null;
                     }
-                    zipFile.IsStreamOwner = true;
+                    //zipFile.IsStreamOwner = true;
 
-                    var zipDesiredName = System.IO.Path.Combine(Path, desiredName);
-                    var entry = zipFile.Entries.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == zipDesiredName);
+                    var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == zipDesiredName);
 
-                    if (entry != null)
+                    if (entry.FileName != null)
                     {
                         if (options != CreationCollisionOption.ReplaceExisting)
                         {
                             return null;
                         }
-                        zipFile.Delete(entry);
                     }
-                    zipFile.Add(new FileDataSource() { Stream = new MemoryStream() }, zipDesiredName);
-                    zipFile.CommitUpdate();
-
-                    return new ZipStorageFile(desiredName, ContainerPath) { BackingFile = BackingFile };
-                    */
                 }
+
+                using (var ms = new MemoryStream())
+                {
+                    using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
+                    {
+                        SevenZipCompressor compressor = new SevenZipCompressor(archiveStream)
+                        {
+                            CompressionMode = CompressionMode.Append
+                        };
+                        var fileName = System.IO.Path.GetRelativePath(Path, zipDesiredName);
+                        await compressor.CompressStreamDictionaryAsync(new Dictionary<string, Stream>() { { fileName, new MemoryStream() } }, ms);
+                    }
+                    using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+                    {
+                        ms.Position = 0;
+                        await ms.CopyToAsync(archiveStream);
+                        await ms.FlushAsync();
+                    }
+                }
+
+                return new ZipStorageFile(zipDesiredName, ContainerPath) { BackingFile = BackingFile };
             });
         }
 
@@ -119,7 +133,7 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
             {
-                using (SevenZipExtractor zipFile = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+                //using (SevenZipExtractor zipFile = await OpenZipFileAsync(FileAccessMode.ReadWrite))
                 {
                     /*
                     if (zipFile == null || zipFile.ArchiveFileData == null)
@@ -132,7 +146,7 @@ namespace Files.Filesystem.StorageItems
                     var entry = zipFile.Entries.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == zipDesiredName);
 
                     zipFile.BeginUpdate(new MemoryArchiveStorage(FileUpdateMode.Direct));
-                    if (entry != null)
+                    if (entry.FileName != null)
                     {
                         if (options != CreationCollisionOption.ReplaceExisting)
                         {
@@ -174,7 +188,7 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<IStorageItem>(async (cancellationToken) =>
             {
-                using (SevenZipExtractor zipFile = await OpenZipFileAsync(FileAccessMode.Read))
+                using (SevenZipExtractor zipFile = await OpenZipFileAsync())
                 {
                     if (zipFile == null || zipFile.ArchiveFileData == null)
                     {
@@ -182,7 +196,7 @@ namespace Files.Filesystem.StorageItems
                     }
                     //zipFile.IsStreamOwner = true;
                     var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == System.IO.Path.Combine(Path, name));
-                    if (entry != null)
+                    if (entry.FileName != null)
                     {
                         if (entry.IsDirectory)
                         {
@@ -221,7 +235,7 @@ namespace Files.Filesystem.StorageItems
         {
             return AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken) =>
             {
-                using (SevenZipExtractor zipFile = await OpenZipFileAsync(FileAccessMode.Read))
+                using (SevenZipExtractor zipFile = await OpenZipFileAsync())
                 {
                     if (zipFile == null || zipFile.ArchiveFileData == null)
                     {
@@ -522,14 +536,22 @@ namespace Files.Filesystem.StorageItems
 
         #region Private
 
-        private IAsyncOperation<SevenZipExtractor> OpenZipFileAsync(FileAccessMode accessMode)
+        private IAsyncOperation<SevenZipExtractor> OpenZipFileAsync()
         {
             return AsyncInfo.Run<SevenZipExtractor>(async (cancellationToken) =>
+            {
+                return new SevenZipExtractor(await OpenZipFileAsync(FileAccessMode.Read));
+            });
+        }
+
+        private IAsyncOperation<Stream> OpenZipFileAsync(FileAccessMode accessMode)
+        {
+            return AsyncInfo.Run<Stream>(async (cancellationToken) =>
             {
                 bool readWrite = accessMode == FileAccessMode.ReadWrite;
                 if (BackingFile != null)
                 {
-                    return new SevenZipExtractor((await BackingFile.OpenAsync(accessMode)).AsStream());
+                    return (await BackingFile.OpenAsync(accessMode)).AsStream();
                 }
                 else
                 {
@@ -538,7 +560,7 @@ namespace Files.Filesystem.StorageItems
                     {
                         return null;
                     }
-                    return new SevenZipExtractor((Stream)new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read));
+                    return (Stream)new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read);
                 }
             });
         }
@@ -584,7 +606,7 @@ namespace Files.Filesystem.StorageItems
 
         private async Task<BaseBasicProperties> GetBasicProperties()
         {
-            using (SevenZipExtractor zipFile = await OpenZipFileAsync(FileAccessMode.Read))
+            using (SevenZipExtractor zipFile = await OpenZipFileAsync())
             {
                 if (zipFile == null || zipFile.ArchiveFileData == null)
                 {
@@ -592,7 +614,7 @@ namespace Files.Filesystem.StorageItems
                 }
                 //zipFile.IsStreamOwner = true;
                 var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == Path);
-                if (entry != null)
+                if (entry.FileName != null)
                 {
                     return new ZipFolderBasicProperties(entry);
                 }

@@ -470,8 +470,21 @@
                 {OutArchiveFormat.XZ, InArchiveFormat.XZ},
                 {OutArchiveFormat.Zip, InArchiveFormat.Zip}
             };
+        #endregion
 
-            #endregion
+        internal static readonly Dictionary<InArchiveFormat, OutArchiveFormat> OutForInFormats =
+            new Dictionary<InArchiveFormat, OutArchiveFormat>
+            #region OutForInFormats initialization
+
+            {
+                {InArchiveFormat.SevenZip, OutArchiveFormat.SevenZip},
+                {InArchiveFormat.GZip, OutArchiveFormat.GZip},
+                {InArchiveFormat.BZip2, OutArchiveFormat.BZip2},
+                {InArchiveFormat.Tar, OutArchiveFormat.Tar},
+                {InArchiveFormat.XZ, OutArchiveFormat.XZ},
+                {InArchiveFormat.Zip, OutArchiveFormat.Zip}
+            };
+        #endregion
 
         /// <summary>
         /// List of archive formats corresponding to specific extensions

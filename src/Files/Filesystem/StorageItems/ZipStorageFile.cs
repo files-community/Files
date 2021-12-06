@@ -66,7 +66,7 @@ namespace Files.Filesystem.StorageItems
                     }
                     //zipFile.IsStreamOwner = true;
                     var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == Path);
-                    if (entry != null)
+                    if (entry.FileName != null)
                     {
                         var ms = new MemoryStream();
                         await zipFile.ExtractFileAsync(entry.FileName, ms);
@@ -86,7 +86,7 @@ namespace Files.Filesystem.StorageItems
                     using (ArchiveFile zipFile = await OpenZipFileAsync(accessMode))
                     {
                         var entry = zipFile.Entries.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == Path);
-                        if (entry != null)
+                        if (entry.FileName != null)
                         {
                             zipFile.BeginUpdate(new MemoryArchiveStorage(FileUpdateMode.Direct));
                             zipFile.Delete(entry);
@@ -141,7 +141,7 @@ namespace Files.Filesystem.StorageItems
                     }
                     //zipFile.IsStreamOwner = true;
                     var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == Path);
-                    if (entry != null)
+                    if (entry.FileName != null)
                     {
                         var destFolder = destinationFolder.AsBaseStorageFolder();
                         var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
@@ -168,7 +168,7 @@ namespace Files.Filesystem.StorageItems
                     }
                     //zipFile.IsStreamOwner = true;
                     var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == Path);
-                    if (entry != null)
+                    if (entry.FileName != null)
                     {
                         using var hDestFile = fileToReplace.CreateSafeFileHandle(FileAccess.ReadWrite);
                         using (var outStream = new FileStream(hDestFile, FileAccess.Write))
@@ -271,7 +271,7 @@ namespace Files.Filesystem.StorageItems
                 }
                 //zipFile.IsStreamOwner = true;
                 var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == Path);
-                if (entry != null)
+                if (entry.FileName != null)
                 {
                     var ms = new MemoryStream();
                     await zipFile.ExtractFileAsync(entry.FileName, ms);
@@ -317,7 +317,7 @@ namespace Files.Filesystem.StorageItems
                 }
                 //zipFile.IsStreamOwner = true;
                 var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == Path);
-                if (entry != null)
+                if (entry.FileName != null)
                 {
                     var ms = new MemoryStream();
                     await zipFile.ExtractFileAsync(entry.FileName, ms);
@@ -447,7 +447,7 @@ namespace Files.Filesystem.StorageItems
                         }
                         //zipFile.IsStreamOwner = true;
                         var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == name);
-                        if (entry != null)
+                        if (entry.FileName != null)
                         {
                             using (var outStream = request.AsStreamForWrite())
                             {
@@ -478,7 +478,7 @@ namespace Files.Filesystem.StorageItems
                 }
                 //zipFile.IsStreamOwner = true;
                 var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(ContainerPath, x.FileName) == Path);
-                if (entry != null)
+                if (entry.FileName != null)
                 {
                     return new ZipFileBasicProperties(entry);
                 }

@@ -102,7 +102,7 @@ namespace SevenZip
         /// General initialization function.
         /// </summary>
         /// <param name="stream">The stream to read the archive from.</param>
-        private void Init(Stream stream)
+        private void Init(Stream stream, bool leaveOpen)
         {
             ValidateStream(stream);
             var isExecutable = false;
@@ -110,14 +110,14 @@ namespace SevenZip
             if ((int)_format == -1)
             {
                 _format = FileChecker.CheckSignature(stream, out _offset, out isExecutable);
-            }            
+            }
             
             PreserveDirectoryStructure = true;
             SevenZipLibraryManager.LoadLibrary(this, _format);
             
             try
             {
-                _inStream = new ArchiveEmulationStreamProxy(stream, _offset);
+                _inStream = new ArchiveEmulationStreamProxy(stream, _offset, leaveOpen);
 				_packedSize = stream.Length;
                 _archive = SevenZipLibraryManager.InArchive(_format, this);
             }
@@ -136,7 +136,7 @@ namespace SevenZip
                     
                     try
                     {
-                        _inStream = new ArchiveEmulationStreamProxy(stream, _offset);
+                        _inStream = new ArchiveEmulationStreamProxy(stream, _offset, leaveOpen);
                         _packedSize = stream.Length;
                         _archive = SevenZipLibraryManager.InArchive(_format, this);
                     }
@@ -155,9 +155,9 @@ namespace SevenZip
         /// <param name="archiveStream">The stream to read the archive from.
         /// Use SevenZipExtractor(string) to extract from disk, though it is not necessary.</param>
         /// <remarks>The archive format is guessed by the signature.</remarks>
-        public SevenZipExtractor(Stream archiveStream)
+        public SevenZipExtractor(Stream archiveStream, bool leaveOpen = false)
         {
-            Init(archiveStream);
+            Init(archiveStream, leaveOpen);
         }
 
         /// <summary>
@@ -168,10 +168,10 @@ namespace SevenZip
         /// <param name="format">Manual archive format setup. You SHOULD NOT normally specify it this way.
         /// Instead, use SevenZipExtractor(Stream archiveStream), that constructor
         /// automatically detects the archive format.</param>
-        public SevenZipExtractor(Stream archiveStream, InArchiveFormat format)
+        public SevenZipExtractor(Stream archiveStream, InArchiveFormat format, bool leaveOpen = false)
         {
             _format = format;
-            Init(archiveStream);
+            Init(archiveStream, leaveOpen);
         }
 
         /// <summary>
@@ -228,10 +228,10 @@ namespace SevenZip
         /// <param name="archiveStream">The stream to read the archive from.</param>
         /// <param name="password">Password for an encrypted archive.</param>
         /// <remarks>The archive format is guessed by the signature.</remarks>
-        public SevenZipExtractor(Stream archiveStream, string password)
+        public SevenZipExtractor(Stream archiveStream, string password, bool leaveOpen = false)
             : base(password)
         {
-            Init(archiveStream);
+            Init(archiveStream, leaveOpen);
         }
 
         /// <summary>
@@ -242,11 +242,11 @@ namespace SevenZip
         /// <param name="format">Manual archive format setup. You SHOULD NOT normally specify it this way.
         /// Instead, use SevenZipExtractor(Stream archiveStream, string password), that constructor
         /// automatically detects the archive format.</param>
-        public SevenZipExtractor(Stream archiveStream, string password, InArchiveFormat format)
+        public SevenZipExtractor(Stream archiveStream, string password, InArchiveFormat format, bool leaveOpen = false)
             : base(password)
         {
             _format = format;
-            Init(archiveStream);
+            Init(archiveStream, leaveOpen);
         }
 
         #endregion

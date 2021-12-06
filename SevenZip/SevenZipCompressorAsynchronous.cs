@@ -22,6 +22,7 @@
         private delegate void CompressDirectory2Delegate(string directory, Stream archiveStream, string password, string searchPattern, bool recursion);
 
         private delegate void CompressStreamDelegate(Stream inStream, Stream outStream, string password);
+        private delegate void CompressStreamDictionaryDelegate(IDictionary<string, Stream> streamDictionary, Stream archiveStream, string password);
 
         private delegate void ModifyArchiveDelegate(string archiveName, IDictionary<int, string> newFileNames, string password);
 
@@ -414,6 +415,19 @@
             {
                 SaveContext();
                 await Task.Run(() => new CompressStreamDelegate(CompressStream).Invoke(inStream, outStream, password));
+            }
+            finally
+            {
+                ReleaseContext();
+            }
+        }
+
+        public async Task CompressStreamDictionaryAsync(IDictionary<string, Stream> streamDictionary, Stream archiveStream, string password = "")
+        {
+            try
+            {
+                SaveContext();
+                await Task.Run(() => new CompressStreamDictionaryDelegate(CompressStreamDictionary).Invoke(streamDictionary, archiveStream, password));
             }
             finally
             {
