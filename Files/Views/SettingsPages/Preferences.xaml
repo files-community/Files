@@ -59,6 +59,21 @@
             </local:SettingsBlockControl>
 
             <local:SettingsBlockControl
+                x:Uid="SettingsDateFormat"
+                Title="Date format"
+                HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xEC92;" />
+                </local:SettingsBlockControl.Icon>
+                <ComboBox
+                    x:Name="DateFormatChooser"
+                    x:Uid="SettingsDateFormatComboBox"
+                    AutomationProperties.Name="Date format"
+                    ItemsSource="{Binding DateFormats}"
+                    SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}" />
+            </local:SettingsBlockControl>
+            
+            <local:SettingsBlockControl
                 x:Uid="SettingsPreferencesTerminalApplications"
                 Title="Terminal applications"
                 HorizontalAlignment="Stretch">
@@ -100,21 +115,6 @@
                         </HyperlinkButton>
                     </local:SettingsBlockControl>
                 </local:SettingsBlockControl.ExpandableContent>
-            </local:SettingsBlockControl>
-
-            <local:SettingsBlockControl
-                x:Uid="SettingsDateFormat"
-                Title="Date format"
-                HorizontalAlignment="Stretch">
-                <local:SettingsBlockControl.Icon>
-                    <FontIcon Glyph="&#xEC92;" />
-                </local:SettingsBlockControl.Icon>
-                <ComboBox
-                    x:Name="DateFormatChooser"
-                    x:Uid="SettingsDateFormatComboBox"
-                    AutomationProperties.Name="Date format"
-                    ItemsSource="{Binding DateFormats}"
-                    SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}" />
             </local:SettingsBlockControl>
 
             <local:SettingsBlockControl Title="{helpers:ResourceString Name=FilesAndFolders}" HorizontalAlignment="Stretch">

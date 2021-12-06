@@ -40,17 +40,23 @@ namespace Files.Helpers
                     }
                 }
             }
+#if !DEBUG
             catch (Exception ex)
             {
-#if !DEBUG
+
                 App.Logger.Warn(ex, "Could not fetch updates.");
-#endif
+
             }
+#else
+            catch (Exception) 
+            {
+            }
+#endif
         }
 
         private async Task<bool> DownloadUpdatesConsent()
         {
-            ContentDialog dialog = new ContentDialog
+            ContentDialog dialog = new()
             {
                 Title = "ConsentDialogTitle".GetLocalized(),
                 Content = "ConsentDialogContent".GetLocalized(),

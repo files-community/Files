@@ -1031,7 +1031,7 @@ namespace Files.ViewModels
                             groupImage = await GetItemTypeGroupIcon(item, matchingStorageFile);
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                     }
                     finally
