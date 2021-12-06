@@ -13,7 +13,6 @@ namespace Files.ViewModels
     public class SearchBoxViewModel : ObservableObject, ISearchBox
     {
         private string query;
-
         public string Query
         {
             get => query;
@@ -21,11 +20,7 @@ namespace Files.ViewModels
         }
 
         public event TypedEventHandler<ISearchBox, SearchBoxTextChangedEventArgs> TextChanged;
-
-        public event TypedEventHandler<ISearchBox, SearchBoxSuggestionChosenEventArgs> SuggestionChosen;
-
         public event TypedEventHandler<ISearchBox, SearchBoxQuerySubmittedEventArgs> QuerySubmitted;
-
         public event EventHandler<ISearchBox> Escaped;
 
         private readonly SuggestionComparer suggestionComparer = new SuggestionComparer();
@@ -71,14 +66,6 @@ namespace Files.ViewModels
         public void SearchRegion_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs e)
         {
             QuerySubmitted?.Invoke(this, new SearchBoxQuerySubmittedEventArgs(e.ChosenSuggestion as ListedItem));
-        }
-
-        public void SearchRegion_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs e)
-        {
-            if (e.SelectedItem is ListedItem listedItem)
-            {
-                SuggestionChosen?.Invoke(this, new SearchBoxSuggestionChosenEventArgs(listedItem));
-            }
         }
 
         public void SearchRegion_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)

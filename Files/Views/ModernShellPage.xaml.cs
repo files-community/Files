@@ -14,7 +14,6 @@ using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,7 +23,6 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System;
@@ -150,7 +148,6 @@ namespace Files.Views
             storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
 
             NavToolbarViewModel.SearchBox.TextChanged += ModernShellPage_TextChanged;
-            NavToolbarViewModel.SearchBox.SuggestionChosen += ModernShellPage_SuggestionChosen;
             NavToolbarViewModel.SearchBox.QuerySubmitted += ModernShellPage_QuerySubmitted;
             NavToolbarViewModel.InstanceViewModel = InstanceViewModel;
             InitToolbarCommands();
@@ -282,26 +279,13 @@ namespace Files.Views
             }
         }
 
-        private async void ModernShellPage_SuggestionChosen(ISearchBox sender, SearchBoxSuggestionChosenEventArgs e)
+        private async void ModernShellPage_QuerySubmitted(ISearchBox sender, SearchBoxQuerySubmittedEventArgs e)
         {
-            if (e.SelectedSuggestion.PrimaryItemAttribute == StorageItemTypes.Folder)
+            if (e.ChosenSuggestion is ListedItem item)
             {
-                ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(e.SelectedSuggestion.ItemPath), new NavigationArguments()
-                {
-                    NavPathParam = e.SelectedSuggestion.ItemPath,
-                    AssociatedTabInstance = this
-                });
+                await NavigationHelpers.OpenPath(item.ItemPath, this);
             }
-            else
-            {
-                // TODO: Add fancy file launch options similar to Interactions.cs OpenSelectedItems()
-                await Win32Helpers.InvokeWin32ComponentAsync(e.SelectedSuggestion.ItemPath, this);
-            }
-        }
-
-        private void ModernShellPage_QuerySubmitted(ISearchBox sender, SearchBoxQuerySubmittedEventArgs e)
-        {
-            if (e.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(sender.Query))
+            else if (e.ChosenSuggestion is null && !string.IsNullOrWhiteSpace(sender.Query))
             {
                 SubmitSearch(sender.Query, UserSettingsService.PreferencesSettingsService.SearchUnindexedItems);
             }

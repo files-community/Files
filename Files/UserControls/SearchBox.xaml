@@ -69,7 +69,6 @@
         ItemsSource="{x:Bind SearchBoxViewModel.Suggestions, Mode=OneWay}"
         PlaceholderText="Search"
         QuerySubmitted="SearchRegion_QuerySubmitted"
-        SuggestionChosen="SearchRegion_SuggestionChosen"
         Text="{x:Bind SearchBoxViewModel.Query, Mode=TwoWay}"
         TextBoxStyle="{StaticResource TextBoxStyle}"
         TextChanged="SearchRegion_TextChanged"
