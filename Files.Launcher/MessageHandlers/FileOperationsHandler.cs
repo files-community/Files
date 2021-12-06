@@ -798,7 +798,7 @@ namespace FilesFullTrust.MessageHandlers
             {
                 get
                 {
-                    var ongoing = operations.ToList().Where(x => !x.Value.Canceled);
+                    var ongoing = operations.ToArray().Where(x => !x.Value.Canceled);
                     return ongoing.Any() ? (int)ongoing.Average(x => x.Value.Progress) : 0;
                 }
             }

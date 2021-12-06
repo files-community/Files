@@ -92,6 +92,7 @@
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueTextBox}"
                 Text="{x:Bind ViewModel.ShortcutItemPath, Mode=TwoWay}"
+                IsReadOnly="{x:Bind ViewModel.IsShortcutItemPathReadOnly, Mode=OneWay}"
                 Visibility="Visible" />
 
             <TextBlock
