@@ -335,7 +335,6 @@
         ItemsSource="{x:Bind SearchBoxViewModel.Suggestions, Mode=OneWay}"
         ItemTemplate="{StaticResource SuggestionTemplate}"
         TextChanged="SearchRegion_TextChanged"
-        SuggestionChosen="SearchRegion_SuggestionChosen"
         QuerySubmitted="SearchRegion_QuerySubmitted">
         <AutoSuggestBox.QueryIcon>
             <FontIcon FontSize="14" Glyph="&#xE094;" />
