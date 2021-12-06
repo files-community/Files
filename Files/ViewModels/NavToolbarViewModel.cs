@@ -606,7 +606,7 @@ namespace Files.ViewModels
             (this as INavigationToolbar).IsEditModeEnabled = false;
         }
 
-        public async Task PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e)
+        public void PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
             {
