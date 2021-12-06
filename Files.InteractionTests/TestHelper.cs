@@ -1,9 +1,11 @@
 ﻿using Axe.Windows.Automation;
+using Axe.Windows.Core.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Files.InteractionTests
 {
@@ -24,7 +26,12 @@ namespace Files.InteractionTests
 
         public static void VerifyNoAccessibilityErrors()
         {
-            Assert.AreEqual(0, TestHelper.AccessibilityScanner.Scan().ErrorCount);
+            var testResult = TestHelper.AccessibilityScanner.Scan().Errors.Where(error => error.Rule.ID != RuleId.BoundingRectangleNotNull);
+            if(testResult.Count() != 0)
+            {
+                var mappedResult = testResult.Select(result => "Element " + result.Element.Properties["ControlType"] + " violated rule '" + result.Rule.Description + "'.");
+                Assert.Fail("Failed with the following accessibility errors \r\n" + string.Join("\r\n", mappedResult));
+            }
         }
 
         public static ICollection<WindowsElement> GetElementsOfType(string elementType)
