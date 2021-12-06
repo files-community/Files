@@ -83,7 +83,9 @@
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xEC50;" />
                 </local:SettingsBlockControl.Icon>
-                <ToggleSwitch IsOn="{Binding IsSetAsDefaultFileManager, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}">
+                <ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}"
+                    IsOn="{Binding IsSetAsDefaultFileManager, Mode=TwoWay}" 
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}">
                     <i:Interaction.Behaviors>
                         <icore:EventTriggerBehavior EventName="Toggled">
                             <icore:InvokeCommandAction Command="{Binding SetAsDefaultExplorerCommand, Mode=OneWay}" />
