@@ -7,15 +7,22 @@ namespace SevenZip
     /// <summary>
     /// Stores an int number
     /// </summary>
-    public sealed class IntEventArgs : EventArgs
+    public sealed class IntEventArgs : ValueEventArgs<int>
     {
-        private readonly int _value;
+        public IntEventArgs(int value) : base(value)
+        {
+        }
+    }
+
+    public class ValueEventArgs<T> : EventArgs
+    {
+        private readonly T _value;
 
         /// <summary>
         /// Initializes a new instance of the IntEventArgs class
         /// </summary>
         /// <param name="value">Useful data carried by the IntEventArgs class</param>
-        public IntEventArgs(int value)
+        public ValueEventArgs(T value)
         {
             _value = value;
         }
@@ -23,7 +30,7 @@ namespace SevenZip
         /// <summary>
         /// Gets the value of the IntEventArgs class
         /// </summary>
-        public int Value => _value;
+        public T Value => _value;
     }
 }
 

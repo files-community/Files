@@ -85,7 +85,7 @@ namespace Files.Filesystem.StorageItems
 
         public ulong Size
         {
-            get => byteSize;
+            get => (ulong)int.MaxValue;
             set => throw new NotSupportedException();
         }
 

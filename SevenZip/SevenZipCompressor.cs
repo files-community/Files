@@ -1016,7 +1016,7 @@ namespace SevenZip
         /// <summary>
         /// Occurs when the compression procedure is finished
         /// </summary>
-        public event EventHandler<EventArgs> CompressionFinished;
+        public event EventHandler<ValueEventArgs<bool>> CompressionFinished;
 
         #region Event proxies
 
@@ -1302,6 +1302,10 @@ namespace SevenZip
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                AddException(ex);
+            }
             finally
             {
                 if (CompressionMode == CompressionMode.Create)
@@ -1314,7 +1318,7 @@ namespace SevenZip
                 }
 
                 _compressingFilesOnDisk = false;
-                OnEvent(CompressionFinished, EventArgs.Empty, false);
+                OnEvent(CompressionFinished, new ValueEventArgs<bool>(!HasExceptions), false);
             }
 
             ThrowUserException();
@@ -1582,6 +1586,11 @@ namespace SevenZip
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                AddException(ex);
+            }
             finally
             {
                 if (CompressionMode == CompressionMode.Create)
@@ -1594,8 +1603,9 @@ namespace SevenZip
                 }
 
                 _compressingFilesOnDisk = false;
-                OnEvent(CompressionFinished, EventArgs.Empty, false);
             }
+
+            OnEvent(CompressionFinished, new ValueEventArgs<bool>(!HasExceptions), false);
 
             ThrowUserException();
         }
@@ -1646,10 +1656,14 @@ namespace SevenZip
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                AddException(ex);
+            }
             finally
             {
                 SevenZipLibraryManager.FreeLibrary(this, _archiveFormat);
-                OnEvent(CompressionFinished, EventArgs.Empty, false);
+                OnEvent(CompressionFinished, new ValueEventArgs<bool>(!HasExceptions), false);
             }
 
             ThrowUserException();
@@ -1827,13 +1841,17 @@ namespace SevenZip
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                AddException(ex);
+            }
             finally
             {
                 SevenZipLibraryManager.FreeLibrary(this, Formats.InForOutFormats[_archiveFormat]);
                 _compressingFilesOnDisk = false;
                 _updateData.FileNamesToModify = null;
                 _updateData.ArchiveFileData = null;
-                OnEvent(CompressionFinished, EventArgs.Empty, false);
+                OnEvent(CompressionFinished, new ValueEventArgs<bool>(!HasExceptions), false);
             }
 
             ThrowUserException();

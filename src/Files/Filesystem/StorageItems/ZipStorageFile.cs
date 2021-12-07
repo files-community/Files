@@ -92,17 +92,21 @@ namespace Files.Filesystem.StorageItems
                     compressor.CompressionFinished += async (s, e) =>
                     {
                         archiveStream.Dispose();
-                        using (var outStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+                        if (e.Value)
                         {
-                            ms.Position = 0;
-                            await ms.CopyToAsync(outStream);
-                            await ms.FlushAsync();
-                            ms.Dispose();
+                            using (var outStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+                            {
+                                ms.Position = 0;
+                                await ms.CopyToAsync(outStream);
+                                await ms.FlushAsync();
+                            }
                         }
+                        ms.Dispose();
                     };
                     var proxiStream = new ProxiRandomAccessStream();
                     var fileName = System.IO.Path.GetRelativePath(ContainerPath, Path);
-                    _ = compressor.CompressStreamDictionaryAsync(new Dictionary<string, Stream>() { { fileName, proxiStream.AsStreamForRead() } }, ms);
+                    _ = compressor.CompressStreamDictionaryAsync(new Dictionary<string, Stream>() { { fileName, proxiStream.AsStreamForRead() } }, ms)
+                        .ContinueWith(t => System.Diagnostics.Debug.WriteLine(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
                     return proxiStream;
                 }
                 return null;
