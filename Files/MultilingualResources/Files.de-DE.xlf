@@ -1926,7 +1926,7 @@
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Title" translate="yes" xml:space="preserve">
           <source>This action requires administrator rights</source>
-          <target state="translate">Diese Aktion erfordert Administratorrechte</target>
+          <target state="translated">Diese Aktion erfordert Administratorrechte</target>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Content" translate="yes" xml:space="preserve">
           <source>Would you like to continue as administrator?</source>
@@ -3198,7 +3198,7 @@ Files does not collect, store, share or publish any personal information.
 We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
   </source>
           <target state="translated">
-*Sammeln von personenbezogenden Daten* 
+*Sammeln von personenbezogenden Daten*
 Files sammelt, speichert, teilt oder veröffentlicht keine persönlichen Informationen.
 
 *Sammeln von nicht personenbezogenen Daten*
