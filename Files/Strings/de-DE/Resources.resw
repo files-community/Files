@@ -115,7 +115,7 @@
     <value>Einfügen</value>
   </data>
   <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
-    <value>Mit Terminal öffnen...</value>
+    <value>In Terminal öffnen...</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Ordner</value>
@@ -187,7 +187,7 @@
     <value>Größe</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Willkommen zu Files!</value>
+    <value>Willkommen bei Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Erlaubnis erteilen</value>
@@ -1273,7 +1273,7 @@
     <value>Bestätigen</value>
   </data>
   <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
-    <value>Sammlungname eingeben</value>
+    <value>Sammlungsnamen eingeben</value>
   </data>
   <data name="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
     <value>Sammlung erstellen</value>
@@ -1954,7 +1954,7 @@
     <value>Unbekannter Account</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>Sie haben keine Berechtigung die Sicherheitseigenschaften dieses Objektes anzusehen. Klicken Sie auf "Erweiterte Rechte", um fortzufahren.</value>
+    <value>Sie sind nicht berechtigt, die Sicherheitseigenschaften dieses Objektes anzusehen. Klicken Sie auf "Erweiterte Rechte", um fortzufahren.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Besitzer</value>
@@ -1975,7 +1975,7 @@
     <value>Mehr über benutzerdefinierte Themes erfahren</value>
   </data>
   <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Benutzerdefinierte Themes sind ein hervoragender Weg Files zu personalisieren.</value>
+    <value>Benutzerdefinierte Themes sind ein hervoragendes Mittel, um Files zu personalisieren.</value>
   </data>
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Dokumentation anzeigen.</value>
@@ -1999,7 +1999,7 @@
     <value>Wiederherstellen</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
-    <value>Sind Sie sicher, dass die die Standardbibliotheken wiederherstellen möchten? Alle Dateien verbleiben auf der Festplatte.</value>
+    <value>Sind Sie sicher, dass Sie die Standardbibliotheken wiederherstellen möchten? Alle Dateien verbleiben auf der Festplatte.</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>Bibliotheken wiederherstellen</value>
@@ -2050,7 +2050,7 @@
     <value>Typ</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>Du hast keine Berechtigung die Sicherheitseingenschaften dieses Objektes anzuschauen. Du kannst versuchen Besitzer dieses Objektes zu werden</value>
+    <value>Du bist nicht berechtigt, die Sicherheitseingenschaften dieses Objektes anzuschauen. Du kannst versuchen, Besitzer dieses Objektes zu werden</value>
   </data>
   <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
     <value>Speziell</value>
@@ -2230,7 +2230,7 @@
     <value>Netzwerklaufwerke anzeigen</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Papierkorp zu Favoriten hinzufügen</value>
+    <value>Papierkorb zu Favoriten hinzufügen</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
     <value>Bibliotheken anzeigen</value>
@@ -2254,10 +2254,10 @@
     <value>Versteckte Dateien und Ordner anzeigen</value>
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
-    <value>Geschützte Systemdateien ausblenden (Empfohlen)</value>
+    <value>Geschützte Systemdateien ausblenden (empfohlen)</value>
   </data>
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Öffnen durch einfachen Klick</value>
+    <value>Dateien mit einfachem Klick öffnen</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>Dateien und Ordner zusammen auflisten und sortieren</value>
@@ -2404,7 +2404,7 @@ Files sammelt, speichert, teilt oder veröffentlicht keine persönlichen Informa
 
 *Sammeln von nicht personenbezogenen Daten*
 
-Wir benutzen das App Center um einen Überblick über die Nutzung von Files zu erhalten, um Fehler zu finden und diese zu beheben. Alle Informationen die an das App Center gesendet werden sind anonym und enthalten keinerlei personen- oder kontextbezogenden Informationen.
+Wir benutzen das App Center um einen Überblick über die Nutzung von Files zu erhalten, um Fehler zu finden und diese zu beheben. Alle Informationen die an das App Center gesendet werden, sind anonym und enthalten keinerlei personen- oder kontextbezogende Informationen.
   </value>
   </data>
   <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
@@ -2624,7 +2624,7 @@ Wir benutzen das App Center um einen Überblick über die Nutzung von Files zu e
     <value>Tag</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>Dateien mit einfachem Klick öffnen</value>
+    <value>Ordner mit einfachem Klick öffnen</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Ordnerpfad</value>
@@ -2642,7 +2642,7 @@ Wir benutzen das App Center um einen Überblick über die Nutzung von Files zu e
     <value>Einstellungen konnten nicht importiert werden, da die Einstellungsdatei fehlerhaft ist.</value>
   </data>
   <data name="SettingsImportErrorTitle" xml:space="preserve">
-    <value>Fehler beim importieren der Einstellungen</value>
+    <value>Fehler beim Importieren der Einstellungen</value>
   </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
     <value>Neues Ordnersymbol auswählen</value>
@@ -2675,7 +2675,7 @@ Wir benutzen das App Center um einen Überblick über die Nutzung von Files zu e
     <value>System</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
-    <value>System (Erweitert)</value>
+    <value>System (erweitert)</value>
   </data>
   <data name="OSCompatibility_None" xml:space="preserve">
     <value>Keine</value>
