@@ -494,7 +494,11 @@
                                     VerticalAlignment="Center"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                    Content="{helpers:ResourceString Name=Details}" />
+                                    Content="{helpers:ResourceString Name=Details}" >
+                                    <HyperlinkButton.Resources>
+                                        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent"/>
+                                    </HyperlinkButton.Resources>
+                                </HyperlinkButton>
 
                                 <RadioButton
                                     x:Uid="NavToolbarTiles"
@@ -525,7 +529,11 @@
                                     VerticalAlignment="Center"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                    Content="{helpers:ResourceString Name=Tiles}" />
+                                    Content="{helpers:ResourceString Name=Tiles}">
+                                    <HyperlinkButton.Resources>
+                                        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent"/>
+                                    </HyperlinkButton.Resources>
+                                </HyperlinkButton>
 
                                 <RadioButton
                                     x:Uid="NavToolbarSmallIcons"
@@ -556,7 +564,11 @@
                                     VerticalAlignment="Center"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                    Content="{helpers:ResourceString Name=SmallIcons}" />
+                                    Content="{helpers:ResourceString Name=SmallIcons}">
+                                    <HyperlinkButton.Resources>
+                                        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent"/>
+                                    </HyperlinkButton.Resources>
+                                </HyperlinkButton>
 
                                 <Border
                                     Grid.RowSpan="3"
@@ -597,7 +609,11 @@
                                     VerticalAlignment="Center"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                    Content="{helpers:ResourceString Name=MediumIcons}" />
+                                    Content="{helpers:ResourceString Name=MediumIcons}">
+                                    <HyperlinkButton.Resources>
+                                        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent"/>
+                                    </HyperlinkButton.Resources>
+                                </HyperlinkButton>
 
                                 <RadioButton
                                     x:Uid="NavToolbarLargeIcons"
@@ -628,7 +644,11 @@
                                     VerticalAlignment="Center"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                    Content="{helpers:ResourceString Name=LargeIcons}" />
+                                    Content="{helpers:ResourceString Name=LargeIcons}">
+                                    <HyperlinkButton.Resources>
+                                        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent"/>
+                                    </HyperlinkButton.Resources>
+                                </HyperlinkButton>
 
                                 <RadioButton
                                     x:Uid="NavToolbarColumnView"
@@ -662,7 +682,11 @@
                                     VerticalAlignment="Center"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                    Content="{helpers:ResourceString Name=Columns}" />
+                                    Content="{helpers:ResourceString Name=Columns}" >
+                                    <HyperlinkButton.Resources>
+                                        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent"/>
+                                    </HyperlinkButton.Resources>
+                                </HyperlinkButton>
                             </Grid>
 
                             <Border
