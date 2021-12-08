@@ -485,14 +485,15 @@
                                     <FontIcon FontSize="16" Glyph="&#xE179;" />
                                 </RadioButton>
 
-                                <TextBlock
+                                <HyperlinkButton
                                     x:Name="NavToolbarDetailsHeader"
-                                    x:Uid="NavToolbarDetailsHeader"
-                                    Grid.Row="0"
+                                    Grid.Row="0" 
+                                    Style="{ThemeResource TextBlockButtonStyle}"
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
-                                    PointerReleased="NavToolbarDetailsHeader_PointerReleased"
-                                    Text="Details" />
+                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView, Mode=OneWay}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                    Content="{helpers:ResourceString Name=Details}" />
 
                                 <RadioButton
                                     x:Uid="NavToolbarTiles"
@@ -514,14 +515,15 @@
                                     <FontIcon FontSize="16" Glyph="&#xE15C;" />
                                 </RadioButton>
 
-                                <TextBlock
+                                <HyperlinkButton
                                     x:Name="NavToolbarTilesHeader"
-                                    x:Uid="NavToolbarTilesHeader"
                                     Grid.Row="1"
                                     Grid.Column="1"
+                                    Style="{ThemeResource TextBlockButtonStyle}"
                                     VerticalAlignment="Center"
-                                    PointerReleased="NavToolbarTilesHeader_PointerReleased"
-                                    Text="Tiles" />
+                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles, Mode=OneWay}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                    Content="{helpers:ResourceString Name=Tiles}" />
 
                                 <RadioButton
                                     x:Uid="NavToolbarSmallIcons"
@@ -543,14 +545,15 @@
                                     <FontIcon FontSize="16" Glyph="&#xE80A;" />
                                 </RadioButton>
 
-                                <TextBlock
+                                <HyperlinkButton
                                     x:Name="NavToolbarSmallIconsHeader"
-                                    x:Uid="NavToolbarSmallIconsHeader"
                                     Grid.Row="2"
                                     Grid.Column="1"
+                                    Style="{ThemeResource TextBlockButtonStyle}"
                                     VerticalAlignment="Center"
-                                    PointerReleased="NavToolbarSmallIconsHeader_PointerReleased"
-                                    Text="Small Icons" />
+                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall, Mode=OneWay}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                    Content="{helpers:ResourceString Name=SmallIcons}" />
 
                                 <Border
                                     Grid.RowSpan="3"
@@ -581,14 +584,15 @@
                                     <FontIcon FontSize="16" Glyph="&#xF0E2;" />
                                 </RadioButton>
 
-                                <TextBlock
+                                <HyperlinkButton
                                     x:Name="NavToolbarMediumIconsHeader"
-                                    x:Uid="NavToolbarMediumIconsHeader"
                                     Grid.Row="0"
                                     Grid.Column="4"
+                                    Style="{ThemeResource TextBlockButtonStyle}"
                                     VerticalAlignment="Center"
-                                    PointerReleased="NavToolbarMediumIconsHeader_PointerReleased"
-                                    Text="Medium Icons" />
+                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium, Mode=OneWay}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                    Content="{helpers:ResourceString Name=MediumIcons}" />
 
                                 <RadioButton
                                     x:Uid="NavToolbarLargeIcons"
@@ -610,14 +614,15 @@
                                     <FontIcon FontSize="16" Glyph="&#xE739;" />
                                 </RadioButton>
 
-                                <TextBlock
+                                <HyperlinkButton
                                     x:Name="NavToolbarLargeIconsHeader"
-                                    x:Uid="NavToolbarLargeIconsHeader"
                                     Grid.Row="1"
+                                    Style="{ThemeResource TextBlockButtonStyle}"
                                     Grid.Column="4"
                                     VerticalAlignment="Center"
-                                    PointerReleased="NavToolbarLargeIconsHeader_PointerReleased"
-                                    Text="Large Icons" />
+                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge, Mode=OneWay}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                    Content="{helpers:ResourceString Name=LargeIcons}" />
 
                                 <RadioButton
                                     x:Uid="NavToolbarColumnView"
@@ -642,14 +647,15 @@
                                         Glyph="&#xF115;" />
                                 </RadioButton>
 
-                                <TextBlock
+                                <HyperlinkButton
                                     x:Name="NavToolbarColumnsHeader"
-                                    x:Uid="NavToolbarColumnsHeader"
+                                    Style="{ThemeResource TextBlockButtonStyle}"
                                     Grid.Row="2"
                                     Grid.Column="4"
                                     VerticalAlignment="Center"
-                                    PointerReleased="NavToolbarColumnsHeader_PointerReleased"
-                                    Text="Columns" />
+                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView, Mode=OneWay}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                    Content="{helpers:ResourceString Name=Columns}" />
                             </Grid>
 
                             <Border
