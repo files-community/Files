@@ -46,6 +46,19 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
+        public bool ShowFolderSize
+        {
+            get => UserSettingsService.PreferencesSettingsService.ShowFolderSize;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.ShowFolderSize)
+                {
+                    UserSettingsService.PreferencesSettingsService.ShowFolderSize = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         private async Task LaunchFileTagsConfigFile()
         {
             var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/filetags.json"));

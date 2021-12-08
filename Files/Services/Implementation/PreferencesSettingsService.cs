@@ -27,6 +27,7 @@ namespace Files.Services.Implementation
                 case nameof(AreLayoutPreferencesPerFolder):
                 case nameof(AdaptiveLayoutEnabled):
                 case nameof(AreFileTagsEnabled):
+                case nameof(ShowFolderSize):
                 case nameof(OpenSpecificPageOnStartup):
                 case nameof(ContinueLastSessionOnStartUp):
                 case nameof(OpenNewTabOnStartup):
@@ -105,6 +106,12 @@ namespace Files.Services.Implementation
         }
 
         public bool AreFileTagsEnabled
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        public bool ShowFolderSize
         {
             get => Get(false);
             set => Set(value);
