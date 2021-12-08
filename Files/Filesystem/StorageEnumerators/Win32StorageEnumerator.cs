@@ -46,6 +46,7 @@ namespace Files.Filesystem.StorageEnumerators
             var count = 0;
 
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            bool showFolderSize = userSettingsService.PreferencesSettingsService.ShowFolderSize;
 
             do
             {
@@ -87,6 +88,11 @@ namespace Files.Filesystem.StorageEnumerators
                                 }
                                 tempList.Add(folder);
                                 ++count;
+
+                                if (showFolderSize)
+                                {
+                                    FolderHelpers.UpdateFolder(folder, cancellationToken);
+                                }
                             }
                         }
                     }
