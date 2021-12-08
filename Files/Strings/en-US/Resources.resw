@@ -2650,7 +2650,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="MediumIcons" xml:space="preserve">
     <value>Medium Icons</value>
   </data>
-  <data name="Small Icons" xml:space="preserve">
+  <data name="SmallIcons" xml:space="preserve">
     <value>Small Icons</value>
   </data>
   <data name="Tiles" xml:space="preserve">
