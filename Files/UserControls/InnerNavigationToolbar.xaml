@@ -487,7 +487,8 @@
 
                                 <HyperlinkButton
                                     x:Name="NavToolbarDetailsHeader"
-                                    Grid.Row="0" 
+                                    Grid.Row="0"
+                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                                     Style="{ThemeResource TextBlockButtonStyle}"
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
@@ -518,6 +519,7 @@
                                 <HyperlinkButton
                                     x:Name="NavToolbarTilesHeader"
                                     Grid.Row="1"
+                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                                     Grid.Column="1"
                                     Style="{ThemeResource TextBlockButtonStyle}"
                                     VerticalAlignment="Center"
@@ -548,6 +550,7 @@
                                 <HyperlinkButton
                                     x:Name="NavToolbarSmallIconsHeader"
                                     Grid.Row="2"
+                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                                     Grid.Column="1"
                                     Style="{ThemeResource TextBlockButtonStyle}"
                                     VerticalAlignment="Center"
@@ -567,6 +570,7 @@
                                 <RadioButton
                                     x:Uid="NavToolbarMediumIcons"
                                     Grid.Row="0"
+                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                                     Grid.Column="3"
                                     Width="36"
                                     Height="32"
@@ -588,6 +592,7 @@
                                     x:Name="NavToolbarMediumIconsHeader"
                                     Grid.Row="0"
                                     Grid.Column="4"
+                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                                     Style="{ThemeResource TextBlockButtonStyle}"
                                     VerticalAlignment="Center"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium, Mode=OneWay}"
@@ -616,6 +621,7 @@
 
                                 <HyperlinkButton
                                     x:Name="NavToolbarLargeIconsHeader"
+                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                                     Grid.Row="1"
                                     Style="{ThemeResource TextBlockButtonStyle}"
                                     Grid.Column="4"
@@ -649,6 +655,7 @@
 
                                 <HyperlinkButton
                                     x:Name="NavToolbarColumnsHeader"
+                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                                     Style="{ThemeResource TextBlockButtonStyle}"
                                     Grid.Row="2"
                                     Grid.Column="4"
