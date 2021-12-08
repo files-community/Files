@@ -75,7 +75,7 @@
 
             <local:SettingsBlockControl
                 x:Uid="SettingsShowFolderSize"
-                Title="Show folder size"
+                Title="{helpers:ResourceString Name=ShowFolderSize}"
                 HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE2B2;" />
