@@ -38,6 +38,7 @@ namespace Files.Helpers
                     userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder = appSettings.Get(true, "AreLayoutPreferencesPerFolder");
                     userSettingsService.PreferencesSettingsService.AdaptiveLayoutEnabled = appSettings.Get(true, "AdaptiveLayoutEnabled");
                     userSettingsService.PreferencesSettingsService.AreFileTagsEnabled = appSettings.Get(false, "AreFileTagsEnabled");
+                    userSettingsService.PreferencesSettingsService.ShowFolderSize = appSettings.Get(false, "ShowFolderSize");
 
                     // Multitasking
                     userSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled = appSettings.Get(true, "IsVerticalTabFlyoutEnabled");
