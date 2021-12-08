@@ -63,7 +63,7 @@ namespace Files.Filesystem
         {
             CoreDispatcher dispatcher;
 
-            if (folder.FileSizeBytes == 0 && folder.ContainsFilesOrFolders)
+            if (folder.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && folder.FileSizeBytes == 0 && folder.ContainsFilesOrFolders)
             {
                 dispatcher = CoreApplication.MainView.CoreWindow.Dispatcher;
 

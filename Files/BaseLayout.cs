@@ -207,6 +207,11 @@ namespace Files
             }
             internal set
             {
+                foreach (var item in selectedItems)
+                {
+                    item.PropertyChanged -= SelectedItem_PropertyChanged;
+                }
+
                 //if (!(value?.All(x => selectedItems?.Contains(x) ?? false) ?? value == selectedItems)) // check if the new list is different then the old one
                 if (value != selectedItems) // check if the new list is different then the old one
                 {
@@ -265,19 +270,8 @@ namespace Files
                             SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemsSelected/Text".GetLocalized()}";
                             ResetRenameDoubleClick();
 
-                            if (SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File))
-                            {
-                                long size = 0;
-                                foreach (var item in SelectedItems)
-                                {
-                                    size += item.FileSizeBytes;
-                                }
-                                SelectedItemsPropertiesViewModel.ItemSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
-                            }
-                            else
-                            {
-                                SelectedItemsPropertiesViewModel.ItemSize = string.Empty;
-                            }
+                            long size = SelectedItems.Sum(item => item.FileSizeBytes);
+                            SelectedItemsPropertiesViewModel.ItemSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
                         }
                     }
 
@@ -285,27 +279,16 @@ namespace Files
                     //ItemManipulationModel.SetDragModeForItems();
                 }
 
+                foreach (var item in selectedItems)
+                {
+                    item.PropertyChanged += SelectedItem_PropertyChanged;
+                }
+
                 ParentShellPageInstance.NavToolbarViewModel.SelectedItems = value;
             }
         }
 
-        private ListedItem selectedItem;
-        public ListedItem SelectedItem
-        {
-            get => selectedItem;
-            private set
-            {
-                if (selectedItem is not null)
-                {
-                    selectedItem.PropertyChanged -= SelectedItem_PropertyChanged;
-                }
-                selectedItem = value;
-                if (selectedItem is not null)
-                {
-                    selectedItem.PropertyChanged += SelectedItem_PropertyChanged;
-                }
-            }
-        }
+        public ListedItem SelectedItem { get; private set; }
 
         private DispatcherQueueTimer dragOverTimer, tapDebounceTimer;
 
@@ -550,7 +533,11 @@ namespace Files
             FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
             ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
             BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
-            SelectedItem = null;
+
+            foreach (var item in selectedItems)
+            {
+                item.PropertyChanged -= SelectedItem_PropertyChanged;
+            }
 
             var parameter = e.Parameter as NavigationArguments;
             if (!parameter.IsLayoutSwitch)
@@ -628,14 +615,15 @@ namespace Files
 
         private void SelectedItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            switch (e.PropertyName)
+            if (e.PropertyName == nameof(ListedItem.FileSize))
             {
-                case nameof(ListedItem.FileSize):
-                    SelectedItemsPropertiesViewModel.ItemSize = SelectedItem.FileSize;
-                    break;
-                case nameof(ListedItem.FileSizeBytes):
-                    SelectedItemsPropertiesViewModel.ItemSizeBytes = SelectedItem.FileSizeBytes;
-                    break;
+                var items = selectedItems;
+                if (items is not null)
+                {
+                    long size = items.Sum(item => item.FileSizeBytes);
+                    SelectedItemsPropertiesViewModel.ItemSizeBytes = size;
+                    SelectedItemsPropertiesViewModel.ItemSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
+                }
             }
         }
 
