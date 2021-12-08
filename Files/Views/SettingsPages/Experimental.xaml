@@ -74,7 +74,6 @@
             </local:SettingsBlockControl>
 
             <local:SettingsBlockControl
-                x:Uid="SettingsShowFolderSize"
                 Title="{helpers:ResourceString Name=ShowFolderSize}"
                 HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
