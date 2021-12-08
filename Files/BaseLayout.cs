@@ -15,7 +15,6 @@ using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -290,7 +289,23 @@ namespace Files
             }
         }
 
-        public ListedItem SelectedItem { get; private set; }
+        private ListedItem selectedItem;
+        public ListedItem SelectedItem
+        {
+            get => selectedItem;
+            private set
+            {
+                if (selectedItem is not null)
+                {
+                    selectedItem.PropertyChanged -= SelectedItem_PropertyChanged;
+                }
+                selectedItem = value;
+                if (selectedItem is not null)
+                {
+                    selectedItem.PropertyChanged += SelectedItem_PropertyChanged;
+                }
+            }
+        }
 
         private DispatcherQueueTimer dragOverTimer, tapDebounceTimer;
 
@@ -535,6 +550,7 @@ namespace Files
             FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
             ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
             BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
+            SelectedItem = null;
 
             var parameter = e.Parameter as NavigationArguments;
             if (!parameter.IsLayoutSwitch)
@@ -607,6 +623,19 @@ namespace Files
             catch (Exception error)
             {
                 Debug.WriteLine(error);
+            }
+        }
+
+        private void SelectedItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(ListedItem.FileSize):
+                    SelectedItemsPropertiesViewModel.ItemSize = SelectedItem.FileSize;
+                    break;
+                case nameof(ListedItem.FileSizeBytes):
+                    SelectedItemsPropertiesViewModel.ItemSizeBytes = SelectedItem.FileSizeBytes;
+                    break;
             }
         }
 
