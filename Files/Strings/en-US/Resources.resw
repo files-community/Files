@@ -2875,7 +2875,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Enter Library name</value>
   </data>
-  <data name="SettingsShowFolderSize.Title" xml:space="preserve">
+  <data name="ShowFolderSize" xml:space="preserve">
     <value>Show folder size</value>
   </data>
 </root>
