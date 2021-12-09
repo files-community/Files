@@ -10,7 +10,7 @@ namespace FilesFullTrust
 {
     public class DeviceWatcher : IDisposable
     {
-        private ManagementEventWatcher insertWatcher, removeWatcher, modifyWatcher;
+        private ManagementEventWatcher insertWatcher, removeWatcher, modifyWatcher, cdWatcher;
         private PipeStream connection;
 
         private const string WpdGuid = "{6ac27878-a6fa-4155-ba85-f98f491d4f33}";
@@ -31,6 +31,11 @@ namespace FilesFullTrust
             modifyWatcher = new ManagementEventWatcher(modifyQuery);
             modifyWatcher.EventArrived += new EventArrivedEventHandler(DeviceModifiedEvent);
             modifyWatcher.Start();
+            
+            WqlEventQuery cdQuery = new WqlEventQuery("SELECT * FROM __InstanceOperationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_CDROMDrive'");
+            cdWatcher = new ManagementEventWatcher(cdQuery);
+            cdWatcher.EventArrived += new EventArrivedEventHandler(CdModifiedEvent);
+            cdWatcher.Start();
 
             WqlEventQuery removeQuery = new WqlEventQuery("SELECT * FROM __InstanceDeletionEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk'");
             removeWatcher = new ManagementEventWatcher(removeQuery);
@@ -47,6 +52,19 @@ namespace FilesFullTrust
             var eventType = volumeName != null ? DeviceEvent.Inserted : DeviceEvent.Ejected;
             System.Diagnostics.Debug.WriteLine($"Drive modify event: {deviceName}, {deviceId}, {eventType}");
             await SendEvent(deviceName, deviceId, eventType);
+        }
+
+        private async void CdModifiedEvent(object sender, EventArrivedEventArgs e)
+        {
+            CimInstance obj = (CimInstance)e.NewEvent.Instance.CimInstanceProperties["TargetInstance"].Value;
+            var deviceName = (string)obj.CimInstanceProperties["Name"]?.Value;
+            var deviceId = (string)obj.CimInstanceProperties["DeviceID"]?.Value;
+            bool? mediaLoaded = (bool?)obj.CimInstanceProperties["MediaLoaded"]?.Value;
+
+            if (mediaLoaded is bool notNullMediaLoaded)
+            {
+                await SendEvent(deviceName, deviceId, notNullMediaLoaded ? DeviceEvent.MediaLoaded : DeviceEvent.MediaNotLoaded);
+            }
         }
 
         private async void DeviceRemovedEvent(object sender, EventArrivedEventArgs e)
@@ -84,9 +102,11 @@ namespace FilesFullTrust
             insertWatcher?.Dispose();
             removeWatcher?.Dispose();
             modifyWatcher?.Dispose();
+            cdWatcher?.Dispose();
             insertWatcher = null;
             removeWatcher = null;
             modifyWatcher = null;
+            cdWatcher = null;
         }
     }
 }

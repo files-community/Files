@@ -53,6 +53,7 @@ namespace Files.Helpers
         public const int FSCTL_LOCK_VOLUME = 0x00090018;
         public const int FSCTL_DISMOUNT_VOLUME = 0x00090020;
         public const int IOCTL_STORAGE_EJECT_MEDIA = 0x2D4808;
+        public const int IOCTL_CDROM_LOAD_MEDIA = 0x2480c;
         public const int IOCTL_STORAGE_MEDIA_REMOVAL = 0x002D4804;
     }
 }

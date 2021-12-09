@@ -40,7 +40,15 @@ namespace Files.DataModels.NavigationControlItems
         public Visibility ItemVisibility { get; set; } = Visibility.Visible;
 
         public bool IsRemovable => Type == DriveType.Removable || Type == DriveType.CDRom;
+
         public bool IsNetwork => Type == DriveType.Network;
+
+        private bool _CanBeClosed;
+        public bool CanBeClosed
+        {
+            get => _CanBeClosed;
+            set => SetProperty(ref _CanBeClosed, value && IsRemovable);
+        }
 
         private ByteSize maxSpace;
         private ByteSize freeSpace;

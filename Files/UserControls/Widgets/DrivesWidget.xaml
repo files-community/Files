@@ -148,6 +148,17 @@
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem
+                                            x:Name="CloseTray"
+                                            x:Uid="SideBarCloseTray"
+                                            x:Load="{x:Bind CanBeClosed, Mode=OneWay}"
+                                            Click="CloseTray_Click"
+                                            DataContext="{x:Bind}"
+                                            Text="Try close door">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Glyph="&#xF847;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem
                                             x:Name="DisconnectNetworkDrive"
                                             x:Uid="SideBarDisconnectNetworkDrive"
                                             x:Load="{x:Bind IsNetwork, Mode=OneWay}"

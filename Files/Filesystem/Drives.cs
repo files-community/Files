@@ -484,18 +484,29 @@ namespace Files.Filesystem
 
                 case DeviceEvent.Inserted:
                 case DeviceEvent.Ejected:
-                    var rootModified = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(deviceId).AsTask());
-                    DriveItem matchingDriveEjected = Drives.FirstOrDefault(x => x.DeviceID == deviceId);
-                    if (rootModified && matchingDriveEjected != null)
                     {
-                        _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                        var rootModified = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(deviceId).AsTask());
+                        DriveItem matchingDriveEjected = Drives.FirstOrDefault(x => x.DeviceID == deviceId);
+                        if (rootModified && matchingDriveEjected != null)
                         {
-                            matchingDriveEjected.Root = rootModified.Result;
-                            matchingDriveEjected.Text = rootModified.Result.DisplayName;
-                            return matchingDriveEjected.UpdatePropertiesAsync();
-                        });
+                            _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                            {
+                                matchingDriveEjected.Root = rootModified.Result;
+                                matchingDriveEjected.Text = rootModified.Result.DisplayName;
+                                return matchingDriveEjected.UpdatePropertiesAsync();
+                            });
+                        }
                     }
                     break;
+                case DeviceEvent.MediaNotLoaded:
+                    {
+                        DriveItem matchingDriveMediaLoaded = Drives.FirstOrDefault(x => x.DeviceID == deviceId);
+                        if (matchingDriveMediaLoaded != null)
+                        {
+                            matchingDriveMediaLoaded.CanBeClosed = true;
+                        }
+                        break;
+                    }
             }
         }
 

@@ -5,6 +5,8 @@
         Added,
         Removed,
         Inserted,
-        Ejected
+        Ejected,
+        MediaLoaded,
+        MediaNotLoaded
     }
 }

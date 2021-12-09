@@ -77,6 +77,12 @@ namespace Files.UserControls.Widgets
             await DriveHelpers.EjectDeviceAsync(item.Path);
         }
 
+        private async void CloseTray_Click(object sender, RoutedEventArgs e)
+        {
+            var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            await DriveHelpers.CloseTrayAsync(item.Path);
+        }
+
         private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;

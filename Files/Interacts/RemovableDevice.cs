@@ -27,7 +27,7 @@ namespace Files.Interacts
             if (handle.ToInt32() == INVALID_HANDLE_VALUE)
             {
                 Debug.WriteLine($"Unable to open drive {driveLetter}");
-                return false;
+                return result;
             }
 
             if (await LockVolumeAsync() && DismountVolume())
@@ -35,7 +35,27 @@ namespace Files.Interacts
                 PreventRemovalOfVolume(false);
                 result = AutoEjectVolume();
             }
-            CloseVolume();
+
+            CloseHandleToVolume();
+            return result;
+        }
+
+        public async Task<bool> CloseTrayAsync()
+        {
+            bool result = false;
+
+            if (handle.ToInt32() == INVALID_HANDLE_VALUE)
+            {
+                Debug.WriteLine($"Unable to close audio door {driveLetter}");
+                return result;
+            }
+
+            if (await LockVolumeAsync() && PreventRemovalOfVolume(false))
+            {
+                result = CloseCdTray();
+            }
+
+            CloseHandleToVolume();
             return result;
         }
 
@@ -78,7 +98,12 @@ namespace Files.Interacts
             return DeviceIoControl(handle, IOCTL_STORAGE_EJECT_MEDIA, IntPtr.Zero, 0, IntPtr.Zero, 0, out _, IntPtr.Zero);
         }
 
-        private bool CloseVolume()
+        private bool CloseCdTray()
+        {
+            return DeviceIoControl(handle, IOCTL_CDROM_LOAD_MEDIA, IntPtr.Zero, 0, IntPtr.Zero, 0, out _, IntPtr.Zero);
+        }
+
+        private bool CloseHandleToVolume()
         {
             return CloseHandle(handle);
         }

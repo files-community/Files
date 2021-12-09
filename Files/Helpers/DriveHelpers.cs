@@ -1,6 +1,7 @@
 ﻿using Files.Interacts;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Notifications;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI.Notifications;
@@ -57,6 +58,12 @@ namespace Files.Helpers
                     "EjectNotificationErrorDialogHeader".GetLocalized(),
                     "EjectNotificationErrorDialogBody".GetLocalized());
             }
+        }
+
+        public static async Task CloseTrayAsync(string path)
+        {
+            var removableDevice = new RemovableDevice(path);
+            await removableDevice.CloseTrayAsync();
         }
     }
 }
