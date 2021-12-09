@@ -485,20 +485,13 @@
                                     <FontIcon FontSize="16" Glyph="&#xE179;" />
                                 </RadioButton>
 
-                                <HyperlinkButton
+                                <TextBlock
                                     x:Name="NavToolbarDetailsHeader"
                                     Grid.Row="0"
-                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                    Style="{ThemeResource TextBlockButtonStyle}"
-                                    Grid.Column="1"
+                                    Grid.Column="1" 
+                                    Tapped="NavToolbarDetailsHeader_Tapped"
                                     VerticalAlignment="Center"
-                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView, Mode=OneWay}"
-                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                    Content="{helpers:ResourceString Name=Details}" >
-                                    <HyperlinkButton.Resources>
-                                        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent"/>
-                                    </HyperlinkButton.Resources>
-                                </HyperlinkButton>
+                                    Text="{helpers:ResourceString Name=Details}" />
 
                                 <RadioButton
                                     x:Uid="NavToolbarTiles"
@@ -520,20 +513,13 @@
                                     <FontIcon FontSize="16" Glyph="&#xE15C;" />
                                 </RadioButton>
 
-                                <HyperlinkButton
+                                <TextBlock
                                     x:Name="NavToolbarTilesHeader"
                                     Grid.Row="1"
-                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                                     Grid.Column="1"
-                                    Style="{ThemeResource TextBlockButtonStyle}"
                                     VerticalAlignment="Center"
-                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles, Mode=OneWay}"
-                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                    Content="{helpers:ResourceString Name=Tiles}">
-                                    <HyperlinkButton.Resources>
-                                        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent"/>
-                                    </HyperlinkButton.Resources>
-                                </HyperlinkButton>
+                                    Tapped="NavToolbarTilesHeader_Tapped"
+                                    Text="{helpers:ResourceString Name=Tiles}"/>
 
                                 <RadioButton
                                     x:Uid="NavToolbarSmallIcons"
@@ -555,20 +541,13 @@
                                     <FontIcon FontSize="16" Glyph="&#xE80A;" />
                                 </RadioButton>
 
-                                <HyperlinkButton
+                                <TextBlock
                                     x:Name="NavToolbarSmallIconsHeader"
                                     Grid.Row="2"
-                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                                     Grid.Column="1"
-                                    Style="{ThemeResource TextBlockButtonStyle}"
                                     VerticalAlignment="Center"
-                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall, Mode=OneWay}"
-                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                    Content="{helpers:ResourceString Name=SmallIcons}">
-                                    <HyperlinkButton.Resources>
-                                        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent"/>
-                                    </HyperlinkButton.Resources>
-                                </HyperlinkButton>
+                                    Tapped="NavToolbarSmallIconsHeader_Tapped"
+                                    Text="{helpers:ResourceString Name=SmallIcons}"/>
 
                                 <Border
                                     Grid.RowSpan="3"
@@ -600,20 +579,13 @@
                                     <FontIcon FontSize="16" Glyph="&#xF0E2;" />
                                 </RadioButton>
 
-                                <HyperlinkButton
+                                <TextBlock
                                     x:Name="NavToolbarMediumIconsHeader"
                                     Grid.Row="0"
                                     Grid.Column="4"
-                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                    Style="{ThemeResource TextBlockButtonStyle}"
                                     VerticalAlignment="Center"
-                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium, Mode=OneWay}"
-                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                    Content="{helpers:ResourceString Name=MediumIcons}">
-                                    <HyperlinkButton.Resources>
-                                        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent"/>
-                                    </HyperlinkButton.Resources>
-                                </HyperlinkButton>
+                                    Tapped="NavToolbarMediumIconsHeader_Tapped"
+                                    Text="{helpers:ResourceString Name=MediumIcons}"/>
 
                                 <RadioButton
                                     x:Uid="NavToolbarLargeIcons"
@@ -635,20 +607,13 @@
                                     <FontIcon FontSize="16" Glyph="&#xE739;" />
                                 </RadioButton>
 
-                                <HyperlinkButton
+                                <TextBlock
                                     x:Name="NavToolbarLargeIconsHeader"
-                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                                     Grid.Row="1"
-                                    Style="{ThemeResource TextBlockButtonStyle}"
                                     Grid.Column="4"
                                     VerticalAlignment="Center"
-                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge, Mode=OneWay}"
-                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                    Content="{helpers:ResourceString Name=LargeIcons}">
-                                    <HyperlinkButton.Resources>
-                                        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent"/>
-                                    </HyperlinkButton.Resources>
-                                </HyperlinkButton>
+                                    Tapped="NavToolbarLargeIconsHeader_Tapped"
+                                    Text="{helpers:ResourceString Name=LargeIcons}"/>
 
                                 <RadioButton
                                     x:Uid="NavToolbarColumnView"
@@ -673,20 +638,13 @@
                                         Glyph="&#xF115;" />
                                 </RadioButton>
 
-                                <HyperlinkButton
+                                <TextBlock
                                     x:Name="NavToolbarColumnsHeader"
-                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                    Style="{ThemeResource TextBlockButtonStyle}"
                                     Grid.Row="2"
                                     Grid.Column="4"
                                     VerticalAlignment="Center"
-                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView, Mode=OneWay}"
-                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                    Content="{helpers:ResourceString Name=Columns}" >
-                                    <HyperlinkButton.Resources>
-                                        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent"/>
-                                    </HyperlinkButton.Resources>
-                                </HyperlinkButton>
+                                    Tapped="NavToolbarColumnsHeader_Tapped"
+                                    Text="{helpers:ResourceString Name=Columns}"/>
                             </Grid>
 
                             <Border
