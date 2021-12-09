@@ -270,8 +270,8 @@ namespace Files
                             SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemsSelected/Text".GetLocalized()}";
                             ResetRenameDoubleClick();
 
-                            bool hasCumulSize = selectedItems.All(item => !string.IsNullOrEmpty(item.FileSize));
-                            if (hasCumulSize)
+                            bool isSizeKnown = selectedItems.All(item => !string.IsNullOrEmpty(item.FileSize));
+                            if (isSizeKnown)
                             {
                                 long size = selectedItems.Sum(item => item.FileSizeBytes);
                                 SelectedItemsPropertiesViewModel.ItemSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
@@ -624,8 +624,8 @@ namespace Files
                 var items = selectedItems;
                 if (items is not null)
                 {
-                    bool hasCumulSize = items.All(item => !string.IsNullOrEmpty(item.FileSize));
-                    if (hasCumulSize)
+                    bool isSizeKnown = items.All(item => !string.IsNullOrEmpty(item.FileSize));
+                    if (isSizeKnown)
                     {
                         long size = items.Sum(item => item.FileSizeBytes);
                         SelectedItemsPropertiesViewModel.ItemSizeBytes = size;
