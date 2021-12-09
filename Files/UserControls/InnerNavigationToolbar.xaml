@@ -486,11 +486,12 @@
                                 </RadioButton>
 
                                 <TextBlock
-                                    x:Uid="NavToolbarDetailsHeader"
+                                    x:Name="NavToolbarDetailsHeader"
                                     Grid.Row="0"
-                                    Grid.Column="1"
+                                    Grid.Column="1" 
+                                    Tapped="NavToolbarDetailsHeader_Tapped"
                                     VerticalAlignment="Center"
-                                    Text="Details" />
+                                    Text="{helpers:ResourceString Name=Details}" />
 
                                 <RadioButton
                                     x:Uid="NavToolbarTiles"
@@ -513,11 +514,12 @@
                                 </RadioButton>
 
                                 <TextBlock
-                                    x:Uid="NavToolbarTilesHeader"
+                                    x:Name="NavToolbarTilesHeader"
                                     Grid.Row="1"
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
-                                    Text="Tiles" />
+                                    Tapped="NavToolbarTilesHeader_Tapped"
+                                    Text="{helpers:ResourceString Name=Tiles}"/>
 
                                 <RadioButton
                                     x:Uid="NavToolbarSmallIcons"
@@ -540,11 +542,12 @@
                                 </RadioButton>
 
                                 <TextBlock
-                                    x:Uid="NavToolbarSmallIconsHeader"
+                                    x:Name="NavToolbarSmallIconsHeader"
                                     Grid.Row="2"
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
-                                    Text="Small Icons" />
+                                    Tapped="NavToolbarSmallIconsHeader_Tapped"
+                                    Text="{helpers:ResourceString Name=SmallIcons}"/>
 
                                 <Border
                                     Grid.RowSpan="3"
@@ -558,6 +561,7 @@
                                 <RadioButton
                                     x:Uid="NavToolbarMediumIcons"
                                     Grid.Row="0"
+                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                                     Grid.Column="3"
                                     Width="36"
                                     Height="32"
@@ -576,11 +580,12 @@
                                 </RadioButton>
 
                                 <TextBlock
-                                    x:Uid="NavToolbarMediumIconsHeader"
+                                    x:Name="NavToolbarMediumIconsHeader"
                                     Grid.Row="0"
                                     Grid.Column="4"
                                     VerticalAlignment="Center"
-                                    Text="Medium Icons" />
+                                    Tapped="NavToolbarMediumIconsHeader_Tapped"
+                                    Text="{helpers:ResourceString Name=MediumIcons}"/>
 
                                 <RadioButton
                                     x:Uid="NavToolbarLargeIcons"
@@ -603,11 +608,12 @@
                                 </RadioButton>
 
                                 <TextBlock
-                                    x:Uid="NavToolbarLargeIconsHeader"
+                                    x:Name="NavToolbarLargeIconsHeader"
                                     Grid.Row="1"
                                     Grid.Column="4"
                                     VerticalAlignment="Center"
-                                    Text="Large Icons" />
+                                    Tapped="NavToolbarLargeIconsHeader_Tapped"
+                                    Text="{helpers:ResourceString Name=LargeIcons}"/>
 
                                 <RadioButton
                                     x:Uid="NavToolbarColumnView"
@@ -633,11 +639,12 @@
                                 </RadioButton>
 
                                 <TextBlock
-                                    x:Uid="NavToolbarColumnsHeader"
+                                    x:Name="NavToolbarColumnsHeader"
                                     Grid.Row="2"
                                     Grid.Column="4"
                                     VerticalAlignment="Center"
-                                    Text="Columns" />
+                                    Tapped="NavToolbarColumnsHeader_Tapped"
+                                    Text="{helpers:ResourceString Name=Columns}"/>
                             </Grid>
 
                             <Border

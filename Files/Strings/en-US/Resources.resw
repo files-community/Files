@@ -2641,22 +2641,19 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Create link in {0}</value>
   </data>
-  <data name="NavToolbarColumnsHeader.Text" xml:space="preserve">
+  <data name="Columns" xml:space="preserve">
     <value>Columns</value>
   </data>
-  <data name="NavToolbarDetailsHeader.Text" xml:space="preserve">
-    <value>Details</value>
-  </data>
-  <data name="NavToolbarLargeIconsHeader.Text" xml:space="preserve">
+  <data name="LargeIcons" xml:space="preserve">
     <value>Large Icons</value>
   </data>
-  <data name="NavToolbarMediumIconsHeader.Text" xml:space="preserve">
+  <data name="MediumIcons" xml:space="preserve">
     <value>Medium Icons</value>
   </data>
-  <data name="NavToolbarSmallIconsHeader.Text" xml:space="preserve">
+  <data name="SmallIcons" xml:space="preserve">
     <value>Small Icons</value>
   </data>
-  <data name="NavToolbarTilesHeader.Text" xml:space="preserve">
+  <data name="Tiles" xml:space="preserve">
     <value>Tiles</value>
   </data>
   <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
