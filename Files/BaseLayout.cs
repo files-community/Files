@@ -270,8 +270,12 @@ namespace Files
                             SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemsSelected/Text".GetLocalized()}";
                             ResetRenameDoubleClick();
 
-                            long size = SelectedItems.Sum(item => item.FileSizeBytes);
-                            SelectedItemsPropertiesViewModel.ItemSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
+                            bool isSizeKnown = !selectedItems.Any(item => string.IsNullOrEmpty(item.FileSize));
+                            if (isSizeKnown)
+                            {
+                                long size = selectedItems.Sum(item => item.FileSizeBytes);
+                                SelectedItemsPropertiesViewModel.ItemSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
+                            }
                         }
                     }
 
@@ -620,9 +624,13 @@ namespace Files
                 var items = selectedItems;
                 if (items is not null)
                 {
-                    long size = items.Sum(item => item.FileSizeBytes);
-                    SelectedItemsPropertiesViewModel.ItemSizeBytes = size;
-                    SelectedItemsPropertiesViewModel.ItemSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
+                    bool isSizeKnown = !items.Any(item => string.IsNullOrEmpty(item.FileSize));
+                    if (isSizeKnown)
+                    {
+                        long size = items.Sum(item => item.FileSizeBytes);
+                        SelectedItemsPropertiesViewModel.ItemSizeBytes = size;
+                        SelectedItemsPropertiesViewModel.ItemSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
+                    }
                 }
             }
         }
