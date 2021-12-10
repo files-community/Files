@@ -1,5 +1,4 @@
-﻿using ByteSizeLib;
-using Files.Extensions;
+﻿using Files.Extensions;
 using Files.Filesystem.StorageItems;
 using System;
 using System.Collections.Generic;
@@ -69,13 +68,11 @@ namespace Files.Filesystem
 
                 await dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
-                    folder.FileSize = GetSizeString(0);
+                    folder.FileSize = 0L.ToSizeString();
                 });
 
                 _ = await Calculate(folder.ItemPath);
             }
-
-            static string GetSizeString(long size) => ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
 
             async Task<long> Calculate(string folderPath)
             {
@@ -113,7 +110,7 @@ namespace Files.Filesystem
                             if (size > folder.FileSizeBytes)
                             {
                                 folder.FileSizeBytes = size;
-                                folder.FileSize = GetSizeString(size);
+                                folder.FileSize = size.ToSizeString();
                             };
                         });
 

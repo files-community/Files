@@ -1,5 +1,4 @@
-﻿using ByteSizeLib;
-using Files.Common;
+﻿using Files.Common;
 using Files.Extensions;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
@@ -208,7 +207,7 @@ namespace Files.Filesystem.Search
                 {
                     var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
                     var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-                    
+
                     bool shouldBeListed = !isHidden || (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden));
 
                     if (shouldBeListed)
@@ -417,7 +416,7 @@ namespace Files.Filesystem.Search
                     itemType = itemFileExtension.Trim('.') + " " + itemType;
                 }
 
-                var itemSize = ByteSize.FromBytes(props.Size).ToBinaryString().ConvertSizeAbbreviation();
+                var itemSize = props.Size.ToSizeString();
 
                 listedItem = new ListedItem(null)
                 {

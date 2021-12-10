@@ -1,5 +1,4 @@
-﻿using ByteSizeLib;
-using Files.Extensions;
+﻿using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
@@ -107,7 +106,7 @@ namespace Files.ViewModels.Properties
                 Item.ItemPath, System.IO.FileAttributes.Hidden);
 
             ViewModel.ItemSizeVisibility = Visibility.Visible;
-            ViewModel.ItemSize = $"{ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(Item.FileSizeBytes).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
+            ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
 
             var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
             if (fileIconData != null)
