@@ -73,6 +73,7 @@ namespace Files.Filesystem.StorageItems
                     {
                         var ms = new MemoryStream();
                         await zipFile.ExtractFileAsync(entry.FileName, ms);
+                        ms.Position = 0;
                         return new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size)
                         {
                             DisposeCallback = () => zipFile.Dispose()
@@ -360,6 +361,7 @@ namespace Files.Filesystem.StorageItems
                 {
                     var ms = new MemoryStream();
                     await zipFile.ExtractFileAsync(entry.FileName, ms);
+                    ms.Position = 0;
                     var nsStream = new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size)
                     {
                         DisposeCallback = () => zipFile.Dispose()
@@ -402,6 +404,7 @@ namespace Files.Filesystem.StorageItems
                 {
                     var ms = new MemoryStream();
                     await zipFile.ExtractFileAsync(entry.FileName, ms);
+                    ms.Position = 0;
                     return new InputStreamWithDisposeCallback(ms)
                     {
                         DisposeCallback = () => zipFile.Dispose()
