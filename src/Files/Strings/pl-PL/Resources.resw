@@ -2524,6 +2524,24 @@ Korzystamy z App Center, aby śledzić wykorzystanie aplikacji, znajdować błę
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Utwórz link w {0}</value>
   </data>
+  <data name="NavToolbarColumnsHeader.Text" xml:space="preserve">
+    <value>Kolumny</value>
+  </data>
+  <data name="NavToolbarDetailsHeader.Text" xml:space="preserve">
+    <value>Właściwości</value>
+  </data>
+  <data name="NavToolbarLargeIconsHeader.Text" xml:space="preserve">
+    <value>Duże ikony</value>
+  </data>
+  <data name="NavToolbarMediumIconsHeader.Text" xml:space="preserve">
+    <value>Średnie ikony</value>
+  </data>
+  <data name="NavToolbarSmallIconsHeader.Text" xml:space="preserve">
+    <value>Małe ikony</value>
+  </data>
+  <data name="NavToolbarTilesHeader.Text" xml:space="preserve">
+    <value>Kafelki</value>
+  </data>
   <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
     <value>Pokaż rozszerzenia plików</value>
   </data>

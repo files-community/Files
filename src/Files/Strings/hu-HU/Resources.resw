@@ -2525,6 +2525,24 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Parancsikon létrehozása itt: {0}</value>
   </data>
+  <data name="NavToolbarColumnsHeader.Text" xml:space="preserve">
+    <value>Oszlopok</value>
+  </data>
+  <data name="NavToolbarDetailsHeader.Text" xml:space="preserve">
+    <value>Részletek</value>
+  </data>
+  <data name="NavToolbarLargeIconsHeader.Text" xml:space="preserve">
+    <value>Nagy ikonok</value>
+  </data>
+  <data name="NavToolbarMediumIconsHeader.Text" xml:space="preserve">
+    <value>Közepes ikonok</value>
+  </data>
+  <data name="NavToolbarSmallIconsHeader.Text" xml:space="preserve">
+    <value>Kis ikonok</value>
+  </data>
+  <data name="NavToolbarTilesHeader.Text" xml:space="preserve">
+    <value>Lista</value>
+  </data>
   <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
     <value>Fájlkiterjesztések megjelenítése</value>
   </data>

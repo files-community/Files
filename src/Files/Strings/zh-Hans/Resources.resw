@@ -2527,6 +2527,24 @@ Files 不收集、存储、共享或发布任何个人信息。
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>在 {0} 处创建链接</value>
   </data>
+  <data name="NavToolbarColumnsHeader.Text" xml:space="preserve">
+    <value>列视图</value>
+  </data>
+  <data name="NavToolbarDetailsHeader.Text" xml:space="preserve">
+    <value>详细信息</value>
+  </data>
+  <data name="NavToolbarLargeIconsHeader.Text" xml:space="preserve">
+    <value>网格视图（大）</value>
+  </data>
+  <data name="NavToolbarMediumIconsHeader.Text" xml:space="preserve">
+    <value>网格视图（中）</value>
+  </data>
+  <data name="NavToolbarSmallIconsHeader.Text" xml:space="preserve">
+    <value>网格视图（小）</value>
+  </data>
+  <data name="NavToolbarTilesHeader.Text" xml:space="preserve">
+    <value>平铺视图</value>
+  </data>
   <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
     <value>显示文件扩展名</value>
   </data>
@@ -2718,35 +2736,5 @@ Files 不收集、存储、共享或发布任何个人信息。
   </data>
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
     <value>使用主屏幕的DPI设置</value>
-  </data>
-  <data name="SettingsDefaultFilesManager" xml:space="preserve">
-    <value>默认文件管理器</value>
-  </data>
-  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>设置Files作为默认文件管理器</value>
-  </data>
-  <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>清空回收站</value>
-  </data>
-  <data name="Sidebar" xml:space="preserve">
-    <value>侧边栏</value>
-  </data>
-  <data name="FilesAndFolders" xml:space="preserve">
-    <value>文件和文件夹</value>
-  </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>从任务栏快捷列表打开目录时，启动新实例</value>
-  </data>
-  <data name="StartupSettings" xml:space="preserve">
-    <value>启动设置</value>
-  </data>
-  <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>第三方许可</value>
-  </data>
-  <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>此设置会修改系统文件，在你的设备上可能引起一些未知的副作用。如果出现问题，开发人员不承担任何责任。继续使用此设置表示承认此风险。请注意，卸载Files前请关闭此设置，否则，Files无法撤销这些修改，会导致无法打开文件管理器。</value>
-  </data>
-  <data name="ClearAll" xml:space="preserve">
-    <value>清空</value>
   </data>
 </root>
