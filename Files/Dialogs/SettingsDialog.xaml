@@ -94,6 +94,7 @@
                     CornerRadius="4,0,0,4"
                     Content="{helpers:ResourceString Name=Appearance}"
                     IsSelected="True"
+                    AutomationProperties.AutomationId="SettingsItemAppearance"
                     Tag="0">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon HorizontalAlignment="Left" Glyph="&#xE790;" />
@@ -104,6 +105,7 @@
                     AccessKey="P"
                     CornerRadius="0"
                     Content="Preferences"
+                    AutomationProperties.AutomationId="SettingsItemPreferences"
                     Tag="1">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF116;" />
@@ -113,6 +115,7 @@
                     x:Uid="SettingsNavMultitasking"
                     AccessKey="M"
                     Content="Multitasking"
+                    AutomationProperties.AutomationId="SettingsItemMultitasking"
                     CornerRadius="0"
                     Tag="2">
                     <muxc:NavigationViewItem.Icon>
@@ -123,6 +126,7 @@
                     x:Uid="SettingsNavExperimental"
                     AccessKey="E"
                     Content="Experimental"
+                    AutomationProperties.AutomationId="SettingsItemExperimental"
                     CornerRadius="0"
                     Tag="3">
                     <muxc:NavigationViewItem.Icon>
@@ -132,6 +136,7 @@
                 <muxc:NavigationViewItem
                     AccessKey="B"
                     CornerRadius="0,4,4,0"
+                    AutomationProperties.AutomationId="SettingsItemAbout"
                     Content="{helpers:ResourceString Name=About}"
                     Tag="4"> 
                     <muxc:NavigationViewItem.Icon>
