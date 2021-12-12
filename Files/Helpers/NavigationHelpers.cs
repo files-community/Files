@@ -81,12 +81,20 @@ namespace Files.Helpers
             {
                 return;
             }
+
+            bool forceOpenInNewTab = false;
+
             foreach (ListedItem item in associatedInstance.SlimContentPage.SelectedItems.ToList())
             {
                 var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
                     FilesystemItemType.Directory : FilesystemItemType.File;
 
-                await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
+                await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker, forceOpenInNewTab: forceOpenInNewTab);
+
+                if (type == FilesystemItemType.Directory)
+                {
+                    forceOpenInNewTab = true;
+                }
             }
         }
 
@@ -124,7 +132,8 @@ namespace Files.Helpers
         /// <param name="openSilent">Determines whether history of opened item is saved (... to Recent Items/Windows Timeline/opening in background)</param>
         /// <param name="openViaApplicationPicker">Determines whether open file using application picker</param>
         /// <param name="selectItems">List of filenames that are selected upon navigation</param>
-        public static async Task<bool> OpenPath(string path, IShellPage associatedInstance, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false, IEnumerable<string> selectItems = null, string args = default)
+        /// <param name="forceOpenInNewTab">Open folders in a new tab regardless of the "OpenFoldersInNewTab" option</param>
+        public static async Task<bool> OpenPath(string path, IShellPage associatedInstance, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false, IEnumerable<string> selectItems = null, string args = default, bool forceOpenInNewTab = false)
         {
             string previousDir = associatedInstance.FilesystemViewModel.WorkingDirectory;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
@@ -190,11 +199,11 @@ namespace Files.Helpers
 
             if (itemType == FilesystemItemType.Library)
             {
-                opened = await OpenLibrary(path, associatedInstance, selectItems);
+                opened = await OpenLibrary(path, associatedInstance, selectItems, forceOpenInNewTab);
             }
             else if (itemType == FilesystemItemType.Directory)
             {
-                opened = await OpenDirectory(path, associatedInstance, selectItems, shortcutInfo);
+                opened = await OpenDirectory(path, associatedInstance, selectItems, shortcutInfo, forceOpenInNewTab);
             }
             else if (itemType == FilesystemItemType.File)
             {
@@ -215,7 +224,7 @@ namespace Files.Helpers
             return opened;
         }
 
-        private static async Task<FilesystemResult> OpenLibrary(string path, IShellPage associatedInstance, IEnumerable<string> selectItems)
+        private static async Task<FilesystemResult> OpenLibrary(string path, IShellPage associatedInstance, IEnumerable<string> selectItems, bool forceOpenInNewTab)
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 
@@ -223,7 +232,7 @@ namespace Files.Helpers
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
             if (isHiddenItem)
             {
-                if (userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
+                if (forceOpenInNewTab || userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
                 {
                     await OpenPathInNewTab(path);
                 }
@@ -243,7 +252,7 @@ namespace Files.Helpers
                 opened = (FilesystemResult)await library.CheckDefaultSaveFolderAccess();
                 if (opened)
                 {
-                    if (userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
+                    if (forceOpenInNewTab || userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
                     {
                         await OpenPathInNewTab(library.Text);
                     }
@@ -262,7 +271,7 @@ namespace Files.Helpers
             return opened;
         }
 
-        private static async Task<FilesystemResult> OpenDirectory(string path, IShellPage associatedInstance, IEnumerable<string> selectItems, ShellLinkItem shortcutInfo)
+        private static async Task<FilesystemResult> OpenDirectory(string path, IShellPage associatedInstance, IEnumerable<string> selectItems, ShellLinkItem shortcutInfo, bool forceOpenInNewTab)
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 
@@ -279,7 +288,7 @@ namespace Files.Helpers
                 }
                 else
                 {
-                    if (userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
+                    if (forceOpenInNewTab || userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
                     {
                         await OpenPathInNewTab(shortcutInfo.TargetPath);
                     }
@@ -299,7 +308,7 @@ namespace Files.Helpers
             }
             else if (isHiddenItem)
             {
-                if (userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
+                if (forceOpenInNewTab || userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
                 {
                     await OpenPathInNewTab(path);
                 }
@@ -333,7 +342,7 @@ namespace Files.Helpers
                 }
                 if (opened)
                 {
-                    if (userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
+                    if (forceOpenInNewTab || userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
                     {
                         await OpenPathInNewTab(path);
                     }

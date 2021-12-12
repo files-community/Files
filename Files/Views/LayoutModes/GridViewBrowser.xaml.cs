@@ -539,10 +539,7 @@ namespace Files.Views.LayoutModes
                  && ((!UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
                  || (!UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)))
             {
-                if (!MainViewModel.MultiselectEnabled)
-                {
-                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-                }
+                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
             }
             ResetRenameDoubleClick();
         }
