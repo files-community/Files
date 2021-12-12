@@ -36,37 +36,37 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -96,37 +96,43 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\artifacts\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</OutDir>
+    <OutDir>..\..\..\artifacts\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</OutDir>
+    <IntermediateOutputPath>..\..\..\artifacts\intermediates\$(Platform)\$(MSBuildProjectName)\</IntermediateOutputPath>
     <TargetName>CustomOpenDialog$(PlatformArchitecture)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\artifacts\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</OutDir>
+    <OutDir>..\..\..\artifacts\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</OutDir>
+    <IntermediateOutputPath>..\..\..\artifacts\intermediates\$(Platform)\$(MSBuildProjectName)\</IntermediateOutputPath>
     <TargetName>CustomOpenDialog$(PlatformArchitecture)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\artifacts\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</OutDir>
+    <OutDir>..\..\..\artifacts\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</OutDir>
+    <IntermediateOutputPath>..\..\..\artifacts\intermediates\$(Platform)\$(MSBuildProjectName)\</IntermediateOutputPath>
     <TargetName>CustomOpenDialog$(PlatformArchitecture)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\artifacts\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</OutDir>
+    <OutDir>..\..\..\artifacts\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</OutDir>
+    <IntermediateOutputPath>..\..\..\artifacts\intermediates\$(Platform)\$(MSBuildProjectName)\</IntermediateOutputPath>
     <TargetName>CustomOpenDialog$(PlatformArchitecture)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\artifacts\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</OutDir>
+    <OutDir>..\..\..\artifacts\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</OutDir>
+    <IntermediateOutputPath>..\..\..\artifacts\intermediates\$(Platform)\$(MSBuildProjectName)\</IntermediateOutputPath>
     <TargetName>CustomOpenDialog$(PlatformArchitecture)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\artifacts\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</OutDir>
+    <OutDir>..\..\..\artifacts\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</OutDir>
+    <IntermediateOutputPath>..\..\..\artifacts\intermediates\$(Platform)\$(MSBuildProjectName)\</IntermediateOutputPath>
     <TargetName>CustomOpenDialog$(PlatformArchitecture)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -163,7 +169,7 @@
       <OutputFile>$(OutDir)CustomOpenDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y $(ProjectDir)$(OutDir)*.dll $(SolutionDir)Files.Launcher\Assets\FilesOpenDialog</Command>
+      <Command>xcopy /s /y $(ProjectDir)$(OutDir)*.dll $(SolutionDir)src\Files.Launcher\Assets\FilesOpenDialog</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -199,7 +205,7 @@
       <OutputFile>$(OutDir)CustomOpenDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y $(ProjectDir)$(OutDir)*.dll $(SolutionDir)Files.Launcher\Assets\FilesOpenDialog</Command>
+      <Command>xcopy /s /y $(ProjectDir)$(OutDir)*.dll $(SolutionDir)src\Files.Launcher\Assets\FilesOpenDialog</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">
@@ -236,7 +242,7 @@
       <OutputFile>$(OutDir)CustomOpenDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y $(ProjectDir)$(OutDir)*.dll $(SolutionDir)Files.Launcher\Assets\FilesOpenDialog</Command>
+      <Command>xcopy /s /y $(ProjectDir)$(OutDir)*.dll $(SolutionDir)src\Files.Launcher\Assets\FilesOpenDialog</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -275,7 +281,7 @@
       <OutputFile>$(OutDir)CustomOpenDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y $(ProjectDir)$(OutDir)*.dll $(SolutionDir)Files.Launcher\Assets\FilesOpenDialog</Command>
+      <Command>xcopy /s /y $(ProjectDir)$(OutDir)*.dll $(SolutionDir)src\Files.Launcher\Assets\FilesOpenDialog</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -313,7 +319,7 @@
       <OutputFile>$(OutDir)CustomOpenDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y $(ProjectDir)$(OutDir)*.dll $(SolutionDir)Files.Launcher\Assets\FilesOpenDialog</Command>
+      <Command>xcopy /s /y $(ProjectDir)$(OutDir)*.dll $(SolutionDir)src\Files.Launcher\Assets\FilesOpenDialog</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">
@@ -352,7 +358,7 @@
       <OutputFile>$(OutDir)CustomOpenDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y $(ProjectDir)$(OutDir)*.dll $(SolutionDir)Files.Launcher\Assets\FilesOpenDialog</Command>
+      <Command>xcopy /s /y $(ProjectDir)$(OutDir)*.dll $(SolutionDir)src\Files.Launcher\Assets\FilesOpenDialog</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
