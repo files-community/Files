@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/files-community/Files/main/Files/Assets/AppTiles/StoreLogo.scale-400.png" />
+  <img src="https://raw.githubusercontent.com/files-community/Files/main/src/Files/Assets/AppTiles/StoreLogo.scale-400.png" />
 </p>
 
 [![Build Status](https://dev.azure.com/filescommunity/Files/_apis/build/status/Build%20Pipeline?branchName=main)](https://dev.azure.com/filescommunity/Files/_build/latest?definitionId=4&branchName=main)
@@ -7,7 +7,7 @@
 
 ## Welcome to the Files repository
 
-![Files](Files/Assets/FilesHome.png)
+![Files](https://github.com/files-community/Files/blob/main/src/Files/Assets/FilesHome.png)
 
 ## What is Files?
 Files is a file manager for Windows with a powerful yet intuitive design. It has features like multiple tabs, panes, columns, shell extensions in the context menu and tags.
