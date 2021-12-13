@@ -1,0 +1,71 @@
+﻿<Page
+    x:Class="Files.SettingsPages.Multitasking"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
+    xmlns:local="using:Files.UserControls.Settings"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+    </Page.Resources>
+
+    <Grid>
+        <StackPanel
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Spacing="4">
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition />
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
+
+            <TextBlock
+                x:Uid="SettingsMultitaskingTitle"
+                Padding="0,0,0,12"
+                FontSize="20"
+                FontWeight="Medium"
+                Text="Multitasking" />
+
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsVerticalTabFlyout}" HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xF5ED;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsVerticalTabFlyout}"
+                    IsOn="{x:Bind ViewModel.IsVerticalTabFlyoutEnabled, Mode=TwoWay}"
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
+
+            <TextBlock
+                x:Uid="SettingsDualPane"
+                Padding="0,12,0,4"
+                FontSize="14"
+                FontWeight="Medium"
+                Text="Dual pane" />
+
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsMultitaskingEnableDualPane}" HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsMultitaskingEnableDualPane}"
+                    IsOn="{x:Bind ViewModel.IsDualPaneEnabled, Mode=TwoWay}"
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
+
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsMultitaskingAlwaysOpenDualPane}" HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsMultitaskingAlwaysOpenDualPane}"
+                    IsEnabled="{x:Bind ViewModel.IsDualPaneEnabled, Mode=OneWay}"
+                    IsOn="{x:Bind ViewModel.AlwaysOpenDualPaneInNewTab, Mode=TwoWay}"
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
+        </StackPanel>
+    </Grid>
+</Page> 

@@ -1,8 +1,8 @@
 name: Feature Request
 description: This project thrives from differentiation from competing apps. Suggest an idea for Files
-labels: [feature_request]
+labels: [feature request]
 body:
-  - type: input
+  - type: textarea
     attributes:
       label: What's the Problem?
       description: If your feature request is related to a problem, describe it clearly.
@@ -47,18 +47,14 @@ body:
     id: files-version
     attributes:
       label: Files Version
-      description: What version of Files are you using?
-      placeholder: v1.5
-    validations:
-      required: true
+      description: Which version of Files are you using?
+      placeholder: 'Version: 2.0.36.0'
   - type: input
     attributes:
       label: Windows Version
-      description: What version of Windows are you using? Press <kbd>Win</kbd> + <kbd>Pause/Break</kbd> and copy.
-      placeholder: e.g. Windows 10 20H2 19042.804
-    validations:
-      required: true
+      description: Which version of Windows are you using? Press <kbd>Win</kbd> + <kbd>Pause/Break</kbd> and copy.
+      placeholder: e.g. Windows 11 21H2 22000.194
   - type: textarea
     attributes:
-      label: Additional comment
-      description: Add any other comment or screenshots about the feature request here. What device type/UI layout and app version?
+      label: Comments
+      description: Additional information, comments or screenshots about the feature request.
