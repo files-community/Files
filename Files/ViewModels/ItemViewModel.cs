@@ -383,6 +383,7 @@ namespace Files.ViewModels
                 case nameof(UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled):
+                case nameof(UserSettingsService.PreferencesSettingsService.ShowFolderSize):
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                     {
                         if (WorkingDirectory != "Home".GetLocalized())
@@ -1040,7 +1041,7 @@ namespace Files.ViewModels
                             groupImage = await GetItemTypeGroupIcon(item, matchingStorageFile);
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                     }
                     finally

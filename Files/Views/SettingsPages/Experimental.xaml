@@ -73,6 +73,15 @@
                 </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
 
+            <local:SettingsBlockControl
+                Title="{helpers:ResourceString Name=ShowFolderSize}"
+                HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE2B2;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch IsOn="{Binding ShowFolderSize, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
+
             <TextBlock
                 Padding="0,12,0,4"
                 FontSize="14"
@@ -83,7 +92,9 @@
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xEC50;" />
                 </local:SettingsBlockControl.Icon>
-                <ToggleSwitch IsOn="{Binding IsSetAsDefaultFileManager, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}">
+                <ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}"
+                    IsOn="{Binding IsSetAsDefaultFileManager, Mode=TwoWay}" 
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}">
                     <i:Interaction.Behaviors>
                         <icore:EventTriggerBehavior EventName="Toggled">
                             <icore:InvokeCommandAction Command="{Binding SetAsDefaultExplorerCommand, Mode=OneWay}" />

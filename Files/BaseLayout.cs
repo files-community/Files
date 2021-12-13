@@ -15,7 +15,6 @@ using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -208,6 +207,11 @@ namespace Files
             }
             internal set
             {
+                foreach (var item in selectedItems)
+                {
+                    item.PropertyChanged -= SelectedItem_PropertyChanged;
+                }
+
                 //if (!(value?.All(x => selectedItems?.Contains(x) ?? false) ?? value == selectedItems)) // check if the new list is different then the old one
                 if (value != selectedItems) // check if the new list is different then the old one
                 {
@@ -266,24 +270,22 @@ namespace Files
                             SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemsSelected/Text".GetLocalized()}";
                             ResetRenameDoubleClick();
 
-                            if (SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File))
+                            bool isSizeKnown = !selectedItems.Any(item => string.IsNullOrEmpty(item.FileSize));
+                            if (isSizeKnown)
                             {
-                                long size = 0;
-                                foreach (var item in SelectedItems)
-                                {
-                                    size += item.FileSizeBytes;
-                                }
+                                long size = selectedItems.Sum(item => item.FileSizeBytes);
                                 SelectedItemsPropertiesViewModel.ItemSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
-                            }
-                            else
-                            {
-                                SelectedItemsPropertiesViewModel.ItemSize = string.Empty;
                             }
                         }
                     }
 
                     NotifyPropertyChanged(nameof(SelectedItems));
                     //ItemManipulationModel.SetDragModeForItems();
+                }
+
+                foreach (var item in selectedItems)
+                {
+                    item.PropertyChanged += SelectedItem_PropertyChanged;
                 }
 
                 ParentShellPageInstance.NavToolbarViewModel.SelectedItems = value;
@@ -536,6 +538,11 @@ namespace Files
             ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
             BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
 
+            foreach (var item in selectedItems)
+            {
+                item.PropertyChanged -= SelectedItem_PropertyChanged;
+            }
+
             var parameter = e.Parameter as NavigationArguments;
             if (!parameter.IsLayoutSwitch)
             {
@@ -607,6 +614,24 @@ namespace Files
             catch (Exception error)
             {
                 Debug.WriteLine(error);
+            }
+        }
+
+        private void SelectedItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ListedItem.FileSize))
+            {
+                var items = selectedItems;
+                if (items is not null)
+                {
+                    bool isSizeKnown = !items.Any(item => string.IsNullOrEmpty(item.FileSize));
+                    if (isSizeKnown)
+                    {
+                        long size = items.Sum(item => item.FileSizeBytes);
+                        SelectedItemsPropertiesViewModel.ItemSizeBytes = size;
+                        SelectedItemsPropertiesViewModel.ItemSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
+                    }
+                }
             }
         }
 

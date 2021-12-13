@@ -64,8 +64,16 @@ namespace Files.UserControls
             DependencyObjectHelpers.FindChild<TextBox>(VisiblePath)?.SelectAll();
         }
 
-        private void ManualPathEntryItem_Click(object sender, RoutedEventArgs e)
+        private void ManualPathEntryItem_Click(object sender, PointerRoutedEventArgs e)
         {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                Windows.UI.Input.PointerPoint ptrPt = e.GetCurrentPoint(NavToolbar);
+                if (ptrPt.Properties.IsMiddleButtonPressed)
+                {
+                    return;
+                }
+            }
             ViewModel.IsEditModeEnabled = true;
         }
 

@@ -567,6 +567,7 @@
                     Width="36"
                     Height="32"
                     AccessKey="I"
+                    AutomationProperties.AutomationId="SettingsButton"
                     AutomationProperties.Name="{helpers:ResourceString Name=NavSettingsButton}"
                     Background="Transparent"
                     Command="{x:Bind SettingsButtonCommand, Mode=OneWay}"
