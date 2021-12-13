@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/files-community/Files/main/src/Files/Assets/AppTiles/StoreLogo.scale-400.png" />
+  <img src="src/Files/Assets/AppTiles/StoreLogo.scale-400.png" />
 </p>
 
 [![Build Status](https://dev.azure.com/filescommunity/Files/_apis/build/status/Build%20Pipeline?branchName=main)](https://dev.azure.com/filescommunity/Files/_build/latest?definitionId=4&branchName=main)
