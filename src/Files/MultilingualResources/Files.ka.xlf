@@ -150,7 +150,7 @@
           <source>Remove this item</source>
           <target state="translated">ამ ნივთის წაშლა</target>
         </trans-unit>
-        <trans-unit id="RecentFilesHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="RecentFiles" translate="yes" xml:space="preserve">
           <source>Recent Files</source>
           <target state="translated">ბოლო ფაილები</target>
         </trans-unit>
@@ -1503,7 +1503,7 @@
           <source>Shortcut item</source>
           <target state="translated">მალსახმობის ელემენტი</target>
         </trans-unit>
-        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Drives" translate="yes" xml:space="preserve">
           <source>Drives</source>
           <target state="translated">დისკები</target>
         </trans-unit>
@@ -1684,7 +1684,7 @@
           <source>Dual pane</source>
           <target state="translated">ორმაგი სარკმელი</target>
         </trans-unit>
-        <trans-unit id="FolderWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Folders" translate="yes" xml:space="preserve">
           <source>Folders</source>
           <target state="translated">საქაღალდეები</target>
         </trans-unit>
@@ -1808,7 +1808,7 @@
           <source>Remove Bundle</source>
           <target state="translated">შეკვრის ამოშლა</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Bundles" translate="yes" xml:space="preserve">
           <source>Bundles</source>
           <target state="translated">შეკვრები</target>
         </trans-unit>

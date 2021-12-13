@@ -1056,7 +1056,7 @@
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>Genvejsemne</value>
   </data>
-  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+  <data name="Drives" xml:space="preserve">
     <value>Drev</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
@@ -1161,7 +1161,7 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dobbeltrude</value>
   </data>
-  <data name="FolderWidgetDescription.Text" xml:space="preserve">
+  <data name="Folders" xml:space="preserve">
     <value>Mapper</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
@@ -1257,7 +1257,7 @@
   <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
     <value>Fjern samling</value>
   </data>
-  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+  <data name="Bundles" xml:space="preserve">
     <value>Samlinger</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
@@ -1749,7 +1749,7 @@
   <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
     <value>Gendan</value>
   </data>
-  <data name="RecentFilesHeader.Text" xml:space="preserve">
+  <data name="RecentFiles" xml:space="preserve">
     <value>Seneste filer</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">

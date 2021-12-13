@@ -654,7 +654,7 @@
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>यहाँ लाएँ</value>
   </data>
-  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+  <data name="Drives" xml:space="preserve">
     <value>ड्राइव:</value>
   </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
@@ -894,7 +894,7 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>निकालें</value>
   </data>
-  <data name="FolderWidgetDescription.Text" xml:space="preserve">
+  <data name="Folders" xml:space="preserve">
     <value>फ़ोल्डर्स</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
@@ -930,7 +930,7 @@
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
     <value>नए टैब में खोलें</value>
   </data>
-  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+  <data name="Bundles" xml:space="preserve">
     <value>बंडल्स</value>
   </data>
   <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
@@ -1293,7 +1293,7 @@
   <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
     <value>पुनर्स्थापित करें</value>
   </data>
-  <data name="RecentFilesHeader.Text" xml:space="preserve">
+  <data name="RecentFiles" xml:space="preserve">
     <value>हाल ही की फ़ाइलें</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">

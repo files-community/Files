@@ -18,15 +18,6 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <TextBlock
-                x:Uid="DrivesWidgetDescription"
-                HorizontalAlignment="Left"
-                FontFamily="Segoe UI"
-                FontSize="14"
-                FontWeight="Medium"
-                Opacity=".8"
-                Text="Drives" />
-
             <!--  Map Drive button  -->
             <Button
                 x:Uid="DrivesWidgetMoreOptionsButton"

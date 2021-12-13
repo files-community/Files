@@ -987,7 +987,7 @@
           <source>Move here</source>
           <target state="translated">Buraya taşı</target>
         </trans-unit>
-        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Drives" translate="yes" xml:space="preserve">
           <source>Drives</source>
           <target state="translated">Sürücüler</target>
         </trans-unit>
@@ -1543,7 +1543,7 @@
           <source>Customize the right click context menu</source>
           <target state="translated">Sağ tık menüsünü özelleştir</target>
         </trans-unit>
-        <trans-unit id="FolderWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Folders" translate="yes" xml:space="preserve">
           <source>Folders</source>
           <target state="translated">Klasörler</target>
         </trans-unit>
@@ -1676,7 +1676,7 @@
           <source>Remove Bundle</source>
           <target state="translated">Paketi Kaldır</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Bundles" translate="yes" xml:space="preserve">
           <source>Bundles</source>
           <target state="translated">Paketler</target>
         </trans-unit>
@@ -2674,7 +2674,7 @@
           <source>Restore Libraries</source>
           <target state="translated">Kitaplıkları Geri Yükle</target>
         </trans-unit>
-        <trans-unit id="RecentFilesHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="RecentFiles" translate="yes" xml:space="preserve">
           <source>Recent Files</source>
           <target state="translated" state-qualifier="tm-suggestion">Son Dosyalar</target>
         </trans-unit>

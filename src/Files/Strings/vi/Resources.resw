@@ -120,7 +120,7 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Loại bỏ mục này</value>
   </data>
-  <data name="RecentFilesHeader.Text" xml:space="preserve">
+  <data name="RecentFiles" xml:space="preserve">
     <value>Tệp Gần đây</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
@@ -1116,7 +1116,7 @@
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>Mục tắt lối</value>
   </data>
-  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+  <data name="Drives" xml:space="preserve">
     <value>Ổ đĩa:</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
@@ -1251,7 +1251,7 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Hai màn</value>
   </data>
-  <data name="FolderWidgetDescription.Text" xml:space="preserve">
+  <data name="Folders" xml:space="preserve">
     <value>Thư mục</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
@@ -1341,7 +1341,7 @@
   <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
     <value>Xóa bỏ bó</value>
   </data>
-  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+  <data name="Bundles" xml:space="preserve">
     <value>Bó</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">

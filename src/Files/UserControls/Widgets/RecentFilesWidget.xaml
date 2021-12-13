@@ -15,14 +15,6 @@
             Grid.Column="0">
             <StackPanel Orientation="Vertical" Spacing="4">
                 <TextBlock
-                    x:Uid="RecentFilesHeader"
-                    HorizontalAlignment="Left"
-                    FontFamily="Segoe UI"
-                    FontSize="14"
-                    FontWeight="Medium"
-                    Opacity=".8"
-                    Text="Recent Files" />
-                <TextBlock
                     x:Name="RecentItemDescription"
                     x:Uid="RecentItemDescription"
                     Margin="0,24,0,0"

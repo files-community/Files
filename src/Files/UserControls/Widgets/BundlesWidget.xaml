@@ -25,15 +25,6 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <TextBlock
-                x:Uid="BundlesWidgetHeader"
-                HorizontalAlignment="Left"
-                FontSize="14"
-                FontWeight="Medium"
-                Opacity="0.8"
-                Text="Bundles"
-                TextTrimming="CharacterEllipsis" />
-
             <!--  Add Bundle button  -->
             <Button
                 x:Uid="BundlesWidgetMoreOptionsButton"

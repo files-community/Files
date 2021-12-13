@@ -120,7 +120,7 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Αφαιρέστε αυτό το στοιχείο</value>
   </data>
-  <data name="RecentFilesHeader.Text" xml:space="preserve">
+  <data name="RecentFiles" xml:space="preserve">
     <value>Πρόσφατα αρχεία</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
@@ -1137,7 +1137,7 @@
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>Στοιχείο συντόμευσης</value>
   </data>
-  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+  <data name="Drives" xml:space="preserve">
     <value>Οδηγίες</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
@@ -1272,7 +1272,7 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Διπλό παράθυρο</value>
   </data>
-  <data name="FolderWidgetDescription.Text" xml:space="preserve">
+  <data name="Folders" xml:space="preserve">
     <value>Φάκελοι</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
@@ -1365,7 +1365,7 @@
   <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
     <value>Αφαίρεση πακέτου</value>
   </data>
-  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+  <data name="Bundles" xml:space="preserve">
     <value>Δέσμες</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">

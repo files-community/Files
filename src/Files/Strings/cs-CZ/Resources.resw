@@ -1056,7 +1056,7 @@
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>Zástupce</value>
   </data>
-  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+  <data name="Drives" xml:space="preserve">
     <value>Jednotky</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
@@ -1161,7 +1161,7 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dvoupanelové rozhraní</value>
   </data>
-  <data name="FolderWidgetDescription.Text" xml:space="preserve">
+  <data name="Folders" xml:space="preserve">
     <value>Složky</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
@@ -1200,7 +1200,7 @@
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
     <value>Otevřít v nové záložce</value>
   </data>
-  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+  <data name="Bundles" xml:space="preserve">
     <value>Balíčky</value>
   </data>
   <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
@@ -1611,7 +1611,7 @@
   <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
     <value>Obnovit</value>
   </data>
-  <data name="RecentFilesHeader.Text" xml:space="preserve">
+  <data name="RecentFiles" xml:space="preserve">
     <value>Naposledy otevřené soubory</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
