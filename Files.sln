@@ -3,24 +3,28 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.31903.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.Launcher", "Files.Launcher\Files.Launcher.csproj", "{533F9E86-EE0A-4FCB-B70C-F29532C1B787}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.Launcher", "src\Files.Launcher\Files.Launcher.csproj", "{533F9E86-EE0A-4FCB-B70C-F29532C1B787}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A2FF3F3B-8EBC-4108-B99D-1476B7876656} = {A2FF3F3B-8EBC-4108-B99D-1476B7876656}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Files", "Files\Files.csproj", "{64C30C4E-A69A-411C-9F78-776E7AAD583C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Files", "src\Files\Files.csproj", "{64C30C4E-A69A-411C-9F78-776E7AAD583C}"
 EndProject
-Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "Files.Package", "Files.Package\Files.Package.wapproj", "{3B15596C-3DB9-4B58-B4C8-442D06A8C130}"
+Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "Files.Package", "src\Files.Package\Files.Package.wapproj", "{3B15596C-3DB9-4B58-B4C8-442D06A8C130}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{0533133F-2559-4B53-A0FD-0970BC0E312E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "src\Common\Common.csproj", "{0533133F-2559-4B53-A0FD-0970BC0E312E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundTasks", "BackgroundTasks\BackgroundTasks.csproj", "{3D19293F-0E3A-4946-ADE3-680A1E9123EC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundTasks", "src\BackgroundTasks\BackgroundTasks.csproj", "{3D19293F-0E3A-4946-ADE3-680A1E9123EC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FilesOpenDialog", "FilesOpenDialog", "{0175B70C-1E29-4A3F-AA4F-C2017B040EF0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CustomOpenDialog", "Files.OpenDialog\CustomOpenDialog\CustomOpenDialog.vcxproj", "{A2FF3F3B-8EBC-4108-B99D-1476B7876656}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CustomOpenDialog", "src\Files.OpenDialog\CustomOpenDialog\CustomOpenDialog.vcxproj", "{A2FF3F3B-8EBC-4108-B99D-1476B7876656}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.InteractionTests", "Files.InteractionTests\Files.InteractionTests.csproj", "{B7E43D1F-AC8B-4958-95D5-A06CDD1FEACD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.InteractionTests", "tests\Files.InteractionTests\Files.InteractionTests.csproj", "{B7E43D1F-AC8B-4958-95D5-A06CDD1FEACD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A74DCE98-A744-4D71-A2B1-7EE4FED0936B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{481DE2EA-E6CE-4A9C-A220-3B543B95AAA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -194,7 +198,14 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{533F9E86-EE0A-4FCB-B70C-F29532C1B787} = {A74DCE98-A744-4D71-A2B1-7EE4FED0936B}
+		{64C30C4E-A69A-411C-9F78-776E7AAD583C} = {A74DCE98-A744-4D71-A2B1-7EE4FED0936B}
+		{3B15596C-3DB9-4B58-B4C8-442D06A8C130} = {A74DCE98-A744-4D71-A2B1-7EE4FED0936B}
+		{0533133F-2559-4B53-A0FD-0970BC0E312E} = {A74DCE98-A744-4D71-A2B1-7EE4FED0936B}
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC} = {A74DCE98-A744-4D71-A2B1-7EE4FED0936B}
+		{0175B70C-1E29-4A3F-AA4F-C2017B040EF0} = {A74DCE98-A744-4D71-A2B1-7EE4FED0936B}
 		{A2FF3F3B-8EBC-4108-B99D-1476B7876656} = {0175B70C-1E29-4A3F-AA4F-C2017B040EF0}
+		{B7E43D1F-AC8B-4958-95D5-A06CDD1FEACD} = {481DE2EA-E6CE-4A9C-A220-3B543B95AAA1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E62043C-A7A1-4982-9EC9-4CDB2939B776}
