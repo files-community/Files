@@ -37,7 +37,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:WidgetsListControlItemViewModel">
                         <Grid AutomationProperties.Name="{x:Bind WidgetAutomationProperties, Mode=OneWay}">
-                            <controls:Expander Header="{x:Bind WidgetItemModel.WidgetHeader, Mode=OneWay}" Padding="16,0,16,0"
+                            <controls:Expander IsExpanded="True" Header="{x:Bind WidgetItemModel.WidgetHeader, Mode=OneWay}" Padding="16,0,16,0"
                                 HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                                 <controls:Expander.Resources>
                                     <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent"/>
@@ -49,7 +49,7 @@
                                     <x:Double x:Key="ExpanderMinHeight">0</x:Double>
                                     <Thickness x:Key="ExpanderContentPadding">0</Thickness>
                                 </controls:Expander.Resources>
-                                <ContentControl Content="{x:Bind WidgetControl, Mode=OneWay}"/>
+                                <ContentControl Content="{x:Bind WidgetControl, Mode=OneWay}" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"/>
                             </controls:Expander>
                         </Grid>
                     </DataTemplate>
