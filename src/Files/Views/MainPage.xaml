@@ -377,8 +377,9 @@
 
                 <ContentPresenter
                     Grid.Row="1"
-                    Grid.Column="0" HorizontalContentAlignment="Stretch"
+                    Grid.Column="0"
                     HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
                     Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
 
                 <controls:PreviewPane

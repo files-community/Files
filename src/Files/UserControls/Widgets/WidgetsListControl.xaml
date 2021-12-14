@@ -2,10 +2,11 @@
     x:Class="Files.UserControls.Widgets.WidgetsListControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls.Widgets"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="using:Files.ViewModels.Widgets" xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    xmlns:vm="using:Files.ViewModels.Widgets"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -37,19 +38,26 @@
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:WidgetsListControlItemViewModel">
                         <Grid AutomationProperties.Name="{x:Bind WidgetAutomationProperties, Mode=OneWay}">
-                            <controls:Expander IsExpanded="True" Header="{x:Bind WidgetItemModel.WidgetHeader, Mode=OneWay}" Padding="16,0,16,0"
-                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                            <controls:Expander
+                                Padding="16,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                Header="{x:Bind WidgetItemModel.WidgetHeader, Mode=OneWay}"
+                                IsExpanded="True">
                                 <controls:Expander.Resources>
-                                    <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent"/>
-                                    <SolidColorBrush x:Key="ExpanderHeaderBorderBrush" Color="Transparent"/>
-                                    <SolidColorBrush x:Key="ExpanderHeaderBorderPointerOverBrush" Color="Transparent"/>
-                                    <SolidColorBrush x:Key="ExpanderHeaderBorderPressedBrush" Color="Transparent"/>
-                                    <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
-                                    <SolidColorBrush x:Key="ExpanderContentBorderBrush" Color="Transparent"/>
+                                    <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent" />
+                                    <SolidColorBrush x:Key="ExpanderHeaderBorderBrush" Color="Transparent" />
+                                    <SolidColorBrush x:Key="ExpanderHeaderBorderPointerOverBrush" Color="Transparent" />
+                                    <SolidColorBrush x:Key="ExpanderHeaderBorderPressedBrush" Color="Transparent" />
+                                    <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent" />
+                                    <SolidColorBrush x:Key="ExpanderContentBorderBrush" Color="Transparent" />
                                     <x:Double x:Key="ExpanderMinHeight">0</x:Double>
                                     <Thickness x:Key="ExpanderContentPadding">0</Thickness>
                                 </controls:Expander.Resources>
-                                <ContentControl Content="{x:Bind WidgetControl, Mode=OneWay}" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                <ContentControl
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch"
+                                    Content="{x:Bind WidgetControl, Mode=OneWay}" />
                             </controls:Expander>
                         </Grid>
                     </DataTemplate>

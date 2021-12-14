@@ -234,10 +234,7 @@
                     Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
                     <ListView.ItemContainerTransitions>
                         <TransitionCollection>
-                            <AddDeleteThemeTransition />
-                            <!--<ContentThemeTransition />-->
-                            <ReorderThemeTransition />
-                            <EntranceThemeTransition IsStaggeringEnabled="False" />
+                            <ContentThemeTransition />
                         </TransitionCollection>
                     </ListView.ItemContainerTransitions>
                     <ListView.Header>
@@ -911,6 +908,11 @@
                     HorizontalAlignment="Stretch"
                     ItemsSource="{x:Bind CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
                     SelectionMode="None">
+                    <ListView.ItemContainerTransitions>
+                        <TransitionCollection>
+                            <ContentThemeTransition />
+                        </TransitionCollection>
+                    </ListView.ItemContainerTransitions>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="ICollectionViewGroup">
                             <StackPanel

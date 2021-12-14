@@ -74,20 +74,24 @@
                     ItemSize="80"
                     ViewModel="{x:Bind ViewModel}" />
             </Grid>
-            <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">
-            <TextBox
-                x:Name="ItemFileName"
-                x:Uid="PropertiesItemFileName"
-                Style="{StaticResource PropertyValueTextBox}"
-                Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}"
-                Visibility="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}" />
-            <TextBlock
-                x:Name="itemFilesAndFoldersCountValueTop"
-                Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.FilesAndFoldersCountString, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.FilesAndFoldersCountVisibility, Mode=OneWay}" />
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center">
+                <TextBox
+                    x:Name="ItemFileName"
+                    x:Uid="PropertiesItemFileName"
+                    Style="{StaticResource PropertyValueTextBox}"
+                    Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}"
+                    Visibility="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}" />
+                <TextBlock
+                    x:Name="itemFilesAndFoldersCountValueTop"
+                    Style="{StaticResource PropertyValueTextBlock}"
+                    Text="{x:Bind ViewModel.FilesAndFoldersCountString, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.FilesAndFoldersCountVisibility, Mode=OneWay}" />
             </StackPanel>
-                <MenuFlyoutSeparator
+            <MenuFlyoutSeparator
                 Grid.Row="1"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
