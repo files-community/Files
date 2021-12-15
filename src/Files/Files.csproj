@@ -1521,7 +1521,7 @@
       <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\SevenZip\SevenZip.csproj">
-      <Project>{c0cc2a3f-cb5b-46b4-afe0-8f1ac03c24b8}</Project>
+      <Project>{26adb683-0a36-4639-ad67-202a3693d03c}</Project>
       <Name>SevenZip</Name>
     </ProjectReference>
   </ItemGroup>
