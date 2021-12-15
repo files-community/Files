@@ -43,7 +43,7 @@
                                 HorizontalAlignment="Stretch"
                                 HorizontalContentAlignment="Stretch"
                                 Header="{x:Bind WidgetItemModel.WidgetHeader, Mode=OneWay}"
-                                IsExpanded="True">
+                                IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}">
                                 <controls:Expander.Resources>
                                     <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent" />
                                     <SolidColorBrush x:Key="ExpanderHeaderBorderBrush" Color="Transparent" />
