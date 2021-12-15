@@ -191,7 +191,7 @@ namespace Files.ViewModels.SettingsViewModels
                     break;
 
                 case "SupportUs":
-                    await Launcher.LaunchUriAsync(new Uri(@"https://paypal.me/yaichenbaum"));
+                    await Launcher.LaunchUriAsync(new Uri(@"https://github.com/sponsors/yaichenbaum"));
                     break;
 
                 default:
