@@ -203,8 +203,8 @@
                     <Border
                         VerticalAlignment="Stretch"
                         Background="Transparent"
-                        Tapped="PathBoxItem_Tapped"
-                        PointerPressed="PathBoxItem_PointerPressed">
+                        PointerPressed="PathBoxItem_PointerPressed"
+                        Tapped="PathBoxItem_Tapped">
                         <TextBlock
                             Margin="0,0,0,2"
                             VerticalAlignment="Center"

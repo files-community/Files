@@ -795,7 +795,7 @@
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>ଏଠାକୁ ଘୁଞ୍ଚନ୍ତୁ</value>
   </data>
-  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+  <data name="Drives" xml:space="preserve">
     <value>ଡ୍ରାଇଭ୍‌ସମୂହ:</value>
   </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
@@ -861,7 +861,7 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>ଅପସାରଣ</value>
   </data>
-  <data name="FolderWidgetDescription.Text" xml:space="preserve">
+  <data name="Folders" xml:space="preserve">
     <value>ଫୋଲ୍ଡରଗୁଡିକ</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
@@ -1227,7 +1227,7 @@
   <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
     <value>ପୁନଃସ୍ଥାପନା</value>
   </data>
-  <data name="RecentFilesHeader.Text" xml:space="preserve">
+  <data name="RecentFiles" xml:space="preserve">
     <value>ବର୍ତ୍ତମାନର ଫାଇଲ୍‌ଗୁଡିକ</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">

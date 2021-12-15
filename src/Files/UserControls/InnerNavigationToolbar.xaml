@@ -183,13 +183,13 @@
                 <AppBarSeparator x:Name="AdditionalActionSeparator" x:Load="{x:Bind ViewModel.HasAdditionnalAction, Mode=OneWay}" />
                 <AppBarButton
                     x:Name="EmptyRecycleBinButton"
+                    Command="{x:Bind ViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanEmptyRecycleBin, Mode=OneWay}"
                     Label="{helpers:ResourceString Name=EmptyRecycleBin}"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=EmptyRecycleBin}"
-                    IsEnabled="{x:Bind ViewModel.CanEmptyRecycleBin, Mode=OneWay}"
-                    Command="{x:Bind ViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
                     Visibility="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=Collapsed}">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xEF88;" FontFamily="{StaticResource RecycleBinIcons}" />
+                        <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
             </CommandBar.PrimaryCommands>
@@ -488,9 +488,9 @@
                                 <TextBlock
                                     x:Name="NavToolbarDetailsHeader"
                                     Grid.Row="0"
-                                    Grid.Column="1" 
-                                    Tapped="NavToolbarDetailsHeader_Tapped"
+                                    Grid.Column="1"
                                     VerticalAlignment="Center"
+                                    Tapped="NavToolbarDetailsHeader_Tapped"
                                     Text="{helpers:ResourceString Name=Details}" />
 
                                 <RadioButton
@@ -519,7 +519,7 @@
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
                                     Tapped="NavToolbarTilesHeader_Tapped"
-                                    Text="{helpers:ResourceString Name=Tiles}"/>
+                                    Text="{helpers:ResourceString Name=Tiles}" />
 
                                 <RadioButton
                                     x:Uid="NavToolbarSmallIcons"
@@ -547,7 +547,7 @@
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
                                     Tapped="NavToolbarSmallIconsHeader_Tapped"
-                                    Text="{helpers:ResourceString Name=SmallIcons}"/>
+                                    Text="{helpers:ResourceString Name=SmallIcons}" />
 
                                 <Border
                                     Grid.RowSpan="3"
@@ -561,7 +561,6 @@
                                 <RadioButton
                                     x:Uid="NavToolbarMediumIcons"
                                     Grid.Row="0"
-                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                                     Grid.Column="3"
                                     Width="36"
                                     Height="32"
@@ -573,6 +572,7 @@
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
+                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                                     IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
                                     ToolTipService.ToolTip="Medium Icons (Ctrl+Shift+4)">
@@ -585,7 +585,7 @@
                                     Grid.Column="4"
                                     VerticalAlignment="Center"
                                     Tapped="NavToolbarMediumIconsHeader_Tapped"
-                                    Text="{helpers:ResourceString Name=MediumIcons}"/>
+                                    Text="{helpers:ResourceString Name=MediumIcons}" />
 
                                 <RadioButton
                                     x:Uid="NavToolbarLargeIcons"
@@ -613,7 +613,7 @@
                                     Grid.Column="4"
                                     VerticalAlignment="Center"
                                     Tapped="NavToolbarLargeIconsHeader_Tapped"
-                                    Text="{helpers:ResourceString Name=LargeIcons}"/>
+                                    Text="{helpers:ResourceString Name=LargeIcons}" />
 
                                 <RadioButton
                                     x:Uid="NavToolbarColumnView"
@@ -644,7 +644,7 @@
                                     Grid.Column="4"
                                     VerticalAlignment="Center"
                                     Tapped="NavToolbarColumnsHeader_Tapped"
-                                    Text="{helpers:ResourceString Name=Columns}"/>
+                                    Text="{helpers:ResourceString Name=Columns}" />
                             </Grid>
 
                             <Border

@@ -712,7 +712,7 @@
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>இங்கே நகர்த்து</value>
   </data>
-  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+  <data name="Drives" xml:space="preserve">
     <value>இயக்ககங்கள்:</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -934,7 +934,7 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>அகற்று</value>
   </data>
-  <data name="FolderWidgetDescription.Text" xml:space="preserve">
+  <data name="Folders" xml:space="preserve">
     <value>கோப்புறைகள்</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
@@ -1300,7 +1300,7 @@
   <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
     <value>மீட்டெடு</value>
   </data>
-  <data name="RecentFilesHeader.Text" xml:space="preserve">
+  <data name="RecentFiles" xml:space="preserve">
     <value>சமீபத்திய கோப்புகள்</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">

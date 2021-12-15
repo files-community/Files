@@ -983,7 +983,7 @@
           <source>Move here</source>
           <target state="translated">Hierher verschieben</target>
         </trans-unit>
-        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Drives" translate="yes" xml:space="preserve">
           <source>Drives</source>
           <target state="translated">Laufwerke</target>
         </trans-unit>
@@ -1539,7 +1539,7 @@
           <source>Customize the right click context menu</source>
           <target state="translated">Kontextmenü anpassen</target>
         </trans-unit>
-        <trans-unit id="FolderWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Folders" translate="yes" xml:space="preserve">
           <source>Folders</source>
           <target state="translated">Ordner</target>
         </trans-unit>
@@ -1675,7 +1675,7 @@
           <source>Remove Bundle</source>
           <target state="translated">Gruppe entfernen</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Bundles" translate="yes" xml:space="preserve">
           <source>Bundles</source>
           <target state="translated">Sammlungen</target>
         </trans-unit>
@@ -2664,7 +2664,7 @@
           <source>Restore Libraries</source>
           <target state="translated">Bibliotheken wiederherstellen</target>
         </trans-unit>
-        <trans-unit id="RecentFilesHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="RecentFiles" translate="yes" xml:space="preserve">
           <source>Recent Files</source>
           <target state="translated">Zuletzt verwendete Dateien</target>
         </trans-unit>

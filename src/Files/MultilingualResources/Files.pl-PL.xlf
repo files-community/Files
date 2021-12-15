@@ -985,7 +985,7 @@
           <source>Move here</source>
           <target state="translated">Przenieś tutaj</target>
         </trans-unit>
-        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Drives" translate="yes" xml:space="preserve">
           <source>Drives</source>
           <target state="translated">Dyski</target>
         </trans-unit>
@@ -1541,7 +1541,7 @@
           <source>Customize the right click context menu</source>
           <target state="translated">Dostosuj menu kontekstowe prawego przycisku myszy</target>
         </trans-unit>
-        <trans-unit id="FolderWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Folders" translate="yes" xml:space="preserve">
           <source>Folders</source>
           <target state="translated">Foldery</target>
         </trans-unit>
@@ -1669,7 +1669,7 @@
           <source>Remove Bundle</source>
           <target state="translated">Usuń Paczkę</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Bundles" translate="yes" xml:space="preserve">
           <source>Bundles</source>
           <target state="translated">Paczki</target>
         </trans-unit>
@@ -2665,7 +2665,7 @@
           <source>Restore Libraries</source>
           <target state="translated">Przywróć Biblioteki</target>
         </trans-unit>
-        <trans-unit id="RecentFilesHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="RecentFiles" translate="yes" xml:space="preserve">
           <source>Recent Files</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Ostatnio używane pliki</target>
         </trans-unit>

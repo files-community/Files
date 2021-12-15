@@ -744,7 +744,7 @@
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>移到此处</value>
   </data>
-  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+  <data name="Drives" xml:space="preserve">
     <value>驱动器</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
@@ -1161,7 +1161,7 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>自定义右键上下文菜单</value>
   </data>
-  <data name="FolderWidgetDescription.Text" xml:space="preserve">
+  <data name="Folders" xml:space="preserve">
     <value>文件夹</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
@@ -1257,7 +1257,7 @@
   <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
     <value>移除包</value>
   </data>
-  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+  <data name="Bundles" xml:space="preserve">
     <value>包</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
@@ -2006,7 +2006,7 @@
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>恢复库</value>
   </data>
-  <data name="RecentFilesHeader.Text" xml:space="preserve">
+  <data name="RecentFiles" xml:space="preserve">
     <value>最近使用的文件</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">

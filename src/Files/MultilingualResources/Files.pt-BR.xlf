@@ -982,7 +982,7 @@
           <source>Move here</source>
           <target state="translated">Mover aqui</target>
         </trans-unit>
-        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Drives" translate="yes" xml:space="preserve">
           <source>Drives</source>
           <target state="translated">Unidades</target>
         </trans-unit>
@@ -1538,7 +1538,7 @@
           <source>Customize the right click context menu</source>
           <target state="translated">Personalize o menu de contexto (Botão Direito)</target>
         </trans-unit>
-        <trans-unit id="FolderWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Folders" translate="yes" xml:space="preserve">
           <source>Folders</source>
           <target state="translated">Pastas</target>
         </trans-unit>
@@ -1626,7 +1626,7 @@
           <source>Remove Bundle</source>
           <target state="translated">Remover Pacote</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Bundles" translate="yes" xml:space="preserve">
           <source>Bundles</source>
           <target state="translated">Pacotes</target>
         </trans-unit>
@@ -2662,7 +2662,7 @@
           <source>Restore Libraries</source>
           <target state="translated">Restaurar Bibliotecas</target>
         </trans-unit>
-        <trans-unit id="RecentFilesHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="RecentFiles" translate="yes" xml:space="preserve">
           <source>Recent Files</source>
           <target state="translated">Arquivos Recentes</target>
         </trans-unit>

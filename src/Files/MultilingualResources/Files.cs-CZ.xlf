@@ -1430,7 +1430,7 @@
           <source>Shortcut item</source>
           <target state="translated">Zástupce</target>
         </trans-unit>
-        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Drives" translate="yes" xml:space="preserve">
           <source>Drives</source>
           <target state="translated">Jednotky</target>
         </trans-unit>
@@ -1573,7 +1573,7 @@
           <target state="needs-review-translation">Dvoupanelové rozhraní</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="FolderWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Folders" translate="yes" xml:space="preserve">
           <source>Folders</source>
           <target state="translated">Složky</target>
         </trans-unit>
@@ -1711,7 +1711,7 @@
           <source>Remove Bundle</source>
           <target state="new">Remove Bundle</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Bundles" translate="yes" xml:space="preserve">
           <source>Bundles</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Balíčky</target>
         </trans-unit>
@@ -2702,7 +2702,7 @@
           <source>Restore Libraries</source>
           <target state="new">Restore Libraries</target>
         </trans-unit>
-        <trans-unit id="RecentFilesHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="RecentFiles" translate="yes" xml:space="preserve">
           <source>Recent Files</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Naposledy otevřené soubory</target>
         </trans-unit>

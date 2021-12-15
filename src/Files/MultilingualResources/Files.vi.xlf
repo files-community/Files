@@ -151,7 +151,7 @@
           <source>Remove this item</source>
           <target state="translated">Loại bỏ mục này</target>
         </trans-unit>
-        <trans-unit id="RecentFilesHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="RecentFiles" translate="yes" xml:space="preserve">
           <source>Recent Files</source>
           <target state="translated">Tệp Gần đây</target>
         </trans-unit>
@@ -1513,7 +1513,7 @@
           <source>Shortcut item</source>
           <target state="translated">Mục tắt lối</target>
         </trans-unit>
-        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Drives" translate="yes" xml:space="preserve">
           <source>Drives</source>
           <target state="translated">Ổ đĩa:</target>
         </trans-unit>
@@ -1695,7 +1695,7 @@
           <source>Dual pane</source>
           <target state="translated">Hai màn</target>
         </trans-unit>
-        <trans-unit id="FolderWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Folders" translate="yes" xml:space="preserve">
           <source>Folders</source>
           <target state="translated">Thư mục</target>
         </trans-unit>
@@ -1824,7 +1824,7 @@
           <source>Remove Bundle</source>
           <target state="translated">Xóa bỏ bó</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Bundles" translate="yes" xml:space="preserve">
           <source>Bundles</source>
           <target state="translated">Bó</target>
         </trans-unit>

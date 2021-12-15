@@ -1446,7 +1446,7 @@
           <source>Shortcut item</source>
           <target state="translated">Elemento de acceso directo</target>
         </trans-unit>
-        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Drives" translate="yes" xml:space="preserve">
           <source>Drives</source>
           <target state="translated">Dispositivos y unidades</target>
         </trans-unit>
@@ -1598,7 +1598,7 @@
           <source>Dual pane</source>
           <target state="translated">Panel Doble</target>
         </trans-unit>
-        <trans-unit id="FolderWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Folders" translate="yes" xml:space="preserve">
           <source>Folders</source>
           <target state="translated">Carpetas</target>
         </trans-unit>
@@ -1722,7 +1722,7 @@
           <source>Remove Bundle</source>
           <target state="translated">Quitar contenedor</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Bundles" translate="yes" xml:space="preserve">
           <source>Bundles</source>
           <target state="translated">Contenedores</target>
         </trans-unit>
@@ -2662,7 +2662,7 @@
           <source>Restore Libraries</source>
           <target state="translated">Restaurar bibliotecas</target>
         </trans-unit>
-        <trans-unit id="RecentFilesHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="RecentFiles" translate="yes" xml:space="preserve">
           <source>Recent Files</source>
           <target state="translated">Archivos recientes</target>
         </trans-unit>
