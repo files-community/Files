@@ -1330,7 +1330,7 @@
     <value>Send the developers an issue report with more information</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Support us on PayPal</value>
+    <value>Support us on GitHub</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>List and sort directories alongside files</value>
