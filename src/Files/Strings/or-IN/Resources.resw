@@ -18,9 +18,6 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>ନୂଆ ୱିଣ୍ଡୋରେ ଖୋଲ</value>
   </data>
-  <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
-    <value>ଫୋଲ୍ଡର</value>
-  </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
     <value>ବିଟମ୍ୟାପ୍ ପ୍ରତିଛବି</value>
   </data>
@@ -186,14 +183,8 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>ଲେପନ କର</value>
   </data>
-  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
-    <value>ଟର୍ମିନାଲ୍ ରେ ଖୋଲ ...</value>
-  </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5ହ୍ୟାସ୍:</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
-    <value>ଫୋଲ୍ଡର</value>
   </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>ଗୁଣଧର୍ମ</value>
@@ -218,9 +209,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>କାଟ</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
-    <value>କପି କର</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>ନାମ ପରିବର୍ତ୍ତନ କର</value>
@@ -251,9 +239,6 @@
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>ନାମ ଚୟନ କର</value>
-  </data>
-  <data name="SystemTheme" xml:space="preserve">
-    <value>ୱିଣ୍ଡୋଜ୍ ଡିଫଲ୍ଟ</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>ଆଲୋକ</value>
@@ -555,14 +540,8 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>ୱାର୍କିଂ ଡାଇରେକ୍ଟୋରୀ:</value>
   </data>
-  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
-    <value>ଅନୁପ୍ରୟୋଗ</value>
-  </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>ଫାଇଲ୍:</value>
-  </data>
-  <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
-    <value>ଫୋଲ୍ଡର:</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>ୱେବ୍ ଲିଙ୍କ</value>
@@ -615,12 +594,6 @@
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>ଅବସ୍ଥାନ କପି କରନ୍ତୁ</value>
   </data>
-  <data name="ButtonNo.Content" xml:space="preserve">
-    <value>ନାଁ</value>
-  </data>
-  <data name="ButtonYes.Content" xml:space="preserve">
-    <value>ହଁ</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>ବାତିଲ୍</value>
   </data>
@@ -663,9 +636,6 @@
   <data name="PropertyDimensions" xml:space="preserve">
     <value>ପରିସରଗୁଡ଼ିକ</value>
   </data>
-  <data name="CompressionText" xml:space="preserve">
-    <value>ସଙ୍କୋଚନ:</value>
-  </data>
   <data name="PropertyLatitude" xml:space="preserve">
     <value>ଅକ୍ଷାଂଶ</value>
   </data>
@@ -686,9 +656,6 @@
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
     <value>ନମୂନା ମୂଲ୍ୟ</value>
-  </data>
-  <data name="PropertyDisplayArtist" xml:space="preserve">
-    <value>କଳାକାର:</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>ଆଲ୍‌ବମ୍ କଳାକାର</value>
@@ -789,9 +756,6 @@
   <data name="FileItemAutomation" xml:space="preserve">
     <value>ଫାଇଲ୍:</value>
   </data>
-  <data name="FolderItemAutomation" xml:space="preserve">
-    <value>ଫୋଲ୍ଡର:</value>
-  </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>ଏଠାକୁ ଘୁଞ୍ଚନ୍ତୁ</value>
   </data>
@@ -870,12 +834,6 @@
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>ତାରିଖ ବିଲୋପିତ ହୋଇଛି</value>
   </data>
-  <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
-    <value>ସୁନିଶ୍ଚିତ</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
-    <value>ସୁନିଶ୍ଚିତ</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>ପୁନଃନାମ |0</value>
   </data>
@@ -884,9 +842,6 @@
   </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
     <value>ନୂତନ ଟ୍ୟାବ୍‌ରେ ଖୋଲନ୍ତୁ</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
-    <value>ସୁନିଶ୍ଚିତ</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ଅଧିକ ବିକଳ୍ପଗୁଡିକ...</value>
@@ -930,9 +885,6 @@
   <data name="DateCreated" xml:space="preserve">
     <value>ତାରିଖ ପ୍ରସ୍ଥୁତ</value>
   </data>
-  <data name="DateCreatedColumn.Header" xml:space="preserve">
-    <value>ତାରିଖ ପ୍ରସ୍ଥୁତ</value>
-  </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ଅଧିକ ବିକଳ୍ପଗୁଡିକ...</value>
   </data>
@@ -969,9 +921,6 @@
   <data name="StatusUnknownError" xml:space="preserve">
     <value>ଅଜଣା ତ୍ରୁଟିଟିଏ ଜଣାପଡ଼ୁଛି</value>
   </data>
-  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
-    <value>ନାଁ</value>
-  </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>ଡାହାଣରେ ଟାବ୍‍ଗୁଡିକ ବନ୍ଦ କରନ୍ତୁ</value>
   </data>
@@ -989,12 +938,6 @@
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
     <value>ଅବସ୍ଥାନଗୁଡିକ</value>
-  </data>
-  <data name="LibraryLocationsButtonAdd.Label" xml:space="preserve">
-    <value>ଯୋଡନ୍ତୁ</value>
-  </data>
-  <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
-    <value>ଡିଫଲ୍ଟ</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
     <value>ଅପସାରଣ</value>
@@ -1248,9 +1191,6 @@
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>ଫାଇଲ୍‌ଗୁଡ଼ିକ</value>
   </data>
-  <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
-    <value>ନାଁ</value>
-  </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>ଅନୁମତିଗୁଡିକ</value>
   </data>
@@ -1284,9 +1224,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>ଫାଇଲ୍ ପାଠାନ୍ତର</value>
   </data>
-  <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
-    <value>ବ୍ରାଉଜ୍ କରନ୍ତୁ</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
     <value>ବହିଷ୍କାର...</value>
   </data>
@@ -1302,17 +1239,8 @@
   <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>ସୁରକ୍ଷିତ ଅପରେଟିଂ ସିଷ୍ଟମ୍ ଫାଇଲ୍‌ଗୁଡ଼ିକୁ (ଅନୁମୋଦିତ) ଲୁଚାନ୍ତୁ</value>
   </data>
-  <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
-    <value>କପି</value>
-  </data>
   <data name="NavSettingsButton" xml:space="preserve">
     <value>ସେଟିଂସମୂହ</value>
-  </data>
-  <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">
-    <value>କପି</value>
-  </data>
-  <data name="NavigationToolbarCopy.Label" xml:space="preserve">
-    <value>କପି</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>ଅଦ୍ୟତନଗୁଡିକ ଉପଲବ୍ଧ</value>
@@ -1374,9 +1302,6 @@
   <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
     <value>ତାରିଖ ସଂଶୋଧିତ</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateCreated.Text" xml:space="preserve">
-    <value>ତାରିଖ ପ୍ରସ୍ଥୁତ</value>
-  </data>
   <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
     <value>ଆକାର:</value>
   </data>
@@ -1385,9 +1310,6 @@
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>ପ୍ରକାର:</value>
-  </data>
-  <data name="NavToolbarSortDirectionOptionAscending.Text" xml:space="preserve">
-    <value>ଆରୋହ</value>
   </data>
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>ଅବରୋହ</value>

@@ -18,9 +18,6 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>Öppna i nytt fönster</value>
   </data>
-  <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
-    <value>Mapp</value>
-  </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
     <value>Bitmappsbild</value>
   </data>
@@ -186,14 +183,8 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Klistra in</value>
   </data>
-  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
-    <value>Öppna i Terminal...</value>
-  </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5Hash:</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
-    <value>Mapp</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Fil</value>
@@ -225,9 +216,6 @@
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>Klipp ut</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
-    <value>Kopiera</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Byt namn</value>
   </data>
@@ -257,9 +245,6 @@
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Tillämpa namn</value>
-  </data>
-  <data name="SystemTheme" xml:space="preserve">
-    <value>Windows-standard</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Ljust</value>
@@ -576,14 +561,8 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>Starta i:</value>
   </data>
-  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
-    <value>Program</value>
-  </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>Fil</value>
-  </data>
-  <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
-    <value>Mapp</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Webblänk</value>
@@ -608,9 +587,6 @@
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
     <value>Okänd</value>
-  </data>
-  <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
-    <value>Öppna loggplats</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Files stötte på ett problem som utvecklarna inte ännu var förberedda för.</value>
@@ -671,12 +647,6 @@
   </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Mer</value>
-  </data>
-  <data name="ButtonNo.Content" xml:space="preserve">
-    <value>Nej</value>
-  </data>
-  <data name="ButtonYes.Content" xml:space="preserve">
-    <value>Ja</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>Appen måste startas om för att tillämpa språkinställningen. Vill du starta om appen?</value>
@@ -804,9 +774,6 @@
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>Lodrät upplösning</value>
   </data>
-  <data name="CompressionText" xml:space="preserve">
-    <value>Komprimering</value>
-  </data>
   <data name="PropertyColorSpace" xml:space="preserve">
     <value>Färgrymd</value>
   </data>
@@ -866,9 +833,6 @@
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
     <value>Samplingshastighet</value>
-  </data>
-  <data name="PropertyDisplayArtist" xml:space="preserve">
-    <value>Artist</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>Albumartist</value>
@@ -1053,9 +1017,6 @@
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Fil</value>
   </data>
-  <data name="FolderItemAutomation" xml:space="preserve">
-    <value>Mapp</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Objekt i Papperskorgen</value>
   </data>
@@ -1212,9 +1173,6 @@
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Fler alternativ...</value>
   </data>
-  <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
-    <value>Bekräfta</value>
-  </data>
   <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
     <value>Exportera samlingar</value>
   </data>
@@ -1226,9 +1184,6 @@
   </data>
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
     <value>Inmatningsfältet får inte vara tomt!</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleItem.Text" xml:space="preserve">
-    <value>Skapa samling</value>
   </data>
   <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
     <value>Ange namn för samlingen</value>
@@ -1254,17 +1209,11 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Dra och släpp valfri fil eller mapp hit för snabb åtkomst</value>
   </data>
-  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
-    <value>Bekräfta</value>
-  </data>
   <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
     <value>Ange namn för samlingen</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
     <value>Önskat namn</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
-    <value>Bekräfta</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
     <value>Ange ett nytt namn</value>
@@ -1280,9 +1229,6 @@
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
     <value>Lägg till samling</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>Skapa samling</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
     <value>Byt namn på samling</value>
@@ -1353,9 +1299,6 @@
   <data name="DateCreated" xml:space="preserve">
     <value>Skapad</value>
   </data>
-  <data name="DateCreatedColumn.Header" xml:space="preserve">
-    <value>Skapad</value>
-  </data>
   <data name="Network" xml:space="preserve">
     <value>Prickar</value>
   </data>
@@ -1404,20 +1347,11 @@
   <data name="StatusCopyComplete" xml:space="preserve">
     <value>Kopiering slutförd</value>
   </data>
-  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
-    <value>Nej</value>
-  </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>Stäng flikar till höger</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Administratör</value>
-  </data>
-  <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
-    <value>Kolumnvy</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
-    <value>Kolumnvy</value>
   </data>
   <data name="ItemTypeLibrary" xml:space="preserve">
     <value>Bibliotek</value>
@@ -1430,12 +1364,6 @@
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
     <value>Platser</value>
-  </data>
-  <data name="LibraryLocationsButtonAdd.Label" xml:space="preserve">
-    <value>Lägg till</value>
-  </data>
-  <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
-    <value>Standard</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
     <value>Radera</value>
@@ -1728,9 +1656,6 @@
   <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
     <value>Ärvd</value>
   </data>
-  <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
-    <value>Nej</value>
-  </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Behörigheter</value>
   </data>
@@ -1806,9 +1731,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Filversion</value>
   </data>
-  <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
-    <value>Bläddra</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
     <value>Extrahera</value>
   </data>
@@ -1830,20 +1752,11 @@
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>Användbara länkar</value>
   </data>
-  <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
-    <value>Kopiera</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>Fäst i Favoriter</value>
   </data>
   <data name="NavSettingsButton" xml:space="preserve">
     <value>Inställningar</value>
-  </data>
-  <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Kopiera</value>
-  </data>
-  <data name="NavigationToolbarCopy.Label" xml:space="preserve">
-    <value>Kopiera</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Uppdateringar är tillgängliga</value>
@@ -1908,9 +1821,6 @@
   <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
     <value>Ändrad</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateCreated.Text" xml:space="preserve">
-    <value>Skapad</value>
-  </data>
   <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
     <value>Storlek</value>
   </data>
@@ -1919,9 +1829,6 @@
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>typ</value>
-  </data>
-  <data name="NavToolbarSortDirectionOptionAscending.Text" xml:space="preserve">
-    <value>Stigande</value>
   </data>
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Fallande</value>

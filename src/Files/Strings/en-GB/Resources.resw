@@ -21,9 +21,6 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>New window</value>
   </data>
-  <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
-    <value>Folder</value>
-  </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
     <value>Bitmap Image</value>
   </data>
@@ -126,9 +123,6 @@
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>Useful links</value>
   </data>
-  <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
-    <value>Copy</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Submit feedback</value>
   </data>
@@ -225,17 +219,11 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Paste</value>
   </data>
-  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
-    <value>Open in Terminal...</value>
-  </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5Hash:</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>New</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
-    <value>Folder</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>File</value>
@@ -266,9 +254,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>Cut</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
-    <value>Copy</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Rename</value>
@@ -302,9 +287,6 @@
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Set Name</value>
-  </data>
-  <data name="SystemTheme" xml:space="preserve">
-    <value>Default</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Light</value>
@@ -630,14 +612,8 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>Working directory:</value>
   </data>
-  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
-    <value>Application</value>
-  </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>File</value>
-  </data>
-  <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
-    <value>Folder</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Web link</value>
@@ -662,9 +638,6 @@
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
     <value>Unknown</value>
-  </data>
-  <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
-    <value>Open log location</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Files ran into a problem that the developers didn't prepare for yet.</value>
@@ -725,12 +698,6 @@
   </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>More</value>
-  </data>
-  <data name="ButtonNo.Content" xml:space="preserve">
-    <value>No</value>
-  </data>
-  <data name="ButtonYes.Content" xml:space="preserve">
-    <value>Yes</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>The application needs to be restarted in order to apply these settings, would you like to restart the app?</value>
@@ -882,9 +849,6 @@
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>Vertical Resolution</value>
   </data>
-  <data name="CompressionText" xml:space="preserve">
-    <value>Compression</value>
-  </data>
   <data name="PropertyColorSpace" xml:space="preserve">
     <value>Colour Space</value>
   </data>
@@ -944,9 +908,6 @@
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
     <value>Sample Rate</value>
-  </data>
-  <data name="PropertyDisplayArtist" xml:space="preserve">
-    <value>Artist</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>Album Artist</value>
@@ -1140,9 +1101,6 @@
   <data name="FileItemAutomation" xml:space="preserve">
     <value>File</value>
   </data>
-  <data name="FolderItemAutomation" xml:space="preserve">
-    <value>Folder</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Recycle bin item</value>
   </data>
@@ -1243,7 +1201,7 @@
     <value>Hide protected operating system files (Recommended)</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Show unindexed items when searching for files and folders (searches may take longer)</value>
+    <value>Show unindexed items when searching for files and folders</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
     <value>Enable individual preferences for individual directories</value>
@@ -1341,9 +1299,6 @@
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>More options...</value>
   </data>
-  <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
-    <value>Confirm</value>
-  </data>
   <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
     <value>Export Bundles</value>
   </data>
@@ -1355,9 +1310,6 @@
   </data>
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
     <value>Input field cannot be empty!</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleItem.Text" xml:space="preserve">
-    <value>Create Bundle</value>
   </data>
   <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
     <value>Enter Bundle name</value>
@@ -1383,17 +1335,11 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Drag and drop any file or folder here to quickly access it</value>
   </data>
-  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
-    <value>Confirm</value>
-  </data>
   <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
     <value>Enter Bundle name</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
     <value>Desired name</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
-    <value>Confirm</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
     <value>Enter new name</value>
@@ -1409,9 +1355,6 @@
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
     <value>Add Bundle</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>Create Bundle</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
     <value>Rename Bundle</value>
@@ -1518,9 +1461,6 @@
   <data name="DateCreated" xml:space="preserve">
     <value>Date created</value>
   </data>
-  <data name="DateCreatedColumn.Header" xml:space="preserve">
-    <value>Date created</value>
-  </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>More options...</value>
   </data>
@@ -1593,9 +1533,6 @@
   <data name="StatusCopyComplete" xml:space="preserve">
     <value>Copy complete</value>
   </data>
-  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
-    <value>No</value>
-  </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>This action requires administrator rights</value>
   </data>
@@ -1608,9 +1545,6 @@
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Administrator</value>
   </data>
-  <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
-    <value>Column View</value>
-  </data>
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>Columns (Ctrl+Shift+6)</value>
   </data>
@@ -1619,9 +1553,6 @@
   </data>
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>Unpin from the Start Menu</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
-    <value>Column View</value>
   </data>
   <data name="ItemTypeLibrary" xml:space="preserve">
     <value>Library</value>
@@ -1634,12 +1565,6 @@
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
     <value>Locations:</value>
-  </data>
-  <data name="LibraryLocationsButtonAdd.Label" xml:space="preserve">
-    <value>Add</value>
-  </data>
-  <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
-    <value>Default</value>
   </data>
   <data name="SetAsDefaultSavePath" xml:space="preserve">
     <value>Set as default save path</value>
@@ -2076,9 +2001,6 @@
   <data name="DecompressArchiveDialog.Title" xml:space="preserve">
     <value>Select a destination and extract files</value>
   </data>
-  <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
-    <value>Browse</value>
-  </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Open destination folder when complete</value>
   </data>
@@ -2138,9 +2060,6 @@
   </data>
   <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
     <value>Inherited</value>
-  </data>
-  <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
-    <value>No</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Permissions</value>
@@ -2241,12 +2160,6 @@
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>Replace all child object permissions entries with inheritable permission entries from this object</value>
   </data>
-  <data name="CreateBundleBtn.AutomationProperties.Name" xml:space="preserve">
-    <value>Create Bundle</value>
-  </data>
-  <data name="CreateBundleBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Create Bundle</value>
-  </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Close pane</value>
   </data>
@@ -2300,12 +2213,6 @@
   </data>
   <data name="NavSettingsButton" xml:space="preserve">
     <value>Settings</value>
-  </data>
-  <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Copy</value>
-  </data>
-  <data name="NavigationToolbarCopy.Label" xml:space="preserve">
-    <value>Copy</value>
   </data>
   <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
     <value>Add file</value>
@@ -2416,9 +2323,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
     <value>Date modified</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateCreated.Text" xml:space="preserve">
-    <value>Date created</value>
-  </data>
   <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
     <value>Size</value>
   </data>
@@ -2430,9 +2334,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>Type</value>
-  </data>
-  <data name="NavToolbarSortDirectionOptionAscending.Text" xml:space="preserve">
-    <value>Ascending</value>
   </data>
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Descending</value>
@@ -2524,24 +2425,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Create link in {0}</value>
   </data>
-  <data name="NavToolbarColumnsHeader.Text" xml:space="preserve">
-    <value>Columns</value>
-  </data>
-  <data name="NavToolbarDetailsHeader.Text" xml:space="preserve">
-    <value>Details</value>
-  </data>
-  <data name="NavToolbarLargeIconsHeader.Text" xml:space="preserve">
-    <value>Large Icons</value>
-  </data>
-  <data name="NavToolbarMediumIconsHeader.Text" xml:space="preserve">
-    <value>Medium Icons</value>
-  </data>
-  <data name="NavToolbarSmallIconsHeader.Text" xml:space="preserve">
-    <value>Small Icons</value>
-  </data>
-  <data name="NavToolbarTilesHeader.Text" xml:space="preserve">
-    <value>Tiles</value>
-  </data>
   <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
     <value>Show file extensions</value>
   </data>
@@ -2574,9 +2457,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Show WSL section</value>
-  </data>
-  <data name="SettingsDateFormatComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Date format</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Open folders in new tab</value>
@@ -2665,9 +2545,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
     <value>On program start</value>
   </data>
-  <data name="HighDpiOverride_Application" xml:space="preserve">
-    <value>Application</value>
-  </data>
   <data name="HighDpiOverride_None" xml:space="preserve">
     <value>None</value>
   </data>
@@ -2733,5 +2610,35 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
     <value>Use DPI settings of the main monitor</value>
+  </data>
+  <data name="SettingsDefaultFilesManager" xml:space="preserve">
+    <value>Default file manager</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
+    <value>Set Files as the default file manager</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Empty Recycle Bin</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Sidebar</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Files and folders</value>
+  </data>
+  <data name="OpenNewInstance" xml:space="preserve">
+    <value>Open new instance when opening directories from the taskbar jumplist</value>
+  </data>
+  <data name="StartupSettings" xml:space="preserve">
+    <value>Startup settings</value>
+  </data>
+  <data name="ThirdPartyLicenses" xml:space="preserve">
+    <value>Third party licences</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
+    <value>This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Clear all</value>
   </data>
 </root>

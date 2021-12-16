@@ -18,9 +18,6 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>Åbn i nyt vindue</value>
   </data>
-  <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
-    <value>Mappe</value>
-  </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
     <value>Bitmap Billede</value>
   </data>
@@ -186,14 +183,8 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Indsæt</value>
   </data>
-  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
-    <value>Åbn i Terminal...</value>
-  </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5Hash:</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
-    <value>Mappe</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Fil</value>
@@ -221,9 +212,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>Klip</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
-    <value>Kopiér</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Omdøb</value>
@@ -254,9 +242,6 @@
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Ændr navn</value>
-  </data>
-  <data name="SystemTheme" xml:space="preserve">
-    <value>Windows-standard</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Lys</value>
@@ -573,14 +558,8 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>Arbejdsmappe:</value>
   </data>
-  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
-    <value>Applikation</value>
-  </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>Fil</value>
-  </data>
-  <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
-    <value>Mappe</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Web link</value>
@@ -605,9 +584,6 @@
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
     <value>Ukendt</value>
-  </data>
-  <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
-    <value>Åbn logplacering</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Files løb ind i et problem, som udviklerne ikke forberedte sig på endnu.</value>
@@ -668,12 +644,6 @@
   </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Mere</value>
-  </data>
-  <data name="ButtonNo.Content" xml:space="preserve">
-    <value>Nej</value>
-  </data>
-  <data name="ButtonYes.Content" xml:space="preserve">
-    <value>Ja</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>Applikationen skal genstartes for at anvende sprogindstillingen. Vil du genstarte appen?</value>
@@ -798,9 +768,6 @@
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>Lodret opløsning</value>
   </data>
-  <data name="CompressionText" xml:space="preserve">
-    <value>Kompression</value>
-  </data>
   <data name="PropertyColorSpace" xml:space="preserve">
     <value>Farverum</value>
   </data>
@@ -860,9 +827,6 @@
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
     <value>Prøvefrekvens</value>
-  </data>
-  <data name="PropertyDisplayArtist" xml:space="preserve">
-    <value>Kunstner</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>Album Kunstner</value>
@@ -1047,9 +1011,6 @@
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Fil</value>
   </data>
-  <data name="FolderItemAutomation" xml:space="preserve">
-    <value>Mappe</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Papirkurvsemne</value>
   </data>
@@ -1200,9 +1161,6 @@
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>Sletningsdato</value>
   </data>
-  <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
-    <value>Bekræft</value>
-  </data>
   <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
     <value>En samling med det samme navn eksisterer allerede!</value>
   </data>
@@ -1217,9 +1175,6 @@
   </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
     <value>Ønsket navn</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
-    <value>Bekræft</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
     <value>Angiv nyt navn</value>
@@ -1242,9 +1197,6 @@
   <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
     <value>Importer samlinger</value>
   </data>
-  <data name="BundlesWidgetCreateBundleItem.Text" xml:space="preserve">
-    <value>Opret samling</value>
-  </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
     <value>Åbn på en ny fane</value>
   </data>
@@ -1263,14 +1215,8 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Træk og slip enhver fil eller mappe her for at få hurtig adgang til den</value>
   </data>
-  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
-    <value>Bekræft</value>
-  </data>
   <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
     <value>Indtast navnet på samlingen</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>Opret samling</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
     <value>Omdøb samling</value>
@@ -1380,9 +1326,6 @@
   <data name="DateCreated" xml:space="preserve">
     <value>Oprettelsesdato</value>
   </data>
-  <data name="DateCreatedColumn.Header" xml:space="preserve">
-    <value>Oprettelsesdato</value>
-  </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Flere indstillinger...</value>
   </data>
@@ -1446,9 +1389,6 @@
   <data name="StatusCopyComplete" xml:space="preserve">
     <value>Kopiering er fuldført</value>
   </data>
-  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
-    <value>Nej</value>
-  </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Denne handling kræver administrator-rettigheder</value>
   </data>
@@ -1481,12 +1421,6 @@
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
     <value>Placeringer</value>
-  </data>
-  <data name="LibraryLocationsButtonAdd.Label" xml:space="preserve">
-    <value>Tilføj</value>
-  </data>
-  <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
-    <value>Standard</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
     <value>Slet</value>
@@ -1776,9 +1710,6 @@
   <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
     <value>Nedarvet</value>
   </data>
-  <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
-    <value>Nej</value>
-  </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Tilladelser</value>
   </data>
@@ -1848,9 +1779,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Filversion</value>
   </data>
-  <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
-    <value>Søg</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
     <value>Pak ud</value>
   </data>
@@ -1872,20 +1800,11 @@
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>Nyttige links</value>
   </data>
-  <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
-    <value>Kopiér</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>Fastgør til Favoritter</value>
   </data>
   <data name="NavSettingsButton" xml:space="preserve">
     <value>Indstillinger</value>
-  </data>
-  <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Kopiér</value>
-  </data>
-  <data name="NavigationToolbarCopy.Label" xml:space="preserve">
-    <value>Kopiér</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Tilgængelige opdateringer</value>
@@ -1950,9 +1869,6 @@
   <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
     <value>Ændringsdato</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateCreated.Text" xml:space="preserve">
-    <value>Oprettelsesdato</value>
-  </data>
   <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
     <value>Størrelse</value>
   </data>
@@ -1961,9 +1877,6 @@
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>skriv</value>
-  </data>
-  <data name="NavToolbarSortDirectionOptionAscending.Text" xml:space="preserve">
-    <value>Stigende</value>
   </data>
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Faldende</value>

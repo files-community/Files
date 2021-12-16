@@ -18,9 +18,6 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>פתח בחלון חדש</value>
   </data>
-  <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
-    <value>תיקיה</value>
-  </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
     <value>תמונת מפת סיביות</value>
   </data>
@@ -183,9 +180,6 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>הדבק</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
-    <value>תיקיה</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>מאפיינים</value>
   </data>
@@ -210,9 +204,6 @@
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>גזור</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
-    <value>העתק</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>שנה שם</value>
   </data>
@@ -236,9 +227,6 @@
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>שם ערכה:</value>
-  </data>
-  <data name="SystemTheme" xml:space="preserve">
-    <value>ברירת מחדל של Windows</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>בהיר</value>
@@ -489,14 +477,8 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>ספריית עבודה:</value>
   </data>
-  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
-    <value>אפליקציה</value>
-  </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>קובץ</value>
-  </data>
-  <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
-    <value>תיקיה</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>קישור אינטרנט</value>
@@ -582,12 +564,6 @@
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
     <value>פתח כרטיסיות</value>
   </data>
-  <data name="ButtonNo.Content" xml:space="preserve">
-    <value>לא</value>
-  </data>
-  <data name="ButtonYes.Content" xml:space="preserve">
-    <value>כן</value>
-  </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>על מנת להחיל הגדרות שפה יש להפעיל את האפליקציה מחדש, האם ברצונך לבצע זאת כעת?</value>
   </data>
@@ -666,9 +642,6 @@
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>רזולוציה אנכית</value>
   </data>
-  <data name="CompressionText" xml:space="preserve">
-    <value>דחיסה</value>
-  </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
     <value>גודל אופקי</value>
   </data>
@@ -713,9 +686,6 @@
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
     <value>קצב דגימה</value>
-  </data>
-  <data name="PropertyDisplayArtist" xml:space="preserve">
-    <value>אמן</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>אמן האלבום:</value>
@@ -845,9 +815,6 @@
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>קובץ</value>
-  </data>
-  <data name="FolderItemAutomation" xml:space="preserve">
-    <value>תיקיה</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>פריט סל המיחזור</value>
@@ -990,12 +957,6 @@
   <data name="PropertyItemPathDisplay" xml:space="preserve">
     <value>נתיב פריט</value>
   </data>
-  <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
-    <value>אשר</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
-    <value>אשר</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
     <value>הזן שם חדש</value>
   </data>
@@ -1013,9 +974,6 @@
   </data>
   <data name="Bundles" xml:space="preserve">
     <value>חבילות</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
-    <value>אשר</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>אפשרויות נוספות</value>
@@ -1068,9 +1026,6 @@
   <data name="DateCreated" xml:space="preserve">
     <value>תאריך יצירה</value>
   </data>
-  <data name="DateCreatedColumn.Header" xml:space="preserve">
-    <value>תאריך יצירה</value>
-  </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>אפשרויות נוספות</value>
   </data>
@@ -1113,9 +1068,6 @@
   <data name="StatusCopyComplete" xml:space="preserve">
     <value>ההעתקה הושלמה</value>
   </data>
-  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
-    <value>לא</value>
-  </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>סגור כרטיסיות משמאל</value>
   </data>
@@ -1127,9 +1079,6 @@
   </data>
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>בטל הצמדה לתפריט ההתחלה</value>
-  </data>
-  <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
-    <value>ברירת מחדל</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>העתק</value>
@@ -1179,9 +1128,6 @@
   <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
     <value>שחזור ספריות ברירת המחדל</value>
   </data>
-  <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
-    <value>העתק</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>הצמד למועדפים</value>
   </data>
@@ -1193,12 +1139,6 @@
   </data>
   <data name="NavSettingsButton" xml:space="preserve">
     <value>הגדרות</value>
-  </data>
-  <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">
-    <value>העתק</value>
-  </data>
-  <data name="NavigationToolbarCopy.Label" xml:space="preserve">
-    <value>העתק</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>עדכון חדש זמין</value>

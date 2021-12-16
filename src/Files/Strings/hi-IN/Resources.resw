@@ -18,9 +18,6 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>नई विंडो में खोलें</value>
   </data>
-  <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
-    <value>फ़ोल्डर</value>
-  </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
     <value>बिटमैप छवि</value>
   </data>
@@ -186,14 +183,8 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>पेस्ट करें</value>
   </data>
-  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
-    <value>टर्मिनल में खोलें ...</value>
-  </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5 हैश:</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
-    <value>फ़ोल्डर</value>
   </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>गुण</value>
@@ -218,9 +209,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>कटौती</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
-    <value>प्रतिलिपि</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>पुनर्नाम</value>
@@ -251,9 +239,6 @@
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>नाम निर्धारित करें</value>
-  </data>
-  <data name="SystemTheme" xml:space="preserve">
-    <value>विंडोज डिफ़ॉल्ट</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>प्रकाश</value>
@@ -558,14 +543,8 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>कार्य निर्देशिका:</value>
   </data>
-  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
-    <value>अनुप्रयोग</value>
-  </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>फ़ाइल</value>
-  </data>
-  <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
-    <value>फ़ोल्डर</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>वेब लिंक</value>
@@ -627,12 +606,6 @@
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>टैब जोड़ें</value>
   </data>
-  <data name="ButtonNo.Content" xml:space="preserve">
-    <value>नहीं</value>
-  </data>
-  <data name="ButtonYes.Content" xml:space="preserve">
-    <value>हाँ</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>रद्द करें</value>
   </data>
@@ -647,9 +620,6 @@
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>फ़ाइल</value>
-  </data>
-  <data name="FolderItemAutomation" xml:space="preserve">
-    <value>फ़ोल्डर</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>यहाँ लाएँ</value>
@@ -708,9 +678,6 @@
   <data name="PropertyVerticalSize" xml:space="preserve">
     <value>अनुलंब आकार</value>
   </data>
-  <data name="CompressionText" xml:space="preserve">
-    <value>संकुचन</value>
-  </data>
   <data name="PropertyLatitude" xml:space="preserve">
     <value>अक्षांश</value>
   </data>
@@ -731,9 +698,6 @@
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
     <value>नमूना दर</value>
-  </data>
-  <data name="PropertyDisplayArtist" xml:space="preserve">
-    <value>कलाकार:</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>एल्बम कलाकार:</value>
@@ -912,12 +876,6 @@
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>हटाए जाने की तिथि</value>
   </data>
-  <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
-    <value>पुष्टि करें</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
-    <value>पुष्टि करें</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>"{0}" का नाम बदलें</value>
   </data>
@@ -932,9 +890,6 @@
   </data>
   <data name="Bundles" xml:space="preserve">
     <value>बंडल्स</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
-    <value>पुष्टि करें</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>अधिक विकल्प</value>
@@ -978,9 +933,6 @@
   <data name="DateCreated" xml:space="preserve">
     <value>निर्माण दिनांक</value>
   </data>
-  <data name="DateCreatedColumn.Header" xml:space="preserve">
-    <value>निर्माण दिनांक</value>
-  </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>अधिक विकल्प</value>
   </data>
@@ -1020,9 +972,6 @@
   <data name="StatusUnknownError" xml:space="preserve">
     <value>कोई अज्ञात त्रुटि उत्पन्न हुई.</value>
   </data>
-  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
-    <value>नहीं</value>
-  </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>दाईं ओर टैब को बंद करें</value>
   </data>
@@ -1040,12 +989,6 @@
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
     <value>स्थान</value>
-  </data>
-  <data name="LibraryLocationsButtonAdd.Label" xml:space="preserve">
-    <value>जोड़ें</value>
-  </data>
-  <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
-    <value>डिफ़ॉल्ट</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
     <value>निकालें</value>
@@ -1320,9 +1263,6 @@
   <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
     <value>इनहेरिट किया गया</value>
   </data>
-  <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
-    <value>नहीं</value>
-  </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>अनुमतियाँ</value>
   </data>
@@ -1356,9 +1296,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>File version</value>
   </data>
-  <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
-    <value>ब्राउज़</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
     <value>निकालें...</value>
   </data>
@@ -1377,20 +1314,11 @@
   <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>रक्षित ऑपरेटिंग सिस्टम फ़ाइलें छुपाएँ (अनुशंसित)</value>
   </data>
-  <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
-    <value>प्रतिलिपि बनाएँ</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>पसंदीदा पर पिन करें</value>
   </data>
   <data name="NavSettingsButton" xml:space="preserve">
     <value>सेटिंग्स</value>
-  </data>
-  <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">
-    <value>प्रतिलिपि बनाएँ</value>
-  </data>
-  <data name="NavigationToolbarCopy.Label" xml:space="preserve">
-    <value>प्रतिलिपि बनाएँ</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>अद्यतन उपलब्ध</value>
@@ -1455,9 +1383,6 @@
   <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
     <value>संशोधन दिनांक</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateCreated.Text" xml:space="preserve">
-    <value>निर्माण दिनांक</value>
-  </data>
   <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
     <value>आकार</value>
   </data>
@@ -1466,9 +1391,6 @@
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>प्रकार</value>
-  </data>
-  <data name="NavToolbarSortDirectionOptionAscending.Text" xml:space="preserve">
-    <value>आरोही</value>
   </data>
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>अवरोही</value>

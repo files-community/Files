@@ -21,9 +21,6 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>ახალი ფანჯარა</value>
   </data>
-  <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
-    <value>საქაღალდე</value>
-  </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
     <value>ბიტმაპ სურათი</value>
   </data>
@@ -126,9 +123,6 @@
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>სასარგებლო ბმულები</value>
   </data>
-  <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
-    <value>ასლის გაკეთება</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>გამოხმაურება</value>
   </data>
@@ -219,17 +213,11 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>ჩასმა</value>
   </data>
-  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
-    <value>ტერმინალში გახსნა...</value>
-  </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5Hash:</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>ახალი</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
-    <value>საქაღალდე</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>ფაილი</value>
@@ -260,9 +248,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>ამოჭრა</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
-    <value>ასლის შექმნა</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>გადარქმევა</value>
@@ -296,9 +281,6 @@
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>სახელის დაყენება</value>
-  </data>
-  <data name="SystemTheme" xml:space="preserve">
-    <value>ნაგულისხმევი</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>ნათელი</value>
@@ -624,14 +606,8 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>სამუშაო კატალოგი:</value>
   </data>
-  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
-    <value>აპლიკაცია</value>
-  </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>ფაილი</value>
-  </data>
-  <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
-    <value>საქაღალდე</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>ვებ ბმული</value>
@@ -656,9 +632,6 @@
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
     <value>უცნობი</value>
-  </data>
-  <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
-    <value>ჟურნალის გახსნა</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>ფაილებს შეექმნა პრობლემა, რისთვისაც დეველოპერები ჯერ არ მომზადებულან.</value>
@@ -719,12 +692,6 @@
   </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>მეტი</value>
-  </data>
-  <data name="ButtonNo.Content" xml:space="preserve">
-    <value>არა</value>
-  </data>
-  <data name="ButtonYes.Content" xml:space="preserve">
-    <value>დიახ</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>ამ პარამეტრების გამოსაყენებლად საჭიროა აპლიკაციის გადატვირთვა, გსურთ აპლიკაციის გადატვირთვა?</value>
@@ -867,9 +834,6 @@
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>ვერტიკალური გარჩევადობა</value>
   </data>
-  <data name="CompressionText" xml:space="preserve">
-    <value>შეკუმშვა</value>
-  </data>
   <data name="PropertyColorSpace" xml:space="preserve">
     <value>ფერის სივრცე</value>
   </data>
@@ -929,9 +893,6 @@
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
     <value>ნიმუშის შეფასება</value>
-  </data>
-  <data name="PropertyDisplayArtist" xml:space="preserve">
-    <value>ხელოვანი</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>ალბომის შემსრულებელი</value>
@@ -1124,9 +1085,6 @@
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>ფაილი</value>
-  </data>
-  <data name="FolderItemAutomation" xml:space="preserve">
-    <value>საქაღალდე</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>სანაგვე ურნის ნივთი</value>
@@ -1326,9 +1284,6 @@
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>მეტი არჩევანი...</value>
   </data>
-  <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
-    <value>დადასტურება</value>
-  </data>
   <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
     <value>ექსპორტის პაკეტები</value>
   </data>
@@ -1340,9 +1295,6 @@
   </data>
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
     <value>შეყვანის ველი არ შეიძლება იყოს ცარიელი!</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleItem.Text" xml:space="preserve">
-    <value>პაკეტის შექმნა</value>
   </data>
   <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
     <value>შეიყვანეთ პაკეტის სახელი</value>
@@ -1368,17 +1320,11 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>გადაიტანეთ და გადმოაგდეთ აქ ნებისმიერი ფაილი ან საქაღალდე მასზე სწრაფად შესასვლელად</value>
   </data>
-  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
-    <value>დადასტურება</value>
-  </data>
   <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
     <value>შეიყვანეთ შეკვრის სახელი</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
     <value>სასურველი სახელი</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
-    <value>დადასტურება</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
     <value>შეიყვანეთ ახალი სახელი</value>
@@ -1394,9 +1340,6 @@
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
     <value>შეკვრის დამატება</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>შეკვრის შექმნა</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
     <value>შეკვრის სახელის გადარქმევა</value>
@@ -1500,9 +1443,6 @@
   <data name="DateCreated" xml:space="preserve">
     <value>შექმნის თარიღი</value>
   </data>
-  <data name="DateCreatedColumn.Header" xml:space="preserve">
-    <value>შექმნის თარიღი</value>
-  </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Მეტი არჩევანი...</value>
   </data>
@@ -1575,9 +1515,6 @@
   <data name="StatusCopyComplete" xml:space="preserve">
     <value>ასლის შექმნა დასრულებულია</value>
   </data>
-  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
-    <value>არა</value>
-  </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>ეს მოქმედება მოითხოვს ადმინისტრატორის უფლებებს</value>
   </data>
@@ -1590,9 +1527,6 @@
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>ადმინისტრატორი</value>
   </data>
-  <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
-    <value>სვეტები</value>
-  </data>
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>სვეტები (Ctrl+Shift+6)</value>
   </data>
@@ -1601,9 +1535,6 @@
   </data>
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>საწყისი მენიუდან ჩამაგრების მოხსნა</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
-    <value>სვეტები</value>
   </data>
   <data name="ItemTypeLibrary" xml:space="preserve">
     <value>ბიბლიოთეკა</value>
@@ -1616,12 +1547,6 @@
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
     <value>მდებარეობები:</value>
-  </data>
-  <data name="LibraryLocationsButtonAdd.Label" xml:space="preserve">
-    <value>დამატება</value>
-  </data>
-  <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
-    <value>ნაგულისხმევი</value>
   </data>
   <data name="SetAsDefaultSavePath" xml:space="preserve">
     <value>ნაგულისხმევ დასამახსოვრებელ გზად დაყენება</value>
@@ -2055,9 +1980,6 @@
   <data name="DecompressArchiveDialog.Title" xml:space="preserve">
     <value>შეარჩიეთ დანიშნულების ადგილი და ამოიღეთ ფაილები</value>
   </data>
-  <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
-    <value>გადათვალიერება</value>
-  </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>გახსენით დანიშნულების საქაღალდე დასრულების შემდეგ</value>
   </data>
@@ -2117,9 +2039,6 @@
   </data>
   <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
     <value>Მემკვიდრეობით მიღებული</value>
-  </data>
-  <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
-    <value>არა</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>უფლებები</value>
@@ -2220,12 +2139,6 @@
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>ყველა ბავშვის ობიექტის ნებართვის ჩანაწერის ჩანაცვლება ამ ობიექტის მემკვიდრეობითი ნებართვის ჩანაწერიდან</value>
   </data>
-  <data name="CreateBundleBtn.AutomationProperties.Name" xml:space="preserve">
-    <value>შეკვრის შექმნა</value>
-  </data>
-  <data name="CreateBundleBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>შეკვრის შექმნა</value>
-  </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>ფანჯრის დახურვა</value>
   </data>
@@ -2300,12 +2213,6 @@
   </data>
   <data name="NavSettingsButton" xml:space="preserve">
     <value>პარამეტრები</value>
-  </data>
-  <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ასლის შექმნა</value>
-  </data>
-  <data name="NavigationToolbarCopy.Label" xml:space="preserve">
-    <value>ასლის შექმნა</value>
   </data>
   <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
     <value>ფაილის დამატება</value>
@@ -2415,9 +2322,6 @@
   <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
     <value>შეცვლის თარიღი</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateCreated.Text" xml:space="preserve">
-    <value>შექმნის თარიღი</value>
-  </data>
   <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
     <value>ზომა</value>
   </data>
@@ -2429,9 +2333,6 @@
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>ნიმუში</value>
-  </data>
-  <data name="NavToolbarSortDirectionOptionAscending.Text" xml:space="preserve">
-    <value>ზრდადობის მიხედვით</value>
   </data>
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>კლებადობის მიხედვით</value>
@@ -2523,24 +2424,6 @@
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>ბმულის შექმნა {0} -ში</value>
   </data>
-  <data name="NavToolbarColumnsHeader.Text" xml:space="preserve">
-    <value>სვეტები</value>
-  </data>
-  <data name="NavToolbarDetailsHeader.Text" xml:space="preserve">
-    <value>დეტალები</value>
-  </data>
-  <data name="NavToolbarLargeIconsHeader.Text" xml:space="preserve">
-    <value>მსხვილი ხატულები</value>
-  </data>
-  <data name="NavToolbarMediumIconsHeader.Text" xml:space="preserve">
-    <value>საშუალო ხატულები</value>
-  </data>
-  <data name="NavToolbarSmallIconsHeader.Text" xml:space="preserve">
-    <value>პატარა ხატულები</value>
-  </data>
-  <data name="NavToolbarTilesHeader.Text" xml:space="preserve">
-    <value>ფილები</value>
-  </data>
   <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
     <value>ფაილის გაფართოებების ჩვენება</value>
   </data>
@@ -2573,9 +2456,6 @@
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>WSL განყოფილების ჩვენება</value>
-  </data>
-  <data name="SettingsDateFormatComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>თარიღის ფორმატი</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>საქაღალდეების ახალ ჩანართში გახსნა</value>
