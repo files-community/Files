@@ -48,7 +48,7 @@
   <data name="typeColumn.Header" xml:space="preserve">
     <value>Tipus</value>
   </data>
-  <data name="sizeColumn.Header" xml:space="preserve">
+  <data name="Size" xml:space="preserve">
     <value>Mida</value>
   </data>
   <data name="OpenInTerminal" xml:space="preserve">
@@ -75,9 +75,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>és una subcarpeta de la carpeta d'origen</value>
   </data>
-  <data name="ErrorDialogSkip" xml:space="preserve">
-    <value>Salta</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Tipus d'element:</value>
   </data>
@@ -89,9 +86,6 @@
   </data>
   <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>Desfés la selecció</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
-    <value>Vista de detalls</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Modificat:</value>
@@ -191,9 +185,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Tipus</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
-    <value>Mida</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>Ascendent</value>

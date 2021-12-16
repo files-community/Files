@@ -153,7 +153,7 @@
   <data name="typeColumn.Header" xml:space="preserve">
     <value>Type</value>
   </data>
-  <data name="sizeColumn.Header" xml:space="preserve">
+  <data name="Size" xml:space="preserve">
     <value>Size</value>
   </data>
   <data name="OpenInTerminal" xml:space="preserve">
@@ -194,9 +194,6 @@
   </data>
   <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>Clear Selection</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
-    <value>Details</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Modified:</value>
@@ -305,9 +302,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Type</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
-    <value>Size</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>Ascending</value>
@@ -1353,9 +1347,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Details (Ctrl+Shift+1)</value>
   </data>
-  <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>Details</value>
-  </data>
   <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Layout</value>
   </data>
@@ -1398,10 +1389,7 @@
   <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
     <value>Show hidden items</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
-    <value>Date deleted</value>
-  </data>
-  <data name="dateDeletedColumn.Header" xml:space="preserve">
+  <data name="DateDeleted" xml:space="preserve">
     <value>Date deleted</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
@@ -1797,20 +1785,11 @@
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>Replace existing</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
-    <value>Skip</value>
-  </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>Replace existing</value>
   </data>
-  <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
-    <value>Skip</value>
-  </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
     <value>Replace existing</value>
-  </data>
-  <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
-    <value>Skip</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Generate new name</value>
@@ -1869,20 +1848,11 @@
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Group By</value>
   </data>
-  <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
-    <value>None</value>
-  </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
     <value>Date modified</value>
-  </data>
-  <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
-    <value>Size</value>
-  </data>
-  <data name="NavToolbarArrangementOptionDateDeleted.Text" xml:space="preserve">
-    <value>Date deleted</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
     <value>Original folder</value>
@@ -2276,9 +2246,6 @@
   </data>
   <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
     <value>Write extended attributes</value>
-  </data>
-  <data name="SecurityNoneLabel.Text" xml:space="preserve">
-    <value>None</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
     <value>Convert inherited permissions into explicit permissions</value>
@@ -2674,7 +2641,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="Compatibility" xml:space="preserve">
     <value>Compatibility</value>
   </data>
-  <data name="HighDpiOption_None" xml:space="preserve">
+  <data name="None" xml:space="preserve">
     <value>None</value>
   </data>
   <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
@@ -2683,17 +2650,11 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
     <value>On program start</value>
   </data>
-  <data name="HighDpiOverride_None" xml:space="preserve">
-    <value>None</value>
-  </data>
   <data name="HighDpiOverride_System" xml:space="preserve">
     <value>System</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
     <value>System (advanced)</value>
-  </data>
-  <data name="OSCompatibility_None" xml:space="preserve">
-    <value>None</value>
   </data>
   <data name="Windows7" xml:space="preserve">
     <value>Windows 7</value>
@@ -2715,9 +2676,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
     <value>8 Bit Colors (256)</value>
-  </data>
-  <data name="ReducedColorMode_None" xml:space="preserve">
-    <value>None</value>
   </data>
   <data name="CompatibilityMode" xml:space="preserve">
     <value>Compatibility mode</value>

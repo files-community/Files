@@ -99,9 +99,6 @@
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>类型</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
-    <value>大小</value>
-  </data>
   <data name="Ascending" xml:space="preserve">
     <value>升序</value>
   </data>
@@ -159,9 +156,6 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>文本文档</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
-    <value>详细信息</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>名称</value>
   </data>
@@ -171,7 +165,7 @@
   <data name="typeColumn.Header" xml:space="preserve">
     <value>类型</value>
   </data>
-  <data name="sizeColumn.Header" xml:space="preserve">
+  <data name="Size" xml:space="preserve">
     <value>大小</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -245,9 +239,6 @@
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>是源文件夹的子文件夹</value>
-  </data>
-  <data name="ErrorDialogSkip" xml:space="preserve">
-    <value>跳过</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>反选</value>
@@ -1152,13 +1143,7 @@
   <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
     <value>平铺视图</value>
   </data>
-  <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>详细信息视图</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
-    <value>删除日期</value>
-  </data>
-  <data name="dateDeletedColumn.Header" xml:space="preserve">
+  <data name="DateDeleted" xml:space="preserve">
     <value>删除日期</value>
   </data>
   <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
@@ -1544,20 +1529,11 @@
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>替换现有</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
-    <value>跳过</value>
-  </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>替换现有</value>
   </data>
-  <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
-    <value>跳过</value>
-  </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
     <value>替换现有</value>
-  </data>
-  <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
-    <value>跳过</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>生成新名称</value>
@@ -2051,9 +2027,6 @@
   <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
     <value>写入扩展属性</value>
   </data>
-  <data name="SecurityNoneLabel.Text" xml:space="preserve">
-    <value>无</value>
-  </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
     <value>将继承的权限转换为显式权限</value>
   </data>
@@ -2317,20 +2290,11 @@ Files 不收集、存储、共享或发布任何个人信息。
 我们通过应用商店跟踪应用程序的使用情况，定位bug，并修复可能导致崩溃的因素。发送到应用商店的信息均以匿名形式发送，且不包含任何用户或相关数据。
   </value>
   </data>
-  <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
-    <value>无</value>
-  </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>名称</value>
   </data>
   <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
     <value>修改日期</value>
-  </data>
-  <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
-    <value>大小</value>
-  </data>
-  <data name="NavToolbarArrangementOptionDateDeleted.Text" xml:space="preserve">
-    <value>删除日期</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
     <value>原始文件夹</value>
@@ -2539,7 +2503,7 @@ Files 不收集、存储、共享或发布任何个人信息。
   <data name="Compatibility" xml:space="preserve">
     <value>兼容性</value>
   </data>
-  <data name="HighDpiOption_None" xml:space="preserve">
+  <data name="None" xml:space="preserve">
     <value>无</value>
   </data>
   <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
@@ -2548,17 +2512,11 @@ Files 不收集、存储、共享或发布任何个人信息。
   <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
     <value>打开此程序</value>
   </data>
-  <data name="HighDpiOverride_None" xml:space="preserve">
-    <value>无</value>
-  </data>
   <data name="HighDpiOverride_System" xml:space="preserve">
     <value>系统</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
     <value>系统（进阶）</value>
-  </data>
-  <data name="OSCompatibility_None" xml:space="preserve">
-    <value>无</value>
   </data>
   <data name="Windows7" xml:space="preserve">
     <value>Windows 7</value>
@@ -2580,9 +2538,6 @@ Files 不收集、存储、共享或发布任何个人信息。
   </data>
   <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
     <value>8 位（256）色</value>
-  </data>
-  <data name="ReducedColorMode_None" xml:space="preserve">
-    <value>无</value>
   </data>
   <data name="CompatibilityMode" xml:space="preserve">
     <value>兼容模式</value>

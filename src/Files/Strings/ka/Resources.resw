@@ -48,7 +48,7 @@
   <data name="typeColumn.Header" xml:space="preserve">
     <value>ნიმუში</value>
   </data>
-  <data name="sizeColumn.Header" xml:space="preserve">
+  <data name="Size" xml:space="preserve">
     <value>ზომა</value>
   </data>
   <data name="OpenInTerminal" xml:space="preserve">
@@ -75,9 +75,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>არის წყაროს საქაღალდის ქვე-საქაღალდე</value>
   </data>
-  <data name="ErrorDialogSkip" xml:space="preserve">
-    <value>გამოტოვება</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>ნივთის ნიმუში:</value>
   </data>
@@ -89,9 +86,6 @@
   </data>
   <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>მონიშვნების გასუფთავება</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
-    <value>დეტალები</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>განახლდა:</value>
@@ -197,9 +191,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>ნიმუშით</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
-    <value>ზომით</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>ზრდადობის მიხედვით</value>
@@ -1233,9 +1224,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>დეტალების ხედი (Ctrl+Shift+1)</value>
   </data>
-  <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>დეტალები</value>
-  </data>
   <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>განლაგება</value>
   </data>
@@ -1272,10 +1260,7 @@
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>ფილები (Ctrl+Shift+2)</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
-    <value>წაშლის თარიღი</value>
-  </data>
-  <data name="dateDeletedColumn.Header" xml:space="preserve">
+  <data name="DateDeleted" xml:space="preserve">
     <value>წაშლის თარიღი</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
@@ -1665,20 +1650,11 @@
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>არსებულის ჩანაცვლება</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
-    <value>გამოტოვება</value>
-  </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>არსებულის ჩანაცვლება</value>
   </data>
-  <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
-    <value>გამოტოვება</value>
-  </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
     <value>არსებულის ჩანაცვლება</value>
-  </data>
-  <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
-    <value>გამოტოვება</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>არსებულის ჩანაცვლება</value>
@@ -2121,9 +2097,6 @@
   <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
     <value>გაფართოებული თვისებების წაკითხვა</value>
   </data>
-  <data name="SecurityNoneLabel.Text" xml:space="preserve">
-    <value>არცერთი</value>
-  </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
     <value>მემკვიდრეობით მიღებული უფლებების აშკარა ნებართვებად გადაქცევა</value>
   </data>
@@ -2313,20 +2286,11 @@
 
 ჩვენ ვიყენებთ აპლიკაციების ცენტრს, რომ თვალყური ვადევნოთ აპლიკაციის გამოყენებას, ვიპოვოთ შეცდომები და აღმოვფხვრათ ისინი. App Center -ში გაგზავნილი ყველა ინფორმაცია ანონიმურია და არ შეიცავს მომხმარებლის ან კონტექსტურ მონაცემებს.</value>
   </data>
-  <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
-    <value>არცერთი</value>
-  </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>არცერთი</value>
   </data>
   <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
     <value>შეცვლის თარიღი</value>
-  </data>
-  <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
-    <value>ზომა</value>
-  </data>
-  <data name="NavToolbarArrangementOptionDateDeleted.Text" xml:space="preserve">
-    <value>წაშლის თარიღი</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
     <value>თავდაპირველი საქაღალდე</value>

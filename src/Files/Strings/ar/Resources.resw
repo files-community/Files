@@ -36,7 +36,7 @@
   <data name="typeColumn.Header" xml:space="preserve">
     <value>النوع</value>
   </data>
-  <data name="sizeColumn.Header" xml:space="preserve">
+  <data name="Size" xml:space="preserve">
     <value>الحجم</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
@@ -60,9 +60,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>انه مجلد فرعي من المجلد الاصلي </value>
   </data>
-  <data name="ErrorDialogSkip" xml:space="preserve">
-    <value>‏‏تخطي</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>نوع العنصر</value>
   </data>
@@ -74,9 +71,6 @@
   </data>
   <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>مسح التحديد</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
-    <value>عرض التفاصيل</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>تاريخ التعديل</value>
@@ -167,9 +161,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>النوع</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
-    <value>الحجم</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>تصاعدي</value>
@@ -1116,9 +1107,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>طريقة عرض التفاصيل</value>
   </data>
-  <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>طريقة عرض التفاصيل</value>
-  </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
     <value>عرض الشبكة (كبير)</value>
   </data>
@@ -1143,10 +1131,7 @@
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>عرض البلاط</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
-    <value>‏‏تاريخ الحذف</value>
-  </data>
-  <data name="dateDeletedColumn.Header" xml:space="preserve">
+  <data name="DateDeleted" xml:space="preserve">
     <value>‏‏تاريخ الحذف</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
@@ -1346,15 +1331,6 @@
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>ألم تجد ما تبحث عنه؟</value>
-  </data>
-  <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
-    <value>‏‏تخطي</value>
-  </data>
-  <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
-    <value>‏‏تخطي</value>
-  </data>
-  <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
-    <value>‏‏تخطي</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
     <value>تراجع</value>
@@ -1638,9 +1614,6 @@
   <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
     <value>كتابة السمات الموسعة</value>
   </data>
-  <data name="SecurityNoneLabel.Text" xml:space="preserve">
-    <value>بلا</value>
-  </data>
   <data name="SecurityAdvancedInheritedEnable.Text" xml:space="preserve">
     <value>تمكين التوريث</value>
   </data>
@@ -1743,20 +1716,11 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>نهج الخصوصية</value>
   </data>
-  <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
-    <value>بلا</value>
-  </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>اسم</value>
   </data>
   <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
     <value>تاريخ التعديل</value>
-  </data>
-  <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
-    <value>الحجم</value>
-  </data>
-  <data name="NavToolbarArrangementOptionDateDeleted.Text" xml:space="preserve">
-    <value>‏‏تاريخ الحذف</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>النوع</value>

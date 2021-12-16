@@ -36,7 +36,7 @@
   <data name="typeColumn.Header" xml:space="preserve">
     <value>प्रकार</value>
   </data>
-  <data name="sizeColumn.Header" xml:space="preserve">
+  <data name="Size" xml:space="preserve">
     <value>आकार</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
@@ -60,9 +60,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>स्रोत फ़ोल्डर का एक उपफोल्डर है</value>
   </data>
-  <data name="ErrorDialogSkip" xml:space="preserve">
-    <value>छोड़ें</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>वस्तु प्रकार:</value>
   </data>
@@ -74,9 +71,6 @@
   </data>
   <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>चयन खाली करें</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
-    <value>सूची व्यू</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>संशोधित:</value>
@@ -167,9 +161,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>प्रकार</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
-    <value>आकार</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>बढ़तेक्रममें</value>
@@ -867,13 +858,7 @@
   <data name="PropertyItemPathDisplay" xml:space="preserve">
     <value>मद पथ</value>
   </data>
-  <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>विवरण दृश्‍य</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
-    <value>हटाए जाने की तिथि</value>
-  </data>
-  <data name="dateDeletedColumn.Header" xml:space="preserve">
+  <data name="DateDeleted" xml:space="preserve">
     <value>हटाए जाने की तिथि</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
@@ -1013,15 +998,6 @@
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>जो आप खोज रहे हैं वह नहीं मिला?</value>
-  </data>
-  <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
-    <value>छोड़ें</value>
-  </data>
-  <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
-    <value>छोड़ें</value>
-  </data>
-  <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
-    <value>छोड़ें</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
     <value>पूर्ववत् करें</value>
@@ -1275,9 +1251,6 @@
   <data name="Delete" xml:space="preserve">
     <value>हटायें</value>
   </data>
-  <data name="SecurityNoneLabel.Text" xml:space="preserve">
-    <value>कोई नहीं</value>
-  </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>फलक बंद करें</value>
   </data>
@@ -1374,20 +1347,11 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>गोपनीयता नीति</value>
   </data>
-  <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
-    <value>कोई नहीं</value>
-  </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>नाम</value>
   </data>
   <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
     <value>संशोधन दिनांक</value>
-  </data>
-  <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
-    <value>आकार</value>
-  </data>
-  <data name="NavToolbarArrangementOptionDateDeleted.Text" xml:space="preserve">
-    <value>हटाए जाने की तिथि</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>प्रकार</value>

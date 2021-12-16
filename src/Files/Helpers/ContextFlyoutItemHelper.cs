@@ -112,7 +112,7 @@ namespace Files.Helpers
                         // Details view
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutDetails/Text".GetLocalized(),
+                            Text = "Details".GetLocalized(),
                             Glyph = "\uE179",
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
@@ -256,7 +256,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortBySize/Text".GetLocalized(),
+                            Text = "Size".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedBySize,
                             Command = new RelayCommand(() => itemViewModel.IsSortedBySize = true),
                             ShowInRecycleBin = true,
@@ -294,7 +294,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortByDateDeleted/Text".GetLocalized(),
+                            Text = "DateDeleted".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedByDateDeleted,
                             Command = new RelayCommand(() => itemViewModel.IsSortedByDateDeleted = true),
                             ShowInRecycleBin = true,
@@ -345,7 +345,7 @@ namespace Files.Helpers
                     {
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "NavToolbarGroupByOptionNone/Text".GetLocalized(),
+                            Text = "None".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.None,
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
@@ -405,7 +405,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortBySize/Text".GetLocalized(),
+                            Text = "Size".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.Size,
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
@@ -447,7 +447,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortByDateDeleted/Text".GetLocalized(),
+                            Text = "DateDeleted".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.DateDeleted,
                             ShowInRecycleBin = true,
                             Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,

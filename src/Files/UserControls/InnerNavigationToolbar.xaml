@@ -333,10 +333,7 @@
                                 IsChecked="{x:Bind ViewModel.IsSortedByDateModified, Mode=TwoWay}"
                                 Text="Date modified" />
                             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedByDateCreated, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateCreated}" />
-                            <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarArrangementOptionSize"
-                                IsChecked="{x:Bind ViewModel.IsSortedBySize, Mode=TwoWay}"
-                                Text="Size" />
+                            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedBySize, Mode=TwoWay}" Text="{helpers:ResourceString Name=Size}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionType"
                                 IsChecked="{x:Bind ViewModel.IsSortedByType, Mode=TwoWay}"
@@ -356,16 +353,14 @@
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
                                 Text="Original folder" />
                             <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarArrangementOptionDateDeleted"
                                 IsChecked="{x:Bind ViewModel.IsSortedByDateDeleted, Mode=TwoWay}"
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
-                                Text="Date deleted" />
+                                Text="{helpers:ResourceString Name=DateDeleted}" />
                         </MenuFlyoutSubItem>
                         <MenuFlyoutSubItem x:Uid="NavToolbarGroupByRadioButtons" Text="Group by">
                             <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarGroupByOptionNone"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByNone, Mode=TwoWay}"
-                                Text="None" />
+                                Text="{helpers:ResourceString Name=None}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionName"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByName, Mode=TwoWay}"
@@ -375,10 +370,7 @@
                                 IsChecked="{x:Bind ViewModel.IsGroupedByDateModified, Mode=TwoWay}"
                                 Text="Date modified" />
                             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByDateCreated, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateCreated}" />
-                            <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarArrangementOptionSize"
-                                IsChecked="{x:Bind ViewModel.IsGroupedBySize, Mode=TwoWay}"
-                                Text="Size" />
+                            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedBySize, Mode=TwoWay}" Text="{helpers:ResourceString Name=Size}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionType"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByType, Mode=TwoWay}"
@@ -399,10 +391,9 @@
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
                                 Text="Original folder" />
                             <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarArrangementOptionDateDeleted"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByDateDeleted, Mode=TwoWay}"
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
-                                Text="Date deleted" />
+                                Text="{helpers:ResourceString Name=DateDeleted}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionFolderPath"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByFolderPath, Mode=TwoWay}"
@@ -455,7 +446,6 @@
                                 </Grid.ColumnDefinitions>
 
                                 <RadioButton
-                                    x:Uid="NavToolbarDetails"
                                     Grid.Row="0"
                                     Grid.Column="0"
                                     Width="36"
@@ -464,7 +454,7 @@
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    AutomationProperties.Name="Details"
+                                    AutomationProperties.Name="{helpers:ResourceString Name=Details}"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"

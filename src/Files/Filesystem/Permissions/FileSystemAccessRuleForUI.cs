@@ -392,7 +392,7 @@ namespace Files.Filesystem.Permissions
             var ret = new List<string>();
             if (FileSystemRights == 0)
             {
-                ret.Add("SecurityNoneLabel/Text".GetLocalized());
+                ret.Add("None".GetLocalized());
             }
             if (GrantsFullControl)
             {

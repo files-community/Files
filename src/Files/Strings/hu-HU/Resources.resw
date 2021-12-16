@@ -36,7 +36,7 @@
   <data name="typeColumn.Header" xml:space="preserve">
     <value>Típus</value>
   </data>
-  <data name="sizeColumn.Header" xml:space="preserve">
+  <data name="Size" xml:space="preserve">
     <value>Méret</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
@@ -60,9 +60,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>almappája a forrásmappának</value>
   </data>
-  <data name="ErrorDialogSkip" xml:space="preserve">
-    <value>Kihagyás</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Típus:</value>
   </data>
@@ -74,9 +71,6 @@
   </data>
   <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>Kijelölés megszüntetése</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
-    <value>Részletek</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Módosítva:</value>
@@ -167,9 +161,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Típus</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
-    <value>Méret</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>Növekvő</value>
@@ -1152,13 +1143,7 @@
   <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
     <value>Lista</value>
   </data>
-  <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>Részletek</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
-    <value>Törlés dátuma</value>
-  </data>
-  <data name="dateDeletedColumn.Header" xml:space="preserve">
+  <data name="DateDeleted" xml:space="preserve">
     <value>Törlés dátuma</value>
   </data>
   <data name="PropertyItemPathDisplay" xml:space="preserve">
@@ -1542,20 +1527,11 @@
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>Célhelyen lévő fájl felülírása</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
-    <value>Kihagyás</value>
-  </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>Célhelyen lévő fájl felülírása</value>
   </data>
-  <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
-    <value>Kihagyás</value>
-  </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
     <value>Célhelyen lévő fájl felülírása</value>
-  </data>
-  <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
-    <value>Kihagyás</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Új név létrehozása</value>
@@ -2049,9 +2025,6 @@
   <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
     <value>Kiterjesztett attribútumok írása</value>
   </data>
-  <data name="SecurityNoneLabel.Text" xml:space="preserve">
-    <value>Semmi</value>
-  </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
     <value>Örökölt engedélyek határozottá alakítása</value>
   </data>
@@ -2315,20 +2288,11 @@ A Files nem gyűjt, tárol, továbbít és tesz közzé semmilyen személyes inf
 Az App Center szolgáltatásait használjuk az app használatának monitorozására, hibák feltárására és kijavítására. Minden az App Centernek küldött adat név nélküli és felhasználói adatoktól mentes.
   </value>
   </data>
-  <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
-    <value>Egyik sem</value>
-  </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Név</value>
   </data>
   <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
     <value>Módosítás dátuma</value>
-  </data>
-  <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
-    <value>Méret</value>
-  </data>
-  <data name="NavToolbarArrangementOptionDateDeleted.Text" xml:space="preserve">
-    <value>Törlés dátuma</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
     <value>Eredeti mappa</value>

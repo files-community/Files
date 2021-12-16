@@ -99,9 +99,6 @@
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>유형</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
-    <value>크기</value>
-  </data>
   <data name="Ascending" xml:space="preserve">
     <value>오름차순</value>
   </data>
@@ -168,7 +165,7 @@
   <data name="typeColumn.Header" xml:space="preserve">
     <value>유형</value>
   </data>
-  <data name="sizeColumn.Header" xml:space="preserve">
+  <data name="Size" xml:space="preserve">
     <value>크기</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -242,9 +239,6 @@
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>은(는) 원본 폴더의 하위 폴더입니다</value>
-  </data>
-  <data name="ErrorDialogSkip" xml:space="preserve">
-    <value>건너뛰기</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>선택 반전</value>
@@ -566,9 +560,6 @@
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>유효하지 않은 항목입니다</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
-    <value>자세히</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>파일</value>
@@ -1134,9 +1125,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>자세히 (Ctrl+Shift+1)</value>
   </data>
-  <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>자세히</value>
-  </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
     <value>격자 (대)</value>
   </data>
@@ -1161,10 +1149,7 @@
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>타일 (Ctrl+Shift+2)</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
-    <value>삭제된 날짜</value>
-  </data>
-  <data name="dateDeletedColumn.Header" xml:space="preserve">
+  <data name="DateDeleted" xml:space="preserve">
     <value>삭제된 날짜</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
@@ -1542,20 +1527,11 @@
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>기존 항목 바꾸기</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
-    <value>건너뛰기</value>
-  </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>기존 항목 바꾸기</value>
   </data>
-  <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
-    <value>건너뛰기</value>
-  </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
     <value>기존 항목 바꾸기</value>
-  </data>
-  <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
-    <value>건너뛰기</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>새 이름 생성</value>
@@ -2049,9 +2025,6 @@
   <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
     <value>확장된 특성 쓰기</value>
   </data>
-  <data name="SecurityNoneLabel.Text" xml:space="preserve">
-    <value>없음</value>
-  </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
     <value>상속된 권한을 명시적 권한으로 전환</value>
   </data>
@@ -2314,20 +2287,11 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
 저희는 앱 사용 추적, 버그 발견, 오류 수정을 위해 앱 센터를 이용합니다. 앱 센터로 전송되는 모든 정보는 익명 처리되며 사용자와 직간접적으로 관련되어 있는 데이터는 일체 포함되지 않습니다.
   </value>
   </data>
-  <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
-    <value>없음</value>
-  </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>이름</value>
   </data>
   <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
     <value>수정한 날짜</value>
-  </data>
-  <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
-    <value>크기</value>
-  </data>
-  <data name="NavToolbarArrangementOptionDateDeleted.Text" xml:space="preserve">
-    <value>삭제된 날짜</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
     <value>원본 폴더</value>
@@ -2536,7 +2500,7 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
   <data name="Compatibility" xml:space="preserve">
     <value>호환성</value>
   </data>
-  <data name="HighDpiOption_None" xml:space="preserve">
+  <data name="None" xml:space="preserve">
     <value>없음</value>
   </data>
   <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
@@ -2545,17 +2509,11 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
   <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
     <value>프로그램 시작 시</value>
   </data>
-  <data name="HighDpiOverride_None" xml:space="preserve">
-    <value>없음</value>
-  </data>
   <data name="HighDpiOverride_System" xml:space="preserve">
     <value>시스템</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
     <value>시스템(고급)</value>
-  </data>
-  <data name="OSCompatibility_None" xml:space="preserve">
-    <value>없음</value>
   </data>
   <data name="Windows7" xml:space="preserve">
     <value>윈도우 7</value>
@@ -2577,9 +2535,6 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
   </data>
   <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
     <value>8비트 색상 (256)</value>
-  </data>
-  <data name="ReducedColorMode_None" xml:space="preserve">
-    <value>없음</value>
   </data>
   <data name="CompatibilityMode" xml:space="preserve">
     <value>호환성 모드</value>
