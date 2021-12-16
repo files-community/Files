@@ -679,7 +679,7 @@
   <data name="Cancel" xml:space="preserve">
     <value>இரத்து</value>
   </data>
-  <data name="AddDialogListFolderHeader" xml:space="preserve">
+  <data name="Folder" xml:space="preserve">
     <value>கோப்புறை</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
@@ -796,7 +796,7 @@
   <data name="PropertyAlbumTitle" xml:space="preserve">
     <value>ஆல்பம் தலைப்பு</value>
   </data>
-  <data name="PropertyArtist" xml:space="preserve">
+  <data name="Artist" xml:space="preserve">
     <value>கலைஞர்:</value>
   </data>
   <data name="PropertyComposer" xml:space="preserve">
@@ -910,7 +910,7 @@
   <data name="Details" xml:space="preserve">
     <value>விவரங்கள்</value>
   </data>
-  <data name="UpdateClose" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>இல்லை</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
@@ -1000,7 +1000,7 @@
   <data name="DriveTypeUnknown" xml:space="preserve">
     <value>அறியாதது</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+  <data name="DateCreated" xml:space="preserve">
     <value>உருவாக்கிய தேதி</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
@@ -1285,7 +1285,7 @@
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>உரிமையாளர்</value>
   </data>
-  <data name="DefaultTheme" xml:space="preserve">
+  <data name="Default" xml:space="preserve">
     <value>இயல்புநிலை</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
@@ -1432,7 +1432,7 @@
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
-  <data name="SettingsDateFormat.Title" xml:space="preserve">
+  <data name="DateFormat" xml:space="preserve">
     <value>தேதி வடிவமைப்பு</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">

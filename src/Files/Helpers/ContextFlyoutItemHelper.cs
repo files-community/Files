@@ -234,7 +234,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortByDateCreated/Text".GetLocalized(),
+                            Text = "DateCreated".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedByDateCreated,
                             Command = new RelayCommand(() => itemViewModel.IsSortedByDateCreated = true),
                             ShowInRecycleBin = true,
@@ -381,7 +381,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortByDateCreated/Text".GetLocalized(),
+                            Text = "DateCreated".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.DateCreated,
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
@@ -503,7 +503,7 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutContextFlyoutOpenInTerminal/Text".GetLocalized(),
+                    Text = "OpenInTerminal".GetLocalized(),
                     Glyph = "\uE756",
                     Command = commandsViewModel.OpenDirectoryInDefaultTerminalCommand,
                 },
@@ -1023,7 +1023,7 @@ namespace Files.Helpers
             {
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutContextFlyoutNewFolder/Text".GetLocalized(),
+                    Text = "Folder".GetLocalized(),
                     Glyph = "\uE8B7",
                     Command = commandsViewModel.CreateNewFolderCommand,
                     ShowInFtpPage = true,

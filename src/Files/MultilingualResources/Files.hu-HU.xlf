@@ -926,7 +926,7 @@
           <source>Choose a type for this new item below</source>
           <target state="translated">Válasszon típust az alábbiak közül</target>
         </trans-unit>
-        <trans-unit id="AddDialogListFolderHeader" translate="yes" xml:space="preserve">
+        <trans-unit id="Folder" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="translated">Mappa</target>
         </trans-unit>
@@ -1170,7 +1170,7 @@
           <source>Album Title</source>
           <target state="translated">Album</target>
         </trans-unit>
-        <trans-unit id="PropertyArtist" translate="yes" xml:space="preserve">
+        <trans-unit id="Artist" translate="yes" xml:space="preserve">
           <source>Artist</source>
           <target state="translated">Előadó</target>
         </trans-unit>
@@ -1474,7 +1474,7 @@
           <source>Details</source>
           <target state="translated">Részletek</target>
         </trans-unit>
-        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
+        <trans-unit id="No" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="translated">Nem</target>
         </trans-unit>
@@ -1826,7 +1826,7 @@
           <source>Virtual Drive</source>
           <target state="translated">Virtuális meghajtó</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateCreated" translate="yes" xml:space="preserve">
           <source>Date created</source>
           <target state="translated">Létrehozás dátuma</target>
         </trans-unit>
@@ -1990,7 +1990,7 @@
           <source>Default</source>
           <target state="translated">Alapértelmezett</target>
         </trans-unit>
-        <trans-unit id="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SetAsDefaultSavePath" translate="yes" xml:space="preserve">
           <source>Set as default save path</source>
           <target state="translated">Beállítás alapértelmezett mentési útvonalként</target>
         </trans-unit>
@@ -2530,7 +2530,7 @@
           <source>Paste</source>
           <target state="translated">Beillesztés</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarOpenInTerminal.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenInTerminal" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
           <target state="translated">Megnyitás terminálban...</target>
         </trans-unit>
@@ -2606,7 +2606,7 @@
           <source>Unknown owner</source>
           <target state="translated">Ismeretlen tulajdonos</target>
         </trans-unit>
-        <trans-unit id="DefaultTheme" translate="yes" xml:space="preserve">
+        <trans-unit id="Default" translate="yes" xml:space="preserve">
           <source>Default</source>
           <target state="translated">Alapértelmezett</target>
         </trans-unit>
@@ -3163,7 +3163,7 @@
           <source>Edit terminal applications</source>
           <target state="translated">Terminál alkalmazások szerkesztése</target>
         </trans-unit>
-        <trans-unit id="SettingsDateFormat.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="DateFormat" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated">Dátum formátum</target>
         </trans-unit>

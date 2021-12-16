@@ -954,7 +954,7 @@
           <source>Creates an empty file</source>
           <target state="translated">빈 파일을 생성합니다</target>
         </trans-unit>
-        <trans-unit id="AddDialogListFolderHeader" translate="yes" xml:space="preserve">
+        <trans-unit id="Folder" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="translated">폴더</target>
         </trans-unit>
@@ -1158,7 +1158,7 @@
           <source>Album Title</source>
           <target state="translated">앨범</target>
         </trans-unit>
-        <trans-unit id="PropertyArtist" translate="yes" xml:space="preserve">
+        <trans-unit id="Artist" translate="yes" xml:space="preserve">
           <source>Artist</source>
           <target state="translated">음악가</target>
         </trans-unit>
@@ -1498,7 +1498,7 @@
           <source>Details</source>
           <target state="translated">자세히</target>
         </trans-unit>
-        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
+        <trans-unit id="No" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="translated">아니오</target>
         </trans-unit>
@@ -1826,7 +1826,7 @@
           <source>Virtual Drive</source>
           <target state="translated">가상 드라이브</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateCreated" translate="yes" xml:space="preserve">
           <source>Date created</source>
           <target state="translated">만든 날짜</target>
         </trans-unit>
@@ -1990,7 +1990,7 @@
           <source>Default</source>
           <target state="translated" state-qualifier="tm-suggestion">기본값</target>
         </trans-unit>
-        <trans-unit id="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SetAsDefaultSavePath" translate="yes" xml:space="preserve">
           <source>Set as default save path</source>
           <target state="translated">기본 저장 경로로 설정</target>
         </trans-unit>
@@ -2530,7 +2530,7 @@
           <source>Paste</source>
           <target state="translated" state-qualifier="tm-suggestion">붙여넣기</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarOpenInTerminal.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenInTerminal" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
           <target state="translated" state-qualifier="tm-suggestion">터미널에서 열기(_O)</target>
         </trans-unit>
@@ -2606,7 +2606,7 @@
           <source>Unknown owner</source>
           <target state="translated">알 수 없는 소유자</target>
         </trans-unit>
-        <trans-unit id="DefaultTheme" translate="yes" xml:space="preserve">
+        <trans-unit id="Default" translate="yes" xml:space="preserve">
           <source>Default</source>
           <target state="translated">기본값</target>
         </trans-unit>
@@ -3163,7 +3163,7 @@
           <source>Edit terminal applications</source>
           <target state="translated">터미널 프로그램 변경</target>
         </trans-unit>
-        <trans-unit id="SettingsDateFormat.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="DateFormat" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated" state-qualifier="tm-suggestion">날짜 형식</target>
         </trans-unit>

@@ -62,7 +62,7 @@
           <source>Size</source>
           <target state="translated">ზომა</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarOpenInTerminal.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenInTerminal" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
           <target state="translated">ტერმინალში გახსნა...</target>
         </trans-unit>
@@ -1018,7 +1018,7 @@
           <source>Creates an empty file</source>
           <target state="translated">ჰქმნის ცარიელ ფაილს</target>
         </trans-unit>
-        <trans-unit id="AddDialogListFolderHeader" translate="yes" xml:space="preserve">
+        <trans-unit id="Folder" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="translated">საქაღალდე</target>
         </trans-unit>
@@ -1242,7 +1242,7 @@
           <source>Album Title</source>
           <target state="translated">ალბომის სათაური</target>
         </trans-unit>
-        <trans-unit id="PropertyArtist" translate="yes" xml:space="preserve">
+        <trans-unit id="Artist" translate="yes" xml:space="preserve">
           <source>Artist</source>
           <target state="translated">ხელოვანი</target>
         </trans-unit>
@@ -1611,7 +1611,7 @@
           <source>Details</source>
           <target state="translated">დეტალები</target>
         </trans-unit>
-        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
+        <trans-unit id="No" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="translated">არა</target>
         </trans-unit>
@@ -1988,7 +1988,7 @@
           <source>Virtual Drive</source>
           <target state="translated">ვირტუალური დისკი</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateCreated" translate="yes" xml:space="preserve">
           <source>Date created</source>
           <target state="translated">შექმნის თარიღი</target>
         </trans-unit>
@@ -2044,7 +2044,7 @@
           <source>Show library section</source>
           <target state="translated">ბიბლიოთეკის განყოფილების ჩვენება</target>
         </trans-unit>
-        <trans-unit id="DefaultTheme" translate="yes" xml:space="preserve">
+        <trans-unit id="Default" translate="yes" xml:space="preserve">
           <source>Default</source>
           <target state="translated">ნაგულისხმევი</target>
         </trans-unit>
@@ -2156,7 +2156,7 @@
           <source>Default</source>
           <target state="translated">ნაგულისხმევი</target>
         </trans-unit>
-        <trans-unit id="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SetAsDefaultSavePath" translate="yes" xml:space="preserve">
           <source>Set as default save path</source>
           <target state="translated">ნაგულისხმევ დასამახსოვრებელ გზად დაყენება</target>
         </trans-unit>
@@ -3028,7 +3028,7 @@
           <source>Hide {0} section</source>
           <target state="translated">{0} განყოფილების დამალვა</target>
         </trans-unit>
-        <trans-unit id="SettingsDateFormat.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="DateFormat" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated">თარიღის ფორმატი</target>
         </trans-unit>

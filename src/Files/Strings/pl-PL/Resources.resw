@@ -693,7 +693,7 @@
   <data name="Cancel" xml:space="preserve">
     <value>Anuluj</value>
   </data>
-  <data name="AddDialogListFolderHeader" xml:space="preserve">
+  <data name="Folder" xml:space="preserve">
     <value>Folder</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
@@ -888,7 +888,7 @@
   <data name="PropertyAlbumTitle" xml:space="preserve">
     <value>Nazwa albumu</value>
   </data>
-  <data name="PropertyArtist" xml:space="preserve">
+  <data name="Artist" xml:space="preserve">
     <value>Artysta</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
@@ -1113,7 +1113,7 @@
   <data name="Details" xml:space="preserve">
     <value>Szczegóły</value>
   </data>
-  <data name="UpdateClose" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>Nie</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1377,7 +1377,7 @@
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Dysk wirtualny</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+  <data name="DateCreated" xml:space="preserve">
     <value>Data utworzenia</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
@@ -1500,7 +1500,7 @@
   <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
     <value>Domyślne</value>
   </data>
-  <data name="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SetAsDefaultSavePath" xml:space="preserve">
     <value>Ustaw jako domyślna ścieżka zapisywania</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
@@ -1905,7 +1905,7 @@
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Wklej</value>
   </data>
-  <data name="NavigationToolbarOpenInTerminal.Label" xml:space="preserve">
+  <data name="OpenInTerminal" xml:space="preserve">
     <value>_Otwórz w terminalu</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
@@ -1962,7 +1962,7 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Nieznany właściciel.</value>
   </data>
-  <data name="DefaultTheme" xml:space="preserve">
+  <data name="Default" xml:space="preserve">
     <value>Domyślne</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
@@ -2379,7 +2379,7 @@
   <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
     <value>Edytuj aplikacje terminala</value>
   </data>
-  <data name="SettingsDateFormat.Title" xml:space="preserve">
+  <data name="DateFormat" xml:space="preserve">
     <value>Format daty</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">

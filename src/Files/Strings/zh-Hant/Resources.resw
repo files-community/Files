@@ -702,7 +702,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>於下方選擇新項目的類型</value>
   </data>
-  <data name="AddDialogListFolderHeader" xml:space="preserve">
+  <data name="Folder" xml:space="preserve">
     <value>資料夾</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
@@ -885,7 +885,7 @@
   <data name="PropertyAlbumTitle" xml:space="preserve">
     <value>專輯標題</value>
   </data>
-  <data name="PropertyArtist" xml:space="preserve">
+  <data name="Artist" xml:space="preserve">
     <value>演出者</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
@@ -1113,7 +1113,7 @@
   <data name="Details" xml:space="preserve">
     <value>詳細資料</value>
   </data>
-  <data name="UpdateClose" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>否</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1377,7 +1377,7 @@
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>虛擬磁碟</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+  <data name="DateCreated" xml:space="preserve">
     <value>建立日期</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
@@ -1500,7 +1500,7 @@
   <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
     <value>預設</value>
   </data>
-  <data name="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SetAsDefaultSavePath" xml:space="preserve">
     <value>設為預設儲存位置</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
@@ -1905,7 +1905,7 @@
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>貼上</value>
   </data>
-  <data name="NavigationToolbarOpenInTerminal.Label" xml:space="preserve">
+  <data name="OpenInTerminal" xml:space="preserve">
     <value>在終端機中開啟...</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
@@ -1962,7 +1962,7 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>擁有者不詳</value>
   </data>
-  <data name="DefaultTheme" xml:space="preserve">
+  <data name="Default" xml:space="preserve">
     <value>預設</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
@@ -2379,7 +2379,7 @@
   <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
     <value>編輯終端機應用程式</value>
   </data>
-  <data name="SettingsDateFormat.Title" xml:space="preserve">
+  <data name="DateFormat" xml:space="preserve">
     <value>日期格式</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">

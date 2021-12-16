@@ -88,7 +88,7 @@ namespace Files.Helpers
             switch (rootTheme)
             {
                 case ElementTheme.Default:
-                    App.AppSettings.AcrylicTheme.SetDefaultTheme();
+                    App.AppSettings.AcrylicTheme.SetDefault();
                     titleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
                     titleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
                     break;

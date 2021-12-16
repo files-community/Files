@@ -917,7 +917,7 @@
           <source>Cancel</source>
           <target state="translated" state-qualifier="tm-suggestion">Anuluj</target>
         </trans-unit>
-        <trans-unit id="AddDialogListFolderHeader" translate="yes" xml:space="preserve">
+        <trans-unit id="Folder" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="translated">Folder</target>
         </trans-unit>
@@ -1177,7 +1177,7 @@
           <source>Album Title</source>
           <target state="translated">Nazwa albumu</target>
         </trans-unit>
-        <trans-unit id="PropertyArtist" translate="yes" xml:space="preserve">
+        <trans-unit id="Artist" translate="yes" xml:space="preserve">
           <source>Artist</source>
           <target state="translated">Artysta</target>
         </trans-unit>
@@ -1477,7 +1477,7 @@
           <source>Details</source>
           <target state="translated">Szczegóły</target>
         </trans-unit>
-        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
+        <trans-unit id="No" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="translated">Nie</target>
         </trans-unit>
@@ -1829,7 +1829,7 @@
           <source>Virtual Drive</source>
           <target state="translated">Dysk wirtualny</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateCreated" translate="yes" xml:space="preserve">
           <source>Date created</source>
           <target state="translated">Data utworzenia</target>
         </trans-unit>
@@ -1993,7 +1993,7 @@
           <source>Default</source>
           <target state="translated">Domyślne</target>
         </trans-unit>
-        <trans-unit id="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SetAsDefaultSavePath" translate="yes" xml:space="preserve">
           <source>Set as default save path</source>
           <target state="translated">Ustaw jako domyślna ścieżka zapisywania</target>
         </trans-unit>
@@ -2533,7 +2533,7 @@
           <source>Paste</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Wklej</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarOpenInTerminal.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenInTerminal" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">_Otwórz w terminalu</target>
         </trans-unit>
@@ -2609,7 +2609,7 @@
           <source>Unknown owner</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Nieznany właściciel.</target>
         </trans-unit>
-        <trans-unit id="DefaultTheme" translate="yes" xml:space="preserve">
+        <trans-unit id="Default" translate="yes" xml:space="preserve">
           <source>Default</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Domyślne</target>
         </trans-unit>
@@ -3167,7 +3167,7 @@
           <source>Edit terminal applications</source>
           <target state="translated">Edytuj aplikacje terminala</target>
         </trans-unit>
-        <trans-unit id="SettingsDateFormat.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="DateFormat" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Format daty</target>
         </trans-unit>

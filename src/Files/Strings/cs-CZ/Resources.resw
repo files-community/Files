@@ -720,7 +720,7 @@
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Vytvoří prázdný soubor</value>
   </data>
-  <data name="AddDialogListFolderHeader" xml:space="preserve">
+  <data name="Folder" xml:space="preserve">
     <value>Složka</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
@@ -870,7 +870,7 @@
   <data name="PropertyAlbumTitle" xml:space="preserve">
     <value>Název alba</value>
   </data>
-  <data name="PropertyArtist" xml:space="preserve">
+  <data name="Artist" xml:space="preserve">
     <value>Umělec</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
@@ -1125,7 +1125,7 @@
   <data name="Details" xml:space="preserve">
     <value>Detaily</value>
   </data>
-  <data name="UpdateClose" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>Ne</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1257,7 +1257,7 @@
   <data name="DriveTypeUnknown" xml:space="preserve">
     <value>Neznámý</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+  <data name="DateCreated" xml:space="preserve">
     <value>Datum vytvoření</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
@@ -1548,7 +1548,7 @@
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Vložit</value>
   </data>
-  <data name="NavigationToolbarOpenInTerminal.Label" xml:space="preserve">
+  <data name="OpenInTerminal" xml:space="preserve">
     <value>_Otevřít v terminálu</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
@@ -1593,7 +1593,7 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Neznámý vlastník</value>
   </data>
-  <data name="DefaultTheme" xml:space="preserve">
+  <data name="Default" xml:space="preserve">
     <value>Výchozí</value>
   </data>
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
@@ -1809,7 +1809,7 @@
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
-  <data name="SettingsDateFormat.Title" xml:space="preserve">
+  <data name="DateFormat" xml:space="preserve">
     <value>Formát data</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">

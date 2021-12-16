@@ -58,17 +58,13 @@
                 </ComboBox>
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl
-                x:Uid="SettingsDateFormat"
-                Title="Date format"
-                HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=DateFormat}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xEC92;" />
                 </local:SettingsBlockControl.Icon>
                 <ComboBox
                     x:Name="DateFormatChooser"
-                    x:Uid="SettingsDateFormatComboBox"
-                    AutomationProperties.Name="Date format"
+                    AutomationProperties.Name="{helpers:ResourceString Name=DateFormat}"
                     ItemsSource="{Binding DateFormats}"
                     SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}" />
             </local:SettingsBlockControl>

@@ -965,7 +965,7 @@
           <source>Creates an empty file</source>
           <target state="translated">قم بإنشاء ملف فارغ</target>
         </trans-unit>
-        <trans-unit id="AddDialogListFolderHeader" translate="yes" xml:space="preserve">
+        <trans-unit id="Folder" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="translated" state-qualifier="tm-suggestion">مجلد</target>
         </trans-unit>
@@ -1165,7 +1165,7 @@
           <source>Album Title</source>
           <target state="translated" state-qualifier="tm-suggestion">عنوان الألبوم</target>
         </trans-unit>
-        <trans-unit id="PropertyArtist" translate="yes" xml:space="preserve">
+        <trans-unit id="Artist" translate="yes" xml:space="preserve">
           <source>Artist</source>
           <target state="translated" state-qualifier="tm-suggestion">فنان</target>
         </trans-unit>
@@ -1507,7 +1507,7 @@
           <source>Details</source>
           <target state="translated" state-qualifier="tm-suggestion">التفاصيل</target>
         </trans-unit>
-        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
+        <trans-unit id="No" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="translated" state-qualifier="tm-suggestion">لا</target>
         </trans-unit>
@@ -1854,7 +1854,7 @@
           <source>Virtual Drive</source>
           <target state="new">Virtual Drive</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateCreated" translate="yes" xml:space="preserve">
           <source>Date created</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">تاريخ الإنشاء</target>
         </trans-unit>
@@ -2018,7 +2018,7 @@
           <source>Default</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">افتراضي</target>
         </trans-unit>
-        <trans-unit id="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SetAsDefaultSavePath" translate="yes" xml:space="preserve">
           <source>Set as default save path</source>
           <target state="new">Set as default save path</target>
         </trans-unit>
@@ -2558,7 +2558,7 @@
           <source>Paste</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">لصق</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarOpenInTerminal.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenInTerminal" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
           <target state="new">Open in Terminal...</target>
         </trans-unit>
@@ -2634,7 +2634,7 @@
           <source>Unknown owner</source>
           <target state="new">Unknown owner</target>
         </trans-unit>
-        <trans-unit id="DefaultTheme" translate="yes" xml:space="preserve">
+        <trans-unit id="Default" translate="yes" xml:space="preserve">
           <source>Default</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">افتراضي</target>
         </trans-unit>
@@ -3190,7 +3190,7 @@
           <source>Edit terminal applications</source>
           <target state="new">Edit terminal applications</target>
         </trans-unit>
-        <trans-unit id="SettingsDateFormat.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="DateFormat" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">تنسيق التاريخ.</target>
         </trans-unit>

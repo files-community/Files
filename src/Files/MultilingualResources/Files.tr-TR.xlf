@@ -919,7 +919,7 @@
           <source>Cancel</source>
           <target state="translated">İptal</target>
         </trans-unit>
-        <trans-unit id="AddDialogListFolderHeader" translate="yes" xml:space="preserve">
+        <trans-unit id="Folder" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="translated">Klasör</target>
         </trans-unit>
@@ -1179,7 +1179,7 @@
           <source>Album Title</source>
           <target state="translated">Albüm Adı</target>
         </trans-unit>
-        <trans-unit id="PropertyArtist" translate="yes" xml:space="preserve">
+        <trans-unit id="Artist" translate="yes" xml:space="preserve">
           <source>Artist</source>
           <target state="translated">Sanatçı</target>
         </trans-unit>
@@ -1479,7 +1479,7 @@
           <source>Details</source>
           <target state="translated">Ayrıntılar</target>
         </trans-unit>
-        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
+        <trans-unit id="No" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="translated">Hayır</target>
         </trans-unit>
@@ -1836,7 +1836,7 @@
           <source>Virtual Drive</source>
           <target state="translated">Sanal Sürücü</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateCreated" translate="yes" xml:space="preserve">
           <source>Date created</source>
           <target state="translated">Oluşturma tarihi</target>
         </trans-unit>
@@ -2002,7 +2002,7 @@
           <source>Default</source>
           <target state="translated" state-qualifier="tm-suggestion">Varsayılan</target>
         </trans-unit>
-        <trans-unit id="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SetAsDefaultSavePath" translate="yes" xml:space="preserve">
           <source>Set as default save path</source>
           <target state="translated">Varsayılan kaydetme yolu olarak ayarla</target>
         </trans-unit>
@@ -2542,7 +2542,7 @@
           <source>Paste</source>
           <target state="translated" state-qualifier="tm-suggestion">Yapıştırmak</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarOpenInTerminal.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenInTerminal" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
           <target state="translated" state-qualifier="tm-suggestion">Terminalde aç...</target>
         </trans-unit>
@@ -2618,7 +2618,7 @@
           <source>Unknown owner</source>
           <target state="translated" state-qualifier="tm-suggestion">Bilinmeyen sahip</target>
         </trans-unit>
-        <trans-unit id="DefaultTheme" translate="yes" xml:space="preserve">
+        <trans-unit id="Default" translate="yes" xml:space="preserve">
           <source>Default</source>
           <target state="translated" state-qualifier="tm-suggestion">Varsayılan</target>
         </trans-unit>
@@ -3182,7 +3182,7 @@
           <source>Edit terminal applications</source>
           <target state="translated">Terminal uygulamalarını düzenleyin</target>
         </trans-unit>
-        <trans-unit id="SettingsDateFormat.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="DateFormat" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated" state-qualifier="tm-suggestion">Tarih formatı</target>
         </trans-unit>

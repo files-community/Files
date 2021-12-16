@@ -62,7 +62,7 @@
           <source>Size</source>
           <target state="translated">Kích cỡ</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarOpenInTerminal.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenInTerminal" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
           <target state="needs-review-translation">Mở bằng Terminal...</target>
         </trans-unit>
@@ -1027,7 +1027,7 @@
           <source>Creates an empty file</source>
           <target state="translated">Tạo một tệp trống</target>
         </trans-unit>
-        <trans-unit id="AddDialogListFolderHeader" translate="yes" xml:space="preserve">
+        <trans-unit id="Folder" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="translated">Thư mục</target>
         </trans-unit>
@@ -1252,7 +1252,7 @@
           <source>Album Title</source>
           <target state="translated">Tiêu đề Album</target>
         </trans-unit>
-        <trans-unit id="PropertyArtist" translate="yes" xml:space="preserve">
+        <trans-unit id="Artist" translate="yes" xml:space="preserve">
           <source>Artist</source>
           <target state="translated">Nghệ sĩ</target>
         </trans-unit>
@@ -1622,7 +1622,7 @@
           <source>Details</source>
           <target state="translated">Chi tiết</target>
         </trans-unit>
-        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
+        <trans-unit id="No" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="translated">Không</target>
         </trans-unit>
@@ -2008,7 +2008,7 @@
           <source>Virtual Drive</source>
           <target state="translated">Ổ lưu trữ ảo</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateCreated" translate="yes" xml:space="preserve">
           <source>Date created</source>
           <target state="translated">Ngày tạo</target>
         </trans-unit>
@@ -2065,7 +2065,7 @@
           <target state="needs-review-translation">Hiển thị phần thư viện trên thanh bên</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="DefaultTheme" translate="yes" xml:space="preserve">
+        <trans-unit id="Default" translate="yes" xml:space="preserve">
           <source>Default</source>
           <target state="translated">Mặc định</target>
         </trans-unit>
@@ -2179,7 +2179,7 @@
           <source>Default</source>
           <target state="translated">Mặc định</target>
         </trans-unit>
-        <trans-unit id="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SetAsDefaultSavePath" translate="yes" xml:space="preserve">
           <source>Set as default save path</source>
           <target state="translated">Đặt hướng lưu mặc định</target>
         </trans-unit>
@@ -3151,7 +3151,7 @@
           <source>Ctrl+Shift+T</source>
           <target state="new">Ctrl+Shift+T</target>
         </trans-unit>
-        <trans-unit id="SettingsDateFormat.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="DateFormat" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="new">Date format</target>
         </trans-unit>

@@ -723,7 +723,7 @@
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Skapar en tom fil</value>
   </data>
-  <data name="AddDialogListFolderHeader" xml:space="preserve">
+  <data name="Folder" xml:space="preserve">
     <value>Mapp</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
@@ -876,7 +876,7 @@
   <data name="PropertyAlbumTitle" xml:space="preserve">
     <value>Album</value>
   </data>
-  <data name="PropertyArtist" xml:space="preserve">
+  <data name="Artist" xml:space="preserve">
     <value>Artist</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
@@ -1131,7 +1131,7 @@
   <data name="Details" xml:space="preserve">
     <value>Information</value>
   </data>
-  <data name="UpdateClose" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>Nej</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1350,7 +1350,7 @@
   <data name="DriveTypeUnknown" xml:space="preserve">
     <value>Okänd</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+  <data name="DateCreated" xml:space="preserve">
     <value>Skapad</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
@@ -1683,7 +1683,7 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Okänd ägare.</value>
   </data>
-  <data name="DefaultTheme" xml:space="preserve">
+  <data name="Default" xml:space="preserve">
     <value>Standard</value>
   </data>
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
@@ -1893,7 +1893,7 @@
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Skift+N</value>
   </data>
-  <data name="SettingsDateFormat.Title" xml:space="preserve">
+  <data name="DateFormat" xml:space="preserve">
     <value>Datumformat</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">

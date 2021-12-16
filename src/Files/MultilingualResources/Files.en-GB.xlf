@@ -62,7 +62,7 @@
           <source>Size</source>
           <target state="translated" state-qualifier="tm-suggestion">Size</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarOpenInTerminal.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenInTerminal" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
           <target state="translated">Open in Terminal...</target>
         </trans-unit>
@@ -170,7 +170,7 @@
           <source>About</source>
           <target state="translated" state-qualifier="tm-suggestion">About</target>
         </trans-unit>
-        <trans-unit id="SettingsDateFormat.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="DateFormat" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated" state-qualifier="tm-suggestion">Date format</target>
         </trans-unit>
@@ -1026,7 +1026,7 @@
           <source>Creates an empty file</source>
           <target state="translated">Creates an empty file</target>
         </trans-unit>
-        <trans-unit id="AddDialogListFolderHeader" translate="yes" xml:space="preserve">
+        <trans-unit id="Folder" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="translated" state-qualifier="tm-suggestion">Folder</target>
         </trans-unit>
@@ -1262,7 +1262,7 @@
           <source>Album Title</source>
           <target state="translated" state-qualifier="tm-suggestion">Album Title</target>
         </trans-unit>
-        <trans-unit id="PropertyArtist" translate="yes" xml:space="preserve">
+        <trans-unit id="Artist" translate="yes" xml:space="preserve">
           <source>Artist</source>
           <target state="translated" state-qualifier="tm-suggestion">Artist</target>
         </trans-unit>
@@ -1630,7 +1630,7 @@
           <source>Details</source>
           <target state="translated" state-qualifier="tm-suggestion">Details</target>
         </trans-unit>
-        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
+        <trans-unit id="No" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="translated" state-qualifier="tm-suggestion">No</target>
         </trans-unit>
@@ -2010,7 +2010,7 @@
           <source>Virtual Drive</source>
           <target state="translated">Virtual Drive</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateCreated" translate="yes" xml:space="preserve">
           <source>Date created</source>
           <target state="translated" state-qualifier="tm-suggestion">Date created</target>
         </trans-unit>
@@ -2066,7 +2066,7 @@
           <source>Show library section</source>
           <target state="translated">Show library section on the sidebar</target>
         </trans-unit>
-        <trans-unit id="DefaultTheme" translate="yes" xml:space="preserve">
+        <trans-unit id="Default" translate="yes" xml:space="preserve">
           <source>Default</source>
           <target state="translated" state-qualifier="tm-suggestion">Default</target>
         </trans-unit>
@@ -2178,7 +2178,7 @@
           <source>Default</source>
           <target state="translated" state-qualifier="tm-suggestion">Default</target>
         </trans-unit>
-        <trans-unit id="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SetAsDefaultSavePath" translate="yes" xml:space="preserve">
           <source>Set as default save path</source>
           <target state="translated">Set as default save path</target>
         </trans-unit>

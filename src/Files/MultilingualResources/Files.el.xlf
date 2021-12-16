@@ -62,7 +62,7 @@
           <source>Size</source>
           <target state="translated">Μέγεθος</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarOpenInTerminal.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenInTerminal" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
           <target state="translated">Άνοιγμα στο τερματικό...</target>
         </trans-unit>
@@ -1022,7 +1022,7 @@
           <source>Creates an empty file</source>
           <target state="translated">Δημιουργεί ένα κενό αρχείο</target>
         </trans-unit>
-        <trans-unit id="AddDialogListFolderHeader" translate="yes" xml:space="preserve">
+        <trans-unit id="Folder" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="translated">Φάκελος</target>
         </trans-unit>
@@ -1246,7 +1246,7 @@
           <source>Album Title</source>
           <target state="translated">Τίτλος άλμπουμ</target>
         </trans-unit>
-        <trans-unit id="PropertyArtist" translate="yes" xml:space="preserve">
+        <trans-unit id="Artist" translate="yes" xml:space="preserve">
           <source>Artist</source>
           <target state="translated">Καλλιτέχνης</target>
         </trans-unit>
@@ -1614,7 +1614,7 @@
           <source>Details</source>
           <target state="translated">Λεπτομέρειες</target>
         </trans-unit>
-        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
+        <trans-unit id="No" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="translated">Όχι</target>
         </trans-unit>
@@ -1994,7 +1994,7 @@
           <source>Virtual Drive</source>
           <target state="translated">Εικονική μονάδα δίσκου</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateCreated" translate="yes" xml:space="preserve">
           <source>Date created</source>
           <target state="translated">Ημερομηνία δημιουργίας</target>
         </trans-unit>
@@ -2050,7 +2050,7 @@
           <source>Show library section</source>
           <target state="translated">Εμφάνιση της ενότητας βιβλιοθήκης</target>
         </trans-unit>
-        <trans-unit id="DefaultTheme" translate="yes" xml:space="preserve">
+        <trans-unit id="Default" translate="yes" xml:space="preserve">
           <source>Default</source>
           <target state="translated">Προεπιλογή</target>
         </trans-unit>
@@ -2162,7 +2162,7 @@
           <source>Default</source>
           <target state="translated">Προεπιλογή</target>
         </trans-unit>
-        <trans-unit id="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SetAsDefaultSavePath" translate="yes" xml:space="preserve">
           <source>Set as default save path</source>
           <target state="translated">Ορισμός ως προεπιλεγμένη διαδρομή αποθήκευσης</target>
         </trans-unit>
@@ -3162,7 +3162,7 @@
           <source>Edit terminal applications</source>
           <target state="translated">Επεξεργασία εφαρμογών τερματικού</target>
         </trans-unit>
-        <trans-unit id="SettingsDateFormat.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="DateFormat" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated">Μορφή ημερομηνίας</target>
         </trans-unit>

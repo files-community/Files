@@ -431,11 +431,10 @@
 
                             <uc:DataGridHeader
                                 x:Name="DateCreatedHeader"
-                                x:Uid="dateCreatedColumn"
                                 Grid.Column="12"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="DateCreated"
-                                Header="Date created"
+                                Header="{helpers:ResourceString Name=DateCreated}"
                                 Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter

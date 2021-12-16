@@ -54,7 +54,7 @@
   <data name="sizeColumn.Header" xml:space="preserve">
     <value>Mida</value>
   </data>
-  <data name="NavigationToolbarOpenInTerminal.Label" xml:space="preserve">
+  <data name="OpenInTerminal" xml:space="preserve">
     <value>Obre a terminal...</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
@@ -729,7 +729,7 @@
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Crea un arxiu buit</value>
   </data>
-  <data name="AddDialogListFolderHeader" xml:space="preserve">
+  <data name="Folder" xml:space="preserve">
     <value>Carpeta</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">

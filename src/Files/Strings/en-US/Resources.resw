@@ -126,9 +126,6 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>New window</value>
   </data>
-  <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
-    <value>Folder</value>
-  </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
     <value>Bitmap Image</value>
   </data>
@@ -159,7 +156,7 @@
   <data name="sizeColumn.Header" xml:space="preserve">
     <value>Size</value>
   </data>
-  <data name="NavigationToolbarOpenInTerminal.Label" xml:space="preserve">
+  <data name="OpenInTerminal" xml:space="preserve">
     <value>Open in Terminal...</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
@@ -234,7 +231,7 @@
   <data name="About" xml:space="preserve">
     <value>About</value>
   </data>
-  <data name="SettingsDateFormat.Title" xml:space="preserve">
+  <data name="DateFormat" xml:space="preserve">
     <value>Date format</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
@@ -324,17 +321,11 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Paste</value>
   </data>
-  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
-    <value>Open in Terminal...</value>
-  </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5Hash:</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>New</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
-    <value>Folder</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>File</value>
@@ -401,9 +392,6 @@
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Set Name</value>
-  </data>
-  <data name="SystemTheme" xml:space="preserve">
-    <value>Default</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Light</value>
@@ -732,9 +720,6 @@
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>File</value>
   </data>
-  <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
-    <value>Folder</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Web link</value>
   </data>
@@ -758,9 +743,6 @@
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
     <value>Unknown</value>
-  </data>
-  <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
-    <value>Open log location</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Files ran into a problem that the developers didn't prepare for yet.</value>
@@ -822,9 +804,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>More</value>
   </data>
-  <data name="ButtonNo.Content" xml:space="preserve">
-    <value>No</value>
-  </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>The application needs to be restarted in order to apply these settings, would you like to restart the app?</value>
   </data>
@@ -870,7 +849,7 @@
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Creates an empty file</value>
   </data>
-  <data name="AddDialogListFolderHeader" xml:space="preserve">
+  <data name="Folder" xml:space="preserve">
     <value>Folder</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
@@ -1035,16 +1014,13 @@
   <data name="PropertySampleRate" xml:space="preserve">
     <value>Sample Rate</value>
   </data>
-  <data name="PropertyDisplayArtist" xml:space="preserve">
-    <value>Artist</value>
-  </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>Album Artist</value>
   </data>
   <data name="PropertyAlbumTitle" xml:space="preserve">
     <value>Album Title</value>
   </data>
-  <data name="PropertyArtist" xml:space="preserve">
+  <data name="Artist" xml:space="preserve">
     <value>Artist</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
@@ -1230,9 +1206,6 @@
   <data name="FileItemAutomation" xml:space="preserve">
     <value>File</value>
   </data>
-  <data name="FolderItemAutomation" xml:space="preserve">
-    <value>Folder</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Recycle bin item</value>
   </data>
@@ -1320,7 +1293,7 @@
   <data name="Details" xml:space="preserve">
     <value>Details</value>
   </data>
-  <data name="UpdateClose" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1596,10 +1569,7 @@
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Virtual Drive</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
-    <value>Date created</value>
-  </data>
-  <data name="DateCreatedColumn.Header" xml:space="preserve">
+  <data name="DateCreated" xml:space="preserve">
     <value>Date created</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
@@ -1638,7 +1608,7 @@
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
     <value>Show library section</value>
   </data>
-  <data name="DefaultTheme" xml:space="preserve">
+  <data name="Default" xml:space="preserve">
     <value>Default</value>
   </data>
   <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
@@ -1674,9 +1644,6 @@
   <data name="StatusCopyComplete" xml:space="preserve">
     <value>Copy complete</value>
   </data>
-  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
-    <value>No</value>
-  </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>This action requires administrator rights</value>
   </data>
@@ -1710,10 +1677,7 @@
   <data name="LibraryLocations.Text" xml:space="preserve">
     <value>Locations:</value>
   </data>
-  <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
-    <value>Default</value>
-  </data>
-  <data name="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SetAsDefaultSavePath" xml:space="preserve">
     <value>Set as default save path</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
@@ -1913,9 +1877,6 @@
   </data>
   <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
     <value>Date modified</value>
-  </data>
-  <data name="NavToolbarArrangementOptionDateCreated.Text" xml:space="preserve">
-    <value>Date created</value>
   </data>
   <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
     <value>Size</value>
@@ -2178,9 +2139,6 @@
   <data name="DecompressArchiveDialog.Title" xml:space="preserve">
     <value>Select a destination and extract files</value>
   </data>
-  <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
-    <value>Browse</value>
-  </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Open destination folder when complete</value>
   </data>
@@ -2240,9 +2198,6 @@
   </data>
   <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
     <value>Inherited</value>
-  </data>
-  <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
-    <value>No</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Permissions</value>
@@ -2607,9 +2562,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Show favorites section</value>
-  </data>
-  <data name="SettingsDateFormatComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Date format</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Open folders in new tab</value>

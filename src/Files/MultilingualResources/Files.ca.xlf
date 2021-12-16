@@ -62,7 +62,7 @@
           <source>Size</source>
           <target state="translated">Mida</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarOpenInTerminal.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenInTerminal" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
           <target state="translated">Obre a terminal...</target>
         </trans-unit>
@@ -1027,7 +1027,7 @@
           <source>Creates an empty file</source>
           <target state="translated">Crea un arxiu buit</target>
         </trans-unit>
-        <trans-unit id="AddDialogListFolderHeader" translate="yes" xml:space="preserve">
+        <trans-unit id="Folder" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="translated">Carpeta</target>
         </trans-unit>
@@ -1252,7 +1252,7 @@
           <source>Album Title</source>
           <target state="new">Album Title</target>
         </trans-unit>
-        <trans-unit id="PropertyArtist" translate="yes" xml:space="preserve">
+        <trans-unit id="Artist" translate="yes" xml:space="preserve">
           <source>Artist</source>
           <target state="new">Artist</target>
         </trans-unit>
@@ -1620,7 +1620,7 @@
           <source>Details</source>
           <target state="new">Details</target>
         </trans-unit>
-        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
+        <trans-unit id="No" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="new">No</target>
         </trans-unit>
@@ -2000,7 +2000,7 @@
           <source>Virtual Drive</source>
           <target state="new">Virtual Drive</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateCreated" translate="yes" xml:space="preserve">
           <source>Date created</source>
           <target state="new">Date created</target>
         </trans-unit>
@@ -2056,7 +2056,7 @@
           <source>Show library section</source>
           <target state="new">Show library section</target>
         </trans-unit>
-        <trans-unit id="DefaultTheme" translate="yes" xml:space="preserve">
+        <trans-unit id="Default" translate="yes" xml:space="preserve">
           <source>Default</source>
           <target state="new">Default</target>
         </trans-unit>
@@ -2168,7 +2168,7 @@
           <source>Default</source>
           <target state="new">Default</target>
         </trans-unit>
-        <trans-unit id="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SetAsDefaultSavePath" translate="yes" xml:space="preserve">
           <source>Set as default save path</source>
           <target state="new">Set as default save path</target>
         </trans-unit>
@@ -3136,7 +3136,7 @@
           <source>Ctrl+Shift+T</source>
           <target state="new">Ctrl+Shift+T</target>
         </trans-unit>
-        <trans-unit id="SettingsDateFormat.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="DateFormat" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="new">Date format</target>
         </trans-unit>

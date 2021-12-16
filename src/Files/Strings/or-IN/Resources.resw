@@ -624,7 +624,7 @@
   <data name="Cancel" xml:space="preserve">
     <value>ବାତିଲ୍</value>
   </data>
-  <data name="AddDialogListFolderHeader" xml:space="preserve">
+  <data name="Folder" xml:space="preserve">
     <value>ଫୋଲ୍ଡର:</value>
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
@@ -696,7 +696,7 @@
   <data name="PropertyAlbumTitle" xml:space="preserve">
     <value>ଆଲ୍‌ବମ୍ ଟାଇଟେଲ୍</value>
   </data>
-  <data name="PropertyArtist" xml:space="preserve">
+  <data name="Artist" xml:space="preserve">
     <value>କଳାକାର:</value>
   </data>
   <data name="PropertyComposer" xml:space="preserve">
@@ -837,7 +837,7 @@
   <data name="Details" xml:space="preserve">
     <value>ସବିଶେଷ</value>
   </data>
-  <data name="UpdateClose" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>ନାଁ</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
@@ -927,7 +927,7 @@
   <data name="DriveTypeUnknown" xml:space="preserve">
     <value>ଅଜ୍ଞାତ</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+  <data name="DateCreated" xml:space="preserve">
     <value>ତାରିଖ ପ୍ରସ୍ଥୁତ</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
@@ -1212,7 +1212,7 @@
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>ମାଲିକ</value>
   </data>
-  <data name="DefaultTheme" xml:space="preserve">
+  <data name="Default" xml:space="preserve">
     <value>ଡିଫଲ୍ଟ</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
@@ -1359,7 +1359,7 @@
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
-  <data name="SettingsDateFormat.Title" xml:space="preserve">
+  <data name="DateFormat" xml:space="preserve">
     <value>ତାରିଖ ଫର୍ମାଟ୍</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">

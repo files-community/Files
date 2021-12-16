@@ -54,7 +54,7 @@
   <data name="sizeColumn.Header" xml:space="preserve">
     <value>ზომა</value>
   </data>
-  <data name="NavigationToolbarOpenInTerminal.Label" xml:space="preserve">
+  <data name="OpenInTerminal" xml:space="preserve">
     <value>ტერმინალში გახსნა...</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
@@ -771,7 +771,7 @@
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>ჰქმნის ცარიელ ფაილს</value>
   </data>
-  <data name="AddDialogListFolderHeader" xml:space="preserve">
+  <data name="Folder" xml:space="preserve">
     <value>საქაღალდე</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
@@ -939,7 +939,7 @@
   <data name="PropertyAlbumTitle" xml:space="preserve">
     <value>ალბომის სათაური</value>
   </data>
-  <data name="PropertyArtist" xml:space="preserve">
+  <data name="Artist" xml:space="preserve">
     <value>ხელოვანი</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
@@ -1215,7 +1215,7 @@
   <data name="Details" xml:space="preserve">
     <value>დეტალები</value>
   </data>
-  <data name="UpdateClose" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>არა</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1497,7 +1497,7 @@
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>ვირტუალური დისკი</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+  <data name="DateCreated" xml:space="preserve">
     <value>შექმნის თარიღი</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
@@ -1539,7 +1539,7 @@
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
     <value>ბიბლიოთეკის განყოფილების ჩვენება</value>
   </data>
-  <data name="DefaultTheme" xml:space="preserve">
+  <data name="Default" xml:space="preserve">
     <value>ნაგულისხმევი</value>
   </data>
   <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
@@ -1623,7 +1623,7 @@
   <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
     <value>ნაგულისხმევი</value>
   </data>
-  <data name="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SetAsDefaultSavePath" xml:space="preserve">
     <value>ნაგულისხმევ დასამახსოვრებელ გზად დაყენება</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
@@ -2277,7 +2277,7 @@
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
     <value>{0} განყოფილების დამალვა</value>
   </data>
-  <data name="SettingsDateFormat.Title" xml:space="preserve">
+  <data name="DateFormat" xml:space="preserve">
     <value>თარიღის ფორმატი</value>
   </data>
   <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">

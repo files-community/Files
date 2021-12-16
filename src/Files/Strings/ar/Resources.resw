@@ -717,7 +717,7 @@
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>قم بإنشاء ملف فارغ</value>
   </data>
-  <data name="AddDialogListFolderHeader" xml:space="preserve">
+  <data name="Folder" xml:space="preserve">
     <value>مجلد</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
@@ -867,7 +867,7 @@
   <data name="PropertyAlbumTitle" xml:space="preserve">
     <value>عنوان الألبوم</value>
   </data>
-  <data name="PropertyArtist" xml:space="preserve">
+  <data name="Artist" xml:space="preserve">
     <value>فنان</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
@@ -1113,7 +1113,7 @@
   <data name="Details" xml:space="preserve">
     <value>التفاصيل</value>
   </data>
-  <data name="UpdateClose" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>لا</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1311,7 +1311,7 @@
   <data name="DriveTypeUnknown" xml:space="preserve">
     <value>غير معروف</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+  <data name="DateCreated" xml:space="preserve">
     <value>تاريخ الإنشاء</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
@@ -1617,7 +1617,7 @@
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>المالك</value>
   </data>
-  <data name="DefaultTheme" xml:space="preserve">
+  <data name="Default" xml:space="preserve">
     <value>افتراضي</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
@@ -1818,7 +1818,7 @@
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
-  <data name="SettingsDateFormat.Title" xml:space="preserve">
+  <data name="DateFormat" xml:space="preserve">
     <value>تنسيق التاريخ.</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">

@@ -693,7 +693,7 @@
   <data name="Cancel" xml:space="preserve">
     <value>Скасувати</value>
   </data>
-  <data name="AddDialogListFolderHeader" xml:space="preserve">
+  <data name="Folder" xml:space="preserve">
     <value>Папка</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
@@ -876,7 +876,7 @@
   <data name="PropertyAlbumTitle" xml:space="preserve">
     <value>Назва альбому</value>
   </data>
-  <data name="PropertyArtist" xml:space="preserve">
+  <data name="Artist" xml:space="preserve">
     <value>Виконавець</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
@@ -1068,7 +1068,7 @@
   <data name="Details" xml:space="preserve">
     <value>Детально</value>
   </data>
-  <data name="UpdateClose" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>Ні</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1332,7 +1332,7 @@
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Віртуальний диск</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+  <data name="DateCreated" xml:space="preserve">
     <value>Дата створення</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
@@ -1650,7 +1650,7 @@
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Власник</value>
   </data>
-  <data name="DefaultTheme" xml:space="preserve">
+  <data name="Default" xml:space="preserve">
     <value>За замовчуванням</value>
   </data>
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
@@ -1845,7 +1845,7 @@
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
-  <data name="SettingsDateFormat.Title" xml:space="preserve">
+  <data name="DateFormat" xml:space="preserve">
     <value>Формат дати</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">

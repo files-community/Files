@@ -184,7 +184,7 @@
     "ID": null
   },
   {
-    "NameResource": "PropertyDisplayArtist",
+    "NameResource": "Artist",
     "SectionResource": "PropertySectionMusic",
     "Property": "System.Music.DisplayArtist",
     "IsReadOnly": true,
@@ -205,7 +205,7 @@
     "ID": null
   },
   {
-    "NameResource": "PropertyArtist",
+    "NameResource": "Artist",
     "SectionResource": "PropertySectionMusic",
     "Property": "System.Music.Artist",
     "IsReadOnly": false,

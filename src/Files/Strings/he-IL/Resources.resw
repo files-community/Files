@@ -597,7 +597,7 @@
   <data name="Cancel" xml:space="preserve">
     <value>ביטול</value>
   </data>
-  <data name="AddDialogListFolderHeader" xml:space="preserve">
+  <data name="Folder" xml:space="preserve">
     <value>תיקיה</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
@@ -723,7 +723,7 @@
   <data name="PropertyAlbumTitle" xml:space="preserve">
     <value>שם אלבום</value>
   </data>
-  <data name="PropertyArtist" xml:space="preserve">
+  <data name="Artist" xml:space="preserve">
     <value>אמן</value>
   </data>
   <data name="PropertyComposer" xml:space="preserve">
@@ -933,7 +933,7 @@
   <data name="Details" xml:space="preserve">
     <value>פרטים</value>
   </data>
-  <data name="UpdateClose" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>לא</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1065,7 +1065,7 @@
   <data name="DriveTypeUnknown" xml:space="preserve">
     <value>לא ידוע</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+  <data name="DateCreated" xml:space="preserve">
     <value>תאריך יצירה</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
@@ -1170,7 +1170,7 @@
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>הדבק</value>
   </data>
-  <data name="DefaultTheme" xml:space="preserve">
+  <data name="Default" xml:space="preserve">
     <value>ברירת מחדל</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">

@@ -69,9 +69,8 @@
                         <MenuFlyout x:Name="NewEmptySpace" Opening="NewEmptySpace_Opening">
                             <MenuFlyoutItem
                                 x:Name="ToolbarNewFolderItem"
-                                x:Uid="ModernNavigationToolbaNewFolder"
                                 Command="{x:Bind ViewModel.CreateNewFolderCommand, Mode=OneWay}"
-                                Text="Folder">
+                                Text="{helpers:ResourceString Name=Folder}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE8B7;" />
                                 </MenuFlyoutItem.Icon>
@@ -333,10 +332,7 @@
                                 x:Uid="NavToolbarArrangementOptionDateModified"
                                 IsChecked="{x:Bind ViewModel.IsSortedByDateModified, Mode=TwoWay}"
                                 Text="Date modified" />
-                            <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarArrangementOptionDateCreated"
-                                IsChecked="{x:Bind ViewModel.IsSortedByDateCreated, Mode=TwoWay}"
-                                Text="Date created" />
+                            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedByDateCreated, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateCreated}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionSize"
                                 IsChecked="{x:Bind ViewModel.IsSortedBySize, Mode=TwoWay}"
@@ -378,10 +374,7 @@
                                 x:Uid="NavToolbarArrangementOptionDateModified"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByDateModified, Mode=TwoWay}"
                                 Text="Date modified" />
-                            <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarArrangementOptionDateCreated"
-                                IsChecked="{x:Bind ViewModel.IsGroupedByDateCreated, Mode=TwoWay}"
-                                Text="Date created" />
+                            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByDateCreated, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateCreated}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionSize"
                                 IsChecked="{x:Bind ViewModel.IsGroupedBySize, Mode=TwoWay}"
@@ -806,11 +799,10 @@
                 <AppBarSeparator x:Name="SeparatorBar" x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
                 <AppBarButton
                     x:Name="OpenInTerminalButton"
-                    x:Uid="NavigationToolbarOpenInTerminal"
                     x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                     Command="{x:Bind ViewModel.OpenDirectoryInDefaultTerminalCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
-                    Label="Open in Terminal...">
+                    Label="{helpers:ResourceString Name=OpenInTerminal}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE756;" />
                     </AppBarButton.Icon>

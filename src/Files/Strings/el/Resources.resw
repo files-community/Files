@@ -54,7 +54,7 @@
   <data name="sizeColumn.Header" xml:space="preserve">
     <value>Μέγεθος</value>
   </data>
-  <data name="NavigationToolbarOpenInTerminal.Label" xml:space="preserve">
+  <data name="OpenInTerminal" xml:space="preserve">
     <value>Άνοιγμα στο τερματικό...</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
@@ -774,7 +774,7 @@
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Δημιουργεί ένα κενό αρχείο</value>
   </data>
-  <data name="AddDialogListFolderHeader" xml:space="preserve">
+  <data name="Folder" xml:space="preserve">
     <value>Φάκελος</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
@@ -942,7 +942,7 @@
   <data name="PropertyAlbumTitle" xml:space="preserve">
     <value>Τίτλος άλμπουμ</value>
   </data>
-  <data name="PropertyArtist" xml:space="preserve">
+  <data name="Artist" xml:space="preserve">
     <value>Καλλιτέχνης</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
@@ -1218,7 +1218,7 @@
   <data name="Details" xml:space="preserve">
     <value>Λεπτομέρειες</value>
   </data>
-  <data name="UpdateClose" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>Όχι</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1503,7 +1503,7 @@
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Εικονική μονάδα δίσκου</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+  <data name="DateCreated" xml:space="preserve">
     <value>Ημερομηνία δημιουργίας</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
@@ -1545,7 +1545,7 @@
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
     <value>Εμφάνιση της ενότητας βιβλιοθήκης</value>
   </data>
-  <data name="DefaultTheme" xml:space="preserve">
+  <data name="Default" xml:space="preserve">
     <value>Προεπιλογή</value>
   </data>
   <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
@@ -1629,7 +1629,7 @@
   <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
     <value>Προεπιλογή</value>
   </data>
-  <data name="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SetAsDefaultSavePath" xml:space="preserve">
     <value>Ορισμός ως προεπιλεγμένη διαδρομή αποθήκευσης</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
@@ -2379,7 +2379,7 @@
   <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
     <value>Επεξεργασία τερματικών εφαρμογών</value>
   </data>
-  <data name="SettingsDateFormat.Title" xml:space="preserve">
+  <data name="DateFormat" xml:space="preserve">
     <value>Μορφή ημερομηνίας</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">

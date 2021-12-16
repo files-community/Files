@@ -54,7 +54,7 @@
   <data name="sizeColumn.Header" xml:space="preserve">
     <value>Veličina</value>
   </data>
-  <data name="NavigationToolbarOpenInTerminal.Label" xml:space="preserve">
+  <data name="OpenInTerminal" xml:space="preserve">
     <value>Otvori u Terminalu...</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
@@ -135,7 +135,7 @@
   <data name="About" xml:space="preserve">
     <value>O aplikaciji</value>
   </data>
-  <data name="SettingsDateFormat.Title" xml:space="preserve">
+  <data name="DateFormat" xml:space="preserve">
     <value>Format datuma</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
@@ -777,7 +777,7 @@
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Stvara praznu datoteku</value>
   </data>
-  <data name="AddDialogListFolderHeader" xml:space="preserve">
+  <data name="Folder" xml:space="preserve">
     <value>Mapa</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
@@ -954,7 +954,7 @@
   <data name="PropertyAlbumTitle" xml:space="preserve">
     <value>Naslov albuma</value>
   </data>
-  <data name="PropertyArtist" xml:space="preserve">
+  <data name="Artist" xml:space="preserve">
     <value>Izvođač</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
@@ -1230,7 +1230,7 @@
   <data name="Details" xml:space="preserve">
     <value>Detalji</value>
   </data>
-  <data name="UpdateClose" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>Ne</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1515,7 +1515,7 @@
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Virtualni pogon</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+  <data name="DateCreated" xml:space="preserve">
     <value>Datum stvaranja</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
@@ -1557,7 +1557,7 @@
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
     <value>Prikaz biblioteke</value>
   </data>
-  <data name="DefaultTheme" xml:space="preserve">
+  <data name="Default" xml:space="preserve">
     <value>Zadano</value>
   </data>
   <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
@@ -1641,7 +1641,7 @@
   <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
     <value>Zadano</value>
   </data>
-  <data name="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SetAsDefaultSavePath" xml:space="preserve">
     <value>Postavi kao zadanu putanju za spremanje</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">

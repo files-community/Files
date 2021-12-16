@@ -726,7 +726,7 @@
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Izveido tukšu failu</value>
   </data>
-  <data name="AddDialogListFolderHeader" xml:space="preserve">
+  <data name="Folder" xml:space="preserve">
     <value>Mape</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
@@ -879,7 +879,7 @@
   <data name="PropertyAlbumTitle" xml:space="preserve">
     <value>Albuma nosaukums</value>
   </data>
-  <data name="PropertyArtist" xml:space="preserve">
+  <data name="Artist" xml:space="preserve">
     <value>Izpildītājs</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
@@ -1134,7 +1134,7 @@
   <data name="Details" xml:space="preserve">
     <value>Detaļas</value>
   </data>
-  <data name="UpdateClose" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>Nē</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1386,7 +1386,7 @@
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Virtuāla ierīce</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+  <data name="DateCreated" xml:space="preserve">
     <value>Izveides datums</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
@@ -1500,7 +1500,7 @@
   <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
     <value>Noklusējuma</value>
   </data>
-  <data name="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SetAsDefaultSavePath" xml:space="preserve">
     <value>Iestatīt kā noklusējuma saglabāšanas ceļu</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
@@ -1905,7 +1905,7 @@
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Ielīmēt</value>
   </data>
-  <data name="NavigationToolbarOpenInTerminal.Label" xml:space="preserve">
+  <data name="OpenInTerminal" xml:space="preserve">
     <value>Atvērt terminālī...</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
@@ -1962,7 +1962,7 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Nezināms īpašnieks</value>
   </data>
-  <data name="DefaultTheme" xml:space="preserve">
+  <data name="Default" xml:space="preserve">
     <value>Noklusējums</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
@@ -2331,7 +2331,7 @@
   <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
     <value>Rediģēt termināļu lietotnes</value>
   </data>
-  <data name="SettingsDateFormat.Title" xml:space="preserve">
+  <data name="DateFormat" xml:space="preserve">
     <value>Datuma formāts</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">

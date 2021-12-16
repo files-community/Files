@@ -636,7 +636,7 @@
   <data name="Cancel" xml:space="preserve">
     <value>रद्द करें</value>
   </data>
-  <data name="AddDialogListFolderHeader" xml:space="preserve">
+  <data name="Folder" xml:space="preserve">
     <value>फ़ोल्डर</value>
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
@@ -741,7 +741,7 @@
   <data name="PropertyAlbumTitle" xml:space="preserve">
     <value>एल्बम शीर्षक</value>
   </data>
-  <data name="PropertyArtist" xml:space="preserve">
+  <data name="Artist" xml:space="preserve">
     <value>कलाकार:</value>
   </data>
   <data name="PropertyComposer" xml:space="preserve">
@@ -870,7 +870,7 @@
   <data name="Details" xml:space="preserve">
     <value>विवरण</value>
   </data>
-  <data name="UpdateClose" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>नहीं</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
@@ -975,7 +975,7 @@
   <data name="DriveTypeUnknown" xml:space="preserve">
     <value>अज्ञात</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
+  <data name="DateCreated" xml:space="preserve">
     <value>निर्माण दिनांक</value>
   </data>
   <data name="DateCreatedColumn.Header" xml:space="preserve">
@@ -1275,7 +1275,7 @@
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>स्वामी</value>
   </data>
-  <data name="DefaultTheme" xml:space="preserve">
+  <data name="Default" xml:space="preserve">
     <value>डिफ़ॉल्ट</value>
   </data>
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
@@ -1440,7 +1440,7 @@
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
-  <data name="SettingsDateFormat.Title" xml:space="preserve">
+  <data name="DateFormat" xml:space="preserve">
     <value>दिनांक स्वरूप</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
