@@ -1611,7 +1611,7 @@
   <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
     <value>Stupci</value>
   </data>
-  <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>Stupci (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">

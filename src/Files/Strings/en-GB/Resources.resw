@@ -1611,7 +1611,7 @@
   <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
     <value>Column View</value>
   </data>
-  <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>Columns (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">

@@ -1599,7 +1599,7 @@
   <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
     <value>Στήλες</value>
   </data>
-  <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>Στήλες (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">

@@ -182,7 +182,7 @@ namespace Files.Helpers
                         // Column view
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutColumn/Text".GetLocalized(),
+                            Text = "Columns".GetLocalized(),
                             Glyph = "\uF115",
                             GlyphFontFamilyName = "CustomGlyph",
                             ShowInRecycleBin = true,

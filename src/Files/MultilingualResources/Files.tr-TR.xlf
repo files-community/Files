@@ -1965,7 +1965,7 @@
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Sütun Görünümü</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="NavToolbarColumnView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="ColumnsShortcutTooltip" translate="yes" xml:space="preserve">
           <source>Columns (Ctrl+Shift+6)</source>
           <target state="translated">Sütun Görünümü (Ctrl+Shift+6)</target>
         </trans-unit>

@@ -625,13 +625,13 @@
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    AutomationProperties.Name="Columns"
+                                    AutomationProperties.Name="{helpers:ResourceString Name=Columns}"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
                                     IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
-                                    ToolTipService.ToolTip="Columns (Ctrl+Shift+6)">
+                                    ToolTipService.ToolTip="{helpers:ResourceString Name=ColumnsShortcutTooltip}">
                                     <FontIcon
                                         FontFamily="{StaticResource CustomGlyph}"
                                         FontSize="16"

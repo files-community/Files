@@ -1473,7 +1473,7 @@
   <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
     <value>Kolomweergave</value>
   </data>
-  <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>Kolomweergave (Ctrl+Shift+6)</value>
   </data>
   <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">

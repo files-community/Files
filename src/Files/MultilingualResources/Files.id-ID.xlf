@@ -1994,7 +1994,7 @@
           <source>Columns</source>
           <target state="translated">Kolom</target>
         </trans-unit>
-        <trans-unit id="NavToolbarColumnView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="ColumnsShortcutTooltip" translate="yes" xml:space="preserve">
           <source>Columns (Ctrl+Shift+6)</source>
           <target state="translated">Kolom (Ctrl+Shift+6)</target>
         </trans-unit>
