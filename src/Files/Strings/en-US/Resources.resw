@@ -228,9 +228,6 @@
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>Useful links</value>
   </data>
-  <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
-    <value>Copy</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Submit feedback</value>
   </data>
@@ -315,7 +312,7 @@
   <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>Size</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="Ascending" xml:space="preserve">
     <value>Ascending</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
@@ -369,9 +366,6 @@
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>Cut</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
-    <value>Copy</value>
-  </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
@@ -417,7 +411,7 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>Dark</value>
   </data>
-  <data name="ApplicationTimeStye" xml:space="preserve">
+  <data name="Application" xml:space="preserve">
     <value>Application</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
@@ -735,9 +729,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>Working directory:</value>
   </data>
-  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
-    <value>Application</value>
-  </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>File</value>
   </data>
@@ -984,9 +975,6 @@
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>Vertical Resolution</value>
   </data>
-  <data name="PropertyCompressionText" xml:space="preserve">
-    <value>Compression</value>
-  </data>
   <data name="PropertyColorSpace" xml:space="preserve">
     <value>Color Space</value>
   </data>
@@ -1188,7 +1176,7 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Encoding Bitrate</value>
   </data>
-  <data name="PropertyCompression" xml:space="preserve">
+  <data name="Compression" xml:space="preserve">
     <value>Compression</value>
   </data>
   <data name="PropertyFrameWidth" xml:space="preserve">
@@ -1449,9 +1437,6 @@
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>More options...</value>
   </data>
-  <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
-    <value>Confirm</value>
-  </data>
   <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
     <value>Export Bundles</value>
   </data>
@@ -1463,9 +1448,6 @@
   </data>
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
     <value>Input field cannot be empty!</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleItem.Text" xml:space="preserve">
-    <value>Create Bundle</value>
   </data>
   <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
     <value>Enter Bundle name</value>
@@ -1497,16 +1479,13 @@
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
     <value>Desired name</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
-    <value>Confirm</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
     <value>Enter new name</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>Rename "{0}"</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
+  <data name="CreateBundle" xml:space="preserve">
     <value>Create Bundle</value>
   </data>
   <data name="Confirm" xml:space="preserve">
@@ -1514,9 +1493,6 @@
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
     <value>Add Bundle</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>Create Bundle</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
     <value>Rename Bundle</value>
@@ -1770,7 +1746,7 @@
   <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
     <value>Open Storage Sense</value>
   </data>
-  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Copy" xml:space="preserve">
     <value>Copy</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
@@ -1958,9 +1934,6 @@
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
     <value>Sort direction</value>
-  </data>
-  <data name="NavToolbarSortDirectionOptionAscending.Text" xml:space="preserve">
-    <value>Ascending</value>
   </data>
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Descending</value>
@@ -2367,12 +2340,6 @@
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>Replace all child object permissions entries with inheritable permission entries from this object</value>
   </data>
-  <data name="CreateBundleBtn.AutomationProperties.Name" xml:space="preserve">
-    <value>Create Bundle</value>
-  </data>
-  <data name="CreateBundleBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Create Bundle</value>
-  </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Close pane</value>
   </data>
@@ -2429,12 +2396,6 @@
   </data>
   <data name="NavSettingsButton" xml:space="preserve">
     <value>Settings</value>
-  </data>
-  <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Copy</value>
-  </data>
-  <data name="NavigationToolbarCopy.Label" xml:space="preserve">
-    <value>Copy</value>
   </data>
   <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
     <value>Add file</value>
@@ -2769,9 +2730,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
     <value>On program start</value>
-  </data>
-  <data name="HighDpiOverride_Application" xml:space="preserve">
-    <value>Application</value>
   </data>
   <data name="HighDpiOverride_None" xml:space="preserve">
     <value>None</value>

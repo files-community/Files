@@ -242,7 +242,7 @@
           <source>Size</source>
           <target state="translated">Tamaño</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByAscending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Ascending" translate="yes" xml:space="preserve">
           <source>Ascending</source>
           <target state="translated">Ascendente</target>
         </trans-unit>
@@ -370,7 +370,7 @@
           <source>Dark</source>
           <target state="translated">Oscuro</target>
         </trans-unit>
-        <trans-unit id="ApplicationTimeStye" translate="yes" xml:space="preserve">
+        <trans-unit id="Application" translate="yes" xml:space="preserve">
           <source>Application</source>
           <target state="translated">Aplicación</target>
         </trans-unit>
@@ -1094,7 +1094,7 @@
           <source>Vertical Resolution</source>
           <target state="translated">Resolución vertical</target>
         </trans-unit>
-        <trans-unit id="PropertyCompressionText" translate="yes" xml:space="preserve">
+        <trans-unit id="CompressionText" translate="yes" xml:space="preserve">
           <source>Compression</source>
           <target state="translated">Compresión</target>
         </trans-unit>
@@ -1366,7 +1366,7 @@
           <source>Encoding Bitrate</source>
           <target state="translated">Velocidad de bits</target>
         </trans-unit>
-        <trans-unit id="PropertyCompression" translate="yes" xml:space="preserve">
+        <trans-unit id="Compression" translate="yes" xml:space="preserve">
           <source>Compression</source>
           <target state="translated">Compresión</target>
         </trans-unit>
@@ -1754,7 +1754,7 @@
           <source>Rename "{0}"</source>
           <target state="translated">Renombrar "{0}"</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleDialogTitleText" translate="yes" xml:space="preserve">
+        <trans-unit id="CreateBundle" translate="yes" xml:space="preserve">
           <source>Create Bundle</source>
           <target state="translated">Crear contenedor</target>
         </trans-unit>
@@ -2098,7 +2098,7 @@
           <source>Open Storage Sense</source>
           <target state="translated">Abrir sensor de almacenamiento</target>
         </trans-unit>
-        <trans-unit id="CopyItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Copy" translate="yes" xml:space="preserve">
           <source>Copy</source>
           <target state="translated">Copiar</target>
         </trans-unit>

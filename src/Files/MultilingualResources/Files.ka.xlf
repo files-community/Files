@@ -266,7 +266,7 @@
           <source>Size</source>
           <target state="translated">ზომით</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByAscending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Ascending" translate="yes" xml:space="preserve">
           <source>Ascending</source>
           <target state="translated">ზრდადობის მიხედვით</target>
         </trans-unit>
@@ -398,7 +398,7 @@
           <source>Dark</source>
           <target state="translated">ბნელი</target>
         </trans-unit>
-        <trans-unit id="ApplicationTimeStye" translate="yes" xml:space="preserve">
+        <trans-unit id="Application" translate="yes" xml:space="preserve">
           <source>Application</source>
           <target state="translated">აპლიკაცია</target>
         </trans-unit>
@@ -1146,7 +1146,7 @@
           <source>Vertical Resolution</source>
           <target state="translated">ვერტიკალური გარჩევადობა</target>
         </trans-unit>
-        <trans-unit id="PropertyCompressionText" translate="yes" xml:space="preserve">
+        <trans-unit id="CompressionText" translate="yes" xml:space="preserve">
           <source>Compression</source>
           <target state="translated">შეკუმშვა</target>
         </trans-unit>
@@ -1418,7 +1418,7 @@
           <source>Encoding Bitrate</source>
           <target state="translated">Encoding Bitrate</target>
         </trans-unit>
-        <trans-unit id="PropertyCompression" translate="yes" xml:space="preserve">
+        <trans-unit id="Compression" translate="yes" xml:space="preserve">
           <source>Compression</source>
           <target state="translated">შეკუმშვა</target>
         </trans-unit>
@@ -1840,7 +1840,7 @@
           <source>Rename "{0}"</source>
           <target state="translated">"{0}" -(ი)ს გადარქმევა</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleDialogTitleText" translate="yes" xml:space="preserve">
+        <trans-unit id="CreateBundle" translate="yes" xml:space="preserve">
           <source>Create Bundle</source>
           <target state="translated">შეკვრის შექმნა</target>
         </trans-unit>
@@ -2200,7 +2200,7 @@
           <source>Open Storage Sense</source>
           <target state="translated">შენახვის გრძნობის გახსნა</target>
         </trans-unit>
-        <trans-unit id="CopyItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Copy" translate="yes" xml:space="preserve">
           <source>Copy</source>
           <target state="translated">ასლის შექმნა</target>
         </trans-unit>

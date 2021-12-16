@@ -245,7 +245,7 @@ namespace Files.ViewModels.Dialogs
                         {
                             titleText = "CopyItemsDialogTitle".GetLocalized();
                             subtitleText = itemsData.IncomingItems.Count == 1 ? "CopyItemsDialogSubtitleSingle".GetLocalized() : string.Format("CopyItemsDialogSubtitleMultiple".GetLocalized(), itemsData.IncomingItems.Count);
-                            primaryButtonText = "CopyItemsDialogPrimaryButtonText".GetLocalized();
+                            primaryButtonText = "Copy".GetLocalized();
                             secondaryButtonText = "Cancel".GetLocalized();
                             break;
                         }

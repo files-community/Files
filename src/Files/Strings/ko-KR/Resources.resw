@@ -102,7 +102,7 @@
   <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>크기</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="Ascending" xml:space="preserve">
     <value>오름차순</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
@@ -213,7 +213,7 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>어둡게</value>
   </data>
-  <data name="ApplicationTimeStye" xml:space="preserve">
+  <data name="Application" xml:space="preserve">
     <value>응용 프로그램</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
@@ -804,7 +804,7 @@
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>수직 해상도</value>
   </data>
-  <data name="PropertyCompressionText" xml:space="preserve">
+  <data name="CompressionText" xml:space="preserve">
     <value>압축</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
@@ -1008,7 +1008,7 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>비트레이트</value>
   </data>
-  <data name="PropertyCompression" xml:space="preserve">
+  <data name="Compression" xml:space="preserve">
     <value>압축</value>
   </data>
   <data name="PropertyFrameWidth" xml:space="preserve">
@@ -1272,7 +1272,7 @@
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>"{0}" 이름 바꾸기</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
+  <data name="CreateBundle" xml:space="preserve">
     <value>보관함 만들기</value>
   </data>
   <data name="Confirm" xml:space="preserve">
@@ -1536,7 +1536,7 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO 감도</value>
   </data>
-  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Copy" xml:space="preserve">
     <value>복사</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">

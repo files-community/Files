@@ -174,7 +174,7 @@
   <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>ଆକାର</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="Ascending" xml:space="preserve">
     <value>ଆରୋହଣ</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
@@ -261,7 +261,7 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>ଅନ୍ଧାର</value>
   </data>
-  <data name="ApplicationTimeStye" xml:space="preserve">
+  <data name="Application" xml:space="preserve">
     <value>ଆପ୍ଲିକେସନ</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
@@ -663,7 +663,7 @@
   <data name="PropertyDimensions" xml:space="preserve">
     <value>ପରିସରଗୁଡ଼ିକ</value>
   </data>
-  <data name="PropertyCompressionText" xml:space="preserve">
+  <data name="CompressionText" xml:space="preserve">
     <value>ସଙ୍କୋଚନ:</value>
   </data>
   <data name="PropertyLatitude" xml:space="preserve">
@@ -678,7 +678,7 @@
   <data name="PropertyDateTaken" xml:space="preserve">
     <value>ନିଆଯାଇଥିବା ତାରିଖ:</value>
   </data>
-  <data name="PropertyCompression" xml:space="preserve">
+  <data name="Compression" xml:space="preserve">
     <value>ସଙ୍କୋଚନ:</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
@@ -1002,7 +1002,7 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>ସୃଷ୍ଟି</value>
   </data>
-  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Copy" xml:space="preserve">
     <value>କପି</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">

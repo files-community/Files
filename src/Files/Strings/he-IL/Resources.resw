@@ -171,7 +171,7 @@
   <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>גודל</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="Ascending" xml:space="preserve">
     <value>סדר עולה</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
@@ -246,7 +246,7 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>כהה</value>
   </data>
-  <data name="ApplicationTimeStye" xml:space="preserve">
+  <data name="Application" xml:space="preserve">
     <value>אפליקציה</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
@@ -666,7 +666,7 @@
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>רזולוציה אנכית</value>
   </data>
-  <data name="PropertyCompressionText" xml:space="preserve">
+  <data name="CompressionText" xml:space="preserve">
     <value>דחיסה</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
@@ -705,7 +705,7 @@
   <data name="PropertyChannelCount" xml:space="preserve">
     <value>ספירת ערוצים</value>
   </data>
-  <data name="PropertyCompression" xml:space="preserve">
+  <data name="Compression" xml:space="preserve">
     <value>דחיסה</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
@@ -1131,7 +1131,7 @@
   <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
     <value>ברירת מחדל</value>
   </data>
-  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Copy" xml:space="preserve">
     <value>העתק</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">

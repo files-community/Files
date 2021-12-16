@@ -224,7 +224,7 @@
           <source>Size</source>
           <target state="translated">Velikost</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByAscending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Ascending" translate="yes" xml:space="preserve">
           <source>Ascending</source>
           <target state="translated">Vzestupně</target>
         </trans-unit>
@@ -346,7 +346,7 @@
           <source>Dark</source>
           <target state="translated">Tmavý</target>
         </trans-unit>
-        <trans-unit id="ApplicationTimeStye" translate="yes" xml:space="preserve">
+        <trans-unit id="Application" translate="yes" xml:space="preserve">
           <source>Application</source>
           <target state="translated">Aplikace</target>
         </trans-unit>
@@ -1082,7 +1082,7 @@
           <source>Vertical Resolution</source>
           <target state="translated">Vertikální rozlišení</target>
         </trans-unit>
-        <trans-unit id="PropertyCompressionText" translate="yes" xml:space="preserve">
+        <trans-unit id="CompressionText" translate="yes" xml:space="preserve">
           <source>Compression</source>
           <target state="translated">Komprese</target>
         </trans-unit>
@@ -1355,7 +1355,7 @@
           <source>Encoding Bitrate</source>
           <target state="translated">Přenosová rychlost</target>
         </trans-unit>
-        <trans-unit id="PropertyCompression" translate="yes" xml:space="preserve">
+        <trans-unit id="Compression" translate="yes" xml:space="preserve">
           <source>Compression</source>
           <target state="translated">Komprese</target>
         </trans-unit>
@@ -1739,7 +1739,7 @@
           <source>More options...</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Další možnosti</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleDialogTitleText" translate="yes" xml:space="preserve">
+        <trans-unit id="CreateBundle" translate="yes" xml:space="preserve">
           <source>Create Bundle</source>
           <target state="new">Create Bundle</target>
         </trans-unit>
@@ -2078,7 +2078,7 @@
           <source>ISO speed</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Rychlost ISO</target>
         </trans-unit>
-        <trans-unit id="CopyItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Copy" translate="yes" xml:space="preserve">
           <source>Copy</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Kopírovat</target>
         </trans-unit>

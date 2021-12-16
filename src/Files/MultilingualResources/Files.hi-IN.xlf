@@ -225,7 +225,7 @@
           <source>Size</source>
           <target state="translated">आकार</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByAscending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Ascending" translate="yes" xml:space="preserve">
           <source>Ascending</source>
           <target state="translated">बढ़तेक्रममें</target>
         </trans-unit>
@@ -345,7 +345,7 @@
           <source>Dark</source>
           <target state="translated">अंधेरा</target>
         </trans-unit>
-        <trans-unit id="ApplicationTimeStye" translate="yes" xml:space="preserve">
+        <trans-unit id="Application" translate="yes" xml:space="preserve">
           <source>Application</source>
           <target state="translated">एप्लिकेसन्</target>
         </trans-unit>
@@ -1103,7 +1103,7 @@
           <source>Vertical Resolution</source>
           <target state="new">Vertical Resolution</target>
         </trans-unit>
-        <trans-unit id="PropertyCompressionText" translate="yes" xml:space="preserve">
+        <trans-unit id="CompressionText" translate="yes" xml:space="preserve">
           <source>Compression</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">संकुचन</target>
         </trans-unit>
@@ -1367,7 +1367,7 @@
           <source>Encoding Bitrate</source>
           <target state="new">Encoding Bitrate</target>
         </trans-unit>
-        <trans-unit id="PropertyCompression" translate="yes" xml:space="preserve">
+        <trans-unit id="Compression" translate="yes" xml:space="preserve">
           <source>Compression</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">संकुचन</target>
         </trans-unit>
@@ -1725,7 +1725,7 @@
           <source>More options...</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">अधिक विकल्प</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleDialogTitleText" translate="yes" xml:space="preserve">
+        <trans-unit id="CreateBundle" translate="yes" xml:space="preserve">
           <source>Create Bundle</source>
           <target state="new">Create Bundle</target>
         </trans-unit>
@@ -2061,7 +2061,7 @@
           <source>ISO speed</source>
           <target state="new">ISO speed</target>
         </trans-unit>
-        <trans-unit id="CopyItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Copy" translate="yes" xml:space="preserve">
           <source>Copy</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">प्रतिलिपि बनाएँ</target>
         </trans-unit>

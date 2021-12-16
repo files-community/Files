@@ -311,7 +311,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortByAscending/Text".GetLocalized(),
+                            Text = "Ascending".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedAscending,
                             Command = new RelayCommand(() => itemViewModel.IsSortedAscending = true),
                             ShowInRecycleBin = true,
@@ -766,7 +766,7 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutCopy/Text".GetLocalized(),
+                    Text = "Copy".GetLocalized(),
                     //Glyph = "\uF8C8",
                     ColoredIcon = new ColoredIconModel()
                     {

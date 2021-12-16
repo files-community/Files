@@ -111,14 +111,13 @@
                     </AppBarButton.Content>
                 </AppBarButton>
                 <AppBarButton
-                    x:Uid="NavigationToolbarCopy"
                     Width="Auto"
                     MinWidth="40"
                     Command="{x:Bind ViewModel.CopyCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanCopy, Mode=OneWay, FallbackValue=False}"
-                    Label="Copy"
+                    Label="{helpers:ResourceString Name=Copy}"
                     LabelPosition="Collapsed"
-                    ToolTipService.ToolTip="Copy">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=Copy}">
                     <local:ColoredIcon BaseLayerGlyph="&#xF021;" OverlayLayerGlyph="&#xF022;" />
                 </AppBarButton>
                 <AppBarButton
@@ -418,10 +417,7 @@
                                 Text="Folder path" />
                         </MenuFlyoutSubItem>
                         <MenuFlyoutSeparator />
-                        <ToggleMenuFlyoutItem
-                            x:Uid="NavToolbarSortDirectionOptionAscending"
-                            IsChecked="{x:Bind ViewModel.IsSortedAscending, Mode=TwoWay}"
-                            Text="Ascending order" />
+                        <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedAscending, Mode=TwoWay}" Text="{helpers:ResourceString Name=Ascending}" />
                         <ToggleMenuFlyoutItem
                             x:Uid="NavToolbarSortDirectionOptionDescending"
                             IsChecked="{x:Bind ViewModel.IsSortedDescending, Mode=TwoWay}"

@@ -138,7 +138,7 @@
   <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>Розмір</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="Ascending" xml:space="preserve">
     <value>За зростанням</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
@@ -216,7 +216,7 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>Темна</value>
   </data>
-  <data name="ApplicationTimeStye" xml:space="preserve">
+  <data name="Application" xml:space="preserve">
     <value>За замовчуванням</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
@@ -816,7 +816,7 @@
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>Роздільна здатність по вертикалі</value>
   </data>
-  <data name="PropertyCompressionText" xml:space="preserve">
+  <data name="CompressionText" xml:space="preserve">
     <value>Стиснення</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
@@ -858,7 +858,7 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Швидкість потоку</value>
   </data>
-  <data name="PropertyCompression" xml:space="preserve">
+  <data name="Compression" xml:space="preserve">
     <value>Стискання</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
@@ -1233,7 +1233,7 @@
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Опції...</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
+  <data name="CreateBundle" xml:space="preserve">
     <value>Створити Колекцію</value>
   </data>
   <data name="PropertyItemPathDisplay" xml:space="preserve">
@@ -1419,7 +1419,7 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>Швидкість ISO</value>
   </data>
-  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Copy" xml:space="preserve">
     <value>Копіювати</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">

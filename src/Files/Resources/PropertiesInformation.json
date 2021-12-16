@@ -51,7 +51,7 @@
     "ID": null
   },
   {
-    "NameResource": "PropertyCompressionText",
+    "NameResource": "Compression",
     "SectionResource": "PropertySectionImage",
     "Property": "System.Image.CompressionText",
     "IsReadOnly": true,
@@ -163,7 +163,7 @@
     "ID": null
   },
   {
-    "NameResource": "PropertyCompression",
+    "NameResource": "Compression",
     "SectionResource": "PropertySectionAudio",
     "Property": "System.Audio.Compression",
     "IsReadOnly": true,
@@ -501,7 +501,7 @@
     "ID": null
   },
   {
-    "NameResource": "PropertyCompression",
+    "NameResource": "Compression",
     "SectionResource": "PropertySectionVideo",
     "Property": "System.Video.Compression",
     "IsReadOnly": true,

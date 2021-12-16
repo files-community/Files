@@ -102,7 +102,7 @@
   <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>大小</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="Ascending" xml:space="preserve">
     <value>升序</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
@@ -216,7 +216,7 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>深色</value>
   </data>
-  <data name="ApplicationTimeStye" xml:space="preserve">
+  <data name="Application" xml:space="preserve">
     <value>应用</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
@@ -816,7 +816,7 @@
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>垂直分辨率</value>
   </data>
-  <data name="PropertyCompressionText" xml:space="preserve">
+  <data name="CompressionText" xml:space="preserve">
     <value>压缩</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
@@ -870,7 +870,7 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>数据速率</value>
   </data>
-  <data name="PropertyCompression" xml:space="preserve">
+  <data name="Compression" xml:space="preserve">
     <value>压缩</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
@@ -1278,7 +1278,7 @@
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>更多选项...</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
+  <data name="CreateBundle" xml:space="preserve">
     <value>新建包</value>
   </data>
   <data name="PropertyItemPathDisplay" xml:space="preserve">
@@ -1538,7 +1538,7 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO 感光度</value>
   </data>
-  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Copy" xml:space="preserve">
     <value>复制</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">

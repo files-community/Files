@@ -102,7 +102,7 @@
   <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>Rozmiar</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="Ascending" xml:space="preserve">
     <value>Rosnąco</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
@@ -216,7 +216,7 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>Ciemny</value>
   </data>
-  <data name="ApplicationTimeStye" xml:space="preserve">
+  <data name="Application" xml:space="preserve">
     <value>Aplikacja</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
@@ -816,7 +816,7 @@
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>Rozdzielczość w pionie</value>
   </data>
-  <data name="PropertyCompressionText" xml:space="preserve">
+  <data name="CompressionText" xml:space="preserve">
     <value>Kompresja</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
@@ -870,7 +870,7 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Współczynnik kodowania Bitrate</value>
   </data>
-  <data name="PropertyCompression" xml:space="preserve">
+  <data name="Compression" xml:space="preserve">
     <value>Kompresja</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
@@ -1278,7 +1278,7 @@
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Więcej opcji...</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
+  <data name="CreateBundle" xml:space="preserve">
     <value>Utwórz nową Paczkę</value>
   </data>
   <data name="PropertyItemPathDisplay" xml:space="preserve">
@@ -1536,7 +1536,7 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>Szybkość ISO</value>
   </data>
-  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Copy" xml:space="preserve">
     <value>Kopiuj</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">

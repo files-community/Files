@@ -174,7 +174,7 @@
   <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>आकार</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="Ascending" xml:space="preserve">
     <value>बढ़तेक्रममें</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
@@ -261,7 +261,7 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>अंधेरा</value>
   </data>
-  <data name="ApplicationTimeStye" xml:space="preserve">
+  <data name="Application" xml:space="preserve">
     <value>एप्लिकेसन्</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
@@ -708,7 +708,7 @@
   <data name="PropertyVerticalSize" xml:space="preserve">
     <value>अनुलंब आकार</value>
   </data>
-  <data name="PropertyCompressionText" xml:space="preserve">
+  <data name="CompressionText" xml:space="preserve">
     <value>संकुचन</value>
   </data>
   <data name="PropertyLatitude" xml:space="preserve">
@@ -807,7 +807,7 @@
   <data name="PropertyFrameRate" xml:space="preserve">
     <value>फ़्रेम दर</value>
   </data>
-  <data name="PropertyCompression" xml:space="preserve">
+  <data name="Compression" xml:space="preserve">
     <value>संकुचन</value>
   </data>
   <data name="PropertyFrameWidth" xml:space="preserve">
@@ -1053,7 +1053,7 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>बनाएँ</value>
   </data>
-  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Copy" xml:space="preserve">
     <value>प्रतिलिपि बनाएँ</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">

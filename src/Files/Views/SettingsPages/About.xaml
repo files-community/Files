@@ -49,9 +49,8 @@
                 </local:SettingsBlockControl.Icon>
                 <Button
                     x:Name="CopyVersionInfo"
-                    x:Uid="SettingCopyVersionInfo"
                     Command="{Binding CopyVersionInfoCommand}"
-                    Content="Copy" />
+                    Content="{helpers:ResourceString Name=Copy}" />
             </local:SettingsBlockControl>
 
             <local:SettingsBlockControl Title="{helpers:ResourceString Name=ManageSettings}" HorizontalAlignment="Stretch">

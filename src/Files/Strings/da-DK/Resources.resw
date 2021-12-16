@@ -174,7 +174,7 @@
   <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>Størrelse</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="Ascending" xml:space="preserve">
     <value>Faldende</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
@@ -264,7 +264,7 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>Mørk</value>
   </data>
-  <data name="ApplicationTimeStye" xml:space="preserve">
+  <data name="Application" xml:space="preserve">
     <value>Applikation</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
@@ -798,7 +798,7 @@
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>Lodret opløsning</value>
   </data>
-  <data name="PropertyCompressionText" xml:space="preserve">
+  <data name="CompressionText" xml:space="preserve">
     <value>Kompression</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
@@ -1002,7 +1002,7 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Kodning af bitrate</value>
   </data>
-  <data name="PropertyCompression" xml:space="preserve">
+  <data name="Compression" xml:space="preserve">
     <value>Kompression</value>
   </data>
   <data name="PropertyFrameWidth" xml:space="preserve">
@@ -1278,7 +1278,7 @@
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Flere indstillinger...</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
+  <data name="CreateBundle" xml:space="preserve">
     <value>Opret samling</value>
   </data>
   <data name="PropertyItemPathDisplay" xml:space="preserve">
@@ -1497,7 +1497,7 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO-hastighed</value>
   </data>
-  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Copy" xml:space="preserve">
     <value>Kopiér</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">

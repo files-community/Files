@@ -102,7 +102,7 @@
   <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>Boyut</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="Ascending" xml:space="preserve">
     <value>Artan</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
@@ -216,7 +216,7 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>Koyu</value>
   </data>
-  <data name="ApplicationTimeStye" xml:space="preserve">
+  <data name="Application" xml:space="preserve">
     <value>Uygulama</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
@@ -816,7 +816,7 @@
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>Dikey Çözünürlük</value>
   </data>
-  <data name="PropertyCompressionText" xml:space="preserve">
+  <data name="CompressionText" xml:space="preserve">
     <value>Sıkıştırma</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
@@ -870,7 +870,7 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Kodlama Bit Hızı</value>
   </data>
-  <data name="PropertyCompression" xml:space="preserve">
+  <data name="Compression" xml:space="preserve">
     <value>Sıkıştırma</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
@@ -1278,7 +1278,7 @@
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Diğer seçenekler...</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
+  <data name="CreateBundle" xml:space="preserve">
     <value>Paket Oluştur</value>
   </data>
   <data name="PropertyItemPathDisplay" xml:space="preserve">
@@ -1536,7 +1536,7 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO hızı</value>
   </data>
-  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Copy" xml:space="preserve">
     <value>Kopyala</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">

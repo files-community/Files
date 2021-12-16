@@ -271,7 +271,7 @@
           <source>Size</source>
           <target state="translated">Mida</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByAscending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Ascending" translate="yes" xml:space="preserve">
           <source>Ascending</source>
           <target state="translated">Ascendent</target>
         </trans-unit>
@@ -403,7 +403,7 @@
           <source>Dark</source>
           <target state="translated">Oscur</target>
         </trans-unit>
-        <trans-unit id="ApplicationTimeStye" translate="yes" xml:space="preserve">
+        <trans-unit id="Application" translate="yes" xml:space="preserve">
           <source>Application</source>
           <target state="translated">Aplicació</target>
         </trans-unit>
@@ -1156,7 +1156,7 @@
           <source>Vertical Resolution</source>
           <target state="new">Vertical Resolution</target>
         </trans-unit>
-        <trans-unit id="PropertyCompressionText" translate="yes" xml:space="preserve">
+        <trans-unit id="CompressionText" translate="yes" xml:space="preserve">
           <source>Compression</source>
           <target state="new">Compression</target>
         </trans-unit>
@@ -1428,7 +1428,7 @@
           <source>Encoding Bitrate</source>
           <target state="new">Encoding Bitrate</target>
         </trans-unit>
-        <trans-unit id="PropertyCompression" translate="yes" xml:space="preserve">
+        <trans-unit id="Compression" translate="yes" xml:space="preserve">
           <source>Compression</source>
           <target state="new">Compression</target>
         </trans-unit>
@@ -1848,7 +1848,7 @@
           <source>Rename "{0}"</source>
           <target state="new">Rename "{0}"</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleDialogTitleText" translate="yes" xml:space="preserve">
+        <trans-unit id="CreateBundle" translate="yes" xml:space="preserve">
           <source>Create Bundle</source>
           <target state="new">Create Bundle</target>
         </trans-unit>
@@ -2212,7 +2212,7 @@
           <source>Open Storage Sense</source>
           <target state="new">Open Storage Sense</target>
         </trans-unit>
-        <trans-unit id="CopyItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Copy" translate="yes" xml:space="preserve">
           <source>Copy</source>
           <target state="new">Copy</target>
         </trans-unit>

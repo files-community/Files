@@ -171,7 +171,7 @@
   <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>அளவு</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="Ascending" xml:space="preserve">
     <value>ஏறுவரிசை</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
@@ -258,7 +258,7 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>இருள்</value>
   </data>
-  <data name="ApplicationTimeStye" xml:space="preserve">
+  <data name="Application" xml:space="preserve">
     <value>பயன்பாடு</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
@@ -1075,7 +1075,7 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>உருவாக்கு</value>
   </data>
-  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Copy" xml:space="preserve">
     <value>நகலெடு</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">

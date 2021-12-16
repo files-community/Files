@@ -174,7 +174,7 @@
   <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>Méret</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="Ascending" xml:space="preserve">
     <value>Növekvő</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
@@ -261,7 +261,7 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>Sötét</value>
   </data>
-  <data name="ApplicationTimeStye" xml:space="preserve">
+  <data name="Application" xml:space="preserve">
     <value>Alkalmazás</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
@@ -819,7 +819,7 @@
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>Függőleges felbontás</value>
   </data>
-  <data name="PropertyCompressionText" xml:space="preserve">
+  <data name="CompressionText" xml:space="preserve">
     <value>Tömörítés</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
@@ -1017,7 +1017,7 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Kódolási bitráta</value>
   </data>
-  <data name="PropertyCompression" xml:space="preserve">
+  <data name="Compression" xml:space="preserve">
     <value>Tömörítés</value>
   </data>
   <data name="PropertyFrameWidth" xml:space="preserve">
@@ -1287,7 +1287,7 @@
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>További lehetőségek...</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
+  <data name="CreateBundle" xml:space="preserve">
     <value>Munkaterület létrehozása</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
@@ -1536,7 +1536,7 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO sebesség</value>
   </data>
-  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Copy" xml:space="preserve">
     <value>Másolás</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">

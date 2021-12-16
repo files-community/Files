@@ -207,7 +207,7 @@
   <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>ზომით</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="Ascending" xml:space="preserve">
     <value>ზრდადობის მიხედვით</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
@@ -306,7 +306,7 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>ბნელი</value>
   </data>
-  <data name="ApplicationTimeStye" xml:space="preserve">
+  <data name="Application" xml:space="preserve">
     <value>აპლიკაცია</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
@@ -867,7 +867,7 @@
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>ვერტიკალური გარჩევადობა</value>
   </data>
-  <data name="PropertyCompressionText" xml:space="preserve">
+  <data name="CompressionText" xml:space="preserve">
     <value>შეკუმშვა</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
@@ -1071,7 +1071,7 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Encoding Bitrate</value>
   </data>
-  <data name="PropertyCompression" xml:space="preserve">
+  <data name="Compression" xml:space="preserve">
     <value>შეკუმშვა</value>
   </data>
   <data name="PropertyFrameWidth" xml:space="preserve">
@@ -1386,7 +1386,7 @@
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>"{0}" -(ი)ს გადარქმევა</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
+  <data name="CreateBundle" xml:space="preserve">
     <value>შეკვრის შექმნა</value>
   </data>
   <data name="Confirm" xml:space="preserve">
@@ -1656,7 +1656,7 @@
   <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
     <value>შენახვის გრძნობის გახსნა</value>
   </data>
-  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Copy" xml:space="preserve">
     <value>ასლის შექმნა</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">

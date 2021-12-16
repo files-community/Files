@@ -210,7 +210,7 @@
   <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>Kích cỡ</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="Ascending" xml:space="preserve">
     <value>Tăng dần</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
@@ -306,7 +306,7 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>Tối</value>
   </data>
-  <data name="ApplicationTimeStye" xml:space="preserve">
+  <data name="Application" xml:space="preserve">
     <value>Ứng dụng</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
@@ -867,7 +867,7 @@
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>Độ phân giải dọc</value>
   </data>
-  <data name="PropertyCompressionText" xml:space="preserve">
+  <data name="CompressionText" xml:space="preserve">
     <value>Nén</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
@@ -1053,7 +1053,7 @@
   <data name="PropertyFrameRate" xml:space="preserve">
     <value>Tốc độ khung hình</value>
   </data>
-  <data name="PropertyCompression" xml:space="preserve">
+  <data name="Compression" xml:space="preserve">
     <value>Nén</value>
   </data>
   <data name="PropertyFrameWidth" xml:space="preserve">
@@ -1365,7 +1365,7 @@
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>Đổi tên "{0}"</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
+  <data name="CreateBundle" xml:space="preserve">
     <value>Tạo bó</value>
   </data>
   <data name="Confirm" xml:space="preserve">
@@ -1632,7 +1632,7 @@
   <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
     <value>Mở Storage Sense</value>
   </data>
-  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Copy" xml:space="preserve">
     <value>Sao chép</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">

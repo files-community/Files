@@ -189,7 +189,7 @@
   <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>Tamaño</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="Ascending" xml:space="preserve">
     <value>Ascendente</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
@@ -285,7 +285,7 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>Oscuro</value>
   </data>
-  <data name="ApplicationTimeStye" xml:space="preserve">
+  <data name="Application" xml:space="preserve">
     <value>Aplicación</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
@@ -828,7 +828,7 @@
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>Resolución vertical</value>
   </data>
-  <data name="PropertyCompressionText" xml:space="preserve">
+  <data name="CompressionText" xml:space="preserve">
     <value>Compresión</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
@@ -1020,7 +1020,7 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Velocidad de bits</value>
   </data>
-  <data name="PropertyCompression" xml:space="preserve">
+  <data name="Compression" xml:space="preserve">
     <value>Compresión</value>
   </data>
   <data name="PropertyFrameWidth" xml:space="preserve">
@@ -1311,7 +1311,7 @@
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>Renombrar "{0}"</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
+  <data name="CreateBundle" xml:space="preserve">
     <value>Crear contenedor</value>
   </data>
   <data name="Confirm" xml:space="preserve">
@@ -1569,7 +1569,7 @@
   <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
     <value>Abrir sensor de almacenamiento</value>
   </data>
-  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Copy" xml:space="preserve">
     <value>Copiar</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">

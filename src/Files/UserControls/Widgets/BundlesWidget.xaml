@@ -50,10 +50,7 @@
 
                 <Button.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem
-                            x:Uid="BundlesWidgetOptionsFlyoutCreateBundleMenuItem"
-                            Command="{x:Bind ViewModel.OpenAddBundleDialogCommand, Mode=OneWay}"
-                            Text="Create Bundle">
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.OpenAddBundleDialogCommand, Mode=OneWay}" Text="{helpers:ResourceString Name=CreateBundle}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE710;" />
                             </MenuFlyoutItem.Icon>
@@ -409,14 +406,13 @@
 
             <!--  heh xD  -->
             <Button
-                x:Uid="CreateBundleBtn"
                 Width="48"
                 Height="48"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                AutomationProperties.Name="Create Bundle"
+                AutomationProperties.Name="{helpers:ResourceString Name=CreateBundle}"
                 CornerRadius="25"
-                ToolTipService.ToolTip="Create Bundle">
+                ToolTipService.ToolTip="{helpers:ResourceString Name=CreateBundle}">
                 <FontIcon
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -444,14 +440,13 @@
                                     BorderThickness="0,0,0,.5">
                                     <!--  Header  -->
                                     <TextBlock
-                                        x:Uid="BundlesWidgetCreateBundleItem"
                                         Margin="0,0,0,4"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
                                         FontFamily="Segoe UI"
                                         FontSize="14"
                                         FontWeight="Medium"
-                                        Text="Create Bundle" />
+                                        Text="{helpers:ResourceString Name=CreateBundle}" />
                                 </Grid>
 
                                 <!--  Input TextBox  -->

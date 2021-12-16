@@ -222,7 +222,7 @@
           <source>Size</source>
           <target state="translated">Méret</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByAscending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Ascending" translate="yes" xml:space="preserve">
           <source>Ascending</source>
           <target state="translated">Növekvő</target>
         </trans-unit>
@@ -338,7 +338,7 @@
           <source>Dark</source>
           <target state="translated">Sötét</target>
         </trans-unit>
-        <trans-unit id="ApplicationTimeStye" translate="yes" xml:space="preserve">
+        <trans-unit id="Application" translate="yes" xml:space="preserve">
           <source>Application</source>
           <target state="translated">Alkalmazás</target>
         </trans-unit>
@@ -1082,7 +1082,7 @@
           <source>Vertical Resolution</source>
           <target state="translated">Függőleges felbontás</target>
         </trans-unit>
-        <trans-unit id="PropertyCompressionText" translate="yes" xml:space="preserve">
+        <trans-unit id="CompressionText" translate="yes" xml:space="preserve">
           <source>Compression</source>
           <target state="translated">Tömörítés</target>
         </trans-unit>
@@ -1346,7 +1346,7 @@
           <source>Encoding Bitrate</source>
           <target state="translated">Kódolási bitráta</target>
         </trans-unit>
-        <trans-unit id="PropertyCompression" translate="yes" xml:space="preserve">
+        <trans-unit id="Compression" translate="yes" xml:space="preserve">
           <source>Compression</source>
           <target state="translated">Tömörítés</target>
         </trans-unit>
@@ -1706,7 +1706,7 @@
           <source>More options...</source>
           <target state="translated">További lehetőségek...</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleDialogTitleText" translate="yes" xml:space="preserve">
+        <trans-unit id="CreateBundle" translate="yes" xml:space="preserve">
           <source>Create Bundle</source>
           <target state="translated">Munkaterület létrehozása</target>
         </trans-unit>
@@ -2038,7 +2038,7 @@
           <source>ISO speed</source>
           <target state="translated">ISO sebesség</target>
         </trans-unit>
-        <trans-unit id="CopyItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Copy" translate="yes" xml:space="preserve">
           <source>Copy</source>
           <target state="translated">Másolás</target>
         </trans-unit>
