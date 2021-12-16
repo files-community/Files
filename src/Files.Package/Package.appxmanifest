@@ -58,6 +58,15 @@
                       <uap5:ExecutionAlias Alias="files.exe"/>
                   </uap5:AppExecutionAlias>
               </uap5:Extension>
+              <uap5:Extension
+                Category="windows.startupTask"
+                Executable="files.exe"
+                EntryPoint="files.App">
+                <uap5:StartupTask
+                  TaskId="3AA55462-A5FA-4933-88C4-712D0B6CDEBB"
+                  Enabled="false"
+                  DisplayName="Files" />
+              </uap5:Extension>
               <Extension Category="windows.updateTask" EntryPoint="BackgroundTasks.UpdateTask" />
               <uap:Extension Category="windows.fileTypeAssociation">
                 <uap:FileTypeAssociation Name="zip">

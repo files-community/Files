@@ -16,6 +16,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.ApplicationModel;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.AccessCache;
@@ -417,6 +418,66 @@ namespace Files.ViewModels.SettingsViewModels
                     });
                 }
             }
+        }
+
+        public bool OpenInLogin
+        {
+            get => UserSettingsService.PreferencesSettingsService.OpenInLogin;
+            set
+            {
+                var stateMode = ReadState();                
+                bool state = false;
+
+                switch (stateMode.Result)
+                {
+                    case StartupTaskState.Disabled:
+                        state = false;
+                        break;
+                    case StartupTaskState.Enabled:
+                        state = true;
+                        break;
+                    case StartupTaskState.DisabledByPolicy:
+                        state = false;
+                        //TODO: disable toggle and justify;
+                        break;
+                    case StartupTaskState.DisabledByUser:
+                        state = false;
+                        //TODO: disable toggle and justify;
+                        break;
+                    case StartupTaskState.EnabledByPolicy:
+                        state = true;
+                        //TODO: disable toggle and justify;
+                        break;
+                }
+
+                if (state != UserSettingsService.PreferencesSettingsService.OpenInLogin)
+                {
+                    UserSettingsService.PreferencesSettingsService.OpenInLogin = state;
+                    StateTest(state);
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private async void StateTest(bool test)
+        {
+            StartupTask startupTask = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
+            StartupTaskState newState;
+
+            if (test == true)
+            {
+                newState = await startupTask.RequestEnableAsync();
+            }
+            else
+            {
+                startupTask.Disable();
+            }
+        }
+
+        public async Task<StartupTaskState> ReadState()
+        {
+            var state = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
+            return state.State;
         }
 
         public bool AreHiddenItemsVisible

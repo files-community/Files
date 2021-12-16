@@ -465,7 +465,16 @@ namespace Files
                     break;
             }
 
-            rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+            string payload = string.Empty;
+            if (args.Kind == ActivationKind.StartupTask)
+            {
+                var startupArgs = args as StartupTaskActivatedEventArgs;
+                payload = ActivationKind.StartupTask.ToString();
+            }
+
+            rootFrame.Navigate(typeof(MainPage), payload, new SuppressNavigationTransitionInfo());
+
+            //rootFrame.Navigate(typeof(MainPage), payload);
 
             // Ensure the current window is active.
             Window.Current.Activate();

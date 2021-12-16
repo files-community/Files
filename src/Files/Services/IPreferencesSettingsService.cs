@@ -104,5 +104,10 @@ namespace Files.Services
         /// A list containing all paths to tabs closed on last session.
         /// </summary>
         List<string> LastSessionTabList { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to enable launching the app with Windows.
+        /// </summary>
+        bool OpenInLogin { get; set; }
     }
 }
