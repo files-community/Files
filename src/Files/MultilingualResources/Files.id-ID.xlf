@@ -106,7 +106,7 @@
           <source>Modified:</source>
           <target state="translated">Diubah:</target>
         </trans-unit>
-        <trans-unit id="PropertiesAccessed.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Accessed" translate="yes" xml:space="preserve">
           <source>Accessed:</source>
           <target state="translated" state-qualifier="tm-suggestion">Diakses:</target>
         </trans-unit>
@@ -1554,7 +1554,7 @@
           <source>Original path</source>
           <target state="translated">Jalur asli</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonAdd.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Add" translate="yes" xml:space="preserve">
           <source>Add</source>
           <target state="translated" state-qualifier="tm-suggestion">Tambahkan</target>
         </trans-unit>
@@ -2682,7 +2682,7 @@
           <source>Special</source>
           <target state="translated" state-qualifier="tm-suggestion">Khusus</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedAccessLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Access" translate="yes" xml:space="preserve">
           <source>Access</source>
           <target state="translated" state-qualifier="tm-suggestion">Akses</target>
         </trans-unit>
@@ -3570,11 +3570,11 @@ Kami menggunakan App Center untuk melacak penggunaan aplikasi, menemukan bug, da
           <source>None</source>
           <target state="new">None</target>
         </trans-unit>
-        <trans-unit id="OSCompatibility_Windows7" translate="yes" xml:space="preserve">
+        <trans-unit id="Windows7" translate="yes" xml:space="preserve">
           <source>Windows 7</source>
           <target state="new">Windows 7</target>
         </trans-unit>
-        <trans-unit id="OSCompatibility_Windows8" translate="yes" xml:space="preserve">
+        <trans-unit id="Windows8" translate="yes" xml:space="preserve">
           <source>Windows 8</source>
           <target state="new">Windows 8</target>
         </trans-unit>

@@ -280,10 +280,7 @@
                                     Background="Transparent"
                                     DefaultLabelPosition="Right"
                                     IsOpen="False">
-                                    <AppBarButton
-                                        x:Uid="AppBarButtonAdd"
-                                        Icon="Add"
-                                        Label="Add">
+                                    <AppBarButton Icon="Add" Label="{helpers:ResourceString Name=Add}">
                                         <AppBarButton.Flyout>
                                             <MenuFlyout helpers:MenuFlyoutHelper.ItemsSource="{Binding AddFlyoutItemsSource}" Placement="Bottom" />
                                         </AppBarButton.Flyout>

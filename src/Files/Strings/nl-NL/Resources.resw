@@ -417,7 +417,7 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>items</value>
   </data>
-  <data name="PropertiesAccessed.Text" xml:space="preserve">
+  <data name="Accessed" xml:space="preserve">
     <value>Laatst geopend:</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
@@ -1140,7 +1140,7 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Oorspronkelijk pad</value>
   </data>
-  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+  <data name="Add" xml:space="preserve">
     <value>Toevoegen</value>
   </data>
   <data name="AppBarButtonEdit.Label" xml:space="preserve">
@@ -2019,7 +2019,7 @@
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>Speciaal</value>
   </data>
-  <data name="SecurityAdvancedAccessLabel.Text" xml:space="preserve">
+  <data name="Access" xml:space="preserve">
     <value>Toegang</value>
   </data>
   <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">

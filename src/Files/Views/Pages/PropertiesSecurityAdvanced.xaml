@@ -209,10 +209,9 @@
                                 FontWeight="SemiBold"
                                 Text="Entity" />
                             <TextBlock
-                                x:Uid="SecurityAdvancedAccessLabel"
                                 Grid.Column="3"
                                 FontWeight="SemiBold"
-                                Text="Access" />
+                                Text="{helpers:ResourceString Name=Access}" />
                             <TextBlock
                                 x:Uid="SecurityAdvancedInheritedLabel"
                                 Grid.Column="4"

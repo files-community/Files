@@ -84,7 +84,7 @@
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Ändrad:</value>
   </data>
-  <data name="PropertiesAccessed.Text" xml:space="preserve">
+  <data name="Accessed" xml:space="preserve">
     <value>Använd:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
@@ -1149,7 +1149,7 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Ursprunglig plats</value>
   </data>
-  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+  <data name="Add" xml:space="preserve">
     <value>Lägg till</value>
   </data>
   <data name="AppBarButtonEdit.Label" xml:space="preserve">
@@ -1710,7 +1710,7 @@
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>SPECIAL</value>
   </data>
-  <data name="SecurityAdvancedAccessLabel.Text" xml:space="preserve">
+  <data name="Access" xml:space="preserve">
     <value>Åtkomst</value>
   </data>
   <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">

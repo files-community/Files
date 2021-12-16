@@ -99,7 +99,7 @@
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Modificat:</value>
   </data>
-  <data name="PropertiesAccessed.Text" xml:space="preserve">
+  <data name="Accessed" xml:space="preserve">
     <value>Accedit:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">

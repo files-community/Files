@@ -538,7 +538,7 @@
           <source>items selected</source>
           <target state="translated">已選取的項目</target>
         </trans-unit>
-        <trans-unit id="PropertiesAccessed.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Accessed" translate="yes" xml:space="preserve">
           <source>Accessed:</source>
           <target state="translated">存取日期：</target>
         </trans-unit>
@@ -1510,7 +1510,7 @@
           <source>Original path</source>
           <target state="translated">原始位置</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonAdd.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Add" translate="yes" xml:space="preserve">
           <source>Add</source>
           <target state="translated" state-qualifier="tm-suggestion">新增</target>
         </trans-unit>
@@ -2682,7 +2682,7 @@
           <source>Special</source>
           <target state="translated">特殊存取權限</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedAccessLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Access" translate="yes" xml:space="preserve">
           <source>Access</source>
           <target state="translated">存取</target>
         </trans-unit>
@@ -3569,11 +3569,11 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
           <source>None</source>
           <target state="translated">無</target>
         </trans-unit>
-        <trans-unit id="OSCompatibility_Windows7" translate="yes" xml:space="preserve">
+        <trans-unit id="Windows7" translate="yes" xml:space="preserve">
           <source>Windows 7</source>
           <target state="translated">Windows 7</target>
         </trans-unit>
-        <trans-unit id="OSCompatibility_Windows8" translate="yes" xml:space="preserve">
+        <trans-unit id="Windows8" translate="yes" xml:space="preserve">
           <source>Windows 8</source>
           <target state="translated">Windows 8</target>
         </trans-unit>

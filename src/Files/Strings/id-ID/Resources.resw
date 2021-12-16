@@ -87,7 +87,7 @@
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Diubah:</value>
   </data>
-  <data name="PropertiesAccessed.Text" xml:space="preserve">
+  <data name="Accessed" xml:space="preserve">
     <value>Diakses:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
@@ -1173,7 +1173,7 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Jalur asli</value>
   </data>
-  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+  <data name="Add" xml:space="preserve">
     <value>Tambahkan</value>
   </data>
   <data name="AppBarButtonEdit.Label" xml:space="preserve">
@@ -2019,7 +2019,7 @@
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>Khusus</value>
   </data>
-  <data name="SecurityAdvancedAccessLabel.Text" xml:space="preserve">
+  <data name="Access" xml:space="preserve">
     <value>Akses</value>
   </data>
   <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">

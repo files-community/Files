@@ -548,7 +548,7 @@
           <source>items</source>
           <target state="translated">elementy</target>
         </trans-unit>
-        <trans-unit id="PropertiesAccessed.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Accessed" translate="yes" xml:space="preserve">
           <source>Accessed:</source>
           <target state="translated">Ostatnio używany:</target>
         </trans-unit>
@@ -1513,7 +1513,7 @@
           <source>Original path</source>
           <target state="translated">Oryginalna ścieżka</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonAdd.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Add" translate="yes" xml:space="preserve">
           <source>Add</source>
           <target state="translated">Dodaj</target>
         </trans-unit>
@@ -2685,7 +2685,7 @@
           <source>Special</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Specjalne</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedAccessLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Access" translate="yes" xml:space="preserve">
           <source>Access</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Dostęp</target>
         </trans-unit>
@@ -3574,11 +3574,11 @@ Korzystamy z App Center, aby śledzić wykorzystanie aplikacji, znajdować błę
           <source>None</source>
           <target state="new">None</target>
         </trans-unit>
-        <trans-unit id="OSCompatibility_Windows7" translate="yes" xml:space="preserve">
+        <trans-unit id="Windows7" translate="yes" xml:space="preserve">
           <source>Windows 7</source>
           <target state="new">Windows 7</target>
         </trans-unit>
-        <trans-unit id="OSCompatibility_Windows8" translate="yes" xml:space="preserve">
+        <trans-unit id="Windows8" translate="yes" xml:space="preserve">
           <source>Windows 8</source>
           <target state="new">Windows 8</target>
         </trans-unit>

@@ -84,7 +84,7 @@
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>تاريخ التعديل</value>
   </data>
-  <data name="PropertiesAccessed.Text" xml:space="preserve">
+  <data name="Accessed" xml:space="preserve">
     <value>التشغيل الأخير</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
@@ -1131,7 +1131,7 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>المسار الأصلي</value>
   </data>
-  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+  <data name="Add" xml:space="preserve">
     <value>إضافة</value>
   </data>
   <data name="AppBarButtonEdit.Label" xml:space="preserve">
@@ -1641,7 +1641,7 @@
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>خاص</value>
   </data>
-  <data name="SecurityAdvancedAccessLabel.Text" xml:space="preserve">
+  <data name="Access" xml:space="preserve">
     <value>الوصول</value>
   </data>
   <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">

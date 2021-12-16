@@ -402,7 +402,7 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>항목</value>
   </data>
-  <data name="PropertiesAccessed.Text" xml:space="preserve">
+  <data name="Accessed" xml:space="preserve">
     <value>액세스한 날짜:</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
@@ -1149,7 +1149,7 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>원래 위치</value>
   </data>
-  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+  <data name="Add" xml:space="preserve">
     <value>추가</value>
   </data>
   <data name="AppBarButtonEdit.Label" xml:space="preserve">
@@ -2019,7 +2019,7 @@
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>특수</value>
   </data>
-  <data name="SecurityAdvancedAccessLabel.Text" xml:space="preserve">
+  <data name="Access" xml:space="preserve">
     <value>접근</value>
   </data>
   <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
@@ -2680,10 +2680,10 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
   <data name="OSCompatibility_None" xml:space="preserve">
     <value>없음</value>
   </data>
-  <data name="OSCompatibility_Windows7" xml:space="preserve">
+  <data name="Windows7" xml:space="preserve">
     <value>Windows 7</value>
   </data>
-  <data name="OSCompatibility_Windows8" xml:space="preserve">
+  <data name="Windows8" xml:space="preserve">
     <value>Windows 8</value>
   </data>
   <data name="OSCompatibility_WindowsVista" xml:space="preserve">

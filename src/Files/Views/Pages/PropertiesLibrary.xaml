@@ -6,7 +6,7 @@
     xmlns:local="using:Files.ViewModels.Properties"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:helpers="using:Files.Helpers"
     Name="Page"
     d:DesignHeight="3000"
     Loaded="Properties_Loaded"
@@ -53,10 +53,9 @@
                     DefaultLabelPosition="Right"
                     IsOpen="False">
                     <AppBarButton
-                        x:Uid="LibraryLocationsButtonAdd"
                         Command="{x:Bind AddLocationCommand}"
                         Icon="Add"
-                        Label="Add" />
+                        Label="{helpers:ResourceString Name=Add}" />
                     <AppBarButton
                         x:Uid="LibraryLocationsButtonSetDefault"
                         Command="{x:Bind SetDefaultLocationCommand}"

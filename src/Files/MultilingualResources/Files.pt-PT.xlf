@@ -102,7 +102,7 @@
           <source>Modified:</source>
           <target state="translated">Modificado em:</target>
         </trans-unit>
-        <trans-unit id="PropertiesAccessed.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Accessed" translate="yes" xml:space="preserve">
           <source>Accessed:</source>
           <target state="translated">Acedido em:</target>
         </trans-unit>
@@ -1510,7 +1510,7 @@
           <source>Original path</source>
           <target state="translated">Localização original</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonAdd.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Add" translate="yes" xml:space="preserve">
           <source>Add</source>
           <target state="translated">Adicionar</target>
         </trans-unit>
@@ -2682,7 +2682,7 @@
           <source>Special</source>
           <target state="translated">Especial</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedAccessLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Access" translate="yes" xml:space="preserve">
           <source>Access</source>
           <target state="translated">Acesso</target>
         </trans-unit>
@@ -3572,11 +3572,11 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
           <source>None</source>
           <target state="translated">Nenhum</target>
         </trans-unit>
-        <trans-unit id="OSCompatibility_Windows7" translate="yes" xml:space="preserve">
+        <trans-unit id="Windows7" translate="yes" xml:space="preserve">
           <source>Windows 7</source>
           <target state="translated">Windows 7</target>
         </trans-unit>
-        <trans-unit id="OSCompatibility_Windows8" translate="yes" xml:space="preserve">
+        <trans-unit id="Windows8" translate="yes" xml:space="preserve">
           <source>Windows 8</source>
           <target state="translated">Windows 8</target>
         </trans-unit>

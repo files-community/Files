@@ -204,7 +204,7 @@
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Modified:</value>
   </data>
-  <data name="PropertiesAccessed.Text" xml:space="preserve">
+  <data name="Accessed" xml:space="preserve">
     <value>Accessed:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
@@ -1359,7 +1359,7 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Original path</value>
   </data>
-  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+  <data name="Add" xml:space="preserve">
     <value>Add</value>
   </data>
   <data name="AppBarButtonEdit.Label" xml:space="preserve">
@@ -1739,9 +1739,6 @@
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
     <value>Locations:</value>
-  </data>
-  <data name="LibraryLocationsButtonAdd.Label" xml:space="preserve">
-    <value>Add</value>
   </data>
   <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
     <value>Default</value>
@@ -2256,7 +2253,7 @@
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>Special</value>
   </data>
-  <data name="SecurityAdvancedAccessLabel.Text" xml:space="preserve">
+  <data name="Access" xml:space="preserve">
     <value>Access</value>
   </data>
   <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
@@ -2794,10 +2791,10 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="OSCompatibility_None" xml:space="preserve">
     <value>None</value>
   </data>
-  <data name="OSCompatibility_Windows7" xml:space="preserve">
+  <data name="Windows7" xml:space="preserve">
     <value>Windows 7</value>
   </data>
-  <data name="OSCompatibility_Windows8" xml:space="preserve">
+  <data name="Windows8" xml:space="preserve">
     <value>Windows 8</value>
   </data>
   <data name="OSCompatibility_WindowsVista" xml:space="preserve">

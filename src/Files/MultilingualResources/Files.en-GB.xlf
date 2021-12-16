@@ -122,7 +122,7 @@
           <source>Modified:</source>
           <target state="translated" state-qualifier="tm-suggestion">Modified:</target>
         </trans-unit>
-        <trans-unit id="PropertiesAccessed.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Accessed" translate="yes" xml:space="preserve">
           <source>Accessed:</source>
           <target state="translated" state-qualifier="tm-suggestion">Accessed:</target>
         </trans-unit>
@@ -1666,7 +1666,7 @@
           <source>Original path</source>
           <target state="translated">Original path</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonAdd.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Add" translate="yes" xml:space="preserve">
           <source>Add</source>
           <target state="translated" state-qualifier="tm-suggestion">Add</target>
         </trans-unit>
@@ -2814,7 +2814,7 @@
           <source>Special</source>
           <target state="translated" state-qualifier="tm-suggestion">Special</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedAccessLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Access" translate="yes" xml:space="preserve">
           <source>Access</source>
           <target state="translated" state-qualifier="tm-suggestion">Access</target>
         </trans-unit>
@@ -3568,11 +3568,11 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>None</source>
           <target state="translated">None</target>
         </trans-unit>
-        <trans-unit id="OSCompatibility_Windows7" translate="yes" xml:space="preserve">
+        <trans-unit id="Windows7" translate="yes" xml:space="preserve">
           <source>Windows 7</source>
           <target state="translated">Windows 7</target>
         </trans-unit>
-        <trans-unit id="OSCompatibility_Windows8" translate="yes" xml:space="preserve">
+        <trans-unit id="Windows8" translate="yes" xml:space="preserve">
           <source>Windows 8</source>
           <target state="translated">Windows 8</target>
         </trans-unit>

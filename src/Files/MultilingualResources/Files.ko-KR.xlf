@@ -526,7 +526,7 @@
           <source>items</source>
           <target state="translated">항목</target>
         </trans-unit>
-        <trans-unit id="PropertiesAccessed.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Accessed" translate="yes" xml:space="preserve">
           <source>Accessed:</source>
           <target state="translated">액세스한 날짜:</target>
         </trans-unit>
@@ -1522,7 +1522,7 @@
           <source>Original path</source>
           <target state="translated">원래 위치</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonAdd.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Add" translate="yes" xml:space="preserve">
           <source>Add</source>
           <target state="translated">추가</target>
         </trans-unit>
@@ -2682,7 +2682,7 @@
           <source>Special</source>
           <target state="translated">특수</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedAccessLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Access" translate="yes" xml:space="preserve">
           <source>Access</source>
           <target state="translated">접근</target>
         </trans-unit>
@@ -3569,11 +3569,11 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
           <source>None</source>
           <target state="translated">없음</target>
         </trans-unit>
-        <trans-unit id="OSCompatibility_Windows7" translate="yes" xml:space="preserve">
+        <trans-unit id="Windows7" translate="yes" xml:space="preserve">
           <source>Windows 7</source>
           <target state="translated">윈도우 7</target>
         </trans-unit>
-        <trans-unit id="OSCompatibility_Windows8" translate="yes" xml:space="preserve">
+        <trans-unit id="Windows8" translate="yes" xml:space="preserve">
           <source>Windows 8</source>
           <target state="translated">윈도우 8</target>
         </trans-unit>
