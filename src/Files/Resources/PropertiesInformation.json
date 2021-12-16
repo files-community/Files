@@ -51,7 +51,7 @@
     "ID": null
   },
   {
-    "NameResource": "PropertyCompressionText",
+    "NameResource": "Compression",
     "SectionResource": "PropertySectionImage",
     "Property": "System.Image.CompressionText",
     "IsReadOnly": true,
@@ -163,7 +163,7 @@
     "ID": null
   },
   {
-    "NameResource": "PropertyCompression",
+    "NameResource": "Compression",
     "SectionResource": "PropertySectionAudio",
     "Property": "System.Audio.Compression",
     "IsReadOnly": true,
@@ -184,7 +184,7 @@
     "ID": null
   },
   {
-    "NameResource": "PropertyDisplayArtist",
+    "NameResource": "Artist",
     "SectionResource": "PropertySectionMusic",
     "Property": "System.Music.DisplayArtist",
     "IsReadOnly": true,
@@ -205,7 +205,7 @@
     "ID": null
   },
   {
-    "NameResource": "PropertyArtist",
+    "NameResource": "Artist",
     "SectionResource": "PropertySectionMusic",
     "Property": "System.Music.Artist",
     "IsReadOnly": false,
@@ -501,7 +501,7 @@
     "ID": null
   },
   {
-    "NameResource": "PropertyCompression",
+    "NameResource": "Compression",
     "SectionResource": "PropertySectionVideo",
     "Property": "System.Video.Compression",
     "IsReadOnly": true,

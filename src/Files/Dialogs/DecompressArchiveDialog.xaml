@@ -37,12 +37,11 @@
             Text="{x:Bind ViewModel.DestinationFolderPath, Mode=OneWay}" />
 
         <Button
-            x:Uid="DecompressArchiveDialogBrowseFolder"
             Grid.Column="1"
             VerticalAlignment="Center"
             Background="Transparent"
             Command="{x:Bind ViewModel.SelectDestinationCommand}"
-            Content="Browse" />
+            Content="{helpers:ResourceString Name=Browse}" />
 
         <CheckBox
             x:Uid="DecompressArchiveDialogOpenDestinationWhenComplete"

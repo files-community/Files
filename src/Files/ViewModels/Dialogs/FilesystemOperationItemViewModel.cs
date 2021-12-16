@@ -98,7 +98,7 @@ namespace Files.ViewModels.Dialogs
 
                     case FileNameConflictResolveOptionType.Skip:
                         {
-                            return "ConflictingItemsDialogTakenActionSkip".GetLocalized();
+                            return "Skip".GetLocalized();
                         }
 
                     case FileNameConflictResolveOptionType.NotAConflict:
