@@ -1002,7 +1002,7 @@
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>שנה את השם "{0}"</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Confirm" xml:space="preserve">
     <value>אשר</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">

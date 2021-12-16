@@ -1314,7 +1314,7 @@
   <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
     <value>Crear contenedor</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Confirm" xml:space="preserve">
     <value>Confirmar</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
@@ -1935,7 +1935,7 @@
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
     <value>Nombres de grupo o usuario</value>
   </data>
-  <data name="SecurityWriteLabel.Text" xml:space="preserve">
+  <data name="Write" xml:space="preserve">
     <value>Escritura</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">

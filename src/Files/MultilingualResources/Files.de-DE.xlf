@@ -1639,7 +1639,7 @@
           <source>Desired name</source>
           <target state="translated">Gewünschter Name</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Confirm" translate="yes" xml:space="preserve">
           <source>Confirm</source>
           <target state="translated">Bestätigen</target>
         </trans-unit>
@@ -2588,7 +2588,7 @@
           <source>Group or user names</source>
           <target state="translated">Gruppen- oder Benutzername</target>
         </trans-unit>
-        <trans-unit id="SecurityWriteLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Write" translate="yes" xml:space="preserve">
           <source>Write</source>
           <target state="translated">Schreiben</target>
         </trans-unit>

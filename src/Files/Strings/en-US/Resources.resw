@@ -834,9 +834,6 @@
   <data name="ButtonNo.Content" xml:space="preserve">
     <value>No</value>
   </data>
-  <data name="ButtonYes.Content" xml:space="preserve">
-    <value>Yes</value>
-  </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>The application needs to be restarted in order to apply these settings, would you like to restart the app?</value>
   </data>
@@ -1494,9 +1491,6 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Drag and drop any file or folder here to quickly access it</value>
   </data>
-  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
-    <value>Confirm</value>
-  </data>
   <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
     <value>Enter Bundle name</value>
   </data>
@@ -1515,7 +1509,7 @@
   <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
     <value>Create Bundle</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Confirm" xml:space="preserve">
     <value>Confirm</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
@@ -2187,7 +2181,7 @@
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
     <value>Group or user names</value>
   </data>
-  <data name="SecurityWriteLabel.Text" xml:space="preserve">
+  <data name="Write" xml:space="preserve">
     <value>Write</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">

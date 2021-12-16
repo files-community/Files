@@ -921,7 +921,7 @@
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>"{0}" का नाम बदलें</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Confirm" xml:space="preserve">
     <value>पुष्टि करें</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
@@ -1266,7 +1266,7 @@
   <data name="SecurityReadLabel.Text" xml:space="preserve">
     <value>पढ़ें</value>
   </data>
-  <data name="SecurityWriteLabel.Text" xml:space="preserve">
+  <data name="Write" xml:space="preserve">
     <value>लिखें</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">

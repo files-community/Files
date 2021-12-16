@@ -1852,7 +1852,7 @@
           <source>Create Bundle</source>
           <target state="new">Create Bundle</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Confirm" translate="yes" xml:space="preserve">
           <source>Confirm</source>
           <target state="new">Confirm</target>
         </trans-unit>
@@ -2692,7 +2692,7 @@
           <source>Group or user names</source>
           <target state="new">Group or user names</target>
         </trans-unit>
-        <trans-unit id="SecurityWriteLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Write" translate="yes" xml:space="preserve">
           <source>Write</source>
           <target state="new">Write</target>
         </trans-unit>

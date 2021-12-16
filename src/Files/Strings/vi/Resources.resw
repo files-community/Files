@@ -1368,7 +1368,7 @@
   <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
     <value>Tạo bó</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Confirm" xml:space="preserve">
     <value>Xác nhận</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
@@ -1992,7 +1992,7 @@
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
     <value>Nhóm hoặc tên người sử dụng</value>
   </data>
-  <data name="SecurityWriteLabel.Text" xml:space="preserve">
+  <data name="Write" xml:space="preserve">
     <value>Viết</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">

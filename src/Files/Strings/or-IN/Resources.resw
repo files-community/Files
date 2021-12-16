@@ -879,7 +879,7 @@
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>ପୁନଃନାମ |0</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Confirm" xml:space="preserve">
     <value>ସୁନିଶ୍ଚିତ</value>
   </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
@@ -1203,7 +1203,7 @@
   <data name="SecurityReadLabel.Text" xml:space="preserve">
     <value>ପଠନ</value>
   </data>
-  <data name="SecurityWriteLabel.Text" xml:space="preserve">
+  <data name="Write" xml:space="preserve">
     <value>ଲିଖନ</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">

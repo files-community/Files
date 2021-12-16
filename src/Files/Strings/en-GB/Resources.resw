@@ -1404,7 +1404,7 @@
   <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
     <value>Create Bundle</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Confirm" xml:space="preserve">
     <value>Confirm</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
@@ -2043,7 +2043,7 @@
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
     <value>Group or user names</value>
   </data>
-  <data name="SecurityWriteLabel.Text" xml:space="preserve">
+  <data name="Write" xml:space="preserve">
     <value>Write</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">

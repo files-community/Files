@@ -1860,7 +1860,7 @@
           <source>Create Bundle</source>
           <target state="translated">Tạo bó</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Confirm" translate="yes" xml:space="preserve">
           <source>Confirm</source>
           <target state="translated">Xác nhận</target>
         </trans-unit>
@@ -2703,7 +2703,7 @@
           <source>Group or user names</source>
           <target state="translated">Nhóm hoặc tên người sử dụng</target>
         </trans-unit>
-        <trans-unit id="SecurityWriteLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Write" translate="yes" xml:space="preserve">
           <source>Write</source>
           <target state="translated">Viết</target>
         </trans-unit>

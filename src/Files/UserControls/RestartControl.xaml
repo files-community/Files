@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:helpers="using:Files.Helpers"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -34,7 +34,7 @@
 
                         <Button
                             x:Name="YesButton"
-                            x:Uid="ButtonYes"
+                            Content="{helpers:ResourceString Name=Yes}"
                             Background="{StaticResource SystemAccentColor}"
                             Click="YesButton_Click" />
 

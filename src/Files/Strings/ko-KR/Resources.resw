@@ -1275,7 +1275,7 @@
   <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
     <value>보관함 만들기</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Confirm" xml:space="preserve">
     <value>확인</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
@@ -1947,7 +1947,7 @@
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
     <value>그룹 또는 사용자 이름</value>
   </data>
-  <data name="SecurityWriteLabel.Text" xml:space="preserve">
+  <data name="Write" xml:space="preserve">
     <value>쓰기</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">

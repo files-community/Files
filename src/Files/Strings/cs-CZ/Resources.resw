@@ -1191,7 +1191,7 @@
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>Přejmenovat objekt {0}</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Confirm" xml:space="preserve">
     <value>Potvrdit</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
@@ -1581,7 +1581,7 @@
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
     <value>Název skupiny nebo jméno uživatele:</value>
   </data>
-  <data name="SecurityWriteLabel.Text" xml:space="preserve">
+  <data name="Write" xml:space="preserve">
     <value>Zápis</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">

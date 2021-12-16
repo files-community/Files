@@ -332,7 +332,7 @@ namespace Files.Filesystem.Permissions
                 gpl.Add(new GrantedPermission(this)
                 {
                     Permission = FileSystemRights.Write,
-                    Name = "SecurityWriteLabel/Text".GetLocalized(),
+                    Name = "Write".GetLocalized(),
                     IsEditable = !IsInherited
                 });
                 gpl.Add(new SpecialPermission(this)
@@ -412,7 +412,7 @@ namespace Files.Filesystem.Permissions
             }
             if (!GrantsFullControl && !GrantsModify && GrantsWrite)
             {
-                ret.Add("SecurityWriteLabel/Text".GetLocalized());
+                ret.Add("Write".GetLocalized());
             }
             if (GrantsSpecial)
             {

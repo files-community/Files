@@ -1236,7 +1236,7 @@
   <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
     <value>Nome desiderato</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Confirm" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
@@ -1926,7 +1926,7 @@
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
     <value>Gruppi o utenti</value>
   </data>
-  <data name="SecurityWriteLabel.Text" xml:space="preserve">
+  <data name="Write" xml:space="preserve">
     <value>Scrittura</value>
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">

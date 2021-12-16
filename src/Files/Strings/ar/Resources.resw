@@ -1254,7 +1254,7 @@
   <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
     <value>إنشاء حزمة</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Confirm" xml:space="preserve">
     <value>تأكيد</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
@@ -1608,7 +1608,7 @@
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
     <value>أسماء المجموعات أو المستخدمين:</value>
   </data>
-  <data name="SecurityWriteLabel.Text" xml:space="preserve">
+  <data name="Write" xml:space="preserve">
     <value>كتابة</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">

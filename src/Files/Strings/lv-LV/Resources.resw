@@ -1278,7 +1278,7 @@
   <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
     <value>Izveidot saišķi</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Confirm" xml:space="preserve">
     <value>Apstiprināt</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
@@ -1947,7 +1947,7 @@
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
     <value>Grupa vai lietotājvārdi</value>
   </data>
-  <data name="SecurityWriteLabel.Text" xml:space="preserve">
+  <data name="Write" xml:space="preserve">
     <value>Lasīt</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">

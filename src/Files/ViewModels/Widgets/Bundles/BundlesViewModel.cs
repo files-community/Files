@@ -153,7 +153,7 @@ namespace Files.ViewModels.Widgets.Bundles
                 },
                 TitleText = "BundlesWidgetCreateBundleDialogTitleText".GetLocalized(),
                 SubtitleText = "BundlesWidgetCreateBundleDialogSubtitleText".GetLocalized(),
-                PrimaryButtonText = "BundlesWidgetCreateBundleDialogPrimaryButtonText".GetLocalized(),
+                PrimaryButtonText = "Confirm".GetLocalized(),
                 CloseButtonText = "Cancel".GetLocalized(),
                 PrimaryButtonAction = (vm, e) =>
                 {

@@ -1239,7 +1239,7 @@
   <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
     <value>Munkaterület neve</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Confirm" xml:space="preserve">
     <value>Létrehozás</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
@@ -1947,7 +1947,7 @@
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
     <value>Csoport vagy felhasználó neve</value>
   </data>
-  <data name="SecurityWriteLabel.Text" xml:space="preserve">
+  <data name="Write" xml:space="preserve">
     <value>Irás</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">

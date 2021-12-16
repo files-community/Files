@@ -1690,7 +1690,7 @@
           <source>Create Bundle</source>
           <target state="translated">보관함 만들기</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Confirm" translate="yes" xml:space="preserve">
           <source>Confirm</source>
           <target state="translated">확인</target>
         </trans-unit>
@@ -2586,7 +2586,7 @@
           <source>Group or user names</source>
           <target state="translated">그룹 또는 사용자 이름</target>
         </trans-unit>
-        <trans-unit id="SecurityWriteLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Write" translate="yes" xml:space="preserve">
           <source>Write</source>
           <target state="translated" state-qualifier="tm-suggestion">쓰기</target>
         </trans-unit>

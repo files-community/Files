@@ -1392,7 +1392,7 @@
   <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
     <value>Δημιουργία δέσμης</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Confirm" xml:space="preserve">
     <value>Επιβεβαίωση</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
@@ -2028,7 +2028,7 @@
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
     <value>Ονόματα ομάδων ή χρηστών</value>
   </data>
-  <data name="SecurityWriteLabel.Text" xml:space="preserve">
+  <data name="Write" xml:space="preserve">
     <value>Εγγραφή</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">

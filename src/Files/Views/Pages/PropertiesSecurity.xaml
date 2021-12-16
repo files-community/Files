@@ -9,7 +9,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:perm="using:Files.Filesystem.Permissions"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:usercontrols="using:Files.UserControls"
+    xmlns:usercontrols="using:Files.UserControls" xmlns:helpers="using:Files.Helpers"
     d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:Height="550"
     d:Width="400"
@@ -298,12 +298,11 @@
                     IsEnabled="{x:Bind SecurityProperties.SelectedRuleForUser.DeniesInheritedRead, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
                 <TextBlock
-                    x:Uid="SecurityWriteLabel"
                     Grid.Row="6"
                     Grid.Column="0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Text="Write" />
+                    Text="{helpers:ResourceString Name=Write}" />
 
                 <CheckBox
                     Grid.Row="6"

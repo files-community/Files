@@ -1185,7 +1185,7 @@
   <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
     <value>Бажане ім'я</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Confirm" xml:space="preserve">
     <value>Створити</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
@@ -1641,7 +1641,7 @@
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
     <value>Групи або користувачі:</value>
   </data>
-  <data name="SecurityWriteLabel.Text" xml:space="preserve">
+  <data name="Write" xml:space="preserve">
     <value>Записування</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">

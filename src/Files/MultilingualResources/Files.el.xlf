@@ -1846,7 +1846,7 @@
           <source>Create Bundle</source>
           <target state="translated">Δημιουργία δέσμης</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Confirm" translate="yes" xml:space="preserve">
           <source>Confirm</source>
           <target state="translated">Επιβεβαίωση</target>
         </trans-unit>
@@ -2694,7 +2694,7 @@
           <source>Group or user names</source>
           <target state="translated">Ονόματα ομάδων ή χρηστών</target>
         </trans-unit>
-        <trans-unit id="SecurityWriteLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Write" translate="yes" xml:space="preserve">
           <source>Write</source>
           <target state="translated">Εγγραφή</target>
         </trans-unit>

@@ -1655,7 +1655,7 @@
           <source>Desired name</source>
           <target state="translated">Ønsket navn</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Confirm" translate="yes" xml:space="preserve">
           <source>Confirm</source>
           <target state="translated" state-qualifier="tm-suggestion">Bekræft</target>
         </trans-unit>
@@ -2617,7 +2617,7 @@
           <source>Group or user names</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Gruppe- eller brugernavne:</target>
         </trans-unit>
-        <trans-unit id="SecurityWriteLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Write" translate="yes" xml:space="preserve">
           <source>Write</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">SKRIV</target>
         </trans-unit>

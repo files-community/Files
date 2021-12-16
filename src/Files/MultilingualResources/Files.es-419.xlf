@@ -1758,7 +1758,7 @@
           <source>Create Bundle</source>
           <target state="translated">Crear contenedor</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Confirm" translate="yes" xml:space="preserve">
           <source>Confirm</source>
           <target state="translated">Confirmar</target>
         </trans-unit>
@@ -2586,7 +2586,7 @@
           <source>Group or user names</source>
           <target state="translated">Nombres de grupo o usuario</target>
         </trans-unit>
-        <trans-unit id="SecurityWriteLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Write" translate="yes" xml:space="preserve">
           <source>Write</source>
           <target state="translated">Escritura</target>
         </trans-unit>
