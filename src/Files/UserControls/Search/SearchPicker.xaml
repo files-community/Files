@@ -25,10 +25,8 @@
             SizeRangeTemplate="{StaticResource SizeRangePickerTemplate}" />
 
         <DataTemplate x:Key="LocationPickerTemplate" x:DataType="vm:ILocationPickerViewModel">
-            <CheckBox
-                x:Uid="SearchPickerLocation_Subfolders"
-                Grid.Row="1"
-                Content="Subfolders"
+            <CheckBox Grid.Row="1"
+                Content="{helpers:ResourceString Name=IncludeSubfolders}"
                 IsChecked="{x:Bind SearchInSubFolders, Mode=TwoWay}" />
         </DataTemplate>
 
@@ -40,9 +38,8 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <TextBlock
-                    x:Uid="SearchPickerGroup_NoSelected"
                     VerticalAlignment="Top"
-                    Text="No filter selected."
+                    Text="{helpers:ResourceString Name=NoFilterSelected}"
                     Style="{StaticResource IndicatorStyle}"
                     Visibility="{x:Bind IsEmpty, Mode=OneWay}" />
                 <Grid Visibility="{x:Bind HasDescription}">
@@ -127,9 +124,8 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <TextBlock
-                    x:Uid="SearchPickerDateRange_NoSelected"
                     VerticalAlignment="Top"
-                    Text="No date range selected."
+                    Text="{helpers:ResourceString Name=NoDateRangeSelected}"
                     Style="{StaticResource IndicatorStyle}"
                     Visibility="{x:Bind IsEmpty, Mode=OneWay}" />
                 <StackPanel Orientation="Vertical" Visibility="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
@@ -151,10 +147,8 @@
                     Date="{x:Bind MaxOffset, Mode=TwoWay}"
                     Header="To"
                     MaxDate="{x:Bind Today, Mode=OneWay}" />
-                <TextBlock
-                    x:Uid="SearchPickerDateRange_Choose"
-                    Grid.Row="4"
-                    Text="Or choose a date range"
+                <TextBlock Grid.Row="4"
+                    Text="{helpers:ResourceString Name=OrChooseADateRange}"
                     Style="{StaticResource IndicatorStyle}" />
                 <ItemsControl Grid.Row="5" ItemsSource="{x:Bind Links}">
                     <ItemsControl.ItemTemplate>
@@ -183,9 +177,8 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <TextBlock
-                    x:Uid="SearchPickerSizeRange_NoSelected"
                     VerticalAlignment="Top"
-                    Text="No size range selected."
+                    Text="{helpers:ResourceString Name=NoSizeRangeSelected}"
                     Style="{StaticResource IndicatorStyle}"
                     Visibility="{x:Bind IsEmpty, Mode=OneWay}" />
                 <StackPanel Orientation="Vertical" Visibility="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
@@ -201,9 +194,8 @@
                     HorizontalAlignment="Stretch"
                     Range="{x:Bind Range, Mode=TwoWay}" />
                 <TextBlock
-                    x:Uid="SearchPickerSizeRange_Choose"
                     Grid.Row="3" Margin="0,8,0,-12"
-                    Text="Or choose a size range"
+                    Text="{helpers:ResourceString Name=OrChooseASizeRange}"
                     Style="{StaticResource IndicatorStyle}" />
                 <ItemsControl Grid.Row="4" ItemsSource="{x:Bind Links}">
                     <ItemsControl.ItemTemplate>
