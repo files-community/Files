@@ -24,11 +24,11 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\Files.Package\Package.appxmanifest
+        [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest
         $xmlDoc.Package.Identity.Name="Files"
         $xmlDoc.Package.Properties.DisplayName="Files"
         $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
-        $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
+        $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest')
       failOnStderr: true
 
   - task: DownloadSecureFile@1
@@ -108,11 +108,11 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\Files.Package\Package.appxmanifest
+        [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest
         $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
         $xmlDoc.Package.Properties.DisplayName="Files"
         $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
-        $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
+        $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest')
       failOnStderr: true
 
   - task: DownloadSecureFile@1
@@ -125,7 +125,7 @@ jobs:
     inputs:
       SourceFolder: '$(Agent.TempDirectory)'
       Contents: '$(mapsDevKey.secureFilePath)'
-      TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
+      TargetFolder: '$(Build.SourcesDirectory)\src\Files\Resources'
       overWrite: true
 
   - task: DownloadSecureFile@1
@@ -138,7 +138,7 @@ jobs:
     inputs:
       SourceFolder: '$(Agent.TempDirectory)'
       Contents: '$(appCenterDevKey.secureFilePath)'
-      TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
+      TargetFolder: '$(Build.SourcesDirectory)\src\Files\Resources'
       overWrite: true
 
   - task: UseDotNet@2

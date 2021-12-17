@@ -1,0 +1,175 @@
+﻿<ContentDialog
+    x:Class="Files.Dialogs.SettingsDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    Closing="ContentDialog_Closing"
+    CornerRadius="{StaticResource OverlayCornerRadius}"
+    RequestedTheme="{x:Bind RootAppElement.RequestedTheme, Mode=OneWay}"
+    Style="{StaticResource DefaultContentDialogStyle}"
+    mc:Ignorable="d">
+    <ContentDialog.Resources>
+        <ResourceDictionary>
+            <x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
+            <Thickness x:Key="ContentDialogPadding">0</Thickness>
+            <Thickness x:Key="NavigationViewTopPaneHeight">40</Thickness>
+            <Thickness x:Key="TopNavigationViewTopNavGridMargin">10</Thickness>
+            <SolidColorBrush x:Key="ContentDialogTopOverlay" Color="Transparent" />
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
+                    <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
+                    <SolidColorBrush x:Key="NavigationViewItemBackground" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundPointerOver" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundPressed" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelected" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelectedPointerOver" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelectedPressed" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                    <SolidColorBrush x:Key="NavigationViewItemBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushPointerOver" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelected" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelectedPointerOver" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelectedPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
+                    <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
+                    <SolidColorBrush x:Key="NavigationViewItemBackground" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundPointerOver" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundPressed" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelected" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelectedPointerOver" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelectedPressed" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                    <SolidColorBrush x:Key="NavigationViewItemBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushPointerOver" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelected" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelectedPointerOver" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelectedPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="HighContrast">
+                    <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
+                    <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
+                    <SolidColorBrush x:Key="NavigationViewItemBackground" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundPointerOver" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundPressed" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelected" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelectedPointerOver" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelectedPressed" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                    <SolidColorBrush x:Key="NavigationViewItemBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushPointerOver" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelected" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelectedPointerOver" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelectedPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </ContentDialog.Resources>
+
+    <Grid
+        x:Name="ContainerGrid"
+        Width="Auto"
+        MaxHeight="640"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        Background="{ThemeResource SolidBackgroundFillColorBase}">
+        <muxc:NavigationView
+            x:Name="SettingsPane"
+            IsBackButtonVisible="Collapsed"
+            IsBackEnabled="False"
+            IsPaneToggleButtonVisible="False"
+            IsSettingsVisible="False"
+            IsTitleBarAutoPaddingEnabled="False"
+            PaneDisplayMode="Top"
+            SelectionChanged="SettingsPane_SelectionChanged">
+
+            <muxc:NavigationView.MenuItems>
+                <muxc:NavigationViewItem
+                    AccessKey="A"
+                    AutomationProperties.AutomationId="SettingsItemAppearance"
+                    Content="{helpers:ResourceString Name=Appearance}"
+                    CornerRadius="4,0,0,4"
+                    IsSelected="True"
+                    Tag="0">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon HorizontalAlignment="Left" Glyph="&#xE790;" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem
+                    x:Uid="SettingsNavPreferences"
+                    AccessKey="P"
+                    AutomationProperties.AutomationId="SettingsItemPreferences"
+                    Content="Preferences"
+                    CornerRadius="0"
+                    Tag="1">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF116;" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem
+                    x:Uid="SettingsNavMultitasking"
+                    AccessKey="M"
+                    AutomationProperties.AutomationId="SettingsItemMultitasking"
+                    Content="Multitasking"
+                    CornerRadius="0"
+                    Tag="2">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon FontSize="16" Glyph="&#xEE40;" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem
+                    x:Uid="SettingsNavExperimental"
+                    AccessKey="E"
+                    AutomationProperties.AutomationId="SettingsItemExperimental"
+                    Content="Experimental"
+                    CornerRadius="0"
+                    Tag="3">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xF1AD;" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem
+                    AccessKey="B"
+                    AutomationProperties.AutomationId="SettingsItemAbout"
+                    Content="{helpers:ResourceString Name=About}"
+                    CornerRadius="0,4,4,0"
+                    Tag="4">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon FontSize="16" Glyph="&#xE946;" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+            </muxc:NavigationView.MenuItems>
+
+            <ScrollViewer
+                x:Name="SettingsScrollViewer"
+                VerticalAlignment="Stretch"
+                VerticalScrollBarVisibility="Visible"
+                VerticalScrollMode="Enabled">
+                <Frame
+                    x:Name="SettingsContentFrame"
+                    Padding="12"
+                    Background="{ThemeResource SolidBackgroundFillColorTertiary}" />
+            </ScrollViewer>
+        </muxc:NavigationView>
+
+        <Button
+            x:Name="ButtonClose"
+            Grid.Column="1"
+            Width="36"
+            Height="36"
+            Margin="12"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            AutomationProperties.Name="{helpers:ResourceString Name=Close}"
+            Click="ButtonClose_Click"
+            CornerRadius="20"
+            ToolTipService.ToolTip="{helpers:ResourceString Name=Close}">
+            <FontIcon FontSize="12" Glyph="&#xE8BB;" />
+        </Button>
+    </Grid>
+</ContentDialog>
