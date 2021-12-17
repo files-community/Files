@@ -1088,7 +1088,7 @@ namespace Files.Views
                     || ItemDisplayFrame.Content.GetType() == typeof(WidgetsPage) &&
                     (sourcePageType == typeof(DetailsLayoutBrowser) || sourcePageType == typeof(GridViewBrowser)))
                 {
-                    transition = new EntranceNavigationTransitionInfo();
+                    transition = new SuppressNavigationTransitionInfo();
                 }
 
                 ItemDisplayFrame.Navigate(
