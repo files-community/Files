@@ -115,7 +115,7 @@
     <value>Einfügen</value>
   </data>
   <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
-    <value>In Terminal öffnen...</value>
+    <value>Mit Terminal öffnen...</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Ordner</value>
@@ -187,7 +187,7 @@
     <value>Größe</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Willkommen bei Files!</value>
+    <value>Willkommen zu Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Erlaubnis erteilen</value>
@@ -610,7 +610,7 @@
     <value>Mitwirkende</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
-    <value>Versionshinweise</value>
+    <value>Release Notes</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>Das Element, auf das verwiesen wurde, ist fehlerhaft oder nicht erreichbar.{0}Fehlermeldung:{0}{1}</value>
@@ -1093,7 +1093,7 @@
     <value>Status Center</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>Suchergebnisse in {1} für {0}</value>
+    <value>Ergebnisse suchen in</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Suchergebnisse</value>
@@ -1204,7 +1204,7 @@
     <value>Dateipfad</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vorschauleiste anzeigen/ausblenden (Strg+P)</value>
+    <value>Vorschau anzeigen/ausblenden (Strg+P)</value>
   </data>
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>Bestätigen</value>
@@ -1273,7 +1273,7 @@
     <value>Bestätigen</value>
   </data>
   <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
-    <value>Sammlungsnamen eingeben</value>
+    <value>Sammlungname eingeben</value>
   </data>
   <data name="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
     <value>Sammlung erstellen</value>
@@ -1954,7 +1954,7 @@
     <value>Unbekannter Account</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>Sie sind nicht berechtigt, die Sicherheitseigenschaften dieses Objektes anzusehen. Klicken Sie auf "Erweiterte Rechte", um fortzufahren.</value>
+    <value>Sie haben keine Berechtigung die Sicherheitseigenschaften dieses Objektes anzusehen. Klicken Sie auf "Erweiterte Rechte", um fortzufahren.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Besitzer</value>
@@ -1975,7 +1975,7 @@
     <value>Mehr über benutzerdefinierte Themes erfahren</value>
   </data>
   <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Benutzerdefinierte Themes sind ein hervorragendes Mittel, um Files zu personalisieren.</value>
+    <value>Benutzerdefinierte Themes sind ein hervoragender Weg Files zu personalisieren.</value>
   </data>
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Dokumentation anzeigen.</value>
@@ -1999,7 +1999,7 @@
     <value>Wiederherstellen</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
-    <value>Sind Sie sicher, dass Sie die Standardbibliotheken wiederherstellen möchten? Alle Dateien verbleiben auf der Festplatte.</value>
+    <value>Sind Sie sicher, dass die die Standardbibliotheken wiederherstellen möchten? Alle Dateien verbleiben auf der Festplatte.</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>Bibliotheken wiederherstellen</value>
@@ -2050,7 +2050,7 @@
     <value>Typ</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>Du bist nicht berechtigt, die Sicherheitseingenschaften dieses Objektes anzuschauen. Du kannst versuchen Besitzer dieses Objektes zu werden</value>
+    <value>Du hast keine Berechtigung die Sicherheitseingenschaften dieses Objektes anzuschauen. Du kannst versuchen Besitzer dieses Objektes zu werden</value>
   </data>
   <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
     <value>Speziell</value>
@@ -2230,7 +2230,7 @@
     <value>Netzwerklaufwerke anzeigen</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Papierkorb zu Favoriten hinzufügen</value>
+    <value>Papierkorp zu Favoriten hinzufügen</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
     <value>Bibliotheken anzeigen</value>
@@ -2254,16 +2254,16 @@
     <value>Versteckte Dateien und Ordner anzeigen</value>
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
-    <value>Geschützte Systemdateien ausblenden (empfohlen)</value>
+    <value>Geschützte Systemdateien ausblenden (Empfohlen)</value>
   </data>
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Dateien durch durch einfachen Klick öffnen</value>
+    <value>Öffnen durch einfachen Klick</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>Dateien und Ordner zusammen auflisten und sortieren</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Nicht indizierte Dateien und Ordner in der Suche anzeigen</value>
+    <value>Nicht indizierte Dateien und Ordner in der Suche anzeigen (Suchen wird langsamer)</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
     <value>Individuelle Einstellungen für einzelne Ordner aktivieren</value>
@@ -2399,12 +2399,12 @@
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
-*Sammeln von personenbezogenden Daten*
+*Sammeln von personenbezogenden Daten* 
 Files sammelt, speichert, teilt oder veröffentlicht keine persönlichen Informationen.
 
 *Sammeln von nicht personenbezogenen Daten*
 
-Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu erhalten, um Fehler zu finden und diese zu beheben. Alle Informationen, die an das App Center gesendet werden, sind anonym und enthalten keinerlei personen- oder kontextbezogende Informationen.
+Wir benutzen das App Center um einen Überblick über die Nutzung von Files zu erhalten, um Fehler zu finden und diese zu beheben. Alle Informationen die an das App Center gesendet werden sind anonym und enthalten keinerlei personen- oder kontextbezogenden Informationen.
   </value>
   </data>
   <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
@@ -2524,6 +2524,24 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Link in {0} erstellen</value>
   </data>
+  <data name="NavToolbarColumnsHeader.Text" xml:space="preserve">
+    <value>Spalten</value>
+  </data>
+  <data name="NavToolbarDetailsHeader.Text" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="NavToolbarLargeIconsHeader.Text" xml:space="preserve">
+    <value>Große Symbole</value>
+  </data>
+  <data name="NavToolbarMediumIconsHeader.Text" xml:space="preserve">
+    <value>Mittelgroße Symbole</value>
+  </data>
+  <data name="NavToolbarSmallIconsHeader.Text" xml:space="preserve">
+    <value>Kleine Symbole</value>
+  </data>
+  <data name="NavToolbarTilesHeader.Text" xml:space="preserve">
+    <value>Kacheln</value>
+  </data>
   <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
     <value>Dateierweiterungen anzeigen</value>
   </data>
@@ -2540,7 +2558,7 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Favoritenbereich anzeigen</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Papierkorb zu Favoriten hinzufügen</value>
+    <value>Papierkorp zu Favoriten hinzufügen</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Cloud-Laufwerksbereich anzeigen</value>
@@ -2606,7 +2624,7 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Tag</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>Ordner mit einfachem Klick öffnen</value>
+    <value>Dateien mit einfachem Klick öffnen</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Ordnerpfad</value>
@@ -2624,7 +2642,7 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Einstellungen konnten nicht importiert werden, da die Einstellungsdatei fehlerhaft ist.</value>
   </data>
   <data name="SettingsImportErrorTitle" xml:space="preserve">
-    <value>Fehler beim Importieren der Einstellungen</value>
+    <value>Fehler beim importieren der Einstellungen</value>
   </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
     <value>Neues Ordnersymbol auswählen</value>
@@ -2657,7 +2675,7 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>System</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
-    <value>System (erweitert)</value>
+    <value>System (Erweitert)</value>
   </data>
   <data name="OSCompatibility_None" xml:space="preserve">
     <value>Keine</value>
@@ -2715,35 +2733,5 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
   </data>
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
     <value>DPI-Einstellungen auf Hauptmonitor anwenden</value>
-  </data>
-  <data name="SettingsDefaultFilesManager" xml:space="preserve">
-    <value>Standard-Dateimanager</value>
-  </data>
-  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Files als Standard-Dateimanager einstellen</value>
-  </data>
-  <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>Papierkorb leeren</value>
-  </data>
-  <data name="Sidebar" xml:space="preserve">
-    <value>Seitenleiste</value>
-  </data>
-  <data name="FilesAndFolders" xml:space="preserve">
-    <value>Dateien und Ordner</value>
-  </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Neue Instanz öffnen, wenn Ordner von der Taskleisten-Sprungliste geöffnet werden</value>
-  </data>
-  <data name="StartupSettings" xml:space="preserve">
-    <value>Starteinstellungen</value>
-  </data>
-  <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Lizenzen von Drittanbietern</value>
-  </data>
-  <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Diese Einstellung modifiziert Systemdateien und kann unerwartete Seiteneffekte mit sich bringen. Die Entwickler übernehmen keine Verantwortung, falls ein Problem auftritt. Mit dieser Einstellung fortzufahren ist eine Bestätigung dafür, dass Ihnen dieses Risiko bekannt ist. Bitte beachten Sie, dass das Deinstallieren von Files diese Änderungen nicht rückgängig macht. Es kann vorkommen, dass Sie den Explorer nicht mehr öffnen können, außer Sie deaktivieren diese Einstellung vor der Deinstallation von Files.</value>
-  </data>
-  <data name="ClearAll" xml:space="preserve">
-    <value>Alles löschen</value>
   </data>
 </root>

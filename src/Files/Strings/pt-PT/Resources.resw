@@ -2525,6 +2525,24 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Criar ligação em {0}</value>
   </data>
+  <data name="NavToolbarColumnsHeader.Text" xml:space="preserve">
+    <value>Colunas</value>
+  </data>
+  <data name="NavToolbarDetailsHeader.Text" xml:space="preserve">
+    <value>Detalhes</value>
+  </data>
+  <data name="NavToolbarLargeIconsHeader.Text" xml:space="preserve">
+    <value>Ícones Grandes</value>
+  </data>
+  <data name="NavToolbarMediumIconsHeader.Text" xml:space="preserve">
+    <value>Ícones Médios</value>
+  </data>
+  <data name="NavToolbarSmallIconsHeader.Text" xml:space="preserve">
+    <value>Ícones Pequenos</value>
+  </data>
+  <data name="NavToolbarTilesHeader.Text" xml:space="preserve">
+    <value>Mosaicos</value>
+  </data>
   <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
     <value>Mostrar extensões dos ficheiros</value>
   </data>
@@ -2610,7 +2628,7 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
     <value>Abrir pastas com um clique único</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
-    <value>Localização da pasta</value>
+    <value>Localização da Pasta</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>Exportar Definições</value>
@@ -2622,7 +2640,7 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
     <value>Gerir Definições</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
-    <value>Não pudemos importar as definições. O ficheiro das definições está corrompido.</value>
+    <value>Não pudemos importas as definições. O ficheiro das definições está corrompido.</value>
   </data>
   <data name="SettingsImportErrorTitle" xml:space="preserve">
     <value>Erro ao importar as definições</value>
@@ -2716,35 +2734,5 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
   </data>
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
     <value>Utilizar as definições de DPI do monitor principal</value>
-  </data>
-  <data name="SettingsDefaultFilesManager" xml:space="preserve">
-    <value>Gestor de ficheiros predefinido</value>
-  </data>
-  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Definir Files como gestor de ficheiros predefinido</value>
-  </data>
-  <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>Esvaziar Reciclagem</value>
-  </data>
-  <data name="Sidebar" xml:space="preserve">
-    <value>Barra lateral</value>
-  </data>
-  <data name="FilesAndFolders" xml:space="preserve">
-    <value>Ficheiros e pastas</value>
-  </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Abrir nova instância ao abrir diretórios na jumplist da barra de tarefas</value>
-  </data>
-  <data name="StartupSettings" xml:space="preserve">
-    <value>Definições de inicialização</value>
-  </data>
-  <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Licenças de terceiros</value>
-  </data>
-  <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Esta definição modifica os ficheiros do sistema e pode ter efeitos secundários inesperados no seu dispositivo. Os programadores não assumem qualquer responsabilidade no caso de ocorrer um problema como resultado. A continuação desta opção é um reconhecimento dos riscos envolvidos com esta ação. Note que a desinstalação de Files não desfaz estas alterações e pode impedi-lo de abrir o explorador de ficheiros, a menos que desligue esta definição antes de remover o Files do seu dispositivo.</value>
-  </data>
-  <data name="ClearAll" xml:space="preserve">
-    <value>Limpar tudo</value>
   </data>
 </root>

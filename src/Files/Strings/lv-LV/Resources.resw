@@ -2476,6 +2476,24 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Izveidot saiti {0}</value>
   </data>
+  <data name="NavToolbarColumnsHeader.Text" xml:space="preserve">
+    <value>Kolonnas</value>
+  </data>
+  <data name="NavToolbarDetailsHeader.Text" xml:space="preserve">
+    <value>Detaļas</value>
+  </data>
+  <data name="NavToolbarLargeIconsHeader.Text" xml:space="preserve">
+    <value>Lielas ikonas</value>
+  </data>
+  <data name="NavToolbarMediumIconsHeader.Text" xml:space="preserve">
+    <value>Vidēji lielas ikonas</value>
+  </data>
+  <data name="NavToolbarSmallIconsHeader.Text" xml:space="preserve">
+    <value>Mazas ikonas</value>
+  </data>
+  <data name="NavToolbarTilesHeader.Text" xml:space="preserve">
+    <value>Mozaīka</value>
+  </data>
   <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
     <value>Rādīt failu paplašinājumus</value>
   </data>
