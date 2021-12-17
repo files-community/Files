@@ -465,9 +465,6 @@ namespace Files
                     break;
 
                 case ActivationKind.StartupTask:
-                    var startupArgs = args as StartupTaskActivatedEventArgs;
-                    var payload = ActivationKind.StartupTask.ToString();
-                    rootFrame.Navigate(typeof(MainPage), payload, new SuppressNavigationTransitionInfo());
                     break;
             }
 
