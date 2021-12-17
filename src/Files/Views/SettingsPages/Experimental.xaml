@@ -73,9 +73,7 @@
                 </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl
-                Title="{helpers:ResourceString Name=ShowFolderSize}"
-                HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowFolderSize}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE2B2;" />
                 </local:SettingsBlockControl.Icon>
@@ -88,12 +86,16 @@
                 FontWeight="Medium"
                 Text="{helpers:ResourceString Name=SettingsDefaultFilesManager}" />
 
-            <local:SettingsBlockControl Description="{helpers:ResourceString Name=SettingsSetAsDefaultFileManagerDescription}" Title="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}" HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl
+                Title="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}"
+                HorizontalAlignment="Stretch"
+                Description="{helpers:ResourceString Name=SettingsSetAsDefaultFileManagerDescription}">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xEC50;" />
                 </local:SettingsBlockControl.Icon>
-                <ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}"
-                    IsOn="{Binding IsSetAsDefaultFileManager, Mode=TwoWay}" 
+                <ToggleSwitch
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}"
+                    IsOn="{Binding IsSetAsDefaultFileManager, Mode=TwoWay}"
                     Style="{StaticResource RightAlignedToggleSwitchStyle}">
                     <i:Interaction.Behaviors>
                         <icore:EventTriggerBehavior EventName="Toggled">

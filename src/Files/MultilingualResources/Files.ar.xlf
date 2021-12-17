@@ -1413,7 +1413,7 @@
           <source>Shortcut item</source>
           <target state="translated">Shortcut item</target>
         </trans-unit>
-        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Drives" translate="yes" xml:space="preserve">
           <source>Drives</source>
           <target state="translated" state-qualifier="tm-suggestion">محركات الأقراص:</target>
         </trans-unit>
@@ -1556,7 +1556,7 @@
           <target state="needs-review-translation">جزء مزدوج</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="FolderWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Folders" translate="yes" xml:space="preserve">
           <source>Folders</source>
           <target state="translated" state-qualifier="tm-suggestion">المجلدات</target>
         </trans-unit>
@@ -1670,7 +1670,7 @@
           <source>Remove Bundle</source>
           <target state="translated">إزالة الحزمة</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Bundles" translate="yes" xml:space="preserve">
           <source>Bundles</source>
           <target state="translated" state-qualifier="tm-suggestion">الحزم</target>
         </trans-unit>
@@ -2690,7 +2690,7 @@
           <source>Restore Libraries</source>
           <target state="new">Restore Libraries</target>
         </trans-unit>
-        <trans-unit id="RecentFilesHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="RecentFiles" translate="yes" xml:space="preserve">
           <source>Recent Files</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">الملفات الأخيرة</target>
         </trans-unit>

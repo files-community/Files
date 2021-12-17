@@ -982,7 +982,7 @@
           <source>Move here</source>
           <target state="translated">移到此处</target>
         </trans-unit>
-        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Drives" translate="yes" xml:space="preserve">
           <source>Drives</source>
           <target state="translated">驱动器</target>
         </trans-unit>
@@ -1538,7 +1538,7 @@
           <source>Customize the right click context menu</source>
           <target state="translated">自定义右键上下文菜单</target>
         </trans-unit>
-        <trans-unit id="FolderWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Folders" translate="yes" xml:space="preserve">
           <source>Folders</source>
           <target state="translated">文件夹</target>
         </trans-unit>
@@ -1666,7 +1666,7 @@
           <source>Remove Bundle</source>
           <target state="translated">移除包</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Bundles" translate="yes" xml:space="preserve">
           <source>Bundles</source>
           <target state="translated">包</target>
         </trans-unit>
@@ -2664,7 +2664,7 @@
           <source>Restore Libraries</source>
           <target state="translated">恢复库</target>
         </trans-unit>
-        <trans-unit id="RecentFilesHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="RecentFiles" translate="yes" xml:space="preserve">
           <source>Recent Files</source>
           <target state="translated">最近使用的文件</target>
         </trans-unit>

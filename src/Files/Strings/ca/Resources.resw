@@ -120,7 +120,7 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Elimina aquest element</value>
   </data>
-  <data name="RecentFilesHeader.Text" xml:space="preserve">
+  <data name="RecentFiles" xml:space="preserve">
     <value>Arxius recents</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">

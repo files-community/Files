@@ -1065,7 +1065,7 @@
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>Saīsnes vienums</value>
   </data>
-  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+  <data name="Drives" xml:space="preserve">
     <value>Diski</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
@@ -1170,7 +1170,7 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dubulti paneļi</value>
   </data>
-  <data name="FolderWidgetDescription.Text" xml:space="preserve">
+  <data name="Folders" xml:space="preserve">
     <value>Mapes</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
@@ -1251,7 +1251,7 @@
   <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
     <value>Dzēst saišķi</value>
   </data>
-  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+  <data name="Bundles" xml:space="preserve">
     <value>Saišķi</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
@@ -2004,7 +2004,7 @@
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>Atjaunot bibliotēkas</value>
   </data>
-  <data name="RecentFilesHeader.Text" xml:space="preserve">
+  <data name="RecentFiles" xml:space="preserve">
     <value>Nesenie faili</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">

@@ -744,7 +744,7 @@
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>Déplacer ici</value>
   </data>
-  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+  <data name="Drives" xml:space="preserve">
     <value>Disques</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
@@ -1161,7 +1161,7 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personnaliser le menu contextuel du clic droit</value>
   </data>
-  <data name="FolderWidgetDescription.Text" xml:space="preserve">
+  <data name="Folders" xml:space="preserve">
     <value>Dossiers</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
@@ -1257,7 +1257,7 @@
   <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
     <value>Supprimer le bundle</value>
   </data>
-  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+  <data name="Bundles" xml:space="preserve">
     <value>Bundles</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
@@ -2004,7 +2004,7 @@
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>Restaurer les bibliothèques</value>
   </data>
-  <data name="RecentFilesHeader.Text" xml:space="preserve">
+  <data name="RecentFiles" xml:space="preserve">
     <value>Fichiers récents</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">

@@ -23,5 +23,13 @@ namespace Files.Services
         /// Gets or sets a value indicating whether or not the Bundles widget should be visible.
         /// </summary>
         bool ShowBundlesWidget { get; set; }
+
+        bool FoldersWidgetExpanded { get; set; }
+
+        bool RecentFilesWidgetExpanded { get; set; }
+
+        bool DrivesWidgetExpanded { get; set; }
+
+        bool BundlesWidgetExpanded { get; set; }
     }
 }

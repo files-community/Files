@@ -1379,7 +1379,7 @@ namespace Files.ViewModels
                             {
                                 filesAndFolders.Add(listedItem);
                             }
-                            if (count == 32 || count == folderContentsList.Count - 1 || sampler.CheckNow())
+                            if (count == folderContentsList.Count - 1 || sampler.CheckNow())
                             {
                                 await OrderFilesAndFoldersAsync();
                                 await ApplyFilesAndFoldersChangesAsync();
@@ -1453,7 +1453,7 @@ namespace Files.ViewModels
                         {
                             filesAndFolders.Add(new FtpItem(list[i], path, returnformat));
 
-                            if (i == 32 || i == list.Length - 1 || sampler.CheckNow())
+                            if ( i == list.Length - 1 || sampler.CheckNow())
                             {
                                 await OrderFilesAndFoldersAsync();
                                 await ApplyFilesAndFoldersChangesAsync();

@@ -744,7 +744,7 @@
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>ここに移動</value>
   </data>
-  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+  <data name="Drives" xml:space="preserve">
     <value>ドライブ</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
@@ -1161,7 +1161,7 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>右クリックメニューをカスタマイズ</value>
   </data>
-  <data name="FolderWidgetDescription.Text" xml:space="preserve">
+  <data name="Folders" xml:space="preserve">
     <value>フォルダ</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
@@ -1257,7 +1257,7 @@
   <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
     <value>バンドルを削除</value>
   </data>
-  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+  <data name="Bundles" xml:space="preserve">
     <value>バンドル</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
@@ -2004,7 +2004,7 @@
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>ライブラリを復元</value>
   </data>
-  <data name="RecentFilesHeader.Text" xml:space="preserve">
+  <data name="RecentFiles" xml:space="preserve">
     <value>最近使ったファイル</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">

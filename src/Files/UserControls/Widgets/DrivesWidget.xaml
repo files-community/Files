@@ -11,21 +11,12 @@
     xmlns:navigationcontrolitems="using:Files.DataModels.NavigationControlItems"
     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     mc:Ignorable="d">
-    <StackPanel>
+    <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-
-            <TextBlock
-                x:Uid="DrivesWidgetDescription"
-                HorizontalAlignment="Left"
-                FontFamily="Segoe UI"
-                FontSize="14"
-                FontWeight="Medium"
-                Opacity=".8"
-                Text="Drives" />
 
             <!--  Map Drive button  -->
             <Button
@@ -35,7 +26,7 @@
                 Height="32"
                 Padding="0"
                 HorizontalAlignment="Right"
-                VerticalAlignment="Center"
+                VerticalAlignment="Top"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"
                 AutomationProperties.Name="More drives options"
@@ -66,8 +57,8 @@
 
         <muxc:ItemsRepeater
             x:Name="CardsList"
-            Grid.Row="0"
             HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
             ItemsSource="{x:Bind local:DrivesWidget.ItemsAdded}">
             <muxc:ItemsRepeater.Layout>
                 <muxc:UniformGridLayout
@@ -253,5 +244,5 @@
                 </DataTemplate>
             </muxc:ItemsRepeater.ItemTemplate>
         </muxc:ItemsRepeater>
-    </StackPanel>
+    </Grid>
 </UserControl>

@@ -858,7 +858,7 @@
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>העבר לכאן</value>
   </data>
-  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+  <data name="Drives" xml:space="preserve">
     <value>כוננים:</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
@@ -972,7 +972,7 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>התאם אישית את התפריט תלוי-ההקשר המופעל בלחיצה ימנית</value>
   </data>
-  <data name="FolderWidgetDescription.Text" xml:space="preserve">
+  <data name="Folders" xml:space="preserve">
     <value>תיקיות</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
@@ -1011,7 +1011,7 @@
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
     <value>פתח בכרטיסיה חדשה</value>
   </data>
-  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+  <data name="Bundles" xml:space="preserve">
     <value>חבילות</value>
   </data>
   <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">

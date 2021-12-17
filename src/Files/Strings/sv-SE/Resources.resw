@@ -1062,7 +1062,7 @@
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>Genvägsobjekt</value>
   </data>
-  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+  <data name="Drives" xml:space="preserve">
     <value>Enheter</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
@@ -1167,7 +1167,7 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dubbla paneler</value>
   </data>
-  <data name="FolderWidgetDescription.Text" xml:space="preserve">
+  <data name="Folders" xml:space="preserve">
     <value>Mappar</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
@@ -1248,7 +1248,7 @@
   <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
     <value>Ta bort samling</value>
   </data>
-  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+  <data name="Bundles" xml:space="preserve">
     <value>Samlingar</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
@@ -1701,7 +1701,7 @@
   <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
     <value>Återställ</value>
   </data>
-  <data name="RecentFilesHeader.Text" xml:space="preserve">
+  <data name="RecentFiles" xml:space="preserve">
     <value>Senaste filer</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">

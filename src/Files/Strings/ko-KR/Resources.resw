@@ -1062,7 +1062,7 @@
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>바로 가기 항목</value>
   </data>
-  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+  <data name="Drives" xml:space="preserve">
     <value>드라이브</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
@@ -1167,7 +1167,7 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>듀얼 패널</value>
   </data>
-  <data name="FolderWidgetDescription.Text" xml:space="preserve">
+  <data name="Folders" xml:space="preserve">
     <value>폴더</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
@@ -1248,7 +1248,7 @@
   <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
     <value>보관함 제거</value>
   </data>
-  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+  <data name="Bundles" xml:space="preserve">
     <value>보관함</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
@@ -2004,7 +2004,7 @@
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>라이브러리 복원</value>
   </data>
-  <data name="RecentFilesHeader.Text" xml:space="preserve">
+  <data name="RecentFiles" xml:space="preserve">
     <value>최근에 사용한 파일</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">

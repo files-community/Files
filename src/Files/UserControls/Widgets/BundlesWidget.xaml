@@ -18,21 +18,12 @@
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
     </UserControl.Resources>
 
-    <StackPanel>
+    <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-
-            <TextBlock
-                x:Uid="BundlesWidgetHeader"
-                HorizontalAlignment="Left"
-                FontSize="14"
-                FontWeight="Medium"
-                Opacity="0.8"
-                Text="Bundles"
-                TextTrimming="CharacterEllipsis" />
 
             <!--  Add Bundle button  -->
             <Button
@@ -42,7 +33,7 @@
                 Height="32"
                 Padding="0"
                 HorizontalAlignment="Right"
-                VerticalAlignment="Center"
+                VerticalAlignment="Top"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"
                 AutomationProperties.Name="More bundles options"
@@ -511,5 +502,5 @@
                 </Button.Flyout>
             </Button>
         </Grid>
-    </StackPanel>
+    </Grid>
 </UserControl>

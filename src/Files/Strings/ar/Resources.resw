@@ -1044,7 +1044,7 @@
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>Shortcut item</value>
   </data>
-  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+  <data name="Drives" xml:space="preserve">
     <value>محركات الأقراص:</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
@@ -1149,7 +1149,7 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>جزء مزدوج</value>
   </data>
-  <data name="FolderWidgetDescription.Text" xml:space="preserve">
+  <data name="Folders" xml:space="preserve">
     <value>المجلدات</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
@@ -1227,7 +1227,7 @@
   <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
     <value>إزالة الحزمة</value>
   </data>
-  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+  <data name="Bundles" xml:space="preserve">
     <value>الحزم</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
@@ -1632,7 +1632,7 @@
   <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
     <value>استعادة</value>
   </data>
-  <data name="RecentFilesHeader.Text" xml:space="preserve">
+  <data name="RecentFiles" xml:space="preserve">
     <value>الملفات الأخيرة</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">

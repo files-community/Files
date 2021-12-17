@@ -982,7 +982,7 @@
           <source>Move here</source>
           <target state="translated">ここに移動</target>
         </trans-unit>
-        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Drives" translate="yes" xml:space="preserve">
           <source>Drives</source>
           <target state="translated">ドライブ</target>
         </trans-unit>
@@ -1538,7 +1538,7 @@
           <source>Customize the right click context menu</source>
           <target state="translated">右クリックメニューをカスタマイズ</target>
         </trans-unit>
-        <trans-unit id="FolderWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Folders" translate="yes" xml:space="preserve">
           <source>Folders</source>
           <target state="translated">フォルダ</target>
         </trans-unit>
@@ -1666,7 +1666,7 @@
           <source>Remove Bundle</source>
           <target state="translated">バンドルを削除</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Bundles" translate="yes" xml:space="preserve">
           <source>Bundles</source>
           <target state="translated">バンドル</target>
         </trans-unit>
@@ -2662,7 +2662,7 @@
           <source>Restore Libraries</source>
           <target state="translated">ライブラリを復元</target>
         </trans-unit>
-        <trans-unit id="RecentFilesHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="RecentFiles" translate="yes" xml:space="preserve">
           <source>Recent Files</source>
           <target state="translated">最近使ったファイル</target>
         </trans-unit>

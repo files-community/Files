@@ -1406,7 +1406,7 @@
           <source>Shortcut item</source>
           <target state="translated">바로 가기 항목</target>
         </trans-unit>
-        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Drives" translate="yes" xml:space="preserve">
           <source>Drives</source>
           <target state="translated">드라이브</target>
         </trans-unit>
@@ -1546,7 +1546,7 @@
           <source>Dual pane</source>
           <target state="translated">듀얼 패널</target>
         </trans-unit>
-        <trans-unit id="FolderWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Folders" translate="yes" xml:space="preserve">
           <source>Folders</source>
           <target state="translated">폴더</target>
         </trans-unit>
@@ -1654,7 +1654,7 @@
           <source>Remove Bundle</source>
           <target state="translated">보관함 제거</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Bundles" translate="yes" xml:space="preserve">
           <source>Bundles</source>
           <target state="translated">보관함</target>
         </trans-unit>
@@ -2662,7 +2662,7 @@
           <source>Restore Libraries</source>
           <target state="translated">라이브러리 복원</target>
         </trans-unit>
-        <trans-unit id="RecentFilesHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="RecentFiles" translate="yes" xml:space="preserve">
           <source>Recent Files</source>
           <target state="translated" state-qualifier="tm-suggestion">최근에 사용한 파일</target>
         </trans-unit>

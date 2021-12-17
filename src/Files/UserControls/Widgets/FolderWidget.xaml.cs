@@ -136,6 +136,8 @@ namespace Files.UserControls.Widgets
 
         public string AutomationProperties => "FolderWidgetAutomationProperties/Name".GetLocalized();
 
+        public string WidgetHeader => "Folders".GetLocalized();
+
         public void Dispose()
         {
         }

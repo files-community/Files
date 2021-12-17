@@ -72,7 +72,7 @@
                     ItemsSource="{Binding DateFormats}"
                     SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}" />
             </local:SettingsBlockControl>
-            
+
             <local:SettingsBlockControl
                 x:Uid="SettingsPreferencesTerminalApplications"
                 Title="Terminal applications"

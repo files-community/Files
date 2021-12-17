@@ -978,7 +978,7 @@
           <source>Shortcut item</source>
           <target state="translated">捷徑項目</target>
         </trans-unit>
-        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Drives" translate="yes" xml:space="preserve">
           <source>Drives</source>
           <target state="translated">磁碟機</target>
         </trans-unit>
@@ -1538,7 +1538,7 @@
           <source>Customize the right click context menu</source>
           <target state="translated">自訂右鍵選單</target>
         </trans-unit>
-        <trans-unit id="FolderWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Folders" translate="yes" xml:space="preserve">
           <source>Folders</source>
           <target state="translated" state-qualifier="tm-suggestion">資料夾</target>
         </trans-unit>
@@ -1678,7 +1678,7 @@
           <source>Remove Bundle</source>
           <target state="translated">移除綁定</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Bundles" translate="yes" xml:space="preserve">
           <source>Bundles</source>
           <target state="translated">快速存取</target>
         </trans-unit>
@@ -2662,7 +2662,7 @@
           <source>Restore Libraries</source>
           <target state="translated">重置媒體櫃</target>
         </trans-unit>
-        <trans-unit id="RecentFilesHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="RecentFiles" translate="yes" xml:space="preserve">
           <source>Recent Files</source>
           <target state="translated">最近使用過的檔案</target>
         </trans-unit>
