@@ -234,7 +234,7 @@
                     Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
                     <ListView.ItemContainerTransitions>
                         <TransitionCollection>
-                            <ContentThemeTransition />
+                            <AddDeleteThemeTransition />
                         </TransitionCollection>
                     </ListView.ItemContainerTransitions>
                     <ListView.Header>
@@ -736,9 +736,6 @@
                                     <Setter.Value>
                                         <TransitionCollection>
                                             <AddDeleteThemeTransition />
-                                            <ContentThemeTransition />
-                                            <ReorderThemeTransition />
-                                            <EntranceThemeTransition IsStaggeringEnabled="False" />
                                         </TransitionCollection>
                                     </Setter.Value>
                                 </Setter>
