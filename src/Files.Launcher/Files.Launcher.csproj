@@ -40,6 +40,9 @@
     <Content Include="Assets\FilesOpenDialog\CustomOpenDialog32.dll" />
     <Content Include="Assets\FilesOpenDialog\CustomOpenDialog64.dll" />
     <Content Include="Assets\FilesOpenDialog\CustomOpenDialogARM64.dll" />
+	<Content Include="Assets\FilesOpenDialog\CustomSaveDialog32.dll" />
+    <Content Include="Assets\FilesOpenDialog\CustomSaveDialog64.dll" />
+	<Content Include="Assets\FilesOpenDialog\CustomSaveDialogARM64.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="FolderNames.cs" />
