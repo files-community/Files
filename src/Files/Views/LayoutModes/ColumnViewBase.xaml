@@ -206,7 +206,7 @@
                                             EasingType="Linear"
                                             From="0"
                                             To="1"
-                                            Duration="0:0:1.5" />
+                                            Duration="0:0:.05" />
                                         <animations:TranslationAnimation
                                             From="0, 5, 0"
                                             To="0"
