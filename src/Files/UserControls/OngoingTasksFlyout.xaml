@@ -129,14 +129,14 @@
                 Text="{helpers:ResourceString Name=OngoingTasks}" />
 
             <Button
-                x:Name="DismissAllBannersButton"                             
-                Height="32"                                
+                x:Name="DismissAllBannersButton"
+                Height="32"
+                HorizontalAlignment="Right"
                 Background="Transparent"
                 BorderBrush="Transparent"
                 Click="DismissAllBannersButton_Click"
                 Content="{helpers:ResourceString Name=ClearAll}"
-                ToolTipService.ToolTip="{helpers:ResourceString Name=ClearAll}" 
-                HorizontalAlignment="Right"/>
+                ToolTipService.ToolTip="{helpers:ResourceString Name=ClearAll}" />
         </Grid>
 
         <ListView

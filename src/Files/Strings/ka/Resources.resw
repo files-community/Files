@@ -120,7 +120,7 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>ამ ნივთის წაშლა</value>
   </data>
-  <data name="RecentFilesHeader.Text" xml:space="preserve">
+  <data name="RecentFiles" xml:space="preserve">
     <value>ბოლო ფაილები</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
@@ -1134,7 +1134,7 @@
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>მალსახმობის ელემენტი</value>
   </data>
-  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+  <data name="Drives" xml:space="preserve">
     <value>დისკები</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
@@ -1269,7 +1269,7 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>ორმაგი სარკმელი</value>
   </data>
-  <data name="FolderWidgetDescription.Text" xml:space="preserve">
+  <data name="Folders" xml:space="preserve">
     <value>საქაღალდეები</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
@@ -1362,7 +1362,7 @@
   <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
     <value>შეკვრის ამოშლა</value>
   </data>
-  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+  <data name="Bundles" xml:space="preserve">
     <value>შეკვრები</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">

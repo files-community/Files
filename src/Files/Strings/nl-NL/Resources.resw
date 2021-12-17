@@ -1023,7 +1023,7 @@
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>Hierheen verplaatsen</value>
   </data>
-  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+  <data name="Drives" xml:space="preserve">
     <value>Stations</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
@@ -1161,7 +1161,7 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Contextmenu aanpassen</value>
   </data>
-  <data name="FolderWidgetDescription.Text" xml:space="preserve">
+  <data name="Folders" xml:space="preserve">
     <value>Mappen</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
@@ -1257,7 +1257,7 @@
   <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
     <value>Bundel verwijderen</value>
   </data>
-  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+  <data name="Bundles" xml:space="preserve">
     <value>Bundels</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
@@ -2004,7 +2004,7 @@
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>Herstel bibliotheken</value>
   </data>
-  <data name="RecentFilesHeader.Text" xml:space="preserve">
+  <data name="RecentFiles" xml:space="preserve">
     <value>Recente bestanden</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">

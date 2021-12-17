@@ -90,9 +90,9 @@
                 x:Name="shortcutItemPathValue"
                 Grid.Row="3"
                 Grid.Column="1"
+                IsReadOnly="{x:Bind ViewModel.IsShortcutItemPathReadOnly, Mode=OneWay}"
                 Style="{StaticResource PropertyValueTextBox}"
                 Text="{x:Bind ViewModel.ShortcutItemPath, Mode=TwoWay}"
-                IsReadOnly="{x:Bind ViewModel.IsShortcutItemPathReadOnly, Mode=OneWay}"
                 Visibility="Visible" />
 
             <TextBlock

@@ -968,7 +968,7 @@
           <source>Move here</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இங்கே நகர்த்து</target>
         </trans-unit>
-        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Drives" translate="yes" xml:space="preserve">
           <source>Drives</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இயக்ககங்கள்:</target>
         </trans-unit>
@@ -1540,7 +1540,7 @@
           <source>Customize the right click context menu</source>
           <target state="new">Customize the right click context menu</target>
         </trans-unit>
-        <trans-unit id="FolderWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Folders" translate="yes" xml:space="preserve">
           <source>Folders</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">கோப்புறைகள்</target>
         </trans-unit>
@@ -1668,7 +1668,7 @@
           <source>Remove Bundle</source>
           <target state="new">Remove Bundle</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Bundles" translate="yes" xml:space="preserve">
           <source>Bundles</source>
           <target state="new">Bundles</target>
         </trans-unit>
@@ -2664,7 +2664,7 @@
           <source>Restore Libraries</source>
           <target state="new">Restore Libraries</target>
         </trans-unit>
-        <trans-unit id="RecentFilesHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="RecentFiles" translate="yes" xml:space="preserve">
           <source>Recent Files</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">சமீபத்திய கோப்புகள்</target>
         </trans-unit>

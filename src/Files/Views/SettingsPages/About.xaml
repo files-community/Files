@@ -202,7 +202,7 @@
                             Padding="8,2"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
-                            AutomationProperties.Name="Support us on PayPal"
+                            AutomationProperties.Name="Support us on GitHub"
                             IsEnabled="True">
                             <StackPanel
                                 Padding="4"
@@ -262,14 +262,12 @@
                 </Button>
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl
-                Title="{helpers:ResourceString Name=ThirdPartyLicenses}"
-                HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=ThirdPartyLicenses}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE99A;" />
                 </local:SettingsBlockControl.Icon>
                 <local:SettingsBlockControl.ExpandableContent>
-                    <StackPanel Spacing="4" Padding="4">
+                    <StackPanel Padding="4" Spacing="4">
                         <HyperlinkButton
                             AutomationProperties.Name="QuickLook"
                             Content="QuickLook"

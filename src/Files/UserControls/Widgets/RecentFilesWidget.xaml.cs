@@ -40,6 +40,8 @@ namespace Files.UserControls.Widgets
 
         public string AutomationProperties => "RecentFilesWidgetAutomationProperties/Name".GetLocalized();
 
+        public string WidgetHeader => "RecentFiles".GetLocalized();
+
         public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowRecentFilesWidget;
 
         public RecentFilesWidget()
