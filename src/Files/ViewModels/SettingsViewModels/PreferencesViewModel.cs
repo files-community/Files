@@ -43,6 +43,8 @@ namespace Files.ViewModels.SettingsViewModels
 
         public ICommand EditTerminalApplicationsCommand { get; }
 
+        public ICommand OpenFilesAtStartupCommand { get; }
+
         public PreferencesViewModel()
         {
             DefaultLanguages = App.AppSettings.DefaultLanguages;
@@ -54,6 +56,7 @@ namespace Files.ViewModels.SettingsViewModels
             };
 
             EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
+            OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);
             App.TerminalController.ModelChanged += ReloadTerminals;
 
             if (UserSettingsService.PreferencesSettingsService.TabsOnStartupList != null)
@@ -76,8 +79,9 @@ namespace Files.ViewModels.SettingsViewModels
                     recentsItem,
                 });
             }, TaskScheduler.FromCurrentSynchronizationContext());
-        }
 
+            _ = DetectOpenFilesAtStartup();
+        }
 
         private async Task PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
         {
@@ -420,57 +424,76 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
+        private bool openInLogin;
+
         public bool OpenInLogin
         {
-            get => UserSettingsService.PreferencesSettingsService.OpenInLogin;
-            set
+            get => openInLogin;
+            set => SetProperty(ref openInLogin, value);
+        }
+
+        private bool canOpenInLogin;
+
+        public bool CanOpenInLogin
+        {
+            get => canOpenInLogin;
+            set => SetProperty(ref canOpenInLogin, value);
+        }
+
+        public async Task OpenFilesAtStartup()
+        {
+            var stateMode = await ReadState();
+
+            bool state = stateMode switch
             {
-                var stateMode = ReadState();                
-                bool state = false;
+                StartupTaskState.Enabled => true,
+                StartupTaskState.EnabledByPolicy => true,
+                StartupTaskState.DisabledByPolicy => false,
+                StartupTaskState.DisabledByUser => false,
+                _ => false,
+            };
 
-                switch (stateMode.Result)
+            if (state != OpenInLogin)
+            {
+                StartupTask startupTask = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
+                if (OpenInLogin)
                 {
-                    case StartupTaskState.Disabled:
-                        state = false;
-                        break;
-                    case StartupTaskState.Enabled:
-                        state = true;
-                        break;
-                    case StartupTaskState.DisabledByPolicy:
-                        state = false;
-                        //TODO: disable toggle and justify;
-                        break;
-                    case StartupTaskState.DisabledByUser:
-                        state = false;
-                        //TODO: disable toggle and justify;
-                        break;
-                    case StartupTaskState.EnabledByPolicy:
-                        state = true;
-                        //TODO: disable toggle and justify;
-                        break;
+                    await startupTask.RequestEnableAsync();
                 }
-
-                if (state != UserSettingsService.PreferencesSettingsService.OpenInLogin)
+                else
                 {
-                    UserSettingsService.PreferencesSettingsService.OpenInLogin = state;
-                    StateTest(state);
-                    OnPropertyChanged();
+                    startupTask.Disable();
                 }
+                await DetectOpenFilesAtStartup();
             }
         }
 
-        private async void StateTest(bool test)
+        public async Task DetectOpenFilesAtStartup()
         {
-            StartupTask startupTask = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
-            StartupTaskState newState;
+            var stateMode = await ReadState();
 
-            if (test == true)
+            switch (stateMode)
             {
-                newState = await startupTask.RequestEnableAsync();
-            }
-            else
-            {
-                startupTask.Disable();
+                case StartupTaskState.Disabled:
+                    CanOpenInLogin = true;
+                    OpenInLogin = false;
+                    break;
+                case StartupTaskState.Enabled:
+                    CanOpenInLogin = true;
+                    OpenInLogin = true;
+                    break;
+                case StartupTaskState.DisabledByPolicy:
+                    CanOpenInLogin = false;
+                    OpenInLogin = false;
+                    break;
+                case StartupTaskState.DisabledByUser:
+                    CanOpenInLogin = false;
+                    OpenInLogin = false;
+                    break;
+                case StartupTaskState.EnabledByPolicy:
+                    CanOpenInLogin = false;
+                    OpenInLogin = true;
+                    break;
             }
         }
 

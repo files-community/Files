@@ -32,7 +32,6 @@ namespace Files.Services.Implementation
                 case nameof(ContinueLastSessionOnStartUp):
                 case nameof(OpenNewTabOnStartup):
                 case nameof(AlwaysOpenNewInstance):
-                case nameof(OpenInLogin):
                     Microsoft.AppCenter.Analytics.Analytics.TrackEvent($"{e.settingName} {e.newValue}");
                     break;
             }
@@ -157,12 +156,6 @@ namespace Files.Services.Implementation
         public List<string> LastSessionTabList
         {
             get => Get<List<string>>(null);
-            set => Set(value);
-        }
-
-        public bool OpenInLogin
-        {
-            get => Get(false);
             set => Set(value);
         }
     }

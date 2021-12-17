@@ -463,18 +463,15 @@ namespace Files
                         SettingsViewModel.ReportIssueOnGitHub();
                     }
                     break;
+
+                case ActivationKind.StartupTask:
+                    var startupArgs = args as StartupTaskActivatedEventArgs;
+                    var payload = ActivationKind.StartupTask.ToString();
+                    rootFrame.Navigate(typeof(MainPage), payload, new SuppressNavigationTransitionInfo());
+                    break;
             }
 
-            string payload = string.Empty;
-            if (args.Kind == ActivationKind.StartupTask)
-            {
-                var startupArgs = args as StartupTaskActivatedEventArgs;
-                payload = ActivationKind.StartupTask.ToString();
-            }
-
-            rootFrame.Navigate(typeof(MainPage), payload, new SuppressNavigationTransitionInfo());
-
-            //rootFrame.Navigate(typeof(MainPage), payload);
+            rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 
             // Ensure the current window is active.
             Window.Current.Activate();
