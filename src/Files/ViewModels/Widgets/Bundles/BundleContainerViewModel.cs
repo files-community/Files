@@ -204,7 +204,7 @@ namespace Files.ViewModels.Widgets.Bundles
                 },
                 TitleText = string.Format("BundlesWidgetRenameBundleDialogTitleText".GetLocalized(), BundleName),
                 SubtitleText = "BundlesWidgetRenameBundleDialogSubtitleText".GetLocalized(),
-                PrimaryButtonText = "BundlesWidgetRenameBundleDialogPrimaryButtonText".GetLocalized(),
+                PrimaryButtonText = "Confirm".GetLocalized(),
                 CloseButtonText = "BundlesWidgetRenameBundleDialogCloseButtonText".GetLocalized(),
                 PrimaryButtonAction = (vm, e) =>
                 {

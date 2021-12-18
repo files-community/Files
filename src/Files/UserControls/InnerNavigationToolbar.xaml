@@ -69,9 +69,8 @@
                         <MenuFlyout x:Name="NewEmptySpace" Opening="NewEmptySpace_Opening">
                             <MenuFlyoutItem
                                 x:Name="ToolbarNewFolderItem"
-                                x:Uid="ModernNavigationToolbaNewFolder"
                                 Command="{x:Bind ViewModel.CreateNewFolderCommand, Mode=OneWay}"
-                                Text="Folder">
+                                Text="{helpers:ResourceString Name=Folder}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE8B7;" />
                                 </MenuFlyoutItem.Icon>
@@ -111,14 +110,13 @@
                     </AppBarButton.Content>
                 </AppBarButton>
                 <AppBarButton
-                    x:Uid="NavigationToolbarCopy"
                     Width="Auto"
                     MinWidth="40"
                     Command="{x:Bind ViewModel.CopyCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanCopy, Mode=OneWay, FallbackValue=False}"
-                    Label="Copy"
+                    Label="{helpers:ResourceString Name=Copy}"
                     LabelPosition="Collapsed"
-                    ToolTipService.ToolTip="Copy">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=Copy}">
                     <local:ColoredIcon BaseLayerGlyph="&#xF021;" OverlayLayerGlyph="&#xF022;" />
                 </AppBarButton>
                 <AppBarButton
@@ -334,14 +332,8 @@
                                 x:Uid="NavToolbarArrangementOptionDateModified"
                                 IsChecked="{x:Bind ViewModel.IsSortedByDateModified, Mode=TwoWay}"
                                 Text="Date modified" />
-                            <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarArrangementOptionDateCreated"
-                                IsChecked="{x:Bind ViewModel.IsSortedByDateCreated, Mode=TwoWay}"
-                                Text="Date created" />
-                            <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarArrangementOptionSize"
-                                IsChecked="{x:Bind ViewModel.IsSortedBySize, Mode=TwoWay}"
-                                Text="Size" />
+                            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedByDateCreated, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateCreated}" />
+                            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedBySize, Mode=TwoWay}" Text="{helpers:ResourceString Name=Size}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionType"
                                 IsChecked="{x:Bind ViewModel.IsSortedByType, Mode=TwoWay}"
@@ -361,16 +353,14 @@
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
                                 Text="Original folder" />
                             <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarArrangementOptionDateDeleted"
                                 IsChecked="{x:Bind ViewModel.IsSortedByDateDeleted, Mode=TwoWay}"
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
-                                Text="Date deleted" />
+                                Text="{helpers:ResourceString Name=DateDeleted}" />
                         </MenuFlyoutSubItem>
                         <MenuFlyoutSubItem x:Uid="NavToolbarGroupByRadioButtons" Text="Group by">
                             <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarGroupByOptionNone"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByNone, Mode=TwoWay}"
-                                Text="None" />
+                                Text="{helpers:ResourceString Name=None}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionName"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByName, Mode=TwoWay}"
@@ -379,14 +369,8 @@
                                 x:Uid="NavToolbarArrangementOptionDateModified"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByDateModified, Mode=TwoWay}"
                                 Text="Date modified" />
-                            <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarArrangementOptionDateCreated"
-                                IsChecked="{x:Bind ViewModel.IsGroupedByDateCreated, Mode=TwoWay}"
-                                Text="Date created" />
-                            <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarArrangementOptionSize"
-                                IsChecked="{x:Bind ViewModel.IsGroupedBySize, Mode=TwoWay}"
-                                Text="Size" />
+                            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByDateCreated, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateCreated}" />
+                            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedBySize, Mode=TwoWay}" Text="{helpers:ResourceString Name=Size}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionType"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByType, Mode=TwoWay}"
@@ -407,10 +391,9 @@
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
                                 Text="Original folder" />
                             <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarArrangementOptionDateDeleted"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByDateDeleted, Mode=TwoWay}"
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
-                                Text="Date deleted" />
+                                Text="{helpers:ResourceString Name=DateDeleted}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionFolderPath"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByFolderPath, Mode=TwoWay}"
@@ -418,10 +401,7 @@
                                 Text="Folder path" />
                         </MenuFlyoutSubItem>
                         <MenuFlyoutSeparator />
-                        <ToggleMenuFlyoutItem
-                            x:Uid="NavToolbarSortDirectionOptionAscending"
-                            IsChecked="{x:Bind ViewModel.IsSortedAscending, Mode=TwoWay}"
-                            Text="Ascending order" />
+                        <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedAscending, Mode=TwoWay}" Text="{helpers:ResourceString Name=Ascending}" />
                         <ToggleMenuFlyoutItem
                             x:Uid="NavToolbarSortDirectionOptionDescending"
                             IsChecked="{x:Bind ViewModel.IsSortedDescending, Mode=TwoWay}"
@@ -466,7 +446,6 @@
                                 </Grid.ColumnDefinitions>
 
                                 <RadioButton
-                                    x:Uid="NavToolbarDetails"
                                     Grid.Row="0"
                                     Grid.Column="0"
                                     Width="36"
@@ -475,7 +454,7 @@
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    AutomationProperties.Name="Details"
+                                    AutomationProperties.Name="{helpers:ResourceString Name=Details}"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
@@ -625,13 +604,13 @@
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    AutomationProperties.Name="Columns"
+                                    AutomationProperties.Name="{helpers:ResourceString Name=Columns}"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
                                     IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
-                                    ToolTipService.ToolTip="Columns (Ctrl+Shift+6)">
+                                    ToolTipService.ToolTip="{helpers:ResourceString Name=ColumnsShortcutTooltip}">
                                     <FontIcon
                                         FontFamily="{StaticResource CustomGlyph}"
                                         FontSize="16"
@@ -810,11 +789,10 @@
                 <AppBarSeparator x:Name="SeparatorBar" x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
                 <AppBarButton
                     x:Name="OpenInTerminalButton"
-                    x:Uid="NavigationToolbarOpenInTerminal"
                     x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                     Command="{x:Bind ViewModel.OpenDirectoryInDefaultTerminalCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
-                    Label="Open in Terminal...">
+                    Label="{helpers:ResourceString Name=OpenInTerminal}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE756;" />
                     </AppBarButton.Icon>

@@ -16,7 +16,7 @@ namespace Files.Helpers
         {
             new AppTheme
             {
-                Name = "DefaultTheme".GetLocalized(),
+                Name = "Default".GetLocalized(),
             },
         };
 

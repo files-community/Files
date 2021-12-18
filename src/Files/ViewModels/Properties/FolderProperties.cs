@@ -54,7 +54,7 @@ namespace Files.ViewModels.Properties
                 if (Item.IsShortcutItem)
                 {
                     var shortcutItem = (ShortcutItem)Item;
-                    ViewModel.ShortcutItemType = "PropertiesShortcutTypeFolder".GetLocalized();
+                    ViewModel.ShortcutItemType = "Folder".GetLocalized();
                     ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
                     ViewModel.IsShortcutItemPathReadOnly = false;
                     ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;

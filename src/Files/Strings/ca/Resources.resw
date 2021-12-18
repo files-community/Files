@@ -21,9 +21,6 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nova finestra</value>
   </data>
-  <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
-    <value>Carpeta</value>
-  </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
     <value>Imatge de mapa de bits</value>
   </data>
@@ -51,10 +48,10 @@
   <data name="typeColumn.Header" xml:space="preserve">
     <value>Tipus</value>
   </data>
-  <data name="sizeColumn.Header" xml:space="preserve">
+  <data name="Size" xml:space="preserve">
     <value>Mida</value>
   </data>
-  <data name="NavigationToolbarOpenInTerminal.Label" xml:space="preserve">
+  <data name="OpenInTerminal" xml:space="preserve">
     <value>Obre a terminal...</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
@@ -78,9 +75,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>és una subcarpeta de la carpeta d'origen</value>
   </data>
-  <data name="ErrorDialogSkip" xml:space="preserve">
-    <value>Salta</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Tipus d'element:</value>
   </data>
@@ -93,13 +87,10 @@
   <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>Desfés la selecció</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
-    <value>Vista de detalls</value>
-  </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Modificat:</value>
   </data>
-  <data name="PropertiesAccessed.Text" xml:space="preserve">
+  <data name="Accessed" xml:space="preserve">
     <value>Accedit:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
@@ -125,9 +116,6 @@
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>Enllaços útils</value>
-  </data>
-  <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
-    <value>Copia</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Enviar comentaris</value>
@@ -198,10 +186,7 @@
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Tipus</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
-    <value>Mida</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="Ascending" xml:space="preserve">
     <value>Ascendent</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
@@ -213,14 +198,8 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Enganxa</value>
   </data>
-  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
-    <value>Obre al terminal...</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nou</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
-    <value>Carpeta</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Arxiu</value>
@@ -251,9 +230,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>Corta</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
-    <value>Copia</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Canvia el nom</value>
@@ -288,16 +264,13 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Estableix nom</value>
   </data>
-  <data name="SystemTheme" xml:space="preserve">
-    <value>Per defecte</value>
-  </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Clar</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
     <value>Oscur</value>
   </data>
-  <data name="ApplicationTimeStye" xml:space="preserve">
+  <data name="Application" xml:space="preserve">
     <value>Aplicació</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
@@ -585,14 +558,8 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>Directori en ús:</value>
   </data>
-  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
-    <value>Aplicació</value>
-  </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>Arxiu</value>
-  </data>
-  <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
-    <value>Carpeta</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Enllaç web</value>
@@ -617,9 +584,6 @@
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
     <value>Desconegut</value>
-  </data>
-  <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
-    <value>Obre històric d'ubicació</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Els arxius s'han trobat amb un problema que els desenvolupadors no han esmenat encara.</value>
@@ -681,9 +645,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Més</value>
   </data>
-  <data name="ButtonYes.Content" xml:space="preserve">
-    <value>Sí</value>
-  </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>S'ha de reiniciar l'aplicació per a que es desin els canvis. Voldries reiniciar l'app?</value>
   </data>
@@ -729,7 +690,7 @@
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Crea un arxiu buit</value>
   </data>
-  <data name="AddDialogListFolderHeader" xml:space="preserve">
+  <data name="Folder" xml:space="preserve">
     <value>Carpeta</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">

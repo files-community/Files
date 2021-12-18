@@ -21,7 +21,7 @@ namespace Files.ViewModels.SettingsViewModels
         {
             Themes = new List<string>()
             {
-                "SystemTheme".GetLocalized(),
+                "Default".GetLocalized(),
                 "LightTheme".GetLocalized(),
                 "DarkTheme".GetLocalized()
             };
