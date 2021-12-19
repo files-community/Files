@@ -1,9 +1,7 @@
-using ByteSizeLib;
 using Files.Extensions;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml;
@@ -287,7 +285,7 @@ namespace Files.ViewModels
             set
             {
                 SetProperty(ref driveUsedSpaceValue, value);
-                DriveUsedSpace = $"{ByteSize.FromBytes(DriveUsedSpaceValue).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(DriveUsedSpaceValue).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
+                DriveUsedSpace = DriveUsedSpaceValue.ToLongSizeString();
                 OnPropertyChanged(nameof(DrivePercentageValue));
             }
         }
@@ -320,7 +318,7 @@ namespace Files.ViewModels
             set
             {
                 SetProperty(ref driveFreeSpaceValue, value);
-                DriveFreeSpace = $"{ByteSize.FromBytes(DriveFreeSpaceValue).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(DriveFreeSpaceValue).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
+                DriveFreeSpace = DriveFreeSpaceValue.ToLongSizeString();
             }
         }
 
@@ -420,7 +418,7 @@ namespace Files.ViewModels
             set
             {
                 SetProperty(ref driveCapacityValue, value);
-                DriveCapacity = $"{ByteSize.FromBytes(DriveCapacityValue).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(DriveCapacityValue).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
+                DriveCapacity = DriveCapacityValue.ToLongSizeString();
                 OnPropertyChanged(nameof(DrivePercentageValue));
             }
         }

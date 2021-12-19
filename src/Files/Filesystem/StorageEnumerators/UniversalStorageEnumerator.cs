@@ -1,11 +1,6 @@
-﻿using ByteSizeLib;
-using Files.Extensions;
+﻿using Files.Extensions;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using Files.Services;
-using Files.Views.LayoutModes;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -193,7 +188,7 @@ namespace Files.Filesystem.StorageEnumerators
             var itemModifiedDate = basicProperties.DateModified;
             var itemCreatedDate = file.DateCreated;
             var itemPath = string.IsNullOrEmpty(file.Path) ? PathNormalization.Combine(currentStorageFolder.Path, file.Name) : file.Path;
-            var itemSize = ByteSize.FromBytes(basicProperties.Size).ToBinaryString().ConvertSizeAbbreviation();
+            var itemSize = basicProperties.Size.ToSizeString();
             var itemSizeBytes = basicProperties.Size;
             var itemType = file.DisplayType;
             var itemFileExtension = file.FileType;
