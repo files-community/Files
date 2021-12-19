@@ -18,9 +18,6 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>فتح في نافذة جديدة</value>
   </data>
-  <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
-    <value>مجلد</value>
-  </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
     <value>صورة نقطية</value>
   </data>
@@ -39,7 +36,7 @@
   <data name="typeColumn.Header" xml:space="preserve">
     <value>النوع</value>
   </data>
-  <data name="sizeColumn.Header" xml:space="preserve">
+  <data name="Size" xml:space="preserve">
     <value>الحجم</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
@@ -63,9 +60,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>انه مجلد فرعي من المجلد الاصلي </value>
   </data>
-  <data name="ErrorDialogSkip" xml:space="preserve">
-    <value>‏‏تخطي</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>نوع العنصر</value>
   </data>
@@ -78,13 +72,10 @@
   <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>مسح التحديد</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
-    <value>عرض التفاصيل</value>
-  </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>تاريخ التعديل</value>
   </data>
-  <data name="PropertiesAccessed.Text" xml:space="preserve">
+  <data name="Accessed" xml:space="preserve">
     <value>التشغيل الأخير</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
@@ -171,10 +162,7 @@
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>النوع</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
-    <value>الحجم</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="Ascending" xml:space="preserve">
     <value>تصاعدي</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
@@ -186,14 +174,8 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>لصق</value>
   </data>
-  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
-    <value>فتح في طرفيه</value>
-  </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5Hash:</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
-    <value>مجلد</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>ملف</value>
@@ -221,9 +203,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>قص</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
-    <value>نسخ</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>إعادة تسمية</value>
@@ -255,16 +234,13 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>اسم المجموعة</value>
   </data>
-  <data name="SystemTheme" xml:space="preserve">
-    <value>ويندوز الافتراضي</value>
-  </data>
   <data name="LightTheme" xml:space="preserve">
     <value>فاتح</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
     <value>داكن</value>
   </data>
-  <data name="ApplicationTimeStye" xml:space="preserve">
+  <data name="Application" xml:space="preserve">
     <value>التطبيق</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
@@ -570,14 +546,8 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>دليل العمل:</value>
   </data>
-  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
-    <value>التطبيق</value>
-  </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>ملف</value>
-  </data>
-  <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
-    <value>مجلد</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>رابط موقع</value>
@@ -602,9 +572,6 @@
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
     <value>غير معروف</value>
-  </data>
-  <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
-    <value>افتح موقع السجل</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>واجهت التطبيق مشكلة لم يحلها المطورون بعد</value>
@@ -666,12 +633,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>المزيد</value>
   </data>
-  <data name="ButtonNo.Content" xml:space="preserve">
-    <value>لا</value>
-  </data>
-  <data name="ButtonYes.Content" xml:space="preserve">
-    <value>نعم</value>
-  </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>يحتاج التطبيق إلى إعادة التشغيل من أجل تطبيق إعداد اللغة ، هل ترغب في إعادة تشغيل التطبيق؟</value>
   </data>
@@ -717,7 +678,7 @@
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>قم بإنشاء ملف فارغ</value>
   </data>
-  <data name="AddDialogListFolderHeader" xml:space="preserve">
+  <data name="Folder" xml:space="preserve">
     <value>مجلد</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
@@ -795,9 +756,6 @@
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>الدقة الرأسية</value>
   </data>
-  <data name="PropertyCompressionText" xml:space="preserve">
-    <value>الضغط</value>
-  </data>
   <data name="PropertyColorSpace" xml:space="preserve">
     <value>مساحة اللون:</value>
   </data>
@@ -858,16 +816,13 @@
   <data name="PropertySampleRate" xml:space="preserve">
     <value>معدل العينة</value>
   </data>
-  <data name="PropertyDisplayArtist" xml:space="preserve">
-    <value>فنان</value>
-  </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>مؤدي الألبوم</value>
   </data>
   <data name="PropertyAlbumTitle" xml:space="preserve">
     <value>عنوان الألبوم</value>
   </data>
-  <data name="PropertyArtist" xml:space="preserve">
+  <data name="Artist" xml:space="preserve">
     <value>فنان</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
@@ -990,7 +945,7 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>ترميز معدل البت</value>
   </data>
-  <data name="PropertyCompression" xml:space="preserve">
+  <data name="Compression" xml:space="preserve">
     <value>الضغط</value>
   </data>
   <data name="PropertyFrameWidth" xml:space="preserve">
@@ -1034,9 +989,6 @@
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>ملف</value>
-  </data>
-  <data name="FolderItemAutomation" xml:space="preserve">
-    <value>مجلد</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>عنصر سلة المحذوفات</value>
@@ -1113,7 +1065,7 @@
   <data name="Details" xml:space="preserve">
     <value>التفاصيل</value>
   </data>
-  <data name="UpdateClose" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>لا</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1131,7 +1083,7 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>المسار الأصلي</value>
   </data>
-  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+  <data name="Add" xml:space="preserve">
     <value>إضافة</value>
   </data>
   <data name="AppBarButtonEdit.Label" xml:space="preserve">
@@ -1153,9 +1105,6 @@
     <value>المجلدات</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
-    <value>طريقة عرض التفاصيل</value>
-  </data>
-  <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
     <value>طريقة عرض التفاصيل</value>
   </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
@@ -1182,17 +1131,11 @@
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>عرض البلاط</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
-    <value>‏‏تاريخ الحذف</value>
-  </data>
-  <data name="dateDeletedColumn.Header" xml:space="preserve">
+  <data name="DateDeleted" xml:space="preserve">
     <value>‏‏تاريخ الحذف</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>خيارات إضافية</value>
-  </data>
-  <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
-    <value>تأكيد</value>
   </data>
   <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
     <value>حزم التصدير</value>
@@ -1205,9 +1148,6 @@
   </data>
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
     <value>لا يمكن ترك حقل الإدخال فارغًا</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleItem.Text" xml:space="preserve">
-    <value>إنشاء حزمة</value>
   </data>
   <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
     <value>أدخل اسم الحزمة</value>
@@ -1233,17 +1173,11 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>قم بسحب وإسقاط أي ملف أو مجلد هنا للوصول إليه بسرعة</value>
   </data>
-  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
-    <value>تأكيد</value>
-  </data>
   <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
     <value>أدخل اسم الحزمة</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
     <value>الاسم المطلوب</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
-    <value>تأكيد</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
     <value>إدخال اسم جديد</value>
@@ -1251,17 +1185,14 @@
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>إعادة تسمية {0}</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
+  <data name="CreateBundle" xml:space="preserve">
     <value>إنشاء حزمة</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Confirm" xml:space="preserve">
     <value>تأكيد</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
     <value>‏‏إضافة مجموعة</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>إنشاء حزمة</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
     <value>إعادة تسمية الحزمة</value>
@@ -1311,10 +1242,7 @@
   <data name="DriveTypeUnknown" xml:space="preserve">
     <value>غير معروف</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
-    <value>تاريخ الإنشاء</value>
-  </data>
-  <data name="DateCreatedColumn.Header" xml:space="preserve">
+  <data name="DateCreated" xml:space="preserve">
     <value>تاريخ الإنشاء</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
@@ -1359,9 +1287,6 @@
   <data name="StatusCopyComplete" xml:space="preserve">
     <value>نسخة غير كاملة</value>
   </data>
-  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
-    <value>لا</value>
-  </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>إغلاق علامات التبويب على اليسار</value>
   </data>
@@ -1380,12 +1305,6 @@
   <data name="LibraryLocations.Text" xml:space="preserve">
     <value>المواقع</value>
   </data>
-  <data name="LibraryLocationsButtonAdd.Label" xml:space="preserve">
-    <value>إضافة</value>
-  </data>
-  <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
-    <value>افتراضي</value>
-  </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
     <value>‏‏إزالة</value>
   </data>
@@ -1395,7 +1314,7 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>‏‏السرعة وفق ISO</value>
   </data>
-  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Copy" xml:space="preserve">
     <value>نسخ</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
@@ -1412,15 +1331,6 @@
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>ألم تجد ما تبحث عنه؟</value>
-  </data>
-  <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
-    <value>‏‏تخطي</value>
-  </data>
-  <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
-    <value>‏‏تخطي</value>
-  </data>
-  <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
-    <value>‏‏تخطي</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
     <value>تراجع</value>
@@ -1608,7 +1518,7 @@
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
     <value>أسماء المجموعات أو المستخدمين:</value>
   </data>
-  <data name="SecurityWriteLabel.Text" xml:space="preserve">
+  <data name="Write" xml:space="preserve">
     <value>كتابة</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">
@@ -1617,7 +1527,7 @@
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>المالك</value>
   </data>
-  <data name="DefaultTheme" xml:space="preserve">
+  <data name="Default" xml:space="preserve">
     <value>افتراضي</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
@@ -1641,7 +1551,7 @@
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>خاص</value>
   </data>
-  <data name="SecurityAdvancedAccessLabel.Text" xml:space="preserve">
+  <data name="Access" xml:space="preserve">
     <value>الوصول</value>
   </data>
   <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
@@ -1658,9 +1568,6 @@
   </data>
   <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
     <value>موروث</value>
-  </data>
-  <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
-    <value>لا</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>الأذونات</value>
@@ -1707,9 +1614,6 @@
   <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
     <value>كتابة السمات الموسعة</value>
   </data>
-  <data name="SecurityNoneLabel.Text" xml:space="preserve">
-    <value>بلا</value>
-  </data>
   <data name="SecurityAdvancedInheritedEnable.Text" xml:space="preserve">
     <value>تمكين التوريث</value>
   </data>
@@ -1730,9 +1634,6 @@
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>إصدار الملف</value>
-  </data>
-  <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
-    <value>تصفح</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
     <value>استخراج...</value>
@@ -1755,20 +1656,11 @@
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>‏‏ارتباطات مفيدة</value>
   </data>
-  <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
-    <value>نسخ</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>تثبيت إلى المفضلة</value>
   </data>
   <data name="NavSettingsButton" xml:space="preserve">
     <value>إعدادات</value>
-  </data>
-  <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">
-    <value>نسخ</value>
-  </data>
-  <data name="NavigationToolbarCopy.Label" xml:space="preserve">
-    <value>نسخ</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>التحديثات متوفرة</value>
@@ -1818,14 +1710,11 @@
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
-  <data name="SettingsDateFormat.Title" xml:space="preserve">
+  <data name="DateFormat" xml:space="preserve">
     <value>تنسيق التاريخ.</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>نهج الخصوصية</value>
-  </data>
-  <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
-    <value>بلا</value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>اسم</value>
@@ -1833,20 +1722,8 @@
   <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
     <value>تاريخ التعديل</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateCreated.Text" xml:space="preserve">
-    <value>تاريخ الإنشاء</value>
-  </data>
-  <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
-    <value>الحجم</value>
-  </data>
-  <data name="NavToolbarArrangementOptionDateDeleted.Text" xml:space="preserve">
-    <value>‏‏تاريخ الحذف</value>
-  </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>النوع</value>
-  </data>
-  <data name="NavToolbarSortDirectionOptionAscending.Text" xml:space="preserve">
-    <value>تصاعدي</value>
   </data>
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>تنازلي</value>

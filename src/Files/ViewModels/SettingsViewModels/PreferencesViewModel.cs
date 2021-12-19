@@ -48,7 +48,7 @@ namespace Files.ViewModels.SettingsViewModels
             Terminals = App.TerminalController.Model.Terminals;
             DateFormats = new List<string>
             {
-                "ApplicationTimeStye".GetLocalized(),
+                "Application".GetLocalized(),
                 "SystemTimeStye".GetLocalized()
             };
 

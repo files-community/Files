@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:local="using:Files.ViewModels.Properties"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
@@ -53,17 +54,15 @@
                     DefaultLabelPosition="Right"
                     IsOpen="False">
                     <AppBarButton
-                        x:Uid="LibraryLocationsButtonAdd"
                         Command="{x:Bind AddLocationCommand}"
                         Icon="Add"
-                        Label="Add" />
+                        Label="{helpers:ResourceString Name=Add}" />
                     <AppBarButton
-                        x:Uid="LibraryLocationsButtonSetDefault"
                         Command="{x:Bind SetDefaultLocationCommand}"
                         Icon="Accept"
                         IsEnabled="{x:Bind IsNotDefaultFolderSelected, Mode=OneWay}"
-                        Label="Default"
-                        ToolTipService.ToolTip="Set as default save path" />
+                        Label="{helpers:ResourceString Name=Default}"
+                        ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsDefaultSavePath}" />
                     <AppBarButton
                         x:Uid="LibraryLocationsButtonRemove"
                         Command="{x:Bind RemoveLocationCommand}"

@@ -31,7 +31,7 @@ namespace Files.Helpers
             FallbackColor = (Color)App.Current.Resources["SolidBackgroundFillColorBase"];
         }
 
-        public void SetDefaultTheme()
+        public void SetDefault()
         {
             if (Application.Current.RequestedTheme == ApplicationTheme.Light)
             {
