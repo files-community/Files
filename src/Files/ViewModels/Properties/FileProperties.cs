@@ -70,7 +70,7 @@ namespace Files.ViewModels.Properties
                             || shortcutItem.TargetPath.EndsWith(".msi", StringComparison.OrdinalIgnoreCase)
                             || shortcutItem.TargetPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase));
 
-                    ViewModel.ShortcutItemType = isApplication ? "PropertiesShortcutTypeApplication".GetLocalized() :
+                    ViewModel.ShortcutItemType = isApplication ? "Application".GetLocalized() :
                         Item.IsLinkItem ? "PropertiesShortcutTypeLink".GetLocalized() : "PropertiesShortcutTypeFile".GetLocalized();
                     ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
                     ViewModel.IsShortcutItemPathReadOnly = shortcutItem.IsSymLink;
