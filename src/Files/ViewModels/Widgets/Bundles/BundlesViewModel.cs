@@ -151,9 +151,9 @@ namespace Files.ViewModels.Widgets.Bundles
                         }
                     }
                 },
-                TitleText = "BundlesWidgetCreateBundleDialogTitleText".GetLocalized(),
+                TitleText = "CreateBundle".GetLocalized(),
                 SubtitleText = "BundlesWidgetCreateBundleDialogSubtitleText".GetLocalized(),
-                PrimaryButtonText = "BundlesWidgetCreateBundleDialogPrimaryButtonText".GetLocalized(),
+                PrimaryButtonText = "Confirm".GetLocalized(),
                 CloseButtonText = "Cancel".GetLocalized(),
                 PrimaryButtonAction = (vm, e) =>
                 {

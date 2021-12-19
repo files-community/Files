@@ -235,9 +235,6 @@
                     <ListView.ItemContainerTransitions>
                         <TransitionCollection>
                             <AddDeleteThemeTransition />
-                            <!--<ContentThemeTransition />-->
-                            <ReorderThemeTransition />
-                            <EntranceThemeTransition IsStaggeringEnabled="False" />
                         </TransitionCollection>
                     </ListView.ItemContainerTransitions>
                     <ListView.Header>
@@ -400,11 +397,10 @@
 
                             <uc:DataGridHeader
                                 x:Name="DateDeletedHeader"
-                                x:Uid="dateDeletedColumn"
                                 Grid.Column="8"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="DateDeleted"
-                                Header="Date deleted"
+                                Header="{helpers:ResourceString Name=DateDeleted}"
                                 Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
@@ -434,11 +430,10 @@
 
                             <uc:DataGridHeader
                                 x:Name="DateCreatedHeader"
-                                x:Uid="dateCreatedColumn"
                                 Grid.Column="12"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="DateCreated"
-                                Header="Date created"
+                                Header="{helpers:ResourceString Name=DateCreated}"
                                 Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
@@ -468,11 +463,10 @@
 
                             <uc:DataGridHeader
                                 x:Name="ItemSizeHeader"
-                                x:Uid="sizeColumn"
                                 Grid.Column="16"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="Size"
-                                Header="Size"
+                                Header="{helpers:ResourceString Name=Size}"
                                 Visibility="{x:Bind ColumnsViewModel.SizeColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
@@ -742,9 +736,6 @@
                                     <Setter.Value>
                                         <TransitionCollection>
                                             <AddDeleteThemeTransition />
-                                            <ContentThemeTransition />
-                                            <ReorderThemeTransition />
-                                            <EntranceThemeTransition IsStaggeringEnabled="False" />
                                         </TransitionCollection>
                                     </Setter.Value>
                                 </Setter>
@@ -911,6 +902,11 @@
                     HorizontalAlignment="Stretch"
                     ItemsSource="{x:Bind CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
                     SelectionMode="None">
+                    <ListView.ItemContainerTransitions>
+                        <TransitionCollection>
+                            <ContentThemeTransition />
+                        </TransitionCollection>
+                    </ListView.ItemContainerTransitions>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="ICollectionViewGroup">
                             <StackPanel

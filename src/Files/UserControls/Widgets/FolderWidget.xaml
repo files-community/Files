@@ -10,24 +10,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     mc:Ignorable="d">
-    <StackPanel Spacing="12">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-
-            <TextBlock
-                x:Uid="FolderWidgetDescription"
-                HorizontalAlignment="Left"
-                FontFamily="Segoe UI"
-                FontSize="14"
-                FontWeight="Medium"
-                Opacity=".8"
-                Text="Folders"
-                TextTrimming="CharacterEllipsis" />
-        </Grid>
-
+    <Grid>
         <muxc:ItemsRepeater
             x:Name="CardsList"
             Grid.Row="0"
@@ -141,5 +124,5 @@
                 </DataTemplate>
             </muxc:ItemsRepeater.ItemTemplate>
         </muxc:ItemsRepeater>
-    </StackPanel>
+    </Grid>
 </UserControl>

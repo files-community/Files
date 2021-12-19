@@ -45,10 +45,9 @@
                     Tag="1"
                     Text="Replace existing" />
                 <MenuFlyoutItem
-                    x:Uid="ConflictingItemsDialogOptionSkip"
                     Click="MenuFlyoutItem_Click"
                     Tag="2"
-                    Text="Skip" />
+                    Text="{helpers:ResourceString Name=Skip}" />
                 <MenuFlyoutSeparator x:Name="ApplyToAllSeparator" />
                 <MenuFlyoutItem
                     x:Name="ApplyToAllOption"
@@ -215,9 +214,8 @@
                                                 Command="{Binding ReplaceExistingCommand}"
                                                 Text="Replace" />
                                             <MenuFlyoutItem
-                                                x:Uid="ConflictingItemsDialogItemOptionSkip"
                                                 Command="{Binding SkipCommand}"
-                                                Text="Skip" />
+                                                Text="{helpers:ResourceString Name=Skip}" />
                                         </MenuFlyout>
                                     </muxc:SplitButton.Flyout>
                                 </muxc:SplitButton>

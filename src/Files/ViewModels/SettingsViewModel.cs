@@ -164,7 +164,7 @@ namespace Files.ViewModels
         {
             get => Newtonsoft.Json.JsonConvert.DeserializeObject<AppTheme>(Get(System.Text.Json.JsonSerializer.Serialize(new AppTheme()
             {
-                Name = "DefaultTheme".GetLocalized()
+                Name = "Default".GetLocalized()
             })));
             set => Set(Newtonsoft.Json.JsonConvert.SerializeObject(value));
         }

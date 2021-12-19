@@ -403,7 +403,7 @@ namespace Files.Filesystem
             }
             else
             {
-                suffix = PrimaryItemAttribute == StorageItemTypes.File ? "FileItemAutomation".GetLocalized() : "FolderItemAutomation".GetLocalized();
+                suffix = PrimaryItemAttribute == StorageItemTypes.File ? "Folder".GetLocalized() : "FolderItemAutomation".GetLocalized();
             }
 
             return $"{ItemName}, {suffix}";

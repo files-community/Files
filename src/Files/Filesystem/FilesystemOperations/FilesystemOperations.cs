@@ -210,7 +210,7 @@ namespace Files.Filesystem
                     {
                         Title = "ErrorDialogThisActionCannotBeDone".GetLocalized(),
                         Content = $"{"ErrorDialogTheDestinationFolder".GetLocalized()} ({destinationName}) {"ErrorDialogIsASubfolder".GetLocalized()} (sourceName)",
-                        //PrimaryButtonText = "ErrorDialogSkip".GetLocalized(),
+                        //PrimaryButtonText = "Skip".GetLocalized(),
                         CloseButtonText = "Cancel".GetLocalized()
                     };
 
@@ -426,7 +426,7 @@ namespace Files.Filesystem
                     {
                         Title = "ErrorDialogThisActionCannotBeDone".GetLocalized(),
                         Content = "ErrorDialogTheDestinationFolder".GetLocalized() + " (" + destinationName + ") " + "ErrorDialogIsASubfolder".GetLocalized() + " (" + sourceName + ")",
-                        //PrimaryButtonText = "ErrorDialogSkip".GetLocalized(),
+                        //PrimaryButtonText = "Skip".GetLocalized(),
                         CloseButtonText = "Cancel".GetLocalized()
                     };
 

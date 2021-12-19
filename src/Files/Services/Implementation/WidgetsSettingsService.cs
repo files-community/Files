@@ -47,5 +47,29 @@ namespace Files.Services.Implementation
             get => Get(false);
             set => Set(value);
         }
+
+        public bool FoldersWidgetExpanded
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public bool RecentFilesWidgetExpanded
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public bool DrivesWidgetExpanded
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public bool BundlesWidgetExpanded
+        {
+            get => Get(true);
+            set => Set(value);
+        }
     }
 }
