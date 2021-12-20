@@ -814,7 +814,7 @@ namespace Files.ViewModels
                                 item.FileImage.DecodePixelType = DecodePixelType.Logical;
                                 item.FileImage.DecodePixelWidth = (int)thumbnailSize;
                                 await item.FileImage.SetSourceAsync(Thumbnail);
-                                if (!string.IsNullOrEmpty(item.FileExtension) && 
+                                if (!string.IsNullOrEmpty(item.FileExtension) &&
                                     !item.IsShortcutItem && !item.IsExecutable &&
                                     !ImagePreviewViewModel.Extensions.Contains(item.FileExtension))
                                 {
@@ -1400,7 +1400,7 @@ namespace Files.ViewModels
                 client.Host = FtpHelpers.GetFtpHost(path);
                 client.Port = FtpHelpers.GetFtpPort(path);
                 client.Credentials = FtpManager.Credentials.Get(client.Host, FtpManager.Anonymous);
-                
+
                 static async Task<FtpProfile> WrappedAutoConnectFtpAsync(FtpClient client)
                 {
                     try
@@ -1411,7 +1411,7 @@ namespace Files.ViewModels
                     {
                         return null;
                     }
-                    
+
                     throw new InvalidOperationException();
                 }
 
@@ -2155,7 +2155,7 @@ namespace Files.ViewModels
                             if (result.Value.Size != null)
                             {
                                 item.FileSizeBytes = result.Value.Size.Value;
-                                item.FileSize = ByteSizeLib.ByteSize.FromBytes(item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
+                                item.FileSize = item.FileSizeBytes.ToSizeString();
                             }
                         }
                     }

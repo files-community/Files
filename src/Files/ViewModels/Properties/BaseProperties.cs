@@ -1,5 +1,4 @@
-﻿using ByteSizeLib;
-using Files.Enums;
+﻿using Files.Enums;
 using Files.Extensions;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -86,7 +85,7 @@ namespace Files.ViewModels.Properties
                         await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                         {
                             ViewModel.ItemSizeBytes = size;
-                            ViewModel.ItemSize = ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
+                            ViewModel.ItemSize = size.ToSizeString();
                             SetItemsCountString();
                         });
                     }

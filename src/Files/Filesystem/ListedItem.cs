@@ -1,5 +1,4 @@
-﻿using ByteSizeLib;
-using Files.Enums;
+﻿using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.Cloud;
 using Files.Filesystem.StorageItems;
@@ -432,7 +431,7 @@ namespace Files.Filesystem
         public string Key { get; set; }
 
         /// <summary>
-        /// Manually check if a folder path contains child items, 
+        /// Manually check if a folder path contains child items,
         /// updating the ContainsFilesOrFolders property from its default value of true
         /// </summary>
         public void UpdateContainsFilesFolders()
@@ -500,7 +499,7 @@ namespace Files.Filesystem
             FileSizeBytes = item.Size;
             ContainsFilesOrFolders = !isFile;
             FileImage = null;
-            FileSize = ByteSize.FromBytes(FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
+            FileSize = FileSizeBytes.ToSizeString();
             Opacity = 1;
             IsHiddenItem = false;
         }

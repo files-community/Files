@@ -187,8 +187,8 @@ namespace Files.DataModels.NavigationControlItems
 
                     SpaceText = string.Format(
                         "DriveFreeSpaceAndCapacity".GetLocalized(),
-                        FreeSpace.ToBinaryString().ConvertSizeAbbreviation(),
-                        MaxSpace.ToBinaryString().ConvertSizeAbbreviation());
+                        FreeSpace.ToSizeString(),
+                        MaxSpace.ToSizeString());
 
                     if (FreeSpace.Bytes > 0 && MaxSpace.Bytes > 0) // Make sure we don't divide by 0
                     {

@@ -1,5 +1,4 @@
-﻿using ByteSizeLib;
-using Files.Extensions;
+﻿using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp;
@@ -94,7 +93,7 @@ namespace Files.ViewModels.Properties
             ViewModel.ItemSizeProgressVisibility = Visibility.Collapsed;
 
             totalSize = filesSize + foldersSize;
-            ViewModel.ItemSize = $"{ByteSize.FromBytes(totalSize).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(totalSize).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
+            ViewModel.ItemSize = totalSize.ToLongSizeString();
             SetItemsCountString();
         }
 

@@ -1,5 +1,4 @@
-﻿using ByteSizeLib;
-using Files.Common;
+﻿using Files.Common;
 using Files.Extensions;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
@@ -203,7 +202,7 @@ namespace Files.Filesystem.StorageEnumerators
             }
 
             long itemSizeBytes = findData.GetSize();
-            var itemSize = ByteSize.FromBytes(itemSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
+            var itemSize = itemSizeBytes.ToSizeString();
             string itemType = "ItemTypeFile".GetLocalized();
             string itemFileExtension = null;
 
