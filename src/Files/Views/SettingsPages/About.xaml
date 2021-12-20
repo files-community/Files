@@ -19,9 +19,6 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Page.DataContext>
-        <settingsviewmodels:AboutViewModel />
-    </Page.DataContext>
 
     <Grid>
         <StackPanel
@@ -41,15 +38,15 @@
                 Text="{helpers:ResourceString Name=About}" />
 
             <local:SettingsBlockControl
-                Title="{Binding AppName}"
+                Title="{x:Bind ViewModel.AppName}"
                 HorizontalAlignment="Stretch"
-                Description="{Binding Version}">
+                Description="{x:Bind ViewModel.Version}">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE946;" />
                 </local:SettingsBlockControl.Icon>
                 <Button
                     x:Name="CopyVersionInfo"
-                    Command="{Binding CopyVersionInfoCommand}"
+                    Command="{x:Bind ViewModel.CopyVersionInfoCommand}"
                     Content="{helpers:ResourceString Name=Copy}" />
             </local:SettingsBlockControl>
 
@@ -61,7 +58,10 @@
                     <StackPanel>
 
                         <!--  Export  -->
-                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=ExportSettings}">
+                        <local:SettingsBlockControl
+                            Title="{helpers:ResourceString Name=ExportSettings}"
+                            ButtonCommand="{x:Bind ViewModel.ExportSettingsCommand}"
+                            IsClickable="True">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xEDE1;" />
                             </local:SettingsBlockControl.Icon>
@@ -69,7 +69,7 @@
                             <Button
                                 Padding="8"
                                 AutomationProperties.Name="{helpers:ResourceString Name=ExportSettings}"
-                                Command="{Binding ExportSettingsCommand}"
+                                Command="{x:Bind ViewModel.ExportSettingsCommand}"
                                 ToolTipService.ToolTip="{helpers:ResourceString Name=ExportSettings}">
                                 <FontIcon
                                     FontSize="14"
@@ -79,7 +79,10 @@
                         </local:SettingsBlockControl>
 
                         <!--  Import  -->
-                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=ImportSettings}">
+                        <local:SettingsBlockControl
+                            Title="{helpers:ResourceString Name=ImportSettings}"
+                            ButtonCommand="{x:Bind ViewModel.ImportSettingsCommand}"
+                            IsClickable="True">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xE8B5;" />
                             </local:SettingsBlockControl.Icon>
@@ -87,7 +90,7 @@
                             <Button
                                 Padding="8"
                                 AutomationProperties.Name="{helpers:ResourceString Name=ImportSettings}"
-                                Command="{Binding ImportSettingsCommand}"
+                                Command="{x:Bind ViewModel.ImportSettingsCommand}"
                                 ToolTipService.ToolTip="{helpers:ResourceString Name=ImportSettings}">
                                 <FontIcon
                                     FontSize="14"
@@ -217,7 +220,7 @@
                         </GridViewItem>
                         <i:Interaction.Behaviors>
                             <ic:EventTriggerBehavior EventName="ItemClick">
-                                <ic:InvokeCommandAction Command="{Binding ClickAboutFeedbackItemCommand}" />
+                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.ClickAboutFeedbackItemCommand}" />
                             </ic:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
                     </GridView>
@@ -241,7 +244,11 @@
                 </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=OpenLogLocation}" HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl
+                Title="{helpers:ResourceString Name=OpenLogLocation}"
+                HorizontalAlignment="Stretch"
+                ButtonCommand="{x:Bind ViewModel.OpenLogLocationCommand}"
+                IsClickable="True">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE838;" />
                 </local:SettingsBlockControl.Icon>
@@ -250,7 +257,7 @@
                     x:Name="OpenLogLocationButton"
                     Padding="8"
                     AutomationProperties.Name="{helpers:ResourceString Name=OpenLogLocation}"
-                    Command="{Binding OpenLogLocationCommand}"
+                    Command="{x:Bind ViewModel.OpenLogLocationCommand}"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=OpenLogLocation}">
                     <Button.Content>
                         <FontIcon
