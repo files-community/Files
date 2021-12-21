@@ -91,24 +91,22 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <local:SettingsBlockControl.ExpandableContent>
-                    <local:SettingsBlockControl x:Uid="SettingsPreferencesEditTerminalApplicationsExpander" Title="Edit terminal applications">
+                    <local:SettingsBlockControl
+                        x:Uid="SettingsPreferencesEditTerminalApplicationsExpander"
+                        Title="Edit terminal applications"
+                        ButtonCommand="{Binding EditTerminalApplicationsCommand}"
+                        IsClickable="True">
                         <local:SettingsBlockControl.Icon>
                             <FontIcon
                                 FontSize="14"
                                 Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                                 Glyph="&#xE104;" />
                         </local:SettingsBlockControl.Icon>
-                        <HyperlinkButton
-                            x:Uid="SettingsPreferencesEditTerminalApplications"
-                            Height="32"
-                            Padding="8,4,8,4"
-                            AutomationProperties.Name="Edit terminal applications"
-                            Command="{Binding EditTerminalApplicationsCommand}">
-                            <FontIcon
-                                FontSize="14"
-                                Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                Glyph="&#xE2B4;" />
-                        </HyperlinkButton>
+
+                        <FontIcon
+                            FontSize="14"
+                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                            Glyph="&#xE2B4;" />
                     </local:SettingsBlockControl>
                 </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
