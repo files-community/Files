@@ -66,16 +66,10 @@
                                 <FontIcon Glyph="&#xEDE1;" />
                             </local:SettingsBlockControl.Icon>
 
-                            <Button
-                                Padding="8"
-                                AutomationProperties.Name="{helpers:ResourceString Name=ExportSettings}"
-                                Command="{x:Bind ViewModel.ExportSettingsCommand}"
-                                ToolTipService.ToolTip="{helpers:ResourceString Name=ExportSettings}">
-                                <FontIcon
-                                    FontSize="14"
-                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                    Glyph="&#xE2B4;" />
-                            </Button>
+                            <FontIcon
+                                FontSize="14"
+                                Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                Glyph="&#xE2B4;" />
                         </local:SettingsBlockControl>
 
                         <!--  Import  -->
@@ -87,16 +81,10 @@
                                 <FontIcon Glyph="&#xE8B5;" />
                             </local:SettingsBlockControl.Icon>
 
-                            <Button
-                                Padding="8"
-                                AutomationProperties.Name="{helpers:ResourceString Name=ImportSettings}"
-                                Command="{x:Bind ViewModel.ImportSettingsCommand}"
-                                ToolTipService.ToolTip="{helpers:ResourceString Name=ImportSettings}">
-                                <FontIcon
-                                    FontSize="14"
-                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                    Glyph="&#xE2B4;" />
-                            </Button>
+                            <FontIcon
+                                FontSize="14"
+                                Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                Glyph="&#xE2B4;" />
                         </local:SettingsBlockControl>
                     </StackPanel>
                 </local:SettingsBlockControl.ExpandableContent>
@@ -253,19 +241,10 @@
                     <FontIcon Glyph="&#xE838;" />
                 </local:SettingsBlockControl.Icon>
 
-                <Button
-                    x:Name="OpenLogLocationButton"
-                    Padding="8"
-                    AutomationProperties.Name="{helpers:ResourceString Name=OpenLogLocation}"
-                    Command="{x:Bind ViewModel.OpenLogLocationCommand}"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=OpenLogLocation}">
-                    <Button.Content>
-                        <FontIcon
-                            FontSize="14"
-                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                            Glyph="&#xE2B4;" />
-                    </Button.Content>
-                </Button>
+                <FontIcon
+                    FontSize="14"
+                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                    Glyph="&#xE2B4;" />
             </local:SettingsBlockControl>
 
             <local:SettingsBlockControl Title="{helpers:ResourceString Name=ThirdPartyLicenses}" HorizontalAlignment="Stretch">
