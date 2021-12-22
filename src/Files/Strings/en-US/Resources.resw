@@ -1158,7 +1158,7 @@
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Video</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>Document</value>
   </data>
   <data name="Address" xml:space="preserve">
@@ -1383,12 +1383,6 @@
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
     <value>Input field cannot be empty!</value>
   </data>
-  <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
-    <value>Enter Bundle name</value>
-  </data>
-  <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
-    <value>Enter Bundle name</value>
-  </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
     <value>Open in new tab</value>
   </data>
@@ -1407,7 +1401,7 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Drag and drop any file or folder here to quickly access it</value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>Enter Bundle name</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">

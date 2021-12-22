@@ -1005,7 +1005,7 @@
   <data name="PropertyOrientation" xml:space="preserve">
     <value>Orientation</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>Document</value>
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
@@ -1200,7 +1200,7 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Glissez et déposez n'importe quel fichier ou dossier ici pour y accéder rapidement</value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>Entrer le nom du bundle</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">

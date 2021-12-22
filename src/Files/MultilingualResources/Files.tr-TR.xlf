@@ -1338,7 +1338,7 @@
           <source>Orientation</source>
           <target state="translated">Doğrultu</target>
         </trans-unit>
-        <trans-unit id="PropertySectionDocument" translate="yes" xml:space="preserve">
+        <trans-unit id="Document" translate="yes" xml:space="preserve">
           <source>Document</source>
           <target state="translated">Belge</target>
         </trans-unit>
@@ -1599,7 +1599,7 @@
           <source>Drag and drop any file or folder here to quickly access it</source>
           <target state="translated">Hızlı erişmek istediğiniz dosya ya da klasörü sürükleyip buraya bırakın</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="EnterBundleName" translate="yes" xml:space="preserve">
           <source>Enter Bundle name</source>
           <target state="translated">Paket adını yazın</target>
         </trans-unit>

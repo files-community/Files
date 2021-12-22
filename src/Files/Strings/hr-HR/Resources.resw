@@ -1074,7 +1074,7 @@
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Videozapis</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>Dokument</value>
   </data>
   <data name="Address" xml:space="preserve">
@@ -1320,7 +1320,7 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Povucite i ispustite bilo koju datoteku ili mapu ovdje da biste im brzo pristupili</value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>Unesite naziv paketa</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">

@@ -1059,7 +1059,7 @@
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>ვიდეო</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>დოკუმენტი</value>
   </data>
   <data name="Address" xml:space="preserve">
@@ -1305,7 +1305,7 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>გადაიტანეთ და გადმოაგდეთ აქ ნებისმიერი ფაილი ან საქაღალდე მასზე სწრაფად შესასვლელად</value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>შეიყვანეთ შეკვრის სახელი</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">

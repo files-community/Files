@@ -1005,7 +1005,7 @@
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Videó</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>Dokumentum</value>
   </data>
   <data name="Address" xml:space="preserve">
@@ -1209,7 +1209,7 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Húzza ide a fájlokat és mappákat a gyors elérésükhöz</value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>Adja meg a munkaterület nevét</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">

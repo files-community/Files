@@ -960,7 +960,7 @@
   <data name="PropertyOrientation" xml:space="preserve">
     <value>Afdrukstand</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>Document</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1200,7 +1200,7 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Bestanden en mappen slepen en hier neerzetten om er later snel toegang tot te krijgen</value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>Voer bundelnaam in</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">

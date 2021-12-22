@@ -1348,7 +1348,7 @@
           <source>Orientation</source>
           <target state="translated">Орієнтація</target>
         </trans-unit>
-        <trans-unit id="PropertySectionDocument" translate="yes" xml:space="preserve">
+        <trans-unit id="Document" translate="yes" xml:space="preserve">
           <source>Document</source>
           <target state="translated">Документ</target>
         </trans-unit>
@@ -1616,7 +1616,7 @@
           <source>Drag and drop any file or folder here to quickly access it</source>
           <target state="translated">Перетягніть сюди будь-який файл або папку, щоб швидко отримати до них доступ</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="EnterBundleName" translate="yes" xml:space="preserve">
           <source>Enter Bundle name</source>
           <target state="translated">Введіть ім'я Колекції папок</target>
         </trans-unit>

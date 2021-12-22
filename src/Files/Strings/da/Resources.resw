@@ -993,7 +993,7 @@
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Video</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>Dokument</value>
   </data>
   <data name="Address" xml:space="preserve">

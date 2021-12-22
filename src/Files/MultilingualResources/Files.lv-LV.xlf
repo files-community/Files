@@ -1326,7 +1326,7 @@
           <source>Video</source>
           <target state="translated">Video</target>
         </trans-unit>
-        <trans-unit id="PropertySectionDocument" translate="yes" xml:space="preserve">
+        <trans-unit id="Document" translate="yes" xml:space="preserve">
           <source>Document</source>
           <target state="translated">Dokuments</target>
         </trans-unit>
@@ -1587,7 +1587,7 @@
           <source>Drag and drop any file or folder here to quickly access it</source>
           <target state="translated">Velciet un nometiet failus vai mapes šeit</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="EnterBundleName" translate="yes" xml:space="preserve">
           <source>Enter Bundle name</source>
           <target state="translated">Ievadīt saišķa nosaukumu</target>
         </trans-unit>

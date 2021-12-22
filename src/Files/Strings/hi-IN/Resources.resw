@@ -798,7 +798,7 @@
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>वीडियो</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>दस्तावेज़</value>
   </data>
   <data name="Address" xml:space="preserve">

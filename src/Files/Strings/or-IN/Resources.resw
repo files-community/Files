@@ -741,7 +741,7 @@
   <data name="PropertyOrientation" xml:space="preserve">
     <value>ଓରିଏଣ୍ଟେସନ୍</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>ଡକ୍ୟୁମେଣ୍ଟ୍</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">

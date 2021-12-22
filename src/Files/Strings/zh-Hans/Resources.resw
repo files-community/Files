@@ -1008,7 +1008,7 @@
   <data name="PropertyOrientation" xml:space="preserve">
     <value>方向</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>文档</value>
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
@@ -1200,7 +1200,7 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>拖拽任何文件或文件夹到此以快速访问</value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>输入包的名称</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">

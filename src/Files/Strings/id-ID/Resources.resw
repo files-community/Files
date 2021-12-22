@@ -1011,7 +1011,7 @@
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Video</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>Dokumen</value>
   </data>
   <data name="Address" xml:space="preserve">
@@ -1230,7 +1230,7 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Seret dan lepas file atau folder apa pun di sini untuk mengaksesnya dengan cepat </value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>Masukkan nama Bundel</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">

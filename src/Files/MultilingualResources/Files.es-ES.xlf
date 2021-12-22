@@ -1334,7 +1334,7 @@
           <source>Orientation</source>
           <target state="translated">Orientación</target>
         </trans-unit>
-        <trans-unit id="PropertySectionDocument" translate="yes" xml:space="preserve">
+        <trans-unit id="Document" translate="yes" xml:space="preserve">
           <source>Document</source>
           <target state="translated">Documento</target>
         </trans-unit>
@@ -1591,7 +1591,7 @@
           <source>Drag and drop any file or folder here to quickly access it</source>
           <target state="translated">Arrastra y suelta cualquier archivo o carpeta aquí para acceder rápidamente a él</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="EnterBundleName" translate="yes" xml:space="preserve">
           <source>Enter Bundle name</source>
           <target state="translated">Introduce un nombre</target>
         </trans-unit>

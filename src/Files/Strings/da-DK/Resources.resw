@@ -993,7 +993,7 @@
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Video</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>Dokument</value>
   </data>
   <data name="Address" xml:space="preserve">
@@ -1200,7 +1200,7 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Træk og slip enhver fil eller mappe her for at få hurtig adgang til den</value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>Indtast navnet på samlingen</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">

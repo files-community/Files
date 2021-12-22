@@ -999,7 +999,7 @@
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>비디오</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>문서</value>
   </data>
   <data name="Address" xml:space="preserve">
@@ -1194,7 +1194,7 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>파일이나 폴더를 여기에 끌어다 놓아 빠르게 접근하세요</value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>보관함 이름 입력</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">

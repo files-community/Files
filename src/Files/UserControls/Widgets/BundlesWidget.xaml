@@ -200,9 +200,7 @@
                                                 <MenuFlyoutSubItem.Icon>
                                                     <FontIcon Glyph="&#xE710;" />
                                                 </MenuFlyoutSubItem.Icon>
-                                                <MenuFlyoutItem
-                                                    Command="{x:Bind AddFileCommand}"
-                                                    Text="{helpers:ResourceString Name=AddFile}">
+                                                <MenuFlyoutItem Command="{x:Bind AddFileCommand}" Text="{helpers:ResourceString Name=AddFile}">
                                                     <MenuFlyoutItem.Icon>
                                                         <FontIcon Glyph="&#xE7C3;" />
                                                     </MenuFlyoutItem.Icon>
@@ -450,11 +448,10 @@
 
                                 <!--  Input TextBox  -->
                                 <TextBox
-                                    x:Uid="BundlesWidgetCreateBundleInput"
                                     Grid.Row="1"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
-                                    PlaceholderText="Enter Bundle name"
+                                    PlaceholderText="{helpers:ResourceString Name=EnterBundleName}"
                                     Text="{x:Bind ViewModel.BundleNameTextInput, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                     <i:Interaction.Behaviors>
                                         <!--  No need to specify CommandParameter - `e` is passed by default  -->

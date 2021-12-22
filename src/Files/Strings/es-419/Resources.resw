@@ -1011,7 +1011,7 @@
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Vídeo</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>Documento</value>
   </data>
   <data name="Address" xml:space="preserve">
@@ -1233,7 +1233,7 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Arrastre y suelte cualquier archivo o carpeta aquí para acceder rápidamente a él</value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>Introduzca un nombre</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">

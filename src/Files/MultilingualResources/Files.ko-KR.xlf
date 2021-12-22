@@ -1322,7 +1322,7 @@
           <source>Video</source>
           <target state="translated">비디오</target>
         </trans-unit>
-        <trans-unit id="PropertySectionDocument" translate="yes" xml:space="preserve">
+        <trans-unit id="Document" translate="yes" xml:space="preserve">
           <source>Document</source>
           <target state="translated">문서</target>
         </trans-unit>
@@ -1583,7 +1583,7 @@
           <source>Drag and drop any file or folder here to quickly access it</source>
           <target state="translated">파일이나 폴더를 여기에 끌어다 놓아 빠르게 접근하세요</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="EnterBundleName" translate="yes" xml:space="preserve">
           <source>Enter Bundle name</source>
           <target state="translated">보관함 이름 입력</target>
         </trans-unit>

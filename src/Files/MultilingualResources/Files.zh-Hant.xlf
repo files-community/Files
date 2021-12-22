@@ -1330,7 +1330,7 @@
           <source>Video</source>
           <target state="translated" state-qualifier="tm-suggestion">影音</target>
         </trans-unit>
-        <trans-unit id="PropertySectionDocument" translate="yes" xml:space="preserve">
+        <trans-unit id="Document" translate="yes" xml:space="preserve">
           <source>Document</source>
           <target state="translated" state-qualifier="tm-suggestion">文件</target>
         </trans-unit>
@@ -1603,7 +1603,7 @@
           <source>Drag and drop any file or folder here to quickly access it</source>
           <target state="translated">將檔案或資料夾拖曳至此處以方便您進行存取</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="EnterBundleName" translate="yes" xml:space="preserve">
           <source>Enter Bundle name</source>
           <target state="translated">輸入名稱</target>
         </trans-unit>

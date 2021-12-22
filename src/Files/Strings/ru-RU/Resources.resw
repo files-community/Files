@@ -981,7 +981,7 @@
   <data name="PropertyOrientation" xml:space="preserve">
     <value>Ориентация</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>Документ</value>
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
@@ -1173,7 +1173,7 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Перетащите сюда любой файл или папку, чтобы быстро получить к ним доступ</value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>Введите название Коллекции папок</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">

@@ -1002,7 +1002,7 @@
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Video</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>Dokuments</value>
   </data>
   <data name="Address" xml:space="preserve">
@@ -1197,7 +1197,7 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Velciet un nometiet failus vai mapes šeit</value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>Ievadīt saišķa nosaukumu</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">

@@ -981,7 +981,7 @@
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>فيديو</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>مستند</value>
   </data>
   <data name="Address" xml:space="preserve">
@@ -1173,7 +1173,7 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>قم بسحب وإسقاط أي ملف أو مجلد هنا للوصول إليه بسرعة</value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>أدخل اسم الحزمة</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">

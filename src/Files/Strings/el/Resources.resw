@@ -1062,7 +1062,7 @@
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Βίντεο</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>Έγγραφο</value>
   </data>
   <data name="Address" xml:space="preserve">
@@ -1308,7 +1308,7 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Σύρετε οποιοδήποτε αρχείο ή φάκελο εδώ για γρήγορη πρόσβαση σε αυτό</value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>Εισάγετε το όνομα δέσμης</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">

@@ -1078,7 +1078,7 @@
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Video</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>Dokument</value>
   </data>
   <data name="Address" xml:space="preserve">
@@ -1330,7 +1330,7 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Sleep en laat val enige lêer of vouer hier om vinnig toegang daartoe te verkry</value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>Voer Bondelnaam in</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">

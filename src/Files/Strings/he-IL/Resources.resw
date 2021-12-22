@@ -801,7 +801,7 @@
   <data name="PropertyOrientation" xml:space="preserve">
     <value>כיוון</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>מסמך</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
