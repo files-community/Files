@@ -162,15 +162,15 @@
           <source>Preferences</source>
           <target state="translated">Preferências</target>
         </trans-unit>
-        <trans-unit id="SidebarDesktop" translate="yes" xml:space="preserve">
+        <trans-unit id="Desktop" translate="yes" xml:space="preserve">
           <source>Desktop</source>
           <target state="translated">Ambiente de Trabalho</target>
         </trans-unit>
-        <trans-unit id="SidebarDocuments" translate="yes" xml:space="preserve">
+        <trans-unit id="Documents" translate="yes" xml:space="preserve">
           <source>Documents</source>
           <target state="translated">Documentos</target>
         </trans-unit>
-        <trans-unit id="SidebarDownloads" translate="yes" xml:space="preserve">
+        <trans-unit id="Downloads" translate="yes" xml:space="preserve">
           <source>Downloads</source>
           <target state="translated">Transferências</target>
         </trans-unit>
@@ -194,7 +194,7 @@
           <source>Sort by</source>
           <target state="translated">Ordenar por</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByName.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Name" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="translated">Nome</target>
         </trans-unit>
@@ -234,7 +234,7 @@
           <source>Extract</source>
           <target state="translated">Extrair</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenItem.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Open" translate="yes" xml:space="preserve">
           <source>Open</source>
           <target state="translated">Abrir</target>
         </trans-unit>
@@ -1122,7 +1122,7 @@
           <source>Composer</source>
           <target state="translated">Compositor</target>
         </trans-unit>
-        <trans-unit id="PropertyConductor" translate="yes" xml:space="preserve">
+        <trans-unit id="Conductor" translate="yes" xml:space="preserve">
           <source>Conductor</source>
           <target state="translated">Condutor</target>
         </trans-unit>
@@ -1427,7 +1427,7 @@
           <source>File</source>
           <target state="translated">Ficheiro</target>
         </trans-unit>
-        <trans-unit id="AddDialogListFileHeader" translate="yes" xml:space="preserve">
+        <trans-unit id="File" translate="yes" xml:space="preserve">
           <source>File</source>
           <target state="translated">Ficheiro</target>
         </trans-unit>
@@ -1451,11 +1451,11 @@
           <source>Add</source>
           <target state="translated">Adicionar</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonEdit.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Edit" translate="yes" xml:space="preserve">
           <source>Edit</source>
           <target state="translated">Editar</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonRemove.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Remove" translate="yes" xml:space="preserve">
           <source>Remove</source>
           <target state="translated">Remover</target>
         </trans-unit>
@@ -1547,7 +1547,7 @@
           <source>Rename "{0}"</source>
           <target state="translated">Mudar o nome de "{0}"</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetAddBundleInputPlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="DesiredName" translate="yes" xml:space="preserve">
           <source>Desired name</source>
           <target state="translated">Nome desejado</target>
         </trans-unit>
@@ -1783,7 +1783,7 @@
           <source>Target</source>
           <target state="translated">Destino</target>
         </trans-unit>
-        <trans-unit id="PropertyItemArguments" translate="yes" xml:space="preserve">
+        <trans-unit id="Arguments" translate="yes" xml:space="preserve">
           <source>Arguments</source>
           <target state="translated">Argumentos</target>
         </trans-unit>
@@ -2147,7 +2147,7 @@
           <source>Tiny</source>
           <target state="translated">Muito pequeno</target>
         </trans-unit>
-        <trans-unit id="ItemTimeText_Today" translate="yes" xml:space="preserve">
+        <trans-unit id="Today" translate="yes" xml:space="preserve">
           <source>Today</source>
           <target state="translated">Hoje</target>
         </trans-unit>
@@ -2905,7 +2905,7 @@
           <source>Update</source>
           <target state="translated">Atualizar</target>
         </trans-unit>
-        <trans-unit id="BundleOptionsFlyoutAddFileMenuItem.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AddFile" translate="yes" xml:space="preserve">
           <source>Add file</source>
           <target state="translated">Adicionar ficheiro</target>
         </trans-unit>

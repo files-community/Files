@@ -159,13 +159,13 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Tùy chọn</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>Màn hình nền</value>
   </data>
-  <data name="SidebarDocuments" xml:space="preserve">
+  <data name="Documents" xml:space="preserve">
     <value>Tài liệu</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>Tải xuống</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
@@ -186,7 +186,7 @@
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sắp xếp theo</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
@@ -222,7 +222,7 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Trích xuất</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>Mở</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
@@ -723,7 +723,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Chọn một loại cho mục mới này ở bên dưới</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>Tệp</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
@@ -897,7 +897,7 @@
   <data name="PropertyComposer" xml:space="preserve">
     <value>Người sáng tác</value>
   </data>
-  <data name="PropertyConductor" xml:space="preserve">
+  <data name="Conductor" xml:space="preserve">
     <value>Người chỉ huy</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
@@ -1176,10 +1176,10 @@
   <data name="Add" xml:space="preserve">
     <value>Thêm</value>
   </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>Chỉnh sửa</value>
   </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+  <data name="Remove" xml:space="preserve">
     <value>Loại bỏ</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
@@ -1308,7 +1308,7 @@
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
     <value>Đặt tên bó lại</value>
   </data>
-  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+  <data name="DesiredName" xml:space="preserve">
     <value>Tên mong muốn</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
@@ -1437,7 +1437,7 @@
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>Mục tiêu</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
+  <data name="Arguments" xml:space="preserve">
     <value>Đối số</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
@@ -1707,7 +1707,7 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>Nhỏ</value>
   </data>
-  <data name="ItemTimeText_Today" xml:space="preserve">
+  <data name="Today" xml:space="preserve">
     <value>Hôm nay</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
@@ -2133,7 +2133,7 @@
   <data name="NavSettingsButton" xml:space="preserve">
     <value>Cài đặt</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+  <data name="AddFile" xml:space="preserve">
     <value>Thêm tệp</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">

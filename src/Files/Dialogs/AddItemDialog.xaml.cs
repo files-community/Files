@@ -62,7 +62,7 @@ namespace Files.Dialogs
 
             AddItemsList.Add(new AddListItem
             {
-                Header = "AddDialogListFileHeader".GetLocalized(),
+                Header = "File".GetLocalized(),
                 SubHeader = "AddDialogListFileSubHeader".GetLocalized(),
                 Glyph = "\xE8A5",
                 IsItemEnabled = true,

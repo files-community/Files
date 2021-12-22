@@ -1,5 +1,4 @@
 using Files.Common;
-using Files.DataModels;
 using Files.DataModels.NavigationControlItems;
 using Files.Enums;
 using Files.Helpers;

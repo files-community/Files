@@ -162,13 +162,13 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Voorkeure</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>Weskskerm</value>
   </data>
-  <data name="SidebarDocuments" xml:space="preserve">
+  <data name="Documents" xml:space="preserve">
     <value>Dokumente</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>Aflaaie</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
@@ -189,7 +189,7 @@
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sorteer volgens</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>Naam</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
@@ -228,7 +228,7 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Uitreksel</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>Maak oop</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
@@ -732,7 +732,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Kies 'n tipe vir hierdie nuwe item hieronder</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>Lêer</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
@@ -919,7 +919,7 @@
   <data name="PropertyComposer" xml:space="preserve">
     <value>Komponis</value>
   </data>
-  <data name="PropertyConductor" xml:space="preserve">
+  <data name="Conductor" xml:space="preserve">
     <value>Geleier</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
@@ -1213,10 +1213,10 @@
   <data name="Add" xml:space="preserve">
     <value>Voeg By</value>
   </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>Redigeer</value>
   </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+  <data name="Remove" xml:space="preserve">
     <value>Verwyder</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
@@ -1354,7 +1354,7 @@
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
     <value>Hernoem Bondel</value>
   </data>
-  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+  <data name="DesiredName" xml:space="preserve">
     <value>Gewenste naam</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
@@ -1480,7 +1480,7 @@
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>Teiken</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
+  <data name="Arguments" xml:space="preserve">
     <value>Argumente</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
@@ -1780,7 +1780,7 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>Baie klein</value>
   </data>
-  <data name="ItemTimeText_Today" xml:space="preserve">
+  <data name="Today" xml:space="preserve">
     <value>Vandag</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
@@ -2212,7 +2212,7 @@
   <data name="NavSettingsButton" xml:space="preserve">
     <value>Instellings</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+  <data name="AddFile" xml:space="preserve">
     <value>Voeg lêer by</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">

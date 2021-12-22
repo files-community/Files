@@ -1,10 +1,8 @@
 ﻿using Files.Common;
-using Files.Enums;
 using Files.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;

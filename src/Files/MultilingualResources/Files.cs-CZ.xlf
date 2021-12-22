@@ -163,15 +163,15 @@
           <source>Preferences</source>
           <target state="translated">Předvolby</target>
         </trans-unit>
-        <trans-unit id="SidebarDesktop" translate="yes" xml:space="preserve">
+        <trans-unit id="Desktop" translate="yes" xml:space="preserve">
           <source>Desktop</source>
           <target state="translated">Plocha</target>
         </trans-unit>
-        <trans-unit id="SidebarDocuments" translate="yes" xml:space="preserve">
+        <trans-unit id="Documents" translate="yes" xml:space="preserve">
           <source>Documents</source>
           <target state="translated">Dokumenty</target>
         </trans-unit>
-        <trans-unit id="SidebarDownloads" translate="yes" xml:space="preserve">
+        <trans-unit id="Downloads" translate="yes" xml:space="preserve">
           <source>Downloads</source>
           <target state="translated">Stažené soubory</target>
         </trans-unit>
@@ -195,7 +195,7 @@
           <source>Sort by</source>
           <target state="translated">Řadit podle</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByName.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Name" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="translated">Název</target>
         </trans-unit>
@@ -240,7 +240,7 @@
           <source>Extract</source>
           <target state="translated">Rozbalit</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenItem.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Open" translate="yes" xml:space="preserve">
           <source>Open</source>
           <target state="translated">Otevřít</target>
         </trans-unit>
@@ -915,7 +915,7 @@
           <source>Choose a type for this new item below</source>
           <target state="translated">Zvolte typ nové položky</target>
         </trans-unit>
-        <trans-unit id="AddDialogListFileHeader" translate="yes" xml:space="preserve">
+        <trans-unit id="File" translate="yes" xml:space="preserve">
           <source>File</source>
           <target state="translated">Soubor</target>
         </trans-unit>
@@ -1129,7 +1129,7 @@
           <source>Composer</source>
           <target state="translated">Skladatel</target>
         </trans-unit>
-        <trans-unit id="PropertyConductor" translate="yes" xml:space="preserve">
+        <trans-unit id="Conductor" translate="yes" xml:space="preserve">
           <source>Conductor</source>
           <target state="translated">Dirigent</target>
         </trans-unit>
@@ -1487,11 +1487,11 @@
           <source>Add</source>
           <target state="translated">Přidat</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonEdit.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Edit" translate="yes" xml:space="preserve">
           <source>Edit</source>
           <target state="translated">Upravit</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonRemove.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Remove" translate="yes" xml:space="preserve">
           <source>Remove</source>
           <target state="translated">Smazat</target>
         </trans-unit>
@@ -1589,7 +1589,7 @@
           <source>Rename "{0}"</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Přejmenovat objekt {0}</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetAddBundleInputPlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="DesiredName" translate="yes" xml:space="preserve">
           <source>Desired name</source>
           <target state="new">Desired name</target>
         </trans-unit>
@@ -1817,7 +1817,7 @@
           <source>Target</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Cíl</target>
         </trans-unit>
-        <trans-unit id="PropertyItemArguments" translate="yes" xml:space="preserve">
+        <trans-unit id="Arguments" translate="yes" xml:space="preserve">
           <source>Arguments</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">argumentů</target>
         </trans-unit>
@@ -2182,7 +2182,7 @@
           <source>Tiny</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Velmi malý</target>
         </trans-unit>
-        <trans-unit id="ItemTimeText_Today" translate="yes" xml:space="preserve">
+        <trans-unit id="Today" translate="yes" xml:space="preserve">
           <source>Today</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Dnes</target>
         </trans-unit>
@@ -2938,7 +2938,7 @@
           <source>Update</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Aktualizovat</target>
         </trans-unit>
-        <trans-unit id="BundleOptionsFlyoutAddFileMenuItem.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AddFile" translate="yes" xml:space="preserve">
           <source>Add file</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Přidat soubor</target>
         </trans-unit>

@@ -129,13 +129,13 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Alternativ</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>Skrivbord</value>
   </data>
-  <data name="SidebarDocuments" xml:space="preserve">
+  <data name="Documents" xml:space="preserve">
     <value>Dokument</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>Hämtade filer</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
@@ -153,7 +153,7 @@
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sortera efter</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>Namn</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
@@ -189,7 +189,7 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Extrahera</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>Öppna</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
@@ -678,7 +678,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Välj en objekttyp nedan</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>Fil</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
@@ -840,7 +840,7 @@
   <data name="PropertyComposer" xml:space="preserve">
     <value>Kompositör</value>
   </data>
-  <data name="PropertyConductor" xml:space="preserve">
+  <data name="Conductor" xml:space="preserve">
     <value>Dirigent</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
@@ -1104,10 +1104,10 @@
   <data name="Add" xml:space="preserve">
     <value>Lägg till</value>
   </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>Redigera</value>
   </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+  <data name="Remove" xml:space="preserve">
     <value>Ta bort</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -1218,7 +1218,7 @@
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
     <value>Byt namn på samling</value>
   </data>
-  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+  <data name="DesiredName" xml:space="preserve">
     <value>Önskat namn</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
@@ -1314,7 +1314,7 @@
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>Mål</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
+  <data name="Arguments" xml:space="preserve">
     <value>Argument:</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
@@ -1437,7 +1437,7 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>mycket liten</value>
   </data>
-  <data name="ItemTimeText_Today" xml:space="preserve">
+  <data name="Today" xml:space="preserve">
     <value>I dag</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
@@ -1743,7 +1743,7 @@
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>Uppdatera</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+  <data name="AddFile" xml:space="preserve">
     <value>Lägg till fil</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">

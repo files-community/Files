@@ -126,13 +126,13 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>விருப்பங்கள்</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>திரைப்பலகம்</value>
   </data>
-  <data name="SidebarDocuments" xml:space="preserve">
+  <data name="Documents" xml:space="preserve">
     <value>ஆவணங்கள்</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>பதிவிறக்கங்கள்</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
@@ -150,7 +150,7 @@
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>இதன்படி வரிசைப்படுத்து</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>பெயர்</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
@@ -180,7 +180,7 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>பிரித்தெடு</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>திற</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
@@ -757,7 +757,7 @@
   <data name="PropertyComposer" xml:space="preserve">
     <value>இயற்றுனர்</value>
   </data>
-  <data name="PropertyConductor" xml:space="preserve">
+  <data name="Conductor" xml:space="preserve">
     <value>நடத்துபவர்</value>
   </data>
   <data name="PropertyGenre" xml:space="preserve">
@@ -874,7 +874,7 @@
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>கோப்பு</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>கோப்பு</value>
   </data>
   <data name="NewFile" xml:space="preserve">
@@ -883,10 +883,10 @@
   <data name="Add" xml:space="preserve">
     <value>சேர்</value>
   </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>திருத்து</value>
   </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+  <data name="Remove" xml:space="preserve">
     <value>அகற்று</value>
   </data>
   <data name="Folders" xml:space="preserve">
@@ -970,7 +970,7 @@
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>இலக்கு</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
+  <data name="Arguments" xml:space="preserve">
     <value>இணைப்பு மாறிகள்</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
@@ -1072,7 +1072,7 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>&amp;மிகச்சிறிய</value>
   </data>
-  <data name="ItemTimeText_Today" xml:space="preserve">
+  <data name="Today" xml:space="preserve">
     <value>இன்று</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
@@ -1303,7 +1303,7 @@
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>புதுப்பி</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+  <data name="AddFile" xml:space="preserve">
     <value>கோப்பைச் சேர்</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">

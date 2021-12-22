@@ -8,9 +8,7 @@ using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -121,7 +119,7 @@ namespace Files.ViewModels.Previews
                     // Add the details from the preview function, then the system file properties
                     DetailsFromPreview?.ForEach(i => detailsFull.Add(i));
                     List<FileProperty> props = await GetSystemFileProperties();
-                    if(props is not null)
+                    if (props is not null)
                     {
                         detailsFull.AddRange(props);
                     }

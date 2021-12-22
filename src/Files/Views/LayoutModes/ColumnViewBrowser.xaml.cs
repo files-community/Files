@@ -213,7 +213,7 @@ namespace Files.Views.LayoutModes
                     var activeInstance = shellPages.SingleOrDefault(x => x.IsCurrentInstance);
                     return activeInstance ?? shellPages.Last();
                 }
-                
+
                 return ParentShellPageInstance;
             }
         }

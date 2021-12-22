@@ -78,15 +78,15 @@
           <source>Preferences</source>
           <target state="translated">환경 설정</target>
         </trans-unit>
-        <trans-unit id="SidebarDesktop" translate="yes" xml:space="preserve">
+        <trans-unit id="Desktop" translate="yes" xml:space="preserve">
           <source>Desktop</source>
           <target state="translated">바탕 화면</target>
         </trans-unit>
-        <trans-unit id="SidebarDocuments" translate="yes" xml:space="preserve">
+        <trans-unit id="Documents" translate="yes" xml:space="preserve">
           <source>Documents</source>
           <target state="translated">문서</target>
         </trans-unit>
-        <trans-unit id="SidebarDownloads" translate="yes" xml:space="preserve">
+        <trans-unit id="Downloads" translate="yes" xml:space="preserve">
           <source>Downloads</source>
           <target state="translated">다운로드</target>
         </trans-unit>
@@ -110,7 +110,7 @@
           <source>Sort by</source>
           <target state="translated">정렬 기준</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByName.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Name" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="translated">이름</target>
         </trans-unit>
@@ -314,7 +314,7 @@
           <source>Invert Selection</source>
           <target state="translated">선택 반전</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenItem.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Open" translate="yes" xml:space="preserve">
           <source>Open</source>
           <target state="translated">열기</target>
         </trans-unit>
@@ -894,7 +894,7 @@
           <source>Choose a type for this new item below</source>
           <target state="translated">새로운 항목의 유형을 선택해주세요</target>
         </trans-unit>
-        <trans-unit id="AddDialogListFileHeader" translate="yes" xml:space="preserve">
+        <trans-unit id="File" translate="yes" xml:space="preserve">
           <source>File</source>
           <target state="translated">파일</target>
         </trans-unit>
@@ -1110,7 +1110,7 @@
           <source>Composer</source>
           <target state="translated">작곡가</target>
         </trans-unit>
-        <trans-unit id="PropertyConductor" translate="yes" xml:space="preserve">
+        <trans-unit id="Conductor" translate="yes" xml:space="preserve">
           <source>Conductor</source>
           <target state="translated">지휘자</target>
         </trans-unit>
@@ -1463,11 +1463,11 @@
           <source>Add</source>
           <target state="translated">추가</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonEdit.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Edit" translate="yes" xml:space="preserve">
           <source>Edit</source>
           <target state="translated">편집</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonRemove.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Remove" translate="yes" xml:space="preserve">
           <source>Remove</source>
           <target state="translated">제거</target>
         </trans-unit>
@@ -1615,7 +1615,7 @@
           <source>Rename Bundle</source>
           <target state="translated">보관함 이름 바꾸기</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetAddBundleInputPlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="DesiredName" translate="yes" xml:space="preserve">
           <source>Desired name</source>
           <target state="translated">원하는 이름</target>
         </trans-unit>
@@ -1783,7 +1783,7 @@
           <source>Target</source>
           <target state="translated">대상</target>
         </trans-unit>
-        <trans-unit id="PropertyItemArguments" translate="yes" xml:space="preserve">
+        <trans-unit id="Arguments" translate="yes" xml:space="preserve">
           <source>Arguments</source>
           <target state="translated">전달인자</target>
         </trans-unit>
@@ -2147,7 +2147,7 @@
           <source>Tiny</source>
           <target state="translated" state-qualifier="tm-suggestion">매우 작게</target>
         </trans-unit>
-        <trans-unit id="ItemTimeText_Today" translate="yes" xml:space="preserve">
+        <trans-unit id="Today" translate="yes" xml:space="preserve">
           <source>Today</source>
           <target state="translated" state-qualifier="tm-suggestion">오늘</target>
         </trans-unit>
@@ -2904,7 +2904,7 @@
           <source>Update</source>
           <target state="translated" state-qualifier="tm-suggestion">업데이트</target>
         </trans-unit>
-        <trans-unit id="BundleOptionsFlyoutAddFileMenuItem.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AddFile" translate="yes" xml:space="preserve">
           <source>Add file</source>
           <target state="translated" state-qualifier="tm-suggestion">파일 추가</target>
         </trans-unit>

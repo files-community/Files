@@ -1,12 +1,8 @@
 ﻿using Files.Common;
 using FilesFullTrust.Helpers;
-using Microsoft.Win32;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.IO.Pipes;
-using System.Linq;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;

@@ -132,13 +132,13 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferensi</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>Desktop</value>
   </data>
-  <data name="SidebarDocuments" xml:space="preserve">
+  <data name="Documents" xml:space="preserve">
     <value>Dokumen</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>Unduhan</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
@@ -156,7 +156,7 @@
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Urutkan menurut</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>Nama</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
@@ -192,7 +192,7 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Ekstrak</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>Buka</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
@@ -690,7 +690,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Pilih jenis item baru di bawah ini</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>File</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
@@ -852,7 +852,7 @@
   <data name="PropertyComposer" xml:space="preserve">
     <value>Penyusun</value>
   </data>
-  <data name="PropertyConductor" xml:space="preserve">
+  <data name="Conductor" xml:space="preserve">
     <value>Konduktor</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
@@ -1128,10 +1128,10 @@
   <data name="Add" xml:space="preserve">
     <value>Tambahkan</value>
   </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+  <data name="Remove" xml:space="preserve">
     <value>Hapus</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -1254,7 +1254,7 @@
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
     <value>Ubah nama Bundle</value>
   </data>
-  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+  <data name="DesiredName" xml:space="preserve">
     <value>Nama yang diinginkan</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
@@ -1380,7 +1380,7 @@
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>Target</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
+  <data name="Arguments" xml:space="preserve">
     <value>Argumen</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
@@ -1647,7 +1647,7 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>Sangat kecil</value>
   </data>
-  <data name="ItemTimeText_Today" xml:space="preserve">
+  <data name="Today" xml:space="preserve">
     <value>Hari ini</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
@@ -2184,7 +2184,7 @@
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>Perbarui</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+  <data name="AddFile" xml:space="preserve">
     <value>Tambahkan file</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">

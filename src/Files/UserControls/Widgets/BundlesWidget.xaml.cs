@@ -23,7 +23,7 @@ namespace Files.UserControls.Widgets
         public string WidgetName => nameof(BundlesWidget);
 
         public string AutomationProperties => "BundlesWidgetAutomationProperties/Name".GetLocalized();
-        
+
         public string WidgetHeader => "Bundles".GetLocalized();
 
         public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowBundlesWidget;

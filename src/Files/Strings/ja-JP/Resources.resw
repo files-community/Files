@@ -126,13 +126,13 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>個人用設定</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>デスクトップ</value>
   </data>
-  <data name="SidebarDocuments" xml:space="preserve">
+  <data name="Documents" xml:space="preserve">
     <value>ドキュメント</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>ダウンロード</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
@@ -150,7 +150,7 @@
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>並べ替え</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>名前</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
@@ -180,7 +180,7 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>抽出</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>開く</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
@@ -849,7 +849,7 @@
   <data name="PropertyComposer" xml:space="preserve">
     <value>作曲者</value>
   </data>
-  <data name="PropertyConductor" xml:space="preserve">
+  <data name="Conductor" xml:space="preserve">
     <value>指揮者</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
@@ -1077,7 +1077,7 @@
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>ファイル</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>ファイル</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
@@ -1095,10 +1095,10 @@
   <data name="Add" xml:space="preserve">
     <value>追加</value>
   </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>編集</value>
   </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+  <data name="Remove" xml:space="preserve">
     <value>削除</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -1167,7 +1167,7 @@
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>"{0}" の名前を変更</value>
   </data>
-  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+  <data name="DesiredName" xml:space="preserve">
     <value>新しい名前</value>
   </data>
   <data name="Confirm" xml:space="preserve">
@@ -1344,7 +1344,7 @@
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>ターゲット</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
+  <data name="Arguments" xml:space="preserve">
     <value>引数</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
@@ -1617,7 +1617,7 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>極小</value>
   </data>
-  <data name="ItemTimeText_Today" xml:space="preserve">
+  <data name="Today" xml:space="preserve">
     <value>今日</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
@@ -2184,7 +2184,7 @@
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>更新</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+  <data name="AddFile" xml:space="preserve">
     <value>ファイルの追加</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">

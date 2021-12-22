@@ -70,11 +70,11 @@ namespace Files.Extensions
 
             var diff = t - dt;
             var y = t.AddDays(-1);
-            var w = t.AddDays(diff.Days*-1);
+            var w = t.AddDays(diff.Days * -1);
 
             if (t.Month == t2.Month && t.Day == t2.Day && t.Year == t2.Year)
             {
-                return ("ItemTimeText_Today".GetLocalized(), today.ToUserDateString(), "\ue184", 0);
+                return ("Today".GetLocalized(), today.ToUserDateString(), "\ue184", 0);
             }
 
             if (y.Month == t2.Month && y.Day == t2.Day && y.Year == t2.Year)

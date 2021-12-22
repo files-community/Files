@@ -621,14 +621,15 @@ namespace Files.ViewModels
         }
 
         public void PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e)
-		{
+        {
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
             {
                 Windows.UI.Input.PointerPoint ptrPt = e.GetCurrentPoint(NavToolbar);
                 if (ptrPt.Properties.IsMiddleButtonPressed)
                 {
                     pointerRoutedEventArgs = e;
-                } else
+                }
+                else
                 {
                     pointerRoutedEventArgs = null;
                 }

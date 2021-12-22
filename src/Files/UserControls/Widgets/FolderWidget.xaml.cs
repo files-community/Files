@@ -1,7 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
 using Files.Services;
-using Files.ViewModels;
 using Files.ViewModels.Widgets;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -159,17 +158,17 @@ namespace Files.UserControls.Widgets
             ItemsAdded.BeginBulkOperation();
             ItemsAdded.Add(new LibraryCardItem
             {
-                Text = "SidebarDesktop".GetLocalized(),
+                Text = "Desktop".GetLocalized(),
                 Path = UserDataPaths.GetDefault().Desktop
             });
             ItemsAdded.Add(new LibraryCardItem
             {
-                Text = "SidebarDocuments".GetLocalized(),
+                Text = "Documents".GetLocalized(),
                 Path = UserDataPaths.GetDefault().Documents,
             });
             ItemsAdded.Add(new LibraryCardItem
             {
-                Text = "SidebarDownloads".GetLocalized(),
+                Text = "Downloads".GetLocalized(),
                 Path = UserDataPaths.GetDefault().Downloads,
             });
             ItemsAdded.Add(new LibraryCardItem

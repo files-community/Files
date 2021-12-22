@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Interactions;
+﻿using OpenQA.Selenium.Interactions;
 
 namespace Files.InteractionTests.Tests
 {
@@ -29,7 +28,7 @@ namespace Files.InteractionTests.Tests
                 "SettingsItemAbout"
             };
 
-            foreach(var item in settingsItems)
+            foreach (var item in settingsItems)
             {
                 TestHelper.InvokeButtonById(item);
                 AxeHelper.AssertNoAccessibilityErrors();

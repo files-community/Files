@@ -201,9 +201,8 @@
                                                     <FontIcon Glyph="&#xE710;" />
                                                 </MenuFlyoutSubItem.Icon>
                                                 <MenuFlyoutItem
-                                                    x:Uid="BundleOptionsFlyoutAddFileMenuItem"
                                                     Command="{x:Bind AddFileCommand}"
-                                                    Text="Add file">
+                                                    Text="{helpers:ResourceString Name=AddFile}">
                                                     <MenuFlyoutItem.Icon>
                                                         <FontIcon Glyph="&#xE7C3;" />
                                                     </MenuFlyoutItem.Icon>

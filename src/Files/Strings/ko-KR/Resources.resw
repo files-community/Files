@@ -66,13 +66,13 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>환경 설정</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>바탕 화면</value>
   </data>
-  <data name="SidebarDocuments" xml:space="preserve">
+  <data name="Documents" xml:space="preserve">
     <value>문서</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>다운로드</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
@@ -90,7 +90,7 @@
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>정렬 기준</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>이름</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
@@ -243,7 +243,7 @@
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>선택 반전</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>열기</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
@@ -678,7 +678,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>새로운 항목의 유형을 선택해주세요</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>파일</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
@@ -840,7 +840,7 @@
   <data name="PropertyComposer" xml:space="preserve">
     <value>작곡가</value>
   </data>
-  <data name="PropertyConductor" xml:space="preserve">
+  <data name="Conductor" xml:space="preserve">
     <value>지휘자</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
@@ -1104,10 +1104,10 @@
   <data name="Add" xml:space="preserve">
     <value>추가</value>
   </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>편집</value>
   </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+  <data name="Remove" xml:space="preserve">
     <value>제거</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -1218,7 +1218,7 @@
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
     <value>보관함 이름 바꾸기</value>
   </data>
-  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+  <data name="DesiredName" xml:space="preserve">
     <value>원하는 이름</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
@@ -1344,7 +1344,7 @@
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>대상</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
+  <data name="Arguments" xml:space="preserve">
     <value>전달인자</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
@@ -1617,7 +1617,7 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>매우 작게</value>
   </data>
-  <data name="ItemTimeText_Today" xml:space="preserve">
+  <data name="Today" xml:space="preserve">
     <value>오늘</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
@@ -2184,7 +2184,7 @@
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>업데이트</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+  <data name="AddFile" xml:space="preserve">
     <value>파일 추가</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">

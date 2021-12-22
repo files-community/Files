@@ -129,13 +129,13 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>प्राथमिकताएँ</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>डेस्कटॉप</value>
   </data>
-  <data name="SidebarDocuments" xml:space="preserve">
+  <data name="Documents" xml:space="preserve">
     <value>दस्तावेज़</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>डाउनलोड्स</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
@@ -153,7 +153,7 @@
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>द्वारा सॉर्ट करें</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>नाम</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
@@ -183,7 +183,7 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>निकाल</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>खोलें</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
@@ -702,7 +702,7 @@
   <data name="PropertyComposer" xml:space="preserve">
     <value>कंपोज़र</value>
   </data>
-  <data name="PropertyConductor" xml:space="preserve">
+  <data name="Conductor" xml:space="preserve">
     <value>संचालक</value>
   </data>
   <data name="PropertyGenre" xml:space="preserve">
@@ -834,7 +834,7 @@
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>फ़ाइल</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>फ़ाइल</value>
   </data>
   <data name="NewFile" xml:space="preserve">
@@ -843,10 +843,10 @@
   <data name="Add" xml:space="preserve">
     <value>जोड़ें</value>
   </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>संपादित करें</value>
   </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+  <data name="Remove" xml:space="preserve">
     <value>निकालें</value>
   </data>
   <data name="Folders" xml:space="preserve">
@@ -945,7 +945,7 @@
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>लक्ष्य</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
+  <data name="Arguments" xml:space="preserve">
     <value>तर्क</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
@@ -1050,7 +1050,7 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>बहुत छोटा</value>
   </data>
-  <data name="ItemTimeText_Today" xml:space="preserve">
+  <data name="Today" xml:space="preserve">
     <value>आज</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
@@ -1305,7 +1305,7 @@
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>अद्यतन करें</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+  <data name="AddFile" xml:space="preserve">
     <value>फ़ाइल से जोड़े</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">

@@ -1,4 +1,3 @@
-using Files.Common;
 using Files.Extensions;
 using System;
 using System.Collections;

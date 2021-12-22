@@ -265,11 +265,11 @@ namespace Files.ViewModels
             }
             else if (currentPath.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
             {
-                tabLocationHeader = "SidebarDesktop".GetLocalized();
+                tabLocationHeader = "Desktop".GetLocalized();
             }
             else if (currentPath.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
             {
-                tabLocationHeader = "SidebarDownloads".GetLocalized();
+                tabLocationHeader = "Downloads".GetLocalized();
             }
             else if (currentPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {

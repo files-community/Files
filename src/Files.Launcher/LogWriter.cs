@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.Storage.Streams;
 using static Vanara.PInvoke.Kernel32;
 
 namespace FilesFullTrust

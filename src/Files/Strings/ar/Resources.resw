@@ -129,13 +129,13 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>التفضيلات</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>سطح المكتب</value>
   </data>
-  <data name="SidebarDocuments" xml:space="preserve">
+  <data name="Documents" xml:space="preserve">
     <value>المستندات</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>التنزيلات</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
@@ -153,7 +153,7 @@
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>فرز حسب</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>اسم</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
@@ -186,7 +186,7 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>استخراج</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>فتح</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
@@ -672,7 +672,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>اختر نوعًا لهذا العنصر الجديد أدناه</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>ملف</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
@@ -831,7 +831,7 @@
   <data name="PropertyComposer" xml:space="preserve">
     <value>المؤلف</value>
   </data>
-  <data name="PropertyConductor" xml:space="preserve">
+  <data name="Conductor" xml:space="preserve">
     <value>موصل</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
@@ -1086,10 +1086,10 @@
   <data name="Add" xml:space="preserve">
     <value>إضافة</value>
   </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>تحرير</value>
   </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+  <data name="Remove" xml:space="preserve">
     <value>‏‏إزالة</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -1197,7 +1197,7 @@
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
     <value>إعادة تسمية الحزمة</value>
   </data>
-  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+  <data name="DesiredName" xml:space="preserve">
     <value>الاسم المطلوب</value>
   </data>
   <data name="PropertyItemPathDisplay" xml:space="preserve">
@@ -1272,7 +1272,7 @@
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>الهدف</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
+  <data name="Arguments" xml:space="preserve">
     <value>‏‏الوسيطات</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
@@ -1383,7 +1383,7 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>صغير جداً</value>
   </data>
-  <data name="ItemTimeText_Today" xml:space="preserve">
+  <data name="Today" xml:space="preserve">
     <value>اليوم</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
@@ -1674,7 +1674,7 @@
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>تحديث</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+  <data name="AddFile" xml:space="preserve">
     <value>إضافة ملف</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">

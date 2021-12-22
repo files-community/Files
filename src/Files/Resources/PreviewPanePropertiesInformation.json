@@ -150,7 +150,7 @@
     "ID": null
   },
   {
-    "NameResource": "PropertyConductor",
+    "NameResource": "Conductor",
     "SectionResource": "PropertySectionMusic",
     "Property": "System.Music.Conductor",
     "IsReadOnly": false,

@@ -202,15 +202,15 @@
           <source>Preferences</source>
           <target state="translated">უპირატესობები</target>
         </trans-unit>
-        <trans-unit id="SidebarDesktop" translate="yes" xml:space="preserve">
+        <trans-unit id="Desktop" translate="yes" xml:space="preserve">
           <source>Desktop</source>
           <target state="translated">სამუშაო მაგიდა</target>
         </trans-unit>
-        <trans-unit id="SidebarDocuments" translate="yes" xml:space="preserve">
+        <trans-unit id="Documents" translate="yes" xml:space="preserve">
           <source>Documents</source>
           <target state="translated">დოკუმენტები</target>
         </trans-unit>
-        <trans-unit id="SidebarDownloads" translate="yes" xml:space="preserve">
+        <trans-unit id="Downloads" translate="yes" xml:space="preserve">
           <source>Downloads</source>
           <target state="translated">გადმოწერილები</target>
         </trans-unit>
@@ -234,7 +234,7 @@
           <source>Sort by</source>
           <target state="translated">დახარისხება</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByName.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Name" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="translated">სახელით</target>
         </trans-unit>
@@ -286,7 +286,7 @@
           <source>Extract</source>
           <target state="translated">ამოღება</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenItem.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Open" translate="yes" xml:space="preserve">
           <source>Open</source>
           <target state="translated">გახსნა</target>
         </trans-unit>
@@ -954,7 +954,7 @@
           <source>Choose a type for this new item below</source>
           <target state="translated">აირჩიეთ ნიმუში ამ ახალი ერთეულისთვის ქვემოთ</target>
         </trans-unit>
-        <trans-unit id="AddDialogListFileHeader" translate="yes" xml:space="preserve">
+        <trans-unit id="File" translate="yes" xml:space="preserve">
           <source>File</source>
           <target state="translated">ფაილი</target>
         </trans-unit>
@@ -1190,7 +1190,7 @@
           <source>Composer</source>
           <target state="translated">კომპოზიტორი</target>
         </trans-unit>
-        <trans-unit id="PropertyConductor" translate="yes" xml:space="preserve">
+        <trans-unit id="Conductor" translate="yes" xml:space="preserve">
           <source>Conductor</source>
           <target state="translated">კონდუქტორი</target>
         </trans-unit>
@@ -1585,11 +1585,11 @@
           <source>Add</source>
           <target state="translated">დამატება</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonEdit.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Edit" translate="yes" xml:space="preserve">
           <source>Edit</source>
           <target state="translated">რედაქტირება</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonRemove.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Remove" translate="yes" xml:space="preserve">
           <source>Remove</source>
           <target state="translated">წაშლა</target>
         </trans-unit>
@@ -1765,7 +1765,7 @@
           <source>Rename Bundle</source>
           <target state="translated">შეკვრის სახელის გადარქმევა</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetAddBundleInputPlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="DesiredName" translate="yes" xml:space="preserve">
           <source>Desired name</source>
           <target state="translated">სასურველი სახელი</target>
         </trans-unit>
@@ -1933,7 +1933,7 @@
           <source>Target</source>
           <target state="translated">სამიზნე</target>
         </trans-unit>
-        <trans-unit id="PropertyItemArguments" translate="yes" xml:space="preserve">
+        <trans-unit id="Arguments" translate="yes" xml:space="preserve">
           <source>Arguments</source>
           <target state="translated">არგუმენტები</target>
         </trans-unit>
@@ -2309,7 +2309,7 @@
           <source>Tiny</source>
           <target state="translated">პაწაწინა</target>
         </trans-unit>
-        <trans-unit id="ItemTimeText_Today" translate="yes" xml:space="preserve">
+        <trans-unit id="Today" translate="yes" xml:space="preserve">
           <source>Today</source>
           <target state="translated">დღეს</target>
         </trans-unit>
@@ -2909,7 +2909,7 @@
           <source>Settings</source>
           <target state="translated">პარამეტრები</target>
         </trans-unit>
-        <trans-unit id="BundleOptionsFlyoutAddFileMenuItem.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AddFile" translate="yes" xml:space="preserve">
           <source>Add file</source>
           <target state="translated">ფაილის დამატება</target>
         </trans-unit>

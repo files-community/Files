@@ -96,13 +96,13 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Налаштування</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>Робочий стіл</value>
   </data>
-  <data name="SidebarDocuments" xml:space="preserve">
+  <data name="Documents" xml:space="preserve">
     <value>Документи</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>Завантаження</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
@@ -120,7 +120,7 @@
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Сортування</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>Ім’я</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
@@ -252,7 +252,7 @@
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Властивості</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>Відкрити</value>
   </data>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
@@ -837,7 +837,7 @@
   <data name="PropertyComposer" xml:space="preserve">
     <value>Композитор</value>
   </data>
-  <data name="PropertyConductor" xml:space="preserve">
+  <data name="Conductor" xml:space="preserve">
     <value>Диригент</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
@@ -1032,7 +1032,7 @@
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Файл</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>Файл</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
@@ -1050,10 +1050,10 @@
   <data name="Add" xml:space="preserve">
     <value>Додати</value>
   </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>Редагувати</value>
   </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+  <data name="Remove" xml:space="preserve">
     <value>Вилучити</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -1122,7 +1122,7 @@
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>Змінити "{0}"</value>
   </data>
-  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+  <data name="DesiredName" xml:space="preserve">
     <value>Бажане ім'я</value>
   </data>
   <data name="Confirm" xml:space="preserve">
@@ -1299,7 +1299,7 @@
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>Ціль</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
+  <data name="Arguments" xml:space="preserve">
     <value>Аргументи</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
@@ -1416,7 +1416,7 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>Крихітна</value>
   </data>
-  <data name="ItemTimeText_Today" xml:space="preserve">
+  <data name="Today" xml:space="preserve">
     <value>Сьогодні</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
@@ -1701,7 +1701,7 @@
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>Оновити</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+  <data name="AddFile" xml:space="preserve">
     <value>Додати файл</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">

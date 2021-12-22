@@ -1,13 +1,9 @@
 ﻿using Common;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using Files.Models.JsonSettings;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml.Media;

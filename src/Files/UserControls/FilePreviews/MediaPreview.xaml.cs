@@ -1,5 +1,4 @@
-﻿using System;
-using Files.Services;
+﻿using Files.Services;
 using Files.ViewModels.Previews;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Windows.Media.Playback;

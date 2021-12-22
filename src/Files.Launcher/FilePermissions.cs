@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.Management.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Microsoft.Management.Infrastructure;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Threading.Tasks;

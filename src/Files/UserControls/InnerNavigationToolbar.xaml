@@ -473,7 +473,6 @@
                                     Text="{helpers:ResourceString Name=Details}" />
 
                                 <RadioButton
-                                    x:Uid="NavToolbarTiles"
                                     Grid.Row="1"
                                     Grid.Column="0"
                                     Width="36"
@@ -482,7 +481,7 @@
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    AutomationProperties.Name="Tiles"
+                                    AutomationProperties.Name="{helpers:ResourceString Name=Tiles}"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"

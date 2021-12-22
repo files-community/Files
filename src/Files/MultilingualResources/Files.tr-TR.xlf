@@ -78,15 +78,15 @@
           <source>Preferences</source>
           <target state="translated">Ayarlar</target>
         </trans-unit>
-        <trans-unit id="SidebarDesktop" translate="yes" xml:space="preserve">
+        <trans-unit id="Desktop" translate="yes" xml:space="preserve">
           <source>Desktop</source>
           <target state="translated">Masaüstü</target>
         </trans-unit>
-        <trans-unit id="SidebarDocuments" translate="yes" xml:space="preserve">
+        <trans-unit id="Documents" translate="yes" xml:space="preserve">
           <source>Documents</source>
           <target state="translated">Belgeler</target>
         </trans-unit>
-        <trans-unit id="SidebarDownloads" translate="yes" xml:space="preserve">
+        <trans-unit id="Downloads" translate="yes" xml:space="preserve">
           <source>Downloads</source>
           <target state="translated">İndirilenler</target>
         </trans-unit>
@@ -110,7 +110,7 @@
           <source>Sort by</source>
           <target state="translated">Sıralama</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByName.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Name" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="translated">Ad</target>
         </trans-unit>
@@ -314,7 +314,7 @@
           <source>Invert Selection</source>
           <target state="translated">Seçimi Tersine Çevir</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenItem.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Open" translate="yes" xml:space="preserve">
           <source>Open</source>
           <target state="translated">Aç</target>
         </trans-unit>
@@ -1126,7 +1126,7 @@
           <source>Composer</source>
           <target state="translated">Besteci</target>
         </trans-unit>
-        <trans-unit id="PropertyConductor" translate="yes" xml:space="preserve">
+        <trans-unit id="Conductor" translate="yes" xml:space="preserve">
           <source>Conductor</source>
           <target state="translated">Şef</target>
         </trans-unit>
@@ -1431,7 +1431,7 @@
           <source>File</source>
           <target state="translated">Dosya</target>
         </trans-unit>
-        <trans-unit id="AddDialogListFileHeader" translate="yes" xml:space="preserve">
+        <trans-unit id="File" translate="yes" xml:space="preserve">
           <source>File</source>
           <target state="translated">Dosya</target>
         </trans-unit>
@@ -1455,11 +1455,11 @@
           <source>Add</source>
           <target state="translated">Ekle</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonEdit.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Edit" translate="yes" xml:space="preserve">
           <source>Edit</source>
           <target state="translated">Düzenle</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonRemove.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Remove" translate="yes" xml:space="preserve">
           <source>Remove</source>
           <target state="translated">Sil</target>
         </trans-unit>
@@ -1555,7 +1555,7 @@
           <source>Rename "{0}"</source>
           <target state="translated">"{0}" yeniden adlandır</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetAddBundleInputPlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="DesiredName" translate="yes" xml:space="preserve">
           <source>Desired name</source>
           <target state="translated">İstenilen ad</target>
         </trans-unit>
@@ -1791,7 +1791,7 @@
           <source>Target</source>
           <target state="translated">Hedef</target>
         </trans-unit>
-        <trans-unit id="PropertyItemArguments" translate="yes" xml:space="preserve">
+        <trans-unit id="Arguments" translate="yes" xml:space="preserve">
           <source>Arguments</source>
           <target state="translated">Argümanlar</target>
         </trans-unit>
@@ -2155,7 +2155,7 @@
           <source>Tiny</source>
           <target state="translated" state-qualifier="tm-suggestion">Minik</target>
         </trans-unit>
-        <trans-unit id="ItemTimeText_Today" translate="yes" xml:space="preserve">
+        <trans-unit id="Today" translate="yes" xml:space="preserve">
           <source>Today</source>
           <target state="translated" state-qualifier="tm-suggestion">Bugün</target>
         </trans-unit>
@@ -2919,7 +2919,7 @@
           <source>Update</source>
           <target state="translated" state-qualifier="tm-suggestion">Güncelleme</target>
         </trans-unit>
-        <trans-unit id="BundleOptionsFlyoutAddFileMenuItem.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AddFile" translate="yes" xml:space="preserve">
           <source>Add file</source>
           <target state="translated" state-qualifier="tm-suggestion">Dosya Ekle</target>
         </trans-unit>
