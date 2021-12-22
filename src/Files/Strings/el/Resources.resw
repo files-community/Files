@@ -27,7 +27,7 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Έγγραφο κειμένου</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>Aντιγραφή τοποθεσίας</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1065,7 +1065,7 @@
   <data name="PropertySectionDocument" xml:space="preserve">
     <value>Έγγραφο</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>Διεύθυνση</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
@@ -1884,7 +1884,7 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>Η ανακύκλωση ακυρώθηκε</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>ακύρωση</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1902,7 +1902,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>Προηγμένα δικαιώματα</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>Αποδοχή</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -2291,7 +2291,7 @@
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Όνομα</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Ημερομηνία τροποποίησης</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
@@ -2300,7 +2300,7 @@
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>Τύπος</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>Φθίνουσα σειρά</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

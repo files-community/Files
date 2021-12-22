@@ -984,7 +984,7 @@
   <data name="PropertySectionDocument" xml:space="preserve">
     <value>مستند</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>العنوان</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1443,7 +1443,7 @@
   <data name="CopyInProgress.Title" xml:space="preserve">
     <value>نسخ العناصر</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>إلغاء الأمر</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1482,7 +1482,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>نافذة جديدة</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>نسخ الموقع</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1497,7 +1497,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>أذونات متقدمة:</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>السماح</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -1719,13 +1719,13 @@
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>اسم</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>تاريخ التعديل</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>النوع</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>تنازلي</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

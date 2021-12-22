@@ -1331,7 +1331,7 @@
           <source>Document</source>
           <target state="translated" state-qualifier="tm-suggestion">مستند</target>
         </trans-unit>
-        <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
+        <trans-unit id="Address" translate="yes" xml:space="preserve">
           <source>Address</source>
           <target state="translated" state-qualifier="tm-suggestion">العنوان</target>
         </trans-unit>
@@ -2360,7 +2360,7 @@
           <source>Recycle cancelled</source>
           <target state="new">Recycle cancelled</target>
         </trans-unit>
-        <trans-unit id="StatusCancellingOp" translate="yes" xml:space="preserve">
+        <trans-unit id="canceling" translate="yes" xml:space="preserve">
           <source>canceling</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">إلغاء الأمر</target>
         </trans-unit>
@@ -2420,7 +2420,7 @@
           <source>New window</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">نافذة جديدة</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarCopyPath.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="CopyLocation" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">نسخ الموقع</target>
         </trans-unit>
@@ -2448,7 +2448,7 @@
           <source>Advanced permissions</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">أذونات متقدمة:</target>
         </trans-unit>
-        <trans-unit id="SecurityAllowLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Allow" translate="yes" xml:space="preserve">
           <source>Allow</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">السماح</target>
         </trans-unit>
@@ -3074,7 +3074,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Name</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">اسم</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionDateModified.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateModifiedLowerCase" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">تاريخ التعديل</target>
         </trans-unit>
@@ -3086,7 +3086,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Type</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">النوع</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Descending" translate="yes" xml:space="preserve">
           <source>Descending</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">تنازلي</target>
         </trans-unit>

@@ -267,10 +267,9 @@
                                 <muxc:DropDownButton.Flyout>
                                     <MenuFlyout Placement="Bottom">
                                         <MenuFlyoutItem
-                                            x:Uid="SecurityAllowLabel"
                                             Command="{x:Bind ChangeAccessControlTypeCommand}"
                                             CommandParameter="Allow"
-                                            Text="Allow">
+                                            Text="{helpers:ResourceString Name=Allow}">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xF13E;" />
                                             </MenuFlyoutItem.Icon>

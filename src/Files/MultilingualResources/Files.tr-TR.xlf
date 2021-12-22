@@ -1250,7 +1250,7 @@
           <source>Music</source>
           <target state="translated">Müzik</target>
         </trans-unit>
-        <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
+        <trans-unit id="Address" translate="yes" xml:space="preserve">
           <source>Address</source>
           <target state="translated">Adres</target>
         </trans-unit>
@@ -2343,7 +2343,7 @@
           <source>Recycle cancelled</source>
           <target state="translated">geri dönüşüm iptal edildi</target>
         </trans-unit>
-        <trans-unit id="StatusCancellingOp" translate="yes" xml:space="preserve">
+        <trans-unit id="canceling" translate="yes" xml:space="preserve">
           <source>canceling</source>
           <target state="translated" state-qualifier="tm-suggestion">iptal</target>
         </trans-unit>
@@ -2403,7 +2403,7 @@
           <source>New window</source>
           <target state="translated" state-qualifier="tm-suggestion">Yeni pencere</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarCopyPath.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="CopyLocation" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="translated" state-qualifier="tm-suggestion">Konumu kopyala</target>
         </trans-unit>
@@ -2431,7 +2431,7 @@
           <source>Advanced permissions</source>
           <target state="translated" state-qualifier="tm-suggestion">Gelişmiş izinler</target>
         </trans-unit>
-        <trans-unit id="SecurityAllowLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Allow" translate="yes" xml:space="preserve">
           <source>Allow</source>
           <target state="translated" state-qualifier="tm-suggestion">İzin Vermek</target>
         </trans-unit>
@@ -3065,7 +3065,7 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
           <source>Name</source>
           <target state="translated" state-qualifier="tm-suggestion">İsim</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionDateModified.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateModifiedLowerCase" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="translated" state-qualifier="tm-suggestion">Değiştirilme tarihi</target>
         </trans-unit>
@@ -3077,7 +3077,7 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
           <source>Type</source>
           <target state="translated" state-qualifier="tm-suggestion">Tip</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Descending" translate="yes" xml:space="preserve">
           <source>Descending</source>
           <target state="translated" state-qualifier="tm-suggestion">Azalan</target>
         </trans-unit>

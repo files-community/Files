@@ -1247,7 +1247,7 @@
           <source>Music</source>
           <target state="translated">Musik</target>
         </trans-unit>
-        <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
+        <trans-unit id="Address" translate="yes" xml:space="preserve">
           <source>Address</source>
           <target state="translated">Adresse</target>
         </trans-unit>
@@ -2337,7 +2337,7 @@
           <source>Recycle cancelled</source>
           <target state="translated">Leeren des Papierkorbes abgebrochen</target>
         </trans-unit>
-        <trans-unit id="StatusCancellingOp" translate="yes" xml:space="preserve">
+        <trans-unit id="canceling" translate="yes" xml:space="preserve">
           <source>canceling</source>
           <target state="translated">abbrechen</target>
         </trans-unit>
@@ -2397,7 +2397,7 @@
           <source>New window</source>
           <target state="translated">Neues Fenster</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarCopyPath.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="CopyLocation" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="translated">Pfad kopieren</target>
         </trans-unit>
@@ -2425,7 +2425,7 @@
           <source>Advanced permissions</source>
           <target state="translated">Erweiterte Rechte</target>
         </trans-unit>
-        <trans-unit id="SecurityAllowLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Allow" translate="yes" xml:space="preserve">
           <source>Allow</source>
           <target state="translated">Erlauben</target>
         </trans-unit>
@@ -3051,7 +3051,7 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
           <source>Name</source>
           <target state="translated" state-qualifier="tm-suggestion">Namen</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionDateModified.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateModifiedLowerCase" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="translated" state-qualifier="tm-suggestion">Änderungsdatum</target>
         </trans-unit>
@@ -3063,7 +3063,7 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
           <source>Type</source>
           <target state="translated" state-qualifier="tm-suggestion">Typ</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Descending" translate="yes" xml:space="preserve">
           <source>Descending</source>
           <target state="translated" state-qualifier="tm-suggestion">Absteigend</target>
         </trans-unit>

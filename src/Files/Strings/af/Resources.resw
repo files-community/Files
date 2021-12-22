@@ -27,7 +27,7 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Teksdokument</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>Kopieer ligging</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1081,7 +1081,7 @@
   <data name="PropertySectionDocument" xml:space="preserve">
     <value>Dokument</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>Adres</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
@@ -1744,7 +1744,7 @@
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Naam</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Datum gewysig</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
@@ -1759,7 +1759,7 @@
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
     <value>Sorteer rigting</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>Dalende</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
@@ -1921,7 +1921,7 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>Herwinning gekanselleer</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>kanselleer</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1942,7 +1942,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>Gevorderde toestemmings</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>Laat toe</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">

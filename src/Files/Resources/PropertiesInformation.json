@@ -1,6 +1,6 @@
 ﻿[
   {
-    "NameResource": "PropertyAddress",
+    "NameResource": "Address",
     "SectionResource": "PropertySectionGPS",
     "Property": null,
     "IsReadOnly": true,

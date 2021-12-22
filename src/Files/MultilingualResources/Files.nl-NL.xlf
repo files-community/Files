@@ -1187,7 +1187,7 @@
           <source>Music</source>
           <target state="translated" state-qualifier="tm-suggestion">Muziek</target>
         </trans-unit>
-        <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
+        <trans-unit id="Address" translate="yes" xml:space="preserve">
           <source>Address</source>
           <target state="translated" state-qualifier="tm-suggestion">Adres</target>
         </trans-unit>
@@ -2345,7 +2345,7 @@
           <source>Recycle cancelled</source>
           <target state="translated">Recyclen geannuleerd</target>
         </trans-unit>
-        <trans-unit id="StatusCancellingOp" translate="yes" xml:space="preserve">
+        <trans-unit id="canceling" translate="yes" xml:space="preserve">
           <source>canceling</source>
           <target state="translated" state-qualifier="tm-suggestion">annuleren</target>
         </trans-unit>
@@ -2405,7 +2405,7 @@
           <source>New window</source>
           <target state="translated" state-qualifier="tm-suggestion">Nieuw venster</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarCopyPath.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="CopyLocation" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="translated" state-qualifier="tm-suggestion">Locatie kopiëren</target>
         </trans-unit>
@@ -2433,7 +2433,7 @@
           <source>Advanced permissions</source>
           <target state="translated">Geavanceerde machtigingen</target>
         </trans-unit>
-        <trans-unit id="SecurityAllowLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Allow" translate="yes" xml:space="preserve">
           <source>Allow</source>
           <target state="translated" state-qualifier="tm-suggestion">Toestaan</target>
         </trans-unit>
@@ -3068,7 +3068,7 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
           <source>Name</source>
           <target state="translated">Naam</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionDateModified.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateModifiedLowerCase" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="translated">Datum gewijzigd</target>
         </trans-unit>
@@ -3080,7 +3080,7 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
           <source>Type</source>
           <target state="translated">Type</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Descending" translate="yes" xml:space="preserve">
           <source>Descending</source>
           <target state="translated">Aflopend</target>
         </trans-unit>

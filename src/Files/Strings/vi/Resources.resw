@@ -27,7 +27,7 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Tài liệu văn bản</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>Sao chép vị trí</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1044,7 +1044,7 @@
   <data name="PropertySectionDocument" xml:space="preserve">
     <value>Tài liệu</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>Địa chỉ</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
@@ -1848,7 +1848,7 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>Hoạt động dọn thùng rác bị hủy bỏ</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>Hoạt động dọn thùng rác bị hủy bỏ</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1866,7 +1866,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>Cấp phép nâng cao</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>Cho phép</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">

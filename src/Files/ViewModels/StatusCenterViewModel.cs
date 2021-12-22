@@ -476,7 +476,7 @@ namespace Files.ViewModels
             {
                 CancellationTokenSource.Cancel();
                 IsCancelled = true;
-                FullTitle = $"{Title} ({"StatusCancellingOp".GetLocalized()})";
+                FullTitle = $"{Title} ({"canceling".GetLocalized()})";
             }
         }
     }

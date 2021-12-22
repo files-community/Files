@@ -1330,7 +1330,7 @@
           <source>Document</source>
           <target state="translated">Dokuments</target>
         </trans-unit>
-        <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
+        <trans-unit id="Address" translate="yes" xml:space="preserve">
           <source>Address</source>
           <target state="translated">Adrese</target>
         </trans-unit>
@@ -2335,7 +2335,7 @@
           <source>Recycle cancelled</source>
           <target state="translated">Pārvietošana uz atkritni atcelta</target>
         </trans-unit>
-        <trans-unit id="StatusCancellingOp" translate="yes" xml:space="preserve">
+        <trans-unit id="canceling" translate="yes" xml:space="preserve">
           <source>canceling</source>
           <target state="translated">tiek atcelts</target>
         </trans-unit>
@@ -2395,7 +2395,7 @@
           <source>New window</source>
           <target state="translated">Jauns logs</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarCopyPath.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="CopyLocation" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="translated">Kopēšanas atrašanās vieta</target>
         </trans-unit>
@@ -2423,7 +2423,7 @@
           <source>Advanced permissions</source>
           <target state="translated">Papildu atļaujas</target>
         </trans-unit>
-        <trans-unit id="SecurityAllowLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Allow" translate="yes" xml:space="preserve">
           <source>Allow</source>
           <target state="translated">Atļaut</target>
         </trans-unit>
@@ -3050,7 +3050,7 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
           <source>Name</source>
           <target state="translated" state-qualifier="tm-suggestion">Vārds</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionDateModified.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateModifiedLowerCase" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="translated" state-qualifier="tm-suggestion">Modificēšanas datums</target>
         </trans-unit>
@@ -3062,7 +3062,7 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
           <source>Type</source>
           <target state="translated" state-qualifier="tm-suggestion">Tips</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Descending" translate="yes" xml:space="preserve">
           <source>Descending</source>
           <target state="translated" state-qualifier="tm-suggestion">Dilstošā secībā</target>
         </trans-unit>

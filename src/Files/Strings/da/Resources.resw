@@ -996,7 +996,7 @@
   <data name="PropertySectionDocument" xml:space="preserve">
     <value>Dokument</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>Adresse</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1422,7 +1422,7 @@
   <data name="CopyInProgress.Title" xml:space="preserve">
     <value>Kopierer elementer</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>annullerer</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1464,7 +1464,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nyt vindue</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>Kopiér placering</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1479,7 +1479,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>Avancerede tilladelser:</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>Tillad</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -1704,13 +1704,13 @@
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Navngiv</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Ændringsdato</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>skriv</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>Faldende</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

@@ -942,7 +942,7 @@
   <data name="PropertySectionMusic" xml:space="preserve">
     <value>音楽</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>住所</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
@@ -1758,7 +1758,7 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>ごみ箱から元に戻す操作がキャンセルされました</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>キャンセル中</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1803,7 +1803,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>新しいウィンドウ</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>場所のコピー</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1824,7 +1824,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>詳細設定</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>許可</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -2289,7 +2289,7 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>ニックネーム</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>変更日</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
@@ -2298,7 +2298,7 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>種類</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>降順</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

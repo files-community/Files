@@ -1005,7 +1005,7 @@
   <data name="PropertySectionDocument" xml:space="preserve">
     <value>Dokuments</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>Adrese</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1758,7 +1758,7 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>Pārvietošana uz atkritni atcelta</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>tiek atcelts</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1803,7 +1803,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Jauns logs</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>Kopēšanas atrašanās vieta</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1824,7 +1824,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>Papildu atļaujas</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>Atļaut</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -2242,7 +2242,7 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Vārds</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Modificēšanas datums</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
@@ -2251,7 +2251,7 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>Tips</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>Dilstošā secībā</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

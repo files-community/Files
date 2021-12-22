@@ -942,7 +942,7 @@
   <data name="PropertySectionMusic" xml:space="preserve">
     <value>音乐</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>地址</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
@@ -1760,7 +1760,7 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>回收取消</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>正在取消</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1805,7 +1805,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>新窗口</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>复制路径</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1826,7 +1826,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>高级权限</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>允许</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -2293,7 +2293,7 @@ Files 不收集、存储、共享或发布任何个人信息。
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>名称</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>修改日期</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
@@ -2302,7 +2302,7 @@ Files 不收集、存储、共享或发布任何个人信息。
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>类型</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>降序</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

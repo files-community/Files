@@ -132,7 +132,7 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Text Document</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>Copy location</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -141,14 +141,8 @@
   <data name="Browse" xml:space="preserve">
     <value>Browse</value>
   </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>Drives</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Name</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>Date modified</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>Type</value>
@@ -297,17 +291,11 @@
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>Date modified</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Type</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>Ascending</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>Descending</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>Refresh</value>
@@ -822,9 +810,6 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Set as</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>Copy location</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
@@ -1176,7 +1161,7 @@
   <data name="PropertySectionDocument" xml:space="preserve">
     <value>Document</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>Address</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
@@ -1836,7 +1821,7 @@
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Date modified</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
@@ -1851,7 +1836,7 @@
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
     <value>Sort direction</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>Descending</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
@@ -2013,7 +1998,7 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>Recycle cancelled</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>canceling</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -2034,7 +2019,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>Advanced permissions</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>Allow</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">

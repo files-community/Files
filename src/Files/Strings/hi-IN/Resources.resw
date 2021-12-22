@@ -801,7 +801,7 @@
   <data name="PropertySectionDocument" xml:space="preserve">
     <value>दस्तावेज़</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>पता</value>
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
@@ -1110,7 +1110,7 @@
   <data name="CopyInProgress.Title" xml:space="preserve">
     <value>आइटम की प्रतिलिपि बनाई जा रही है</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>रद्द किया जा रहा है</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1152,7 +1152,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>नई विंडो</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>स्थान की प्रतिलिपि बनाएँ</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1167,7 +1167,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>उन्नत अनुमतियाँ</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>अनुमति दें</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -1350,13 +1350,13 @@
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>नाम</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>संशोधन दिनांक</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>प्रकार</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>अवरोही</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

@@ -27,7 +27,7 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Documento de Texto</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>Copiar ubicación</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1014,7 +1014,7 @@
   <data name="PropertySectionDocument" xml:space="preserve">
     <value>Documento</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>Dirección</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
@@ -1791,7 +1791,7 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>El reciclado ha sido cancelado</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>Cancelando</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1812,7 +1812,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>Permisos avanzados</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>Permitir</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -2278,7 +2278,7 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Nombre</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Fecha de modificación</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
@@ -2287,7 +2287,7 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>Tipo</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>Descendente</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

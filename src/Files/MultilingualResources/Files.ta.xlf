@@ -1248,7 +1248,7 @@
           <source>Music</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இசை</target>
         </trans-unit>
-        <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
+        <trans-unit id="Address" translate="yes" xml:space="preserve">
           <source>Address</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">முகவரி</target>
         </trans-unit>
@@ -2336,7 +2336,7 @@
           <source>Recycle cancelled</source>
           <target state="new">Recycle cancelled</target>
         </trans-unit>
-        <trans-unit id="StatusCancellingOp" translate="yes" xml:space="preserve">
+        <trans-unit id="canceling" translate="yes" xml:space="preserve">
           <source>canceling</source>
           <target state="new">canceling</target>
         </trans-unit>
@@ -2396,7 +2396,7 @@
           <source>New window</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">புதிய சாளரம்</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarCopyPath.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="CopyLocation" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இருப்பிடத்தை நகலெடு</target>
         </trans-unit>
@@ -2424,7 +2424,7 @@
           <source>Advanced permissions</source>
           <target state="new">Advanced permissions</target>
         </trans-unit>
-        <trans-unit id="SecurityAllowLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Allow" translate="yes" xml:space="preserve">
           <source>Allow</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">அனுமதி</target>
         </trans-unit>
@@ -3050,7 +3050,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Name</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">பெயரிடு</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionDateModified.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateModifiedLowerCase" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">மாற்றப்பட்ட தேதி</target>
         </trans-unit>
@@ -3062,7 +3062,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Type</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">தட்டச்சுசெய்யவும்</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Descending" translate="yes" xml:space="preserve">
           <source>Descending</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இறங்குவரிசையில்</target>
         </trans-unit>

@@ -1002,7 +1002,7 @@
   <data name="PropertySectionDocument" xml:space="preserve">
     <value>문서</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>주소</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1758,7 +1758,7 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>휴지통 비우기가 취소되었습니다</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>취소 중</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1803,7 +1803,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>새 창</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>위치 복사</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1824,7 +1824,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>고급 사용 권한</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>허용</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -2290,7 +2290,7 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>이름</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>수정한 날짜</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
@@ -2299,7 +2299,7 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>유형</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>내림차순</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

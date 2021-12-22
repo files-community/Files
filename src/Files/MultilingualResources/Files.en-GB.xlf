@@ -26,7 +26,7 @@
           <source>Text Document</source>
           <target state="translated" state-qualifier="tm-suggestion">Text Document</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarCopyPath.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="CopyLocation" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="translated" state-qualifier="tm-suggestion">Copy Location</target>
         </trans-unit>
@@ -1426,7 +1426,7 @@
           <source>Document</source>
           <target state="translated" state-qualifier="tm-suggestion">Document</target>
         </trans-unit>
-        <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
+        <trans-unit id="Address" translate="yes" xml:space="preserve">
           <source>Address</source>
           <target state="translated" state-qualifier="tm-suggestion">Address</target>
         </trans-unit>
@@ -2523,7 +2523,7 @@
           <source>Recycle cancelled</source>
           <target state="translated">Recycle cancelled</target>
         </trans-unit>
-        <trans-unit id="StatusCancellingOp" translate="yes" xml:space="preserve">
+        <trans-unit id="canceling" translate="yes" xml:space="preserve">
           <source>canceling</source>
           <target state="translated">cancelling</target>
         </trans-unit>
@@ -2547,7 +2547,7 @@
           <source>Advanced permissions</source>
           <target state="translated" state-qualifier="tm-suggestion">Advanced permissions</target>
         </trans-unit>
-        <trans-unit id="SecurityAllowLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Allow" translate="yes" xml:space="preserve">
           <source>Allow</source>
           <target state="translated" state-qualifier="tm-suggestion">Allow</target>
         </trans-unit>
@@ -3049,7 +3049,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Name</source>
           <target state="translated" state-qualifier="tm-suggestion">Name</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionDateModified.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateModifiedLowerCase" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="translated" state-qualifier="tm-suggestion">Date modified</target>
         </trans-unit>
@@ -3061,7 +3061,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Type</source>
           <target state="translated" state-qualifier="tm-suggestion">Type</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Descending" translate="yes" xml:space="preserve">
           <source>Descending</source>
           <target state="translated" state-qualifier="tm-suggestion">Descending</target>
         </trans-unit>

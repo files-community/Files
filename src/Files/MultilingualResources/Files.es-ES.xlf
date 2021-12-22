@@ -1246,7 +1246,7 @@
           <source>Music</source>
           <target state="translated">Música</target>
         </trans-unit>
-        <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
+        <trans-unit id="Address" translate="yes" xml:space="preserve">
           <source>Address</source>
           <target state="translated">Dirección</target>
         </trans-unit>
@@ -2335,7 +2335,7 @@
           <source>Recycle cancelled</source>
           <target state="translated">Reciclaje cancelado</target>
         </trans-unit>
-        <trans-unit id="StatusCancellingOp" translate="yes" xml:space="preserve">
+        <trans-unit id="canceling" translate="yes" xml:space="preserve">
           <source>canceling</source>
           <target state="translated">cancelando</target>
         </trans-unit>
@@ -2395,7 +2395,7 @@
           <source>New window</source>
           <target state="translated">Nueva ventana</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarCopyPath.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="CopyLocation" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="translated">Copiar ubicación</target>
         </trans-unit>
@@ -2423,7 +2423,7 @@
           <source>Advanced permissions</source>
           <target state="translated">Permisos avanzados</target>
         </trans-unit>
-        <trans-unit id="SecurityAllowLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Allow" translate="yes" xml:space="preserve">
           <source>Allow</source>
           <target state="translated">Permitir</target>
         </trans-unit>
@@ -3051,7 +3051,7 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
           <source>Name</source>
           <target state="translated">Nombre</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionDateModified.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateModifiedLowerCase" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="translated" state-qualifier="tm-suggestion">Fecha de modificación</target>
         </trans-unit>
@@ -3063,7 +3063,7 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
           <source>Type</source>
           <target state="translated" state-qualifier="tm-suggestion">Tipo</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Descending" translate="yes" xml:space="preserve">
           <source>Descending</source>
           <target state="translated" state-qualifier="tm-suggestion">Descendente</target>
         </trans-unit>

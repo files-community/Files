@@ -26,7 +26,7 @@
           <source>Text Document</source>
           <target state="translated">Tài liệu văn bản</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarCopyPath.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="CopyLocation" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="translated">Sao chép vị trí</target>
         </trans-unit>
@@ -1415,7 +1415,7 @@
           <source>Document</source>
           <target state="translated">Tài liệu</target>
         </trans-unit>
-        <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
+        <trans-unit id="Address" translate="yes" xml:space="preserve">
           <source>Address</source>
           <target state="translated">Địa chỉ</target>
         </trans-unit>
@@ -2508,7 +2508,7 @@
           <source>Recycle cancelled</source>
           <target state="translated">Hoạt động dọn thùng rác bị hủy bỏ</target>
         </trans-unit>
-        <trans-unit id="StatusCancellingOp" translate="yes" xml:space="preserve">
+        <trans-unit id="canceling" translate="yes" xml:space="preserve">
           <source>canceling</source>
           <target state="translated">Hoạt động dọn thùng rác bị hủy bỏ</target>
         </trans-unit>
@@ -2532,7 +2532,7 @@
           <source>Advanced permissions</source>
           <target state="translated">Cấp phép nâng cao</target>
         </trans-unit>
-        <trans-unit id="SecurityAllowLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Allow" translate="yes" xml:space="preserve">
           <source>Allow</source>
           <target state="translated">Cho phép</target>
         </trans-unit>
@@ -3016,7 +3016,7 @@
           <source>Name</source>
           <target state="new">Name</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionDateModified.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateModifiedLowerCase" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="new">Date modified</target>
         </trans-unit>
@@ -3032,7 +3032,7 @@
           <source>Sort By</source>
           <target state="new">Sort By</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Descending" translate="yes" xml:space="preserve">
           <source>Descending</source>
           <target state="new">Descending</target>
         </trans-unit>

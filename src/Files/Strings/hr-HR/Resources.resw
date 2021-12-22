@@ -27,7 +27,7 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Tekstualni dokument</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>Kopiraj lokaciju</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1077,7 +1077,7 @@
   <data name="PropertySectionDocument" xml:space="preserve">
     <value>Dokument</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>Adresa</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
@@ -1899,7 +1899,7 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>Recikliranje je otkazano</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>otkazivanje</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1917,7 +1917,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>Napredne dozvole</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>Dopusti</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -2289,7 +2289,7 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Naziv</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Datum promjene</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
@@ -2298,7 +2298,7 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>Vrsta</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>Silazno</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

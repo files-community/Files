@@ -915,7 +915,7 @@
   <data name="PropertySectionMusic" xml:space="preserve">
     <value>Музыка</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>Адрес</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
@@ -1731,7 +1731,7 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>Перемещение в Корзину отменено</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>идет отмена</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1776,7 +1776,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Новое окно</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>Копировать местоположение</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1797,7 +1797,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>Расширенные разрешения</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>Разрешить</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -2261,7 +2261,7 @@ Files не собирает, хранит, распространяет или �
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Название</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Дата изменения</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
@@ -2270,7 +2270,7 @@ Files не собирает, хранит, распространяет или �
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>Тип</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>По убыванию</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

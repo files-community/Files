@@ -27,7 +27,7 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>ტექსტური დოკუმენტი</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>ასლის მდებარეობა</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1062,7 +1062,7 @@
   <data name="PropertySectionDocument" xml:space="preserve">
     <value>დოკუმენტი</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>მისამართი</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
@@ -1878,7 +1878,7 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>გადამუშავება გაუქმდა</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>მიმდინარეობს გაუქმება</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1896,7 +1896,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>დამატებითი უფლებები</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>დაშვება</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -2289,7 +2289,7 @@
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>არცერთი</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>შეცვლის თარიღი</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
@@ -2298,7 +2298,7 @@
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>ნიმუში</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>კლებადობის მიხედვით</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

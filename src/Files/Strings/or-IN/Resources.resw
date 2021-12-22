@@ -708,7 +708,7 @@
   <data name="PropertySectionMusic" xml:space="preserve">
     <value>ସଙ୍ଗୀତ</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>ଠିକଣା</value>
   </data>
   <data name="PropertyContributor" xml:space="preserve">
@@ -1095,7 +1095,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>ନୂତନ ୱିଣ୍ଡୋ</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>ଅବସ୍ଥାନ କପି କରନ୍ତୁ</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1107,7 +1107,7 @@
   <data name="Security" xml:space="preserve">
     <value>ସୁରକ୍ଷା</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>ଅନୁମତି</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -1272,13 +1272,13 @@
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>ତାରିଖ ସଂଶୋଧିତ</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>ପ୍ରକାର:</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>ଅବରୋହ</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

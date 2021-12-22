@@ -1334,7 +1334,7 @@
           <source>Document</source>
           <target state="translated" state-qualifier="tm-suggestion">文件</target>
         </trans-unit>
-        <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
+        <trans-unit id="Address" translate="yes" xml:space="preserve">
           <source>Address</source>
           <target state="translated" state-qualifier="tm-suggestion">地址</target>
         </trans-unit>
@@ -2335,7 +2335,7 @@
           <source>Recycle cancelled</source>
           <target state="translated">已取消丟入資源回收桶</target>
         </trans-unit>
-        <trans-unit id="StatusCancellingOp" translate="yes" xml:space="preserve">
+        <trans-unit id="canceling" translate="yes" xml:space="preserve">
           <source>canceling</source>
           <target state="translated">取消中</target>
         </trans-unit>
@@ -2395,7 +2395,7 @@
           <source>New window</source>
           <target state="translated">新視窗</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarCopyPath.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="CopyLocation" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="translated">複製位置</target>
         </trans-unit>
@@ -2423,7 +2423,7 @@
           <source>Advanced permissions</source>
           <target state="translated">進階</target>
         </trans-unit>
-        <trans-unit id="SecurityAllowLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Allow" translate="yes" xml:space="preserve">
           <source>Allow</source>
           <target state="translated">允許</target>
         </trans-unit>
@@ -3050,7 +3050,7 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
           <source>Name</source>
           <target state="translated">名稱</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionDateModified.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateModifiedLowerCase" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="translated" state-qualifier="tm-suggestion">修改日期</target>
         </trans-unit>
@@ -3062,7 +3062,7 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
           <source>Type</source>
           <target state="translated" state-qualifier="tm-suggestion">類型</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Descending" translate="yes" xml:space="preserve">
           <source>Descending</source>
           <target state="translated" state-qualifier="tm-suggestion">遞減</target>
         </trans-unit>

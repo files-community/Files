@@ -1249,7 +1249,7 @@
           <source>Music</source>
           <target state="translated">Muzyka</target>
         </trans-unit>
-        <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
+        <trans-unit id="Address" translate="yes" xml:space="preserve">
           <source>Address</source>
           <target state="translated">Adres</target>
         </trans-unit>
@@ -2338,7 +2338,7 @@
           <source>Recycle cancelled</source>
           <target state="translated">Przenoszenie do kosza anulowane</target>
         </trans-unit>
-        <trans-unit id="StatusCancellingOp" translate="yes" xml:space="preserve">
+        <trans-unit id="canceling" translate="yes" xml:space="preserve">
           <source>canceling</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">anulowanie</target>
         </trans-unit>
@@ -2398,7 +2398,7 @@
           <source>New window</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Nowe okno</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarCopyPath.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="CopyLocation" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Kopiuj lokalizację</target>
         </trans-unit>
@@ -2426,7 +2426,7 @@
           <source>Advanced permissions</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Uprawnienia zaawansowane:</target>
         </trans-unit>
-        <trans-unit id="SecurityAllowLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Allow" translate="yes" xml:space="preserve">
           <source>Allow</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Zezwalaj</target>
         </trans-unit>
@@ -3055,7 +3055,7 @@ Korzystamy z App Center, aby śledzić wykorzystanie aplikacji, znajdować błę
           <source>Name</source>
           <target state="translated">Nazwa</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionDateModified.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateModifiedLowerCase" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="translated">Data modyfikacji</target>
         </trans-unit>
@@ -3067,7 +3067,7 @@ Korzystamy z App Center, aby śledzić wykorzystanie aplikacji, znajdować błę
           <source>Type</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Typ</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Descending" translate="yes" xml:space="preserve">
           <source>Descending</source>
           <target state="translated">Malejąco</target>
         </trans-unit>

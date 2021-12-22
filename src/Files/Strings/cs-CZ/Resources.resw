@@ -996,7 +996,7 @@
   <data name="PropertySectionDocument" xml:space="preserve">
     <value>Dokument</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>Adresa</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1410,7 +1410,7 @@
   <data name="CopyInProgress.Title" xml:space="preserve">
     <value>Kopírování položek</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>Rušení</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1452,7 +1452,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nové okno</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>Kopírovat umístění</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1470,7 +1470,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>Rozšířená oprávnění</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>Povolit</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -1710,13 +1710,13 @@
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Jméno/název</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Datum změny</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>Typ</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>Sestupně</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

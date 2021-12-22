@@ -1326,7 +1326,7 @@
           <source>Document</source>
           <target state="translated">문서</target>
         </trans-unit>
-        <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
+        <trans-unit id="Address" translate="yes" xml:space="preserve">
           <source>Address</source>
           <target state="translated">주소</target>
         </trans-unit>
@@ -2335,7 +2335,7 @@
           <source>Recycle cancelled</source>
           <target state="translated">휴지통 비우기가 취소되었습니다</target>
         </trans-unit>
-        <trans-unit id="StatusCancellingOp" translate="yes" xml:space="preserve">
+        <trans-unit id="canceling" translate="yes" xml:space="preserve">
           <source>canceling</source>
           <target state="translated" state-qualifier="tm-suggestion">취소 중</target>
         </trans-unit>
@@ -2395,7 +2395,7 @@
           <source>New window</source>
           <target state="translated" state-qualifier="tm-suggestion">새 창</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarCopyPath.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="CopyLocation" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="translated" state-qualifier="tm-suggestion">위치 복사</target>
         </trans-unit>
@@ -2423,7 +2423,7 @@
           <source>Advanced permissions</source>
           <target state="translated">고급 사용 권한</target>
         </trans-unit>
-        <trans-unit id="SecurityAllowLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Allow" translate="yes" xml:space="preserve">
           <source>Allow</source>
           <target state="translated">허용</target>
         </trans-unit>
@@ -3050,7 +3050,7 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
           <source>Name</source>
           <target state="translated" state-qualifier="tm-suggestion">이름</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionDateModified.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateModifiedLowerCase" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="translated" state-qualifier="tm-suggestion">수정한 날짜</target>
         </trans-unit>
@@ -3062,7 +3062,7 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
           <source>Type</source>
           <target state="translated" state-qualifier="tm-suggestion">유형</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Descending" translate="yes" xml:space="preserve">
           <source>Descending</source>
           <target state="translated" state-qualifier="tm-suggestion">내림차순</target>
         </trans-unit>

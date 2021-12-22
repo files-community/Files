@@ -223,7 +223,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortByDate/Text".GetLocalized(),
+                            Text = "DateModifiedLowerCase".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedByDate,
                             Command = new RelayCommand(() => itemViewModel.IsSortedByDate = true),
                             ShowInRecycleBin = true,
@@ -322,7 +322,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortByDescending/Text".GetLocalized(),
+                            Text = "Descending".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedDescending,
                             Command = new RelayCommand(() => itemViewModel.IsSortedDescending = true),
                             ShowInRecycleBin = true,
@@ -369,7 +369,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortByDate/Text".GetLocalized(),
+                            Text = "DateModifiedLowerCase".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.DateModified,
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
@@ -788,7 +788,7 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutCopyLocation/Text".GetLocalized(),
+                    Text = "CopyLocation".GetLocalized(),
                     ColoredIcon = new ColoredIconModel()
                     {
                         BaseLayerGlyph = "\uF02F",

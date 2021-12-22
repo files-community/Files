@@ -1008,7 +1008,7 @@
   <data name="PropertySectionDocument" xml:space="preserve">
     <value>文件</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>地址</value>
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
@@ -1758,7 +1758,7 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>已取消丟入資源回收桶</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>取消中</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1803,7 +1803,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>新視窗</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>複製位置</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1824,7 +1824,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>進階</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>允許</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -2290,7 +2290,7 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>名稱</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>修改日期</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
@@ -2299,7 +2299,7 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>類型</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>遞減</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

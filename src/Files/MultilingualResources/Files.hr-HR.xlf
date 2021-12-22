@@ -26,7 +26,7 @@
           <source>Text Document</source>
           <target state="translated">Tekstualni dokument</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarCopyPath.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="CopyLocation" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="translated">Kopiraj lokaciju</target>
         </trans-unit>
@@ -1426,7 +1426,7 @@
           <source>Document</source>
           <target state="translated">Dokument</target>
         </trans-unit>
-        <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
+        <trans-unit id="Address" translate="yes" xml:space="preserve">
           <source>Address</source>
           <target state="translated">Adresa</target>
         </trans-unit>
@@ -2524,7 +2524,7 @@
           <source>Recycle cancelled</source>
           <target state="translated">Recikliranje je otkazano</target>
         </trans-unit>
-        <trans-unit id="StatusCancellingOp" translate="yes" xml:space="preserve">
+        <trans-unit id="canceling" translate="yes" xml:space="preserve">
           <source>canceling</source>
           <target state="translated">otkazivanje</target>
         </trans-unit>
@@ -2548,7 +2548,7 @@
           <source>Advanced permissions</source>
           <target state="translated">Napredne dozvole</target>
         </trans-unit>
-        <trans-unit id="SecurityAllowLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Allow" translate="yes" xml:space="preserve">
           <source>Allow</source>
           <target state="translated">Dopusti</target>
         </trans-unit>
@@ -3049,7 +3049,7 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
           <source>Name</source>
           <target state="translated">Naziv</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionDateModified.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateModifiedLowerCase" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="translated">Datum promjene</target>
         </trans-unit>
@@ -3061,7 +3061,7 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
           <source>Type</source>
           <target state="translated">Vrsta</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Descending" translate="yes" xml:space="preserve">
           <source>Descending</source>
           <target state="translated">Silazno</target>
         </trans-unit>

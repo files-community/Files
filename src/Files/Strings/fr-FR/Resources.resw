@@ -939,7 +939,7 @@
   <data name="PropertySectionMusic" xml:space="preserve">
     <value>Musique</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>Adresse</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
@@ -1758,7 +1758,7 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>Le déplacement vers la Corbeille a été annulé</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>annulé</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1803,7 +1803,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nouvelle fenêtre</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>Copier l'emplacement</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1824,7 +1824,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>Autorisations avancées</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>Autoriser</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -2290,7 +2290,7 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Nom</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Date de modification</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
@@ -2299,7 +2299,7 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>Type</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>Décroissant</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

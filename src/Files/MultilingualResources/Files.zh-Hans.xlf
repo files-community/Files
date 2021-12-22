@@ -1246,7 +1246,7 @@
           <source>Music</source>
           <target state="translated">音乐</target>
         </trans-unit>
-        <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
+        <trans-unit id="Address" translate="yes" xml:space="preserve">
           <source>Address</source>
           <target state="translated">地址</target>
         </trans-unit>
@@ -2336,7 +2336,7 @@
           <source>Recycle cancelled</source>
           <target state="translated">回收取消</target>
         </trans-unit>
-        <trans-unit id="StatusCancellingOp" translate="yes" xml:space="preserve">
+        <trans-unit id="canceling" translate="yes" xml:space="preserve">
           <source>canceling</source>
           <target state="translated">正在取消</target>
         </trans-unit>
@@ -2396,7 +2396,7 @@
           <source>New window</source>
           <target state="translated">新窗口</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarCopyPath.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="CopyLocation" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="translated">复制路径</target>
         </trans-unit>
@@ -2424,7 +2424,7 @@
           <source>Advanced permissions</source>
           <target state="translated">高级权限</target>
         </trans-unit>
-        <trans-unit id="SecurityAllowLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Allow" translate="yes" xml:space="preserve">
           <source>Allow</source>
           <target state="translated">允许</target>
         </trans-unit>
@@ -3051,7 +3051,7 @@ Files 不收集、存储、共享或发布任何个人信息。
           <source>Name</source>
           <target state="translated" state-qualifier="tm-suggestion">名称</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionDateModified.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateModifiedLowerCase" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="translated" state-qualifier="tm-suggestion">修改日期</target>
         </trans-unit>
@@ -3063,7 +3063,7 @@ Files 不收集、存储、共享或发布任何个人信息。
           <source>Type</source>
           <target state="translated" state-qualifier="tm-suggestion">类型</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Descending" translate="yes" xml:space="preserve">
           <source>Descending</source>
           <target state="translated" state-qualifier="tm-suggestion">降序</target>
         </trans-unit>

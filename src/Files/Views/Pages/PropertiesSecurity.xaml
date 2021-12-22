@@ -135,14 +135,13 @@
                 </TextBlock>
 
                 <TextBlock
-                    x:Uid="SecurityAllowLabel"
                     Grid.Row="0"
                     Grid.Column="1"
                     Margin="24,0,24,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Style="{StaticResource PropertyName}"
-                    Text="Allow" />
+                    Text="{helpers:ResourceString Name=Allow}" />
 
                 <TextBlock
                     x:Uid="SecurityDenyLabel"
