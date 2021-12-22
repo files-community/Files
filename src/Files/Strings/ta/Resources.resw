@@ -24,14 +24,8 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>உரை ஆவணம்</value>
   </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>இயக்ககங்கள்</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>பெயர்</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>மாற்றப்பட்ட தேதி</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>வகை</value>
@@ -153,17 +147,11 @@
   <data name="Name" xml:space="preserve">
     <value>பெயர்</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>மாற்றப்பட்ட தேதி</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>வகை</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>ஏறுவரிசை</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>இறங்குவரிசை</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>புதுப்பி</value>
@@ -290,9 +278,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>சிறிய சின்னங்கள்</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>ஓடுகள்</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>சரி</value>
@@ -619,9 +604,6 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>இவ்வாறு அமை</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>இருப்பிடத்தை நகலெடு</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>தாவலை சேர்</value>
   </data>
@@ -657,9 +639,6 @@
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>ஒரு கோப்புறை மேல் செல்</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Edit terminal applications</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>எங்களை ஆதரவளி</value>

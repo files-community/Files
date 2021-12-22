@@ -24,14 +24,8 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>ପାଠ୍ୟ ଦସ୍ତାବେଜ</value>
   </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>ଡ୍ରାଇଭଗୁଡ଼ିକ</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>ନାମ</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>ତାରିଖ ସଂଶୋଧିତ</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>ପ୍ରକାର</value>
@@ -156,17 +150,11 @@
   <data name="Name" xml:space="preserve">
     <value>ନାମ</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>ତାରିଖ ସଂଶୋଧିତ</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>ପ୍ରକାର</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>ଆରୋହଣ</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>ଅବତରଣ</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>ସତେଜ କର</value>
@@ -293,9 +281,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>ଗ୍ରୀଡ୍ ଭ୍ୟୁ (ଛୋଟ)</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>ଟାଇଲ୍ସ ଭ୍ୟୁ</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>ଠିକ୍ ଅଛି</value>
@@ -581,9 +566,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>ଏହି ଭାବେ ସେଟ୍ କରନ୍ତୁ</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>ଅବସ୍ଥାନ କପି କରନ୍ତୁ</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>ବାତିଲ୍</value>

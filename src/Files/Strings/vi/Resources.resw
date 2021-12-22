@@ -36,14 +36,8 @@
   <data name="Browse" xml:space="preserve">
     <value>Duyệt tìm</value>
   </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>Những ổ lưu trữ:</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Tên</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>Ngày sửa đổi</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>Loại</value>
@@ -189,17 +183,11 @@
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>Ngày sửa đổi</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Loại</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>Tăng dần</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>Giảm dần</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>Làm mới</value>
@@ -338,9 +326,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>Chế độ xem lưới (Nhỏ)</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>Chế độ xem ngói</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>Đồng ý</value>
@@ -711,9 +696,6 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Đặt làm</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>Sao chép vị trí</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Hủy bỏ</value>
   </data>
@@ -755,12 +737,6 @@
   </data>
   <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
     <value>Tab chuyển ra dọc</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Tab chuyển ra đứng thẳng</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Chỉnh sửa ứng dụng đến Terminal</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Ngôn ngữ</value>
@@ -1236,9 +1212,6 @@
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Chế độ xem lưới (Nhỏ) (Ctrl+Shift+3)</value>
   </data>
-  <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Chế độ xem gạch</value>
-  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Ngày xóa</value>
   </data>
@@ -1260,12 +1233,6 @@
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
     <value>Văn bản nhập chữ không được trống!</value>
   </data>
-  <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
-    <value>Nhập vào tên bó</value>
-  </data>
-  <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
-    <value>Nhập vào tên bó</value>
-  </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
     <value>Mở trong tab mới</value>
   </data>
@@ -1286,9 +1253,6 @@
   </data>
   <data name="EnterBundleName" xml:space="preserve">
     <value>Nhập vào tên bó</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
-    <value>Tên mong muốn</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
     <value>Nhập vào tên mới</value>

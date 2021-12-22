@@ -24,14 +24,8 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Textový soubor</value>
   </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>Jednotky</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Název</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>Datum změny</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>Typ</value>
@@ -156,17 +150,11 @@
   <data name="Name" xml:space="preserve">
     <value>Název</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>Datum změny</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Typ</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>Vzestupně</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>Sestupně</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>Obnovit</value>
@@ -299,9 +287,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>Mřížka (malá)</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>Dlaždice</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>OK</value>
@@ -663,9 +648,6 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Nastavit jako</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>Zkopírovat cestu</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Storno</value>
   </data>
@@ -701,12 +683,6 @@
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>O položku výše</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Upravit aplikace Terminálu</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Upravit aplikace Terminálu</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Při ukládání některých vlastností došlo k chybě.</value>

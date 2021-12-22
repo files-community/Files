@@ -27,14 +27,8 @@
   <data name="Browse" xml:space="preserve">
     <value>Pārlūkot</value>
   </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>Diski</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Nosaukums</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>Modificēšanas datums</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>Tips</value>
@@ -159,17 +153,11 @@
   <data name="Name" xml:space="preserve">
     <value>Nosaukums</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>Modificēšanas datums</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Tips</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>Augošā secībā</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>Dilstošā secībā</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>Atsvaidzināt</value>
@@ -305,9 +293,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>Mazas ikonas</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>Mozaīka</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>OK</value>
@@ -669,9 +654,6 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Iestatīt kā</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>Kopēt atrašanās vietu</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Atcelt</value>
   </data>
@@ -707,12 +689,6 @@
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Pāriet vienu mapi augšup</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Mainīt komandu uzvednes lietotnes</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Mainīt komandu uzvednes lietotnes</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Bija problēma, saglabājot rekvizītus.</value>
@@ -1146,9 +1122,6 @@
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Režģa skats (Mazs) (Ctrl+Shift+3)</value>
   </data>
-  <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Mozaīka</value>
-  </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Mozaīkas skats (Ctrl+Shift+2)</value>
   </data>
@@ -1173,12 +1146,6 @@
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
     <value>Ievades lauks nevar būt tukšs!</value>
   </data>
-  <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
-    <value>Ievadīt saišķa nosaukumu</value>
-  </data>
-  <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
-    <value>Ievadīt saišķa nosaukumu</value>
-  </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
     <value>Atvērt jaunā cilnē</value>
   </data>
@@ -1199,9 +1166,6 @@
   </data>
   <data name="EnterBundleName" xml:space="preserve">
     <value>Ievadīt saišķa nosaukumu</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
-    <value>Vēlamais nosaukums</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
     <value>Ievadiet jaunu nosaukumu</value>
@@ -2274,12 +2238,6 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
     <value>Faila birka</value>
-  </data>
-  <data name="SettingsEditFileTags.AutomationProperties.Name" xml:space="preserve">
-    <value>Rediģēt failu birkas</value>
-  </data>
-  <data name="SettingsEditFileTags.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Rediģēt failu birkas</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Rediģēt failu birkas</value>

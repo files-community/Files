@@ -93,17 +93,11 @@
   <data name="Name" xml:space="preserve">
     <value>名稱</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>修改日期</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>類型</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>遞增</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>遞減</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>重新整理</value>
@@ -158,9 +152,6 @@
   </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>名稱</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>修改日期</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>類型</value>
@@ -221,9 +212,6 @@
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>搜尋（Ctrl + F）</value>
-  </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>本機</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>檔案</value>
@@ -290,9 +278,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>小圖示</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>並排</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>確定</value>
@@ -651,9 +636,6 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>設為</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>複製位置</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>取消</value>
   </data>
@@ -683,12 +665,6 @@
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>到上一層資料夾</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>編輯終端機應用程式</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
-    <value>編輯終端機應用程式</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>檔案</value>
@@ -1140,9 +1116,6 @@
   <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
     <value>小圖示</value>
   </data>
-  <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
-    <value>並排</value>
-  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>刪除日期</value>
   </data>
@@ -1160,15 +1133,6 @@
   </data>
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
     <value>此欄位不可留白！</value>
-  </data>
-  <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
-    <value>輸入名稱</value>
-  </data>
-  <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
-    <value>輸入名稱</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
-    <value>您想要的名稱</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
     <value>請輸入新名稱</value>
@@ -2322,12 +2286,6 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
     <value>檔案標籤</value>
-  </data>
-  <data name="SettingsEditFileTags.AutomationProperties.Name" xml:space="preserve">
-    <value>編輯檔案標籤</value>
-  </data>
-  <data name="SettingsEditFileTags.ToolTipService.ToolTip" xml:space="preserve">
-    <value>編輯檔案標籤</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>編輯檔案標籤</value>

@@ -93,17 +93,11 @@
   <data name="Name" xml:space="preserve">
     <value>이름</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>수정한 날짜</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>유형</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>오름차순</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>내림차순</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>새로고침</value>
@@ -158,9 +152,6 @@
   </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>이름</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>수정한 날짜</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>유형</value>
@@ -221,9 +212,6 @@
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>검색 (Ctrl+F)</value>
-  </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>드라이브</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>파일</value>
@@ -579,9 +567,6 @@
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>격자 (소)</value>
   </data>
-  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>타일</value>
-  </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>읽기 전용</value>
   </data>
@@ -666,9 +651,6 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>~(으)로 설정</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>경로 복사</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>취소</value>
   </data>
@@ -704,12 +686,6 @@
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>한 단계 상위 폴더로 이동</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>터미널 편집</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
-    <value>터미널 편집</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>일부 속성을 저장하던 중 문제가 발생했습니다.</value>
@@ -1143,9 +1119,6 @@
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>격자 (소) (Ctrl+Shift+3)</value>
   </data>
-  <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
-    <value>타일</value>
-  </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>타일 (Ctrl+Shift+2)</value>
   </data>
@@ -1170,12 +1143,6 @@
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
     <value>입력 필드는 비워 둘 수 없습니다!</value>
   </data>
-  <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
-    <value>보관함 이름 입력</value>
-  </data>
-  <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
-    <value>보관함 이름 입력</value>
-  </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
     <value>새 탭에서 열기</value>
   </data>
@@ -1196,9 +1163,6 @@
   </data>
   <data name="EnterBundleName" xml:space="preserve">
     <value>보관함 이름 입력</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
-    <value>원하는 이름</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
     <value>새로운 이름 입력</value>
@@ -2322,12 +2286,6 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
     <value>파일 태그</value>
-  </data>
-  <data name="SettingsEditFileTags.AutomationProperties.Name" xml:space="preserve">
-    <value>파일 태그 수정</value>
-  </data>
-  <data name="SettingsEditFileTags.ToolTipService.ToolTip" xml:space="preserve">
-    <value>파일 태그 수정</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>파일 태그 수정</value>

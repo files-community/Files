@@ -27,14 +27,8 @@
   <data name="Browse" xml:space="preserve">
     <value>Jelajahi</value>
   </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>Drive</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Nama</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>Tanggal diubah</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>Jenis</value>
@@ -159,17 +153,11 @@
   <data name="Name" xml:space="preserve">
     <value>Nama</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>Tanggal diubah</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Jenis</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>Urutan naik</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>Urutan turun</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>Segarkan</value>
@@ -305,9 +293,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>Ikon Kecil</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>Ubin</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>Oke</value>
@@ -678,9 +663,6 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Atur sebagai</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>Salin lokasi</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Batal</value>
   </data>
@@ -716,12 +698,6 @@
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Naik satu tingkat direktori</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Ubah aplikasi terminal</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Ubah aplikasi terminal</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Terjadi masalah saat menyimpan beberapa properti.</value>
@@ -1179,9 +1155,6 @@
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ikon Kecil (Ctrl+Shift+3)</value>
   </data>
-  <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Ubin</value>
-  </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ubin (Ctrl+Shift+2)</value>
   </data>
@@ -1206,12 +1179,6 @@
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
     <value>Kolom tidak boleh kosong!</value>
   </data>
-  <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
-    <value>Masukkan nama Bundel</value>
-  </data>
-  <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
-    <value>Masukkan nama Bundel</value>
-  </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
     <value>Buka di tab baru</value>
   </data>
@@ -1232,9 +1199,6 @@
   </data>
   <data name="EnterBundleName" xml:space="preserve">
     <value>Masukkan nama Bundel</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
-    <value>Nama yang diinginkan</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
     <value>Masukkan nama baru</value>
@@ -2295,12 +2259,6 @@ Kami menggunakan App Center untuk melacak penggunaan aplikasi, menemukan bug, da
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
     <value>Tag file</value>
-  </data>
-  <data name="SettingsEditFileTags.AutomationProperties.Name" xml:space="preserve">
-    <value>Ubah tag file</value>
-  </data>
-  <data name="SettingsEditFileTags.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Ubah tag file</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Ubah tag file</value>

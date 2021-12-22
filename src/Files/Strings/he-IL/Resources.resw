@@ -24,14 +24,8 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>מסמך טקסט</value>
   </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>כוננים:</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>שם</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>תאריך שינוי</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>סוג</value>
@@ -153,17 +147,11 @@
   <data name="Name" xml:space="preserve">
     <value>שם</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>תאריך שינוי</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>סוג</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>סדר עולה</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>סדר יורד</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>רענן</value>
@@ -546,9 +534,6 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>קבע כ-</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>העתק מיקום</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>הוסף כרטיסיה</value>
   </data>
@@ -581,12 +566,6 @@
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>עלה תיקיה אחת למעלה</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>ערוך אפליקציות מסוף תוכנה</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ערוך אפליקציות מסוף תוכנה</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>תמכו בנו</value>
