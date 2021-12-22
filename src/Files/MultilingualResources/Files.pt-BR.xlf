@@ -1344,7 +1344,7 @@
         </trans-unit>
         <trans-unit id="PropertySaveErrorDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Retry</source>
-          <target state="translated">Tentar novamente</target>
+          <target state="translated">Repetir</target>
         </trans-unit>
         <trans-unit id="PropertySaveErrorDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Close anyway</source>
@@ -1404,8 +1404,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Support us on GitHub</source>
-          <target state="needs-review-translation">Apoie-nos no PayPal</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Nos apoie no GitHub</target>
         </trans-unit>
         <trans-unit id="Details" translate="yes" xml:space="preserve">
           <source>Details</source>
@@ -2861,8 +2860,7 @@
         </trans-unit>
         <trans-unit id="SettingsSearchUnindexedItems" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders</source>
-          <target state="needs-review-translation">Mostrar itens não indexados ao pesquisar arquivos e pastas (as pesquisas podem demorar mais)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Mostrar itens não indexados ao pesquisar arquivos e pastas</target>
         </trans-unit>
         <trans-unit id="SettingsEnableLayoutPreferencesPerFolder" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
@@ -3352,23 +3350,23 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
         </trans-unit>
         <trans-unit id="Windows7" translate="yes" xml:space="preserve">
           <source>Windows 7</source>
-          <target state="new">Windows 7</target>
+          <target state="translated">Windows 7</target>
         </trans-unit>
         <trans-unit id="Windows8" translate="yes" xml:space="preserve">
           <source>Windows 8</source>
-          <target state="new">Windows 8</target>
+          <target state="translated">Windows 8</target>
         </trans-unit>
         <trans-unit id="OSCompatibility_WindowsVista" translate="yes" xml:space="preserve">
           <source>Windows Vista</source>
-          <target state="new">Windows Vista</target>
+          <target state="translated">Windows Vista</target>
         </trans-unit>
         <trans-unit id="OSCompatibility_WindowsVistaSP1" translate="yes" xml:space="preserve">
           <source>Windows Vista SP1</source>
-          <target state="new">Windows Vista SP1</target>
+          <target state="translated">Windows Vista SP1</target>
         </trans-unit>
         <trans-unit id="OSCompatibility_WindowsVistaSP2" translate="yes" xml:space="preserve">
           <source>Windows Vista SP2</source>
-          <target state="new">Windows Vista SP2</target>
+          <target state="translated">Windows Vista SP2</target>
         </trans-unit>
         <trans-unit id="ReducedColorMode_Color16Bit" translate="yes" xml:space="preserve">
           <source>16 Bit Colors (65536)</source>
@@ -3420,79 +3418,79 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
         </trans-unit>
         <trans-unit id="SettingsDefaultFilesManager" translate="yes" xml:space="preserve">
           <source>Default file manager</source>
-          <target state="new">Default file manager</target>
+          <target state="translated">Gerenciador de arquivos padrão</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManager" translate="yes" xml:space="preserve">
           <source>Set Files as the default file manager</source>
-          <target state="new">Set Files as the default file manager</target>
+          <target state="translated">Definir o Files como o gerenciador de arquivos padrão</target>
         </trans-unit>
         <trans-unit id="EmptyRecycleBin" translate="yes" xml:space="preserve">
           <source>Empty Recycle Bin</source>
-          <target state="new">Empty Recycle Bin</target>
+          <target state="translated">Esvaziar a Lixeira</target>
         </trans-unit>
         <trans-unit id="Sidebar" translate="yes" xml:space="preserve">
           <source>Sidebar</source>
-          <target state="new">Sidebar</target>
+          <target state="translated">Barra Lateral</target>
         </trans-unit>
         <trans-unit id="FilesAndFolders" translate="yes" xml:space="preserve">
           <source>Files and folders</source>
-          <target state="new">Files and folders</target>
+          <target state="translated">Arquivos e pastas</target>
         </trans-unit>
         <trans-unit id="OpenNewInstance" translate="yes" xml:space="preserve">
           <source>Open new instance when opening directories from the taskbar jumplist</source>
-          <target state="new">Open new instance when opening directories from the taskbar jumplist</target>
+          <target state="translated">Abrir nova instância ao abrir diretórios da lista de atalhos na barra de tarefas</target>
         </trans-unit>
         <trans-unit id="StartupSettings" translate="yes" xml:space="preserve">
           <source>Startup settings</source>
-          <target state="new">Startup settings</target>
+          <target state="translated">Configurações de inicialização</target>
         </trans-unit>
         <trans-unit id="ThirdPartyLicenses" translate="yes" xml:space="preserve">
           <source>Third party licenses</source>
-          <target state="new">Third party licenses</target>
+          <target state="translated">Licenças de terceiros</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
           <source>This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</source>
-          <target state="new">This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</target>
+          <target state="translated">Esta configuração modifica arquivos do sistema e pode ter efeitos colaterais inesperados no seu dispositivo. Os desenvolvedores não assumem nenhuma responsabilidade no caso de um problema ocorrer como resultado. Continuar com essa opção é um reconhecimento dos riscos envolvidos com essa ação. Observe que a desinstalação de arquivos não desinstalará essas alterações e poderá impedi-lo de abrir o explorador de arquivos, a menos que você desligue esta configuração antes de remover arquivos do seu dispositivo.</target>
         </trans-unit>
         <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
           <source>Clear all</source>
-          <target state="new">Clear all</target>
+          <target state="translated">Limpar todos</target>
         </trans-unit>
         <trans-unit id="Columns" translate="yes" xml:space="preserve">
           <source>Columns</source>
-          <target state="new">Columns</target>
+          <target state="translated">Colunas</target>
         </trans-unit>
         <trans-unit id="LargeIcons" translate="yes" xml:space="preserve">
           <source>Large Icons</source>
-          <target state="new">Large Icons</target>
+          <target state="translated">Ícones Grandes</target>
         </trans-unit>
         <trans-unit id="MediumIcons" translate="yes" xml:space="preserve">
           <source>Medium Icons</source>
-          <target state="new">Medium Icons</target>
+          <target state="translated">Ícones Médios</target>
         </trans-unit>
         <trans-unit id="SmallIcons" translate="yes" xml:space="preserve">
           <source>Small Icons</source>
-          <target state="new">Small Icons</target>
+          <target state="translated">Ícones Pequenos</target>
         </trans-unit>
         <trans-unit id="Tiles" translate="yes" xml:space="preserve">
           <source>Tiles</source>
-          <target state="new">Tiles</target>
+          <target state="translated">Blocos</target>
         </trans-unit>
         <trans-unit id="FolderWidgetCreateNewLibraryDialogTitleText" translate="yes" xml:space="preserve">
           <source>Create Library</source>
-          <target state="new">Create Library</target>
+          <target state="translated">Criar Biblioteca</target>
         </trans-unit>
         <trans-unit id="FolderWidgetCreateNewLibraryInputPlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter Library name</source>
-          <target state="new">Enter Library name</target>
+          <target state="translated">Digite o nome da Biblioteca</target>
         </trans-unit>
         <trans-unit id="ShowFolderSize" translate="yes" xml:space="preserve">
           <source>Show folder size</source>
-          <target state="new">Show folder size</target>
+          <target state="translated">Mostrar tamanho da pasta</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSkip" translate="yes" xml:space="preserve">
           <source>Skip</source>
-          <target state="new">Skip</target>
+          <target state="translated">Pular</target>
         </trans-unit>
       </group>
     </body>
