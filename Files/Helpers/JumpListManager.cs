@@ -1,6 +1,5 @@
 using Files.Common;
 using Files.Filesystem;
-using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -58,7 +57,7 @@ namespace Files.Helpers
 
 		private void AddFolder(string path)
 		{
-			if (instance != null && !JumpListItemPaths.Contains(path))
+			if (instance != null)
 			{
 				string displayName = null;
 				if (path.EndsWith("\\"))
