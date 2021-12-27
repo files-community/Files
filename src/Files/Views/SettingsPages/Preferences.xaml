@@ -280,17 +280,15 @@
                                         </AppBarButton.Flyout>
                                     </AppBarButton>
                                     <AppBarButton
-                                        x:Uid="AppBarButtonEdit"
                                         Command="{Binding ChangePageCommand}"
                                         Icon="Edit"
                                         IsEnabled="{Binding IsPageListEditEnabled}"
-                                        Label="Edit" />
+                                        Label="{helpers:ResourceString Name=Edit}" />
                                     <AppBarButton
-                                        x:Uid="AppBarButtonRemove"
                                         Command="{Binding RemovePageCommand}"
                                         Icon="Delete"
                                         IsEnabled="{Binding IsPageListEditEnabled}"
-                                        Label="Remove" />
+                                        Label="{helpers:ResourceString Name=Remove}" />
                                 </CommandBar>
 
                                 <ListView

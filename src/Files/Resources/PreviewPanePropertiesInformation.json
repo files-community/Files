@@ -1,6 +1,6 @@
 ﻿[
   {
-    "NameResource": "PropertyAddress",
+    "NameResource": "Address",
     "SectionResource": "PropertySectionGPS",
     "Property": null,
     "IsReadOnly": true,
@@ -150,7 +150,7 @@
     "ID": null
   },
   {
-    "NameResource": "PropertyConductor",
+    "NameResource": "Conductor",
     "SectionResource": "PropertySectionMusic",
     "Property": "System.Music.Conductor",
     "IsReadOnly": false,
@@ -292,35 +292,35 @@
   },
   {
     "NameResource": "PropertyContributor",
-    "SectionResource": "PropertySectionDocument",
+    "SectionResource": "Document",
     "Property": "System.Document.Contributor",
     "IsReadOnly": true,
     "ID": null
   },
   {
     "NameResource": "PropertyLastAuthor",
-    "SectionResource": "PropertySectionDocument",
+    "SectionResource": "Document",
     "Property": "System.Document.LastAuthor",
     "IsReadOnly": true,
     "ID": null
   },
   {
     "NameResource": "PropertyRevisionNumber",
-    "SectionResource": "PropertySectionDocument",
+    "SectionResource": "Document",
     "Property": "System.Document.RevisionNumber",
     "IsReadOnly": true,
     "ID": null
   },
   {
     "NameResource": "PropertyTotalEditingTime",
-    "SectionResource": "PropertySectionDocument",
+    "SectionResource": "Document",
     "Property": "System.Document.TotalEditingTime",
     "IsReadOnly": true,
     "ID": null
   },
   {
     "NameResource": "PropertyTemplate",
-    "SectionResource": "PropertySectionDocument",
+    "SectionResource": "Document",
     "Property": "System.Document.Template",
     "IsReadOnly": true,
     "ID": null

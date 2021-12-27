@@ -1,8 +1,8 @@
 ﻿using Files.Common;
+using FilesFullTrust.MMI;
+using Microsoft.Management.Infrastructure;
 using System;
 using System.IO.Pipes;
-using Microsoft.Management.Infrastructure;
-using FilesFullTrust.MMI;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 

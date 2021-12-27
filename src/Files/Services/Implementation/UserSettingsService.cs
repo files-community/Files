@@ -96,6 +96,6 @@ namespace Files.Services.Implementation
         {
             settingsServiceMember ??= Ioc.Default.GetService<TSettingsService>();
             return settingsServiceMember;
-        } 
+        }
     }
 }

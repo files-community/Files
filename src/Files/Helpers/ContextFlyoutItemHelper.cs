@@ -126,7 +126,7 @@ namespace Files.Helpers
                         // Tiles view
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutTiles/Text".GetLocalized(),
+                            Text = "Tiles".GetLocalized(),
                             Glyph = "\uE15C",
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
@@ -212,7 +212,7 @@ namespace Files.Helpers
                     {
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortByName/Text".GetLocalized(),
+                            Text = "Name".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedByName,
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
@@ -223,7 +223,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortByDate/Text".GetLocalized(),
+                            Text = "DateModifiedLowerCase".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedByDate,
                             Command = new RelayCommand(() => itemViewModel.IsSortedByDate = true),
                             ShowInRecycleBin = true,
@@ -322,7 +322,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortByDescending/Text".GetLocalized(),
+                            Text = "Descending".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedDescending,
                             Command = new RelayCommand(() => itemViewModel.IsSortedDescending = true),
                             ShowInRecycleBin = true,
@@ -357,7 +357,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortByName/Text".GetLocalized(),
+                            Text = "Name".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.Name,
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
@@ -369,7 +369,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortByDate/Text".GetLocalized(),
+                            Text = "DateModifiedLowerCase".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.DateModified,
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
@@ -620,7 +620,7 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutOpenItem/Text".GetLocalized(),
+                    Text = "Open".GetLocalized(),
                     Glyph = "\uE8E5",
                     Command = commandsViewModel.OpenItemCommand,
                     ShowInSearchPage = true,
@@ -788,7 +788,7 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutCopyLocation/Text".GetLocalized(),
+                    Text = "CopyLocation".GetLocalized(),
                     ColoredIcon = new ColoredIconModel()
                     {
                         BaseLayerGlyph = "\uF02F",

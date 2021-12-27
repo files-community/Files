@@ -676,7 +676,7 @@ namespace FilesFullTrust.MessageHandlers
                         bool success = false;
                         if (string.IsNullOrEmpty(compatOptions) || compatOptions == "~")
                         {
-                            success = Win32API.RunPowershellCommand(@$"Remove-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' | Out-Null", false); 
+                            success = Win32API.RunPowershellCommand(@$"Remove-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' | Out-Null", false);
                         }
                         else
                         {

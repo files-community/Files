@@ -31,7 +31,7 @@ namespace Files.ViewModels.SettingsViewModels
 
         public ICommand ExportSettingsCommand { get; }
 
-        public ICommand ImportSettingsCommand { get;  }
+        public ICommand ImportSettingsCommand { get; }
 
         public RelayCommand<ItemClickEventArgs> ClickAboutFeedbackItemCommand =>
             new RelayCommand<ItemClickEventArgs>(ClickAboutFeedbackItem);

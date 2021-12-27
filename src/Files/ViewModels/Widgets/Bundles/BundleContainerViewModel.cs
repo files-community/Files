@@ -176,7 +176,7 @@ namespace Files.ViewModels.Widgets.Bundles
         {
             TextBox inputText = new TextBox()
             {
-                PlaceholderText = "BundlesWidgetRenameBundleDialogInputPlaceholderText".GetLocalized()
+                PlaceholderText = "DesiredName".GetLocalized()
             };
 
             TextBlock tipText = new TextBlock()

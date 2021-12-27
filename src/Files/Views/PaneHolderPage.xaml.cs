@@ -1,7 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.Services;
 using Files.UserControls.MultitaskingControl;
-using Files.ViewModels;
 using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;

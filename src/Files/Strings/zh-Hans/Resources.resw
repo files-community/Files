@@ -66,13 +66,13 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>偏好</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>桌面</value>
   </data>
-  <data name="SidebarDocuments" xml:space="preserve">
+  <data name="Documents" xml:space="preserve">
     <value>文档</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>下载</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
@@ -90,20 +90,14 @@
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>排序方式</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>名称</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>修改日期</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>类型</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>升序</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>降序</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>刷新</value>
@@ -158,9 +152,6 @@
   </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>名称</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>修改日期</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>类型</value>
@@ -222,9 +213,6 @@
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>搜索 (Ctrl+F)</value>
   </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>驱动器</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>文件</value>
   </data>
@@ -243,7 +231,7 @@
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>反选</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>打开</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
@@ -290,9 +278,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>网格视图（小）</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>平铺视图</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>确定</value>
@@ -633,9 +618,6 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>设置为</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>复制路径</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>添加选项卡</value>
   </data>
@@ -674,12 +656,6 @@
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>跳转上级目录</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>编辑终端应用</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
-    <value>编辑终端应用</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>支持我们</value>
@@ -849,7 +825,7 @@
   <data name="PropertyComposer" xml:space="preserve">
     <value>作曲者</value>
   </data>
-  <data name="PropertyConductor" xml:space="preserve">
+  <data name="Conductor" xml:space="preserve">
     <value>指挥家</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
@@ -942,7 +918,7 @@
   <data name="PropertySectionMusic" xml:space="preserve">
     <value>音乐</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>地址</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
@@ -1008,7 +984,7 @@
   <data name="PropertyOrientation" xml:space="preserve">
     <value>方向</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>文档</value>
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
@@ -1060,7 +1036,7 @@
     <value>向开发人员发送问题报告以及更多信息</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>通过 PayPal 支持我们</value>
+    <value>在GitHub上支持我们</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>详细信息</value>
@@ -1077,7 +1053,7 @@
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>文件</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>文件</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
@@ -1095,10 +1071,10 @@
   <data name="Add" xml:space="preserve">
     <value>添加</value>
   </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>编辑</value>
   </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+  <data name="Remove" xml:space="preserve">
     <value>移除</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -1140,9 +1116,6 @@
   <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
     <value>网格视图（小）</value>
   </data>
-  <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
-    <value>平铺视图</value>
-  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>删除日期</value>
   </data>
@@ -1152,22 +1125,13 @@
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
     <value>输入框不能为空。</value>
   </data>
-  <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
-    <value>键入包名</value>
-  </data>
-  <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
-    <value>键入包名</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
-    <value>期望名称</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
     <value>输入新的名称</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>将 "{0}"重命名</value>
   </data>
-  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+  <data name="DesiredName" xml:space="preserve">
     <value>期望名称</value>
   </data>
   <data name="Confirm" xml:space="preserve">
@@ -1200,7 +1164,7 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>拖拽任何文件或文件夹到此以快速访问</value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>输入包的名称</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
@@ -1344,7 +1308,7 @@
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>目标</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
+  <data name="Arguments" xml:space="preserve">
     <value>参数</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
@@ -1619,7 +1583,7 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>微小</value>
   </data>
-  <data name="ItemTimeText_Today" xml:space="preserve">
+  <data name="Today" xml:space="preserve">
     <value>今天</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
@@ -1760,7 +1724,7 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>回收取消</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>正在取消</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1805,7 +1769,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>新窗口</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>复制路径</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1826,7 +1790,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>高级权限</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>允许</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -2154,7 +2118,7 @@
     <value>列出和排序文件旁的目录</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>搜索文件和文件夹时显示未建立索引的项（搜索可能需要更长时间）</value>
+    <value>搜索文件和文件夹时显示未建立索引的项</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
     <value>为各个目录启用个性化设置</value>
@@ -2186,7 +2150,7 @@
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>更新</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+  <data name="AddFile" xml:space="preserve">
     <value>添加文件</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
@@ -2293,7 +2257,7 @@ Files 不收集、存储、共享或发布任何个人信息。
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>名称</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>修改日期</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
@@ -2302,7 +2266,7 @@ Files 不收集、存储、共享或发布任何个人信息。
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>类型</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>降序</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
@@ -2325,12 +2289,6 @@ Files 不收集、存储、共享或发布任何个人信息。
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
     <value>文件标签</value>
-  </data>
-  <data name="SettingsEditFileTags.AutomationProperties.Name" xml:space="preserve">
-    <value>编辑文件标签</value>
-  </data>
-  <data name="SettingsEditFileTags.ToolTipService.ToolTip" xml:space="preserve">
-    <value>编辑文件标签</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>编辑文件标签</value>
@@ -2598,5 +2556,32 @@ Files 不收集、存储、共享或发布任何个人信息。
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>清空</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>列视图</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>网格视图（大）</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>网格视图（中）</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>网格视图（小）</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>平铺视图</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>创建库</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>输入库名</value>
+  </data>
+  <data name="ShowFolderSize" xml:space="preserve">
+    <value>显示文件夹大小</value>
+  </data>
+  <data name="ErrorDialogSkip" xml:space="preserve">
+    <value>跳过</value>
   </data>
 </root>

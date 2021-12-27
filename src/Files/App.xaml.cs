@@ -18,7 +18,6 @@ using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -79,9 +78,9 @@ namespace Files
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
-            
+
             AppServiceConnectionHelper.Register();
-            
+
             this.Services = ConfigureServices();
             Ioc.Default.ConfigureServices(Services);
         }
@@ -196,7 +195,7 @@ namespace Files
         {
             await logWriter.InitializeAsync("debug.log");
             Logger.Info($"App launched. Prelaunch: {e.PrelaunchActivated}");
-            
+
             //start tracking app usage
             SystemInformation.Instance.TrackAppUse(e);
 

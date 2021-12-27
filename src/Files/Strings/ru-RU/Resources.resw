@@ -66,13 +66,13 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Предпочтения</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>Рабочий стол</value>
   </data>
-  <data name="SidebarDocuments" xml:space="preserve">
+  <data name="Documents" xml:space="preserve">
     <value>Документы</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>Загрузки</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
@@ -96,20 +96,14 @@
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Сортировка</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>Имя</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>Дата изменения</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Тип</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>По возрастанию</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>По убыванию</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>Обновить</value>
@@ -152,9 +146,6 @@
   </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Имя</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>Дата изменения</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>Тип</value>
@@ -222,9 +213,6 @@
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Поиск (Ctrl+F)</value>
   </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>Диски</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Файл</value>
   </data>
@@ -252,7 +240,7 @@
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Свойства</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>Открыть</value>
   </data>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
@@ -290,9 +278,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>Обычные значки</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>Плитка</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>ОК</value>
@@ -633,9 +618,6 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Установить как</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>Копировать местоположение</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Создать вкладку</value>
   </data>
@@ -674,12 +656,6 @@
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Перейти на один каталог вверх</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Редактировать приложения терминалов</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Редактировать приложения терминалов</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Поддержать нас</value>
@@ -843,7 +819,7 @@
   <data name="PropertyComposer" xml:space="preserve">
     <value>Композитор</value>
   </data>
-  <data name="PropertyConductor" xml:space="preserve">
+  <data name="Conductor" xml:space="preserve">
     <value>Дирижер</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
@@ -915,7 +891,7 @@
   <data name="PropertySectionMusic" xml:space="preserve">
     <value>Музыка</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>Адрес</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
@@ -981,7 +957,7 @@
   <data name="PropertyOrientation" xml:space="preserve">
     <value>Ориентация</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>Документ</value>
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
@@ -1050,7 +1026,7 @@
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Файл</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>Файл</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
@@ -1068,10 +1044,10 @@
   <data name="Add" xml:space="preserve">
     <value>Добавить</value>
   </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>Изменить</value>
   </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+  <data name="Remove" xml:space="preserve">
     <value>Убрать</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -1113,9 +1089,6 @@
   <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
     <value>Обычные значки</value>
   </data>
-  <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Плитка</value>
-  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Дата удаления</value>
   </data>
@@ -1125,22 +1098,13 @@
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
     <value>Поле ввода не может быть пустым!</value>
   </data>
-  <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
-    <value>Введите название Коллекции папок</value>
-  </data>
-  <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
-    <value>Введите название Коллекции папок</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
-    <value>Имя Коллекции</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
     <value>Введите новое имя</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>Изменить "{0}"</value>
   </data>
-  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+  <data name="DesiredName" xml:space="preserve">
     <value>Имя Коллекции</value>
   </data>
   <data name="Confirm" xml:space="preserve">
@@ -1173,7 +1137,7 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Перетащите сюда любой файл или папку, чтобы быстро получить к ним доступ</value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>Введите название Коллекции папок</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
@@ -1317,7 +1281,7 @@
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>Цель</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
+  <data name="Arguments" xml:space="preserve">
     <value>Аргументы</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
@@ -1590,7 +1554,7 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>Крошечный</value>
   </data>
-  <data name="ItemTimeText_Today" xml:space="preserve">
+  <data name="Today" xml:space="preserve">
     <value>Сегодня</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
@@ -1731,7 +1695,7 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>Перемещение в Корзину отменено</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>идет отмена</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1776,7 +1740,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Новое окно</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>Копировать местоположение</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1797,7 +1761,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>Расширенные разрешения</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>Разрешить</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -2154,7 +2118,7 @@
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>Обновить</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+  <data name="AddFile" xml:space="preserve">
     <value>Добавить файл</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
@@ -2261,7 +2225,7 @@ Files не собирает, хранит, распространяет или �
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Название</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Дата изменения</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
@@ -2270,7 +2234,7 @@ Files не собирает, хранит, распространяет или �
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>Тип</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>По убыванию</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
@@ -2296,12 +2260,6 @@ Files не собирает, хранит, распространяет или �
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
     <value>Метка</value>
-  </data>
-  <data name="SettingsEditFileTags.AutomationProperties.Name" xml:space="preserve">
-    <value>Редактировать метки</value>
-  </data>
-  <data name="SettingsEditFileTags.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Редактировать метки</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Редактировать метки</value>

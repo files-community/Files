@@ -413,11 +413,10 @@
 
                             <uc:DataGridHeader
                                 x:Name="DateModifiedHeader"
-                                x:Uid="dateColumn"
                                 Grid.Column="10"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="DateModified"
-                                Header="Date modified"
+                                Header="{helpers:ResourceString Name=DateModifiedLowerCase}"
                                 Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter

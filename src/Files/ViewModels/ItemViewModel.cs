@@ -357,7 +357,7 @@ namespace Files.ViewModels
             loadPropsCTS = new CancellationTokenSource();
             operationEvent = new AsyncManualResetEvent();
             enumFolderSemaphore = new SemaphoreSlim(1, 1);
-            shouldDisplayFileExtensions =  UserSettingsService.PreferencesSettingsService.ShowFileExtensions;
+            shouldDisplayFileExtensions = UserSettingsService.PreferencesSettingsService.ShowFileExtensions;
 
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
             FileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingImportedEvent;
@@ -1453,7 +1453,7 @@ namespace Files.ViewModels
                         {
                             filesAndFolders.Add(new FtpItem(list[i], path, returnformat));
 
-                            if ( i == list.Length - 1 || sampler.CheckNow())
+                            if (i == list.Length - 1 || sampler.CheckNow())
                             {
                                 await OrderFilesAndFoldersAsync();
                                 await ApplyFilesAndFoldersChangesAsync();

@@ -1,13 +1,10 @@
 using Files.Common;
-using Files.Controllers;
 using Files.DataModels;
 using Files.Enums;
-using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -51,7 +48,7 @@ namespace Files.ViewModels
             await CoreApplication.MainView.Dispatcher.YieldAsync();
             await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
         }
-            
+
         public static async void ReportIssueOnGitHub()
         {
             await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/issues/new/choose"));

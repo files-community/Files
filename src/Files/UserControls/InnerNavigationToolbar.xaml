@@ -328,10 +328,7 @@
                                 x:Uid="NavToolbarArrangementOptionName"
                                 IsChecked="{x:Bind ViewModel.IsSortedByName, Mode=TwoWay}"
                                 Text="Name" />
-                            <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarArrangementOptionDateModified"
-                                IsChecked="{x:Bind ViewModel.IsSortedByDateModified, Mode=TwoWay}"
-                                Text="Date modified" />
+                            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedByDateModified, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateModifiedLowerCase}" />
                             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedByDateCreated, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateCreated}" />
                             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedBySize, Mode=TwoWay}" Text="{helpers:ResourceString Name=Size}" />
                             <ToggleMenuFlyoutItem
@@ -358,17 +355,12 @@
                                 Text="{helpers:ResourceString Name=DateDeleted}" />
                         </MenuFlyoutSubItem>
                         <MenuFlyoutSubItem x:Uid="NavToolbarGroupByRadioButtons" Text="Group by">
-                            <ToggleMenuFlyoutItem
-                                IsChecked="{x:Bind ViewModel.IsGroupedByNone, Mode=TwoWay}"
-                                Text="{helpers:ResourceString Name=None}" />
+                            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByNone, Mode=TwoWay}" Text="{helpers:ResourceString Name=None}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionName"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByName, Mode=TwoWay}"
                                 Text="Name" />
-                            <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarArrangementOptionDateModified"
-                                IsChecked="{x:Bind ViewModel.IsGroupedByDateModified, Mode=TwoWay}"
-                                Text="Date modified" />
+                            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByDateModified, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateModifiedLowerCase}" />
                             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByDateCreated, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateCreated}" />
                             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedBySize, Mode=TwoWay}" Text="{helpers:ResourceString Name=Size}" />
                             <ToggleMenuFlyoutItem
@@ -402,10 +394,7 @@
                         </MenuFlyoutSubItem>
                         <MenuFlyoutSeparator />
                         <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedAscending, Mode=TwoWay}" Text="{helpers:ResourceString Name=Ascending}" />
-                        <ToggleMenuFlyoutItem
-                            x:Uid="NavToolbarSortDirectionOptionDescending"
-                            IsChecked="{x:Bind ViewModel.IsSortedDescending, Mode=TwoWay}"
-                            Text="Descending order" />
+                        <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedDescending, Mode=TwoWay}" Text="{helpers:ResourceString Name=Descending}" />
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
@@ -473,7 +462,6 @@
                                     Text="{helpers:ResourceString Name=Details}" />
 
                                 <RadioButton
-                                    x:Uid="NavToolbarTiles"
                                     Grid.Row="1"
                                     Grid.Column="0"
                                     Width="36"
@@ -482,7 +470,7 @@
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    AutomationProperties.Name="Tiles"
+                                    AutomationProperties.Name="{helpers:ResourceString Name=Tiles}"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"

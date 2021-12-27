@@ -27,7 +27,7 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Έγγραφο κειμένου</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>Aντιγραφή τοποθεσίας</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -36,14 +36,8 @@
   <data name="Browse" xml:space="preserve">
     <value>Περιηγηθείτε στο</value>
   </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>Μονάδες Δίσκου</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Όνομα</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>Ημερομηνία τροποποίησης</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>Τύπος</value>
@@ -159,13 +153,13 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Προτιμήσεις</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>Επιφάνεια εργασίας</value>
   </data>
-  <data name="SidebarDocuments" xml:space="preserve">
+  <data name="Documents" xml:space="preserve">
     <value>Έγγραφα</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>Λήψεις</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
@@ -186,20 +180,14 @@
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Ταξινόμηση κατά</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>Όνομα</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>Ημερομηνία τροποποίησης</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Τύπος</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>Αύξουσα σειρά</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>Φθίνουσα σειρά</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>Ανανέωση</value>
@@ -225,7 +213,7 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Εξαγωγή</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>Άνοιγμα</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
@@ -341,9 +329,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>Μικρά εικονίδια</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>Πλακίδια</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>Εντάξει</value>
@@ -714,9 +699,6 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Ορίστε ως</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>Αντιγραφή τοποθεσίας</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Ακύρωση</value>
   </data>
@@ -726,7 +708,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Επιλέξτε έναν τύπο για αυτό το νέο στοιχείο παρακάτω</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>Αρχείο</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
@@ -758,12 +740,6 @@
   </data>
   <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
     <value>Κάθετη αναδυόμενη καρτέλα</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Επεξεργασία τερματικών εφαρμογών</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Επεξεργασία τερματικών εφαρμογών</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Γλώσσα</value>
@@ -903,7 +879,7 @@
   <data name="PropertyComposer" xml:space="preserve">
     <value>Συνθέτης</value>
   </data>
-  <data name="PropertyConductor" xml:space="preserve">
+  <data name="Conductor" xml:space="preserve">
     <value>Διευθυντής ορχήστρας</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
@@ -1062,10 +1038,10 @@
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Βίντεο</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>Έγγραφο</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>Διεύθυνση</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
@@ -1197,10 +1173,10 @@
   <data name="Add" xml:space="preserve">
     <value>Προσθήκη</value>
   </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>Επεξεργασία</value>
   </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+  <data name="Remove" xml:space="preserve">
     <value>Αφαίρεση</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
@@ -1257,9 +1233,6 @@
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Μικρά εικονίδια (Ctrl+Shift+3)</value>
   </data>
-  <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Πλακίδια</value>
-  </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Πλακίδια (Ctrl+Shift+2)</value>
   </data>
@@ -1284,12 +1257,6 @@
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
     <value>Το πεδίο εισαγωγής δεν μπορεί να είναι κενό!</value>
   </data>
-  <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
-    <value>Εισάγετε το όνομα δέσμης</value>
-  </data>
-  <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
-    <value>Εισάγετε το όνομα δέσμης</value>
-  </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
     <value>Άνοιγμα σε νέα καρτέλα</value>
   </data>
@@ -1308,11 +1275,8 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Σύρετε οποιοδήποτε αρχείο ή φάκελο εδώ για γρήγορη πρόσβαση σε αυτό</value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>Εισάγετε το όνομα δέσμης</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
-    <value>Επιθυμητό όνομα</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
     <value>Εισάγετε το νέο όνομα</value>
@@ -1332,7 +1296,7 @@
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
     <value>Μετονομασία δέσμης</value>
   </data>
-  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+  <data name="DesiredName" xml:space="preserve">
     <value>Επιθυμητό όνομα</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
@@ -1461,7 +1425,7 @@
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>Στόχος</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
+  <data name="Arguments" xml:space="preserve">
     <value>Επιχειρήματα</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
@@ -1743,7 +1707,7 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>Μικροσκοπικό</value>
   </data>
-  <data name="ItemTimeText_Today" xml:space="preserve">
+  <data name="Today" xml:space="preserve">
     <value>Σήμερα</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
@@ -1884,7 +1848,7 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>Η ανακύκλωση ακυρώθηκε</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>ακύρωση</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1902,7 +1866,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>Προηγμένα δικαιώματα</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>Αποδοχή</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -2172,7 +2136,7 @@
   <data name="NavSettingsButton" xml:space="preserve">
     <value>Ρυθμίσεις</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+  <data name="AddFile" xml:space="preserve">
     <value>Προσθήκη αρχείου</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
@@ -2291,7 +2255,7 @@
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Όνομα</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Ημερομηνία τροποποίησης</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
@@ -2300,7 +2264,7 @@
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>Τύπος</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>Φθίνουσα σειρά</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
@@ -2323,12 +2287,6 @@
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
     <value>Ετικέτα αρχείου</value>
-  </data>
-  <data name="SettingsEditFileTags.AutomationProperties.Name" xml:space="preserve">
-    <value>Επεξεργασία ετικετών αρχείων</value>
-  </data>
-  <data name="SettingsEditFileTags.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Επεξεργασία ετικετών αρχείων</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Επεξεργασία ετικετών αρχείων</value>

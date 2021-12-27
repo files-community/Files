@@ -24,14 +24,8 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>מסמך טקסט</value>
   </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>כוננים:</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>שם</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>תאריך שינוי</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>סוג</value>
@@ -126,13 +120,13 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>העדפות</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>שולחן עבודה</value>
   </data>
-  <data name="SidebarDocuments" xml:space="preserve">
+  <data name="Documents" xml:space="preserve">
     <value>מסמכים</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>הורדות</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
@@ -150,20 +144,14 @@
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>מיין לפי</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>שם</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>תאריך שינוי</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>סוג</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>סדר עולה</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>סדר יורד</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>רענן</value>
@@ -177,7 +165,7 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>חלץ</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>פתח</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
@@ -546,9 +534,6 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>קבע כ-</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>העתק מיקום</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>הוסף כרטיסיה</value>
   </data>
@@ -581,12 +566,6 @@
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>עלה תיקיה אחת למעלה</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>ערוך אפליקציות מסוף תוכנה</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ערוך אפליקציות מסוף תוכנה</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>תמכו בנו</value>
@@ -690,7 +669,7 @@
   <data name="PropertyComposer" xml:space="preserve">
     <value>מלחין:</value>
   </data>
-  <data name="PropertyConductor" xml:space="preserve">
+  <data name="Conductor" xml:space="preserve">
     <value>מנצח:</value>
   </data>
   <data name="PropertyGenre" xml:space="preserve">
@@ -744,7 +723,7 @@
   <data name="PropertySectionMusic" xml:space="preserve">
     <value>מוסיקה</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>כתובת</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
@@ -801,7 +780,7 @@
   <data name="PropertyOrientation" xml:space="preserve">
     <value>כיוון</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>מסמך</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -903,7 +882,7 @@
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>קובץ</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>קובץ</value>
   </data>
   <data name="NewFile" xml:space="preserve">
@@ -912,10 +891,10 @@
   <data name="Add" xml:space="preserve">
     <value>הוסף</value>
   </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>ערוך</value>
   </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+  <data name="Remove" xml:space="preserve">
     <value>הסר</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -1038,7 +1017,7 @@
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>יעד</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
+  <data name="Arguments" xml:space="preserve">
     <value>ארגומנטים</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
@@ -1098,7 +1077,7 @@
   <data name="CopyInProgress.Title" xml:space="preserve">
     <value>מעתיק פריטים</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>העתק מיקום</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">

@@ -27,7 +27,7 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Tekstualni dokument</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>Kopiraj lokaciju</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -36,14 +36,8 @@
   <data name="Browse" xml:space="preserve">
     <value>Pregled</value>
   </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>Pogoni</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Naziv</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>Datum promjene</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>Vrsta</value>
@@ -162,13 +156,13 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Postavke</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>Radna površina</value>
   </data>
-  <data name="SidebarDocuments" xml:space="preserve">
+  <data name="Documents" xml:space="preserve">
     <value>Dokumenti</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>Preuzimanja</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
@@ -189,20 +183,14 @@
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sortiraj po</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>Naziv</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>Datum promjene</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Vrsta</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>Uzlazno</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>Silazno</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>Osvježi</value>
@@ -228,7 +216,7 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Raspakiraj</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>Otvori</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
@@ -344,9 +332,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>Male ikone</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>Pločice</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>U redu</value>
@@ -717,9 +702,6 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Postavi kao</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>Kopiraj lokaciju</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Odustani</value>
   </data>
@@ -729,7 +711,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Odaberite vrstu za ovu novu stavku dolje</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>Datoteka</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
@@ -761,12 +743,6 @@
   </data>
   <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
     <value>Vertikalni prozorčić kartica</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Uredi terminal aplikacije</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Uredi terminal aplikacije</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Jezik</value>
@@ -915,7 +891,7 @@
   <data name="PropertyComposer" xml:space="preserve">
     <value>Skladatelj</value>
   </data>
-  <data name="PropertyConductor" xml:space="preserve">
+  <data name="Conductor" xml:space="preserve">
     <value>Dirigent</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
@@ -1074,10 +1050,10 @@
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Videozapis</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>Dokument</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>Adresa</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
@@ -1209,10 +1185,10 @@
   <data name="Add" xml:space="preserve">
     <value>Dodaj</value>
   </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>Uredi</value>
   </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+  <data name="Remove" xml:space="preserve">
     <value>Ukloni</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
@@ -1269,9 +1245,6 @@
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Male ikone (Ctrl+Shift+3)</value>
   </data>
-  <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Pločice</value>
-  </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Pločice (Ctrl+Shift+2)</value>
   </data>
@@ -1296,12 +1269,6 @@
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
     <value>Polje za unos ne može biti prazno!</value>
   </data>
-  <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
-    <value>Unesi naziv paketa</value>
-  </data>
-  <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
-    <value>Unesi naziv paketa</value>
-  </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
     <value>Otvori u novoj kartici</value>
   </data>
@@ -1320,11 +1287,8 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Povucite i ispustite bilo koju datoteku ili mapu ovdje da biste im brzo pristupili</value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>Unesite naziv paketa</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
-    <value>Željeni naziv</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
     <value>Unesi novi naziv</value>
@@ -1344,7 +1308,7 @@
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
     <value>Premienuj paket</value>
   </data>
-  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+  <data name="DesiredName" xml:space="preserve">
     <value>Željeni naziv</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
@@ -1473,7 +1437,7 @@
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>Odredište</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
+  <data name="Arguments" xml:space="preserve">
     <value>Argumenti</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
@@ -1758,7 +1722,7 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>Vrlo malo</value>
   </data>
-  <data name="ItemTimeText_Today" xml:space="preserve">
+  <data name="Today" xml:space="preserve">
     <value>Danas</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
@@ -1899,7 +1863,7 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>Recikliranje je otkazano</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>otkazivanje</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1917,7 +1881,7 @@
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
     <value>Napredne dozvole</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>Dopusti</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -2187,7 +2151,7 @@
   <data name="NavSettingsButton" xml:space="preserve">
     <value>Postavke</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+  <data name="AddFile" xml:space="preserve">
     <value>Dodajte datoteku</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
@@ -2289,7 +2253,7 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Naziv</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Datum promjene</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
@@ -2298,7 +2262,7 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>Vrsta</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>Silazno</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
@@ -2321,12 +2285,6 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
     <value>Oznaka datoteke</value>
-  </data>
-  <data name="SettingsEditFileTags.AutomationProperties.Name" xml:space="preserve">
-    <value>Uredi oznake datoteke</value>
-  </data>
-  <data name="SettingsEditFileTags.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Uredi oznake datoteke</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Uredi oznake datoteke</value>

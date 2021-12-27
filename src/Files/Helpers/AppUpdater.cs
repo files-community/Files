@@ -47,7 +47,7 @@ namespace Files.Helpers
                 App.Logger.Warn(ex, "Could not fetch updates.");
             }
 #else
-            catch (Exception) 
+            catch (Exception)
             {
             }
 #endif

@@ -21,7 +21,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -167,7 +166,7 @@ namespace Files.UserControls
                 UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = false;
                 App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
             }
-            else if ("SidebarDrives".GetLocalized().Equals(RightClickedItem.Text))
+            else if ("Drives".GetLocalized().Equals(RightClickedItem.Text))
             {
                 UserSettingsService.AppearanceSettingsService.ShowDrivesSection = false;
                 App.DrivesManager.UpdateDrivesSectionVisibility();
@@ -339,7 +338,7 @@ namespace Files.UserControls
             var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             var item = sidebarItem.DataContext as LocationItem;
 
-            bool drivesHeader = "SidebarDrives".GetLocalized().Equals(item.Text);
+            bool drivesHeader = "Drives".GetLocalized().Equals(item.Text);
             bool networkDrivesHeader = "SidebarNetworkDrives".GetLocalized().Equals(item.Text);
             bool cloudDrivesHeader = "SidebarCloudDrives".GetLocalized().Equals(item.Text);
             bool librariesHeader = "SidebarLibraries".GetLocalized().Equals(item.Text);
