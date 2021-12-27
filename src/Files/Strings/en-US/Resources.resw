@@ -2686,4 +2686,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="RecentFiles" xml:space="preserve">
     <value>Recent Files</value>
   </data>
+  <data name="SettingsOpenInLogin" xml:space="preserve">
+    <value>Open Files on Windows Startup</value>
+  </data>
 </root>

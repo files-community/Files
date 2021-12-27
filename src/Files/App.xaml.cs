@@ -462,6 +462,9 @@ namespace Files
                         SettingsViewModel.ReportIssueOnGitHub();
                     }
                     break;
+
+                case ActivationKind.StartupTask:
+                    break;
             }
 
             rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());

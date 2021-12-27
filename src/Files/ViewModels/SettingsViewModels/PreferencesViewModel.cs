@@ -16,6 +16,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.ApplicationModel;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.AccessCache;
@@ -42,6 +43,8 @@ namespace Files.ViewModels.SettingsViewModels
 
         public ICommand EditTerminalApplicationsCommand { get; }
 
+        public ICommand OpenFilesAtStartupCommand { get; }
+
         public PreferencesViewModel()
         {
             DefaultLanguages = App.AppSettings.DefaultLanguages;
@@ -53,6 +56,7 @@ namespace Files.ViewModels.SettingsViewModels
             };
 
             EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
+            OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);
             App.TerminalController.ModelChanged += ReloadTerminals;
 
             if (UserSettingsService.PreferencesSettingsService.TabsOnStartupList != null)
@@ -75,8 +79,9 @@ namespace Files.ViewModels.SettingsViewModels
                     recentsItem,
                 });
             }, TaskScheduler.FromCurrentSynchronizationContext());
-        }
 
+            _ = DetectOpenFilesAtStartup();
+        }
 
         private async Task PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
         {
@@ -417,6 +422,85 @@ namespace Files.ViewModels.SettingsViewModels
                     });
                 }
             }
+        }
+
+        private bool openInLogin;
+
+        public bool OpenInLogin
+        {
+            get => openInLogin;
+            set => SetProperty(ref openInLogin, value);
+        }
+
+        private bool canOpenInLogin;
+
+        public bool CanOpenInLogin
+        {
+            get => canOpenInLogin;
+            set => SetProperty(ref canOpenInLogin, value);
+        }
+
+        public async Task OpenFilesAtStartup()
+        {
+            var stateMode = await ReadState();
+
+            bool state = stateMode switch
+            {
+                StartupTaskState.Enabled => true,
+                StartupTaskState.EnabledByPolicy => true,
+                StartupTaskState.DisabledByPolicy => false,
+                StartupTaskState.DisabledByUser => false,
+                _ => false,
+            };
+
+            if (state != OpenInLogin)
+            {
+                StartupTask startupTask = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
+                if (OpenInLogin)
+                {
+                    await startupTask.RequestEnableAsync();
+                }
+                else
+                {
+                    startupTask.Disable();
+                }
+                await DetectOpenFilesAtStartup();
+            }
+        }
+
+        public async Task DetectOpenFilesAtStartup()
+        {
+            var stateMode = await ReadState();
+
+            switch (stateMode)
+            {
+                case StartupTaskState.Disabled:
+                    CanOpenInLogin = true;
+                    OpenInLogin = false;
+                    break;
+                case StartupTaskState.Enabled:
+                    CanOpenInLogin = true;
+                    OpenInLogin = true;
+                    break;
+                case StartupTaskState.DisabledByPolicy:
+                    CanOpenInLogin = false;
+                    OpenInLogin = false;
+                    break;
+                case StartupTaskState.DisabledByUser:
+                    CanOpenInLogin = false;
+                    OpenInLogin = false;
+                    break;
+                case StartupTaskState.EnabledByPolicy:
+                    CanOpenInLogin = false;
+                    OpenInLogin = true;
+                    break;
+            }
+        }
+
+        public async Task<StartupTaskState> ReadState()
+        {
+            var state = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
+            return state.State;
         }
 
         public bool AreHiddenItemsVisible

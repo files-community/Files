@@ -8,6 +8,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:datamodels="using:Files.DataModels"
     xmlns:helpers="using:Files.Helpers"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Files.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
@@ -323,6 +325,23 @@
                                 AutomationProperties.Name="{helpers:ResourceString Name=OpenNewInstance}"
                                 IsOn="{Binding AlwaysOpenANewInstance, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenInLogin}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE7E8;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenInLogin}"
+                                IsEnabled="{Binding CanOpenInLogin, Mode=OneWay}"
+                                IsOn="{Binding OpenInLogin, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}">
+                                <i:Interaction.Behaviors>
+                                    <icore:EventTriggerBehavior EventName="Toggled">
+                                        <icore:InvokeCommandAction Command="{Binding OpenFilesAtStartupCommand, Mode=OneWay}" />
+                                    </icore:EventTriggerBehavior>
+                                </i:Interaction.Behaviors>
+                            </ToggleSwitch>
                         </local:SettingsBlockControl>
                     </StackPanel>
                 </local:SettingsBlockControl.ExpandableContent>
