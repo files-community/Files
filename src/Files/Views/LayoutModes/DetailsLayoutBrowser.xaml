@@ -234,7 +234,7 @@
                     Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
                     <ListView.ItemContainerTransitions>
                         <TransitionCollection>
-                            <ContentThemeTransition />
+                            <AddDeleteThemeTransition />
                         </TransitionCollection>
                     </ListView.ItemContainerTransitions>
                     <ListView.Header>
@@ -397,11 +397,10 @@
 
                             <uc:DataGridHeader
                                 x:Name="DateDeletedHeader"
-                                x:Uid="dateDeletedColumn"
                                 Grid.Column="8"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="DateDeleted"
-                                Header="Date deleted"
+                                Header="{helpers:ResourceString Name=DateDeleted}"
                                 Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
@@ -431,11 +430,10 @@
 
                             <uc:DataGridHeader
                                 x:Name="DateCreatedHeader"
-                                x:Uid="dateCreatedColumn"
                                 Grid.Column="12"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="DateCreated"
-                                Header="Date created"
+                                Header="{helpers:ResourceString Name=DateCreated}"
                                 Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
@@ -465,11 +463,10 @@
 
                             <uc:DataGridHeader
                                 x:Name="ItemSizeHeader"
-                                x:Uid="sizeColumn"
                                 Grid.Column="16"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="Size"
-                                Header="Size"
+                                Header="{helpers:ResourceString Name=Size}"
                                 Visibility="{x:Bind ColumnsViewModel.SizeColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
@@ -521,6 +518,26 @@
                                     <ColumnDefinition Width="{Binding ColumnsViewModel.SizeColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
                                     <ColumnDefinition Width="{Binding ColumnsViewModel.StatusColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
                                 </Grid.ColumnDefinitions>
+                                <animations:Explicit.Animations>
+                                    <animations:AnimationSet x:Name="FadeAnimation">
+                                        <animations:OpacityAnimation
+                                            Delay="0"
+                                            EasingMode="EaseIn"
+                                            EasingType="Linear"
+                                            From="0"
+                                            To="1"
+                                            Duration="0:0:0.05" />
+                                        <animations:TranslationAnimation
+                                            From="0, 5, 0"
+                                            To="0"
+                                            Duration="0:0:.1" />
+                                    </animations:AnimationSet>
+                                </animations:Explicit.Animations>
+                                <i:Interaction.Behaviors>
+                                    <icore:EventTriggerBehavior EventName="Loaded">
+                                        <behaviors:StartAnimationAction Animation="{Binding ElementName=FadeAnimation}" />
+                                    </icore:EventTriggerBehavior>
+                                </i:Interaction.Behaviors>
                                 <Grid
                                     x:Uid="FileBrowserThumbnailIconColumnGrid"
                                     Grid.Column="0"
@@ -739,9 +756,6 @@
                                     <Setter.Value>
                                         <TransitionCollection>
                                             <AddDeleteThemeTransition />
-                                            <ContentThemeTransition />
-                                            <ReorderThemeTransition />
-                                            <EntranceThemeTransition IsStaggeringEnabled="False" />
                                         </TransitionCollection>
                                     </Setter.Value>
                                 </Setter>

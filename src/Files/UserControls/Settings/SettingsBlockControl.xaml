@@ -83,7 +83,7 @@
             <Grid x:Name="ButtonGrid" x:Load="{x:Bind IsClickable, Mode=OneWay}">
                 <Button
                     x:Name="ActionableButton"
-                    Click="ActionableButton_Click"
+                    Command="{x:Bind ButtonCommand, Mode=OneWay}"
                     Style="{StaticResource ButtonSettingsBlockStyle}">
                     <local:SettingsDisplayControl
                         Title="{x:Bind Title, Mode=OneWay}"

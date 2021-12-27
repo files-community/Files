@@ -274,7 +274,7 @@ namespace Files
                             if (isSizeKnown)
                             {
                                 long size = selectedItems.Sum(item => item.FileSizeBytes);
-                                SelectedItemsPropertiesViewModel.ItemSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
+                                SelectedItemsPropertiesViewModel.ItemSize = size.ToSizeString();
                             }
                         }
                     }
@@ -629,7 +629,7 @@ namespace Files
                     {
                         long size = items.Sum(item => item.FileSizeBytes);
                         SelectedItemsPropertiesViewModel.ItemSizeBytes = size;
-                        SelectedItemsPropertiesViewModel.ItemSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
+                        SelectedItemsPropertiesViewModel.ItemSize = size.ToSizeString();
                     }
                 }
             }

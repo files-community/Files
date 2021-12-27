@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="300"
     d:DesignWidth="400"
@@ -34,14 +35,14 @@
 
                         <Button
                             x:Name="YesButton"
-                            x:Uid="ButtonYes"
                             Background="{StaticResource SystemAccentColor}"
-                            Click="YesButton_Click" />
+                            Click="YesButton_Click"
+                            Content="{helpers:ResourceString Name=Yes}" />
 
                         <Button
                             x:Name="NoButton"
-                            x:Uid="ButtonNo"
-                            Click="NoButton_Click" />
+                            Click="NoButton_Click"
+                            Content="{helpers:ResourceString Name=No}" />
                     </StackPanel>
                 </Grid>
             </UserControl>

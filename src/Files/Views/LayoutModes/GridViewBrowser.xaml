@@ -574,9 +574,6 @@
                     <controls:AdaptiveGridView.ItemContainerTransitions>
                         <TransitionCollection>
                             <AddDeleteThemeTransition />
-                            <!--<ContentThemeTransition />-->
-                            <ReorderThemeTransition />
-                            <EntranceThemeTransition IsStaggeringEnabled="False" />
                         </TransitionCollection>
                     </controls:AdaptiveGridView.ItemContainerTransitions>
 
