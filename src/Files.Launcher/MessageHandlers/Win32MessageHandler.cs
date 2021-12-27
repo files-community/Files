@@ -156,10 +156,19 @@ namespace FilesFullTrust.MessageHandlers
                                 return;
                             }
                         }
+                        
+                        var dataPath = Environment.ExpandEnvironmentVariables("%LocalAppData%\\Files");
+                        if (!Win32API.RunPowershellCommand($"-command \"New-Item -Force -Path {dataPath} -ItemType Directory; Copy-Item -Filter *.* -Path '{destFolder}\\*' -Recurse -Force -Destination '{dataPath}'\"", false))
+                        {
+                            // Error copying files
+                            DetectIsSetAsDefaultFileManager();
+                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
+                            return;
+                        }
 
                         try
                         {
-                            using var regProcess = Process.Start(new ProcessStartInfo("regedit.exe", @$"/s ""{Path.Combine(destFolder, enable ? "SetFilesAsDefault.reg" : "UnsetFilesAsDefault.reg")}""") { UseShellExecute = true, Verb = "runas" });
+                            using var regProcess = Process.Start(new ProcessStartInfo("regedit.exe", @$"/s ""{Path.Combine(dataPath, enable ? "SetFilesAsDefault.reg" : "UnsetFilesAsDefault.reg")}""") { UseShellExecute = true, Verb = "runas" });
                             regProcess.WaitForExit();
                             DetectIsSetAsDefaultFileManager();
                             await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", true } }, message.Get("RequestID", (string)null));
@@ -189,13 +198,22 @@ namespace FilesFullTrust.MessageHandlers
                             }
                         }
 
+                        var dataPath = Environment.ExpandEnvironmentVariables("%LocalAppData%\\Files");
+                        if (!Win32API.RunPowershellCommand($"-command \"New-Item -Force -Path {dataPath} -ItemType Directory; Copy-Item -Filter *.* -Path '{destFolder}\\*' -Recurse -Force -Destination '{dataPath}'\"", false))
+                        {
+                            // Error copying files
+                            DetectIsSetAsOpenFileDialog();
+                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
+                            return;
+                        }
+
                         try
                         {
-                            using var regProc32 = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialog32.dll")}""");
+                            using var regProc32 = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(dataPath, "CustomOpenDialog32.dll")}""");
                             regProc32.WaitForExit();
-                            using var regProc64 = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialog64.dll")}""");
+                            using var regProc64 = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(dataPath, "CustomOpenDialog64.dll")}""");
                             regProc64.WaitForExit();
-                            using var regProcARM64 = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialogARM64.dll")}""");
+                            using var regProcARM64 = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(dataPath, "CustomOpenDialogARM64.dll")}""");
                             regProcARM64.WaitForExit();
 
                             DetectIsSetAsOpenFileDialog();

@@ -29,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
+    <Content Include="Assets\FilesOpenDialog\FilesLauncher.exe" />
     <Content Include="Assets\FilesOpenDialog\SetFilesAsDefault.reg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -43,5 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="FolderNames.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\FilesOpenDialog\FilesLauncher.exe" />
   </ItemGroup>
 </Project>
