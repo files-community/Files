@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.UI;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -16,7 +17,7 @@ namespace Files.UserControls.Selection
         private ListViewBase uiElement;
         private ScrollViewer scrollViewer;
         private SelectionChangedEventHandler selectionChanged;
-
+        private DispatcherQueueTimer timer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         private Point originDragPoint;
         private Dictionary<object, System.Drawing.Rectangle> itemsPosition;
         private List<object> prevSelectedItems;
@@ -58,19 +59,6 @@ namespace Files.UserControls.Selection
                 base.DrawRectangle(currentPoint, originDragPointShifted, uiElement);
                 // Selected area considering scrolled offset
                 var rect = new System.Drawing.Rectangle((int)Canvas.GetLeft(selectionRectangle), (int)Math.Min(originDragPoint.Y, currentPoint.Position.Y + verticalOffset), (int)selectionRectangle.Width, (int)Math.Abs(originDragPoint.Y - (currentPoint.Position.Y + verticalOffset)));
-                foreach (var item in uiElement.Items.ToList().Except(itemsPosition.Keys))
-                {
-                    var listViewItem = (FrameworkElement)uiElement.ContainerFromItem(item); // Get ListViewItem
-                    if (listViewItem == null)
-                    {
-                        continue; // Element is not loaded (virtualized list)
-                    }
-
-                    var gt = listViewItem.TransformToVisual(uiElement);
-                    var itemStartPoint = gt.TransformPoint(new Point(0, verticalOffset)); // Get item position relative to the top of the list (considering scrolled offset)
-                    var itemRect = new System.Drawing.Rectangle((int)itemStartPoint.X, (int)itemStartPoint.Y, (int)listViewItem.ActualWidth, (int)listViewItem.ActualHeight);
-                    itemsPosition[item] = itemRect;
-                }
 
                 foreach (var item in itemsPosition.ToList())
                 {
@@ -109,9 +97,27 @@ namespace Files.UserControls.Selection
         private void RectangleSelection_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             itemsPosition.Clear();
+
+            var verticalOffset = scrollViewer?.VerticalOffset ?? 0;
+            foreach (var item in uiElement.Items.ToList().Except(itemsPosition.Keys))
+            {
+                var listViewItem = (FrameworkElement)uiElement.ContainerFromItem(item); // Get ListViewItem
+                if (listViewItem == null)
+                {
+                    continue; // Element is not loaded (virtualized list)
+                }
+
+                var gt = listViewItem.TransformToVisual(uiElement);
+                var itemStartPoint = gt.TransformPoint(new Point(0, verticalOffset)); // Get item position relative to the top of the list (considering scrolled offset)
+                var itemRect = new System.Drawing.Rectangle((int)itemStartPoint.X, (int)itemStartPoint.Y, (int)listViewItem.ActualWidth, (int)listViewItem.ActualHeight);
+                itemsPosition[item] = itemRect;
+            }
+            scrollViewer.ViewChanged -= ScrollViewer_ViewChanged;
+            scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
+
             originDragPoint = new Point(e.GetCurrentPoint(uiElement).Position.X, e.GetCurrentPoint(uiElement).Position.Y); // Initial drag point relative to the topleft corner
             prevSelectedItems = uiElement.SelectedItems.Cast<object>().ToList(); // Save current selected items
-            var verticalOffset = scrollViewer?.VerticalOffset ?? 0;
+
             originDragPoint.Y += verticalOffset; // Initial drag point relative to the top of the list (considering scrolled offset)
             if (!e.GetCurrentPoint(uiElement).Properties.IsLeftButtonPressed || e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
             {
@@ -138,6 +144,32 @@ namespace Files.UserControls.Selection
             selectionState = SelectionState.Starting;
         }
 
+        private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            if (!e.IsIntermediate)
+            {
+                timer.Stop();
+                timer.Debounce(() =>
+                {
+                    var verticalOffset = scrollViewer?.VerticalOffset ?? 0;
+                    
+                    foreach (var item in uiElement.Items.ToList().Except(itemsPosition.Keys))
+                    {
+                        var listViewItem = (FrameworkElement)uiElement.ContainerFromItem(item); // Get ListViewItem
+                        if (listViewItem == null)
+                        {
+                            continue; // Element is not loaded (virtualized list)
+                        }
+
+                        var gt = listViewItem.TransformToVisual(uiElement);
+                        var itemStartPoint = gt.TransformPoint(new Point(0, verticalOffset)); // Get item position relative to the top of the list (considering scrolled offset)
+                        var itemRect = new System.Drawing.Rectangle((int)itemStartPoint.X, (int)itemStartPoint.Y, (int)listViewItem.ActualWidth, (int)listViewItem.ActualHeight);
+                        itemsPosition[item] = itemRect;
+                    }
+                }, TimeSpan.FromSeconds(1));   
+            }
+        }
+
         private void RectangleSelection_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             Canvas.SetLeft(selectionRectangle, 0);
@@ -145,6 +177,8 @@ namespace Files.UserControls.Selection
             selectionRectangle.Width = 0;
             selectionRectangle.Height = 0;
             uiElement.PointerMoved -= RectangleSelection_PointerMoved;
+
+            scrollViewer.ViewChanged -= ScrollViewer_ViewChanged;
             uiElement.ReleasePointerCapture(e.Pointer);
             if (selectionChanged != null)
             {
