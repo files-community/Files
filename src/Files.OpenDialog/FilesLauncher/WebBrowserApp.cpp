@@ -370,10 +370,10 @@ namespace winrt
 	{
 		auto res = is_guid_of<IWebBrowserApp, IWebBrowser, IDispatch>(id);
 
-		OLECHAR* guidString;
-		(void)StringFromCLSID(id, &guidString);
-		std::wcout << L"QueryInterface: " << guidString << L" = " << res << std::endl;
-		CoTaskMemFree(guidString);
+		//OLECHAR* guidString;
+		//(void)StringFromCLSID(id, &guidString);
+		//std::wcout << L"QueryInterface: " << guidString << L" = " << res << std::endl;
+		//CoTaskMemFree(guidString);
 
 		return res;
 	}

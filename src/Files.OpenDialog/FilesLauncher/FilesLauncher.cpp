@@ -33,8 +33,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		CoTaskMemFree(pszPath);
 	}
 
-	IUnknown *ppunk;
-	(void)SHGetInstanceExplorer(&ppunk);
 	//Sleep(10 * 1000);
 
 	int numArgs = 0;
@@ -44,12 +42,14 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	if (numArgs < 2)
 	{
 		LocalFree(szArglist);
+		if (_debugStream)
+		{
+			fclose(_debugStream);
+		}
 		return -1;
 	}
-	else
-	{
-		wsprintf(openDirectory, L"%s", szArglist[1]);
-	}
+
+	wsprintf(openDirectory, L"%s", szArglist[1]);
 
 	LocalFree(szArglist);
 
@@ -62,6 +62,14 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	{
 		std::cout << "Files has been uninstalled" << std::endl;
 		// TODO: run explorer and uninstall launcher
+		SHELLEXECUTEINFO ShExecInfo = { 0 };
+		ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+		ShExecInfo.lpFile = L"explorer.exe";
+		TCHAR args[1024];
+		wsprintf(args, L"\"%s\"", openDirectory);
+		ShExecInfo.lpParameters = args;
+		ShExecInfo.nShow = SW_SHOW;
+		ShellExecuteEx(&ShExecInfo);
 		return -1;
 	}
 
@@ -112,7 +120,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	SHELLEXECUTEINFO ShExecInfo = { 0 };
 	ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
-	ShExecInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
 	ShExecInfo.lpFile = L"files.exe";
 	
 	TCHAR args[1024];
@@ -131,11 +138,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	ShExecInfo.lpParameters = args;
 	ShExecInfo.nShow = SW_SHOW;
 	ShellExecuteEx(&ShExecInfo);
-
-	if (ppunk)
-	{
-		ppunk->Release();
-	}
 
 	if (_debugStream)
 	{
