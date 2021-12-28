@@ -36,7 +36,7 @@
     <StackPanel Spacing="8" Style="{StaticResource PropertiesTab}">
         <Grid
             Padding="8"
-            Background="{ThemeResource SolidBackgroundFillColorTertiary}"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
             BorderBrush="{ThemeResource ControlStrokeColorDefault}"
             BorderThickness="1"
             ColumnSpacing="4"
@@ -98,6 +98,7 @@
 
         <muxc:Expander
             HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
             Header="More details"
             IsExpanded="True">
             <muxc:Expander.Content>

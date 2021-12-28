@@ -89,7 +89,7 @@
         <Grid
             Grid.Row="1"
             Height="42"
-            Margin="12"
+            Margin="14"
             HorizontalAlignment="Left"
             BorderBrush="{ThemeResource ControlStrokeColorDefault}"
             BorderThickness="1"
