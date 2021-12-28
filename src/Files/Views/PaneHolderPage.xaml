@@ -60,38 +60,32 @@
                     Width="0"
                     MinWidth="0" />
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
 
-            <local:ModernShellPage
-                x:Name="PaneLeft"
-                Grid.Row="1"
-                BorderBrush="{ThemeResource ControlStrokeColorDefault}"
-                ContentChanged="Pane_ContentChanged"
-                CurrentInstanceBorderThickness="0,0,0,1"
-                IsPageMainPane="True"
-                Loaded="PaneLeft_Loaded"
-                NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
-                PaneHolder="{x:Bind}" />
+            <Border x:Name="PaneLeftBorder">
+                <local:ModernShellPage
+                    x:Name="PaneLeft"
+                    ContentChanged="Pane_ContentChanged"
+                    IsPageMainPane="True"
+                    Loaded="PaneLeft_Loaded"
+                    NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
+                    PaneHolder="{x:Bind}" />
+            </Border>
 
-            <local:ModernShellPage
-                x:Name="PaneRight"
-                Grid.Row="1"
+            <Border
+                x:Name="PaneRightBorder"
                 Grid.Column="1"
-                x:Load="{x:Bind IsRightPaneVisible, Mode=OneWay}"
-                BorderBrush="{ThemeResource ControlStrokeColorDefault}"
-                ContentChanged="Pane_ContentChanged"
-                CurrentInstanceBorderThickness="0,0,0,1"
-                IsPageMainPane="False"
-                Loaded="PaneRight_Loaded"
-                NavParams="{x:Bind NavParamsRight, Mode=OneWay}"
-                PaneHolder="{x:Bind}" />
+                x:Load="{x:Bind IsRightPaneVisible, Mode=OneWay}">
+                <local:ModernShellPage
+                    x:Name="PaneRight"
+                    ContentChanged="Pane_ContentChanged"
+                    IsPageMainPane="False"
+                    Loaded="PaneRight_Loaded"
+                    NavParams="{x:Bind NavParamsRight, Mode=OneWay}"
+                    PaneHolder="{x:Bind}" />
+            </Border>
 
             <Custom:GridSplitter
                 x:Name="PaneResizer"
-                Grid.Row="1"
                 Grid.Column="1"
                 Width="5"
                 MinWidth="5"
