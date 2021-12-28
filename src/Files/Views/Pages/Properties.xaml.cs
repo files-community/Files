@@ -1,17 +1,12 @@
 ﻿using Files.DataModels.NavigationControlItems;
-using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
-using Files.UserControls.Settings;
 using Files.ViewModels;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
 using System;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Foundation.Metadata;
@@ -97,7 +92,7 @@ namespace Files.Views
         {
             AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
             sender.Closed -= PropertiesDialog_Closed;
-            this.FindDescendants().Where(x => x is SettingsBlockControl).Cast<SettingsBlockControl>().Select(x => (x.ExpandableContent as Frame).Content as PropertiesTab).Where(x => x != null).ForEach(tab => tab.Dispose());
+            (contentFrame.Content as PropertiesTab).Dispose();
             if (tokenSource != null && !tokenSource.IsCancellationRequested)
             {
                 tokenSource.Cancel();
@@ -142,13 +137,16 @@ namespace Files.Views
 
         private async void OKButton_Click(object sender, RoutedEventArgs e)
         {
-            var saveTaks = this.FindDescendants().Where(x => x is SettingsBlockControl).Cast<SettingsBlockControl>().Select(x => (x.ExpandableContent as Frame).Content as PropertiesTab).Where(x => x != null).Select(async (tab) =>
+            if (contentFrame.Content is PropertiesGeneral propertiesGeneral)
             {
-                return await tab.SaveChangesAsync(listedItem);
-            });
-            if (!(await Task.WhenAll(saveTaks)).All(x => x))
+                await propertiesGeneral.SaveChangesAsync(listedItem);
+            }
+            else
             {
-                return;
+                if (!await (contentFrame.Content as PropertiesTab).SaveChangesAsync(listedItem))
+                {
+                    return;
+                }
             }
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
@@ -188,6 +186,47 @@ namespace Files.Views
             }
         }
 
+        private void NavigationView_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
+        {
+            var navParam = new PropertyNavParam()
+            {
+                tokenSource = tokenSource,
+                navParameter = navParameterItem,
+                AppInstanceArgument = AppInstance
+            };
+
+            switch (args.SelectedItemContainer.Tag)
+            {
+                case "General":
+                    contentFrame.Navigate(typeof(PropertiesGeneral), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
+
+                case "Shortcut":
+                    contentFrame.Navigate(typeof(PropertiesShortcut), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
+
+                case "Library":
+                    contentFrame.Navigate(typeof(PropertiesLibrary), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
+
+                case "Details":
+                    contentFrame.Navigate(typeof(PropertiesDetails), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
+
+                case "Security":
+                    contentFrame.Navigate(typeof(PropertiesSecurity), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
+
+                case "Customization":
+                    contentFrame.Navigate(typeof(PropertiesCustomization), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
+
+                case "Compatibility":
+                    contentFrame.Navigate(typeof(PropertiesCompatibility), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
+            }
+        }
+
         public class PropertiesPageNavigationArguments
         {
             public object Item { get; set; }
@@ -212,54 +251,6 @@ namespace Files.Views
             }
             catch (Exception)
             {
-            }
-        }
-
-        private void SettingsBlockControl_Click(object sender, bool isExpanding)
-        {
-            var tag = (sender as Control).Tag as string;
-            var contentFrame = (sender as SettingsBlockControl).ExpandableContent as Frame;
-            if (contentFrame.Content != null || !isExpanding)
-            {
-                return;
-            }
-
-            var navParam = new PropertyNavParam()
-            {
-                tokenSource = tokenSource,
-                navParameter = navParameterItem,
-                AppInstanceArgument = AppInstance
-            };
-
-            switch (tag)
-            {
-                case "General":
-                    contentFrame.Navigate(typeof(PropertiesGeneral), navParam);
-                    break;
-
-                case "Shortcut":
-                    contentFrame.Navigate(typeof(PropertiesShortcut), navParam);
-                    break;
-
-                case "Library":
-                    contentFrame.Navigate(typeof(PropertiesLibrary), navParam);
-                    break;
-
-                case "Details":
-                    contentFrame.Navigate(typeof(PropertiesDetails), navParam);
-                    break;
-
-                case "Security":
-                    contentFrame.Navigate(typeof(PropertiesSecurity), navParam);
-                    break;
-
-                case "Customization":
-                    contentFrame.Navigate(typeof(PropertiesCustomization), navParam);
-                    break;
-
-                case "Compatibility":
-                    contentFrame.Navigate(typeof(PropertiesCompatibility), navParam);
-                    break;
             }
         }
     }

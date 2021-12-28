@@ -17,7 +17,64 @@
     Unloaded="Properties_Unloaded"
     mc:Ignorable="d">
     <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <Thickness x:Key="NavigationViewTopPaneHeight">40</Thickness>
+                <Thickness x:Key="TopNavigationViewTopNavGridMargin">10</Thickness>
+                <ResourceDictionary.ThemeDictionaries>
+                    <ResourceDictionary x:Key="Light">
+                        <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
+                        <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
+                        <SolidColorBrush x:Key="NavigationViewItemBackground" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                        <SolidColorBrush x:Key="TopNavigationViewItemBackgroundPointerOver" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                        <SolidColorBrush x:Key="TopNavigationViewItemBackgroundPressed" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                        <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelected" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                        <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelectedPointerOver" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                        <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelectedPressed" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                        <SolidColorBrush x:Key="NavigationViewItemBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                        <SolidColorBrush x:Key="NavigationViewItemBorderBrushPointerOver" Color="{ThemeResource ControlStrokeColorDefault}" />
+                        <SolidColorBrush x:Key="NavigationViewItemBorderBrushPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
+                        <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelected" Color="{ThemeResource ControlStrokeColorDefault}" />
+                        <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelectedPointerOver" Color="{ThemeResource ControlStrokeColorDefault}" />
+                        <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelectedPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    </ResourceDictionary>
+                    <ResourceDictionary x:Key="Dark">
+                        <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
+                        <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
+                        <SolidColorBrush x:Key="NavigationViewItemBackground" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                        <SolidColorBrush x:Key="TopNavigationViewItemBackgroundPointerOver" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                        <SolidColorBrush x:Key="TopNavigationViewItemBackgroundPressed" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                        <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelected" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                        <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelectedPointerOver" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                        <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelectedPressed" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                        <SolidColorBrush x:Key="NavigationViewItemBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                        <SolidColorBrush x:Key="NavigationViewItemBorderBrushPointerOver" Color="{ThemeResource ControlStrokeColorDefault}" />
+                        <SolidColorBrush x:Key="NavigationViewItemBorderBrushPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
+                        <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelected" Color="{ThemeResource ControlStrokeColorDefault}" />
+                        <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelectedPointerOver" Color="{ThemeResource ControlStrokeColorDefault}" />
+                        <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelectedPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    </ResourceDictionary>
+                    <ResourceDictionary x:Key="HighContrast">
+                        <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
+                        <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
+                        <SolidColorBrush x:Key="NavigationViewItemBackground" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                        <SolidColorBrush x:Key="TopNavigationViewItemBackgroundPointerOver" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                        <SolidColorBrush x:Key="TopNavigationViewItemBackgroundPressed" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                        <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelected" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                        <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelectedPointerOver" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                        <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelectedPressed" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                        <SolidColorBrush x:Key="NavigationViewItemBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                        <SolidColorBrush x:Key="NavigationViewItemBorderBrushPointerOver" Color="{ThemeResource ControlStrokeColorDefault}" />
+                        <SolidColorBrush x:Key="NavigationViewItemBorderBrushPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
+                        <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelected" Color="{ThemeResource ControlStrokeColorDefault}" />
+                        <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelectedPointerOver" Color="{ThemeResource ControlStrokeColorDefault}" />
+                        <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelectedPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    </ResourceDictionary>
+                </ResourceDictionary.ThemeDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
         <Grid.RowDefinitions>
+            <RowDefinition Height="32" />
             <RowDefinition Height="32" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -29,124 +86,108 @@
             VerticalAlignment="Center"
             Text="Properties" />
 
-        <ScrollViewer Grid.Row="1">
-            <StackPanel>
-                <!--  Tabs  -->
-                <settings:SettingsBlockControl
+        <muxc:NavigationView
+            x:Name="NavigationView"
+            Grid.Row="1"
+            AllowDrop="False"
+            IsBackButtonVisible="Collapsed"
+            IsPaneOpen="False"
+            IsPaneToggleButtonVisible="False"
+            IsSettingsVisible="False"
+            PaneDisplayMode="Top"
+            SelectedItem="{x:Bind TabGeneral}"
+            SelectionChanged="NavigationView_SelectionChanged"
+            SelectionFollowsFocus="Disabled">
+            <!--  SelectionFollowsFocus disabled to fix #5387  -->
+
+            <!--  Tabs  -->
+            <muxc:NavigationView.MenuItems>
+                <muxc:NavigationViewItem
                     x:Name="TabGeneral"
-                    Title="{helpers:ResourceString Name=General}"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Stretch"
-                    Click="SettingsBlockControl_Click"
-                    IsExpanded="True"
+                    x:Uid="PropertiesDialogTabGeneral"
+                    AccessKey="G"
+                    Content="General"
+                    CornerRadius="4,0,0,4"
                     Tag="General">
-                    <settings:SettingsBlockControl.Icon>
+                    <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE7C3;" />
-                    </settings:SettingsBlockControl.Icon>
-                    <settings:SettingsBlockControl.ExpandableContent>
-                        <Frame />
-                    </settings:SettingsBlockControl.ExpandableContent>
-                </settings:SettingsBlockControl>
-
-                <settings:SettingsBlockControl
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem
                     x:Name="TabSecurity"
-                    Title="{helpers:ResourceString Name=Security}"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Stretch"
-                    Click="SettingsBlockControl_Click"
-                    Tag="Security"
-                    Visibility="Collapsed">
-                    <settings:SettingsBlockControl.Icon>
+                    x:Uid="PropertiesDialogTabSecurity"
+                    Content="Security"
+                    CornerRadius="0"
+                    Tag="Security">
+                    <muxc:NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE730;" />
-                    </settings:SettingsBlockControl.Icon>
-                    <settings:SettingsBlockControl.ExpandableContent>
-                        <Frame />
-                    </settings:SettingsBlockControl.ExpandableContent>
-                </settings:SettingsBlockControl>
-
-                <settings:SettingsBlockControl
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem
                     x:Name="TabShorcut"
-                    Title="{helpers:ResourceString Name=Shortcut}"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Stretch"
-                    Click="SettingsBlockControl_Click"
+                    x:Uid="PropertiesDialogTabShortcut"
+                    AccessKey="S"
+                    Content="Shortcut"
+                    CornerRadius="0"
                     Tag="Shortcut"
                     Visibility="Collapsed">
-                    <settings:SettingsBlockControl.Icon>
+                    <muxc:NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
-                    </settings:SettingsBlockControl.Icon>
-                    <settings:SettingsBlockControl.ExpandableContent>
-                        <Frame />
-                    </settings:SettingsBlockControl.ExpandableContent>
-                </settings:SettingsBlockControl>
-
-                <settings:SettingsBlockControl
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem
                     x:Name="TabLibrary"
-                    Title="{helpers:ResourceString Name=Library}"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Stretch"
-                    Click="SettingsBlockControl_Click"
+                    x:Uid="PropertiesDialogTabLibrary"
+                    AccessKey="L"
+                    Content="Library"
+                    CornerRadius="0"
                     Tag="Library"
                     Visibility="Collapsed">
-                    <settings:SettingsBlockControl.Icon>
+                    <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE1D3;" />
-                    </settings:SettingsBlockControl.Icon>
-                    <settings:SettingsBlockControl.ExpandableContent>
-                        <Frame />
-                    </settings:SettingsBlockControl.ExpandableContent>
-                </settings:SettingsBlockControl>
-
-                <settings:SettingsBlockControl
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem
                     x:Name="TabDetails"
-                    Title="{helpers:ResourceString Name=Details}"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Stretch"
-                    Click="SettingsBlockControl_Click"
+                    x:Uid="PropertiesDialogTabDetails"
+                    AccessKey="D"
+                    Content="Details"
+                    CornerRadius="0"
                     Tag="Details"
                     Visibility="Collapsed">
-                    <settings:SettingsBlockControl.Icon>
+                    <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE946;" />
-                    </settings:SettingsBlockControl.Icon>
-                    <settings:SettingsBlockControl.ExpandableContent>
-                        <Frame />
-                    </settings:SettingsBlockControl.ExpandableContent>
-                </settings:SettingsBlockControl>
-
-                <settings:SettingsBlockControl
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem
                     x:Name="TabCustomization"
-                    Title="{helpers:ResourceString Name=Customization}"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Stretch"
-                    Click="SettingsBlockControl_Click"
+                    Content="{helpers:ResourceString Name=Customization}"
+                    CornerRadius="0"
                     Tag="Customization"
                     Visibility="Collapsed">
-                    <settings:SettingsBlockControl.Icon>
+                    <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE771;" />
-                    </settings:SettingsBlockControl.Icon>
-                    <settings:SettingsBlockControl.ExpandableContent>
-                        <Frame />
-                    </settings:SettingsBlockControl.ExpandableContent>
-                </settings:SettingsBlockControl>
-
-                <settings:SettingsBlockControl
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem
                     x:Name="TabCompatibility"
-                    Title="{helpers:ResourceString Name=Compatibility}"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Stretch"
-                    Click="SettingsBlockControl_Click"
+                    Content="{helpers:ResourceString Name=Compatibility}"
+                    CornerRadius="0,4,4,0"
                     Tag="Compatibility"
                     Visibility="Collapsed">
-                    <settings:SettingsBlockControl.Icon>
+                    <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xECAA;" />
-                    </settings:SettingsBlockControl.Icon>
-                    <settings:SettingsBlockControl.ExpandableContent>
-                        <Frame />
-                    </settings:SettingsBlockControl.ExpandableContent>
-                </settings:SettingsBlockControl>
-            </StackPanel>
-        </ScrollViewer>
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+            </muxc:NavigationView.MenuItems>
+        </muxc:NavigationView>
 
-        <Grid Grid.Row="2" Padding="8">
+        <Frame
+            x:Name="contentFrame"
+            Grid.Row="2"
+            IsNavigationStackEnabled="False" />
+
+        <Grid Grid.Row="3" Padding="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
