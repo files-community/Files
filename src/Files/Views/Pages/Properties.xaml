@@ -104,9 +104,8 @@
             <muxc:NavigationView.MenuItems>
                 <muxc:NavigationViewItem
                     x:Name="TabGeneral"
-                    x:Uid="PropertiesDialogTabGeneral"
                     AccessKey="G"
-                    Content="General"
+                    Content="{helpers:ResourceString Name=General}"
                     CornerRadius="4,0,0,4"
                     Tag="General">
                     <muxc:NavigationViewItem.Icon>
@@ -115,8 +114,7 @@
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Name="TabSecurity"
-                    x:Uid="PropertiesDialogTabSecurity"
-                    Content="Security"
+                    Content="{helpers:ResourceString Name=Security}"
                     CornerRadius="0"
                     Tag="Security">
                     <muxc:NavigationViewItem.Icon>
@@ -125,9 +123,8 @@
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Name="TabShorcut"
-                    x:Uid="PropertiesDialogTabShortcut"
                     AccessKey="S"
-                    Content="Shortcut"
+                    Content="{helpers:ResourceString Name=Shortcut}"
                     CornerRadius="0"
                     Tag="Shortcut"
                     Visibility="Collapsed">
@@ -137,9 +134,8 @@
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Name="TabLibrary"
-                    x:Uid="PropertiesDialogTabLibrary"
                     AccessKey="L"
-                    Content="Library"
+                    Content="{helpers:ResourceString Name=Library}"
                     CornerRadius="0"
                     Tag="Library"
                     Visibility="Collapsed">
@@ -149,9 +145,8 @@
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Name="TabDetails"
-                    x:Uid="PropertiesDialogTabDetails"
                     AccessKey="D"
-                    Content="Details"
+                    Content="{helpers:ResourceString Name=Details}"
                     CornerRadius="0"
                     Tag="Details"
                     Visibility="Collapsed">
