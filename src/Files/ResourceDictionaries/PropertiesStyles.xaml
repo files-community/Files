@@ -14,7 +14,6 @@
     </Style>
 
     <Thickness x:Key="PropertyNameMargin">7</Thickness>
-    <Thickness x:Key="PropertyValueMargin">20,0,0,0</Thickness>
     <VerticalAlignment x:Key="PropertyValueVerticalAlignment">Center</VerticalAlignment>
     <!--  Might be used for Expander control  -->
     <SolidColorBrush x:Key="SystemControlBackgroundBaseHighBrush" Color="Transparent" />
@@ -26,17 +25,14 @@
     </Style>
 
     <Style x:Key="PropertyValueGrid" TargetType="Grid">
-        <Setter Property="Margin" Value="{StaticResource PropertyValueMargin}" />
         <Setter Property="VerticalAlignment" Value="{StaticResource PropertyValueVerticalAlignment}" />
     </Style>
 
     <Style x:Key="PropertyValueStackPanel" TargetType="Grid">
-        <Setter Property="Margin" Value="{StaticResource PropertyValueMargin}" />
         <Setter Property="VerticalAlignment" Value="{StaticResource PropertyValueVerticalAlignment}" />
     </Style>
 
     <Style x:Key="PropertyValueTextBlock" TargetType="TextBlock">
-        <Setter Property="Margin" Value="{StaticResource PropertyValueMargin}" />
         <Setter Property="VerticalAlignment" Value="{StaticResource PropertyValueVerticalAlignment}" />
         <Setter Property="IsTextSelectionEnabled" Value="True" />
     </Style>
@@ -45,7 +41,6 @@
         x:Key="PropertyValueTextBox"
         BasedOn="{StaticResource DefaultTextBoxStyle}"
         TargetType="TextBox">
-        <Setter Property="Margin" Value="{StaticResource PropertyValueMargin}" />
         <Setter Property="VerticalAlignment" Value="{StaticResource PropertyValueVerticalAlignment}" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="BorderThickness" Value="1" />

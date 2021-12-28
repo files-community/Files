@@ -20,7 +20,7 @@
         <Grid.Resources>
             <ResourceDictionary>
                 <Thickness x:Key="NavigationViewTopPaneHeight">40</Thickness>
-                <Thickness x:Key="TopNavigationViewTopNavGridMargin">10</Thickness>
+                <Thickness x:Key="TopNavigationViewTopNavGridMargin">0</Thickness>
                 <ResourceDictionary.ThemeDictionaries>
                     <ResourceDictionary x:Key="Light">
                         <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
@@ -75,7 +75,7 @@
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
-            <RowDefinition Height="32" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -86,96 +86,104 @@
             VerticalAlignment="Center"
             Text="Properties" />
 
-        <muxc:NavigationView
-            x:Name="NavigationView"
+        <Grid
             Grid.Row="1"
-            AllowDrop="False"
-            IsBackButtonVisible="Collapsed"
-            IsPaneOpen="False"
-            IsPaneToggleButtonVisible="False"
-            IsSettingsVisible="False"
-            PaneDisplayMode="Top"
-            SelectedItem="{x:Bind TabGeneral}"
-            SelectionChanged="NavigationView_SelectionChanged"
-            SelectionFollowsFocus="Disabled">
-            <!--  SelectionFollowsFocus disabled to fix #5387  -->
+            Height="42"
+            Margin="12"
+            HorizontalAlignment="Left"
+            BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+            BorderThickness="1"
+            CornerRadius="4">
+            <muxc:NavigationView
+                x:Name="NavigationView"
+                AllowDrop="False"
+                IsBackButtonVisible="Collapsed"
+                IsPaneOpen="False"
+                IsPaneToggleButtonVisible="False"
+                IsSettingsVisible="False"
+                PaneDisplayMode="Top"
+                SelectedItem="{x:Bind TabGeneral}"
+                SelectionChanged="NavigationView_SelectionChanged"
+                SelectionFollowsFocus="Disabled">
+                <!--  SelectionFollowsFocus disabled to fix #5387  -->
 
-            <!--  Tabs  -->
-            <muxc:NavigationView.MenuItems>
-                <muxc:NavigationViewItem
-                    x:Name="TabGeneral"
-                    AccessKey="G"
-                    Content="{helpers:ResourceString Name=General}"
-                    CornerRadius="4,0,0,4"
-                    Tag="General">
-                    <muxc:NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE7C3;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
-                    x:Name="TabSecurity"
-                    Content="{helpers:ResourceString Name=Security}"
-                    CornerRadius="0"
-                    Tag="Security">
-                    <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE730;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
-                    x:Name="TabShorcut"
-                    AccessKey="S"
-                    Content="{helpers:ResourceString Name=Shortcut}"
-                    CornerRadius="0"
-                    Tag="Shortcut"
-                    Visibility="Collapsed">
-                    <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
-                    x:Name="TabLibrary"
-                    AccessKey="L"
-                    Content="{helpers:ResourceString Name=Library}"
-                    CornerRadius="0"
-                    Tag="Library"
-                    Visibility="Collapsed">
-                    <muxc:NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE1D3;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
-                    x:Name="TabDetails"
-                    AccessKey="D"
-                    Content="{helpers:ResourceString Name=Details}"
-                    CornerRadius="0"
-                    Tag="Details"
-                    Visibility="Collapsed">
-                    <muxc:NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE946;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
-                    x:Name="TabCustomization"
-                    Content="{helpers:ResourceString Name=Customization}"
-                    CornerRadius="0"
-                    Tag="Customization"
-                    Visibility="Collapsed">
-                    <muxc:NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE771;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
-                    x:Name="TabCompatibility"
-                    Content="{helpers:ResourceString Name=Compatibility}"
-                    CornerRadius="0,4,4,0"
-                    Tag="Compatibility"
-                    Visibility="Collapsed">
-                    <muxc:NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xECAA;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-            </muxc:NavigationView.MenuItems>
-        </muxc:NavigationView>
+                <!--  Tabs  -->
+                <muxc:NavigationView.MenuItems>
+                    <muxc:NavigationViewItem
+                        x:Name="TabGeneral"
+                        AccessKey="G"
+                        Content="{helpers:ResourceString Name=General}"
+                        CornerRadius="0"
+                        Tag="General">
+                        <muxc:NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE7C3;" />
+                        </muxc:NavigationViewItem.Icon>
+                    </muxc:NavigationViewItem>
+                    <muxc:NavigationViewItem
+                        x:Name="TabSecurity"
+                        Content="{helpers:ResourceString Name=Security}"
+                        CornerRadius="0"
+                        Tag="Security">
+                        <muxc:NavigationViewItem.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE730;" />
+                        </muxc:NavigationViewItem.Icon>
+                    </muxc:NavigationViewItem>
+                    <muxc:NavigationViewItem
+                        x:Name="TabShorcut"
+                        AccessKey="S"
+                        Content="{helpers:ResourceString Name=Shortcut}"
+                        CornerRadius="0"
+                        Tag="Shortcut"
+                        Visibility="Collapsed">
+                        <muxc:NavigationViewItem.Icon>
+                            <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
+                        </muxc:NavigationViewItem.Icon>
+                    </muxc:NavigationViewItem>
+                    <muxc:NavigationViewItem
+                        x:Name="TabLibrary"
+                        AccessKey="L"
+                        Content="{helpers:ResourceString Name=Library}"
+                        CornerRadius="0"
+                        Tag="Library"
+                        Visibility="Collapsed">
+                        <muxc:NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE1D3;" />
+                        </muxc:NavigationViewItem.Icon>
+                    </muxc:NavigationViewItem>
+                    <muxc:NavigationViewItem
+                        x:Name="TabDetails"
+                        AccessKey="D"
+                        Content="{helpers:ResourceString Name=Details}"
+                        CornerRadius="0"
+                        Tag="Details"
+                        Visibility="Collapsed">
+                        <muxc:NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE946;" />
+                        </muxc:NavigationViewItem.Icon>
+                    </muxc:NavigationViewItem>
+                    <muxc:NavigationViewItem
+                        x:Name="TabCustomization"
+                        Content="{helpers:ResourceString Name=Customization}"
+                        CornerRadius="0"
+                        Tag="Customization"
+                        Visibility="Collapsed">
+                        <muxc:NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE771;" />
+                        </muxc:NavigationViewItem.Icon>
+                    </muxc:NavigationViewItem>
+                    <muxc:NavigationViewItem
+                        x:Name="TabCompatibility"
+                        Content="{helpers:ResourceString Name=Compatibility}"
+                        CornerRadius="0"
+                        Tag="Compatibility"
+                        Visibility="Collapsed">
+                        <muxc:NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xECAA;" />
+                        </muxc:NavigationViewItem.Icon>
+                    </muxc:NavigationViewItem>
+                </muxc:NavigationView.MenuItems>
+            </muxc:NavigationView>
+        </Grid>
 
         <Frame
             x:Name="contentFrame"
