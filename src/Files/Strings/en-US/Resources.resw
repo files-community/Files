@@ -2689,7 +2689,13 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="Attributes" xml:space="preserve">
     <value>Attributes</value>
   </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Hidden</value>
+  </data>
   <data name="MoreDetails" xml:space="preserve">
     <value>More details</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Read only</value>
   </data>
 </root>

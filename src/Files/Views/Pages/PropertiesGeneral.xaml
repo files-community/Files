@@ -70,7 +70,8 @@
                 Grid.Row="0"
                 Grid.Column="1"
                 HorizontalAlignment="Stretch"
-                VerticalAlignment="Center">
+                VerticalAlignment="Center"
+                Spacing="8">
                 <TextBox
                     x:Name="ItemFileName"
                     x:Uid="PropertiesItemFileName"
@@ -424,6 +425,7 @@
                     <CheckBox
                         Grid.Row="0"
                         Grid.Column="1"
+                        AutomationProperties.Name="{helpers:ResourceString Name=ReadOnly}"
                         IsChecked="{x:Bind ViewModel.IsReadOnly, Mode=TwoWay}"
                         IsEnabled="{x:Bind ViewModel.IsReadOnlyEnabled, Mode=OneWay}" />
 
@@ -443,6 +445,7 @@
                     <CheckBox
                         Grid.Row="2"
                         Grid.Column="1"
+                        AutomationProperties.Name="{helpers:ResourceString Name=Hidden}"
                         IsChecked="{x:Bind ViewModel.IsHidden, Mode=TwoWay}" />
                 </Grid>
             </muxc:Expander.Content>
