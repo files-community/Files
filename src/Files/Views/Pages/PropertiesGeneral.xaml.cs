@@ -104,5 +104,9 @@ namespace Files.Views
 
             return false;
         }
+
+        public override void Dispose()
+        {
+        }
     }
 }
