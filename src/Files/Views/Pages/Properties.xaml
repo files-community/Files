@@ -185,10 +185,9 @@
             </muxc:NavigationView>
         </Grid>
 
-        <Frame
-            x:Name="contentFrame"
-            Grid.Row="2"
-            IsNavigationStackEnabled="False" />
+        <ScrollViewer Grid.Row="2">
+            <Frame x:Name="contentFrame" IsNavigationStackEnabled="False" />
+        </ScrollViewer>
 
         <Grid Grid.Row="3" Padding="8">
             <Grid.ColumnDefinitions>

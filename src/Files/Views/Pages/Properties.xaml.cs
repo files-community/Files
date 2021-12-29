@@ -92,7 +92,6 @@ namespace Files.Views
         {
             AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
             sender.Closed -= PropertiesDialog_Closed;
-            (contentFrame.Content as PropertiesTab).Dispose();
             if (tokenSource != null && !tokenSource.IsCancellationRequested)
             {
                 tokenSource.Cancel();

@@ -22,6 +22,7 @@
         <Setter Property="Margin" Value="{StaticResource PropertyNameMargin}" />
         <Setter Property="Margin" Value="0,7" />
         <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="SemiBold" />
     </Style>
 
     <Style x:Key="PropertyValueGrid" TargetType="Grid">
