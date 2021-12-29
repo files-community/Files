@@ -136,7 +136,7 @@
                 Grid.Row="7"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
-                Margin="{StaticResource PropertyValueMargin}"
+                Margin="20,0,0,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
