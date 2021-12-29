@@ -5,6 +5,7 @@
     xmlns:ViewModels="using:Files.ViewModels"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
+    xmlns:behaviors2="using:Files.Behaviors"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:converters1="using:Files.Converters"
@@ -735,6 +736,9 @@
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
+                    <i:Interaction.Behaviors>
+                        <behaviors2:StickyHeaderBehavior />
+                    </i:Interaction.Behaviors>
                     <ListView.Resources>
                         <ResourceDictionary>
                             <Style TargetType="ListView">
@@ -773,61 +777,44 @@
                                                 BorderBrush="{TemplateBinding BorderBrush}"
                                                 BorderThickness="{TemplateBinding BorderThickness}"
                                                 CornerRadius="{TemplateBinding CornerRadius}">
-                                                <Grid>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto" />
-                                                        <RowDefinition Height="*" />
-                                                    </Grid.RowDefinitions>
-                                                    <ScrollViewer
-                                                        x:Name="HeaderScrollViewer"
-                                                        HorizontalScrollBarVisibility="Hidden"
-                                                        HorizontalScrollMode="Disabled"
-                                                        VerticalScrollBarVisibility="Disabled"
-                                                        VerticalScrollMode="Disabled">
-                                                        <ContentPresenter Padding="8,0,8,8" Content="{TemplateBinding Header}" />
-                                                    </ScrollViewer>
-                                                    <ScrollViewer
-                                                        x:Name="ScrollViewer"
-                                                        Grid.Row="1"
-                                                        HorizontalContentAlignment="Stretch"
-                                                        AutomationProperties.AccessibilityView="Raw"
-                                                        BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
-                                                        HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                                        HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
-                                                        IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
-                                                        IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
-                                                        IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
-                                                        IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
-                                                        IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
-                                                        TabNavigation="{TemplateBinding TabNavigation}"
-                                                        VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-                                                        VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
-                                                        ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                                                        <Grid>
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="*" />
-                                                                <RowDefinition Height="Auto" />
-                                                            </Grid.RowDefinitions>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto" />
-                                                                <ColumnDefinition Width="*" />
-                                                            </Grid.ColumnDefinitions>
-                                                            <ItemsPresenter
-                                                                Padding="{TemplateBinding Padding}"
-                                                                HorizontalAlignment="Stretch"
-                                                                FooterTemplate="{TemplateBinding FooterTemplate}"
-                                                                FooterTransitions="{TemplateBinding FooterTransitions}"
-                                                                HeaderTemplate="{TemplateBinding HeaderTemplate}"
-                                                                HeaderTransitions="{TemplateBinding HeaderTransitions}" />
-
-                                                            <ContentPresenter
-                                                                Grid.Row="1"
-                                                                Grid.ColumnSpan="2"
-                                                                Padding="8,0,8,8"
-                                                                Content="{TemplateBinding Footer}" />
-                                                        </Grid>
-                                                    </ScrollViewer>
-                                                </Grid>
+                                                <ScrollViewer
+                                                    x:Name="ScrollViewer"
+                                                    Grid.Row="1"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    AutomationProperties.AccessibilityView="Raw"
+                                                    BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                                                    HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                                    HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                                    IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                                                    IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                                                    IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+                                                    IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                                                    IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+                                                    TabNavigation="{TemplateBinding TabNavigation}"
+                                                    VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                                    VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                                    ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*" />
+                                                            <RowDefinition Height="Auto" />
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <ItemsPresenter
+                                                            Margin="0,0,12,0"
+                                                            Padding="{TemplateBinding Padding}"
+                                                            HorizontalAlignment="Stretch"
+                                                            Footer="{TemplateBinding Footer}"
+                                                            FooterTemplate="{TemplateBinding FooterTemplate}"
+                                                            FooterTransitions="{TemplateBinding FooterTransitions}"
+                                                            Header="{TemplateBinding Header}"
+                                                            HeaderTemplate="{TemplateBinding HeaderTemplate}"
+                                                            HeaderTransitions="{TemplateBinding HeaderTransitions}" />
+                                                    </Grid>
+                                                </ScrollViewer>
                                             </Border>
                                         </ControlTemplate>
                                     </Setter.Value>
