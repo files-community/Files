@@ -13,14 +13,14 @@
         <Setter Property="VerticalAlignment" Value="Top" />
     </Style>
 
-    <Thickness x:Key="PropertyNameMargin">7</Thickness>
     <VerticalAlignment x:Key="PropertyValueVerticalAlignment">Center</VerticalAlignment>
     <!--  Might be used for Expander control  -->
     <SolidColorBrush x:Key="SystemControlBackgroundBaseHighBrush" Color="Transparent" />
 
+    <Thickness x:Key="PropertyNameMargin">0,4</Thickness>
+
     <Style x:Key="PropertyName" TargetType="TextBlock">
         <Setter Property="Margin" Value="{StaticResource PropertyNameMargin}" />
-        <Setter Property="Margin" Value="0,7" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontWeight" Value="SemiBold" />
     </Style>
@@ -36,6 +36,7 @@
     <Style x:Key="PropertyValueTextBlock" TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="{StaticResource PropertyValueVerticalAlignment}" />
         <Setter Property="IsTextSelectionEnabled" Value="True" />
+        <Setter Property="Margin" Value="{StaticResource PropertyNameMargin}" />
     </Style>
 
     <Style
