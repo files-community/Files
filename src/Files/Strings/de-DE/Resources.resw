@@ -205,7 +205,7 @@
     <value>Vorwärts (Alt+Pfeiltaste rechts)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Hoch (Alt+Pfeiltaste oben)</value>
+    <value>Ebenen nach oben (Alt+Pfeiltaste oben)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Aktualisieren (F5)</value>
@@ -898,7 +898,7 @@
     <value>Jahr</value>
   </data>
   <data name="PropertySectionCore" xml:space="preserve">
-    <value>Kern</value>
+    <value>Haupteigenschaften</value>
   </data>
   <data name="PropertySectionImage" xml:space="preserve">
     <value>Bild</value>
@@ -1330,7 +1330,7 @@
     <value>Die Operation wurde beendet.</value>
   </data>
   <data name="StatusRecycleComplete" xml:space="preserve">
-    <value>Papierkorb geleert</value>
+    <value>Löschen erfolgreich</value>
   </data>
   <data name="StatusMoveComplete" xml:space="preserve">
     <value>Verschiebevorgang abgeschlossen</value>
@@ -1717,19 +1717,19 @@
     <value>Kopiere Objekte</value>
   </data>
   <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>Leeren des Papierkorbes fehlgeschlagen</value>
+    <value>Löschen fehlgeschlagen</value>
   </data>
   <data name="StatusRecycleCancelled" xml:space="preserve">
-    <value>Leeren des Papierkorbes abgebrochen</value>
+    <value>Löschen abgebrochen</value>
   </data>
   <data name="canceling" xml:space="preserve">
     <value>abbrechen</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Ablehnen</value>
+    <value>Verwerfen</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Ablehnen</value>
+    <value>Verwerfen</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgets</value>
@@ -2068,7 +2068,7 @@
     <value>Zwei-Panel-Ansicht aktivieren</value>
   </data>
   <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>Das Flyout für vert. Tabs in der Titleleiste anzeigen</value>
+    <value>Das Flyout für vertikale Tabs in der Titleleiste anzeigen</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
     <value>Cloud-Speicher anzeigen</value>
@@ -2101,7 +2101,7 @@
     <value>Sprache</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value>Dateitypen in Namen anzeigen</value>
+    <value>Dateinamenerweiterung anzeigen</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Versteckte Dateien und Ordner anzeigen</value>
@@ -2110,7 +2110,7 @@
     <value>Geschützte Systemdateien ausblenden (empfohlen)</value>
   </data>
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Dateien durch durch einfachen Klick öffnen</value>
+    <value>Öffnen durch einfachen Klick</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>Dateien und Ordner zusammen auflisten und sortieren</value>
@@ -2227,7 +2227,7 @@
     <value>Datumsformat</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Einen Bestätigungsdialog vor dem Löschen zeigen</value>
+    <value>Bestätigungsdialog vor dem Löschen anzeigen</value>
   </data>
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Ordner in einem neuen Tab öffnen</value>
@@ -2288,10 +2288,10 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Tag</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
-    <value>Tags ändern</value>
+    <value>Markierung ändern</value>
   </data>
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Tags anschalten</value>
+    <value>Markierungen anschalten</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>Laufwerk öffnen</value>
@@ -2381,7 +2381,7 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>WSL-Bereich anzeigen</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Ordner in neuem Tab öffnen</value>
+    <value>Jeden Ordner in neuem Tab öffnen</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Sprache</value>
@@ -2553,5 +2553,32 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Alles löschen</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Spalten</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Große Symbole</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Mittelgroße Symbole</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Kleine Symbole</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Kacheln</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Bibliothek erstellen</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>Bibliotheksnamen eingeben</value>
+  </data>
+  <data name="ShowFolderSize" xml:space="preserve">
+    <value>Ordnergröße anzeigen</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Überspringen</value>
   </data>
 </root>
