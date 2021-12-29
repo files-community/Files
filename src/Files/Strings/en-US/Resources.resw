@@ -174,7 +174,7 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>is a subfolder of the source folder</value>
   </data>
-  <data name="ErrorDialogSkip" xml:space="preserve">
+  <data name="Skip" xml:space="preserve">
     <value>Skip</value>
   </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
