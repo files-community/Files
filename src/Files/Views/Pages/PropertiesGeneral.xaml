@@ -38,7 +38,7 @@
         <Grid
             Padding="12"
             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-            BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
             BorderThickness="1"
             ColumnSpacing="8"
             CornerRadius="4"
@@ -405,15 +405,6 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock
-                        x:Uid="PropertiesAttributes"
-                        Grid.Row="18"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontWeight="SemiBold"
-                        Style="{StaticResource PropertyName}"
-                        Text="Attributes:"
-                        Visibility="Collapsed" />
 
                     <TextBlock
                         x:Uid="PropertiesDialogReadOnly"

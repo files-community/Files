@@ -411,9 +411,6 @@
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Properties</value>
   </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Attributes:</value>
-  </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Properties</value>
   </data>
