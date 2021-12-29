@@ -136,8 +136,9 @@ namespace Files.Views.LayoutModes
             FileList.SelectAll();
         }
 
-        private void ItemManipulationModel_FocusFileListInvoked(object sender, EventArgs e)
+        private async void ItemManipulationModel_FocusFileListInvoked(object sender, EventArgs e)
         {
+            await Task.Delay(500);
             FocusFileList();
         }
 
@@ -152,7 +153,7 @@ namespace Files.Views.LayoutModes
 
             if (FileList.ContainerFromIndex(0) is ListViewItem item)
             {
-                _ = FocusManager.TryFocusAsync(item, FocusState.Programmatic);
+                item.Focus(FocusState.Programmatic);
             }
             else
             {
@@ -164,7 +165,7 @@ namespace Files.Views.LayoutModes
         {
             if (!args.InRecycleQueue && args.ItemIndex == 0)
             {
-                _ = FocusManager.TryFocusAsync(args.ItemContainer, FocusState.Programmatic);
+                args.ItemContainer.Focus(FocusState.Programmatic);
                 FileList.ContainerContentChanging -= FileList_FocusItem0;
             }
         }
@@ -451,6 +452,10 @@ namespace Files.Views.LayoutModes
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
+            if (!(FocusManager.GetFocusedElement() is ListViewItem))
+            {
+                return;
+            }
             if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
             {
                 if (!IsRenamingItem)
@@ -779,15 +784,6 @@ namespace Files.Views.LayoutModes
         private void FileList_Loaded(object sender, RoutedEventArgs e)
         {
             ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
-            ContentScroller.ViewChanged -= ContentScroller_ViewChanged;
-            ContentScroller.ViewChanged += ContentScroller_ViewChanged;
-        }
-
-        private void ContentScroller_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
-        {
-            //var headerScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "HeaderScrollViewer");
-            var headerScroller = ((sender as ScrollViewer).Parent as Grid).Children[0] as ScrollViewer;
-            headerScroller.ChangeView((sender as ScrollViewer).HorizontalOffset, null, null, true);
         }
     }
 }
