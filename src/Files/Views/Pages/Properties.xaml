@@ -189,7 +189,7 @@
             <Frame x:Name="contentFrame" IsNavigationStackEnabled="False" />
         </ScrollViewer>
 
-        <Grid Grid.Row="3" Padding="8">
+        <Grid Grid.Row="3" Padding="12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
