@@ -136,29 +136,9 @@ namespace Files.Views.LayoutModes
             FileList.SelectAll();
         }
 
-        private async void ItemManipulationModel_FocusFileListInvoked(object sender, EventArgs e)
+        private void ItemManipulationModel_FocusFileListInvoked(object sender, EventArgs e)
         {
-            await Task.Delay(500);
-            FocusFileList();
-        }
-
-        private void FocusFileList()
-        {
-            var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
-            if (focusedElement is ListViewItem lvi)
-            {
-                // if an item in the file list is already focused, don't refocus
-                return;
-            }
-
-            if (FileList.ContainerFromIndex(0) is ListViewItem item)
-            {
-                item.Focus(FocusState.Programmatic);
-            }
-            else
-            {
-                FileList.ContainerContentChanging += FileList_FocusItem0;
-            }
+            FileList.Focus(FocusState.Programmatic);
         }
 
         private void FileList_FocusItem0(ListViewBase sender, ContainerContentChangingEventArgs args)
@@ -451,14 +431,11 @@ namespace Files.Views.LayoutModes
         {
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var isHeaderFocused = FocusManager.GetFocusedElement() is not ListViewItem;
 
-            if (!(FocusManager.GetFocusedElement() is ListViewItem))
-            {
-                return;
-            }
             if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
             {
-                if (!IsRenamingItem)
+                if (!IsRenamingItem && !isHeaderFocused)
                 {
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                     e.Handled = true;
@@ -471,7 +448,7 @@ namespace Files.Views.LayoutModes
             }
             else if (e.Key == VirtualKey.Space)
             {
-                if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+                if (!IsRenamingItem && !isHeaderFocused && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
                 {
                     e.Handled = true;
                     await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
@@ -491,6 +468,22 @@ namespace Files.Views.LayoutModes
             {
                 // Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
                 NavToolbar?.Focus(FocusState.Pointer);
+            }
+            else if (e.Key == VirtualKey.Down)
+            {
+                if (!IsRenamingItem && isHeaderFocused && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+                {
+                    // Focus first list element
+                    if (FileList.ContainerFromIndex(0) is ListViewItem item)
+                    {
+                        item.Focus(FocusState.Programmatic);
+                        if (!IsItemSelected)
+                        {
+                            FileList.SelectedIndex = 0;
+                        }
+                        e.Handled = true;
+                    }
+                }
             }
         }
 
@@ -512,7 +505,7 @@ namespace Files.Views.LayoutModes
                     }
 
                     base.Page_CharacterReceived(sender, args);
-                    FocusFileList();
+                    FileList.Focus(FocusState.Programmatic);
                 }
             }
         }
