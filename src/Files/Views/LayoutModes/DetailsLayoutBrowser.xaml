@@ -779,7 +779,6 @@
                                                 CornerRadius="{TemplateBinding CornerRadius}">
                                                 <ScrollViewer
                                                     x:Name="ScrollViewer"
-                                                    Grid.Row="1"
                                                     HorizontalContentAlignment="Stretch"
                                                     AutomationProperties.AccessibilityView="Raw"
                                                     BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
@@ -795,10 +794,6 @@
                                                     VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
                                                     ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
                                                     <Grid>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="*" />
-                                                            <RowDefinition Height="Auto" />
-                                                        </Grid.RowDefinitions>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="Auto" />
                                                             <ColumnDefinition Width="*" />
