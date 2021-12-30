@@ -142,15 +142,6 @@ namespace Files.Views.LayoutModes
             FileList.Focus(FocusState.Programmatic);
         }
 
-        private void FileList_FocusItem0(ListViewBase sender, ContainerContentChangingEventArgs args)
-        {
-            if (!args.InRecycleQueue && args.ItemIndex == 0)
-            {
-                args.ItemContainer.Focus(FocusState.Programmatic);
-                FileList.ContainerContentChanging -= FileList_FocusItem0;
-            }
-        }
-
         protected override void UnhookEvents()
         {
             if (ItemManipulationModel != null)
@@ -289,7 +280,6 @@ namespace Files.Views.LayoutModes
             FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
             FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
             ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
-            FileList.ContainerContentChanging -= FileList_FocusItem0;
         }
 
         private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
