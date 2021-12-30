@@ -68,6 +68,7 @@ namespace Files.Views.LayoutModes
             if (SelectedItems.Any())
             {
                 FileList.ScrollIntoView(SelectedItems.Last());
+                (FileList.ContainerFromItem(SelectedItems.Last()) as GridViewItem)?.Focus(FocusState.Keyboard);
             }
         }
 
@@ -424,7 +425,6 @@ namespace Files.Views.LayoutModes
                     }
 
                     base.Page_CharacterReceived(sender, args);
-                    FileList.Focus(FocusState.Keyboard);
                 }
             }
         }

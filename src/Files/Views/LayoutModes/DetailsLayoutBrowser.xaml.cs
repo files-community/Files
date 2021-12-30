@@ -424,10 +424,11 @@ namespace Files.Views.LayoutModes
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
             var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) != null;
+            var isFooterFocused = focusedElement is HyperlinkButton;
 
             if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
             {
-                if (!IsRenamingItem && !isHeaderFocused)
+                if (!IsRenamingItem && !isHeaderFocused && !isFooterFocused)
                 {
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                     e.Handled = true;
@@ -440,7 +441,7 @@ namespace Files.Views.LayoutModes
             }
             else if (e.Key == VirtualKey.Space)
             {
-                if (!IsRenamingItem && !isHeaderFocused && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+                if (!IsRenamingItem && !isHeaderFocused && !isFooterFocused && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
                 {
                     e.Handled = true;
                     await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
@@ -502,7 +503,6 @@ namespace Files.Views.LayoutModes
                     }
 
                     base.Page_CharacterReceived(sender, args);
-                    FileList.Focus(FocusState.Programmatic);
                 }
             }
         }
