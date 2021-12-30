@@ -58,10 +58,10 @@ namespace Files.Behaviors
             nameof(HeaderElement), typeof(UIElement), typeof(StickyHeaderBehavior), new PropertyMetadata(null, PropertyChangedCallback));
 
         private ScrollViewer _scrollViewer;
-        private double _previousVerticalScrollOffset;
         private CompositionPropertySet _scrollProperties;
         private CompositionPropertySet _animationProperties;
-        private Visual _headerVisual;
+        private Visual _headerVisual, _itemsPanelVisual;
+        private InsetClip _contentClip;
 
         /// <summary>
         /// Gets or sets the target element for the ScrollHeader behavior.
@@ -73,19 +73,6 @@ namespace Files.Behaviors
         {
             get { return (UIElement)GetValue(HeaderElementProperty); }
             set { SetValue(HeaderElementProperty, value); }
-        }
-
-        /// <summary>
-        /// Show the header
-        /// </summary>
-        public void Show()
-        {
-            if (_headerVisual != null && _scrollViewer != null)
-            {
-                _previousVerticalScrollOffset = _scrollViewer.VerticalOffset;
-
-                _animationProperties.InsertScalar("OffsetY", 0.0f);
-            }
         }
 
         /// <summary>
@@ -178,13 +165,29 @@ namespace Files.Behaviors
                 _animationProperties.InsertScalar("OffsetY", 0.0f);
             }
 
-            _previousVerticalScrollOffset = _scrollViewer.VerticalOffset;
-
             var propSetOffset = _animationProperties.GetReference().GetScalarProperty("OffsetY");
             var scrollPropSet = _scrollProperties.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
             var expressionAnimation = ExpressionFunctions.Max(propSetOffset - scrollPropSet.Translation.Y, 0);
 
             _headerVisual.StartAnimation("Offset.Y", expressionAnimation);
+
+            // Mod: clip items panel below header
+            var itemsPanel = listView.ItemsPanelRoot;
+
+            if (itemsPanel == null)
+            {
+                return true;
+            }
+
+            if (_itemsPanelVisual == null)
+            {
+                _itemsPanelVisual = ElementCompositionPreview.GetElementVisual(itemsPanel);
+                _contentClip = compositor.CreateInsetClip();
+                _itemsPanelVisual.Clip = _contentClip;
+            }
+
+            var expressionClipAnimation = ExpressionFunctions.Max(-scrollPropSet.Translation.Y, 0);
+            _contentClip.StartAnimation("TopInset", expressionClipAnimation);
 
             return true;
         }
@@ -215,6 +218,8 @@ namespace Files.Behaviors
             _headerVisual?.StopAnimation("Offset.Y");
 
             _animationProperties?.InsertScalar("OffsetY", 0.0f);
+
+            _contentClip?.StopAnimation("TopInset");
 
             if (_headerVisual != null)
             {
