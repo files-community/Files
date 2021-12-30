@@ -40,7 +40,7 @@
         <Grid
             Grid.Row="1"
             Height="42"
-            Margin="14,12,14,12"
+            Margin="12"
             HorizontalAlignment="Stretch"
             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"

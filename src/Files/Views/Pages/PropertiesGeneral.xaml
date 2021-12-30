@@ -34,7 +34,10 @@
         </ResourceDictionary>
     </local:PropertiesTab.Resources>
 
-    <StackPanel Spacing="8" Style="{StaticResource PropertiesTab}">
+    <StackPanel
+        Padding="12,0,12,0"
+        Spacing="8"
+        Style="{StaticResource PropertiesTab}">
         <Grid
             Padding="12"
             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
@@ -277,6 +280,8 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <!--  Space used progress  -->
             <muxc:ProgressRing
@@ -404,6 +409,35 @@
                 x:Load="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}"
                 Style="{StaticResource PropertyValueTextBlock}"
                 Text="{x:Bind ViewModel.DriveCapacity, Mode=OneWay}" />
+
+            <MenuFlyoutSeparator
+                Grid.Row="3"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Margin="-12,0" />
+
+            <!--  Disk cleanup  -->
+            <Grid
+                Grid.ColumnSpan="3"
+                Height="34"
+                HorizontalAlignment="Stretch"
+                ColumnSpacing="8"
+                RowSpacing="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    Grid.ColumnSpan="0"
+                    Style="{StaticResource PropertyName}"
+                    Text="Cleanup your drive contents" />
+                <Button
+                    x:Name="DiskCleanupButton"
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    Click="DiskCleanupButton_Click"
+                    Content="Disk cleanup" />
+            </Grid>
         </Grid>
 
         <!--  Item attributes  -->
@@ -413,7 +447,7 @@
             HorizontalContentAlignment="Stretch"
             x:Load="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}"
             Header="{helpers:ResourceString Name=Attributes}"
-            IsExpanded="True">
+            IsExpanded="False">
             <muxc:Expander.Content>
                 <Grid
                     HorizontalAlignment="Stretch"

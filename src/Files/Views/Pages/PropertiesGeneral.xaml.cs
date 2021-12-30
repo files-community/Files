@@ -8,6 +8,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
+using Windows.System;
 
 namespace Files.Views
 {
@@ -107,6 +108,11 @@ namespace Files.Views
 
         public override void Dispose()
         {
+        }
+
+        private async void DiskCleanupButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("ms-settings:storagesense"));
         }
     }
 }
