@@ -4,6 +4,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.Interacts;
+using Files.UserControls;
 using Files.UserControls.Selection;
 using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -431,7 +432,8 @@ namespace Files.Views.LayoutModes
         {
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var isHeaderFocused = FocusManager.GetFocusedElement() is not ListViewItem;
+            var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
+            var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) != null;
 
             if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
             {
@@ -495,8 +497,9 @@ namespace Files.Views.LayoutModes
                 {
                     // Don't block the various uses of enter key (key 13)
                     var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
+                    var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) != null;
                     if (args.KeyCode == 13
-                        || focusedElement is Button
+                        || (focusedElement is Button && !isHeaderFocused) // Allow jumpstring when header is focused
                         || focusedElement is TextBox
                         || focusedElement is PasswordBox
                         || DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) != null)
