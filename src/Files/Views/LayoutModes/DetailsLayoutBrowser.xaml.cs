@@ -468,9 +468,10 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem && isHeaderFocused && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
                 {
-                    // Focus first list element
-                    if (FileList.ContainerFromIndex(0) is ListViewItem item)
+                    var selectIndex = FileList.SelectedIndex < 0 ? 0 : FileList.SelectedIndex;
+                    if (FileList.ContainerFromIndex(selectIndex) is ListViewItem item)
                     {
+                        // Focus selected list item or first item
                         item.Focus(FocusState.Programmatic);
                         if (!IsItemSelected)
                         {
