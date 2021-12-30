@@ -287,7 +287,7 @@ namespace Files.Filesystem
                     continue;
                 }
 
-                using var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(() => res.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask());
+                using var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(() => res.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask().WithTimeoutAsync(TimeSpan.FromMilliseconds(500)));
                 lock (drivesList)
                 {
                     // If drive already in list, skip.
