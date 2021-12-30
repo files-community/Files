@@ -648,6 +648,15 @@ namespace Files.Views.LayoutModes
             UpdateColumnLayout();
         }
 
+        private void GridSplitter_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right)
+            {
+                UpdateColumnLayout();
+                ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel = ColumnsViewModel;
+            }
+        }
+
         private void UpdateColumnLayout()
         {
             ColumnsViewModel.IconColumn.UserLength = new GridLength(Column1.ActualWidth, GridUnitType.Pixel);
