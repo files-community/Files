@@ -859,6 +859,8 @@ namespace Files.Views
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete:
                     SetLoadingIndicatorForTabs(false);
                     NavToolbarViewModel.CanRefresh = true;
+                    // Set focus to the file list to allow arrow navigation
+                    ContentPage?.ItemManipulationModel.FocusFileList();
                     // Select previous directory
                     if (!string.IsNullOrWhiteSpace(e.PreviousDirectory))
                     {
