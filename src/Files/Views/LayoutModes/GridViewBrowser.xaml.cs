@@ -393,8 +393,11 @@ namespace Files.Views.LayoutModes
             }
             else if (ctrlPressed && shiftPressed && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.W))
             {
-                // Unfocus the ListView so keyboard shortcut can be handled (ctrl + shift + W/"->"/"<-")
-                NavToolbar?.Focus(FocusState.Pointer);
+                if (!IsRenamingItem)
+                {
+                    // Unfocus the ListView so keyboard shortcut can be handled (ctrl + shift + W/"->"/"<-")
+                    NavToolbar?.Focus(FocusState.Pointer);
+                }
             }
             else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
             {
