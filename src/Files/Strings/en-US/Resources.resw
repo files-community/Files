@@ -2692,6 +2692,12 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="ReadOnly" xml:space="preserve">
     <value>Read only</value>
   </data>
+  <data name="CleanupDrive" xml:space="preserve">
+    <value>Cleanup your drive contents</value>
+  </data>
+  <data name="DiskCleanup" xml:space="preserve">
+    <value>Disk cleanup</value>
+  </data>
   <data name="Type" xml:space="preserve">
     <value>Type:</value>
   </data>
