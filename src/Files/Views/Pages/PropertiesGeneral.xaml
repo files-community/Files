@@ -417,27 +417,19 @@
                 Margin="-12,0" />
 
             <!--  Disk cleanup  -->
-            <Grid
-                Grid.ColumnSpan="3"
-                Height="34"
-                HorizontalAlignment="Stretch"
-                ColumnSpacing="8"
-                RowSpacing="4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
-                    Grid.ColumnSpan="0"
-                    Style="{StaticResource PropertyName}"
-                    Text="Cleanup your drive contents" />
-                <Button
-                    x:Name="DiskCleanupButton"
-                    Grid.Column="1"
-                    HorizontalAlignment="Right"
-                    Click="DiskCleanupButton_Click"
-                    Content="Disk cleanup" />
-            </Grid>
+            <TextBlock
+                Grid.Row="4"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Style="{StaticResource PropertyValueTextBlock}"
+                Text="{helpers:ResourceString Name=CleanupDrive}" />
+            <Button
+                x:Name="DiskCleanupButton"
+                Grid.Row="4"
+                Grid.Column="2"
+                HorizontalAlignment="Right"
+                Click="DiskCleanupButton_Click"
+                Content="{helpers:ResourceString Name=DiskCleanup}" />
         </Grid>
 
         <!--  Item attributes  -->
