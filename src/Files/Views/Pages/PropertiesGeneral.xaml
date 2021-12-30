@@ -339,7 +339,7 @@
                     Width="15"
                     Height="15"
                     Margin="0,0,10,0"
-                    Fill="{ThemeResource SystemAccentColor}"
+                    Fill="{ThemeResource SystemAccentColorLight2}"
                     RadiusX="2"
                     RadiusY="2"
                     Stroke="{ThemeResource TextControlElevationBorderBrush}" />
@@ -368,7 +368,7 @@
                     Width="15"
                     Height="15"
                     Margin="0,0,10,0"
-                    Fill="{ThemeResource ControlFillColorDefaultBrush}"
+                    Fill="{ThemeResource ProgressRingBackgroundThemeBrush}"
                     RadiusX="2"
                     RadiusY="2"
                     Stroke="{ThemeResource TextControlElevationBorderBrush}" />
