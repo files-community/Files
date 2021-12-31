@@ -204,7 +204,8 @@
                         Grid.Row="2"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Margin="-12,0" />
+                        Margin="-12,0"
+                        Background="{ThemeResource CardStrokeColorDefaultBrush}" />
 
                     <!--  Date created  -->
                     <TextBlock
@@ -414,7 +415,8 @@
                 Grid.Row="3"
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
-                Margin="-12,0" />
+                Margin="-12,0"
+                Background="{ThemeResource CardStrokeColorDefaultBrush}" />
 
             <!--  Disk cleanup  -->
             <TextBlock
@@ -473,7 +475,8 @@
                         Grid.Row="1"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Margin="-12,0" />
+                        Margin="-12,0"
+                        Background="{ThemeResource CardStrokeColorDefaultBrush}" />
 
                     <TextBlock
                         x:Uid="PropertiesDialogHidden"
