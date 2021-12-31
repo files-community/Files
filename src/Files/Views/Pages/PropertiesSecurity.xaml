@@ -45,9 +45,9 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="40" />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" MaxHeight="160" />
             </Grid.RowDefinitions>
             <TextBlock
                 x:Uid="SecurityUsersGroupLabel"
@@ -90,9 +90,9 @@
                 Grid.Row="2"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
-                MaxHeight="160"
                 Margin="-4,0,-4,0"
                 HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
                 x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
                 ItemsSource="{x:Bind SecurityProperties.FilePermissions.RulesForUsers, Mode=OneWay}"
                 SelectedItem="{x:Bind SecurityProperties.SelectedRuleForUser, Mode=TwoWay}"
@@ -142,9 +142,9 @@
             CornerRadius="4"
             RowSpacing="4">
             <Grid.RowDefinitions>
-                <RowDefinition Height="40" />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <TextBlock
