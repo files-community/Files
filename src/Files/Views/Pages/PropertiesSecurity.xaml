@@ -115,14 +115,18 @@
                                 x:Name="FontIcon"
                                 HorizontalAlignment="Left"
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                FontSize="12"
                                 Glyph="{x:Bind UserGroup.Glyph}" />
 
-                            <TextBlock Grid.Column="1">
-                                <Run Text="{x:Bind UserGroup.DisplayName}" />
-                                <Span FontWeight="Light">&#160;(</Span>
-                                <Run FontWeight="Light" Text="{x:Bind UserGroup.FullNameOrSid}" />
-                                <Span FontWeight="Light">)</Span>
-                            </TextBlock>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <TextBlock Text="{x:Bind UserGroup.DisplayName}" />
+                                <TextBlock
+                                    Padding="4,0,0,0"
+                                    FontWeight="Light"
+                                    Text="&#160;(" />
+                                <TextBlock FontWeight="Light" Text="{x:Bind UserGroup.FullNameOrSid}" />
+                                <TextBlock FontWeight="Light" Text=")" />
+                            </StackPanel>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
