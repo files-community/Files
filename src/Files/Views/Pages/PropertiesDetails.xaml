@@ -45,7 +45,10 @@
                                 <DataTemplate x:DataType="properties:FileProperty">
                                     <Grid HorizontalAlignment="Stretch" ColumnSpacing="8">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" MinWidth="100" />
+                                            <ColumnDefinition
+                                                Width="Auto"
+                                                MinWidth="100"
+                                                MaxWidth="240" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
 
@@ -54,7 +57,8 @@
                                             Grid.Column="0"
                                             HorizontalAlignment="Stretch"
                                             Style="{StaticResource PropertyName}"
-                                            Text="{x:Bind Name, Mode=OneWay}" />
+                                            Text="{x:Bind Name, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
 
                                         <TextBox
                                             x:Name="PropertyValueTemplateTextBox"
