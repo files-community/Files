@@ -40,6 +40,7 @@
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
                             ItemsSource="{x:Bind}"
+                            ScrollViewer.VerticalScrollMode="Disabled"
                             SelectionMode="None">
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="properties:FileProperty">
