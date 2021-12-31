@@ -53,7 +53,7 @@
                 x:Uid="SecurityUsersGroupLabel"
                 Grid.Row="0"
                 Grid.Column="0"
-                Padding="8,0"
+                Padding="8"
                 VerticalAlignment="Center"
                 Text="Group or user names" />
 
@@ -115,7 +115,7 @@
                                 x:Name="FontIcon"
                                 HorizontalAlignment="Left"
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                FontSize="12"
+                                FontSize="16"
                                 Glyph="{x:Bind UserGroup.Glyph}" />
 
                             <StackPanel Grid.Column="1" Orientation="Horizontal">
@@ -149,7 +149,7 @@
 
             <TextBlock
                 Grid.Row="0"
-                Padding="8,8"
+                Padding="8"
                 VerticalAlignment="Center"
                 TextTrimming="CharacterEllipsis">
                 <Run x:Uid="SecurityPermissionsLabel" Text="Permissions for" />
@@ -166,7 +166,7 @@
                 BorderBrush="Transparent"
                 Command="{x:Bind OpenAdvancedPropertiesCommand}"
                 ToolTipService.ToolTip="{helpers:ResourceString Name=AdvancedPermissions}">
-                <FontIcon FontSize="14" Glyph="&#xE00F;" />
+                <FontIcon FontSize="16" Glyph="&#xE00F;" />
             </Button>
 
             <MenuFlyoutSeparator
@@ -179,7 +179,8 @@
                 Grid.Row="2"
                 Padding="8"
                 HorizontalAlignment="Stretch"
-                x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadFilePermissions, Mode=OneWay}">
+                x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
+                ColumnSpacing="12">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
@@ -199,20 +200,18 @@
                 <TextBlock
                     Grid.Row="0"
                     Grid.Column="1"
-                    Margin="24,0,24,0"
+                    Margin="0,0,0,4"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Style="{StaticResource PropertyName}"
                     Text="{helpers:ResourceString Name=Allow}" />
 
                 <TextBlock
                     x:Uid="SecurityDenyLabel"
                     Grid.Row="0"
                     Grid.Column="2"
-                    Margin="24,0,24,0"
+                    Margin="0,0,0,4"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Style="{StaticResource PropertyName}"
                     Text="Deny" />
 
                 <TextBlock
