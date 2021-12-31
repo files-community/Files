@@ -162,7 +162,7 @@
                 BorderBrush="Transparent"
                 Command="{x:Bind OpenAdvancedPropertiesCommand}"
                 ToolTipService.ToolTip="{helpers:ResourceString Name=AdvancedPermissions}">
-                <FontIcon Glyph="&#xE974;" />
+                <FontIcon FontSize="14" Glyph="&#xE00F;" />
             </Button>
 
             <MenuFlyoutSeparator
