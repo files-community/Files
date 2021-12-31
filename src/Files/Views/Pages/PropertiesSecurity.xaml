@@ -45,7 +45,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition />
+                <RowDefinition Height="40" />
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
@@ -142,7 +142,7 @@
             CornerRadius="4"
             RowSpacing="4">
             <Grid.RowDefinitions>
-                <RowDefinition />
+                <RowDefinition Height="40" />
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
