@@ -196,6 +196,7 @@
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupedCollection.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupingHelper.cs" />
     <Compile Include="Helpers\StorageItemIconHelpers.cs" />
+    <Compile Include="Helpers\StorageSenseHelper.cs" />
     <Compile Include="Helpers\UniversalLogWriter.cs" />
     <Compile Include="Helpers\SaveImageToFile.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />

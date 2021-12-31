@@ -8,6 +8,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
 using Windows.System;
 
 namespace Files.Views
@@ -110,9 +111,14 @@ namespace Files.Views
         {
         }
 
-        private async void DiskCleanupButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void DiskCleanupButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri("ms-settings:storagesense"));
+            if (BaseProperties is DriveProperties driveProps)
+            {
+                var drive = driveProps.Drive;
+
+                StorageSenseHelper.OpenStorageSense(drive.Path);
+            }
         }
     }
 }
