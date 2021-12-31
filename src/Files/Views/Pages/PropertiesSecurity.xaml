@@ -12,8 +12,6 @@
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:usercontrols="using:Files.UserControls"
     d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    d:Height="550"
-    d:Width="400"
     Loaded="Properties_Loaded"
     mc:Ignorable="d">
 
@@ -28,8 +26,8 @@
 
     <Grid Padding="12,0,12,12" RowSpacing="8">
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Grid
@@ -47,7 +45,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" MaxHeight="160" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock
                 x:Uid="SecurityUsersGroupLabel"
@@ -90,9 +88,9 @@
                 Grid.Row="2"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
+                MaxHeight="160"
                 Margin="-4,0,-4,0"
                 HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
                 x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
                 ItemsSource="{x:Bind SecurityProperties.FilePermissions.RulesForUsers, Mode=OneWay}"
                 SelectedItem="{x:Bind SecurityProperties.SelectedRuleForUser, Mode=TwoWay}"
