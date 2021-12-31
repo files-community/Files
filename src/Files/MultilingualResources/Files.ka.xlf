@@ -2469,7 +2469,7 @@
           <source>Security</source>
           <target state="translated">უსაფრთხოება</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedPermissions.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AdvancedPermissions" translate="yes" xml:space="preserve">
           <source>Advanced permissions</source>
           <target state="translated">დამატებითი უფლებები</target>
         </trans-unit>

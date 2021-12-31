@@ -2475,7 +2475,7 @@
           <source>Security</source>
           <target state="translated">Ασφάλεια</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedPermissions.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AdvancedPermissions" translate="yes" xml:space="preserve">
           <source>Advanced permissions</source>
           <target state="translated">Προηγμένα δικαιώματα</target>
         </trans-unit>

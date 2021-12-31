@@ -1443,7 +1443,7 @@
   <data name="Security" xml:space="preserve">
     <value>Zabezpečení</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>Rozšířená oprávnění</value>
   </data>
   <data name="Allow" xml:space="preserve">

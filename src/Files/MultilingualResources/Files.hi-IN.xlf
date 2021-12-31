@@ -2389,7 +2389,7 @@
           <source>Security</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">सुरक्षा</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedPermissions.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AdvancedPermissions" translate="yes" xml:space="preserve">
           <source>Advanced permissions</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">उन्नत अनुमतियाँ</target>
         </trans-unit>

@@ -1878,7 +1878,7 @@
   <data name="Security" xml:space="preserve">
     <value>Security</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>Advanced permissions</value>
   </data>
   <data name="Allow" xml:space="preserve">
