@@ -339,7 +339,14 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem)
                 {
-                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+                    if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                    {
+                        ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+                    }
+                    else
+                    {
+                        NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+                    }
                     e.Handled = true;
                 }
             }
@@ -385,7 +392,6 @@ namespace Files.Views.LayoutModes
             {
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    listViewItem = FileList.ContainerFromItem(item) as ListViewItem;
                     ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
                 }
                 else
@@ -442,7 +448,6 @@ namespace Files.Views.LayoutModes
 
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    listViewItem = FileList.ContainerFromItem(item) as ListViewItem;
                     ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
                 }
                 else
