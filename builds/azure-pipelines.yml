@@ -58,8 +58,37 @@ steps:
     platform: 'x64'
     solution: '**/*.wapproj'
     configuration: '$(buildConfiguration)'
-    msbuildArguments: '/t:build;_GenerateAppxPackage /restore /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)"'
+    msbuildArguments: '/t:build;_GenerateAppxPackage /restore /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)";AppxPackageDir="${{parameters.appxPackageDir}}"'
     maximumCpuCount: true
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Find correct folder and run app install script.
+      cd ./${{appxPackageDir}}
+
+      $AppBundle = Get-ChildItem -Filter Files* -Name
+      echo $AppBundle
+      cd $AppBundle
+      ./Add-AppDevPackage.ps1 -Force
+    errorActionPreference: 'continue'
+    failOnStderr: true
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+- task: Windows Application Driver@0
+  inputs:
+    OperationType: 'Start'
+    AgentResolution: '1080p'
+
+- task: VSTest@2
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\AnyCPU\Files.InteractionTests\net6.0\Files.InteractionTests.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)'
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
