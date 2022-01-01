@@ -270,7 +270,10 @@ namespace Files.Filesystem.StorageEnumerators
                     {
                         var isUrl = findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
                         var shInfo = JsonConvert.DeserializeObject<ShellLinkItem>((string)response["ShortcutInfo"]);
-
+                        if (shInfo == null)
+                        {
+                            return null;
+                        }
                         return new ShortcutItem(null, dateReturnFormat)
                         {
                             PrimaryItemAttribute = shInfo.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File,
