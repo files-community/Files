@@ -8,6 +8,7 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -26,6 +27,7 @@ namespace Files.Views.LayoutModes
             this.InitializeComponent();
             CurrentColumn = this;
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
+            selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
         }
 
         protected override void HookEvents()
@@ -158,6 +160,12 @@ namespace Files.Views.LayoutModes
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
+        }
+
+        private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
+        {
+            await Task.Delay(200);
+            FileList.Focus(FocusState.Programmatic);
         }
 
         private async void ReloadItemIcons()
