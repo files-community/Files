@@ -165,7 +165,17 @@ namespace Files.Views.LayoutModes
             ContentChanged(sender as IShellPage);
         }
 
-        public void UpColumn()
+        public void NavigateBack()
+        {
+            (ParentShellPageInstance as ModernShellPage)?.Back_Click();
+        }
+
+        public void NavigateForward()
+        {
+            (ParentShellPageInstance as ModernShellPage)?.Forward_Click();
+        }
+
+        public void NavigateUp()
         {
             if (ColumnHost.ActiveBlades?.Count > 1)
             {
