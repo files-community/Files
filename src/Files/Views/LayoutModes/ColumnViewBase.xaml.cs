@@ -297,7 +297,6 @@ namespace Files.Views.LayoutModes
         #endregion IDisposable
 
         public static ColumnViewBase CurrentColumn;
-        private ListViewItem listViewItem;
 
         private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -388,6 +387,15 @@ namespace Files.Views.LayoutModes
             {
                 // Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
                 NavToolbar?.Focus(FocusState.Pointer);
+            }
+            else if (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down)
+            {
+                // If list has only one item, select it on arrow down/up (#5681)
+                if (!IsItemSelected && FileList.Items.Count == 1)
+                {
+                    FileList.SelectedIndex = 0;
+                    e.Handled = true;
+                }
             }
         }
 

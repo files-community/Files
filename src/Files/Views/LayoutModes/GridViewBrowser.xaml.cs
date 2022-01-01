@@ -407,6 +407,15 @@ namespace Files.Views.LayoutModes
                 // Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
                 NavToolbar?.Focus(FocusState.Pointer);
             }
+            else if (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down)
+            {
+                // If list has only one item, select it on arrow down/up (#5681)
+                if (!IsItemSelected && FileList.Items.Count == 1)
+                {
+                    FileList.SelectedIndex = 0;
+                    e.Handled = true;
+                }
+            }
         }
 
         protected override void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
