@@ -20,8 +20,6 @@ namespace Files.Views.LayoutModes
         public ColumnViewBrowser() : base()
         {
             this.InitializeComponent();
-
-            ColumnPointerPressedHandler = new PointerEventHandler(Column_PointerPressed);
         }
 
         protected override void HookEvents()
@@ -98,7 +96,7 @@ namespace Files.Views.LayoutModes
         {
             base.Dispose();
             ColumnHost.ActiveBlades.ForEach(x => (((x.Content as Frame)?.Content as ColumnShellPage).SlimContentPage as ColumnViewBase).ItemInvoked -= ColumnViewBase_ItemInvoked);
-            ColumnHost.ActiveBlades.ForEach(x => ((x.Content as Frame)?.Content as UIElement).RemoveHandler(UIElement.PointerPressedEvent, ColumnPointerPressedHandler));
+            ColumnHost.ActiveBlades.ForEach(x => ((x.Content as Frame)?.Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus);
             ColumnHost.ActiveBlades.Select(x => (x.Content as Frame)?.Content).OfType<IDisposable>().ForEach(x => x.Dispose());
             UnhookEvents();
             CommandsViewModel?.Dispose();
@@ -125,7 +123,7 @@ namespace Files.Views.LayoutModes
                             disposableContent.Dispose();
                         }
                         (((ColumnHost.ActiveBlades[index + 1].Content as Frame).Content as ColumnShellPage).SlimContentPage as ColumnViewBase).ItemInvoked -= ColumnViewBase_ItemInvoked;
-                        ((ColumnHost.ActiveBlades[index + 1].Content as Frame).Content as UIElement).RemoveHandler(UIElement.PointerPressedEvent, ColumnPointerPressedHandler);
+                        ((ColumnHost.ActiveBlades[index + 1].Content as Frame).Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus;
                         ColumnHost.Items.RemoveAt(index + 1);
                         ColumnHost.ActiveBlades.RemoveAt(index + 1);
                     }
@@ -139,19 +137,10 @@ namespace Files.Views.LayoutModes
             var f = sender as Frame;
             f.Navigated -= Frame_Navigated;
             (f.Content as IShellPage).ContentChanged += ColumnViewBrowser_ContentChanged;
-            (f.Content as UIElement).AddHandler(UIElement.PointerPressedEvent, ColumnPointerPressedHandler, true);
+            (f.Content as UIElement).GotFocus += ColumnViewBrowser_GotFocus;
         }
 
-        private void ColumnViewBrowser_ContentChanged(object sender, UserControls.MultitaskingControl.TabItemArguments e)
-        {
-            var c = sender as IShellPage;
-            c.ContentChanged -= ColumnViewBrowser_ContentChanged;
-            (c.SlimContentPage as ColumnViewBase).ItemInvoked -= ColumnViewBase_ItemInvoked;
-            (c.SlimContentPage as ColumnViewBase).ItemInvoked += ColumnViewBase_ItemInvoked;
-            ContentChanged(c);
-        }
-
-        private void Column_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private void ColumnViewBrowser_GotFocus(object sender, RoutedEventArgs e)
         {
             if (ColumnHost.ActiveBlades != null)
             {
@@ -163,6 +152,15 @@ namespace Files.Views.LayoutModes
             }
             (sender as IShellPage).IsCurrentInstance = true;
             ContentChanged(sender as IShellPage);
+        }
+
+        private void ColumnViewBrowser_ContentChanged(object sender, UserControls.MultitaskingControl.TabItemArguments e)
+        {
+            var c = sender as IShellPage;
+            c.ContentChanged -= ColumnViewBrowser_ContentChanged;
+            (c.SlimContentPage as ColumnViewBase).ItemInvoked -= ColumnViewBase_ItemInvoked;
+            (c.SlimContentPage as ColumnViewBase).ItemInvoked += ColumnViewBase_ItemInvoked;
+            ContentChanged(c);
         }
 
         public void NavigateBack()
@@ -227,7 +225,5 @@ namespace Files.Views.LayoutModes
                 return ParentShellPageInstance;
             }
         }
-
-        private PointerEventHandler ColumnPointerPressedHandler { get; }
     }
 }

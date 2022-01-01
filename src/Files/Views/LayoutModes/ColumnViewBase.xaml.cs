@@ -25,7 +25,6 @@ namespace Files.Views.LayoutModes
         public ColumnViewBase() : base()
         {
             this.InitializeComponent();
-            CurrentColumn = this;
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
         }
@@ -150,6 +149,18 @@ namespace Files.Views.LayoutModes
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
+            ((ColumnShellPage)ParentShellPageInstance).PropertyChanged += ColumnViewBase_PropertyChanged;
+            ColumnViewBase_PropertyChanged(null, new System.ComponentModel.PropertyChangedEventArgs(nameof(ParentShellPageInstance.IsCurrentInstance)));
+        }
+
+        private void ColumnViewBase_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(ParentShellPageInstance.IsCurrentInstance):
+                    FileList.Opacity = ParentShellPageInstance.IsCurrentInstance ? 1 : (double)App.Current.Resources["ListViewItemDisabledThemeOpacity"];
+                    break;
+            }
         }
 
         protected override void InitializeCommandsViewModel()
@@ -159,6 +170,7 @@ namespace Files.Views.LayoutModes
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
+            ((ColumnShellPage)ParentShellPageInstance).PropertyChanged -= ColumnViewBase_PropertyChanged;
             base.OnNavigatingFrom(e);
         }
 
@@ -295,8 +307,6 @@ namespace Files.Views.LayoutModes
         }
 
         #endregion IDisposable
-
-        public static ColumnViewBase CurrentColumn;
 
         private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
