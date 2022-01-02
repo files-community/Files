@@ -30,6 +30,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <!--  Usernames  -->
         <Grid
             Grid.Row="0"
             Padding="8"
@@ -131,6 +132,7 @@
             </ListView>
         </Grid>
 
+        <!--  Permissions  -->
         <Grid
             Grid.Row="1"
             Padding="8"
@@ -178,10 +180,11 @@
                 Padding="8"
                 HorizontalAlignment="Stretch"
                 x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
-                ColumnSpacing="12">
+                ColumnSpacing="8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="12" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -206,7 +209,7 @@
                 <TextBlock
                     x:Uid="SecurityDenyLabel"
                     Grid.Row="0"
-                    Grid.Column="2"
+                    Grid.Column="3"
                     Margin="0,0,0,4"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -232,7 +235,7 @@
 
                 <CheckBox
                     Grid.Row="1"
-                    Grid.Column="2"
+                    Grid.Column="3"
                     MinWidth="0"
                     Padding="0"
                     HorizontalAlignment="Center"
@@ -260,7 +263,7 @@
 
                 <CheckBox
                     Grid.Row="2"
-                    Grid.Column="2"
+                    Grid.Column="3"
                     MinWidth="0"
                     Padding="0"
                     HorizontalAlignment="Center"
@@ -288,7 +291,7 @@
 
                 <CheckBox
                     Grid.Row="3"
-                    Grid.Column="2"
+                    Grid.Column="3"
                     MinWidth="0"
                     Padding="0"
                     HorizontalAlignment="Center"
@@ -318,7 +321,7 @@
 
                 <CheckBox
                     Grid.Row="4"
-                    Grid.Column="2"
+                    Grid.Column="3"
                     MinWidth="0"
                     Padding="0"
                     HorizontalAlignment="Center"
@@ -347,7 +350,7 @@
 
                 <CheckBox
                     Grid.Row="5"
-                    Grid.Column="2"
+                    Grid.Column="3"
                     MinWidth="0"
                     Padding="0"
                     HorizontalAlignment="Center"
@@ -374,7 +377,7 @@
 
                 <CheckBox
                     Grid.Row="6"
-                    Grid.Column="2"
+                    Grid.Column="3"
                     MinWidth="0"
                     Padding="0"
                     HorizontalAlignment="Center"
