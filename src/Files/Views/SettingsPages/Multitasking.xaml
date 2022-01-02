@@ -22,13 +22,6 @@
                 </TransitionCollection>
             </StackPanel.ChildrenTransitions>
 
-            <TextBlock
-                x:Uid="SettingsMultitaskingTitle"
-                Padding="0,0,0,12"
-                FontSize="20"
-                FontWeight="Medium"
-                Text="Multitasking" />
-
             <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsVerticalTabFlyout}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xF5ED;" />
