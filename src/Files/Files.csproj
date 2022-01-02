@@ -144,6 +144,7 @@
     <Compile Include="DataModels\FilesystemItemsOperationDataModel.cs" />
     <Compile Include="DataModels\NavigationControlItems\WslDistroItem.cs" />
     <Compile Include="Enums\LocalizedEnum.cs" />
+    <Compile Include="Enums\OperationErrorCode.cs" />
     <Compile Include="Extensions\ShellNewEntryExtensions.cs" />
     <Compile Include="Dialogs\DecompressArchiveDialog.xaml.cs">
       <DependentUpon>DecompressArchiveDialog.xaml</DependentUpon>
@@ -245,6 +246,14 @@
     <Compile Include="Models\JsonSettings\Implementation\DefaultJsonSettingsSerializer.cs" />
     <Compile Include="Models\JsonSettings\Implementation\DefaultSettingsSerializer.cs" />
     <Compile Include="Models\JsonSettings\ISettingsSerializer.cs" />
+    <Compile Include="SafetyHelpers\ExceptionReporters\DefaultSafeWrapperExceptionReporter.cs" />
+    <Compile Include="SafetyHelpers\ExceptionReporters\ISafeWrapperExceptionReporter.cs" />
+    <Compile Include="SafetyHelpers\ExceptionReporters\IStorageFolder.cs" />
+    <Compile Include="SafetyHelpers\ExceptionReporters\StorageFolder.cs" />
+    <Compile Include="SafetyHelpers\SafeWrapper.cs" />
+    <Compile Include="SafetyHelpers\SafeWrapperResult.cs" />
+    <Compile Include="SafetyHelpers\SafeWrapperResultDetails.cs" />
+    <Compile Include="SafetyHelpers\SafeWrapperRoutines.cs" />
     <Compile Include="Services\IAppearanceSettingsService.cs" />
     <Compile Include="Services\IBundlesSettingsService.cs" />
     <Compile Include="Services\IFileTagsSettingsService.cs" />
