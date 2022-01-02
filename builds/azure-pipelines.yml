@@ -68,7 +68,7 @@ steps:
       # Find correct folder and run app install script.
       cd $(appxPackageDir)
 
-      $AppBundle = Get-ChildItem -Filter Files* -Name
+      $AppBundle = Get-ChildItem -Filter Files*Test -Name
       echo $AppBundle
       cd $AppBundle
       ./Add-AppDevPackage.ps1 -Force
