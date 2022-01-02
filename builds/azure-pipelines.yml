@@ -58,14 +58,14 @@ steps:
   inputs:
     SourceFolder: '$(Agent.TempDirectory)'
     Contents: '$(devCertificate.secureFilePath)'
-    TargetFolder: '$(Build.SourcesDirectory)'
+    TargetFolder: '$(Build.SourcesDirectory)\builds'
     overWrite: true
 
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
     script: |
-      cd $(Build.SourcesDirectory)
+      cd $(Build.SourcesDirectory)\builds
       ls
     failOnStderr: true
 
