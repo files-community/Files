@@ -48,6 +48,19 @@ steps:
     TargetFolder: '$(Build.SourcesDirectory)\src\Files\Resources'
     overWrite: true
 
+- task: DownloadSecureFile@1
+  name: devCertificate
+  displayName: 'Download Bing Maps Dev Key'
+  inputs:
+    secureFile: 'DevCertificate.pfx'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    Contents: '$(devCertificate.secureFilePath)'
+    TargetFolder: '$(Build.SourcesDirectory)'
+    overWrite: true
+
 - task: UseDotNet@2
   inputs:
     packageType: sdk
@@ -58,7 +71,7 @@ steps:
     platform: 'x64'
     solution: '**/*.wapproj'
     configuration: '$(buildConfiguration)'
-    msbuildArguments: '/t:build;_GenerateAppxPackage /restore /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)";AppxPackageDir="$(appxPackageDir)";AppxPackageSigningEnabled=true;UapAppxPackageBuildMode=SideloadOnly'
+    msbuildArguments: '/t:build;_GenerateAppxPackage /restore /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)";AppxPackageDir="$(appxPackageDir)";AppxPackageSigningEnabled=true;UapAppxPackageBuildMode=SideloadOnly;p:PackageCertificateKeyFile=$(Build.SourcesDirectory)/DevCertificate.pfx;PackageCertificatePassword="";PackageCertificateThumbprint=""'
     maximumCpuCount: true
 
 - task: PowerShell@2
