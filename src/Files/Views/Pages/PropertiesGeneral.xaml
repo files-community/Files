@@ -444,14 +444,18 @@
             x:Load="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}"
             Header="{helpers:ResourceString Name=Attributes}"
             IsExpanded="False">
+            <muxc:Expander.Resources>
+                <Thickness x:Key="ExpanderContentPadding">16,8,16,8</Thickness>
+            </muxc:Expander.Resources>
             <muxc:Expander.Content>
                 <Grid
                     HorizontalAlignment="Stretch"
                     ColumnSpacing="8"
                     RowSpacing="8">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -463,12 +467,14 @@
                         x:Uid="PropertiesDialogReadOnly"
                         Grid.Row="0"
                         Grid.Column="0"
-                        Style="{StaticResource PropertyName}"
+                        VerticalAlignment="Center"
                         Text="Read-only"
                         TextWrapping="WrapWholeWords" />
                     <CheckBox
                         Grid.Row="0"
-                        Grid.Column="1"
+                        Grid.Column="2"
+                        MinWidth="0"
+                        HorizontalAlignment="Right"
                         AutomationProperties.Name="{helpers:ResourceString Name=ReadOnly}"
                         IsChecked="{x:Bind ViewModel.IsReadOnly, Mode=TwoWay}"
                         IsEnabled="{x:Bind ViewModel.IsReadOnlyEnabled, Mode=OneWay}" />
@@ -476,7 +482,7 @@
                     <MenuFlyoutSeparator
                         Grid.Row="1"
                         Grid.Column="0"
-                        Grid.ColumnSpan="2"
+                        Grid.ColumnSpan="3"
                         Margin="-12,0"
                         Background="{ThemeResource CardStrokeColorDefaultBrush}" />
 
@@ -484,12 +490,14 @@
                         x:Uid="PropertiesDialogHidden"
                         Grid.Row="2"
                         Grid.Column="0"
-                        Style="{StaticResource PropertyName}"
+                        VerticalAlignment="Center"
                         Text="Hidden"
                         TextWrapping="WrapWholeWords" />
                     <CheckBox
                         Grid.Row="2"
-                        Grid.Column="1"
+                        Grid.Column="2"
+                        MinWidth="0"
+                        HorizontalAlignment="Right"
                         AutomationProperties.Name="{helpers:ResourceString Name=Hidden}"
                         IsChecked="{x:Bind ViewModel.IsHidden, Mode=TwoWay}" />
                 </Grid>
