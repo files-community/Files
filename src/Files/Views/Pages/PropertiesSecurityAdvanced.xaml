@@ -449,6 +449,7 @@
                         x:Name="CannotReadPropsText"
                         x:Uid="SecurityAdvancedCannotReadProperties"
                         Grid.Row="2"
+                        Padding="8"
                         HorizontalAlignment="Left"
                         x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                         Text="You do not have permissions to view the security properties of this object. You can try to take ownership of this object."

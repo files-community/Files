@@ -134,8 +134,10 @@
 
         <!--  Permissions  -->
         <Grid
+            x:Name="Permissions"
             Grid.Row="1"
             Padding="8"
+            x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
             BorderThickness="1"
