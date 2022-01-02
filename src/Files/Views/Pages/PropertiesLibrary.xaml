@@ -22,7 +22,13 @@
         </ResourceDictionary>
     </Page.Resources>
     <StackPanel Style="{StaticResource PropertiesTab}">
-        <Grid>
+        <Grid
+            Padding="12,4,12,12"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="4"
+            RowSpacing="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -31,51 +37,56 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Grid Grid.ColumnSpan="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
-                    x:Uid="LibraryLocations"
-                    Margin="0"
-                    Padding="0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Text="Locations:"
-                    TextTrimming="CharacterEllipsis" />
-                <CommandBar
-                    Grid.Column="2"
-                    Background="Transparent"
-                    DefaultLabelPosition="Right"
-                    IsOpen="False">
-                    <AppBarButton
-                        Command="{x:Bind AddLocationCommand}"
-                        Icon="Add"
-                        Label="{helpers:ResourceString Name=Add}" />
-                    <AppBarButton
-                        Command="{x:Bind SetDefaultLocationCommand}"
-                        Icon="Accept"
-                        IsEnabled="{x:Bind IsNotDefaultFolderSelected, Mode=OneWay}"
-                        Label="{helpers:ResourceString Name=Default}"
-                        ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsDefaultSavePath}" />
-                    <AppBarButton
-                        x:Uid="LibraryLocationsButtonRemove"
-                        Command="{x:Bind RemoveLocationCommand}"
-                        Icon="Delete"
-                        IsEnabled="{x:Bind IsNotDefaultFolderSelected, Mode=OneWay}"
-                        Label="Remove" />
-                </CommandBar>
-            </Grid>
+
+            <TextBlock
+                x:Uid="LibraryLocations"
+                Grid.Row="0"
+                Grid.Column="0"
+                Padding="8,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Text="Locations:"
+                TextTrimming="CharacterEllipsis" />
+            <CommandBar
+                Grid.Row="0"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Background="Transparent"
+                DefaultLabelPosition="Right"
+                IsOpen="False">
+                <AppBarButton
+                    Command="{x:Bind AddLocationCommand}"
+                    Icon="Add"
+                    Label="{helpers:ResourceString Name=Add}" />
+                <AppBarButton
+                    Command="{x:Bind SetDefaultLocationCommand}"
+                    Icon="Accept"
+                    IsEnabled="{x:Bind IsNotDefaultFolderSelected, Mode=OneWay}"
+                    Label="{helpers:ResourceString Name=Default}"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsDefaultSavePath}" />
+                <AppBarButton
+                    x:Uid="LibraryLocationsButtonRemove"
+                    Command="{x:Bind RemoveLocationCommand}"
+                    Icon="Delete"
+                    IsEnabled="{x:Bind IsNotDefaultFolderSelected, Mode=OneWay}"
+                    Label="Remove" />
+            </CommandBar>
+
+            <MenuFlyoutSeparator
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Margin="-8,0"
+                Background="{ThemeResource CardStrokeColorDefaultBrush}" />
+
             <ListView
                 x:Name="PathsList"
                 Grid.Row="2"
+                Grid.Column="0"
                 Grid.ColumnSpan="2"
-                Margin="-14,0"
+                Margin="-4,0,-4,0"
                 CanReorderItems="False"
                 ItemsSource="{x:Bind Folders, Mode=OneWay}"
                 SelectedIndex="{x:Bind SelectedFolderIndex, Mode=TwoWay}"
