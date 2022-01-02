@@ -66,7 +66,7 @@ steps:
     targetType: 'inline'
     script: |
       cd $(Build.SourcesDirectory)
-      ls -al
+      ls
     failOnStderr: true
 
 - task: UseDotNet@2
