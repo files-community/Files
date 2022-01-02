@@ -444,10 +444,6 @@
             x:Load="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}"
             Header="{helpers:ResourceString Name=Attributes}"
             IsExpanded="False">
-            <muxc:Expander.Resources>
-                <Thickness x:Key="ExpanderContentPadding">16,8,16,8</Thickness>
-                <x:Double x:Key="ExpanderMinHeight">0</x:Double>
-            </muxc:Expander.Resources>
             <muxc:Expander.Content>
                 <Grid
                     HorizontalAlignment="Stretch"
@@ -476,6 +472,7 @@
                         Grid.Column="2"
                         MinWidth="0"
                         HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
                         AutomationProperties.Name="{helpers:ResourceString Name=ReadOnly}"
                         IsChecked="{x:Bind ViewModel.IsReadOnly, Mode=TwoWay}"
                         IsEnabled="{x:Bind ViewModel.IsReadOnlyEnabled, Mode=OneWay}" />
@@ -499,6 +496,7 @@
                         Grid.Column="2"
                         MinWidth="0"
                         HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
                         AutomationProperties.Name="{helpers:ResourceString Name=Hidden}"
                         IsChecked="{x:Bind ViewModel.IsHidden, Mode=TwoWay}" />
                 </Grid>
