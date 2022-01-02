@@ -57,7 +57,6 @@ namespace Files.InteractionTests
                         throw new Exception("Unable to start WinAppDriver since no suitable location was found.");
                     }
 
-
                     Thread.Sleep(10000);
                     _session = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appiumOptions);
                 }
