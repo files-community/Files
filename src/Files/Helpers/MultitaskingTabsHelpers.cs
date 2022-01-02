@@ -39,7 +39,7 @@ namespace Files.Helpers
             }
             else
             {
-                await NavigationHelpers.OpenPathInNewWindowAsync("NewTab".GetLocalized());
+                await NavigationHelpers.OpenPathInNewWindowAsync("Home".GetLocalized());
             }
         }
 

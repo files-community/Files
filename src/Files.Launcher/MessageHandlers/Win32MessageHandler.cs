@@ -26,8 +26,9 @@ namespace FilesFullTrust.MessageHandlers
 
         private void DetectIsSetAsDefaultFileManager()
         {
-            using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\Directory\shell");
-            ApplicationData.Current.LocalSettings.Values["IsSetAsDefaultFileManager"] = subkey?.GetValue(string.Empty) as string == "openinfiles";
+            using var subkey = Registry.ClassesRoot.OpenSubKey(@"Folder\shell\open\command");
+            var command = (string)subkey?.GetValue(string.Empty);
+            ApplicationData.Current.LocalSettings.Values["IsSetAsDefaultFileManager"] = !string.IsNullOrEmpty(command) && command.Contains("files.exe");
         }
 
         private void DetectIsSetAsOpenFileDialog()
