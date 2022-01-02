@@ -47,7 +47,7 @@ namespace FilesFullTrust.Helpers
                         continue;
                     }
 
-                    // Also works for OneDrive, Box, Amazon Drive, iCloudDrive, Dropbox
+                    // Also works for OneDrive, Box, iCloudDrive, Dropbox
                     CloudProviders? driveID = driveType switch
                     {
                         "MEGA" => CloudProviders.Mega,
