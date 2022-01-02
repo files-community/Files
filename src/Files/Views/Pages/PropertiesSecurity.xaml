@@ -32,8 +32,10 @@
 
         <!--  Usernames  -->
         <Grid
+            x:Name="Usernames"
             Grid.Row="0"
             Padding="8"
+            x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
             BorderThickness="1"
@@ -134,10 +136,8 @@
 
         <!--  Permissions  -->
         <Grid
-            x:Name="Permissions"
             Grid.Row="1"
             Padding="8"
-            x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
             BorderThickness="1"
