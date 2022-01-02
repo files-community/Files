@@ -15,59 +15,9 @@
         <ResourceDictionary>
             <x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
             <Thickness x:Key="ContentDialogPadding">0</Thickness>
-            <Thickness x:Key="NavigationViewTopPaneHeight">40</Thickness>
-            <Thickness x:Key="TopNavigationViewTopNavGridMargin">10</Thickness>
+            <Thickness x:Key="TopNavigationViewTopNavGridMargin">4</Thickness>
             <SolidColorBrush x:Key="ContentDialogTopOverlay" Color="Transparent" />
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
-                    <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
-                    <SolidColorBrush x:Key="NavigationViewItemBackground" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
-                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundPointerOver" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
-                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundPressed" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
-                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelected" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
-                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelectedPointerOver" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
-                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelectedPressed" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
-                    <SolidColorBrush x:Key="NavigationViewItemBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
-                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushPointerOver" Color="{ThemeResource ControlStrokeColorDefault}" />
-                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
-                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelected" Color="{ThemeResource ControlStrokeColorDefault}" />
-                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelectedPointerOver" Color="{ThemeResource ControlStrokeColorDefault}" />
-                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelectedPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
-                    <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
-                    <SolidColorBrush x:Key="NavigationViewItemBackground" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
-                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundPointerOver" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
-                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundPressed" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
-                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelected" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
-                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelectedPointerOver" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
-                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelectedPressed" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
-                    <SolidColorBrush x:Key="NavigationViewItemBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
-                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushPointerOver" Color="{ThemeResource ControlStrokeColorDefault}" />
-                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
-                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelected" Color="{ThemeResource ControlStrokeColorDefault}" />
-                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelectedPointerOver" Color="{ThemeResource ControlStrokeColorDefault}" />
-                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelectedPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="HighContrast">
-                    <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
-                    <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
-                    <SolidColorBrush x:Key="NavigationViewItemBackground" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
-                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundPointerOver" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
-                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundPressed" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
-                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelected" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
-                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelectedPointerOver" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
-                    <SolidColorBrush x:Key="TopNavigationViewItemBackgroundSelectedPressed" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
-                    <SolidColorBrush x:Key="NavigationViewItemBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
-                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushPointerOver" Color="{ThemeResource ControlStrokeColorDefault}" />
-                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
-                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelected" Color="{ThemeResource ControlStrokeColorDefault}" />
-                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelectedPointerOver" Color="{ThemeResource ControlStrokeColorDefault}" />
-                    <SolidColorBrush x:Key="NavigationViewItemBorderBrushSelectedPressed" Color="{ThemeResource ControlStrokeColorDefault}" />
-                </ResourceDictionary>
-            </ResourceDictionary.ThemeDictionaries>
+            <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
         </ResourceDictionary>
     </ContentDialog.Resources>
 
@@ -150,10 +100,7 @@
                 VerticalAlignment="Stretch"
                 VerticalScrollBarVisibility="Visible"
                 VerticalScrollMode="Enabled">
-                <Frame
-                    x:Name="SettingsContentFrame"
-                    Padding="12"
-                    Background="{ThemeResource SolidBackgroundFillColorTertiary}" />
+                <Frame x:Name="SettingsContentFrame" Padding="12,4,12,12" />
             </ScrollViewer>
         </muxc:NavigationView>
 

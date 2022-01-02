@@ -199,24 +199,10 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private async void GoToStorageSense_Click(object sender, RoutedEventArgs e)
+        private void GoToStorageSense_Click(object sender, RoutedEventArgs e)
         {
             string clickedCard = (sender as Button).Tag.ToString();
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null
-                && !clickedCard.StartsWith("C:", StringComparison.OrdinalIgnoreCase)
-                && ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-            {
-                await connection.SendMessageAsync(new ValueSet()
-                {
-                    { "Arguments", "LaunchSettings" },
-                    { "page", "page=SettingsPageStorageSenseStorageOverview&target=SystemSettings_StorageSense_VolumeListLink" }
-                });
-            }
-            else
-            {
-                await Launcher.LaunchUriAsync(new Uri("ms-settings:storagesense"));
-            }
+            StorageSenseHelper.OpenStorageSense(clickedCard);
         }
 
         private async Task<bool> CheckEmptyDrive(string drivePath)

@@ -1857,7 +1857,7 @@
   <data name="Security" xml:space="preserve">
     <value>უსაფრთხოება</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>დამატებითი უფლებები</value>
   </data>
   <data name="Allow" xml:space="preserve">

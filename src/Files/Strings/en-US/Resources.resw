@@ -177,9 +177,6 @@
   <data name="Skip" xml:space="preserve">
     <value>Skip</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Item type:</value>
-  </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Select All</value>
   </data>
@@ -2004,7 +2001,7 @@
   <data name="Security" xml:space="preserve">
     <value>Security</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>Advanced permissions</value>
   </data>
   <data name="Allow" xml:space="preserve">
@@ -2694,5 +2691,14 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="ReadOnly" xml:space="preserve">
     <value>Read only</value>
+  </data>
+  <data name="CleanupDrive" xml:space="preserve">
+    <value>Cleanup your drive contents</value>
+  </data>
+  <data name="DiskCleanup" xml:space="preserve">
+    <value>Disk cleanup</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type:</value>
   </data>
 </root>

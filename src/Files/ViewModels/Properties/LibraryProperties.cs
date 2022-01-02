@@ -110,8 +110,8 @@ namespace Files.ViewModels.Properties
 
         private async void GetLibrarySize(List<BaseStorageFolder> storageFolders, CancellationToken token)
         {
-            ViewModel.ItemSizeVisibility = Visibility.Visible;
-            ViewModel.ItemSizeProgressVisibility = Visibility.Visible;
+            ViewModel.ItemSizeVisibility = true;
+            ViewModel.ItemSizeProgressVisibility = true;
 
             try
             {
@@ -128,7 +128,7 @@ namespace Files.ViewModels.Properties
                 App.Logger.Warn(ex, ex.Message);
             }
 
-            ViewModel.ItemSizeProgressVisibility = Visibility.Collapsed;
+            ViewModel.ItemSizeProgressVisibility = false;
 
             SetItemsCountString();
         }
