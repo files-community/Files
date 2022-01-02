@@ -71,7 +71,7 @@ steps:
     platform: 'x64'
     solution: '**/*.wapproj'
     configuration: '$(buildConfiguration)'
-    msbuildArguments: '/t:build;_GenerateAppxPackage /restore /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)";AppxPackageDir="$(appxPackageDir)";AppxPackageSigningEnabled=true;UapAppxPackageBuildMode=SideloadOnly;PackageCertificateKeyFile=$(Build.SourcesDirectory)\DevCertificate.pfx;PackageCertificatePassword="";PackageCertificateThumbprint=""'
+    msbuildArguments: '/t:build;_GenerateAppxPackage /restore /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)";AppxPackageDir="$(appxPackageDir)";AppxPackageSigningEnabled=true;UapAppxPackageBuildMode=SideloadOnly;PackageCertificateKeyFile=$(devCertificate.secureFilePath);PackageCertificatePassword="";PackageCertificateThumbprint=""'
     maximumCpuCount: true
 
 - task: PowerShell@2
