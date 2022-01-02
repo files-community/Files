@@ -63,7 +63,7 @@
         <ScrollViewer Grid.Row="1">
             <StackPanel Padding="12,0,12,12" Spacing="8">
                 <Grid
-                    Padding="12"
+                    Padding="8"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1"
@@ -78,7 +78,7 @@
                     <TextBlock
                         x:Uid="SecurityOwnerLabel"
                         Grid.Column="0"
-                        Padding="4"
+                        Padding="8,0,0,0"
                         VerticalAlignment="Center"
                         Text="Owner" />
 
