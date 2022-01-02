@@ -40,6 +40,7 @@ namespace Files.Common
         AppleCloud,
         AmazonDrive,
         Nextcloud,
+        Yandex,
         Box
     }
 }

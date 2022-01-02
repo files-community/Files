@@ -16,12 +16,30 @@ namespace FilesFullTrust.Helpers
             {
                 Extensions.IgnoreExceptions(DetectOneDrive, Program.Logger),
                 Extensions.IgnoreExceptions(DetectSharepoint, Program.Logger),
-                Extensions.IgnoreExceptions(DetectGenericCloudDrive, Program.Logger)
+                Extensions.IgnoreExceptions(DetectGenericCloudDrive, Program.Logger),
+                Extensions.IgnoreExceptions(DetectYandexDisk, Program.Logger),
             };
 
             await Task.WhenAll(tasks);
 
             return tasks.Where(o => o.Result != null).SelectMany(o => o.Result).OrderBy(o => o.ID.ToString()).ThenBy(o => o.Name).Distinct().ToList();
+        }
+
+        private static Task<List<CloudProvider>> DetectYandexDisk()
+        {
+            var results = new List<CloudProvider>();
+            using var yandexKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Yandex\Yandex.Disk.2");
+            var syncedFolder = (string)yandexKey?.GetValue("RootFolder");
+            if (syncedFolder != null)
+            {
+                results.Add(new CloudProvider()
+                {
+                    ID = CloudProviders.Yandex,
+                    Name = $"Yandex Disk",
+                    SyncFolder = syncedFolder
+                });
+            }
+            return Task.FromResult(results);
         }
 
         private static Task<List<CloudProvider>> DetectGenericCloudDrive()
