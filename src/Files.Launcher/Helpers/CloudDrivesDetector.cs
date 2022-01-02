@@ -47,11 +47,12 @@ namespace FilesFullTrust.Helpers
                         continue;
                     }
 
-                    // Also works for OneDrive, Box, Amazon Drive, iCloudDrive, Dropbox
+                    // Also works for OneDrive, Box, iCloudDrive, Dropbox
                     CloudProviders? driveID = driveType switch
                     {
                         "MEGA" => CloudProviders.Mega,
                         "Amazon Drive" => CloudProviders.AmazonDrive,
+                        "Nextcloud" => CloudProviders.Nextcloud,
                         _ => null
                     };
                     if (driveID == null)
@@ -66,6 +67,7 @@ namespace FilesFullTrust.Helpers
                         {
                             CloudProviders.Mega => $"MEGA ({Path.GetFileName(syncedFolder.TrimEnd('\\'))})",
                             CloudProviders.AmazonDrive => $"Amazon Drive",
+                            CloudProviders.Nextcloud => $"Nextcloud",
                             _ => null
                         },
                         SyncFolder = syncedFolder
