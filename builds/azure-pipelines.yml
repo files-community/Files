@@ -66,7 +66,7 @@ steps:
     targetType: 'inline'
     script: |
       # Find correct folder and run app install script.
-      cd ./$(appxPackageDir)
+      cd $(appxPackageDir)
 
       $AppBundle = Get-ChildItem -Filter Files* -Name
       echo $AppBundle
