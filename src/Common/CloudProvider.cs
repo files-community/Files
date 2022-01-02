@@ -39,6 +39,7 @@ namespace Files.Common
         DropBox,
         AppleCloud,
         AmazonDrive,
+        Nextcloud,
         Box
     }
 }

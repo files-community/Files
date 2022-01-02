@@ -52,6 +52,7 @@ namespace FilesFullTrust.Helpers
                     {
                         "MEGA" => CloudProviders.Mega,
                         "Amazon Drive" => CloudProviders.AmazonDrive,
+                        "Nextcloud" => CloudProviders.Nextcloud,
                         _ => null
                     };
                     if (driveID == null)
@@ -66,6 +67,7 @@ namespace FilesFullTrust.Helpers
                         {
                             CloudProviders.Mega => $"MEGA ({Path.GetFileName(syncedFolder.TrimEnd('\\'))})",
                             CloudProviders.AmazonDrive => $"Amazon Drive",
+                            CloudProviders.Nextcloud => $"Nextcloud",
                             _ => null
                         },
                         SyncFolder = syncedFolder
