@@ -142,16 +142,19 @@ namespace Files.Views.LayoutModes
 
         private void ColumnViewBrowser_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (ColumnHost.ActiveBlades != null)
+            if (!(sender as IShellPage).IsCurrentInstance)
             {
-                ColumnHost.ActiveBlades.ForEach(x =>
+                if (ColumnHost.ActiveBlades != null)
                 {
-                    var shellPage = (x.Content as Frame)?.Content as ColumnShellPage;
-                    shellPage.IsCurrentInstance = false;
-                });
+                    ColumnHost.ActiveBlades.ForEach(x =>
+                    {
+                        var shellPage = (x.Content as Frame)?.Content as ColumnShellPage;
+                        shellPage.IsCurrentInstance = false;
+                    });
+                }
+                (sender as IShellPage).IsCurrentInstance = true;
+                ContentChanged(sender as IShellPage);
             }
-            (sender as IShellPage).IsCurrentInstance = true;
-            ContentChanged(sender as IShellPage);
         }
 
         private void ColumnViewBrowser_ContentChanged(object sender, UserControls.MultitaskingControl.TabItemArguments e)
