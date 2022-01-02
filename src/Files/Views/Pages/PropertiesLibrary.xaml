@@ -86,7 +86,7 @@
                 Grid.Row="2"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
-                Margin="-4,0,-4,0"
+                Margin="-8,0,-8,0"
                 CanReorderItems="False"
                 ItemsSource="{x:Bind Folders, Mode=OneWay}"
                 SelectedIndex="{x:Bind SelectedFolderIndex, Mode=TwoWay}"
@@ -110,13 +110,11 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.Footer>
-                    <StackPanel Margin="14,5,14,5" Spacing="5">
-                        <TextBlock
-                            x:Uid="LibraryNoLocations"
-                            Text="No locations"
-                            TextWrapping="WrapWholeWords"
-                            Visibility="{x:Bind IsLibraryEmpty, Mode=OneWay}" />
-                    </StackPanel>
+                    <TextBlock
+                        x:Uid="LibraryNoLocations"
+                        Text="No locations"
+                        TextWrapping="WrapWholeWords"
+                        Visibility="{x:Bind IsLibraryEmpty, Mode=OneWay}" />
                 </ListView.Footer>
             </ListView>
 

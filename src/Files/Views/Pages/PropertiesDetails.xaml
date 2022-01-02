@@ -19,13 +19,8 @@
         </ResourceDictionary>
     </Page.Resources>
     <Grid Padding="12,0,12,12">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
         <ListView
             x:Name="MainList"
-            Grid.Row="0"
             HorizontalAlignment="Stretch"
             ItemsSource="{x:Bind ViewModel.PropertySections, Mode=OneWay}"
             SelectionMode="None">
@@ -89,25 +84,25 @@
                     <Setter Property="Padding" Value="0,4,0,4" />
                 </Style>
             </ListView.ItemContainerStyle>
+            <ListView.Footer>
+                <Button
+                    x:Name="ClearPropertiesButton"
+                    x:Uid="ClearPropertiesButton"
+                    Margin="0,8,0,0"
+                    HorizontalAlignment="Stretch">
+                    <Button.Flyout>
+                        <Flyout x:Name="ClearPropertiesFlyout">
+                            <StackPanel Orientation="Vertical" Spacing="4">
+                                <TextBlock x:Uid="ClearPropertiesFlyoutText" Text="Confirm?" />
+                                <Button
+                                    x:Uid="ClearPropertiesFlyoutConfirmation"
+                                    Click="ClearPropertiesConfirmation_Click"
+                                    Content="Clear" />
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </ListView.Footer>
         </ListView>
-
-        <Button
-            x:Name="ClearPropertiesButton"
-            x:Uid="ClearPropertiesButton"
-            Grid.Row="1"
-            Margin="0,8,0,0"
-            HorizontalAlignment="Stretch">
-            <Button.Flyout>
-                <Flyout x:Name="ClearPropertiesFlyout">
-                    <StackPanel Orientation="Vertical" Spacing="4">
-                        <TextBlock x:Uid="ClearPropertiesFlyoutText" Text="Confirm?" />
-                        <Button
-                            x:Uid="ClearPropertiesFlyoutConfirmation"
-                            Click="ClearPropertiesConfirmation_Click"
-                            Content="Clear" />
-                    </StackPanel>
-                </Flyout>
-            </Button.Flyout>
-        </Button>
     </Grid>
 </local:PropertiesTab>
