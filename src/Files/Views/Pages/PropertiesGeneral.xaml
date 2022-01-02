@@ -445,7 +445,7 @@
             Header="{helpers:ResourceString Name=Attributes}"
             IsExpanded="False">
             <muxc:Expander.Resources>
-                <Thickness x:Key="ExpanderContentPadding">16,8,16,8</Thickness>
+                <Thickness x:Key="ExpanderContentPadding">16,0,16,0</Thickness>
             </muxc:Expander.Resources>
             <muxc:Expander.Content>
                 <Grid
