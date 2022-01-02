@@ -93,6 +93,7 @@
                 x:Name="ItemType"
                 Grid.Row="1"
                 Grid.Column="0"
+                Padding="4,0,0,0"
                 x:Load="{x:Bind ViewModel.ItemTypeVisibility, Mode=OneWay}"
                 FontWeight="SemiBold"
                 Style="{StaticResource PropertyName}"
@@ -110,6 +111,7 @@
                 x:Uid="PropertiesDriveFileSystem"
                 Grid.Row="2"
                 Grid.Column="0"
+                Padding="4,0,0,0"
                 x:Load="{x:Bind ViewModel.DriveFileSystemVisibility, Mode=OneWay}"
                 FontWeight="SemiBold"
                 Style="{StaticResource PropertyName}"
@@ -192,11 +194,11 @@
                             Grid.Column="0"
                             IsTextSelectionEnabled="True"
                             Text="{x:Bind ViewModel.ItemSize, Mode=OneWay}" />
-                        <muxc:ProgressRing
+                        <muxc:ProgressBar
                             x:Name="ItemSizeProgress"
                             Grid.Column="1"
-                            Margin="0,-10"
                             HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
                             Visibility="{x:Bind ViewModel.ItemSizeProgressVisibility, Mode=OneWay}" />
                     </Grid>
 

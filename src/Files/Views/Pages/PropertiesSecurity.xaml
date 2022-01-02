@@ -385,15 +385,16 @@
                     IsChecked="{x:Bind SecurityProperties.SelectedRuleForUser.DeniesWrite, Mode=TwoWay}"
                     IsEnabled="{x:Bind SecurityProperties.SelectedRuleForUser.DeniesInheritedWrite, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
             </Grid>
-        </Grid>
 
-        <TextBlock
-            x:Name="CannotReadPropsText"
-            x:Uid="SecurityCannotReadProperties"
-            Grid.Row="0"
-            HorizontalAlignment="Left"
-            x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadFilePermissions, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-            Text="You do not have permissions to view the security properties of this object. Click &quot;Advanced permissions&quot; to proceed."
-            TextWrapping="WrapWholeWords" />
+            <TextBlock
+                x:Name="CannotReadPropsText"
+                x:Uid="SecurityCannotReadProperties"
+                Grid.Row="2"
+                Padding="8"
+                HorizontalAlignment="Left"
+                x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadFilePermissions, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                Text="You do not have permissions to view the security properties of this object. Click &quot;Advanced permissions&quot; to proceed."
+                TextWrapping="WrapWholeWords" />
+        </Grid>
     </Grid>
 </local:PropertiesTab>
