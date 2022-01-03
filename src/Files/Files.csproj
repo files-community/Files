@@ -1425,7 +1425,7 @@
       <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="FluentFTP">
-      <Version>35.2.2</Version>
+      <Version>35.2.3</Version>
     </PackageReference>
     <PackageReference Include="ini-parser-netstandard">
       <Version>2.5.2</Version>
