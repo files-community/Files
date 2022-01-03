@@ -100,7 +100,7 @@
                 VerticalAlignment="Stretch"
                 VerticalScrollBarVisibility="Visible"
                 VerticalScrollMode="Enabled">
-                <Frame x:Name="SettingsContentFrame" Padding="12,4,12,12" />
+                <Frame x:Name="SettingsContentFrame" Padding="12,0,12,12" />
             </ScrollViewer>
         </muxc:NavigationView>
 
@@ -109,12 +109,13 @@
             Grid.Column="1"
             Width="36"
             Height="36"
-            Margin="12"
+            Margin="8,12,12,8"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             AutomationProperties.Name="{helpers:ResourceString Name=Close}"
+            Background="Transparent"
+            BorderBrush="Transparent"
             Click="ButtonClose_Click"
-            CornerRadius="20"
             ToolTipService.ToolTip="{helpers:ResourceString Name=Close}">
             <FontIcon FontSize="12" Glyph="&#xE8BB;" />
         </Button>

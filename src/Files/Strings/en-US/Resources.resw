@@ -2701,4 +2701,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="Type" xml:space="preserve">
     <value>Type:</value>
   </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Bytes</value>
+  </data>
 </root>

@@ -278,6 +278,7 @@
                     MinWidth="100"
                     MaxWidth="140" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -364,6 +365,22 @@
                 x:Load="{x:Bind ViewModel.DriveUsedSpaceVisibiity, Mode=OneWay}"
                 Style="{StaticResource PropertyValueTextBlock}"
                 Text="{x:Bind ViewModel.DriveUsedSpace, Mode=OneWay}" />
+            <Button
+                Grid.Row="0"
+                Grid.Column="3"
+                Padding="8,6"
+                AutomationProperties.Name="{helpers:ResourceString Name=Bytes}"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                ToolTipService.ToolTip="{helpers:ResourceString Name=Bytes}">
+                <FontIcon FontSize="16" Glyph="&#xE946;" />
+                <Button.Flyout>
+                    <Flyout>
+                        <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind ViewModel.DriveUsedSpaceLongSize, Mode=OneWay}" />
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+
 
             <!--  Disk free space  -->
             <StackPanel
@@ -393,6 +410,21 @@
                 x:Load="{x:Bind ViewModel.DriveFreeSpaceVisibiity, Mode=OneWay}"
                 Style="{StaticResource PropertyValueTextBlock}"
                 Text="{x:Bind ViewModel.DriveFreeSpace, Mode=OneWay}" />
+            <Button
+                Grid.Row="1"
+                Grid.Column="3"
+                Padding="8,6"
+                AutomationProperties.Name="{helpers:ResourceString Name=Bytes}"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                ToolTipService.ToolTip="{helpers:ResourceString Name=Bytes}">
+                <FontIcon FontSize="16" Glyph="&#xE946;" />
+                <Button.Flyout>
+                    <Flyout>
+                        <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind ViewModel.DriveFreeSpaceLongSize, Mode=OneWay}" />
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
 
             <!--  Drive capacity  -->
             <TextBlock
@@ -412,11 +444,26 @@
                 x:Load="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}"
                 Style="{StaticResource PropertyValueTextBlock}"
                 Text="{x:Bind ViewModel.DriveCapacity, Mode=OneWay}" />
+            <Button
+                Grid.Row="2"
+                Grid.Column="3"
+                Padding="8,6"
+                AutomationProperties.Name="{helpers:ResourceString Name=Bytes}"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                ToolTipService.ToolTip="{helpers:ResourceString Name=Bytes}">
+                <FontIcon FontSize="16" Glyph="&#xE946;" />
+                <Button.Flyout>
+                    <Flyout>
+                        <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind ViewModel.DriveCapacityLongSize, Mode=OneWay}" />
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
 
             <MenuFlyoutSeparator
                 Grid.Row="3"
                 Grid.Column="0"
-                Grid.ColumnSpan="3"
+                Grid.ColumnSpan="4"
                 Margin="-12,0"
                 Background="{ThemeResource CardStrokeColorDefaultBrush}" />
 
@@ -431,6 +478,7 @@
                 x:Name="DiskCleanupButton"
                 Grid.Row="4"
                 Grid.Column="2"
+                Grid.ColumnSpan="2"
                 HorizontalAlignment="Right"
                 Click="DiskCleanupButton_Click"
                 Content="{helpers:ResourceString Name=DiskCleanup}" />
