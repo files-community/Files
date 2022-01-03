@@ -285,7 +285,8 @@ namespace Files.ViewModels
             set
             {
                 SetProperty(ref driveUsedSpaceValue, value);
-                DriveUsedSpace = DriveUsedSpaceValue.ToLongSizeString();
+                DriveUsedSpace = DriveUsedSpaceValue.ToSizeString();
+                DriveUsedSpaceLongSize = DriveUsedSpaceValue.ToLongSizeString();
                 OnPropertyChanged(nameof(DrivePercentageValue));
             }
         }
@@ -299,6 +300,17 @@ namespace Files.ViewModels
             {
                 DriveUsedSpaceVisibiity = true;
                 SetProperty(ref driveUsedSpace, value);
+            }
+        }
+        
+        private string driveUsedSpaceLongSize;
+
+        public string DriveUsedSpaceLongSize
+        {
+            get => driveUsedSpaceLongSize;
+            set
+            {
+                SetProperty(ref driveUsedSpaceLongSize, value);
             }
         }
 
@@ -318,7 +330,9 @@ namespace Files.ViewModels
             set
             {
                 SetProperty(ref driveFreeSpaceValue, value);
-                DriveFreeSpace = DriveFreeSpaceValue.ToLongSizeString();
+                DriveFreeSpace = DriveFreeSpaceValue.ToSizeString();
+                DriveFreeSpaceLongSize = DriveFreeSpaceValue.ToLongSizeString();
+
             }
         }
 
@@ -331,6 +345,17 @@ namespace Files.ViewModels
             {
                 DriveFreeSpaceVisibiity = true;
                 SetProperty(ref driveFreeSpace, value);
+            }
+        }
+        
+        private string driveFreeSpaceLongSize;
+
+        public string DriveFreeSpaceLongSize
+        {
+            get => driveFreeSpaceLongSize;
+            set
+            {
+                SetProperty(ref driveFreeSpaceLongSize, value);
             }
         }
 
@@ -418,7 +443,8 @@ namespace Files.ViewModels
             set
             {
                 SetProperty(ref driveCapacityValue, value);
-                DriveCapacity = DriveCapacityValue.ToLongSizeString();
+                DriveCapacity = DriveCapacityValue.ToSizeString();
+                DriveCapacityLongSize = DriveCapacityValue.ToLongSizeString();
                 OnPropertyChanged(nameof(DrivePercentageValue));
             }
         }
@@ -432,6 +458,17 @@ namespace Files.ViewModels
             {
                 DriveCapacityVisibiity = true;
                 SetProperty(ref driveCapacity, value);
+            }
+        }
+        
+        private string driveCapacityLongSize;
+
+        public string DriveCapacityLongSize
+        {
+            get => driveCapacityLongSize;
+            set
+            {
+                SetProperty(ref driveCapacityLongSize, value);
             }
         }
 
