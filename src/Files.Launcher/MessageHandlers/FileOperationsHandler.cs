@@ -531,7 +531,7 @@ namespace FilesFullTrust.MessageHandlers
                         Program.Logger.Warn(ex, ex.Message);
                         await Win32API.SendMessageAsync(connection, new ValueSet()
                         {
-                            { "ShortcutInfo", JsonConvert.SerializeObject(null) }
+                            { "ShortcutInfo", JsonConvert.SerializeObject(new ShellLinkItem()) }
                         }, message.Get("RequestID", (string)null));
                     }
                     break;
@@ -676,7 +676,7 @@ namespace FilesFullTrust.MessageHandlers
                         bool success = false;
                         if (string.IsNullOrEmpty(compatOptions) || compatOptions == "~")
                         {
-                            success = Win32API.RunPowershellCommand(@$"Remove-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' | Out-Null", false); 
+                            success = Win32API.RunPowershellCommand(@$"Remove-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' | Out-Null", false);
                         }
                         else
                         {

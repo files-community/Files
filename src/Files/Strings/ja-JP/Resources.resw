@@ -24,14 +24,8 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>テキスト文書</value>
   </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>ドライブ</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>名前</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>更新日時</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>種類</value>
@@ -126,13 +120,13 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>個人用設定</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>デスクトップ</value>
   </data>
-  <data name="SidebarDocuments" xml:space="preserve">
+  <data name="Documents" xml:space="preserve">
     <value>ドキュメント</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>ダウンロード</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
@@ -150,20 +144,14 @@
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>並べ替え</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>名前</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>更新日時</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>種類</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>昇順</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>降順</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>最新の情報に更新</value>
@@ -180,7 +168,7 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>抽出</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>開く</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
@@ -247,10 +235,10 @@
     <value>フォルダは空です。</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>前に戻る (Alt+左矢印)</value>
+    <value>戻る (Alt+左矢印)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>次に進む (Alt+右矢印)</value>
+    <value>進む (Alt+右矢印)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>1つ上のディレクトリへ行く (Alt+上矢印)</value>
@@ -290,9 +278,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>小アイコン</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>タイル</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>OK</value>
@@ -633,9 +618,6 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>背景に設定</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>場所をコピー</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>タブの追加</value>
   </data>
@@ -674,12 +656,6 @@
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>1つ上のディレクトリへ行く</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>ターミナルアプリを編集</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ターミナルアプリを編集</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>支援する</value>
@@ -849,7 +825,7 @@
   <data name="PropertyComposer" xml:space="preserve">
     <value>作曲者</value>
   </data>
-  <data name="PropertyConductor" xml:space="preserve">
+  <data name="Conductor" xml:space="preserve">
     <value>指揮者</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
@@ -942,7 +918,7 @@
   <data name="PropertySectionMusic" xml:space="preserve">
     <value>音楽</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>住所</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
@@ -1008,7 +984,7 @@
   <data name="PropertyOrientation" xml:space="preserve">
     <value>方向</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>ドキュメント</value>
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
@@ -1077,7 +1053,7 @@
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>ファイル</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>ファイル</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
@@ -1095,10 +1071,10 @@
   <data name="Add" xml:space="preserve">
     <value>追加</value>
   </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>編集</value>
   </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+  <data name="Remove" xml:space="preserve">
     <value>削除</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -1140,9 +1116,6 @@
   <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
     <value>グリッドビュー (小)</value>
   </data>
-  <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
-    <value>タイルビュー</value>
-  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>削除した日時</value>
   </data>
@@ -1152,22 +1125,13 @@
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
     <value>入力フィールドが空欄です！</value>
   </data>
-  <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
-    <value>バンドル名を入力</value>
-  </data>
-  <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
-    <value>バンドル名を入力</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
-    <value>新しい名前</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
     <value>新しい名前を入力</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>"{0}" の名前を変更</value>
   </data>
-  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+  <data name="DesiredName" xml:space="preserve">
     <value>新しい名前</value>
   </data>
   <data name="Confirm" xml:space="preserve">
@@ -1200,7 +1164,7 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>ファイルやフォルダをここにドラッグして追加</value>
   </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>バンドル名を入力</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
@@ -1344,7 +1308,7 @@
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>ターゲット</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
+  <data name="Arguments" xml:space="preserve">
     <value>引数</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
@@ -1617,7 +1581,7 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>極小</value>
   </data>
-  <data name="ItemTimeText_Today" xml:space="preserve">
+  <data name="Today" xml:space="preserve">
     <value>今日</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
@@ -1758,7 +1722,7 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>ごみ箱から元に戻す操作がキャンセルされました</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>キャンセル中</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1803,7 +1767,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>新しいウィンドウ</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>場所のコピー</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1821,10 +1785,10 @@
   <data name="Security" xml:space="preserve">
     <value>セキュリティ</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>詳細設定</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>許可</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -2146,13 +2110,13 @@
     <value>保護されたオペレーティング システム ファイルを表示しない (推奨)</value>
   </data>
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>シングルクリックでアイテムを開く</value>
+    <value>シングルクリックでファイルを開く</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>ファイルと一緒にディレクトリを一覧表示して並べ替える</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>ファイルやフォルダを検索するときにインデックス付けされていないアイテムを表示する (検索に時間がかかる場合があります)</value>
+    <value>ファイルやフォルダの検索時にインデックスされていないファイルを表示</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
     <value>ディレクトリのごとに設定を保存</value>
@@ -2184,7 +2148,7 @@
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>更新</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+  <data name="AddFile" xml:space="preserve">
     <value>ファイルの追加</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
@@ -2284,12 +2248,13 @@ Filesは、個人情報を収集、保存、共有、または公開すること
 
 *非個人情報の収集*
 
-App Centerを使用して、アプリの使用状況を追跡し、バグを見つけ、クラッシュを修正します。 App Centerに送信されるすべての情報は匿名であり、ユーザーまたはコンテキストデータは含まれていません。</value>
+App Centerを使用して、アプリの使用状況を追跡し、バグを見つけ、クラッシュを修正します。 App Centerに送信されるすべての情報は匿名であり、ユーザーまたはコンテキストデータは含まれていません。
+</value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>ニックネーム</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>変更日</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
@@ -2298,7 +2263,7 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>種類</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>降順</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
@@ -2321,12 +2286,6 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
     <value>ファイルタグ</value>
-  </data>
-  <data name="SettingsEditFileTags.AutomationProperties.Name" xml:space="preserve">
-    <value>ファイルタグを編集</value>
-  </data>
-  <data name="SettingsEditFileTags.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ファイルタグを編集</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>ファイルタグを編集</value>
@@ -2453,5 +2412,44 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
   </data>
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
     <value>一番上へ移動</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
+    <value>作成日時</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
+    <value>ファイル サイズ</value>
+  </data>
+  <data name="SettingsSetAsOpenDialog" xml:space="preserve">
+    <value>ファイルを開く ダイアログで Files を使用</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>タグ</value>
+  </data>
+  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
+    <value>シングル クリックでフォルダーを開く</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>フォルダー パス</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>設定をエクスポート</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>設定をインポート</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>設定を管理</value>
+  </data>
+  <data name="Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>オプション</value>
+  </data>
+  <data name="StartupSettings" xml:space="preserve">
+    <value>スタートアップ設定</value>
   </data>
 </root>

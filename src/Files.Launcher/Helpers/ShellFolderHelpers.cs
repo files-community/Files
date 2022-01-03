@@ -85,7 +85,7 @@ namespace FilesFullTrust.Helpers
                 return null;
             }
             var link = new ShellLinkItem(baseItem);
-            link.IsFolder = !string.IsNullOrEmpty(link.TargetPath) && linkItem.Target.IsFolder;
+            link.IsFolder = !string.IsNullOrEmpty(linkItem.TargetPath) && linkItem.Target.IsFolder;
             link.RunAsAdmin = linkItem.RunAsAdministrator;
             link.Arguments = linkItem.Arguments;
             link.WorkingDirectory = linkItem.WorkingDirectory;

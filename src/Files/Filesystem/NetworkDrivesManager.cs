@@ -1,10 +1,8 @@
 ﻿using Files.Common;
-using Files.DataModels;
 using Files.DataModels.NavigationControlItems;
 using Files.Helpers;
 using Files.Services;
 using Files.UserControls;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;

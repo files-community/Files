@@ -1,5 +1,4 @@
 ﻿using Files.Common;
-using Files.Enums;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;

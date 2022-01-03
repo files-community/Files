@@ -8,6 +8,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:datamodels="using:Files.DataModels"
     xmlns:helpers="using:Files.Helpers"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Files.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
@@ -29,13 +31,6 @@
                     <EntranceThemeTransition />
                 </TransitionCollection>
             </StackPanel.ChildrenTransitions>
-
-            <TextBlock
-                x:Uid="SettingsPreferencesTitle"
-                Padding="0,0,0,12"
-                FontSize="20"
-                FontWeight="Medium"
-                Text="Preferences" />
 
             <local:SettingsBlockControl
                 x:Uid="SettingsPreferencesAppLanguage"
@@ -91,24 +86,22 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <local:SettingsBlockControl.ExpandableContent>
-                    <local:SettingsBlockControl x:Uid="SettingsPreferencesEditTerminalApplicationsExpander" Title="Edit terminal applications">
+                    <local:SettingsBlockControl
+                        x:Uid="SettingsPreferencesEditTerminalApplicationsExpander"
+                        Title="Edit terminal applications"
+                        ButtonCommand="{Binding EditTerminalApplicationsCommand}"
+                        IsClickable="True">
                         <local:SettingsBlockControl.Icon>
                             <FontIcon
                                 FontSize="14"
                                 Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                                 Glyph="&#xE104;" />
                         </local:SettingsBlockControl.Icon>
-                        <HyperlinkButton
-                            x:Uid="SettingsPreferencesEditTerminalApplications"
-                            Height="32"
-                            Padding="8,4,8,4"
-                            AutomationProperties.Name="Edit terminal applications"
-                            Command="{Binding EditTerminalApplicationsCommand}">
-                            <FontIcon
-                                FontSize="14"
-                                Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                Glyph="&#xE2B4;" />
-                        </HyperlinkButton>
+
+                        <FontIcon
+                            FontSize="14"
+                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                            Glyph="&#xE2B4;" />
                     </local:SettingsBlockControl>
                 </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
@@ -282,17 +275,15 @@
                                         </AppBarButton.Flyout>
                                     </AppBarButton>
                                     <AppBarButton
-                                        x:Uid="AppBarButtonEdit"
                                         Command="{Binding ChangePageCommand}"
                                         Icon="Edit"
                                         IsEnabled="{Binding IsPageListEditEnabled}"
-                                        Label="Edit" />
+                                        Label="{helpers:ResourceString Name=Edit}" />
                                     <AppBarButton
-                                        x:Uid="AppBarButtonRemove"
                                         Command="{Binding RemovePageCommand}"
                                         Icon="Delete"
                                         IsEnabled="{Binding IsPageListEditEnabled}"
-                                        Label="Remove" />
+                                        Label="{helpers:ResourceString Name=Remove}" />
                                 </CommandBar>
 
                                 <ListView
@@ -327,6 +318,23 @@
                                 AutomationProperties.Name="{helpers:ResourceString Name=OpenNewInstance}"
                                 IsOn="{Binding AlwaysOpenANewInstance, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenInLogin}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE7E8;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenInLogin}"
+                                IsEnabled="{Binding CanOpenInLogin, Mode=OneWay}"
+                                IsOn="{Binding OpenInLogin, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}">
+                                <i:Interaction.Behaviors>
+                                    <icore:EventTriggerBehavior EventName="Toggled">
+                                        <icore:InvokeCommandAction Command="{Binding OpenFilesAtStartupCommand, Mode=OneWay}" />
+                                    </icore:EventTriggerBehavior>
+                                </i:Interaction.Behaviors>
+                            </ToggleSwitch>
                         </local:SettingsBlockControl>
                     </StackPanel>
                 </local:SettingsBlockControl.ExpandableContent>

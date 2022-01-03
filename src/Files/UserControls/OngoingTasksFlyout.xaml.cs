@@ -33,8 +33,8 @@ namespace Files.UserControls
         }
 
         private void DismissAllBannersButton_Click(object sender, RoutedEventArgs e)
-        { 
-           for (int i = OngoingTasksViewModel.StatusBannersSource.Count - 1; i >= 0; i--)
+        {
+            for (int i = OngoingTasksViewModel.StatusBannersSource.Count - 1; i >= 0; i--)
             {
                 var itemToDismiss = OngoingTasksViewModel.StatusBannersSource[i];
                 if (!itemToDismiss.IsProgressing)

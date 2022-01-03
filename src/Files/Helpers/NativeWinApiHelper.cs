@@ -243,7 +243,7 @@ namespace Files.Helpers
             {
                 if (isHasThreadAccessPropertyPresent == null)
                 {
-                    isHasThreadAccessPropertyPresent = 
+                    isHasThreadAccessPropertyPresent =
                         Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent(typeof(Windows.System.DispatcherQueue).FullName, "HasThreadAccess");
                 }
                 return isHasThreadAccessPropertyPresent ?? false;

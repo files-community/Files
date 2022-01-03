@@ -24,14 +24,8 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>लिखित दस्तावेज़</value>
   </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>ड्राइव्ज़</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>नाम</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>तिथि संशोधित</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>प्रकार</value>
@@ -129,13 +123,13 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>प्राथमिकताएँ</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>डेस्कटॉप</value>
   </data>
-  <data name="SidebarDocuments" xml:space="preserve">
+  <data name="Documents" xml:space="preserve">
     <value>दस्तावेज़</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>डाउनलोड्स</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
@@ -153,20 +147,14 @@
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>द्वारा सॉर्ट करें</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>नाम</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>तिथि संशोधित</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>प्रकार</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>बढ़तेक्रममें</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>घटतेक्रममें</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>करेंताज़ा</value>
@@ -183,7 +171,7 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>निकाल</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>खोलें</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
@@ -293,9 +281,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>ग्रिड व्यू (छोटा)</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>टाइल्स व्यू</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>ठीक है</value>
@@ -591,9 +576,6 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>के रूप में सेट करें</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>स्थान की प्रतिलिपि बनाएँ</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>टैब जोड़ें</value>
   </data>
@@ -702,7 +684,7 @@
   <data name="PropertyComposer" xml:space="preserve">
     <value>कंपोज़र</value>
   </data>
-  <data name="PropertyConductor" xml:space="preserve">
+  <data name="Conductor" xml:space="preserve">
     <value>संचालक</value>
   </data>
   <data name="PropertyGenre" xml:space="preserve">
@@ -798,10 +780,10 @@
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>वीडियो</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>दस्तावेज़</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>पता</value>
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
@@ -834,7 +816,7 @@
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>फ़ाइल</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>फ़ाइल</value>
   </data>
   <data name="NewFile" xml:space="preserve">
@@ -843,10 +825,10 @@
   <data name="Add" xml:space="preserve">
     <value>जोड़ें</value>
   </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>संपादित करें</value>
   </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+  <data name="Remove" xml:space="preserve">
     <value>निकालें</value>
   </data>
   <data name="Folders" xml:space="preserve">
@@ -945,7 +927,7 @@
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>लक्ष्य</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
+  <data name="Arguments" xml:space="preserve">
     <value>तर्क</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
@@ -1050,7 +1032,7 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>बहुत छोटा</value>
   </data>
-  <data name="ItemTimeText_Today" xml:space="preserve">
+  <data name="Today" xml:space="preserve">
     <value>आज</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
@@ -1110,7 +1092,7 @@
   <data name="CopyInProgress.Title" xml:space="preserve">
     <value>आइटम की प्रतिलिपि बनाई जा रही है</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>रद्द किया जा रहा है</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1152,7 +1134,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>नई विंडो</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>स्थान की प्रतिलिपि बनाएँ</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1164,10 +1146,10 @@
   <data name="Security" xml:space="preserve">
     <value>सुरक्षा</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>उन्नत अनुमतियाँ</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>अनुमति दें</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -1305,7 +1287,7 @@
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>अद्यतन करें</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+  <data name="AddFile" xml:space="preserve">
     <value>फ़ाइल से जोड़े</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
@@ -1350,13 +1332,13 @@
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>नाम</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>संशोधन दिनांक</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>प्रकार</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>अवरोही</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

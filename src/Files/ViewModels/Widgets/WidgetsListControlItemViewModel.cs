@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using System;
 
 namespace Files.ViewModels.Widgets
 {

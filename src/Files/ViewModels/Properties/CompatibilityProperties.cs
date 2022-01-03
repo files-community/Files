@@ -1,14 +1,14 @@
 ﻿using Files.Common;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
-using Files.Enums;
-using Microsoft.Toolkit.Mvvm.Input;
 
 namespace Files.ViewModels.Properties
 {

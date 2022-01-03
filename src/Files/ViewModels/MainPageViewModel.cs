@@ -258,18 +258,18 @@ namespace Files.ViewModels
             string tabLocationHeader;
             var iconSource = new Microsoft.UI.Xaml.Controls.ImageIconSource();
 
-            if (currentPath == null || currentPath == "Home".GetLocalized())
+            if (string.IsNullOrEmpty(currentPath) || currentPath == "Home".GetLocalized())
             {
                 tabLocationHeader = "Home".GetLocalized();
                 iconSource.ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"));
             }
             else if (currentPath.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
             {
-                tabLocationHeader = "SidebarDesktop".GetLocalized();
+                tabLocationHeader = "Desktop".GetLocalized();
             }
             else if (currentPath.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
             {
-                tabLocationHeader = "SidebarDownloads".GetLocalized();
+                tabLocationHeader = "Downloads".GetLocalized();
             }
             else if (currentPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {

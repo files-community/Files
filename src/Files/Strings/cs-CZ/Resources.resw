@@ -24,14 +24,8 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Textový soubor</value>
   </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>Jednotky</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Název</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>Datum změny</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>Typ</value>
@@ -129,13 +123,13 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Předvolby</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>Plocha</value>
   </data>
-  <data name="SidebarDocuments" xml:space="preserve">
+  <data name="Documents" xml:space="preserve">
     <value>Dokumenty</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>Stažené soubory</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
@@ -153,20 +147,14 @@
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Řadit podle</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>Název</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>Datum změny</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Typ</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>Vzestupně</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>Sestupně</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>Obnovit</value>
@@ -186,7 +174,7 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Rozbalit</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>Otevřít</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
@@ -299,9 +287,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>Mřížka (malá)</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>Dlaždice</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>OK</value>
@@ -663,9 +648,6 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Nastavit jako</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>Zkopírovat cestu</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Storno</value>
   </data>
@@ -675,7 +657,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Zvolte typ nové položky</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>Soubor</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
@@ -701,12 +683,6 @@
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>O položku výše</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Upravit aplikace Terminálu</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Upravit aplikace Terminálu</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Při ukládání některých vlastností došlo k chybě.</value>
@@ -834,7 +810,7 @@
   <data name="PropertyComposer" xml:space="preserve">
     <value>Skladatel</value>
   </data>
-  <data name="PropertyConductor" xml:space="preserve">
+  <data name="Conductor" xml:space="preserve">
     <value>Dirigent</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
@@ -993,10 +969,10 @@
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Video</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>Dokument</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>Adresa</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1098,10 +1074,10 @@
   <data name="Add" xml:space="preserve">
     <value>Přidat</value>
   </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>Upravit</value>
   </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+  <data name="Remove" xml:space="preserve">
     <value>Smazat</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -1224,7 +1200,7 @@
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>Cíl</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
+  <data name="Arguments" xml:space="preserve">
     <value>argumentů</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
@@ -1350,7 +1326,7 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>Velmi malý</value>
   </data>
-  <data name="ItemTimeText_Today" xml:space="preserve">
+  <data name="Today" xml:space="preserve">
     <value>Dnes</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
@@ -1410,7 +1386,7 @@
   <data name="CopyInProgress.Title" xml:space="preserve">
     <value>Kopírování položek</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>Rušení</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1452,7 +1428,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nové okno</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>Kopírovat umístění</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1467,10 +1443,10 @@
   <data name="Security" xml:space="preserve">
     <value>Zabezpečení</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>Rozšířená oprávnění</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>Povolit</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -1665,7 +1641,7 @@
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>Aktualizovat</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+  <data name="AddFile" xml:space="preserve">
     <value>Přidat soubor</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
@@ -1710,13 +1686,13 @@
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Jméno/název</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Datum změny</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>Typ</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>Sestupně</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

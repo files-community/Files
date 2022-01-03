@@ -27,7 +27,7 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Document de text</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>Copia la ubicació</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -36,14 +36,8 @@
   <data name="Browse" xml:space="preserve">
     <value>Busca</value>
   </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>Discos</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Nom</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>Data de modificació</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>Tipus</value>
@@ -153,10 +147,10 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferències</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>Escriptori</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>Descàrregues</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
@@ -177,20 +171,14 @@
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Ordena per</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>Nom</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>Data de modificació</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Tipus</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>Ascendent</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>Descendent</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>Actualitza</value>
@@ -213,7 +201,7 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Extreu</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>Obre</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
@@ -329,9 +317,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>Vista en quadrícula (Petita)</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>Vista en rajoles</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Aquest element no ha pogut ser esborrat</value>
@@ -672,9 +657,6 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Establir com a</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>Copia la ubicació</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel·la</value>
   </data>
@@ -684,7 +666,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Tria un tipus per al nou element de sota</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>Arxiu</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
@@ -716,12 +698,6 @@
   </data>
   <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
     <value>Bocadillo vertical</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Edita aplicacions de terminal</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Edita aplicacions de terminal</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Idioma</value>

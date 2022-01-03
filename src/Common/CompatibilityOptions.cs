@@ -39,7 +39,7 @@ namespace Files.Common
                     compatOptions.RunAsAdministrator |= value == CompatOptions.RegRunAsAdministrator;
                     compatOptions.RegisterForRestart |= value == CompatOptions.RegRegisterForRestart;
                 }
-            }    
+            }
             return compatOptions;
         }
 

@@ -3,9 +3,9 @@ using FilesFullTrust.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Pipes;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Foundation.Collections;
@@ -96,14 +96,31 @@ namespace FilesFullTrust.MessageHandlers
                     var cMenuExec = table.GetValue<ContextMenu>("MENU");
                     if (message.TryGetValue("ItemID", out var menuId))
                     {
-                        switch (message.Get("CommandString", (string)null))
+                        var isFont = new[] { ".fon", ".otf", ".ttc", ".ttf" }.Contains(Path.GetExtension(cMenuExec.ItemsPath[0]), StringComparer.OrdinalIgnoreCase);
+                        var verb = message.Get("CommandString", (string)null);
+                        switch (verb)
                         {
-                            case "mount":
+                            case string _ when verb == "install" && isFont:
+                                {
+                                    var userFontDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
+                                    var destName = Path.Combine(userFontDir, Path.GetFileName(cMenuExec.ItemsPath[0]));
+                                    Win32API.RunPowershellCommand($"-command \"Copy-Item '{cMenuExec.ItemsPath[0]}' '{userFontDir}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(cMenuExec.ItemsPath[0])}' -Path 'HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts' -PropertyType string -Value '{destName}'\"", false);
+                                }
+                                break;
+
+                            case string _ when verb == "installAllUsers" && isFont:
+                                {
+                                    var winFontDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts");
+                                    Win32API.RunPowershellCommand($"-command \"Copy-Item '{cMenuExec.ItemsPath[0]}' '{winFontDir}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(cMenuExec.ItemsPath[0])}' -Path 'HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts' -PropertyType string -Value '{Path.GetFileName(cMenuExec.ItemsPath[0])}'\"", true);
+                                }
+                                break;
+
+                            case string _ when verb == "mount":
                                 var vhdPath = cMenuExec.ItemsPath[0];
                                 Win32API.MountVhdDisk(vhdPath);
                                 break;
 
-                            case "format":
+                            case string _ when verb == "format":
                                 var drivePath = cMenuExec.ItemsPath[0];
                                 Win32API.OpenFormatDriveDialog(drivePath);
                                 break;

@@ -28,7 +28,7 @@ namespace Files.ViewModels.SettingsViewModels
             IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
             IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
 
-            EditFileTagsCommand =  new AsyncRelayCommand(LaunchFileTagsConfigFile);
+            EditFileTagsCommand = new AsyncRelayCommand(LaunchFileTagsConfigFile);
             SetAsDefaultExplorerCommand = new AsyncRelayCommand(SetAsDefaultExplorer);
             SetAsOpenFileDialogCommand = new AsyncRelayCommand(SetAsOpenFileDialog);
         }

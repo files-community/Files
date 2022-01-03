@@ -1,5 +1,4 @@
 using Files.Common;
-using Files.DataModels;
 using Files.DataModels.NavigationControlItems;
 using Files.Enums;
 using Files.Helpers;
@@ -133,12 +132,12 @@ namespace Files.Filesystem
                 await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarDrives".GetLocalized()) as LocationItem;
+                    var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "Drives".GetLocalized()) as LocationItem;
                     if (UserSettingsService.AppearanceSettingsService.ShowDrivesSection && section == null)
                     {
                         section = new LocationItem()
                         {
-                            Text = "SidebarDrives".GetLocalized(),
+                            Text = "Drives".GetLocalized(),
                             Section = SectionType.Drives,
                             SelectsOnInvoked = false,
                             Icon = await UIHelpers.GetIconResource(Constants.ImageRes.ThisPC),
@@ -315,7 +314,7 @@ namespace Files.Filesystem
         {
             try
             {
-                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarDrives".GetLocalized()) select n).FirstOrDefault();
+                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("Drives".GetLocalized()) select n).FirstOrDefault();
                 if (!UserSettingsService.AppearanceSettingsService.ShowDrivesSection && item != null)
                 {
                     SidebarControl.SideBarItems.Remove(item);

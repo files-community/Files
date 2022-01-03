@@ -1,5 +1,4 @@
-﻿using Files.Common;
-using System.Collections;
+﻿using System.Collections;
 using System.Linq;
 
 namespace Files.Models.JsonSettings.Implementation

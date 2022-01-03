@@ -158,12 +158,6 @@
                 </TransitionCollection>
             </StackPanel.ChildrenTransitions>
 
-            <TextBlock
-                Padding="0,0,0,12"
-                FontSize="20"
-                FontWeight="Medium"
-                Text="{helpers:ResourceString Name=Appearance}" />
-
             <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAppearanceTheme}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE790;" />

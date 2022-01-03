@@ -1,10 +1,5 @@
 ﻿using Files.Enums;
 using Files.Models.JsonSettings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Files.Services.Implementation
 {

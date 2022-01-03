@@ -1,12 +1,9 @@
-﻿using Files.Common;
-using Files.Extensions;
-using Files.Helpers;
+﻿using Files.Helpers;
 using Files.Services;
 using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
