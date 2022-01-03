@@ -99,7 +99,7 @@ namespace Files.Extensions
 
             if (t.AddMonths(-1).Year == t2.Year && t.AddMonths(-1).Month == t2.Month)
             {
-                return ("ItemTimeText_LastMonth".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.Day - 1 + calendar.GetDaysInMonth(t.Year, t.Month - 1))).ToUserDateString(), "\ue163", 5);
+                return ("ItemTimeText_LastMonth".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.Day - 1 + calendar.GetDaysInMonth(t.AddMonths(-1).Year, t.AddMonths(-1).Month))).ToUserDateString(), "\ue163", 5);
             }
 
             if (t.Year == t2.Year)
