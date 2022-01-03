@@ -140,7 +140,7 @@ namespace Files.Views
                 var paneArgs = e.NavigationArg as PaneNavigationArguments;
                 SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ?
                     paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
-                UpdateStatusBarProperties();
+                //UpdateStatusBarProperties();
                 UpdatePreviewPaneProperties();
                 UpdateNavToolbarProperties();
                 ViewModel.UpdateInstanceProperties(paneArgs);
@@ -157,7 +157,7 @@ namespace Files.Views
             SidebarAdaptiveViewModel.PaneHolder = e.CurrentInstance as IPaneHolder;
             SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((navArgs as PaneNavigationArguments).LeftPaneNavPathParam);
-            UpdateStatusBarProperties();
+            //UpdateStatusBarProperties();
             UpdateNavToolbarProperties();
             UpdatePreviewPaneProperties();
             ViewModel.UpdateInstanceProperties(navArgs);
@@ -168,19 +168,19 @@ namespace Files.Views
         private void PaneHolder_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane?.TabItemArguments?.NavigationArg?.ToString());
-            UpdateStatusBarProperties();
+            //UpdateStatusBarProperties();
             UpdatePreviewPaneProperties();
             UpdateNavToolbarProperties();
         }
 
-        private void UpdateStatusBarProperties()
-        {
-            if (StatusBarControl != null)
-            {
-                StatusBarControl.DirectoryPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.DirectoryPropertiesViewModel;
-                StatusBarControl.SelectedItemsPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.SelectedItemsPropertiesViewModel;
-            }
-        }
+        //private void UpdateStatusBarProperties()
+        //{
+        //    if (StatusBarControl != null)
+        //    {
+        //        StatusBarControl.DirectoryPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.DirectoryPropertiesViewModel;
+        //        StatusBarControl.SelectedItemsPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.SelectedItemsPropertiesViewModel;
+        //    }
+        //}
 
         private void UpdateNavToolbarProperties()
         {

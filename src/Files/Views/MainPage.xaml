@@ -243,8 +243,25 @@
                         Background="Transparent"
                         Loaded="DragArea_Loaded" />
 
+                    <controls:NavigationToolbar
+                        x:Name="NavToolbar"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        x:Load="False"
+                        Loaded="NavToolbar_Loaded"
+                        OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
+                        SettingsButtonCommand="{x:Bind MainViewModel.OpenSettingsCommand}"
+                        ShowOngoingTasks="True"
+                        ShowSearchBox="True"
+                        ShowSettingsButton="{x:Bind IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                        TabIndex="1" />
+
                     <usercontrols:HorizontalMultitaskingControl
                         x:Name="horizontalMultitaskingControl"
+                        Grid.Row="0"
                         Grid.Column="1"
                         Height="50"
                         HorizontalAlignment="Left"
@@ -324,21 +341,7 @@
                         </usercontrols:HorizontalMultitaskingControl.ActionsControl>
                     </usercontrols:HorizontalMultitaskingControl>
 
-                    <controls:NavigationToolbar
-                        x:Name="NavToolbar"
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="4"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Stretch"
-                        x:Load="False"
-                        Loaded="NavToolbar_Loaded"
-                        OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
-                        SettingsButtonCommand="{x:Bind MainViewModel.OpenSettingsCommand}"
-                        ShowOngoingTasks="True"
-                        ShowSearchBox="True"
-                        ShowSettingsButton="{x:Bind IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-                        TabIndex="1" />
+                    
                 </Grid>
             </controls:SidebarControl.TabContent>
 
@@ -401,12 +404,12 @@
                     ResizeBehavior="BasedOnAlignment"
                     Style="{StaticResource DefaultGridSplitterStyle}" />
 
-                <controls:StatusBarControl
+                <!--<controls:StatusBarControl
                     x:Name="StatusBarControl"
                     Grid.Row="4"
                     Grid.ColumnSpan="3"
                     x:Load="False"
-                    ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
+                    ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />-->
             </Grid>
         </controls:SidebarControl>
         <VisualStateManager.VisualStateGroups>
