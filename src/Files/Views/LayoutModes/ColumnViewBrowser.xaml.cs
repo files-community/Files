@@ -43,19 +43,30 @@ namespace Files.Views.LayoutModes
                 return;
             }
 
-            DismissOtherBlades(column.ListView);
+            var nextBladeIndex = ColumnHost.ActiveBlades.IndexOf(column.ListView.FindAscendant<BladeItem>()) + 1;
 
-            var frame = new Frame();
-            frame.Navigated += Frame_Navigated;
-            var newblade = new BladeItem();
-            newblade.Content = frame;
-            ColumnHost.Items.Add(newblade);
-
-            frame.Navigate(typeof(ColumnShellPage), new ColumnParam
+            if (ColumnHost.ActiveBlades.ElementAtOrDefault(nextBladeIndex) is not BladeItem nextBlade || 
+                ((nextBlade.Content as Frame)?.Content as IShellPage)?.FilesystemViewModel?.WorkingDirectory != column.NavPathParam)
             {
-                Column = ColumnHost.ActiveBlades.IndexOf(newblade),
-                NavPathParam = column.NavPathParam
-            });
+                DismissOtherBlades(column.ListView);
+
+                var frame = new Frame();
+                frame.Navigated += Frame_Navigated;
+                var newblade = new BladeItem();
+                newblade.Content = frame;
+                ColumnHost.Items.Add(newblade);
+
+                frame.Navigate(typeof(ColumnShellPage), new ColumnParam
+                {
+                    Column = ColumnHost.ActiveBlades.IndexOf(newblade),
+                    NavPathParam = column.NavPathParam
+                });
+            }
+            else
+            {
+                // Navigation path is already open, only select next column
+                FocusManager.TryMoveFocus(FocusNavigationDirection.Next);
+            }
         }
 
         private void ContentChanged(IShellPage p)

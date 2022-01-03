@@ -386,6 +386,28 @@ namespace Files.Views.LayoutModes
                     e.Handled = true;
                 }
             }
+            else if (e.Key == VirtualKey.Left) // Left arrow: select parent folder (previous column)
+            {
+                if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+                {
+                    if ((ParentShellPageInstance as ColumnShellPage).ColumnParams.Column > 0)
+                    {
+                        FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
+                    }
+                    e.Handled = true;
+                }
+            }
+            else if (e.Key == VirtualKey.Right) // Right arrow: open selected folder
+            {
+                if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+                {
+                    if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                    {
+                        ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+                    }
+                    e.Handled = true;
+                }
+            }
         }
 
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
