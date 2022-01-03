@@ -144,6 +144,8 @@ namespace Files.Views.LayoutModes
         {
             if (!(sender as IShellPage).IsCurrentInstance)
             {
+                var currentBlade = ColumnHost.ActiveBlades.Single(x => (x.Content as Frame)?.Content == sender);
+                currentBlade.StartBringIntoView();
                 if (ColumnHost.ActiveBlades != null)
                 {
                     ColumnHost.ActiveBlades.ForEach(x =>
