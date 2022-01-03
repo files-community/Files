@@ -56,7 +56,7 @@ steps:
 - task: MSBuild@1
   inputs:
     platform: 'x64'
-    solution: '**/*.wapproj'
+    solution: '**/*.sln'
     configuration: '$(buildConfiguration)'
     msbuildArguments: '/t:build;_GenerateAppxPackage /restore /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)";AppxPackageDir="$(appxPackageDir)";AppxPackageSigningEnabled=true;UapAppxPackageBuildMode=SideloadOnly;PackageCertificateKeyFile="$(Build.SourcesDirectory)\builds\Files_SelfSigned.pfx";PackageCertificatePassword="";PackageCertificateThumbprint=""'
     maximumCpuCount: true
