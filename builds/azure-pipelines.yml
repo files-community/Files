@@ -53,10 +53,6 @@ steps:
     packageType: sdk
     version: 6.x
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-    arguments: '--configuration $(buildConfiguration) --platform $(buildPlatform) --project /tests/Files.InteractionTests/Files.InteractionTests.csproj'
 
 - task: MSBuild@1
   inputs:
@@ -66,6 +62,10 @@ steps:
     msbuildArguments: '/t:build;_GenerateAppxPackage /restore /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)";AppxPackageDir="$(appxPackageDir)";AppxPackageSigningEnabled=true;UapAppxPackageBuildMode=SideloadOnly;PackageCertificateKeyFile="$(Build.SourcesDirectory)\builds\Files_SelfSigned.pfx";PackageCertificatePassword="";PackageCertificateThumbprint=""'
     maximumCpuCount: true
 
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    arguments: './tests/Files.InteractionTests/Files.InteractionTests.csproj --configuration $(buildConfiguration)'
 
 - task: PowerShell@2
   inputs:
