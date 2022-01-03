@@ -371,7 +371,8 @@
                 Padding="8,6"
                 AutomationProperties.Name="{helpers:ResourceString Name=Bytes}"
                 Background="Transparent"
-                BorderBrush="Transparent">
+                BorderBrush="Transparent"
+                ToolTipService.ToolTip="{helpers:ResourceString Name=Bytes}">
                 <FontIcon FontSize="16" Glyph="&#xE946;" />
                 <Button.Flyout>
                     <Flyout>
@@ -415,7 +416,8 @@
                 Padding="8,6"
                 AutomationProperties.Name="{helpers:ResourceString Name=Bytes}"
                 Background="Transparent"
-                BorderBrush="Transparent">
+                BorderBrush="Transparent"
+                ToolTipService.ToolTip="{helpers:ResourceString Name=Bytes}">
                 <FontIcon FontSize="16" Glyph="&#xE946;" />
                 <Button.Flyout>
                     <Flyout>
@@ -448,7 +450,8 @@
                 Padding="8,6"
                 AutomationProperties.Name="{helpers:ResourceString Name=Bytes}"
                 Background="Transparent"
-                BorderBrush="Transparent">
+                BorderBrush="Transparent"
+                ToolTipService.ToolTip="{helpers:ResourceString Name=Bytes}">
                 <FontIcon FontSize="16" Glyph="&#xE946;" />
                 <Button.Flyout>
                     <Flyout>
@@ -475,6 +478,7 @@
                 x:Name="DiskCleanupButton"
                 Grid.Row="4"
                 Grid.Column="2"
+                Grid.ColumnSpan="2"
                 HorizontalAlignment="Right"
                 Click="DiskCleanupButton_Click"
                 Content="{helpers:ResourceString Name=DiskCleanup}" />
