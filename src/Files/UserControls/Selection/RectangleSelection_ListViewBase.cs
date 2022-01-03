@@ -194,6 +194,8 @@ namespace Files.UserControls.Selection
 
             selectionStrategy = null;
             selectionState = SelectionState.Inactive;
+
+            e.Handled = true;
         }
 
         private void RectangleSelection_LayoutUpdated(object sender, object e)
