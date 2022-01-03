@@ -91,7 +91,7 @@ steps:
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: |
-      **\AnyCPU\Files.InteractionTests\net6.0\Files.InteractionTests.dll
+      **\Release\Files.InteractionTests\net6.0\Files.InteractionTests.dll
       !**\*TestAdapter.dll
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
