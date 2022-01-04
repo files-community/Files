@@ -29,13 +29,6 @@
             </StackPanel.ChildrenTransitions>
 
             <TextBlock
-                x:Uid="SettingsExperimentalTitle"
-                Padding="0,0,0,12"
-                FontSize="20"
-                FontWeight="Medium"
-                Text="Experimental" />
-
-            <TextBlock
                 x:Uid="SettingsExperimentalDescription"
                 Padding="0,0,0,12"
                 FontStyle="Italic"

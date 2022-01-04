@@ -26,6 +26,7 @@ jobs:
       script: |
         [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest
         $xmlDoc.Package.Identity.Name="Files"
+        $xmlDoc.Package.Identity.Publisher="CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7"
         $xmlDoc.Package.Properties.DisplayName="Files"
         $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
         $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest')
@@ -60,7 +61,7 @@ jobs:
   - task: UseDotNet@2
     inputs:
       packageType: sdk
-      version: 6.x
+      version: 6.0.100
 
   - task: DownloadSecureFile@1
     name: caCertificate
@@ -110,6 +111,7 @@ jobs:
       script: |
         [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest
         $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
+        $xmlDoc.Package.Identity.Publisher="CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7"
         $xmlDoc.Package.Properties.DisplayName="Files"
         $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
         $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest')

@@ -531,7 +531,7 @@ namespace FilesFullTrust.MessageHandlers
                         Program.Logger.Warn(ex, ex.Message);
                         await Win32API.SendMessageAsync(connection, new ValueSet()
                         {
-                            { "ShortcutInfo", JsonConvert.SerializeObject(null) }
+                            { "ShortcutInfo", JsonConvert.SerializeObject(new ShellLinkItem()) }
                         }, message.Get("RequestID", (string)null));
                     }
                     break;

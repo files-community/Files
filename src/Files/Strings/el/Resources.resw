@@ -1863,7 +1863,7 @@
   <data name="Security" xml:space="preserve">
     <value>Ασφάλεια</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>Προηγμένα δικαιώματα</value>
   </data>
   <data name="Allow" xml:space="preserve">

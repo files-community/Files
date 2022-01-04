@@ -4,15 +4,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:local="using:Files.ViewModels.Properties"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:perm="using:Files.Filesystem.Permissions"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:usercontrols="using:Files.UserControls" xmlns:helpers="using:Files.Helpers"
+    xmlns:usercontrols="using:Files.UserControls"
     d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    d:Height="550"
-    d:Width="400"
     Loaded="Properties_Loaded"
     mc:Ignorable="d">
 
@@ -25,50 +24,77 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollBarVisibility="Auto">
-        <StackPanel Margin="0,7,0,0" Style="{StaticResource PropertiesTab}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
-                    x:Uid="SecurityUsersGroupLabel"
-                    Grid.Column="0"
-                    VerticalAlignment="Center"
-                    FontWeight="Bold"
-                    Style="{StaticResource PropertyName}"
-                    Text="Group or user names" />
+    <Grid Padding="12,0,12,12" RowSpacing="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-                <StackPanel
-                    Grid.Column="1"
-                    Orientation="Horizontal"
-                    Spacing="4">
-                    <Button
-                        Padding="8,4,8,4"
-                        Background="Transparent"
-                        BorderBrush="Transparent"
-                        Command="{x:Bind SecurityProperties.AddRulesForUserCommand}">
-                        <FontIcon FontSize="16" Glyph="&#xE109;" />
-                    </Button>
-                    <Button
-                        Padding="8,4,8,4"
-                        Background="Transparent"
-                        BorderBrush="Transparent"
-                        Command="{x:Bind SecurityProperties.RemoveRulesForUserCommand}">
-                        <FontIcon FontSize="16" Glyph="&#xE108;" />
-                    </Button>
-                </StackPanel>
-            </Grid>
+        <!--  Usernames  -->
+        <Grid
+            x:Name="Usernames"
+            Grid.Row="0"
+            Padding="8"
+            x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="4"
+            RowSpacing="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                x:Uid="SecurityUsersGroupLabel"
+                Grid.Row="0"
+                Grid.Column="0"
+                Padding="8"
+                VerticalAlignment="Center"
+                Text="Group or user names" />
+
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="1"
+                Orientation="Horizontal"
+                Spacing="4">
+                <Button
+                    Padding="8,6"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Command="{x:Bind SecurityProperties.AddRulesForUserCommand}">
+                    <FontIcon FontSize="16" Glyph="&#xE109;" />
+                </Button>
+                <Button
+                    Padding="8,6"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Command="{x:Bind SecurityProperties.RemoveRulesForUserCommand}">
+                    <FontIcon FontSize="16" Glyph="&#xE108;" />
+                </Button>
+            </StackPanel>
+
+            <MenuFlyoutSeparator
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Margin="-12,0"
+                Background="{ThemeResource CardStrokeColorDefaultBrush}" />
 
             <ListView
                 x:Name="ListView"
-                Height="124"
+                Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                MaxHeight="160"
+                Margin="-4,0,-4,0"
+                HorizontalAlignment="Stretch"
                 x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
-                Background="{ThemeResource ControlFillColorDefaultBrush}"
-                BorderBrush="Gray"
-                BorderThickness="1"
-                CornerRadius="4"
                 ItemsSource="{x:Bind SecurityProperties.FilePermissions.RulesForUsers, Mode=OneWay}"
                 SelectedItem="{x:Bind SecurityProperties.SelectedRuleForUser, Mode=TwoWay}"
                 SelectionMode="Single">
@@ -90,29 +116,81 @@
                                 x:Name="FontIcon"
                                 HorizontalAlignment="Left"
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                FontSize="16"
                                 Glyph="{x:Bind UserGroup.Glyph}" />
 
-                            <TextBlock Grid.Column="1">
-                                <Run Text="{x:Bind UserGroup.DisplayName}" />
-                                <Span FontWeight="Light">&#160;(</Span>
-                                <Run FontWeight="Light" Text="{x:Bind UserGroup.FullNameOrSid}" />
-                                <Span FontWeight="Light">)</Span>
-                            </TextBlock>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <TextBlock Text="{x:Bind UserGroup.DisplayName}" />
+                                <TextBlock
+                                    Padding="4,0,0,0"
+                                    FontWeight="Light"
+                                    Text="&#160;(" />
+                                <TextBlock FontWeight="Light" Text="{x:Bind UserGroup.FullNameOrSid}" />
+                                <TextBlock FontWeight="Light" Text=")" />
+                            </StackPanel>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+        </Grid>
+
+        <!--  Permissions  -->
+        <Grid
+            Grid.Row="1"
+            Padding="8"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="4"
+            RowSpacing="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Grid.Row="0"
+                Padding="8"
+                VerticalAlignment="Center"
+                TextTrimming="CharacterEllipsis">
+                <Run x:Uid="SecurityPermissionsLabel" Text="Permissions for" />
+                <Run Text="{x:Bind SecurityProperties.SelectedRuleForUser.UserGroup.DisplayName, Mode=OneWay}" />
+            </TextBlock>
+
+            <Button
+                Grid.Row="0"
+                Padding="8,6"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                AutomationProperties.Name="{helpers:ResourceString Name=AdvancedPermissions}"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                Command="{x:Bind OpenAdvancedPropertiesCommand}"
+                ToolTipService.ToolTip="{helpers:ResourceString Name=AdvancedPermissions}">
+                <FontIcon FontSize="16" Glyph="&#xE00F;" />
+            </Button>
+
+            <MenuFlyoutSeparator
+                Grid.Row="1"
+                Margin="-12,0"
+                Background="{ThemeResource CardStrokeColorDefaultBrush}" />
 
             <Grid
                 x:Name="CheckBoxGrid"
-                Margin="0,12,0,0"
-                x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadFilePermissions, Mode=OneWay}">
+                Grid.Row="2"
+                Padding="8"
+                HorizontalAlignment="Stretch"
+                x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
+                ColumnSpacing="8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="12" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -124,33 +202,19 @@
 
                 <TextBlock
                     Grid.Row="0"
-                    Grid.Column="0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    FontWeight="Bold"
-                    Style="{StaticResource PropertyName}"
-                    TextTrimming="CharacterEllipsis">
-                    <Run x:Uid="SecurityPermissionsLabel" Text="Permissions for" />
-                    <Run Text="{x:Bind SecurityProperties.SelectedRuleForUser.UserGroup.DisplayName, Mode=OneWay}" />
-                </TextBlock>
-
-                <TextBlock
-                    Grid.Row="0"
                     Grid.Column="1"
-                    Margin="24,0,24,0"
+                    Margin="0,0,0,4"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Style="{StaticResource PropertyName}"
                     Text="{helpers:ResourceString Name=Allow}" />
 
                 <TextBlock
                     x:Uid="SecurityDenyLabel"
                     Grid.Row="0"
-                    Grid.Column="2"
-                    Margin="24,0,24,0"
+                    Grid.Column="3"
+                    Margin="0,0,0,4"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Style="{StaticResource PropertyName}"
                     Text="Deny" />
 
                 <TextBlock
@@ -173,7 +237,7 @@
 
                 <CheckBox
                     Grid.Row="1"
-                    Grid.Column="2"
+                    Grid.Column="3"
                     MinWidth="0"
                     Padding="0"
                     HorizontalAlignment="Center"
@@ -201,7 +265,7 @@
 
                 <CheckBox
                     Grid.Row="2"
-                    Grid.Column="2"
+                    Grid.Column="3"
                     MinWidth="0"
                     Padding="0"
                     HorizontalAlignment="Center"
@@ -229,7 +293,7 @@
 
                 <CheckBox
                     Grid.Row="3"
-                    Grid.Column="2"
+                    Grid.Column="3"
                     MinWidth="0"
                     Padding="0"
                     HorizontalAlignment="Center"
@@ -259,7 +323,7 @@
 
                 <CheckBox
                     Grid.Row="4"
-                    Grid.Column="2"
+                    Grid.Column="3"
                     MinWidth="0"
                     Padding="0"
                     HorizontalAlignment="Center"
@@ -288,7 +352,7 @@
 
                 <CheckBox
                     Grid.Row="5"
-                    Grid.Column="2"
+                    Grid.Column="3"
                     MinWidth="0"
                     Padding="0"
                     HorizontalAlignment="Center"
@@ -315,7 +379,7 @@
 
                 <CheckBox
                     Grid.Row="6"
-                    Grid.Column="2"
+                    Grid.Column="3"
                     MinWidth="0"
                     Padding="0"
                     HorizontalAlignment="Center"
@@ -327,23 +391,12 @@
             <TextBlock
                 x:Name="CannotReadPropsText"
                 x:Uid="SecurityCannotReadProperties"
+                Grid.Row="2"
+                Padding="8"
                 HorizontalAlignment="Left"
                 x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadFilePermissions, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                 Text="You do not have permissions to view the security properties of this object. Click &quot;Advanced permissions&quot; to proceed."
                 TextWrapping="WrapWholeWords" />
-
-            <Button
-                Margin="0,12,0,0"
-                HorizontalAlignment="Left"
-                Command="{x:Bind OpenAdvancedPropertiesCommand}">
-                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                    <FontIcon
-                        Margin="0,0,12,0"
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        Glyph="&#xE74C;" />
-                    <TextBlock x:Uid="SecurityAdvancedPermissions" Text="Advanced permissions" />
-                </StackPanel>
-            </Button>
-        </StackPanel>
-    </ScrollViewer>
+        </Grid>
+    </Grid>
 </local:PropertiesTab>
