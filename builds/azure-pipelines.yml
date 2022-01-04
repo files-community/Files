@@ -78,7 +78,7 @@ steps:
       $AppBundle = Get-ChildItem -Filter Files*Test -Name
       echo $AppBundle
       cd $AppBundle
-      ./Add-AppDevPackage.ps1 -Force
+      ./Install.ps1 -Force
       Get-AppxPackage
     errorActionPreference: 'continue'
     failOnStderr: true
