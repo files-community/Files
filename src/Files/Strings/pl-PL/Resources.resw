@@ -507,7 +507,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>Utwórz skrót</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>Otwórz lokalizację pliku</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">

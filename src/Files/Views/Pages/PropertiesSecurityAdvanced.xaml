@@ -48,7 +48,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid RowSpacing="8">
+    <Grid RowSpacing="4">
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
             <RowDefinition Height="*" />

@@ -758,7 +758,7 @@
           <source>Create shortcut</source>
           <target state="translated">Skep kortpad</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenFileLocation" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated">Maak lêerligging oop</target>
         </trans-unit>

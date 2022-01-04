@@ -507,7 +507,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>குறுக்குவழியை உருவாக்கு</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>கோப்பு இருப்பிடத்தைத் திற</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">

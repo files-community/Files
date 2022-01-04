@@ -504,7 +504,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>ସର୍ଟକଟ୍ ସୃଷ୍ଟି କରନ୍ତୁ</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>ଫାଇଲ୍ ଅବସ୍ଥାନ ଖୋଲନ୍ତୁ</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">

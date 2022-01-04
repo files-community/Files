@@ -81,14 +81,14 @@
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    <Setter Property="Padding" Value="0,4,0,4" />
+                    <Setter Property="Padding" Value="0,2,0,2" />
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.Footer>
                 <Button
                     x:Name="ClearPropertiesButton"
                     x:Uid="ClearPropertiesButton"
-                    Margin="0,8,0,0"
+                    Margin="0,4,0,0"
                     HorizontalAlignment="Stretch">
                     <Button.Flyout>
                         <Flyout x:Name="ClearPropertiesFlyout">
