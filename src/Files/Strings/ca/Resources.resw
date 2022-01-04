@@ -528,7 +528,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>Crea accés directe</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>Obre ubicació de l'arxiu</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">

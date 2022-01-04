@@ -507,7 +507,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>建立捷徑</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>開啟檔案位置</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">

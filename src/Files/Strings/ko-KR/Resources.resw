@@ -498,7 +498,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>바로 가기 만들기</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>파일 위치 열기</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">

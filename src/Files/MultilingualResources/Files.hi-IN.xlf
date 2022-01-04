@@ -682,7 +682,7 @@
           <source>Create shortcut</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">शॉर्टकट बनाएँ</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenFileLocation" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">फ़ाइल स्थान खोलें</target>
         </trans-unit>
