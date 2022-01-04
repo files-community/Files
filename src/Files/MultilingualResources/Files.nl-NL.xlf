@@ -670,7 +670,7 @@
           <source>Create shortcut</source>
           <target state="translated">Snelkoppeling maken</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenFileLocation" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated">Bestandslocatie openen</target>
         </trans-unit>
@@ -2379,7 +2379,7 @@
           <source>Security</source>
           <target state="translated" state-qualifier="tm-suggestion">Beveiliging</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedPermissions.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AdvancedPermissions" translate="yes" xml:space="preserve">
           <source>Advanced permissions</source>
           <target state="translated">Geavanceerde machtigingen</target>
         </trans-unit>

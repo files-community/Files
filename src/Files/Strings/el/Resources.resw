@@ -570,7 +570,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>Δημιουργία συντόμευσης</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>Άνοιγμα θέσης αρχείου</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
@@ -1863,7 +1863,7 @@
   <data name="Security" xml:space="preserve">
     <value>Ασφάλεια</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>Προηγμένα δικαιώματα</value>
   </data>
   <data name="Allow" xml:space="preserve">

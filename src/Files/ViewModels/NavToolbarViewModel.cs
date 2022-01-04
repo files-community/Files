@@ -92,55 +92,55 @@ namespace Files.ViewModels
         public bool IsSortedByName
         {
             get => InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.Name;
-            set { if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.Name; }
+            set { if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.Name; OnPropertyChanged(); }
         }
 
         public bool IsSortedByDateModified
         {
             get => InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.DateModified;
-            set { if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.DateModified; }
+            set { if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.DateModified; OnPropertyChanged(); }
         }
 
         public bool IsSortedByDateCreated
         {
             get => InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.DateCreated;
-            set { if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.DateCreated; }
+            set { if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.DateCreated; OnPropertyChanged(); }
         }
 
         public bool IsSortedBySize
         {
             get => InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.Size;
-            set { if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.Size; }
+            set { if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.Size; OnPropertyChanged(); }
         }
 
         public bool IsSortedByType
         {
             get => InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.FileType;
-            set { if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.FileType; }
+            set { if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.FileType; OnPropertyChanged(); }
         }
 
         public bool IsSortedBySyncStatus
         {
             get => InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.SyncStatus;
-            set { if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.SyncStatus; }
+            set { if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.SyncStatus; OnPropertyChanged(); }
         }
 
         public bool IsSortedByOriginalFolder
         {
             get => InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.OriginalFolder;
-            set { if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.OriginalFolder; }
+            set { if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.OriginalFolder; OnPropertyChanged(); }
         }
 
         public bool IsSortedByDateDeleted
         {
             get => InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.DateDeleted;
-            set { if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.DateDeleted; }
+            set { if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.DateDeleted; OnPropertyChanged(); }
         }
 
         public bool IsSortedByFileTag
         {
             get => InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.FileTag;
-            set { if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.FileTag; }
+            set { if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.FileTag; OnPropertyChanged(); }
         }
 
         // Group by
@@ -148,67 +148,67 @@ namespace Files.ViewModels
         public bool IsGroupedByNone
         {
             get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.None;
-            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.None; }
+            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.None; OnPropertyChanged(); }
         }
 
         public bool IsGroupedByName
         {
             get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.Name;
-            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.Name; }
+            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.Name; OnPropertyChanged(); }
         }
 
         public bool IsGroupedByDateModified
         {
             get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.DateModified;
-            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.DateModified; }
+            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.DateModified; OnPropertyChanged(); }
         }
 
         public bool IsGroupedByDateCreated
         {
             get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.DateCreated;
-            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.DateCreated; }
+            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.DateCreated; OnPropertyChanged(); }
         }
 
         public bool IsGroupedBySize
         {
             get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.Size;
-            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.Size; }
+            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.Size; OnPropertyChanged(); }
         }
 
         public bool IsGroupedByType
         {
             get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FileType;
-            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.FileType; }
+            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.FileType; OnPropertyChanged(); }
         }
 
         public bool IsGroupedBySyncStatus
         {
             get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.SyncStatus;
-            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.SyncStatus; }
+            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.SyncStatus; OnPropertyChanged(); }
         }
 
         public bool IsGroupedByOriginalFolder
         {
             get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.OriginalFolder;
-            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.OriginalFolder; }
+            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.OriginalFolder; OnPropertyChanged(); }
         }
 
         public bool IsGroupedByDateDeleted
         {
             get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.DateDeleted;
-            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.DateDeleted; }
+            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.DateDeleted; OnPropertyChanged(); }
         }
 
         public bool IsGroupedByFileTag
         {
             get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FileTag;
-            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.FileTag; }
+            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.FileTag; OnPropertyChanged(); }
         }
 
         public bool IsGroupedByFolderPath
         {
             get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FolderPath;
-            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.FolderPath; }
+            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.FolderPath; OnPropertyChanged(); }
         }
 
         private bool canCopyPathInPage;

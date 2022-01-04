@@ -666,7 +666,7 @@
           <source>Create shortcut</source>
           <target state="translated">Criar atalho</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenFileLocation" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated">Abrir local do arquivo</target>
         </trans-unit>
@@ -2370,7 +2370,7 @@
           <source>Security</source>
           <target state="translated">Segurança</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedPermissions.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AdvancedPermissions" translate="yes" xml:space="preserve">
           <source>Advanced permissions</source>
           <target state="translated">Permissões avançadas</target>
         </trans-unit>

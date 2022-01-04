@@ -522,7 +522,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>Skapa genväg</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>Öppna filsökväg</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
@@ -1515,7 +1515,7 @@
   <data name="Security" xml:space="preserve">
     <value>Säkerhet</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>Avancerade behörigheter:</value>
   </data>
   <data name="Allow" xml:space="preserve">

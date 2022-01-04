@@ -546,7 +546,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>Crear acceso directo</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>Abrir ubicación del archivo</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
@@ -1773,7 +1773,7 @@
   <data name="Security" xml:space="preserve">
     <value>Seguridad</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>Permisos avanzados</value>
   </data>
   <data name="Allow" xml:space="preserve">

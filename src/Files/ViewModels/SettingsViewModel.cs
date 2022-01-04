@@ -193,8 +193,6 @@ namespace Files.ViewModels
             ThemeModeChanged?.Invoke(this, EventArgs.Empty);
         });
 
-        public AcrylicTheme AcrylicTheme { get; set; } = new AcrylicTheme();
-
         #region ReadAndSaveSettings
 
         public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)

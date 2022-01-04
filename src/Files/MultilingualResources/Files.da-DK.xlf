@@ -691,7 +691,7 @@
           <source>Create shortcut</source>
           <target state="translated">Opret genvej</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenFileLocation" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated">Åbn filplacering</target>
         </trans-unit>
@@ -2397,7 +2397,7 @@
           <source>Security</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Sikkerhed</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedPermissions.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AdvancedPermissions" translate="yes" xml:space="preserve">
           <source>Advanced permissions</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Avancerede tilladelser:</target>
         </trans-unit>

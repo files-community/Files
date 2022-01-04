@@ -567,7 +567,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>Tạo lối tắt</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>Mở vị trí tệp</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
@@ -1827,7 +1827,7 @@
   <data name="Security" xml:space="preserve">
     <value>Bảo mật</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>Cấp phép nâng cao</value>
   </data>
   <data name="Allow" xml:space="preserve">

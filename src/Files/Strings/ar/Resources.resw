@@ -516,7 +516,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>إنشاء اختصار</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>فتح موقع الملف</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
@@ -1458,7 +1458,7 @@
   <data name="Security" xml:space="preserve">
     <value>الأمان</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>أذونات متقدمة:</value>
   </data>
   <data name="Allow" xml:space="preserve">

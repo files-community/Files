@@ -5,6 +5,7 @@
     xmlns:converters="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Files.Helpers"
+    xmlns:local="using:Files.UserControls.Settings"
     xmlns:local1="using:Files.ViewModels.Properties"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:Files.Views"
@@ -18,130 +19,89 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+                <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converters:NullToTrueConverter x:Key="NullToFalseConverter" Inverse="True" />
         </ResourceDictionary>
     </local1:PropertiesTab.Resources>
 
-    <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollBarVisibility="Auto">
-        <StackPanel Margin="0,7,0,0" Style="{StaticResource PropertiesTab}">
-            <TextBlock
-                FontWeight="Bold"
-                Style="{StaticResource PropertyName}"
-                Text="{helpers:ResourceString Name=CompatibilityMode}"
-                TextTrimming="CharacterEllipsis" />
+    <StackPanel Padding="12,0,12,12" Spacing="4">
+        <local:SettingsBlockControl
+            Title="{helpers:ResourceString Name=RunCompatibilityTroubleShooter}"
+            ButtonCommand="{x:Bind CompatibilityProperties.RunTroubleshooterCommand}"
+            IsClickable="True">
+            <FontIcon
+                FontSize="14"
+                Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                Glyph="&#xE2B4;" />
+        </local:SettingsBlockControl>
+
+        <local:SettingsBlockControl Title="{helpers:ResourceString Name=CompatibilityMode}" HorizontalAlignment="Stretch">
             <ComboBox
+                AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityMode}"
                 DisplayMemberPath="Name"
                 IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
                 ItemsSource="{x:Bind CompatibilityProperties.OSCompatibilityList, Mode=OneWay}"
                 SelectedValue="{x:Bind CompatibilityProperties.OSCompatibility, Mode=TwoWay}" />
+        </local:SettingsBlockControl>
 
-            <TextBlock
-                FontWeight="Bold"
-                Style="{StaticResource PropertyName}"
-                Text="{helpers:ResourceString Name=ReducedColorMode}"
-                TextTrimming="CharacterEllipsis" />
+        <local:SettingsBlockControl Title="{helpers:ResourceString Name=ReducedColorMode}" HorizontalAlignment="Stretch">
             <ComboBox
+                AutomationProperties.Name="{helpers:ResourceString Name=ReducedColorMode}"
                 DisplayMemberPath="Name"
                 IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
                 ItemsSource="{x:Bind CompatibilityProperties.ReducedColorModeList, Mode=OneWay}"
                 SelectedValue="{x:Bind CompatibilityProperties.ReducedColorMode, Mode=TwoWay}" />
+        </local:SettingsBlockControl>
 
-            <TextBlock
-                FontWeight="Bold"
-                Style="{StaticResource PropertyName}"
-                Text="{helpers:ResourceString Name=Options}"
-                TextTrimming="CharacterEllipsis" />
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+        <local:SettingsBlockControl Title="{helpers:ResourceString Name=ExecuteAt640X480}" HorizontalAlignment="Stretch">
+            <ToggleSwitch
+                AutomationProperties.Name="{helpers:ResourceString Name=ExecuteAt640X480}"
+                IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
+                IsOn="{x:Bind CompatibilityProperties.ExecuteAt640X480, Mode=TwoWay}"
+                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+        </local:SettingsBlockControl>
 
-                <TextBlock
-                    Grid.Row="0"
-                    Margin="0,0,12,0"
-                    VerticalAlignment="Center"
-                    Text="{helpers:ResourceString Name=ExecuteAt640X480}"
-                    TextTrimming="CharacterEllipsis" />
-                <ToggleSwitch
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    VerticalAlignment="Center"
-                    IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
-                    IsOn="{x:Bind CompatibilityProperties.ExecuteAt640X480, Mode=TwoWay}" />
+        <local:SettingsBlockControl Title="{helpers:ResourceString Name=DisableFullscreenOptimizations}" HorizontalAlignment="Stretch">
+            <ToggleSwitch
+                AutomationProperties.Name="{helpers:ResourceString Name=DisableFullscreenOptimizations}"
+                IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
+                IsOn="{x:Bind CompatibilityProperties.DisableMaximized, Mode=TwoWay}"
+                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+        </local:SettingsBlockControl>
 
-                <TextBlock
-                    Grid.Row="1"
-                    Margin="0,0,12,0"
-                    VerticalAlignment="Center"
-                    Text="{helpers:ResourceString Name=DisableFullscreenOptimizations}"
-                    TextTrimming="CharacterEllipsis" />
-                <ToggleSwitch
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    VerticalAlignment="Center"
-                    IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
-                    IsOn="{x:Bind CompatibilityProperties.DisableMaximized, Mode=TwoWay}" />
+        <local:SettingsBlockControl Title="{helpers:ResourceString Name=RunAsAdministrator}" HorizontalAlignment="Stretch">
+            <ToggleSwitch
+                AutomationProperties.Name="{helpers:ResourceString Name=DisableFullscreenOptimizations}"
+                IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
+                IsOn="{x:Bind CompatibilityProperties.RunAsAdministrator, Mode=TwoWay}"
+                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+        </local:SettingsBlockControl>
 
-                <TextBlock
-                    Grid.Row="2"
-                    Margin="0,0,12,0"
-                    VerticalAlignment="Center"
-                    Text="{helpers:ResourceString Name=RunAsAdministrator}"
-                    TextTrimming="CharacterEllipsis" />
-                <ToggleSwitch
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    VerticalAlignment="Center"
-                    IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
-                    IsOn="{x:Bind CompatibilityProperties.RunAsAdministrator, Mode=TwoWay}" />
+        <local:SettingsBlockControl Title="{helpers:ResourceString Name=RegisterForRestart}" HorizontalAlignment="Stretch">
+            <ToggleSwitch
+                AutomationProperties.Name="{helpers:ResourceString Name=RegisterForRestart}"
+                IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
+                IsOn="{x:Bind CompatibilityProperties.RegisterForRestart, Mode=TwoWay}"
+                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+        </local:SettingsBlockControl>
 
-                <TextBlock
-                    Grid.Row="3"
-                    Margin="0,0,12,0"
-                    VerticalAlignment="Center"
-                    Text="{helpers:ResourceString Name=RegisterForRestart}"
-                    TextTrimming="CharacterEllipsis" />
-                <ToggleSwitch
-                    Grid.Row="3"
-                    Grid.Column="1"
-                    VerticalAlignment="Center"
-                    IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
-                    IsOn="{x:Bind CompatibilityProperties.RegisterForRestart, Mode=TwoWay}" />
-            </Grid>
-
-            <TextBlock
-                FontWeight="Bold"
-                Style="{StaticResource PropertyName}"
-                Text="{helpers:ResourceString Name=UseMainMonitorDPISettings}"
-                TextTrimming="CharacterEllipsis" />
+        <local:SettingsBlockControl Title="{helpers:ResourceString Name=UseMainMonitorDPISettings}" HorizontalAlignment="Stretch">
             <ComboBox
+                AutomationProperties.Name="{helpers:ResourceString Name=UseMainMonitorDPISettings}"
                 DisplayMemberPath="Name"
                 IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
                 ItemsSource="{x:Bind CompatibilityProperties.HighDpiOptionList, Mode=OneWay}"
                 SelectedValue="{x:Bind CompatibilityProperties.HighDpiOption, Mode=TwoWay}" />
+        </local:SettingsBlockControl>
 
-            <TextBlock
-                FontWeight="Bold"
-                Style="{StaticResource PropertyName}"
-                Text="{helpers:ResourceString Name=OverrideDPIScalingBehaviour}"
-                TextTrimming="CharacterEllipsis" />
+        <local:SettingsBlockControl Title="{helpers:ResourceString Name=OverrideDPIScalingBehaviour}" HorizontalAlignment="Stretch">
             <ComboBox
+                AutomationProperties.Name="{helpers:ResourceString Name=OverrideDPIScalingBehaviour}"
                 DisplayMemberPath="Name"
                 IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
                 ItemsSource="{x:Bind CompatibilityProperties.HighDpiOverrideList, Mode=OneWay}"
                 SelectedValue="{x:Bind CompatibilityProperties.HighDpiOverride, Mode=TwoWay}" />
-
-            <Button Margin="0,7,0,0" Command="{x:Bind CompatibilityProperties.RunTroubleshooterCommand}">
-                <TextBlock Text="{helpers:ResourceString Name=RunCompatibilityTroubleShooter}" TextTrimming="CharacterEllipsis" />
-            </Button>
-        </StackPanel>
-    </ScrollViewer>
+        </local:SettingsBlockControl>
+    </StackPanel>
 </local1:PropertiesTab>

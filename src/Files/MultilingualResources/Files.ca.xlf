@@ -753,7 +753,7 @@
           <source>Create shortcut</source>
           <target state="translated">Crea accés directe</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenFileLocation" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated">Obre ubicació de l'arxiu</target>
         </trans-unit>
@@ -2470,7 +2470,7 @@
           <source>Security</source>
           <target state="new">Security</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedPermissions.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AdvancedPermissions" translate="yes" xml:space="preserve">
           <source>Advanced permissions</source>
           <target state="new">Advanced permissions</target>
         </trans-unit>

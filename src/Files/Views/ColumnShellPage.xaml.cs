@@ -155,7 +155,7 @@ namespace Files.Views
                 FlowDirection = FlowDirection.RightToLeft;
             }
 
-            //NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
+            //NavigationToolbar.PathControlDisplayText = "Home".GetLocalized();
             //NavigationToolbar.CanGoBack = false;
             //NavigationToolbar.CanGoForward = false;
             //NavigationToolbar.SearchBox.QueryChanged += ColumnShellPage_QueryChanged;

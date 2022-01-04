@@ -702,7 +702,7 @@
           <source>Create shortcut</source>
           <target state="translated">Vytvořit zástupce</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenFileLocation" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated">Otevřít umístění souboru</target>
         </trans-unit>
@@ -2405,7 +2405,7 @@
           <source>Security</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Zabezpečení</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedPermissions.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AdvancedPermissions" translate="yes" xml:space="preserve">
           <source>Advanced permissions</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Rozšířená oprávnění</target>
         </trans-unit>

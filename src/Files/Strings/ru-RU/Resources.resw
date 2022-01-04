@@ -507,7 +507,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>Создать ярлык</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>Открыть расположение файла</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
@@ -1758,7 +1758,7 @@
   <data name="Security" xml:space="preserve">
     <value>Безопасность</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>Расширенные разрешения</value>
   </data>
   <data name="Allow" xml:space="preserve">

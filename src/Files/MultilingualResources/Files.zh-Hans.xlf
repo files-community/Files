@@ -666,7 +666,7 @@
           <source>Create shortcut</source>
           <target state="translated">创建快捷方式</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenFileLocation" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated">打开文件位置</target>
         </trans-unit>
@@ -2372,7 +2372,7 @@
           <source>Security</source>
           <target state="translated">安全</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedPermissions.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AdvancedPermissions" translate="yes" xml:space="preserve">
           <source>Advanced permissions</source>
           <target state="translated">高级权限</target>
         </trans-unit>

@@ -519,7 +519,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>Vytvořit zástupce</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>Otevřít umístění souboru</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
@@ -1443,7 +1443,7 @@
   <data name="Security" xml:space="preserve">
     <value>Zabezpečení</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>Rozšířená oprávnění</value>
   </data>
   <data name="Allow" xml:space="preserve">

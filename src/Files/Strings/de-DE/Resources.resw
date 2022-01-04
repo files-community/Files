@@ -507,7 +507,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>Verknüpfung erstellen</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>Dateipfad öffnen</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
@@ -1785,7 +1785,7 @@
   <data name="Security" xml:space="preserve">
     <value>Sicherheit</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>Erweiterte Rechte</value>
   </data>
   <data name="Allow" xml:space="preserve">

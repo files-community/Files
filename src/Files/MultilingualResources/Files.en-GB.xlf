@@ -754,7 +754,7 @@
           <source>Create shortcut</source>
           <target state="translated" state-qualifier="tm-suggestion">Create shortcut</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenFileLocation" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated" state-qualifier="tm-suggestion">Open file location</target>
         </trans-unit>
@@ -2494,7 +2494,7 @@
           <source>Security</source>
           <target state="translated" state-qualifier="tm-suggestion">Security</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedPermissions.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AdvancedPermissions" translate="yes" xml:space="preserve">
           <source>Advanced permissions</source>
           <target state="translated" state-qualifier="tm-suggestion">Advanced permissions</target>
         </trans-unit>

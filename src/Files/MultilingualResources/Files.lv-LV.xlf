@@ -690,7 +690,7 @@
           <source>Create shortcut</source>
           <target state="translated">Izveidot saīsni</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenFileLocation" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated">Atvērt faila atrašanās vietu</target>
         </trans-unit>
@@ -2371,7 +2371,7 @@
           <source>Security</source>
           <target state="translated">Drošība</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedPermissions.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AdvancedPermissions" translate="yes" xml:space="preserve">
           <source>Advanced permissions</source>
           <target state="translated">Papildu atļaujas</target>
         </trans-unit>

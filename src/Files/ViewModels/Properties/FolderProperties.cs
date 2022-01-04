@@ -58,9 +58,9 @@ namespace Files.ViewModels.Properties
                     ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
                     ViewModel.IsShortcutItemPathReadOnly = false;
                     ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
-                    ViewModel.ShortcutItemWorkingDirVisibility = Visibility.Collapsed;
+                    ViewModel.ShortcutItemWorkingDirVisibility = false;
                     ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
-                    ViewModel.ShortcutItemArgumentsVisibility = Visibility.Collapsed;
+                    ViewModel.ShortcutItemArgumentsVisibility = false;
                     ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
                     {
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(
@@ -88,7 +88,7 @@ namespace Files.ViewModels.Properties
 
             if (Item.IsShortcutItem)
             {
-                ViewModel.ItemSizeVisibility = Visibility.Visible;
+                ViewModel.ItemSizeVisibility = true;
                 ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
                 ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
                 ViewModel.ItemAccessedTimestamp = Item.ItemDateAccessed;
@@ -139,26 +139,26 @@ namespace Files.ViewModels.Properties
                         {
                             ViewModel.ItemSizeBytes = (long)binSize;
                             ViewModel.ItemSize = ByteSize.FromBytes((long)binSize).ToString();
-                            ViewModel.ItemSizeVisibility = Visibility.Visible;
+                            ViewModel.ItemSizeVisibility = true;
                         }
                         else
                         {
-                            ViewModel.ItemSizeVisibility = Visibility.Collapsed;
+                            ViewModel.ItemSizeVisibility = false;
                         }
                         if (response.TryGetValue("NumItems", out var numItems))
                         {
                             ViewModel.FilesCount = (int)(long)numItems;
                             SetItemsCountString();
-                            ViewModel.FilesAndFoldersCountVisibility = Visibility.Visible;
+                            ViewModel.FilesAndFoldersCountVisibility = true;
                         }
                         else
                         {
-                            ViewModel.FilesAndFoldersCountVisibility = Visibility.Collapsed;
+                            ViewModel.FilesAndFoldersCountVisibility = false;
                         }
-                        ViewModel.ItemCreatedTimestampVisibiity = Visibility.Collapsed;
-                        ViewModel.ItemAccessedTimestampVisibility = Visibility.Collapsed;
-                        ViewModel.ItemModifiedTimestampVisibility = Visibility.Collapsed;
-                        ViewModel.LastSeparatorVisibility = Visibility.Collapsed;
+                        ViewModel.ItemCreatedTimestampVisibiity = false;
+                        ViewModel.ItemAccessedTimestampVisibility = false;
+                        ViewModel.ItemModifiedTimestampVisibility = false;
+                        ViewModel.LastSeparatorVisibility = false;
                     }
                 }
             }
@@ -173,8 +173,8 @@ namespace Files.ViewModels.Properties
                 return;
             }
 
-            ViewModel.ItemSizeVisibility = Visibility.Visible;
-            ViewModel.ItemSizeProgressVisibility = Visibility.Visible;
+            ViewModel.ItemSizeVisibility = true;
+            ViewModel.ItemSizeProgressVisibility = true;
 
             var fileSizeTask = Task.Run(async () =>
             {
@@ -191,7 +191,7 @@ namespace Files.ViewModels.Properties
             {
                 App.Logger.Warn(ex, ex.Message);
             }
-            ViewModel.ItemSizeProgressVisibility = Visibility.Collapsed;
+            ViewModel.ItemSizeProgressVisibility = false;
 
             SetItemsCountString();
         }

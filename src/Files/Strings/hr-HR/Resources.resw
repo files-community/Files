@@ -573,7 +573,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>Stvori prečac</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>Otvori lokaciju datoteke</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
@@ -1878,7 +1878,7 @@
   <data name="Security" xml:space="preserve">
     <value>Sigurnost</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>Napredne dozvole</value>
   </data>
   <data name="Allow" xml:space="preserve">
