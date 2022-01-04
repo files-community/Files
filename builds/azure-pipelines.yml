@@ -7,7 +7,7 @@ pool:
 variables:
   solution: '**/*.sln'
   buildPlatform: 'x64'
-  buildConfiguration: 'Release'
+  buildConfiguration: 'Debug'
   appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
 
 steps:
@@ -79,6 +79,7 @@ steps:
       echo $AppBundle
       cd $AppBundle
       ./Add-AppDevPackage.ps1 -Force
+      Get-AppxPackage
     errorActionPreference: 'continue'
     failOnStderr: true
     workingDirectory: '$(System.DefaultWorkingDirectory)'
