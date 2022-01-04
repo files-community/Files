@@ -24,7 +24,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Padding="12,0,12,12" RowSpacing="8">
+    <Grid Padding="12,0,12,12" RowSpacing="4">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />

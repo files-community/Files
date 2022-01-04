@@ -68,6 +68,7 @@ namespace Files.Views.LayoutModes
             if (SelectedItems.Any())
             {
                 FileList.ScrollIntoView(SelectedItems.Last());
+                (FileList.ContainerFromItem(SelectedItems.Last()) as GridViewItem)?.Focus(FocusState.Keyboard);
             }
         }
 
@@ -364,8 +365,10 @@ namespace Files.Views.LayoutModes
         {
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
+            var isFooterFocused = focusedElement is HyperlinkButton;
 
-            if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
+            if (e.Key == VirtualKey.Enter && !isFooterFocused && !e.KeyStatus.IsMenuKeyDown)
             {
                 if (!IsRenamingItem)
                 {
@@ -380,7 +383,7 @@ namespace Files.Views.LayoutModes
             }
             else if (e.Key == VirtualKey.Space)
             {
-                if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+                if (!IsRenamingItem && !isFooterFocused && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
                 {
                     e.Handled = true;
                     await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
@@ -393,8 +396,11 @@ namespace Files.Views.LayoutModes
             }
             else if (ctrlPressed && shiftPressed && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.W))
             {
-                // Unfocus the ListView so keyboard shortcut can be handled (ctrl + shift + W/"->"/"<-")
-                NavToolbar?.Focus(FocusState.Pointer);
+                if (!IsRenamingItem)
+                {
+                    // Unfocus the ListView so keyboard shortcut can be handled (ctrl + shift + W/"->"/"<-")
+                    NavToolbar?.Focus(FocusState.Pointer);
+                }
             }
             else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
             {
@@ -421,7 +427,6 @@ namespace Files.Views.LayoutModes
                     }
 
                     base.Page_CharacterReceived(sender, args);
-                    FileList.Focus(FocusState.Keyboard);
                 }
             }
         }

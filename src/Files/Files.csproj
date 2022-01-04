@@ -118,6 +118,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="BaseLayout.cs" />
+    <Compile Include="Behaviors\StickyHeaderBehavior.cs" />
     <Compile Include="CommandLine\CommandLineParser.cs" />
     <Compile Include="CommandLine\ParsedCommand.cs" />
     <Compile Include="CommandLine\ParsedCommands.cs" />
@@ -167,7 +168,6 @@
     <Compile Include="EventArguments\BaseJsonSettingsModelEventArgs.cs" />
     <Compile Include="EventArguments\Bundles\BundlesOpenPathEventArgs.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
-    <Compile Include="Events\ContextItemsChangedEventArgs.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ImageSourceExtensions.cs" />
@@ -432,7 +432,6 @@
     <Compile Include="Filesystem\StorageHistory\StorageHistory.cs" />
     <Compile Include="Filesystem\StorageHistory\StorageHistoryOperations.cs" />
     <Compile Include="Filesystem\StorageHistory\StorageHistoryWrapper.cs" />
-    <Compile Include="Helpers\AcrylicTheme.cs" />
     <Compile Include="Helpers\Convert\ErrorCodeConverter.cs" />
     <Compile Include="Helpers\StorageHelpers.cs" />
     <Compile Include="Helpers\DialogDisplayHelper.cs" />
