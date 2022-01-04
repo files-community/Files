@@ -634,8 +634,6 @@
                                         TextTrimming="CharacterEllipsis" />
                                     <TextBox
                                         x:Name="ItemNameTextBox"
-                                        MinWidth="200"
-                                        HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
                                         TextChanged="ListViewTextBoxItemName_TextChanged"
                                         Visibility="Collapsed">
