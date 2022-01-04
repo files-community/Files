@@ -608,8 +608,9 @@
 
                                 <Grid
                                     Grid.Column="1"
-                                    Width="{Binding ColumnsViewModel.NameColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    MinWidth="{Binding ColumnsViewModel.NameColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
+									Canvas.ZIndex="6"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center">
                                     <Grid.ColumnDefinitions>
@@ -621,11 +622,29 @@
                                         VerticalAlignment="Center"
                                         Text="{x:Bind ItemName, Mode=OneWay}"
                                         TextTrimming="CharacterEllipsis" />
-                                    <TextBox
+									<TextBox
                                         x:Name="ItemNameTextBox"
                                         VerticalAlignment="Center"
+										MinWidth="200"
+										HorizontalAlignment="Left"
                                         TextChanged="ListViewTextBoxItemName_TextChanged"
-                                        Visibility="Collapsed" />
+                                        Visibility="Collapsed" >
+										<TextBox.Resources>
+											<ResourceDictionary>
+												<ResourceDictionary.ThemeDictionaries>
+													<ResourceDictionary x:Key="Light">
+														<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#FFFFFF"/>
+													</ResourceDictionary>
+													<ResourceDictionary x:Key="Dark">
+														<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#2C2C2C"/>
+													</ResourceDictionary>
+													<ResourceDictionary x:Key="HighContrast">
+														<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#2C2C2C"/>
+													</ResourceDictionary>
+												</ResourceDictionary.ThemeDictionaries>
+											</ResourceDictionary>
+										</TextBox.Resources>
+									</TextBox>
                                     <Ellipse
                                         Grid.Column="1"
                                         Width="12"

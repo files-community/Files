@@ -360,6 +360,7 @@ namespace Files.Views.LayoutModes
             OldItemName = textBlock.Text;
             textBlock.Visibility = Visibility.Collapsed;
             textBox.Visibility = Visibility.Visible;
+            Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
 
             textBox.Focus(FocusState.Pointer);
             textBox.LostFocus += RenameTextBox_LostFocus;
@@ -428,6 +429,11 @@ namespace Files.Views.LayoutModes
 
         private void EndRename(TextBox textBox)
         {
+            if (textBox != null)
+            {
+                Grid.SetColumnSpan(textBox.FindParent<Grid>(), 1);
+            }
+
             ListViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
             if (textBox == null || gridViewItem == null)
             {
