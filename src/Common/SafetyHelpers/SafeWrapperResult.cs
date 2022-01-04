@@ -1,8 +1,7 @@
-﻿using Files.Enums;
-using Files.SafetyHelpers.ExceptionReporters;
+﻿using Files.Common.SafetyHelpers.ExceptionReporters;
 using System;
 
-namespace Files.SafetyHelpers
+namespace Files.Common.SafetyHelpers
 {
     public class SafeWrapperResult
     {
@@ -10,15 +9,15 @@ namespace Files.SafetyHelpers
 
         public static readonly SafeWrapperResult CANCEL = new SafeWrapperResult(OperationErrorCode.Canceled, "The operation was canceled.");
 
-        public static readonly SafeWrapperResult UNKNOWN_FAIL = new SafeWrapperResult(OperationErrorCode.UnknownFailed, new Exception(), "An unknown error occurred.");
+        public static readonly SafeWrapperResult UNKNOWN_FAIL = new SafeWrapperResult(OperationErrorCode.UnknownFailed, "An unknown error occurred.");
 
-        public string Message => Details?.message;
+        public string Message { get; }
 
-        public OperationErrorCode ErrorCode => Details?.errorCode ?? OperationErrorCode.UnknownFailed;
+        public OperationErrorCode ErrorCode { get; }
 
-        public Exception Exception => Details?.innerException;
+        public Exception Exception { get; }
 
-        public SafeWrapperResultDetails Details { get; private set; }
+        public ISafeWrapperExceptionReporter Reporter { get; }
 
         public SafeWrapperResult(OperationErrorCode status, Exception innerException)
             : this(status, innerException, null)
@@ -31,36 +30,24 @@ namespace Files.SafetyHelpers
         }
 
         public SafeWrapperResult(OperationErrorCode status, Exception innerException, string message)
-            : this(new SafeWrapperResultDetails(status, innerException, message))
+            : this(status, innerException, message, new DefaultSafeWrapperExceptionReporter())
         {
         }
 
-        public SafeWrapperResult(SafeWrapperResultDetails details)
+        public SafeWrapperResult(OperationErrorCode status, Exception innerException, string message, ISafeWrapperExceptionReporter reporter)
         {
-            this.Details = details;
-        }
-
-        public static SafeWrapperResult FromException(Exception exception, ISafeWrapperExceptionReporter exceptionReporter = null)
-        {
-            if (exceptionReporter == null)
-            {
-                exceptionReporter = DefaultSafeWrapperExceptionReporter.DefaultExceptionReporter;
-            }
-
-            return exceptionReporter.GetStatusResult(exception);
+            this.ErrorCode = status;
+            this.Reporter = reporter;
         }
 
         public static implicit operator OperationErrorCode(SafeWrapperResult wrapperResult)
-            => wrapperResult?.Details?.errorCode ?? OperationErrorCode.InvalidArgument;
+            => wrapperResult?.ErrorCode ?? OperationErrorCode.InvalidArgument;
 
         public static implicit operator bool(SafeWrapperResult wrapperResult)
-            => (wrapperResult?.Details?.errorCode ?? OperationErrorCode.UnknownFailed) == OperationErrorCode.Success;
+            => (wrapperResult?.ErrorCode ?? OperationErrorCode.UnknownFailed) == OperationErrorCode.Success;
 
         public static implicit operator SafeWrapperResult(bool result)
             => result ? SafeWrapperResult.SUCCESS : new SafeWrapperResult(OperationErrorCode.UnknownFailed, innerException: null);
-
-        public static implicit operator SafeWrapperResult(SafeWrapperResultDetails details)
-            => new SafeWrapperResult(details);
 
         public static implicit operator SafeWrapperResult((OperationErrorCode errorCode, Exception innerException) details)
             => new SafeWrapperResult(details.errorCode, details.innerException);
@@ -70,5 +57,11 @@ namespace Files.SafetyHelpers
 
         public static implicit operator SafeWrapperResult((OperationErrorCode errorCode, Exception innerException, string message) details)
             => new SafeWrapperResult(details.errorCode, details.innerException, details.message);
+
+        public static implicit operator SafeWrapperResult((OperationErrorCode errorCode, Exception innerException, string message, ISafeWrapperExceptionReporter reporter) details)
+            => new SafeWrapperResult(details.errorCode, details.innerException, details.message, details.reporter);
+
+        public static implicit operator SafeWrapperResult((SafeWrapperResult, ISafeWrapperExceptionReporter reporter) safeWrapper)
+            => new SafeWrapperResult(safeWrapper.Item1.ErrorCode, safeWrapper.Item1.Exception, safeWrapper.Item1.Message, safeWrapper.Item2);
     }
 }

@@ -1,5 +1,6 @@
 using Files.CommandLine;
 using Files.Common;
+using Files.Common.SafetyHelpers;
 using Files.Controllers;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
@@ -343,7 +344,7 @@ namespace Files
                     {
                         var parsedArgs = eventArgs.Uri.Query.TrimStart('?').Split('=');
                         var unescapedValue = Uri.UnescapeDataString(parsedArgs[1]);
-                        var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(unescapedValue).AsTask());
+                        var folder = (StorageFolder)await FilesystemTasks2.Get().SafeWrapAsync(() => StorageFolder.GetFolderFromPathAsync(unescapedValue).AsTask());
                         if (folder != null && !string.IsNullOrEmpty(folder.Path))
                         {
                             unescapedValue = folder.Path; // Convert short name to long name (#6190)
@@ -544,7 +545,7 @@ namespace Files
                     }
                     else
                     {
-                        var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "NewTab".GetLocalized() };
+                        var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalized() };
                         return defaultArg.Serialize();
                     }
                 }).ToList();
