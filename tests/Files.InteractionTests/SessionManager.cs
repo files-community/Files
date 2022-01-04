@@ -11,7 +11,7 @@ namespace Files.InteractionTests
     internal class SessionManager
     {
         private const string WindowsApplicationDriverUrl = "http://127.0.0.1:4723";
-        private const string FilesAppId = "FilesUWP_dwm5abbcs5pn0!App";
+        private const string FilesAppId = "49306atecsolution.FilesUWP_dwm5abbcs5pn0!App";
 
 
         private static WindowsDriver<WindowsElement> _session;
