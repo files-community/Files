@@ -676,7 +676,7 @@
           <source>Create shortcut</source>
           <target state="translated">Створити ярлик</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenFileLocation" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated">Відкрити розташування файлу</target>
         </trans-unit>

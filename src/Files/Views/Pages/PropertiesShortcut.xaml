@@ -3,7 +3,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:local="using:Files.ViewModels.Properties"
+    xmlns:local1="using:Files.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:usercontrols="using:Files.UserControls"
     Loaded="Properties_Loaded"
@@ -17,14 +19,8 @@
         </ResourceDictionary>
     </local:PropertiesTab.Resources>
 
-    <Grid Padding="12,0,12,12" RowSpacing="8">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <StackPanel Padding="12,0,12,12" Spacing="4">
         <Grid
-            Grid.Row="0"
             Padding="12"
             HorizontalAlignment="Stretch"
             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
@@ -81,7 +77,6 @@
 
         <Grid
             x:Name="Shortcut"
-            Grid.Row="1"
             Padding="12"
             HorizontalAlignment="Stretch"
             x:Load="{x:Bind ViewModel.IsSelectedItemShortcut, Mode=OneWay}"
@@ -99,7 +94,6 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -136,16 +130,20 @@
                 VerticalAlignment="Center"
                 x:Load="{x:Bind ViewModel.ShortcutItemWorkingDirVisibility, Mode=OneWay}"
                 Text="{x:Bind ViewModel.ShortcutItemWorkingDir, Mode=TwoWay}" />
-
-            <Button
-                x:Name="OpenLinkButton"
-                x:Uid="PropertiesDialogOpenLinkButton"
-                Grid.Row="2"
-                Grid.Column="0"
-                VerticalAlignment="Center"
-                x:Load="{x:Bind ViewModel.IsSelectedItemShortcut, Mode=OneWay}"
-                Command="{x:Bind ViewModel.ShortcutItemOpenLinkCommand, Mode=OneWay}"
-                Content="Open file location" />
         </Grid>
-    </Grid>
+
+        <local1:SettingsBlockControl
+            x:Name="OpenFileLocation"
+            Title="{helpers:ResourceString Name=OpenFileLocation}"
+            Grid.Row="2"
+            Grid.Column="0"
+            x:Load="{x:Bind ViewModel.IsSelectedItemShortcut, Mode=OneWay}"
+            ButtonCommand="{x:Bind ViewModel.ShortcutItemOpenLinkCommand, Mode=OneWay}"
+            IsClickable="True">
+            <FontIcon
+                FontSize="14"
+                Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                Glyph="&#xE2B4;" />
+        </local1:SettingsBlockControl>
+    </StackPanel>
 </local:PropertiesTab>

@@ -15,7 +15,7 @@
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
     </Page.Resources>
 
-    <Grid RowSpacing="8">
+    <Grid RowSpacing="4">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
