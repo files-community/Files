@@ -544,7 +544,7 @@ namespace Files
                     }
                     else
                     {
-                        var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "NewTab".GetLocalized() };
+                        var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalized() };
                         return defaultArg.Serialize();
                     }
                 }).ToList();

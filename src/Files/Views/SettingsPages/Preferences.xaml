@@ -32,13 +32,6 @@
                 </TransitionCollection>
             </StackPanel.ChildrenTransitions>
 
-            <TextBlock
-                x:Uid="SettingsPreferencesTitle"
-                Padding="0,0,0,12"
-                FontSize="20"
-                FontWeight="Medium"
-                Text="Preferences" />
-
             <local:SettingsBlockControl
                 x:Uid="SettingsPreferencesAppLanguage"
                 Title="Language"

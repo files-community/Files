@@ -991,7 +991,7 @@
     <value>Erro</value>
   </data>
   <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Tentar novamente</value>
+    <value>Repetir</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Fechar mesmo assim</value>
@@ -1036,7 +1036,7 @@
     <value>Envie aos desenvolvedores um relatório de problema com mais informações</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Apoie-nos no PayPal</value>
+    <value>Nos apoie no GitHub</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Detalhes</value>
@@ -1785,7 +1785,7 @@
   <data name="Security" xml:space="preserve">
     <value>Segurança</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>Permissões avançadas</value>
   </data>
   <data name="Allow" xml:space="preserve">
@@ -2116,7 +2116,7 @@
     <value>Listar e classificar diretórios ao lado dos arquivos</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Mostrar itens não indexados ao pesquisar arquivos e pastas (as pesquisas podem demorar mais)</value>
+    <value>Mostrar itens não indexados ao pesquisar arquivos e pastas</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
     <value>Habilite preferências individuais para diretórios individuais</value>
@@ -2473,6 +2473,21 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
     <value>Sistema (avancado)</value>
   </data>
+  <data name="Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
+    <value>Windows Vista SP1</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
+    <value>Windows Vista SP2</value>
+  </data>
   <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
     <value>Cores de 16 Bits (65536)</value>
   </data>
@@ -2508,5 +2523,62 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
   </data>
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
     <value>Usar o DPI definido para minha tela principal</value>
+  </data>
+  <data name="SettingsDefaultFilesManager" xml:space="preserve">
+    <value>Gerenciador de arquivos padrão</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
+    <value>Definir o Files como o gerenciador de arquivos padrão</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Esvaziar a Lixeira</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Barra Lateral</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Arquivos e pastas</value>
+  </data>
+  <data name="OpenNewInstance" xml:space="preserve">
+    <value>Abrir nova instância ao abrir diretórios da lista de atalhos na barra de tarefas</value>
+  </data>
+  <data name="StartupSettings" xml:space="preserve">
+    <value>Configurações de inicialização</value>
+  </data>
+  <data name="ThirdPartyLicenses" xml:space="preserve">
+    <value>Licenças de terceiros</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
+    <value>Esta configuração modifica arquivos do sistema e pode ter efeitos colaterais inesperados no seu dispositivo. Os desenvolvedores não assumem nenhuma responsabilidade no caso de um problema ocorrer como resultado. Continuar com essa opção é um reconhecimento dos riscos envolvidos com essa ação. Observe que a desinstalação de arquivos não desinstalará essas alterações e poderá impedi-lo de abrir o explorador de arquivos, a menos que você desligue esta configuração antes de remover arquivos do seu dispositivo.</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Limpar todos</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Colunas</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Ícones Grandes</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Ícones Médios</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Ícones Pequenos</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Blocos</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Criar Biblioteca</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>Digite o nome da Biblioteca</value>
+  </data>
+  <data name="ShowFolderSize" xml:space="preserve">
+    <value>Mostrar tamanho da pasta</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Pular</value>
   </data>
 </root>

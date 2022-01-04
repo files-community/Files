@@ -2372,7 +2372,7 @@
           <source>Security</source>
           <target state="translated">安全</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedPermissions.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AdvancedPermissions" translate="yes" xml:space="preserve">
           <source>Advanced permissions</source>
           <target state="translated">高级权限</target>
         </trans-unit>
@@ -3435,9 +3435,13 @@ Files 不收集、存储、共享或发布任何个人信息。
           <source>Show folder size</source>
           <target state="translated">显示文件夹大小</target>
         </trans-unit>
-        <trans-unit id="ErrorDialogSkip" translate="yes" xml:space="preserve">
+        <trans-unit id="Skip" translate="yes" xml:space="preserve">
           <source>Skip</source>
           <target state="translated">跳过</target>
+        </trans-unit>
+        <trans-unit id="SettingsOpenInLogin" translate="yes" xml:space="preserve">
+          <source>Open Files on Windows Startup</source>
+          <target state="new">Open Files on Windows Startup</target>
         </trans-unit>
       </group>
     </body>

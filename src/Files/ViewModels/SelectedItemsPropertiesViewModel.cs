@@ -73,7 +73,7 @@ namespace Files.ViewModels
             get => itemName;
             set
             {
-                ItemNameVisibility = Visibility.Visible;
+                ItemNameVisibility = true;
                 SetProperty(ref itemName, value);
             }
         }
@@ -85,14 +85,14 @@ namespace Files.ViewModels
             get => originalItemName;
             set
             {
-                ItemNameVisibility = Visibility.Visible;
+                ItemNameVisibility = true;
                 SetProperty(ref originalItemName, value);
             }
         }
 
-        private Visibility itemNameVisibility = Visibility.Collapsed;
+        private bool itemNameVisibility = false;
 
-        public Visibility ItemNameVisibility
+        public bool ItemNameVisibility
         {
             get => itemNameVisibility;
             set => SetProperty(ref itemNameVisibility, value);
@@ -105,14 +105,14 @@ namespace Files.ViewModels
             get => itemType;
             set
             {
-                ItemTypeVisibility = Visibility.Visible;
+                ItemTypeVisibility = true;
                 SetProperty(ref itemType, value);
             }
         }
 
-        private Visibility itemTypeVisibility = Visibility.Collapsed;
+        private bool itemTypeVisibility = false;
 
-        public Visibility ItemTypeVisibility
+        public bool ItemTypeVisibility
         {
             get => itemTypeVisibility;
             set => SetProperty(ref itemTypeVisibility, value);
@@ -125,14 +125,14 @@ namespace Files.ViewModels
             get => driveFileSystem;
             set
             {
-                DriveFileSystemVisibility = Visibility.Visible;
+                DriveFileSystemVisibility = true;
                 SetProperty(ref driveFileSystem, value);
             }
         }
 
-        private Visibility driveFileSystemVisibility = Visibility.Collapsed;
+        private bool driveFileSystemVisibility = false;
 
-        public Visibility DriveFileSystemVisibility
+        public bool DriveFileSystemVisibility
         {
             get => driveFileSystemVisibility;
             set => SetProperty(ref driveFileSystemVisibility, value);
@@ -145,14 +145,14 @@ namespace Files.ViewModels
             get => itemPath;
             set
             {
-                ItemPathVisibility = Visibility.Visible;
+                ItemPathVisibility = true;
                 SetProperty(ref itemPath, value);
             }
         }
 
-        private Visibility itemPathVisibility = Visibility.Collapsed;
+        private bool itemPathVisibility = false;
 
-        public Visibility ItemPathVisibility
+        public bool ItemPathVisibility
         {
             get => itemPathVisibility;
             set => SetProperty(ref itemPathVisibility, value);
@@ -166,9 +166,9 @@ namespace Files.ViewModels
             set => SetProperty(ref itemSize, value);
         }
 
-        private Visibility itemSizeVisibility = Visibility.Collapsed;
+        private bool itemSizeVisibility = false;
 
-        public Visibility ItemSizeVisibility
+        public bool ItemSizeVisibility
         {
             get => itemSizeVisibility;
             set => SetProperty(ref itemSizeVisibility, value);
@@ -182,9 +182,9 @@ namespace Files.ViewModels
             set => SetProperty(ref itemSizeBytes, value);
         }
 
-        private Visibility itemSizeProgressVisibility = Visibility.Collapsed;
+        private bool itemSizeProgressVisibility = false;
 
-        public Visibility ItemSizeProgressVisibility
+        public bool ItemSizeProgressVisibility
         {
             get => itemSizeProgressVisibility;
             set => SetProperty(ref itemSizeProgressVisibility, value);
@@ -261,17 +261,17 @@ namespace Files.ViewModels
             get => filesAndFoldersCountString;
             set
             {
-                if (FilesAndFoldersCountVisibility == Visibility.Collapsed)
+                if (FilesAndFoldersCountVisibility == false)
                 {
-                    FilesAndFoldersCountVisibility = Visibility.Visible;
+                    FilesAndFoldersCountVisibility = true;
                 }
                 SetProperty(ref filesAndFoldersCountString, value);
             }
         }
 
-        public Visibility filesAndFoldersCountVisibility = Visibility.Collapsed;
+        public bool filesAndFoldersCountVisibility = false;
 
-        public Visibility FilesAndFoldersCountVisibility
+        public bool FilesAndFoldersCountVisibility
         {
             get => filesAndFoldersCountVisibility;
             set => SetProperty(ref filesAndFoldersCountVisibility, value);
@@ -285,7 +285,8 @@ namespace Files.ViewModels
             set
             {
                 SetProperty(ref driveUsedSpaceValue, value);
-                DriveUsedSpace = DriveUsedSpaceValue.ToLongSizeString();
+                DriveUsedSpace = DriveUsedSpaceValue.ToSizeString();
+                DriveUsedSpaceLongSize = DriveUsedSpaceValue.ToLongSizeString();
                 OnPropertyChanged(nameof(DrivePercentageValue));
             }
         }
@@ -297,14 +298,25 @@ namespace Files.ViewModels
             get => driveUsedSpace;
             set
             {
-                DriveUsedSpaceVisibiity = Visibility.Visible;
+                DriveUsedSpaceVisibiity = true;
                 SetProperty(ref driveUsedSpace, value);
             }
         }
+        
+        private string driveUsedSpaceLongSize;
 
-        public Visibility driveUsedSpaceVisibiity = Visibility.Collapsed;
+        public string DriveUsedSpaceLongSize
+        {
+            get => driveUsedSpaceLongSize;
+            set
+            {
+                SetProperty(ref driveUsedSpaceLongSize, value);
+            }
+        }
 
-        public Visibility DriveUsedSpaceVisibiity
+        public bool driveUsedSpaceVisibiity = false;
+
+        public bool DriveUsedSpaceVisibiity
         {
             get => driveUsedSpaceVisibiity;
             set => SetProperty(ref driveUsedSpaceVisibiity, value);
@@ -318,7 +330,9 @@ namespace Files.ViewModels
             set
             {
                 SetProperty(ref driveFreeSpaceValue, value);
-                DriveFreeSpace = DriveFreeSpaceValue.ToLongSizeString();
+                DriveFreeSpace = DriveFreeSpaceValue.ToSizeString();
+                DriveFreeSpaceLongSize = DriveFreeSpaceValue.ToLongSizeString();
+
             }
         }
 
@@ -329,14 +343,25 @@ namespace Files.ViewModels
             get => driveFreeSpace;
             set
             {
-                DriveFreeSpaceVisibiity = Visibility.Visible;
+                DriveFreeSpaceVisibiity = true;
                 SetProperty(ref driveFreeSpace, value);
             }
         }
+        
+        private string driveFreeSpaceLongSize;
 
-        public Visibility driveFreeSpaceVisibiity = Visibility.Collapsed;
+        public string DriveFreeSpaceLongSize
+        {
+            get => driveFreeSpaceLongSize;
+            set
+            {
+                SetProperty(ref driveFreeSpaceLongSize, value);
+            }
+        }
 
-        public Visibility DriveFreeSpaceVisibiity
+        public bool driveFreeSpaceVisibiity = false;
+
+        public bool DriveFreeSpaceVisibiity
         {
             get => driveFreeSpaceVisibiity;
             set => SetProperty(ref driveFreeSpaceVisibiity, value);
@@ -349,14 +374,14 @@ namespace Files.ViewModels
             get => itemCreatedTimestamp;
             set
             {
-                ItemCreatedTimestampVisibiity = Visibility.Visible;
+                ItemCreatedTimestampVisibiity = true;
                 SetProperty(ref itemCreatedTimestamp, value);
             }
         }
 
-        public Visibility itemCreatedTimestampVisibiity = Visibility.Collapsed;
+        public bool itemCreatedTimestampVisibiity = false;
 
-        public Visibility ItemCreatedTimestampVisibiity
+        public bool ItemCreatedTimestampVisibiity
         {
             get => itemCreatedTimestampVisibiity;
             set => SetProperty(ref itemCreatedTimestampVisibiity, value);
@@ -369,14 +394,14 @@ namespace Files.ViewModels
             get => itemModifiedTimestamp;
             set
             {
-                ItemModifiedTimestampVisibility = Visibility.Visible;
+                ItemModifiedTimestampVisibility = true;
                 SetProperty(ref itemModifiedTimestamp, value);
             }
         }
 
-        private Visibility itemModifiedTimestampVisibility = Visibility.Collapsed;
+        private bool itemModifiedTimestampVisibility = false;
 
-        public Visibility ItemModifiedTimestampVisibility
+        public bool ItemModifiedTimestampVisibility
         {
             get => itemModifiedTimestampVisibility;
             set => SetProperty(ref itemModifiedTimestampVisibility, value);
@@ -389,22 +414,22 @@ namespace Files.ViewModels
             get => itemAccessedTimestamp;
             set
             {
-                ItemAccessedTimestampVisibility = Visibility.Visible;
+                ItemAccessedTimestampVisibility = true;
                 SetProperty(ref itemAccessedTimestamp, value);
             }
         }
 
-        private Visibility itemAccessedTimestampVisibility = Visibility.Collapsed;
+        private bool itemAccessedTimestampVisibility = false;
 
-        public Visibility ItemAccessedTimestampVisibility
+        public bool ItemAccessedTimestampVisibility
         {
             get => itemAccessedTimestampVisibility;
             set => SetProperty(ref itemAccessedTimestampVisibility, value);
         }
 
-        private Visibility lastSeparatorVisibility = Visibility.Visible;
+        private bool lastSeparatorVisibility = true;
 
-        public Visibility LastSeparatorVisibility
+        public bool LastSeparatorVisibility
         {
             get => lastSeparatorVisibility;
             set => SetProperty(ref lastSeparatorVisibility, value);
@@ -418,7 +443,8 @@ namespace Files.ViewModels
             set
             {
                 SetProperty(ref driveCapacityValue, value);
-                DriveCapacity = DriveCapacityValue.ToLongSizeString();
+                DriveCapacity = DriveCapacityValue.ToSizeString();
+                DriveCapacityLongSize = DriveCapacityValue.ToLongSizeString();
                 OnPropertyChanged(nameof(DrivePercentageValue));
             }
         }
@@ -430,14 +456,25 @@ namespace Files.ViewModels
             get => driveCapacity;
             set
             {
-                DriveCapacityVisibiity = Visibility.Visible;
+                DriveCapacityVisibiity = true;
                 SetProperty(ref driveCapacity, value);
             }
         }
+        
+        private string driveCapacityLongSize;
 
-        public Visibility driveCapacityVisibiity = Visibility.Collapsed;
+        public string DriveCapacityLongSize
+        {
+            get => driveCapacityLongSize;
+            set
+            {
+                SetProperty(ref driveCapacityLongSize, value);
+            }
+        }
 
-        public Visibility DriveCapacityVisibiity
+        public bool driveCapacityVisibiity = false;
+
+        public bool DriveCapacityVisibiity
         {
             get => driveCapacityVisibiity;
             set => SetProperty(ref driveCapacityVisibiity, value);
@@ -448,9 +485,9 @@ namespace Files.ViewModels
             get => DriveCapacityValue > 0 ? (double)DriveUsedSpaceValue / (double)DriveCapacityValue * 100 : 0;
         }
 
-        private Visibility itemAttributesVisibility = Visibility.Visible;
+        private bool itemAttributesVisibility = true;
 
-        public Visibility ItemAttributesVisibility
+        public bool ItemAttributesVisibility
         {
             get => itemAttributesVisibility;
             set => SetProperty(ref itemAttributesVisibility, value);

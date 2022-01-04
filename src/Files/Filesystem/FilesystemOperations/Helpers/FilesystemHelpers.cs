@@ -1111,6 +1111,8 @@ namespace Files.Filesystem
                     itemsList.AddRange(source);
                 }
             }
+            itemsList = itemsList.DistinctBy(x => string.IsNullOrEmpty(x.Path) ?
+                (string.IsNullOrEmpty(x.Item.Path) ? x.Item.Name : x.Item.Path) : x.Path).ToList();
             return itemsList;
         }
 

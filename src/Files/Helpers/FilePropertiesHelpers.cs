@@ -73,13 +73,13 @@ namespace Files.Helpers
                     newWindow.TitleBar.ExtendViewIntoTitleBar = true;
                     newView.Title = "PropertiesTitle".GetLocalized();
                     newView.PersistedStateId = "Properties";
-                    newView.SetPreferredMinSize(new Size(400, 500));
+                    newView.SetPreferredMinSize(new Size(460, 550));
 
                     bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newView.Id);
                     if (viewShown && newView != null)
                     {
                         // Set window size again here as sometimes it's not resized in the page Loaded event
-                        newView.TryResizeView(new Size(400, 550));
+                        newView.TryResizeView(new Size(460, 550));
                     }
                 });
             }

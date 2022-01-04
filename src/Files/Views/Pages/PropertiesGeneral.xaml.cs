@@ -8,6 +8,8 @@ using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
+using Windows.System;
 
 namespace Files.Views
 {
@@ -16,16 +18,7 @@ namespace Files.Views
         public PropertiesGeneral()
         {
             this.InitializeComponent();
-            base.hashProgress = new Progress<float>();
-
-            (base.hashProgress as Progress<float>).ProgressChanged += PropertiesGeneral_ProgressChanged;
         }
-
-        private void PropertiesGeneral_ProgressChanged(object sender, float e)
-        {
-            ItemMD5HashProgress.Value = (double)e;
-        }
-
         public override async Task<bool> SaveChangesAsync(ListedItem item)
         {
             if (BaseProperties is DriveProperties driveProps)
@@ -116,7 +109,16 @@ namespace Files.Views
 
         public override void Dispose()
         {
-            (base.hashProgress as Progress<float>).ProgressChanged -= PropertiesGeneral_ProgressChanged;
+        }
+
+        private void DiskCleanupButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            if (BaseProperties is DriveProperties driveProps)
+            {
+                var drive = driveProps.Drive;
+
+                StorageSenseHelper.OpenStorageSense(drive.Path);
+            }
         }
     }
 }

@@ -1787,7 +1787,7 @@
   <data name="Security" xml:space="preserve">
     <value>安全</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>高级权限</value>
   </data>
   <data name="Allow" xml:space="preserve">
@@ -2581,7 +2581,7 @@ Files 不收集、存储、共享或发布任何个人信息。
   <data name="ShowFolderSize" xml:space="preserve">
     <value>显示文件夹大小</value>
   </data>
-  <data name="ErrorDialogSkip" xml:space="preserve">
+  <data name="Skip" xml:space="preserve">
     <value>跳过</value>
   </data>
 </root>

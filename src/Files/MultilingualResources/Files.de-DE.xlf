@@ -2373,7 +2373,7 @@
           <source>Security</source>
           <target state="translated">Sicherheit</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedPermissions.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AdvancedPermissions" translate="yes" xml:space="preserve">
           <source>Advanced permissions</source>
           <target state="translated">Erweiterte Rechte</target>
         </trans-unit>
@@ -3133,15 +3133,15 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
         </trans-unit>
         <trans-unit id="NavToolbarShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show hidden items</source>
-          <target state="translated">Versteckte Dateien und Ordner anzeigen</target>
+          <target state="translated">Versteckte Elemente anzeigen</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowFileExtensions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show file extensions</source>
-          <target state="translated">Dateiendungen anzeigen</target>
+          <target state="translated">Dateierweiterungen anzeigen</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowHiddenItemsHeader.Text" translate="yes" xml:space="preserve">
           <source>Show hidden items</source>
-          <target state="translated">Versteckte Dateien und Ordner anzeigen</target>
+          <target state="translated">Versteckte Elemente anzeigen</target>
         </trans-unit>
         <trans-unit id="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show favorites section</source>
@@ -3397,7 +3397,7 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
           <source>This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</source>
-          <target state="translated">Diese Einstellung modifiziert Systemdateien und kann unerwartete Seiteneffekte mit sich bringen. Die Entwickler übernehmen keine Verantwortung, falls ein Problem auftritt. Mit dieser Einstellung fortzufahren ist eine Bestätigung dafür, dass Ihnen dieses Risiko bekannt ist. Bitte beachten Sie, dass das Deinstallieren von Files diese Änderungen nicht rückgängig macht. Es kann vorkommen, dass Sie den Explorer nicht mehr öffnen können, außer Sie deaktivieren diese Einstellung vor der Deinstallation von Files.</target>
+          <target state="translated">Diese Einstellung modifiziert Systemdateien und kann zu unerwarteten Problemen führen. Die Entwickler übernehmen keine Verantwortung, falls ein Problem auftritt. Mit Aktivierung dieser Einstellungen bestätigen Sie, dass Ihnen dieses Risiko bewusst ist. Setzen Sie diese Einstellung unbedingt zurück, bevor Sie Files deinstallieren!</target>
         </trans-unit>
         <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
           <source>Clear all</source>
@@ -3435,9 +3435,13 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
           <source>Show folder size</source>
           <target state="translated">Ordnergröße anzeigen</target>
         </trans-unit>
-        <trans-unit id="ErrorDialogSkip" translate="yes" xml:space="preserve">
+        <trans-unit id="Skip" translate="yes" xml:space="preserve">
           <source>Skip</source>
           <target state="translated">Überspringen</target>
+        </trans-unit>
+        <trans-unit id="SettingsOpenInLogin" translate="yes" xml:space="preserve">
+          <source>Open Files on Windows Startup</source>
+          <target state="translated">Files mit Windows starten</target>
         </trans-unit>
       </group>
     </body>

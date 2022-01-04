@@ -1827,7 +1827,7 @@
   <data name="Security" xml:space="preserve">
     <value>Bảo mật</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>Cấp phép nâng cao</value>
   </data>
   <data name="Allow" xml:space="preserve">

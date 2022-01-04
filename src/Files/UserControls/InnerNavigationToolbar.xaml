@@ -462,6 +462,7 @@
                                     Text="{helpers:ResourceString Name=Details}" />
 
                                 <RadioButton
+                                    x:Uid="NavToolbarTiles"
                                     Grid.Row="1"
                                     Grid.Column="0"
                                     Width="36"

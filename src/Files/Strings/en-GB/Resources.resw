@@ -1147,7 +1147,7 @@
     <value>Send the developers an issue report with more information</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Support us on PayPal</value>
+    <value>Support us on GitHub</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>List and sort directories alongside files</value>
@@ -1878,7 +1878,7 @@
   <data name="Security" xml:space="preserve">
     <value>Security</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>Advanced permissions</value>
   </data>
   <data name="Allow" xml:space="preserve">
@@ -2553,5 +2553,32 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Clear all</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Columns</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Large Icons</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Medium Icons</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Small Icons</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Tiles</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Create Library</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>Enter Library name</value>
+  </data>
+  <data name="ShowFolderSize" xml:space="preserve">
+    <value>Show folder size</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Skip</value>
   </data>
 </root>

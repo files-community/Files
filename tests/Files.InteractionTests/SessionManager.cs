@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using System;
+using System.IO;
 using System.Diagnostics;
 using System.Threading;
 
@@ -43,7 +44,18 @@ namespace Files.InteractionTests
                 if (_session == null)
                 {
                     // WinAppDriver is probably not running, so lets start it!
-                    Process.Start(@"C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe");
+                    if(File.Exists(@"C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe"))
+                    {
+                        Process.Start(@"C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe");
+                    }
+                    else if(File.Exists(@"C:\Program Files\Windows Application Driver\WinAppDriver.exe"))
+                    {
+                        Process.Start(@"C:\Program Files\Windows Application Driver\WinAppDriver.exe");
+                    }
+                    else
+                    {
+                        throw new Exception("Unable to start WinAppDriver since no suitable location was found.");
+                    }
 
                     Thread.Sleep(10000);
                     _session = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appiumOptions);

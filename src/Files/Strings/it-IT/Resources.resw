@@ -1036,7 +1036,7 @@
     <value>Invia agli sviluppatori un rapporto sul problema</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Supportaci su PayPal</value>
+    <value>Supportaci su GitHub</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Dettagli</value>
@@ -1764,7 +1764,7 @@
   <data name="Security" xml:space="preserve">
     <value>Sicurezza</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>Impostazioni avanzate</value>
   </data>
   <data name="Allow" xml:space="preserve">
@@ -2116,7 +2116,7 @@
     <value>Ordina le cartelle insieme ai file</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Mostra elementi non indicizzati durante la ricerca (richiede più tempo)</value>
+    <value>Mostra elementi non indicizzati durante la ricerca</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
     <value>Abilita impostazioni personalizzate per ogni cartella</value>
@@ -2523,5 +2523,65 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   </data>
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
     <value>Usa le impostazioni DPI del monitor principale</value>
+  </data>
+  <data name="SettingsDefaultFilesManager" xml:space="preserve">
+    <value>Gestore file predefinito</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
+    <value>Imposta Files come gestore file predefinito</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Svuota il Cestino</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Barra laterale</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>File e cartelle</value>
+  </data>
+  <data name="OpenNewInstance" xml:space="preserve">
+    <value>Apri una nuova instanza quando si apre una cartella dalla barra delle applicazioni</value>
+  </data>
+  <data name="StartupSettings" xml:space="preserve">
+    <value>Impostazioni di Avvio</value>
+  </data>
+  <data name="ThirdPartyLicenses" xml:space="preserve">
+    <value>Licenze di terze parti</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
+    <value>Questa impostazione modifica file di sistema e può causare effetti indesiderati sul tuo dispositivo. Gli sviluppatori non si assumono alcuna responsabilità. Continuando con questa opzione si accettano i rischi legati ad essa. Da notare che disinstallare Files non annulla questa modifica e potrebbe causare l'impossibilità di aprire Esplora Risorse, ricorda di disattivare questa opzione prima di disinstallare Files!</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Rimuovi tutto</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Colonne</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Icone Grandi</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Icone Medie</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Icone Piccole</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Riquadri</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Crea Raccolta</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>Inserisci il nome della Raccolta</value>
+  </data>
+  <data name="ShowFolderSize" xml:space="preserve">
+    <value>Mostra dimensione delle cartelle</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Salta</value>
+  </data>
+  <data name="SettingsOpenInLogin" xml:space="preserve">
+    <value>Apri Files all'avvio di Windows</value>
   </data>
 </root>
