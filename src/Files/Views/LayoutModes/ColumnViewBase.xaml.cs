@@ -161,9 +161,8 @@ namespace Files.Views.LayoutModes
             base.OnNavigatingFrom(e);
         }
 
-        private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
+        private void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
         {
-            await Task.Delay(200);
             FileList.Focus(FocusState.Programmatic);
         }
 
@@ -268,6 +267,10 @@ namespace Files.Views.LayoutModes
             textBox.KeyDown -= RenameTextBox_KeyDown;
             FileNameTeachingTip.IsOpen = false;
             IsRenamingItem = false;
+
+            // Re-focus selected list item
+            ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+            listViewItem?.Focus(FocusState.Programmatic);
         }
 
         public override void ResetItemOpacity()
