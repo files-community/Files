@@ -169,9 +169,8 @@ namespace Files.Views.LayoutModes
             FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
         }
 
-        private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
+        private void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
         {
-            await Task.Delay(200);
             FileList.Focus(FocusState.Programmatic);
         }
 
@@ -359,6 +358,10 @@ namespace Files.Views.LayoutModes
             textBox.KeyDown -= RenameTextBox_KeyDown;
             FileNameTeachingTip.IsOpen = false;
             IsRenamingItem = false;
+
+            // Re-focus selected list item
+            GridViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
+            gridViewItem?.Focus(FocusState.Programmatic);
         }
 
         private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
