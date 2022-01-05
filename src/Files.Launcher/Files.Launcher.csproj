@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>FilesFullTrust</RootNamespace>
+    <AssemblyName>FilesFullTrust</AssemblyName>
+    <Platforms>x86;x64;arm64</Platforms>
+    <RuntimeIdentifiers>win-arm64;win-x86;win-x64</RuntimeIdentifiers>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <LangVersion>8.0</LangVersion>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="2.0.1" />
+    <PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.7" />
+    <PackageReference Include="Vanara.PInvoke.Mpr" Version="3.3.15" />
+    <PackageReference Include="Vanara.Windows.Shell" Version="3.3.15" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
+    <Content Include="Assets\FilesOpenDialog\SetFilesAsDefault.reg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FilesOpenDialog\UnsetFilesAsDefault.reg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\FilesOpenDialog\CustomOpenDialog32.dll" />
+    <Content Include="Assets\FilesOpenDialog\CustomOpenDialog64.dll" />
+    <Content Include="Assets\FilesOpenDialog\CustomOpenDialogARM64.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="FolderNames.cs" />
+  </ItemGroup>
+</Project>
