@@ -145,7 +145,7 @@ namespace Files.DataModels.NavigationControlItems
             item.Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
             item.DeviceID = deviceId;
             item.Root = root;
-            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => item.UpdatePropertiesAsync());
+            _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => item.UpdatePropertiesAsync());
 
             return item;
         }
