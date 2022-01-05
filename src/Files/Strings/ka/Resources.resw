@@ -69,9 +69,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>არის წყაროს საქაღალდის ქვე-საქაღალდე</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>ნივთის ნიმუში:</value>
-  </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>ყველას მონიშვნა</value>
   </data>
@@ -192,9 +189,6 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>ჩასმა</value>
   </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5Hash:</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>ახალი</value>
   </data>
@@ -299,9 +293,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>თვისებები</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>ატრიბუტები:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>თვისებები</value>

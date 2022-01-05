@@ -24,9 +24,6 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>大小：</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>檔案類型：</value>
-  </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>修改日期：</value>
   </data>
@@ -216,9 +213,6 @@
   <data name="ItemTypeFile" xml:space="preserve">
     <value>檔案</value>
   </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5 雜湊值：</value>
-  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>無法完成該操作</value>
   </data>
@@ -236,9 +230,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>內容</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>屬性：</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>內容</value>

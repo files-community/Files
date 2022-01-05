@@ -69,9 +69,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>is 'n subgids van die brongids</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Itemsoort:</value>
-  </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Selekteer Alles</value>
   </data>
@@ -198,9 +195,6 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Plak</value>
   </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5Hash:</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nuwe</value>
   </data>
@@ -308,9 +302,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Eienskappe</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Eienskappe:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Eienskappe</value>

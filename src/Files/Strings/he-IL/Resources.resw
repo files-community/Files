@@ -51,9 +51,6 @@
   <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
     <value>תיקיית היעד</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>סוג פריט</value>
-  </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>בחר הכל</value>
   </data>
@@ -239,9 +236,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>מאפיינים</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>מאפיינים:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>מאפיינים</value>

@@ -24,9 +24,6 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Grootte:</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Itemtype:</value>
-  </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Gewijzigd op:</value>
   </data>
@@ -216,9 +213,6 @@
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Bestand</value>
   </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5Hash:</value>
-  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Deze actie kan niet worden uitgevoerd</value>
   </data>
@@ -236,9 +230,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Eigenschappen</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Kenmerken:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Eigenschappen</value>

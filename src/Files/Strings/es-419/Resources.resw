@@ -69,9 +69,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>es la misma que la carpeta de origen</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Tipo:</value>
-  </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Seleccionar Todo</value>
   </data>
@@ -177,9 +174,6 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Pegar</value>
   </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>HashMD5:</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nuevo</value>
   </data>
@@ -281,9 +275,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Propiedades</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Atributos:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Propiedades</value>

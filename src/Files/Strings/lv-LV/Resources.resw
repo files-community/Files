@@ -57,9 +57,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>ir avota mapes apakšmape</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Vienuma tips:</value>
-  </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Atlasīt visu</value>
   </data>
@@ -165,9 +162,6 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Ielīmēt</value>
   </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5Hash:</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Fails</value>
   </data>
@@ -266,9 +260,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Rekvizīti</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Atribūti:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Rekvizīti</value>

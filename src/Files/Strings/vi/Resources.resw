@@ -69,9 +69,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>là một thư mục con của thư mục nguồn</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Loại mục:</value>
-  </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Chọn Tất cả</value>
   </data>
@@ -299,9 +296,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Thuộc tính</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Thuộc tính:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Thuộc tính</value>
