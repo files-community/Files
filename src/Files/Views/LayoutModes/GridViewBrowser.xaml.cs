@@ -171,8 +171,11 @@ namespace Files.Views.LayoutModes
 
         private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
         {
-            await Task.Delay(200);
-            FileList.Focus(FocusState.Programmatic);
+            if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+            {
+                await Task.Delay(200);
+                FileList.Focus(FocusState.Programmatic);
+            }
         }
 
         private void FolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
