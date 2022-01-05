@@ -654,181 +654,181 @@ namespace FilesFullTrust
         }
 
         [ComImport, Guid("EAB22AC1-30C1-11CF-A7EB-0000C05BAE0B"), CoClass(typeof(WebBrowser_V1))]
-		public interface IWebBrowser
-		{
-			[DispId(100)]
-			void GoBack();
+        public interface IWebBrowser
+        {
+            [DispId(100)]
+            void GoBack();
 
-			[DispId(0x65)]
-			void GoForward();
+            [DispId(0x65)]
+            void GoForward();
 
-			[DispId(0x66)]
-			void GoHome();
+            [DispId(0x66)]
+            void GoHome();
 
-			[DispId(0x67)]
-			void GoSearch();
+            [DispId(0x67)]
+            void GoSearch();
 
-			[DispId(0x68)]
-			void Navigate([In, MarshalAs(UnmanagedType.BStr)] string URL, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Flags, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object TargetFrameName, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object PostData, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Headers);
+            [DispId(0x68)]
+            void Navigate([In, MarshalAs(UnmanagedType.BStr)] string URL, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Flags, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object TargetFrameName, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object PostData, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Headers);
 
-			[DispId(-550)]
-			void Refresh();
+            [DispId(-550)]
+            void Refresh();
 
-			[DispId(0x69)]
-			void Refresh2([In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Level);
+            [DispId(0x69)]
+            void Refresh2([In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Level);
 
-			[DispId(0x6a)]
-			void Stop();
+            [DispId(0x6a)]
+            void Stop();
 
-			[DispId(200)]
-			object Application { [return: MarshalAs(UnmanagedType.IDispatch)] [DispId(200)] get; }
+            [DispId(200)]
+            object Application { [return: MarshalAs(UnmanagedType.IDispatch)] [DispId(200)] get; }
 
-			[DispId(0xc9)]
-			object Parent { [return: MarshalAs(UnmanagedType.IDispatch)] [DispId(0xc9)] get; }
+            [DispId(0xc9)]
+            object Parent { [return: MarshalAs(UnmanagedType.IDispatch)] [DispId(0xc9)] get; }
 
-			[DispId(0xca)]
-			object Container { [return: MarshalAs(UnmanagedType.IDispatch)] [DispId(0xca)] get; }
+            [DispId(0xca)]
+            object Container { [return: MarshalAs(UnmanagedType.IDispatch)] [DispId(0xca)] get; }
 
-			[DispId(0xcb)]
-			object Document { [return: MarshalAs(UnmanagedType.IDispatch)] [DispId(0xcb)] get; }
+            [DispId(0xcb)]
+            object Document { [return: MarshalAs(UnmanagedType.IDispatch)] [DispId(0xcb)] get; }
 
-			[DispId(0xcc)]
-			bool TopLevelContainer { [DispId(0xcc)] get; }
+            [DispId(0xcc)]
+            bool TopLevelContainer { [DispId(0xcc)] get; }
 
-			[DispId(0xcd)]
-			string Type { [return: MarshalAs(UnmanagedType.BStr)] [DispId(0xcd)] get; }
+            [DispId(0xcd)]
+            string Type { [return: MarshalAs(UnmanagedType.BStr)] [DispId(0xcd)] get; }
 
-			[DispId(0xce)]
-			int Left { [DispId(0xce)] get; [param: In] [DispId(0xce)] set; }
+            [DispId(0xce)]
+            int Left { [DispId(0xce)] get; [param: In] [DispId(0xce)] set; }
 
-			[DispId(0xcf)]
-			int Top { [DispId(0xcf)] get; [param: In] [DispId(0xcf)] set; }
+            [DispId(0xcf)]
+            int Top { [DispId(0xcf)] get; [param: In] [DispId(0xcf)] set; }
 
-			[DispId(0xd0)]
-			int Width { [DispId(0xd0)] get; [param: In] [DispId(0xd0)] set; }
+            [DispId(0xd0)]
+            int Width { [DispId(0xd0)] get; [param: In] [DispId(0xd0)] set; }
 
-			[DispId(0xd1)]
-			int Height { [DispId(0xd1)] get; [param: In] [DispId(0xd1)] set; }
+            [DispId(0xd1)]
+            int Height { [DispId(0xd1)] get; [param: In] [DispId(0xd1)] set; }
 
-			[DispId(210)]
-			string LocationName { [return: MarshalAs(UnmanagedType.BStr)] [DispId(210)] get; }
+            [DispId(210)]
+            string LocationName { [return: MarshalAs(UnmanagedType.BStr)] [DispId(210)] get; }
 
-			[DispId(0xd3)]
-			string LocationURL { [return: MarshalAs(UnmanagedType.BStr)] [DispId(0xd3)] get; }
+            [DispId(0xd3)]
+            string LocationURL { [return: MarshalAs(UnmanagedType.BStr)] [DispId(0xd3)] get; }
 
-			[DispId(0xd4)]
-			bool Busy { [DispId(0xd4)] get; }
-		}
+            [DispId(0xd4)]
+            bool Busy { [DispId(0xd4)] get; }
+        }
 
-		[ComImport, Guid("0002DF05-0000-0000-C000-000000000046")]
-		public interface IWebBrowserApp : IWebBrowser
-		{
-			[DispId(100)]
-			void GoBack();
+        [ComImport, Guid("0002DF05-0000-0000-C000-000000000046")]
+        public interface IWebBrowserApp : IWebBrowser
+        {
+            [DispId(100)]
+            void GoBack();
 
-			[DispId(0x65)]
-			void GoForward();
+            [DispId(0x65)]
+            void GoForward();
 
-			[DispId(0x66)]
-			void GoHome();
+            [DispId(0x66)]
+            void GoHome();
 
-			[DispId(0x67)]
-			void GoSearch();
+            [DispId(0x67)]
+            void GoSearch();
 
-			[DispId(0x68)]
-			void Navigate([In, MarshalAs(UnmanagedType.BStr)] string URL, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Flags, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object TargetFrameName, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object PostData, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Headers);
+            [DispId(0x68)]
+            void Navigate([In, MarshalAs(UnmanagedType.BStr)] string URL, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Flags, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object TargetFrameName, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object PostData, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Headers);
 
-			[DispId(-550)]
-			void Refresh();
+            [DispId(-550)]
+            void Refresh();
 
-			[DispId(0x69)]
-			void Refresh2([In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Level);
+            [DispId(0x69)]
+            void Refresh2([In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Level);
 
-			[DispId(0x6a)]
-			void Stop();
+            [DispId(0x6a)]
+            void Stop();
 
-			[DispId(200)]
-			object Application { [return: MarshalAs(UnmanagedType.IDispatch)] [DispId(200)] get; }
+            [DispId(200)]
+            object Application { [return: MarshalAs(UnmanagedType.IDispatch)] [DispId(200)] get; }
 
-			[DispId(0xc9)]
-			object Parent { [return: MarshalAs(UnmanagedType.IDispatch)] [DispId(0xc9)] get; }
+            [DispId(0xc9)]
+            object Parent { [return: MarshalAs(UnmanagedType.IDispatch)] [DispId(0xc9)] get; }
 
-			[DispId(0xca)]
-			object Container { [return: MarshalAs(UnmanagedType.IDispatch)] [DispId(0xca)] get; }
+            [DispId(0xca)]
+            object Container { [return: MarshalAs(UnmanagedType.IDispatch)] [DispId(0xca)] get; }
 
-			[DispId(0xcb)]
-			object Document { [return: MarshalAs(UnmanagedType.IDispatch)] [DispId(0xcb)] get; }
+            [DispId(0xcb)]
+            object Document { [return: MarshalAs(UnmanagedType.IDispatch)] [DispId(0xcb)] get; }
 
-			[DispId(0xcc)]
-			bool TopLevelContainer { [DispId(0xcc)] get; }
+            [DispId(0xcc)]
+            bool TopLevelContainer { [DispId(0xcc)] get; }
 
-			[DispId(0xcd)]
-			string Type { [return: MarshalAs(UnmanagedType.BStr)] [DispId(0xcd)] get; }
+            [DispId(0xcd)]
+            string Type { [return: MarshalAs(UnmanagedType.BStr)] [DispId(0xcd)] get; }
 
-			[DispId(0xce)]
-			int Left { [DispId(0xce)] get; [param: In] [DispId(0xce)] set; }
+            [DispId(0xce)]
+            int Left { [DispId(0xce)] get; [param: In] [DispId(0xce)] set; }
 
-			[DispId(0xcf)]
-			int Top { [DispId(0xcf)] get; [param: In] [DispId(0xcf)] set; }
+            [DispId(0xcf)]
+            int Top { [DispId(0xcf)] get; [param: In] [DispId(0xcf)] set; }
 
-			[DispId(0xd0)]
-			int Width { [DispId(0xd0)] get; [param: In] [DispId(0xd0)] set; }
+            [DispId(0xd0)]
+            int Width { [DispId(0xd0)] get; [param: In] [DispId(0xd0)] set; }
 
-			[DispId(0xd1)]
-			int Height { [DispId(0xd1)] get; [param: In] [DispId(0xd1)] set; }
+            [DispId(0xd1)]
+            int Height { [DispId(0xd1)] get; [param: In] [DispId(0xd1)] set; }
 
-			[DispId(210)]
-			string LocationName { [return: MarshalAs(UnmanagedType.BStr)] [DispId(210)] get; }
+            [DispId(210)]
+            string LocationName { [return: MarshalAs(UnmanagedType.BStr)] [DispId(210)] get; }
 
-			[DispId(0xd3)]
-			string LocationURL { [return: MarshalAs(UnmanagedType.BStr)] [DispId(0xd3)] get; }
+            [DispId(0xd3)]
+            string LocationURL { [return: MarshalAs(UnmanagedType.BStr)] [DispId(0xd3)] get; }
 
-			[DispId(0xd4)]
-			bool Busy { [DispId(0xd4)] get; }
+            [DispId(0xd4)]
+            bool Busy { [DispId(0xd4)] get; }
 
-			[DispId(300)]
-			void Quit();
+            [DispId(300)]
+            void Quit();
 
-			[DispId(0x12d)]
-			void ClientToWindow([In, Out] ref int pcx, [In, Out] ref int pcy);
+            [DispId(0x12d)]
+            void ClientToWindow([In, Out] ref int pcx, [In, Out] ref int pcy);
 
-			[DispId(0x12e)]
-			void PutProperty([In, MarshalAs(UnmanagedType.BStr)] string Property, [In, MarshalAs(UnmanagedType.Struct)] object vtValue);
+            [DispId(0x12e)]
+            void PutProperty([In, MarshalAs(UnmanagedType.BStr)] string Property, [In, MarshalAs(UnmanagedType.Struct)] object vtValue);
 
-			[return: MarshalAs(UnmanagedType.Struct)]
-			[DispId(0x12f)]
-			object GetProperty([In, MarshalAs(UnmanagedType.BStr)] string Property);
+            [return: MarshalAs(UnmanagedType.Struct)]
+            [DispId(0x12f)]
+            object GetProperty([In, MarshalAs(UnmanagedType.BStr)] string Property);
 
-			[DispId(0)]
-			string Name { [return: MarshalAs(UnmanagedType.BStr)] [DispId(0)] get; }
+            [DispId(0)]
+            string Name { [return: MarshalAs(UnmanagedType.BStr)] [DispId(0)] get; }
 
-			[DispId(-515)]
-			int HWND { [DispId(-515)] get; }
+            [DispId(-515)]
+            int HWND { [DispId(-515)] get; }
 
-			[DispId(400)]
-			string FullName { [return: MarshalAs(UnmanagedType.BStr)] [DispId(400)] get; }
+            [DispId(400)]
+            string FullName { [return: MarshalAs(UnmanagedType.BStr)] [DispId(400)] get; }
 
-			[DispId(0x191)]
-			string Path { [return: MarshalAs(UnmanagedType.BStr)] [DispId(0x191)] get; }
+            [DispId(0x191)]
+            string Path { [return: MarshalAs(UnmanagedType.BStr)] [DispId(0x191)] get; }
 
-			[DispId(0x192)]
-			bool Visible { [DispId(0x192)] get; [param: In] [DispId(0x192)] set; }
+            [DispId(0x192)]
+            bool Visible { [DispId(0x192)] get; [param: In] [DispId(0x192)] set; }
 
-			[DispId(0x193)]
-			bool StatusBar { [DispId(0x193)] get; [param: In] [DispId(0x193)] set; }
+            [DispId(0x193)]
+            bool StatusBar { [DispId(0x193)] get; [param: In] [DispId(0x193)] set; }
 
-			[DispId(0x194)]
-			string StatusText { [return: MarshalAs(UnmanagedType.BStr)] [DispId(0x194)] get; [param: In, MarshalAs(UnmanagedType.BStr)] [DispId(0x194)] set; }
+            [DispId(0x194)]
+            string StatusText { [return: MarshalAs(UnmanagedType.BStr)] [DispId(0x194)] get; [param: In, MarshalAs(UnmanagedType.BStr)] [DispId(0x194)] set; }
 
-			[DispId(0x195)]
-			int ToolBar { [DispId(0x195)] get; [param: In] [DispId(0x195)] set; }
+            [DispId(0x195)]
+            int ToolBar { [DispId(0x195)] get; [param: In] [DispId(0x195)] set; }
 
-			[DispId(0x196)]
-			bool MenuBar { [DispId(0x196)] get; [param: In] [DispId(0x196)] set; }
+            [DispId(0x196)]
+            bool MenuBar { [DispId(0x196)] get; [param: In] [DispId(0x196)] set; }
 
-			[DispId(0x197)]
-			bool FullScreen { [DispId(0x197)] get; [param: In] [DispId(0x197)] set; }
-		}
+            [DispId(0x197)]
+            bool FullScreen { [DispId(0x197)] get; [param: In] [DispId(0x197)] set; }
+        }
 
         [ComImport, ComSourceInterfaces("Vanara.PInvoke.Shell32.DWebBrowserEvents2\0Vanara.PInvoke.Shell32.DWebBrowserEvents\0"), Guid("8856F961-340A-11D0-A96B-00C04FD705A2"), ClassInterface(ClassInterfaceType.None)]
         public class WebBrowser { }
