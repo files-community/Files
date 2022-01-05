@@ -634,6 +634,8 @@
                                         TextTrimming="CharacterEllipsis" />
                                     <TextBox
                                         x:Name="ItemNameTextBox"
+                                        MaxWidth="{Binding MaxWidthForRenameTextbox, ElementName=PageRoot, Mode=OneWay}"
+                                        HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
                                         TextChanged="ListViewTextBoxItemName_TextChanged"
                                         Visibility="Collapsed">

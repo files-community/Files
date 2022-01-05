@@ -45,6 +45,21 @@ namespace Files.Views.LayoutModes
             }
         }
 
+        private double maxWidthForRenameTextbox;
+
+        public double MaxWidthForRenameTextbox
+        {
+            get => maxWidthForRenameTextbox;
+            set
+            {
+                if (value != maxWidthForRenameTextbox)
+                {
+                    maxWidthForRenameTextbox = value;
+                    NotifyPropertyChanged(nameof(MaxWidthForRenameTextbox));
+                }
+            }
+        }
+
         private RelayCommand<string> UpdateSortOptionsCommand { get; set; }
 
         public ScrollViewer ContentScroller { get; private set; }
@@ -211,7 +226,8 @@ namespace Files.Views.LayoutModes
                 IsTypeCloudDrive = InstanceViewModel.IsPageTypeCloudDrive,
                 IsTypeRecycleBin = InstanceViewModel.IsPageTypeRecycleBin
             });
-            ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 80);
+
+            RootGrid_SizeChanged(null, null);
         }
 
         private void FolderSettings_SortOptionPreferenceUpdated(object sender, SortOption e)
@@ -681,6 +697,7 @@ namespace Files.Views.LayoutModes
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 80);
+            MaxWidthForRenameTextbox = RootGrid.ActualWidth - 80;
         }
 
         private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
