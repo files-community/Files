@@ -24,9 +24,6 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Größe:</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Dateityp:</value>
-  </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Geändert:</value>
   </data>
@@ -225,9 +222,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>ist ein Unterordner des Quellordners</value>
   </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5-Hashwert:</value>
-  </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Auswahl umkehren</value>
   </data>
@@ -236,9 +230,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Eigenschaften</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Attribute:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Eigenschaften</value>
@@ -2351,13 +2342,13 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Dateierweiterungen anzeigen</value>
   </data>
   <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Versteckte Dateien und Ordner anzeigen</value>
+    <value>Versteckte Elemente anzeigen</value>
   </data>
   <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
-    <value>Dateiendungen anzeigen</value>
+    <value>Dateierweiterungen anzeigen</value>
   </data>
   <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
-    <value>Versteckte Dateien und Ordner anzeigen</value>
+    <value>Versteckte Elemente anzeigen</value>
   </data>
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Favoritenbereich anzeigen</value>
@@ -2549,7 +2540,7 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Lizenzen von Drittanbietern</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Diese Einstellung modifiziert Systemdateien und kann unerwartete Seiteneffekte mit sich bringen. Die Entwickler übernehmen keine Verantwortung, falls ein Problem auftritt. Mit dieser Einstellung fortzufahren ist eine Bestätigung dafür, dass Ihnen dieses Risiko bekannt ist. Bitte beachten Sie, dass das Deinstallieren von Files diese Änderungen nicht rückgängig macht. Es kann vorkommen, dass Sie den Explorer nicht mehr öffnen können, außer Sie deaktivieren diese Einstellung vor der Deinstallation von Files.</value>
+    <value>Diese Einstellung modifiziert Systemdateien und kann zu unerwarteten Problemen führen. Die Entwickler übernehmen keine Verantwortung, falls ein Problem auftritt. Mit Aktivierung dieser Einstellungen bestätigen Sie, dass Ihnen dieses Risiko bewusst ist. Setzen Sie diese Einstellung unbedingt zurück, bevor Sie Files deinstallieren!</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Alles löschen</value>
@@ -2580,5 +2571,8 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
   </data>
   <data name="Skip" xml:space="preserve">
     <value>Überspringen</value>
+  </data>
+  <data name="SettingsOpenInLogin" xml:space="preserve">
+    <value>Files mit Windows starten</value>
   </data>
 </root>

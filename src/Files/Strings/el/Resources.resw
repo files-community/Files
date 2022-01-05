@@ -69,9 +69,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>είναι ένας υποφάκελος του αρχικού φακέλου</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Τύπος αντικειμένου:</value>
-  </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Επιλογή όλων</value>
   </data>
@@ -195,9 +192,6 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Επικόλληση</value>
   </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5Hash:</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Δημιουργία</value>
   </data>
@@ -302,9 +296,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Ιδιότητες</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Χαρακτηριστικά:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Ιδιότητες</value>

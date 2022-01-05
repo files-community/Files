@@ -57,9 +57,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>adalah subfolder dari folder sumber</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Jenis item:</value>
-  </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Pilih Semua</value>
   </data>
@@ -165,9 +162,6 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Tempel</value>
   </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5Hash:</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>File</value>
   </data>
@@ -266,9 +260,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Properti</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Atribut:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Properti</value>
