@@ -403,14 +403,14 @@ namespace Files.Views.LayoutModes
 
         private void EndRename(TextBox textBox)
         {
-            ListViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
-            if (textBox == null || gridViewItem == null)
+            ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+            if (textBox == null || listViewItem == null)
             {
                 // Navigating away, do nothing
             }
             else
             {
-                TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+                TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
                 textBox.Visibility = Visibility.Collapsed;
                 textBlock.Visibility = Visibility.Visible;
             }
@@ -419,6 +419,9 @@ namespace Files.Views.LayoutModes
             textBox.KeyDown -= RenameTextBox_KeyDown;
             FileNameTeachingTip.IsOpen = false;
             IsRenamingItem = false;
+
+            // Re-focus selected list item
+            listViewItem?.Focus(FocusState.Programmatic);
         }
 
         private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
