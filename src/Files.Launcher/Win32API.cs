@@ -575,6 +575,8 @@ namespace FilesFullTrust
             {
                 var shellWindows = (Shell32.IShellWindows)shellWindowsUnk;
 
+                using var controlPanelCategoryView = new Vanara.Windows.Shell.ShellItem("::{26EE0668-A00A-44D7-9371-BEB064C98683}");
+
                 for (int i = 0; i < shellWindows.Count; i++)
                 {
                     var item = shellWindows.Item(i);
@@ -597,7 +599,8 @@ namespace FilesFullTrust
                                         var folder = folderView.GetFolder<Win32API.IPersistFolder2>();
                                         if (folder.GetCurFolder(out var folderPidl).Succeeded)
                                         {
-                                            if (Shell32.ILIsParent(folderPidl.DangerousGetHandle(), targetFolder.PIDL.DangerousGetHandle(), true))
+                                            if (Shell32.ILIsParent(folderPidl.DangerousGetHandle(), targetFolder.PIDL.DangerousGetHandle(), true) || 
+                                                Shell32.ILIsEqual(folderPidl.DangerousGetHandle(), controlPanelCategoryView.PIDL.DangerousGetHandle()))
                                             {
                                                 if (shellBrowser.BrowseObject(targetFolder.PIDL.DangerousGetHandle(), Shell32.SBSP.SBSP_SAMEBROWSER | Shell32.SBSP.SBSP_ABSOLUTE).Succeeded)
                                                 {
