@@ -640,19 +640,7 @@
                                         TextChanged="ListViewTextBoxItemName_TextChanged"
                                         Visibility="Collapsed">
                                         <TextBox.Resources>
-                                            <ResourceDictionary>
-                                                <ResourceDictionary.ThemeDictionaries>
-                                                    <ResourceDictionary x:Key="Light">
-                                                        <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#FFFFFF" />
-                                                    </ResourceDictionary>
-                                                    <ResourceDictionary x:Key="Dark">
-                                                        <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#2C2C2C" />
-                                                    </ResourceDictionary>
-                                                    <ResourceDictionary x:Key="HighContrast">
-                                                        <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#2C2C2C" />
-                                                    </ResourceDictionary>
-                                                </ResourceDictionary.ThemeDictionaries>
-                                            </ResourceDictionary>
+                                            <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
                                         </TextBox.Resources>
                                     </TextBox>
                                     <Ellipse
