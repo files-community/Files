@@ -11,6 +11,39 @@ namespace Files.Common.SafetyHelpers
 
         #region SafeWrap
 
+        public static SafeWrapper<T> SafeWrap<T>(Func<T> func)
+        {
+            if (!AssertNotNull(func)) return new SafeWrapper<T>(default(T), NullFunctionDelegateResult);
+
+            var reporter = TryGetReporter(null);
+
+            try
+            {
+                return (func.Invoke(), SafeWrapperResult.SUCCESS, reporter);
+            }
+            catch (Exception e)
+            {
+                return (default(T), reporter.GetStatusResult(e, typeof(T)), reporter);
+            }
+        }
+
+        public static SafeWrapperResult SafeWrap(Action action)
+        {
+            if (!AssertNotNull(action)) return NullFunctionDelegateResult;
+
+            var reporter = TryGetReporter(null);
+
+            try
+            {
+                action.Invoke();
+                return (SafeWrapperResult.SUCCESS, reporter);
+            }
+            catch (Exception e)
+            {
+                return (reporter.GetStatusResult(e), reporter);
+            }
+        }
+
         public static SafeWrapper<T> SafeWrap<T>(this SafeWrapperResult wrapped, Func<T> func)
         {
             if (!AssertNotNull(func)) return new SafeWrapper<T>(default(T), NullFunctionDelegateResult);
@@ -47,6 +80,39 @@ namespace Files.Common.SafetyHelpers
         #endregion
 
         #region SafeWrapAsync
+
+        public static async Task<SafeWrapper<T>> SafeWrapAsync<T>(Func<Task<T>> func)
+        {
+            if (!AssertNotNull(func)) return new SafeWrapper<T>(default(T), NullFunctionDelegateResult);
+
+            var reporter = TryGetReporter(null);
+
+            try
+            {
+                return (await func.Invoke(), SafeWrapperResult.SUCCESS, reporter);
+            }
+            catch (Exception e)
+            {
+                return (default(T), reporter.GetStatusResult(e, typeof(T)), reporter);
+            }
+        }
+
+        public static async Task<SafeWrapperResult> SafeWrapAsync(Func<Task> func)
+        {
+            if (!AssertNotNull(func)) return NullFunctionDelegateResult;
+
+            var reporter = TryGetReporter(null);
+
+            try
+            {
+                await func.Invoke();
+                return (SafeWrapperResult.SUCCESS, reporter);
+            }
+            catch (Exception e)
+            {
+                return (reporter.GetStatusResult(e), reporter);
+            }
+        }
 
         public static async Task<SafeWrapper<T>> SafeWrapAsync<T>(this SafeWrapperResult wrapped, Func<Task<T>> func)
         {
@@ -672,7 +738,7 @@ namespace Files.Common.SafetyHelpers
 
         private static ISafeWrapperExceptionReporter TryGetReporter(SafeWrapperResult wrapped)
         {
-            return wrapped.Reporter ?? new DefaultSafeWrapperExceptionReporter();
+            return wrapped?.Reporter ?? new DefaultSafeWrapperExceptionReporter();
         }
     }
 }
