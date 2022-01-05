@@ -666,7 +666,7 @@
           <source>Create shortcut</source>
           <target state="translated">Criar atalho</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenFileLocation" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated">Abrir local do ficheiro</target>
         </trans-unit>

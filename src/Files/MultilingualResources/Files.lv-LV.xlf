@@ -690,7 +690,7 @@
           <source>Create shortcut</source>
           <target state="translated">Izveidot saīsni</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenFileLocation" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated">Atvērt faila atrašanās vietu</target>
         </trans-unit>

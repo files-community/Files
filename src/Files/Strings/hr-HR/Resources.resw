@@ -573,7 +573,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>Stvori prečac</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>Otvori lokaciju datoteke</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">

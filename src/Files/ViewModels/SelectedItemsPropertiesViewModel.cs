@@ -594,9 +594,9 @@ namespace Files.ViewModels
             set => SetProperty(ref shortcutItemWorkingDir, value);
         }
 
-        private Visibility shortcutItemWorkingDirVisibility = Visibility.Collapsed;
+        private bool shortcutItemWorkingDirVisibility = false;
 
-        public Visibility ShortcutItemWorkingDirVisibility
+        public bool ShortcutItemWorkingDirVisibility
         {
             get => shortcutItemWorkingDirVisibility;
             set => SetProperty(ref shortcutItemWorkingDirVisibility, value);
@@ -613,9 +613,9 @@ namespace Files.ViewModels
             }
         }
 
-        private Visibility shortcutItemArgumentsVisibility = Visibility.Collapsed;
+        private bool shortcutItemArgumentsVisibility = false;
 
-        public Visibility ShortcutItemArgumentsVisibility
+        public bool ShortcutItemArgumentsVisibility
         {
             get => shortcutItemArgumentsVisibility;
             set => SetProperty(ref shortcutItemArgumentsVisibility, value);

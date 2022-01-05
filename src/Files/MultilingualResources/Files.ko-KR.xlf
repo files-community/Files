@@ -654,7 +654,7 @@
           <source>Create shortcut</source>
           <target state="translated">바로 가기 만들기</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenFileLocation" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated">파일 위치 열기</target>
         </trans-unit>

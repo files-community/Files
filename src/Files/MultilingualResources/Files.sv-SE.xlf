@@ -696,7 +696,7 @@
           <source>Create shortcut</source>
           <target state="translated">Skapa genväg</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenFileLocation" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated">Öppna filsökväg</target>
         </trans-unit>
