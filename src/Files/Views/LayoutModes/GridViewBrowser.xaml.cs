@@ -169,9 +169,8 @@ namespace Files.Views.LayoutModes
             FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
         }
 
-        private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
+        private void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
         {
-            await Task.Delay(200);
             FileList.Focus(FocusState.Programmatic);
         }
 
@@ -359,6 +358,10 @@ namespace Files.Views.LayoutModes
             textBox.KeyDown -= RenameTextBox_KeyDown;
             FileNameTeachingTip.IsOpen = false;
             IsRenamingItem = false;
+
+            // Re-focus selected list item
+            GridViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
+            gridViewItem?.Focus(FocusState.Programmatic);
         }
 
         private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -406,6 +409,15 @@ namespace Files.Views.LayoutModes
             {
                 // Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
                 NavToolbar?.Focus(FocusState.Pointer);
+            }
+            else if (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down)
+            {
+                // If list has only one item, select it on arrow down/up (#5681)
+                if (!IsItemSelected && FileList.Items.Count == 1)
+                {
+                    FileList.SelectedIndex = 0;
+                    e.Handled = true;
+                }
             }
         }
 

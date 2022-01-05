@@ -51,8 +51,8 @@ namespace Files.Views
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
         private CancellationTokenSource cancellationTokenSource;
 
-        public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
-        public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
+        public bool CanNavigateBackward => false;
+        public bool CanNavigateForward => false;
 
         public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
 
@@ -375,7 +375,8 @@ namespace Files.Views
         {
             if (IsCurrentInstance)
             {
-                if (ItemDisplayFrame.CanGoBack)
+                var browser = this.FindAscendant<ColumnViewBrowser>();
+                if (browser.ParentShellPageInstance.CanNavigateBackward)
                 {
                     e.Handled = true;
                     Back_Click();
@@ -744,51 +745,17 @@ namespace Files.Views
 
         public void Back_Click()
         {
-            NavToolbarViewModel.CanGoBack = false;
-            if (ItemDisplayFrame.CanGoBack)
-            {
-                var previousPageContent = ItemDisplayFrame.BackStack[ItemDisplayFrame.BackStack.Count - 1];
-                var previousPageNavPath = previousPageContent.Parameter as NavigationArguments;
-                previousPageNavPath.IsLayoutSwitch = false;
-                if (previousPageContent.SourcePageType != typeof(WidgetsPage))
-                {
-                    // Update layout type
-                    InstanceViewModel.FolderSettings.GetLayoutType(previousPageNavPath.IsSearchResultPage ? previousPageNavPath.SearchPathParam : previousPageNavPath.NavPathParam);
-                }
-                SelectSidebarItemFromPath(previousPageContent.SourcePageType);
-
-                if (previousPageContent.SourcePageType == typeof(WidgetsPage))
-                {
-                    ItemDisplayFrame.GoBack(new EntranceNavigationTransitionInfo());
-                }
-                else
-                {
-                    ItemDisplayFrame.GoBack();
-                }
-            }
+            this.FindAscendant<ColumnViewBrowser>().NavigateBack();
         }
 
         public void Forward_Click()
         {
-            NavToolbarViewModel.CanGoForward = false;
-            if (ItemDisplayFrame.CanGoForward)
-            {
-                var incomingPageContent = ItemDisplayFrame.ForwardStack[ItemDisplayFrame.ForwardStack.Count - 1];
-                var incomingPageNavPath = incomingPageContent.Parameter as NavigationArguments;
-                incomingPageNavPath.IsLayoutSwitch = false;
-                if (incomingPageContent.SourcePageType != typeof(WidgetsPage))
-                {
-                    // Update layout type
-                    InstanceViewModel.FolderSettings.GetLayoutType(incomingPageNavPath.IsSearchResultPage ? incomingPageNavPath.SearchPathParam : incomingPageNavPath.NavPathParam);
-                }
-                SelectSidebarItemFromPath(incomingPageContent.SourcePageType);
-                ItemDisplayFrame.GoForward();
-            }
+            this.FindAscendant<ColumnViewBrowser>().NavigateForward();
         }
 
         public void Up_Click()
         {
-            this.FindAscendant<ColumnViewBrowser>().UpColumn();
+            this.FindAscendant<ColumnViewBrowser>().NavigateUp();
         }
 
         private void SelectSidebarItemFromPath(Type incomingSourcePageType = null)
@@ -851,14 +818,17 @@ namespace Files.Views
                     break;
 
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress:
-                    NavToolbarViewModel.CanGoBack = ItemDisplayFrame.CanGoBack;
-                    NavToolbarViewModel.CanGoForward = ItemDisplayFrame.CanGoForward;
+                    var browser = this.FindAscendant<ColumnViewBrowser>();
+                    NavToolbarViewModel.CanGoBack = browser.ParentShellPageInstance.CanNavigateBackward;
+                    NavToolbarViewModel.CanGoForward = browser.ParentShellPageInstance.CanNavigateForward;
                     SetLoadingIndicatorForTabs(true);
                     break;
 
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete:
                     SetLoadingIndicatorForTabs(false);
                     NavToolbarViewModel.CanRefresh = true;
+                    // Set focus to the file list to allow arrow navigation
+                    ContentPage?.ItemManipulationModel.FocusFileList();
                     // Select previous directory
                     if (!string.IsNullOrWhiteSpace(e.PreviousDirectory))
                     {
