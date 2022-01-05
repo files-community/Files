@@ -20,8 +20,6 @@ namespace Files.Views.LayoutModes
         public ColumnViewBrowser() : base()
         {
             this.InitializeComponent();
-
-            ColumnPointerPressedHandler = new PointerEventHandler(Column_PointerPressed);
         }
 
         protected override void HookEvents()
@@ -45,19 +43,30 @@ namespace Files.Views.LayoutModes
                 return;
             }
 
-            DismissOtherBlades(column.ListView);
+            var nextBladeIndex = ColumnHost.ActiveBlades.IndexOf(column.ListView.FindAscendant<BladeItem>()) + 1;
 
-            var frame = new Frame();
-            frame.Navigated += Frame_Navigated;
-            var newblade = new BladeItem();
-            newblade.Content = frame;
-            ColumnHost.Items.Add(newblade);
-
-            frame.Navigate(typeof(ColumnShellPage), new ColumnParam
+            if (ColumnHost.ActiveBlades.ElementAtOrDefault(nextBladeIndex) is not BladeItem nextBlade || 
+                ((nextBlade.Content as Frame)?.Content as IShellPage)?.FilesystemViewModel?.WorkingDirectory != column.NavPathParam)
             {
-                Column = ColumnHost.ActiveBlades.IndexOf(newblade),
-                NavPathParam = column.NavPathParam
-            });
+                DismissOtherBlades(column.ListView);
+
+                var frame = new Frame();
+                frame.Navigated += Frame_Navigated;
+                var newblade = new BladeItem();
+                newblade.Content = frame;
+                ColumnHost.Items.Add(newblade);
+
+                frame.Navigate(typeof(ColumnShellPage), new ColumnParam
+                {
+                    Column = ColumnHost.ActiveBlades.IndexOf(newblade),
+                    NavPathParam = column.NavPathParam
+                });
+            }
+            else
+            {
+                // Navigation path is already open, only select next column
+                FocusManager.TryMoveFocus(FocusNavigationDirection.Next);
+            }
         }
 
         private void ContentChanged(IShellPage p)
@@ -98,7 +107,7 @@ namespace Files.Views.LayoutModes
         {
             base.Dispose();
             ColumnHost.ActiveBlades.ForEach(x => (((x.Content as Frame)?.Content as ColumnShellPage).SlimContentPage as ColumnViewBase).ItemInvoked -= ColumnViewBase_ItemInvoked);
-            ColumnHost.ActiveBlades.ForEach(x => ((x.Content as Frame)?.Content as UIElement).RemoveHandler(UIElement.PointerPressedEvent, ColumnPointerPressedHandler));
+            ColumnHost.ActiveBlades.ForEach(x => ((x.Content as Frame)?.Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus);
             ColumnHost.ActiveBlades.Select(x => (x.Content as Frame)?.Content).OfType<IDisposable>().ForEach(x => x.Dispose());
             UnhookEvents();
             CommandsViewModel?.Dispose();
@@ -125,7 +134,7 @@ namespace Files.Views.LayoutModes
                             disposableContent.Dispose();
                         }
                         (((ColumnHost.ActiveBlades[index + 1].Content as Frame).Content as ColumnShellPage).SlimContentPage as ColumnViewBase).ItemInvoked -= ColumnViewBase_ItemInvoked;
-                        ((ColumnHost.ActiveBlades[index + 1].Content as Frame).Content as UIElement).RemoveHandler(UIElement.PointerPressedEvent, ColumnPointerPressedHandler);
+                        ((ColumnHost.ActiveBlades[index + 1].Content as Frame).Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus;
                         ColumnHost.Items.RemoveAt(index + 1);
                         ColumnHost.ActiveBlades.RemoveAt(index + 1);
                     }
@@ -139,7 +148,26 @@ namespace Files.Views.LayoutModes
             var f = sender as Frame;
             f.Navigated -= Frame_Navigated;
             (f.Content as IShellPage).ContentChanged += ColumnViewBrowser_ContentChanged;
-            (f.Content as UIElement).AddHandler(UIElement.PointerPressedEvent, ColumnPointerPressedHandler, true);
+            (f.Content as UIElement).GotFocus += ColumnViewBrowser_GotFocus;
+        }
+
+        private void ColumnViewBrowser_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (!(sender as IShellPage).IsCurrentInstance)
+            {
+                var currentBlade = ColumnHost.ActiveBlades.Single(x => (x.Content as Frame)?.Content == sender);
+                currentBlade.StartBringIntoView();
+                if (ColumnHost.ActiveBlades != null)
+                {
+                    ColumnHost.ActiveBlades.ForEach(x =>
+                    {
+                        var shellPage = (x.Content as Frame)?.Content as ColumnShellPage;
+                        shellPage.IsCurrentInstance = false;
+                    });
+                }
+                (sender as IShellPage).IsCurrentInstance = true;
+                ContentChanged(sender as IShellPage);
+            }
         }
 
         private void ColumnViewBrowser_ContentChanged(object sender, UserControls.MultitaskingControl.TabItemArguments e)
@@ -151,21 +179,17 @@ namespace Files.Views.LayoutModes
             ContentChanged(c);
         }
 
-        private void Column_PointerPressed(object sender, PointerRoutedEventArgs e)
+        public void NavigateBack()
         {
-            if (ColumnHost.ActiveBlades != null)
-            {
-                ColumnHost.ActiveBlades.ForEach(x =>
-                {
-                    var shellPage = (x.Content as Frame)?.Content as ColumnShellPage;
-                    shellPage.IsCurrentInstance = false;
-                });
-            }
-            (sender as IShellPage).IsCurrentInstance = true;
-            ContentChanged(sender as IShellPage);
+            (ParentShellPageInstance as ModernShellPage)?.Back_Click();
         }
 
-        public void UpColumn()
+        public void NavigateForward()
+        {
+            (ParentShellPageInstance as ModernShellPage)?.Forward_Click();
+        }
+
+        public void NavigateUp()
         {
             if (ColumnHost.ActiveBlades?.Count > 1)
             {
@@ -217,7 +241,5 @@ namespace Files.Views.LayoutModes
                 return ParentShellPageInstance;
             }
         }
-
-        private PointerEventHandler ColumnPointerPressedHandler { get; }
     }
 }
