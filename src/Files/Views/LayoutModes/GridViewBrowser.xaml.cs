@@ -169,13 +169,9 @@ namespace Files.Views.LayoutModes
             FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
         }
 
-        private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
+        private void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
         {
-            if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
-            {
-                await Task.Delay(200);
-                FileList.Focus(FocusState.Programmatic);
-            }
+            FileList.Focus(FocusState.Programmatic);
         }
 
         private void FolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
