@@ -9,7 +9,7 @@ namespace Files.Filesystem //namespace Files.SafetyHelpers.ExceptionReporters
 {
     public static class FilesystemTasks2
     {
-        public static SafeWrapper<T> Get<T>() => SafeWrapperRoutines.SetReporter<T>(typeof(FilesystemExceptionReporter));
+        public static SafeWrapperResult<T> Get<T>() => SafeWrapperRoutines.SetReporter<T>(typeof(FilesystemExceptionReporter));
 
         public static SafeWrapperResult Get() => SafeWrapperRoutines.SetReporter(typeof(FilesystemExceptionReporter));
     }
