@@ -8,7 +8,6 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -425,17 +424,10 @@ namespace Files.Views.LayoutModes
         {
             var clickedItem = e.OriginalSource as FrameworkElement;
             if (clickedItem?.DataContext is ListedItem item
-                 && ((!UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
-                 || (!UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)))
+                 && !UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
             {
-                if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                {
-                    ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
-                }
-                else
-                {
-                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-                }
+                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+
             }
 
             ResetRenameDoubleClick();
@@ -480,7 +472,7 @@ namespace Files.Views.LayoutModes
             }
             // Check if the setting to open items with a single click is turned on
             if (item != null
-                && ((UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder) || (UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)))
+                && ((item.PrimaryItemAttribute == StorageItemTypes.Folder) || (UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)))
             {
                 ResetRenameDoubleClick();
 
