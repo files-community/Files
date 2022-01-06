@@ -416,12 +416,13 @@ namespace Files.Views.LayoutModes
 
         private void EndRename(TextBox textBox)
         {
-            if (textBox != null)
+            if (textBox != null && textBox.FindParent<Grid>() is FrameworkElement parent)
             {
-                Grid.SetColumnSpan(textBox.FindParent<Grid>(), 1);
+                Grid.SetColumnSpan(parent, 1);
             }
 
             ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+
             if (textBox == null || listViewItem == null)
             {
                 // Navigating away, do nothing
@@ -475,14 +476,6 @@ namespace Files.Views.LayoutModes
             {
                 // Unfocus the GridView so keyboard shortcut can be handled
                 NavToolbar?.Focus(FocusState.Pointer);
-            }
-            else if (ctrlPressed && shiftPressed && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.W))
-            {
-                if (!IsRenamingItem)
-                {
-                    // Unfocus the ListView so keyboard shortcut can be handled (ctrl + shift + W/"->"/"<-")
-                    NavToolbar?.Focus(FocusState.Pointer);
-                }
             }
             else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
             {
