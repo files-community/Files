@@ -698,8 +698,8 @@ namespace Files.Views.LayoutModes
 
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 80);
-            MaxWidthForRenameTextbox = RootGrid.ActualWidth - 80;
+            ColumnsViewModel.SetDesiredSize(Math.Max(0, RootGrid.ActualWidth - 80));
+            MaxWidthForRenameTextbox = Math.Max(0, RootGrid.ActualWidth - 80);
         }
 
         private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
