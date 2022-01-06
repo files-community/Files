@@ -4,9 +4,11 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.Interacts;
+using Files.Layouts;
 using Files.UserControls;
 using Files.UserControls.Selection;
 using Files.ViewModels;
+using Files.ViewModels.Layouts;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -28,8 +30,13 @@ using SortDirection = Files.Enums.SortDirection;
 
 namespace Files.Views.LayoutModes
 {
-    public sealed partial class DetailsLayoutBrowser : BaseLayout
+    internal sealed partial class DetailsLayoutBrowser : BaseListedLayout<DetailsLayoutViewModel>
     {
+        protected override ListViewBase FileListInternal => FileList;
+
+
+
+
         private ColumnsViewModel columnsViewModel = new ColumnsViewModel();
 
         public ColumnsViewModel ColumnsViewModel
@@ -64,10 +71,11 @@ namespace Files.Views.LayoutModes
 
         public ScrollViewer ContentScroller { get; private set; }
 
-        public DetailsLayoutBrowser() : base()
+        public DetailsLayoutBrowser()
         {
             InitializeComponent();
-            this.DataContext = this;
+
+            this.ViewModel = new DetailsLayoutViewModel();
 
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
@@ -313,15 +321,6 @@ namespace Files.Views.LayoutModes
             if (!parentContainer.IsSelected)
             {
                 ItemManipulationModel.SetSelectedItem(FileList.ItemFromContainer(parentContainer) as ListedItem);
-            }
-        }
-
-        private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
-            if (SelectedItems.Count == 1)
-            {
-                await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
             }
         }
 

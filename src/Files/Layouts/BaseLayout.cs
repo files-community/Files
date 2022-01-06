@@ -9,6 +9,7 @@ using Files.Interacts;
 using Files.Services;
 using Files.UserControls;
 using Files.ViewModels;
+using Files.ViewModels.Layouts;
 using Files.ViewModels.Previews;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -39,10 +40,17 @@ using static Files.Helpers.PathNormalization;
 namespace Files
 {
     /// <summary>
-    /// The base class which every layout page must derive from
+    /// The base class of every layout mode control. The implementation is not disclosed.
     /// </summary>
-    public abstract class BaseLayout : Page, IBaseLayout, INotifyPropertyChanged
+    internal abstract class BaseLayout<TViewModel> : Page, IBaseLayout, INotifyPropertyChanged
+        where TViewModel : BaseLayoutViewModel
     {
+        public TViewModel ViewModel
+        {
+            get => (TViewModel)DataContext;
+            set => DataContext = value;
+        }
+
         private readonly DispatcherTimer jumpTimer;
 
         protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();

@@ -117,7 +117,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BaseLayout.cs" />
+    <Compile Include="Layouts\BaseLayout.cs" />
     <Compile Include="Behaviors\StickyHeaderBehavior.cs" />
     <Compile Include="CommandLine\CommandLineParser.cs" />
     <Compile Include="CommandLine\ParsedCommand.cs" />
@@ -237,6 +237,7 @@
     <Compile Include="Helpers\ZipHelpers.cs" />
     <Compile Include="Interacts\ItemManipulationModel.cs" />
     <Compile Include="ISearchBox.cs" />
+    <Compile Include="Layouts\BaseListedLayout.cs" />
     <Compile Include="Models\JsonSettings\BaseObservableJsonSettingsModel.cs" />
     <Compile Include="Models\JsonSettings\ISettingsSharingContext.cs" />
     <Compile Include="Models\JsonSettings\IJsonSettingsDatabase.cs" />
@@ -304,7 +305,7 @@
     <Compile Include="Helpers\XamlHelpers\DependencyObjectHelpers.cs" />
     <Compile Include="Helpers\XamlHelpers\SystemTypeToXaml.cs" />
     <Compile Include="Helpers\AsyncManualResetEvent.cs" />
-    <Compile Include="IBaseLayout.cs" />
+    <Compile Include="Layouts\IBaseLayout.cs" />
     <Compile Include="Interacts\BaseLayoutCommandImplementationModel.cs" />
     <Compile Include="Interacts\BaseLayoutCommandsViewModel.cs" />
     <Compile Include="Interacts\IBaseLayoutCommandImplementationModel.cs" />
@@ -364,6 +365,9 @@
       <DependentUpon>WidgetsListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\Dialogs\DecompressArchiveDialogViewModel.cs" />
+    <Compile Include="ViewModels\Layouts\BaseLayoutViewModel.cs" />
+    <Compile Include="ViewModels\Layouts\DetailsLayoutViewModel.cs" />
+    <Compile Include="ViewModels\Layouts\BaseListedLayoutViewModel.cs" />
     <Compile Include="ViewModels\NavToolbarViewModel.cs" />
     <Compile Include="ViewModels\Previews\ArchivePreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
