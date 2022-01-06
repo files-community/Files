@@ -182,7 +182,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local2:ListedItem">
                             <Grid
-                                Height="24"
+                                Height="30"
                                 Margin="0"
                                 Padding="8,0"
                                 HorizontalAlignment="Stretch"
