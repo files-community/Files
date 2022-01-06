@@ -427,7 +427,6 @@ namespace Files.Views.LayoutModes
                  && !UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
             {
                 NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-
             }
 
             ResetRenameDoubleClick();
