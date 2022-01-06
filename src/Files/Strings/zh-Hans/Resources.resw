@@ -2575,4 +2575,31 @@ Files 不收集、存储、共享或发布任何个人信息。
   <data name="Skip" xml:space="preserve">
     <value>跳过</value>
   </data>
+  <data name="SettingsOpenInLogin" xml:space="preserve">
+    <value>Windows启动时打开Files</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>属性</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>隐藏</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>更多详情</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>只读</value>
+  </data>
+  <data name="CleanupDrive" xml:space="preserve">
+    <value>清理驱动器内容</value>
+  </data>
+  <data name="DiskCleanup" xml:space="preserve">
+    <value>磁盘清理</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>类型：</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>字节</value>
+  </data>
 </root>
