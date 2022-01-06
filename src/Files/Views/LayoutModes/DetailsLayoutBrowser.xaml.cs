@@ -416,12 +416,13 @@ namespace Files.Views.LayoutModes
 
         private void EndRename(TextBox textBox)
         {
-            if (textBox != null)
+            if (textBox != null && textBox.FindParent<Grid>() is FrameworkElement parent)
             {
-                Grid.SetColumnSpan(textBox.FindParent<Grid>(), 1);
+                Grid.SetColumnSpan(parent, 1);
             }
 
             ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+
             if (textBox == null || listViewItem == null)
             {
                 // Navigating away, do nothing
