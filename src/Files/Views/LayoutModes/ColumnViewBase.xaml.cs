@@ -26,6 +26,7 @@ namespace Files.Views.LayoutModes
             this.InitializeComponent();
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
+            tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         protected override void HookEvents()
@@ -339,6 +340,26 @@ namespace Files.Views.LayoutModes
 
             // The following code is only reachable when a user RightTapped an unselected row
             ItemManipulationModel.SetSelectedItem(objectPressed);
+        }
+
+        private DispatcherQueueTimer tapDebounceTimer;
+
+        private void FileList_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            // Open selected directory
+            tapDebounceTimer.Stop();
+            if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+            {
+                var currItem = SelectedItem;
+                tapDebounceTimer.Debounce(() =>
+                {
+                    if (currItem == SelectedItem)
+                    {
+                        ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+                    }
+                    tapDebounceTimer.Stop();
+                }, TimeSpan.FromMilliseconds(100));
+            }
         }
 
         private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
