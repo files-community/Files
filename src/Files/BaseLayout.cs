@@ -486,8 +486,6 @@ namespace Files
             UpdateCollectionViewSource();
             FolderSettings.IsLayoutModeChanging = false;
 
-            ItemManipulationModel.FocusFileList(); // Set focus on layout specific file list control
-
             SetSelectedItemsOnNavigation();
 
             ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening;
@@ -508,6 +506,10 @@ namespace Files
 
                     ItemManipulationModel.SetSelectedItems(liItemsToSelect);
                     ItemManipulationModel.FocusSelectedItems();
+                }
+                else
+                {
+                    ItemManipulationModel.FocusFileList(); // Set focus on layout specific file list control
                 }
             }
             catch (Exception)

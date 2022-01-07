@@ -187,6 +187,7 @@ namespace Files.Behaviors
             }
 
             var expressionClipAnimation = ExpressionFunctions.Max(-scrollPropSet.Translation.Y, 0);
+            _contentClip.TopInset = (float)System.Math.Max(-_scrollViewer.VerticalOffset, 0);
             _contentClip.StartAnimation("TopInset", expressionClipAnimation);
 
             return true;
