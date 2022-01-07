@@ -393,7 +393,6 @@ namespace Files.Views.LayoutModes
                     if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
                         ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
-                        FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
                     }
                 }
                 e.Handled = true;
