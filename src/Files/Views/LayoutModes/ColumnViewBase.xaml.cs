@@ -387,16 +387,6 @@ namespace Files.Views.LayoutModes
                     FileList.SelectedIndex = 0;
                     e.Handled = true;
                 }
-
-                // Open slected directory
-                if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
-                {
-                    if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-                    {
-                        ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
-                        e.Handled = true;
-                    }
-                }
             }
             else if (e.Key == VirtualKey.Left) // Left arrow: select parent folder (previous column)
             {
