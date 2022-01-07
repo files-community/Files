@@ -382,9 +382,10 @@ namespace Files.Views.LayoutModes
             else if (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down)
             {
                 // If list has only one item, select it on arrow down/up (#5681)
-                if (!IsItemSelected && FileList.Items.Count == 1)
+                if (!IsItemSelected)
                 {
                     FileList.SelectedIndex = 0;
+                    e.Handled = true;
                 }
 
                 // Open slected directory
@@ -393,9 +394,9 @@ namespace Files.Views.LayoutModes
                     if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
                         ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+                        e.Handled = true;
                     }
                 }
-                e.Handled = true;
             }
             else if (e.Key == VirtualKey.Left) // Left arrow: select parent folder (previous column)
             {
