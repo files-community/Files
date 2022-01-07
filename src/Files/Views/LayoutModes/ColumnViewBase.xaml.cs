@@ -358,7 +358,7 @@ namespace Files.Views.LayoutModes
                         ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
                     }
                     tapDebounceTimer.Stop();
-                }, TimeSpan.FromMilliseconds(100));
+                }, TimeSpan.FromMilliseconds(200));
             }
         }
 
