@@ -62,11 +62,6 @@ namespace Files.Views.LayoutModes
                     NavPathParam = column.NavPathParam
                 });
             }
-            else
-            {
-                // Navigation path is already open, only select next column
-                FocusManager.TryMoveFocus(FocusNavigationDirection.Next);
-            }
         }
 
         private void ContentChanged(IShellPage p)
