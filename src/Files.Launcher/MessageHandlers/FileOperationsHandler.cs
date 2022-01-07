@@ -155,9 +155,20 @@ namespace FilesFullTrust.MessageHandlers
 
                                 var shellOperationResult = new ShellOperationResult();
 
-                                using var shd = new ShellFolder(Path.GetDirectoryName(filePath));
-                                op.QueueNewItemOperation(shd, Path.GetFileName(filePath),
-                                    (string)message["fileop"] == "CreateFolder" ? FileAttributes.Directory : FileAttributes.Normal, template);
+                                if (!Extensions.IgnoreExceptions(() =>
+                                {
+                                    using var shd = new ShellFolder(Path.GetDirectoryName(filePath));
+                                    op.QueueNewItemOperation(shd, Path.GetFileName(filePath),
+                                        (string)message["fileop"] == "CreateFolder" ? FileAttributes.Directory : FileAttributes.Normal, template);
+                                }))
+                                {
+                                    shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                    {
+                                        Succeeded = false,
+                                        Destination = filePath,
+                                        HRresult = (int)-1
+                                    });
+                                }
 
                                 var createTcs = new TaskCompletionSource<bool>();
                                 op.PostNewItem += (s, e) =>
@@ -165,7 +176,7 @@ namespace FilesFullTrust.MessageHandlers
                                     shellOperationResult.Items.Add(new ShellOperationItemResult()
                                     {
                                         Succeeded = e.Result.Succeeded,
-                                        Destination = e.DestItem?.FileSystemPath,
+                                        Destination = e.DestItem != null ? (e.DestItem.IsFileSystem ? e.DestItem.FileSystemPath : e.DestItem.ParsingName) : null,
                                         HRresult = (int)e.Result
                                     });
                                 };
@@ -227,8 +238,19 @@ namespace FilesFullTrust.MessageHandlers
 
                                 for (var i = 0; i < fileToDeletePath.Length; i++)
                                 {
-                                    using var shi = new ShellItem(fileToDeletePath[i]);
-                                    op.QueueDeleteOperation(shi);
+                                    if (!Extensions.IgnoreExceptions(() =>
+                                    {
+                                        using var shi = new ShellItem(fileToDeletePath[i]);
+                                        op.QueueDeleteOperation(shi);
+                                    }))
+                                    {
+                                        shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                        {
+                                            Succeeded = false,
+                                            Source = fileToDeletePath[i],
+                                            HRresult = (int)-1
+                                        });
+                                    }
                                 }
 
                                 progressHandler.OwnerWindow = op.OwnerWindow;
@@ -247,8 +269,8 @@ namespace FilesFullTrust.MessageHandlers
                                     shellOperationResult.Items.Add(new ShellOperationItemResult()
                                     {
                                         Succeeded = e.Result.Succeeded,
-                                        Source = e.SourceItem.FileSystemPath ?? e.SourceItem.ParsingName,
-                                        Destination = e.DestItem?.FileSystemPath,
+                                        Source = e.SourceItem.IsFileSystem ? e.SourceItem.FileSystemPath : e.SourceItem.ParsingName,
+                                        Destination = e.DestItem != null ? (e.DestItem.IsFileSystem ? e.DestItem.FileSystemPath : e.DestItem.ParsingName) : null,
                                         HRresult = (int)e.Result
                                     });
                                 };
@@ -300,8 +322,19 @@ namespace FilesFullTrust.MessageHandlers
                                           | ShellFileOperations.OperationFlags.NoErrorUI;
                                 op.Options |= !overwriteOnRename ? ShellFileOperations.OperationFlags.RenameOnCollision : 0;
 
-                                using var shi = new ShellItem(fileToRenamePath);
-                                op.QueueRenameOperation(shi, newName);
+                                if (!Extensions.IgnoreExceptions(() =>
+                                {
+                                    using var shi = new ShellItem(fileToRenamePath);
+                                    op.QueueRenameOperation(shi, newName);
+                                }))
+                                {
+                                    shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                    {
+                                        Succeeded = false,
+                                        Source = fileToRenamePath,
+                                        HRresult = (int)-1
+                                    });
+                                }
 
                                 progressHandler.OwnerWindow = op.OwnerWindow;
                                 progressHandler.AddOperation(operationID);
@@ -309,11 +342,12 @@ namespace FilesFullTrust.MessageHandlers
                                 var renameTcs = new TaskCompletionSource<bool>();
                                 op.PostRenameItem += (s, e) =>
                                 {
+                                    var sourcePath = e.SourceItem.IsFileSystem ? e.SourceItem.FileSystemPath : e.SourceItem.ParsingName;
                                     shellOperationResult.Items.Add(new ShellOperationItemResult()
                                     {
                                         Succeeded = e.Result.Succeeded,
-                                        Source = e.SourceItem.FileSystemPath ?? e.SourceItem.ParsingName,
-                                        Destination = !string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(e.SourceItem.FileSystemPath), e.Name) : null,
+                                        Source = sourcePath,
+                                        Destination = !string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(sourcePath), e.Name) : null,
                                         HRresult = (int)e.Result
                                     });
                                 };
@@ -363,10 +397,22 @@ namespace FilesFullTrust.MessageHandlers
 
                                 for (var i = 0; i < fileToMovePath.Length; i++)
                                 {
-                                    using (ShellItem shi = new ShellItem(fileToMovePath[i]))
-                                    using (ShellFolder shd = new ShellFolder(Path.GetDirectoryName(moveDestination[i])))
+                                    if (!Extensions.IgnoreExceptions(() =>
                                     {
-                                        op.QueueMoveOperation(shi, shd, Path.GetFileName(moveDestination[i]));
+                                        using (ShellItem shi = new ShellItem(fileToMovePath[i]))
+                                        using (ShellFolder shd = new ShellFolder(Path.GetDirectoryName(moveDestination[i])))
+                                        {
+                                            op.QueueMoveOperation(shi, shd, Path.GetFileName(moveDestination[i]));
+                                        }
+                                    }))
+                                    {
+                                        shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                        {
+                                            Succeeded = false,
+                                            Source = fileToMovePath[i],
+                                            Destination = moveDestination[i],
+                                            HRresult = (int)-1
+                                        });
                                     }
                                 }
 
@@ -376,11 +422,12 @@ namespace FilesFullTrust.MessageHandlers
                                 var moveTcs = new TaskCompletionSource<bool>();
                                 op.PostMoveItem += (s, e) =>
                                 {
+                                    var destPath = e.DestFolder != null ? (e.DestFolder.IsFileSystem ? e.DestFolder.FileSystemPath : e.DestFolder.ParsingName) : null;
                                     shellOperationResult.Items.Add(new ShellOperationItemResult()
                                     {
                                         Succeeded = e.Result.Succeeded,
-                                        Source = e.SourceItem.FileSystemPath ?? e.SourceItem.ParsingName,
-                                        Destination = e.DestFolder?.FileSystemPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null,
+                                        Source = e.SourceItem.IsFileSystem ? e.SourceItem.FileSystemPath : e.SourceItem.ParsingName,
+                                        Destination = destPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destPath, e.Name) : null,
                                         HRresult = (int)e.Result
                                     });
                                 };
@@ -438,10 +485,22 @@ namespace FilesFullTrust.MessageHandlers
 
                                 for (var i = 0; i < fileToCopyPath.Length; i++)
                                 {
-                                    using (ShellItem shi = new ShellItem(fileToCopyPath[i]))
-                                    using (ShellFolder shd = new ShellFolder(Path.GetDirectoryName(copyDestination[i])))
+                                    if (!Extensions.IgnoreExceptions(() =>
                                     {
-                                        op.QueueCopyOperation(shi, shd, Path.GetFileName(copyDestination[i]));
+                                        using (ShellItem shi = new ShellItem(fileToCopyPath[i]))
+                                        using (ShellFolder shd = new ShellFolder(Path.GetDirectoryName(copyDestination[i])))
+                                        {
+                                            op.QueueCopyOperation(shi, shd, Path.GetFileName(copyDestination[i]));
+                                        }
+                                    }))
+                                    {
+                                        shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                        {
+                                            Succeeded = false,
+                                            Source = fileToCopyPath[i],
+                                            Destination = copyDestination[i],
+                                            HRresult = (int)-1
+                                        });
                                     }
                                 }
 
@@ -451,11 +510,12 @@ namespace FilesFullTrust.MessageHandlers
                                 var copyTcs = new TaskCompletionSource<bool>();
                                 op.PostCopyItem += (s, e) =>
                                 {
+                                    var destPath = e.DestFolder != null ? (e.DestFolder.IsFileSystem ? e.DestFolder.FileSystemPath : e.DestFolder.ParsingName) : null;
                                     shellOperationResult.Items.Add(new ShellOperationItemResult()
                                     {
                                         Succeeded = e.Result.Succeeded,
-                                        Source = e.SourceItem.FileSystemPath ?? e.SourceItem.ParsingName,
-                                        Destination = e.DestFolder?.FileSystemPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null,
+                                        Source = e.SourceItem.IsFileSystem ? e.SourceItem.FileSystemPath : e.SourceItem.ParsingName,
+                                        Destination = destPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destPath, e.Name) : null,
                                         HRresult = (int)e.Result
                                     });
                                 };
@@ -697,16 +757,18 @@ namespace FilesFullTrust.MessageHandlers
         {
             if (e.Result.Succeeded)
             {
+                var sourcePath = e.SourceItem.IsFileSystem ? e.SourceItem.FileSystemPath : e.SourceItem.ParsingName;
+                var destPath = e.DestFolder != null ? (e.DestFolder.IsFileSystem ? e.DestFolder.FileSystemPath : e.DestFolder.ParsingName) : null;
                 var destination = operationType switch
                 {
-                    "delete" => e.DestItem?.FileSystemPath,
-                    "rename" => (!string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(e.SourceItem.FileSystemPath), e.Name) : null),
-                    "copy" => (e.DestFolder?.FileSystemPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null),
-                    _ => (e.DestFolder?.FileSystemPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null)
+                    "delete" => e.DestItem != null ? (e.DestItem.IsFileSystem ? e.DestItem.FileSystemPath : e.DestItem.ParsingName) : null,
+                    "rename" => !string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(sourcePath), e.Name) : null,
+                    "copy" => destPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destPath, e.Name) : null,
+                    _ => destPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destPath, e.Name) : null
                 };
                 if (destination == null)
                 {
-                    dbInstance.SetTag(e.SourceItem.FileSystemPath, null, null); // remove tag from deleted files
+                    dbInstance.SetTag(sourcePath, null, null); // remove tag from deleted files
                 }
                 else
                 {
@@ -714,7 +776,7 @@ namespace FilesFullTrust.MessageHandlers
                     {
                         if (operationType == "copy")
                         {
-                            var tag = dbInstance.GetTag(e.SourceItem.FileSystemPath);
+                            var tag = dbInstance.GetTag(sourcePath);
                             dbInstance.SetTag(destination, FileTagsHandler.GetFileFRN(destination), tag); // copy tag to new files
                             using var si = new ShellItem(destination);
                             if (si.IsFolder) // File tag is not copied automatically for folders
@@ -724,13 +786,13 @@ namespace FilesFullTrust.MessageHandlers
                         }
                         else
                         {
-                            dbInstance.UpdateTag(e.SourceItem.FileSystemPath, FileTagsHandler.GetFileFRN(destination), destination); // move tag to new files
+                            dbInstance.UpdateTag(sourcePath, FileTagsHandler.GetFileFRN(destination), destination); // move tag to new files
                         }
                     }, Program.Logger);
                 }
                 if (e.Result == HRESULT.COPYENGINE_S_DONT_PROCESS_CHILDREN) // child items not processed, update manually
                 {
-                    var tags = dbInstance.GetAllUnderPath(e.SourceItem.FileSystemPath).ToList();
+                    var tags = dbInstance.GetAllUnderPath(sourcePath).ToList();
                     if (destination == null) // remove tag for items contained in the folder
                     {
                         tags.ForEach(t => dbInstance.SetTag(t.FilePath, null, null));
@@ -743,7 +805,7 @@ namespace FilesFullTrust.MessageHandlers
                             {
                                 Extensions.IgnoreExceptions(() =>
                                 {
-                                    var subPath = t.FilePath.Replace(e.SourceItem.FileSystemPath, destination, StringComparison.Ordinal);
+                                    var subPath = t.FilePath.Replace(sourcePath, destination, StringComparison.Ordinal);
                                     dbInstance.SetTag(subPath, FileTagsHandler.GetFileFRN(subPath), t.Tag);
                                 }, Program.Logger);
                             });
@@ -754,7 +816,7 @@ namespace FilesFullTrust.MessageHandlers
                             {
                                 Extensions.IgnoreExceptions(() =>
                                 {
-                                    var subPath = t.FilePath.Replace(e.SourceItem.FileSystemPath, destination, StringComparison.Ordinal);
+                                    var subPath = t.FilePath.Replace(sourcePath, destination, StringComparison.Ordinal);
                                     dbInstance.UpdateTag(t.FilePath, FileTagsHandler.GetFileFRN(subPath), subPath);
                                 }, Program.Logger);
                             });
