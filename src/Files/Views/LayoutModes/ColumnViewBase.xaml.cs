@@ -26,6 +26,7 @@ namespace Files.Views.LayoutModes
             this.InitializeComponent();
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
+            tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         protected override void HookEvents()
@@ -147,6 +148,11 @@ namespace Files.Views.LayoutModes
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
+            if (eventArgs.Parameter is NavigationArguments navArgs)
+            {
+                // Focus filelist only if first column
+                navArgs.FocusOnNavigation = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column == 0;
+            }
             base.OnNavigatedTo(eventArgs);
         }
 
@@ -336,6 +342,26 @@ namespace Files.Views.LayoutModes
             ItemManipulationModel.SetSelectedItem(objectPressed);
         }
 
+        private DispatcherQueueTimer tapDebounceTimer;
+
+        private void FileList_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            // Open selected directory
+            tapDebounceTimer.Stop();
+            if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+            {
+                var currItem = SelectedItem;
+                tapDebounceTimer.Debounce(() =>
+                {
+                    if (currItem == SelectedItem)
+                    {
+                        ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+                    }
+                    tapDebounceTimer.Stop();
+                }, TimeSpan.FromMilliseconds(200));
+            }
+        }
+
         private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -382,7 +408,7 @@ namespace Files.Views.LayoutModes
             else if (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down)
             {
                 // If list has only one item, select it on arrow down/up (#5681)
-                if (!IsItemSelected && FileList.Items.Count == 1)
+                if (!IsItemSelected)
                 {
                     FileList.SelectedIndex = 0;
                     e.Handled = true;
@@ -399,14 +425,11 @@ namespace Files.Views.LayoutModes
                     e.Handled = true;
                 }
             }
-            else if (e.Key == VirtualKey.Right) // Right arrow: open selected folder
+            else if (e.Key == VirtualKey.Right) // Right arrow: switch focus to next column
             {
                 if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
                 {
-                    if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-                    {
-                        ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
-                    }
+                    FocusManager.TryMoveFocus(FocusNavigationDirection.Next);
                     e.Handled = true;
                 }
             }
