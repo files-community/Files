@@ -385,8 +385,18 @@ namespace Files.Views.LayoutModes
                 if (!IsItemSelected && FileList.Items.Count == 1)
                 {
                     FileList.SelectedIndex = 0;
-                    e.Handled = true;
                 }
+
+                // Open slected directory
+                if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+                {
+                    if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                    {
+                        ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+                        FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
+                    }
+                }
+                e.Handled = true;
             }
             else if (e.Key == VirtualKey.Left) // Left arrow: select parent folder (previous column)
             {
@@ -399,14 +409,11 @@ namespace Files.Views.LayoutModes
                     e.Handled = true;
                 }
             }
-            else if (e.Key == VirtualKey.Right) // Right arrow: open selected folder
+            else if (e.Key == VirtualKey.Right) // Right arrow: switch focus to next column
             {
                 if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
                 {
-                    if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-                    {
-                        ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
-                    }
+                    FocusManager.TryMoveFocus(FocusNavigationDirection.Next);
                     e.Handled = true;
                 }
             }
