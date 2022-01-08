@@ -166,7 +166,7 @@ namespace FilesFullTrust.MessageHandlers
                                     {
                                         Succeeded = false,
                                         Destination = filePath,
-                                        HRresult = (int)-1
+                                        HResult = (int)-1
                                     });
                                 }
 
@@ -177,7 +177,7 @@ namespace FilesFullTrust.MessageHandlers
                                     {
                                         Succeeded = e.Result.Succeeded,
                                         Destination = e.DestItem != null ? (e.DestItem.IsFileSystem ? e.DestItem.FileSystemPath : e.DestItem.ParsingName) : null,
-                                        HRresult = (int)e.Result
+                                        HResult = (int)e.Result
                                     });
                                 };
                                 op.FinishOperations += (s, e) => createTcs.TrySetResult(e.Result.Succeeded);
@@ -240,7 +240,7 @@ namespace FilesFullTrust.MessageHandlers
                                         {
                                             Succeeded = false,
                                             Source = fileToDeletePath[i],
-                                            HRresult = (int)-1
+                                            HResult = (int)-1
                                         });
                                     }
                                 }
@@ -254,7 +254,7 @@ namespace FilesFullTrust.MessageHandlers
                                         {
                                             Succeeded = false,
                                             Source = e.SourceItem.IsFileSystem ? e.SourceItem.FileSystemPath : e.SourceItem.ParsingName,
-                                            HRresult = (int)HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND
+                                            HResult = (int)HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND
                                         });
                                         throw new Win32Exception(HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND); // E_FAIL, stops operation
                                     }
@@ -264,7 +264,7 @@ namespace FilesFullTrust.MessageHandlers
                                         {
                                             Succeeded = true,
                                             Source = e.SourceItem.IsFileSystem ? e.SourceItem.FileSystemPath : e.SourceItem.ParsingName,
-                                            HRresult = (int)HRESULT.COPYENGINE_E_USER_CANCELLED
+                                            HResult = (int)HRESULT.COPYENGINE_E_USER_CANCELLED
                                         });
                                         throw new Win32Exception(HRESULT.COPYENGINE_E_USER_CANCELLED); // E_FAIL, stops operation
                                     }
@@ -324,7 +324,7 @@ namespace FilesFullTrust.MessageHandlers
                                         {
                                             Succeeded = false,
                                             Source = fileToDeletePath[i],
-                                            HRresult = (int)-1
+                                            HResult = (int)-1
                                         });
                                     }
                                 }
@@ -347,7 +347,7 @@ namespace FilesFullTrust.MessageHandlers
                                         Succeeded = e.Result.Succeeded,
                                         Source = e.SourceItem.IsFileSystem ? e.SourceItem.FileSystemPath : e.SourceItem.ParsingName,
                                         Destination = e.DestItem != null ? (e.DestItem.IsFileSystem ? e.DestItem.FileSystemPath : e.DestItem.ParsingName) : null,
-                                        HRresult = (int)e.Result
+                                        HResult = (int)e.Result
                                     });
                                 };
                                 op.PostDeleteItem += (s, e) => UpdateFileTagsDb(s, e, "delete");
@@ -408,7 +408,7 @@ namespace FilesFullTrust.MessageHandlers
                                     {
                                         Succeeded = false,
                                         Source = fileToRenamePath,
-                                        HRresult = (int)-1
+                                        HResult = (int)-1
                                     });
                                 }
 
@@ -424,7 +424,7 @@ namespace FilesFullTrust.MessageHandlers
                                         Succeeded = e.Result.Succeeded,
                                         Source = sourcePath,
                                         Destination = !string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(sourcePath), e.Name) : null,
-                                        HRresult = (int)e.Result
+                                        HResult = (int)e.Result
                                     });
                                 };
                                 op.PostRenameItem += (s, e) => UpdateFileTagsDb(s, e, "rename");
@@ -487,7 +487,7 @@ namespace FilesFullTrust.MessageHandlers
                                             Succeeded = false,
                                             Source = fileToMovePath[i],
                                             Destination = moveDestination[i],
-                                            HRresult = (int)-1
+                                            HResult = (int)-1
                                         });
                                     }
                                 }
@@ -504,7 +504,7 @@ namespace FilesFullTrust.MessageHandlers
                                         Succeeded = e.Result.Succeeded,
                                         Source = e.SourceItem.IsFileSystem ? e.SourceItem.FileSystemPath : e.SourceItem.ParsingName,
                                         Destination = destPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destPath, e.Name) : null,
-                                        HRresult = (int)e.Result
+                                        HResult = (int)e.Result
                                     });
                                 };
                                 op.PostMoveItem += (s, e) => UpdateFileTagsDb(s, e, "move");
@@ -575,7 +575,7 @@ namespace FilesFullTrust.MessageHandlers
                                             Succeeded = false,
                                             Source = fileToCopyPath[i],
                                             Destination = copyDestination[i],
-                                            HRresult = (int)-1
+                                            HResult = (int)-1
                                         });
                                     }
                                 }
@@ -592,7 +592,7 @@ namespace FilesFullTrust.MessageHandlers
                                         Succeeded = e.Result.Succeeded,
                                         Source = e.SourceItem.IsFileSystem ? e.SourceItem.FileSystemPath : e.SourceItem.ParsingName,
                                         Destination = destPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destPath, e.Name) : null,
-                                        HRresult = (int)e.Result
+                                        HResult = (int)e.Result
                                     });
                                 };
                                 op.PostCopyItem += (s, e) => UpdateFileTagsDb(s, e, "copy");
