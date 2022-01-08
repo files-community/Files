@@ -102,6 +102,7 @@ namespace Files.Views.LayoutModes
         {
             base.Dispose();
             ColumnHost.ActiveBlades.Select(x => ((x.Content as Frame)?.Content as ColumnShellPage).SlimContentPage as ColumnViewBase).Where(x => x != null).ForEach(x => x.ItemInvoked -= ColumnViewBase_ItemInvoked);
+            ColumnHost.ActiveBlades.ForEach(x => ((x.Content as Frame)?.Content as ColumnShellPage).ContentChanged -= ColumnViewBrowser_ContentChanged);
             ColumnHost.ActiveBlades.ForEach(x => ((x.Content as Frame)?.Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus);
             ColumnHost.ActiveBlades.Select(x => (x.Content as Frame)?.Content).OfType<IDisposable>().ForEach(x => x.Dispose());
             UnhookEvents();
@@ -137,6 +138,7 @@ namespace Files.Views.LayoutModes
                             columnLayout.ItemInvoked -= ColumnViewBase_ItemInvoked;
                         }
                         ((ColumnHost.ActiveBlades[index + 1].Content as Frame).Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus;
+                        ((ColumnHost.ActiveBlades[index + 1].Content as Frame).Content as ColumnShellPage).ContentChanged -= ColumnViewBrowser_ContentChanged;
                         ColumnHost.Items.RemoveAt(index + 1);
                         ColumnHost.ActiveBlades.RemoveAt(index + 1);
                     }
@@ -175,7 +177,6 @@ namespace Files.Views.LayoutModes
         private void ColumnViewBrowser_ContentChanged(object sender, UserControls.MultitaskingControl.TabItemArguments e)
         {
             var c = sender as IShellPage;
-            c.ContentChanged -= ColumnViewBrowser_ContentChanged;
             (c.SlimContentPage as ColumnViewBase).ItemInvoked -= ColumnViewBase_ItemInvoked;
             (c.SlimContentPage as ColumnViewBase).ItemInvoked += ColumnViewBase_ItemInvoked;
             ContentChanged(c);
