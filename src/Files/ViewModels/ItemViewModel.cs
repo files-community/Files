@@ -771,10 +771,13 @@ namespace Files.ViewModels
                 // TODO: Add more than just the folder icon
 
                 DefaultIcons.Clear();
-                BitmapImage img = new BitmapImage();
-                using var icon = await StorageItemIconHelpers.GetIconForItemType(size, IconPersistenceOptions.Persist);
-                await img.SetSourceAsync(icon);
-                DefaultIcons.Add(string.Empty, img);
+                using var icon = (StorageItemThumbnail)await FilesystemTasks.Wrap(() => StorageItemIconHelpers.GetIconForItemType(size, IconPersistenceOptions.Persist));
+                if (icon != null)
+                {
+                    BitmapImage img = new BitmapImage();
+                    await img.SetSourceAsync(icon);
+                    DefaultIcons.Add(string.Empty, img);
+                }
                 currentDefaultIconSize = size;
             }
         }

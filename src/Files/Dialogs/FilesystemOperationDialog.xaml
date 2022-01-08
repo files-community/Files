@@ -26,6 +26,9 @@
         <icore:EventTriggerBehavior EventName="Loaded">
             <icore:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand, Mode=OneWay}" />
         </icore:EventTriggerBehavior>
+        <icore:EventTriggerBehavior EventName="Closing">
+            <icore:InvokeCommandAction Command="{x:Bind ViewModel.ClosingCommand, Mode=OneWay}" />
+        </icore:EventTriggerBehavior>
     </i:Interaction.Behaviors>
 
     <ContentDialog.Resources>
@@ -213,9 +216,7 @@
                                                 x:Uid="ConflictingItemsDialogItemOptionReplaceExisting"
                                                 Command="{Binding ReplaceExistingCommand}"
                                                 Text="Replace" />
-                                            <MenuFlyoutItem
-                                                Command="{Binding SkipCommand}"
-                                                Text="{helpers:ResourceString Name=Skip}" />
+                                            <MenuFlyoutItem Command="{Binding SkipCommand}" Text="{helpers:ResourceString Name=Skip}" />
                                         </MenuFlyout>
                                     </muxc:SplitButton.Flyout>
                                 </muxc:SplitButton>
