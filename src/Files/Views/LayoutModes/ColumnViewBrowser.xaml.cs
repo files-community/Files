@@ -232,12 +232,9 @@ namespace Files.Views.LayoutModes
             }
             else
             {
-                var isSearch = ((ColumnHost.ActiveBlades[relativeIndex].Content as Frame)?.Content as ColumnShellPage).ColumnParams.IsSearchResultPage;
-                var offset = (isSearch != (navArgs?.IsSearchResultPage ?? false)) ? 1 : 0;
+                DismissOtherBlades(relativeIndex);
 
-                DismissOtherBlades(relativeIndex - offset);
-
-                for (int ii = lastCommonItemIndex + 1 - offset; ii < destComponents.Count; ii++)
+                for (int ii = lastCommonItemIndex + 1; ii < destComponents.Count; ii++)
                 {
                     var frame = new Frame();
                     frame.Navigated += Frame_Navigated;
