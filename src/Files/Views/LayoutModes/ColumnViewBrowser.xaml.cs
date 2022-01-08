@@ -117,7 +117,11 @@ namespace Files.Views.LayoutModes
 
         private void DismissOtherBlades(BladeItem blade)
         {
-            var index = ColumnHost.ActiveBlades.IndexOf(blade);
+            DismissOtherBlades(ColumnHost.ActiveBlades.IndexOf(blade));
+        }
+
+        private void DismissOtherBlades(int index)
+        {
             if (index >= 0)
             {
                 Common.Extensions.IgnoreExceptions(() =>
@@ -199,6 +203,71 @@ namespace Files.Views.LayoutModes
             }
         }
 
+        public void SetSelectedPathOrNavigate(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
+        {
+            var destPath = navArgs != null ? (navArgs.IsSearchResultPage ? navArgs.SearchPathParam : navArgs.NavPathParam) : navigationPath;
+            var columnPath = ((ColumnHost.ActiveBlades.Last().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
+            var columnFirstPath = ((ColumnHost.ActiveBlades.First().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
+            
+            if (string.IsNullOrEmpty(destPath) || string.IsNullOrEmpty(destPath) || string.IsNullOrEmpty(destPath))
+            {
+                ParentShellPageInstance.NavigateToPath(navigationPath, sourcePageType, navArgs);
+                return;
+            }
+
+            var destComponents = StorageFileExtensions.GetDirectoryPathComponents(destPath);
+            var columnComponents = StorageFileExtensions.GetDirectoryPathComponents(columnPath);
+            var columnFirstComponents = StorageFileExtensions.GetDirectoryPathComponents(columnFirstPath);
+
+            var lastCommonItemIndex = columnComponents
+                .Select((value, index) => new { value, index })
+                .LastOrDefault(x => x.index < destComponents.Count && x.value.Path == destComponents[x.index].Path)?.index ?? -1;
+
+            var relativeIndex = lastCommonItemIndex - (columnFirstComponents.Count - 1);
+
+            if (relativeIndex < 0)
+            {
+                ParentShellPageInstance.NavigateToPath(navigationPath, sourcePageType, navArgs);
+            }
+            else
+            {
+                var isSearch = ((ColumnHost.ActiveBlades[relativeIndex].Content as Frame)?.Content as ColumnShellPage).ColumnParams.IsSearchResultPage;
+                var offset = (isSearch != (navArgs?.IsSearchResultPage ?? false)) ? 1 : 0;
+
+                DismissOtherBlades(relativeIndex - offset);
+
+                for (int ii = lastCommonItemIndex + 1 - offset; ii < destComponents.Count; ii++)
+                {
+                    var frame = new Frame();
+                    frame.Navigated += Frame_Navigated;
+                    var newblade = new BladeItem();
+                    newblade.Content = frame;
+                    ColumnHost.Items.Add(newblade);
+
+                    if (navArgs != null)
+                    {
+                        frame.Navigate(typeof(ColumnShellPage), new ColumnParam
+                        {
+                            Column = ColumnHost.ActiveBlades.IndexOf(newblade),
+                            IsSearchResultPage = navArgs.IsSearchResultPage,
+                            SearchQuery = navArgs.SearchQuery,
+                            NavPathParam = destComponents[ii].Path,
+                            SearchUnindexedItems = navArgs.SearchUnindexedItems,
+                            SearchPathParam = navArgs.SearchPathParam
+                        });
+                    }
+                    else
+                    {
+                        frame.Navigate(typeof(ColumnShellPage), new ColumnParam
+                        {
+                            Column = ColumnHost.ActiveBlades.IndexOf(newblade),
+                            NavPathParam = destComponents[ii].Path
+                        });
+                    }
+                }
+            }
+        }
+        
         public void SetSelectedPathOrNavigate(PathNavigationEventArgs e)
         {
             if (ColumnHost.ActiveBlades?.Count > 1)

@@ -745,12 +745,54 @@ namespace Files.Views
 
         public void Back_Click()
         {
-            this.FindAscendant<ColumnViewBrowser>().NavigateBack();
+            NavToolbarViewModel.CanGoBack = false;
+            if (ItemDisplayFrame.CanGoBack)
+            {
+                var previousPageContent = ItemDisplayFrame.BackStack[ItemDisplayFrame.BackStack.Count - 1];
+                var previousPageNavPath = previousPageContent.Parameter as NavigationArguments;
+                previousPageNavPath.IsLayoutSwitch = false;
+                if (previousPageContent.SourcePageType != typeof(WidgetsPage))
+                {
+                    // Update layout type
+                    InstanceViewModel.FolderSettings.GetLayoutType(previousPageNavPath.IsSearchResultPage ? previousPageNavPath.SearchPathParam : previousPageNavPath.NavPathParam);
+                }
+                SelectSidebarItemFromPath(previousPageContent.SourcePageType);
+
+                if (previousPageContent.SourcePageType == typeof(WidgetsPage))
+                {
+                    ItemDisplayFrame.GoBack(new EntranceNavigationTransitionInfo());
+                }
+                else
+                {
+                    ItemDisplayFrame.GoBack();
+                }
+            }
+            else
+            {
+                this.FindAscendant<ColumnViewBrowser>().NavigateBack();
+            }
         }
 
         public void Forward_Click()
         {
-            this.FindAscendant<ColumnViewBrowser>().NavigateForward();
+            NavToolbarViewModel.CanGoForward = false;
+            if (ItemDisplayFrame.CanGoForward)
+            {
+                var incomingPageContent = ItemDisplayFrame.ForwardStack[ItemDisplayFrame.ForwardStack.Count - 1];
+                var incomingPageNavPath = incomingPageContent.Parameter as NavigationArguments;
+                incomingPageNavPath.IsLayoutSwitch = false;
+                if (incomingPageContent.SourcePageType != typeof(WidgetsPage))
+                {
+                    // Update layout type
+                    InstanceViewModel.FolderSettings.GetLayoutType(incomingPageNavPath.IsSearchResultPage ? incomingPageNavPath.SearchPathParam : incomingPageNavPath.NavPathParam);
+                }
+                SelectSidebarItemFromPath(incomingPageContent.SourcePageType);
+                ItemDisplayFrame.GoForward();
+            }
+            else
+            {
+                this.FindAscendant<ColumnViewBrowser>().NavigateForward();
+            }
         }
 
         public void Up_Click()
@@ -820,8 +862,8 @@ namespace Files.Views
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress:
                     if (this.FindAscendant<ColumnViewBrowser>() is ColumnViewBrowser browser)
                     {
-                        NavToolbarViewModel.CanGoBack = browser.ParentShellPageInstance.CanNavigateBackward;
-                        NavToolbarViewModel.CanGoForward = browser.ParentShellPageInstance.CanNavigateForward;
+                        NavToolbarViewModel.CanGoBack = ItemDisplayFrame.CanGoBack || browser.ParentShellPageInstance.CanNavigateBackward;
+                        NavToolbarViewModel.CanGoForward = ItemDisplayFrame.CanGoForward || browser.ParentShellPageInstance.CanNavigateForward;
                     }
                     SetLoadingIndicatorForTabs(true);
                     break;
@@ -892,38 +934,7 @@ namespace Files.Views
 
         public void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
         {
-            if (navArgs != null && navArgs.AssociatedTabInstance != null)
-            {
-                ItemDisplayFrame.Navigate(
-                sourcePageType = typeof(ColumnViewBase),
-                navArgs,
-                new SuppressNavigationTransitionInfo());
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(navigationPath) ||
-                    string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory) ||
-                    navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
-                        FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
-                        StringComparison.OrdinalIgnoreCase)) // return if already selected
-                {
-                    if (InstanceViewModel?.FolderSettings is FolderSettingsViewModel fsModel)
-                    {
-                        fsModel.IsLayoutModeChanging = false;
-                    }
-                    return;
-                }
-
-                ItemDisplayFrame.Navigate(sourcePageType = typeof(ColumnViewBase),
-                new NavigationArguments()
-                {
-                    NavPathParam = navigationPath,
-                    AssociatedTabInstance = this
-                },
-                new SuppressNavigationTransitionInfo());
-            }
-
-            NavToolbarViewModel.PathControlDisplayText = FilesystemViewModel.WorkingDirectory;
+            this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(navigationPath, sourcePageType, navArgs);
         }
 
         public void NavigateToPath(string navigationPath, NavigationArguments navArgs = null)
@@ -933,13 +944,7 @@ namespace Files.Views
 
         public void NavigateHome()
         {
-            ItemDisplayFrame.Navigate(typeof(WidgetsPage),
-                new NavigationArguments()
-                {
-                    NavPathParam = "Home".GetLocalized(),
-                    AssociatedTabInstance = this
-                },
-                new EntranceNavigationTransitionInfo());
+            throw new NotImplementedException("Can't show Home page in Column View");
         }
 
         public void RemoveLastPageFromBackStack()
@@ -960,6 +965,7 @@ namespace Files.Views
                 SearchQuery = query,
                 SearchUnindexedItems = searchUnindexedItems,
             });
+            //this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(null, typeof(ColumnViewBase), navArgs);
         }
     }
 }
