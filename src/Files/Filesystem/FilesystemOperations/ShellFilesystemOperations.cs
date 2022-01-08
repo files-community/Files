@@ -512,9 +512,10 @@ namespace Files.Filesystem
                 if (movedSources.Any())
                 {
                     // Recycle bin also stores a file starting with $I for each item
-                    await DeleteItemsAsync(movedSources.Select(src => StorageHelpers.FromPathAndType(
+                    var filesToDelete = await Task.Run(() => movedSources.Select(src => StorageHelpers.FromPathAndType(
                         Path.Combine(Path.GetDirectoryName(src.Source), Path.GetFileName(src.Source).Replace("$R", "$I", StringComparison.Ordinal)),
-                        source.Single(s => s.Path == src.Source).ItemType)), null, null, true, cancellationToken);
+                        source.Single(s => s.Path == src.Source).ItemType)).ToList());
+                    await DeleteItemsAsync(filesToDelete, null, null, true, cancellationToken);
                     return new StorageHistory(FileOperationType.Restore, movedSources.Select(x => source.Single(s => s.Path == x.Source)),
                         movedSources.Select(item => StorageHelpers.FromPathAndType(item.Destination, source.Single(s => s.Path == item.Source).ItemType)));
                 }

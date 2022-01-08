@@ -615,9 +615,9 @@ namespace Files.Views
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
                     if (ContentPage.IsItemSelected && !NavToolbarViewModel.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
                     {
-                        var items = await Task.Run(() => SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
+                        var items = await Task.Run(() => SlimContentPage.SelectedItems.Select((item) => StorageHelpers.FromPathAndType(
                             item.ItemPath,
-                            item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)));
+                            item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList());
                         await FilesystemHelpers.DeleteItemsAsync(items, true, true, true);
                     }
 
@@ -659,9 +659,9 @@ namespace Files.Views
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
                     if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
                     {
-                        var items = await Task.Run(() => SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
+                        var items = await Task.Run(() => SlimContentPage.SelectedItems.Select((item) => StorageHelpers.FromPathAndType(
                             item.ItemPath,
-                            item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)));
+                            item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList());
                         await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
                     }
 
