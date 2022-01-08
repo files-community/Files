@@ -92,5 +92,14 @@ namespace FilesFullTrust.Helpers
             link.TargetPath = linkItem.TargetPath;
             return link;
         }
+
+        public static string GetParsingPath(this ShellItem item)
+        {
+            if (item == null)
+            {
+                return null;
+            }
+            return item.IsFileSystem ? item.FileSystemPath : item.ParsingName;
+        }
     }
 }
