@@ -152,10 +152,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        for (int i = 0; i < history.Destination.Count(); i++)
-                        {
-                            await filesystemHelpers.RestoreFromTrashAsync(history.Source.ElementAt(i), history.Destination.ElementAt(i).Path, false);
-                        }
+                        await filesystemHelpers.RestoreItemsFromTrashAsync(history.Source, history.Destination.Select((item) => item.Path), false);
 
                         break;
                     }
@@ -269,13 +266,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        for (int i = 0; i < history.Destination.Count(); i++)
-                        {
-                            returnStatus = await filesystemHelpers.RestoreFromTrashAsync(
-                                history.Destination.ElementAt(i),
-                                history.Source.ElementAt(i).Path,
-                                false);
-                        }
+                        returnStatus = await filesystemHelpers.RestoreItemsFromTrashAsync(history.Destination, history.Source.Select((item) => item.Path), false);
 
                         if (returnStatus == ReturnResult.IntegrityCheckFailed) // Not found, corrupted
                         {

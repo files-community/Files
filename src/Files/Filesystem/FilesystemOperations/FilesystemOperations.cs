@@ -792,6 +792,59 @@ namespace Files.Filesystem
             return null;
         }
 
+        public async Task<IStorageHistory> RestoreItemsFromTrashAsync(IEnumerable<IStorageItem> source,
+                                                                     IEnumerable<string> destination,
+                                                                     IProgress<float> progress,
+                                                                     IProgress<FileSystemStatusCode> errorCode,
+                                                                     CancellationToken cancellationToken)
+        {
+            return await RestoreItemsFromTrashAsync(source.Select((item) => item.FromStorageItem()).ToList(), destination, progress, errorCode, cancellationToken);
+        }
+
+        public async Task<IStorageHistory> RestoreItemsFromTrashAsync(IEnumerable<IStorageItemWithPath> source,
+                                                                     IEnumerable<string> destination,
+                                                                     IProgress<float> progress,
+                                                                     IProgress<FileSystemStatusCode> errorCode,
+                                                                     CancellationToken token)
+        {
+            var rawStorageHistory = new List<IStorageHistory>();
+
+            for (int i = 0; i < source.Count(); i++)
+            {
+                if (token.IsCancellationRequested)
+                {
+                    break;
+                }
+
+                rawStorageHistory.Add(await RestoreFromTrashAsync(
+                    source.ElementAt(i),
+                    destination.ElementAt(i),
+                    null,
+                    errorCode,
+                    token));
+
+                progress?.Report(i / (float)source.Count() * 100.0f);
+            }
+
+            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
+            {
+                return new StorageHistory(
+                    rawStorageHistory[0].OperationType,
+                    rawStorageHistory.SelectMany((item) => item.Source).ToList(),
+                    rawStorageHistory.SelectMany((item) => item.Destination).ToList());
+            }
+            return null;
+        }
+
+        public async Task<IStorageHistory> RestoreFromTrashAsync(IStorageItem source,
+                                                                 string destination,
+                                                                 IProgress<float> progress,
+                                                                 IProgress<FileSystemStatusCode> errorCode,
+                                                                 CancellationToken cancellationToken)
+        {
+            return await RestoreFromTrashAsync(source.FromStorageItem(), destination, progress, errorCode, cancellationToken);
+        }
+
         public async Task<IStorageHistory> RestoreFromTrashAsync(IStorageItemWithPath source,
                                                                  string destination,
                                                                  IProgress<float> progress,

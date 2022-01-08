@@ -182,19 +182,14 @@ namespace Files.Interacts
 
         public virtual async void RestoreItem(RoutedEventArgs e)
         {
-            if (SlimContentPage.IsItemSelected)
+            var items = await Task.Run(() => SlimContentPage.SelectedItems.Where(x => x is RecycleBinItem).ToList().Select((item) => new
             {
-                foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
-                {
-                    if (listedItem is RecycleBinItem binItem)
-                    {
-                        FilesystemItemType itemType = binItem.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
-                        await FilesystemHelpers.RestoreFromTrashAsync(StorageHelpers.FromPathAndType(
-                            (listedItem as RecycleBinItem).ItemPath,
-                            itemType), (listedItem as RecycleBinItem).ItemOriginalPath, true);
-                    }
-                }
-            }
+                Source = StorageHelpers.FromPathAndType(
+                    item.ItemPath,
+                    item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory),
+                Dest = (item as RecycleBinItem).ItemOriginalPath
+            }));
+            await FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
         }
 
         public virtual async void DeleteItem(RoutedEventArgs e)

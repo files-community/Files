@@ -283,6 +283,66 @@ namespace Files.Filesystem
         /// <br/>
         /// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> has been restored
         /// </returns>
+        Task<IStorageHistory> RestoreItemsFromTrashAsync(IEnumerable<IStorageItem> source,
+                                                         IEnumerable<string> destination,
+                                                         IProgress<float> progress,
+                                                         IProgress<FileSystemStatusCode> errorCode,
+                                                         CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Restores <paramref name="source"/> from the RecycleBin to <paramref name="destination"/> fullPath
+        /// </summary>
+        /// <param name="source">The source Recycle Bin item path</param>
+        /// <param name="destination">The destination fullPath to restore to</param>
+        /// <param name="progress">Progress of the operation</param>
+        /// <param name="errorCode">Status of the operation</param>
+        /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
+        /// <returns><see cref="IStorageHistory"/> where:
+        /// <br/>
+        /// Source: The trash item fullPath
+        /// <br/>
+        /// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> has been restored
+        /// </returns>
+        Task<IStorageHistory> RestoreFromTrashAsync(IStorageItem source,
+                                                    string destination,
+                                                    IProgress<float> progress,
+                                                    IProgress<FileSystemStatusCode> errorCode,
+                                                    CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Restores <paramref name="source"/> from the RecycleBin to <paramref name="destination"/> fullPath
+        /// </summary>
+        /// <param name="source">The source Recycle Bin item path</param>
+        /// <param name="destination">The destination fullPath to restore to</param>
+        /// <param name="progress">Progress of the operation</param>
+        /// <param name="errorCode">Status of the operation</param>
+        /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
+        /// <returns><see cref="IStorageHistory"/> where:
+        /// <br/>
+        /// Source: The trash item fullPath
+        /// <br/>
+        /// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> has been restored
+        /// </returns>
+        Task<IStorageHistory> RestoreItemsFromTrashAsync(IEnumerable<IStorageItemWithPath> source,
+                                                         IEnumerable<string> destination,
+                                                         IProgress<float> progress,
+                                                         IProgress<FileSystemStatusCode> errorCode,
+                                                         CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Restores <paramref name="source"/> from the RecycleBin to <paramref name="destination"/> fullPath
+        /// </summary>
+        /// <param name="source">The source Recycle Bin item path</param>
+        /// <param name="destination">The destination fullPath to restore to</param>
+        /// <param name="progress">Progress of the operation</param>
+        /// <param name="errorCode">Status of the operation</param>
+        /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
+        /// <returns><see cref="IStorageHistory"/> where:
+        /// <br/>
+        /// Source: The trash item fullPath
+        /// <br/>
+        /// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> has been restored
+        /// </returns>
         Task<IStorageHistory> RestoreFromTrashAsync(IStorageItemWithPath source,
                                                     string destination,
                                                     IProgress<float> progress,

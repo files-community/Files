@@ -450,13 +450,28 @@ namespace Files.Filesystem
             }
         }
 
+        public async Task<IStorageHistory> RestoreFromTrashAsync(IStorageItem source, string destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
+        {
+            return await RestoreFromTrashAsync(source.FromStorageItem(), destination, progress, errorCode, cancellationToken);
+        }
+
         public async Task<IStorageHistory> RestoreFromTrashAsync(IStorageItemWithPath source, string destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
+            return await RestoreItemsFromTrashAsync(source.CreateEnumerable(), destination.CreateEnumerable(), progress, errorCode, cancellationToken);
+        }
+
+        public async Task<IStorageHistory> RestoreItemsFromTrashAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
+        {
+            return await RestoreItemsFromTrashAsync(source.Select((item) => item.FromStorageItem()).ToList(), destination, progress, errorCode, cancellationToken);
+        }
+
+        public async Task<IStorageHistory> RestoreItemsFromTrashAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
+        {
             var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null || string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || string.IsNullOrWhiteSpace(destination) || destination.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(destination))
+            if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x)))
             {
                 // Fallback to builtin file operations
-                return await filesystemOperations.RestoreFromTrashAsync(source, destination, progress, errorCode, cancellationToken);
+                return await filesystemOperations.RestoreItemsFromTrashAsync(source, destination, progress, errorCode, cancellationToken);
             }
 
             var operationID = Guid.NewGuid().ToString();
@@ -471,8 +486,8 @@ namespace Files.Filesystem
                 { "Arguments", "FileOperation" },
                 { "fileop", "MoveItem" },
                 { "operationID", operationID },
-                { "filepath", source.Path },
-                { "destpath", destination },
+                { "filepath", string.Join('|', source.Select(s => s.Path)) },
+                { "destpath", string.Join('|', destination) },
                 { "overwrite", false },
                 { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
             });
@@ -492,22 +507,27 @@ namespace Files.Filesystem
             {
                 progress?.Report(100.0f);
                 errorCode?.Report(FileSystemStatusCode.Success);
-                var movedSources = moveResult.Items.Where(x => new[] { source }.Select(s => s.Path).Contains(x.Source)).Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
+
+                var movedSources = moveResult.Items.Where(x => source.Select(s => s.Path).Contains(x.Source)).Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
                 if (movedSources.Any())
                 {
                     // Recycle bin also stores a file starting with $I for each item
                     await DeleteItemsAsync(movedSources.Select(src => StorageHelpers.FromPathAndType(
                         Path.Combine(Path.GetDirectoryName(src.Source), Path.GetFileName(src.Source).Replace("$R", "$I", StringComparison.Ordinal)),
-                        new[] { source }.Single(s => s.Path == src.Source).ItemType)), null, null, true, cancellationToken);
-                    return new StorageHistory(FileOperationType.Restore, source,
-                        StorageHelpers.FromPathAndType(movedSources.Single().Destination, source.ItemType));
+                        source.Single(s => s.Path == src.Source).ItemType)), null, null, true, cancellationToken);
+                    return new StorageHistory(FileOperationType.Restore, movedSources.Select(x => source.Single(s => s.Path == x.Source)),
+                        movedSources.Select(item => StorageHelpers.FromPathAndType(item.Destination, source.Single(s => s.Path == item.Source).ItemType)));
                 }
                 return null; // Cannot undo overwrite operation
             }
             else
             {
                 // Retry failed operations
-                return await filesystemOperations.RestoreFromTrashAsync(source, destination, progress, errorCode, cancellationToken);
+                var failedSources = moveResult.Items.Where(x => source.Select(s => s.Path).Contains(x.Source)).Where(x => !x.Succeeded);
+                var moveZip = source.Zip(destination, (src, dest) => new { src, dest });
+                return await filesystemOperations.RestoreItemsFromTrashAsync(
+                    failedSources.Select(x => moveZip.Single(s => s.src.Path == x.Source).src),
+                    failedSources.Select(x => moveZip.Single(s => s.src.Path == x.Source).dest), progress, errorCode, cancellationToken);
             }
         }
 

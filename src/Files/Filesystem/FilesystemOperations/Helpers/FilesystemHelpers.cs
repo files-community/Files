@@ -370,7 +370,19 @@ namespace Files.Filesystem
 
         #endregion Delete
 
-        public async Task<ReturnResult> RestoreFromTrashAsync(IStorageItemWithPath source, string destination, bool registerHistory)
+        #region Restore
+
+        public async Task<ReturnResult> RestoreItemFromTrashAsync(IStorageItem source, string destination, bool registerHistory)
+        {
+            return await RestoreItemFromTrashAsync(source.FromStorageItem(), destination, registerHistory);
+        }
+
+        public async Task<ReturnResult> RestoreItemsFromTrashAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
+        {
+            return await RestoreItemsFromTrashAsync(source.Select((item) => item.FromStorageItem()).ToList(), destination, registerHistory); 
+        }
+
+        public async Task<ReturnResult> RestoreItemFromTrashAsync(IStorageItemWithPath source, string destination, bool registerHistory)
         {
             var returnCode = FileSystemStatusCode.InProgress;
             var errorCode = new Progress<FileSystemStatusCode>();
@@ -386,6 +398,31 @@ namespace Files.Filesystem
             await Task.Yield();
             return returnCode.ToStatus();
         }
+
+        public async Task<ReturnResult> RestoreItemsFromTrashAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool registerHistory)
+        {
+            var returnCode = FileSystemStatusCode.InProgress;
+            var errorCode = new Progress<FileSystemStatusCode>();
+            errorCode.ProgressChanged += (s, e) => returnCode = e;
+
+            var sw = new Stopwatch();
+            sw.Start();
+
+            IStorageHistory history = await filesystemOperations.RestoreItemsFromTrashAsync(source, destination, null, errorCode, cancellationToken);
+            await Task.Yield();
+
+            if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+            {
+                App.HistoryWrapper.AddHistory(history);
+            }
+            int itemsMoved = history?.Source.Count() ?? 0;
+
+            sw.Stop();
+
+            return returnCode.ToStatus();
+        }
+
+        #endregion Restore
 
         public async Task<ReturnResult> PerformOperationTypeAsync(DataPackageOperation operation,
                                                                   DataPackageView packageView,
