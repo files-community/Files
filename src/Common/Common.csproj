@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Configurations>Debug;Release;GitHub_Files</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

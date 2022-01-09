@@ -267,8 +267,8 @@
   <data name="Downloads" xml:space="preserve">
     <value>Downloads</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Home</value>
+  <data name="SidebarMy Home" xml:space="preserve">
+    <value>My Home</value>
   </data>
   <data name="SidebarMusic" xml:space="preserve">
     <value>Music</value>
@@ -2295,8 +2295,8 @@
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>Update</value>
   </data>
-  <data name="Home" xml:space="preserve">
-    <value>Home</value>
+  <data name="My Home" xml:space="preserve">
+    <value>My Home</value>
   </data>
   <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
     <value>New tab</value>
