@@ -107,7 +107,7 @@ namespace Files.Filesystem
 
         #region Delete
 
-        public async Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source, bool showDialog, bool permanently, bool registerHistory)
+        public async Task<ReturnResult> DeleteItemsAsync(IList<IStorageItemWithPath> source, bool showDialog, bool permanently, bool registerHistory)
         {
             var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
             PostedStatusBanner banner = null;
@@ -358,9 +358,9 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItem> source, bool showDialog, bool permanently, bool registerHistory)
+        public async Task<ReturnResult> DeleteItemsAsync(IList<IStorageItem> source, bool showDialog, bool permanently, bool registerHistory)
         {
-            return await DeleteItemsAsync(source.Select((item) => item.FromStorageItem()), showDialog, permanently, registerHistory);
+            return await DeleteItemsAsync(source.Select((item) => item.FromStorageItem()).ToList(), showDialog, permanently, registerHistory);
         }
 
         public async Task<ReturnResult> DeleteItemAsync(IStorageItem source, bool showDialog, bool permanently, bool registerHistory)
@@ -377,7 +377,7 @@ namespace Files.Filesystem
             return await RestoreItemFromTrashAsync(source.FromStorageItem(), destination, registerHistory);
         }
 
-        public async Task<ReturnResult> RestoreItemsFromTrashAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
+        public async Task<ReturnResult> RestoreItemsFromTrashAsync(IList<IStorageItem> source, IList<string> destination, bool registerHistory)
         {
             return await RestoreItemsFromTrashAsync(source.Select((item) => item.FromStorageItem()).ToList(), destination, registerHistory); 
         }
@@ -399,7 +399,7 @@ namespace Files.Filesystem
             return returnCode.ToStatus();
         }
 
-        public async Task<ReturnResult> RestoreItemsFromTrashAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool registerHistory)
+        public async Task<ReturnResult> RestoreItemsFromTrashAsync(IList<IStorageItemWithPath> source, IList<string> destination, bool registerHistory)
         {
             var returnCode = FileSystemStatusCode.InProgress;
             var errorCode = new Progress<FileSystemStatusCode>();
@@ -484,7 +484,7 @@ namespace Files.Filesystem
 
         #region Copy
 
-        public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
+        public async Task<ReturnResult> CopyItemsAsync(IList<IStorageItem> source, IList<string> destination, bool showDialog, bool registerHistory)
         {
             return await CopyItemsAsync(source.Select((item) => item.FromStorageItem()).ToList(), destination, showDialog, registerHistory);
         }
@@ -494,7 +494,7 @@ namespace Files.Filesystem
             return await CopyItemAsync(source.FromStorageItem(), destination, showDialog, registerHistory);
         }
 
-        public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
+        public async Task<ReturnResult> CopyItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, bool showDialog, bool registerHistory)
         {
             var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
             var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
@@ -573,7 +573,7 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source.CreateEnumerable(), destination.CreateEnumerable(), showDialog);
+            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source.CreateList(), destination.CreateList(), showDialog);
 
             if (cancelOperation)
             {
@@ -702,7 +702,7 @@ namespace Files.Filesystem
 
         #region Move
 
-        public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
+        public async Task<ReturnResult> MoveItemsAsync(IList<IStorageItem> source, IList<string> destination, bool showDialog, bool registerHistory)
         {
             return await MoveItemsAsync(source.Select((item) => item.FromStorageItem()).ToList(), destination, showDialog, registerHistory);
         }
@@ -712,7 +712,7 @@ namespace Files.Filesystem
             return await MoveItemAsync(source.FromStorageItem(), destination, showDialog, registerHistory);
         }
 
-        public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
+        public async Task<ReturnResult> MoveItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, bool showDialog, bool registerHistory)
         {
             var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
             var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
@@ -793,7 +793,7 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Move, source.CreateEnumerable(), destination.CreateEnumerable(), showDialog);
+            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Move, source.CreateList(), destination.CreateList(), showDialog);
 
             if (cancelOperation)
             {
@@ -973,11 +973,11 @@ namespace Files.Filesystem
             var errorCode = new Progress<FileSystemStatusCode>();
             errorCode.ProgressChanged += (s, e) => returnCode = e;
 
-            source = source.Where(x => !string.IsNullOrEmpty(x.Path));
+            source = await source.Where(x => !string.IsNullOrEmpty(x.Path)).ToListAsync();
             var dest = source.Select(x => Path.Combine(destination,
                 string.Format("ShortcutCreateNewSuffix".GetLocalized(), x.Name) + ".lnk"));
 
-            var history = await filesystemOperations.CreateShortcutItemsAsync(source, dest, null, errorCode, cancellationToken);
+            var history = await filesystemOperations.CreateShortcutItemsAsync(source, await dest.ToListAsync(), null, errorCode, cancellationToken);
 
             if (registerHistory)
             {
@@ -1015,7 +1015,7 @@ namespace Files.Filesystem
 
         #endregion IFilesystemHelpers
 
-        private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation)> GetCollision(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
+        private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation)> GetCollision(FilesystemOperationType operationType, IList<IStorageItemWithPath> source, IList<string> destination, bool forceDialog)
         {
             List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
             List<FilesystemItemsOperationItemModel> conflictingItems = new List<FilesystemItemsOperationItemModel>();
@@ -1121,7 +1121,7 @@ namespace Files.Filesystem
             return false;
         }
 
-        public static async Task<IEnumerable<IStorageItemWithPath>> GetDraggedStorageItems(DataPackageView packageView)
+        public static async Task<IList<IStorageItemWithPath>> GetDraggedStorageItems(DataPackageView packageView)
         {
             var itemsList = new List<IStorageItemWithPath>();
             if (packageView.Contains(StandardDataFormats.StorageItems))

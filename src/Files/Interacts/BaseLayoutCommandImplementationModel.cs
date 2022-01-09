@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using Files.Dialogs;
 using Files.Enums;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
@@ -182,22 +183,22 @@ namespace Files.Interacts
 
         public virtual async void RestoreItem(RoutedEventArgs e)
         {
-            var items = await Task.Run(() => SlimContentPage.SelectedItems.Where(x => x is RecycleBinItem).Select((item) => new
+            var items = SlimContentPage.SelectedItems.ToList().Where(x => x is RecycleBinItem).Select((item) => new
             {
                 Source = StorageHelpers.FromPathAndType(
                     item.ItemPath,
                     item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory),
                 Dest = (item as RecycleBinItem).ItemOriginalPath
-            }).ToList());
-            await FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
+            });
+            await FilesystemHelpers.RestoreItemsFromTrashAsync(await items.Select(x => x.Source).ToListAsync(), await items.Select(x => x.Dest).ToListAsync(), true);
         }
 
         public virtual async void DeleteItem(RoutedEventArgs e)
         {
-            var items = await Task.Run(() => SlimContentPage.SelectedItems.Select((item) => StorageHelpers.FromPathAndType(
+            var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
                 item.ItemPath,
-                item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList());
-            await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
+                item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+            await FilesystemHelpers.DeleteItemsAsync(await items.ToListAsync(), true, false, true);
         }
 
         public virtual void ShowFolderProperties(RoutedEventArgs e)

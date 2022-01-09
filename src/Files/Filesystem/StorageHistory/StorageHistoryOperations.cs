@@ -1,5 +1,6 @@
 ﻿using Files.Enums;
 using Files.Helpers;
+using Files.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -70,7 +71,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        await filesystemOperations.CreateShortcutItemsAsync(history.Source, history.Destination.Select(item => item.Path), null, errorCode, cancellationToken);
+                        await filesystemOperations.CreateShortcutItemsAsync(history.Source, await history.Destination.Select(item => item.Path).ToListAsync(), null, errorCode, cancellationToken);
 
                         break;
                     }
@@ -103,7 +104,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        return await filesystemHelpers.CopyItemsAsync(history.Source, history.Destination.Select((item) => item.Path), false, false);
+                        return await filesystemHelpers.CopyItemsAsync(history.Source, await history.Destination.Select(item => item.Path).ToListAsync(), false, false);
                     }
 
                 case FileOperationType.Move: // Move PASS
@@ -113,7 +114,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        return await filesystemHelpers.MoveItemsAsync(history.Source, history.Destination.Select((item) => item.Path), false, false);
+                        return await filesystemHelpers.MoveItemsAsync(history.Source, await history.Destination.Select(item => item.Path).ToListAsync(), false, false);
                     }
 
                 case FileOperationType.Extract: // Extract PASS
@@ -152,7 +153,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        await filesystemHelpers.RestoreItemsFromTrashAsync(history.Source, history.Destination.Select((item) => item.Path), false);
+                        await filesystemHelpers.RestoreItemsFromTrashAsync(history.Source, await history.Destination.Select(item => item.Path).ToListAsync(), false);
 
                         break;
                     }
@@ -245,7 +246,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        return await filesystemHelpers.MoveItemsAsync(history.Destination, history.Source.Select((item) => item.Path), false, false);
+                        return await filesystemHelpers.MoveItemsAsync(history.Destination, await history.Source.Select(item => item.Path).ToListAsync(), false, false);
                     }
 
                 case FileOperationType.Extract: // Extract PASS
@@ -266,7 +267,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        returnStatus = await filesystemHelpers.RestoreItemsFromTrashAsync(history.Destination, history.Source.Select((item) => item.Path), false);
+                        returnStatus = await filesystemHelpers.RestoreItemsFromTrashAsync(history.Destination, await history.Source.Select(item => item.Path).ToListAsync(), false);
 
                         if (returnStatus == ReturnResult.IntegrityCheckFailed) // Not found, corrupted
                         {

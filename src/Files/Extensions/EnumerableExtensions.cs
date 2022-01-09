@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
@@ -79,6 +80,11 @@ namespace Files.Extensions
 
             block.Complete();
             await block.Completion;
+        }
+
+        public static async Task<IList<T>> ToListAsync<T>(this IEnumerable<T> source)
+        {
+            return await Task.Run(() => source.ToList());
         }
     }
 }
