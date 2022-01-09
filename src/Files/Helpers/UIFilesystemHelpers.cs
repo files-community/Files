@@ -35,7 +35,7 @@ namespace Files.Helpers
 
                 try
                 {
-                    await Task.WhenAll(associatedInstance.SlimContentPage.SelectedItems.ToList().Select(async listedItem =>
+                    await Task.Run(() => Task.WhenAll(associatedInstance.SlimContentPage.SelectedItems.ToList().Select(async listedItem =>
                     {
                         // FTP don't support cut, fallback to copy
                         if (listedItem is not FtpItem)
@@ -74,7 +74,7 @@ namespace Files.Helpers
                                 throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
                             }
                         }
-                    }));
+                    })));
                 }
                 catch (Exception ex)
                 {
@@ -118,7 +118,7 @@ namespace Files.Helpers
                 Clipboard.SetContent(dataPackage);
                 if (onlyStandard && canFlush)
                 {
-                    Clipboard.Flush();
+                    Common.Extensions.IgnoreExceptions(() => Clipboard.Flush());
                 }
             }
             catch
@@ -142,7 +142,7 @@ namespace Files.Helpers
             {
                 try
                 {
-                    await Task.WhenAll(associatedInstance.SlimContentPage.SelectedItems.ToList().Select(async listedItem =>
+                    await Task.Run(() => Task.WhenAll(associatedInstance.SlimContentPage.SelectedItems.ToList().Select(async listedItem =>
                     {
                         if (listedItem is FtpItem ftpItem)
                         {
@@ -174,7 +174,7 @@ namespace Files.Helpers
                                 throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
                             }
                         }
-                    }));
+                    })));
                 }
                 catch (Exception ex)
                 {
@@ -213,7 +213,7 @@ namespace Files.Helpers
                 Clipboard.SetContent(dataPackage);
                 if (onlyStandard && canFlush)
                 {
-                    Clipboard.Flush();
+                    Common.Extensions.IgnoreExceptions(() => Clipboard.Flush());
                 }
             }
             catch
