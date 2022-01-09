@@ -84,6 +84,11 @@ steps:
     failOnStderr: true
     workingDirectory: '$(System.DefaultWorkingDirectory)'
 
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+
 - task: Windows Application Driver@0
   inputs:
     OperationType: 'Start'
@@ -105,7 +110,3 @@ steps:
     Contents: '**\bin\$(BuildConfiguration)\**'
     TargetFolder: '$(build.artifactstagingdirectory)'
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
-  inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'
