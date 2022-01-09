@@ -37,13 +37,6 @@ namespace Files.Helpers
                 {
                     await Task.Run(() => Task.WhenAll(associatedInstance.SlimContentPage.SelectedItems.ToList().Select(async listedItem =>
                     {
-                        // FTP don't support cut, fallback to copy
-                        if (listedItem is not FtpItem)
-                        {
-                            // Dim opacities accordingly
-                            listedItem.Opacity = Constants.UI.DimItemOpacity;
-                        }
-
                         if (listedItem is FtpItem ftpItem)
                         {
                             canFlush = false;

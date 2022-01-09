@@ -122,7 +122,7 @@ namespace Files.Filesystem
 
                 for (int i = 0; i < source.Count(); i++)
                 {
-                    var srcPath = source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path;
+                    var srcPath = source.ElementAt(i).Path;
                     if (recycleBinHelpers.IsPathUnderRecycleBin(srcPath))
                     {
                         var binItems = associatedInstance.FilesystemViewModel.FilesAndFolders;
@@ -305,7 +305,7 @@ namespace Files.Filesystem
             {
                 List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
 
-                var srcPath = source.Path ?? source.Item.Path;
+                var srcPath = source.Path;
                 if (recycleBinHelpers.IsPathUnderRecycleBin(srcPath))
                 {
                     var binItems = associatedInstance.FilesystemViewModel.FilesAndFolders;
@@ -1024,14 +1024,13 @@ namespace Files.Filesystem
 
             for (int i = 0; i < source.Count(); i++)
             {
-                var itemPathOrName = string.IsNullOrEmpty(source.ElementAt(i).Path) ?
-                    (string.IsNullOrEmpty(source.ElementAt(i).Item.Path) ? source.ElementAt(i).Item.Name : source.ElementAt(i).Item.Path) : source.ElementAt(i).Path;
+                var itemPathOrName = string.IsNullOrEmpty(source.ElementAt(i).Path) ? source.ElementAt(i).Item.Name : source.ElementAt(i).Path;
                 incomingItems.Add(new FilesystemItemsOperationItemModel(operationType, itemPathOrName, destination.ElementAt(i)));
                 if (collisions.ContainsKey(incomingItems.ElementAt(i).SourcePath))
                 {
                     // Something strange happened, log
                     App.Logger.Warn($"Duplicate key when resolving conflicts: {incomingItems.ElementAt(i).SourcePath}, {source.ElementAt(i).Name}\n" +
-                        $"Source: {string.Join(", ", source.Select(x => string.IsNullOrEmpty(x.Path) ? (string.IsNullOrEmpty(x.Item.Path) ? x.Item.Name : x.Item.Path) : x.Path))}");
+                        $"Source: {string.Join(", ", source.Select(x => string.IsNullOrEmpty(x.Path) ? x.Item.Name : x.Path))}");
                 }
                 collisions.AddIfNotPresent(incomingItems.ElementAt(i).SourcePath, FileNameConflictResolveOptionType.GenerateNewName);
 
@@ -1076,8 +1075,7 @@ namespace Files.Filesystem
 
             for (int i = 0; i < source.Count(); i++)
             {
-                var itemPathOrName = string.IsNullOrEmpty(source.ElementAt(i).Path) ?
-                    (string.IsNullOrEmpty(source.ElementAt(i).Item.Path) ? source.ElementAt(i).Item.Name : source.ElementAt(i).Item.Path) : source.ElementAt(i).Path;
+                var itemPathOrName = string.IsNullOrEmpty(source.ElementAt(i).Path) ? source.ElementAt(i).Item.Name : source.ElementAt(i).Path;
                 var match = collisions.SingleOrDefault(x => x.Key == itemPathOrName);
                 if (match.Key != null)
                 {
@@ -1148,8 +1146,7 @@ namespace Files.Filesystem
                     itemsList.AddRange(source);
                 }
             }
-            itemsList = itemsList.DistinctBy(x => string.IsNullOrEmpty(x.Path) ?
-                (string.IsNullOrEmpty(x.Item.Path) ? x.Item.Name : x.Item.Path) : x.Path).ToList();
+            itemsList = itemsList.DistinctBy(x => string.IsNullOrEmpty(x.Path) ? x.Item.Name : x.Path).ToList();
             return itemsList;
         }
 
