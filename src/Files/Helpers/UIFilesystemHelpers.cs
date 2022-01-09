@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using Files.Dialogs;
 using Files.Enums;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Interacts;
@@ -35,8 +36,14 @@ namespace Files.Helpers
 
                 try
                 {
-                    await Task.Run(() => Task.WhenAll(associatedInstance.SlimContentPage.SelectedItems.ToList().Select(async listedItem =>
+                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEach(async listedItem =>
                     {
+                        // FTP don't support cut, fallback to copy
+                        if (listedItem is not FtpItem)
+                        {
+                            // Dim opacities accordingly
+                            listedItem.Opacity = Constants.UI.DimItemOpacity;
+                        }
                         if (listedItem is FtpItem ftpItem)
                         {
                             canFlush = false;
@@ -67,7 +74,7 @@ namespace Files.Helpers
                                 throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
                             }
                         }
-                    })));
+                    }, 10, default, TaskScheduler.FromCurrentSynchronizationContext());
                 }
                 catch (Exception ex)
                 {
@@ -135,7 +142,7 @@ namespace Files.Helpers
             {
                 try
                 {
-                    await Task.Run(() => Task.WhenAll(associatedInstance.SlimContentPage.SelectedItems.ToList().Select(async listedItem =>
+                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEach(async listedItem =>
                     {
                         if (listedItem is FtpItem ftpItem)
                         {
@@ -167,7 +174,7 @@ namespace Files.Helpers
                                 throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
                             }
                         }
-                    })));
+                    }, 10, default, TaskScheduler.FromCurrentSynchronizationContext());
                 }
                 catch (Exception ex)
                 {
