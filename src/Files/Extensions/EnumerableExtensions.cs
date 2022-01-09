@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
@@ -59,6 +60,25 @@ namespace Files.Extensions
                 dictionary.Add(key, value);
             }
             return dictionary;
+        }
+
+        public static async Task ParallelForEach<T>(this IEnumerable<T> source, Func<T, Task> body, int maxDegreeOfParallelism = DataflowBlockOptions.Unbounded, CancellationToken cts = default, TaskScheduler scheduler = null)
+        {
+            var options = new ExecutionDataflowBlockOptions
+            {
+                MaxDegreeOfParallelism = maxDegreeOfParallelism,
+                CancellationToken = cts
+            };
+            if (scheduler != null)
+                options.TaskScheduler = scheduler;
+
+            var block = new ActionBlock<T>(body, options);
+
+            foreach (var item in source)
+                block.Post(item);
+
+            block.Complete();
+            await block.Completion;
         }
     }
 }

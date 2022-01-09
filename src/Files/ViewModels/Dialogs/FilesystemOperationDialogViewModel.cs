@@ -1,6 +1,7 @@
 ﻿using Files.DataModels;
 using Files.Dialogs;
 using Files.Enums;
+using Files.Extensions;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -305,11 +306,10 @@ namespace Files.ViewModels.Dialogs
 
         private static async Task LoadItemsIcon(IEnumerable<FilesystemOperationItemViewModel> items, CancellationToken token)
         {
-            await Task.Run(() => Task.WhenAll(items.ToList().Select(async (item) =>
+            await Task.Run(() => items.ParallelForEach(async (item) =>
             {
                 try
                 {
-                    if (token.IsCancellationRequested) return;
                     var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(item.SourcePath, 64u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
                     if (iconData != null)
                     {
@@ -321,7 +321,7 @@ namespace Files.ViewModels.Dialogs
                     }
                 }
                 catch { }
-            })));
+            }, 10, token));
         }
     }
 }
