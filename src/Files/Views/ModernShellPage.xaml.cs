@@ -2,7 +2,6 @@
 using Files.Dialogs;
 using Files.Enums;
 using Files.EventArguments;
-using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.Search;
@@ -672,7 +671,7 @@ namespace Files.Views
                         var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
                             item.ItemPath,
                             item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-                        await FilesystemHelpers.DeleteItemsAsync(await items.ToListAsync(), true, true, true);
+                        await FilesystemHelpers.DeleteItemsAsync(items, true, true, true);
                     }
 
                     break;
@@ -716,7 +715,7 @@ namespace Files.Views
                         var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
                             item.ItemPath,
                             item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-                        await FilesystemHelpers.DeleteItemsAsync(await items.ToListAsync(), true, false, true);
+                        await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
                     }
 
                     break;

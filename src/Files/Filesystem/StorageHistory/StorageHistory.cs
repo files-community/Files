@@ -10,15 +10,15 @@ namespace Files.Filesystem.FilesystemHistory
 
         public FileOperationType OperationType { get; private set; }
 
-        public IList<IStorageItemWithPath> Source { get; private set; }
+        public IEnumerable<IStorageItemWithPath> Source { get; private set; }
 
-        public IList<IStorageItemWithPath> Destination { get; private set; }
+        public IEnumerable<IStorageItemWithPath> Destination { get; private set; }
 
         #endregion Public Properties
 
         #region Constructor
 
-        public StorageHistory(FileOperationType operationType, IList<IStorageItemWithPath> source, IList<IStorageItemWithPath> destination)
+        public StorageHistory(FileOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<IStorageItemWithPath> destination)
         {
             OperationType = operationType;
             Source = source;
@@ -43,7 +43,7 @@ namespace Files.Filesystem.FilesystemHistory
             Destination = newHistory.Destination;
         }
 
-        public void Modify(FileOperationType operationType, IList<IStorageItemWithPath> source, IList<IStorageItemWithPath> destination)
+        public void Modify(FileOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<IStorageItemWithPath> destination)
         {
             OperationType = operationType;
             Source = source;

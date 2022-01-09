@@ -190,7 +190,7 @@ namespace Files.Interacts
                     item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory),
                 Dest = (item as RecycleBinItem).ItemOriginalPath
             });
-            await FilesystemHelpers.RestoreItemsFromTrashAsync(await items.Select(x => x.Source).ToListAsync(), await items.Select(x => x.Dest).ToListAsync(), true);
+            await FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
         }
 
         public virtual async void DeleteItem(RoutedEventArgs e)
@@ -198,7 +198,7 @@ namespace Files.Interacts
             var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
                 item.ItemPath,
                 item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-            await FilesystemHelpers.DeleteItemsAsync(await items.ToListAsync(), true, false, true);
+            await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
         }
 
         public virtual void ShowFolderProperties(RoutedEventArgs e)

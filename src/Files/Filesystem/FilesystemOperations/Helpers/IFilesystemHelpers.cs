@@ -28,7 +28,7 @@ namespace Files.Filesystem
         /// <param name="permanently">Determines whether <paramref name="source"/> is be deleted permanently</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> DeleteItemsAsync(IList<IStorageItem> source, bool showDialog, bool permanently, bool registerHistory);
+        Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItem> source, bool showDialog, bool permanently, bool registerHistory);
 
         /// <summary>
         /// Deletes provided <paramref name="source"/>
@@ -48,7 +48,7 @@ namespace Files.Filesystem
         /// <param name="permanently">Determines whether <paramref name="source"/> is be deleted permanently</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> DeleteItemsAsync(IList<IStorageItemWithPath> source, bool showDialog, bool permanently, bool registerHistory);
+        Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source, bool showDialog, bool permanently, bool registerHistory);
 
         /// <summary>
         /// Deletes provided <paramref name="source"/>
@@ -80,7 +80,7 @@ namespace Files.Filesystem
         /// <param name="destination">The destination fullPath to restore to</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> RestoreItemsFromTrashAsync(IList<IStorageItem> source, IList<string> destination, bool registerHistory);
+        Task<ReturnResult> RestoreItemsFromTrashAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory);
 
         /// <summary>
         /// Restores <paramref name="source"/> from the RecycleBin to <paramref name="destination"/> fullPath
@@ -98,7 +98,7 @@ namespace Files.Filesystem
         /// <param name="destination">The destination fullPath to restore to</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> RestoreItemsFromTrashAsync(IList<IStorageItemWithPath> source, IList<string> destination, bool registerHistory);
+        Task<ReturnResult> RestoreItemsFromTrashAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool registerHistory);
 
         #endregion Restore
 
@@ -128,7 +128,7 @@ namespace Files.Filesystem
         /// <param name="showDialog">Determines whether to show copy dialog</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> CopyItemsAsync(IList<IStorageItem> source, IList<string> destination, bool showDialog, bool registerHistory);
+        Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory);
 
         /// <summary>
         /// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
@@ -148,7 +148,7 @@ namespace Files.Filesystem
         /// <param name="showDialog">Determines whether to show copy dialog</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> CopyItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, bool showDialog, bool registerHistory);
+        Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory);
 
         /// <summary>
         /// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
@@ -191,7 +191,7 @@ namespace Files.Filesystem
         /// <param name="showDialog">Determines whether to show move dialog</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> MoveItemsAsync(IList<IStorageItem> source, IList<string> destination, bool showDialog, bool registerHistory);
+        Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory);
 
         /// <summary>
         /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
@@ -211,7 +211,7 @@ namespace Files.Filesystem
         /// <param name="showDialog">Determines whether to show move dialog</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> MoveItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, bool showDialog, bool registerHistory);
+        Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory);
 
         /// <summary>
         /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
