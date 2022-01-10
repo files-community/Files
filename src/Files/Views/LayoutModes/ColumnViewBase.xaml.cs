@@ -347,18 +347,23 @@ namespace Files.Views.LayoutModes
         private void FileList_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
         {
             // Open selected directory
-            tapDebounceTimer.Stop();
-            if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+            if (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down || 
+                e.Key == VirtualKey.PageUp || e.Key == VirtualKey.PageDown ||
+                e.Key == VirtualKey.Home || e.Key == VirtualKey.End)
             {
-                var currItem = SelectedItem;
-                tapDebounceTimer.Debounce(() =>
+                tapDebounceTimer.Stop();
+                if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    if (currItem == SelectedItem)
+                    var currItem = SelectedItem;
+                    tapDebounceTimer.Debounce(() =>
                     {
-                        ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
-                    }
-                    tapDebounceTimer.Stop();
-                }, TimeSpan.FromMilliseconds(200));
+                        if (currItem == SelectedItem)
+                        {
+                            ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+                        }
+                        tapDebounceTimer.Stop();
+                    }, TimeSpan.FromMilliseconds(200));
+                }
             }
         }
 
@@ -488,14 +493,13 @@ namespace Files.Views.LayoutModes
             if (item != null
                 && ((item.PrimaryItemAttribute == StorageItemTypes.Folder) || (UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)))
             {
-                ResetRenameDoubleClick();
-
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
                     ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
                 }
                 else
                 {
+                    ResetRenameDoubleClick();
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
             }
