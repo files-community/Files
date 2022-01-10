@@ -1,5 +1,6 @@
 <p align="center">
-  <img src="src/Files/Assets/AppTiles/StoreLogo.scale-400.png" />
+  <img alt="Quick Pad Logo" src="src/Files/Assets/AppTiles/StoreLogo.scale-400.png" width="100px" />
+  <h1 align="center">Files</h1>
 </p>
 
 [![Build Status](https://dev.azure.com/filescommunity/Files/_apis/build/status/Build%20Pipeline?branchName=main)](https://dev.azure.com/filescommunity/Files/_build/latest?definitionId=4&branchName=main)
@@ -7,10 +8,6 @@
 <a style="text-decoration:none" href="https://www.microsoft.com/store/apps/9NGHP3DX8HDX">
     <img src="https://img.shields.io/badge/Microsoft%20Store-Download-orange.svg?style=flat-square" alt="Store link" />
 </a>
-
-## Welcome to the Files repository
-
-![Files](src/Files/Assets/FilesHome.png)
 
 ## What is Files?
 Files is a file manager for Windows with a powerful yet intuitive design. It has features like multiple tabs, panes, columns, shell extensions in the context menu and tags.
@@ -45,3 +42,7 @@ In the architecture pane, select the correct architecture for your system as Deb
 ## Contributors
 
 Want to contribute to this project? Feel free to open an [issue](/issues) or [pull request](/pulls). View our [Contributing guidelines](https://github.com/files-community/Files/blob/main/.github/CONTRIBUTING.md) to make sure you're up to date on the latest guidelines for contributing to the Files codebase.
+
+## Screenshots
+
+![Files](src/Files/Assets/FilesHome.png)
