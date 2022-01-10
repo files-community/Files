@@ -31,6 +31,12 @@ namespace Files.InteractionTests.Tests
             foreach (var item in settingsItems)
             {
                 TestHelper.InvokeButtonById(item);
+                try
+                {
+                    // First run can be flaky due to external components
+                    AxeHelper.AssertNoAccessibilityErrors();
+                }
+                catch (System.Exception) { }
                 AxeHelper.AssertNoAccessibilityErrors();
             }
         }
