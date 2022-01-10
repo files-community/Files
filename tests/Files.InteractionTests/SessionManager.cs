@@ -35,12 +35,23 @@ namespace Files.InteractionTests
                 AppiumOptions appiumOptions = new AppiumOptions();
                 appiumOptions.AddAdditionalCapability("app", FilesAppId);
                 appiumOptions.AddAdditionalCapability("deviceName", "WindowsPC");
-                try
-                {
-                    _session = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appiumOptions);
+
+                int timeoutCount = 100;
+
+
+                while(_session == null && timeoutCount < 1000 * 120){
+                    try
+                    {
+                        _session = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appiumOptions);
+                        if(_session == null){
+                            Console.WriteLine("App with current timeout " + timeoutCount);
+                        }
+                    }
+                    catch (OpenQA.Selenium.WebDriverException exc) {
+                        Console.WriteLine("Failed to get driver with exception " + exc.Message + " and timeout " + timeoutCount);
+                    }
+                    Thread.Sleep(timeoutCount);
                 }
-                catch (OpenQA.Selenium.WebDriverException) { }
-                Thread.Sleep(30000);
                 if (_session == null)
                 {
                     // WinAppDriver is probably not running, so lets start it!
