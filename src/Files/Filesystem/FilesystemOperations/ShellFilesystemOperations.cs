@@ -3,7 +3,6 @@ using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
-using Files.Interacts;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -270,7 +269,8 @@ namespace Files.Filesystem
                 {
                     await associatedInstance.FilesystemViewModel.RemoveFileOrFolderAsync(item.Source);
                 }
-                var recycledSources = deleteResult.Items.Where(x => source.Select(s => s.Path).Contains(x.Source)).Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
+                var recycledSources = deleteResult.Items.Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination)
+                    .Where(x => source.Select(s => s.Path).Contains(x.Source));
                 if (recycledSources.Any())
                 {
                     return new StorageHistory(FileOperationType.Recycle, recycledSources.Select(x => source.Single(s => s.Path == x.Source)),
@@ -281,8 +281,9 @@ namespace Files.Filesystem
             else
             {
                 // Retry failed operations
-                var failedSources = deleteResult.Items.Where(x => source.Select(s => s.Path).Contains(x.Source))
-                    .Where(x => !x.Succeeded && x.HRresult != HRESULT.COPYENGINE_E_USER_CANCELLED && x.HRresult != HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND);
+                var failedSources = deleteResult.Items
+                    .Where(x => !x.Succeeded && x.HRresult != HRESULT.COPYENGINE_E_USER_CANCELLED && x.HRresult != HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND)
+                    .Where(x => source.Select(s => s.Path).Contains(x.Source));
                 return await filesystemOperations.DeleteItemsAsync(
                     failedSources.Select(x => source.Single(s => s.Path == x.Source)), progress, errorCode, permanently, cancellationToken);
             }
@@ -507,7 +508,8 @@ namespace Files.Filesystem
                 progress?.Report(100.0f);
                 errorCode?.Report(FileSystemStatusCode.Success);
 
-                var movedSources = moveResult.Items.Where(x => source.Select(s => s.Path).Contains(x.Source)).Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
+                var movedSources = moveResult.Items.Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination)
+                    .Where(x => source.Select(s => s.Path).Contains(x.Source));
                 if (movedSources.Any())
                 {
                     // Recycle bin also stores a file starting with $I for each item
@@ -522,7 +524,7 @@ namespace Files.Filesystem
             else
             {
                 // Retry failed operations
-                var failedSources = moveResult.Items.Where(x => source.Select(s => s.Path).Contains(x.Source)).Where(x => !x.Succeeded);
+                var failedSources = moveResult.Items.Where(x => !x.Succeeded).Where(x => source.Select(s => s.Path).Contains(x.Source));
                 var moveZip = source.Zip(destination, (src, dest) => new { src, dest });
                 return await filesystemOperations.RestoreItemsFromTrashAsync(
                     failedSources.Select(x => moveZip.Single(s => s.src.Path == x.Source).src),
