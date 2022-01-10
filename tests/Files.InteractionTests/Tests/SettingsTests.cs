@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium.Interactions;
+﻿using System;
+using OpenQA.Selenium.Interactions;
 
 namespace Files.InteractionTests.Tests
 {
@@ -30,6 +31,7 @@ namespace Files.InteractionTests.Tests
 
             foreach (var item in settingsItems)
             {
+                Console.WriteLine("Inoking button:" + item);
                 TestHelper.InvokeButtonById(item);
                 try
                 {
