@@ -40,7 +40,7 @@ namespace Files.InteractionTests
                     _session = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appiumOptions);
                 }
                 catch (OpenQA.Selenium.WebDriverException) { }
-                Thread.Sleep(3000);
+                Thread.Sleep(30000);
                 if (_session == null)
                 {
                     // WinAppDriver is probably not running, so lets start it!
