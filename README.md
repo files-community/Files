@@ -33,3 +33,11 @@ View our [Contributing guidelines](https://github.com/files-community/Files/blob
 
 ## FAQ
 Have any questions? Check out our [documentation site](https://files.community/docs)!
+
+# Contributors
+
+Want to contribute to this project? Feel free to open an [issue](/issues) or [pull request](/pulls).
+
+<a href="https://github.com/files-community/Files/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=files-community/Files" />
+</a>
