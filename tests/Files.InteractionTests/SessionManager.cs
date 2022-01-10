@@ -60,7 +60,7 @@ namespace Files.InteractionTests
 			if (_session == null)
 			{
 
-				int timeoutCount = 1000;
+				int timeoutCount = 50;
 
                 tryInitializeSession();
 				if (_session == null)
@@ -83,7 +83,7 @@ namespace Files.InteractionTests
                     tryInitializeSession();
 				}
 
-                while (_session == null && timeoutCount < 1000 * 17)
+                while (_session == null && timeoutCount < 1000 * 4)
 				{
                     tryInitializeSession();
 					Thread.Sleep(timeoutCount);
