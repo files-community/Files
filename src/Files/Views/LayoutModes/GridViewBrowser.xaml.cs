@@ -145,6 +145,10 @@ namespace Files.Views.LayoutModes
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
+            if (eventArgs.Parameter is NavigationArguments navArgs)
+            {
+                navArgs.FocusOnNavigation = true;
+            }
             base.OnNavigatedTo(eventArgs);
 
             currentIconSize = FolderSettings.GetIconSize();
@@ -169,9 +173,8 @@ namespace Files.Views.LayoutModes
             FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
         }
 
-        private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
+        private void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
         {
-            await Task.Delay(200);
             FileList.Focus(FocusState.Programmatic);
         }
 
@@ -359,6 +362,10 @@ namespace Files.Views.LayoutModes
             textBox.KeyDown -= RenameTextBox_KeyDown;
             FileNameTeachingTip.IsOpen = false;
             IsRenamingItem = false;
+
+            // Re-focus selected list item
+            GridViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
+            gridViewItem?.Focus(FocusState.Programmatic);
         }
 
         private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -394,18 +401,19 @@ namespace Files.Views.LayoutModes
                 // Unfocus the GridView so keyboard shortcut can be handled
                 NavToolbar?.Focus(FocusState.Pointer);
             }
-            else if (ctrlPressed && shiftPressed && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.W))
-            {
-                if (!IsRenamingItem)
-                {
-                    // Unfocus the ListView so keyboard shortcut can be handled (ctrl + shift + W/"->"/"<-")
-                    NavToolbar?.Focus(FocusState.Pointer);
-                }
-            }
             else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
             {
                 // Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
                 NavToolbar?.Focus(FocusState.Pointer);
+            }
+            else if (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down)
+            {
+                // If list has only one item, select it on arrow down/up (#5681)
+                if (!IsItemSelected)
+                {
+                    FileList.SelectedIndex = 0;
+                    e.Handled = true;
+                }
             }
         }
 

@@ -54,9 +54,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>é uma subpasta da pasta de origem</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Tipo de item:</value>
-  </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Selecionar Tudo</value>
   </data>
@@ -162,9 +159,6 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Colar</value>
   </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5Hash:</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Propriedades</value>
   </data>
@@ -254,9 +248,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Propriedades</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Atributos:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Propriedades</value>
@@ -2268,7 +2259,7 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
     <value>Descendente</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
-    <value>Estado de sicronização</value>
+    <value>Estado de sincronização</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Mostrar secção favoritos</value>
@@ -2343,7 +2334,7 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
     <value>Widget Ficheiros Recentes</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
-    <value>Abrir local de registro</value>
+    <value>Abrir local de registo</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Criar ligação em {0}</value>
@@ -2554,5 +2545,35 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Limpar tudo</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Colunas</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Ícones Grandes</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Ícones Médios</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Ícones Pequenos</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Títulos</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Criar Biblioteca</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>Insira o nome da Biblioteca</value>
+  </data>
+  <data name="ShowFolderSize" xml:space="preserve">
+    <value>Mostrar tamanho da paasta</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Ignorar</value>
+  </data>
+  <data name="SettingsOpenInLogin" xml:space="preserve">
+    <value>Abrir Files no Início do Windows</value>
   </data>
 </root>

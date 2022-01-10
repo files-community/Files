@@ -54,9 +54,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>je podsložkou zdrojové složky.</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Typ položky:</value>
-  </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Vybrat vše</value>
   </data>
@@ -162,9 +159,6 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Vložit</value>
   </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5Hash:</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Soubor</value>
   </data>
@@ -260,9 +254,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Vlastnosti</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Atributy:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Vlastnosti</value>

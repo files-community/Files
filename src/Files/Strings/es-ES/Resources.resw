@@ -24,9 +24,6 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Tamaño:</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Tipo:</value>
-  </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Modificado:</value>
   </data>
@@ -216,9 +213,6 @@
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Archivo</value>
   </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>HashMD5:</value>
-  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Esta acción no se puede completar</value>
   </data>
@@ -236,9 +230,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Propiedades</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Atributos:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Propiedades</value>

@@ -24,9 +24,6 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Taille :</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Type d'élément :</value>
-  </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Modifié :</value>
   </data>
@@ -150,9 +147,6 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Document texte</value>
   </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>Hash MD5 :</value>
-  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Cette action ne peut pas être effectuée</value>
   </data>
@@ -236,9 +230,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Propriétés</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Attributs :</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Propriétés</value>

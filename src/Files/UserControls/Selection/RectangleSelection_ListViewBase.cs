@@ -186,13 +186,16 @@ namespace Files.UserControls.Selection
                     selectionChanged(sender, null);
                 }
             }
-            if (selectionState == SelectionState.Active)
+            if (selectionState == SelectionState.Active || e.OriginalSource is ListViewBase)
             {
+                // Always trigger SelectionEnded to focus the file list when clicking on the empty space (#2977)
                 OnSelectionEnded();
             }
 
             selectionStrategy = null;
             selectionState = SelectionState.Inactive;
+
+            e.Handled = true;
         }
 
         private void RectangleSelection_LayoutUpdated(object sender, object e)

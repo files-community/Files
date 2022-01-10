@@ -101,6 +101,7 @@ namespace Files.ViewModels
             PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
             StatusBannersSource.Insert(0, banner);
             ProgressBannerPosted?.Invoke(this, postedBanner);
+            UpdateBanner(banner);
             return postedBanner;
         }
 
@@ -113,6 +114,7 @@ namespace Files.ViewModels
             PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this, cancellationTokenSource);
             StatusBannersSource.Insert(0, banner);
             ProgressBannerPosted?.Invoke(this, postedBanner);
+            UpdateBanner(banner);
             return postedBanner;
         }
 
@@ -122,6 +124,7 @@ namespace Files.ViewModels
             PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
             StatusBannersSource.Insert(0, banner);
             ProgressBannerPosted?.Invoke(this, postedBanner);
+            UpdateBanner(banner);
             return postedBanner;
         }
 

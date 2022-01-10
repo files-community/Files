@@ -45,6 +45,21 @@ namespace Files.Views.LayoutModes
             }
         }
 
+        private double maxWidthForRenameTextbox;
+
+        public double MaxWidthForRenameTextbox
+        {
+            get => maxWidthForRenameTextbox;
+            set
+            {
+                if (value != maxWidthForRenameTextbox)
+                {
+                    maxWidthForRenameTextbox = value;
+                    NotifyPropertyChanged(nameof(MaxWidthForRenameTextbox));
+                }
+            }
+        }
+
         private RelayCommand<string> UpdateSortOptionsCommand { get; set; }
 
         public ScrollViewer ContentScroller { get; private set; }
@@ -165,7 +180,12 @@ namespace Files.Views.LayoutModes
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
+            if (eventArgs.Parameter is NavigationArguments navArgs)
+            {
+                navArgs.FocusOnNavigation = true;
+            }
             base.OnNavigatedTo(eventArgs);
+
             if (ParentShellPageInstance.InstanceViewModel?.FolderSettings.ColumnsViewModel != null)
             {
                 ColumnsViewModel = ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel;
@@ -211,7 +231,8 @@ namespace Files.Views.LayoutModes
                 IsTypeCloudDrive = InstanceViewModel.IsPageTypeCloudDrive,
                 IsTypeRecycleBin = InstanceViewModel.IsPageTypeRecycleBin
             });
-            ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 80);
+
+            RootGrid_SizeChanged(null, null);
         }
 
         private void FolderSettings_SortOptionPreferenceUpdated(object sender, SortOption e)
@@ -282,9 +303,8 @@ namespace Files.Views.LayoutModes
             ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
         }
 
-        private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
+        private void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
         {
-            await Task.Delay(200);
             FileList.Focus(FocusState.Programmatic);
         }
 
@@ -332,6 +352,7 @@ namespace Files.Views.LayoutModes
             OldItemName = textBlock.Text;
             textBlock.Visibility = Visibility.Collapsed;
             textBox.Visibility = Visibility.Visible;
+            Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
 
             textBox.Focus(FocusState.Pointer);
             textBox.LostFocus += RenameTextBox_LostFocus;
@@ -400,14 +421,20 @@ namespace Files.Views.LayoutModes
 
         private void EndRename(TextBox textBox)
         {
-            ListViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
-            if (textBox == null || gridViewItem == null)
+            if (textBox != null && textBox.FindParent<Grid>() is FrameworkElement parent)
+            {
+                Grid.SetColumnSpan(parent, 1);
+            }
+
+            ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+
+            if (textBox == null || listViewItem == null)
             {
                 // Navigating away, do nothing
             }
             else
             {
-                TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+                TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
                 textBox.Visibility = Visibility.Collapsed;
                 textBlock.Visibility = Visibility.Visible;
             }
@@ -416,6 +443,9 @@ namespace Files.Views.LayoutModes
             textBox.KeyDown -= RenameTextBox_KeyDown;
             FileNameTeachingTip.IsOpen = false;
             IsRenamingItem = false;
+
+            // Re-focus selected list item
+            listViewItem?.Focus(FocusState.Programmatic);
         }
 
         private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -451,14 +481,6 @@ namespace Files.Views.LayoutModes
             {
                 // Unfocus the GridView so keyboard shortcut can be handled
                 NavToolbar?.Focus(FocusState.Pointer);
-            }
-            else if (ctrlPressed && shiftPressed && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.W))
-            {
-                if (!IsRenamingItem)
-                {
-                    // Unfocus the ListView so keyboard shortcut can be handled (ctrl + shift + W/"->"/"<-")
-                    NavToolbar?.Focus(FocusState.Pointer);
-                }
             }
             else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
             {
@@ -674,7 +696,8 @@ namespace Files.Views.LayoutModes
 
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 80);
+            ColumnsViewModel.SetDesiredSize(Math.Max(0, RootGrid.ActualWidth - 80));
+            MaxWidthForRenameTextbox = Math.Max(0, RootGrid.ActualWidth - 80);
         }
 
         private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)

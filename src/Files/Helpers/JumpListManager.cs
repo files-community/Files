@@ -57,51 +57,71 @@ namespace Files.Helpers
 
         private void AddFolder(string path)
         {
-            if (instance != null && !JumpListItemPaths.Contains(path))
+            if (instance != null)
             {
-                string displayName;
-                if (path.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
+                string displayName = null;
+                if (path.EndsWith("\\"))
                 {
-                    displayName = "ms-resource:///Resources/Desktop";
-                }
-                else if (path.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    displayName = "ms-resource:///Resources/Downloads";
-                }
-                else if (path.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    var localSettings = ApplicationData.Current.LocalSettings;
-                    displayName = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
-                }
-                else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
-                {
-                    var libName = Path.GetFileNameWithoutExtension(library.Path);
-                    switch (libName)
+                    // Jumplist item argument can't end with a slash so append a character that can't exist in a directory name to support listing drives.
+                    var drive = App.DrivesManager.Drives.Where(drive => drive.Path == path).FirstOrDefault();
+                    if (drive == null)
                     {
-                        case "Documents":
-                        case "Pictures":
-                        case "Music":
-                        case "Videos":
-                            // Use localized name
-                            displayName = $"ms-resource:///Resources/Sidebar{libName}";
-                            break;
-
-                        default:
-                            // Use original name
-                            displayName = library.Text;
-                            break;
+                        return;
                     }
+
+                    displayName = drive.Text;
+                    path += '?';
                 }
-                else
+
+                if (displayName == null)
                 {
-                    displayName = Path.GetFileName(path);
+                    if (path.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
+                    {
+                        displayName = "ms-resource:///Resources/SidebarDesktop";
+                    }
+                    else if (path.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
+                    {
+                        displayName = "ms-resource:///Resources/SidebarDownloads";
+                    }
+                    else if (path.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                    {
+                        var localSettings = ApplicationData.Current.LocalSettings;
+                        displayName = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
+                    }
+                    else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
+                    {
+                        var libName = Path.GetFileNameWithoutExtension(library.Path);
+                        switch (libName)
+                        {
+                            case "Documents":
+                            case "Pictures":
+                            case "Music":
+                            case "Videos":
+                                // Use localized name
+                                displayName = $"ms-resource:///Resources/Sidebar{libName}";
+                                break;
+
+                            default:
+                                // Use original name
+                                displayName = library.Text;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        displayName = Path.GetFileName(path);
+                    }
                 }
 
                 var jumplistItem = JumpListItem.CreateWithArguments(path, displayName);
                 jumplistItem.Description = jumplistItem.Arguments;
                 jumplistItem.GroupName = "ms-resource:///Resources/JumpListRecentGroupHeader";
                 jumplistItem.Logo = new Uri("ms-appx:///Assets/FolderIcon.png");
-                instance.Items.Add(jumplistItem);
+
+                // Keep newer items at the top.
+                instance.Items.Remove(instance.Items.FirstOrDefault(x => x.Arguments.Equals(path, StringComparison.OrdinalIgnoreCase)));
+                instance.Items.Insert(0, jumplistItem);
+                JumpListItemPaths.Remove(JumpListItemPaths.FirstOrDefault(x => x.Equals(path, StringComparison.OrdinalIgnoreCase)));
                 JumpListItemPaths.Add(path);
             }
         }

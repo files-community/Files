@@ -54,9 +54,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>er en undermappe til kildemappen</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Emnetype:</value>
-  </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Vælg alle</value>
   </data>
@@ -162,9 +159,6 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Indsæt</value>
   </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5Hash:</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Fil</value>
   </data>
@@ -260,9 +254,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Egenskaber</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Attributter: </value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Egenskaber</value>

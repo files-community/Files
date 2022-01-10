@@ -24,9 +24,6 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Размер:</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Тип:</value>
-  </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Изменено:</value>
   </data>
@@ -225,17 +222,11 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>это подпапка исходной папки</value>
   </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5 Хэш:</value>
-  </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Инвертировать выделение</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Свойства</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Атрибуты:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Свойства</value>

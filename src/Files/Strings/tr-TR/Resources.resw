@@ -24,9 +24,6 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Boyut:</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Öge türü:</value>
-  </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Değiştirme:</value>
   </data>
@@ -225,9 +222,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>hedef klasörün bir alt klasörüdür</value>
   </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5Hash:</value>
-  </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Seçimi Tersine Çevir</value>
   </data>
@@ -236,9 +230,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Özellikler</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Öznitelikler:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Özellikler</value>

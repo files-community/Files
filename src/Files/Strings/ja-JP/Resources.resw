@@ -54,9 +54,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>は移動元のフォルダのサブフォルダです</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>種類:</value>
-  </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>すべて選択</value>
   </data>
@@ -159,9 +156,6 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>貼り付け</value>
   </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5 ハッシュ:</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>プロパティ</value>
   </data>
@@ -251,9 +245,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>プロパティ</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>属性:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>プロパティ</value>
