@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using OpenQA.Selenium.Interactions;
 
 namespace Files.InteractionTests.Tests
@@ -32,6 +33,7 @@ namespace Files.InteractionTests.Tests
             foreach (var item in settingsItems)
             {
                 Console.WriteLine("Inoking button:" + item);
+                Thread.Sleep(2000);
                 TestHelper.InvokeButtonById(item);
                 try
                 {
