@@ -347,23 +347,18 @@ namespace Files.Views.LayoutModes
         private void FileList_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
         {
             // Open selected directory
-            if (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down || 
-                e.Key == VirtualKey.PageUp || e.Key == VirtualKey.PageDown ||
-                e.Key == VirtualKey.Home || e.Key == VirtualKey.End)
+            tapDebounceTimer.Stop();
+            if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
-                tapDebounceTimer.Stop();
-                if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                var currItem = SelectedItem;
+                tapDebounceTimer.Debounce(() =>
                 {
-                    var currItem = SelectedItem;
-                    tapDebounceTimer.Debounce(() =>
+                    if (currItem == SelectedItem)
                     {
-                        if (currItem == SelectedItem)
-                        {
-                            ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
-                        }
-                        tapDebounceTimer.Stop();
-                    }, TimeSpan.FromMilliseconds(200));
-                }
+                        ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+                    }
+                    tapDebounceTimer.Stop();
+                }, TimeSpan.FromMilliseconds(200));
             }
         }
 
@@ -440,6 +435,28 @@ namespace Files.Views.LayoutModes
             }
         }
 
+        protected override void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
+        {
+            if (ParentShellPageInstance != null)
+            {
+                if (ParentShellPageInstance.CurrentPageType == typeof(ColumnViewBase) && !IsRenamingItem)
+                {
+                    // Don't block the various uses of enter key (key 13)
+                    var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
+                    if (args.KeyCode == 13
+                        || focusedElement is Button
+                        || focusedElement is TextBox
+                        || focusedElement is PasswordBox
+                        || DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) != null)
+                    {
+                        return;
+                    }
+
+                    base.Page_CharacterReceived(sender, args);
+                }
+            }
+        }
+
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             var clickedItem = e.OriginalSource as FrameworkElement;
@@ -491,17 +508,10 @@ namespace Files.Views.LayoutModes
             }
             // Check if the setting to open items with a single click is turned on
             if (item != null
-                && ((item.PrimaryItemAttribute == StorageItemTypes.Folder) || (UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)))
+                && (UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File))
             {
-                if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                {
-                    ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
-                }
-                else
-                {
-                    ResetRenameDoubleClick();
-                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-                }
+                ResetRenameDoubleClick();
+                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
             }
             else
             {
@@ -517,6 +527,10 @@ namespace Files.Views.LayoutModes
                     {
                         CommitRename(textBox);
                     }
+                }
+                if (item != null && item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
                 }
             }
         }
