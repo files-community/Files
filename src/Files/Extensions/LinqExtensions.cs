@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,6 +20,31 @@ namespace Files.Extensions
         /// <param name="enumerable"></param>
         /// <returns></returns>
         public static bool IsEmpty<T>(this IEnumerable<T> enumerable) => enumerable == null || !enumerable.Any();
+
+        /// <summary>
+        /// Checks if collection has only specified <paramref name="amount"/> of items (optimized).
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="enumerable"></param>
+        /// <returns></returns>
+        public static bool IsAmountInCollection<T>(this IEnumerable<T> enumerable, int amount)
+        {
+            using var enumerator = enumerable.GetEnumerator();
+
+            for (int i = 0; i < amount + 1; i++) // +1 - to check if the enumerable contains more than specified amount
+            {
+                if (enumerator.MoveNext())
+                {
+                    continue;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         /// <summary>
         /// Enumerates through <see cref="IEnumerable{T}"/> of elements and executes <paramref name="action"/>

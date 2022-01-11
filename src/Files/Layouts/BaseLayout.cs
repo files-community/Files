@@ -374,8 +374,6 @@ namespace Files
             }
         }
 
-        protected abstract ListedItem GetItemFromElement(object element);
-
         protected virtual void BaseFolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
         {
             if (ParentShellPageInstance.SlimContentPage != null)
@@ -1147,8 +1145,6 @@ namespace Files
         {
             ParentShellPageInstance.NavToolbarViewModel.HasItem = CollectionViewSource.View.Any();
         }
-
-        virtual public void StartRenameItem() { }
 
         private ListedItem preRenamingItem = null;
 

@@ -6,45 +6,49 @@ namespace Files.ViewModels
 {
     public class ColumnsViewModel : ObservableObject
     {
-        private ColumnViewModel iconColumn = new ColumnViewModel()
+        public ColumnsViewModel() // TODO(i): apply this style to rest of properties
         {
-            UserLength = new GridLength(24, GridUnitType.Pixel),
-            IsResizeable = false,
-        };
+            this._IconColumn = new ColumnViewModel()
+            {
+                UserLength = new GridLength(24, GridUnitType.Pixel),
+                IsResizeable = false,
+            };
+            this._StatusColumn = new ColumnViewModel()
+            {
+                UserLength = new GridLength(50),
+                NormalMaxLength = 80,
+            };
+            this._TagColumn = new ColumnViewModel();
+            this._NameColumn = new ColumnViewModel();
+        }
 
+        private ColumnViewModel _IconColumn;
         [JsonIgnore]
         public ColumnViewModel IconColumn
         {
-            get => iconColumn;
-            set => SetProperty(ref iconColumn, value);
+            get => _IconColumn;
+            set => SetProperty(ref _IconColumn, value);
         }
 
-        private ColumnViewModel tagColumn = new ColumnViewModel();
-
-        public ColumnViewModel TagColumn
-        {
-            get => tagColumn;
-            set => SetProperty(ref tagColumn, value);
-        }
-
-        private ColumnViewModel nameColumn = new ColumnViewModel();
-
-        public ColumnViewModel NameColumn
-        {
-            get => nameColumn;
-            set => SetProperty(ref nameColumn, value);
-        }
-
-        private ColumnViewModel statusColumn = new ColumnViewModel()
-        {
-            UserLength = new GridLength(50),
-            NormalMaxLength = 80,
-        };
-
+        private ColumnViewModel _StatusColumn;
         public ColumnViewModel StatusColumn
         {
-            get => statusColumn;
-            set => SetProperty(ref statusColumn, value);
+            get => _StatusColumn;
+            set => SetProperty(ref _StatusColumn, value);
+        }
+
+        private ColumnViewModel _TagColumn;
+        public ColumnViewModel TagColumn
+        {
+            get => _TagColumn;
+            set => SetProperty(ref _TagColumn, value);
+        }
+
+        private ColumnViewModel _NameColumn;
+        public ColumnViewModel NameColumn
+        {
+            get => _NameColumn;
+            set => SetProperty(ref _NameColumn, value);
         }
 
         private ColumnViewModel dateModifiedColumn = new ColumnViewModel();
