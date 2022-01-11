@@ -976,8 +976,6 @@ namespace Files.Views
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete:
                     NavToolbarViewModel.CanRefresh = true;
                     SetLoadingIndicatorForTabs(false);
-                    // Set focus to the file list to allow arrow navigation
-                    ContentPage?.ItemManipulationModel.FocusFileList();
                     // Select previous directory
                     if (!InstanceViewModel.IsPageTypeSearchResults && !string.IsNullOrWhiteSpace(e.PreviousDirectory))
                     {
@@ -1131,6 +1129,7 @@ namespace Files.Views
 
     public class NavigationArguments
     {
+        public bool FocusOnNavigation { get; set; } = false;
         public string NavPathParam { get; set; } = null;
         public IShellPage AssociatedTabInstance { get; set; }
         public bool IsSearchResultPage { get; set; } = false;

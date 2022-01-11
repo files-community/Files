@@ -67,7 +67,7 @@
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE2B2;" />
                 </local:SettingsBlockControl.Icon>
-                <ToggleSwitch IsOn="{Binding ShowFolderSize, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                <ToggleSwitch IsOn="{Binding ShowFolderSize, Mode=TwoWay}" AutomationProperties.Name="{helpers:ResourceString Name=ShowFolderSize}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
             </local:SettingsBlockControl>
 
             <TextBlock

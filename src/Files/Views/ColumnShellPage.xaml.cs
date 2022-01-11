@@ -818,17 +818,17 @@ namespace Files.Views
                     break;
 
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress:
-                    var browser = this.FindAscendant<ColumnViewBrowser>();
-                    NavToolbarViewModel.CanGoBack = browser.ParentShellPageInstance.CanNavigateBackward;
-                    NavToolbarViewModel.CanGoForward = browser.ParentShellPageInstance.CanNavigateForward;
+                    if (this.FindAscendant<ColumnViewBrowser>() is ColumnViewBrowser browser)
+                    {
+                        NavToolbarViewModel.CanGoBack = browser.ParentShellPageInstance.CanNavigateBackward;
+                        NavToolbarViewModel.CanGoForward = browser.ParentShellPageInstance.CanNavigateForward;
+                    }
                     SetLoadingIndicatorForTabs(true);
                     break;
 
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete:
                     SetLoadingIndicatorForTabs(false);
                     NavToolbarViewModel.CanRefresh = true;
-                    // Set focus to the file list to allow arrow navigation
-                    ContentPage?.ItemManipulationModel.FocusFileList();
                     // Select previous directory
                     if (!string.IsNullOrWhiteSpace(e.PreviousDirectory))
                     {

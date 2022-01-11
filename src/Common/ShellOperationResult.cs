@@ -16,7 +16,7 @@ namespace Files.Common
     public class ShellOperationItemResult
     {
         public bool Succeeded { get; set; }
-        public int HRresult { get; set; }
+        public int HResult { get; set; }
         public string Source { get; set; }
         public string Destination { get; set; }
     }

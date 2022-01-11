@@ -220,7 +220,8 @@ ClientBin/
 *.dbmdl
 *.dbproj.schemaview
 *.jfm
-*.pfx
+src/**/*.pfx
+tests/**/*.pfx
 *.publishsettings
 orleans.codegen.cs
 

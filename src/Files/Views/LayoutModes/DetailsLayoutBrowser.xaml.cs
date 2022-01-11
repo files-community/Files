@@ -188,7 +188,12 @@ namespace Files.Views.LayoutModes
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
+            if (eventArgs.Parameter is NavigationArguments navArgs)
+            {
+                navArgs.FocusOnNavigation = true;
+            }
             base.OnNavigatedTo(eventArgs);
+
             if (ParentShellPageInstance.InstanceViewModel?.FolderSettings.ColumnsViewModel != null)
             {
                 ColumnsViewModel = ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel;

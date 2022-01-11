@@ -167,6 +167,7 @@
                     IsRightTapEnabled="True"
                     ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
                     PreviewKeyDown="FileList_PreviewKeyDown"
+                    PreviewKeyUp="FileList_PreviewKeyUp"
                     RightTapped="FileList_RightTapped"
                     ScrollViewer.IsScrollInertiaEnabled="True"
                     SelectionChanged="FileList_SelectionChanged"
