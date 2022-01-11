@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Quick Pad Logo" src="src/Files/Assets/AppTiles/StoreLogo.scale-400.png" width="100px" />
+  <img alt="Fies Logo" src="src/Files/Assets/AppTiles/StoreLogo.scale-400.png" width="100px" />
   <h1 align="center">Files</h1>
 </p>
 
