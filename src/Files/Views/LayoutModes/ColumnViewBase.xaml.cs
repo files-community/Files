@@ -264,6 +264,10 @@ namespace Files.Views.LayoutModes
             }
             else
             {
+                // Re-focus selected list item
+                ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+                listViewItem?.Focus(FocusState.Programmatic);
+
                 textBox.Visibility = Visibility.Collapsed;
                 RenamingTextBlock.Visibility = Visibility.Visible;
             }
@@ -272,10 +276,6 @@ namespace Files.Views.LayoutModes
             textBox.KeyDown -= RenameTextBox_KeyDown;
             FileNameTeachingTip.IsOpen = false;
             IsRenamingItem = false;
-
-            // Re-focus selected list item
-            ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
-            listViewItem?.Focus(FocusState.Programmatic);
         }
 
         public override void ResetItemOpacity()
