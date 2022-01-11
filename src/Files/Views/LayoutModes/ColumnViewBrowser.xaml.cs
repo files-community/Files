@@ -94,6 +94,7 @@ namespace Files.Views.LayoutModes
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
+            this.Dispose();
         }
 
         #region IDisposable

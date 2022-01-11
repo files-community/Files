@@ -860,11 +860,9 @@ namespace Files.Views
                     break;
 
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress:
-                    if (this.FindAscendant<ColumnViewBrowser>() is ColumnViewBrowser browser)
-                    {
-                        NavToolbarViewModel.CanGoBack = ItemDisplayFrame.CanGoBack || browser.ParentShellPageInstance.CanNavigateBackward;
-                        NavToolbarViewModel.CanGoForward = ItemDisplayFrame.CanGoForward || browser.ParentShellPageInstance.CanNavigateForward;
-                    }
+                    var browser = this.FindAscendant<ColumnViewBrowser>();
+                    NavToolbarViewModel.CanGoBack = ItemDisplayFrame.CanGoBack || browser.ParentShellPageInstance.CanNavigateBackward;
+                    NavToolbarViewModel.CanGoForward = ItemDisplayFrame.CanGoForward || browser.ParentShellPageInstance.CanNavigateForward;
                     SetLoadingIndicatorForTabs(true);
                     break;
 
