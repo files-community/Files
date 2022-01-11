@@ -22,7 +22,7 @@ steps:
       $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
       $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest')
     failOnStderr: true
-    
+
 - task: DownloadSecureFile@1
   name: mapsDevKey
   displayName: 'Download Bing Maps Dev Key'
@@ -54,13 +54,50 @@ steps:
     packageType: sdk
     version: 6.0.100
 
+
 - task: MSBuild@1
   inputs:
     platform: 'x64'
     solution: '**/*.wapproj'
     configuration: '$(buildConfiguration)'
-    msbuildArguments: '/t:build;_GenerateAppxPackage /restore /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)"'
+    msbuildArguments: '/t:build;_GenerateAppxPackage /restore /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)";AppxPackageDir="$(appxPackageDir)";AppxPackageSigningEnabled=true;UapAppxPackageBuildMode=SideloadOnly;PackageCertificateKeyFile="$(Build.SourcesDirectory)\builds\Files_SelfSigned.pfx";PackageCertificatePassword="";PackageCertificateThumbprint=""'
     maximumCpuCount: true
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    arguments: './tests/Files.InteractionTests/Files.InteractionTests.csproj --configuration $(buildConfiguration)'
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Find correct folder and run app install script.
+      cd $(appxPackageDir)
+
+      $AppBundle = Get-ChildItem -Filter Files*Test -Name
+      echo $AppBundle
+      cd $AppBundle
+      ./Install.ps1 -Force
+      Get-AppxPackage
+    errorActionPreference: 'continue'
+    failOnStderr: true
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+
+- task: Windows Application Driver@0
+  inputs:
+    OperationType: 'Start'
+    AgentResolution: '1080p'
+
+- task: VSTest@2
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\$(buildConfiguration)\Files.InteractionTests\net6.0\Files.InteractionTests.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)'
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
