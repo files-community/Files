@@ -33,7 +33,7 @@ namespace Files.Extensions
 
             for (int i = 0; i < amount + 1; i++) // +1 - to check if the enumerable contains more than specified amount
             {
-                if (enumerator.MoveNext())
+                if (enumerator.MoveNext() && i < amount)
                 {
                     continue;
                 }
