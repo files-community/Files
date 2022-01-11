@@ -226,7 +226,7 @@ namespace Files.Views.LayoutModes
 
             var relativeIndex = lastCommonItemIndex - (columnFirstComponents.Count - 1);
 
-            if (relativeIndex < 0)
+            if (relativeIndex < 0 || destComponents.Count - (lastCommonItemIndex + 1) > 1) // Going above parent or too deep down
             {
                 ParentShellPageInstance.NavigateToPath(navigationPath, sourcePageType, navArgs);
             }
