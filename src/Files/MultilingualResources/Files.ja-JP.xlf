@@ -86,7 +86,7 @@
           <source>Enter a path</source>
           <target state="translated">パスを入力</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarSearchReigon.PlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="NavigationToolbarSearchRegion.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Search</source>
           <target state="translated">検索</target>
         </trans-unit>
