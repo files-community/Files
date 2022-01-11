@@ -90,7 +90,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Εισάγετε μια διαδρομή</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Αναζήτηση</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
