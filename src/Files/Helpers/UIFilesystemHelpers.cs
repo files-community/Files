@@ -27,7 +27,6 @@ namespace Files.Helpers
             };
             ConcurrentBag<IStorageItem> items = new ConcurrentBag<IStorageItem>();
 
-            var canFlush = true;
             if (associatedInstance.SlimContentPage.IsItemSelected)
             {
                 // First, reset DataGrid Rows that may be in "cut" command mode
@@ -46,7 +45,6 @@ namespace Files.Helpers
 
                         if (listedItem is FtpItem ftpItem)
                         {
-                            canFlush = false;
                             if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                             {
                                 items.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
@@ -116,12 +114,6 @@ namespace Files.Helpers
             try
             {
                 Clipboard.SetContent(dataPackage);
-                if (onlyStandard && canFlush)
-                {
-                    // Calling Flush will break copy-paste when 2 Files instances are open (#7521)
-                    // Calling Flush should be done only when closing/suspending the app
-                    //Clipboard.Flush();
-                }
             }
             catch
             {
@@ -139,7 +131,6 @@ namespace Files.Helpers
 
             string copySourcePath = associatedInstance.FilesystemViewModel.WorkingDirectory;
 
-            var canFlush = true;
             if (associatedInstance.SlimContentPage.IsItemSelected)
             {
                 try
@@ -148,7 +139,6 @@ namespace Files.Helpers
                     {
                         if (listedItem is FtpItem ftpItem)
                         {
-                            canFlush = false;
                             if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                             {
                                 items.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
@@ -213,12 +203,6 @@ namespace Files.Helpers
             try
             {
                 Clipboard.SetContent(dataPackage);
-                if (onlyStandard && canFlush)
-                {
-                    // Calling Flush will break copy-paste when 2 Files instances are open (#7521)
-                    // Calling Flush should be done only when closing/suspending the app
-                    //Clipboard.Flush();
-                }
             }
             catch
             {
