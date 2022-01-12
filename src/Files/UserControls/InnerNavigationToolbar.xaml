@@ -185,6 +185,8 @@
                     Command="{x:Bind ViewModel.PropertiesCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanViewProperties, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
                     Label="{helpers:ResourceString Name=Properties}"
+                    AutomationProperties.Name="{helpers:ResourceString Name=Properties}"
+                    AccessKey="O"
                     LabelPosition="Collapsed"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=PropertiesTitle}">
                     <AppBarButton.Content>
