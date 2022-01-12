@@ -178,6 +178,19 @@
                         <local:ColoredIcon BaseLayerGlyph="&#xF035;" OverlayLayerGlyph="&#xF036;" />
                     </AppBarButton.Content>
                 </AppBarButton>
+                <AppBarButton
+                    x:Name="PropertiesButton"
+                    Width="Auto"
+                    MinWidth="40"
+                    Command="{x:Bind ViewModel.PropertiesCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanViewProperties, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
+                    Label="{helpers:ResourceString Name=Properties}"
+                    LabelPosition="Collapsed"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=Properties}">
+                    <AppBarButton.Content>
+                        <local:ColoredIcon BaseLayerGlyph="&#xF031;" OverlayLayerGlyph="&#xF032;" />
+                    </AppBarButton.Content>
+                </AppBarButton>
                 <AppBarSeparator x:Name="AdditionalActionSeparator" x:Load="{x:Bind ViewModel.HasAdditionnalAction, Mode=OneWay}" />
                 <AppBarButton
                     x:Name="EmptyRecycleBinButton"
