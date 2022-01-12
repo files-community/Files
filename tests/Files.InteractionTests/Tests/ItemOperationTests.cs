@@ -17,17 +17,17 @@ namespace Files.InteractionTests.Tests
         public void VerifyItemOperations()
         {
             NavigateToSidebarItem("Desktop");
-            Thread.Sleep(2000);
+            Thread.Sleep(5000);
             CreateFolder("New folder");
-            Thread.Sleep(2000);
+            Thread.Sleep(5000);
             TestHelper.InvokeButtonByName("New folder"); // Focus on the newly created item
             RenameItem("Folder");
-            Thread.Sleep(2000);
+            Thread.Sleep(5000);
             TestHelper.InvokeButtonByName("Folder"); // Focus on the renamed item
             DeleteItem("Folder");
-            Thread.Sleep(2000);
+            Thread.Sleep(5000);
             NavigateToSidebarItem("Home"); // TODO fix issues in details layout so that settings dialog can be opened without triggering an issue
-            Thread.Sleep(2000);
+            Thread.Sleep(5000);
         }
 
         private void CreateFolder(string folderName)
