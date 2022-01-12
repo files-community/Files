@@ -110,6 +110,7 @@ namespace Files.Helpers
             {
                 return;
             }
+            dataPackage.Properties.PackageFamilyName = Windows.ApplicationModel.Package.Current.Id.FamilyName;
             dataPackage.SetStorageItems(items, false);
             try
             {
@@ -199,6 +200,7 @@ namespace Files.Helpers
             {
                 return;
             }
+            dataPackage.Properties.PackageFamilyName = Windows.ApplicationModel.Package.Current.Id.FamilyName;
             dataPackage.SetStorageItems(items, false);
             try
             {
