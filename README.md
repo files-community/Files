@@ -22,7 +22,8 @@ Have any questions? Check out our [documentation site](https://files.community/d
 ### 1: Prerequisites
 
 - [Git](https://git-scm.com)
-- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) with the UWP Development Kit.
+- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) with the UWP Development Kit, including C++ UWP build tools.
+- C++ ATL for UWP build tools
 
 ### 2: Clone the repository.
 
