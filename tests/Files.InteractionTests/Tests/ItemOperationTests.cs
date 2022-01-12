@@ -16,7 +16,7 @@ namespace Files.InteractionTests.Tests
         [TestMethod]
         public void VerifyItemOperations()
         {
-            NavigateToSidebarItem("Desktop");
+            NavigateToSidebarItem("Windows (C:)");
             Thread.Sleep(5000);
             CreateFolder("New folder");
             Thread.Sleep(5000);
