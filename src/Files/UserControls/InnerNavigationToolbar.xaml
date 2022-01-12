@@ -186,7 +186,7 @@
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanViewProperties, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
                     Label="{helpers:ResourceString Name=Properties}"
                     LabelPosition="Collapsed"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=Properties}">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=PropertiesTitle}">
                     <AppBarButton.Content>
                         <local:ColoredIcon BaseLayerGlyph="&#xF031;" OverlayLayerGlyph="&#xF032;" />
                     </AppBarButton.Content>
