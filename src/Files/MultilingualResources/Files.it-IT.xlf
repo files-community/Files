@@ -2229,11 +2229,11 @@
         </trans-unit>
         <trans-unit id="StatusDeleteCanceledDetails_Plural" translate="yes" xml:space="preserve">
           <source>Deleting {0} items from {1} was canceled after deleting {3} items</source>
-          <target state="translated">L'eliminazione di {0} elementi da {1} è stata annullata dopo {2} elementi</target>
+          <target state="translated">L'eliminazione di {0} elementi da {1} è stata annullata dopo {3} elementi</target>
         </trans-unit>
         <trans-unit id="StatusDeleteCanceledDetails_Plural2" translate="yes" xml:space="preserve">
           <source>Deleting {0} items from {1} was canceled after deleting {3} item</source>
-          <target state="translated">L'eliminazione di {0} elementi da {1} è stata annullata dopo {2} elemento</target>
+          <target state="translated">L'eliminazione di {0} elementi da {1} è stata annullata dopo {3} elemento</target>
         </trans-unit>
         <trans-unit id="StatusDeletingItemsDetails_Singular" translate="yes" xml:space="preserve">
           <source>Deleting {0} item from {1}</source>
