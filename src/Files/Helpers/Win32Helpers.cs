@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 
 namespace Files.Helpers
@@ -44,8 +45,7 @@ namespace Files.Helpers
                     value.Add("Parameters", arguments);
                 }
 
-                await connection.SendMessageAsync(value);
-                return true;
+                return await connection.SendMessageAsync(value) == AppServiceResponseStatus.Success;
             }
 
             return false;
