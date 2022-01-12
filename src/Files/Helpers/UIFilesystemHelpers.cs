@@ -118,7 +118,7 @@ namespace Files.Helpers
                 Clipboard.SetContent(dataPackage);
                 if (onlyStandard && canFlush)
                 {
-                    // Calling Flush will break copy-paste when 2 Files instances are open (#7521)
+                    // Calling Flush will break copy-paste when 2 Files instances are open (#7521) and when many files are copied
                     // Calling Flush should be done only when closing/suspending the app
                     //Clipboard.Flush();
                 }
@@ -215,7 +215,7 @@ namespace Files.Helpers
                 Clipboard.SetContent(dataPackage);
                 if (onlyStandard && canFlush)
                 {
-                    // Calling Flush will break copy-paste when 2 Files instances are open (#7521)
+                    // Calling Flush will break copy-paste when 2 Files instances are open (#7521) and when many files are copied
                     // Calling Flush should be done only when closing/suspending the app
                     //Clipboard.Flush();
                 }
