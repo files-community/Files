@@ -6,10 +6,10 @@
 [![Build Status](https://dev.azure.com/filescommunity/Files/_apis/build/status/Build%20Pipeline?branchName=main)](https://dev.azure.com/filescommunity/Files/_build/latest?definitionId=4&branchName=main)
 [![Discord](https://discordapp.com/api/guilds/725513575971684472/widget.png)](https://discord.gg/files)
 <a style="text-decoration:none" href="https://www.microsoft.com/store/apps/9NGHP3DX8HDX">
-    <img src="https://img.shields.io/badge/Microsoft%20Store-Download-purple.svg?style=flat-square" alt="Store link" />
+    <img src="https://img.shields.io/badge/Microsoft%20Store-Download-purple.svg?style=flat-round" alt="Store link" />
 </a>
 <a style="text-decoration:none" href="https://files.community/download/stable">
-    <img src="https://img.shields.io/badge/Sideload-Download-blue.svg?style=flat-square" alt="Sideload link" />
+    <img src="https://img.shields.io/badge/Sideload-Download-blue.svg?style=flat-round" alt="Sideload link" />
 </a>
 
 ## What is Files?
