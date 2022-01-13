@@ -12,7 +12,6 @@
             <Color x:Key="SolidBackgroundFillColorSecondary">#232b32</Color>
             <Color x:Key="SolidBackgroundFillColorTertiary">#1c2228</Color>
             <Color x:Key="SolidBackgroundFillColorQuarternary">#181e23</Color>
-            <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
 
             <!--  Acrylic Resources  -->
             <AcrylicBrush
@@ -20,6 +19,12 @@
                 BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
+                TintOpacity="0.75" />
+            <AcrylicBrush
+                x:Key="SolidBackgroundFillColorSecondaryBrush"
+                BackgroundSource="HostBackdrop"
+                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintOpacity="0.75" />
             <AcrylicBrush
                 x:Key="SolidBackgroundFillColorTertiaryBrush"
@@ -30,13 +35,27 @@
             <AcrylicBrush
                 x:Key="SolidBackgroundFillColorQuarternaryBrush"
                 BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
+                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintOpacity="0.75" />
-
-            <!--  Strokes  -->
-            <Color x:Key="ControlStrokeColorDefault">transparent</Color>
-            <Color x:Key="ControlStrokeColorSecondary">transparent</Color>
+            <AcrylicBrush
+                x:Key="HorizontalTabControlBackgroundBrush"
+                BackgroundSource="HostBackdrop"
+                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                TintOpacity="0.75" />
+            <AcrylicBrush
+                x:Key="TabContainerFillColorPrimary"
+                BackgroundSource="HostBackdrop"
+                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                TintOpacity="0.75" />
+            <AcrylicBrush
+                x:Key="TabContainerFillColorSecondary"
+                BackgroundSource="HostBackdrop"
+                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                TintOpacity="0.75" />
 
             <!--  Accent & button colors  -->
             <Color x:Key="SystemAccentColorDark1">#3d5dfb</Color>
@@ -45,15 +64,6 @@
             <Color x:Key="SystemAccentColorLight1">#3d5dfb</Color>
             <Color x:Key="SystemAccentColorLight2">#3d5dfb</Color>
             <Color x:Key="SystemAccentColorLight3">#3d5dfb</Color>
-
-            <!--  Navigation  -->
-            <SolidColorBrush x:Key="TextControlBorderBrush" Color="Transparent" />
-            <AcrylicBrush
-                x:Key="TextControlBackground"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
-                TintColor="{ThemeResource SolidBackgroundFillColorBase}"
-                TintOpacity="0.75" />
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Light">
