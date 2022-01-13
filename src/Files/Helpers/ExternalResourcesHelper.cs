@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -21,7 +22,6 @@ namespace Files.Helpers
         };
 
         public StorageFolder ThemeFolder { get; set; }
-        public StorageFolder ExternalThemeFolder { get; set; }
 
         public string CurrentThemeResources { get; set; }
 
@@ -29,21 +29,6 @@ namespace Files.Helpers
         {
             StorageFolder appInstalledFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
             ThemeFolder = await appInstalledFolder.GetFolderAsync("Themes");
-
-            ExternalThemeFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes", CreationCollisionOption.OpenIfExists);
-
-            // This is used to migrate to the new theme setting
-            // It can be removed in a future update
-            if (ApplicationData.Current.LocalSettings.Values.TryGetValue("PathToThemeFile", out var path))
-            {
-                var pathStr = path as string;
-                App.AppSettings.SelectedTheme = new AppTheme()
-                {
-                    Name = pathStr.Replace(".xaml", "", StringComparison.Ordinal),
-                    Path = pathStr,
-                };
-                ApplicationData.Current.LocalSettings.Values.Remove("PathToThemeFile");
-            }
 
             if (App.AppSettings.SelectedTheme.Path != null)
             {
@@ -56,7 +41,6 @@ namespace Files.Helpers
             try
             {
                 await AddThemesAsync(ThemeFolder);
-                await AddThemesAsync(ExternalThemeFolder);
             }
             catch (Exception)
             {
@@ -103,14 +87,9 @@ namespace Files.Helpers
             {
                 return null;
             }
-            if (theme.Path.Contains(Convert.ToString(ThemeFolder)))
-            {
-                file = await ThemeFolder.GetFileAsync(theme.Path);
-            }
-            else
-            {
-                file = await ExternalThemeFolder.GetFileAsync(theme.Path);
-            }
+
+            file = await ThemeFolder.GetFileAsync(theme.Path);
+
             var code = await FileIO.ReadTextAsync(file);
             var xaml = XamlReader.Load(code) as ResourceDictionary;
             xaml.Add("CustomThemeID", theme.Key);

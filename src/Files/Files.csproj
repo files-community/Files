@@ -1126,10 +1126,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Themes\Cyber.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Themes\Deep Sea.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
