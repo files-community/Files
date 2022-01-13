@@ -157,9 +157,13 @@ namespace Files
 
         private static async Task InitializeAppComponentsAsync()
         {
+            var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
             // Start off a list of tasks we need to run before we can continue startup
             await Task.Run(async () =>
             {
+                userSettingsService.ReportToAppCenter();
+
                 await Task.WhenAll(
                     StartAppCenter(),
                     DrivesManager.EnumerateDrivesAsync(),
