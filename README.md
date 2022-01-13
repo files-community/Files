@@ -17,6 +17,9 @@ Files is a file manager for Windows with a powerful yet intuitive design. It has
 
 We welcome discussions and contributions to our repository, however to help maintain a healthy community, please read our [code of conduct](https://github.com/files-community/Files/blob/main/CODE_OF_CONDUCT.md).
 
+## Privacy
+We use App Center to track which settings are being used, find bugs, and fix crashes. All the information that is sent to App Center is anonymous and free of any user or contextual data.
+
 ## FAQ
 Have any questions? Check out our [documentation site](https://files.community/docs)!
 
