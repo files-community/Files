@@ -21,19 +21,16 @@ namespace Files.Helpers
         };
 
         public StorageFolder ThemeFolder { get; set; }
-        public StorageFolder OptionalPackageThemesFolder { get; set; }
+        public StorageFolder ExternalThemeFolder { get; set; }
 
         public string CurrentThemeResources { get; set; }
 
         public async Task LoadSelectedTheme()
         {
-            if (App.OptionalPackageManager.TryGetOptionalPackage(Constants.OptionalPackages.ThemesOptionalPackagesName, out var package))
-            {
-                Debug.WriteLine(package.InstalledLocation.Path);
-                OptionalPackageThemesFolder = package.InstalledLocation;
-            }
+            StorageFolder appInstalledFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+            ThemeFolder = await appInstalledFolder.GetFolderAsync("Themes");
 
-            ThemeFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes", CreationCollisionOption.OpenIfExists);
+            ExternalThemeFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes", CreationCollisionOption.OpenIfExists);
 
             // This is used to migrate to the new theme setting
             // It can be removed in a future update
@@ -59,11 +56,7 @@ namespace Files.Helpers
             try
             {
                 await AddThemesAsync(ThemeFolder);
-
-                if (OptionalPackageThemesFolder != null)
-                {
-                    await AddThemesAsync(OptionalPackageThemesFolder, true);
-                }
+                await AddThemesAsync(ExternalThemeFolder);
             }
             catch (Exception)
             {
@@ -71,7 +64,7 @@ namespace Files.Helpers
             }
         }
 
-        private async Task AddThemesAsync(StorageFolder folder, bool isOptionalPackage = false)
+        private async Task AddThemesAsync(StorageFolder folder)
         {
             foreach (var file in (await folder.GetFilesAsync()).Where(x => x.FileType == ".xaml"))
             {
@@ -80,7 +73,6 @@ namespace Files.Helpers
                     Name = file.Name.Replace(".xaml", "", StringComparison.Ordinal),
                     Path = file.Name,
                     AbsolutePath = file.Path,
-                    IsFromOptionalPackage = isOptionalPackage
                 });
             }
         }
@@ -111,20 +103,13 @@ namespace Files.Helpers
             {
                 return null;
             }
-            if (theme.IsFromOptionalPackage)
+            if (theme.Path.Contains(Convert.ToString(ThemeFolder)))
             {
-                if (OptionalPackageThemesFolder != null)
-                {
-                    file = await OptionalPackageThemesFolder.GetFileAsync(theme.Path);
-                }
-                else
-                {
-                    return null;
-                }
+                file = await ThemeFolder.GetFileAsync(theme.Path);
             }
             else
             {
-                file = await ThemeFolder.GetFileAsync(theme.Path);
+                file = await ExternalThemeFolder.GetFileAsync(theme.Path);
             }
             var code = await FileIO.ReadTextAsync(file);
             var xaml = XamlReader.Load(code) as ResourceDictionary;
@@ -164,7 +149,6 @@ namespace Files.Helpers
         public string Name { get; set; }
         public string Path { get; set; }
         public string AbsolutePath { get; set; }
-        public bool IsFromOptionalPackage { get; set; }
-        public string Key => $"{Name}-{IsFromOptionalPackage}";
+        public string Key => $"{Name}";
     }
 }
