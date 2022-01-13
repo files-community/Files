@@ -247,6 +247,7 @@
     <Compile Include="Models\JsonSettings\Implementation\DefaultSettingsSerializer.cs" />
     <Compile Include="Models\JsonSettings\ISettingsSerializer.cs" />
     <Compile Include="Services\IAppearanceSettingsService.cs" />
+    <Compile Include="Services\IBaseSettingsService.cs" />
     <Compile Include="Services\IBundlesSettingsService.cs" />
     <Compile Include="Services\IFileTagsSettingsService.cs" />
     <Compile Include="Services\ILayoutSettingsService.cs" />
