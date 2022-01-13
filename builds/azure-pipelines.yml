@@ -23,6 +23,16 @@ steps:
       $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest')
     failOnStderr: true
 
+- task: PowerShell@2
+    displayName: 'Use Release Logo'
+    inputs:
+      targetType: 'inline'
+      script: |
+        gci $(Build.SourcesDirectory)\src -Include *.csproj, *.appxmanifest, *.wapproj -recurse | ForEach -Process {
+        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "Assets\AppTilesDev", "Assets\AppTiles"}) | Set-Content $_ -NoNewline
+        }
+      failOnStderr: true
+
 - task: DownloadSecureFile@1
   name: mapsDevKey
   displayName: 'Download Bing Maps Dev Key'
