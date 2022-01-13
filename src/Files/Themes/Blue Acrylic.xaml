@@ -5,14 +5,6 @@
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)">
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Default">
-
-            <!--  Background Resources  -->
-            <SolidColorBrush x:Key="RootBackgroundBrush" Color="#AA232b32" />
-            <Color x:Key="SolidBackgroundFillColorBase">#1c2228</Color>
-            <Color x:Key="SolidBackgroundFillColorSecondary">#232b32</Color>
-            <Color x:Key="SolidBackgroundFillColorTertiary">#1c2228</Color>
-            <Color x:Key="SolidBackgroundFillColorQuarternary">#181e23</Color>
-
             <!--  Acrylic Resources  -->
             <AcrylicBrush
                 x:Key="SolidBackgroundFillColorBaseBrush"
@@ -67,122 +59,49 @@
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Light">
-            <!--  Sidebar  -->
-            <x:Double x:Key="SidebarTintOpacity">0.8</x:Double>
-            <x:Double x:Key="SidebarTintLuminosityOpacity">0.8</x:Double>
-
             <!--  Acrylic Resources  -->
-            <AcrylicBrush
-                x:Key="PaneHolderPageBackgroundBrush"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintOpacity="0.65" />
-            <AcrylicBrush
-                x:Key="HorizontalTabControlBackgroundBrush"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintOpacity="0.65" />
-            <AcrylicBrush
-                x:Key="TabViewItemHeaderBackground"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintOpacity="0.65" />
-            <AcrylicBrush
-                x:Key="TabViewItemHeaderBackgroundSelected"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
-                TintOpacity="0.82" />
-            <AcrylicBrush
-                x:Key="TabViewItemHeaderBackgroundPressed"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
-                TintOpacity="0.65" />
-            <AcrylicBrush
-                x:Key="TabViewItemHeaderBackgroundPointerOver"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
-                TintOpacity="0.82" />
-            <AcrylicBrush
-                x:Key="TabContainerFillColorPrimary"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintOpacity="0.65" />
-            <AcrylicBrush
-                x:Key="TabContainerFillColorSecondary"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintOpacity="0.65" />
-            <AcrylicBrush
-                x:Key="StatusBarBackgroundBrush"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintOpacity="0.85" />
-            <AcrylicBrush
-                x:Key="FileBrowserBackgroundBrush"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
-                TintColor="{ThemeResource SolidBackgroundFillColorBase}"
-                TintOpacity="0.65" />
-            <AcrylicBrush
-                x:Key="ApplicationPageBackgroundThemeBrush"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SystemColorWindowColor}"
-                TintColor="{ThemeResource SystemColorWindowColor}"
-                TintOpacity="0.65" />
             <AcrylicBrush
                 x:Key="SolidBackgroundFillColorBaseBrush"
                 BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
-                TintOpacity="0.65" />
+                TintOpacity="0.75" />
             <AcrylicBrush
                 x:Key="SolidBackgroundFillColorSecondaryBrush"
                 BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintOpacity="0.65" />
-            <AcrylicBrush
-                x:Key="NavigationToolbarBackgroundBrush"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintOpacity="0.65" />
+                TintOpacity="0.75" />
             <AcrylicBrush
                 x:Key="SolidBackgroundFillColorTertiaryBrush"
                 BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
-                TintOpacity="0.65" />
+                TintOpacity="0.75" />
             <AcrylicBrush
                 x:Key="SolidBackgroundFillColorQuarternaryBrush"
                 BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
-                TintOpacity="0.8" />
+                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                TintOpacity="0.75" />
             <AcrylicBrush
-                x:Key="PreviewPaneBackgroundBrush"
+                x:Key="HorizontalTabControlBackgroundBrush"
                 BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
-                TintOpacity="0.8" />
-
-            <!--  Corners  -->
-            <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
-            <CornerRadius x:Key="NavToolbarCornerRadius">8</CornerRadius>
-            <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
-
-            <!--  Strokes  -->
-            <Color x:Key="ControlStrokeColorDefault">transparent</Color>
-            <Color x:Key="ControlStrokeColorSecondary">transparent</Color>
+                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                TintOpacity="0.75" />
+            <AcrylicBrush
+                x:Key="TabContainerFillColorPrimary"
+                BackgroundSource="HostBackdrop"
+                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                TintOpacity="0.75" />
+            <AcrylicBrush
+                x:Key="TabContainerFillColorSecondary"
+                BackgroundSource="HostBackdrop"
+                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                TintOpacity="0.75" />
 
             <!--  Accent & button colors  -->
             <Color x:Key="SystemAccentColorDark1">#46b2ef</Color>
@@ -191,31 +110,6 @@
             <Color x:Key="SystemAccentColorLight1">#46b2ef</Color>
             <Color x:Key="SystemAccentColorLight2">#46b2ef</Color>
             <Color x:Key="SystemAccentColorLight3">#46b2ef</Color>
-            <Color x:Key="RegionColor">#FF333333</Color>
-            <SolidColorBrush x:Key="RegionBrush" Color="{ThemeResource RegionColor}" />
-            <Color x:Key="ListViewItemBackgroundSelected">#46b2ef</Color>
-            <Color x:Key="ListViewItemBackgroundSelectedPointerOver">#46b2ef</Color>
-            <Color x:Key="ListViewItemBackgroundSelectedPressed">#46b2ef</Color>
-
-            <!--  Navigation  -->
-            <AcrylicBrush
-                x:Key="TextControlBackground"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintOpacity="0.65" />
-            <AcrylicBrush
-                x:Key="TextControlBackgroundDisabled"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintOpacity="0.65" />
-            <AcrylicBrush
-                x:Key="TextControlBorderBrush"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintOpacity="0.65" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>
