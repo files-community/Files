@@ -17,7 +17,7 @@ namespace Files.InteractionTests.Tests
         public void VerifyItemOperations()
         {
             NavigateToSidebarItem("Windows (C:)");
-            Thread.Sleep(5000);
+            Thread.Sleep(30000);
             CreateFolder("New folder");
             Thread.Sleep(5000);
             TestHelper.InvokeButtonByName("New folder"); // Focus on the newly created item
