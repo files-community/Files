@@ -6,6 +6,7 @@
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Default">
             <!--  Background Resources  -->
+            <SolidColorBrush x:Key="RootBackgroundBrush" Color="#AA292A36" />
             <Color x:Key="SolidBackgroundFillColorBase">#434456</Color>
             <Color x:Key="SolidBackgroundFillColorSecondary">#292A36</Color>
             <Color x:Key="SolidBackgroundFillColorTertiary">#292A36</Color>
@@ -27,6 +28,7 @@
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
             <!--  Background Resources  -->
+            <SolidColorBrush x:Key="RootBackgroundBrush" Color="#AA8082A7" />
             <Color x:Key="SolidBackgroundFillColorBase">#9B9EC8</Color>
             <Color x:Key="SolidBackgroundFillColorSecondary">#8082A7</Color>
             <Color x:Key="SolidBackgroundFillColorTertiary">#8082A7</Color>
