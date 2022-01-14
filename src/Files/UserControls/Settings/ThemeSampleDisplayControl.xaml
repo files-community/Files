@@ -10,31 +10,61 @@
     mc:Ignorable="d">
 
     <Grid
-        Width="136px"
-        Height="120px"
+        Width="100px"
+        Height="100px"
         Padding="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid
-            BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"
-            BorderThickness="1"
+            BorderBrush="{ThemeResource TextControlElevationBorderBrush}"
+            BorderThickness="0,0,0,1"
             CornerRadius="4">
             <Grid.RowDefinitions>
-                <RowDefinition Height="20px" />
+                <RowDefinition Height="16px" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="36px" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+            <Grid
+                x:Name="TopNavigationPanel"
+                Grid.Row="0"
+                Grid.ColumnSpan="2"
+                Background="{ThemeResource NavigationToolbarBackgroundBrush}">
+                <StackPanel
+                    Margin="0,0,0,4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Stretch"
+                    Orientation="Horizontal"
+                    Spacing="6">
+                    <Rectangle
+                        Width="14px"
+                        Height="3px"
+                        Margin="6,0,0,0"
+                        VerticalAlignment="Center"
+                        Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                        RadiusX="1"
+                        RadiusY="1" />
+                    <Rectangle
+                        x:Name="SelectedTabMockUp"
+                        Width="30px"
+                        Height="8px"
+                        Margin="4,0,0,0"
+                        VerticalAlignment="Center"
+                        Fill="{ThemeResource TabViewItemHeaderBackgroundSelected}"
+                        RadiusX="2"
+                        RadiusY="2" />
+                </StackPanel>
+            </Grid>
 
             <Grid
                 x:Name="LeftSidePanel"
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
-                Background="{ThemeResource PaneHolderPageBackgroundBrush}">
+                Background="{ThemeResource FileBrowserBackgroundBrush}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="10" />
                     <RowDefinition Height="10" />
@@ -120,48 +150,10 @@
                     RadiusY="1" />
             </Grid>
 
-            <Grid x:Name="TopNavigationPanel" Grid.ColumnSpan="2">
-                <Rectangle
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Fill="{ThemeResource NavigationToolbarBackgroundBrush}" />
-
-                <StackPanel
-                    Margin="0,0,0,4"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Stretch"
-                    Orientation="Horizontal"
-                    Spacing="6">
-                    <Rectangle
-                        Width="14px"
-                        Height="3px"
-                        Margin="6,0,0,0"
-                        VerticalAlignment="Center"
-                        Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}"
-                        RadiusX="1"
-                        RadiusY="1" />
-                    <Rectangle
-                        x:Name="SelectedTabMockUp"
-                        Width="30px"
-                        Height="8px"
-                        Margin="4,0,0,0"
-                        VerticalAlignment="Center"
-                        Fill="{ThemeResource TabViewItemHeaderBackgroundSelected}"
-                        RadiusX="2"
-                        RadiusY="2" />
-                </StackPanel>
-            </Grid>
-
-            <Grid Grid.Row="1" Grid.Column="1">
-                <Rectangle
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Fill="{ThemeResource ControlFillColorTertiaryBrush}" />
-                <Rectangle
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Fill="{ThemeResource FileBrowserBackgroundBrush}" />
-
+            <Grid
+                Grid.Row="1"
+                Grid.Column="1"
+                Background="{ThemeResource FileBrowserBackgroundBrush}">
                 <StackPanel
                     Height="30"
                     Margin="6,6,20,0"
