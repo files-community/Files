@@ -1162,10 +1162,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Themes\Matte Dark &amp; Grey.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Themes\Mica Imitation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
