@@ -2785,7 +2785,7 @@
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
-          <target state="translated" state-qualifier="tm-suggestion">すべてのファイルとフォルダを表示</target>
+          <target state="translated">すべてのファイルとフォルダを表示</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersHideSystemItems" translate="yes" xml:space="preserve">
           <source>Hide protected operating system files (Recommended)</source>
