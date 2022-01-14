@@ -10,10 +10,10 @@
             <x:Double x:Key="SidebarTintOpacity">0.6</x:Double>
             <x:Double x:Key="SidebarTintLuminosityOpacity">0.6</x:Double>
 
-            <!--  Background Resources  -->
+            <!-- Background Resources -->
             <Color x:Key="SolidBackgroundFillColorTertiary">#2D2D2D</Color>
 
-            <!--  Acrylic Resources  -->
+            <!-- Acrylic Resources -->
             <AcrylicBrush
                 x:Key="PaneHolderPageBackgroundBrush"
                 BackgroundSource="HostBackdrop"
@@ -116,23 +116,14 @@
                 FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintOpacity="0.75" />
-
-            <!--  Accent Color  -->
-            <Color x:Key="SystemAccentColor">#eee</Color>
-            <Color x:Key="SystemAccentColorDark1">#eee</Color>
-            <Color x:Key="SystemAccentColorDark2">#eee</Color>
-            <Color x:Key="SystemAccentColorDark3">#eee</Color>
-            <Color x:Key="SystemAccentColorLight1">#eee</Color>
-            <Color x:Key="SystemAccentColorLight2">#eee</Color>
-            <Color x:Key="SystemAccentColorLight3">#eee</Color>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
 
             <!--  Sidebar  -->
             <x:Double x:Key="SidebarTintOpacity">0.5</x:Double>
             <x:Double x:Key="SidebarTintLuminosityOpacity">0.5</x:Double>
-
-            <!--  Acrylic Resources  -->
+            
+            <!-- Acrylic Resources -->
             <AcrylicBrush
                 x:Key="PaneHolderPageBackgroundBrush"
                 BackgroundSource="HostBackdrop"
@@ -235,15 +226,12 @@
                 FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintOpacity="0.8" />
-
-            <!--  Accent Color  -->
-            <Color x:Key="SystemAccentColor">#222</Color>
-            <Color x:Key="SystemAccentColorDark1">#222</Color>
-            <Color x:Key="SystemAccentColorDark2">#222</Color>
-            <Color x:Key="SystemAccentColorDark3">#222</Color>
-            <Color x:Key="SystemAccentColorLight1">#222</Color>
-            <Color x:Key="SystemAccentColorLight2">#222</Color>
-            <Color x:Key="SystemAccentColorLight3">#222</Color>
         </ResourceDictionary>
+
+        <ResourceDictionary x:Key="HighContrast">
+            <StaticResource x:Key="RegionColor" ResourceKey="SystemColorWindowColor" />
+            <SolidColorBrush x:Key="RegionBrush" Color="{ThemeResource RegionColor}" />
+        </ResourceDictionary>
+
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>
