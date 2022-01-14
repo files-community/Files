@@ -21,7 +21,7 @@
         <Grid
             BorderBrush="{ThemeResource TextControlElevationBorderBrush}"
             BorderThickness="1"
-            CornerRadius="6">
+            CornerRadius="4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="16px" />
                 <RowDefinition Height="*" />

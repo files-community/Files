@@ -29,7 +29,7 @@
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
             <!--  Background Resources  -->
-            <SolidColorBrush x:Key="RootBackgroundBrush" Color="#AAv" />
+            <SolidColorBrush x:Key="RootBackgroundBrush" Color="#AAF2F3F5" />
             <Color x:Key="SolidBackgroundFillColorBase">#E2DFDE</Color>
             <Color x:Key="SolidBackgroundFillColorSecondary">#F2F3F5</Color>
             <Color x:Key="SolidBackgroundFillColorTertiary">#FAFAFA</Color>
