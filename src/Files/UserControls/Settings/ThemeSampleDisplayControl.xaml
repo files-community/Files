@@ -34,7 +34,7 @@
                 x:Name="TopNavigationPanel"
                 Grid.Row="0"
                 Grid.ColumnSpan="2"
-                Background="{ThemeResource RootBackgroundBrush}">
+                Background="{ThemeResource SolidBackgroundFillColorQuarternary}">
                 <StackPanel
                     Margin="4"
                     HorizontalAlignment="Left"
@@ -63,7 +63,7 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 Padding="2"
-                Background="{ThemeResource SolidBackgroundFillColorBase}">
+                Background="{ThemeResource SolidBackgroundFillColorSecondary}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="10" />
                     <RowDefinition Height="10" />
@@ -130,7 +130,7 @@
             <Grid
                 Grid.Row="1"
                 Grid.Column="1"
-                Background="{ThemeResource SolidBackgroundFillColorBase}">
+                Background="{ThemeResource SolidBackgroundFillColorSecondary}">
                 <StackPanel
                     Height="30"
                     Margin="6,6,20,0"
