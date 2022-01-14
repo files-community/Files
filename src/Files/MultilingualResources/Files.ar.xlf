@@ -1724,47 +1724,47 @@
         </trans-unit>
         <trans-unit id="SidebarFavorites" translate="yes" xml:space="preserve">
           <source>Favorites</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">المفضلة</target>
+          <target state="translated" state-qualifier="tm-suggestion">المفضلة</target>
         </trans-unit>
         <trans-unit id="Browse" translate="yes" xml:space="preserve">
           <source>Browse</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">تصفح</target>
+          <target state="translated" state-qualifier="tm-suggestion">تصفح</target>
         </trans-unit>
         <trans-unit id="DetailsPanePreviewNotAvaliableText" translate="yes" xml:space="preserve">
           <source>No preview available</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">المعاينة غير متوفرة</target>
+          <target state="translated" state-qualifier="tm-suggestion">المعاينة غير متوفرة</target>
         </trans-unit>
         <trans-unit id="PreviewPaneDetailsNotAvailableText" translate="yes" xml:space="preserve">
           <source>No details available</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">لا تتوفر تفاصيل.</target>
+          <target state="translated" state-qualifier="tm-suggestion">لا تتوفر تفاصيل.</target>
         </trans-unit>
         <trans-unit id="NoItemSelected" translate="yes" xml:space="preserve">
           <source>No item selected</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">لم يتم تحديد أي صنف</target>
+          <target state="translated" state-qualifier="tm-suggestion">لم يتم تحديد أي عنصر</target>
         </trans-unit>
         <trans-unit id="PropertyItemTarget" translate="yes" xml:space="preserve">
           <source>Target</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">الهدف</target>
+          <target state="translated" state-qualifier="tm-suggestion">الهدف</target>
         </trans-unit>
         <trans-unit id="Arguments" translate="yes" xml:space="preserve">
           <source>Arguments</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">الوسيطات (المعاملات)</target>
+          <target state="translated" state-qualifier="tm-suggestion">الوسيطات (المعاملات)</target>
         </trans-unit>
         <trans-unit id="SidebarLibraries" translate="yes" xml:space="preserve">
           <source>Libraries</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">المكتبات</target>
+          <target state="translated" state-qualifier="tm-suggestion">المكتبات</target>
         </trans-unit>
         <trans-unit id="PropertyItemCount" translate="yes" xml:space="preserve">
           <source>Item count</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">عدد العناصر</target>
+          <target state="translated" state-qualifier="tm-suggestion">عدد العناصر</target>
         </trans-unit>
         <trans-unit id="StatusDeletionFailed" translate="yes" xml:space="preserve">
           <source>Deletion Failed</source>
-          <target state="needs-review-translation">فشل الحذف</target>
+          <target state="translated">فشل الحذف</target>
         </trans-unit>
         <trans-unit id="StatusUnknownError" translate="yes" xml:space="preserve">
           <source>An unknown error has occurred.</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">An unknown error has occurred.</target>
+          <target state="translated" state-qualifier="tm-suggestion">حدث خطأ غير معروف.</target>
         </trans-unit>
         <trans-unit id="StatusDeletionComplete" translate="yes" xml:space="preserve">
           <source>Deletion complete</source>
@@ -1772,11 +1772,11 @@
         </trans-unit>
         <trans-unit id="StatusOperationCompleted" translate="yes" xml:space="preserve">
           <source>The operation has completed.</source>
-          <target state="needs-review-translation">اكتملت العملية.</target>
+          <target state="translated">اكتملت العملية.</target>
         </trans-unit>
         <trans-unit id="StatusRecycleComplete" translate="yes" xml:space="preserve">
           <source>Recycle complete</source>
-          <target state="new">Recycle complete</target>
+          <target state="translated">إكتمل النقل الي سلة المحذوفات</target>
         </trans-unit>
         <trans-unit id="StatusMoveComplete" translate="yes" xml:space="preserve">
           <source>Move complete</source>
@@ -1784,11 +1784,11 @@
         </trans-unit>
         <trans-unit id="StatusCopyComplete" translate="yes" xml:space="preserve">
           <source>Copy complete</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">إكتمل النسخ</target>
+          <target state="translated" state-qualifier="tm-suggestion">إكتمل النسخ</target>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Title" translate="yes" xml:space="preserve">
           <source>This action requires administrator rights</source>
-          <target state="needs-review-translation">يتطب هذا الإجراء صلاحيات المسؤول</target>
+          <target state="translated">يتطب هذا الإجراء صلاحيات المسؤول</target>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Content" translate="yes" xml:space="preserve">
           <source>Would you like to continue as administrator?</source>
