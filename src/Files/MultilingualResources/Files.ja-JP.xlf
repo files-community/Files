@@ -1993,7 +1993,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" translate="yes" xml:space="preserve">
           <source>Create folder with selection</source>
-          <target state="translated">選択したファイルでフォルダーを作成</target>
+          <target state="translated">選択したファイルでフォルダを作成</target>
         </trans-unit>
         <trans-unit id="ToolTipDescriptionName" translate="yes" xml:space="preserve">
           <source>Name:</source>
@@ -2517,7 +2517,7 @@
         </trans-unit>
         <trans-unit id="SecurityAdvancedFlagsSubfoldersLabel" translate="yes" xml:space="preserve">
           <source>subfolders</source>
-          <target state="translated">サブフォルダー</target>
+          <target state="translated">サブフォルダ</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedInheritedLabel.Text" translate="yes" xml:space="preserve">
           <source>Inherited</source>
@@ -2541,11 +2541,11 @@
         </trans-unit>
         <trans-unit id="SecurityAdvancedFolderFiles.Text" translate="yes" xml:space="preserve">
           <source>This folder and files</source>
-          <target state="translated" state-qualifier="tm-suggestion">このフォルダーとファイル</target>
+          <target state="translated" state-qualifier="tm-suggestion">このフォルダとファイル</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedFolderSubfoldersFiles.Text" translate="yes" xml:space="preserve">
           <source>This folder, subfolders and files</source>
-          <target state="translated" state-qualifier="tm-suggestion">このフォルダー、サブフォルダーおよびファイル</target>
+          <target state="translated" state-qualifier="tm-suggestion">このフォルダ、サブフォルダおよびファイル</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedOnlyFiles.Text" translate="yes" xml:space="preserve">
           <source>Only files</source>
@@ -2553,11 +2553,11 @@
         </trans-unit>
         <trans-unit id="SecurityAdvancedOnlySubfolders.Text" translate="yes" xml:space="preserve">
           <source>Only subfolders</source>
-          <target state="translated">サブフォルダーのみ</target>
+          <target state="translated">サブフォルダのみ</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedOnlySubfoldersFiles.Text" translate="yes" xml:space="preserve">
           <source>Only subfolders and files</source>
-          <target state="translated">サブフォルダーとファイルのみ</target>
+          <target state="translated">サブフォルダとファイルのみ</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedOnlyThisFolder.Text" translate="yes" xml:space="preserve">
           <source>Only this folder</source>
@@ -2565,7 +2565,7 @@
         </trans-unit>
         <trans-unit id="SecurityAdvancedFolderSubfolders.Text" translate="yes" xml:space="preserve">
           <source>This folder and subfolders</source>
-          <target state="translated">このフォルダーとサブフォルダー</target>
+          <target state="translated">このフォルダとサブフォルダ</target>
         </trans-unit>
         <trans-unit id="SecurityAppendDataLabel.Text" translate="yes" xml:space="preserve">
           <source>Append data</source>
@@ -2577,7 +2577,7 @@
         </trans-unit>
         <trans-unit id="SecurityCreateDirectoriesLabel.Text" translate="yes" xml:space="preserve">
           <source>Create folders</source>
-          <target state="translated">フォルダーの作成</target>
+          <target state="translated">フォルダの作成</target>
         </trans-unit>
         <trans-unit id="SecurityCreateFilesLabel.Text" translate="yes" xml:space="preserve">
           <source>Create files</source>
@@ -2653,7 +2653,7 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarClosePane.Label" translate="yes" xml:space="preserve">
           <source>Close pane</source>
-          <target state="translated" state-qualifier="tm-suggestion">ウィンドウを閉じる</target>
+          <target state="translated" state-qualifier="tm-suggestion">ペインを閉じる</target>
         </trans-unit>
         <trans-unit id="PropertyFileDescription" translate="yes" xml:space="preserve">
           <source>File description</source>
@@ -2705,7 +2705,7 @@
         </trans-unit>
         <trans-unit id="DetailsArchiveItemCount" translate="yes" xml:space="preserve">
           <source>{0} items ({1} files, {2} folders)</source>
-          <target state="translated">{0} アイテム ({1} ファイル、{2} フォルダー)</target>
+          <target state="translated">{0} アイテム ({1} ファイル、{2} フォルダ)</target>
         </trans-unit>
         <trans-unit id="PropertyUncompressedSize" translate="yes" xml:space="preserve">
           <source>Uncompressed size</source>
@@ -2713,7 +2713,7 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarEnterCompactOverlay.Label" translate="yes" xml:space="preserve">
           <source>Enter compact overlay</source>
-          <target state="translated">コンパクトオーバーレイを入力してください</target>
+          <target state="translated">コンパクトオーバーレイを開始</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarExitCompactOverlay.Label" translate="yes" xml:space="preserve">
           <source>Exit compact overlay</source>
@@ -2733,7 +2733,7 @@
         </trans-unit>
         <trans-unit id="SettingsMultitaskingEnableDualPane" translate="yes" xml:space="preserve">
           <source>Enable dual pane view</source>
-          <target state="translated">デュアルペインビューを有効に</target>
+          <target state="translated">デュアルペインビューを有効にする</target>
         </trans-unit>
         <trans-unit id="SettingsVerticalTabFlyout" translate="yes" xml:space="preserve">
           <source>Display the vertical tab flyout on the title bar</source>
@@ -2785,7 +2785,7 @@
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
-          <target state="translated" state-qualifier="tm-suggestion">すべてのファイルとフォルダーを表示</target>
+          <target state="translated" state-qualifier="tm-suggestion">すべてのファイルとフォルダを表示</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersHideSystemItems" translate="yes" xml:space="preserve">
           <source>Hide protected operating system files (Recommended)</source>
@@ -2805,7 +2805,7 @@
         </trans-unit>
         <trans-unit id="SettingsEnableLayoutPreferencesPerFolder" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
-          <target state="translated">ディレクトリのごとに設定を保存</target>
+          <target state="translated">ディレクトリごとに設定を保存</target>
         </trans-unit>
         <trans-unit id="SettingsUsefulLinks.Title" translate="yes" xml:space="preserve">
           <source>Useful links</source>
@@ -2813,7 +2813,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutPinToFavorites.Text" translate="yes" xml:space="preserve">
           <source>Pin to Favorites</source>
-          <target state="translated" state-qualifier="tm-suggestion">よくやり取りする連絡先に固定</target>
+          <target state="translated" state-qualifier="tm-suggestion">お気に入りに固定</target>
         </trans-unit>
         <trans-unit id="SideBarUnpinFromFavorites.Text" translate="yes" xml:space="preserve">
           <source>Unpin from Favorites</source>
@@ -2849,11 +2849,11 @@
         </trans-unit>
         <trans-unit id="BundleOptionsFlyoutAddFolderMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Add folder</source>
-          <target state="translated" state-qualifier="tm-suggestion">フォルダーの追加</target>
+          <target state="translated" state-qualifier="tm-suggestion">フォルダの追加</target>
         </trans-unit>
         <trans-unit id="BundleOptionsFlyoutAddItemMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Add item...</source>
-          <target state="translated" state-qualifier="tm-suggestion">品目の追加</target>
+          <target state="translated" state-qualifier="tm-suggestion">アイテムの追加</target>
         </trans-unit>
         <trans-unit id="Home" translate="yes" xml:space="preserve">
           <source>Home</source>
@@ -2995,7 +2995,7 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionOriginalFolder.Text" translate="yes" xml:space="preserve">
           <source>Original folder</source>
-          <target state="translated" state-qualifier="tm-suggestion">元のフォルダー</target>
+          <target state="translated" state-qualifier="tm-suggestion">元のフォルダ</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionType.Text" translate="yes" xml:space="preserve">
           <source>Type</source>
@@ -3075,7 +3075,7 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
         </trans-unit>
         <trans-unit id="CredentialDialogDescription.Text" translate="yes" xml:space="preserve">
           <source>Provide your credential:</source>
-          <target state="translated">クレデンシャルを提供します。</target>
+          <target state="translated">資格情報を提供します。</target>
         </trans-unit>
         <trans-unit id="CredentialDialogPassword.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Password</source>
@@ -3219,11 +3219,11 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersWithOneClick" translate="yes" xml:space="preserve">
           <source>Open folders with a single click</source>
-          <target state="translated">シングル クリックでフォルダーを開く</target>
+          <target state="translated">シングル クリックでフォルダを開く</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionFolderPath.Text" translate="yes" xml:space="preserve">
           <source>Folder path</source>
-          <target state="translated">フォルダー パス</target>
+          <target state="translated">フォルダ パス</target>
         </trans-unit>
         <trans-unit id="ExportSettings" translate="yes" xml:space="preserve">
           <source>Export Settings</source>
