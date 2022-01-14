@@ -1925,19 +1925,19 @@
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Conflicting file name(s)</source>
-          <target state="new">Conflicting file name(s)</target>
+          <target state="translated">إسم الملف/الملفات متعارضة</target>
         </trans-unit>
         <trans-unit id="CopyItemsDialogSubtitleSingle" translate="yes" xml:space="preserve">
           <source>One item will be copied</source>
-          <target state="new">One item will be copied</target>
+          <target state="translated">سيتم نسخ عنصر واحد</target>
         </trans-unit>
         <trans-unit id="DeleteItemsDialogSubtitleSingle" translate="yes" xml:space="preserve">
           <source>One item will be deleted</source>
-          <target state="new">One item will be deleted</target>
+          <target state="translated">سيتم حذف عنصر واحد</target>
         </trans-unit>
         <trans-unit id="MoveItemsDialogSubtitleSingle" translate="yes" xml:space="preserve">
           <source>One item will be moved</source>
-          <target state="new">One item will be moved</target>
+          <target state="translated">سيتم نقل عنصر واحد</target>
         </trans-unit>
         <trans-unit id="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" translate="yes" xml:space="preserve">
           <source>Permanently delete</source>
@@ -1945,7 +1945,7 @@
         </trans-unit>
         <trans-unit id="SearchUnindexedItemsLabel.Text" translate="yes" xml:space="preserve">
           <source>Didn't find what you're looking for?</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ألم تجد ما تبحث عنه؟</target>
+          <target state="translated" state-qualifier="tm-suggestion">ألم تجد ما تبحث عنه؟</target>
         </trans-unit>
         <trans-unit id="SearchUnindexedItemsButton.Content" translate="yes" xml:space="preserve">
           <source>Search unindexed items.</source>
