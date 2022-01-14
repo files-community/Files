@@ -1808,11 +1808,11 @@
         </trans-unit>
         <trans-unit id="PinItemToStart.Text" translate="yes" xml:space="preserve">
           <source>Pin to the Start Menu</source>
-          <target state="needs-review-translation">التثبيت في قائمة االبداية (Start menu)</target>
+          <target state="translated">التثبيت في قائمة االبداية (Start menu)</target>
         </trans-unit>
         <trans-unit id="UnpinItemFromStart.Text" translate="yes" xml:space="preserve">
           <source>Unpin from the Start Menu</source>
-          <target state="needs-review-translation">إلغاء التثبيت من قائمة البداية (Start menu)</target>
+          <target state="translated">إلغاء التثبيت من قائمة البداية (Start menu)</target>
         </trans-unit>
         <trans-unit id="ColumnsShortcutTooltip" translate="yes" xml:space="preserve">
           <source>Columns (Ctrl+Shift+6)</source>
@@ -1821,6 +1821,7 @@
         <trans-unit id="PropertiesFilesFoldersAndLocationsCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</source>
           <target state="new">{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</target>
+          <target state="translated">يوجد {0:#,##0} ملف، {1:#,##0} مجلد من {2:#,##0} موقعاً</target>
         </trans-unit>
         <trans-unit id="ItemTypeLibrary" translate="yes" xml:space="preserve">
           <source>Library</source>
@@ -1888,27 +1889,27 @@
         </trans-unit>
         <trans-unit id="Copy" translate="yes" xml:space="preserve">
           <source>Copy</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">نسخ</target>
+          <target state="translated" state-qualifier="tm-suggestion">نسخ</target>
         </trans-unit>
         <trans-unit id="CopyItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be copied</source>
-          <target state="needs-review-translation">سيتم نسخ {0} من العناصر</target>
+          <target state="translated">سيتم نسخ {0} من العناصر</target>
         </trans-unit>
         <trans-unit id="CopyItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Copy item(s)</source>
-          <target state="needs-review-translation">نسخ العناصر</target>
+          <target state="translated">نسخ العناصر</target>
         </trans-unit>
         <trans-unit id="DeleteItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Delete item(s)</source>
-          <target state="needs-review-translation">حذف العناصر</target>
+          <target state="translated">حذف العناصر</target>
         </trans-unit>
         <trans-unit id="MoveItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Move</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">نقل</target>
+          <target state="translated" state-qualifier="tm-suggestion">نقل</target>
         </trans-unit>
         <trans-unit id="MoveItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be moved</source>
-          <target state="needs-review-translation">سيتم نقل {0} من العناصر</target>
+          <target state="translated">سيتم نقل {0} من العناصر</target>
         </trans-unit>
         <trans-unit id="MoveItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Move item(s)</source>
@@ -1940,7 +1941,7 @@
         </trans-unit>
         <trans-unit id="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" translate="yes" xml:space="preserve">
           <source>Permanently delete</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">حذف دائم</target>
+          <target state="translated" state-qualifier="tm-suggestion">حذف دائم</target>
         </trans-unit>
         <trans-unit id="SearchUnindexedItemsLabel.Text" translate="yes" xml:space="preserve">
           <source>Didn't find what you're looking for?</source>
