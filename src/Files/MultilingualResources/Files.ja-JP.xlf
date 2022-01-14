@@ -2541,7 +2541,7 @@
         </trans-unit>
         <trans-unit id="SecurityAdvancedFolderFiles.Text" translate="yes" xml:space="preserve">
           <source>This folder and files</source>
-          <target state="translated" state-qualifier="tm-suggestion">このフォルダとファイル</target>
+          <target state="translated">このフォルダとファイル</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedFolderSubfoldersFiles.Text" translate="yes" xml:space="preserve">
           <source>This folder, subfolders and files</source>
