@@ -561,7 +561,7 @@
         </trans-unit>
         <trans-unit id="ByteSymbol" translate="yes" xml:space="preserve">
           <source>B</source>
-          <target state="translated" state-qualifier="tm-suggestion">B</target>
+          <target state="translated" state-qualifier="tm-suggestion">بايت</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
@@ -650,7 +650,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
           <source>Windows default</source>
-          <target state="translated" state-qualifier="tm-suggestion">ويندوز الافتراضي</target>
+          <target state="translated" state-qualifier="tm-suggestion">اللغة الإفتراضية للنظام</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarVisiblePathNoResults" translate="yes" xml:space="preserve">
           <source>No results</source>
@@ -1156,7 +1156,7 @@
         </trans-unit>
         <trans-unit id="PropertyUserWebUrl" translate="yes" xml:space="preserve">
           <source>User Web Url</source>
-          <target state="translated">User Web Url</target>
+          <target state="translated">عنوان موقع الويب الخاص بالمستخدم</target>
         </trans-unit>
         <trans-unit id="PropertyWriter" translate="yes" xml:space="preserve">
           <source>Writer</source>
@@ -1300,7 +1300,7 @@
         </trans-unit>
         <trans-unit id="ShortcutItemAutomation" translate="yes" xml:space="preserve">
           <source>Shortcut item</source>
-          <target state="translated">Shortcut item</target>
+          <target state="translated">إختصار عنصر</target>
         </trans-unit>
         <trans-unit id="Drives" translate="yes" xml:space="preserve">
           <source>Drives</source>
@@ -1576,19 +1576,19 @@
         </trans-unit>
         <trans-unit id="SidebarCloudDrives" translate="yes" xml:space="preserve">
           <source>Cloud Drives</source>
-          <target state="new">Cloud Drives</target>
+          <target state="needs-review-translation">محركات السحابة</target>
         </trans-unit>
         <trans-unit id="PreviewPaneToggle.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Toggle the preview pane (Ctrl+P)</source>
-          <target state="new">Toggle the preview pane (Ctrl+P)</target>
+          <target state="needs-review-translation">تبديل جزء المعاينة (Ctrl+P)</target>
         </trans-unit>
         <trans-unit id="PropertyItemName" translate="yes" xml:space="preserve">
           <source>Item Name</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">اسم الصنف</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">اسم العنصر</target>
         </trans-unit>
         <trans-unit id="SidebarNetworkDrives" translate="yes" xml:space="preserve">
           <source>Network drives</source>
-          <target state="new">Network drives</target>
+          <target state="needs-review-translation">محركات الشبكة</target>
         </trans-unit>
         <trans-unit id="Network" translate="yes" xml:space="preserve">
           <source>Network</source>
@@ -1596,11 +1596,11 @@
         </trans-unit>
         <trans-unit id="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">خصائص</target>
+          <target state="translated" state-qualifier="tm-suggestion">خصائص</target>
         </trans-unit>
         <trans-unit id="OngoingTasksFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Ongoing tasks flyout</source>
-          <target state="new">Ongoing tasks flyout</target>
+          <target state="needs-review-translation">قائمة المهام المنبثقة</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Online" translate="yes" xml:space="preserve">
           <source>Available when online</source>
@@ -1612,7 +1612,7 @@
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_PartialOffline" translate="yes" xml:space="preserve">
           <source>Partially available offline</source>
-          <target state="new">Partially available offline</target>
+          <target state="needs-review-translation">متوفر جزئيًا في وضع عدم الاتصال</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Sync" translate="yes" xml:space="preserve">
           <source>Syncing</source>
@@ -1620,7 +1620,7 @@
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Excluded" translate="yes" xml:space="preserve">
           <source>Excluded from sync</source>
-          <target state="new">Excluded from sync</target>
+          <target state="needs-review-translation">مستثنى من المزامنة</target>
         </trans-unit>
         <trans-unit id="ItemSizeNotCalculated" translate="yes" xml:space="preserve">
           <source>Not calculated</source>
@@ -1636,11 +1636,11 @@
         </trans-unit>
         <trans-unit id="PreviewPaneFilePreview.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>File preview</source>
-          <target state="new">File preview</target>
+          <target state="translated">معاينة الملف</target>
         </trans-unit>
         <trans-unit id="SelectedFilePreviewPane.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selected file preview pane</source>
-          <target state="new">Selected file preview pane</target>
+          <target state="needs-review-translation">لوحة معاينة الملف المحدد</target>
         </trans-unit>
         <trans-unit id="SettingsAboutDocumentation.Text" translate="yes" xml:space="preserve">
           <source>Documentation</source>
@@ -1648,19 +1648,19 @@
         </trans-unit>
         <trans-unit id="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Visit the Files documentation website</source>
-          <target state="new">Visit the Files documentation website</target>
+          <target state="needs-review-translation">زيارة موقع الوثائق</target>
         </trans-unit>
         <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
-          <target state="new">Multiselect</target>
+          <target state="needs-review-translation">تحديد متعدد</target>
         </trans-unit>
         <trans-unit id="RenameFileDialog.Text" translate="yes" xml:space="preserve">
           <source>If you change a file extension, the file might become unusable. Are you sure you want to change it?</source>
-          <target state="new">If you change a file extension, the file might become unusable. Are you sure you want to change it?</target>
+          <target state="translated">إذا قمت بتغيير امتداد الملف ، فقد يصبح الملف غير قابل للاستخدام. هل أنت متأكد أنك تريد تغييره؟</target>
         </trans-unit>
         <trans-unit id="DriveTypeCDRom" translate="yes" xml:space="preserve">
           <source>CD ROM Drive</source>
-          <target state="new">CD ROM Drive</target>
+          <target state="needs-review-translation">محرك الأقراص المضغوطة (CD ROM)</target>
         </trans-unit>
         <trans-unit id="DriveTypeCloudDrive" translate="yes" xml:space="preserve">
           <source>Cloud Drive</source>
@@ -1668,11 +1668,11 @@
         </trans-unit>
         <trans-unit id="DriveTypeFixed" translate="yes" xml:space="preserve">
           <source>Fixed Disk Drive</source>
-          <target state="new">Fixed Disk Drive</target>
+          <target state="translated">محرك الأقراص الثابتة</target>
         </trans-unit>
         <trans-unit id="DriveTypeFloppyDisk" translate="yes" xml:space="preserve">
           <source>Floppy Disk Drive</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">محرك الأقراص المرنة</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion"> محرك الأقراص المرنة (Floppy Disk)</target>
         </trans-unit>
         <trans-unit id="DriveTypeNetwork" translate="yes" xml:space="preserve">
           <source>Network Drive</source>
@@ -1684,11 +1684,11 @@
         </trans-unit>
         <trans-unit id="DriveTypeRam" translate="yes" xml:space="preserve">
           <source>RAM Disk Drive</source>
-          <target state="new">RAM Disk Drive</target>
+          <target state="needs-review-translation">محرك اقراص التخزين المؤقت (RAM Disk)</target>
         </trans-unit>
         <trans-unit id="DriveTypeRemovable" translate="yes" xml:space="preserve">
           <source>Removable Storage Device</source>
-          <target state="new">Removable Storage Device</target>
+          <target state="translated">جهاز تخزين قابل للإزالة</target>
         </trans-unit>
         <trans-unit id="DriveTypeUnknown" translate="yes" xml:space="preserve">
           <source>Unknown</source>
@@ -1696,7 +1696,7 @@
         </trans-unit>
         <trans-unit id="DriveTypeVirtualDrive" translate="yes" xml:space="preserve">
           <source>Virtual Drive</source>
-          <target state="new">Virtual Drive</target>
+          <target state="needs-review-translation">محرك وهمي</target>
         </trans-unit>
         <trans-unit id="DateCreated" translate="yes" xml:space="preserve">
           <source>Date created</source>
@@ -1716,11 +1716,11 @@
         </trans-unit>
         <trans-unit id="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More bundles options</source>
-          <target state="new">More bundles options</target>
+          <target state="needs-review-translation">المزيد من خيارات الحزم</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More drives options</source>
-          <target state="new">More drives options</target>
+          <target state="needs-review-translation">المزيد من خيارات محركات الأقراص</target>
         </trans-unit>
         <trans-unit id="SidebarFavorites" translate="yes" xml:space="preserve">
           <source>Favorites</source>
@@ -1748,7 +1748,7 @@
         </trans-unit>
         <trans-unit id="Arguments" translate="yes" xml:space="preserve">
           <source>Arguments</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">‏‏الوسيطات</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">الوسيطات (المعاملات)</target>
         </trans-unit>
         <trans-unit id="SidebarLibraries" translate="yes" xml:space="preserve">
           <source>Libraries</source>
@@ -1760,7 +1760,7 @@
         </trans-unit>
         <trans-unit id="StatusDeletionFailed" translate="yes" xml:space="preserve">
           <source>Deletion Failed</source>
-          <target state="new">Deletion Failed</target>
+          <target state="needs-review-translation">فشل الحذف</target>
         </trans-unit>
         <trans-unit id="StatusUnknownError" translate="yes" xml:space="preserve">
           <source>An unknown error has occurred.</source>
@@ -1768,11 +1768,11 @@
         </trans-unit>
         <trans-unit id="StatusDeletionComplete" translate="yes" xml:space="preserve">
           <source>Deletion complete</source>
-          <target state="new">Deletion complete</target>
+          <target state="translated">إكتمل الحذف</target>
         </trans-unit>
         <trans-unit id="StatusOperationCompleted" translate="yes" xml:space="preserve">
           <source>The operation has completed.</source>
-          <target state="new">The operation has completed.</target>
+          <target state="needs-review-translation">اكتملت العملية.</target>
         </trans-unit>
         <trans-unit id="StatusRecycleComplete" translate="yes" xml:space="preserve">
           <source>Recycle complete</source>
@@ -1780,15 +1780,15 @@
         </trans-unit>
         <trans-unit id="StatusMoveComplete" translate="yes" xml:space="preserve">
           <source>Move complete</source>
-          <target state="new">Move complete</target>
+          <target state="translated">إكتمل النقل</target>
         </trans-unit>
         <trans-unit id="StatusCopyComplete" translate="yes" xml:space="preserve">
           <source>Copy complete</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">نسخة غير كاملة</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">إكتمل النسخ</target>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Title" translate="yes" xml:space="preserve">
           <source>This action requires administrator rights</source>
-          <target state="new">This action requires administrator rights</target>
+          <target state="needs-review-translation">يتطب هذا الإجراء صلاحيات المسؤول</target>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Content" translate="yes" xml:space="preserve">
           <source>Would you like to continue as administrator?</source>
