@@ -1548,7 +1548,7 @@
         </trans-unit>
         <trans-unit id="BundlesWidgetRenameBundleDialogTitleText" translate="yes" xml:space="preserve">
           <source>Rename "{0}"</source>
-          <target state="translated" state-qualifier="tm-suggestion">إعادة تسمية {0}</target>
+          <target state="translated" state-qualifier="tm-suggestion">إعادة تسمية "{0}"</target>
         </trans-unit>
         <trans-unit id="CreateBundle" translate="yes" xml:space="preserve">
           <source>Create Bundle</source>
@@ -1580,19 +1580,19 @@
         </trans-unit>
         <trans-unit id="PreviewPaneToggle.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Toggle the preview pane (Ctrl+P)</source>
-          <target state="needs-review-translation">تبديل جزء المعاينة (Ctrl+P)</target>
+          <target state="translated">لوحة المعاينة (Ctrl+P)</target>
         </trans-unit>
         <trans-unit id="PropertyItemName" translate="yes" xml:space="preserve">
           <source>Item Name</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">اسم العنصر</target>
+          <target state="translated" state-qualifier="tm-suggestion">اسم العنصر</target>
         </trans-unit>
         <trans-unit id="SidebarNetworkDrives" translate="yes" xml:space="preserve">
           <source>Network drives</source>
-          <target state="needs-review-translation">محركات الشبكة</target>
+          <target state="translated">محركات الشبكة</target>
         </trans-unit>
         <trans-unit id="Network" translate="yes" xml:space="preserve">
           <source>Network</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">الشبكة</target>
+          <target state="translated" state-qualifier="tm-suggestion">الشبكة</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
@@ -1604,15 +1604,15 @@
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Online" translate="yes" xml:space="preserve">
           <source>Available when online</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">التوفر عند الاتصال</target>
+          <target state="translated" state-qualifier="tm-suggestion">متوفر عند الاتصال</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Offline" translate="yes" xml:space="preserve">
           <source>Available offline</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">‏‏متوفر دون اتصال</target>
+          <target state="translated" state-qualifier="tm-suggestion">متوفر دون اتصال</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_PartialOffline" translate="yes" xml:space="preserve">
           <source>Partially available offline</source>
-          <target state="needs-review-translation">متوفر جزئيًا في وضع عدم الاتصال</target>
+          <target state="translated">متوفر جزئيًا في وضع عدم الاتصال</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Sync" translate="yes" xml:space="preserve">
           <source>Syncing</source>
@@ -1792,7 +1792,7 @@
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Content" translate="yes" xml:space="preserve">
           <source>Would you like to continue as administrator?</source>
-          <target state="needs-review-translation">هل ترغب في الاستمرار كمسؤول؟</target>
+          <target state="translated">هل ترغب في الاستمرار كمسؤول؟</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlCloseTabsToTheRight.Text" translate="yes" xml:space="preserve">
           <source>Close tabs to the right</source>
@@ -1800,11 +1800,11 @@
         </trans-unit>
         <trans-unit id="FullTrustStatusTeachingTip.Title" translate="yes" xml:space="preserve">
           <source>Administrator</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">المسؤول</target>
+          <target state="translated" state-qualifier="tm-suggestion">المسؤول</target>
         </trans-unit>
         <trans-unit id="FullTrustStatusTeachingTip.Subtitle" translate="yes" xml:space="preserve">
           <source>Files is running as administrator</source>
-          <target state="needs-review-translation">Files قيد التشغيل كمسؤول</target>
+          <target state="translated">Files قيد التشغيل كمسؤول</target>
         </trans-unit>
         <trans-unit id="PinItemToStart.Text" translate="yes" xml:space="preserve">
           <source>Pin to the Start Menu</source>
@@ -1816,7 +1816,7 @@
         </trans-unit>
         <trans-unit id="ColumnsShortcutTooltip" translate="yes" xml:space="preserve">
           <source>Columns (Ctrl+Shift+6)</source>
-          <target state="needs-review-translation">الأعمدة (Ctrl+Shift+6)</target>
+          <target state="translated">الأعمدة (Ctrl+Shift+6)</target>
         </trans-unit>
         <trans-unit id="PropertiesFilesFoldersAndLocationsCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</source>
@@ -1824,31 +1824,31 @@
         </trans-unit>
         <trans-unit id="ItemTypeLibrary" translate="yes" xml:space="preserve">
           <source>Library</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">مكتبة</target>
+          <target state="translated" state-qualifier="tm-suggestion">مكتبة</target>
         </trans-unit>
         <trans-unit id="LibraryItemAutomation" translate="yes" xml:space="preserve">
           <source>Library</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">مكتبة</target>
+          <target state="translated" state-qualifier="tm-suggestion">مكتبة</target>
         </trans-unit>
         <trans-unit id="Library" translate="yes" xml:space="preserve">
           <source>Library</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">مكتبة</target>
+          <target state="translated" state-qualifier="tm-suggestion">مكتبة</target>
         </trans-unit>
         <trans-unit id="LibraryLocations.Text" translate="yes" xml:space="preserve">
           <source>Locations:</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">المواقع</target>
+          <target state="translated" state-qualifier="tm-suggestion">المواقع:</target>
         </trans-unit>
         <trans-unit id="SetAsDefaultSavePath" translate="yes" xml:space="preserve">
           <source>Set as default save path</source>
-          <target state="needs-review-translation">تعيين كمسار حفظ افتراضي</target>
+          <target state="translated">تعيين كمسار حفظ افتراضي</target>
         </trans-unit>
         <trans-unit id="LibraryLocationsButtonRemove.Label" translate="yes" xml:space="preserve">
           <source>Remove</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">‏‏إزالة</target>
+          <target state="translated" state-qualifier="tm-suggestion">إزالة</target>
         </trans-unit>
         <trans-unit id="LibraryNoLocations.Text" translate="yes" xml:space="preserve">
           <source>No locations</source>
-          <target state="needs-review-translation">لا توجد مواقع</target>
+          <target state="translated">لا توجد مواقع</target>
         </trans-unit>
         <trans-unit id="ErrorInputEmpty" translate="yes" xml:space="preserve">
           <source>Input field cannot be empty!</source>
@@ -1856,7 +1856,7 @@
         </trans-unit>
         <trans-unit id="ErrorNameInputRestrictedCharacters" translate="yes" xml:space="preserve">
           <source>The name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
-          <target state="needs-review-translation">يجب ألا يحتوي الاسم على الأحرف التالية: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
+          <target state="translated">يجب ألا يحتوي الاسم على الأحرف التالية: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
         </trans-unit>
         <trans-unit id="ErrorNameInputRestricted" translate="yes" xml:space="preserve">
           <source>Using this name is not allowed!</source>
@@ -1872,7 +1872,7 @@
         </trans-unit>
         <trans-unit id="DialogCreateLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Create</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">إنشاء</target>
+          <target state="translated" state-qualifier="tm-suggestion">إنشاء</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Open Storage Sense</source>
@@ -1904,7 +1904,7 @@
         </trans-unit>
         <trans-unit id="MoveItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Move</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">‏‏نقل</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">نقل</target>
         </trans-unit>
         <trans-unit id="MoveItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be moved</source>
@@ -1912,15 +1912,15 @@
         </trans-unit>
         <trans-unit id="MoveItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Move item(s)</source>
-          <target state="needs-review-translation">نقل عناصر</target>
+          <target state="translated">نقل عناصر</target>
         </trans-unit>
         <trans-unit id="DeleteItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be deleted</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">سيتم حذف {0} من العناصر.</target>
+          <target state="translated" state-qualifier="tm-suggestion">سيتم حذف {0} من العناصر.</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Continue</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">‏‏متابعة</target>
+          <target state="translated" state-qualifier="tm-suggestion">متابعة</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Conflicting file name(s)</source>
