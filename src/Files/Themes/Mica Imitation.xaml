@@ -5,7 +5,6 @@
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)">
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Default">
-
             <!--  Background Resources  -->
             <Color x:Key="SolidBackground">#222222</Color>
             <Color x:Key="SolidBackgroundFillColorBase">#222222</Color>
@@ -88,10 +87,16 @@
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintOpacity="0.95" />
 
-
+            <!--  Accent Color  -->
+            <Color x:Key="SystemAccentColor">#eee</Color>
+            <Color x:Key="SystemAccentColorDark1">#eee</Color>
+            <Color x:Key="SystemAccentColorDark2">#eee</Color>
+            <Color x:Key="SystemAccentColorDark3">#eee</Color>
+            <Color x:Key="SystemAccentColorLight1">#eee</Color>
+            <Color x:Key="SystemAccentColorLight2">#eee</Color>
+            <Color x:Key="SystemAccentColorLight3">#eee</Color>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
-
             <!--  Background Resources  -->
             <Color x:Key="SolidBackground">#f3f3f3</Color>
             <Color x:Key="SolidBackgroundFillColorBase">#f3f3f3</Color>
@@ -175,8 +180,14 @@
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintOpacity="0.95" />
 
-
+            <!--  Accent Color  -->
+            <Color x:Key="SystemAccentColor">#222</Color>
+            <Color x:Key="SystemAccentColorDark1">#222</Color>
+            <Color x:Key="SystemAccentColorDark2">#222</Color>
+            <Color x:Key="SystemAccentColorDark3">#222</Color>
+            <Color x:Key="SystemAccentColorLight1">#222</Color>
+            <Color x:Key="SystemAccentColorLight2">#222</Color>
+            <Color x:Key="SystemAccentColorLight3">#222</Color>
         </ResourceDictionary>
-
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

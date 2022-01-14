@@ -17,6 +17,14 @@
                     <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
                     <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
                     <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{ThemeResource SolidBackgroundFillColorQuarternary}" />
+                    <!--  Accent Color  -->
+                    <Color x:Key="SystemAccentColor">#eee</Color>
+                    <Color x:Key="SystemAccentColorDark1">#eee</Color>
+                    <Color x:Key="SystemAccentColorDark2">#eee</Color>
+                    <Color x:Key="SystemAccentColorDark3">#eee</Color>
+                    <Color x:Key="SystemAccentColorLight1">#eee</Color>
+                    <Color x:Key="SystemAccentColorLight2">#eee</Color>
+                    <Color x:Key="SystemAccentColorLight3">#eee</Color>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -33,6 +41,14 @@
                     <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
                     <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
                     <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{ThemeResource SolidBackgroundFillColorQuarternary}" />
+                    <!--  Accent Color  -->
+                    <Color x:Key="SystemAccentColor">#222</Color>
+                    <Color x:Key="SystemAccentColorDark1">#222</Color>
+                    <Color x:Key="SystemAccentColorDark2">#222</Color>
+                    <Color x:Key="SystemAccentColorDark3">#222</Color>
+                    <Color x:Key="SystemAccentColorLight1">#222</Color>
+                    <Color x:Key="SystemAccentColorLight2">#222</Color>
+                    <Color x:Key="SystemAccentColorLight3">#222</Color>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

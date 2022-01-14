@@ -93,7 +93,14 @@
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintOpacity="0.5" />
 
-
+            <!--  Accent Color  -->
+            <Color x:Key="SystemAccentColor">#eee</Color>
+            <Color x:Key="SystemAccentColorDark1">#eee</Color>
+            <Color x:Key="SystemAccentColorDark2">#eee</Color>
+            <Color x:Key="SystemAccentColorDark3">#eee</Color>
+            <Color x:Key="SystemAccentColorLight1">#eee</Color>
+            <Color x:Key="SystemAccentColorLight2">#eee</Color>
+            <Color x:Key="SystemAccentColorLight3">#eee</Color>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
             <!--  Background Resources  -->
@@ -183,8 +190,14 @@
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintOpacity="0.4" />
 
-
+            <!--  Accent Color  -->
+            <Color x:Key="SystemAccentColor">#222</Color>
+            <Color x:Key="SystemAccentColorDark1">#222</Color>
+            <Color x:Key="SystemAccentColorDark2">#222</Color>
+            <Color x:Key="SystemAccentColorDark3">#222</Color>
+            <Color x:Key="SystemAccentColorLight1">#222</Color>
+            <Color x:Key="SystemAccentColorLight2">#222</Color>
+            <Color x:Key="SystemAccentColorLight3">#222</Color>
         </ResourceDictionary>
-
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>
