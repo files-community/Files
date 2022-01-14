@@ -34,7 +34,7 @@
                 x:Name="TopNavigationPanel"
                 Grid.Row="0"
                 Grid.ColumnSpan="2"
-                Background="{ThemeResource SolidBackgroundFillColorQuarternary}">
+                Background="{ThemeResource SolidBackgroundFillColorSecondary}">
                 <StackPanel
                     Margin="4"
                     HorizontalAlignment="Left"
@@ -45,14 +45,14 @@
                         Width="20px"
                         Height="6px"
                         VerticalAlignment="Center"
-                        Fill="{ThemeResource SystemAccentColor}"
+                        Fill="{ThemeResource SolidBackgroundFillColorQuarternary}"
                         RadiusX="1"
                         RadiusY="1" />
                     <Rectangle
                         Width="20px"
                         Height="6px"
                         VerticalAlignment="Center"
-                        Fill="{ThemeResource SystemAccentColor}"
+                        Fill="{ThemeResource SolidBackgroundFillColorQuarternary}"
                         RadiusX="1"
                         RadiusY="1" />
                 </StackPanel>
@@ -63,7 +63,7 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 Padding="2"
-                Background="{ThemeResource SolidBackgroundFillColorSecondary}">
+                Background="{ThemeResource SolidBackgroundFillColorQuarternary}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="10" />
                     <RowDefinition Height="10" />
@@ -80,7 +80,7 @@
                     Grid.Column="0"
                     Width="6"
                     Height="6"
-                    Fill="{ThemeResource SystemAccentColor}"
+                    Fill="{ThemeResource SolidBackgroundFillColorSecondary}"
                     RadiusX="2"
                     RadiusY="2" />
                 <Rectangle
@@ -97,7 +97,7 @@
                     Grid.Column="0"
                     Width="6"
                     Height="6"
-                    Fill="{ThemeResource SystemAccentColor}"
+                    Fill="{ThemeResource SolidBackgroundFillColorSecondary}"
                     RadiusX="2"
                     RadiusY="2" />
                 <Rectangle
@@ -114,7 +114,7 @@
                     Grid.Column="0"
                     Width="6"
                     Height="6"
-                    Fill="{ThemeResource SystemAccentColor}"
+                    Fill="{ThemeResource SolidBackgroundFillColorSecondary}"
                     RadiusX="2"
                     RadiusY="2" />
                 <Rectangle
@@ -130,7 +130,7 @@
             <Grid
                 Grid.Row="1"
                 Grid.Column="1"
-                Background="{ThemeResource SolidBackgroundFillColorSecondary}">
+                Background="{ThemeResource SolidBackgroundFillColorQuarternary}">
                 <StackPanel
                     Height="30"
                     Margin="6,6,20,0"
@@ -140,7 +140,7 @@
                     <Rectangle
                         Width="20"
                         Height="20"
-                        Fill="{ThemeResource SystemAccentColor}"
+                        Fill="{ThemeResource SolidBackgroundFillColorSecondary}"
                         RadiusX="4"
                         RadiusY="4" />
                     <Rectangle

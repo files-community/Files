@@ -174,9 +174,6 @@
                 FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintOpacity="0.95" />
-
-
         </ResourceDictionary>
-
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>
