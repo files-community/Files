@@ -504,6 +504,7 @@ namespace Files.Views
             FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
             FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
             FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
+            FilesystemViewModel.ListedItemAdded += FilesystemViewModel_ListedItemAdded;
             OnNavigationParamsChanged();
             this.Loaded -= Page_Loaded;
         }
@@ -530,6 +531,18 @@ namespace Files.Views
                 {
                     ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemsCount/Text".GetLocalized()}";
                 }
+            }
+        }
+
+        private void FilesystemViewModel_ListedItemAdded(object sender, ListedItemAddedEventArgs e)
+        {
+            ListedItem itemToSelect = e?.Item;
+            if (itemToSelect != null && ContentPage != null)
+            {
+                // set focus since selection might occur before the UI finishes updating
+                ContentPage.ItemManipulationModel.FocusFileList();
+                ContentPage.ItemManipulationModel.SetSelectedItem(itemToSelect);
+                ContentPage.ItemManipulationModel.ScrollIntoView(itemToSelect);
             }
         }
 
@@ -842,6 +855,7 @@ namespace Files.Views
                 FilesystemViewModel.DirectoryInfoUpdated -= FilesystemViewModel_DirectoryInfoUpdated;
                 FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
                 FilesystemViewModel.OnSelectionRequestedEvent -= FilesystemViewModel_OnSelectionRequestedEvent;
+                FilesystemViewModel.ListedItemAdded -= FilesystemViewModel_ListedItemAdded;
                 FilesystemViewModel.Dispose();
             }
 
