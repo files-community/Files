@@ -22,6 +22,9 @@
             <Color x:Key="SystemAccentColorDark1">#3967B1</Color>
             <Color x:Key="SystemAccentColorDark2">#3967B1</Color>
             <Color x:Key="SystemAccentColorDark3">#3967B1</Color>
+            <Color x:Key="SystemAccentColorLight1">#3967B1</Color>
+            <Color x:Key="SystemAccentColorLight2">#3967B1</Color>
+            <Color x:Key="SystemAccentColorLight3">#3967B1</Color>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
             <!--  Background Resources  -->
@@ -38,6 +41,9 @@
             <Color x:Key="SolidBackgroundAcrylic">#4781DE</Color>
             <!--  Accent Color  -->
             <Color x:Key="SystemAccentColor">#82B0FE</Color>
+            <Color x:Key="SystemAccentColorDark1">#82B0FE</Color>
+            <Color x:Key="SystemAccentColorDark2">#82B0FE</Color>
+            <Color x:Key="SystemAccentColorDark3">#82B0FE</Color>
             <Color x:Key="SystemAccentColorLight1">#82B0FE</Color>
             <Color x:Key="SystemAccentColorLight2">#82B0FE</Color>
             <Color x:Key="SystemAccentColorLight3">#82B0FE</Color>
