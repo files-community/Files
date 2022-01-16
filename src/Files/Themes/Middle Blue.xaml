@@ -7,32 +7,36 @@
         <ResourceDictionary x:Key="Light">
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
+                    <!--  Background Resources  -->
                     <SolidColorBrush x:Key="RootBackgroundBrush" Color="#AA41729F" />
                     <Color x:Key="SolidBackgroundFillColorBase">#5885AF</Color>
                     <Color x:Key="SolidBackgroundFillColorSecondary">#41729F</Color>
                     <Color x:Key="SolidBackgroundFillColorTertiary">#5885AF</Color>
                     <Color x:Key="SolidBackgroundFillColorQuarternary">#C3E0E5</Color>
-                    <Color x:Key="SolidBackgroundAcrylic">#C3E0E5</Color>
                     <SolidColorBrush x:Key="SolidBackgroundFillColorBaseBrush" Color="{ThemeResource SolidBackgroundFillColorBase}" />
                     <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
                     <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
                     <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{ThemeResource SolidBackgroundFillColorQuarternary}" />
+                    <!--  Acrylic Resources  -->
+                    <Color x:Key="SolidBackgroundAcrylic">#C3E0E5</Color>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
+                    <!--  Background Resources  -->
                     <SolidColorBrush x:Key="RootBackgroundBrush" Color="#AA41729F" />
                     <Color x:Key="SolidBackgroundFillColorBase">#5885AF</Color>
                     <Color x:Key="SolidBackgroundFillColorSecondary">#41729F</Color>
                     <Color x:Key="SolidBackgroundFillColorTertiary">#5885AF</Color>
                     <Color x:Key="SolidBackgroundFillColorQuarternary">#274472</Color>
-                    <Color x:Key="SolidBackgroundAcrylic">#274472</Color>
                     <SolidColorBrush x:Key="SolidBackgroundFillColorBaseBrush" Color="{ThemeResource SolidBackgroundFillColorBase}" />
                     <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
                     <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
                     <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{ThemeResource SolidBackgroundFillColorQuarternary}" />
+                    <!--  Acrylic Resources  -->
+                    <Color x:Key="SolidBackgroundAcrylic">#274472</Color>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
