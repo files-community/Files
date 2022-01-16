@@ -167,7 +167,7 @@
           <source>Enter a path</source>
           <target state="translated">Wprowadź ścieżkę</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarSearchReigon.PlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="NavigationToolbarSearchRegion.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Search</source>
           <target state="translated">Szukaj</target>
         </trans-unit>

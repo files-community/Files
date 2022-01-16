@@ -35,6 +35,11 @@ namespace Files.Filesystem
 
         public static void WriteFileTag(string filePath, string tag)
         {
+            var isReadOnly = NativeFileOperationsHelper.HasFileAttribute(filePath, System.IO.FileAttributes.ReadOnly);
+            if (isReadOnly) // Unset read-only attribute (#7534)
+            {
+                NativeFileOperationsHelper.UnsetFileAttribute(filePath, System.IO.FileAttributes.ReadOnly);
+            }
             if (tag == null)
             {
                 NativeFileOperationsHelper.DeleteFileFromApp($"{filePath}:files");
@@ -42,6 +47,10 @@ namespace Files.Filesystem
             else if (ReadFileTag(filePath) != tag)
             {
                 NativeFileOperationsHelper.WriteStringToFile($"{filePath}:files", tag);
+            }
+            if (isReadOnly) // Restore read-only attribute (#7534)
+            {
+                NativeFileOperationsHelper.SetFileAttribute(filePath, System.IO.FileAttributes.ReadOnly);
             }
         }
 

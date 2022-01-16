@@ -794,6 +794,8 @@ namespace Files.ViewModels
         public ICommand CutCommand { get; set; }
 
         public ICommand EmptyRecycleBinCommand { get; set; }
+        
+        public ICommand PropertiesCommand { get; set; }
 
         public ICommand ExtractCommand { get; set; }
 
@@ -1079,16 +1081,18 @@ namespace Files.ViewModels
                     OnPropertyChanged(nameof(CanCopy));
                     OnPropertyChanged(nameof(CanShare));
                     OnPropertyChanged(nameof(CanRename));
-                    OnPropertyChanged(nameof(CanExtract));
+                    OnPropertyChanged(nameof(CanViewProperties));
+                    OnPropertyChanged(nameof(CanExtract));                    
                 }
             }
         }
 
         public bool HasAdditionnalAction => InstanceViewModel.IsPageTypeRecycleBin;
 
-        public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
-        public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcutItem && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem));
-        public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
+        public bool CanCopy            => SelectedItems is not null && SelectedItems.Any();
+        public bool CanShare           => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcutItem && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem));
+        public bool CanRename          => SelectedItems is not null && SelectedItems.Count == 1;
+        public bool CanViewProperties  => SelectedItems is not null && SelectedItems.Any();
         public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
         public bool CanExtract => SelectedItems is not null && SelectedItems.Any() && (SelectedItems.First().IsZipItem || SelectedItems.First().PrimaryItemAttribute == StorageItemTypes.File && new[] { ".zip", ".msix", ".msixbundle" }.Contains(SelectedItems.First().FileExtension, StringComparer.OrdinalIgnoreCase));
 

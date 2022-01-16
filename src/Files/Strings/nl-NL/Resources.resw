@@ -132,7 +132,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Geef een pad op</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Zoeken</value>
   </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
@@ -2292,5 +2292,311 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Een schijf plaatsen</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>Toepassen op alles</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>Onderdeel van set</value>
+  </data>
+  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Oke</value>
+  </data>
+  <data name="AskCredentialDialog.Title" xml:space="preserve">
+    <value>Gegevens vereist</value>
+  </data>
+  <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
+    <value>Anoniem</value>
+  </data>
+  <data name="CredentialDialogDescription.Text" xml:space="preserve">
+    <value>Vul je gegevens in:</value>
+  </data>
+  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
+    <value>Wachtwoord</value>
+  </data>
+  <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
+    <value>Gebruikersnaam</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>Geen items gevonden</value>
+  </data>
+  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Bundels Widget</value>
+  </data>
+  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Schijven Widget</value>
+  </data>
+  <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Bibliotheken Widget</value>
+  </data>
+  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Recente bestanden Widget</value>
+  </data>
+  <data name="OpenLogLocation" xml:space="preserve">
+    <value>Open logboek locatie</value>
+  </data>
+  <data name="LinkToFolderCaptionText" xml:space="preserve">
+    <value>Maak een link in {0}</value>
+  </data>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>Toon bestandsnaamextensies</value>
+  </data>
+  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Toon verborgen items</value>
+  </data>
+  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
+    <value>Toon bestandsnaamextensies</value>
+  </data>
+  <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
+    <value>Toon verborgen items</value>
+  </data>
+  <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Toon favorieten sectie</value>
+  </data>
+  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Pin Prullenbak aan favorieten</value>
+  </data>
+  <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Toon cloud schijven sectie</value>
+  </data>
+  <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Toon schijven sectie</value>
+  </data>
+  <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Toon bibliotheek sectie</value>
+  </data>
+  <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Toon netwerk sectie</value>
+  </data>
+  <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Toon WSL sectie</value>
+  </data>
+  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Open mappen in een nieuw tabblad</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Taal</value>
+  </data>
+  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Toon een bevestigingsvenster bij het verwijderen van bestanden of mappen</value>
+  </data>
+  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Terminal applicatie</value>
+  </data>
+  <data name="OngoingTasks" xml:space="preserve">
+    <value>Lopende taken</value>
+  </data>
+  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
+    <value>Laad volledige voorbeeld</value>
+  </data>
+  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
+    <value>Toon alleen voorbeeld</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
+    <value>erplaats één omlaag</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
+    <value>Verplaats één omhoog</value>
+  </data>
+  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
+    <value>Verplaatsen naar onderkant</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
+    <value>Verplaatsen naar bovenkant</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
+    <value>Aanmaakdatum kolom</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
+    <value>Bestands grootte kolom</value>
+  </data>
+  <data name="SettingsSetAsOpenDialog" xml:space="preserve">
+    <value>Gebruik Files als Open Bestand Dialoog</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
+    <value>Open mappen met één klik</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>Pad van map</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>Instellingen Exporteren</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>Instellingen importeren</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>Instellingen beheren</value>
+  </data>
+  <data name="SettingsImportErrorDescription" xml:space="preserve">
+    <value>Kan instellingen niet importeren. Het instellingenbestand is beschadigd.</value>
+  </data>
+  <data name="SettingsImportErrorTitle" xml:space="preserve">
+    <value>Fout bij importeren van instellingen</value>
+  </data>
+  <data name="ChooseCustomIcon" xml:space="preserve">
+    <value>Kies een aangepast mappictogram</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Aanpassingen</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>Standaardwaarden herstellen</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>Compatibiliteit</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Geen</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
+    <value>Bij inloggen van Windows</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
+    <value>Bij opstarten van programma</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>Systeem</value>
+  </data>
+  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
+    <value>Systeem (geavanceerd)</value>
+  </data>
+  <data name="Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
+    <value>Windows Vista SP1</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
+    <value>Windows Vista SP2</value>
+  </data>
+  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
+    <value>16 Bit kleuren (65536)</value>
+  </data>
+  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
+    <value>8 Bit kleuren (256)</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Compatibiliteitsmodus</value>
+  </data>
+  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+    <value>Optimalisaties voor volledig scherm uitschakelen</value>
+  </data>
+  <data name="ExecuteAt640X480" xml:space="preserve">
+    <value>Uitvoeren met een schermresolutie van 640 x 480</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Opties</value>
+  </data>
+  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
+    <value>Hoge DPI-schaalgedrag negeren</value>
+  </data>
+  <data name="ReducedColorMode" xml:space="preserve">
+    <value>Gereduceerde kleurmodus</value>
+  </data>
+  <data name="RegisterForRestart" xml:space="preserve">
+    <value>Registreer voor herstart</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>Als administrator uitvoeren</value>
+  </data>
+  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+    <value>Voer de probleemoplosser voor compatibiliteit uit</value>
+  </data>
+  <data name="UseMainMonitorDPISettings" xml:space="preserve">
+    <value>Gebruik DPI instellingen van de hoofd monitor</value>
+  </data>
+  <data name="SettingsDefaultFilesManager" xml:space="preserve">
+    <value>Standaard verkenner</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
+    <value>Stel Files in als standaard verkenner</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Prullenbak legen</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Zijbalk</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Bestanden en mappen</value>
+  </data>
+  <data name="OpenNewInstance" xml:space="preserve">
+    <value>Nieuwe instantie openen bij het openen van mappen vanuit de jumplist in de taakbalk </value>
+  </data>
+  <data name="StartupSettings" xml:space="preserve">
+    <value>Opstart instellingen</value>
+  </data>
+  <data name="ThirdPartyLicenses" xml:space="preserve">
+    <value>Licenties van derden</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
+    <value>Deze instelling wijzigt systeembestanden en kan onverwachte bijwerkingen op uw apparaat hebben. De ontwikkelaars nemen geen verantwoordelijkheid in het geval er zich een probleem voordoet. Doorgaan met deze optie is een erkenning van de risico's die aan deze actie zijn verbonden. Houd er rekening mee dat het verwijderen van Files deze wijzigingen niet ongedaan maakt en kan voorkomen dat u de verkenner kunt openen, tenzij u deze instelling uitschakelt voordat u Files van uw apparaat verwijdert.</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Wis alles</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Kolommen</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Grote Pictogrammen</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Middelgrote Pictogrammen</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Kleine Pictogrammen</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Tegels</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Maak Bibliotheek</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>Vul de Bibliotheek naam in</value>
+  </data>
+  <data name="ShowFolderSize" xml:space="preserve">
+    <value>Toon folder grootte</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Overslaan</value>
+  </data>
+  <data name="SettingsOpenInLogin" xml:space="preserve">
+    <value>Open Files bij opstarten Windows</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Attributen</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Verborgen</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>Meer details</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Alleen lezen</value>
+  </data>
+  <data name="CleanupDrive" xml:space="preserve">
+    <value>Schoon de inhoud van je schijf op</value>
+  </data>
+  <data name="DiskCleanup" xml:space="preserve">
+    <value>Schijf opschoning</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type:</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Bytes</value>
   </data>
 </root>

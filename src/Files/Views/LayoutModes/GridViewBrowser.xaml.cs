@@ -145,6 +145,10 @@ namespace Files.Views.LayoutModes
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
+            if (eventArgs.Parameter is NavigationArguments navArgs)
+            {
+                navArgs.FocusOnNavigation = true;
+            }
             base.OnNavigatedTo(eventArgs);
 
             currentIconSize = FolderSettings.GetIconSize();
@@ -405,7 +409,7 @@ namespace Files.Views.LayoutModes
             else if (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down)
             {
                 // If list has only one item, select it on arrow down/up (#5681)
-                if (!IsItemSelected && FileList.Items.Count == 1)
+                if (!IsItemSelected)
                 {
                     FileList.SelectedIndex = 0;
                     e.Handled = true;

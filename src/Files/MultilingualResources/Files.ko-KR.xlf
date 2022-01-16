@@ -166,7 +166,7 @@
           <source>Enter a path</source>
           <target state="translated">경로 입력</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarSearchReigon.PlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="NavigationToolbarSearchRegion.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Search</source>
           <target state="translated">검색</target>
         </trans-unit>

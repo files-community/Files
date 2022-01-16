@@ -412,7 +412,11 @@ namespace Files.Helpers
             }
 
             Remove(item);
-            Insert(result.IndexOf(item), item);
+            var index = result.IndexOf(item);
+            if (index != -1)
+            {
+                Insert(index, item);
+            }
         }
 
         int IList.Add(object value)

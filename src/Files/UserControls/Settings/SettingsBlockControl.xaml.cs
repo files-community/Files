@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
 
@@ -119,6 +120,15 @@ namespace Files.UserControls.Settings
         public SettingsBlockControl()
         {
             this.InitializeComponent();
+            this.Loaded += SettingsBlockControl_Loaded;
+        }
+
+        private void SettingsBlockControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if(ActionableButton != null)
+            {
+                AutomationProperties.SetName(ActionableButton, Title);
+            }
         }
 
         private void Expander_Expanding(Microsoft.UI.Xaml.Controls.Expander sender, Microsoft.UI.Xaml.Controls.ExpanderExpandingEventArgs args)

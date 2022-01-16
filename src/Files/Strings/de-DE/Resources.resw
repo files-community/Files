@@ -132,7 +132,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Pfad eingeben</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Suchen</value>
   </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
@@ -1657,10 +1657,10 @@
     <value>Das Kopieren von {0} nach {1} wurde abgebrochen</value>
   </data>
   <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
-    <value>Das Kopieren von {0} Objekten nach {1} wurde nach dem Kopieren von {3} Objekten abgebrochen</value>
+    <value>Das Kopieren von {0} Objekten nach {1} wurde nach dem Kopieren von {2} Objekten abgebrochen</value>
   </data>
   <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
-    <value>Das Kopieren von {0} Objekten nach {1} wurde nach dem Kopieren von {3} abgebrochen</value>
+    <value>Das Kopieren von {0} Objekten nach {1} wurde nach dem Kopieren von {2} abgebrochen</value>
   </data>
   <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
     <value>{0} wird nach {1} kopiert</value>

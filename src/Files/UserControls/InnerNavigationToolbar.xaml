@@ -75,7 +75,6 @@
                                     <FontIcon Glyph="&#xE8B7;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutSeparator x:Name="NewMenuFileFolderSeparator" />
                             <MenuFlyoutItem
                                 x:Name="NewFile"
                                 x:Uid="BaseLayoutContextFlyoutNewFile"
@@ -87,6 +86,7 @@
                                     <FontIcon Glyph="&#xE7C3;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
+                            <MenuFlyoutSeparator x:Name="NewMenuFileFolderSeparator" />
                         </MenuFlyout>
                     </AppBarButton.Flyout>
 
@@ -176,6 +176,21 @@
                     ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}">
                     <AppBarButton.Content>
                         <local:ColoredIcon BaseLayerGlyph="&#xF035;" OverlayLayerGlyph="&#xF036;" />
+                    </AppBarButton.Content>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="PropertiesButton"
+                    Width="Auto"
+                    MinWidth="40"
+                    Command="{x:Bind ViewModel.PropertiesCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanViewProperties, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
+                    Label="{helpers:ResourceString Name=Properties}"
+                    AutomationProperties.Name="{helpers:ResourceString Name=Properties}"
+                    AccessKey="O"
+                    LabelPosition="Collapsed"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=PropertiesTitle}">
+                    <AppBarButton.Content>
+                        <local:ColoredIcon BaseLayerGlyph="&#xF031;" OverlayLayerGlyph="&#xF032;" />
                     </AppBarButton.Content>
                 </AppBarButton>
                 <AppBarSeparator x:Name="AdditionalActionSeparator" x:Load="{x:Bind ViewModel.HasAdditionnalAction, Mode=OneWay}" />
