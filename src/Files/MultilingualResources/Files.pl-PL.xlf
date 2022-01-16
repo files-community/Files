@@ -3272,7 +3272,7 @@ Korzystamy z App Center, aby śledzić wykorzystanie aplikacji, znajdować błę
         </trans-unit>
         <trans-unit id="HighDpiOption_UseDPIOnLogin" translate="yes" xml:space="preserve">
           <source>On Windows login</source>
-          <target state="translated">Przy zalogowaniu</target>
+          <target state="translated">Przy zalogowaniu do systemu Windows</target>
         </trans-unit>
         <trans-unit id="HighDpiOption_UseDPIOnProgramStart" translate="yes" xml:space="preserve">
           <source>On program start</source>
@@ -3388,7 +3388,7 @@ Korzystamy z App Center, aby śledzić wykorzystanie aplikacji, znajdować błę
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
           <source>This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</source>
-          <target state="translated">To ustawienie modyfikuje pliki systemu i może wywołać niechciane efekcty uboczne na Twoim urządzeniu. Deweloperzy nie ponoszą odpowiedzialności w przypadku wystąpienia problemów. Kontynuowanie z tą opcją jest potwierdzeniem akceptacji ryzyka związanego z tym działaniem. Pamiętaj, że odinstalowanie aplikacji Files nie cofnie tych zmian i może uniemożliwić otwarcie eksploratora plików, chyba że wyłączysz to ustawienie przed usunięciem apikacji Files z urządzenia.</target>
+          <target state="translated">To ustawienie modyfikuje pliki systemu i może wywołać niechciane efekty uboczne na Twoim urządzeniu. Deweloperzy nie ponoszą odpowiedzialności w przypadku wystąpienia problemów. Kontynuowanie z tą opcją jest potwierdzeniem akceptacji ryzyka związanego z tym działaniem. Pamiętaj, że odinstalowanie aplikacji Files nie cofnie tych zmian i może uniemożliwić otwarcie eksploratora plików, chyba że wyłączysz to ustawienie przed usunięciem apikacji Files z urządzenia.</target>
         </trans-unit>
         <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
           <source>Clear all</source>
