@@ -212,10 +212,10 @@
                     MinWidth="40"
                     Command="{x:Bind ViewModel.ExtractCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
-                    Label="{helpers:ResourceString Name=Extract}"
+                    Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutExtract/Text')}"
                     LabelPosition="Default"
                     Visibility="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=Collapsed}"
-                    KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=ExtractKeyboardAcceleratorTextOverride}">
+                    KeyboardAcceleratorTextOverride="Ctrl+E">
                     <AppBarButton.KeyboardAccelerators>
                         <KeyboardAccelerator
                             Key="E"
