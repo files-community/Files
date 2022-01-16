@@ -91,7 +91,7 @@ namespace Files.Helpers
                 return null;
             }
 
-            if (theme.Path.Contains(Convert.ToString(ImportedThemesFolder)))
+            if (theme.AbsolutePath.Contains(ImportedThemesFolder.Path))
             {
                 file = await ImportedThemesFolder.GetFileAsync(theme.Path);
             }
