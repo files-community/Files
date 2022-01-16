@@ -29,7 +29,7 @@ steps:
     targetType: 'inline'
     script: |
       gci $(Build.SourcesDirectory)\src -Include *.csproj, *.appxmanifest, *.wapproj -recurse | ForEach -Process {
-      (Get-Content $_ -Raw | ForEach -Process {$_ -replace "Assets\AppTilesDev", "Assets\AppTiles"}) | Set-Content $_ -NoNewline
+      (Get-Content $_ -Raw | ForEach -Process {$_ -replace "Assets\\AppTilesDev", "Assets\AppTiles"}) | Set-Content $_ -NoNewline
       }
     failOnStderr: true
 
