@@ -1082,7 +1082,7 @@ namespace Files.ViewModels
                     OnPropertyChanged(nameof(CanShare));
                     OnPropertyChanged(nameof(CanRename));
                     OnPropertyChanged(nameof(CanViewProperties));
-                    OnPropertyChanged(nameof(CanExtract));                    
+                    OnPropertyChanged(nameof(CanExtract));
                 }
             }
         }
@@ -1094,7 +1094,7 @@ namespace Files.ViewModels
         public bool CanRename          => SelectedItems is not null && SelectedItems.Count == 1;
         public bool CanViewProperties  => SelectedItems is not null && SelectedItems.Any();
         public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
-        public bool CanExtract => SelectedItems is not null && SelectedItems.Any() && (SelectedItems.First().IsZipItem || SelectedItems.First().PrimaryItemAttribute == StorageItemTypes.File && new[] { ".zip", ".msix", ".msixbundle" }.Contains(SelectedItems.First().FileExtension, StringComparer.OrdinalIgnoreCase));
+        public bool CanExtract         => SelectedItems is not null && SelectedItems.Any() && (SelectedItems.First().IsZipItem || SelectedItems.First().PrimaryItemAttribute == StorageItemTypes.File && new[] { ".zip", ".msix", ".msixbundle" }.Contains(SelectedItems.First().FileExtension, StringComparer.OrdinalIgnoreCase));
 
         public void Dispose()
         {
