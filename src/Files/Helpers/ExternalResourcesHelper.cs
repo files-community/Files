@@ -22,6 +22,7 @@ namespace Files.Helpers
         };
 
         public StorageFolder ThemeFolder { get; set; }
+        public StorageFolder ImportedThemesFolder { get; set; }
 
         public string CurrentThemeResources { get; set; }
 
@@ -29,6 +30,7 @@ namespace Files.Helpers
         {
             StorageFolder appInstalledFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
             ThemeFolder = await appInstalledFolder.GetFolderAsync("Themes");
+            ImportedThemesFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes", CreationCollisionOption.OpenIfExists);
 
             if (App.AppSettings.SelectedTheme.Path != null)
             {
@@ -41,6 +43,7 @@ namespace Files.Helpers
             try
             {
                 await AddThemesAsync(ThemeFolder);
+                await AddThemesAsync(ImportedThemesFolder);
             }
             catch (Exception)
             {
@@ -88,7 +91,14 @@ namespace Files.Helpers
                 return null;
             }
 
-            file = await ThemeFolder.GetFileAsync(theme.Path);
+            if (theme.Path.Contains(Convert.ToString(ThemeFolder)))
+            {
+                file = await ThemeFolder.GetFileAsync(theme.Path);
+            }
+            else
+            {
+                file = await ImportedThemesFolder.GetFileAsync(theme.Path);
+            }
 
             var code = await FileIO.ReadTextAsync(file);
             var xaml = XamlReader.Load(code) as ResourceDictionary;
