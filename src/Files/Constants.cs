@@ -163,11 +163,6 @@
             public const string PreviewPaneDetailsPropertiesJsonPath = @"ms-appx:///Resources/PreviewPanePropertiesInformation.json";
         }
 
-        public static class OptionalPackages
-        {
-            public const string ThemesOptionalPackagesName = "49306atecsolution.ThemesforFiles";
-        }
-
         public static class Filesystem
         {
             public const int ExtendedAsciiCodePage = 437;
