@@ -56,6 +56,7 @@
                 <AppBarButton
                     x:Name="NewEmptySpaceAppBarButton"
                     x:Uid="BaseLayoutContextFlyoutNew"
+                    AccessKey="W"
                     IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay, FallbackValue=False}"
                     KeyboardAcceleratorTextOverride="Ctrl+Shift+N"
                     Label="New">
@@ -100,6 +101,7 @@
                     x:Name="CutButton"
                     Width="Auto"
                     MinWidth="40"
+                    AccessKey="CU"
                     Command="{x:Bind ViewModel.CutCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
                     Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutCut/Text')}"
@@ -112,6 +114,7 @@
                 <AppBarButton
                     Width="Auto"
                     MinWidth="40"
+                    AccessKey="C"
                     Command="{x:Bind ViewModel.CopyCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanCopy, Mode=OneWay, FallbackValue=False}"
                     Label="{helpers:ResourceString Name=Copy}"
@@ -124,6 +127,7 @@
                     x:Uid="NavigationToolbarPaste"
                     Width="Auto"
                     MinWidth="40"
+                    AccessKey="P"
                     Command="{x:Bind ViewModel.PasteItemsFromClipboardCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.InstanceViewModel.CanPasteInPage, local1:App.MainViewModel.IsPasteEnabled), Mode=OneWay, FallbackValue=False}"
                     Label="Paste"
@@ -142,6 +146,7 @@
                     x:Uid="NavigationToolbarRename"
                     Width="Auto"
                     MinWidth="40"
+                    AccessKey="M"
                     Command="{x:Bind ViewModel.Rename, Mode=OneWay}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanRename, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
                     Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutRename/Text')}"
@@ -156,6 +161,7 @@
                     x:Uid="NavigationToolbarShare"
                     Width="Auto"
                     MinWidth="40"
+                    AccessKey="H"
                     Command="{x:Bind ViewModel.Share, Mode=OneWay}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanShare, ViewModel.InstanceViewModel.CanShareInPage), Mode=OneWay, FallbackValue=False}"
                     Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutShare/Text')}"
@@ -169,6 +175,7 @@
                     x:Name="DeleteButton"
                     Width="Auto"
                     MinWidth="40"
+                    AccessKey="D"
                     Command="{x:Bind ViewModel.DeleteCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
                     Label="{helpers:ResourceString Name=Delete}"
@@ -196,6 +203,7 @@
                 <AppBarSeparator x:Name="AdditionalActionSeparator" x:Load="{x:Bind ViewModel.HasAdditionnalAction, Mode=OneWay}" />
                 <AppBarButton
                     x:Name="EmptyRecycleBinButton"
+                    AccessKey="B"
                     Command="{x:Bind ViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanEmptyRecycleBin, Mode=OneWay}"
                     Label="{helpers:ResourceString Name=EmptyRecycleBin}"
