@@ -795,6 +795,8 @@ namespace Files.ViewModels
 
         public ICommand EmptyRecycleBinCommand { get; set; }
 
+        public ICommand ExtractCommand { get; set; }
+
         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
         {
             var nextPathItemTitle = PathComponents[PathComponents.IndexOf(pathItem) + 1].Title;
@@ -1077,6 +1079,7 @@ namespace Files.ViewModels
                     OnPropertyChanged(nameof(CanCopy));
                     OnPropertyChanged(nameof(CanShare));
                     OnPropertyChanged(nameof(CanRename));
+                    OnPropertyChanged(nameof(CanExtract));
                 }
             }
         }
@@ -1087,6 +1090,7 @@ namespace Files.ViewModels
         public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcutItem && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem));
         public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
         public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
+        public bool CanExtract => SelectedItems is not null && SelectedItems.Any() && (SelectedItems.First().IsZipItem || SelectedItems.First().PrimaryItemAttribute == StorageItemTypes.File && new[] { ".zip", ".msix", ".msixbundle" }.Contains(SelectedItems.First().FileExtension, StringComparer.OrdinalIgnoreCase));
 
         public void Dispose()
         {
