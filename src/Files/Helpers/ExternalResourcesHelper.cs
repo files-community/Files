@@ -91,13 +91,13 @@ namespace Files.Helpers
                 return null;
             }
 
-            if (theme.Path.Contains(Convert.ToString(ThemeFolder)))
+            if (theme.Path.Contains(Convert.ToString(ImportedThemesFolder)))
             {
-                file = await ThemeFolder.GetFileAsync(theme.Path);
+                file = await ImportedThemesFolder.GetFileAsync(theme.Path);
             }
             else
             {
-                file = await ImportedThemesFolder.GetFileAsync(theme.Path);
+                file = await ThemeFolder.GetFileAsync(theme.Path);
             }
 
             var code = await FileIO.ReadTextAsync(file);
