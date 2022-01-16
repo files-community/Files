@@ -2743,7 +2743,7 @@
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show cloud drives section</source>
-          <target state="translated">yPokaż sekcję Dyski w chmurze</target>
+          <target state="translated">Pokaż sekcję Dyski w chmurze</target>
         </trans-unit>
         <trans-unit id="SettingsShowDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show drives section</source>
