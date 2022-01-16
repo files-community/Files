@@ -2699,10 +2699,4 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
   </data>
-  <data name="Extract" xml:space="preserve">
-    <value>Extract</value>
-  </data>
-  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+E</value>
-  </data>
 </root>
