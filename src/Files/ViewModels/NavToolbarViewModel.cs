@@ -1083,6 +1083,7 @@ namespace Files.ViewModels
                     OnPropertyChanged(nameof(CanRename));
                     OnPropertyChanged(nameof(CanViewProperties));
                     OnPropertyChanged(nameof(CanExtract));
+                    OnPropertyChanged(nameof(ExtractToText));
                 }
             }
         }
@@ -1095,6 +1096,7 @@ namespace Files.ViewModels
         public bool CanViewProperties  => SelectedItems is not null && SelectedItems.Any();
         public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
         public bool CanExtract         => SelectedItems is not null && SelectedItems.Any() && (SelectedItems.First().IsZipItem || SelectedItems.First().PrimaryItemAttribute == StorageItemTypes.File && new[] { ".zip", ".msix", ".msixbundle" }.Contains(SelectedItems.First().FileExtension, StringComparer.OrdinalIgnoreCase));
+        public string ExtractToText    => SelectedItems is not null && SelectedItems.Any() ? string.Format("ExtractToChildFolder".GetLocalized(), Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalized();
 
         public void Dispose()
         {

@@ -210,21 +210,51 @@
                     x:Name="ExtractButton"
                     Width="Auto"
                     MinWidth="40"
-                    Command="{x:Bind ViewModel.ExtractCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
-                    Label="{helpers:ResourceString Name=Extract}"
-                    LabelPosition="Default"
                     Visibility="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=Collapsed}"
-                    KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=ExtractKeyboardAcceleratorTextOverride}">
-                    <AppBarButton.KeyboardAccelerators>
-                        <KeyboardAccelerator
-                            Key="E"
-                            IsEnabled="False"
-                            Modifiers="Control" />
-                    </AppBarButton.KeyboardAccelerators>
+                    LabelPosition="Default"
+                    Label="{helpers:ResourceString Name=ExtractOptions}">
                     <AppBarButton.Content>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
                     </AppBarButton.Content>
+                    <AppBarButton.Flyout>
+                        <MenuFlyout Placement="Bottom">
+                            <MenuFlyoutItem
+                                x:Uid="Extract"
+                                IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
+                                Command="{x:Bind ViewModel.ExtractCommand, Mode=OneWay}"
+                                Text="{helpers:ResourceString Name=ExtractFiles}"
+                                KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=ExtractKeyboardAcceleratorTextOverride}">
+                                <MenuFlyoutItem.KeyboardAccelerators>
+                                    <KeyboardAccelerator
+                                        Key="E"
+                                        IsEnabled="False"
+                                        Modifiers="Control" />
+                                </MenuFlyoutItem.KeyboardAccelerators>
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                                x:Uid="ExtractHere"
+                                IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
+                                Command="{x:Bind ViewModel.ExtractCommand, Mode=OneWay}"
+                                Text="{helpers:ResourceString Name=ExtractHere}">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                                x:Uid="ExtractTo"
+                                IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
+                                Command="{x:Bind ViewModel.ExtractCommand, Mode=OneWay}"
+                                Text="{x:Bind ViewModel.ExtractToText, Mode=OneWay}">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
                 </AppBarButton>
             </CommandBar.PrimaryCommands>
         </CommandBar>
