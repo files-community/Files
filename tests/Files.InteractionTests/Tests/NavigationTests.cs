@@ -33,7 +33,7 @@ namespace Files.InteractionTests.Tests
 				{
 					try
 					{
-						Console.WriteLine("Inoking item:" + item);
+						Console.WriteLine("Invoking item:" + item);
 						Thread.Sleep(2000);
 						TestHelper.InvokeButtonByName(item);
 						i = 1000;
