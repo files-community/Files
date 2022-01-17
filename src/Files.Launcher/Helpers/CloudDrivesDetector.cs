@@ -58,6 +58,12 @@ namespace FilesFullTrust.Helpers
                         continue;
                     }
 
+                    //Nextcloud specific
+                    if (namespaceKey?.GetValue("ApplicationName") != null)
+                    {
+                        driveType = (string)namespaceKey?.GetValue("ApplicationName");
+                    }
+
                     using var bagKey = subKey.OpenSubKey(@"Instance\InitPropertyBag");
                     var syncedFolder = (string)bagKey?.GetValue("TargetFolderPath");
                     if (syncedFolder == null)
@@ -86,7 +92,7 @@ namespace FilesFullTrust.Helpers
                         {
                             CloudProviders.Mega => $"MEGA ({Path.GetFileName(syncedFolder.TrimEnd('\\'))})",
                             CloudProviders.AmazonDrive => $"Amazon Drive",
-                            CloudProviders.Nextcloud => $"Nextcloud",
+                            CloudProviders.Nextcloud => $"{ (namespaceKey?.GetValue("")!=null ? (string)namespaceKey?.GetValue(""):"Nextcloud")}",
                             CloudProviders.Jottacloud => $"Jottacloud",
                             _ => null
                         },
