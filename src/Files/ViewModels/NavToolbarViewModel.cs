@@ -799,6 +799,10 @@ namespace Files.ViewModels
 
         public ICommand ExtractCommand { get; set; }
 
+        public ICommand ExtractHereCommand { get; set; }
+
+        public ICommand ExtractToCommand { get; set; }
+
         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
         {
             var nextPathItemTitle = PathComponents[PathComponents.IndexOf(pathItem) + 1].Title;

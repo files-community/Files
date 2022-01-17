@@ -238,7 +238,7 @@
                             <MenuFlyoutItem
                                 x:Uid="ExtractHere"
                                 IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
-                                Command="{x:Bind ViewModel.ExtractCommand, Mode=OneWay}"
+                                Command="{x:Bind ViewModel.ExtractHereCommand, Mode=OneWay}"
                                 Text="{helpers:ResourceString Name=ExtractHere}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
@@ -247,7 +247,7 @@
                             <MenuFlyoutItem
                                 x:Uid="ExtractTo"
                                 IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
-                                Command="{x:Bind ViewModel.ExtractCommand, Mode=OneWay}"
+                                Command="{x:Bind ViewModel.ExtractToCommand, Mode=OneWay}"
                                 Text="{x:Bind ViewModel.ExtractToText, Mode=OneWay}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
