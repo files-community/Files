@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium.Interactions;
+using System;
 using System.Threading;
 
 namespace Files.InteractionTests.Tests
@@ -16,18 +17,88 @@ namespace Files.InteractionTests.Tests
         [TestMethod]
         public void VerifyItemOperations()
         {
-            NavigateToSidebarItem("Windows (C:)");
-            Thread.Sleep(30000);
-            CreateFolder("New folder");
-            Thread.Sleep(5000);
-            TestHelper.InvokeButtonByName("New folder"); // Focus on the newly created item
-            RenameItem("Folder");
-            Thread.Sleep(5000);
-            TestHelper.InvokeButtonByName("Folder"); // Focus on the renamed item
-            DeleteItem("Folder");
-            Thread.Sleep(5000);
-            NavigateToSidebarItem("Home"); // TODO fix issues in details layout so that settings dialog can be opened without triggering an issue
-            Thread.Sleep(5000);
+            for (int i = 0; i < 5; i++)
+            {
+                try
+                {
+                    Thread.Sleep(2000);
+                    NavigateToSidebarItem("Windows (C:)");
+                    i = 1000;
+                }
+                catch (Exception){}
+
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                try
+                {
+                    Thread.Sleep(2000);
+                    CreateFolder("New folder");
+                    i = 1000;
+                }
+                catch (Exception) { }
+
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                try
+                {
+                    Thread.Sleep(2000);
+                    TestHelper.InvokeButtonByName("New folder"); // Focus on the newly created item
+                    i = 1000;
+                }
+                catch (Exception) { }
+
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                try
+                {
+                    Thread.Sleep(2000);
+                    RenameItem("Folder");
+                    i = 1000;
+                }
+                catch (Exception) { }
+
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                try
+                {
+                    Thread.Sleep(2000);
+                    TestHelper.InvokeButtonByName("Folder"); // Focus on the renamed item
+                    i = 1000;
+                }
+                catch (Exception) { }
+
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                try
+                {
+                    Thread.Sleep(2000);
+                    DeleteItem("Folder");
+                    i = 1000;
+                }
+                catch (Exception) { }
+
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                try
+                {
+                    Thread.Sleep(2000);
+                    NavigateToSidebarItem("Home"); // TODO fix issues in details layout so that settings dialog can be opened without triggering an issue
+                    i = 1000;
+                }
+                catch (Exception) { }
+            }
         }
 
         private void CreateFolder(string folderName)
