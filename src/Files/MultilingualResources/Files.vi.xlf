@@ -28,7 +28,7 @@
         </trans-unit>
         <trans-unit id="CopyLocation" translate="yes" xml:space="preserve">
           <source>Copy location</source>
-          <target state="translated">Sao chép vị trí</target>
+          <target state="translated">Sao chép đường dẫn</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarPaste.Label" translate="yes" xml:space="preserve">
           <source>Paste</source>
@@ -148,11 +148,11 @@
         </trans-unit>
         <trans-unit id="Appearance" translate="yes" xml:space="preserve">
           <source>Appearance</source>
-          <target state="translated">Diện mạo</target>
+          <target state="translated">Giao diện</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowFileExtensions" translate="yes" xml:space="preserve">
           <source>Show extensions for known file types</source>
-          <target state="needs-review-translation"></target>
+          <target state="translated">Hiển thị phần mở rộng cho các loại tệp đã biết</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
@@ -216,7 +216,7 @@
         </trans-unit>
         <trans-unit id="SideBarUnpinFromFavorites.Text" translate="yes" xml:space="preserve">
           <source>Unpin from Favorites</source>
-          <target state="translated">Ngừng ghim vào Ưa thích</target>
+          <target state="translated">Huỷ ghim vào Ưa thích</target>
         </trans-unit>
         <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
           <source>Videos</source>
@@ -651,11 +651,11 @@
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} files, {1:#,##0} folders</source>
-          <target state="needs-review-translation">{0:#,##0} files, {1:#,##0} folders</target>
+          <target state="translated">{0:#,##0} tệp, {1:#,##0} thư mục</target>
         </trans-unit>
         <trans-unit id="PropertiesFilesFoldersAndLocationsCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</source>
-          <target state="needs-review-translation">{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</target>
+          <target state="translated">{0:#,##0} tệp, {1:#,##0} thư mục từ vị trí {2:#,##0}</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser.Text" translate="yes" xml:space="preserve">
           <source>Run as another user</source>
@@ -663,7 +663,7 @@
         </trans-unit>
         <trans-unit id="PropertiesDriveItemTypesEquals" translate="yes" xml:space="preserve">
           <source>All type of {0}</source>
-          <target state="needs-review-translation">Tất cả lỗi của {0}</target>
+          <target state="translated">Tất cả kiểu của {0}</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveItemTypeDifferent" translate="yes" xml:space="preserve">
           <source>Different types</source>
@@ -671,7 +671,7 @@
         </trans-unit>
         <trans-unit id="PropertiesCombinedItemPath" translate="yes" xml:space="preserve">
           <source>All in {0}</source>
-          <target state="needs-review-translation">Tất cả trong {0}</target>
+          <target state="translated">Tất cả trong {0}</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveUsedSpace.Text" translate="yes" xml:space="preserve">
           <source>Used space:</source>
@@ -1060,7 +1060,7 @@
         </trans-unit>
         <trans-unit id="PropertyColorSpace_Value0" translate="yes" xml:space="preserve">
           <source>sRGB</source>
-          <target state="new">sRGB</target>
+          <target state="translated">sRGB</target>
         </trans-unit>
         <trans-unit id="PropertyColorSpace_Value65535" translate="yes" xml:space="preserve">
           <source>Unspecified</source>
@@ -1224,19 +1224,19 @@
         </trans-unit>
         <trans-unit id="PropertyThumbnailLargePath" translate="yes" xml:space="preserve">
           <source>Thumbnail Large Path</source>
-          <target state="new">Thumbnail Large Path</target>
+          <target state="translated">Đường dẫn Ảnh thu nhỏ Lớn</target>
         </trans-unit>
         <trans-unit id="PropertyThumbnailLargeUri" translate="yes" xml:space="preserve">
           <source>Thumbnail Large Uri</source>
-          <target state="new">Thumbnail Large Uri</target>
+          <target state="translated">Đường dẫn Ảnh thu nhỏ Vừa</target>
         </trans-unit>
         <trans-unit id="PropertyThumbnailSmallPath" translate="yes" xml:space="preserve">
           <source>Thumbnail Small Path</source>
-          <target state="new">Thumbnail Small Path</target>
+          <target state="translated">Đường dẫn Ảnh thu nhỏ Nhỏ</target>
         </trans-unit>
         <trans-unit id="PropertyThumbnailSmallUri" translate="yes" xml:space="preserve">
           <source>Thumbnail Small Uri</source>
-          <target state="new">Thumbnail Small Uri</target>
+          <target state="translated">Đường dẫn Ảnh thu nhỏ Lớn</target>
         </trans-unit>
         <trans-unit id="PropertyUserWebUrl" translate="yes" xml:space="preserve">
           <source>User Web Url</source>
@@ -1308,7 +1308,7 @@
         </trans-unit>
         <trans-unit id="PropertySlideCount" translate="yes" xml:space="preserve">
           <source>Slide Count</source>
-          <target state="needs-review-translation">Slide Count</target>
+          <target state="translated">Đếm trang trình bày</target>
         </trans-unit>
         <trans-unit id="PropertyFrameRate" translate="yes" xml:space="preserve">
           <source>Frame Rate</source>
@@ -1316,7 +1316,7 @@
         </trans-unit>
         <trans-unit id="PropertyEncodingBitrate" translate="yes" xml:space="preserve">
           <source>Encoding Bitrate</source>
-          <target state="new">Encoding Bitrate</target>
+          <target state="translated">Mã hóa tốc độ bit</target>
         </trans-unit>
         <trans-unit id="Compression" translate="yes" xml:space="preserve">
           <source>Compression</source>
@@ -1425,7 +1425,7 @@
         </trans-unit>
         <trans-unit id="SideBarEjectDevice.Text" translate="yes" xml:space="preserve">
           <source>Eject</source>
-          <target state="translated">Đẩy ra</target>
+          <target state="translated">Gỡ bỏ</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlDuplicateTab.Text" translate="yes" xml:space="preserve">
           <source>Duplicate tab</source>
@@ -1560,7 +1560,7 @@
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane" translate="yes" xml:space="preserve">
           <source>Always open new tabs in dual pane mode</source>
-          <target state="needs-review-translation">Mở tab mới bằng chế độ hai phần luôn luôn</target>
+          <target state="translated">Luôn luôn mở tab mới bằng chế độ ngăn kép</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingEnableDualPane" translate="yes" xml:space="preserve">
           <source>Enable dual pane view</source>
@@ -1635,7 +1635,7 @@
         </trans-unit>
         <trans-unit id="NavToolbarTiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Tiles (Ctrl+Shift+2)</source>
-          <target state="new">Tiles (Ctrl+Shift+2)</target>
+          <target state="translated">Gạch (Ctrl+Shift+2)</target>
         </trans-unit>
         <trans-unit id="DateDeleted" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
@@ -1968,7 +1968,7 @@
         </trans-unit>
         <trans-unit id="ColumnsShortcutTooltip" translate="yes" xml:space="preserve">
           <source>Columns (Ctrl+Shift+6)</source>
-          <target state="new">Columns (Ctrl+Shift+6)</target>
+          <target state="translated">Cột (Ctrl+Shift+6)</target>
         </trans-unit>
         <trans-unit id="PinItemToStart.Text" translate="yes" xml:space="preserve">
           <source>Pin to the Start Menu</source>
@@ -2032,11 +2032,11 @@
         </trans-unit>
         <trans-unit id="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Open Storage Sense</source>
-          <target state="new">Open Storage Sense</target>
+          <target state="translated">Mở bộ nhớ lưu trữ</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open Storage Sense</source>
-          <target state="translated">Mở Storage Sense</target>
+          <target state="translated">Mở Bộ nhớ lưu trữ</target>
         </trans-unit>
         <trans-unit id="Copy" translate="yes" xml:space="preserve">
           <source>Copy</source>
@@ -2824,7 +2824,7 @@
         </trans-unit>
         <trans-unit id="WSL" translate="yes" xml:space="preserve">
           <source>WSL</source>
-          <target state="new">WSL</target>
+          <target state="translated">WSL</target>
         </trans-unit>
         <trans-unit id="SideBarHideSectionFromSideBar.Text" translate="yes" xml:space="preserve">
           <source>Hide {0} section</source>
@@ -2888,123 +2888,123 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Alt+Up</source>
-          <target state="new">Ctrl+Alt+Up</target>
+          <target state="translated">Ctrl+Alt+Up</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Alt+Down</source>
-          <target state="new">Ctrl+Alt+Down</target>
+          <target state="translated">Ctrl+Alt+Down</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+1</source>
-          <target state="new">Ctrl+Shift+1</target>
+          <target state="translated">Ctrl+Shift+1</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+2</source>
-          <target state="new">Ctrl+Shift+2</target>
+          <target state="translated">Ctrl+Shift+2</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+3</source>
-          <target state="new">Ctrl+Shift+3</target>
+          <target state="translated">Ctrl+Shift+3</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+4</source>
-          <target state="new">Ctrl+Shift+4</target>
+          <target state="translated">Ctrl+Shift+4</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+5</source>
-          <target state="new">Ctrl+Shift+5</target>
+          <target state="translated">Ctrl+Shift+5</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+6</source>
-          <target state="new">Ctrl+Shift+6</target>
+          <target state="translated">Ctrl+Shift+6</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+T</source>
-          <target state="new">Ctrl+T</target>
+          <target state="translated">Ctrl+T</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+T</source>
-          <target state="new">Ctrl+Shift+T</target>
+          <target state="translated">Ctrl+Shift+T</target>
         </trans-unit>
         <trans-unit id="DateFormat" translate="yes" xml:space="preserve">
           <source>Date format</source>
-          <target state="new">Định dạng ngày tháng</target>
+          <target state="translated">Định dạng ngày tháng</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Title" translate="yes" xml:space="preserve">
           <source>Terminal applications</source>
-          <target state="new">Ứng dụng Terminal</target>
+          <target state="translated">Ứng dụng Terminal</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesEditTerminalApplicationsExpander.Title" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
-          <target state="new">Chỉnh sửa ứng dụng terminal</target>
+          <target state="translated">Chỉnh sửa ứng dụng terminal</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="new">Hiển thị hộp thoại xác nhận khi xoá tệp hoặc thư mục</target>
+          <target state="translated">Hiển thị hộp thoại xác nhận khi xoá tệp hoặc thư mục</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Title" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>
-          <target state="new">Mở thư mục trong tab mới</target>
+          <target state="translated">Mở thư mục trong tab mới</target>
         </trans-unit>
         <trans-unit id="NavToolbarGroupByRadioButtons.Text" translate="yes" xml:space="preserve">
           <source>Group By</source>
-          <target state="new">Nhóm bởi</target>
+          <target state="translated">Nhóm bởi</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionName.Text" translate="yes" xml:space="preserve">
           <source>Name</source>
-          <target state="new">Tên</target>
+          <target state="translated">Tên</target>
         </trans-unit>
         <trans-unit id="DateModifiedLowerCase" translate="yes" xml:space="preserve">
           <source>Date modified</source>
-          <target state="new">Ngày thay đổi</target>
+          <target state="translated">Ngày thay đổi</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionOriginalFolder.Text" translate="yes" xml:space="preserve">
           <source>Original folder</source>
-          <target state="new">Thư mục gốc</target>
+          <target state="translated">Thư mục gốc</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionType.Text" translate="yes" xml:space="preserve">
           <source>Type</source>
-          <target state="new">Loại</target>
+          <target state="translated">Loại</target>
         </trans-unit>
         <trans-unit id="NavToolbarSortByRadioButtons.Text" translate="yes" xml:space="preserve">
           <source>Sort By</source>
-          <target state="new">Sắp xếp theo</target>
+          <target state="translated">Sắp xếp theo</target>
         </trans-unit>
         <trans-unit id="Descending" translate="yes" xml:space="preserve">
           <source>Descending</source>
-          <target state="new">Giảm dần</target>
+          <target state="translated">Giảm dần</target>
         </trans-unit>
         <trans-unit id="SyncStatus" translate="yes" xml:space="preserve">
           <source>Sync status</source>
-          <target state="new">Trạng thái đồng bộ</target>
+          <target state="translated">Trạng thái đồng bộ</target>
         </trans-unit>
         <trans-unit id="ArchiveExtractionCompletedSuccessfullyText" translate="yes" xml:space="preserve">
           <source>The archive extraction completed successfully.</source>
-          <target state="new">Quá trình giải nén kho lưu trữ đã hoàn tất.</target>
+          <target state="translated">Quá trình giải nén kho lưu trữ đã hoàn tất.</target>
         </trans-unit>
         <trans-unit id="ExtractingArchiveText" translate="yes" xml:space="preserve">
           <source>Extracting archive</source>
-          <target state="new">Giải nén kho lưu trữ</target>
+          <target state="translated">Giải nén kho lưu trữ</target>
         </trans-unit>
         <trans-unit id="ExtractingCompleteText" translate="yes" xml:space="preserve">
           <source>Extracting complete!</source>
-          <target state="new">Giải nén thành công!</target>
+          <target state="translated">Giải nén thành công!</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+N</source>
-          <target state="new">Ctrl+Shift+N</target>
+          <target state="translated">Ctrl+Shift+N</target>
         </trans-unit>
         <trans-unit id="SettingsPrivacy.Title" translate="yes" xml:space="preserve">
           <source>Privacy policy</source>
-          <target state="new">Chính sách bảo mật</target>
+          <target state="translated">Chính sách bảo mật</target>
         </trans-unit>
         <trans-unit id="SettingsFluentUISystemIconsLicenseButton.Content" translate="yes" xml:space="preserve">
           <source>Fluent UI System Icons</source>
-          <target state="new">Biểu tượng hệ thống Fluent UI</target>
+          <target state="translated">Biểu tượng hệ thống Fluent UI</target>
         </trans-unit>
         <trans-unit id="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Fluent UI System Icons</source>
-          <target state="new">Biểu tượng hệ thống Fluent UI</target>
+          <target state="translated">Biểu tượng hệ thống Fluent UI</target>
         </trans-unit>
         <trans-unit id="SettingsPrivacyPolicyMarkdownBlock.Text" translate="yes" xml:space="preserve">
           <source>
@@ -3015,7 +3015,7 @@ Files does not collect, store, share or publish any personal information.
 
 We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
   </source>
-          <target state="new">
+          <target state="translated">
 *Thu thập thông tin cá nhân*
 Files không thu thập, lưu trữ, chia sẻ hoặc xuất bản bất kỳ thông tin cá nhân nào.
 
@@ -3026,455 +3026,455 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByFileTag.Text" translate="yes" xml:space="preserve">
           <source>File tag</source>
-          <target state="new">Thẻ t</target>
+          <target state="translated">Thẻ tệp</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionFileTag.Text" translate="yes" xml:space="preserve">
           <source>File tag</source>
-          <target state="new">Thẻ tệp</target>
+          <target state="translated">Thẻ tệp</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenParentFolder.Text" translate="yes" xml:space="preserve">
           <source>Open parent folder</source>
-          <target state="new">Mở thư mục chính</target>
+          <target state="translated">Mở thư mục chính</target>
         </trans-unit>
         <trans-unit id="FileTagUnknown" translate="yes" xml:space="preserve">
           <source>Unknown</source>
-          <target state="new">Không xác định</target>
+          <target state="translated">Không xác định</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowFileTag.Text" translate="yes" xml:space="preserve">
           <source>File tag</source>
-          <target state="new">Thẻ tệp</target>
+          <target state="translated">Thẻ tệp</target>
         </trans-unit>
         <trans-unit id="SettingsEditFileTagsExpander.Title" translate="yes" xml:space="preserve">
           <source>Edit file tags</source>
-          <target state="new">Chỉnh sửa các thẻ tệp</target>
+          <target state="translated">Chỉnh sửa các thẻ tệp</target>
         </trans-unit>
         <trans-unit id="SettingsEnableFileTags.Title" translate="yes" xml:space="preserve">
           <source>Enable file tags</source>
-          <target state="new">Bật các thẻ tệp</target>
+          <target state="translated">Bật các thẻ tệp</target>
         </trans-unit>
         <trans-unit id="SettingsShowFavoritesSection.Title" translate="yes" xml:space="preserve">
           <source>Show favorites section</source>
-          <target state="new">Hiển thị phần danh sách yêu thích</target>
+          <target state="translated">Hiển thị phần danh sách yêu thích</target>
         </trans-unit>
         <trans-unit id="ConfictingItemsDialogOptionApplyToAll.Text" translate="yes" xml:space="preserve">
           <source>Apply to all</source>
-          <target state="new">Áp dụng cho tất cả</target>
+          <target state="translated">Áp dụng cho tất cả</target>
         </trans-unit>
         <trans-unit id="PropertyPartOfSet" translate="yes" xml:space="preserve">
           <source>Part of set</source>
-          <target state="new">Một phần của bộ</target>
+          <target state="translated">Một phần của bộ</target>
         </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
-          <target state="new">Mở Ổ đĩa</target>
+          <target state="translated">Mở Ổ đĩa</target>
         </trans-unit>
         <trans-unit id="InsertDiscDialog.Text" translate="yes" xml:space="preserve">
           <source>Please insert a disc into drive {0}</source>
-          <target state="new">Vui lòng cho đĩa vào ổ đĩa {0}</target>
+          <target state="translated">Vui lòng cho đĩa vào ổ đĩa {0}</target>
         </trans-unit>
         <trans-unit id="InsertDiscDialog.Title" translate="yes" xml:space="preserve">
           <source>Insert a disc</source>
-          <target state="new">Gắn đĩa</target>
+          <target state="translated">Gắn đĩa</target>
         </trans-unit>
         <trans-unit id="AskCredentialDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
-          <target state="new">OK</target>
+          <target state="translated">OK</target>
         </trans-unit>
         <trans-unit id="AskCredentialDialog.Title" translate="yes" xml:space="preserve">
           <source>Credential Required</source>
-          <target state="new">Yêu cầu thông tin đăng nhập</target>
+          <target state="translated">Yêu cầu thông tin đăng nhập</target>
         </trans-unit>
         <trans-unit id="CredentialDialogAnonymous.Content" translate="yes" xml:space="preserve">
           <source>Anonymous</source>
-          <target state="new">Ẩn danh</target>
+          <target state="translated">Ẩn danh</target>
         </trans-unit>
         <trans-unit id="CredentialDialogDescription.Text" translate="yes" xml:space="preserve">
           <source>Provide your credential:</source>
-          <target state="new">Cung cấp thông tin đăng nhập của bạn:</target>
+          <target state="translated">Cung cấp thông tin đăng nhập của bạn:</target>
         </trans-unit>
         <trans-unit id="CredentialDialogPassword.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Password</source>
-          <target state="new">Mật khẩu</target>
+          <target state="translated">Mật khẩu</target>
         </trans-unit>
         <trans-unit id="CredentialDialogUserName.PlaceholderText" translate="yes" xml:space="preserve">
           <source>UserName</source>
-          <target state="new">Tên người dùng</target>
+          <target state="translated">Tên người dùng</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Bundles Widget</source>
-          <target state="new">Widget Gói</target>
+          <target state="translated">Widget Gói</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Drives Widget</source>
-          <target state="new">Widget Ổ đĩa</target>
+          <target state="translated">Widget Ổ đĩa</target>
         </trans-unit>
         <trans-unit id="FolderWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Libraries Widget</source>
-          <target state="new">Widget Thư viện</target>
+          <target state="translated">Widget Thư viện</target>
         </trans-unit>
         <trans-unit id="RecentFilesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Recent Files Widget</source>
-          <target state="new">Widget Các tệp gần đây</target>
+          <target state="translated">Widget Các tệp gần đây</target>
         </trans-unit>
         <trans-unit id="NoSearchResultsFound" translate="yes" xml:space="preserve">
           <source>No items found</source>
-          <target state="new">Không tìm thấy mục nào</target>
+          <target state="translated">Không tìm thấy mục nào</target>
         </trans-unit>
         <trans-unit id="OpenLogLocation" translate="yes" xml:space="preserve">
           <source>Open log location</source>
-          <target state="new">Mở vị trí nhật ký</target>
+          <target state="translated">Mở vị trí nhật ký</target>
         </trans-unit>
         <trans-unit id="LinkToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Create link in {0}</source>
-          <target state="new">Tạo liên kết trong {0}</target>
+          <target state="translated">Tạo liên kết trong {0}</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowFileExtensionsHeader.Text" translate="yes" xml:space="preserve">
           <source>Show file extensions</source>
-          <target state="new">Hiển thị phần mở rộng tệp</target>
+          <target state="translated">Hiển thị phần mở rộng tệp</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show hidden items</source>
-          <target state="new">Hiển thị các mục bị ẩn</target>
+          <target state="translated">Hiển thị các mục bị ẩn</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowFileExtensions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show file extensions</source>
-          <target state="new">Hiển thị phần mở rộng tệp</target>
+          <target state="translated">Hiển thị phần mở rộng tệp</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowHiddenItemsHeader.Text" translate="yes" xml:space="preserve">
           <source>Show hidden items</source>
-          <target state="new">Hiển thị các mục bị ẩn</target>
+          <target state="translated">Hiển thị các mục bị ẩn</target>
         </trans-unit>
         <trans-unit id="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show favorites section</source>
-          <target state="new">Hiển thị phần danh sách yêu thích</target>
+          <target state="translated">Hiển thị phần danh sách yêu thích</target>
         </trans-unit>
         <trans-unit id="SettingsPinRecycleBinSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to favorites</source>
-          <target state="new">Ghim Thùng rác vào danh sách yêu thích</target>
+          <target state="translated">Ghim Thùng rác vào danh sách yêu thích</target>
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show cloud drives section</source>
-          <target state="new">Hiển thị phần Ổ đĩa lưu trữ đám mây</target>
+          <target state="translated">Hiển thị phần Ổ đĩa lưu trữ đám mây</target>
         </trans-unit>
         <trans-unit id="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show drives section</source>
-          <target state="new">Hiển thị phần ổ đĩa</target>
+          <target state="translated">Hiển thị phần ổ đĩa</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show library section</source>
-          <target state="new">Hiển thị phần thư viện</target>
+          <target state="translated">Hiển thị phần thư viện</target>
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show network section</source>
-          <target state="new">Hiển thị phần mạng</target>
+          <target state="translated">Hiển thị phần mạng</target>
         </trans-unit>
         <trans-unit id="SettingsShowWslSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show WSL section</source>
-          <target state="new">Hiển thị phần WSL</target>
+          <target state="translated">Hiển thị phần WSL</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>
-          <target state="new">Mở thư mục trong tab mới</target>
+          <target state="translated">Mở thư mục trong tab mới</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Language</source>
-          <target state="new">Ngôn ngữ</target>
+          <target state="translated">Ngôn ngữ</target>
         </trans-unit>
         <trans-unit id="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="new">Hiển thị hộp thoại xác nhận khi xoá tệp hoặc thư mục</target>
+          <target state="translated">Hiển thị hộp thoại xác nhận khi xoá tệp hoặc thư mục</target>
         </trans-unit>
         <trans-unit id="TerminalApplicationsComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Terminal application</source>
-          <target state="new">Ứng dụng Terminal</target>
+          <target state="translated">Ứng dụng Terminal</target>
         </trans-unit>
         <trans-unit id="OngoingTasks" translate="yes" xml:space="preserve">
           <source>Ongoing Tasks</source>
-          <target state="new">Công việc đang thực hiện</target>
+          <target state="translated">Công việc đang thực hiện</target>
         </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.Text" translate="yes" xml:space="preserve">
           <source>Load full preview</source>
-          <target state="new">Tải bản xem trước đầy đủ</target>
+          <target state="translated">Tải bản xem trước đầy đủ</target>
         </trans-unit>
         <trans-unit id="PreviewPaneShowPreviewOnly.Text" translate="yes" xml:space="preserve">
           <source>Show preview only</source>
-          <target state="new">Chỉ hiển thị bản xem trước</target>
+          <target state="translated">Chỉ hiển thị bản xem trước</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveOneDown" translate="yes" xml:space="preserve">
           <source>Move one down</source>
-          <target state="new">Chuyển xuống xuống</target>
+          <target state="translated">Chuyển xuống xuống</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveOneUp" translate="yes" xml:space="preserve">
           <source>Move one up</source>
-          <target state="new">Chuyển lên trên</target>
+          <target state="translated">Chuyển lên trên</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveToBottom" translate="yes" xml:space="preserve">
           <source>Move to bottom</source>
-          <target state="new">Chuyển xuống dưới cùng</target>
+          <target state="translated">Chuyển xuống dưới cùng</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveToTop" translate="yes" xml:space="preserve">
           <source>Move to top</source>
-          <target state="new">Chuyển lên trên cùng</target>
+          <target state="translated">Chuyển lên trên cùng</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowDateCreated.Text" translate="yes" xml:space="preserve">
           <source>Date created column</source>
-          <target state="new">Cột ngày tạo</target>
+          <target state="translated">Cột ngày tạo</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowItemSize.Text" translate="yes" xml:space="preserve">
           <source>Item size column</source>
-          <target state="new">Cột kích thước mục</target>
+          <target state="translated">Cột kích thước mục</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsOpenDialog" translate="yes" xml:space="preserve">
           <source>Use Files as Open File Dialog</source>
-          <target state="new">Sử dụng Files làm Hộp thoại Mở Tệp</target>
+          <target state="translated">Sử dụng Files làm Hộp thoại Mở Tệp</target>
         </trans-unit>
         <trans-unit id="Tag" translate="yes" xml:space="preserve">
           <source>Tag</source>
-          <target state="new">Tag</target>
+          <target state="translated">Thẻ</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersWithOneClick" translate="yes" xml:space="preserve">
           <source>Open folders with a single click</source>
-          <target state="new">Mở thư mục với 1 nhấp</target>
+          <target state="translated">Mở thư mục với 1 nhấp</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionFolderPath.Text" translate="yes" xml:space="preserve">
           <source>Folder path</source>
-          <target state="new">Đường dẫn thư mục</target>
+          <target state="translated">Đường dẫn thư mục</target>
         </trans-unit>
         <trans-unit id="ExportSettings" translate="yes" xml:space="preserve">
           <source>Export Settings</source>
-          <target state="new">Xuất các thiết lập</target>
+          <target state="translated">Xuất các thiết lập</target>
         </trans-unit>
         <trans-unit id="ImportSettings" translate="yes" xml:space="preserve">
           <source>Import Settings</source>
-          <target state="new">Chèn các thiết lập</target>
+          <target state="translated">Chèn các thiết lập</target>
         </trans-unit>
         <trans-unit id="ManageSettings" translate="yes" xml:space="preserve">
           <source>Manage Settings</source>
-          <target state="new">Manage Settings</target>
+          <target state="translated">Quản lý thiết lập</target>
         </trans-unit>
         <trans-unit id="SettingsImportErrorDescription" translate="yes" xml:space="preserve">
           <source>Couldn't import settings. The settings file is corrupted.</source>
-          <target state="new">Không thể chèn các thiết lập. Tệp thiết lập bị hỏng.</target>
+          <target state="translated">Không thể chèn các thiết lập. Tệp thiết lập bị hỏng.</target>
         </trans-unit>
         <trans-unit id="SettingsImportErrorTitle" translate="yes" xml:space="preserve">
           <source>Error importing settings</source>
-          <target state="new">Lỗi chèn các thiết lập</target>
+          <target state="translated">Lỗi chèn các thiết lập</target>
         </trans-unit>
         <trans-unit id="ChooseCustomIcon" translate="yes" xml:space="preserve">
           <source>Choose a custom folder icon</source>
-          <target state="new">Chọn biểu tượng thư mục tuỳ chỉnh</target>
+          <target state="translated">Chọn biểu tượng thư mục tuỳ chỉnh</target>
         </trans-unit>
         <trans-unit id="Customization" translate="yes" xml:space="preserve">
           <source>Customization</source>
-          <target state="new">Tuỳ chỉnh</target>
+          <target state="translated">Tuỳ chỉnh</target>
         </trans-unit>
         <trans-unit id="RestoreDefault" translate="yes" xml:space="preserve">
           <source>Restore default</source>
-          <target state="new">Khôi phục mặc định</target>
+          <target state="translated">Khôi phục mặc định</target>
         </trans-unit>
         <trans-unit id="Compatibility" translate="yes" xml:space="preserve">
           <source>Compatibility</source>
-          <target state="new">Tương thích</target>
+          <target state="translated">Tương thích</target>
         </trans-unit>
         <trans-unit id="None" translate="yes" xml:space="preserve">
           <source>None</source>
-          <target state="new">Không có</target>
+          <target state="translated">Không có</target>
         </trans-unit>
         <trans-unit id="HighDpiOption_UseDPIOnLogin" translate="yes" xml:space="preserve">
           <source>On Windows login</source>
-          <target state="new">Khi đăng nhập Windows</target>
+          <target state="translated">Khi đăng nhập Windows</target>
         </trans-unit>
         <trans-unit id="HighDpiOption_UseDPIOnProgramStart" translate="yes" xml:space="preserve">
           <source>On program start</source>
-          <target state="new">Khi bắt đầu chương trình</target>
+          <target state="translated">Khi bắt đầu chương trình</target>
         </trans-unit>
         <trans-unit id="HighDpiOverride_System" translate="yes" xml:space="preserve">
           <source>System</source>
-          <target state="new">Hệ thống</target>
+          <target state="translated">Hệ thống</target>
         </trans-unit>
         <trans-unit id="HighDpiOverride_SystemAdvanced" translate="yes" xml:space="preserve">
           <source>System (advanced)</source>
-          <target state="new">Hệ thống (nâng cao)</target>
+          <target state="translated">Hệ thống (nâng cao)</target>
         </trans-unit>
         <trans-unit id="Windows7" translate="yes" xml:space="preserve">
           <source>Windows 7</source>
-          <target state="new">Windows 7</target>
+          <target state="translated">Windows 7</target>
         </trans-unit>
         <trans-unit id="Windows8" translate="yes" xml:space="preserve">
           <source>Windows 8</source>
-          <target state="new">Windows 8</target>
+          <target state="translated">Windows 8</target>
         </trans-unit>
         <trans-unit id="OSCompatibility_WindowsVista" translate="yes" xml:space="preserve">
           <source>Windows Vista</source>
-          <target state="new">Windows Vista</target>
+          <target state="translated">Windows Vista</target>
         </trans-unit>
         <trans-unit id="OSCompatibility_WindowsVistaSP1" translate="yes" xml:space="preserve">
           <source>Windows Vista SP1</source>
-          <target state="new">Windows Vista SP1</target>
+          <target state="translated">Windows Vista SP1</target>
         </trans-unit>
         <trans-unit id="OSCompatibility_WindowsVistaSP2" translate="yes" xml:space="preserve">
           <source>Windows Vista SP2</source>
-          <target state="new">Windows Vista SP2</target>
+          <target state="translated">Windows Vista SP2</target>
         </trans-unit>
         <trans-unit id="ReducedColorMode_Color16Bit" translate="yes" xml:space="preserve">
           <source>16 Bit Colors (65536)</source>
-          <target state="new">16 bit màu (65536)</target>
+          <target state="translated">16 bit màu (65536)</target>
         </trans-unit>
         <trans-unit id="ReducedColorMode_Color8Bit" translate="yes" xml:space="preserve">
           <source>8 Bit Colors (256)</source>
-          <target state="new">8 bit màu (256)</target>
+          <target state="translated">8 bit màu (256)</target>
         </trans-unit>
         <trans-unit id="CompatibilityMode" translate="yes" xml:space="preserve">
           <source>Compatibility mode</source>
-          <target state="new">Chế độ tương thích</target>
+          <target state="translated">Chế độ tương thích</target>
         </trans-unit>
         <trans-unit id="DisableFullscreenOptimizations" translate="yes" xml:space="preserve">
           <source>Disable fullscreen optimizations</source>
-          <target state="new">Tắt tối ưu hóa toàn màn hình</target>
+          <target state="translated">Tắt tối ưu hóa toàn màn hình</target>
         </trans-unit>
         <trans-unit id="ExecuteAt640X480" translate="yes" xml:space="preserve">
           <source>Run at 640 x 480 screen resolution</source>
-          <target state="new">Chạy ở độ phân giải màn hình 640 x 480</target>
+          <target state="translated">Chạy ở độ phân giải màn hình 640 x 480</target>
         </trans-unit>
         <trans-unit id="Options" translate="yes" xml:space="preserve">
           <source>Options</source>
-          <target state="new">Tuỳ chọn</target>
+          <target state="translated">Tuỳ chọn</target>
         </trans-unit>
         <trans-unit id="OverrideDPIScalingBehaviour" translate="yes" xml:space="preserve">
           <source>Override high DPI scaling behaviour</source>
-          <target state="new">Override high DPI scaling behaviour</target>
+          <target state="translated">Ghi đè hành vi chia tỷ lệ DPI cao</target>
         </trans-unit>
         <trans-unit id="ReducedColorMode" translate="yes" xml:space="preserve">
           <source>Reduced color mode</source>
-          <target state="new">Reduced color mode</target>
+          <target state="translated">Chế độ màu giảm</target>
         </trans-unit>
         <trans-unit id="RegisterForRestart" translate="yes" xml:space="preserve">
           <source>Register for restart</source>
-          <target state="new">Đăng ký để khởi động lại</target>
+          <target state="translated">Đăng ký để khởi động lại</target>
         </trans-unit>
         <trans-unit id="RunAsAdministrator" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
-          <target state="new">Chạy bằng quản trị viên</target>
+          <target state="translated">Chạy bằng quản trị viên</target>
         </trans-unit>
         <trans-unit id="RunCompatibilityTroubleShooter" translate="yes" xml:space="preserve">
           <source>Run compatibility troubleshooter</source>
-          <target state="new">Chạy trình khắc phục sự cố tương thích</target>
+          <target state="translated">Chạy trình khắc phục sự cố tương thích</target>
         </trans-unit>
         <trans-unit id="UseMainMonitorDPISettings" translate="yes" xml:space="preserve">
           <source>Use DPI settings of the main monitor</source>
-          <target state="new">Use DPI settings of the main monitor</target>
+          <target state="translated">Sử dụng cài đặt DPI của điều khiển chính</target>
         </trans-unit>
         <trans-unit id="SettingsDefaultFilesManager" translate="yes" xml:space="preserve">
           <source>Default file manager</source>
-          <target state="new">Trình quản lý tệp mặc định</target>
+          <target state="translated">Trình quản lý tệp mặc định</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManager" translate="yes" xml:space="preserve">
           <source>Set Files as the default file manager</source>
-          <target state="new">Đặt Files làm trình quản lý tệp mặc định</target>
+          <target state="translated">Đặt Files làm trình quản lý tệp mặc định</target>
         </trans-unit>
         <trans-unit id="EmptyRecycleBin" translate="yes" xml:space="preserve">
           <source>Empty Recycle Bin</source>
-          <target state="new">Thùng rác trống</target>
+          <target state="translated">Thùng rác trống</target>
         </trans-unit>
         <trans-unit id="Sidebar" translate="yes" xml:space="preserve">
           <source>Sidebar</source>
-          <target state="new">Thanh bên</target>
+          <target state="translated">Thanh bên</target>
         </trans-unit>
         <trans-unit id="FilesAndFolders" translate="yes" xml:space="preserve">
           <source>Files and folders</source>
-          <target state="new">Tệp và thư mục</target>
+          <target state="translated">Tệp và thư mục</target>
         </trans-unit>
         <trans-unit id="OpenNewInstance" translate="yes" xml:space="preserve">
           <source>Open new instance when opening directories from the taskbar jumplist</source>
-          <target state="new">Mở phiên bản mới khi mở thư mục từ danh sách nhảy trên thanh tác vụ</target>
+          <target state="translated">Mở phiên bản mới khi mở thư mục từ danh sách nhảy trên thanh tác vụ</target>
         </trans-unit>
         <trans-unit id="StartupSettings" translate="yes" xml:space="preserve">
           <source>Startup settings</source>
-          <target state="new">Thiết lập Khởi động</target>
+          <target state="translated">Thiết lập Khởi động</target>
         </trans-unit>
         <trans-unit id="ThirdPartyLicenses" translate="yes" xml:space="preserve">
           <source>Third party licenses</source>
-          <target state="new">Giấy phép bên thứ ba</target>
+          <target state="translated">Giấy phép bên thứ ba</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
           <source>This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</source>
-          <target state="new">Thiết lập này sửa đổi các tệp hệ thống và có thể có các tác dụng không mong muốn trên thiết bị của bạn. Các nhà phát triển không chịu trách nhiệm trong trường hợp có sự cố xảy ra. Tiếp tục với tùy chọn này là sự thừa nhận rủi ro liên quan đến hành động này. Xin lưu ý rằng việc gỡ cài đặt Files sẽ không hoàn tác những thay đổi này và có thể ngăn bạn mở file explorer trừ khi bạn tắt cài đặt này trước khi xóa Files khỏi thiết bị của mình.</target>
+          <target state="translated">Thiết lập này sửa đổi các tệp hệ thống và có thể có các tác dụng không mong muốn trên thiết bị của bạn. Các nhà phát triển không chịu trách nhiệm trong trường hợp có sự cố xảy ra. Tiếp tục với tùy chọn này là sự thừa nhận rủi ro liên quan đến hành động này. Xin lưu ý rằng việc gỡ cài đặt Files sẽ không hoàn tác những thay đổi này và có thể ngăn bạn mở file explorer trừ khi bạn tắt cài đặt này trước khi xóa Files khỏi thiết bị của mình.</target>
         </trans-unit>
         <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
           <source>Clear all</source>
-          <target state="new">Dọn dẹp toàn bộ</target>
+          <target state="translated">Dọn dẹp toàn bộ</target>
         </trans-unit>
         <trans-unit id="Columns" translate="yes" xml:space="preserve">
           <source>Columns</source>
-          <target state="new">Columns</target>
+          <target state="translated">Cột</target>
         </trans-unit>
         <trans-unit id="LargeIcons" translate="yes" xml:space="preserve">
           <source>Large Icons</source>
-          <target state="new">Biểu tượng lớn</target>
+          <target state="translated">Biểu tượng lớn</target>
         </trans-unit>
         <trans-unit id="MediumIcons" translate="yes" xml:space="preserve">
           <source>Medium Icons</source>
-          <target state="new">Biểu tượng trung bình</target>
+          <target state="translated">Biểu tượng trung bình</target>
         </trans-unit>
         <trans-unit id="SmallIcons" translate="yes" xml:space="preserve">
           <source>Small Icons</source>
-          <target state="new">Biểu tượng nhỏ</target>
+          <target state="translated">Biểu tượng nhỏ</target>
         </trans-unit>
         <trans-unit id="Tiles" translate="yes" xml:space="preserve">
           <source>Tiles</source>
-          <target state="new">Tiles</target>
+          <target state="translated">Gạch</target>
         </trans-unit>
         <trans-unit id="FolderWidgetCreateNewLibraryDialogTitleText" translate="yes" xml:space="preserve">
           <source>Create Library</source>
-          <target state="new">Tạo thư mục</target>
+          <target state="translated">Tạo thư mục</target>
         </trans-unit>
         <trans-unit id="FolderWidgetCreateNewLibraryInputPlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter Library name</source>
-          <target state="new">Nhập tên thư mục</target>
+          <target state="translated">Nhập tên thư mục</target>
         </trans-unit>
         <trans-unit id="ShowFolderSize" translate="yes" xml:space="preserve">
           <source>Show folder size</source>
-          <target state="new">Hiển thị kích thước tệp</target>
+          <target state="translated">Hiển thị kích thước tệp</target>
         </trans-unit>
         <trans-unit id="Skip" translate="yes" xml:space="preserve">
           <source>Skip</source>
-          <target state="new">Bỏ qua</target>
+          <target state="translated">Bỏ qua</target>
         </trans-unit>
         <trans-unit id="SettingsOpenInLogin" translate="yes" xml:space="preserve">
           <source>Open Files on Windows Startup</source>
-          <target state="new">Mở tệp trong Windows Startup</target>
+          <target state="translated">Mở tệp trong Windows Startup</target>
         </trans-unit>
         <trans-unit id="Attributes" translate="yes" xml:space="preserve">
           <source>Attributes</source>
-          <target state="new">Thuộc tính</target>
+          <target state="translated">Thuộc tính</target>
         </trans-unit>
         <trans-unit id="Hidden" translate="yes" xml:space="preserve">
           <source>Hidden</source>
-          <target state="new">Bị ẩn</target>
+          <target state="translated">Bị ẩn</target>
         </trans-unit>
         <trans-unit id="MoreDetails" translate="yes" xml:space="preserve">
           <source>More details</source>
-          <target state="new">Xem chi tiết</target>
+          <target state="translated">Xem chi tiết</target>
         </trans-unit>
         <trans-unit id="ReadOnly" translate="yes" xml:space="preserve">
           <source>Read only</source>
-          <target state="new">Chỉ đọc</target>
+          <target state="translated">Chỉ đọc</target>
         </trans-unit>
         <trans-unit id="CleanupDrive" translate="yes" xml:space="preserve">
           <source>Cleanup your drive contents</source>
-          <target state="new">Dọn dẹp dữ liệu ổ đĩa</target>
+          <target state="translated">Dọn dẹp dữ liệu ổ đĩa</target>
         </trans-unit>
         <trans-unit id="DiskCleanup" translate="yes" xml:space="preserve">
           <source>Disk cleanup</source>
-          <target state="new">Dọn dẹp ổ đĩa</target>
+          <target state="translated">Dọn dẹp ổ đĩa</target>
         </trans-unit>
         <trans-unit id="Type" translate="yes" xml:space="preserve">
           <source>Type:</source>
-          <target state="new">Loại:</target>
+          <target state="translated">Loại:</target>
         </trans-unit>
         <trans-unit id="Bytes" translate="yes" xml:space="preserve">
           <source>Bytes</source>
-          <target state="new">Byte</target>
+          <target state="translated">Byte</target>
         </trans-unit>
       </group>
     </body>
