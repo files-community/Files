@@ -1088,11 +1088,28 @@ namespace Files.ViewModels
                     OnPropertyChanged(nameof(CanViewProperties));
                     OnPropertyChanged(nameof(CanExtract));
                     OnPropertyChanged(nameof(ExtractToText));
+                    OnPropertyChanged(nameof(HasAdditionnalAction));
                 }
             }
         }
 
-        public bool HasAdditionnalAction => InstanceViewModel.IsPageTypeRecycleBin;
+        public bool HasAdditionnalAction
+        {
+            get
+            {
+                if (InstanceViewModel.IsPageTypeRecycleBin)
+                {
+                    return true;
+                }
+
+                if (CanExtract)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
 
         public bool CanCopy            => SelectedItems is not null && SelectedItems.Any();
         public bool CanShare           => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcutItem && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem));

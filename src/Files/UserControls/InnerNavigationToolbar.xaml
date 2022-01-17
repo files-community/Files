@@ -213,7 +213,6 @@
                         <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarSeparator x:Name="ExtractButtonSeparator" Visibility="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=Collapsed}" />
                 <AppBarButton
                     x:Name="ExtractButton"
                     Width="Auto"
