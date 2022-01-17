@@ -46,7 +46,7 @@ namespace Files.ViewModels
         public static async void OpenThemesFolder()
         {
             await CoreApplication.MainView.Dispatcher.YieldAsync();
-            await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
+            await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ImportedThemesFolder.Path);
         }
 
         public static async void ReportIssueOnGitHub()

@@ -1,4 +1,5 @@
 ﻿using Files.Models.JsonSettings;
+using Microsoft.AppCenter.Analytics;
 using System;
 
 namespace Files.Services.Implementation
@@ -9,24 +10,6 @@ namespace Files.Services.Implementation
         {
             // Initialize settings
             this.RegisterSettingsContext(settingsSharingContext);
-        }
-
-        public override void RaiseOnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
-        {
-            switch (e.settingName)
-            {
-                case nameof(MoveOverflowMenuItemsToSubMenu):
-                case nameof(ShowFavoritesSection):
-                case nameof(ShowLibrarySection):
-                case nameof(ShowCloudDrivesSection):
-                case nameof(ShowNetworkDrivesSection):
-                case nameof(ShowWslSection):
-                case nameof(PinRecycleBinToSidebar):
-                    Microsoft.AppCenter.Analytics.Analytics.TrackEvent($"{e.settingName} {e.newValue}");
-                    break;
-            }
-
-            base.RaiseOnSettingChangedEvent(sender, e);
         }
 
         #region Internal Settings
@@ -91,6 +74,35 @@ namespace Files.Services.Implementation
         {
             get => Get(true);
             set => Set(value);
+        }
+
+        public override void RaiseOnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        {
+            switch (e.settingName)
+            {
+                case nameof(MoveOverflowMenuItemsToSubMenu):
+                case nameof(ShowFavoritesSection):
+                case nameof(ShowLibrarySection):
+                case nameof(ShowCloudDrivesSection):
+                case nameof(ShowNetworkDrivesSection):
+                case nameof(ShowWslSection):
+                case nameof(PinRecycleBinToSidebar):
+                    Analytics.TrackEvent($"{e.settingName} {e.newValue}");
+                    break;
+            }
+
+            base.RaiseOnSettingChangedEvent(sender, e);
+        }
+
+        public void ReportToAppCenter()
+        {
+            Analytics.TrackEvent($"{nameof(MoveOverflowMenuItemsToSubMenu)}, {MoveOverflowMenuItemsToSubMenu}");
+            Analytics.TrackEvent($"{nameof(ShowFavoritesSection)}, {ShowFavoritesSection}");
+            Analytics.TrackEvent($"{nameof(ShowLibrarySection)}, {ShowLibrarySection}");
+            Analytics.TrackEvent($"{nameof(ShowCloudDrivesSection)}, {ShowCloudDrivesSection}");
+            Analytics.TrackEvent($"{nameof(ShowNetworkDrivesSection)}, {ShowNetworkDrivesSection}");
+            Analytics.TrackEvent($"{nameof(ShowWslSection)}, {ShowWslSection}");
+            Analytics.TrackEvent($"{nameof(PinRecycleBinToSidebar)}, {PinRecycleBinToSidebar}");
         }
     }
 }

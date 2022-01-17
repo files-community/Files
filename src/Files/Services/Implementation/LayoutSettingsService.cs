@@ -70,5 +70,9 @@ namespace Files.Services.Implementation
             get => (GroupOption)Get((long)GroupOption.None);
             set => Set((long)value);
         }
+
+        public void ReportToAppCenter()
+        {
+        }
     }
 }
