@@ -11,8 +11,7 @@ namespace Files.InteractionTests.Tests
 		[TestCleanup]
 		public void Cleanup()
 		{
-			var action = new Actions(SessionManager.Session);
-			action.SendKeys(OpenQA.Selenium.Keys.Escape).Build().Perform();
+			TestHelper.InvokeButtonByName("Home");
 		}
 
 		[TestMethod]
