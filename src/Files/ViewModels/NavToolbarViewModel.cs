@@ -1093,23 +1093,7 @@ namespace Files.ViewModels
             }
         }
 
-        public bool HasAdditionnalAction
-        {
-            get
-            {
-                if (InstanceViewModel.IsPageTypeRecycleBin)
-                {
-                    return true;
-                }
-
-                if (CanExtract)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-        }
+        public bool HasAdditionnalAction => InstanceViewModel.IsPageTypeRecycleBin || CanExtract;
 
         public bool CanCopy            => SelectedItems is not null && SelectedItems.Any();
         public bool CanShare           => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcutItem && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem));

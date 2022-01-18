@@ -69,10 +69,10 @@ namespace Files.Helpers
 
         private static void OnIsVisiblePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var flyout = d as MenuFlyout;
-
-            if (flyout == null)
+            if (d is not MenuFlyout flyout)
+            {
                 return;
+            }
 
             var boolValue = (bool)e.NewValue;
  
