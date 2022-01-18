@@ -2699,4 +2699,10 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
   </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Run script</value>
+  </data>
+  <data name="RunWithPowerShell" xml:space="preserve">
+    <value>Run with PowerShell</value>
+  </data>
 </root>
