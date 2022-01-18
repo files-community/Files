@@ -166,7 +166,7 @@
           <source>Enter a path</source>
           <target state="translated">Pfad eingeben</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarSearchReigon.PlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="NavigationToolbarSearchRegion.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Search</source>
           <target state="translated">Suchen</target>
         </trans-unit>
@@ -2203,11 +2203,11 @@
         </trans-unit>
         <trans-unit id="StatusCopyCanceledDetails_Plural" translate="yes" xml:space="preserve">
           <source>Copying {0} items to {1} was canceled after copying {2} items</source>
-          <target state="translated">Das Kopieren von {0} Objekten nach {1} wurde nach dem Kopieren von {3} Objekten abgebrochen</target>
+          <target state="translated">Das Kopieren von {0} Objekten nach {1} wurde nach dem Kopieren von {2} Objekten abgebrochen</target>
         </trans-unit>
         <trans-unit id="StatusCopyCanceledDetails_Plural2" translate="yes" xml:space="preserve">
           <source>Copying {0} items to {1} was canceled after copying {2} item</source>
-          <target state="translated">Das Kopieren von {0} Objekten nach {1} wurde nach dem Kopieren von {3} abgebrochen</target>
+          <target state="translated">Das Kopieren von {0} Objekten nach {1} wurde nach dem Kopieren von {2} abgebrochen</target>
         </trans-unit>
         <trans-unit id="StatusCopyingItemsDetails_Singular" translate="yes" xml:space="preserve">
           <source>Copying {0} item to {1}</source>

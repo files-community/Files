@@ -207,6 +207,7 @@ namespace Files.Views
             NavToolbarViewModel.CutCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.CutItemCommand.Execute(null));
             NavToolbarViewModel.EmptyRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.EmptyRecycleBinCommand.Execute(null));
             NavToolbarViewModel.RunWithPowerShellCommand = new RelayCommand(async () => await Win32Helpers.InvokeWin32ComponentAsync("powershell", this, PathNormalization.NormalizePath(SlimContentPage?.SelectedItems.First().ItemPath)));
+            NavToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
         }
 
         private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
@@ -1132,6 +1133,7 @@ namespace Files.Views
 
     public class NavigationArguments
     {
+        public bool FocusOnNavigation { get; set; } = false;
         public string NavPathParam { get; set; } = null;
         public IShellPage AssociatedTabInstance { get; set; }
         public bool IsSearchResultPage { get; set; } = false;

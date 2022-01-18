@@ -1688,15 +1688,21 @@ namespace Files.ViewModels
             int? syncStatus = null;
             if (item is BaseStorageFile file && file.Properties != null)
             {
-                IDictionary<string, object> extraProperties = await (file.Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus" }));
-                syncStatus = (int?)(uint?)extraProperties["System.FilePlaceholderStatus"];
+                var extraProperties = await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus" }).AsTask());
+                if (extraProperties)
+                {
+                    syncStatus = (int?)(uint?)extraProperties.Result["System.FilePlaceholderStatus"];
+                }
             }
             else if (item is BaseStorageFolder folder && folder.Properties != null)
             {
-                IDictionary<string, object> extraProperties = await (folder.Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus" }));
-                syncStatus = (int?)(uint?)extraProperties["System.FileOfflineAvailabilityStatus"];
-                // If no FileOfflineAvailabilityStatus, check FilePlaceholderStatus
-                syncStatus = syncStatus ?? (int?)(uint?)extraProperties["System.FilePlaceholderStatus"];
+                var extraProperties = await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus" }).AsTask());
+                if (extraProperties)
+                {
+                    syncStatus = (int?)(uint?)extraProperties.Result["System.FileOfflineAvailabilityStatus"];
+                    // If no FileOfflineAvailabilityStatus, check FilePlaceholderStatus
+                    syncStatus = syncStatus ?? (int?)(uint?)extraProperties.Result["System.FilePlaceholderStatus"];
+                }
             }
             if (syncStatus == null || !Enum.IsDefined(typeof(CloudDriveSyncStatus), syncStatus))
             {

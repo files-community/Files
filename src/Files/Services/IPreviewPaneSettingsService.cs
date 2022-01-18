@@ -2,7 +2,7 @@
 
 namespace Files.Services
 {
-    public interface IPreviewPaneSettingsService : INotifyPropertyChanged
+    public interface IPreviewPaneSettingsService : IBaseSettingsService, INotifyPropertyChanged
     {
         /// <summary>
         /// Gets or sets a value indicating the default volume on media preview.
