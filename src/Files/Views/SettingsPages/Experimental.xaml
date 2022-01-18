@@ -77,6 +77,7 @@
                     Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                 <local:SettingsBlockControl.ExpandableContent>
                     <muxc:InfoBar
+                        CornerRadius="0,0,2,2"
                         IsClosable="False"
                         IsIconVisible="True"
                         IsOpen="True"
@@ -111,6 +112,7 @@
                 </ToggleSwitch>
                 <local:SettingsBlockControl.ExpandableContent>
                     <muxc:InfoBar
+                        CornerRadius="0,0,2,2"
                         IsClosable="False"
                         IsIconVisible="True"
                         IsOpen="True"
