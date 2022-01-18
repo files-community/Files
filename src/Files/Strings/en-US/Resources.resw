@@ -2709,6 +2709,6 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Do not remove Files from your device without turning off this option. Doing so will prevent you from opening File Explorer.</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>Calculating folder sizes is resource intensive and may cause your CPU usage to spike</value>
+    <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase</value>
   </data>
 </root>
