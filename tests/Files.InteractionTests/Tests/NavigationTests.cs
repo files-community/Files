@@ -18,7 +18,14 @@ namespace Files.InteractionTests.Tests
 		[TestMethod]
 		public void VerifyNavigationWorks()
 		{
-			TestHelper.InvokeButtonByName("Windows (C:)");
+			try
+			{
+				TestHelper.InvokeButtonByName("Windows (C:)");
+			}
+			catch (Exception)
+			{
+				TestHelper.InvokeButtonByName("Windows (D:)");
+			}
 			AxeHelper.AssertNoAccessibilityErrors();
 
 			var folderPaths = new string[]
