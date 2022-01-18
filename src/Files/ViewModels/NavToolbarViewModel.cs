@@ -1088,7 +1088,6 @@ namespace Files.ViewModels
                     OnPropertyChanged(nameof(CanShare));
                     OnPropertyChanged(nameof(CanRename));
                     OnPropertyChanged(nameof(IsPowerShellScript));
-                    OnPropertyChanged(nameof(HasAdditionnalAction));
                     OnPropertyChanged(nameof(CanViewProperties));
                     OnPropertyChanged(nameof(CanExtract));
                     OnPropertyChanged(nameof(ExtractToText));
