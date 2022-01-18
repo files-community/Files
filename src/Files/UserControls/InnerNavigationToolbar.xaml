@@ -225,6 +225,18 @@
                         <FontIcon Glyph="&#xE756;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
+                <AppBarButton
+                    x:Name="SetAsBackgroundButton"
+                    x:Load="{x:Bind ViewModel.IsImage, Mode=OneWay, FallbackValue=False}"
+                    AutomationProperties.Name="SetAsBackground"
+                    Command="{x:Bind ViewModel.SetAsBackgroundCommand, Mode=OneWay}"
+                    Label="{helpers:ResourceString Name=SetAsBackground}"
+                    LabelPosition="Default"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsBackground}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE91B;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
             </CommandBar.PrimaryCommands>
         </CommandBar>
         <CommandBar

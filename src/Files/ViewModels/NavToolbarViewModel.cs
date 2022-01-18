@@ -799,6 +799,8 @@ namespace Files.ViewModels
 
         public ICommand RunWithPowerShellCommand { get; set; }
 
+        public ICommand SetAsBackgroundCommand { get; set; }
+
         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
         {
             var nextPathItemTitle = PathComponents[PathComponents.IndexOf(pathItem) + 1].Title;
@@ -1084,6 +1086,7 @@ namespace Files.ViewModels
                     OnPropertyChanged(nameof(IsPowerShellScript));
                     OnPropertyChanged(nameof(HasAdditionnalAction));
                     OnPropertyChanged(nameof(CanViewProperties));
+                    OnPropertyChanged(nameof(IsImage));
                 }
             }
         }
@@ -1098,6 +1101,9 @@ namespace Files.ViewModels
                 if (IsPowerShellScript)
                     return true;
 
+                if (IsImage)
+                    return true;
+
                 return false;
             }
         }
@@ -1109,6 +1115,7 @@ namespace Files.ViewModels
         public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
 
         public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Any() && SelectedItems.First().PrimaryItemAttribute == StorageItemTypes.File && new[] { ".ps1", }.Contains(SelectedItems.First().FileExtension, StringComparer.OrdinalIgnoreCase);
+        public bool IsImage => SelectedItems is not null && SelectedItems.Any() && SelectedItems?.First().PrimaryItemAttribute == StorageItemTypes.File && new[] { ".jpg", ".png", ".bmp" }.Contains(SelectedItems?.First().FileExtension, StringComparer.OrdinalIgnoreCase);
 
         public void Dispose()
         {
