@@ -18,47 +18,8 @@ namespace Files.InteractionTests.Tests
 		[TestMethod]
 		public void VerifyNavigationWorks()
 		{
-			try
-			{
-				TestHelper.InvokeButtonByName("Windows (C:)");
-			}
-			catch (Exception)
-			{
-				TestHelper.InvokeButtonByName("Windows (D:)");
-			}
+			TestHelper.InvokeButtonByName("Desktop");
 			AxeHelper.AssertNoAccessibilityErrors();
-
-			var folderPaths = new string[]
-			{
-				"Windows",
-				"System32"
-			};
-
-			foreach (var item in folderPaths)
-			{
-				for (int i = 0; i < 5; i++)
-				{
-					try
-					{
-						Console.WriteLine("Invoking item:" + item);
-						Thread.Sleep(2000);
-						TestHelper.InvokeButtonByName(item);
-						i = 1000;
-					}
-					catch (Exception exc)
-					{
-						Console.WriteLine("Failed to invoke the item:" + item + " with exception" + exc.Message);
-					}
-
-				}
-				try
-				{
-					// First run can be flaky due to external components
-					AxeHelper.AssertNoAccessibilityErrors();
-				}
-				catch (System.Exception) { }
-				AxeHelper.AssertNoAccessibilityErrors();
-			}
 		}
 	}
 }
