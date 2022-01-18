@@ -1115,7 +1115,7 @@ namespace Files.ViewModels
         public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
 
         public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Any() && SelectedItems.First().PrimaryItemAttribute == StorageItemTypes.File && new[] { ".ps1", }.Contains(SelectedItems.First().FileExtension, StringComparer.OrdinalIgnoreCase);
-        public bool IsImage => SelectedItems is not null && SelectedItems.Any() && SelectedItems?.First().PrimaryItemAttribute == StorageItemTypes.File && new[] { ".jpg", ".png", ".bmp" }.Contains(SelectedItems?.First().FileExtension, StringComparer.OrdinalIgnoreCase);
+        public bool IsImage => SelectedItems is not null && SelectedItems.Any() && SelectedItems.First().IsImage;
 
         public void Dispose()
         {
