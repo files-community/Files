@@ -215,12 +215,12 @@
                 </AppBarButton>
                 <AppBarButton
                     x:Name="RunWithPowerShellButton"
+                    x:Load="{x:Bind ViewModel.IsPowerShellScript, Mode=OneWay, FallbackValue=False}"
                     AutomationProperties.Name="RunWithPowerShell"
                     Command="{x:Bind ViewModel.RunWithPowerShellCommand, Mode=OneWay}"
                     Label="{helpers:ResourceString Name=RunScript}"
                     LabelPosition="Default"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=RunWithPowerShell}"
-                    x:Load="{x:Bind ViewModel.IsPowerShellScript, Mode=OneWay, FallbackValue=Collapsed}">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=RunWithPowerShell}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE756;" />
                     </AppBarButton.Icon>
