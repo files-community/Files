@@ -150,8 +150,8 @@
   <data name="Size" xml:space="preserve">
     <value>Size</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Open in Terminal...</value>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Open in</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Created:</value>
