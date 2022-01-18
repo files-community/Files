@@ -803,6 +803,8 @@ namespace Files.ViewModels
 
         public ICommand ExtractToCommand { get; set; }
 
+        public ICommand RunWithPowerShellCommand { get; set; }
+
         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
         {
             var nextPathItemTitle = PathComponents[PathComponents.IndexOf(pathItem) + 1].Title;
@@ -1085,6 +1087,8 @@ namespace Files.ViewModels
                     OnPropertyChanged(nameof(CanCopy));
                     OnPropertyChanged(nameof(CanShare));
                     OnPropertyChanged(nameof(CanRename));
+                    OnPropertyChanged(nameof(IsPowerShellScript));
+                    OnPropertyChanged(nameof(HasAdditionnalAction));
                     OnPropertyChanged(nameof(CanViewProperties));
                     OnPropertyChanged(nameof(CanExtract));
                     OnPropertyChanged(nameof(ExtractToText));
@@ -1107,6 +1111,11 @@ namespace Files.ViewModels
                     return true;
                 }
 
+                if (IsPowerShellScript)
+                {
+                    return true;
+                }
+
                 return false;
             }
         }
@@ -1118,6 +1127,7 @@ namespace Files.ViewModels
         public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
         public bool CanExtract         => SelectedItems is not null && SelectedItems.Any() && (SelectedItems.First().IsZipItem || SelectedItems.First().PrimaryItemAttribute == StorageItemTypes.File && new[] { ".zip", ".msix", ".msixbundle" }.Contains(SelectedItems.First().FileExtension, StringComparer.OrdinalIgnoreCase));
         public string ExtractToText    => SelectedItems is not null && SelectedItems.Any() ? string.Format("ExtractToChildFolder".GetLocalized() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalized();
+        public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Any() && SelectedItems.First().PrimaryItemAttribute == StorageItemTypes.File && new[] { ".ps1", }.Contains(SelectedItems.First().FileExtension, StringComparer.OrdinalIgnoreCase);
 
         public void Dispose()
         {
