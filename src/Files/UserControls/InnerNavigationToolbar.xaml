@@ -191,13 +191,13 @@
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton
-                    x:Name="RunScriptButton"
-                    Command="{x:Bind ViewModel.RunScriptCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind ViewModel.IsScript, Mode=OneWay}"
-                    Label="{helpers:ResourceString Name=RunScript}"
+                    x:Name="RunWithPowerShellButton"
+                    Command="{x:Bind ViewModel.RunWithPowerShellCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.IsPowerShellScript, Mode=OneWay}"
+                    Label="{helpers:ResourceString Name=RunWithPowerShell}"
                     LabelPosition="Default"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=RunScript}"
-                    Visibility="{x:Bind ViewModel.IsScript, Mode=OneWay, FallbackValue=Collapsed}">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=RunWithPowerShell}"
+                    Visibility="{x:Bind ViewModel.IsPowerShellScript, Mode=OneWay, FallbackValue=Collapsed}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE756;" />
                     </AppBarButton.Icon>

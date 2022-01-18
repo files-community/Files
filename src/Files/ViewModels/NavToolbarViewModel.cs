@@ -795,7 +795,7 @@ namespace Files.ViewModels
 
         public ICommand EmptyRecycleBinCommand { get; set; }
 
-        public ICommand RunScriptCommand { get; set; }
+        public ICommand RunWithPowerShellCommand { get; set; }
 
         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
         {
@@ -1080,7 +1080,7 @@ namespace Files.ViewModels
                     OnPropertyChanged(nameof(CanShare));
                     OnPropertyChanged(nameof(CanRename));
 
-                    OnPropertyChanged(nameof(IsScript));
+                    OnPropertyChanged(nameof(IsPowerShellScript));
                     OnPropertyChanged(nameof(HasAdditionnalAction));
                 }
             }
@@ -1093,7 +1093,7 @@ namespace Files.ViewModels
                 if (InstanceViewModel.IsPageTypeRecycleBin)
                     return true;
 
-                if (IsScript)
+                if (IsPowerShellScript)
                     return true;
 
                 return false;
@@ -1105,7 +1105,7 @@ namespace Files.ViewModels
         public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
         public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
 
-        public bool IsScript => SelectedItems is not null && SelectedItems.Any() && SelectedItems.First().PrimaryItemAttribute == StorageItemTypes.File && new[] { ".ps1", }.Contains(SelectedItems.First().FileExtension, StringComparer.OrdinalIgnoreCase);
+        public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Any() && SelectedItems.First().PrimaryItemAttribute == StorageItemTypes.File && new[] { ".ps1", }.Contains(SelectedItems.First().FileExtension, StringComparer.OrdinalIgnoreCase);
 
         public void Dispose()
         {
