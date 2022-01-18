@@ -25,7 +25,7 @@ namespace Files.InteractionTests.Helper
             if (testResult.Count() != 0)
             {
                 var mappedResult = testResult.Select(result => "Element " + result.Element.Properties["ControlType"] + " violated rule '" + result.Rule.Description + "'.");
-                //Assert.Fail("Failed with the following accessibility errors \r\n" + string.Join("\r\n", mappedResult));
+                Assert.Fail("Failed with the following accessibility errors \r\n" + string.Join("\r\n", mappedResult));
             }
         }
     }
