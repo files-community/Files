@@ -217,7 +217,6 @@
                     x:Name="RunWithPowerShellButton"
                     AutomationProperties.Name="RunWithPowerShell"
                     Command="{x:Bind ViewModel.RunWithPowerShellCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind ViewModel.IsPowerShellScript, Mode=OneWay}"
                     Label="{helpers:ResourceString Name=RunScript}"
                     LabelPosition="Default"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=RunWithPowerShell}"
