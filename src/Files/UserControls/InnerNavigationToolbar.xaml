@@ -101,7 +101,7 @@
                     x:Name="CutButton"
                     Width="Auto"
                     MinWidth="40"
-                    AccessKey="CU"
+                    AccessKey="X"
                     Command="{x:Bind ViewModel.CutCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
                     Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutCut/Text')}"
@@ -212,6 +212,55 @@
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
                     </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="ExtractButton"
+                    Width="Auto"
+                    MinWidth="40"
+                    AccessKey="Z"
+                    IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
+                    Label="{helpers:ResourceString Name=Extract}"
+                    LabelPosition="Default"
+                    Visibility="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=Collapsed}">
+                    <AppBarButton.Content>
+                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
+                    </AppBarButton.Content>
+                    <AppBarButton.Flyout>
+                        <MenuFlyout Placement="Bottom" 
+                                    helpers:MenuFlyoutHelper.IsVisible="{x:Bind ViewModel.CanExtract, Mode=OneWay}">
+                            <MenuFlyoutItem
+                                Command="{x:Bind ViewModel.ExtractCommand, Mode=OneWay}"
+                                IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
+                                KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=ExtractKeyboardAcceleratorTextOverride}"
+                                Text="{helpers:ResourceString Name=ExtractFiles}">
+                                <MenuFlyoutItem.KeyboardAccelerators>
+                                    <KeyboardAccelerator
+                                        Key="E"
+                                        IsEnabled="False"
+                                        Modifiers="Control" />
+                                </MenuFlyoutItem.KeyboardAccelerators>
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                                Command="{x:Bind ViewModel.ExtractHereCommand, Mode=OneWay}"
+                                IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
+                                Text="{helpers:ResourceString Name=ExtractHere}">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                                Command="{x:Bind ViewModel.ExtractToCommand, Mode=OneWay}"
+                                IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
+                                Text="{x:Bind ViewModel.ExtractToText, Mode=OneWay}">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
                 </AppBarButton>
                 <AppBarButton
                     x:Name="RunWithPowerShellButton"
