@@ -2699,6 +2699,21 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
   </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Extract</value>
+  </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>Extract files</value>
+  </data>
+  <data name="ExtractHere" xml:space="preserve">
+    <value>Extract here</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="ExtractToChildFolder" xml:space="preserve">
+    <value>Extract to {0}</value>
+  </data>
   <data name="RunScript" xml:space="preserve">
     <value>Run script</value>
   </data>
