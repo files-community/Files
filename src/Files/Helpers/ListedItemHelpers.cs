@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using System;
+using Files.Filesystem;
 using Files.ViewModels;
 
 namespace Files.Helpers
@@ -12,10 +13,20 @@ namespace Files.Helpers
         /// <returns><c>true</c> if the <see cref="ListedItem"/> is an image, otherwise <c>false</c></returns>
         public static bool IsImage(this ListedItem listedItem)
         {
-            var selectedItemsViewModel = new SelectedItemsPropertiesViewModel { SelectedItemsCount = 1 };
-            selectedItemsViewModel.CheckFileExtension(listedItem.FileExtension);
+            if (listedItem is null)
+            {
+                return false;
+            }
 
-            return selectedItemsViewModel.IsSelectedItemImage;
+            if (string.IsNullOrEmpty(listedItem.FileExtension))
+            {
+                return false;
+            }
+
+            return listedItem.FileExtension.Equals(".png", StringComparison.OrdinalIgnoreCase) || 
+                   listedItem.FileExtension.Equals(".jpg", StringComparison.OrdinalIgnoreCase) || 
+                   listedItem.FileExtension.Equals(".bmp", StringComparison.OrdinalIgnoreCase) || 
+                   listedItem.FileExtension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase);
         }
     }
 }
