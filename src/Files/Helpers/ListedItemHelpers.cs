@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Files.Filesystem;
-using Files.ViewModels;
 
 namespace Files.Helpers
 {
@@ -9,7 +10,7 @@ namespace Files.Helpers
         /// <summary>
         /// Check if the <see cref="ListedItem"/> is a image file.
         /// </summary>
-        /// <param name="listedItem"></param>
+        /// <param name="listedItem">The <see cref="ListedItem"/> to check the file extension of.</param>
         /// <returns><c>true</c> if the <see cref="ListedItem"/> is an image, otherwise <c>false</c></returns>
         public static bool IsImage(this ListedItem listedItem)
         {
@@ -27,6 +28,21 @@ namespace Files.Helpers
                    listedItem.FileExtension.Equals(".jpg", StringComparison.OrdinalIgnoreCase) || 
                    listedItem.FileExtension.Equals(".bmp", StringComparison.OrdinalIgnoreCase) || 
                    listedItem.FileExtension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Check if the first <see cref="ListedItem"/> in the list is a image file.
+        /// </summary>
+        /// <param name="listedItems">List of <see cref="ListedItem"/>s.</param>
+        /// <returns><c>true</c> if the <see cref="ListedItem"/> is an image, otherwise <c>false</c></returns>
+        public static bool IsImage(this IReadOnlyList<ListedItem> listedItems)
+        {
+            if (listedItems is null)
+            {
+                return false;
+            }
+
+            return listedItems.Any() && listedItems.First().IsImage();
         }
     }
 }
