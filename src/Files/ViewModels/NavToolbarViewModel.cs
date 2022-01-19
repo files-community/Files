@@ -27,7 +27,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
-using Files.ViewModels.Properties;
 using static Files.UserControls.INavigationToolbar;
 using SearchBox = Files.UserControls.SearchBox;
 using SortDirection = Files.Enums.SortDirection;
@@ -1107,10 +1106,10 @@ namespace Files.ViewModels
         public bool CanRename          => SelectedItems is not null && SelectedItems.Count == 1;
         public bool CanViewProperties  => SelectedItems is not null && SelectedItems.Any();
         public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
-        public bool CanExtract         => SelectedItems is not null && SelectedItems.Any() && (SelectedItems.First().IsZipItem || SelectedItems.First().PrimaryItemAttribute == StorageItemTypes.File && new[] { ".zip", ".msix", ".msixbundle" }.Contains(SelectedItems.First().FileExtension, StringComparer.OrdinalIgnoreCase));
+        public bool CanExtract         => SelectedItems is not null && SelectedItems.Any() && FileExtensionHelpers.IsZipFile(SelectedItems.First().FileExtension);
         public string ExtractToText    => SelectedItems is not null && SelectedItems.Any() ? string.Format("ExtractToChildFolder".GetLocalized() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalized();
-        public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Any() && SelectedItems.First().PrimaryItemAttribute == StorageItemTypes.File && new[] { ".ps1", }.Contains(SelectedItems.First().FileExtension, StringComparer.OrdinalIgnoreCase);
-        public bool IsImage            => SelectedItems is not null && SelectedItems.Any() && FileExtensionHelpers.CheckFileExtension(SelectedItems?.First().FileExtension, new[] { ".jpg", ".jpeg", ".png", ".bmp" });
+        public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Any() && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension);
+        public bool IsImage            => SelectedItems is not null && SelectedItems.Any() && FileExtensionHelpers.IsImageFile(SelectedItems.First().FileExtension);
 
         public void Dispose()
         {
