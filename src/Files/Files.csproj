@@ -190,7 +190,7 @@
     <Compile Include="Filesystem\StorageItems\ZipStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\ZipStorageFolder.cs" />
     <Compile Include="Helpers\CommonPaths.cs" />
-    <Compile Include="Helpers\ListedItemHelpers.cs" />
+    <Compile Include="Helpers\FileExtensionHelpers.cs" />
     <Compile Include="Helpers\RegistryToJsonSettingsMerger.cs" />
     <Compile Include="Helpers\ResourceHelpers.cs" />
     <Compile Include="Helpers\FtpHelpers.cs" />
