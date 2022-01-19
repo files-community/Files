@@ -27,6 +27,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Files.ViewModels.Properties;
 using static Files.UserControls.INavigationToolbar;
 using SearchBox = Files.UserControls.SearchBox;
 using SortDirection = Files.Enums.SortDirection;
@@ -1100,7 +1101,16 @@ namespace Files.ViewModels
         public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
 
         public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Any() && SelectedItems.First().PrimaryItemAttribute == StorageItemTypes.File && new[] { ".ps1", }.Contains(SelectedItems.First().FileExtension, StringComparer.OrdinalIgnoreCase);
-        public bool IsImage => SelectedItems is not null && SelectedItems.Any() && SelectedItems.First().IsImage;
+        public bool IsImage => SelectedItems is not null && SelectedItems.Any() && CheckIsImage();
+
+        private bool CheckIsImage()
+        {
+            // Made use of existing viewmodel property and method to check if selected item is a image.
+            var selectedItemsViewModel = new SelectedItemsPropertiesViewModel { SelectedItemsCount = 1 };
+            selectedItemsViewModel.CheckFileExtension(SelectedItems?.First().FileExtension);
+
+            return selectedItemsViewModel.IsSelectedItemImage;
+        }
 
         public void Dispose()
         {
