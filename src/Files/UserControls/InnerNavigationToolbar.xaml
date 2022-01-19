@@ -228,7 +228,6 @@
                 <AppBarButton
                     x:Name="SetAsBackgroundButton"
                     x:Load="{x:Bind ViewModel.IsImage, Mode=OneWay, FallbackValue=False}"
-                    AutomationProperties.Name="SetAsBackground"
                     Command="{x:Bind ViewModel.SetAsBackgroundCommand, Mode=OneWay}"
                     Label="{helpers:ResourceString Name=SetAsBackground}"
                     LabelPosition="Default"
