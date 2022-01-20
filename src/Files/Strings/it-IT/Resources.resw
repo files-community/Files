@@ -66,7 +66,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Inserisci un percorso</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Cerca</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
@@ -1678,10 +1678,10 @@
     <value>L'eliminazione di {0} elementi da {1} è stata annullata</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
-    <value>L'eliminazione di {0} elementi da {1} è stata annullata dopo {2} elementi</value>
+    <value>L'eliminazione di {0} elementi da {1} è stata annullata dopo {3} elementi</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
-    <value>L'eliminazione di {0} elementi da {1} è stata annullata dopo {2} elemento</value>
+    <value>L'eliminazione di {0} elementi da {1} è stata annullata dopo {3} elemento</value>
   </data>
   <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
     <value>Eliminazione di {0} elemento da {1}</value>

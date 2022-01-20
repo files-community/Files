@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Data;
 
 namespace Files.Converters
 {
-    public class VisiblityInvertConverter : IValueConverter
+    public class VisibilityInvertConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {

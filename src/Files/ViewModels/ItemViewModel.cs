@@ -115,6 +115,10 @@ namespace Files.ViewModels
 
         public event ItemLoadStatusChangedEventHandler ItemLoadStatusChanged;
 
+        public delegate void ListedItemAddedEventHandler(object sender, ListedItemAddedEventArgs e);
+
+        public event ListedItemAddedEventHandler ListedItemAdded;
+
         public async Task SetWorkingDirectoryAsync(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -627,6 +631,30 @@ namespace Files.ViewModels
             {
                 App.Logger.Warn(ex, ex.Message);
             }
+        }
+
+        private async Task NotifyListedItemAddedAsync(ListedItem addedItem)
+        {
+            // don't notify if there wasn't a listed item
+            if (addedItem == null)
+            {
+                return;
+            }
+
+            void NotifyUI()
+            {
+                ListedItemAdded?.Invoke(this, new ListedItemAddedEventArgs() { Item = addedItem });
+            }
+
+            if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
+            {
+                NotifyUI();
+            }
+            else
+            {
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(NotifyUI);
+            }
+
         }
 
         private Task OrderFilesAndFoldersAsync()
@@ -1688,15 +1716,21 @@ namespace Files.ViewModels
             int? syncStatus = null;
             if (item is BaseStorageFile file && file.Properties != null)
             {
-                IDictionary<string, object> extraProperties = await (file.Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus" }));
-                syncStatus = (int?)(uint?)extraProperties["System.FilePlaceholderStatus"];
+                var extraProperties = await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus" }).AsTask());
+                if (extraProperties)
+                {
+                    syncStatus = (int?)(uint?)extraProperties.Result["System.FilePlaceholderStatus"];
+                }
             }
             else if (item is BaseStorageFolder folder && folder.Properties != null)
             {
-                IDictionary<string, object> extraProperties = await (folder.Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus" }));
-                syncStatus = (int?)(uint?)extraProperties["System.FileOfflineAvailabilityStatus"];
-                // If no FileOfflineAvailabilityStatus, check FilePlaceholderStatus
-                syncStatus = syncStatus ?? (int?)(uint?)extraProperties["System.FilePlaceholderStatus"];
+                var extraProperties = await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus" }).AsTask());
+                if (extraProperties)
+                {
+                    syncStatus = (int?)(uint?)extraProperties.Result["System.FileOfflineAvailabilityStatus"];
+                    // If no FileOfflineAvailabilityStatus, check FilePlaceholderStatus
+                    syncStatus = syncStatus ?? (int?)(uint?)extraProperties.Result["System.FilePlaceholderStatus"];
+                }
             }
             if (syncStatus == null || !Enum.IsDefined(typeof(CloudDriveSyncStatus), syncStatus))
             {
@@ -1868,7 +1902,9 @@ namespace Files.ViewModels
             const int UPDATE_BATCH_SIZE = 32;
             var sampler = new IntervalSampler(200);
             var updateQueue = new Queue<string>();
+
             bool anyEdits = false;
+            ListedItem lastItemAdded = null;
 
             try
             {
@@ -1886,6 +1922,13 @@ namespace Files.ViewModels
                                 switch (operation.Action)
                                 {
                                     case FILE_ACTION_ADDED:
+                                        lastItemAdded = await AddFileOrFolderAsync(operation.FileName, returnformat);
+                                        if (lastItemAdded != null)
+                                        {
+                                            anyEdits = true;                      
+                                        }
+                                        break;
+
                                     case FILE_ACTION_RENAMED_NEW_NAME:
                                         await AddFileOrFolderAsync(operation.FileName, returnformat);
                                         anyEdits = true;
@@ -1914,6 +1957,10 @@ namespace Files.ViewModels
                             {
                                 await OrderFilesAndFoldersAsync();
                                 await ApplyFilesAndFoldersChangesAsync();
+                                if (lastItemAdded != null)
+                                {
+                                    await NotifyListedItemAddedAsync(lastItemAdded);
+                                }
                                 anyEdits = false;
                             }
                         }
@@ -1943,6 +1990,10 @@ namespace Files.ViewModels
                     {
                         await OrderFilesAndFoldersAsync();
                         await ApplyFilesAndFoldersChangesAsync();
+                        if (lastItemAdded != null) 
+                        { 
+                            await NotifyListedItemAddedAsync(lastItemAdded);
+                        }
                         anyEdits = false;
                     }
                 }
@@ -2047,7 +2098,7 @@ namespace Files.ViewModels
             enumFolderSemaphore.Release();
         }
 
-        private async Task AddFileOrFolderAsync(string fileOrFolderPath, string dateReturnFormat)
+        private async Task<ListedItem> AddFileOrFolderAsync(string fileOrFolderPath, string dateReturnFormat)
         {
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
             int additionalFlags = FIND_FIRST_EX_CASE_SENSITIVE;
@@ -2058,7 +2109,7 @@ namespace Files.ViewModels
             {
                 // If we cannot find the file (probably since it doesn't exist anymore)
                 // simply exit without adding it
-                return;
+                return null;
             }
 
             FindClose(hFile);
@@ -2068,7 +2119,7 @@ namespace Files.ViewModels
             if (isHidden && (!UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible || (isSystem && UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden)))
             {
                 // Do not add to file list if hidden/system attribute is set and system/hidden file are not to be shown
-                return;
+                return null;
             }
 
             ListedItem listedItem;
@@ -2082,6 +2133,7 @@ namespace Files.ViewModels
             }
 
             await AddFileOrFolderAsync(listedItem);
+            return listedItem;
         }
 
         private async Task<(ListedItem Item, CloudDriveSyncStatus? SyncStatus, long? Size, DateTimeOffset Created, DateTimeOffset Modified)?> GetFileOrFolderUpdateInfoAsync(ListedItem item, bool hasSyncStatus)
@@ -2256,6 +2308,11 @@ namespace Files.ViewModels
             AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
             DefaultIcons.Clear();
         }
+    }
+
+    public class ListedItemAddedEventArgs : EventArgs
+    {
+        public ListedItem Item { get; set; }
     }
 
     public class PageTypeUpdatedEventArgs

@@ -99,10 +99,11 @@ namespace Files.ViewModels.Properties
                 }
             }
 
+            string folderPath = (Item as ShortcutItem)?.TargetPath ?? Item.ItemPath;
             BaseStorageFolder storageFolder;
             try
             {
-                storageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+                storageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(folderPath);
             }
             catch (Exception ex)
             {
@@ -120,7 +121,7 @@ namespace Files.ViewModels.Properties
                 {
                     GetOtherProperties(storageFolder.Properties);
                 }
-                GetFolderSize(storageFolder, TokenSource.Token);
+                GetFolderSize(storageFolder.Path, TokenSource.Token);
             }
             else if (Item.ItemPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
@@ -162,11 +163,15 @@ namespace Files.ViewModels.Properties
                     }
                 }
             }
+            else
+            {
+                GetFolderSize(folderPath, TokenSource.Token);
+            }
         }
 
-        private async void GetFolderSize(BaseStorageFolder storageFolder, CancellationToken token)
+        private async void GetFolderSize(string folderPath, CancellationToken token)
         {
-            if (string.IsNullOrEmpty(storageFolder.Path))
+            if (string.IsNullOrEmpty(folderPath))
             {
                 // In MTP devices calculating folder size would be too slow
                 // Also should use StorageFolder methods instead of FindFirstFileExFromApp
@@ -178,7 +183,7 @@ namespace Files.ViewModels.Properties
 
             var fileSizeTask = Task.Run(async () =>
             {
-                var size = await CalculateFolderSizeAsync(storageFolder.Path, token);
+                var size = await CalculateFolderSizeAsync(folderPath, token);
                 return size;
             });
             try

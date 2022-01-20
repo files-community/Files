@@ -166,7 +166,7 @@
           <source>Enter a path</source>
           <target state="translated">경로 입력</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarSearchReigon.PlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="NavigationToolbarSearchRegion.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Search</source>
           <target state="translated">검색</target>
         </trans-unit>
@@ -2970,14 +2970,9 @@
         </trans-unit>
         <trans-unit id="SettingsPrivacyPolicyMarkdownBlock.Text" translate="yes" xml:space="preserve">
           <source>
-*Personal Information Collection*
-Files does not collect, store, share or publish any personal information.
-
-*Non-personal Information Collection*
-
-We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
+We use App Center to track which settings are being used, find bugs, and fix crashes. Information sent to App Center is anonymous and free of any user or contextual data.
   </source>
-          <target state="translated">
+          <target state="needs-review-translation">
 *개인정보 수집*
 Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니다.
 
@@ -2985,6 +2980,7 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
 
 저희는 앱 사용 추적, 버그 발견, 오류 수정을 위해 앱 센터를 이용합니다. 앱 센터로 전송되는 모든 정보는 익명 처리되며 사용자와 직간접적으로 관련되어 있는 데이터는 일체 포함되지 않습니다.
   </target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionName.Text" translate="yes" xml:space="preserve">
           <source>Name</source>
@@ -3383,8 +3379,9 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
           <target state="translated">제 3자 라이선스</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
-          <source>This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</source>
-          <target state="translated">이 설정은 시스템 파일을 수정하며 예기치 않은 부작용을 낳을 수 있습니다. 개발자는 이로 인해서 일어날 일에 대해 책임을 지지 않습니다. 이 행동으로 일어날 위험에 대해서 인지하고 이 옵션을 계속합니다. Files를 제거하는 것으로는 이 설정을 되돌릴 수 없으며, 기기에서 Files를 제거하기 전 이 설정을 끄기 전까지는 파일 탐색기를 열지 못할 수도 있습니다.</target>
+          <source>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</source>
+          <target state="needs-review-translation">이 설정은 시스템 파일을 수정하며 예기치 않은 부작용을 낳을 수 있습니다. 개발자는 이로 인해서 일어날 일에 대해 책임을 지지 않습니다. 이 행동으로 일어날 위험에 대해서 인지하고 이 옵션을 계속합니다. Files를 제거하는 것으로는 이 설정을 되돌릴 수 없으며, 기기에서 Files를 제거하기 전 이 설정을 끄기 전까지는 파일 탐색기를 열지 못할 수도 있습니다.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
           <source>Clear all</source>
@@ -3461,6 +3458,46 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
         <trans-unit id="Bytes" translate="yes" xml:space="preserve">
           <source>Bytes</source>
           <target state="new">Bytes</target>
+        </trans-unit>
+        <trans-unit id="Extract" translate="yes" xml:space="preserve">
+          <source>Extract</source>
+          <target state="new">Extract</target>
+        </trans-unit>
+        <trans-unit id="ExtractFiles" translate="yes" xml:space="preserve">
+          <source>Extract files</source>
+          <target state="new">Extract files</target>
+        </trans-unit>
+        <trans-unit id="ExtractHere" translate="yes" xml:space="preserve">
+          <source>Extract here</source>
+          <target state="new">Extract here</target>
+        </trans-unit>
+        <trans-unit id="ExtractKeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+E</source>
+          <target state="new">Ctrl+E</target>
+        </trans-unit>
+        <trans-unit id="ExtractToChildFolder" translate="yes" xml:space="preserve">
+          <source>Extract to {0}</source>
+          <target state="new">Extract to {0}</target>
+        </trans-unit>
+        <trans-unit id="RunScript" translate="yes" xml:space="preserve">
+          <source>Run script</source>
+          <target state="new">Run script</target>
+        </trans-unit>
+        <trans-unit id="RunWithPowerShell" translate="yes" xml:space="preserve">
+          <source>Run with PowerShell</source>
+          <target state="new">Run with PowerShell</target>
+        </trans-unit>
+        <trans-unit id="SetAsBackground" translate="yes" xml:space="preserve">
+          <source>Set as desktop background</source>
+          <target state="new">Set as desktop background</target>
+        </trans-unit>
+        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
+          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
+          <target state="new">Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</target>
+        </trans-unit>
+        <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
+          <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
+          <target state="new">Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</target>
         </trans-unit>
       </group>
     </body>

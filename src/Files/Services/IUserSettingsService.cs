@@ -4,7 +4,7 @@ using System;
 
 namespace Files.Services
 {
-    public interface IUserSettingsService
+    public interface IUserSettingsService : IBaseSettingsService
     {
         event EventHandler<SettingChangedEventArgs> OnSettingChangedEvent;
 

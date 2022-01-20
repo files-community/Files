@@ -132,7 +132,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Ingrese una ubicación</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Buscar</value>
   </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
@@ -2402,5 +2402,200 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
   </data>
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
     <value>Mover al principio</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
+    <value>fecha de creación</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
+    <value>Tamaño</value>
+  </data>
+  <data name="SettingsSetAsOpenDialog" xml:space="preserve">
+    <value>Usar Files como diálogo de apertura de archivos</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Etiqueta</value>
+  </data>
+  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
+    <value>Abrir carpetas con un solo clic</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>Ruta de la carpeta</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>Exportar ajustes</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>Importar ajustes</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>Administrar ajustes</value>
+  </data>
+  <data name="SettingsImportErrorDescription" xml:space="preserve">
+    <value>No se pudo importar los ajustes. El archivo de ajustes está dañado.</value>
+  </data>
+  <data name="SettingsImportErrorTitle" xml:space="preserve">
+    <value>Error al importar los ajustes</value>
+  </data>
+  <data name="ChooseCustomIcon" xml:space="preserve">
+    <value>Escoger icono de carpeta personalizado</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Personalización</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>Restaurar predeterminado</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>Compatibilidad</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Ninguno</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
+    <value>Al iniciar sesión en Windows</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
+    <value>Al iniciar el programa</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>Sistema</value>
+  </data>
+  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
+    <value>Sistema (avanzado)</value>
+  </data>
+  <data name="Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
+    <value>Windows Vista SP1</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
+    <value>Windows Vista SP2</value>
+  </data>
+  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
+    <value>Color de 16 Bits (65536)</value>
+  </data>
+  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
+    <value>Color de 8 Bits (256)</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Modo de compatibilidad</value>
+  </data>
+  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+    <value>Deshabilitar optimizaciones de pantalla completa</value>
+  </data>
+  <data name="ExecuteAt640X480" xml:space="preserve">
+    <value>Ejecutar con una resolución de pantalla de 640 x 480</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Opciones</value>
+  </data>
+  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
+    <value>Invalidar el comportamiento de ajuste de PPP alto</value>
+  </data>
+  <data name="ReducedColorMode" xml:space="preserve">
+    <value>Modo de color reducido</value>
+  </data>
+  <data name="RegisterForRestart" xml:space="preserve">
+    <value>Registrar para el reinicio</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>Ejecutar como administrador</value>
+  </data>
+  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+    <value>Ejecutar el solucionador de problemas de compatibilidad</value>
+  </data>
+  <data name="UseMainMonitorDPISettings" xml:space="preserve">
+    <value>Utilizar los ajustes de PPP de la pantalla principal</value>
+  </data>
+  <data name="SettingsDefaultFilesManager" xml:space="preserve">
+    <value>Gestor de archivos predeterminado</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
+    <value>Establecer Files como gestor de archivos predeterminado</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Vaciar la papelera de reciclaje</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Barra lateral</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Archivos y carpetas</value>
+  </data>
+  <data name="OpenNewInstance" xml:space="preserve">
+    <value>Abrir una nueva instancia al abrir directorios desde la lista de accesos directos de la barra de tareas</value>
+  </data>
+  <data name="StartupSettings" xml:space="preserve">
+    <value>Ajustes de inicio</value>
+  </data>
+  <data name="ThirdPartyLicenses" xml:space="preserve">
+    <value>Licencias de terceros</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
+    <value>Esta configuración modifica los archivos del sistema y puede tener efectos secundarios inesperados en su dispositivo. Los desarrolladores no asumen ninguna responsabilidad en caso de que se produzca un problema como resultado. Continuar con esta opción es un reconocimiento de los riesgos que implica esta acción. Tenga en cuenta que si desinstala Files, estos cambios seguirán presentes y puede impedirle abrir el explorador de archivos a menos que desactive esta configuración antes de desinstalar Files de su dispositivo.</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Limpiar todo</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Columnas</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Iconos grandes</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Iconos medianos</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Iconos pequeños</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Mosaicos</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Crear biblioteca</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>Introduzca el nombre de la biblioteca</value>
+  </data>
+  <data name="ShowFolderSize" xml:space="preserve">
+    <value>Mostrar el tamaño de la carpeta</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Omitir</value>
+  </data>
+  <data name="SettingsOpenInLogin" xml:space="preserve">
+    <value>Abrir Files al iniciar Windows</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Atributos</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Oculto</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>Más detalles</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Sólo lectura</value>
+  </data>
+  <data name="CleanupDrive" xml:space="preserve">
+    <value>Limpie el contenido de su disco</value>
+  </data>
+  <data name="DiskCleanup" xml:space="preserve">
+    <value>Limpieza del disco</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Tipo:</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Bytes</value>
   </data>
 </root>

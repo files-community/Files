@@ -6,13 +6,19 @@
 [![Build Status](https://dev.azure.com/filescommunity/Files/_apis/build/status/Build%20Pipeline?branchName=main)](https://dev.azure.com/filescommunity/Files/_build/latest?definitionId=4&branchName=main)
 [![Discord](https://discordapp.com/api/guilds/725513575971684472/widget.png)](https://discord.gg/files)
 <a style="text-decoration:none" href="https://www.microsoft.com/store/apps/9NGHP3DX8HDX">
-    <img src="https://img.shields.io/badge/Microsoft%20Store-Download-orange.svg?style=flat-square" alt="Store link" />
+    <img src="https://img.shields.io/badge/Microsoft%20Store-Download-purple.svg?style=flat-round" alt="Store link" />
+</a>
+<a style="text-decoration:none" href="https://files.community/download/stable">
+    <img src="https://img.shields.io/badge/Sideload-Download-blue.svg?style=flat-round" alt="Sideload link" />
 </a>
 
 ## What is Files?
 Files is a file manager for Windows with a powerful yet intuitive design. It has features like multiple tabs, panes, columns, shell extensions in the context menu and tags.
 
 We welcome discussions and contributions to our repository, however to help maintain a healthy community, please read our [code of conduct](https://github.com/files-community/Files/blob/main/CODE_OF_CONDUCT.md).
+
+## Privacy
+We use App Center to track which settings are being used, find bugs, and fix crashes. Information sent to App Center is anonymous and free of any user or contextual data.
 
 ## FAQ
 Have any questions? Check out our [documentation site](https://files.community/docs)!
@@ -22,7 +28,8 @@ Have any questions? Check out our [documentation site](https://files.community/d
 ### 1: Prerequisites
 
 - [Git](https://git-scm.com)
-- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) with the UWP Development Kit.
+- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) with the UWP Development Kit, including C++ UWP build tools.
+- C++ ATL for UWP build tools
 
 ### 2: Clone the repository.
 

@@ -64,7 +64,7 @@
 
     <AutoSuggestBox
         x:Name="SearchRegion"
-        x:Uid="NavigationToolbarSearchReigon"
+        x:Uid="NavigationToolbarSearchRegion"
         ItemTemplate="{StaticResource SuggestionTemplate}"
         ItemsSource="{x:Bind SearchBoxViewModel.Suggestions, Mode=OneWay}"
         PlaceholderText="Search"

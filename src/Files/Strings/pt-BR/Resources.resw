@@ -58,7 +58,7 @@
     <value>Selecionar Tudo</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
-    <value>Inverter seleção</value>
+    <value>Inverter Seleção</value>
   </data>
   <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>Limpar Seleção</value>
@@ -75,7 +75,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Insira um caminho</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Pesquisar</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
@@ -2571,5 +2571,32 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
   </data>
   <data name="Skip" xml:space="preserve">
     <value>Pular</value>
+  </data>
+  <data name="SettingsOpenInLogin" xml:space="preserve">
+    <value>Abrir Arquivos na Inicialização do Windows</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Atributos</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Oculto</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>Mais detalhes</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Somente leitura</value>
+  </data>
+  <data name="CleanupDrive" xml:space="preserve">
+    <value>Limpar o conteúdo de seu drive</value>
+  </data>
+  <data name="DiskCleanup" xml:space="preserve">
+    <value>Limpeza de Disco</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Tipo:</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Bytes</value>
   </data>
 </root>

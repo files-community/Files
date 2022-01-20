@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Files.Services
 {
-    public interface IFileTagsSettingsService
+    public interface IFileTagsSettingsService : IBaseSettingsService
     {
         event EventHandler OnSettingImportedEvent;
 

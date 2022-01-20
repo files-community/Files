@@ -110,7 +110,7 @@
           <source>Enter a path</source>
           <target state="translated">Εισάγετε μια διαδρομή</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarSearchReigon.PlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="NavigationToolbarSearchRegion.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Search</source>
           <target state="translated">Αναζήτηση</target>
         </trans-unit>
@@ -2969,12 +2969,7 @@
         </trans-unit>
         <trans-unit id="SettingsPrivacyPolicyMarkdownBlock.Text" translate="yes" xml:space="preserve">
           <source>
-*Personal Information Collection*
-Files does not collect, store, share or publish any personal information.
-
-*Non-personal Information Collection*
-
-We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
+We use App Center to track which settings are being used, find bugs, and fix crashes. Information sent to App Center is anonymous and free of any user or contextual data.
   </source>
           <target state="needs-review-translation">
 *Συλλογή προσωπικών πληροφοριών*
@@ -3384,8 +3379,9 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <target state="translated">Άδειες τρίτων</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
-          <source>This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</source>
-          <target state="translated">Αυτή η ρύθμιση τροποποιεί αρχεία του συστήματος και μπορεί να έχει απροσδόκητες παρενέργειες στη συσκευή σας. Οι προγραμματιστές δεν λαμβάνουν καμία ευθύνη σε περίπτωση που κάποιο πρόβλημα προκύψει ως αποτέλεσμα. Αν συνεχίσετε με αυτή την επιλογή αναγνωρίζετε τους κινδύνους που ενέχει αυτή η ενέργεια. Προσέξτε πως η απεγκατάση του Files δεν θα αναιρέσει αυτές τις αλλαγές και μπορεί να σας αποτρέψει από το άνοιγμα της εξερεύνησης αρχείων, εκτός αν απενεργοποιήσετε αυτή τη ρύθμιση πριν αφαιρέσετε το Files από τη συσκευή σας.</target>
+          <source>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</source>
+          <target state="needs-review-translation">Αυτή η ρύθμιση τροποποιεί αρχεία του συστήματος και μπορεί να έχει απροσδόκητες παρενέργειες στη συσκευή σας. Οι προγραμματιστές δεν λαμβάνουν καμία ευθύνη σε περίπτωση που κάποιο πρόβλημα προκύψει ως αποτέλεσμα. Αν συνεχίσετε με αυτή την επιλογή αναγνωρίζετε τους κινδύνους που ενέχει αυτή η ενέργεια. Προσέξτε πως η απεγκατάση του Files δεν θα αναιρέσει αυτές τις αλλαγές και μπορεί να σας αποτρέψει από το άνοιγμα της εξερεύνησης αρχείων, εκτός αν απενεργοποιήσετε αυτή τη ρύθμιση πριν αφαιρέσετε το Files από τη συσκευή σας.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
           <source>Clear all</source>
@@ -3462,6 +3458,46 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="Bytes" translate="yes" xml:space="preserve">
           <source>Bytes</source>
           <target state="new">Bytes</target>
+        </trans-unit>
+        <trans-unit id="Extract" translate="yes" xml:space="preserve">
+          <source>Extract</source>
+          <target state="new">Extract</target>
+        </trans-unit>
+        <trans-unit id="ExtractFiles" translate="yes" xml:space="preserve">
+          <source>Extract files</source>
+          <target state="new">Extract files</target>
+        </trans-unit>
+        <trans-unit id="ExtractHere" translate="yes" xml:space="preserve">
+          <source>Extract here</source>
+          <target state="new">Extract here</target>
+        </trans-unit>
+        <trans-unit id="ExtractKeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+E</source>
+          <target state="new">Ctrl+E</target>
+        </trans-unit>
+        <trans-unit id="ExtractToChildFolder" translate="yes" xml:space="preserve">
+          <source>Extract to {0}</source>
+          <target state="new">Extract to {0}</target>
+        </trans-unit>
+        <trans-unit id="RunScript" translate="yes" xml:space="preserve">
+          <source>Run script</source>
+          <target state="new">Run script</target>
+        </trans-unit>
+        <trans-unit id="RunWithPowerShell" translate="yes" xml:space="preserve">
+          <source>Run with PowerShell</source>
+          <target state="new">Run with PowerShell</target>
+        </trans-unit>
+        <trans-unit id="SetAsBackground" translate="yes" xml:space="preserve">
+          <source>Set as desktop background</source>
+          <target state="new">Set as desktop background</target>
+        </trans-unit>
+        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
+          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
+          <target state="new">Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</target>
+        </trans-unit>
+        <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
+          <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
+          <target state="new">Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</target>
         </trans-unit>
       </group>
     </body>
