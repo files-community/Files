@@ -72,6 +72,8 @@ namespace Files.Interacts
             DecompressArchiveCommand = new RelayCommand(CommandsModel.DecompressArchive);
             DecompressArchiveHereCommand = new RelayCommand(CommandsModel.DecompressArchiveHere);
             DecompressArchiveToChildFolderCommand = new RelayCommand(CommandsModel.DecompressArchiveToChildFolder);
+            RotateImageLeftCommand = new RelayCommand(CommandsModel.RotateImageLeft);
+            RotateImageRightCommand = new RelayCommand(CommandsModel.RotateImageRight);
         }
 
         #endregion Command Initialization
@@ -167,6 +169,10 @@ namespace Files.Interacts
         public ICommand DecompressArchiveHereCommand { get; private set; }
 
         public ICommand DecompressArchiveToChildFolderCommand { get; private set; }
+
+        public ICommand RotateImageLeftCommand { get; private set; }
+
+        public ICommand RotateImageRightCommand { get; private set; }
 
         #endregion Commands
 

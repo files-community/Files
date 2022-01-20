@@ -794,7 +794,7 @@ namespace Files.ViewModels
         public ICommand CutCommand { get; set; }
 
         public ICommand EmptyRecycleBinCommand { get; set; }
-        
+
         public ICommand PropertiesCommand { get; set; }
 
         public ICommand ExtractCommand { get; set; }
@@ -806,6 +806,10 @@ namespace Files.ViewModels
         public ICommand RunWithPowerShellCommand { get; set; }
 
         public ICommand SetAsBackgroundCommand { get; set; }
+
+        public ICommand RotateImageLeftCommand { get; set; }
+
+        public ICommand RotateImageRightCommand { get; set; }
 
         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
         {
@@ -1100,7 +1104,7 @@ namespace Files.ViewModels
         }
 
         public bool HasAdditionnalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage;
-     
+
         public bool CanCopy            => SelectedItems is not null && SelectedItems.Any();
         public bool CanShare           => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcutItem && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem));
         public bool CanRename          => SelectedItems is not null && SelectedItems.Count == 1;

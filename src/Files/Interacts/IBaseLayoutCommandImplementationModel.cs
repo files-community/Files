@@ -97,5 +97,9 @@ namespace Files.Interacts
         void DecompressArchiveHere();
 
         void DecompressArchiveToChildFolder();
+
+        void RotateImageLeft();
+
+        void RotateImageRight();
     }
 }
