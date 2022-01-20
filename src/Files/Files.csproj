@@ -1032,6 +1032,7 @@
     <Content Include="Assets\tile-0-300x300.png" />
     <Content Include="Resources\AppCenterKey.txt" />
     <Content Include="Resources\BingMapsKey.txt" />
+    <PRIResource Include="Strings\nb-NO\Resources.resw" />
     <PRIResource Include="Strings\af\Resources.resw" />
     <PRIResource Include="Strings\hr-HR\Resources.resw" />
     <PRIResource Include="Strings\vi\Resources.resw" />
