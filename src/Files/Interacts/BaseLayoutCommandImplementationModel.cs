@@ -786,8 +786,7 @@ namespace Files.Interacts
             }
         }
 
-        //TODO: Fix this method
-        public virtual async void InstallFont()
+        public async void InstallFont()
         {
             foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
             {
