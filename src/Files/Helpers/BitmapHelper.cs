@@ -46,11 +46,6 @@ namespace Files.Helpers
             encoder.BitmapTransform.Rotation = rotation;
 
             await encoder.FlushAsync();
-            //
-            // ms.Seek(0);
-            // fs.Seek(0);
-            // fs.Size = 0;
-
             await RandomAccessStream.CopyAsync(ms, fs);
         }
     }
