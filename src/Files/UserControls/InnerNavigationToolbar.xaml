@@ -200,7 +200,7 @@
                         <local:ColoredIcon BaseLayerGlyph="&#xF031;" OverlayLayerGlyph="&#xF032;" />
                     </AppBarButton.Content>
                 </AppBarButton>
-                <AppBarSeparator x:Name="AdditionalActionSeparator" x:Load="{x:Bind ViewModel.HasAdditionnalAction, Mode=OneWay}" />
+                <AppBarSeparator x:Name="AdditionalActionSeparator" x:Load="{x:Bind ViewModel.HasAdditionalAction, Mode=OneWay}" />
                 <AppBarButton
                     x:Name="EmptyRecycleBinButton"
                     AccessKey="B"
@@ -226,7 +226,7 @@
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
                     </AppBarButton.Content>
                     <AppBarButton.Flyout>
-                        <MenuFlyout Placement="Bottom" 
+                        <MenuFlyout Placement="Bottom"
                                     helpers:MenuFlyoutHelper.IsVisible="{x:Bind ViewModel.CanExtract, Mode=OneWay}">
                             <MenuFlyoutItem
                                 Command="{x:Bind ViewModel.ExtractCommand, Mode=OneWay}"
@@ -283,6 +283,17 @@
                     ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsBackground}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE91B;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="InstallFontButton"
+                    x:Load="{x:Bind ViewModel.IsFont, Mode=OneWay, FallbackValue=False}"
+                    Command="{x:Bind ViewModel.InstallFontCommand, Mode=OneWay}"
+                    Label="{helpers:ResourceString Name=Install}"
+                    LabelPosition="Default"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=Install}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE8D2;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
             </CommandBar.PrimaryCommands>
