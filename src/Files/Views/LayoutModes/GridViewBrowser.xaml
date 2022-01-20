@@ -148,7 +148,7 @@
                 <Grid
                     Grid.Row="1"
                     MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
-                    Margin="5,0,5,10"
+                    Margin="4,0,4,8"
                     HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -158,7 +158,7 @@
                     <FontIcon
                         x:Name="CloudDriveSyncStatusGlyph"
                         Grid.Column="0"
-                        Margin="0,0,5,0"
+                        Margin="0,0,4,0"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
                         x:Phase="2"
@@ -168,7 +168,7 @@
                         Grid.Column="1"
                         Width="12"
                         Height="12"
-                        Margin="0,0,5,0"
+                        Margin="0,0,4,0"
                         x:Phase="2"
                         Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
                         ToolTipService.ToolTip="{x:Bind FileTagUI.TagName, Mode=OneWay}"
@@ -204,8 +204,8 @@
 
         <DataTemplate x:Name="TilesBrowserTemplate" x:DataType="local2:ListedItem">
             <Grid
-                Height="100"
-                Margin="0,0,0,0"
+                Height="68"
+                Margin="8,4"
                 Padding="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Stretch"
@@ -216,27 +216,24 @@
                 ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="90" />
+                    <ColumnDefinition Width="68" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <StackPanel
                     Width="20"
-                    Margin="10,0,0,0"
+                    HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Vertical">
                     <Ellipse
                         Width="12"
                         Height="12"
                         Margin="0,4,0,4"
-                        HorizontalAlignment="Center"
                         x:Phase="2"
                         Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
                         ToolTipService.ToolTip="{x:Bind FileTagUI.TagName, Mode=OneWay}"
                         Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
                     <FontIcon
                         x:Name="CloudDriveSyncStatusGlyph"
-                        Grid.Column="0"
-                        HorizontalAlignment="Center"
                         x:Phase="2"
                         FontSize="12"
                         Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
@@ -245,7 +242,6 @@
                 <Grid
                     Grid.Column="1"
                     Height="Auto"
-                    MinHeight="100"
                     Opacity="{x:Bind Opacity, Mode=OneWay}"
                     Tag="ItemImage">
                     <ContentPresenter
@@ -264,16 +260,16 @@
                     </ContentPresenter>
                     <Image
                         x:Name="FolderGlyphIcon"
-                        Width="72"
-                        Height="72"
+                        Width="60"
+                        Height="60"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadDefaultIcon, Mode=OneWay}"
                         Source="{x:Bind PlaceholderDefaultIcon, Mode=OneWay}" />
                     <Border
                         x:Name="TypeUnknownGlyph"
-                        Width="72"
-                        Height="72"
+                        Width="60"
+                        Height="60"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
@@ -292,7 +288,7 @@
                         Stretch="Uniform" />
                     <Viewbox
                         x:Name="WebShortcutGlyph"
-                        MaxWidth="74"
+                        MaxWidth="60"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
@@ -316,47 +312,46 @@
                             Glyph="&#xF10A;" />
                     </Border>
                 </Grid>
-                <Grid Grid.Column="2" Height="100">
-                    <StackPanel Height="Auto" VerticalAlignment="Center">
-                        <TextBlock
-                            x:Name="ItemName"
-                            Height="Auto"
-                            MaxHeight="50"
-                            Margin="0,0,10,0"
-                            HorizontalAlignment="Left"
-                            ScrollViewer.VerticalScrollBarVisibility="Auto"
-                            Text="{x:Bind ItemName, Mode=OneWay}"
-                            TextAlignment="Left"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="Wrap" />
-                        <TextBox
-                            x:Name="TileViewTextBoxItemName"
-                            Height="Auto"
-                            MaxHeight="50"
-                            Margin="0,0,10,0"
-                            HorizontalAlignment="Left"
-                            ScrollViewer.VerticalScrollBarVisibility="Auto"
-                            Text="{x:Bind ItemName, Mode=OneWay}"
-                            TextAlignment="Left"
-                            TextWrapping="Wrap"
-                            Visibility="Collapsed" />
-                        <TextBlock
-                            HorizontalAlignment="Left"
-                            Opacity="0.6"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            TextAlignment="Left"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap" />
-                        <TextBlock
-                            HorizontalAlignment="Left"
-                            Opacity="0.6"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{x:Bind FileSize, Mode=OneWay}"
-                            TextAlignment="Left"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap" />
-                    </StackPanel>
+
+                <Grid
+                    Grid.Column="2"
+                    Height="60"
+                    RowSpacing="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        x:Name="ItemName"
+                        Grid.Row="0"
+                        HorizontalAlignment="Left"
+                        MaxLines="2"
+                        Text="{x:Bind ItemName, Mode=OneWay}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="Wrap" />
+                    <TextBox
+                        x:Name="TileViewTextBoxItemName"
+                        Grid.Row="0"
+                        HorizontalAlignment="Left"
+                        Text="{x:Bind ItemName, Mode=OneWay}"
+                        Visibility="Collapsed" />
+                    <TextBlock
+                        Grid.Row="1"
+                        HorizontalAlignment="Left"
+                        FontSize="12px"
+                        Opacity="0.6"
+                        Text="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap" />
+                    <TextBlock
+                        Grid.Row="2"
+                        HorizontalAlignment="Left"
+                        FontSize="12px"
+                        Opacity="0.6"
+                        Text="{x:Bind FileSize, Mode=OneWay}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap" />
                 </Grid>
             </Grid>
         </DataTemplate>
@@ -535,37 +530,52 @@
                         <GroupStyle>
                             <GroupStyle.HeaderTemplate>
                                 <DataTemplate x:DataType="helpers:IGroupedCollectionHeader">
-                                    <StackPanel
-                                        Margin="0,0,0,4"
+                                    <Grid
+                                        Padding="0,0,0,4"
                                         AutomationProperties.Name="{x:Bind Model.Text}"
-                                        Spacing="0">
-                                        <StackPanel Orientation="Horizontal" Spacing="4">
-                                            <TextBlock
-                                                VerticalAlignment="Center"
-                                                FontSize="16"
-                                                Style="{StaticResource SubtitleTextBlockStyle}"
-                                                Text="{x:Bind Model.Text, Mode=OneWay}" />
-
-                                            <TextBlock
-                                                Margin="4,0,0,0"
-                                                VerticalAlignment="Center"
-                                                Style="{StaticResource BodyTextBlockStyle}"
-                                                Text="{x:Bind Model.CountText, Mode=OneWay}"
-                                                Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
-
-                                            <TextBlock
-                                                VerticalAlignment="Center"
-                                                FontSize="14"
-                                                Style="{StaticResource SubheaderTextBlockStyle}"
-                                                Text="{x:Bind Model.Subtext, Mode=OneWay}"
-                                                Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                        </StackPanel>
+                                        ColumnSpacing="8"
+                                        RowSpacing="8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
                                         <TextBlock
-                                            Margin="0,2,0,0"
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            VerticalAlignment="Center"
+                                            FontSize="16"
+                                            Style="{StaticResource SubtitleTextBlockStyle}"
+                                            Text="{x:Bind Model.Text, Mode=OneWay}" />
+
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            Style="{StaticResource BodyTextBlockStyle}"
+                                            Text="{x:Bind Model.CountText, Mode=OneWay}"
+                                            Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="2"
+                                            VerticalAlignment="Center"
+                                            FontSize="14"
+                                            Style="{StaticResource SubheaderTextBlockStyle}"
+                                            Text="{x:Bind Model.Subtext, Mode=OneWay}"
+                                            Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Grid.ColumnSpan="3"
                                             Style="{StaticResource BodyTextBlockStyle}"
                                             Text="{x:Bind Model.CountText, Mode=OneWay}"
                                             Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    </StackPanel>
+                                    </Grid>
                                 </DataTemplate>
                             </GroupStyle.HeaderTemplate>
                         </GroupStyle>
@@ -615,56 +625,83 @@
 
             <SemanticZoom.ZoomedOutView>
                 <ListView
+                    Padding="0,12,0,0"
                     HorizontalAlignment="Stretch"
                     VerticalContentAlignment="Center"
                     ItemsSource="{x:Bind CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
                     SelectionMode="None">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="ICollectionViewGroup">
-                            <StackPanel
-                                Margin="0,4,0,4"
+                            <Grid
+                                Padding="8"
                                 VerticalAlignment="Center"
-                                Orientation="Horizontal"
-                                Spacing="4">
+                                AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
+                                ColumnSpacing="12"
+                                RowSpacing="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
                                 <Image
-                                    Height="36"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="0"
+                                    Height="24"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
                                     Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
                                     Stretch="Uniform" />
-                                <FontIcon FontSize="32" Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
-                                <StackPanel
+                                <FontIcon
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
-                                    Orientation="Vertical">
-                                    <StackPanel Orientation="Horizontal" Spacing="4">
-                                        <TextBlock
-                                            VerticalAlignment="Center"
-                                            FontSize="16"
-                                            Style="{StaticResource SubtitleTextBlockStyle}"
-                                            Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
+                                    FontSize="24"
+                                    Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
 
-                                        <TextBlock
-                                            Margin="4,0,0,0"
-                                            VerticalAlignment="Center"
-                                            Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
-                                            Style="{StaticResource BodyTextBlockStyle}"
-                                            Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-                                            Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    FontSize="16"
+                                    Style="{StaticResource SubtitleTextBlockStyle}"
+                                    Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
 
-                                        <TextBlock
-                                            VerticalAlignment="Center"
-                                            FontSize="14"
-                                            Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
-                                            Style="{StaticResource SubheaderTextBlockStyle}"
-                                            Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
-                                            Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    </StackPanel>
-                                    <TextBlock
-                                        Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-                                        Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                </StackPanel>
-                            </StackPanel>
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    VerticalAlignment="Center"
+                                    Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
+                                    Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="3"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
+                                    Style="{StaticResource SubheaderTextBlockStyle}"
+                                    Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
+                                    Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="3"
+                                    Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
+                                    Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
