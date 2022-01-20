@@ -66,7 +66,7 @@
                 ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid
                     Grid.Row="0"
@@ -149,7 +149,8 @@
                     Grid.Row="1"
                     MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                     Margin="4,0,4,8"
-                    HorizontalAlignment="Center">
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
@@ -178,10 +179,11 @@
                         Grid.Column="2"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        FontSize="12"
                         Opacity="{Binding IsOpen, ElementName=EditPopup, Converter={StaticResource NegatedBoolToOpacityConverter}}"
                         Text="{x:Bind ItemName, Mode=OneWay}"
                         TextTrimming="CharacterEllipsis"
-                        TextWrapping="NoWrap" />
+                        TextWrapping="Wrap" />
                 </Grid>
                 <Popup
                     x:Name="EditPopup"
