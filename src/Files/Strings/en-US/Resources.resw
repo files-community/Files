@@ -2720,6 +2720,9 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="RunWithPowerShell" xml:space="preserve">
     <value>Run with PowerShell</value>
   </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Set as desktop background</value>
+  </data>
   <data name="SetFilesAsDefaultWarning" xml:space="preserve">
     <value>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</value>
   </data>
