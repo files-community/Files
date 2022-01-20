@@ -226,8 +226,7 @@
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
                     </AppBarButton.Content>
                     <AppBarButton.Flyout>
-                        <MenuFlyout Placement="Bottom"
-                                    helpers:MenuFlyoutHelper.IsVisible="{x:Bind ViewModel.CanExtract, Mode=OneWay}">
+                        <MenuFlyout helpers:MenuFlyoutHelper.IsVisible="{x:Bind ViewModel.CanExtract, Mode=OneWay}" Placement="Bottom">
                             <MenuFlyoutItem
                                 Command="{x:Bind ViewModel.ExtractCommand, Mode=OneWay}"
                                 IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
@@ -264,6 +263,8 @@
                 </AppBarButton>
                 <AppBarButton
                     x:Name="RunWithPowerShellButton"
+                    Width="Auto"
+                    MinWidth="40"
                     x:Load="{x:Bind ViewModel.IsPowerShellScript, Mode=OneWay, FallbackValue=False}"
                     AutomationProperties.Name="RunWithPowerShell"
                     Command="{x:Bind ViewModel.RunWithPowerShellCommand, Mode=OneWay}"
@@ -276,6 +277,8 @@
                 </AppBarButton>
                 <AppBarButton
                     x:Name="SetAsBackgroundButton"
+                    Width="Auto"
+                    MinWidth="40"
                     x:Load="{x:Bind ViewModel.IsImage, Mode=OneWay, FallbackValue=False}"
                     Command="{x:Bind ViewModel.SetAsBackgroundCommand, Mode=OneWay}"
                     Label="{helpers:ResourceString Name=SetAsBackground}"
