@@ -33,7 +33,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-
 using SortDirection = Files.Enums.SortDirection;
 
 namespace Files.Views
@@ -204,7 +203,12 @@ namespace Files.Views
             NavToolbarViewModel.DeleteCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DeleteItemCommand.Execute(null));
             NavToolbarViewModel.CutCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.CutItemCommand.Execute(null));
             NavToolbarViewModel.EmptyRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.EmptyRecycleBinCommand.Execute(null));
+            NavToolbarViewModel.RunWithPowerShellCommand = new RelayCommand(async () => await Win32Helpers.InvokeWin32ComponentAsync("powershell", this, PathNormalization.NormalizePath(SlimContentPage?.SelectedItems.First().ItemPath)));
             NavToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
+            NavToolbarViewModel.SetAsBackgroundCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.SetAsDesktopBackgroundItemCommand.Execute(null));
+            NavToolbarViewModel.ExtractCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveCommand.Execute(null));
+            NavToolbarViewModel.ExtractHereCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveHereCommand.Execute(null));
+            NavToolbarViewModel.ExtractToCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveToChildFolderCommand.Execute(null));
         }
 
         private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
@@ -548,6 +552,7 @@ namespace Files.Views
             FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
             FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
             FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
+            FilesystemViewModel.ListedItemAdded += FilesystemViewModel_ListedItemAdded;
             OnNavigationParamsChanged();
             this.Loaded -= Page_Loaded;
         }
@@ -574,6 +579,18 @@ namespace Files.Views
                 {
                     ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemsCount/Text".GetLocalized()}";
                 }
+            }
+        }
+
+        private void FilesystemViewModel_ListedItemAdded(object sender, ListedItemAddedEventArgs e)
+        {
+            ListedItem itemToSelect = e?.Item;
+            if (itemToSelect != null && ContentPage != null)
+            {
+                // set focus since selection might occur before the UI finishes updating
+                ContentPage.ItemManipulationModel.FocusFileList();
+                ContentPage.ItemManipulationModel.SetSelectedItem(itemToSelect);
+                ContentPage.ItemManipulationModel.ScrollIntoView(itemToSelect);
             }
         }
 
@@ -623,6 +640,15 @@ namespace Files.Views
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
+                case (true, false, false, true, VirtualKey.E): // ctrl + e, extract
+                    {
+                        if (NavToolbarViewModel.CanExtract)
+                        {
+                            NavToolbarViewModel.ExtractCommand.Execute(null);
+                        }
+                        break;
+                    }
+
                 case (true, false, false, true, VirtualKey.Z): // ctrl + z, undo
                     if (!InstanceViewModel.IsPageTypeSearchResults)
                     {
@@ -950,6 +976,7 @@ namespace Files.Views
                 FilesystemViewModel.DirectoryInfoUpdated -= FilesystemViewModel_DirectoryInfoUpdated;
                 FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
                 FilesystemViewModel.OnSelectionRequestedEvent -= FilesystemViewModel_OnSelectionRequestedEvent;
+                FilesystemViewModel.ListedItemAdded -= FilesystemViewModel_ListedItemAdded;
                 FilesystemViewModel.Dispose();
             }
 

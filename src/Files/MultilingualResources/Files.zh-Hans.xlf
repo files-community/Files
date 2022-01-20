@@ -2798,7 +2798,7 @@
         </trans-unit>
         <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles" translate="yes" xml:space="preserve">
           <source>List and sort directories alongside files</source>
-          <target state="translated">列出和排序文件旁的目录</target>
+          <target state="translated">文件夹与文件一同分类排序</target>
         </trans-unit>
         <trans-unit id="SettingsSearchUnindexedItems" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders</source>
