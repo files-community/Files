@@ -786,6 +786,25 @@ namespace Files.Interacts
             }
         }
 
+        public async void InstallInfDriver()
+        {
+            foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
+            {
+                var connection = await AppServiceConnectionHelper.Instance;
+                if (connection != null)
+                {
+                    var value = new ValueSet
+                    {
+                        { "Arguments", "InstallOperation" },
+                        { "installop", "InstallInf" },
+                        { "filepath", selectedItem.ItemPath },
+                        { "extension", selectedItem.FileExtension },
+                    };
+                    await connection.SendMessageAsync(value);
+                }
+            }
+        }
+
         #endregion Command Implementation
     }
 }
