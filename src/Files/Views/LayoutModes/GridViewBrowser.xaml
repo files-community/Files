@@ -179,7 +179,6 @@
                         Grid.Column="2"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        FontSize="12"
                         Opacity="{Binding IsOpen, ElementName=EditPopup, Converter={StaticResource NegatedBoolToOpacityConverter}}"
                         Text="{x:Bind ItemName, Mode=OneWay}"
                         TextTrimming="CharacterEllipsis"
@@ -206,12 +205,13 @@
 
         <DataTemplate x:Name="TilesBrowserTemplate" x:DataType="local2:ListedItem">
             <Grid
-                Height="68"
+                MaxHeight="68"
                 Margin="8,4"
                 Padding="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Stretch"
                 Background="Transparent"
+                ColumnSpacing="4"
                 IsRightTapEnabled="True"
                 Loaded="Grid_Loaded"
                 RightTapped="StackPanel_RightTapped"
