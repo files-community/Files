@@ -76,11 +76,7 @@ namespace Files
         private readonly DispatcherTimer jumpTimer;
 
 
-        protected Task<NamedPipeAsAppServiceConnection> Connection => AppServiceConnectionHelper.Instance;
-
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
-
-        public SettingsViewModel AppSettings => App.AppSettings;
 
         public FolderSettingsViewModel FolderSettings => ParentShellPageInstance.InstanceViewModel.FolderSettings;
 
