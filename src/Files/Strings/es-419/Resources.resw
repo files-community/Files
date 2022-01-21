@@ -45,9 +45,6 @@
   <data name="Size" xml:space="preserve">
     <value>Tamaño</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Abrir en la Terminal...</value>
-  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Creado:</value>
   </data>

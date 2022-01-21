@@ -1767,9 +1767,6 @@
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Vložiť</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Otvoriť v Terminále...</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nová položka</value>
   </data>

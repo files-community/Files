@@ -45,9 +45,6 @@
   <data name="Size" xml:space="preserve">
     <value>Grootte</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Maak oop in Terminal...</value>
-  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Geskep:</value>
   </data>

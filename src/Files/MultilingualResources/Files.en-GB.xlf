@@ -50,10 +50,6 @@
           <source>Size</source>
           <target state="translated" state-qualifier="tm-suggestion">Size</target>
         </trans-unit>
-        <trans-unit id="OpenInTerminal" translate="yes" xml:space="preserve">
-          <source>Open in Terminal...</source>
-          <target state="translated">Open in Terminal...</target>
-        </trans-unit>
         <trans-unit id="PropertiesCreated.Text" translate="yes" xml:space="preserve">
           <source>Created:</source>
           <target state="translated" state-qualifier="tm-suggestion">Created:</target>
@@ -3496,6 +3492,10 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
           <target state="new">Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</target>
+        </trans-unit>
+        <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
+          <source>Open in</source>
+          <target state="new">Open in</target>
         </trans-unit>
       </group>
     </body>

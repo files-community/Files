@@ -2345,10 +2345,6 @@
           <source>Paste</source>
           <target state="translated">Vložiť</target>
         </trans-unit>
-        <trans-unit id="OpenInTerminal" translate="yes" xml:space="preserve">
-          <source>Open in Terminal...</source>
-          <target state="translated">Otvoriť v Terminále...</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNew.Label" translate="yes" xml:space="preserve">
           <source>New</source>
           <target state="translated">Nová položka</target>
@@ -3497,6 +3493,10 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
           <target state="new">Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</target>
+        </trans-unit>
+        <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
+          <source>Open in</source>
+          <target state="new">Open in</target>
         </trans-unit>
       </group>
     </body>

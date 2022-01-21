@@ -2342,10 +2342,6 @@
           <source>Paste</source>
           <target state="translated">貼上</target>
         </trans-unit>
-        <trans-unit id="OpenInTerminal" translate="yes" xml:space="preserve">
-          <source>Open in Terminal...</source>
-          <target state="translated">在終端機中開啟...</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNew.Label" translate="yes" xml:space="preserve">
           <source>New</source>
           <target state="translated">新增</target>
@@ -3497,6 +3493,10 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
           <target state="new">Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</target>
+        </trans-unit>
+        <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
+          <source>Open in</source>
+          <target state="new">Open in</target>
         </trans-unit>
       </group>
     </body>
