@@ -14,6 +14,7 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -953,6 +954,8 @@ namespace Files.ViewModels
                                 }
                             }
 
+                            LaunchApplicationFromPath(currentInput, workingDir);
+
                             try
                             {
                                 if (!await Launcher.LaunchUriAsync(new Uri(currentInput)))
@@ -972,6 +975,30 @@ namespace Files.ViewModels
 
                 PathControlDisplayText = shellPage.FilesystemViewModel.WorkingDirectory;
             }
+        }
+
+        private static void LaunchApplicationFromPath(string currentInput, string workingDir)
+        {
+            var trimmedInput= currentInput.Trim();
+            var fileName = trimmedInput;
+            var arguments = "";
+            if (trimmedInput.Contains(' '))
+            {
+                var positionOfBlank = trimmedInput.IndexOf(' ');
+                fileName = trimmedInput.Substring(0, positionOfBlank);
+                arguments = currentInput.Substring(currentInput.IndexOf(' '));
+            }
+            
+            var psi = new ProcessStartInfo
+            {
+                FileName = fileName,
+                Arguments = arguments,
+                CreateNoWindow = false,
+                UseShellExecute = true,
+                WindowStyle = ProcessWindowStyle.Normal,
+                WorkingDirectory = workingDir
+            };
+            Process.Start(psi);
         }
 
         public async void SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
