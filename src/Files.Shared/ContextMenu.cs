@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Files.Common
+namespace Files.Shared
 {
     // Same definition of Vanara.PInvoke.User32.MenuItemType
     public enum MenuItemType : uint

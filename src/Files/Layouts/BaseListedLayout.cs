@@ -15,10 +15,12 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Files.Backend.ViewModels.Layouts.ItemListingModels;
+using Files.Backend.ViewModels.ItemListing;
 using Files.Extensions;
 using Files.Layouts.Listing;
+using Files.Backend.ViewModels.Layouts;
 
 #nullable enable
 
@@ -32,11 +34,42 @@ namespace Files.Layouts
 
         protected uint CurrentIconSize { get; set; }
 
+        private CollectionViewSource? _FileListCollectionViewSource;
+        public CollectionViewSource? FileListCollectionViewSource
+        {
+            get => _FileListCollectionViewSource;
+            set
+            {
+                if (_FileListCollectionViewSource?.View != null)
+                {
+                    _FileListCollectionViewSource.View.VectorChanged -= View_VectorChanged;
+                }
+                
+                if (SetProperty(ref _FileListCollectionViewSource, value) && _FileListCollectionViewSource?.View != null)
+                {
+                    _FileListCollectionViewSource.View.VectorChanged += View_VectorChanged;
+                }
+            }
+        }
+
+        protected BaseListedLayout()
+        {
+            _FileListCollectionViewSource = new()
+            {
+                IsSourceGrouped = true
+            };
+        }
+
         #region UI Event Handlers
+
+        protected virtual void View_VectorChanged(Windows.Foundation.Collections.IObservableVector<object> sender, Windows.Foundation.Collections.IVectorChangedEventArgs @event)
+        {
+            ParentShellPageInstance.NavToolbarViewModel.HasItem = FileListCollectionViewSource.View.Any();
+        }
 
         protected virtual async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            await ViewModel.SelectionChanged(FileListInternal.SelectedItems.Cast<ListedItem>().Where((item) => item != null));
+            await ViewModel.SelectionChanged(FileListInternal.SelectedItems.Cast<ListedItemViewModel>().Where((item) => item != null));
         }
 
         protected virtual void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
@@ -251,9 +284,9 @@ namespace Files.Layouts
         protected virtual void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             var parentContainer = DependencyObjectHelpers.FindParent<SelectorItem>(e.OriginalSource as DependencyObject);
-            if (!parentContainer.IsSelected)
+            if (!parentContainer.IsSelected && FileListInternal.ItemFromContainer(parentContainer) is ListedItemViewModel listedItem)
             {
-                ItemManipulationModel.SetSelectedItem(FileListInternal.ItemFromContainer(parentContainer) as ListedItem);
+                SetSelection(listedItem);
             }
         }
 
@@ -282,6 +315,8 @@ namespace Files.Layouts
         }
 
         #endregion UI Event Handlers
+
+        #region Helpers
 
         protected virtual void StartRenameItem()
         {
@@ -396,7 +431,7 @@ namespace Files.Layouts
         public virtual void SelectAllItems()
         {
             FileListInternal.SelectAll();
-            ViewModel.SetSelection(FileListInternal.SelectedItems.Cast<ListedItem>());
+            ViewModel.SetSelection(FileListInternal.SelectedItems.Cast<ListedItemViewModel>());
         }
 
         public virtual void ClearSelection()
@@ -430,13 +465,19 @@ namespace Files.Layouts
             }
         }
 
-        public virtual void AddSelection(ListedItem listedItem)
+        public void SetSelection(ListedItemViewModel listedItem)
+        {
+            ClearSelection();
+            AddSelection(listedItem);
+        }
+
+        public virtual void AddSelection(ListedItemViewModel listedItem)
         {
             FileListInternal.SelectedItems.Add(listedItem);
             ViewModel.SelectedItems.Add(listedItem);
         }
 
-        public virtual void RemoveSelection(ListedItem listedItem)
+        public virtual void RemoveSelection(ListedItemViewModel listedItem)
         {
             FileListInternal.SelectedItems.Remove(listedItem);
             ViewModel.SelectedItems.Remove(listedItem);
@@ -452,5 +493,7 @@ namespace Files.Layouts
                 (FileListInternal.ContainerFromItem(lastItem) as SelectorItem)?.Focus(FocusState.Keyboard);
             }
         }
+
+#endregion
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace Files.Common
+namespace Files.Shared
 {
     public class CompatibilityOptions
     {

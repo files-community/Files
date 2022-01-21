@@ -35,7 +35,10 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using Files.Backend.ViewModels.Layouts;
 using static Files.Helpers.PathNormalization;
+
+#nullable enable
 
 namespace Files
 {
@@ -51,9 +54,15 @@ namespace Files
             set => DataContext = value;
         }
 
-        protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+        protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+
+        protected bool SetProperty<T>(ref T? field, T? value, [CallerMemberName] string? propertyName = null)
         {
+#pragma warning disable CS8604 // Possible null reference argument.
             if (!EqualityComparer<T>.Default.Equals(value, field))
+#pragma warning restore CS8604 // Possible null reference argument.
             {
                 field = value;
                 return true;
@@ -62,11 +71,10 @@ namespace Files
             return false;
         }
 
+        // Refactored code end ---
+
         private readonly DispatcherTimer jumpTimer;
 
-        protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
-
-        protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
 
         protected Task<NamedPipeAsAppServiceConnection> Connection => AppServiceConnectionHelper.Instance;
 
@@ -121,28 +129,6 @@ namespace Files
         {
             IsSourceGrouped = true,
         };
-
-        public CollectionViewSource CollectionViewSource
-        {
-            get => collectionViewSource;
-            set
-            {
-                if (collectionViewSource == value)
-                {
-                    return;
-                }
-                if (collectionViewSource?.View is not null)
-                {
-                    collectionViewSource.View.VectorChanged -= View_VectorChanged;
-                }
-                collectionViewSource = value;
-                NotifyPropertyChanged(nameof(CollectionViewSource));
-                if (collectionViewSource?.View is not null)
-                {
-                    collectionViewSource.View.VectorChanged += View_VectorChanged;
-                }
-            }
-        }
 
         protected NavigationArguments navigationArguments;
 
@@ -1129,11 +1115,6 @@ namespace Files
                     listedItem.Opacity = 1;
                 }
             }
-        }
-
-        private void View_VectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs @event)
-        {
-            ParentShellPageInstance.NavToolbarViewModel.HasItem = CollectionViewSource.View.Any();
         }
 
         private ListedItem preRenamingItem = null;

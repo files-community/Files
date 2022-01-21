@@ -12,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Files", "src\Files\Files.cs
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "Files.Package", "src\Files.Package\Files.Package.wapproj", "{3B15596C-3DB9-4B58-B4C8-442D06A8C130}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "src\Common\Common.csproj", "{0533133F-2559-4B53-A0FD-0970BC0E312E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.Shared", "src\Files.Shared\Files.Shared.csproj", "{0533133F-2559-4B53-A0FD-0970BC0E312E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundTasks", "src\BackgroundTasks\BackgroundTasks.csproj", "{3D19293F-0E3A-4946-ADE3-680A1E9123EC}"
 EndProject

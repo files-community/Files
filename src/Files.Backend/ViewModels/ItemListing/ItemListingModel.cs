@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Files.Backend.ViewModels.Layouts.ItemListingModels
+namespace Files.Backend.ViewModels.ItemListing
 {
     public class ItemListingModel
     {

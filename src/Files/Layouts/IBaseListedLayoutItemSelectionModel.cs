@@ -1,5 +1,5 @@
 ﻿using System;
-using Files.Filesystem;
+using Files.Backend.ViewModels.ItemListing;
 
 namespace Files.Layouts
 {
@@ -16,9 +16,11 @@ namespace Files.Layouts
 
         void InvertSelection();
 
-        void AddSelection(ListedItem listedItem);
+        void SetSelection(ListedItemViewModel listedItem);
 
-        void RemoveSelection(ListedItem listedItem);
+        void AddSelection(ListedItemViewModel listedItem);
+
+        void RemoveSelection(ListedItemViewModel listedItem);
 
         void FocusSelectedItems();
     }

@@ -15,6 +15,7 @@
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
+    <LangVersion>9.0</LangVersion>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -121,13 +122,33 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\Layouts\ItemListingModels\ItemListingModel.cs" />
+    <Compile Include="Services\Settings\IBaseSettingsService.cs" />
+    <Compile Include="Services\Settings\IUserSettingsService.cs" />
+    <Compile Include="ViewModels\ItemListing\ListedFileViewModel.cs" />
+    <Compile Include="ViewModels\ItemListing\ListedFolderViewModel.cs" />
+    <Compile Include="ViewModels\ItemListing\ListedItemViewModel.cs" />
+    <Compile Include="ViewModels\Layouts\BaseLayoutViewModel.cs" />
+    <Compile Include="ViewModels\Layouts\BaseListedLayoutViewModel.cs" />
+    <Compile Include="ViewModels\Layouts\DetailsLayoutViewModel.cs" />
+    <Compile Include="ViewModels\ItemListing\ItemListingModel.cs" />
     <EmbeddedResource Include="Properties\Files.Backend.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm">
+      <Version>7.1.2</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.12</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Files.Shared\Files.Shared.csproj">
+      <Project>{0533133f-2559-4b53-a0fd-0970bc0e312e}</Project>
+      <Name>Files.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

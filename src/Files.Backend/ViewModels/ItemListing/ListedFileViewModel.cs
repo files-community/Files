@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Files.ViewModels.Layouts
+namespace Files.Backend.ViewModels.ItemListing
 {
-    internal sealed class DetailsLayoutViewModel : BaseListedLayoutViewModel
+    public class ListedFileViewModel : ListedItemViewModel
     {
     }
 }

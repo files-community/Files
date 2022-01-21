@@ -139,7 +139,7 @@ namespace Files.ViewModels.SettingsViewModels
 
         public void CopyVersionInfo()
         {
-            Common.Extensions.IgnoreExceptions(() =>
+            Shared.Extensions.IgnoreExceptions(() =>
             {
                 DataPackage dataPackage = new DataPackage();
                 dataPackage.RequestedOperation = DataPackageOperation.Copy;

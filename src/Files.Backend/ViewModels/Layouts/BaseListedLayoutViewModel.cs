@@ -7,17 +7,19 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Files.Backend.ViewModels.ItemListing;
+using Files.Backend.ViewModels.Layouts;
 
-namespace Files.ViewModels.Layouts
+namespace Files.Backend.ViewModels.Layouts
 {
-    internal abstract class BaseListedLayoutViewModel : BaseLayoutViewModel
+    public abstract class BaseListedLayoutViewModel : BaseLayoutViewModel
     {
         public bool FileNameTeachingTipOpened { get; set; }
 
 
-        public List<ListedItem> SelectedItems { get; protected set; }
+        public List<ListedItemViewModel> SelectedItems { get; protected set; }
 
-        public virtual async Task SelectionChanged(IEnumerable<ListedItem> selectedItems)
+        public virtual async Task SelectionChanged(IEnumerable<ListedItemViewModel> selectedItems)
         {
             SelectedItems = selectedItems.ToList();
             if (SelectedItems.IsAmountInCollection(1))
@@ -26,7 +28,7 @@ namespace Files.ViewModels.Layouts
             }
         }
 
-        public virtual void SetSelection(IEnumerable<ListedItem> selectedItems)
+        public virtual void SetSelection(IEnumerable<ListedItemViewModel> selectedItems)
         {
             SelectedItems = selectedItems.ToList();
         }

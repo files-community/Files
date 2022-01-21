@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Files.Common
+namespace Files.Shared
 {
     public class ShellLibraryItem
     {

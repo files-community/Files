@@ -1,14 +1,13 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Files.Backend.ViewModels.Layouts;
 
 namespace Files.ViewModels.Layouts
 {
-    internal abstract class BaseLayoutViewModel : ObservableObject
+    internal sealed class DetailsLayoutViewModel : BaseListedLayoutViewModel
     {
-
     }
 }
