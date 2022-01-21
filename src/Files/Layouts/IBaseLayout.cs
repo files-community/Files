@@ -6,19 +6,17 @@ using System.Collections.Generic;
 
 namespace Files
 {
-    public interface IBaseLayout : IDisposable
+    internal interface IBaseLayout : IDisposable
     {
-        bool IsRenamingItem { get; }
+        //bool IsRenamingItem { get; }
 
-        bool IsItemSelected { get; }
+        //bool IsItemSelected { get; }
 
-        bool IsMiddleClickToScrollEnabled { get; set; }
+        //bool IsMiddleClickToScrollEnabled { get; set; }
 
-        public List<ListedItem> SelectedItems { get; }
+        //public ListedItem SelectedItem { get; }
 
-        public ListedItem SelectedItem { get; }
-
-        ItemManipulationModel ItemManipulationModel { get; }
+        //ItemManipulationModel ItemManipulationModel { get; }
 
         PreviewPaneViewModel PreviewPaneViewModel { get; }
 

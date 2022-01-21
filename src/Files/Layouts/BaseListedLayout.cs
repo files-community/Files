@@ -16,10 +16,15 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Files.Backend.ViewModels.Layouts.ItemListingModels;
+using Files.Extensions;
+using Files.Layouts.Listing;
+
+#nullable enable
 
 namespace Files.Layouts
 {
-    internal abstract class BaseListedLayout<TViewModel, TLayoutType> : BaseLayout<TViewModel>
+    internal abstract class BaseListedLayout<TViewModel, TLayoutType> : BaseLayout<TViewModel>, IBaseListedLayout
         where TViewModel : BaseListedLayoutViewModel
         where TLayoutType : class
     {
@@ -99,8 +104,8 @@ namespace Files.Layouts
             }
 
             // Check if the setting to open items with a single click is turned on
-            if ((UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                || (UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File))
+            if (UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder
+                || UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
             {
                 ResetRenameDoubleClick();
                 NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
@@ -110,14 +115,16 @@ namespace Files.Layouts
                 var clickedItem = e.OriginalSource as FrameworkElement;
                 if (clickedItem is TextBlock textBlock && textBlock.Name == "ItemName")
                 {
-                    CheckRenameDoubleClick(clickedItem?.DataContext);
+                    CheckRenameDoubleClick(clickedItem.DataContext);
                 }
                 else if (IsRenamingItem)
                 {
                     if (FileListInternal.ContainerFromItem(RenamingItem) is ListViewItem listViewItem)
                     {
-                        var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-                        await CommitRename(textBox);
+                        if (listViewItem.FindDescendant("ItemNameTextBox") is TextBox textBox)
+                        {
+                            await CommitRename(textBox);
+                        }
                     }
                 }
             }
@@ -127,8 +134,8 @@ namespace Files.Layouts
         {
             // Skip opening selected items if the double tap doesn't capture an item
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
-                 && ((!UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
-                 || (!UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)))
+                 && (!UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File
+                 || !UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder))
             {
                 NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
             }
@@ -320,24 +327,22 @@ namespace Files.Layouts
             IsRenamingItem = true;
         }
 
-        protected void EndRename(TextBox textBox)
+        protected virtual void EndRename(TextBox textBox)
         {
-            if (textBox != null && textBox.FindParent<Grid>() is FrameworkElement parent)
+            if (textBox.FindParent<Grid>() is FrameworkElement parent)
             {
                 Grid.SetColumnSpan(parent, 1);
             }
 
-            var listViewItem = FileListInternal.ContainerFromItem(RenamingItem) as ListViewItem;
+            var listViewItem = (ListViewItem?)FileListInternal.ContainerFromItem(RenamingItem);
+            if (listViewItem != null)
+            {
+                if (listViewItem.FindDescendant("ItemName") is TextBlock textBlock)
+                {
+                    textBlock.Visibility = Visibility.Visible;
+                }
 
-            if (textBox == null || listViewItem == null)
-            {
-                // Navigating away, do nothing
-            }
-            else
-            {
-                TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
                 textBox.Visibility = Visibility.Collapsed;
-                textBlock.Visibility = Visibility.Visible;
             }
 
             textBox.LostFocus -= RenameTextBox_LostFocus;
@@ -350,7 +355,7 @@ namespace Files.Layouts
             listViewItem?.Focus(FocusState.Programmatic);
         }
 
-        protected async Task CommitRename(TextBox textBox)
+        protected virtual async Task CommitRename(TextBox textBox)
         {
             EndRename(textBox);
 
@@ -358,11 +363,11 @@ namespace Files.Layouts
             await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
         }
 
-        protected virtual ListedItem GetItemFromElement(object element)
+        protected virtual ListedItem? GetItemFromElement(object element)
         {
             if (element is SelectorItem selectorItem)
             {
-                return (selectorItem.DataContext as ListedItem) ?? (selectorItem.Content as ListedItem) ?? (FileListInternal.ItemFromContainer(selectorItem) as ListedItem);
+                return selectorItem.DataContext as ListedItem ?? selectorItem.Content as ListedItem ?? FileListInternal.ItemFromContainer(selectorItem) as ListedItem;
             }
 
             return null;
@@ -380,6 +385,71 @@ namespace Files.Layouts
                 {
                     await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, CurrentIconSize);
                 }
+            }
+        }
+
+        public virtual void FocusFileList()
+        {
+            FileListInternal.Focus(FocusState.Programmatic);
+        }
+
+        public virtual void SelectAllItems()
+        {
+            FileListInternal.SelectAll();
+            ViewModel.SetSelection(FileListInternal.SelectedItems.Cast<ListedItem>());
+        }
+
+        public virtual void ClearSelection()
+        {
+            FileListInternal.SelectedItems.Clear();
+            ViewModel.SelectedItems.Clear();
+        }
+
+        public virtual void InvertSelection()
+        {
+            var allItemsCount = GetAllItems().Count();
+
+            if (ViewModel.SelectedItems.Count < allItemsCount / 2)
+            {
+                var oldSelectedItems = ViewModel.SelectedItems.ToList();
+                SelectAllItems();
+
+                foreach (var item in oldSelectedItems)
+                {
+                    RemoveSelection(item);
+                }
+            }
+            else
+            {
+                var newSelectedItems = GetAllItems().Except(SelectedItems);
+
+                foreach (var item in newSelectedItems)
+                {
+                    AddSelection(item);
+                }
+            }
+        }
+
+        public virtual void AddSelection(ListedItem listedItem)
+        {
+            FileListInternal.SelectedItems.Add(listedItem);
+            ViewModel.SelectedItems.Add(listedItem);
+        }
+
+        public virtual void RemoveSelection(ListedItem listedItem)
+        {
+            FileListInternal.SelectedItems.Remove(listedItem);
+            ViewModel.SelectedItems.Remove(listedItem);
+        }
+
+        public virtual void FocusSelectedItems()
+        {
+            if (!ViewModel.SelectedItems.IsEmpty())
+            {
+                var lastItem = ViewModel.SelectedItems.Last();
+
+                FileListInternal.ScrollIntoView(lastItem);
+                (FileListInternal.ContainerFromItem(lastItem) as SelectorItem)?.Focus(FocusState.Keyboard);
             }
         }
     }

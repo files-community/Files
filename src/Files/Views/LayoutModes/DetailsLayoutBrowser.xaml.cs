@@ -81,20 +81,6 @@ namespace Files.Views.LayoutModes
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
         }
 
-        protected override void HookEvents()
-        {
-            UnhookEvents();
-            ItemManipulationModel.FocusFileListInvoked += ItemManipulationModel_FocusFileListInvoked;
-            ItemManipulationModel.SelectAllItemsInvoked += ItemManipulationModel_SelectAllItemsInvoked;
-            ItemManipulationModel.ClearSelectionInvoked += ItemManipulationModel_ClearSelectionInvoked;
-            ItemManipulationModel.InvertSelectionInvoked += ItemManipulationModel_InvertSelectionInvoked;
-            ItemManipulationModel.AddSelectedItemInvoked += ItemManipulationModel_AddSelectedItemInvoked;
-            ItemManipulationModel.RemoveSelectedItemInvoked += ItemManipulationModel_RemoveSelectedItemInvoked;
-            ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
-            ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
-            ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
-        }
-
         private void ItemManipulationModel_ScrollIntoViewInvoked(object sender, ListedItem e)
         {
             FileList.ScrollIntoView(e);
@@ -104,65 +90,6 @@ namespace Files.Views.LayoutModes
         private void ItemManipulationModel_StartRenameItemInvoked(object sender, EventArgs e)
         {
             StartRenameItem();
-        }
-
-        private void ItemManipulationModel_FocusSelectedItemsInvoked(object sender, EventArgs e)
-        {
-            if (SelectedItems.Any())
-            {
-                FileList.ScrollIntoView(SelectedItems.Last());
-                (FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
-            }
-        }
-
-        private void ItemManipulationModel_AddSelectedItemInvoked(object sender, ListedItem e)
-        {
-            if (FileList?.Items.Contains(e) ?? false)
-            {
-                FileList.SelectedItems.Add(e);
-            }
-        }
-
-        private void ItemManipulationModel_RemoveSelectedItemInvoked(object sender, ListedItem e)
-        {
-            if (FileList?.Items.Contains(e) ?? false)
-            {
-                FileList.SelectedItems.Remove(e);
-            }
-        }
-
-        private void ItemManipulationModel_InvertSelectionInvoked(object sender, EventArgs e)
-        {
-            if (SelectedItems.Count < GetAllItems().Count() / 2)
-            {
-                var oldSelectedItems = SelectedItems.ToList();
-                ItemManipulationModel.SelectAllItems();
-                ItemManipulationModel.RemoveSelectedItems(oldSelectedItems);
-            }
-            else
-            {
-                List<ListedItem> newSelectedItems = GetAllItems()
-                    .Cast<ListedItem>()
-                    .Except(SelectedItems)
-                    .ToList();
-
-                ItemManipulationModel.SetSelectedItems(newSelectedItems);
-            }
-        }
-
-        private void ItemManipulationModel_ClearSelectionInvoked(object sender, EventArgs e)
-        {
-            FileList.SelectedItems.Clear();
-        }
-
-        private void ItemManipulationModel_SelectAllItemsInvoked(object sender, EventArgs e)
-        {
-            FileList.SelectAll();
-        }
-
-        private void ItemManipulationModel_FocusFileListInvoked(object sender, EventArgs e)
-        {
-            FileList.Focus(FocusState.Programmatic);
         }
 
         protected override void UnhookEvents()

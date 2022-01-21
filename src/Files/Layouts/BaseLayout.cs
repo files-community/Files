@@ -51,6 +51,17 @@ namespace Files
             set => DataContext = value;
         }
 
+        protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (!EqualityComparer<T>.Default.Equals(value, field))
+            {
+                field = value;
+                return true;
+            }
+
+            return false;
+        }
+
         private readonly DispatcherTimer jumpTimer;
 
         protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
@@ -306,11 +317,6 @@ namespace Files
 
         public BaseLayout()
         {
-            ItemManipulationModel = new ItemManipulationModel();
-
-            HookBaseEvents();
-            HookEvents();
-
             jumpTimer = new DispatcherTimer();
             jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
             jumpTimer.Tick += JumpTimer_Tick;
@@ -321,22 +327,6 @@ namespace Files
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
             tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
-
-        protected abstract void HookEvents();
-
-        protected abstract void UnhookEvents();
-
-        private void HookBaseEvents()
-        {
-            ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
-        }
-
-        private void UnhookBaseEvents()
-        {
-            ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
-        }
-
-        public ItemManipulationModel ItemManipulationModel { get; private set; }
 
         private void JumpTimer_Tick(object sender, object e)
         {

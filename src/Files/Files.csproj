@@ -239,6 +239,9 @@
     <Compile Include="Interacts\ItemManipulationModel.cs" />
     <Compile Include="ISearchBox.cs" />
     <Compile Include="Layouts\BaseListedLayout.cs" />
+    <Compile Include="Layouts\IBaseListedLayout.cs" />
+    <Compile Include="Layouts\IBaseListedLayoutItemSelectionModel.cs" />
+    <Compile Include="Layouts\Listing\LayoutItemsListing.cs" />
     <Compile Include="Models\JsonSettings\BaseObservableJsonSettingsModel.cs" />
     <Compile Include="Models\JsonSettings\ISettingsSharingContext.cs" />
     <Compile Include="Models\JsonSettings\IJsonSettingsDatabase.cs" />
@@ -1610,6 +1613,10 @@
     <XliffResource Include="MultilingualResources\Files.zh-Hant.xlf" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Files.Backend\Files.Backend.csproj">
+      <Project>{9c95f56c-4708-4812-9239-b5927a55c524}</Project>
+      <Name>Files.Backend</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj">
       <Project>{3d19293f-0e3a-4946-ade3-680a1e9123ec}</Project>
       <Name>BackgroundTasks</Name>
@@ -1624,6 +1631,7 @@
       <Name>Windows Desktop Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '16.0' ">
     <VisualStudioVersion>16.0</VisualStudioVersion>
   </PropertyGroup>

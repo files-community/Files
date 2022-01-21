@@ -1,4 +1,4 @@
-<local:BaseLayout
+<layouts:BaseListedLayout
     x:Class="Files.Views.LayoutModes.DetailsLayoutBrowser"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -13,14 +13,17 @@
     xmlns:helpers="using:Files.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:local="using:Files"
+    xmlns:layouts="using:Files.Layouts"
+    xmlns:local="using:Files.Views.LayoutModes"
     xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     xmlns:tui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:uc="using:Files.UserControls"
+    xmlns:vm="using:Files.ViewModels.Layouts"
     x:Name="PageRoot"
+    x:TypeArguments="vm:DetailsLayoutViewModel, local:DetailsLayoutBrowser"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
@@ -31,7 +34,7 @@
             <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
         </icore:EventTriggerBehavior>
     </i:Interaction.Behaviors>
-    <local:BaseLayout.Resources>
+    <layouts:BaseListedLayout.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
@@ -163,7 +166,7 @@
                 <Setter Property="Opacity" Value="0.6" />
             </Style>
         </ResourceDictionary>
-    </local:BaseLayout.Resources>
+    </layouts:BaseListedLayout.Resources>
 
     <Grid
         x:Name="RootGrid"
@@ -1009,4 +1012,4 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
     </Grid>
-</local:BaseLayout>
+</layouts:BaseListedLayout>
