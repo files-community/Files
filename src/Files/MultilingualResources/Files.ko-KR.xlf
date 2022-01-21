@@ -2343,10 +2343,6 @@
           <source>Paste</source>
           <target state="translated" state-qualifier="tm-suggestion">붙여넣기</target>
         </trans-unit>
-        <trans-unit id="OpenInTerminal" translate="yes" xml:space="preserve">
-          <source>Open in Terminal...</source>
-          <target state="translated" state-qualifier="tm-suggestion">터미널에서 열기(_O)</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNew.Label" translate="yes" xml:space="preserve">
           <source>New</source>
           <target state="translated">새로 만들기</target>
@@ -3498,6 +3494,10 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
           <target state="new">Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</target>
+        </trans-unit>
+        <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
+          <source>Open in</source>
+          <target state="new">Open in</target>
         </trans-unit>
       </group>
     </body>
