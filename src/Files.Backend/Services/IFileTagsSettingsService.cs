@@ -1,18 +1,19 @@
-﻿using Files.Filesystem;
+﻿using Files.Backend.Services.Settings;
+using Files.Backend.Models;
 using System;
 using System.Collections.Generic;
 
-namespace Files.Services
+namespace Files.Backend.Services
 {
     public interface IFileTagsSettingsService : IBaseSettingsService
     {
         event EventHandler OnSettingImportedEvent;
 
-        IList<FileTag> FileTagList { get; set; }
+        IList<IFileTag> FileTagList { get; set; }
 
-        FileTag GetTagById(string uid);
+        IFileTag GetTagById(string uid);
 
-        IEnumerable<FileTag> GetTagsByName(string tagName);
+        IEnumerable<IFileTag> GetTagsByName(string tagName);
 
         object ExportSettings();
 

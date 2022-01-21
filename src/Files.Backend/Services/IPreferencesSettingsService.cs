@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Files.Backend.Services.Settings;
+using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace Files.Services
+namespace Files.Backend.Services
 {
     public interface IPreferencesSettingsService : IBaseSettingsService, INotifyPropertyChanged
     {

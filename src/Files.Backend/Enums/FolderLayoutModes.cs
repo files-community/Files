@@ -1,4 +1,4 @@
-﻿namespace Files.Enums
+﻿namespace Files.Backend.Enums
 {
     public enum FolderLayoutModes
     {

@@ -1,6 +1,7 @@
-﻿using System.ComponentModel;
+﻿using Files.Backend.Services.Settings;
+using System.ComponentModel;
 
-namespace Files.Services
+namespace Files.Backend.Services
 {
     public interface IPreviewPaneSettingsService : IBaseSettingsService, INotifyPropertyChanged
     {
