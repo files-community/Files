@@ -3007,14 +3007,9 @@
           <source>
 We use App Center to track which settings are being used, find bugs, and fix crashes. Information sent to App Center is anonymous and free of any user or contextual data.
   </source>
-          <target state="needs-review-translation">
-*Събиране на лична информация*
-Files не събира, съхранява, споделя или публикува никаква лична информация.
-
-*Събиране на нелична информация*
-
-Ние използваме App Center, за да следим използването на приложението, да намираме грешки и да коригираме сривове. Цялата информация, изпратена до App Center, е анонимна и не съдържа никакви потребителски или контекстуални данни.</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">
+Използваме App Center, за да проследяваме кои настройки се използват, да намираме грешки и да коригираме сривове. Информацията, изпратена до App Center, е анонимна и без никакви потребителски или контекстуални данни.
+</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByFileTag.Text" translate="yes" xml:space="preserve">
           <source>File tag</source>
@@ -3398,8 +3393,7 @@ Files не събира, съхранява, споделя или публик�
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
           <source>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</source>
-          <target state="needs-review-translation">Тази настройка променя системните файлове и може да има неочаквани странични ефекти на вашето устройство. Разработчиците не поемат отговорност в случай, че в резултат на това възникне проблем. Продължаването с тази опция е приемане на рисковете, свързани с това действие. Моля, имайте предвид, че деинсталирането на Files няма да отмени тези промени и може да ви попречи да отворите File Explorer, освен ако не изключите тази настройка, преди да премахнете Files от вашето устройство.</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Тази опция променя системния регистър и може да има неочаквани странични ефекти на вашето устройство. Продължете на свой собствен риск.</target>
         </trans-unit>
         <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
           <source>Clear all</source>
@@ -3459,47 +3453,47 @@ Files не събира, съхранява, споделя или публик�
         </trans-unit>
         <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
           <source>Open in</source>
-          <target state="new">Open in</target>
+          <target state="translated">Отвори в</target>
         </trans-unit>
         <trans-unit id="Extract" translate="yes" xml:space="preserve">
           <source>Extract</source>
-          <target state="new">Extract</target>
+          <target state="translated">Извлечи</target>
         </trans-unit>
         <trans-unit id="ExtractFiles" translate="yes" xml:space="preserve">
           <source>Extract files</source>
-          <target state="new">Extract files</target>
+          <target state="translated">Извлечи файлове</target>
         </trans-unit>
         <trans-unit id="ExtractHere" translate="yes" xml:space="preserve">
           <source>Extract here</source>
-          <target state="new">Extract here</target>
+          <target state="translated">Извлечи тук</target>
         </trans-unit>
         <trans-unit id="ExtractKeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+E</source>
-          <target state="new">Ctrl+E</target>
+          <target state="final">Ctrl+E</target>
         </trans-unit>
         <trans-unit id="ExtractToChildFolder" translate="yes" xml:space="preserve">
           <source>Extract to {0}</source>
-          <target state="new">Extract to {0}</target>
+          <target state="translated">Извлечи към {0}</target>
         </trans-unit>
         <trans-unit id="RunScript" translate="yes" xml:space="preserve">
           <source>Run script</source>
-          <target state="new">Run script</target>
+          <target state="translated">Изпълни скрипт</target>
         </trans-unit>
         <trans-unit id="RunWithPowerShell" translate="yes" xml:space="preserve">
           <source>Run with PowerShell</source>
-          <target state="new">Run with PowerShell</target>
+          <target state="translated">Изпълни с PowerShell</target>
         </trans-unit>
         <trans-unit id="SetAsBackground" translate="yes" xml:space="preserve">
           <source>Set as desktop background</source>
-          <target state="new">Set as desktop background</target>
+          <target state="translated">Задай като фон на работния плот</target>
         </trans-unit>
         <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
           <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
-          <target state="new">Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</target>
+          <target state="translated">Не премахвайте Files от устройството си, преди да изключите тази опция. Ако не го направите, това ще ви попречи да отворите File Explorer.</target>
         </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
-          <target state="new">Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</target>
+          <target state="translated">Изчисляването на размерите на папките е ресурсоемко и може да доведе до увеличаване на използването на вашия процесор.</target>
         </trans-unit>
       </group>
     </body>
