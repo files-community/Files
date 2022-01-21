@@ -107,12 +107,6 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup Label="MultilingualAppToolkit">
-    <MultilingualAppToolkitVersion>4.0</MultilingualAppToolkitVersion>
-    <MultilingualFallbackLanguage>en-US</MultilingualFallbackLanguage>
-    <TranslationReport Condition="'$(Configuration)' == 'Release'">true</TranslationReport>
-    <SuppressPseudoWarning Condition="'$(Configuration)' == 'Debug'">true</SuppressPseudoWarning>
-  </PropertyGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -1045,8 +1039,6 @@
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
-    <None Include="MultilingualResources\Files.nb-NO.xlf" />
-    <XliffResource Include="MultilingualResources\Files.sk-SK.xlf" />
     <None Include="Resources\PreviewPanePropertiesInformation.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -1572,44 +1564,6 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <XliffResource Include="MultilingualResources\Files.af.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ca.xlf" />
-    <XliffResource Include="MultilingualResources\Files.el.xlf" />
-    <XliffResource Include="MultilingualResources\Files.en-GB.xlf" />
-    <XliffResource Include="MultilingualResources\Files.hr-HR.xlf" />
-    <XliffResource Include="MultilingualResources\Files.id-ID.xlf" />
-    <XliffResource Include="MultilingualResources\Files.es-419.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ka.xlf" />
-    <XliffResource Include="MultilingualResources\Files.pt-PT.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ar.xlf" />
-    <XliffResource Include="MultilingualResources\Files.bg.xlf" />
-    <XliffResource Include="MultilingualResources\Files.cs-CZ.xlf" />
-    <XliffResource Include="MultilingualResources\Files.da-DK.xlf" />
-    <XliffResource Include="MultilingualResources\Files.da.xlf" />
-    <XliffResource Include="MultilingualResources\Files.de-DE.xlf" />
-    <XliffResource Include="MultilingualResources\Files.es-ES.xlf" />
-    <XliffResource Include="MultilingualResources\Files.fr-FR.xlf" />
-    <XliffResource Include="MultilingualResources\Files.he-IL.xlf" />
-    <XliffResource Include="MultilingualResources\Files.hi-IN.xlf" />
-    <XliffResource Include="MultilingualResources\Files.hu-HU.xlf" />
-    <XliffResource Include="MultilingualResources\Files.it-IT.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ja-JP.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ko-KR.xlf" />
-    <XliffResource Include="MultilingualResources\Files.lv-LV.xlf" />
-    <XliffResource Include="MultilingualResources\Files.nl-NL.xlf" />
-    <XliffResource Include="MultilingualResources\Files.or-IN.xlf" />
-    <XliffResource Include="MultilingualResources\Files.pl-PL.xlf" />
-    <XliffResource Include="MultilingualResources\Files.pt-BR.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ru-RU.xlf" />
-    <XliffResource Include="MultilingualResources\Files.sv-SE.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ta.xlf" />
-    <XliffResource Include="MultilingualResources\Files.tr-TR.xlf" />
-    <XliffResource Include="MultilingualResources\Files.uk-UA.xlf" />
-    <XliffResource Include="MultilingualResources\Files.vi.xlf" />
-    <XliffResource Include="MultilingualResources\Files.zh-Hans.xlf" />
-    <XliffResource Include="MultilingualResources\Files.zh-Hant.xlf" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj">
       <Project>{3d19293f-0e3a-4946-ade3-680a1e9123ec}</Project>
       <Name>BackgroundTasks</Name>
@@ -1628,10 +1582,6 @@
     <VisualStudioVersion>16.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.PriResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\v$(MultilingualAppToolkitVersion)\Microsoft.Multilingual.PriResources.targets')" />
-  <Target Name="MATPrerequisite" BeforeTargets="PrepareForBuild" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.PriResources.targets')" Label="MultilingualAppToolkit">
-    <Warning Text="$(MSBuildProjectFile) is Multilingual build enabled, but the Multilingual App Toolkit is unavailable during the build. If building with Visual Studio, please check to ensure that toolkit is properly installed." />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
