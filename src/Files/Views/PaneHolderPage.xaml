@@ -39,9 +39,6 @@
     </Page.Resources>
 
     <Grid
-        Grid.RowSpan="2"
-        Grid.Column="1"
-        Grid.ColumnSpan="2"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         Background="{ThemeResource PaneHolderPageBackgroundBrush}">
