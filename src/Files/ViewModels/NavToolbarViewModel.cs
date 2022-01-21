@@ -794,7 +794,7 @@ namespace Files.ViewModels
         public ICommand CutCommand { get; set; }
 
         public ICommand EmptyRecycleBinCommand { get; set; }
-        
+
         public ICommand PropertiesCommand { get; set; }
 
         public ICommand ExtractCommand { get; set; }
@@ -806,6 +806,8 @@ namespace Files.ViewModels
         public ICommand RunWithPowerShellCommand { get; set; }
 
         public ICommand SetAsBackgroundCommand { get; set; }
+
+        public ICommand InstallInfCommand { get; set; }
 
         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
         {
@@ -1094,13 +1096,14 @@ namespace Files.ViewModels
                     OnPropertyChanged(nameof(IsImage));
                     OnPropertyChanged(nameof(CanExtract));
                     OnPropertyChanged(nameof(ExtractToText));
+                    OnPropertyChanged(nameof(IsInfFile));
                     OnPropertyChanged(nameof(HasAdditionnalAction));
                 }
             }
         }
 
-        public bool HasAdditionnalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage;
-     
+        public bool HasAdditionnalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsInfFile;
+
         public bool CanCopy            => SelectedItems is not null && SelectedItems.Any();
         public bool CanShare           => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcutItem && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem));
         public bool CanRename          => SelectedItems is not null && SelectedItems.Count == 1;
@@ -1110,6 +1113,7 @@ namespace Files.ViewModels
         public string ExtractToText    => SelectedItems is not null && SelectedItems.Any() ? string.Format("ExtractToChildFolder".GetLocalized() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalized();
         public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Any() && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension);
         public bool IsImage            => SelectedItems is not null && SelectedItems.Any() && FileExtensionHelpers.IsImageFile(SelectedItems.First().FileExtension);
+        public bool IsInfFile          => SelectedItems is not null && SelectedItems.Any() && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension);
 
         public void Dispose()
         {

@@ -17,9 +17,9 @@ namespace Files.Helpers
                 return false;
             }
 
-            return fileExtensionToCheck.Equals(".png", StringComparison.OrdinalIgnoreCase) || 
-                   fileExtensionToCheck.Equals(".jpg", StringComparison.OrdinalIgnoreCase) || 
-                   fileExtensionToCheck.Equals(".bmp", StringComparison.OrdinalIgnoreCase) || 
+            return fileExtensionToCheck.Equals(".png", StringComparison.OrdinalIgnoreCase) ||
+                   fileExtensionToCheck.Equals(".jpg", StringComparison.OrdinalIgnoreCase) ||
+                   fileExtensionToCheck.Equals(".bmp", StringComparison.OrdinalIgnoreCase) ||
                    fileExtensionToCheck.Equals(".jpeg", StringComparison.OrdinalIgnoreCase);
         }
 
@@ -55,6 +55,16 @@ namespace Files.Helpers
             return fileExtensionToCheck.Equals(".zip", StringComparison.OrdinalIgnoreCase) ||
                    fileExtensionToCheck.Equals(".msix", StringComparison.OrdinalIgnoreCase) ||
                    fileExtensionToCheck.Equals(".msixbundle", StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static bool IsInfFile(string fileExtensionToCheck)
+        {
+            if (string.IsNullOrEmpty(fileExtensionToCheck))
+            {
+                return false;
+            }
+
+            return fileExtensionToCheck.Equals(".inf", StringComparison.OrdinalIgnoreCase);
         }
     }
 }

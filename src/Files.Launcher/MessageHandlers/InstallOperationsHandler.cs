@@ -24,7 +24,7 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        private Task ParseInstallOperationAsync(PipeStream connection, Dictionary<string, object> message)
+        private async Task ParseInstallOperationAsync(PipeStream connection, Dictionary<string, object> message)
         {
             switch (message.Get("installop", ""))
             {
