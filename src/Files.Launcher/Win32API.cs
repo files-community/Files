@@ -640,5 +640,10 @@ namespace FilesFullTrust
         [DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Auto)]
         public static extern int SHQueryRecycleBin(string pszRootPath,
             ref SHQUERYRBINFO pSHQueryRBInfo);
+
+        // Windows 10+ needs to have charset set.
+        [DllImport("Setupapi.dll", EntryPoint = "InstallHinfSection", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Auto)]
+        public static extern void InstallHinfSection([In] IntPtr hwnd, [In] IntPtr moduleHandle,
+            [In, MarshalAs(UnmanagedType.LPWStr)] string cmdLineBuffer, int nCmdShow);
     }
 }
