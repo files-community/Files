@@ -954,7 +954,7 @@ namespace Files.ViewModels
                                 }
                             }
 
-                            LaunchApplicationFromPath(currentInput, workingDir);
+                            await LaunchApplicationFromPath(currentInput, workingDir);
 
                             try
                             {
@@ -977,7 +977,7 @@ namespace Files.ViewModels
             }
         }
 
-        private static void LaunchApplicationFromPath(string currentInput, string workingDir)
+        private static async Task LaunchApplicationFromPath(string currentInput, string workingDir)
         {
             var trimmedInput= currentInput.Trim();
             var fileName = trimmedInput;
@@ -989,16 +989,18 @@ namespace Files.ViewModels
                 arguments = currentInput.Substring(currentInput.IndexOf(' '));
             }
             
-            var psi = new ProcessStartInfo
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
             {
-                FileName = fileName,
-                Arguments = arguments,
-                CreateNoWindow = false,
-                UseShellExecute = true,
-                WindowStyle = ProcessWindowStyle.Normal,
-                WorkingDirectory = workingDir
-            };
-            Process.Start(psi);
+                var value = new ValueSet()
+                {
+                    { "Arguments", "LaunchApp" },
+                    { "WorkingDirectory", workingDir },
+                    { "Application", fileName },
+                    { "Parameters", arguments }
+                };
+                await connection.SendMessageAsync(value);
+            }
         }
 
         public async void SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
