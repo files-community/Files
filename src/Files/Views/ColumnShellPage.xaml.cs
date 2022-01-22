@@ -694,6 +694,10 @@ namespace Files.Views
                     UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = !UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible;
                     break;
 
+                case (true, false, false, true, VirtualKey.K): // ctrl + k, duplicate tab
+                    await NavigationHelpers.OpenPathInNewTab(this.FilesystemViewModel.WorkingDirectory);
+                    break;
+
                 case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
                     await Launcher.LaunchUriAsync(new Uri(@"https://files.community/docs"));
                     break;

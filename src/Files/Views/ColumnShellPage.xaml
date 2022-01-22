@@ -123,6 +123,11 @@
             Key="F1"
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+        <KeyboardAccelerator
+            Key="K"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control" />
     </Page.KeyboardAccelerators>
     <Grid
         x:Name="RootGrid"
