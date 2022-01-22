@@ -108,7 +108,7 @@ namespace Files.ViewModels.Properties
             ViewModel.ItemSizeVisibility = true;
             ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
 
-            var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
+            var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.DocumentsView);
             if (fileIconData != null)
             {
                 ViewModel.IconData = fileIconData;
