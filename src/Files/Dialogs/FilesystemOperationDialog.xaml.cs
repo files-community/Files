@@ -3,7 +3,6 @@ using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp.UI;
 using System.Collections.Generic;
 using System.Linq;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -26,13 +25,6 @@ namespace Files.Dialogs
 
             ViewModel = viewModel;
             ViewModel.View = this;
-            ViewModel.LoadedCommand.Execute(null);
-        }
-
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            DetailsGrid.SelectionMode = ViewModel.ItemsSelectionMode;
-            DetailsGrid.ItemsSource = ViewModel.Items;
         }
 
         private void MenuFlyoutItem_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -91,6 +83,15 @@ namespace Files.Dialogs
             if (ViewModel.MustResolveConflicts)
             {
                 (sender as Grid).FindAscendant<ListViewItem>().ContextFlyout = ItemContextFlyout;
+            }
+        }
+
+        private void RootDialog_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            ViewModel.LoadedCommand.Execute(null);
+            if (this.FindDescendant("PrimaryButton") is Button primary)
+            {
+                primary.Focus(Windows.UI.Xaml.FocusState.Keyboard);
             }
         }
     }

@@ -14,13 +14,13 @@
     CornerRadius="{StaticResource OverlayCornerRadius}"
     DefaultButton="Primary"
     IsPrimaryButtonEnabled="{x:Bind ViewModel.PrimaryButtonEnabled, Mode=OneWay}"
+    Loaded="RootDialog_Loaded"
     PrimaryButtonCommand="{x:Bind ViewModel.PrimaryButtonCommand, Mode=OneWay}"
     PrimaryButtonText="{x:Bind ViewModel.PrimaryButtonText, Mode=OneWay}"
     RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
     SecondaryButtonCommand="{x:Bind ViewModel.SecondaryButtonCommand, Mode=OneWay}"
     SecondaryButtonText="{x:Bind ViewModel.SecondaryButtonText, Mode=OneWay}"
     Style="{StaticResource DefaultContentDialogStyle}"
-    Loaded="OnLoaded"
     mc:Ignorable="d">
 
     <ContentDialog.Resources>
@@ -60,17 +60,19 @@
             <CheckBox
                 x:Name="chkPermanentlyDelete"
                 x:Uid="DeleteItemsDialogPermanentlyDeleteCheckBox"
-                x:Load="{x:Bind ViewModel.PermanentlyDeleteLoad}"
+                x:Load="{x:Bind ViewModel.PermanentlyDeleteLoad, Mode=OneWay}"
+                Content="Permanently delete"
                 IsChecked="{x:Bind ViewModel.PermanentlyDelete, Mode=TwoWay}"
-                IsEnabled="{x:Bind ViewModel.PermanentlyDeleteEnabled}"
-                Content="Permanently delete"/>
+                IsEnabled="{x:Bind ViewModel.PermanentlyDeleteEnabled, Mode=OneWay}" />
 
             <Grid>
                 <ListView
                     x:Name="DetailsGrid"
                     Grid.Row="1"
                     MaxHeight="200"
-                    IsItemClickEnabled="False">
+                    IsItemClickEnabled="False"
+                    ItemsSource="{x:Bind ViewModel.Items}"
+                    SelectionMode="{x:Bind ViewModel.ItemsSelectionMode, Mode=OneWay}">
 
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -206,9 +208,7 @@
                                                 x:Uid="ConflictingItemsDialogItemOptionReplaceExisting"
                                                 Command="{Binding ReplaceExistingCommand}"
                                                 Text="Replace" />
-                                            <MenuFlyoutItem
-                                                Command="{Binding SkipCommand}"
-                                                Text="{helpers:ResourceString Name=Skip}" />
+                                            <MenuFlyoutItem Command="{Binding SkipCommand}" Text="{helpers:ResourceString Name=Skip}" />
                                         </MenuFlyout>
                                     </muxc:SplitButton.Flyout>
                                 </muxc:SplitButton>
