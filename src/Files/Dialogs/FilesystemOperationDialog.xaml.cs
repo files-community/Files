@@ -26,6 +26,16 @@ namespace Files.Dialogs
 
             ViewModel = viewModel;
             ViewModel.View = this;
+            ViewModel.LoadedCommand.Execute(null);
+
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+
+            DetailsGrid.SelectionMode = ViewModel.ItemsSelectionMode;
+            DetailsGrid.ItemsSource = ViewModel.Items;
         }
 
         private void MenuFlyoutItem_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -85,14 +95,6 @@ namespace Files.Dialogs
             {
                 (sender as Grid).FindAscendant<ListViewItem>().ContextFlyout = ItemContextFlyout;
             }
-        }
-
-        private void FilesystemOperationDialog_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            chkPermanentlyDelete.IsEnabled = ViewModel.PermanentlyDeleteEnabled;
-            chkPermanentlyDelete.IsChecked = ViewModel.PermanentlyDelete;
-            DetailsGrid.ItemsSource = ViewModel.Items;
-            DetailsGrid.SelectionMode = ViewModel.ItemsSelectionMode;
         }
     }
 

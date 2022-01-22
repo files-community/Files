@@ -20,14 +20,7 @@
     SecondaryButtonCommand="{x:Bind ViewModel.SecondaryButtonCommand, Mode=OneWay}"
     SecondaryButtonText="{x:Bind ViewModel.SecondaryButtonText, Mode=OneWay}"
     Style="{StaticResource DefaultContentDialogStyle}"
-    Loaded="FilesystemOperationDialog_OnLoaded"
     mc:Ignorable="d">
-    <i:Interaction.Behaviors>
-        <!--  No need to specify CommandParameter - `e` is passed by default  -->
-        <icore:EventTriggerBehavior EventName="Loaded">
-            <icore:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand, Mode=OneWay}" />
-        </icore:EventTriggerBehavior>
-    </i:Interaction.Behaviors>
 
     <ContentDialog.Resources>
         <ResourceDictionary>
@@ -66,7 +59,9 @@
             <CheckBox
                 x:Name="chkPermanentlyDelete"
                 x:Uid="DeleteItemsDialogPermanentlyDeleteCheckBox"
-                x:Load="{x:Bind ViewModel.PermanentlyDeleteLoad, Mode=OneWay}"
+                x:Load="{x:Bind ViewModel.PermanentlyDeleteLoad}"
+                IsChecked="{x:Bind ViewModel.PermanentlyDelete, Mode=TwoWay}"
+                IsEnabled="{x:Bind ViewModel.PermanentlyDeleteEnabled}"
                 Content="Permanently delete"/>
 
             <Grid>
