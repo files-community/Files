@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Files.Models.JsonSettings.Implementation
+namespace Files.Backend.Models.JsonSettings.Implementation
 {
     public sealed class DefaultJsonSettingsSerializer : IJsonSettingsSerializer
     {

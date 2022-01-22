@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Files.Models.JsonSettings
+namespace Files.Backend.Models.JsonSettings
 {
     public interface IJsonSettingsDatabase
     {

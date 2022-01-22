@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Linq;
 
-namespace Files.Models.JsonSettings.Implementation
+namespace Files.Backend.Models.JsonSettings.Implementation
 {
     public sealed class CachingJsonSettingsDatabase : DefaultJsonSettingsDatabase
     {

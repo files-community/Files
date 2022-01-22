@@ -164,7 +164,6 @@
     <Compile Include="Enums\FilesystemOperationType.cs" />
     <Compile Include="Enums\FolderLayout.cs" />
     <Compile Include="Enums\IconPersistenceOptions.cs" />
-    <Compile Include="EventArguments\BaseJsonSettingsModelEventArgs.cs" />
     <Compile Include="EventArguments\Bundles\BundlesOpenPathEventArgs.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
@@ -242,15 +241,6 @@
     <Compile Include="Layouts\IBaseListedLayoutItemSelectionModel.cs" />
     <Compile Include="Layouts\Listing\LayoutItemsListing.cs" />
     <Compile Include="Models\FileTagModel.cs" />
-    <Compile Include="Models\JsonSettings\BaseObservableJsonSettingsModel.cs" />
-    <Compile Include="Models\JsonSettings\ISettingsSharingContext.cs" />
-    <Compile Include="Models\JsonSettings\IJsonSettingsDatabase.cs" />
-    <Compile Include="Models\JsonSettings\IJsonSettingsSerializer.cs" />
-    <Compile Include="Models\JsonSettings\Implementation\CachingJsonSettingsDatabase.cs" />
-    <Compile Include="Models\JsonSettings\Implementation\DefaultJsonSettingsDatabase.cs" />
-    <Compile Include="Models\JsonSettings\Implementation\DefaultJsonSettingsSerializer.cs" />
-    <Compile Include="Models\JsonSettings\Implementation\DefaultSettingsSerializer.cs" />
-    <Compile Include="Models\JsonSettings\ISettingsSerializer.cs" />
     <Compile Include="Services\IBaseSettingsService.cs" />
     <Compile Include="Services\Implementation\AppearanceSettingsService.cs" />
     <Compile Include="Services\Implementation\BundlesSettingsService.cs" />
@@ -369,7 +359,6 @@
     <Compile Include="ViewModels\Properties\SecurityProperties.cs" />
     <Compile Include="ViewModels\SearchBoxViewModel.cs" />
     <Compile Include="ViewModels\SidebarViewModel.cs" />
-    <Compile Include="Models\JsonSettings\BaseJsonSettingsModel.cs" />
     <Compile Include="ViewModels\ColumnsViewModel.cs" />
     <Compile Include="ViewModels\Pages\YourHomeViewModel.cs" />
     <Compile Include="ViewModels\StatusCenterViewModel.cs" />
@@ -1619,6 +1608,7 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Models\JsonSettings\" />
     <Folder Include="ViewModels\Layouts\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '16.0' ">

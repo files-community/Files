@@ -1,4 +1,4 @@
-﻿namespace Files.Models.JsonSettings
+﻿namespace Files.Backend.Models.JsonSettings
 {
     public interface ISettingsSerializer
     {

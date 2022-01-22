@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Files.EventArguments
+namespace Files.Backend.EventArguments
 {
     public sealed class SettingChangedEventArgs : EventArgs
     {
