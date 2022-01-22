@@ -111,19 +111,19 @@ namespace Files.Helpers
 
         public static async Task<byte[]> LoadIconFromPathAsync(string filePath, uint thumbnailSize, ThumbnailMode thumbnailMode)
         {
-            if (!filePath.EndsWith(".lnk", StringComparison.Ordinal) && !filePath.EndsWith(".url", StringComparison.Ordinal))
+            var iconData = await LoadIconWithoutOverlayAsync(filePath, thumbnailSize);
+            if (iconData == null)
             {
-                var item = await StorageHelpers.ToStorageItem<IStorageItem>(filePath);
-                if (item != null)
+                if (!filePath.EndsWith(".lnk", StringComparison.Ordinal) && !filePath.EndsWith(".url", StringComparison.Ordinal))
                 {
-                    var iconData = await LoadIconFromStorageItemAsync(item, thumbnailSize, thumbnailMode);
-                    if (iconData != null)
+                    var item = await StorageHelpers.ToStorageItem<IStorageItem>(filePath);
+                    if (item != null)
                     {
-                        return iconData;
+                        iconData = await LoadIconFromStorageItemAsync(item, thumbnailSize, thumbnailMode);
                     }
                 }
             }
-            return await LoadIconWithoutOverlayAsync(filePath, thumbnailSize);
+            return iconData;
         }
     }
 }
