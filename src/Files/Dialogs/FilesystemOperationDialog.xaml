@@ -20,6 +20,7 @@
     SecondaryButtonCommand="{x:Bind ViewModel.SecondaryButtonCommand, Mode=OneWay}"
     SecondaryButtonText="{x:Bind ViewModel.SecondaryButtonText, Mode=OneWay}"
     Style="{StaticResource DefaultContentDialogStyle}"
+    Loaded="FilesystemOperationDialog_OnLoaded"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
         <!--  No need to specify CommandParameter - `e` is passed by default  -->

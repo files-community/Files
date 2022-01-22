@@ -3,6 +3,7 @@ using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp.UI;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -25,15 +26,6 @@ namespace Files.Dialogs
 
             ViewModel = viewModel;
             ViewModel.View = this;
-
-            //HACK: Moved setting controls to loaded event seems to fix DefaultButton focus issue.
-            Loaded += (_, _) =>
-            {
-                chkPermanentlyDelete.IsEnabled = ViewModel.PermanentlyDeleteEnabled;
-                chkPermanentlyDelete.IsChecked = ViewModel.PermanentlyDelete;
-                DetailsGrid.ItemsSource = ViewModel.Items;
-                DetailsGrid.SelectionMode = ViewModel.ItemsSelectionMode;
-            };
         }
 
         private void MenuFlyoutItem_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -93,6 +85,14 @@ namespace Files.Dialogs
             {
                 (sender as Grid).FindAscendant<ListViewItem>().ContextFlyout = ItemContextFlyout;
             }
+        }
+
+        private void FilesystemOperationDialog_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            chkPermanentlyDelete.IsEnabled = ViewModel.PermanentlyDeleteEnabled;
+            chkPermanentlyDelete.IsChecked = ViewModel.PermanentlyDelete;
+            DetailsGrid.ItemsSource = ViewModel.Items;
+            DetailsGrid.SelectionMode = ViewModel.ItemsSelectionMode;
         }
     }
 
