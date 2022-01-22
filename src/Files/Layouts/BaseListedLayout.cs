@@ -64,7 +64,7 @@ namespace Files.Layouts
 
         protected virtual void View_VectorChanged(Windows.Foundation.Collections.IObservableVector<object> sender, Windows.Foundation.Collections.IVectorChangedEventArgs @event)
         {
-            ParentShellPageInstance.NavToolbarViewModel.HasItem = FileListCollectionViewSource.View.Any();
+            ParentShellPageInstance.NavToolbarViewModel.HasItem = FileListCollectionViewSource?.View?.Any() ?? false;
         }
 
         protected virtual async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -113,7 +113,7 @@ namespace Files.Layouts
                         e.Handled = true;
                     }
                 }
-                else if (e.GetCurrentPoint(sender as UIElement).Properties.IsLeftButtonPressed)
+                else if (e.GetCurrentPoint(selectorItem).Properties.IsLeftButtonPressed)
                 {
                     selectorItem.IsSelected = true;
                 }
@@ -125,25 +125,12 @@ namespace Files.Layouts
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
-            if ((e.OriginalSource as FrameworkElement)?.DataContext is not ListedItem item)
+            if ((e.OriginalSource as FrameworkElement)?.DataContext is not ListedItemViewModel listedItem)
             {
                 return;
             }
 
-            // Skip code if the control or shift key is pressed or if the user is using multi-select
-            if (ctrlPressed || shiftPressed || MainViewModel.MultiselectEnabled)
-            {
-                return;
-            }
-
-            // Check if the setting to open items with a single click is turned on
-            if (UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder
-                || UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
-            {
-                ResetRenameDoubleClick();
-                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-            }
-            else
+            if (!ViewModel.ItemTapped(listedItem, ctrlPressed, shiftPressed))
             {
                 var clickedItem = e.OriginalSource as FrameworkElement;
                 if (clickedItem is TextBlock textBlock && textBlock.Name == "ItemName")
@@ -166,14 +153,10 @@ namespace Files.Layouts
         protected virtual void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             // Skip opening selected items if the double tap doesn't capture an item
-            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
-                 && (!UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File
-                 || !UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder))
+            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItemViewModel listedItem)
             {
-                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+                ViewModel.ItemDoubleTapped(listedItem);
             }
-
-            ResetRenameDoubleClick();
         }
 
         protected virtual async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -184,38 +167,7 @@ namespace Files.Layouts
             var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) != null;
             var isFooterFocused = focusedElement is HyperlinkButton;
 
-            if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
-            {
-                if (!IsRenamingItem && !isHeaderFocused && !isFooterFocused)
-                {
-                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-                    e.Handled = true;
-                }
-            }
-            else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
-            {
-                FilePropertiesHelpers.ShowProperties(ParentShellPageInstance);
-                e.Handled = true;
-            }
-            else if (e.Key == VirtualKey.Space)
-            {
-                if (!IsRenamingItem && !isHeaderFocused && !isFooterFocused && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
-                {
-                    e.Handled = true;
-                    await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
-                }
-            }
-            else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
-            {
-                // Unfocus the GridView so keyboard shortcut can be handled
-                NavToolbar?.Focus(FocusState.Pointer);
-            }
-            else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
-            {
-                // Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
-                NavToolbar?.Focus(FocusState.Pointer);
-            }
-            else if (e.Key == VirtualKey.Down)
+            if (e.Key == VirtualKey.Down)
             {
                 if (!IsRenamingItem && isHeaderFocused && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
                 {
@@ -226,7 +178,7 @@ namespace Files.Layouts
                         // Focus selected list item or first item
                         item.Focus(FocusState.Programmatic);
 
-                        if (!IsItemSelected)
+                        if (!IsItemSelected && e.KeyStatus.IsMenuKeyDown)
                         {
                             FileListInternal.SelectedIndex = 0;
                         }
@@ -234,6 +186,10 @@ namespace Files.Layouts
                         e.Handled = true;
                     }
                 }
+            }
+            else if (await ViewModel.PreviewKeyDown(e.Key, e.KeyStatus.IsMenuKeyDown, ctrlPressed, shiftPressed, isHeaderFocused, isFooterFocused))
+            {
+                e.Handled = true;
             }
         }
 
@@ -369,10 +325,10 @@ namespace Files.Layouts
                 Grid.SetColumnSpan(parent, 1);
             }
 
-            var listViewItem = (ListViewItem?)FileListInternal.ContainerFromItem(RenamingItem);
-            if (listViewItem != null)
+            var selectorItem = (SelectorItem?)FileListInternal.ContainerFromItem(RenamingItem);
+            if (selectorItem != null)
             {
-                if (listViewItem.FindDescendant("ItemName") is TextBlock textBlock)
+                if (selectorItem.FindDescendant("ItemName") is TextBlock textBlock)
                 {
                     textBlock.Visibility = Visibility.Visible;
                 }
@@ -387,7 +343,7 @@ namespace Files.Layouts
             IsRenamingItem = false; // TODO(i): Move it or change logic so it's in VM.EndRename()
 
             // Re-focus selected list item
-            listViewItem?.Focus(FocusState.Programmatic);
+            selectorItem?.Focus(FocusState.Programmatic);
         }
 
         protected virtual async Task CommitRename(TextBox textBox)
