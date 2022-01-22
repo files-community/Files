@@ -828,57 +828,66 @@ namespace Files.ViewModels
             var wasIconLoaded = false;
             if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
             {
-                var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize);
-                if (iconInfo.IconData != null)
+                if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
                 {
-                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                    var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
+                    if (matchingStorageFile != null)
                     {
-                        item.FileImage = await iconInfo.IconData.ToBitmapAsync();
-                        if (!string.IsNullOrEmpty(item.FileExtension) &&
-                            !item.IsShortcutItem && !item.IsExecutable &&
-                            !ImagePreviewViewModel.Extensions.Contains(item.FileExtension, StringComparer.OrdinalIgnoreCase))
-                        {
-                            DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
-                        }
-                    }, Windows.System.DispatcherQueuePriority.Low);
-                    wasIconLoaded = true;
-                }
+                        var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
 
-                if (iconInfo.OverlayData != null)
-                {
-                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                    {
-                        item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
-                    }, Windows.System.DispatcherQueuePriority.Low);
+                        using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
+                        if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
+                        {
+                            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                            {
+                                item.FileImage ??= new BitmapImage();
+                                item.FileImage.DecodePixelType = DecodePixelType.Logical;
+                                item.FileImage.DecodePixelWidth = (int)thumbnailSize;
+                                await item.FileImage.SetSourceAsync(Thumbnail);
+                                if (!string.IsNullOrEmpty(item.FileExtension) &&
+                                    !item.IsShortcutItem && !item.IsExecutable &&
+                                    !ImagePreviewViewModel.Extensions.Contains(item.FileExtension, StringComparer.OrdinalIgnoreCase))
+                                {
+                                    DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
+                                }
+                            }, Windows.System.DispatcherQueuePriority.Normal);
+                            wasIconLoaded = true;
+                        }
+
+                        var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath);
+                        if (overlayInfo != null)
+                        {
+                            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                            {
+                                item.IconOverlay = await overlayInfo.ToBitmapAsync();
+                            }, Windows.System.DispatcherQueuePriority.Low);
+                        }
+                    }
                 }
 
                 if (!wasIconLoaded)
                 {
-                    if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
+                    var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize);
+                    if (iconInfo.IconData != null)
                     {
-                        var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
-                        if (matchingStorageFile != null)
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                         {
-                            var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
-
-                            using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
-                            if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
+                            item.FileImage = await iconInfo.IconData.ToBitmapAsync();
+                            if (!string.IsNullOrEmpty(item.FileExtension) &&
+                                !item.IsShortcutItem && !item.IsExecutable &&
+                                !ImagePreviewViewModel.Extensions.Contains(item.FileExtension, StringComparer.OrdinalIgnoreCase))
                             {
-                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                                {
-                                    item.FileImage ??= new BitmapImage();
-                                    item.FileImage.DecodePixelType = DecodePixelType.Logical;
-                                    item.FileImage.DecodePixelWidth = (int)thumbnailSize;
-                                    await item.FileImage.SetSourceAsync(Thumbnail);
-                                    if (!string.IsNullOrEmpty(item.FileExtension) &&
-                                        !item.IsShortcutItem && !item.IsExecutable &&
-                                        !ImagePreviewViewModel.Extensions.Contains(item.FileExtension, StringComparer.OrdinalIgnoreCase))
-                                    {
-                                        DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
-                                    }
-                                }, Windows.System.DispatcherQueuePriority.Normal);
+                                DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
                             }
-                        }
+                        }, Windows.System.DispatcherQueuePriority.Low);
+                    }
+
+                    if (iconInfo.OverlayData != null)
+                    {
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                        {
+                            item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
+                        }, Windows.System.DispatcherQueuePriority.Low);
                     }
                 }
             }
