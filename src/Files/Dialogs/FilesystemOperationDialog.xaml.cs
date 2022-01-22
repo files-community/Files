@@ -91,7 +91,10 @@ namespace Files.Dialogs
         {
             ViewModel.LoadedCommand.Execute(null);
             await Task.Delay(50);
-            chkPermanentlyDelete.IsEnabled = ViewModel.PermanentlyDeleteEnabled;
+            if (chkPermanentlyDelete != null)
+            {
+                chkPermanentlyDelete.IsEnabled = ViewModel.PermanentlyDeleteEnabled;
+            }
             DetailsGrid.IsEnabled = true;
         }
     }
