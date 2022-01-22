@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Files.Common.SafetyHelpers.ExceptionReporters
+namespace Files.Shared.SafetyHelpers.ExceptionReporters
 {
     public interface ISafeWrapperExceptionReporter
     {

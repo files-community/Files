@@ -1,7 +1,8 @@
-﻿using Files.Common.SafetyHelpers.ExceptionReporters;
+﻿using Files.Shared.SafetyHelpers.ExceptionReporters;
 using System;
+using Files.Shared.Enums;
 
-namespace Files.Common.SafetyHelpers
+namespace Files.Shared.SafetyHelpers
 {
     public class SafeWrapperResult
     {

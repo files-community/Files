@@ -1,9 +1,10 @@
-﻿using Files.Common.SafetyHelpers.ExceptionReporters;
+﻿using Files.Shared.SafetyHelpers.ExceptionReporters;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Files.Shared.Enums;
 
-namespace Files.Common.SafetyHelpers
+namespace Files.Shared.SafetyHelpers
 {
     public static class SafeWrapperRoutines
     {
