@@ -797,12 +797,14 @@ namespace Files.ViewModels
             if (currentDefaultIconSize != size)
             {
                 // TODO: Add more than just the folder icon
-
                 DefaultIcons.Clear();
-                BitmapImage img = new BitmapImage();
-                using var icon = await StorageItemIconHelpers.GetIconForItemType(size, IconPersistenceOptions.Persist);
-                await img.SetSourceAsync(icon);
-                DefaultIcons.Add(string.Empty, img);
+                using StorageItemThumbnail icon = await FilesystemTasks.Wrap(() => StorageItemIconHelpers.GetIconForItemType(size, IconPersistenceOptions.Persist));
+                if (icon != null)
+                {
+                    BitmapImage img = new BitmapImage();
+                    await img.SetSourceAsync(icon);
+                    DefaultIcons.Add(string.Empty, img);
+                }
                 currentDefaultIconSize = size;
             }
         }
@@ -831,9 +833,9 @@ namespace Files.ViewModels
                     var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
                     if (matchingStorageFile != null)
                     {
-                        var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
+                        var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.DocumentsView;
 
-                        using var Thumbnail = await matchingStorageFile.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.ResizeThumbnail);
+                        using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
                         if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
                         {
                             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
@@ -844,7 +846,7 @@ namespace Files.ViewModels
                                 await item.FileImage.SetSourceAsync(Thumbnail);
                                 if (!string.IsNullOrEmpty(item.FileExtension) &&
                                     !item.IsShortcutItem && !item.IsExecutable &&
-                                    !ImagePreviewViewModel.Extensions.Contains(item.FileExtension))
+                                    !ImagePreviewViewModel.Extensions.Contains(item.FileExtension, StringComparer.OrdinalIgnoreCase))
                                 {
                                     DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
                                 }
@@ -873,7 +875,7 @@ namespace Files.ViewModels
                             item.FileImage = await iconInfo.IconData.ToBitmapAsync();
                             if (!string.IsNullOrEmpty(item.FileExtension) &&
                                 !item.IsShortcutItem && !item.IsExecutable &&
-                                !ImagePreviewViewModel.Extensions.Contains(item.FileExtension))
+                                !ImagePreviewViewModel.Extensions.Contains(item.FileExtension, StringComparer.OrdinalIgnoreCase))
                             {
                                 DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
                             }
@@ -898,7 +900,7 @@ namespace Files.ViewModels
                     {
                         var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
 
-                        using var Thumbnail = await matchingStorageFolder.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.ResizeThumbnail);
+                        using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFolder.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
                         if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
                         {
                             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
@@ -1130,7 +1132,7 @@ namespace Files.ViewModels
 
                         if (matchingStorageItem != null)
                         {
-                            using var headerThumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.DocumentsView, 36, ThumbnailOptions.UseCurrentScale);
+                            using StorageItemThumbnail headerThumbnail = await FilesystemTasks.Wrap(() => matchingStorageItem.GetThumbnailAsync(ThumbnailMode.DocumentsView, 36, ThumbnailOptions.UseCurrentScale).AsTask());
                             if (headerThumbnail != null)
                             {
                                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>

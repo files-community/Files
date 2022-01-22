@@ -1766,9 +1766,6 @@
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>粘贴</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>在终端中打开...</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>新建</value>
   </data>
@@ -2106,7 +2103,7 @@
     <value>单击打开文件</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>列出和排序文件旁的目录</value>
+    <value>文件夹与文件一同分类排序</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>搜索文件和文件夹时显示未建立索引的项</value>
