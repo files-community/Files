@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Files.Common.SafetyHelpers
+namespace Files.Shared.Enums
 {
     /// <summary>
     /// Contains all kinds of return statuses
