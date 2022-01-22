@@ -3,6 +3,7 @@ using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp.UI;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -86,13 +87,12 @@ namespace Files.Dialogs
             }
         }
 
-        private void RootDialog_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void RootDialog_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             ViewModel.LoadedCommand.Execute(null);
-            if (this.FindDescendant("PrimaryButton") is Button primary)
-            {
-                primary.Focus(Windows.UI.Xaml.FocusState.Keyboard);
-            }
+            await Task.Delay(50);
+            chkPermanentlyDelete.IsEnabled = ViewModel.PermanentlyDeleteEnabled;
+            DetailsGrid.IsEnabled = true;
         }
     }
 
