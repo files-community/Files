@@ -1,6 +1,5 @@
 using Files.CommandLine;
-using Files.Common;
-using Files.Common.SafetyHelpers;
+using Files.Shared;
 using Files.Controllers;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
@@ -27,6 +26,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -157,6 +157,8 @@ namespace Files
 
         private static async Task InitializeAppComponentsAsync()
         {
+            var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
             // Start off a list of tasks we need to run before we can continue startup
             await Task.Run(async () =>
             {
@@ -176,6 +178,8 @@ namespace Files
                     ExternalResourcesHelper.LoadOtherThemesAsync(),
                     ContextFlyoutItemHelper.CachedNewContextMenuEntries
                 );
+
+                userSettingsService.ReportToAppCenter();
             });
 
             // Check for required updates
@@ -506,7 +510,7 @@ namespace Files
 
             if (OutputPath != null)
             {
-                await Common.Extensions.IgnoreExceptions(async () =>
+                await Shared.Extensions.IgnoreExceptions(async () =>
                 {
                     var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
                     if (instance == null)
@@ -523,6 +527,20 @@ namespace Files
             }
 
             DrivesManager?.Dispose();
+
+            // Try to maintain clipboard data after app close
+            Shared.Extensions.IgnoreExceptions(() =>
+            {
+                var dataPackage = Clipboard.GetContent();
+                if (dataPackage.Properties.PackageFamilyName == Package.Current.Id.FamilyName)
+                {
+                    if (dataPackage.Contains(StandardDataFormats.StorageItems))
+                    {
+                        Clipboard.Flush();
+                    }
+                }
+            }, Logger);
+
             deferral.Complete();
         }
 

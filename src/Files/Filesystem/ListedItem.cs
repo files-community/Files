@@ -203,7 +203,7 @@ namespace Files.Filesystem
 
                 if (image.PixelWidth > 0)
                 {
-                    Common.Extensions.IgnoreExceptions(() =>
+                    Shared.Extensions.IgnoreExceptions(() =>
                     {
                         LoadFileIcon = true;
                         PlaceholderDefaultIcon = null;
@@ -414,7 +414,6 @@ namespace Files.Filesystem
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
         public bool IsFtpItem => this is FtpItem;
         public bool IsZipItem => this is ZipItem;
-
         public virtual bool IsExecutable => new[] { ".exe", ".bat", ".cmd" }.Contains(Path.GetExtension(ItemPath), StringComparer.OrdinalIgnoreCase);
         public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
 

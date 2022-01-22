@@ -196,7 +196,7 @@
                         Background="{ThemeResource SolidBackgroundFillColorSecondary}"
                         Text="{x:Bind ItemName, Mode=OneWay}"
                         TextAlignment="Center"
-                        TextChanged="GridViewTextBoxItemName_TextChanged"
+                        TextChanged="FileListTextBoxItemName_TextChanged"
                         TextWrapping="Wrap" />
                 </Popup>
             </Grid>

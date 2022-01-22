@@ -1,4 +1,4 @@
-using Files.Common;
+using Files.Shared;
 using Files.DataModels;
 using Files.Enums;
 using Files.Helpers;
@@ -46,7 +46,7 @@ namespace Files.ViewModels
         public static async void OpenThemesFolder()
         {
             await CoreApplication.MainView.Dispatcher.YieldAsync();
-            await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
+            await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ImportedThemesFolder.Path);
         }
 
         public static async void ReportIssueOnGitHub()
@@ -192,8 +192,6 @@ namespace Files.ViewModels
         {
             ThemeModeChanged?.Invoke(this, EventArgs.Empty);
         });
-
-        public AcrylicTheme AcrylicTheme { get; set; } = new AcrylicTheme();
 
         #region ReadAndSaveSettings
 

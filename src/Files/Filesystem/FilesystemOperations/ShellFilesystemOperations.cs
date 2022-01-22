@@ -1,4 +1,4 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
@@ -283,7 +283,7 @@ namespace Files.Filesystem
             {
                 // Retry failed operations
                 var failedSources = deleteResult.Items.Where(x => source.Select(s => s.Path).Contains(x.Source))
-                    .Where(x => !x.Succeeded && x.HRresult != HRESULT.COPYENGINE_E_USER_CANCELLED && x.HRresult != HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND);
+                    .Where(x => !x.Succeeded && x.HResult != HResult.COPYENGINE_E_USER_CANCELLED && x.HResult != HResult.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND);
                 return await filesystemOperations.DeleteItemsAsync(
                     failedSources.Select(x => source.Single(s => s.Path == x.Source)), progress, errorCode, permanently, cancellationToken);
             }
@@ -538,7 +538,7 @@ namespace Files.Filesystem
             }
         }
 
-        private struct HRESULT
+        private struct HResult
         {
             public const int S_OK = 0;
             public const int COPYENGINE_E_USER_CANCELLED = -2144927744;

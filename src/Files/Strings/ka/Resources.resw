@@ -69,9 +69,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>არის წყაროს საქაღალდის ქვე-საქაღალდე</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>ნივთის ნიმუში:</value>
-  </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>ყველას მონიშვნა</value>
   </data>
@@ -93,7 +90,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>შეიყვანეთ გზა</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>ძებნა</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
@@ -191,9 +188,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>ჩასმა</value>
-  </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5Hash:</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>ახალი</value>
@@ -299,9 +293,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>თვისებები</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>ატრიბუტები:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>თვისებები</value>
@@ -567,7 +558,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>მალსახმობის შექმნა</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>ფაილის ადგილმდებარეობის გახსნა</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
@@ -1857,7 +1848,7 @@
   <data name="Security" xml:space="preserve">
     <value>უსაფრთხოება</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>დამატებითი უფლებები</value>
   </data>
   <data name="Allow" xml:space="preserve">

@@ -255,12 +255,11 @@ namespace Files.ViewModels.Properties
         /// <returns>A list if FileProperties containing their values</returns>
         public async static Task<List<FileProperty>> RetrieveAndInitializePropertiesAsync(BaseStorageFile file, string path = Constants.ResourceFilePaths.DetailsPagePropertiesJsonPath)
         {
-            var propertiesJsonFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(path));
-
             // cache the contents of the file to avoid repeatedly reading the file
             string text;
             if (!cachedPropertiesListFiles.TryGetValue(path, out text))
             {
+                var propertiesJsonFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(path));
                 text = await FileIO.ReadTextAsync(propertiesJsonFile);
                 cachedPropertiesListFiles[path] = text;
             }

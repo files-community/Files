@@ -1,4 +1,4 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -111,14 +111,16 @@ namespace Files.Helpers
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection != null)
             {
-                var value = new ValueSet
+                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
                 {
-                    { "Arguments", "RecycleBin" },
-                    { "action", "Query" },
-                    { "drive", path }
-                };
-                var (status, response) = await connection.SendMessageForResponseAsync(value);
-                return status == AppServiceResponseStatus.Success && response.Get("HasRecycleBin", false);
+                    { "Arguments", "FileOperation" },
+                    { "fileop", "TestRecycle" },
+                    { "filepath", path }
+                });
+                var result = (status == AppServiceResponseStatus.Success && response.Get("Success", false));
+                var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+                result &= shellOpResult != null && shellOpResult.Items.All(x => x.Succeeded);
+                return result;
             }
             return false;
         }

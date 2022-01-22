@@ -69,9 +69,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>és una subcarpeta de la carpeta d'origen</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Tipus d'element:</value>
-  </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Seleccioneu-lo tot</value>
   </data>
@@ -93,7 +90,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Introdueix una ruta</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Busca</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
@@ -290,9 +287,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Propietats</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Atributs:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Propietats</value>
@@ -528,7 +522,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>Crea accés directe</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>Obre ubicació de l'arxiu</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">

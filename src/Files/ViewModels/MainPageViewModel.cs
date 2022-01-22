@@ -1,4 +1,4 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
@@ -182,6 +182,12 @@ namespace Files.ViewModels
                 path = "Home".GetLocalized();
             }
 
+            // Support drives launched through jump list by stripping away the question mark at the end.
+            if (path.EndsWith("\\?"))
+            {
+                path = path.Remove(path.Length - 1);
+            }
+
             TabItem tabItem = new TabItem()
             {
                 Header = null,
@@ -258,7 +264,7 @@ namespace Files.ViewModels
             string tabLocationHeader;
             var iconSource = new Microsoft.UI.Xaml.Controls.ImageIconSource();
 
-            if (currentPath == null || currentPath == "Home".GetLocalized())
+            if (string.IsNullOrEmpty(currentPath) || currentPath == "Home".GetLocalized())
             {
                 tabLocationHeader = "Home".GetLocalized();
                 iconSource.ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"));

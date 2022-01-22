@@ -1,12 +1,9 @@
 ﻿using Common;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.UI.Xaml.Media;
 
 namespace Files.Filesystem
 {
@@ -35,6 +32,11 @@ namespace Files.Filesystem
 
         public static void WriteFileTag(string filePath, string tag)
         {
+            var isReadOnly = NativeFileOperationsHelper.HasFileAttribute(filePath, System.IO.FileAttributes.ReadOnly);
+            if (isReadOnly) // Unset read-only attribute (#7534)
+            {
+                NativeFileOperationsHelper.UnsetFileAttribute(filePath, System.IO.FileAttributes.ReadOnly);
+            }
             if (tag == null)
             {
                 NativeFileOperationsHelper.DeleteFileFromApp($"{filePath}:files");
@@ -42,6 +44,10 @@ namespace Files.Filesystem
             else if (ReadFileTag(filePath) != tag)
             {
                 NativeFileOperationsHelper.WriteStringToFile($"{filePath}:files", tag);
+            }
+            if (isReadOnly) // Restore read-only attribute (#7534)
+            {
+                NativeFileOperationsHelper.SetFileAttribute(filePath, System.IO.FileAttributes.ReadOnly);
             }
         }
 
@@ -62,33 +68,6 @@ namespace Files.Filesystem
 
         private FileTagsHelper()
         {
-        }
-    }
-
-    public class FileTag // TODO: Change name to FileTagModel
-    {
-        public string TagName { get; set; }
-        public string Uid { get; set; }
-        public string ColorString { get; set; }
-
-        private SolidColorBrush color;
-
-        [JsonIgnore]
-        public SolidColorBrush Color => color ??= new SolidColorBrush(ColorString.ToColor());
-
-        public FileTag(string tagName, string colorString)
-        {
-            TagName = tagName;
-            ColorString = colorString;
-            Uid = Guid.NewGuid().ToString();
-        }
-
-        [JsonConstructor]
-        public FileTag(string tagName, string colorString, string uid)
-        {
-            TagName = tagName;
-            ColorString = colorString;
-            Uid = uid;
         }
     }
 }

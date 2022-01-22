@@ -245,16 +245,12 @@ namespace FilesFullTrust
                 {
                     TerminateProcess((int)localSettings.Values["pid"]);
 
-                    using Process process = new Process();
-                    process.StartInfo.UseShellExecute = true;
-                    process.StartInfo.FileName = "explorer.exe";
-                    process.StartInfo.CreateNoWindow = false;
-                    process.StartInfo.Arguments = (string)localSettings.Values["ShellCommand"];
-                    process.Start();
+                    Win32API.OpenFolderInExistingShellWindow((string)localSettings.Values["ShellCommand"]);
 
                     return true;
                 }
             }
+
             return false;
         }
 

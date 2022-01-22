@@ -58,9 +58,9 @@ namespace Files.ViewModels.Properties
                     ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
                     ViewModel.IsShortcutItemPathReadOnly = false;
                     ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
-                    ViewModel.ShortcutItemWorkingDirVisibility = Visibility.Collapsed;
+                    ViewModel.ShortcutItemWorkingDirVisibility = false;
                     ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
-                    ViewModel.ShortcutItemArgumentsVisibility = Visibility.Collapsed;
+                    ViewModel.ShortcutItemArgumentsVisibility = false;
                     ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
                     {
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(
@@ -88,7 +88,7 @@ namespace Files.ViewModels.Properties
 
             if (Item.IsShortcutItem)
             {
-                ViewModel.ItemSizeVisibility = Visibility.Visible;
+                ViewModel.ItemSizeVisibility = true;
                 ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
                 ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
                 ViewModel.ItemAccessedTimestamp = Item.ItemDateAccessed;
@@ -99,10 +99,11 @@ namespace Files.ViewModels.Properties
                 }
             }
 
+            string folderPath = (Item as ShortcutItem)?.TargetPath ?? Item.ItemPath;
             BaseStorageFolder storageFolder;
             try
             {
-                storageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+                storageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(folderPath);
             }
             catch (Exception ex)
             {
@@ -120,7 +121,7 @@ namespace Files.ViewModels.Properties
                 {
                     GetOtherProperties(storageFolder.Properties);
                 }
-                GetFolderSize(storageFolder, TokenSource.Token);
+                GetFolderSize(storageFolder.Path, TokenSource.Token);
             }
             else if (Item.ItemPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
@@ -139,46 +140,50 @@ namespace Files.ViewModels.Properties
                         {
                             ViewModel.ItemSizeBytes = (long)binSize;
                             ViewModel.ItemSize = ByteSize.FromBytes((long)binSize).ToString();
-                            ViewModel.ItemSizeVisibility = Visibility.Visible;
+                            ViewModel.ItemSizeVisibility = true;
                         }
                         else
                         {
-                            ViewModel.ItemSizeVisibility = Visibility.Collapsed;
+                            ViewModel.ItemSizeVisibility = false;
                         }
                         if (response.TryGetValue("NumItems", out var numItems))
                         {
                             ViewModel.FilesCount = (int)(long)numItems;
                             SetItemsCountString();
-                            ViewModel.FilesAndFoldersCountVisibility = Visibility.Visible;
+                            ViewModel.FilesAndFoldersCountVisibility = true;
                         }
                         else
                         {
-                            ViewModel.FilesAndFoldersCountVisibility = Visibility.Collapsed;
+                            ViewModel.FilesAndFoldersCountVisibility = false;
                         }
-                        ViewModel.ItemCreatedTimestampVisibiity = Visibility.Collapsed;
-                        ViewModel.ItemAccessedTimestampVisibility = Visibility.Collapsed;
-                        ViewModel.ItemModifiedTimestampVisibility = Visibility.Collapsed;
-                        ViewModel.LastSeparatorVisibility = Visibility.Collapsed;
+                        ViewModel.ItemCreatedTimestampVisibiity = false;
+                        ViewModel.ItemAccessedTimestampVisibility = false;
+                        ViewModel.ItemModifiedTimestampVisibility = false;
+                        ViewModel.LastSeparatorVisibility = false;
                     }
                 }
             }
+            else
+            {
+                GetFolderSize(folderPath, TokenSource.Token);
+            }
         }
 
-        private async void GetFolderSize(BaseStorageFolder storageFolder, CancellationToken token)
+        private async void GetFolderSize(string folderPath, CancellationToken token)
         {
-            if (string.IsNullOrEmpty(storageFolder.Path))
+            if (string.IsNullOrEmpty(folderPath))
             {
                 // In MTP devices calculating folder size would be too slow
                 // Also should use StorageFolder methods instead of FindFirstFileExFromApp
                 return;
             }
 
-            ViewModel.ItemSizeVisibility = Visibility.Visible;
-            ViewModel.ItemSizeProgressVisibility = Visibility.Visible;
+            ViewModel.ItemSizeVisibility = true;
+            ViewModel.ItemSizeProgressVisibility = true;
 
             var fileSizeTask = Task.Run(async () =>
             {
-                var size = await CalculateFolderSizeAsync(storageFolder.Path, token);
+                var size = await CalculateFolderSizeAsync(folderPath, token);
                 return size;
             });
             try
@@ -191,7 +196,7 @@ namespace Files.ViewModels.Properties
             {
                 App.Logger.Warn(ex, ex.Message);
             }
-            ViewModel.ItemSizeProgressVisibility = Visibility.Collapsed;
+            ViewModel.ItemSizeProgressVisibility = false;
 
             SetItemsCountString();
         }

@@ -1,4 +1,4 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Files.DataModels;
 using Files.Dialogs;
 using Files.Enums;
@@ -116,7 +116,7 @@ namespace Files.Filesystem
             var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => recycleBinHelpers.IsPathUnderRecycleBin(path));
             var canBeSentToBin = !deleteFromRecycleBin && await recycleBinHelpers.HasRecycleBin(source.FirstOrDefault()?.Path);
 
-            if (UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
+            if (((!permanently && !canBeSentToBin) || UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog) && showDialog) // Check if the setting to show a confirmation dialog is on
             {
                 List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
 
@@ -183,7 +183,7 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            IStorageHistory history = await filesystemOperations.DeleteItemsAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
+            IStorageHistory history = await filesystemOperations.DeleteItemsAsync(source, banner.Progress, banner.ErrorCode, permanently, token);
             ((IProgress<float>)banner.Progress).Report(100.0f);
             await Task.Yield();
 
@@ -301,7 +301,7 @@ namespace Files.Filesystem
 
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            if (UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
+            if (((!permanently && !canBeSentToBin) || UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog) && showDialog) // Check if the setting to show a confirmation dialog is on
             {
                 List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
 

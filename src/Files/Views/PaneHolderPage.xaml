@@ -53,7 +53,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition
                     x:Name="LeftColumn"
-                    Width="1.5*"
+                    Width="1.0*"
                     MinWidth="300" />
                 <ColumnDefinition
                     x:Name="RightColumn"
@@ -159,7 +159,7 @@
                     <Core:ChangePropertyAction
                         PropertyName="Width"
                         TargetObject="{Binding ElementName=LeftColumn}"
-                        Value="1.5*" />
+                        Value="1.0*" />
                 </Core:DataTriggerBehavior>
                 <Core:DataTriggerBehavior Binding="{x:Bind IsRightPaneVisible, Mode=OneWay}" Value="False">
                     <Core:ChangePropertyAction
@@ -173,7 +173,7 @@
                     <Core:ChangePropertyAction
                         PropertyName="Width"
                         TargetObject="{Binding ElementName=LeftColumn}"
-                        Value="1.5*" />
+                        Value="1.0*" />
                 </Core:DataTriggerBehavior>
             </Interactivity:Interaction.Behaviors>
         </Grid>

@@ -1,10 +1,11 @@
-<local:BaseLayout
+<layouts:BaseListedLayout
     x:Class="Files.Views.LayoutModes.DetailsLayoutBrowser"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ViewModels="using:Files.ViewModels"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
+    xmlns:behaviors2="using:Files.Behaviors"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:converters1="using:Files.Converters"
@@ -12,14 +13,17 @@
     xmlns:helpers="using:Files.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:local="using:Files"
+    xmlns:layouts="using:Files.Layouts"
+    xmlns:local="using:Files.Views.LayoutModes"
     xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     xmlns:tui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:uc="using:Files.UserControls"
+    xmlns:vm="using:Files.ViewModels.Layouts"
     x:Name="PageRoot"
+    x:TypeArguments="vm:DetailsLayoutViewModel, local:DetailsLayoutBrowser"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
@@ -30,7 +34,7 @@
             <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
         </icore:EventTriggerBehavior>
     </i:Interaction.Behaviors>
-    <local:BaseLayout.Resources>
+    <layouts:BaseListedLayout.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
@@ -162,7 +166,7 @@
                 <Setter Property="Opacity" Value="0.6" />
             </Style>
         </ResourceDictionary>
-    </local:BaseLayout.Resources>
+    </layouts:BaseListedLayout.Resources>
 
     <Grid
         x:Name="RootGrid"
@@ -360,6 +364,7 @@
                                 DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
+                                PreviewKeyUp="GridSplitter_PreviewKeyUp"
                                 Style="{StaticResource HeaderGridSplitterStyle}" />
 
                             <uc:DataGridHeader
@@ -375,6 +380,7 @@
                                 DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
+                                PreviewKeyUp="GridSplitter_PreviewKeyUp"
                                 Style="{StaticResource HeaderGridSplitterStyle}"
                                 Visibility="{x:Bind ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
 
@@ -392,6 +398,7 @@
                                 DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
+                                PreviewKeyUp="GridSplitter_PreviewKeyUp"
                                 Style="{StaticResource HeaderGridSplitterStyle}"
                                 Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
 
@@ -408,6 +415,7 @@
                                 DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
+                                PreviewKeyUp="GridSplitter_PreviewKeyUp"
                                 Style="{StaticResource HeaderGridSplitterStyle}"
                                 Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
 
@@ -424,6 +432,7 @@
                                 DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
+                                PreviewKeyUp="GridSplitter_PreviewKeyUp"
                                 Style="{StaticResource HeaderGridSplitterStyle}"
                                 Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
 
@@ -440,6 +449,7 @@
                                 DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
+                                PreviewKeyUp="GridSplitter_PreviewKeyUp"
                                 Style="{StaticResource HeaderGridSplitterStyle}"
                                 Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.Visibility, Mode=OneWay}" />
 
@@ -457,6 +467,7 @@
                                 DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
+                                PreviewKeyUp="GridSplitter_PreviewKeyUp"
                                 Style="{StaticResource HeaderGridSplitterStyle}"
                                 Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
 
@@ -473,6 +484,7 @@
                                 DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
+                                PreviewKeyUp="GridSplitter_PreviewKeyUp"
                                 Style="{StaticResource HeaderGridSplitterStyle}"
                                 Visibility="{x:Bind ColumnsViewModel.SizeColumn.Visibility, Mode=OneWay}" />
 
@@ -492,6 +504,7 @@
                                 DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
+                                PreviewKeyUp="GridSplitter_PreviewKeyUp"
                                 Style="{StaticResource HeaderGridSplitterStyle}"
                                 Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
                         </Grid>
@@ -608,10 +621,11 @@
 
                                 <Grid
                                     Grid.Column="1"
-                                    Width="{Binding ColumnsViewModel.NameColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    MinWidth="{Binding ColumnsViewModel.NameColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Center">
+                                    VerticalAlignment="Center"
+                                    Canvas.ZIndex="6">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
@@ -623,9 +637,15 @@
                                         TextTrimming="CharacterEllipsis" />
                                     <TextBox
                                         x:Name="ItemNameTextBox"
+                                        MaxWidth="{Binding MaxWidthForRenameTextbox, ElementName=PageRoot, Mode=OneWay}"
+                                        HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
-                                        TextChanged="ListViewTextBoxItemName_TextChanged"
-                                        Visibility="Collapsed" />
+                                        TextChanged="FileListTextBoxItemName_TextChanged"
+                                        Visibility="Collapsed">
+                                        <TextBox.Resources>
+                                            <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
+                                        </TextBox.Resources>
+                                    </TextBox>
                                     <Ellipse
                                         Grid.Column="1"
                                         Width="12"
@@ -735,6 +755,9 @@
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
+                    <i:Interaction.Behaviors>
+                        <behaviors2:StickyHeaderBehavior />
+                    </i:Interaction.Behaviors>
                     <ListView.Resources>
                         <ResourceDictionary>
                             <Style TargetType="ListView">
@@ -773,61 +796,39 @@
                                                 BorderBrush="{TemplateBinding BorderBrush}"
                                                 BorderThickness="{TemplateBinding BorderThickness}"
                                                 CornerRadius="{TemplateBinding CornerRadius}">
-                                                <Grid>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto" />
-                                                        <RowDefinition Height="*" />
-                                                    </Grid.RowDefinitions>
-                                                    <ScrollViewer
-                                                        x:Name="HeaderScrollViewer"
-                                                        HorizontalScrollBarVisibility="Hidden"
-                                                        HorizontalScrollMode="Disabled"
-                                                        VerticalScrollBarVisibility="Disabled"
-                                                        VerticalScrollMode="Disabled">
-                                                        <ContentPresenter Padding="8,0,8,8" Content="{TemplateBinding Header}" />
-                                                    </ScrollViewer>
-                                                    <ScrollViewer
-                                                        x:Name="ScrollViewer"
-                                                        Grid.Row="1"
-                                                        HorizontalContentAlignment="Stretch"
-                                                        AutomationProperties.AccessibilityView="Raw"
-                                                        BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
-                                                        HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                                        HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
-                                                        IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
-                                                        IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
-                                                        IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
-                                                        IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
-                                                        IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
-                                                        TabNavigation="{TemplateBinding TabNavigation}"
-                                                        VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-                                                        VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
-                                                        ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                                                        <Grid>
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="*" />
-                                                                <RowDefinition Height="Auto" />
-                                                            </Grid.RowDefinitions>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto" />
-                                                                <ColumnDefinition Width="*" />
-                                                            </Grid.ColumnDefinitions>
-                                                            <ItemsPresenter
-                                                                Padding="{TemplateBinding Padding}"
-                                                                HorizontalAlignment="Stretch"
-                                                                FooterTemplate="{TemplateBinding FooterTemplate}"
-                                                                FooterTransitions="{TemplateBinding FooterTransitions}"
-                                                                HeaderTemplate="{TemplateBinding HeaderTemplate}"
-                                                                HeaderTransitions="{TemplateBinding HeaderTransitions}" />
-
-                                                            <ContentPresenter
-                                                                Grid.Row="1"
-                                                                Grid.ColumnSpan="2"
-                                                                Padding="8,0,8,8"
-                                                                Content="{TemplateBinding Footer}" />
-                                                        </Grid>
-                                                    </ScrollViewer>
-                                                </Grid>
+                                                <ScrollViewer
+                                                    x:Name="ScrollViewer"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    AutomationProperties.AccessibilityView="Raw"
+                                                    BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                                                    HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                                    HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                                    IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                                                    IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                                                    IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+                                                    IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                                                    IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+                                                    TabNavigation="{TemplateBinding TabNavigation}"
+                                                    VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                                    VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                                    ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <ItemsPresenter
+                                                            Margin="0,0,12,0"
+                                                            Padding="{TemplateBinding Padding}"
+                                                            HorizontalAlignment="Stretch"
+                                                            Footer="{TemplateBinding Footer}"
+                                                            FooterTemplate="{TemplateBinding FooterTemplate}"
+                                                            FooterTransitions="{TemplateBinding FooterTransitions}"
+                                                            Header="{TemplateBinding Header}"
+                                                            HeaderTemplate="{TemplateBinding HeaderTemplate}"
+                                                            HeaderTransitions="{TemplateBinding HeaderTransitions}" />
+                                                    </Grid>
+                                                </ScrollViewer>
                                             </Border>
                                         </ControlTemplate>
                                     </Setter.Value>
@@ -1011,4 +1012,4 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
     </Grid>
-</local:BaseLayout>
+</layouts:BaseListedLayout>

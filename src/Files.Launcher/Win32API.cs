@@ -567,6 +567,75 @@ namespace FilesFullTrust
             }
         }
 
+        public static void OpenFolderInExistingShellWindow(string folderPath)
+        {
+            var opened = false;
+
+            if (Ole32.CoCreateInstance(typeof(Shell32.ShellWindows).GUID, null, Ole32.CLSCTX.CLSCTX_LOCAL_SERVER, typeof(Shell32.IShellWindows).GUID, out var shellWindowsUnk).Succeeded)
+            {
+                var shellWindows = (Shell32.IShellWindows)shellWindowsUnk;
+
+                using var controlPanelCategoryView = new Vanara.Windows.Shell.ShellItem("::{26EE0668-A00A-44D7-9371-BEB064C98683}");
+
+                for (int i = 0; i < shellWindows.Count; i++)
+                {
+                    var item = shellWindows.Item(i);
+                    var serv = (Shell32.IServiceProvider)item;
+                    if (serv != null)
+                    {
+                        if (serv.QueryService(Shell32.SID_STopLevelBrowser, typeof(Shell32.IShellBrowser).GUID, out var ppv).Succeeded)
+                        {
+                            var pUnk = Marshal.GetObjectForIUnknown(ppv);
+                            var shellBrowser = (Shell32.IShellBrowser)pUnk;
+                            using var targetFolder = Extensions.IgnoreExceptions(() => new Vanara.Windows.Shell.ShellItem(folderPath));
+                            if (targetFolder != null)
+                            {
+                                if (shellBrowser.QueryActiveShellView(out var shellView).Succeeded)
+                                {
+                                    var folderView = (Shell32.IFolderView)shellView;
+                                    var folder = folderView.GetFolder<Shell32.IPersistFolder2>();
+                                    var folderPidl = new Shell32.PIDL(IntPtr.Zero);
+                                    if (folder.GetCurFolder(ref folderPidl).Succeeded)
+                                    {
+                                        if (Shell32.ILIsParent(folderPidl.DangerousGetHandle(), targetFolder.PIDL.DangerousGetHandle(), true) ||
+                                            Shell32.ILIsEqual(folderPidl.DangerousGetHandle(), controlPanelCategoryView.PIDL.DangerousGetHandle()))
+                                        {
+                                            if (shellBrowser.BrowseObject(targetFolder.PIDL.DangerousGetHandle(), Shell32.SBSP.SBSP_SAMEBROWSER | Shell32.SBSP.SBSP_ABSOLUTE).Succeeded)
+                                            {
+                                                opened = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    folderPidl.Dispose();
+                                    Marshal.ReleaseComObject(folder);
+                                    Marshal.ReleaseComObject(folderView);
+                                    Marshal.ReleaseComObject(shellView);
+                                }
+                            }
+                            Marshal.ReleaseComObject(shellBrowser);
+                            Marshal.ReleaseComObject(pUnk);
+                        }
+                        Marshal.ReleaseComObject(serv);
+                    }
+                    Marshal.ReleaseComObject(item);
+                }
+
+                Marshal.ReleaseComObject(shellWindows);
+                Marshal.ReleaseComObject(shellWindowsUnk);
+            }
+
+            if (!opened)
+            {
+                Shell32.ShellExecute(HWND.NULL,
+                    "open",
+                    Environment.ExpandEnvironmentVariables("%windir%\\explorer.exe"),
+                    folderPath,
+                    null,
+                    ShowWindowCommand.SW_SHOWNORMAL);
+            }
+        }
+
         // Get information from recycle bin.
         [DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Auto)]
         public static extern int SHQueryRecycleBin(string pszRootPath,

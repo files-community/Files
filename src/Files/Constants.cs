@@ -59,7 +59,7 @@
             /// <summary>
             /// The minimum width of the sidebar in expanded state
             /// </summary>
-            public const double MinimumSidebarWidth = 250;
+            public const double MinimumSidebarWidth = 180;
 
             public const double MaximumSidebarWidth = 500;
 
@@ -161,11 +161,6 @@
             /// The path to the json file containing a list of file properties to be loaded in the preview pane.
             /// </summary>
             public const string PreviewPaneDetailsPropertiesJsonPath = @"ms-appx:///Resources/PreviewPanePropertiesInformation.json";
-        }
-
-        public static class OptionalPackages
-        {
-            public const string ThemesOptionalPackagesName = "49306atecsolution.ThemesforFiles";
         }
 
         public static class Filesystem
