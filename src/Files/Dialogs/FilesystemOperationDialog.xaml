@@ -66,18 +66,14 @@
                 x:Name="chkPermanentlyDelete"
                 x:Uid="DeleteItemsDialogPermanentlyDeleteCheckBox"
                 x:Load="{x:Bind ViewModel.PermanentlyDeleteLoad, Mode=OneWay}"
-                Content="Permanently delete"
-                IsChecked="{x:Bind ViewModel.PermanentlyDelete, Mode=TwoWay}"
-                IsEnabled="{x:Bind ViewModel.PermanentlyDeleteEnabled, Mode=OneWay}" />
+                Content="Permanently delete"/>
 
             <Grid>
                 <ListView
                     x:Name="DetailsGrid"
                     Grid.Row="1"
                     MaxHeight="200"
-                    IsItemClickEnabled="False"
-                    ItemsSource="{x:Bind ViewModel.Items}"
-                    SelectionMode="{x:Bind ViewModel.ItemsSelectionMode, Mode=OneWay}">
+                    IsItemClickEnabled="False">
 
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
