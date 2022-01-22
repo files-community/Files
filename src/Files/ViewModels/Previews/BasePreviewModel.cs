@@ -110,7 +110,11 @@ namespace Files.ViewModels.Previews
         public virtual async Task LoadAsync()
         {
             List<FileProperty> detailsFull = new();
-            Item.ItemFile ??= await StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath);
+            if (Item.ItemFile == null)
+            {
+                var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(Item.ItemPath));
+                Item.ItemFile = await StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath, rootItem);
+            }
             await Task.Run(async () =>
             {
                 DetailsFromPreview = await LoadPreviewAndDetails();
