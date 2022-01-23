@@ -76,7 +76,7 @@ namespace Files.Filesystem
         {
             this.associatedInstance = associatedInstance;
             this.cancellationToken = cancellationToken;
-            this.filesystemOperations = new ShellFilesystemOperations(associatedInstance, NativeWinApiHelper.CoreWindowHandle.ToInt64());
+            this.filesystemOperations = new ShellFilesystemOperations(this.associatedInstance);
             this.recycleBinHelpers = new RecycleBinHelpers();
         }
 
@@ -182,7 +182,7 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            IStorageHistory history = await Task.Run(() => filesystemOperations.DeleteItemsAsync(source, banner.Progress, banner.ErrorCode, permanently, token));
+            IStorageHistory history = await filesystemOperations.DeleteItemsAsync(source, banner.Progress, banner.ErrorCode, permanently, token);
             ((IProgress<float>)banner.Progress).Report(100.0f);
             await Task.Yield();
 
@@ -407,7 +407,7 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            IStorageHistory history = await Task.Run(() => filesystemOperations.RestoreItemsFromTrashAsync(source, destination, null, errorCode, cancellationToken));
+            IStorageHistory history = await filesystemOperations.RestoreItemsFromTrashAsync(source, destination, null, errorCode, cancellationToken);
             await Task.Yield();
 
             if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
@@ -523,7 +523,7 @@ namespace Files.Filesystem
 
             itemManipulationModel?.ClearSelection();
 
-            IStorageHistory history = await Task.Run(() => filesystemOperations.CopyItemsAsync(source, destination, collisions, banner.Progress, banner.ErrorCode, token));
+            IStorageHistory history = await filesystemOperations.CopyItemsAsync(source, destination, collisions, banner.Progress, banner.ErrorCode, token);
             ((IProgress<float>)banner.Progress).Report(100.0f);
             await Task.Yield();
 
@@ -741,7 +741,7 @@ namespace Files.Filesystem
 
             itemManipulationModel?.ClearSelection();
 
-            IStorageHistory history = await Task.Run(() => filesystemOperations.MoveItemsAsync(source, destination, collisions, banner.Progress, banner.ErrorCode, token));
+            IStorageHistory history = await filesystemOperations.MoveItemsAsync(source, destination, collisions, banner.Progress, banner.ErrorCode, token);
             ((IProgress<float>)banner.Progress).Report(100.0f);
             await Task.Yield();
 
@@ -976,7 +976,7 @@ namespace Files.Filesystem
             var dest = source.Select(x => Path.Combine(destination,
                 string.Format("ShortcutCreateNewSuffix".GetLocalized(), x.Name) + ".lnk"));
 
-            var history = await Task.Run(() => filesystemOperations.CreateShortcutItemsAsync(source, dest, null, errorCode, cancellationToken));
+            var history = await filesystemOperations.CreateShortcutItemsAsync(source, dest, null, errorCode, cancellationToken);
 
             if (registerHistory)
             {
