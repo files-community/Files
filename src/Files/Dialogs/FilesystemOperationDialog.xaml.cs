@@ -26,6 +26,15 @@ namespace Files.Dialogs
 
             ViewModel = viewModel;
             ViewModel.View = this;
+            ViewModel.LoadedCommand.Execute(null);
+
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            DetailsGrid.SelectionMode = ViewModel.ItemsSelectionMode;
+            DetailsGrid.ItemsSource = ViewModel.Items;
         }
 
         private void MenuFlyoutItem_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
