@@ -10,6 +10,7 @@ using System.Windows.Input;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -120,11 +121,12 @@ namespace Files.Views
             {
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                 {
-                    appInstance?.FilesystemViewModel?.RefreshItems(null);
+                    appInstance?.FilesystemViewModel?.RefreshItems(null, async () =>
+                    {
+                        await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => RestoreDefaultButton.IsEnabled = true);
+                    });
                 });
             }
-            await Task.Delay(1500);
-            RestoreDefaultButton.IsEnabled = true;
         }
 
         private async Task<bool> SetCustomFolderIcon(string folderPath, string iconFile, int iconIndex = 0)
