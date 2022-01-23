@@ -148,7 +148,7 @@ namespace Files.Filesystem
                 errorCode?.Report(FileSystemStatusCode.Success);
                 if (item != null)
                 {
-                    return (new StorageHistory(FileOperationType.CreateNew, item.CreateList(), null), item.Item);
+                    return (new StorageHistory(FileOperationType.CreateNew, item.CreateEnumerable(), null), item.Item);
                 }
                 return (null, null);
             }
