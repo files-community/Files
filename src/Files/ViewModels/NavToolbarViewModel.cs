@@ -934,6 +934,28 @@ namespace Files.ViewModels
                                 ? CommonPaths.HomePath
                                 : shellPage.FilesystemViewModel.WorkingDirectory;
 
+                            // Launch terminal application if possible
+                            foreach (var terminal in App.TerminalController.Model.Terminals)
+                            {
+                                if (terminal.Path.Equals(currentInput, StringComparison.OrdinalIgnoreCase)
+                                    || terminal.Path.Equals(currentInput + ".exe", StringComparison.OrdinalIgnoreCase) || terminal.Name.Equals(currentInput, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    var connection = await AppServiceConnectionHelper.Instance;
+                                    if (connection != null)
+                                    {
+                                        var value = new ValueSet()
+                                        {
+                                            { "Arguments", "LaunchApp" },
+                                            { "WorkingDirectory", workingDir },
+                                            { "Application", terminal.Path },
+                                            { "Parameters", string.Format(terminal.Arguments, workingDir) }
+                                        };
+                                        await connection.SendMessageAsync(value);
+                                    }
+                                    return;
+                                }
+                            }
+
                             if (await LaunchApplicationFromPath(currentInput, workingDir))
                             {
                                 return;
@@ -971,7 +993,7 @@ namespace Files.ViewModels
                 fileName = trimmedInput.Substring(0, positionOfBlank);
                 arguments = currentInput.Substring(currentInput.IndexOf(' '));
             }
-            
+
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection != null)
             {
