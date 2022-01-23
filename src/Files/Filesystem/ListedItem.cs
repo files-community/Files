@@ -43,7 +43,7 @@ namespace Files.Filesystem
             get
             {
                 return $"{"ToolTipDescriptionName".GetLocalized()} {ItemName}{Environment.NewLine}" +
-                    $"{"TypeWithColon".GetLocalized()} {itemType}{Environment.NewLine}" +
+                    $"{"ToolTipDescriptionType".GetLocalized()} {itemType}{Environment.NewLine}" +
                     $"{"ToolTipDescriptionDate".GetLocalized()} {ItemDateModified}";
             }
         }

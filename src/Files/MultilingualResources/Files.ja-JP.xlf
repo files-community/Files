@@ -182,7 +182,7 @@
           <source>Name</source>
           <target state="translated">名前</target>
         </trans-unit>
-        <trans-unit id="Type" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByType.Text" translate="yes" xml:space="preserve">
           <source>Type</source>
           <target state="translated">種類</target>
         </trans-unit>

@@ -174,7 +174,7 @@
   <data name="Name" xml:space="preserve">
     <value>სახელით</value>
   </data>
-  <data name="Type" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>ნიმუშით</value>
   </data>
   <data name="Ascending" xml:space="preserve">

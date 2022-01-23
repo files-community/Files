@@ -226,7 +226,7 @@
           <source>Name</source>
           <target state="translated">Name</target>
         </trans-unit>
-        <trans-unit id="Type" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSortByType.Text" translate="yes" xml:space="preserve">
           <source>Type</source>
           <target state="translated">Loại</target>
         </trans-unit>

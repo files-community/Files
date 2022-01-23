@@ -451,10 +451,11 @@
 
                             <uc:DataGridHeader
                                 x:Name="FileTypeHeader"
+                                x:Uid="typeColumn"
                                 Grid.Column="14"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="FileType"
-                                Header="{helpers:ResourceString Name=ItemTypeColumn}"
+                                Header="Type"
                                 Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
