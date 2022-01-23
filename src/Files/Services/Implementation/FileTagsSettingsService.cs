@@ -43,7 +43,7 @@ namespace Files.Services.Implementation
             var tag = FileTagList.SingleOrDefault(x => x.Uid == uid);
             if (!string.IsNullOrEmpty(uid) && tag == null)
             {
-                tag = new FileTag("FileTagUnknown".GetLocalized(), "#9ea3a1", uid);
+                tag = new FileTag("Unknown".GetLocalized(), "#9ea3a1", uid);
                 FileTagList = FileTagList.Append(tag).ToList();
             }
             return tag;

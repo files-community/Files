@@ -611,7 +611,7 @@
     "Property": "System.FilePlaceholderStatus",
     "IsReadOnly": true,
     "EnumeratedList": {
-      "0": "CloudDriveSyncStatus_Unknown",
+      "0": "Unknown",
       "1": "CloudDriveSyncStatus_Online",
       "2": "CloudDriveSyncStatus_Online",
       "3": "CloudDriveSyncStatus_Offline",

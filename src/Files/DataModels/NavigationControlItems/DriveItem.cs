@@ -197,13 +197,13 @@ namespace Files.DataModels.NavigationControlItems
                 }
                 else
                 {
-                    SpaceText = "DriveCapacityUnknown".GetLocalized();
+                    SpaceText = "Unknown".GetLocalized();
                     MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
                 }
             }
             catch (Exception)
             {
-                SpaceText = "DriveCapacityUnknown".GetLocalized();
+                SpaceText = "Unknown".GetLocalized();
                 MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
             }
         }

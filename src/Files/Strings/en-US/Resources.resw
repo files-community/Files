@@ -702,9 +702,6 @@
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Open file location</value>
   </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>Unknown</value>
-  </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Files ran into a problem that the developers didn't prepare for yet.</value>
   </data>
@@ -1461,9 +1458,6 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Not calculated</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Unknown</value>
-  </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Multiselect</value>
   </data>
@@ -1493,9 +1487,6 @@
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
     <value>Removable Storage Device</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Unknown</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Virtual Drive</value>
@@ -2363,7 +2354,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Open parent folder</value>
   </data>
-  <data name="FileTagUnknown" xml:space="preserve">
+  <data name="Unknown" xml:space="preserve">
     <value>Unknown</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">

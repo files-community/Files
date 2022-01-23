@@ -22,7 +22,7 @@ namespace Files.Filesystem.Cloud
             set => SetProperty(ref glyph, value);
         }
 
-        private string syncStatusString = "CloudDriveSyncStatus_Unknown".GetLocalized();
+        private string syncStatusString = "Unknown".GetLocalized();
 
         public string SyncStatusString
         {
