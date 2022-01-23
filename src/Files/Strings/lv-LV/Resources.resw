@@ -78,7 +78,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Ievadīt ceļu</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Meklēt</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
@@ -1048,7 +1048,7 @@
     <value>Nosūtīt izstrādātājiem detalizētu problēmas ziņojumu</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Atbalstiet mūs PayPal</value>
+    <value>Atbalstiet mūs GitHub</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Detaļas</value>
@@ -1764,9 +1764,6 @@
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Ielīmēt</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Atvērt terminālī...</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Jauns</value>
   </data>
@@ -2104,7 +2101,7 @@
     <value>Rādīt un kārtot mapes kopā ar failiem</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Rādīt neindeksētos vienumus, meklētjot failus vai mapes (meklēšana var būt ilgāka)</value>
+    <value>Rādīt neindeksētos vienumus, meklētjot failus vai mapes</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
     <value>Iespējot atšķirīgus iestatījumus katrai mapei</value>
@@ -2373,5 +2370,182 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Mapes ceļš</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>Eksportēt iestatījumus</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>Importēt iestatījumus</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>Pārvaldīt iestatījumus</value>
+  </data>
+  <data name="SettingsImportErrorDescription" xml:space="preserve">
+    <value>Neizdevās importēt iestatījumus. Iestatījumu fails ir bojāts.</value>
+  </data>
+  <data name="SettingsImportErrorTitle" xml:space="preserve">
+    <value>Kļūda importējot iestatījumus</value>
+  </data>
+  <data name="ChooseCustomIcon" xml:space="preserve">
+    <value>Izvēlaties mapes ikonu</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Personalizēšana</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>Atgriezt sākotnējo</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>Saderība</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Nav</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
+    <value>Pieslēdzoties Windows</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
+    <value>Programmai sākoties</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>Sistēma</value>
+  </data>
+  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
+    <value>Sistēma (advancēts)</value>
+  </data>
+  <data name="Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
+    <value>Windows Vista SP1</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
+    <value>Windows Vista SP2</value>
+  </data>
+  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
+    <value>16 bitu krāsas (65536)</value>
+  </data>
+  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
+    <value>8 bitu krāsas (256)</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Saderības režīms</value>
+  </data>
+  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+    <value>Atspējot pilnekrāna optimizācijas</value>
+  </data>
+  <data name="ExecuteAt640X480" xml:space="preserve">
+    <value>Palaist ar 640 x 480 ekrāna izšķirtspēju</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Opcijas</value>
+  </data>
+  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
+    <value>Pārrakstīt augsta DPI mērogošanu</value>
+  </data>
+  <data name="ReducedColorMode" xml:space="preserve">
+    <value>Mazāk krāsu režīms</value>
+  </data>
+  <data name="RegisterForRestart" xml:space="preserve">
+    <value>Reģistrēt restartēšanai</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>Palaist kā administratoram</value>
+  </data>
+  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+    <value>Palaist saderības kļūdu labotāju</value>
+  </data>
+  <data name="UseMainMonitorDPISettings" xml:space="preserve">
+    <value>Lietot DPI iestatījumus galvenajā monitorā</value>
+  </data>
+  <data name="SettingsDefaultFilesManager" xml:space="preserve">
+    <value>Noklusējuma failu pārlūks</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
+    <value>Iestatīt Files kā noklusēto failu pārlūku</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Iztīrīt atkritni</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Sānu josla</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Faili un mapes</value>
+  </data>
+  <data name="OpenNewInstance" xml:space="preserve">
+    <value>Atvērt jaunu instanci, kad atverat mapes no uzdevumjoslas papildsaraksta</value>
+  </data>
+  <data name="StartupSettings" xml:space="preserve">
+    <value>Palaišanas iestatījumi</value>
+  </data>
+  <data name="ThirdPartyLicenses" xml:space="preserve">
+    <value>Trešo pušu licenses</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
+    <value>Šis iestatījums modificē sistēmas failus un var radīt nevēlamus blakusefektus. Lietotnes izstrādātāji neuzņemas atbildību par iespējamām kļūdām. Iespējojot šo opciju, Jūs apstiprinat, ka zināt iespējamos riskus. Ņemiet vērā, ka atinstalējot Files šīs izmaiņas netiks atgrieztas uz sākotnējām, un tas var neļaut Jums atvērt failu pārlūku, kamēr neesat izslēguši šo opciju lietotnē Files pirms tās atinstalēšanas.</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Notīrīt visu</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Kolonnas</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Liels režģis</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Vidējs režģis</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Mazs režģis</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Mozaīka</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Izveidot bibliotēku</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>Ievadiet bibliotēkas nosaukumu</value>
+  </data>
+  <data name="ShowFolderSize" xml:space="preserve">
+    <value>Rādīt mapju izmērus</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Izlaist</value>
+  </data>
+  <data name="SettingsOpenInLogin" xml:space="preserve">
+    <value>Atvērt Files palaižot Windows</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Atribūti</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Slēpts</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>Vairāk detaļu</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Tikai lasāms</value>
+  </data>
+  <data name="CleanupDrive" xml:space="preserve">
+    <value>Iztīriet Jūsu disku saturu</value>
+  </data>
+  <data name="DiskCleanup" xml:space="preserve">
+    <value>Diska tīrīšana</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Veids:</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Baiti</value>
   </data>
 </root>

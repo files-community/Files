@@ -78,7 +78,7 @@ namespace Files.ViewModels.Widgets.Bundles
             set => SetProperty(ref noBundleContentsTextLoad, value);
         }
 
-        private bool isAddItemOptionEnabled;
+        private bool isAddItemOptionEnabled = true;
 
         public bool IsAddItemOptionEnabled
         {
@@ -493,6 +493,7 @@ namespace Files.ViewModels.Widgets.Bundles
                 Contents.Add(bundleItem);
                 itemAddedInternally = false;
                 NoBundleContentsTextLoad = false;
+                IsAddItemOptionEnabled = Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle;
                 await bundleItem.UpdateIcon();
                 return true;
             }
@@ -519,11 +520,6 @@ namespace Files.ViewModels.Widgets.Bundles
             Contents.Clear();
 
             await AddBundleItems(items);
-
-            if (Contents.Count > 0)
-            {
-                NoBundleContentsTextLoad = false;
-            }
 
             return this;
         }

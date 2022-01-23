@@ -8,6 +8,7 @@
     xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Files.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     mc:Ignorable="d">
     <Page.Resources>
@@ -63,11 +64,26 @@
                 </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowFolderSize}" HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl
+                Title="{helpers:ResourceString Name=ShowFolderSize}"
+                HorizontalAlignment="Stretch"
+                IsExpanded="True">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE2B2;" />
                 </local:SettingsBlockControl.Icon>
-                <ToggleSwitch IsOn="{Binding ShowFolderSize, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                <ToggleSwitch
+                    AutomationProperties.Name="{helpers:ResourceString Name=ShowFolderSize}"
+                    IsOn="{Binding ShowFolderSize, Mode=TwoWay}"
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                <local:SettingsBlockControl.ExpandableContent>
+                    <muxc:InfoBar
+                        CornerRadius="0,0,2,2"
+                        IsClosable="False"
+                        IsIconVisible="True"
+                        IsOpen="True"
+                        Message="{helpers:ResourceString Name=ShowFolderSizesWarning}"
+                        Severity="Warning" />
+                </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
 
             <TextBlock
@@ -79,7 +95,8 @@
             <local:SettingsBlockControl
                 Title="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}"
                 HorizontalAlignment="Stretch"
-                Description="{helpers:ResourceString Name=SettingsSetAsDefaultFileManagerDescription}">
+                Description="This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk."
+                IsExpanded="True">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xEC50;" />
                 </local:SettingsBlockControl.Icon>
@@ -93,6 +110,15 @@
                         </icore:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </ToggleSwitch>
+                <local:SettingsBlockControl.ExpandableContent>
+                    <muxc:InfoBar
+                        CornerRadius="0,0,2,2"
+                        IsClosable="False"
+                        IsIconVisible="True"
+                        IsOpen="True"
+                        Message="{helpers:ResourceString Name=SetFilesAsDefaultWarning}"
+                        Severity="Warning" />
+                </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
 
             <local:SettingsBlockControl

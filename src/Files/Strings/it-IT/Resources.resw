@@ -66,7 +66,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Inserisci un percorso</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Cerca</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
@@ -112,7 +112,7 @@
     <value>Download</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
-    <value>Pagina iniziale</value>
+    <value>Home</value>
   </data>
   <data name="SidebarMusic" xml:space="preserve">
     <value>Musica</value>
@@ -217,7 +217,7 @@
     <value>Avanti (Alt + Freccia Dx)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Sali (Alt + Freccia Sù)</value>
+    <value>Livello superiore (Alt + Freccia Sù)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Aggiorna (F5)</value>
@@ -256,7 +256,7 @@
     <value>L'elemento esiste già</value>
   </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Sostituisci l'elemento</value>
+    <value>Sostituisci elemento</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>Imposta come sfondo della schermata di blocco</value>
@@ -343,7 +343,7 @@
     <value>L'operazione richiesta non è supportata</value>
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
-    <value>{0} liberi su {1}</value>
+    <value>{0} disponibili su {1}</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
     <value>Apri con</value>
@@ -646,7 +646,7 @@
     <value>Aggiorna la cartella</value>
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Sali di un livello</value>
+    <value>Sali al livello superiore</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Supportaci</value>
@@ -1468,7 +1468,7 @@
     <value>Mostra widget File Recenti</value>
   </data>
   <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>Gestisci i Widget</value>
+    <value>Gestisci Widget</value>
   </data>
   <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
     <value>Mostra widget Raccolta</value>
@@ -1678,10 +1678,10 @@
     <value>L'eliminazione di {0} elementi da {1} è stata annullata</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
-    <value>L'eliminazione di {0} elementi da {1} è stata annullata dopo {2} elementi</value>
+    <value>L'eliminazione di {0} elementi da {1} è stata annullata dopo {3} elementi</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
-    <value>L'eliminazione di {0} elementi da {1} è stata annullata dopo {2} elemento</value>
+    <value>L'eliminazione di {0} elementi da {1} è stata annullata dopo {3} elemento</value>
   </data>
   <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
     <value>Eliminazione di {0} elemento da {1}</value>
@@ -1800,9 +1800,6 @@
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Incolla</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Apri nel Terminale...</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nuovo</value>
   </data>
@@ -1822,7 +1819,7 @@
     <value>Proprietario</value>
   </data>
   <data name="Default" xml:space="preserve">
-    <value>Default</value>
+    <value>Predefinito</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Apri cartella temi</value>
@@ -2113,7 +2110,7 @@
     <value>Abilita impostazioni personalizzate per ogni cartella</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
-    <value>Link utili</value>
+    <value>Collegamenti utili</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>Aggiungi ai preferiti</value>
@@ -2423,13 +2420,13 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
     <value>Percorso</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Esporta le impostazioni</value>
+    <value>Esporta impostazioni</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>Importa le impostazioni</value>
+    <value>Importa impostazioni</value>
   </data>
   <data name="ManageSettings" xml:space="preserve">
-    <value>Gestisci le impostazioni</value>
+    <value>Gestisci impostazioni</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Impossibile importare le impostazioni. File corrotto.</value>

@@ -45,9 +45,6 @@
   <data name="Size" xml:space="preserve">
     <value>ზომა</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>ტერმინალში გახსნა...</value>
-  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>შექმნილია:</value>
   </data>
@@ -90,7 +87,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>შეიყვანეთ გზა</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>ძებნა</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">

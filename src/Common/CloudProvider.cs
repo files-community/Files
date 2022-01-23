@@ -41,6 +41,7 @@ namespace Files.Common
         AmazonDrive,
         Nextcloud,
         Yandex,
-        Box
+        Box,
+        Jottacloud
     }
 }

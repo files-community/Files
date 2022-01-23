@@ -18,7 +18,5 @@
         </ResourceDictionary>
     </local1:PropertiesTab.Resources>
 
-    <Grid Style="{StaticResource PropertiesTabGrid}">
-        <Frame x:Name="CustomIconsSelectorFrame" Loaded="CustomIconsSelectorFrame_Loaded" />
-    </Grid>
+    <Frame x:Name="CustomIconsSelectorFrame" Loaded="CustomIconsSelectorFrame_Loaded" />
 </local1:PropertiesTab>

@@ -83,17 +83,29 @@ namespace Files.Helpers
             }
 
             bool forceOpenInNewTab = false;
+            var selectedItems = associatedInstance.SlimContentPage.SelectedItems.ToList();
+            var opened = false;
 
-            foreach (ListedItem item in associatedInstance.SlimContentPage.SelectedItems.ToList())
+            if (!openViaApplicationPicker &&
+                selectedItems.Count > 1 &&
+                selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && !x.IsExecutable && !x.IsShortcutItem))
             {
-                var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
-                    FilesystemItemType.Directory : FilesystemItemType.File;
-
-                await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker, forceOpenInNewTab: forceOpenInNewTab);
-
-                if (type == FilesystemItemType.Directory)
+                // Multiple files are selected, open them together
+                opened = await Win32Helpers.InvokeWin32ComponentAsync(string.Join('|', selectedItems.Select(x => x.ItemPath)), associatedInstance);
+            }
+            if (!opened)
+            {
+                foreach (ListedItem item in selectedItems)
                 {
-                    forceOpenInNewTab = true;
+                    var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
+                        FilesystemItemType.Directory : FilesystemItemType.File;
+
+                    await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker, forceOpenInNewTab: forceOpenInNewTab);
+
+                    if (type == FilesystemItemType.Directory)
+                    {
+                        forceOpenInNewTab = true;
+                    }
                 }
             }
         }

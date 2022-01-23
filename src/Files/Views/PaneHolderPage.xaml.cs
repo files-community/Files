@@ -144,12 +144,12 @@ namespace Files.Views
         {
             get
             {
-                if (ActivePane.IsColumnView)
+                if (ActivePane != null && ActivePane.IsColumnView)
                 {
                     return (ActivePane.SlimContentPage as ColumnViewBrowser).ActiveColumnShellPage;
                 }
 
-                return ActivePane;
+                return ActivePane ?? PaneLeft;
             }
         }
 

@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace Files.Services
 {
-    public interface IPreferencesSettingsService : INotifyPropertyChanged
+    public interface IPreferencesSettingsService : IBaseSettingsService, INotifyPropertyChanged
     {
         /// <summary>
         /// Gets or sets a value indicating whether or not to show the delete confirmation dialog when deleting items.

@@ -45,9 +45,6 @@
   <data name="Size" xml:space="preserve">
     <value>Veličina</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Otvori u Terminalu...</value>
-  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Napravljeno:</value>
   </data>
@@ -90,7 +87,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Unesi putanju</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Pretraga</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
