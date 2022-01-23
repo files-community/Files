@@ -187,7 +187,7 @@
           <source>Name</source>
           <target state="translated" state-qualifier="tm-suggestion">שם</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByType.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Type" translate="yes" xml:space="preserve">
           <source>Type</source>
           <target state="translated" state-qualifier="tm-suggestion">סוג</target>
         </trans-unit>

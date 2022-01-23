@@ -147,7 +147,7 @@
   <data name="Name" xml:space="preserve">
     <value>Navn</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
+  <data name="Type" xml:space="preserve">
     <value>Type</value>
   </data>
   <data name="Ascending" xml:space="preserve">

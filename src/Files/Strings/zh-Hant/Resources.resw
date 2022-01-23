@@ -90,7 +90,7 @@
   <data name="Name" xml:space="preserve">
     <value>名稱</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
+  <data name="Type" xml:space="preserve">
     <value>類型</value>
   </data>
   <data name="Ascending" xml:space="preserve">

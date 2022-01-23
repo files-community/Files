@@ -424,10 +424,7 @@
                             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedByDateModified, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateModifiedLowerCase}" />
                             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedByDateCreated, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateCreated}" />
                             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedBySize, Mode=TwoWay}" Text="{helpers:ResourceString Name=Size}" />
-                            <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarArrangementOptionType"
-                                IsChecked="{x:Bind ViewModel.IsSortedByType, Mode=TwoWay}"
-                                Text="Type" />
+                            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedByType, Mode=TwoWay}" Text="{helpers:ResourceString Name=Type}" />
                             <ToggleMenuFlyoutItem
                                 IsChecked="{x:Bind ViewModel.IsSortedBySyncStatus, Mode=TwoWay}"
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}"
@@ -455,10 +452,7 @@
                             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByDateModified, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateModifiedLowerCase}" />
                             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByDateCreated, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateCreated}" />
                             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedBySize, Mode=TwoWay}" Text="{helpers:ResourceString Name=Size}" />
-                            <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarArrangementOptionType"
-                                IsChecked="{x:Bind ViewModel.IsGroupedByType, Mode=TwoWay}"
-                                Text="Type" />
+                            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByType, Mode=TwoWay}" Text="{helpers:ResourceString Name=Type}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionSyncStatus"
                                 IsChecked="{x:Bind ViewModel.IsGroupedBySyncStatus, Mode=TwoWay}"

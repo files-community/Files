@@ -208,12 +208,11 @@
                                     </Grid.ColumnDefinitions>
 
                                     <TextBlock
-                                        x:Uid="SecurityAdvancedTypeLabel"
                                         Grid.Column="1"
                                         HorizontalAlignment="Center"
                                         FontSize="12"
                                         FontWeight="SemiLight"
-                                        Text="Type" />
+                                        Text="{helpers:ResourceString Name=Type}" />
                                     <TextBlock
                                         x:Uid="SecurityAdvancedEntityLabel"
                                         Grid.Column="2"

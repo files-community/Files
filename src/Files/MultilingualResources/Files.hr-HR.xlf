@@ -230,7 +230,7 @@
           <source>Name</source>
           <target state="translated">Naziv</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByType.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Type" translate="yes" xml:space="preserve">
           <source>Type</source>
           <target state="translated">Vrsta</target>
         </trans-unit>

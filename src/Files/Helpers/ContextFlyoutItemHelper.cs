@@ -245,7 +245,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortByType/Text".GetLocalized(),
+                            Text = "Type".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedByType,
                             Command = new RelayCommand(() => itemViewModel.IsSortedByType = true),
                             ShowInRecycleBin = true,
@@ -393,7 +393,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortByType/Text".GetLocalized(),
+                            Text = "Type".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FileType,
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,

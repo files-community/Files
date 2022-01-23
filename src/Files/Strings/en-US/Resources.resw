@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Type</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Size</value>
   </data>
@@ -288,7 +285,7 @@
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
+  <data name="Type" xml:space="preserve">
     <value>Type</value>
   </data>
   <data name="Ascending" xml:space="preserve">
@@ -1743,9 +1740,6 @@
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Name:</value>
   </data>
-  <data name="ToolTipDescriptionType" xml:space="preserve">
-    <value>Type:</value>
-  </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Date modified:</value>
   </data>
@@ -1790,9 +1784,6 @@
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
     <value>Original folder</value>
-  </data>
-  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>Type</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Sort By</value>
@@ -2105,9 +2096,6 @@
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Permissions</value>
-  </data>
-  <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
-    <value>Type</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
@@ -2666,7 +2654,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="DiskCleanup" xml:space="preserve">
     <value>Disk cleanup</value>
   </data>
-  <data name="Type" xml:space="preserve">
+  <data name="TypeWithColon" xml:space="preserve">
     <value>Type:</value>
   </data>
   <data name="Bytes" xml:space="preserve">
@@ -2704,5 +2692,8 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="FileTagColumn" xml:space="preserve">
     <value>File tag column</value>
+  </data>
+  <data name="ItemTypeColumn" xml:space="preserve">
+    <value>Item type column</value>
   </data>
 </root>
