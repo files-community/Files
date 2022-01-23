@@ -934,29 +934,10 @@ namespace Files.ViewModels
                                 ? CommonPaths.HomePath
                                 : shellPage.FilesystemViewModel.WorkingDirectory;
 
-                            // Launch terminal application if possible
-                            foreach (var terminal in App.TerminalController.Model.Terminals)
+                            if (await LaunchApplicationFromPath(currentInput, workingDir))
                             {
-                                if (terminal.Path.Equals(currentInput, StringComparison.OrdinalIgnoreCase)
-                                    || terminal.Path.Equals(currentInput + ".exe", StringComparison.OrdinalIgnoreCase) || terminal.Name.Equals(currentInput, StringComparison.OrdinalIgnoreCase))
-                                {
-                                    var connection = await AppServiceConnectionHelper.Instance;
-                                    if (connection != null)
-                                    {
-                                        var value = new ValueSet()
-                                        {
-                                            { "Arguments", "LaunchApp" },
-                                            { "WorkingDirectory", workingDir },
-                                            { "Application", terminal.Path },
-                                            { "Parameters", string.Format(terminal.Arguments, workingDir) }
-                                        };
-                                        await connection.SendMessageAsync(value);
-                                    }
-                                    return;
-                                }
+                                return;
                             }
-
-                            await LaunchApplicationFromPath(currentInput, workingDir);
 
                             try
                             {
@@ -979,7 +960,7 @@ namespace Files.ViewModels
             }
         }
 
-        private static async Task LaunchApplicationFromPath(string currentInput, string workingDir)
+        private static async Task<bool> LaunchApplicationFromPath(string currentInput, string workingDir)
         {
             var trimmedInput= currentInput.Trim();
             var fileName = trimmedInput;
@@ -1001,8 +982,11 @@ namespace Files.ViewModels
                     { "Application", fileName },
                     { "Parameters", arguments }
                 };
-                await connection.SendMessageAsync(value);
+                var (status, response) = await connection.SendMessageForResponseAsync(value);
+                return status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success && response.Get("Success", false);
             }
+
+            return false;
         }
 
         public async void SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
