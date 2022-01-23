@@ -78,11 +78,10 @@
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
                                 x:Name="NewFile"
-                                x:Uid="BaseLayoutContextFlyoutNewFile"
                                 Command="{x:Bind ViewModel.CreateNewFileCommand, Mode=OneWay}"
                                 CommandParameter="{x:Null}"
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
-                                Text="File">
+                                Text="{helpers:ResourceString Name=Files}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE7C3;" />
                                 </MenuFlyoutItem.Icon>
@@ -226,8 +225,7 @@
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
                     </AppBarButton.Content>
                     <AppBarButton.Flyout>
-                        <MenuFlyout Placement="Bottom" 
-                                    helpers:MenuFlyoutHelper.IsVisible="{x:Bind ViewModel.CanExtract, Mode=OneWay}">
+                        <MenuFlyout helpers:MenuFlyoutHelper.IsVisible="{x:Bind ViewModel.CanExtract, Mode=OneWay}" Placement="Bottom">
                             <MenuFlyoutItem
                                 Command="{x:Bind ViewModel.ExtractCommand, Mode=OneWay}"
                                 IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"

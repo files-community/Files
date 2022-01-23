@@ -203,7 +203,7 @@ namespace Files.Filesystem.StorageEnumerators
 
             long itemSizeBytes = findData.GetSize();
             var itemSize = itemSizeBytes.ToSizeString();
-            string itemType = "ItemTypeFile".GetLocalized();
+            string itemType = "File".GetLocalized();
             string itemFileExtension = null;
 
             if (findData.cFileName.Contains('.'))

@@ -488,7 +488,7 @@ namespace Files.Filesystem
             PrimaryItemAttribute = isFile ? StorageItemTypes.File : StorageItemTypes.Folder;
             ItemPropertiesInitialized = false;
 
-            var itemType = isFile ? "ItemTypeFile".GetLocalized() : "FileFolderListItem".GetLocalized();
+            var itemType = isFile ? "Files".GetLocalized() : "FileFolderListItem".GetLocalized();
             if (isFile && ItemName.Contains(".", StringComparison.Ordinal))
             {
                 itemType = FileExtension.Trim('.') + " " + itemType;
