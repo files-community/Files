@@ -1076,7 +1076,6 @@ namespace Files.ViewModels
                     OnPropertyChanged(nameof(CanEmptyRecycleBin));
                 }
             }
-
         }
 
         private List<ListedItem> selectedItems;
@@ -1109,11 +1108,11 @@ namespace Files.ViewModels
         public bool CanRename          => SelectedItems is not null && SelectedItems.Count == 1;
         public bool CanViewProperties  => SelectedItems is not null && SelectedItems.Any();
         public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
-        public bool CanExtract         => SelectedItems is not null && SelectedItems.Any() && FileExtensionHelpers.IsZipFile(SelectedItems.First().FileExtension);
-        public string ExtractToText    => SelectedItems is not null && SelectedItems.Any() ? string.Format("ExtractToChildFolder".GetLocalized() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalized();
-        public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Any() && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension);
-        public bool IsImage            => SelectedItems is not null && SelectedItems.Any() && FileExtensionHelpers.IsImageFile(SelectedItems.First().FileExtension);
-        public bool IsFont             => SelectedItems is not null && SelectedItems.Any() && FileExtensionHelpers.IsFontFile(SelectedItems.First().FileExtension);
+        public bool CanExtract         => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsZipFile(SelectedItems.First().FileExtension);
+        public string ExtractToText    => SelectedItems is not null && SelectedItems.Count == 1 ? string.Format("ExtractToChildFolder".GetLocalized() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalized();
+        public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension);
+        public bool IsImage            => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsImageFile(SelectedItems.First().FileExtension);
+        public bool IsFont             => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension));
 
         public void Dispose()
         {
