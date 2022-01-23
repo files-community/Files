@@ -37,6 +37,7 @@
                         <MenuFlyoutItem
                             x:Uid="HorizontalMultitaskingControlDuplicateTab"
                             Click="{x:Bind vm:MainPageViewModel.DuplicateTabAtIndex}"
+                            KeyboardAcceleratorTextOverride="Ctrl+Shift+K"
                             Text="Duplicate tab">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11B;" />
