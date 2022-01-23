@@ -1764,9 +1764,6 @@
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Tempel</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Buka di Terminal...</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Baru</value>
   </data>

@@ -1764,9 +1764,6 @@
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Yapıştırmak</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Terminalde aç...</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Yeni</value>
   </data>

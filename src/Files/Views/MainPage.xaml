@@ -164,6 +164,13 @@
                 </icore:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </KeyboardAccelerator>
+        <KeyboardAccelerator Key="K" Modifiers="Control">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.AddNewInstanceAcceleratorCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
         <KeyboardAccelerator Key="F11">
             <i:Interaction.Behaviors>
                 <icore:EventTriggerBehavior EventName="Invoked">
