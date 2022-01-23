@@ -22,6 +22,8 @@ namespace Files.Filesystem
 
         private IShellPage associatedInstance;
 
+        private long parentWindow;
+
         private FilesystemOperations filesystemOperations;
 
         private RecycleBinHelpers recycleBinHelpers;
@@ -30,9 +32,10 @@ namespace Files.Filesystem
 
         #region Constructor
 
-        public ShellFilesystemOperations(IShellPage associatedInstance)
+        public ShellFilesystemOperations(IShellPage associatedInstance, long parentWindow)
         {
             this.associatedInstance = associatedInstance;
+            this.parentWindow = parentWindow;
             filesystemOperations = new FilesystemOperations(associatedInstance);
             recycleBinHelpers = new RecycleBinHelpers();
         }
@@ -95,7 +98,7 @@ namespace Files.Filesystem
                     { "filepath", string.Join('|', sourceRename.Select(s => s.Path)) },
                     { "destpath", string.Join('|', destinationRename) },
                     { "overwrite", false },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                    { "HWND", parentWindow }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
@@ -112,7 +115,7 @@ namespace Files.Filesystem
                     { "filepath", string.Join('|', sourceReplace.Select(s => s.Path)) },
                     { "destpath", string.Join('|', destinationReplace) },
                     { "overwrite", true },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                    { "HWND", parentWindow }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
@@ -247,7 +250,7 @@ namespace Files.Filesystem
                 { "operationID", operationID },
                 { "filepath", string.Join('|', deleleFilePaths) },
                 { "permanently", permanently },
-                { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                { "HWND", parentWindow }
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
@@ -265,10 +268,6 @@ namespace Files.Filesystem
             {
                 progress?.Report(100.0f);
                 errorCode?.Report(FileSystemStatusCode.Success);
-                foreach (var item in deleteResult.Items)
-                {
-                    await associatedInstance.FilesystemViewModel.RemoveFileOrFolderAsync(item.Source);
-                }
                 var recycledSources = deleteResult.Items.Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination)
                     .Where(x => source.Select(s => s.Path).Contains(x.Source));
                 if (recycledSources.Any())
@@ -345,7 +344,7 @@ namespace Files.Filesystem
                     { "filepath", string.Join('|', sourceRename.Select(s => s.Path)) },
                     { "destpath", string.Join('|', destinationRename) },
                     { "overwrite", false },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                    { "HWND", parentWindow }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
@@ -362,7 +361,7 @@ namespace Files.Filesystem
                     { "filepath", string.Join('|', sourceReplace.Select(s => s.Path)) },
                     { "destpath", string.Join('|', destinationReplace) },
                     { "overwrite", true },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                    { "HWND", parentWindow }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
@@ -489,7 +488,7 @@ namespace Files.Filesystem
                 { "filepath", string.Join('|', source.Select(s => s.Path)) },
                 { "destpath", string.Join('|', destination) },
                 { "overwrite", false },
-                { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                { "HWND", parentWindow }
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));

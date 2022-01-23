@@ -32,7 +32,7 @@ namespace Files.Filesystem.FilesystemHistory
         {
             this.associatedInstance = associatedInstance;
             this.cancellationToken = cancellationToken;
-            filesystemOperations = new ShellFilesystemOperations(associatedInstance);
+            filesystemOperations = new ShellFilesystemOperations(associatedInstance, NativeWinApiHelper.CoreWindowHandle.ToInt64());
             filesystemHelpers = this.associatedInstance.FilesystemHelpers;
         }
 
@@ -71,7 +71,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        await filesystemOperations.CreateShortcutItemsAsync(history.Source, history.Destination.Select(item => item.Path), null, errorCode, cancellationToken);
+                        await Task.Run(() => filesystemOperations.CreateShortcutItemsAsync(history.Source, history.Destination.Select(item => item.Path), null, errorCode, cancellationToken));
 
                         break;
                     }
@@ -133,7 +133,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        var newHistory = await filesystemOperations.DeleteItemsAsync(history.Source, null, errorCode, false, cancellationToken);
+                        var newHistory = await Task.Run(() => filesystemOperations.DeleteItemsAsync(history.Source, null, errorCode, false, cancellationToken));
                         if (newHistory != null)
                         {
                             // We need to change the recycled item paths (since IDs are different) - for Undo() to work
@@ -288,7 +288,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        var newHistory = await filesystemOperations.DeleteItemsAsync(history.Destination, null, errorCode, false, cancellationToken);
+                        var newHistory = await Task.Run(() => filesystemOperations.DeleteItemsAsync(history.Destination, null, errorCode, false, cancellationToken));
                         if (newHistory != null)
                         {
                             // We need to change the recycled item paths (since IDs are different) - for Redo() to work

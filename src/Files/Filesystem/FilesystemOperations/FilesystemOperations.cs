@@ -610,8 +610,6 @@ namespace Files.Filesystem
 
             if (fsResult)
             {
-                await associatedInstance.FilesystemViewModel.RemoveFileOrFolderAsync(source.Path);
-
                 if (!permanently)
                 {
                     // Enumerate Recycle Bin
