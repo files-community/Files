@@ -2863,8 +2863,8 @@
           <target state="translated" state-qualifier="tm-suggestion">Ctrl+A</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
-          <source>Alt+Shift++</source>
-          <target state="translated">Alt+Shift++</target>
+          <source>Ctrl+F3</source>
+          <target state="translated">Ctrl+F3</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+W</source>

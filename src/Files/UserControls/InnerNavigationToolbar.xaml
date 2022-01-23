@@ -793,16 +793,16 @@
                     x:Uid="NavigationToolbarNewPane"
                     x:Load="{x:Bind converters:MultiBooleanConverter.AndNotConvert(ShowMultiPaneControls, IsMultiPaneActive), Mode=OneWay}"
                     Command="{x:Bind ViewModel.OpenNewPaneCommand, Mode=OneWay}"
-                    KeyboardAcceleratorTextOverride="Alt+Shift++"
+                    KeyboardAcceleratorTextOverride="Ctrl+F3"
                     Label="New pane">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
                     </AppBarButton.Icon>
                     <AppBarButton.KeyboardAccelerators>
                         <KeyboardAccelerator
-                            Key="Add"
+                            Key="F3"
                             IsEnabled="False"
-                            Modifiers="Menu,Shift" />
+                            Modifiers="Control" />
                     </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
                 <AppBarButton

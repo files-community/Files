@@ -2864,7 +2864,7 @@
           <target state="translated">Ctrl + A</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
-          <source>Alt+Shift++</source>
+          <source>Ctrl+F3</source>
           <target state="translated">Alt + Shift + +</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">

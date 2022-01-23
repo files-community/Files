@@ -2924,8 +2924,8 @@
           <target state="final">Ctrl+A</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" translate="no" xml:space="preserve">
-          <source>Alt+Shift++</source>
-          <target state="final">Alt+Shift++</target>
+          <source>Ctrl+F3</source>
+          <target state="final">Ctrl+F3</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" translate="no" xml:space="preserve">
           <source>Ctrl+Shift+W</source>

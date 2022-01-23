@@ -183,8 +183,8 @@
             Invoked="KeyboardAccelerator_Invoked"
             Modifiers="Control,Shift" />
         <KeyboardAccelerator
-            Key="Add"
+            Key="F3"
             Invoked="KeyboardAccelerator_Invoked"
-            Modifiers="Menu,Shift" />
+            Modifiers="Control" />
     </Page.KeyboardAccelerators>
 </Page>

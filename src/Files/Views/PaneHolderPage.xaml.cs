@@ -320,7 +320,7 @@ namespace Files.Views
                     IsRightPaneVisible = false;
                     break;
 
-                case (false, true, true, VirtualKey.Add): // alt + shift + "+" open pane
+                case (true, false, false, VirtualKey.F3): // ctrl + F3 open pane
                     if (UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled)
                     {
                         if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
