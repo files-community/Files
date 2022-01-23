@@ -290,6 +290,82 @@ namespace FilesFullTrust.MessageHandlers
                     }
                     break;
 
+                case "TestRecycle":
+                    {
+                        var fileToDeletePath = ((string)message["filepath"]).Split('|');
+                        var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
+                        {
+                            using (var op = new ShellFileOperations())
+                            {
+                                op.Options = ShellFileOperations.OperationFlags.Silent
+                                            | ShellFileOperations.OperationFlags.NoConfirmation
+                                            | ShellFileOperations.OperationFlags.NoErrorUI;
+                                op.Options |= ShellFileOperations.OperationFlags.RecycleOnDelete;
+
+                                var shellOperationResult = new ShellOperationResult();
+
+                                for (var i = 0; i < fileToDeletePath.Length; i++)
+                                {
+                                    if (!Extensions.IgnoreExceptions(() =>
+                                    {
+                                        using var shi = new ShellItem(fileToDeletePath[i]);
+                                        op.QueueDeleteOperation(shi);
+                                    }))
+                                    {
+                                        shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                        {
+                                            Succeeded = false,
+                                            Source = fileToDeletePath[i],
+                                            HResult = (int)-1
+                                        });
+                                    }
+                                }
+
+                                var deleteTcs = new TaskCompletionSource<bool>();
+                                op.PreDeleteItem += (s, e) =>
+                                {
+                                    if (!e.Flags.HasFlag(ShellFileOperations.TransferFlags.DeleteRecycleIfPossible))
+                                    {
+                                        shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                        {
+                                            Succeeded = false,
+                                            Source = e.SourceItem.GetParsingPath(),
+                                            HResult = (int)HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND
+                                        });
+                                        throw new Win32Exception(HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND); // E_FAIL, stops operation
+                                    }
+                                    else
+                                    {
+                                        shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                        {
+                                            Succeeded = true,
+                                            Source = e.SourceItem.GetParsingPath(),
+                                            HResult = (int)HRESULT.COPYENGINE_E_USER_CANCELLED
+                                        });
+                                        throw new Win32Exception(HRESULT.COPYENGINE_E_USER_CANCELLED); // E_FAIL, stops operation
+                                    }
+                                };
+                                op.FinishOperations += (s, e) => deleteTcs.TrySetResult(e.Result.Succeeded);
+
+                                try
+                                {
+                                    op.PerformOperations();
+                                }
+                                catch
+                                {
+                                    deleteTcs.TrySetResult(false);
+                                }
+
+                                return (await deleteTcs.Task, shellOperationResult);
+                            }
+                        });
+                        await Win32API.SendMessageAsync(connection, new ValueSet() {
+                            { "Success", success },
+                            { "Result", JsonConvert.SerializeObject(shellOperationResult) }
+                        }, message.Get("RequestID", (string)null));
+                    }
+                    break;
+
                 case "DeleteItem":
                     {
                         var fileToDeletePath = ((string)message["filepath"]).Split('|');

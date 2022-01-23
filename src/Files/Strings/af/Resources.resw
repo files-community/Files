@@ -45,9 +45,6 @@
   <data name="Size" xml:space="preserve">
     <value>Grootte</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Maak oop in Terminal...</value>
-  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Geskep:</value>
   </data>
@@ -90,7 +87,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Tik 'n pad in</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Soek</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">

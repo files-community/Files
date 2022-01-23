@@ -507,7 +507,7 @@ namespace Files
                     ItemManipulationModel.SetSelectedItems(liItemsToSelect);
                     ItemManipulationModel.FocusSelectedItems();
                 }
-                else
+                else if (navigationArguments != null && navigationArguments.FocusOnNavigation)
                 {
                     ItemManipulationModel.FocusFileList(); // Set focus on layout specific file list control
                 }

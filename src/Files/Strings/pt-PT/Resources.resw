@@ -75,7 +75,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Insira uma localização</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Pesquisar</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
@@ -1763,9 +1763,6 @@
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Colar</value>
-  </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Abrir no Terminal...</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Novo</value>
