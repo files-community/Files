@@ -13,6 +13,7 @@
     xmlns:local="using:Files.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
@@ -320,7 +321,10 @@
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
 
-                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenInLogin}" HorizontalAlignment="Stretch">
+                        <local:SettingsBlockControl 
+                            Title="{helpers:ResourceString Name=SettingsOpenInLogin}"
+                            HorizontalAlignment="Stretch"
+                            IsExpanded="True">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xE7E8;" />
                             </local:SettingsBlockControl.Icon>
@@ -335,6 +339,22 @@
                                     </icore:EventTriggerBehavior>
                                 </i:Interaction.Behaviors>
                             </ToggleSwitch>
+                            <local:SettingsBlockControl.ExpandableContent>
+                                <muxc:InfoBar
+                                    x:Name="StateLogin"
+                                    CornerRadius="0,0,2,2"
+                                    IsClosable="False"
+                                    IsIconVisible="True"
+                                    IsOpen="True"
+                                    Severity="Warning"
+                                    Title="{helpers:ResourceString Name=Status}">
+                                    <muxc:InfoBar.ActionButton>
+                                        <Button Content="{helpers:ResourceString Name=OpenSettings}"
+                                                Click="Button_Click"
+                                                HorizontalAlignment="Right" />
+                                    </muxc:InfoBar.ActionButton>
+                                </muxc:InfoBar>
+                            </local:SettingsBlockControl.ExpandableContent>
                         </local:SettingsBlockControl>
                     </StackPanel>
                 </local:SettingsBlockControl.ExpandableContent>
