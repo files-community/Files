@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Helpers
@@ -36,7 +38,11 @@ namespace Files.Helpers
                 return;
             }
 
-            var file = await StorageFile.GetFileFromPathAsync(filePath);
+            var file = await StorageHelpers.ToStorageItem<IStorageFile>(filePath);
+
+            if (file == null)
+                return;
+
 
             using IRandomAccessStream fs = await file.OpenAsync(FileAccessMode.ReadWrite), ms = new InMemoryRandomAccessStream();
 
