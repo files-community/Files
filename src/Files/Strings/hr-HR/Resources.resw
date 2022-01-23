@@ -45,9 +45,6 @@
   <data name="Size" xml:space="preserve">
     <value>Veličina</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Otvori u Terminalu...</value>
-  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Napravljeno:</value>
   </data>
@@ -68,9 +65,6 @@
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>je podmapa izvorne mape</value>
-  </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Vrsta stavke:</value>
   </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Odaberi sve</value>
@@ -93,7 +87,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Unesi putanju</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Pretraga</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
@@ -197,9 +191,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Zalijepi</value>
-  </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5Hash:</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Novo</value>
@@ -305,9 +296,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Svojstva</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Atributi:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Svojstva</value>

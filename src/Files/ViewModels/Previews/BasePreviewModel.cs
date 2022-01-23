@@ -55,7 +55,7 @@ namespace Files.ViewModels.Previews
         /// <returns>A list of details</returns>
         public async virtual Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Item.ItemFile, 400, ThumbnailMode.SingleItem);
+            var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Item.ItemFile, 400, ThumbnailMode.DocumentsView);
             iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400);
             if (iconData != null)
             {
@@ -110,7 +110,11 @@ namespace Files.ViewModels.Previews
         public virtual async Task LoadAsync()
         {
             List<FileProperty> detailsFull = new();
-            Item.ItemFile ??= await StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath);
+            if (Item.ItemFile == null)
+            {
+                var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(Item.ItemPath));
+                Item.ItemFile = await StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath, rootItem);
+            }
             await Task.Run(async () =>
             {
                 DetailsFromPreview = await LoadPreviewAndDetails();

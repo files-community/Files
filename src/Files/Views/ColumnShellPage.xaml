@@ -21,6 +21,11 @@
 
     <Page.KeyboardAccelerators>
         <KeyboardAccelerator
+            Key="E"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control" />
+        <KeyboardAccelerator
             Key="Z"
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
@@ -123,6 +128,11 @@
             Key="F1"
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+        <KeyboardAccelerator
+            Key="K"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control" />
     </Page.KeyboardAccelerators>
     <Grid
         x:Name="RootGrid"

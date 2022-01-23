@@ -20,6 +20,11 @@
 
     <Page.KeyboardAccelerators>
         <KeyboardAccelerator
+            Key="E"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control" />
+        <KeyboardAccelerator
             Key="Z"
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
@@ -99,6 +104,11 @@
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Menu" />
+        <KeyboardAccelerator
+            Key="K"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control" />
         <KeyboardAccelerator
             Key="F2"
             Invoked="KeyboardAccelerator_Invoked"

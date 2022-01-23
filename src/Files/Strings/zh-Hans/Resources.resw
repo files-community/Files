@@ -24,9 +24,6 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>大小:</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>文件类型:</value>
-  </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>修改时间:</value>
   </data>
@@ -135,7 +132,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>输入路径</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>搜索</value>
   </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
@@ -216,9 +213,6 @@
   <data name="ItemTypeFile" xml:space="preserve">
     <value>文件</value>
   </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5 哈希值:</value>
-  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>无法完成该操作</value>
   </data>
@@ -236,9 +230,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>属性</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>属性:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>属性</value>
@@ -1775,9 +1766,6 @@
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>粘贴</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>在终端中打开...</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>新建</value>
   </data>
@@ -2115,7 +2103,7 @@
     <value>单击打开文件</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>列出和排序文件旁的目录</value>
+    <value>文件夹与文件一同分类排序</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>搜索文件和文件夹时显示未建立索引的项</value>
@@ -2583,5 +2571,32 @@ Files 不收集、存储、共享或发布任何个人信息。
   </data>
   <data name="Skip" xml:space="preserve">
     <value>跳过</value>
+  </data>
+  <data name="SettingsOpenInLogin" xml:space="preserve">
+    <value>Windows启动时打开Files</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>属性</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>隐藏</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>更多详情</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>只读</value>
+  </data>
+  <data name="CleanupDrive" xml:space="preserve">
+    <value>清理驱动器内容</value>
+  </data>
+  <data name="DiskCleanup" xml:space="preserve">
+    <value>磁盘清理</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>类型：</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>字节</value>
   </data>
 </root>

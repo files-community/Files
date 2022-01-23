@@ -2,7 +2,7 @@
 
 namespace Files.Services
 {
-    public interface IWidgetsSettingsService : INotifyPropertyChanged
+    public interface IWidgetsSettingsService : IBaseSettingsService, INotifyPropertyChanged
     {
         /// <summary>
         /// Gets or sets a value indicating whether or not the library cards widget should be visible.

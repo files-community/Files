@@ -54,9 +54,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>மூல கோப்புறையின் துணைக் கோப்புறை</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>உருப்படி வகை:</value>
-  </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>அனைத்தையும் தேர்ந்தெடு</value>
   </data>
@@ -75,7 +72,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>ஒரு பாதையை உள்ளிடுக</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>தேடு</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
@@ -158,9 +155,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>ஒட்டு</value>
-  </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5 hash:</value>
   </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>பண்புகள்</value>
@@ -251,9 +245,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>பண்புகள்</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>பண்புக் கூறுகள்:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>பண்புகள்</value>

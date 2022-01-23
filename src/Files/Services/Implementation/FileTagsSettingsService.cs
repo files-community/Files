@@ -82,5 +82,9 @@ namespace Files.Services.Implementation
             // Return string in Json format
             return jsonSettingsSerializer.SerializeToJson(FileTagList);
         }
+
+        public void ReportToAppCenter()
+        {
+        }
     }
 }

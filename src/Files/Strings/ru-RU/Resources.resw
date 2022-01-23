@@ -24,9 +24,6 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Размер:</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Тип:</value>
-  </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Изменено:</value>
   </data>
@@ -90,7 +87,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Введите путь</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Поиск</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
@@ -225,17 +222,11 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>это подпапка исходной папки</value>
   </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5 Хэш:</value>
-  </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Инвертировать выделение</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Свойства</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Атрибуты:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Свойства</value>
@@ -1745,9 +1736,6 @@
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Вставить</value>
-  </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Открыть в терминале...</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Создать</value>

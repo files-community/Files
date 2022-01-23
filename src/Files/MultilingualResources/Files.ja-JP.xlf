@@ -16,11 +16,11 @@
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewBitmapImage.Text" translate="yes" xml:space="preserve">
           <source>Bitmap Image</source>
-          <target state="translated">ビットマップ</target>
+          <target state="translated">ビットマップ画像</target>
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewTextDocument.Text" translate="yes" xml:space="preserve">
           <source>Text Document</source>
-          <target state="translated">テキスト文書</target>
+          <target state="translated">テキスト ドキュメント</target>
         </trans-unit>
         <trans-unit id="nameColumn.Header" translate="yes" xml:space="preserve">
           <source>Name</source>
@@ -56,15 +56,11 @@
         </trans-unit>
         <trans-unit id="ErrorDialogTheDestinationFolder" translate="yes" xml:space="preserve">
           <source>The destination folder</source>
-          <target state="translated">移動先フォルダ</target>
+          <target state="translated">移動先フォルダー</target>
         </trans-unit>
         <trans-unit id="ErrorDialogIsASubfolder" translate="yes" xml:space="preserve">
           <source>is a subfolder of the source folder</source>
-          <target state="translated">は移動元のフォルダのサブフォルダです</target>
-        </trans-unit>
-        <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
-          <source>Item type:</source>
-          <target state="translated">種類:</target>
+          <target state="translated">は移動元のフォルダーのサブフォルダーです</target>
         </trans-unit>
         <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
@@ -90,7 +86,7 @@
           <source>Enter a path</source>
           <target state="translated">パスを入力</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarSearchReigon.PlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="NavigationToolbarSearchRegion.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Search</source>
           <target state="translated">検索</target>
         </trans-unit>
@@ -112,7 +108,7 @@
         </trans-unit>
         <trans-unit id="About" translate="yes" xml:space="preserve">
           <source>About</source>
-          <target state="translated">Filesについて</target>
+          <target state="translated">Files について</target>
         </trans-unit>
         <trans-unit id="Appearance" translate="yes" xml:space="preserve">
           <source>Appearance</source>
@@ -132,7 +128,7 @@
         </trans-unit>
         <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
           <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
-          <target state="translated">注: 実験的な機能です！</target>
+          <target state="translated">注: 実験的な機能です!</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupContinueWhereYouLeftOff.Content" translate="yes" xml:space="preserve">
           <source>Continue where you left off</source>
@@ -202,10 +198,6 @@
           <source>Paste</source>
           <target state="translated">貼り付け</target>
         </trans-unit>
-        <trans-unit id="PropertiesItemMD5Hash.Text" translate="yes" xml:space="preserve">
-          <source>MD5Hash:</source>
-          <target state="translated">MD5 ハッシュ:</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutPropertiesFolder.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated">プロパティ</target>
@@ -248,7 +240,7 @@
         </trans-unit>
         <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
           <source>Welcome to Files!</source>
-          <target state="translated">Files へようこそ！</target>
+          <target state="translated">Files へようこそ!</target>
         </trans-unit>
         <trans-unit id="WelcomeDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Grant Permission</source>
@@ -256,11 +248,11 @@
         </trans-unit>
         <trans-unit id="WelcomeDialogTextBlock.Text" translate="yes" xml:space="preserve">
           <source>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </source>
-          <target state="translated">使用を開始する前に、ファイルシステムへのアクセスを許可してください。 Windows の設定が開き、アクセス許可の付与を選択できます。 設定が完了したら、アプリケーションを再起動する必要があります。</target>
+          <target state="translated">使用を開始する前に、ファイル システムへのアクセスを許可してください。Windows の設定が開き、アクセス許可の付与を選択できます。設定が完了したら、アプリケーションを再起動する必要があります。</target>
         </trans-unit>
         <trans-unit id="FileFolderListItem" translate="yes" xml:space="preserve">
           <source>File folder</source>
-          <target state="translated">フォルダ</target>
+          <target state="translated">フォルダー</target>
         </trans-unit>
         <trans-unit id="ItemTypeFile" translate="yes" xml:space="preserve">
           <source>File</source>
@@ -296,11 +288,11 @@
         </trans-unit>
         <trans-unit id="NewFolder" translate="yes" xml:space="preserve">
           <source>New Folder</source>
-          <target state="translated">新しいフォルダ</target>
+          <target state="translated">新しいフォルダー</target>
         </trans-unit>
         <trans-unit id="EmptyFolder.Text" translate="yes" xml:space="preserve">
           <source>This folder is empty.</source>
-          <target state="translated">フォルダは空です。</target>
+          <target state="translated">フォルダーは空です。</target>
         </trans-unit>
         <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Back (Alt+Left Arrow)</source>
@@ -312,7 +304,7 @@
         </trans-unit>
         <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Up (Alt+Up Arrow)</source>
-          <target state="translated">1つ上のディレクトリへ行く (Alt+上矢印)</target>
+          <target state="translated">1 つ上のディレクトリへ行く (Alt+上矢印)</target>
         </trans-unit>
         <trans-unit id="NavRefreshButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Refresh (F5)</source>
@@ -326,17 +318,13 @@
           <source>Properties</source>
           <target state="translated">プロパティ</target>
         </trans-unit>
-        <trans-unit id="PropertiesAttributes.Text" translate="yes" xml:space="preserve">
-          <source>Attributes:</source>
-          <target state="translated">属性:</target>
-        </trans-unit>
         <trans-unit id="PropertiesTitleSecondary.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated">プロパティ</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogContent" translate="yes" xml:space="preserve">
           <source>An item with this name already exists in this directory.</source>
-          <target state="translated">同じ名前のファイルがこのフォルダにすでに存在します。</target>
+          <target state="translated">同じ名前のファイルがこのフォルダーにすでに存在します。</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Replace existing item</source>
@@ -376,7 +364,7 @@
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Title" translate="yes" xml:space="preserve">
           <source>Drive Unplugged</source>
-          <target state="translated">ドライブがイジェクトされました</target>
+          <target state="translated">ドライブが取り外されました</target>
         </trans-unit>
         <trans-unit id="FileNotFoundDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to access may have been moved or deleted.</source>
@@ -392,11 +380,11 @@
         </trans-unit>
         <trans-unit id="FolderNotFoundDialog.Text" translate="yes" xml:space="preserve">
           <source>The folder you are attempting to access may have been moved or deleted.</source>
-          <target state="translated">アクセスしようとしているフォルダは移動または削除された可能性があります。</target>
+          <target state="translated">アクセスしようとしているフォルダーは移動または削除された可能性があります。</target>
         </trans-unit>
         <trans-unit id="FolderNotFoundDialog.Title" translate="yes" xml:space="preserve">
           <source>Did you delete this folder?</source>
-          <target state="translated">このフォルダを削除してもよろしいですか？</target>
+          <target state="translated">このフォルダーを削除しますか?</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you're trying to delete is currently being used by an another application.</source>
@@ -500,7 +488,7 @@
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to permanently delete all these items?</source>
-          <target state="translated">すべてのファイルを削除してもよろしいですか？</target>
+          <target state="translated">すべてのファイルを完全に削除しますか?</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogTitle" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
@@ -556,7 +544,7 @@
         </trans-unit>
         <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter password to unlock the drive</source>
-          <target state="translated">パスワードを入力してドライブのロックを解除</target>
+          <target state="translated">パスワードを入力してドライブのロックを解除します</target>
         </trans-unit>
         <trans-unit id="BitlockerDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Password</source>
@@ -568,7 +556,7 @@
         </trans-unit>
         <trans-unit id="BitlockerInvalidPwDialog.Title" translate="yes" xml:space="preserve">
           <source>BitLocker error</source>
-          <target state="translated">BitLockerのエラーが発生しました</target>
+          <target state="translated">BitLocker のエラーが発生しました</target>
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
           <source>Contains:</source>
@@ -576,7 +564,7 @@
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} files, {1:#,##0} folders</source>
-          <target state="translated">{0:#,##0} ファイル, {1:#,##0} フォルダ</target>
+          <target state="translated">{0:#,##0} ファイル, {1:#,##0} フォルダー</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
@@ -612,7 +600,7 @@
         </trans-unit>
         <trans-unit id="PropertiesDriveFileSystem.Text" translate="yes" xml:space="preserve">
           <source>File system:</source>
-          <target state="translated">ファイル システム</target>
+          <target state="translated">ファイル システム:</target>
         </trans-unit>
         <trans-unit id="JumpListRecentGroupHeader" translate="yes" xml:space="preserve">
           <source>Recent</source>
@@ -656,7 +644,7 @@
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFolder" translate="yes" xml:space="preserve">
           <source>The destination folder is the same as the source folder.</source>
-          <target state="translated">送り側と受け側のフォルダが同じです。</target>
+          <target state="translated">送り側と受け側のフォルダーが同じです。</target>
         </trans-unit>
         <trans-unit id="CopyToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Copy to {0}</source>
@@ -684,7 +672,7 @@
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemWorkingDir.Text" translate="yes" xml:space="preserve">
           <source>Working directory:</source>
-          <target state="translated">作業フォルダ:</target>
+          <target state="translated">作業フォルダー:</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutTypeFile" translate="yes" xml:space="preserve">
           <source>File</source>
@@ -724,7 +712,7 @@
         </trans-unit>
         <trans-unit id="ExceptionNotificationBody" translate="yes" xml:space="preserve">
           <source>Files ran into a problem that the developers didn't prepare for yet.</source>
-          <target state="translated">Filesは、開発者がまだ想定していない問題に遭遇しました。</target>
+          <target state="translated">Files は、開発者がまだ想定していない問題に遭遇しました。</target>
         </trans-unit>
         <trans-unit id="ExceptionNotificationHeader" translate="yes" xml:space="preserve">
           <source>Something went wrong!</source>
@@ -776,7 +764,7 @@
         </trans-unit>
         <trans-unit id="RenameError.ItemDeleted.Text" translate="yes" xml:space="preserve">
           <source>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</source>
-          <target state="translated">名前を変更しようとしているファイルが既に存在しません。 名前を変更する必要があるファイルの正しい場所を確認してください。</target>
+          <target state="translated">名前を変更しようとしているファイルが既に存在しません。名前を変更する必要があるファイルの正しい場所を確認してください。</target>
         </trans-unit>
         <trans-unit id="RenameError.ItemDeleted.Title" translate="yes" xml:space="preserve">
           <source>Item no longer exists</source>
@@ -784,7 +772,7 @@
         </trans-unit>
         <trans-unit id="RenameError.NameInvalid.Text" translate="yes" xml:space="preserve">
           <source>The name specified was invalid. Please check the desired item name and try again.</source>
-          <target state="translated">指定された名前が無効でした。 目的の名前を確認して、再試行してください。</target>
+          <target state="translated">指定された名前が無効でした。目的の名前を確認して、再試行してください。</target>
         </trans-unit>
         <trans-unit id="RenameError.NameInvalid.Title" translate="yes" xml:space="preserve">
           <source>Invalid item name</source>
@@ -824,7 +812,7 @@
         </trans-unit>
         <trans-unit id="RestartNotificationText.Text" translate="yes" xml:space="preserve">
           <source>The application needs to be restarted in order to apply these settings, would you like to restart the app?</source>
-          <target state="translated">言語設定を適用するには、アプリケーションを再起動する必要があります。アプリを再起動しますか？</target>
+          <target state="translated">言語設定を適用するには、アプリケーションを再起動する必要があります。アプリを再起動しますか?</target>
         </trans-unit>
         <trans-unit id="AddDialog.Title" translate="yes" xml:space="preserve">
           <source>Create a New Item</source>
@@ -840,11 +828,11 @@
         </trans-unit>
         <trans-unit id="Folder" translate="yes" xml:space="preserve">
           <source>Folder</source>
-          <target state="translated">フォルダ</target>
+          <target state="translated">フォルダー</target>
         </trans-unit>
         <trans-unit id="AddDialogListFolderSubHeader" translate="yes" xml:space="preserve">
           <source>Creates an empty folder</source>
-          <target state="translated">空のフォルダを作成</target>
+          <target state="translated">空のフォルダーを作成</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
@@ -860,11 +848,11 @@
         </trans-unit>
         <trans-unit id="NavResfreshButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Refresh the directory</source>
-          <target state="translated">フォルダの最新情報に更新</target>
+          <target state="translated">フォルダーの最新情報に更新</target>
         </trans-unit>
         <trans-unit id="NavUpButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Go up one directory</source>
-          <target state="translated">1つ上のディレクトリへ行く</target>
+          <target state="translated">1 つ上のディレクトリへ行く</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUs.Text" translate="yes" xml:space="preserve">
           <source>Support us</source>
@@ -1004,7 +992,7 @@
         </trans-unit>
         <trans-unit id="PropertyLatitudeDecimal" translate="yes" xml:space="preserve">
           <source>Latitude Decimal</source>
-          <target state="translated">緯度 (10進数)</target>
+          <target state="translated">緯度 (10 進数)</target>
         </trans-unit>
         <trans-unit id="PropertyLatitudeRef" translate="yes" xml:space="preserve">
           <source>Latitude Ref</source>
@@ -1016,7 +1004,7 @@
         </trans-unit>
         <trans-unit id="PropertyLongitudeDecimal" translate="yes" xml:space="preserve">
           <source>Longitude Decimal</source>
-          <target state="translated">経度 (10進数)</target>
+          <target state="translated">経度 (10 進数)</target>
         </trans-unit>
         <trans-unit id="PropertyLongitudeRef" translate="yes" xml:space="preserve">
           <source>Longitude Ref</source>
@@ -1152,7 +1140,7 @@
         </trans-unit>
         <trans-unit id="PropertyProviderStyle" translate="yes" xml:space="preserve">
           <source>Provider Style</source>
-          <target state="translated">プロバイダースタイル</target>
+          <target state="translated">プロバイダー スタイル</target>
         </trans-unit>
         <trans-unit id="PropertyPublisher" translate="yes" xml:space="preserve">
           <source>Publisher</source>
@@ -1176,7 +1164,7 @@
         </trans-unit>
         <trans-unit id="PropertyUserWebUrl" translate="yes" xml:space="preserve">
           <source>User Web Url</source>
-          <target state="translated">User Web URL</target>
+          <target state="translated">ユーザー Web URL</target>
         </trans-unit>
         <trans-unit id="PropertyWriter" translate="yes" xml:space="preserve">
           <source>Writer</source>
@@ -1360,11 +1348,11 @@
         </trans-unit>
         <trans-unit id="SettingsAboutContributorsListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>See who contributed to Files</source>
-          <target state="translated">Filesの開発に貢献した人を見る</target>
+          <target state="translated">Files の開発に貢献者を見る</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Find out what's new in Files</source>
-          <target state="translated">Filesの新機能を確認</target>
+          <target state="translated">Files の新機能を確認</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Send the developers an issue report with more information</source>
@@ -1372,8 +1360,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Support us on GitHub</source>
-          <target state="needs-review-translation">PayPal で私たちを支援してください</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">GitHub で支援</target>
         </trans-unit>
         <trans-unit id="Details" translate="yes" xml:space="preserve">
           <source>Details</source>
@@ -1385,7 +1372,7 @@
         </trans-unit>
         <trans-unit id="UpdateConsentDialogContent" translate="yes" xml:space="preserve">
           <source>Do you want to download and install the latest version of Files?</source>
-          <target state="translated">Files の最新版をダウンロードし、インストールしますか？</target>
+          <target state="translated">Files の最新版をダウンロードし、インストールしますか?</target>
         </trans-unit>
         <trans-unit id="UpdateConsentDialogTitle" translate="yes" xml:space="preserve">
           <source>Updates Available</source>
@@ -1441,11 +1428,11 @@
         </trans-unit>
         <trans-unit id="SettingsContextMenu.Text" translate="yes" xml:space="preserve">
           <source>Customize the right click context menu</source>
-          <target state="translated">右クリックメニューをカスタマイズ</target>
+          <target state="translated">右クリック メニューをカスタマイズ</target>
         </trans-unit>
         <trans-unit id="Folders" translate="yes" xml:space="preserve">
           <source>Folders</source>
-          <target state="translated">フォルダ</target>
+          <target state="translated">フォルダー</target>
         </trans-unit>
         <trans-unit id="NavToolbarDetails.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Details (Ctrl+Shift+1)</source>
@@ -1485,11 +1472,11 @@
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleErrorAlreadyExists" translate="yes" xml:space="preserve">
           <source>Bundle with the same name already exists!</source>
-          <target state="translated">同じ名前のバンドルが既に存在しています！</target>
+          <target state="translated">同じ名前のバンドルが既に存在しています!</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleErrorInputEmpty" translate="yes" xml:space="preserve">
           <source>Input field cannot be empty!</source>
-          <target state="translated">入力フィールドが空欄です！</target>
+          <target state="translated">入力フィールドが空欄です!</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetRenameBundleDialogSubtitleText" translate="yes" xml:space="preserve">
           <source>Enter new name</source>
@@ -1541,7 +1528,7 @@
         </trans-unit>
         <trans-unit id="BundleNoContentsTextBlock.Text" translate="yes" xml:space="preserve">
           <source>Drag and drop any file or folder here to quickly access it</source>
-          <target state="translated">ファイルやフォルダをここにドラッグして追加</target>
+          <target state="translated">ファイルやフォルダーをここにドラッグして追加</target>
         </trans-unit>
         <trans-unit id="EnterBundleName" translate="yes" xml:space="preserve">
           <source>Enter Bundle name</source>
@@ -1629,7 +1616,7 @@
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Excluded" translate="yes" xml:space="preserve">
           <source>Excluded from sync</source>
-          <target state="translated">同期から除外済</target>
+          <target state="translated">同期から除外済み</target>
         </trans-unit>
         <trans-unit id="ItemSizeNotCalculated" translate="yes" xml:space="preserve">
           <source>Not calculated</source>
@@ -1645,7 +1632,7 @@
         </trans-unit>
         <trans-unit id="RenameFileDialog.Text" translate="yes" xml:space="preserve">
           <source>If you change a file extension, the file might become unusable. Are you sure you want to change it?</source>
-          <target state="translated">拡張子を変更すると、ファイルが使えなくなる可能性があります。変更しますか？</target>
+          <target state="translated">拡張子を変更すると、ファイルが使えなくなる可能性があります。変更しますか?</target>
         </trans-unit>
         <trans-unit id="DriveTypeCDRom" translate="yes" xml:space="preserve">
           <source>CD ROM Drive</source>
@@ -1661,7 +1648,7 @@
         </trans-unit>
         <trans-unit id="DriveTypeFloppyDisk" translate="yes" xml:space="preserve">
           <source>Floppy Disk Drive</source>
-          <target state="translated">フロッピーディスク ドライブ</target>
+          <target state="translated">フロッピー ディスク ドライブ</target>
         </trans-unit>
         <trans-unit id="DriveTypeNetwork" translate="yes" xml:space="preserve">
           <source>Network Drive</source>
@@ -1781,7 +1768,7 @@
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Content" translate="yes" xml:space="preserve">
           <source>Would you like to continue as administrator?</source>
-          <target state="translated">管理者として続行しますか？</target>
+          <target state="translated">管理者として続行しますか?</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlCloseTabsToTheRight.Text" translate="yes" xml:space="preserve">
           <source>Close tabs to the right</source>
@@ -1797,11 +1784,11 @@
         </trans-unit>
         <trans-unit id="PinItemToStart.Text" translate="yes" xml:space="preserve">
           <source>Pin to the Start Menu</source>
-          <target state="translated">スタートメニューに固定</target>
+          <target state="translated">スタート メニューに固定</target>
         </trans-unit>
         <trans-unit id="UnpinItemFromStart.Text" translate="yes" xml:space="preserve">
           <source>Unpin from the Start Menu</source>
-          <target state="translated">スタートメニューから固定解除</target>
+          <target state="translated">スタート メニューから固定解除</target>
         </trans-unit>
         <trans-unit id="ColumnsShortcutTooltip" translate="yes" xml:space="preserve">
           <source>Columns (Ctrl+Shift+6)</source>
@@ -1809,7 +1796,7 @@
         </trans-unit>
         <trans-unit id="PropertiesFilesFoldersAndLocationsCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</source>
-          <target state="translated">{2:#,##0} か所からの {0:#,##0} ファイル, {1:#,##0} フォルダ</target>
+          <target state="translated">{2:#,##0} か所からの {0:#,##0} ファイル, {1:#,##0} フォルダー</target>
         </trans-unit>
         <trans-unit id="ItemTypeLibrary" translate="yes" xml:space="preserve">
           <source>Library</source>
@@ -1841,7 +1828,7 @@
         </trans-unit>
         <trans-unit id="ErrorInputEmpty" translate="yes" xml:space="preserve">
           <source>Input field cannot be empty!</source>
-          <target state="translated">入力フィールドは空欄にはできません！</target>
+          <target state="translated">入力フィールドは空欄にはできません!</target>
         </trans-unit>
         <trans-unit id="ErrorNameInputRestrictedCharacters" translate="yes" xml:space="preserve">
           <source>The name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
@@ -1849,11 +1836,11 @@
         </trans-unit>
         <trans-unit id="ErrorNameInputRestricted" translate="yes" xml:space="preserve">
           <source>Using this name is not allowed!</source>
-          <target state="translated">この名前は使用できません！</target>
+          <target state="translated">この名前は使用できません!</target>
         </trans-unit>
         <trans-unit id="CreateLibraryErrorAlreadyExists" translate="yes" xml:space="preserve">
           <source>Library with the same name already exists!</source>
-          <target state="translated">同じ名前のライブラリが既に存在しています！</target>
+          <target state="translated">同じ名前のライブラリが既に存在しています!</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutDeleteLibrary.Text" translate="yes" xml:space="preserve">
           <source>Delete Library</source>
@@ -1933,7 +1920,7 @@
         </trans-unit>
         <trans-unit id="SearchUnindexedItemsLabel.Text" translate="yes" xml:space="preserve">
           <source>Didn't find what you're looking for?</source>
-          <target state="translated">お探しのファイルが見つかりませんでしたか？</target>
+          <target state="translated">お探しのファイルが見つかりませんでしたか?</target>
         </trans-unit>
         <trans-unit id="SearchUnindexedItemsButton.Content" translate="yes" xml:space="preserve">
           <source>Search unindexed items.</source>
@@ -1969,11 +1956,11 @@
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" translate="yes" xml:space="preserve">
           <source>There are {0} conflicting file names, and {1} outgoing item(s).</source>
-          <target state="translated">{0} 個の競合するファイル名と、{1} 個のそうでないファイルがあります</target>
+          <target state="translated">{0} 個の競合するファイル名と、{1} 個の競合しないファイルがあります</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" translate="yes" xml:space="preserve">
           <source>There is one conflicting file name, and {0} outgoing item(s).</source>
-          <target state="translated">1 個の競合するファイル名と、{0} 個のそうでないファイルがあります</target>
+          <target state="translated">1 個の競合するファイル名と、{0} 個の競合しないファイルがあります</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
@@ -2149,11 +2136,11 @@
         </trans-unit>
         <trans-unit id="SettingsAboutPrivacyPolicy.Text" translate="yes" xml:space="preserve">
           <source>Privacy policy</source>
-          <target state="translated">プライバシーポリシー</target>
+          <target state="translated">プライバシー ポリシー</target>
         </trans-unit>
         <trans-unit id="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>View Files privacy policy</source>
-          <target state="translated">Files のプライバシーポリシーを見る</target>
+          <target state="translated">Files のプライバシー ポリシーを見る</target>
         </trans-unit>
         <trans-unit id="RenameFileDialogTitle" translate="yes" xml:space="preserve">
           <source>Rename</source>
@@ -2355,10 +2342,6 @@
           <source>Paste</source>
           <target state="translated">貼り付け</target>
         </trans-unit>
-        <trans-unit id="OpenInTerminal" translate="yes" xml:space="preserve">
-          <source>Open in Terminal...</source>
-          <target state="translated">ターミナルで開く...</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNew.Label" translate="yes" xml:space="preserve">
           <source>New</source>
           <target state="translated">新規</target>
@@ -2421,7 +2404,7 @@
         </trans-unit>
         <trans-unit id="SecurityCannotReadProperties.Text" translate="yes" xml:space="preserve">
           <source>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</source>
-          <target state="translated">このオブジェクトのセキュリティプロパティを表示する権限がありません。 [詳細設定]をクリックして続行します。</target>
+          <target state="translated">このオブジェクトのセキュリティ プロパティを表示する権限がありません。[詳細設定] をクリックして続行します。</target>
         </trans-unit>
         <trans-unit id="SecurityOwnerLabel.Text" translate="yes" xml:space="preserve">
           <source>Owner</source>
@@ -2437,15 +2420,15 @@
         </trans-unit>
         <trans-unit id="SettingsAppearanceOpenThemesFolderButton.Content" translate="yes" xml:space="preserve">
           <source>Open themes folder</source>
-          <target state="translated">テーマフォルダを開く</target>
+          <target state="translated">テーマ フォルダーを開く</target>
         </trans-unit>
         <trans-unit id="SettingsThemesLearnMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Learn more about custom themes</source>
-          <target state="translated">カスタムテーマの詳細</target>
+          <target state="translated">カスタム テーマの詳細</target>
         </trans-unit>
         <trans-unit id="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about custom themes</source>
-          <target state="translated">カスタムテーマの詳細</target>
+          <target state="translated">カスタム テーマの詳細</target>
         </trans-unit>
         <trans-unit id="SettingsThemesTeachingTipHeader.Text" translate="yes" xml:space="preserve">
           <source>Custom themes provide a great way for you to personalize Files.</source>
@@ -2457,11 +2440,11 @@
         </trans-unit>
         <trans-unit id="VerticalTabFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Vertical tab flyout</source>
-          <target state="translated">垂直タブフライアウト</target>
+          <target state="translated">垂直タブ フライアウト</target>
         </trans-unit>
         <trans-unit id="VerticalTabFlyout.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Vertical tab flyout</source>
-          <target state="translated">垂直タブフライアウト</target>
+          <target state="translated">垂直タブ フライアウト</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>New tab (Ctrl+T)</source>
@@ -2481,7 +2464,7 @@
         </trans-unit>
         <trans-unit id="DialogRestoreLibrariesSubtitleText" translate="yes" xml:space="preserve">
           <source>Are you sure you want to restore the default libraries? All your files will remain on your storage.</source>
-          <target state="translated">デフォルトのライブラリを復元してもよろしいですか？ すべてのファイルはストレージに残ります。</target>
+          <target state="translated">デフォルトのライブラリを復元しますか? すべてのファイルはストレージに残ります。</target>
         </trans-unit>
         <trans-unit id="DialogRestoreLibrariesTitleText" translate="yes" xml:space="preserve">
           <source>Restore Libraries</source>
@@ -2489,7 +2472,7 @@
         </trans-unit>
         <trans-unit id="RecentFiles" translate="yes" xml:space="preserve">
           <source>Recent Files</source>
-          <target state="translated">最近使ったファイル</target>
+          <target state="translated">最近使用したファイル</target>
         </trans-unit>
         <trans-unit id="BundlesOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in new Pane</source>
@@ -2525,7 +2508,7 @@
         </trans-unit>
         <trans-unit id="SecurityAdvancedFlagsFolderLabel" translate="yes" xml:space="preserve">
           <source>this folder</source>
-          <target state="translated">このフォルダ</target>
+          <target state="translated">このフォルダー</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedFlagsSubfoldersLabel" translate="yes" xml:space="preserve">
           <source>subfolders</source>
@@ -2545,7 +2528,7 @@
         </trans-unit>
         <trans-unit id="SecurityAdvancedCannotReadProperties.Text" translate="yes" xml:space="preserve">
           <source>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</source>
-          <target state="translated">このオブジェクトのセキュリティプロパティを表示する権限がありません。 このオブジェクトの所有権を取得できる可能性があります。</target>
+          <target state="translated">このオブジェクトのセキュリティ プロパティを表示する権限がありません。このオブジェクトの所有権を取得できる可能性があります。</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedSpecialLabel.Text" translate="yes" xml:space="preserve">
           <source>Special</source>
@@ -2553,11 +2536,11 @@
         </trans-unit>
         <trans-unit id="SecurityAdvancedFolderFiles.Text" translate="yes" xml:space="preserve">
           <source>This folder and files</source>
-          <target state="translated" state-qualifier="tm-suggestion">このフォルダーとファイル</target>
+          <target state="translated">このフォルダーとファイル</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedFolderSubfoldersFiles.Text" translate="yes" xml:space="preserve">
           <source>This folder, subfolders and files</source>
-          <target state="translated" state-qualifier="tm-suggestion">このフォルダー、サブフォルダーおよびファイル</target>
+          <target state="translated">このフォルダー、サブフォルダーおよびファイル</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedOnlyFiles.Text" translate="yes" xml:space="preserve">
           <source>Only files</source>
@@ -2573,7 +2556,7 @@
         </trans-unit>
         <trans-unit id="SecurityAdvancedOnlyThisFolder.Text" translate="yes" xml:space="preserve">
           <source>Only this folder</source>
-          <target state="translated">このフォルダのみ</target>
+          <target state="translated">このフォルダーのみ</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedFolderSubfolders.Text" translate="yes" xml:space="preserve">
           <source>This folder and subfolders</source>
@@ -2629,7 +2612,7 @@
         </trans-unit>
         <trans-unit id="SecurityTraverseLabel.Text" translate="yes" xml:space="preserve">
           <source>Visit folder</source>
-          <target state="translated">フォルダにアクセス</target>
+          <target state="translated">フォルダーにアクセス</target>
         </trans-unit>
         <trans-unit id="SecurityWriteAttributesLabel.Text" translate="yes" xml:space="preserve">
           <source>Write attributes</source>
@@ -2665,7 +2648,7 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarClosePane.Label" translate="yes" xml:space="preserve">
           <source>Close pane</source>
-          <target state="translated" state-qualifier="tm-suggestion">ウィンドウを閉じる</target>
+          <target state="translated">ペインを閉じる</target>
         </trans-unit>
         <trans-unit id="PropertyFileDescription" translate="yes" xml:space="preserve">
           <source>File description</source>
@@ -2697,7 +2680,7 @@
         </trans-unit>
         <trans-unit id="DecompressArchiveDialogOpenDestinationWhenComplete.Content" translate="yes" xml:space="preserve">
           <source>Open destination folder when complete</source>
-          <target state="translated">完了したら宛先フォルダを開きます</target>
+          <target state="translated">完了したら宛先フォルダーを開きます</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutExtractFilesOption" translate="yes" xml:space="preserve">
           <source>Extract files</source>
@@ -2725,11 +2708,11 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarEnterCompactOverlay.Label" translate="yes" xml:space="preserve">
           <source>Enter compact overlay</source>
-          <target state="translated">コンパクトオーバーレイを入力してください</target>
+          <target state="translated">コンパクト オーバーレイを開始</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarExitCompactOverlay.Label" translate="yes" xml:space="preserve">
           <source>Exit compact overlay</source>
-          <target state="translated">コンパクトオーバーレイを終了</target>
+          <target state="translated">コンパクト オーバーレイを終了</target>
         </trans-unit>
         <trans-unit id="WSL" translate="yes" xml:space="preserve">
           <source>WSL</source>
@@ -2741,31 +2724,31 @@
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane" translate="yes" xml:space="preserve">
           <source>Always open new tabs in dual pane mode</source>
-          <target state="translated">常にデュアルペインモードで新しいタブを開く</target>
+          <target state="translated">常にデュアル ペイン モードで新しいタブを開く</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingEnableDualPane" translate="yes" xml:space="preserve">
           <source>Enable dual pane view</source>
-          <target state="translated">デュアルペインビューを有効に</target>
+          <target state="translated">デュアル ペイン ビューを有効にする</target>
         </trans-unit>
         <trans-unit id="SettingsVerticalTabFlyout" translate="yes" xml:space="preserve">
           <source>Display the vertical tab flyout on the title bar</source>
-          <target state="translated">タイトルバーに垂直タブフライアウトを表示</target>
+          <target state="translated">タイトルバーに垂直タブ フライアウトを表示</target>
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show cloud drives section</source>
-          <target state="translated">クラウドドライブセクションを表示</target>
+          <target state="translated">クラウド ドライブ セクションを表示</target>
         </trans-unit>
         <trans-unit id="SettingsShowDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show drives section</source>
-          <target state="translated">ドライブセクションを表示</target>
+          <target state="translated">ドライブ セクションを表示</target>
         </trans-unit>
         <trans-unit id="SettingsShowWslSection.Title" translate="yes" xml:space="preserve">
           <source>Show WSL section</source>
-          <target state="translated">WSLセクションを表示</target>
+          <target state="translated">WSL セクションを表示</target>
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show network section</source>
-          <target state="translated">ネットワークセクションを表示</target>
+          <target state="translated">ネットワーク セクションを表示</target>
         </trans-unit>
         <trans-unit id="SettingsPinRecycleBin.Title" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to favorites</source>
@@ -2793,11 +2776,11 @@
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowFileExtensions" translate="yes" xml:space="preserve">
           <source>Show extensions for known file types</source>
-          <target state="translated">既知のファイルタイプの拡張子を表示</target>
+          <target state="translated">既知のファイル タイプの拡張子を表示</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
-          <target state="translated" state-qualifier="tm-suggestion">すべてのファイルとフォルダーを表示</target>
+          <target state="translated">すべてのファイルとフォルダーを表示</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersHideSystemItems" translate="yes" xml:space="preserve">
           <source>Hide protected operating system files (Recommended)</source>
@@ -2805,7 +2788,7 @@
         </trans-unit>
         <trans-unit id="SettingsOpenFilesWithOneClick" translate="yes" xml:space="preserve">
           <source>Open files with a single click</source>
-          <target state="translated">シングルクリックでファイルを開く</target>
+          <target state="translated">シングル クリックでファイルを開く</target>
         </trans-unit>
         <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles" translate="yes" xml:space="preserve">
           <source>List and sort directories alongside files</source>
@@ -2813,11 +2796,11 @@
         </trans-unit>
         <trans-unit id="SettingsSearchUnindexedItems" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders</source>
-          <target state="translated">ファイルやフォルダの検索時にインデックスされていないファイルを表示</target>
+          <target state="translated">ファイルやフォルダーの検索時にインデックスされていないファイルを表示</target>
         </trans-unit>
         <trans-unit id="SettingsEnableLayoutPreferencesPerFolder" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
-          <target state="translated">ディレクトリのごとに設定を保存</target>
+          <target state="translated">ディレクトリごとに設定を保存</target>
         </trans-unit>
         <trans-unit id="SettingsUsefulLinks.Title" translate="yes" xml:space="preserve">
           <source>Useful links</source>
@@ -2825,7 +2808,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutPinToFavorites.Text" translate="yes" xml:space="preserve">
           <source>Pin to Favorites</source>
-          <target state="translated" state-qualifier="tm-suggestion">よくやり取りする連絡先に固定</target>
+          <target state="translated">お気に入りに固定</target>
         </trans-unit>
         <trans-unit id="SideBarUnpinFromFavorites.Text" translate="yes" xml:space="preserve">
           <source>Unpin from Favorites</source>
@@ -2861,11 +2844,11 @@
         </trans-unit>
         <trans-unit id="BundleOptionsFlyoutAddFolderMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Add folder</source>
-          <target state="translated" state-qualifier="tm-suggestion">フォルダーの追加</target>
+          <target state="translated">フォルダーの追加</target>
         </trans-unit>
         <trans-unit id="BundleOptionsFlyoutAddItemMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Add item...</source>
-          <target state="translated" state-qualifier="tm-suggestion">品目の追加</target>
+          <target state="translated">アイテムの追加</target>
         </trans-unit>
         <trans-unit id="Home" translate="yes" xml:space="preserve">
           <source>Home</source>
@@ -2945,7 +2928,7 @@
         </trans-unit>
         <trans-unit id="ExtractingCompleteText" translate="yes" xml:space="preserve">
           <source>Extracting complete!</source>
-          <target state="translated">抽出完了！</target>
+          <target state="translated">抽出完了!</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+N</source>
@@ -2961,11 +2944,11 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">ファイルやフォルダを削除するときに確認ダイアログを表示</target>
+          <target state="translated">ファイルやフォルダーを削除するときに確認ダイアログを表示</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Title" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>
-          <target state="translated">新しいタブでフォルダを開く</target>
+          <target state="translated">新しいタブでフォルダーを開く</target>
         </trans-unit>
         <trans-unit id="SettingsPrivacy.Title" translate="yes" xml:space="preserve">
           <source>Privacy policy</source>
@@ -2981,21 +2964,17 @@
         </trans-unit>
         <trans-unit id="SettingsPrivacyPolicyMarkdownBlock.Text" translate="yes" xml:space="preserve">
           <source>
-*Personal Information Collection*
-Files does not collect, store, share or publish any personal information.
-
-*Non-personal Information Collection*
-
-We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
+We use App Center to track which settings are being used, find bugs, and fix crashes. Information sent to App Center is anonymous and free of any user or contextual data.
   </source>
-          <target state="translated">
+          <target state="needs-review-translation">
 *個人情報の収集*
 Filesは、個人情報を収集、保存、共有、または公開することはありません。
 
 *非個人情報の収集*
 
-App Centerを使用して、アプリの使用状況を追跡し、バグを見つけ、クラッシュを修正します。 App Centerに送信されるすべての情報は匿名であり、ユーザーまたはコンテキストデータは含まれていません。
+App Center を使用して、アプリの使用状況を追跡し、バグを見つけ、クラッシュを修正します。App Center に送信されるすべての情報は匿名であり、ユーザーまたはコンテキスト データは含まれていません。
 </target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionName.Text" translate="yes" xml:space="preserve">
           <source>Name</source>
@@ -3007,7 +2986,7 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionOriginalFolder.Text" translate="yes" xml:space="preserve">
           <source>Original folder</source>
-          <target state="translated" state-qualifier="tm-suggestion">元のフォルダー</target>
+          <target state="translated">元のフォルダー</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionType.Text" translate="yes" xml:space="preserve">
           <source>Type</source>
@@ -3027,15 +3006,15 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByFileTag.Text" translate="yes" xml:space="preserve">
           <source>File tag</source>
-          <target state="translated">ファイルタグ</target>
+          <target state="translated">ファイル タグ</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionFileTag.Text" translate="yes" xml:space="preserve">
           <source>File tag</source>
-          <target state="translated">ファイルタグ</target>
+          <target state="translated">ファイル タグ</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenParentFolder.Text" translate="yes" xml:space="preserve">
           <source>Open parent folder</source>
-          <target state="translated">親フォルダを開く</target>
+          <target state="translated">親フォルダーを開く</target>
         </trans-unit>
         <trans-unit id="FileTagUnknown" translate="yes" xml:space="preserve">
           <source>Unknown</source>
@@ -3043,15 +3022,15 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowFileTag.Text" translate="yes" xml:space="preserve">
           <source>File tag</source>
-          <target state="translated">ファイルタグ</target>
+          <target state="translated">ファイル タグ</target>
         </trans-unit>
         <trans-unit id="SettingsEditFileTagsExpander.Title" translate="yes" xml:space="preserve">
           <source>Edit file tags</source>
-          <target state="translated">ファイルタグを編集</target>
+          <target state="translated">ファイル タグを編集</target>
         </trans-unit>
         <trans-unit id="SettingsEnableFileTags.Title" translate="yes" xml:space="preserve">
           <source>Enable file tags</source>
-          <target state="translated">ファイルタグを有効化</target>
+          <target state="translated">ファイル タグを有効化</target>
         </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
@@ -3087,7 +3066,7 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
         </trans-unit>
         <trans-unit id="CredentialDialogDescription.Text" translate="yes" xml:space="preserve">
           <source>Provide your credential:</source>
-          <target state="translated">クレデンシャルを提供します。</target>
+          <target state="translated">資格情報を提供します:</target>
         </trans-unit>
         <trans-unit id="CredentialDialogPassword.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Password</source>
@@ -3151,27 +3130,27 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show cloud drives section</source>
-          <target state="translated">クラウドドライブセクションを表示</target>
+          <target state="translated">クラウド ドライブ セクションを表示</target>
         </trans-unit>
         <trans-unit id="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show drives section</source>
-          <target state="translated">ドライブセクションを表示</target>
+          <target state="translated">ドライブ セクションを表示</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show library section</source>
-          <target state="translated">ライブラリセクションを表示</target>
+          <target state="translated">ライブラリ セクションを表示</target>
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show network section</source>
-          <target state="translated">ネットワークセクションを表示</target>
+          <target state="translated">ネットワーク セクションを表示</target>
         </trans-unit>
         <trans-unit id="SettingsShowWslSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show WSL section</source>
-          <target state="translated">WSLセクションを表示</target>
+          <target state="translated">WSL セクションを表示</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>
-          <target state="translated">新しいタブでフォルダを開く</target>
+          <target state="translated">新しいタブでフォルダーを開く</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Language</source>
@@ -3179,11 +3158,11 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
         </trans-unit>
         <trans-unit id="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">ファイルやフォルダを削除するときに確認ダイアログを表示</target>
+          <target state="translated">ファイルやフォルダーを削除するときに確認ダイアログを表示</target>
         </trans-unit>
         <trans-unit id="TerminalApplicationsComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Terminal application</source>
-          <target state="translated">ターミナルアプリケーション</target>
+          <target state="translated">ターミナル アプリケーション</target>
         </trans-unit>
         <trans-unit id="OngoingTasks" translate="yes" xml:space="preserve">
           <source>Ongoing Tasks</source>
@@ -3199,11 +3178,11 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveOneDown" translate="yes" xml:space="preserve">
           <source>Move one down</source>
-          <target state="translated">1つ下に移動</target>
+          <target state="translated">1 つ下に移動</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveOneUp" translate="yes" xml:space="preserve">
           <source>Move one up</source>
-          <target state="translated">1つ上に移動</target>
+          <target state="translated">1 つ上に移動</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveToBottom" translate="yes" xml:space="preserve">
           <source>Move to bottom</source>
@@ -3223,7 +3202,7 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
         </trans-unit>
         <trans-unit id="SettingsSetAsOpenDialog" translate="yes" xml:space="preserve">
           <source>Use Files as Open File Dialog</source>
-          <target state="translated">ファイルを開く ダイアログで Files を使用</target>
+          <target state="translated">ファイルを開くダイアログで Files を使用</target>
         </trans-unit>
         <trans-unit id="Tag" translate="yes" xml:space="preserve">
           <source>Tag</source>
@@ -3251,47 +3230,47 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
         </trans-unit>
         <trans-unit id="SettingsImportErrorDescription" translate="yes" xml:space="preserve">
           <source>Couldn't import settings. The settings file is corrupted.</source>
-          <target state="new">Couldn't import settings. The settings file is corrupted.</target>
+          <target state="translated">設定をインポートすることができませんでした。設定ファイルが壊れています。</target>
         </trans-unit>
         <trans-unit id="SettingsImportErrorTitle" translate="yes" xml:space="preserve">
           <source>Error importing settings</source>
-          <target state="new">Error importing settings</target>
+          <target state="translated">設定のインポートにエラーが発生しました</target>
         </trans-unit>
         <trans-unit id="ChooseCustomIcon" translate="yes" xml:space="preserve">
           <source>Choose a custom folder icon</source>
-          <target state="new">Choose a custom folder icon</target>
+          <target state="translated">下の一覧からアイコンを選択</target>
         </trans-unit>
         <trans-unit id="Customization" translate="yes" xml:space="preserve">
           <source>Customization</source>
-          <target state="new">Customization</target>
+          <target state="translated">カスタマイズ</target>
         </trans-unit>
         <trans-unit id="RestoreDefault" translate="yes" xml:space="preserve">
           <source>Restore default</source>
-          <target state="new">Restore default</target>
+          <target state="translated">既定値に戻す</target>
         </trans-unit>
         <trans-unit id="Compatibility" translate="yes" xml:space="preserve">
           <source>Compatibility</source>
-          <target state="new">Compatibility</target>
+          <target state="translated">互換性</target>
         </trans-unit>
         <trans-unit id="None" translate="yes" xml:space="preserve">
           <source>None</source>
-          <target state="new">None</target>
+          <target state="translated">なし</target>
         </trans-unit>
         <trans-unit id="HighDpiOption_UseDPIOnLogin" translate="yes" xml:space="preserve">
           <source>On Windows login</source>
-          <target state="new">On Windows login</target>
+          <target state="translated">Windows ログイン時</target>
         </trans-unit>
         <trans-unit id="HighDpiOption_UseDPIOnProgramStart" translate="yes" xml:space="preserve">
           <source>On program start</source>
-          <target state="new">On program start</target>
+          <target state="translated">プログラム開始時</target>
         </trans-unit>
         <trans-unit id="HighDpiOverride_System" translate="yes" xml:space="preserve">
           <source>System</source>
-          <target state="new">System</target>
+          <target state="translated">システム</target>
         </trans-unit>
         <trans-unit id="HighDpiOverride_SystemAdvanced" translate="yes" xml:space="preserve">
           <source>System (advanced)</source>
-          <target state="new">System (advanced)</target>
+          <target state="translated">システム (拡張)</target>
         </trans-unit>
         <trans-unit id="Windows7" translate="yes" xml:space="preserve">
           <source>Windows 7</source>
@@ -3299,7 +3278,7 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
         </trans-unit>
         <trans-unit id="Windows8" translate="yes" xml:space="preserve">
           <source>Windows 8</source>
-          <target state="new">Windows 8</target>
+          <target state="translated">Windows 8</target>
         </trans-unit>
         <trans-unit id="OSCompatibility_WindowsVista" translate="yes" xml:space="preserve">
           <source>Windows Vista</source>
@@ -3307,31 +3286,31 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
         </trans-unit>
         <trans-unit id="OSCompatibility_WindowsVistaSP1" translate="yes" xml:space="preserve">
           <source>Windows Vista SP1</source>
-          <target state="new">Windows Vista SP1</target>
+          <target state="translated">Windows Vista SP1</target>
         </trans-unit>
         <trans-unit id="OSCompatibility_WindowsVistaSP2" translate="yes" xml:space="preserve">
           <source>Windows Vista SP2</source>
-          <target state="new">Windows Vista SP2</target>
+          <target state="translated">Windows Vista SP2</target>
         </trans-unit>
         <trans-unit id="ReducedColorMode_Color16Bit" translate="yes" xml:space="preserve">
           <source>16 Bit Colors (65536)</source>
-          <target state="new">16 Bit Colors (65536)</target>
+          <target state="translated">16 ビット (65536) カラー</target>
         </trans-unit>
         <trans-unit id="ReducedColorMode_Color8Bit" translate="yes" xml:space="preserve">
           <source>8 Bit Colors (256)</source>
-          <target state="new">8 Bit Colors (256)</target>
+          <target state="translated">8 ビット (256) カラー</target>
         </trans-unit>
         <trans-unit id="CompatibilityMode" translate="yes" xml:space="preserve">
           <source>Compatibility mode</source>
-          <target state="new">Compatibility mode</target>
+          <target state="translated">互換モード</target>
         </trans-unit>
         <trans-unit id="DisableFullscreenOptimizations" translate="yes" xml:space="preserve">
           <source>Disable fullscreen optimizations</source>
-          <target state="new">Disable fullscreen optimizations</target>
+          <target state="translated">全画面表示の最適化を無効にする</target>
         </trans-unit>
         <trans-unit id="ExecuteAt640X480" translate="yes" xml:space="preserve">
           <source>Run at 640 x 480 screen resolution</source>
-          <target state="new">Run at 640 x 480 screen resolution</target>
+          <target state="translated">640 x 480 の解像度で実行する</target>
         </trans-unit>
         <trans-unit id="Options" translate="yes" xml:space="preserve">
           <source>Options</source>
@@ -3339,51 +3318,51 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
         </trans-unit>
         <trans-unit id="OverrideDPIScalingBehaviour" translate="yes" xml:space="preserve">
           <source>Override high DPI scaling behaviour</source>
-          <target state="new">Override high DPI scaling behaviour</target>
+          <target state="translated">高い DPI スケールの動作を上書きします。</target>
         </trans-unit>
         <trans-unit id="ReducedColorMode" translate="yes" xml:space="preserve">
           <source>Reduced color mode</source>
-          <target state="new">Reduced color mode</target>
+          <target state="translated">カラー モードを制限する</target>
         </trans-unit>
         <trans-unit id="RegisterForRestart" translate="yes" xml:space="preserve">
           <source>Register for restart</source>
-          <target state="new">Register for restart</target>
+          <target state="translated">このプログラムを再起動するために登録する</target>
         </trans-unit>
         <trans-unit id="RunAsAdministrator" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
-          <target state="new">Run as administrator</target>
+          <target state="translated">管理者としてこのプログラムを実行する</target>
         </trans-unit>
         <trans-unit id="RunCompatibilityTroubleShooter" translate="yes" xml:space="preserve">
           <source>Run compatibility troubleshooter</source>
-          <target state="new">Run compatibility troubleshooter</target>
+          <target state="translated">互換性のトラブルシューティング ツールの実行</target>
         </trans-unit>
         <trans-unit id="UseMainMonitorDPISettings" translate="yes" xml:space="preserve">
           <source>Use DPI settings of the main monitor</source>
-          <target state="new">Use DPI settings of the main monitor</target>
+          <target state="translated">メイン ディスプレイに設定されている DPI を使用する</target>
         </trans-unit>
         <trans-unit id="SettingsDefaultFilesManager" translate="yes" xml:space="preserve">
           <source>Default file manager</source>
-          <target state="new">Default file manager</target>
+          <target state="translated">標準のファイル マネージャー</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManager" translate="yes" xml:space="preserve">
           <source>Set Files as the default file manager</source>
-          <target state="new">Set Files as the default file manager</target>
+          <target state="translated">Files を標準のファイルマネージャーに設定する</target>
         </trans-unit>
         <trans-unit id="EmptyRecycleBin" translate="yes" xml:space="preserve">
           <source>Empty Recycle Bin</source>
-          <target state="new">Empty Recycle Bin</target>
+          <target state="translated">ごみ箱は空です</target>
         </trans-unit>
         <trans-unit id="Sidebar" translate="yes" xml:space="preserve">
           <source>Sidebar</source>
-          <target state="new">Sidebar</target>
+          <target state="translated">サイドバー</target>
         </trans-unit>
         <trans-unit id="FilesAndFolders" translate="yes" xml:space="preserve">
           <source>Files and folders</source>
-          <target state="new">Files and folders</target>
+          <target state="translated">ファイルとフォルダー</target>
         </trans-unit>
         <trans-unit id="OpenNewInstance" translate="yes" xml:space="preserve">
           <source>Open new instance when opening directories from the taskbar jumplist</source>
-          <target state="new">Open new instance when opening directories from the taskbar jumplist</target>
+          <target state="translated">タスクバーのジャンプリストからディレクトリを開くとき、新しいインスタンスで開く</target>
         </trans-unit>
         <trans-unit id="StartupSettings" translate="yes" xml:space="preserve">
           <source>Startup settings</source>
@@ -3391,55 +3370,132 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
         </trans-unit>
         <trans-unit id="ThirdPartyLicenses" translate="yes" xml:space="preserve">
           <source>Third party licenses</source>
-          <target state="new">Third party licenses</target>
+          <target state="translated">サード パーティ ライセンス</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
-          <source>This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</source>
-          <target state="new">This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</target>
+          <source>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</source>
+          <target state="needs-review-translation">この設定はシステムファイルを変更し、デバイスに予期しない副作用をもたらす可能性があります。問題が発生しても開発者は責任を負いません。それでもこの設定を利用する場合、利用者がリスクを許容することを意味します。Filesをアンインストールしてもこれらの変更は元に戻らないため、デバイスから Files を削除する前にこの設定をオフにしない限り、ファイル エクスプローラーを開くことができない場合があることに注意してください。</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
           <source>Clear all</source>
-          <target state="new">Clear all</target>
+          <target state="translated">すべてクリア</target>
         </trans-unit>
         <trans-unit id="Columns" translate="yes" xml:space="preserve">
           <source>Columns</source>
-          <target state="new">Columns</target>
+          <target state="translated">カラム</target>
         </trans-unit>
         <trans-unit id="LargeIcons" translate="yes" xml:space="preserve">
           <source>Large Icons</source>
-          <target state="new">Large Icons</target>
+          <target state="translated">大アイコン</target>
         </trans-unit>
         <trans-unit id="MediumIcons" translate="yes" xml:space="preserve">
           <source>Medium Icons</source>
-          <target state="new">Medium Icons</target>
+          <target state="translated">中アイコン</target>
         </trans-unit>
         <trans-unit id="SmallIcons" translate="yes" xml:space="preserve">
           <source>Small Icons</source>
-          <target state="new">Small Icons</target>
+          <target state="translated">小アイコン</target>
         </trans-unit>
         <trans-unit id="Tiles" translate="yes" xml:space="preserve">
           <source>Tiles</source>
-          <target state="new">Tiles</target>
+          <target state="translated">タイル</target>
         </trans-unit>
         <trans-unit id="FolderWidgetCreateNewLibraryDialogTitleText" translate="yes" xml:space="preserve">
           <source>Create Library</source>
-          <target state="new">Create Library</target>
+          <target state="translated">ライブラリを作成</target>
         </trans-unit>
         <trans-unit id="FolderWidgetCreateNewLibraryInputPlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter Library name</source>
-          <target state="new">Enter Library name</target>
+          <target state="translated">ライブラリ名を入力</target>
         </trans-unit>
         <trans-unit id="ShowFolderSize" translate="yes" xml:space="preserve">
           <source>Show folder size</source>
-          <target state="new">Show folder size</target>
+          <target state="translated">フォルダー サイズを表示</target>
         </trans-unit>
         <trans-unit id="Skip" translate="yes" xml:space="preserve">
           <source>Skip</source>
-          <target state="new">Skip</target>
+          <target state="translated">スキップ</target>
         </trans-unit>
         <trans-unit id="SettingsOpenInLogin" translate="yes" xml:space="preserve">
           <source>Open Files on Windows Startup</source>
-          <target state="new">Open Files on Windows Startup</target>
+          <target state="translated">WIndows 起動時に Files を開く</target>
+        </trans-unit>
+        <trans-unit id="Attributes" translate="yes" xml:space="preserve">
+          <source>Attributes</source>
+          <target state="translated">属性</target>
+        </trans-unit>
+        <trans-unit id="Hidden" translate="yes" xml:space="preserve">
+          <source>Hidden</source>
+          <target state="translated">隠す</target>
+        </trans-unit>
+        <trans-unit id="MoreDetails" translate="yes" xml:space="preserve">
+          <source>More details</source>
+          <target state="translated">詳細</target>
+        </trans-unit>
+        <trans-unit id="ReadOnly" translate="yes" xml:space="preserve">
+          <source>Read only</source>
+          <target state="translated">読み取り専用</target>
+        </trans-unit>
+        <trans-unit id="CleanupDrive" translate="yes" xml:space="preserve">
+          <source>Cleanup your drive contents</source>
+          <target state="translated">ドライブ コンテンツをクリーンアップ</target>
+        </trans-unit>
+        <trans-unit id="DiskCleanup" translate="yes" xml:space="preserve">
+          <source>Disk cleanup</source>
+          <target state="translated">ディスク クリーンアップ</target>
+        </trans-unit>
+        <trans-unit id="Type" translate="yes" xml:space="preserve">
+          <source>Type:</source>
+          <target state="translated">種類:</target>
+        </trans-unit>
+        <trans-unit id="Bytes" translate="yes" xml:space="preserve">
+          <source>Bytes</source>
+          <target state="translated">バイト</target>
+        </trans-unit>
+        <trans-unit id="Extract" translate="yes" xml:space="preserve">
+          <source>Extract</source>
+          <target state="new">Extract</target>
+        </trans-unit>
+        <trans-unit id="ExtractFiles" translate="yes" xml:space="preserve">
+          <source>Extract files</source>
+          <target state="new">Extract files</target>
+        </trans-unit>
+        <trans-unit id="ExtractHere" translate="yes" xml:space="preserve">
+          <source>Extract here</source>
+          <target state="new">Extract here</target>
+        </trans-unit>
+        <trans-unit id="ExtractKeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+E</source>
+          <target state="new">Ctrl+E</target>
+        </trans-unit>
+        <trans-unit id="ExtractToChildFolder" translate="yes" xml:space="preserve">
+          <source>Extract to {0}</source>
+          <target state="new">Extract to {0}</target>
+        </trans-unit>
+        <trans-unit id="RunScript" translate="yes" xml:space="preserve">
+          <source>Run script</source>
+          <target state="new">Run script</target>
+        </trans-unit>
+        <trans-unit id="RunWithPowerShell" translate="yes" xml:space="preserve">
+          <source>Run with PowerShell</source>
+          <target state="new">Run with PowerShell</target>
+        </trans-unit>
+        <trans-unit id="SetAsBackground" translate="yes" xml:space="preserve">
+          <source>Set as desktop background</source>
+          <target state="new">Set as desktop background</target>
+        </trans-unit>
+        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
+          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
+          <target state="new">Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</target>
+        </trans-unit>
+        <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
+          <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
+          <target state="new">Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</target>
+        </trans-unit>
+        <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
+          <source>Open in</source>
+          <target state="new">Open in</target>
         </trans-unit>
       </group>
     </body>

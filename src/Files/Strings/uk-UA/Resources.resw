@@ -39,9 +39,6 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Розмір:</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Тип:</value>
-  </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Виділити все</value>
   </data>
@@ -57,7 +54,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Введіть шлях</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Пошук</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
@@ -225,17 +222,11 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>є підпапкою вихідної папки</value>
   </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5 Хеш:</value>
-  </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Інвертувати виділення</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Властивості</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Атрибути:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Властивості</value>

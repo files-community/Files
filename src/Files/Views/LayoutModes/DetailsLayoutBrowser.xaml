@@ -618,10 +618,11 @@
 
                                 <Grid
                                     Grid.Column="1"
-                                    Width="{Binding ColumnsViewModel.NameColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    MinWidth="{Binding ColumnsViewModel.NameColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Center">
+                                    VerticalAlignment="Center"
+                                    Canvas.ZIndex="6">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
@@ -633,9 +634,15 @@
                                         TextTrimming="CharacterEllipsis" />
                                     <TextBox
                                         x:Name="ItemNameTextBox"
+                                        MaxWidth="{Binding MaxWidthForRenameTextbox, ElementName=PageRoot, Mode=OneWay}"
+                                        HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
                                         TextChanged="ListViewTextBoxItemName_TextChanged"
-                                        Visibility="Collapsed" />
+                                        Visibility="Collapsed">
+                                        <TextBox.Resources>
+                                            <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
+                                        </TextBox.Resources>
+                                    </TextBox>
                                     <Ellipse
                                         Grid.Column="1"
                                         Width="12"

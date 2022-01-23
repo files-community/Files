@@ -1,5 +1,6 @@
 ﻿using Files.EventArguments;
 using Files.Models.JsonSettings;
+using Microsoft.AppCenter.Analytics;
 using System;
 
 namespace Files.Services.Implementation
@@ -10,20 +11,6 @@ namespace Files.Services.Implementation
         {
             // Initialize settings
             this.RegisterSettingsContext(settingsSharingContext);
-        }
-
-        public override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
-        {
-            switch (e.settingName)
-            {
-                case nameof(ShowPreviewOnly):
-                    //case nameof(DisplayedTimeStyle):
-                    //case nameof(ThemeHelper.RootTheme):
-                    Microsoft.AppCenter.Analytics.Analytics.TrackEvent($"{e.settingName} {e.newValue}");
-                    break;
-            }
-
-            base.RaiseOnSettingChangedEvent(sender, e);
         }
 
         public double PreviewPaneMediaVolume
@@ -54,6 +41,23 @@ namespace Files.Services.Implementation
         {
             get => Get(false);
             set => Set(value);
+        }
+
+        public override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
+        {
+            switch (e.settingName)
+            {
+                case nameof(ShowPreviewOnly):
+                    Analytics.TrackEvent($"{e.settingName} {e.newValue}");
+                    break;
+            }
+
+            base.RaiseOnSettingChangedEvent(sender, e);
+        }
+
+        public void ReportToAppCenter()
+        {
+            Analytics.TrackEvent($"{nameof(ShowPreviewOnly)}, {ShowPreviewOnly}");
         }
     }
 }

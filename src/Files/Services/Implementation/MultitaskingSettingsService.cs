@@ -1,4 +1,5 @@
 ﻿using Files.Models.JsonSettings;
+using Microsoft.AppCenter.Analytics;
 
 namespace Files.Services.Implementation
 {
@@ -8,20 +9,6 @@ namespace Files.Services.Implementation
         {
             // Initialize settings
             this.RegisterSettingsContext(settingsSharingContext);
-        }
-
-        public override void RaiseOnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
-        {
-            switch (e.settingName)
-            {
-                case nameof(IsVerticalTabFlyoutEnabled):
-                case nameof(IsDualPaneEnabled):
-                case nameof(AlwaysOpenDualPaneInNewTab):
-                    Microsoft.AppCenter.Analytics.Analytics.TrackEvent($"{e.settingName} {e.newValue}");
-                    break;
-            }
-
-            base.RaiseOnSettingChangedEvent(sender, e);
         }
 
         public bool IsVerticalTabFlyoutEnabled
@@ -40,6 +27,27 @@ namespace Files.Services.Implementation
         {
             get => Get(false);
             set => Set(value);
+        }
+
+        public override void RaiseOnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        {
+            switch (e.settingName)
+            {
+                case nameof(IsVerticalTabFlyoutEnabled):
+                case nameof(IsDualPaneEnabled):
+                case nameof(AlwaysOpenDualPaneInNewTab):
+                    Analytics.TrackEvent($"{e.settingName} {e.newValue}");
+                    break;
+            }
+
+            base.RaiseOnSettingChangedEvent(sender, e);
+        }
+
+        public void ReportToAppCenter()
+        {
+            Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutEnabled)}, {IsVerticalTabFlyoutEnabled}");
+            Analytics.TrackEvent($"{nameof(IsDualPaneEnabled)}, {IsDualPaneEnabled}");
+            Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)}, {AlwaysOpenDualPaneInNewTab}");
         }
     }
 }

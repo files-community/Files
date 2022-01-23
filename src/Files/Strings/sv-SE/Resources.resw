@@ -54,9 +54,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>är en undermapp till källmappen</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Objekttyp:</value>
-  </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Markera alla</value>
   </data>
@@ -78,7 +75,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Ange en sökväg</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Sök</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
@@ -161,9 +158,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Klistra in</value>
-  </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5Hash:</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Fil</value>
@@ -263,9 +257,6 @@
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Egenskaper</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Attribut:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Egenskaper</value>
