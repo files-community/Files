@@ -2262,7 +2262,7 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
     <value>Dosya etiketi</value>
   </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
+  <data name="FileTag" xml:space="preserve">
     <value>Dosya etiketi</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">

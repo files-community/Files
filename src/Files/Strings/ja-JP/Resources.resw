@@ -2263,7 +2263,7 @@ App Center を使用して、アプリの使用状況を追跡し、バグを見
   <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
     <value>ファイル タグ</value>
   </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
+  <data name="FileTag" xml:space="preserve">
     <value>ファイル タグ</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">

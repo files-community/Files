@@ -2263,7 +2263,7 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
   <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
     <value>파일 태그</value>
   </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
+  <data name="FileTag" xml:space="preserve">
     <value>파일 태그</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">

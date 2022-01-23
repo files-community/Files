@@ -3010,7 +3010,7 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
           <source>File tag</source>
           <target state="translated">Etiqueta de archivo</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionFileTag.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="FileTag" translate="yes" xml:space="preserve">
           <source>File tag</source>
           <target state="translated">Etiqueta de archivo</target>
         </trans-unit>

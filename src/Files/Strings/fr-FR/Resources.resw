@@ -2263,7 +2263,7 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
   <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
     <value>Étiquette de fichier</value>
   </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
+  <data name="FileTag" xml:space="preserve">
     <value>Étiquette de fichier</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">

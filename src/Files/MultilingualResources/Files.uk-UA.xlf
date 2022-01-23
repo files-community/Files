@@ -3027,7 +3027,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
           <source>File tag</source>
           <target state="new">File tag</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionFileTag.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="FileTag" translate="yes" xml:space="preserve">
           <source>File tag</source>
           <target state="new">File tag</target>
         </trans-unit>

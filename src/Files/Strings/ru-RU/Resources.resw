@@ -2237,7 +2237,7 @@ Files не собирает, хранит, распространяет или �
   <data name="Tag" xml:space="preserve">
     <value>Метка</value>
   </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
+  <data name="FileTag" xml:space="preserve">
     <value>Метка</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">

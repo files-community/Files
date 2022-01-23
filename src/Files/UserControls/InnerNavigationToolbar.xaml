@@ -433,9 +433,8 @@
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}"
                                 Text="{helpers:ResourceString Name=SyncStatus}" />
                             <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarArrangementOptionFileTag"
                                 IsChecked="{x:Bind ViewModel.IsSortedByFileTag, Mode=TwoWay}"
-                                Text="File tag"
+                                Text="{helpers:ResourceString Name=FileTag}"
                                 Visibility="{x:Bind UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled, Mode=OneWay}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionOriginalFolder"
@@ -466,9 +465,8 @@
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}"
                                 Text="{helpers:ResourceString Name=SyncStatus}" />
                             <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarArrangementOptionFileTag"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByFileTag, Mode=TwoWay}"
-                                Text="File tag"
+                                Text="{helpers:ResourceString Name=FileTag}"
                                 Visibility="{x:Bind UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled, Mode=OneWay}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionOriginalFolder"

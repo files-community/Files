@@ -250,10 +250,9 @@
                             <Grid.ContextFlyout>
                                 <MenuFlyout>
                                     <ToggleMenuFlyoutItem
-                                        x:Uid="DetailsViewHeaderFlyout_ShowFileTag"
                                         Click="ToggleMenuFlyoutItem_Click"
                                         IsChecked="{x:Bind ColumnsViewModel.TagColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-                                        Text="File tag column"
+                                        Text="{helpers:ResourceString Name=FileTagColumn}"
                                         Visibility="{x:Bind ColumnsViewModel.TagColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
                                     <ToggleMenuFlyoutItem
                                         x:Uid="DetailsViewHeaderFlyout_ShowOriginalPath"

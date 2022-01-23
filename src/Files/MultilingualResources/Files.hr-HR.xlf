@@ -3009,7 +3009,7 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
           <source>File tag</source>
           <target state="translated">Oznaka datoteke</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionFileTag.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="FileTag" translate="yes" xml:space="preserve">
           <source>File tag</source>
           <target state="translated">Oznaka datoteke</target>
         </trans-unit>

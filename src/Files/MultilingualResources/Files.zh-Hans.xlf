@@ -3011,7 +3011,7 @@ Files 不收集、存储、共享或发布任何个人信息。
           <source>File tag</source>
           <target state="translated">文件标签</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionFileTag.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="FileTag" translate="yes" xml:space="preserve">
           <source>File tag</source>
           <target state="translated">文件标签</target>
         </trans-unit>

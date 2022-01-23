@@ -3009,7 +3009,7 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
           <source>File tag</source>
           <target state="translated">Címke</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionFileTag.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="FileTag" translate="yes" xml:space="preserve">
           <source>File tag</source>
           <target state="translated">Címke</target>
         </trans-unit>

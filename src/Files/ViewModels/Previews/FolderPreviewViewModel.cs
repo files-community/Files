@@ -79,7 +79,7 @@ namespace Files.ViewModels.Previews
             {
                 Item.FileDetails.Add(new FileProperty()
                 {
-                    NameResource = "DetailsViewHeaderFlyout_ShowFileTag/Text",
+                    NameResource = "FileTag",
                     Value = Item.FileTagUI?.TagName
                 });
             }

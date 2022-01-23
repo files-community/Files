@@ -451,7 +451,7 @@
     "ID": null
   },
   {
-    "NameResource": "DetailsViewHeaderFlyout_ShowFileTag/Text",
+    "NameResource": "FileTag",
     "SectionResource": "PropertySectionCore",
     "IsReadOnly": true,
     "ID": "filetag"

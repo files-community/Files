@@ -3009,7 +3009,7 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
           <source>File tag</source>
           <target state="translated">Značka súboru</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionFileTag.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="FileTag" translate="yes" xml:space="preserve">
           <source>File tag</source>
           <target state="translated">Značka súboru</target>
         </trans-unit>

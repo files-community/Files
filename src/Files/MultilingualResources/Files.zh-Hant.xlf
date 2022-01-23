@@ -3009,7 +3009,7 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
           <source>File tag</source>
           <target state="translated">檔案標籤</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionFileTag.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="FileTag" translate="yes" xml:space="preserve">
           <source>File tag</source>
           <target state="translated">檔案標籤</target>
         </trans-unit>
