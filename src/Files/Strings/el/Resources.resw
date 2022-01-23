@@ -192,9 +192,6 @@
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Δημιουργία</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>Αρχείο</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Ιδιότητες</value>
   </data>
@@ -242,9 +239,6 @@
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>Φάκελος αρχείων</value>
-  </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>Αρχείο</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>Εισάγετε ένα όνομα στοιχείου</value>
@@ -573,9 +567,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>Κατάλογος εργασίας:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>Αρχείο</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Διαδικτυακός σύνδεσμος</value>
   </data>
@@ -596,9 +587,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Άνοιγμα θέσης αρχείου</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>Άγνωστο</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Το Files αντιμετώπισε ένα πρόβλημα για το οποίο οι προγραμματιστές δεν είχαν προετοιμαστεί ακόμα.</value>
@@ -1041,9 +1029,6 @@
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
     <value>Άνοιγμα αρχείων με ένα κλικ</value>
   </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>Αρχείο</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Στοιχείο του κάδου ανακύκλωσης</value>
   </data>
@@ -1344,9 +1329,6 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Δεν έχει υπολογιστεί</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Άγνωστος</value>
-  </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Πολυεπιλογή</value>
   </data>
@@ -1376,9 +1358,6 @@
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
     <value>Αφαιρούμενη συσκευή αποθήκευσης</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Άγνωστος</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Εικονική μονάδα δίσκου</value>
@@ -2261,20 +2240,11 @@
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Εμφάνιση τμήματος αγαπημένων</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Ετικέτα αρχείου</value>
-  </data>
   <data name="FileTag" xml:space="preserve">
     <value>Ετικέτα αρχείου</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Άνοιγμα γονικού φακέλου</value>
-  </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>Άγνωστος</value>
-  </data>
-  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>Ετικέτα αρχείου</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Επεξεργασία ετικετών αρχείων</value>

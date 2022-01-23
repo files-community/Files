@@ -210,9 +210,6 @@
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Suchen (Strg+F)</value>
   </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>Datei</value>
-  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Diese Aktion kann nicht ausgeführt werden</value>
   </data>
@@ -513,9 +510,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>Ausführen in:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>Datei</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Weblink</value>
   </data>
@@ -536,9 +530,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Dateispeicherort öffnen</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>Unbekannt</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Files hatte ein Problem, auf das die Entwickler noch nicht vorbereitet sind.</value>
@@ -656,9 +647,6 @@
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Zugriff verweigert</value>
-  </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>Datei</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Papierkorb</value>
@@ -1041,9 +1029,6 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Updates verfügbar</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>Datei</value>
-  </data>
   <data name="File" xml:space="preserve">
     <value>Datei</value>
   </data>
@@ -1224,9 +1209,6 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Nicht berechnet</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Unbekannt</value>
-  </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Mehrfachauswahl</value>
   </data>
@@ -1256,9 +1238,6 @@
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
     <value>Wechselspeichermedium</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Unbekannt</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Virtuelles Laufwerk</value>
@@ -2260,20 +2239,11 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Favoriten anzeigen</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Tag</value>
-  </data>
   <data name="FileTag" xml:space="preserve">
     <value>Tag</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Elternordner öffnen</value>
-  </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>Unbekannt</value>
-  </data>
-  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>Tag</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Markierung ändern</value>

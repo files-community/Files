@@ -210,9 +210,6 @@
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>搜尋（Ctrl + F）</value>
   </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>檔案</value>
-  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>無法完成該操作</value>
   </data>
@@ -513,9 +510,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>目標目錄：</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>檔案</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>網際網路捷徑</value>
   </data>
@@ -536,9 +530,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>開啟檔案位置</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>未知</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Files 遇到我們未處理的錯誤。</value>
@@ -656,9 +647,6 @@
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>到上一層資料夾</value>
-  </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>檔案</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>資源回收桶項目</value>
@@ -1041,9 +1029,6 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>有可用的更新</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>檔案</value>
-  </data>
   <data name="File" xml:space="preserve">
     <value>檔案</value>
   </data>
@@ -1209,9 +1194,6 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>未計算</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>未知狀態</value>
-  </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
     <value>檔案詳細資料</value>
   </data>
@@ -1256,9 +1238,6 @@
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
     <value>可移除的儲存裝置</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>未知類型</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>虛擬磁碟</value>
@@ -2260,20 +2239,11 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>快速存取專區</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>檔案標籤</value>
-  </data>
   <data name="FileTag" xml:space="preserve">
     <value>檔案標籤</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>開啟父資料夾</value>
-  </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>未知</value>
-  </data>
-  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>檔案標籤</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>編輯檔案標籤</value>

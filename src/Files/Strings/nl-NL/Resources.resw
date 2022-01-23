@@ -210,9 +210,6 @@
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Zoeken (Ctrl+F)</value>
   </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>Bestand</value>
-  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Deze actie kan niet worden uitgevoerd</value>
   </data>
@@ -513,9 +510,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>Werkmap:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>Bestand</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Webkoppeling</value>
   </data>
@@ -536,9 +530,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Bestandslocatie openen</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>Onbekend</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Er is een probleem opgetreden met Files waarvoor de ontwikkelaars zich niet hebben voorbereid.</value>
@@ -930,9 +921,6 @@
   <data name="Document" xml:space="preserve">
     <value>Document</value>
   </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>Bestand</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Prullenbakitem</value>
   </data>
@@ -1040,9 +1028,6 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Updates beschikbaar</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>Bestand</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>Bestand</value>
@@ -1224,9 +1209,6 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Niet berekend</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Onbekend</value>
-  </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Meervoudige selectie</value>
   </data>
@@ -1256,9 +1238,6 @@
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
     <value>Verwisselbaar opslagapparaat</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Onbekend</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Virtueel station</value>
@@ -2260,20 +2239,11 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Toon favorieten sectie op de zijbalk</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Bestandslabel</value>
-  </data>
   <data name="FileTag" xml:space="preserve">
     <value>Bestandslabel</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Open bovenliggende map</value>
-  </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>Onbekend</value>
-  </data>
-  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>Bestandslabel</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Bewerk bestandslabels</value>

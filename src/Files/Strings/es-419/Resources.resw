@@ -174,9 +174,6 @@
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nuevo</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>Archivo</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Propiedades</value>
   </data>
@@ -221,9 +218,6 @@
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>Carpeta de archivos</value>
-  </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>Archivo</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>Ingrese un nombre de archivo</value>
@@ -549,9 +543,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>Ubicación de destino:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>Archivo</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Dirección URL</value>
   </data>
@@ -572,9 +563,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Abrir ubicación del archivo</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>Desconocido</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Files se encontró con un problema para el que los desarrolladores aún no se prepararon.</value>
@@ -987,9 +975,6 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Selección</value>
   </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>Archivo</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Elemento de papelera de reciclaje</value>
   </data>
@@ -1266,9 +1251,6 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>No calculado</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Desconocido</value>
-  </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Multiselección</value>
   </data>
@@ -1298,9 +1280,6 @@
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
     <value>Unidad extraíble</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Desconocido</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Unidad virtual</value>
@@ -2247,20 +2226,11 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Mostrar Favoritos</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Etiqueta de archivo</value>
-  </data>
   <data name="FileTag" xml:space="preserve">
     <value>Etiqueta de archivo</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Abrir carpeta principal</value>
-  </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>Desconocido</value>
-  </data>
-  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>Etiqueta de archivo</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Editar etiquetas de archivo</value>

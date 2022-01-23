@@ -210,9 +210,6 @@
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Пошук</value>
   </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>Файл</value>
-  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Ця дія не може бути завершена</value>
   </data>
@@ -513,9 +510,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>Робоча папка:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>Файл</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Веб-посилання</value>
   </data>
@@ -548,9 +542,6 @@
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Невірний елемент</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>Невідомо</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Files зіткнулися з проблемою, до якої розробники були не готові.</value>
@@ -656,9 +647,6 @@
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Немає доступу</value>
-  </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>Файл</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Кошик</value>
@@ -996,9 +984,6 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Доступні оновлення</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>Файл</value>
-  </data>
   <data name="File" xml:space="preserve">
     <value>Файл</value>
   </data>
@@ -1164,9 +1149,6 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Не розраховано</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Невідомо</value>
-  </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
     <value>Відомості про файл</value>
   </data>
@@ -1211,9 +1193,6 @@
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
     <value>Знімний пристрій зберігання</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Невідомо</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Віртуальний диск</value>
@@ -1712,9 +1691,6 @@
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Стан синхронізації</value>
-  </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>Невідомо</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Вставте диск</value>

@@ -195,9 +195,6 @@
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Novo</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>Datoteka</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Svojstva</value>
   </data>
@@ -245,9 +242,6 @@
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>Mapa datoteka</value>
-  </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>Datoteka</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>Unesite naziv stavke</value>
@@ -576,9 +570,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>Radna mapa:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>Datoteka</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Web veze</value>
   </data>
@@ -599,9 +590,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Otvori lokaciju datoteke</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>Nepoznato</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Files je naišao na problem za koji se programeri još nisu pripremili.</value>
@@ -1053,9 +1041,6 @@
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
     <value>Otvori datoteke jednim klikom</value>
   </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>Datoteka</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Stavka Koša za smeće</value>
   </data>
@@ -1356,9 +1341,6 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Nije izračunato</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Nepoznato</value>
-  </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Višestruki odabir</value>
   </data>
@@ -1388,9 +1370,6 @@
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
     <value>Uklonjivi uređaj za pohranu</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Nepoznato</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Virtualni pogon</value>
@@ -2259,20 +2238,11 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Prikaži odjeljak favorita</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Oznaka datoteke</value>
-  </data>
   <data name="FileTag" xml:space="preserve">
     <value>Oznaka datoteke</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Otvori nadređenu mapu</value>
-  </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>Nepoznato</value>
-  </data>
-  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>Oznaka datoteke</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Uredi oznake datoteke</value>

@@ -159,9 +159,6 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Vložiť</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>Súbor</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Vlastnosti</value>
   </data>
@@ -203,9 +200,6 @@
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>Priečinok súborov</value>
-  </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>Súbor</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>Zadajte názov položky</value>
@@ -525,9 +519,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>Spustiť v:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>Súbor</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Webový odkaz</value>
   </data>
@@ -548,9 +539,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Otvoriť umiestnenie súboru</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>Neznáma</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Files narazil na problém, na ktorý nie sp vývojári pripravený.</value>
@@ -966,9 +954,6 @@
   <data name="Address" xml:space="preserve">
     <value>Adresa</value>
   </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>Súbor</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Položka koša</value>
   </data>
@@ -1227,9 +1212,6 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Nevypočítané</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Neznámy</value>
-  </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Viacnásobný výber</value>
   </data>
@@ -1259,9 +1241,6 @@
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
     <value>Vymeniteľné úložné zariadenie</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Neznámy</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Virtuálny disk</value>
@@ -2261,20 +2240,11 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Zobraziť sekciu obľúbených</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Značka súboru</value>
-  </data>
   <data name="FileTag" xml:space="preserve">
     <value>Značka súboru</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Otvoriť nadradený priečinok</value>
-  </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>Neznámy</value>
-  </data>
-  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>Značka súboru</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Upraviť značky súboru</value>

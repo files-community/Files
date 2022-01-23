@@ -159,9 +159,6 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Vložit</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>Soubor</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Vlastnosti</value>
   </data>
@@ -203,9 +200,6 @@
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>Složka souborů</value>
-  </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>Soubor</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>Zadejte název položky</value>
@@ -525,9 +519,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>Spustit v:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>Soubor</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Webový odkaz</value>
   </data>
@@ -548,9 +539,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Otevřít umístění souboru</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>Neznámá</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Files narazil na problém, na který nejsou vývojáři připraveni.</value>
@@ -966,9 +954,6 @@
   <data name="Address" xml:space="preserve">
     <value>Adresa</value>
   </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>Soubor</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Položka koše</value>
   </data>
@@ -1143,9 +1128,6 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Nevypočítáno</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Neznámý</value>
-  </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Vícenásobný výběr</value>
   </data>
@@ -1157,9 +1139,6 @@
   </data>
   <data name="DriveTypeNetwork" xml:space="preserve">
     <value>Síťová jednotka</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Neznámý</value>
   </data>
   <data name="DateCreated" xml:space="preserve">
     <value>Datum vytvoření</value>
@@ -1685,9 +1664,6 @@
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Stav synchronizace</value>
-  </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>Neznámý</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Vložit disk</value>

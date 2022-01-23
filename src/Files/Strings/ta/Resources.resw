@@ -198,9 +198,6 @@
   <data name="FileFolderListItem" xml:space="preserve">
     <value>கோப்புக் கோப்புறை</value>
   </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>கோப்பு</value>
-  </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>ஒரு உருப்படி பெயரை உள்ளிடுக</value>
   </data>
@@ -514,9 +511,6 @@
     <value>பணிக் கோப்பகம்:
 தற்போதய கோப்புறை</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>கோப்பு</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>வலை இணைப்பு</value>
   </data>
@@ -537,9 +531,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>கோப்பு இருப்பிடத்தைத் திற</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>தெரியாதவை</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Files ran into a problem that the developers didn't prepare for yet.</value>
@@ -645,9 +636,6 @@
   </data>
   <data name="Drives" xml:space="preserve">
     <value>இயக்ககங்கள்:</value>
-  </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>கோப்பு</value>
   </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>வெளியேற்று</value>
@@ -841,9 +829,6 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>புதுப்பித்தல்கள் கிடைக்கின்றன</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>கோப்பு</value>
-  </data>
   <data name="File" xml:space="preserve">
     <value>கோப்பு</value>
   </data>
@@ -901,17 +886,11 @@
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
     <value>ஒத்திசைக்கிறது…</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>அறியாதது</value>
-  </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
     <value>நெகிழ் வட்டு இயக்ககம்</value>
   </data>
   <data name="DriveTypeNetwork" xml:space="preserve">
     <value>பிணைய இயக்ககம்</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>அறியாதது</value>
   </data>
   <data name="DateCreated" xml:space="preserve">
     <value>உருவாக்கிய தேதி</value>
@@ -1326,9 +1305,6 @@
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>ஒத்திசைவு நிலை</value>
-  </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>அறியாதது</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>வட்டைச் செருகவும்</value>

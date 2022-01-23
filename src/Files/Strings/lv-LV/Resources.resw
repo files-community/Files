@@ -162,9 +162,6 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Ielīmēt</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>Fails</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Rekvizīti</value>
   </data>
@@ -209,9 +206,6 @@
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>Failu mape</value>
-  </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>Fails</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>Ievadiet vienuma nosaukumu</value>
@@ -531,9 +525,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>Darba mape:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>Fails</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Tīmekļa saite</value>
   </data>
@@ -554,9 +545,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Atvērt faila atrašanās vietu</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>Nezināms</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Failiem radās problēma, kurai izstrādātāji vēl nebija sagatavojušies.</value>
@@ -975,9 +963,6 @@
   <data name="Address" xml:space="preserve">
     <value>Adrese</value>
   </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>Fails</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Atkritnes vienums</value>
   </data>
@@ -1233,9 +1218,6 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Nav aprēķināts</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Nezināms</value>
-  </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Vairākatlase</value>
   </data>
@@ -1265,9 +1247,6 @@
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
     <value>Izņemama atmiņas ierīce</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Nezināms</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Virtuāla ierīce</value>
@@ -2212,20 +2191,11 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Rādīt favorītu sadaļu</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Faila birka</value>
-  </data>
   <data name="FileTag" xml:space="preserve">
     <value>Faila birka</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Atvērt vecāku mapi</value>
-  </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>Nezināms</value>
-  </data>
-  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>Faila birka</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Rediģēt failu birkas</value>

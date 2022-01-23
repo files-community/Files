@@ -201,9 +201,6 @@
   <data name="FileFolderListItem" xml:space="preserve">
     <value>Fájlmappa</value>
   </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>Fájl</value>
-  </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>Adja meg az elem új nevét</value>
   </data>
@@ -513,9 +510,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>Munkakönyvtár:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>Fájl</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Internet parancsikon</value>
   </data>
@@ -536,9 +530,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Fájlt tartalmazó mappa megnyitása</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>Ismeretlen</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>A Files egy problémába ütközött, amire a fejlesztők még nem készültek fel.</value>
@@ -662,9 +653,6 @@
   </data>
   <data name="Drives" xml:space="preserve">
     <value>Meghajtók</value>
-  </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>Fájl</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Lomtár elem</value>
@@ -1041,9 +1029,6 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Frissítés érhető el</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>Fájl</value>
-  </data>
   <data name="File" xml:space="preserve">
     <value>Fájl</value>
   </data>
@@ -1200,9 +1185,6 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Nem meghatározott</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Ismeretlen</value>
-  </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Hálózati meghajtók</value>
   </data>
@@ -1256,9 +1238,6 @@
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
     <value>Eltávolítható meghajtó</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Ismeretlen</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Virtuális meghajtó</value>
@@ -2261,20 +2240,11 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Kedvencek megjelenítése</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Címke</value>
-  </data>
   <data name="FileTag" xml:space="preserve">
     <value>Címke</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Tartalmazó mappa megnyitása</value>
-  </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>Ismeretlen</value>
-  </data>
-  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>Címke</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Címkék szerkesztése</value>

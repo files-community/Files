@@ -203,10 +203,6 @@
           <source>Paste</source>
           <target state="translated">Klistra in</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNewFile.Text" translate="yes" xml:space="preserve">
-          <source>File</source>
-          <target state="translated">Fil</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutPropertiesFolder.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated">Egenskaper</target>
@@ -266,10 +262,6 @@
         <trans-unit id="FileFolderListItem" translate="yes" xml:space="preserve">
           <source>File folder</source>
           <target state="translated">Filmapp</target>
-        </trans-unit>
-        <trans-unit id="ItemTypeFile" translate="yes" xml:space="preserve">
-          <source>File</source>
-          <target state="translated">Fil</target>
         </trans-unit>
         <trans-unit id="RenameDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter an item name</source>
@@ -704,10 +696,6 @@
           <source>Working directory:</source>
           <target state="translated">Starta i:</target>
         </trans-unit>
-        <trans-unit id="PropertiesShortcutTypeFile" translate="yes" xml:space="preserve">
-          <source>File</source>
-          <target state="translated">Fil</target>
-        </trans-unit>
         <trans-unit id="PropertiesShortcutTypeLink" translate="yes" xml:space="preserve">
           <source>Web link</source>
           <target state="translated">Webblänk</target>
@@ -735,10 +723,6 @@
         <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated">Öppna filsökväg</target>
-        </trans-unit>
-        <trans-unit id="DriveCapacityUnknown" translate="yes" xml:space="preserve">
-          <source>Unknown</source>
-          <target state="translated">Okänd</target>
         </trans-unit>
         <trans-unit id="ExceptionNotificationBody" translate="yes" xml:space="preserve">
           <source>Files ran into a problem that the developers didn't prepare for yet.</source>
@@ -1298,10 +1282,6 @@
           <source>Address</source>
           <target state="translated">Adress</target>
         </trans-unit>
-        <trans-unit id="FileItemAutomation" translate="yes" xml:space="preserve">
-          <source>File</source>
-          <target state="translated">Fil</target>
-        </trans-unit>
         <trans-unit id="RecycleBinItemAutomation" translate="yes" xml:space="preserve">
           <source>Recycle bin item</source>
           <target state="translated">Objekt i Papperskorgen</target>
@@ -1639,10 +1619,6 @@
           <source>Not calculated</source>
           <target state="translated">Inte beräknat</target>
         </trans-unit>
-        <trans-unit id="CloudDriveSyncStatus_Unknown" translate="yes" xml:space="preserve">
-          <source>Unknown</source>
-          <target state="translated">Okänd</target>
-        </trans-unit>
         <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="translated">Markera flera</target>
@@ -1682,10 +1658,6 @@
         <trans-unit id="DriveTypeRemovable" translate="yes" xml:space="preserve">
           <source>Removable Storage Device</source>
           <target state="new">Removable Storage Device</target>
-        </trans-unit>
-        <trans-unit id="DriveTypeUnknown" translate="yes" xml:space="preserve">
-          <source>Unknown</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Okänd</target>
         </trans-unit>
         <trans-unit id="DriveTypeVirtualDrive" translate="yes" xml:space="preserve">
           <source>Virtual Drive</source>
@@ -3024,10 +2996,6 @@ We use App Center to track which settings are being used, find bugs, and fix cra
           <source>Show favorites section</source>
           <target state="new">Show favorites section</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByFileTag.Text" translate="yes" xml:space="preserve">
-          <source>File tag</source>
-          <target state="new">File tag</target>
-        </trans-unit>
         <trans-unit id="FileTag" translate="yes" xml:space="preserve">
           <source>File tag</source>
           <target state="new">File tag</target>
@@ -3035,14 +3003,6 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         <trans-unit id="BaseLayoutItemContextFlyoutOpenParentFolder.Text" translate="yes" xml:space="preserve">
           <source>Open parent folder</source>
           <target state="new">Open parent folder</target>
-        </trans-unit>
-        <trans-unit id="FileTagUnknown" translate="yes" xml:space="preserve">
-          <source>Unknown</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Okänd</target>
-        </trans-unit>
-        <trans-unit id="DetailsViewHeaderFlyout_ShowFileTag.Text" translate="yes" xml:space="preserve">
-          <source>File tag</source>
-          <target state="new">File tag</target>
         </trans-unit>
         <trans-unit id="SettingsEditFileTagsExpander.Title" translate="yes" xml:space="preserve">
           <source>Edit file tags</source>
@@ -3515,6 +3475,14 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
           <source>Open in</source>
           <target state="new">Open in</target>
+        </trans-unit>
+        <trans-unit id="Unknown" translate="yes" xml:space="preserve">
+          <source>Unknown</source>
+          <target state="new">Unknown</target>
+        </trans-unit>
+        <trans-unit id="FileTagColumn" translate="yes" xml:space="preserve">
+          <source>File tag column</source>
+          <target state="new">File tag column</target>
         </trans-unit>
       </group>
     </body>

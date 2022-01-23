@@ -250,10 +250,6 @@
           <source>New</source>
           <target state="translated">Създай</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNewFile.Text" translate="yes" xml:space="preserve">
-          <source>File</source>
-          <target state="translated">Файл</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutPropertiesFolder.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated">Свойства</target>
@@ -321,10 +317,6 @@
         <trans-unit id="FileFolderListItem" translate="yes" xml:space="preserve">
           <source>File folder</source>
           <target state="translated">Файлова папка</target>
-        </trans-unit>
-        <trans-unit id="ItemTypeFile" translate="yes" xml:space="preserve">
-          <source>File</source>
-          <target state="translated">Файл</target>
         </trans-unit>
         <trans-unit id="RenameDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter an item name</source>
@@ -763,10 +755,6 @@
           <source>Working directory:</source>
           <target state="translated">Работна директория:</target>
         </trans-unit>
-        <trans-unit id="PropertiesShortcutTypeFile" translate="yes" xml:space="preserve">
-          <source>File</source>
-          <target state="translated">Файл</target>
-        </trans-unit>
         <trans-unit id="PropertiesShortcutTypeLink" translate="yes" xml:space="preserve">
           <source>Web link</source>
           <target state="translated">Интернет връзка</target>
@@ -794,10 +782,6 @@
         <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated">Отвори местоположението на файла</target>
-        </trans-unit>
-        <trans-unit id="DriveCapacityUnknown" translate="yes" xml:space="preserve">
-          <source>Unknown</source>
-          <target state="translated">Неизвестно</target>
         </trans-unit>
         <trans-unit id="ExceptionNotificationBody" translate="yes" xml:space="preserve">
           <source>Files ran into a problem that the developers didn't prepare for yet.</source>
@@ -1400,10 +1384,6 @@
           <source>Open files with a single click</source>
           <target state="translated">Отваряй файлове с един клик</target>
         </trans-unit>
-        <trans-unit id="FileItemAutomation" translate="yes" xml:space="preserve">
-          <source>File</source>
-          <target state="translated">Файл</target>
-        </trans-unit>
         <trans-unit id="RecycleBinItemAutomation" translate="yes" xml:space="preserve">
           <source>Recycle bin item</source>
           <target state="translated">Елемент от кошчето</target>
@@ -1814,10 +1794,6 @@
           <source>Not calculated</source>
           <target state="translated">Не е изчислено</target>
         </trans-unit>
-        <trans-unit id="CloudDriveSyncStatus_Unknown" translate="yes" xml:space="preserve">
-          <source>Unknown</source>
-          <target state="translated">Неизвестно</target>
-        </trans-unit>
         <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="translated">Мултиселекция</target>
@@ -1857,10 +1833,6 @@
         <trans-unit id="DriveTypeRemovable" translate="yes" xml:space="preserve">
           <source>Removable Storage Device</source>
           <target state="translated">Преносимо устройство за съхранение</target>
-        </trans-unit>
-        <trans-unit id="DriveTypeUnknown" translate="yes" xml:space="preserve">
-          <source>Unknown</source>
-          <target state="translated">Неизвестно</target>
         </trans-unit>
         <trans-unit id="DriveTypeVirtualDrive" translate="yes" xml:space="preserve">
           <source>Virtual Drive</source>
@@ -3011,10 +2983,6 @@ We use App Center to track which settings are being used, find bugs, and fix cra
 Използваме App Center, за да проследяваме кои настройки се използват, да намираме грешки и да коригираме сривове. Информацията, изпратена до App Center, е анонимна и без никакви потребителски или контекстуални данни.
 </target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByFileTag.Text" translate="yes" xml:space="preserve">
-          <source>File tag</source>
-          <target state="translated">Файлов етикет</target>
-        </trans-unit>
         <trans-unit id="FileTag" translate="yes" xml:space="preserve">
           <source>File tag</source>
           <target state="translated">Файлов етикет</target>
@@ -3022,14 +2990,6 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         <trans-unit id="BaseLayoutItemContextFlyoutOpenParentFolder.Text" translate="yes" xml:space="preserve">
           <source>Open parent folder</source>
           <target state="translated">Отвори родителската папка</target>
-        </trans-unit>
-        <trans-unit id="FileTagUnknown" translate="yes" xml:space="preserve">
-          <source>Unknown</source>
-          <target state="translated">Неизвестен</target>
-        </trans-unit>
-        <trans-unit id="DetailsViewHeaderFlyout_ShowFileTag.Text" translate="yes" xml:space="preserve">
-          <source>File tag</source>
-          <target state="translated">Файлов етикет</target>
         </trans-unit>
         <trans-unit id="SettingsEditFileTagsExpander.Title" translate="yes" xml:space="preserve">
           <source>Edit file tags</source>
@@ -3494,6 +3454,14 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
           <target state="translated">Изчисляването на размерите на папките е ресурсоемко и може да доведе до увеличаване на използването на вашия процесор.</target>
+        </trans-unit>
+        <trans-unit id="Unknown" translate="yes" xml:space="preserve">
+          <source>Unknown</source>
+          <target state="new">Unknown</target>
+        </trans-unit>
+        <trans-unit id="FileTagColumn" translate="yes" xml:space="preserve">
+          <source>File tag column</source>
+          <target state="new">File tag column</target>
         </trans-unit>
       </group>
     </body>

@@ -195,9 +195,6 @@
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>New</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>File</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Properties</value>
   </data>
@@ -245,9 +242,6 @@
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>File folder</value>
-  </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>File</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>Enter an item name</value>
@@ -576,9 +570,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>Working directory:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>File</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Web link</value>
   </data>
@@ -599,9 +590,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Open file location</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>Unknown</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Files ran into a problem that the developers didn't prepare for yet.</value>
@@ -1053,9 +1041,6 @@
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
     <value>Open files with a single click</value>
   </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>File</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Recycle bin item</value>
   </data>
@@ -1356,9 +1341,6 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Not calculated</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Unknown</value>
-  </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Multiselect</value>
   </data>
@@ -1388,9 +1370,6 @@
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
     <value>Removable Storage Device</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Unknown</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Virtual Drive</value>
@@ -2260,20 +2239,11 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Show Favourites section on the sidebar</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>File tag</value>
-  </data>
   <data name="FileTag" xml:space="preserve">
     <value>File tag</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Open parent folder</value>
-  </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>Unknown</value>
-  </data>
-  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>File tag</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Edit file tags</value>

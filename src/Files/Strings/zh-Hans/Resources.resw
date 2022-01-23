@@ -210,9 +210,6 @@
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>搜索 (Ctrl+F)</value>
   </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>文件</value>
-  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>无法完成该操作</value>
   </data>
@@ -513,9 +510,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>工作目录:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>文件</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Web 链接</value>
   </data>
@@ -536,9 +530,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>打开文件位置</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>未知</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>发生了未知错误。</value>
@@ -656,9 +647,6 @@
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>拒绝访问</value>
-  </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>文件</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>回收站项</value>
@@ -1041,9 +1029,6 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>可用更新</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>文件</value>
-  </data>
   <data name="File" xml:space="preserve">
     <value>文件</value>
   </data>
@@ -1224,9 +1209,6 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>未计算</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>未知</value>
-  </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>多选</value>
   </data>
@@ -1256,9 +1238,6 @@
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
     <value>便携式驱动器</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>未知</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>虚拟驱动器</value>
@@ -2263,20 +2242,11 @@ Files 不收集、存储、共享或发布任何个人信息。
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>显示“收藏夹”栏</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>文件标签</value>
-  </data>
   <data name="FileTag" xml:space="preserve">
     <value>文件标签</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>打开上级目录</value>
-  </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>未知</value>
-  </data>
-  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>文件标签</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>编辑文件标签</value>

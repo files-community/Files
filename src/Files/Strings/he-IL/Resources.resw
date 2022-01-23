@@ -192,9 +192,6 @@
   <data name="FileFolderListItem" xml:space="preserve">
     <value>תיקיית קבצים</value>
   </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>קובץ</value>
-  </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>הזן שם פריט</value>
   </data>
@@ -450,9 +447,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>ספריית עבודה:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>קובץ</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>קישור אינטרנט</value>
   </data>
@@ -467,9 +461,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>פתח מיקום קובץ</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>לא ידוע</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
     <value>משהו השתבש</value>
@@ -777,9 +768,6 @@
   <data name="Document" xml:space="preserve">
     <value>מסמך</value>
   </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>קובץ</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>פריט סל המיחזור</value>
   </data>
@@ -872,9 +860,6 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>קיימים עדכונים זמינים</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>קובץ</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>קובץ</value>
@@ -969,17 +954,11 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>לא חושב</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>לא ידוע</value>
-  </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
     <value>כונן דיסק נשלף</value>
   </data>
   <data name="DriveTypeNetwork" xml:space="preserve">
     <value>כונן רשת</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>לא ידוע</value>
   </data>
   <data name="DateCreated" xml:space="preserve">
     <value>תאריך יצירה</value>

@@ -159,9 +159,6 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>لصق</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>ملف</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>خصائص</value>
   </data>
@@ -203,9 +200,6 @@
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>مجلد ملفات</value>
-  </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>ملف</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>ادخل اسم عنصر</value>
@@ -522,9 +516,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>دليل العمل:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>ملف</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>رابط موقع</value>
   </data>
@@ -545,9 +536,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>فتح موقع الملف</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>غير معروف</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>واجهت التطبيق مشكلة لم يحلها المطورون بعد</value>
@@ -954,9 +942,6 @@
   <data name="Address" xml:space="preserve">
     <value>العنوان</value>
   </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>ملف</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>عنصر سلة المحذوفات</value>
   </data>
@@ -1197,9 +1182,6 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>غير محسوب</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>غير معروف</value>
-  </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
     <value>تفاصيل الملف</value>
   </data>
@@ -1241,9 +1223,6 @@
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
     <value>جهاز تخزين قابل للإزالة</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>غير معروف</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>قرص وهمي</value>
@@ -1835,9 +1814,6 @@
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>‏‏حالة المزامنة</value>
-  </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>غير معروف</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>إدخال قرص</value>

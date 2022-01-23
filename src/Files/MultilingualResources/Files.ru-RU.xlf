@@ -270,10 +270,6 @@
           <source>Search (Ctrl+F)</source>
           <target state="translated">Поиск (Ctrl+F)</target>
         </trans-unit>
-        <trans-unit id="ItemTypeFile" translate="yes" xml:space="preserve">
-          <source>File</source>
-          <target state="translated">Файл</target>
-        </trans-unit>
         <trans-unit id="ErrorDialogThisActionCannotBeDone" translate="yes" xml:space="preserve">
           <source>This action cannot be done</source>
           <target state="translated">Это действие не может быть завершено</target>
@@ -674,10 +670,6 @@
           <source>Working directory:</source>
           <target state="translated">Рабочая папка:</target>
         </trans-unit>
-        <trans-unit id="PropertiesShortcutTypeFile" translate="yes" xml:space="preserve">
-          <source>File</source>
-          <target state="translated">Файл</target>
-        </trans-unit>
         <trans-unit id="PropertiesShortcutTypeLink" translate="yes" xml:space="preserve">
           <source>Web link</source>
           <target state="translated">Ссылка</target>
@@ -721,10 +713,6 @@
         <trans-unit id="InvalidItemDialogTitle" translate="yes" xml:space="preserve">
           <source>Invalid item</source>
           <target state="translated">Неверный элемент</target>
-        </trans-unit>
-        <trans-unit id="DriveCapacityUnknown" translate="yes" xml:space="preserve">
-          <source>Unknown</source>
-          <target state="translated">Неизвестно</target>
         </trans-unit>
         <trans-unit id="ExceptionNotificationBody" translate="yes" xml:space="preserve">
           <source>Files ran into a problem that the developers didn't prepare for yet.</source>
@@ -865,10 +853,6 @@
         <trans-unit id="AccessDenied" translate="yes" xml:space="preserve">
           <source>Access Denied</source>
           <target state="translated">Отказано в доступе</target>
-        </trans-unit>
-        <trans-unit id="FileItemAutomation" translate="yes" xml:space="preserve">
-          <source>File</source>
-          <target state="translated">Файл</target>
         </trans-unit>
         <trans-unit id="RecycleBinItemAutomation" translate="yes" xml:space="preserve">
           <source>Recycle bin item</source>
@@ -1380,10 +1364,6 @@
           <source>Updates Available</source>
           <target state="translated">Доступны обновления</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNewFile.Text" translate="yes" xml:space="preserve">
-          <source>File</source>
-          <target state="translated">Файл</target>
-        </trans-unit>
         <trans-unit id="File" translate="yes" xml:space="preserve">
           <source>File</source>
           <target state="translated">Файл</target>
@@ -1624,10 +1604,6 @@
           <source>Not calculated</source>
           <target state="translated">Не рассчитано</target>
         </trans-unit>
-        <trans-unit id="CloudDriveSyncStatus_Unknown" translate="yes" xml:space="preserve">
-          <source>Unknown</source>
-          <target state="translated">Неизвестно</target>
-        </trans-unit>
         <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="translated">Множественный выбор</target>
@@ -1667,10 +1643,6 @@
         <trans-unit id="DriveTypeRemovable" translate="yes" xml:space="preserve">
           <source>Removable Storage Device</source>
           <target state="translated">Съемное запоминающее устройство</target>
-        </trans-unit>
-        <trans-unit id="DriveTypeUnknown" translate="yes" xml:space="preserve">
-          <source>Unknown</source>
-          <target state="translated">Неизвестно</target>
         </trans-unit>
         <trans-unit id="DriveTypeVirtualDrive" translate="yes" xml:space="preserve">
           <source>Virtual Drive</source>
@@ -3009,10 +2981,6 @@ Files не собирает, хранит, распространяет или �
           <source>Show favorites section</source>
           <target state="translated">Показать секцию Избранное</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByFileTag.Text" translate="yes" xml:space="preserve">
-          <source>File tag</source>
-          <target state="translated">Метка</target>
-        </trans-unit>
         <trans-unit id="Tag" translate="yes" xml:space="preserve">
           <source>Tag</source>
           <target state="translated">Метка</target>
@@ -3024,14 +2992,6 @@ Files не собирает, хранит, распространяет или �
         <trans-unit id="BaseLayoutItemContextFlyoutOpenParentFolder.Text" translate="yes" xml:space="preserve">
           <source>Open parent folder</source>
           <target state="translated">Открыть родительскую папку</target>
-        </trans-unit>
-        <trans-unit id="FileTagUnknown" translate="yes" xml:space="preserve">
-          <source>Unknown</source>
-          <target state="translated" state-qualifier="tm-suggestion">Неизвестно</target>
-        </trans-unit>
-        <trans-unit id="DetailsViewHeaderFlyout_ShowFileTag.Text" translate="yes" xml:space="preserve">
-          <source>File tag</source>
-          <target state="translated">Метка</target>
         </trans-unit>
         <trans-unit id="SettingsEditFileTagsExpander.Title" translate="yes" xml:space="preserve">
           <source>Edit file tags</source>
@@ -3500,6 +3460,14 @@ Files не собирает, хранит, распространяет или �
         <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
           <source>Open in</source>
           <target state="new">Open in</target>
+        </trans-unit>
+        <trans-unit id="Unknown" translate="yes" xml:space="preserve">
+          <source>Unknown</source>
+          <target state="new">Unknown</target>
+        </trans-unit>
+        <trans-unit id="FileTagColumn" translate="yes" xml:space="preserve">
+          <source>File tag column</source>
+          <target state="new">File tag column</target>
         </trans-unit>
       </group>
     </body>

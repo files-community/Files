@@ -210,9 +210,6 @@
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>검색 (Ctrl+F)</value>
   </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>파일</value>
-  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>작업을 수행할 수 없습니다</value>
   </data>
@@ -504,9 +501,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>시작 위치:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>파일</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>링크</value>
   </data>
@@ -540,9 +534,6 @@
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>유효하지 않은 항목입니다</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>파일</value>
-  </data>
   <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
     <value>속성</value>
   </data>
@@ -563,9 +554,6 @@
   </data>
   <data name="PropertiesDialogHidden.Text" xml:space="preserve">
     <value>숨김</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>알 수 없음</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Files 개발자가 아직 대비하지 못한 문제가 발생했습니다.</value>
@@ -972,9 +960,6 @@
   <data name="Address" xml:space="preserve">
     <value>주소</value>
   </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>파일</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>휴지통 항목</value>
   </data>
@@ -1218,9 +1203,6 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>계산되지 않음</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>알 수 없음</value>
-  </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>네트워크 드라이브</value>
   </data>
@@ -1256,9 +1238,6 @@
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
     <value>이동식 저장 장치</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>알 수 없음</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>가상 드라이브</value>
@@ -2260,20 +2239,11 @@ Files는 어떤 개인정보도 수집, 저장, 공유, 게시하지 않습니�
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>즐겨찾기 섹션 표시</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>파일 태그</value>
-  </data>
   <data name="FileTag" xml:space="preserve">
     <value>파일 태그</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>상위 폴더 열기</value>
-  </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>알 수 없음</value>
-  </data>
-  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>파일 태그</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>파일 태그 수정</value>

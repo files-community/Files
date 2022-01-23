@@ -159,9 +159,6 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Klistra in</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>Fil</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Egenskaper</value>
   </data>
@@ -206,9 +203,6 @@
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>Filmapp</value>
-  </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>Fil</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>Ange ett namn för objektet</value>
@@ -528,9 +522,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>Starta i:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>Fil</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Webblänk</value>
   </data>
@@ -551,9 +542,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Öppna filsökväg</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>Okänd</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Files stötte på ett problem som utvecklarna inte ännu var förberedda för.</value>
@@ -972,9 +960,6 @@
   <data name="Address" xml:space="preserve">
     <value>Adress</value>
   </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>Fil</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Objekt i Papperskorgen</value>
   </data>
@@ -1218,9 +1203,6 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Inte beräknat</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Okänd</value>
-  </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Markera flera</value>
   </data>
@@ -1232,9 +1214,6 @@
   </data>
   <data name="DriveTypeNetwork" xml:space="preserve">
     <value>Nätverksenhet</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Okänd</value>
   </data>
   <data name="DateCreated" xml:space="preserve">
     <value>Skapad</value>
@@ -1754,9 +1733,6 @@
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Synkroniseringsstatus</value>
-  </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>Okänd</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Sätt in en skiva</value>

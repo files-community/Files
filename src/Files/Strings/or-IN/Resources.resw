@@ -201,9 +201,6 @@
   <data name="FileFolderListItem" xml:space="preserve">
     <value>ଫାଇଲ୍ ଫୋଲ୍ଡର୍</value>
   </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>ଫାଇଲ୍ ଫୋଲ୍ଡର୍</value>
-  </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>ଏକ ଆଇଟମ୍ ନାମ ପ୍ରବେଶ କରନ୍ତୁ</value>
   </data>
@@ -507,9 +504,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>ୱାର୍କିଂ ଡାଇରେକ୍ଟୋରୀ:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>ଫାଇଲ୍:</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>ୱେବ୍ ଲିଙ୍କ</value>
   </data>
@@ -524,9 +518,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>ଫାଇଲ୍ ଅବସ୍ଥାନ ଖୋଲନ୍ତୁ</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>ଅଜ୍ଞାତ</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
     <value>କିଛି ଭୁଲ୍‌ ହେଲା</value>
@@ -717,9 +708,6 @@
   <data name="Document" xml:space="preserve">
     <value>ଡକ୍ୟୁମେଣ୍ଟ୍</value>
   </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>ଫାଇଲ୍:</value>
-  </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>ଏଠାକୁ ଘୁଞ୍ଚନ୍ତୁ</value>
   </data>
@@ -770,9 +758,6 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>ଅଦ୍ୟତନଗୁଡିକ ଉପଲବ୍ଧ</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>ଫାଇଲ୍:</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>ଫାଇଲ୍:</value>
@@ -831,17 +816,11 @@
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
     <value>ସିଂକ୍ରିନାଇଜିଂ</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>ଅଜ୍ଞାତ</value>
-  </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
     <value>ଫ୍ଲପି ଡିସ୍କ୍ ଡ୍ରାଇଭ୍</value>
   </data>
   <data name="DriveTypeNetwork" xml:space="preserve">
     <value>ନେଟୱାର୍କ୍ ଡ୍ରାଇଭ୍</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>ଅଜ୍ଞାତ</value>
   </data>
   <data name="DateCreated" xml:space="preserve">
     <value>ତାରିଖ ପ୍ରସ୍ଥୁତ</value>
@@ -1256,9 +1235,6 @@
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>ସିଂକ୍ରୋନାଇଜ୍ ଫଳାଫଳ</value>
-  </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>ଅଜ୍ଞାତ</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>ଏକ ଡିସ୍କ୍ ସନ୍ନିବେଶ କରନ୍ତୁ</value>

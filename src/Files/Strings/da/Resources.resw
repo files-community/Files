@@ -159,9 +159,6 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Indsæt</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>Fil</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Egenskaber</value>
   </data>
@@ -203,9 +200,6 @@
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>Filmappe</value>
-  </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>Fil</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>Indtast et navn</value>
@@ -525,9 +519,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>Arbejdsmappe:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>Fil</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Web link</value>
   </data>
@@ -548,9 +539,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Åbn filplacering</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>Ukendt</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Files løb ind i et problem, som udviklerne ikke forberedte sig på endnu.</value>
@@ -966,9 +954,6 @@
   <data name="Address" xml:space="preserve">
     <value>Adresse</value>
   </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>Fil</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Papirkurvsemne</value>
   </data>
@@ -1161,9 +1146,6 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Ikke beregnet</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Ukendt</value>
-  </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>cd-rom-drev</value>
   </data>
@@ -1172,9 +1154,6 @@
   </data>
   <data name="DriveTypeNetwork" xml:space="preserve">
     <value>Netværksdrev</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Ukendt</value>
   </data>
   <data name="DateCreated" xml:space="preserve">
     <value>Oprettelsesdato</value>
@@ -1679,9 +1658,6 @@
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Synkroniseringsstatus</value>
-  </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>Ukendt</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Indsæt en disk</value>

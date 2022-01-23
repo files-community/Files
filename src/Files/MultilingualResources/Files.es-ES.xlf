@@ -270,10 +270,6 @@
           <source>Search (Ctrl+F)</source>
           <target state="translated">Búsqueda (Ctrl+F)</target>
         </trans-unit>
-        <trans-unit id="ItemTypeFile" translate="yes" xml:space="preserve">
-          <source>File</source>
-          <target state="translated">Archivo</target>
-        </trans-unit>
         <trans-unit id="ErrorDialogThisActionCannotBeDone" translate="yes" xml:space="preserve">
           <source>This action cannot be done</source>
           <target state="translated">Esta acción no se puede completar</target>
@@ -674,10 +670,6 @@
           <source>Working directory:</source>
           <target state="translated">Ubicación de destino:</target>
         </trans-unit>
-        <trans-unit id="PropertiesShortcutTypeFile" translate="yes" xml:space="preserve">
-          <source>File</source>
-          <target state="translated">Archivo</target>
-        </trans-unit>
         <trans-unit id="PropertiesShortcutTypeLink" translate="yes" xml:space="preserve">
           <source>Web link</source>
           <target state="translated">Dirección URL</target>
@@ -721,10 +713,6 @@
         <trans-unit id="InvalidItemDialogTitle" translate="yes" xml:space="preserve">
           <source>Invalid item</source>
           <target state="translated">Elemento inválido</target>
-        </trans-unit>
-        <trans-unit id="DriveCapacityUnknown" translate="yes" xml:space="preserve">
-          <source>Unknown</source>
-          <target state="translated">Desconocido</target>
         </trans-unit>
         <trans-unit id="ExceptionNotificationBody" translate="yes" xml:space="preserve">
           <source>Files ran into a problem that the developers didn't prepare for yet.</source>
@@ -873,10 +861,6 @@
         <trans-unit id="Drives" translate="yes" xml:space="preserve">
           <source>Drives</source>
           <target state="translated">Dispositivos y unidades</target>
-        </trans-unit>
-        <trans-unit id="FileItemAutomation" translate="yes" xml:space="preserve">
-          <source>File</source>
-          <target state="translated">Archivo</target>
         </trans-unit>
         <trans-unit id="RecycleBinItemAutomation" translate="yes" xml:space="preserve">
           <source>Recycle bin item</source>
@@ -1379,10 +1363,6 @@
           <source>Updates Available</source>
           <target state="translated">Actualizaciones disponibles</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNewFile.Text" translate="yes" xml:space="preserve">
-          <source>File</source>
-          <target state="translated">Archivo</target>
-        </trans-unit>
         <trans-unit id="File" translate="yes" xml:space="preserve">
           <source>File</source>
           <target state="translated">Archivo</target>
@@ -1623,10 +1603,6 @@
           <source>Not calculated</source>
           <target state="translated">No calculado</target>
         </trans-unit>
-        <trans-unit id="CloudDriveSyncStatus_Unknown" translate="yes" xml:space="preserve">
-          <source>Unknown</source>
-          <target state="translated">Desconocido</target>
-        </trans-unit>
         <trans-unit id="NavToolbarMultiselect.Text" translate="yes" xml:space="preserve">
           <source>Multiselect</source>
           <target state="translated">Multiselección</target>
@@ -1666,10 +1642,6 @@
         <trans-unit id="DriveTypeRemovable" translate="yes" xml:space="preserve">
           <source>Removable Storage Device</source>
           <target state="translated">Unidad extraíble</target>
-        </trans-unit>
-        <trans-unit id="DriveTypeUnknown" translate="yes" xml:space="preserve">
-          <source>Unknown</source>
-          <target state="translated">Desconocido</target>
         </trans-unit>
         <trans-unit id="DriveTypeVirtualDrive" translate="yes" xml:space="preserve">
           <source>Virtual Drive</source>
@@ -3006,10 +2978,6 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
           <source>Show favorites section</source>
           <target state="translated">Mostrar Favoritos</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByFileTag.Text" translate="yes" xml:space="preserve">
-          <source>File tag</source>
-          <target state="translated">Etiqueta de archivo</target>
-        </trans-unit>
         <trans-unit id="FileTag" translate="yes" xml:space="preserve">
           <source>File tag</source>
           <target state="translated">Etiqueta de archivo</target>
@@ -3017,14 +2985,6 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
         <trans-unit id="BaseLayoutItemContextFlyoutOpenParentFolder.Text" translate="yes" xml:space="preserve">
           <source>Open parent folder</source>
           <target state="translated">Abrir la carpeta principal</target>
-        </trans-unit>
-        <trans-unit id="FileTagUnknown" translate="yes" xml:space="preserve">
-          <source>Unknown</source>
-          <target state="translated">Desconocida</target>
-        </trans-unit>
-        <trans-unit id="DetailsViewHeaderFlyout_ShowFileTag.Text" translate="yes" xml:space="preserve">
-          <source>File tag</source>
-          <target state="translated">Etiqueta de archivo</target>
         </trans-unit>
         <trans-unit id="SettingsEditFileTagsExpander.Title" translate="yes" xml:space="preserve">
           <source>Edit file tags</source>
@@ -3498,6 +3458,14 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
         <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
           <source>Open in</source>
           <target state="new">Open in</target>
+        </trans-unit>
+        <trans-unit id="Unknown" translate="yes" xml:space="preserve">
+          <source>Unknown</source>
+          <target state="new">Unknown</target>
+        </trans-unit>
+        <trans-unit id="FileTagColumn" translate="yes" xml:space="preserve">
+          <source>File tag column</source>
+          <target state="new">File tag column</target>
         </trans-unit>
       </group>
     </body>

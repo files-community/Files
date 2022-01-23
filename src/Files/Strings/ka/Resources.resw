@@ -189,9 +189,6 @@
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>ახალი</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>ფაილი</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>თვისებები</value>
   </data>
@@ -239,9 +236,6 @@
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>ფაილის საქაღალდე</value>
-  </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>ფაილი</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>შეიყვანეთ ნივთის სახელი</value>
@@ -570,9 +564,6 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>სამუშაო კატალოგი:</value>
   </data>
-  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>ფაილი</value>
-  </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>ვებ ბმული</value>
   </data>
@@ -593,9 +584,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>ფაილის ადგილმდებარეობის გახსნა</value>
-  </data>
-  <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>უცნობი</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>ფაილებს შეექმნა პრობლემა, რისთვისაც დეველოპერები ჯერ არ მომზადებულან.</value>
@@ -1038,9 +1026,6 @@
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
     <value>ელემენტების გახსნა ერთი დაჭერით</value>
   </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>ფაილი</value>
-  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>სანაგვე ურნის ნივთი</value>
   </data>
@@ -1338,9 +1323,6 @@
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>არ არის გათვლილი</value>
   </data>
-  <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>უცნობი</value>
-  </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>მრავალშერჩევა</value>
   </data>
@@ -1370,9 +1352,6 @@
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
     <value>ამოშლადი შესანახი მოწყობილობა</value>
-  </data>
-  <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>უცნობი</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>ვირტუალური დისკი</value>
@@ -2259,20 +2238,11 @@
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>ფავორიტების განყოფილების ჩვენება</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>ფაილის იარლიყი</value>
-  </data>
   <data name="FileTag" xml:space="preserve">
     <value>ფაილის იარლიყი</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>მშობელი საქაღალდის გახსნა</value>
-  </data>
-  <data name="FileTagUnknown" xml:space="preserve">
-    <value>უცნობი</value>
-  </data>
-  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>ფაილის იარლიყი</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>ფაილის იარლიყების რედაქტირება</value>
