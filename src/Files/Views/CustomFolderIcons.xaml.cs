@@ -30,6 +30,7 @@ namespace Files.Views
         {
             this.InitializeComponent();
             RestoreDefaultIconCommand = new AsyncRelayCommand(RestoreDefaultIcon);
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -111,6 +112,8 @@ namespace Files.Views
 
         private async Task RestoreDefaultIcon()
         {
+            RestoreDefaultButton.IsEnabled = false;
+
             var setIconTask = IsShortcutItem ?
                 SetCustomFileIcon(selectedItemPath, null) :
                 SetCustomFolderIcon(selectedItemPath, null);
@@ -121,6 +124,10 @@ namespace Files.Views
                     appInstance?.FilesystemViewModel?.RefreshItems(null);
                 });
             }
+
+            await Task.Delay(1500);
+
+            RestoreDefaultButton.IsEnabled = true;
         }
 
         private async Task<bool> SetCustomFolderIcon(string folderPath, string iconFile, int iconIndex = 0)
