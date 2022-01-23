@@ -14,6 +14,7 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -955,6 +956,11 @@ namespace Files.ViewModels
                                 }
                             }
 
+                            if (await LaunchApplicationFromPath(currentInput, workingDir))
+                            {
+                                return;
+                            }
+
                             try
                             {
                                 if (!await Launcher.LaunchUriAsync(new Uri(currentInput)))
@@ -974,6 +980,35 @@ namespace Files.ViewModels
 
                 PathControlDisplayText = shellPage.FilesystemViewModel.WorkingDirectory;
             }
+        }
+
+        private static async Task<bool> LaunchApplicationFromPath(string currentInput, string workingDir)
+        {
+            var trimmedInput= currentInput.Trim();
+            var fileName = trimmedInput;
+            var arguments = "";
+            if (trimmedInput.Contains(' '))
+            {
+                var positionOfBlank = trimmedInput.IndexOf(' ');
+                fileName = trimmedInput.Substring(0, positionOfBlank);
+                arguments = currentInput.Substring(currentInput.IndexOf(' '));
+            }
+
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                var value = new ValueSet()
+                {
+                    { "Arguments", "LaunchApp" },
+                    { "WorkingDirectory", workingDir },
+                    { "Application", fileName },
+                    { "Parameters", arguments }
+                };
+                var (status, response) = await connection.SendMessageForResponseAsync(value);
+                return status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success && response.Get("Success", false);
+            }
+
+            return false;
         }
 
         public async void SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
