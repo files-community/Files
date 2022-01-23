@@ -758,7 +758,7 @@ namespace Files.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.P):
-                    UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled = !UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled;
+                    App.PreviewPaneViewModel.IsPaneSelected = !App.PreviewPaneViewModel.IsPaneSelected;
                     break;
 
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
@@ -775,7 +775,7 @@ namespace Files.Views
                 case (true, false, false, true, VirtualKey.H): // ctrl + h, show/hide hidden items
                     UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = !UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible;
                     break;
-                
+
                 case (true, false, false, true, VirtualKey.K): // ctrl + k, duplicate tab
                     await NavigationHelpers.OpenPathInNewTab(this.FilesystemViewModel.WorkingDirectory);
                     break;

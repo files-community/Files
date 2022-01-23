@@ -145,6 +145,7 @@
     <Compile Include="DataModels\FilesystemItemsOperationDataModel.cs" />
     <Compile Include="DataModels\NavigationControlItems\WslDistroItem.cs" />
     <Compile Include="Enums\LocalizedEnum.cs" />
+    <Compile Include="Enums\PaneContents.cs" />
     <Compile Include="Extensions\ShellNewEntryExtensions.cs" />
     <Compile Include="Dialogs\DecompressArchiveDialog.xaml.cs">
       <DependentUpon>DecompressArchiveDialog.xaml</DependentUpon>
@@ -258,12 +259,12 @@
     <Compile Include="Services\Implementation\LayoutSettingsService.cs" />
     <Compile Include="Services\Implementation\MultitaskingSettingsService.cs" />
     <Compile Include="Services\Implementation\PreferencesSettingsService.cs" />
-    <Compile Include="Services\Implementation\PreviewPaneSettingsService.cs" />
+    <Compile Include="Services\Implementation\PaneSettingsService.cs" />
     <Compile Include="Services\Implementation\UserSettingsService.cs" />
     <Compile Include="Services\Implementation\WidgetsSettingsService.cs" />
     <Compile Include="Services\IMultitaskingSettingsService.cs" />
     <Compile Include="Services\IPreferencesSettingsService.cs" />
-    <Compile Include="Services\IPreviewPaneSettingsService.cs" />
+    <Compile Include="Services\IPaneSettingsService.cs" />
     <Compile Include="Services\IUserSettingsService.cs" />
     <Compile Include="Services\IWidgetsSettingsService.cs" />
     <Compile Include="UserControls\ColoredIcon.xaml.cs">
@@ -281,6 +282,9 @@
     <Compile Include="UserControls\ImageFromBytes.cs" />
     <Compile Include="UserControls\InnerNavigationToolbar.xaml.cs">
       <DependentUpon>InnerNavigationToolbar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PaneControl.xaml.cs">
+      <DependentUpon>PaneControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\PathBreadcrumb.xaml.cs">
       <DependentUpon>PathBreadcrumb.xaml</DependentUpon>
@@ -1243,6 +1247,10 @@
     <Page Include="UserControls\InnerNavigationToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PaneControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\PathBreadcrumb.xaml">
       <SubType>Designer</SubType>

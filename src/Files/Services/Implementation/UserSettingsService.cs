@@ -33,10 +33,10 @@ namespace Files.Services.Implementation
             get => GetSettingsService(ref _AppearanceSettingsService);
         }
 
-        private IPreviewPaneSettingsService _PreviewPaneSettingsService;
-        public IPreviewPaneSettingsService PreviewPaneSettingsService
+        private IPaneSettingsService _PaneSettingsService;
+        public IPaneSettingsService PaneSettingsService
         {
-            get => GetSettingsService(ref _PreviewPaneSettingsService);
+            get => GetSettingsService(ref _PaneSettingsService);
         }
 
         private ILayoutSettingsService _LayoutSettingsService;
@@ -103,6 +103,7 @@ namespace Files.Services.Implementation
             PreferencesSettingsService?.ReportToAppCenter();
             MultitaskingSettingsService?.ReportToAppCenter();
             WidgetsSettingsService?.ReportToAppCenter();
+            PaneSettingsService?.ReportToAppCenter();
             AppearanceSettingsService?.ReportToAppCenter();
             PreferencesSettingsService?.ReportToAppCenter();
             LayoutSettingsService?.ReportToAppCenter();

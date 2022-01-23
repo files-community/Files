@@ -1230,7 +1230,7 @@ namespace Files.ViewModels
                     AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
                 }
 
-                if (UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled)
+                if (App.PreviewPaneViewModel.IsPaneSelected)
                 {
                     // Find and select README file
                     foreach (var item in filesAndFolders)
@@ -1927,7 +1927,7 @@ namespace Files.ViewModels
                                         lastItemAdded = await AddFileOrFolderAsync(operation.FileName, returnformat);
                                         if (lastItemAdded != null)
                                         {
-                                            anyEdits = true;                      
+                                            anyEdits = true;
                                         }
                                         break;
 
@@ -1992,8 +1992,8 @@ namespace Files.ViewModels
                     {
                         await OrderFilesAndFoldersAsync();
                         await ApplyFilesAndFoldersChangesAsync();
-                        if (lastItemAdded != null) 
-                        { 
+                        if (lastItemAdded != null)
+                        {
                             await NotifyListedItemAddedAsync(lastItemAdded);
                         }
                         anyEdits = false;

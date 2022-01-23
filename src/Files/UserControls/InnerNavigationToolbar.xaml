@@ -226,7 +226,7 @@
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
                     </AppBarButton.Content>
                     <AppBarButton.Flyout>
-                        <MenuFlyout Placement="Bottom" 
+                        <MenuFlyout Placement="Bottom"
                                     helpers:MenuFlyoutHelper.IsVisible="{x:Bind ViewModel.CanExtract, Mode=OneWay}">
                             <MenuFlyoutItem
                                 Command="{x:Bind ViewModel.ExtractCommand, Mode=OneWay}"
@@ -767,7 +767,7 @@
                 MinWidth="40"
                 AccessKey="P"
                 AutomationProperties.Name="Toggle preview pane"
-                IsChecked="{x:Bind UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled, Mode=TwoWay}"
+                IsChecked="{x:Bind PreviewPaneViewModel.IsPaneSelected, Mode=TwoWay}"
                 IsEnabled="{x:Bind ShowPreviewPaneButton, Mode=OneWay}"
                 Label="Preview"
                 LabelPosition="Collapsed"
