@@ -22,7 +22,7 @@ We welcome your contributions to the Files project, especially to fix bugs and t
 improvements which address the top issues reported by Files users. Some general guidelines:
 
 * **DO** create one pull request per Issue, and ensure that the Issue is linked in the pull request.
-* **DO** follow our [Coding and Style](https://files-community.github.io/docs/#/articles/code-style) guidelines, and keep code changes as small as possible.
+* **DO** follow our [Coding and Style](https://files.community/docs/contributing/code-style) guidelines, and keep code changes as small as possible.
 * **DO** include corresponding tests whenever possible.
 * **DO** check for additional occurrences of the same problem in other parts of the codebase before submitting your PR.
 * **DO** [link the issue](https://docs.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#manually-linking-a-pull-request-to-an-issue) you are addressing in the 
@@ -46,6 +46,11 @@ to group your changes into a small number of commits which we can review one at 
 
 When completing a pull request, we will generally squash your changes into a single commit. Please
 let us know if your pull request needs to be merged as separate commits.
+
+## Running interaction tests (optional)
+First, you will need to install WinAppDriver. You can download the latest version from [here](https://github.com/microsoft/WinAppDriver/releases).
+After installing WinAppDriver, you will need to run the Files.Package at least once to have the debug version be registered on your machine.
+Once you have the debug version registered, you can run the tests from the test explorer in Visual Studio.
 
 ## Review Process
 After submitting a pull request, members of the Files team will review your code. We will
