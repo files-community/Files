@@ -151,7 +151,7 @@ namespace FilesFullTrust.MessageHandlers
                 "cut", "copy", "paste", "delete", "properties", "link",
                 "Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
                 "eject", "rename", "explore", "openinfiles", "extract",
-                "copyaspath", "undelete", "empty",
+                "copyaspath", "undelete", "empty", "Open in Windows Terminal",
                 Win32API.ExtractStringFromDLL("shell32.dll", 30312), // SendTo menu
                 Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
             };

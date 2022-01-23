@@ -1764,9 +1764,6 @@
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>붙여넣기</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>터미널에서 열기(_O)</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>새로 만들기</value>
   </data>

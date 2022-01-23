@@ -45,9 +45,6 @@
   <data name="Size" xml:space="preserve">
     <value>ზომა</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>ტერმინალში გახსნა...</value>
-  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>შექმნილია:</value>
   </data>
