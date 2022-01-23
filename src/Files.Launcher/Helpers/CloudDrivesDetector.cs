@@ -59,9 +59,10 @@ namespace FilesFullTrust.Helpers
                     }
 
                     //Nextcloud specific
-                    if (namespaceKey?.GetValue("ApplicationName") != null)
+                    var appName = (string)namespaceKey?.GetValue("ApplicationName");
+                    if (!string.IsNullOrEmpty(appName) && appName == "Nextcloud")
                     {
-                        driveType = (string)namespaceKey?.GetValue("ApplicationName");
+                        driveType = appName;
                     }
 
                     using var bagKey = subKey.OpenSubKey(@"Instance\InitPropertyBag");
@@ -92,7 +93,7 @@ namespace FilesFullTrust.Helpers
                         {
                             CloudProviders.Mega => $"MEGA ({Path.GetFileName(syncedFolder.TrimEnd('\\'))})",
                             CloudProviders.AmazonDrive => $"Amazon Drive",
-                            CloudProviders.Nextcloud => $"{ (namespaceKey?.GetValue("")!=null ? (string)namespaceKey?.GetValue(""):"Nextcloud")}",
+                            CloudProviders.Nextcloud => $"{ (!string.IsNullOrEmpty((string)namespaceKey?.GetValue("")) ? (string)namespaceKey?.GetValue(""):"Nextcloud")}",
                             CloudProviders.Jottacloud => $"Jottacloud",
                             _ => null
                         },
