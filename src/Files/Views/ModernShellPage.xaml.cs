@@ -776,7 +776,7 @@ namespace Files.Views
                     UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = !UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible;
                     break;
                 
-                case (true, false, false, true, VirtualKey.K): // ctrl + k, duplicate tab
+                case (true, true, false, true, VirtualKey.K): // ctrl + shift + k, duplicate tab
                     await NavigationHelpers.OpenPathInNewTab(this.FilesystemViewModel.WorkingDirectory);
                     break;
 
