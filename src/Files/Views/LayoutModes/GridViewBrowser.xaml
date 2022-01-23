@@ -248,7 +248,6 @@
                     Tag="ItemImage">
                     <ContentPresenter
                         x:Name="PictureBorder"
-                        Margin="0,12,0,12"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
@@ -256,7 +255,7 @@
                         CornerRadius="{StaticResource GridViewThumbnailCornerRadius}">
                         <Image
                             x:Name="Picture"
-                            Width="74"
+                            Width="60"
                             Source="{x:Bind FileImage, Mode=OneWay}"
                             Stretch="Uniform" />
                     </ContentPresenter>
