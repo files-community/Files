@@ -30,7 +30,6 @@ namespace Files.Views
         {
             this.InitializeComponent();
             RestoreDefaultIconCommand = new AsyncRelayCommand(RestoreDefaultIcon);
-
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -124,9 +123,7 @@ namespace Files.Views
                     appInstance?.FilesystemViewModel?.RefreshItems(null);
                 });
             }
-
             await Task.Delay(1500);
-
             RestoreDefaultButton.IsEnabled = true;
         }
 
