@@ -223,6 +223,8 @@ namespace Files.Views
             NavToolbarViewModel.ExtractCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveCommand.Execute(null));
             NavToolbarViewModel.ExtractHereCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveHereCommand.Execute(null));
             NavToolbarViewModel.ExtractToCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveToChildFolderCommand.Execute(null));
+            NavToolbarViewModel.RotateImageLeftCommand = new RelayCommand(async () => SlimContentPage?.CommandsViewModel.RotateImageLeftCommand.Execute(null));
+            NavToolbarViewModel.RotateImageRightCommand = new RelayCommand(async () => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.Execute(null));
         }
 
         private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
