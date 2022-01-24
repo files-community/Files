@@ -65,6 +65,19 @@
                             <StaticResource x:Key="SidebarContentBackgroundBrush" ResourceKey="LayerFillColorDefaultBrush" />
                             <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
+                            <Thickness x:Key="ExpanderContentPadding">20,0,0,0</Thickness>
+                            <Thickness x:Key="ExpanderMinHeight">1</Thickness>
+                            <Thickness x:Key="GridViewHeaderPadding">12,8,12,0</Thickness>
+                            <Thickness x:Key="GridViewHeaderMinHeight">0</Thickness>
+                            <Thickness x:Key="GridViewHeaderItemMinHeight">0</Thickness>
+                            <Thickness x:Key="ListViewRowPadding">8,0,8,8</Thickness>
+                            <Thickness x:Key="ListViewHeaderGridHeight">38</Thickness>
+                            <Thickness x:Key="ListedItemPadding">10,0</Thickness>
+                            <Thickness x:Key="ListedItemHeight">32</Thickness>
+                            <Thickness x:Key="ListViewMinHeight">1</Thickness>
+                            <Thickness x:Key="ListViewHeight">36</Thickness>
+                            <Thickness x:Key="ListViewItemMinHeight">1</Thickness>
+                            <Thickness x:Key="ListViewHeaderItemPadding">12,8,12,0</Thickness>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <Color x:Key="SolidBackgroundAcrylic">#2C2C2C</Color>
@@ -104,6 +117,19 @@
                             <StaticResource x:Key="SidebarContentBackgroundBrush" ResourceKey="LayerFillColorDefaultBrush" />
                             <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
+                            <Thickness x:Key="ExpanderContentPadding">20,0,0,0</Thickness>
+                            <Thickness x:Key="ExpanderMinHeight">1</Thickness>
+                            <Thickness x:Key="GridViewHeaderPadding">12,8,12,0</Thickness>
+                            <Thickness x:Key="GridViewHeaderMinHeight">0</Thickness>
+                            <Thickness x:Key="GridViewHeaderItemMinHeight">0</Thickness>
+                            <Thickness x:Key="ListViewRowPadding">8,0,8,8</Thickness>
+                            <Thickness x:Key="ListViewHeaderGridHeight">38</Thickness>
+                            <Thickness x:Key="ListedItemPadding">10,0</Thickness>
+                            <Thickness x:Key="ListedItemHeight">32</Thickness>
+                            <Thickness x:Key="ListViewMinHeight">1</Thickness>
+                            <Thickness x:Key="ListViewHeight">36</Thickness>
+                            <Thickness x:Key="ListViewItemMinHeight">1</Thickness>
+                            <Thickness x:Key="ListViewHeaderItemPadding">12,8,12,0</Thickness>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
                             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{StaticResource SystemColorWindowColor}" />
@@ -152,6 +178,19 @@
                             <StaticResource x:Key="SidebarContentBackgroundBrush" ResourceKey="LayerFillColorDefaultBrush" />
                             <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="#0F000000" />
+                            <Thickness x:Key="ExpanderContentPadding">20,0,0,0</Thickness>
+                            <Thickness x:Key="ExpanderMinHeight">1</Thickness>
+                            <Thickness x:Key="GridViewHeaderPadding">12,8,12,0</Thickness>
+                            <Thickness x:Key="GridViewHeaderMinHeight">0</Thickness>
+                            <Thickness x:Key="GridViewHeaderItemMinHeight">0</Thickness>
+                            <Thickness x:Key="ListViewRowPadding">8,0,8,8</Thickness>
+                            <Thickness x:Key="ListViewHeaderGridHeight">38</Thickness>
+                            <Thickness x:Key="ListedItemPadding">10,0</Thickness>
+                            <Thickness x:Key="ListedItemHeight">32</Thickness>
+                            <Thickness x:Key="ListViewMinHeight">1</Thickness>
+                            <Thickness x:Key="ListViewHeight">36</Thickness>
+                            <Thickness x:Key="ListViewItemMinHeight">1</Thickness>
+                            <Thickness x:Key="ListViewHeaderItemPadding">12,8,12,0</Thickness>
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                     <LinearGradientBrush x:Key="ControlElevationBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,3">

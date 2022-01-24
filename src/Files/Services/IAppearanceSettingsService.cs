@@ -12,6 +12,16 @@ namespace Files.Services
         #region Internal Settings
 
         /// <summary>
+        /// Gets or sets a value indicating the spacing size in px of the items in list view.
+        /// </summary>
+        double SpacingSizePx { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating the padding size in px of the items in list view.
+        /// </summary>
+        double PaddingSizePx { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating the width of the sidebar pane when open.
         /// </summary>
         double SidebarWidth { get; set; }

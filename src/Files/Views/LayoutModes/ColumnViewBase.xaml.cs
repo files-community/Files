@@ -4,6 +4,7 @@ using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.Interacts;
 using Files.UserControls.Selection;
+using Files.Services;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;

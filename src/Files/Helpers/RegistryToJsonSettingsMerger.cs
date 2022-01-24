@@ -67,6 +67,8 @@ namespace Files.Helpers
                     userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab = appSettings.Get(false, "OpenFoldersNewTab");
 
                     // Appearance
+                    userSettingsService.AppearanceSettingsService.SpacingSizePx = appSettings.Get(2d, "SpacingSizePx");
+                    userSettingsService.AppearanceSettingsService.PaddingSizePx = appSettings.Get(2d, "PaddingSizePx");
                     userSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu = appSettings.Get(true, "MoveOverflowMenuItemsToSubMenu");
 
                     // Startup

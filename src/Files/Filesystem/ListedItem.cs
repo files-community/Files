@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Windows.Storage;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -24,6 +25,19 @@ namespace Files.Filesystem
     public class ListedItem : ObservableObject, IGroupableItem
     {
         protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
+        // Need to access this in the DataTemplate to read the updated padding
+        // Need to access this in the DataTemplate to read the updated padding
+        public Thickness SpacingSize
+        {
+            get => new Thickness(0, UserSettingsService.AppearanceSettingsService.SpacingSizePx / 2, 0, UserSettingsService.AppearanceSettingsService.SpacingSizePx / 2);
+        }
+
+        public Thickness PaddingSize
+        {
+            get => new Thickness(0, UserSettingsService.AppearanceSettingsService.PaddingSizePx / 2, 0, UserSettingsService.AppearanceSettingsService.PaddingSizePx / 2);
+        }
+
 
         protected static IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
 

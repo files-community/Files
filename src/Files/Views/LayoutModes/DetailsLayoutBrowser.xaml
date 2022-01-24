@@ -58,12 +58,14 @@
                 <Setter Property="Width" Value="1" />
                 <Setter Property="Margin" Value="0,4,0,4" />
                 <Setter Property="Opacity" Value="0.8" />
+                
             </Style>
 
             <Style TargetType="ListViewHeaderItem">
                 <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
                 <Setter Property="FontSize" Value="{ThemeResource GridViewHeaderItemThemeFontSize}" />
                 <Setter Property="Background" Value="{ThemeResource GridViewHeaderItemBackground}" />
+                <Setter Property="Padding" Value="{ThemeResource GridViewHeaderPadding}" />
                 <Setter Property="Margin" Value="0,0,0,4" />
                 <Setter Property="Padding" Value="12,8,12,0" />
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -241,7 +243,7 @@
                     <ListView.Header>
                         <Grid
                             x:Name="HeaderGrid"
-                            Height="40"
+                            Height="{ThemeResource ListViewHeaderGridHeight}"
                             Padding="16,0,0,0"
                             Background="{ThemeResource FileBrowserHeaderBackgroundBrush}"
                             BorderBrush="{ThemeResource ControlStrokeColorDefault}"
@@ -508,11 +510,14 @@
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local2:ListedItem">
+                            <!--Padding="{x:Bind PaddingSize, Mode=OneWay}"-->
                             <Grid
                                 HorizontalAlignment="Stretch"
                                 AutomationProperties.Name="{x:Bind ItemName, Mode=OneWay}"
                                 IsRightTapEnabled="True"
                                 Loaded="Grid_Loaded"
+                                Padding="{Binding PaddingSize, Mode=OneWay}"
+                                VerticalAlignment="Center"
                                 RightTapped="StackPanel_RightTapped"
                                 ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
                                 <Grid.ColumnDefinitions>
@@ -885,7 +890,7 @@
                         <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                             <Setter Property="MinHeight" Value="1" />
-                            <Setter Property="Height" Value="36" />
+                            <Setter Property="Height" Value="Auto" />
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.ItemsPanel>
@@ -897,6 +902,7 @@
                         <StackPanel
                             x:Name="SearchUnindexedItemsPanel"
                             HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center" 
                             x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}"
                             Orientation="Vertical">
                             <TextBlock
@@ -976,6 +982,9 @@
                     <ListView.ItemContainerStyle>
                         <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="MinHeight" Value="{ThemeResource ListViewMinHeight}" />
+                            <Setter Property="Height" Value="{ThemeResource ListViewHeight}" />
+                            <Setter Property="Margin" Value="{Binding SpacingSize, Mode=OneWay}" />
                         </Style>
                     </ListView.ItemContainerStyle>
                 </ListView>

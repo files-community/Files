@@ -19,6 +19,16 @@ namespace Files.Services.Implementation
             get => Get(Math.Min(Math.Max(Get(255d), Constants.UI.MinimumSidebarWidth), 500d));
             set => Set(value);
         }
+        public double SpacingSizePx
+        {
+            get => Get(Math.Min(Math.Max(Get(100d), 2d), 50d));
+            set => Set(value);
+        }
+        public double PaddingSizePx
+        {
+            get => Get(Math.Min(Math.Max(Get(100d), 2d), 50d));
+            set => Set(value);
+        }
 
         public bool IsSidebarOpen
         {
@@ -81,6 +91,8 @@ namespace Files.Services.Implementation
             switch (e.settingName)
             {
                 case nameof(MoveOverflowMenuItemsToSubMenu):
+                case nameof(SpacingSizePx):
+                case nameof(PaddingSizePx):
                 case nameof(ShowFavoritesSection):
                 case nameof(ShowLibrarySection):
                 case nameof(ShowCloudDrivesSection):
@@ -98,6 +110,8 @@ namespace Files.Services.Implementation
         {
             Analytics.TrackEvent($"{nameof(MoveOverflowMenuItemsToSubMenu)}, {MoveOverflowMenuItemsToSubMenu}");
             Analytics.TrackEvent($"{nameof(ShowFavoritesSection)}, {ShowFavoritesSection}");
+            Analytics.TrackEvent($"{nameof(SpacingSizePx)}, {SpacingSizePx}");
+            Analytics.TrackEvent($"{nameof(PaddingSizePx)}, {PaddingSizePx}");
             Analytics.TrackEvent($"{nameof(ShowLibrarySection)}, {ShowLibrarySection}");
             Analytics.TrackEvent($"{nameof(ShowCloudDrivesSection)}, {ShowCloudDrivesSection}");
             Analytics.TrackEvent($"{nameof(ShowNetworkDrivesSection)}, {ShowNetworkDrivesSection}");
