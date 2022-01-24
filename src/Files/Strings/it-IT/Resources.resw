@@ -1800,9 +1800,6 @@
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Incolla</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Apri nel Terminale...</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nuovo</value>
   </data>
