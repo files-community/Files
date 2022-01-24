@@ -757,17 +757,17 @@ namespace Files.Filesystem
             return null;
         }
 
-        public async Task<IStorageHistory> RestoreItemsFromTrashAsync(IEnumerable<IStorageItem> source,
-                                                                     IEnumerable<string> destination,
+        public async Task<IStorageHistory> RestoreItemsFromTrashAsync(IList<IStorageItem> source,
+                                                                     IList<string> destination,
                                                                      IProgress<float> progress,
                                                                      IProgress<FileSystemStatusCode> errorCode,
                                                                      CancellationToken cancellationToken)
         {
-            return await RestoreItemsFromTrashAsync(source.Select((item) => item.FromStorageItem()), destination, progress, errorCode, cancellationToken);
+            return await RestoreItemsFromTrashAsync(await source.Select((item) => item.FromStorageItem()).ToListAsync(), destination, progress, errorCode, cancellationToken);
         }
 
-        public async Task<IStorageHistory> RestoreItemsFromTrashAsync(IEnumerable<IStorageItemWithPath> source,
-                                                                     IEnumerable<string> destination,
+        public async Task<IStorageHistory> RestoreItemsFromTrashAsync(IList<IStorageItemWithPath> source,
+                                                                     IList<string> destination,
                                                                      IProgress<float> progress,
                                                                      IProgress<FileSystemStatusCode> errorCode,
                                                                      CancellationToken token)
@@ -797,8 +797,8 @@ namespace Files.Filesystem
             {
                 return new StorageHistory(
                     rawStorageHistory[0].OperationType,
-                    rawStorageHistory.SelectMany((item) => item.Source),
-                    rawStorageHistory.SelectMany((item) => item.Destination));
+                    await rawStorageHistory.SelectMany((item) => item.Source).ToListAsync(),
+                    await rawStorageHistory.SelectMany((item) => item.Destination).ToListAsync());
             }
             return null;
         }
@@ -980,12 +980,12 @@ namespace Files.Filesystem
 
         #endregion IDisposable
 
-        public async Task<IStorageHistory> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, IEnumerable<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
+        public async Task<IStorageHistory> CopyItemsAsync(IList<IStorageItem> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            return await CopyItemsAsync(source.Select((item) => item.FromStorageItem()), destination, collisions, progress, errorCode, cancellationToken);
+            return await CopyItemsAsync(await source.Select((item) => item.FromStorageItem()).ToListAsync(), destination, collisions, progress, errorCode, cancellationToken);
         }
 
-        public async Task<IStorageHistory> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, IEnumerable<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken token)
+        public async Task<IStorageHistory> CopyItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken token)
         {
             var rawStorageHistory = new List<IStorageHistory>();
 
@@ -1016,18 +1016,18 @@ namespace Files.Filesystem
             {
                 return new StorageHistory(
                     rawStorageHistory[0].OperationType,
-                    rawStorageHistory.SelectMany((item) => item.Source),
-                    rawStorageHistory.SelectMany((item) => item.Destination));
+                    await rawStorageHistory.SelectMany((item) => item.Source).ToListAsync(),
+                    await rawStorageHistory.SelectMany((item) => item.Destination).ToListAsync());
             }
             return null;
         }
 
-        public async Task<IStorageHistory> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, IEnumerable<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
+        public async Task<IStorageHistory> MoveItemsAsync(IList<IStorageItem> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            return await MoveItemsAsync(source.Select((item) => item.FromStorageItem()), destination, collisions, progress, errorCode, cancellationToken);
+            return await MoveItemsAsync(await source.Select((item) => item.FromStorageItem()).ToListAsync(), destination, collisions, progress, errorCode, cancellationToken);
         }
 
-        public async Task<IStorageHistory> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, IEnumerable<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken token)
+        public async Task<IStorageHistory> MoveItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken token)
         {
             var rawStorageHistory = new List<IStorageHistory>();
             
@@ -1058,18 +1058,18 @@ namespace Files.Filesystem
             {
                 return new StorageHistory(
                     rawStorageHistory[0].OperationType,
-                    rawStorageHistory.SelectMany((item) => item.Source),
-                    rawStorageHistory.SelectMany((item) => item.Destination));
+                    await rawStorageHistory.SelectMany((item) => item.Source).ToListAsync(),
+                    await rawStorageHistory.SelectMany((item) => item.Destination).ToListAsync());
             }
             return null;
         }
 
-        public async Task<IStorageHistory> DeleteItemsAsync(IEnumerable<IStorageItem> source, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, bool permanently, CancellationToken cancellationToken)
+        public async Task<IStorageHistory> DeleteItemsAsync(IList<IStorageItem> source, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, bool permanently, CancellationToken cancellationToken)
         {
-            return await DeleteItemsAsync(source.Select((item) => item.FromStorageItem()), progress, errorCode, permanently, cancellationToken);
+            return await DeleteItemsAsync(await source.Select((item) => item.FromStorageItem()).ToListAsync(), progress, errorCode, permanently, cancellationToken);
         }
 
-        public async Task<IStorageHistory> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, bool permanently, CancellationToken token)
+        public async Task<IStorageHistory> DeleteItemsAsync(IList<IStorageItemWithPath> source, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, bool permanently, CancellationToken token)
         {
             bool originalPermanently = permanently;
             var rawStorageHistory = new List<IStorageHistory>();
@@ -1100,13 +1100,13 @@ namespace Files.Filesystem
             {
                 return new StorageHistory(
                     rawStorageHistory[0].OperationType,
-                    rawStorageHistory.SelectMany((item) => item.Source),
-                    rawStorageHistory.SelectMany((item) => item.Destination));
+                    await rawStorageHistory.SelectMany((item) => item.Source).ToListAsync(),
+                    await rawStorageHistory.SelectMany((item) => item.Destination).ToListAsync());
             }
             return null;
         }
 
-        public Task<IStorageHistory> CreateShortcutItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken token)
+        public Task<IStorageHistory> CreateShortcutItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken token)
         {
             throw new NotImplementedException("Cannot create shortcuts in UWP.");
         }

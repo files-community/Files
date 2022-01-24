@@ -71,7 +71,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        await filesystemOperations.CreateShortcutItemsAsync(history.Source, history.Destination.Select(item => item.Path), null, errorCode, cancellationToken);
+                        await filesystemOperations.CreateShortcutItemsAsync(history.Source, await history.Destination.Select(item => item.Path).ToListAsync(), null, errorCode, cancellationToken);
 
                         break;
                     }

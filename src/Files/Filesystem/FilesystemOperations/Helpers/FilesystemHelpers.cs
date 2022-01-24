@@ -184,7 +184,7 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            IStorageHistory history = await filesystemOperations.DeleteItemsAsync(source, banner.Progress, banner.ErrorCode, permanently, token);
+            IStorageHistory history = await filesystemOperations.DeleteItemsAsync((IList<IStorageItemWithPath>)source, banner.Progress, banner.ErrorCode, permanently, token);
             ((IProgress<float>)banner.Progress).Report(100.0f);
             await Task.Yield();
 
@@ -412,7 +412,7 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            IStorageHistory history = await filesystemOperations.RestoreItemsFromTrashAsync(source, destination, null, errorCode, cancellationToken);
+            IStorageHistory history = await filesystemOperations.RestoreItemsFromTrashAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, null, errorCode, cancellationToken);
             await Task.Yield();
 
             if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
@@ -531,7 +531,7 @@ namespace Files.Filesystem
 
             itemManipulationModel?.ClearSelection();
 
-            IStorageHistory history = await filesystemOperations.CopyItemsAsync(source, destination, collisions, banner.Progress, banner.ErrorCode, token);
+            IStorageHistory history = await filesystemOperations.CopyItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.Progress, banner.ErrorCode, token);
             ((IProgress<float>)banner.Progress).Report(100.0f);
             await Task.Yield();
 
@@ -752,7 +752,7 @@ namespace Files.Filesystem
 
             itemManipulationModel?.ClearSelection();
 
-            IStorageHistory history = await filesystemOperations.MoveItemsAsync(source, destination, collisions, banner.Progress, banner.ErrorCode, token);
+            IStorageHistory history = await filesystemOperations.MoveItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.Progress, banner.ErrorCode, token);
             ((IProgress<float>)banner.Progress).Report(100.0f);
             await Task.Yield();
 
@@ -990,7 +990,7 @@ namespace Files.Filesystem
             source = await source.ToListAsync();
             dest = await dest.ToListAsync();
 
-            var history = await filesystemOperations.CreateShortcutItemsAsync(source, dest, null, errorCode, cancellationToken);
+            var history = await filesystemOperations.CreateShortcutItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)dest, null, errorCode, cancellationToken);
 
             if (registerHistory)
             {
