@@ -641,9 +641,28 @@ namespace FilesFullTrust
         public static extern int SHQueryRecycleBin(string pszRootPath,
             ref SHQUERYRBINFO pSHQueryRBInfo);
 
-        // Windows 10+ needs to have charset set.
-        [DllImport("Setupapi.dll", EntryPoint = "InstallHinfSection", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Auto)]
-        public static extern void InstallHinfSection([In] IntPtr hwnd, [In] IntPtr moduleHandle,
-            [In, MarshalAs(UnmanagedType.LPWStr)] string cmdLineBuffer, int nCmdShow);
+        public static bool InfDefaultInstall(string filePath)
+        {
+            try
+            {
+                using Process process = new Process();
+                process.StartInfo.FileName = "InfDefaultInstall.exe";
+                process.StartInfo.Verb = "runas";
+                process.StartInfo.UseShellExecute = true;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.Arguments = $"{filePath}";
+                process.Start();
+                if (process.WaitForExit(30 * 1000))
+                {
+                    return process.ExitCode == 0;
+                }
+                return false;
+            }
+            catch (Win32Exception)
+            {
+                // If user cancels UAC
+                return false;
+            }
+        }
     }
 }

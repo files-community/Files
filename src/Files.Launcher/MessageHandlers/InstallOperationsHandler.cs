@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.IO.Pipes;
 using System.Threading.Tasks;
 using System.Linq;
@@ -36,7 +35,7 @@ namespace FilesFullTrust.MessageHandlers
 
                     if (isInf)
                     {
-                        Win32API.InstallHinfSection(IntPtr.Zero, IntPtr.Zero, filePath, 0);
+                        Win32API.InfDefaultInstall(filePath);
                     }
 
                     break;
