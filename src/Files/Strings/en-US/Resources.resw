@@ -150,8 +150,8 @@
   <data name="Size" xml:space="preserve">
     <value>Size</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Open in Terminal...</value>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Open in</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Created:</value>
@@ -2728,5 +2728,8 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Install</value>
   </data>
 </root>

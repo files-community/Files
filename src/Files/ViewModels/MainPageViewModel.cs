@@ -49,6 +49,8 @@ namespace Files.ViewModels
 
         public ICommand AddNewInstanceAcceleratorCommand { get; private set; }
 
+        public ICommand ReopenClosedTabAcceleratorCommand { get; private set; }
+
         public MainPageViewModel()
         {
             // Create commands
@@ -56,6 +58,7 @@ namespace Files.ViewModels
             OpenNewWindowAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
             CloseSelectedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CloseSelectedTabKeyboardAccelerator);
             AddNewInstanceAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(AddNewInstanceAccelerator);
+            ReopenClosedTabAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ReopenClosedTabAccelerator);
         }
 
         private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs e)
@@ -162,16 +165,13 @@ namespace Files.ViewModels
 
         private async void AddNewInstanceAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
-            bool shift = e.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
+            await AddNewTabAsync();
+            e.Handled = true;
+        }
 
-            if (!shift)
-            {
-                await AddNewTabAsync();
-            }
-            else // ctrl + shift + t, restore recently closed tab
-            {
-                ((BaseMultitaskingControl)MultitaskingControl).ReopenClosedTab(null, null);
-            }
+        private void ReopenClosedTabAccelerator(KeyboardAcceleratorInvokedEventArgs e)
+        {
+            ((BaseMultitaskingControl)MultitaskingControl).ReopenClosedTab(null, null);
             e.Handled = true;
         }
 

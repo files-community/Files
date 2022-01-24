@@ -1764,9 +1764,6 @@
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Wklej</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>_Otwórz w terminalu</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nowy</value>
   </data>

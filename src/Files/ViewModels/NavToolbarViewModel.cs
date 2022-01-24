@@ -14,6 +14,7 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -678,7 +679,7 @@ namespace Files.ViewModels
 
         public void UpdateAdditionnalActions()
         {
-            OnPropertyChanged(nameof(HasAdditionnalAction));
+            OnPropertyChanged(nameof(HasAdditionalAction));
             OnPropertyChanged(nameof(CanEmptyRecycleBin));
         }
 
@@ -794,7 +795,7 @@ namespace Files.ViewModels
         public ICommand CutCommand { get; set; }
 
         public ICommand EmptyRecycleBinCommand { get; set; }
-        
+
         public ICommand PropertiesCommand { get; set; }
 
         public ICommand ExtractCommand { get; set; }
@@ -806,6 +807,8 @@ namespace Files.ViewModels
         public ICommand RunWithPowerShellCommand { get; set; }
 
         public ICommand SetAsBackgroundCommand { get; set; }
+
+        public ICommand InstallFontCommand { get; set; }
 
         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
         {
@@ -955,6 +958,11 @@ namespace Files.ViewModels
                                 }
                             }
 
+                            if (await LaunchApplicationFromPath(currentInput, workingDir))
+                            {
+                                return;
+                            }
+
                             try
                             {
                                 if (!await Launcher.LaunchUriAsync(new Uri(currentInput)))
@@ -974,6 +982,35 @@ namespace Files.ViewModels
 
                 PathControlDisplayText = shellPage.FilesystemViewModel.WorkingDirectory;
             }
+        }
+
+        private static async Task<bool> LaunchApplicationFromPath(string currentInput, string workingDir)
+        {
+            var trimmedInput= currentInput.Trim();
+            var fileName = trimmedInput;
+            var arguments = "";
+            if (trimmedInput.Contains(' '))
+            {
+                var positionOfBlank = trimmedInput.IndexOf(' ');
+                fileName = trimmedInput.Substring(0, positionOfBlank);
+                arguments = currentInput.Substring(currentInput.IndexOf(' '));
+            }
+
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                var value = new ValueSet()
+                {
+                    { "Arguments", "LaunchApp" },
+                    { "WorkingDirectory", workingDir },
+                    { "Application", fileName },
+                    { "Parameters", arguments }
+                };
+                var (status, response) = await connection.SendMessageForResponseAsync(value);
+                return status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success && response.Get("Success", false);
+            }
+
+            return false;
         }
 
         public async void SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
@@ -1074,7 +1111,6 @@ namespace Files.ViewModels
                     OnPropertyChanged(nameof(CanEmptyRecycleBin));
                 }
             }
-
         }
 
         private List<ListedItem> selectedItems;
@@ -1089,27 +1125,29 @@ namespace Files.ViewModels
                     OnPropertyChanged(nameof(CanCopy));
                     OnPropertyChanged(nameof(CanShare));
                     OnPropertyChanged(nameof(CanRename));
-                    OnPropertyChanged(nameof(IsPowerShellScript));
                     OnPropertyChanged(nameof(CanViewProperties));
-                    OnPropertyChanged(nameof(IsImage));
                     OnPropertyChanged(nameof(CanExtract));
                     OnPropertyChanged(nameof(ExtractToText));
-                    OnPropertyChanged(nameof(HasAdditionnalAction));
+                    OnPropertyChanged(nameof(IsPowerShellScript));
+                    OnPropertyChanged(nameof(IsImage));
+                    OnPropertyChanged(nameof(IsFont));
+                    OnPropertyChanged(nameof(HasAdditionalAction));
                 }
             }
         }
 
-        public bool HasAdditionnalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage;
-     
+        public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont;
+
         public bool CanCopy            => SelectedItems is not null && SelectedItems.Any();
         public bool CanShare           => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcutItem && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem));
         public bool CanRename          => SelectedItems is not null && SelectedItems.Count == 1;
         public bool CanViewProperties  => SelectedItems is not null && SelectedItems.Any();
         public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
-        public bool CanExtract         => SelectedItems is not null && SelectedItems.Any() && FileExtensionHelpers.IsZipFile(SelectedItems.First().FileExtension);
-        public string ExtractToText    => SelectedItems is not null && SelectedItems.Any() ? string.Format("ExtractToChildFolder".GetLocalized() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalized();
-        public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Any() && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension);
-        public bool IsImage            => SelectedItems is not null && SelectedItems.Any() && FileExtensionHelpers.IsImageFile(SelectedItems.First().FileExtension);
+        public bool CanExtract         => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsZipFile(SelectedItems.First().FileExtension);
+        public string ExtractToText    => SelectedItems is not null && SelectedItems.Count == 1 ? string.Format("ExtractToChildFolder".GetLocalized() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalized();
+        public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension);
+        public bool IsImage            => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsImageFile(SelectedItems.First().FileExtension);
+        public bool IsFont             => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension));
 
         public void Dispose()
         {

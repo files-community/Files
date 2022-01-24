@@ -132,12 +132,16 @@ namespace Files.Helpers
             // In that case app should just catch the error and proceed as usual
             try
             {
-                if (instance != null)
+                if (instance == null)
                 {
-                    if (JumpListItemPaths.Remove(path))
-                    {
-                        await instance.SaveAsync();
-                    }
+                    return;
+                }
+
+                if (JumpListItemPaths.Remove(path))
+                {
+                    var itemToRemove = instance.Items.Where(x => x.Arguments == path).Select(x => x).FirstOrDefault();
+                    instance.Items.Remove(itemToRemove);
+                    await instance.SaveAsync();
                 }
             }
             catch { }

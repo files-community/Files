@@ -1766,9 +1766,6 @@
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>粘贴</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>在终端中打开...</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>新建</value>
   </data>
