@@ -40,9 +40,10 @@ namespace Files.SettingsPages
                     StateLogin.ActionButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                     break;
                 default:
-                    StateLogin.Message = "Esta funcionalidade está disponível para ser utilizada.";
-                    StateLogin.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Success;
-                    StateLogin.ActionButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    //StateLogin.Message = "Esta funcionalidade está disponível para ser utilizada.";
+                    //StateLogin.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Success;
+                    //StateLogin.ActionButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    StateLogin.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                     break;
             }
         }

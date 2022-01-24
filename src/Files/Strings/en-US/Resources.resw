@@ -2738,9 +2738,6 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="StateDisabledByUser" xml:space="preserve">
     <value>This feature is disabled due to user settings. To activate, go to settings.</value>
   </data>
-  <data name="StateEnabled" xml:space="preserve">
-    <value>This feature is available for use.</value>
-  </data>
   <data name="StateEnabledByPolicy" xml:space="preserve">
     <value>This feature is enabled due to group policies.</value>
   </data>
