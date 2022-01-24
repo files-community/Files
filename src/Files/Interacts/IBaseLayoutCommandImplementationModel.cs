@@ -98,6 +98,10 @@ namespace Files.Interacts
 
         void DecompressArchiveToChildFolder();
 
+        void RotateImageLeft();
+
+        void RotateImageRight();
+
         void InstallFont();
     }
 }
