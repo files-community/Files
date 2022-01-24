@@ -1737,9 +1737,6 @@
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Вставить</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Открыть в терминале...</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Создать</value>
   </data>

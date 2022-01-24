@@ -669,86 +669,83 @@
                                         Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
                                 </Grid>
 
-                                <Grid
+                                <TextBlock
                                     x:Name="ItemOriginalPathGrid"
                                     Grid.Column="3"
                                     Width="{Binding ColumnsViewModel.OriginalPathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
-                                    x:Load="{x:Bind IsRecycleBinItem}">
-                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}" />
-                                </Grid>
+                                    x:Load="{x:Bind IsRecycleBinItem}"
+                                    Style="{StaticResource ColumnContentTextBlock}"
+                                    Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}" />
 
-                                <Grid
+                                <TextBlock
                                     x:Name="ItemDateDeletedGrid"
                                     Grid.Column="4"
                                     Width="{Binding ColumnsViewModel.DateDeletedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
-                                    x:Load="{x:Bind IsRecycleBinItem}">
-                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}" />
-                                </Grid>
+                                    x:Load="{x:Bind IsRecycleBinItem}"
+                                    Style="{StaticResource ColumnContentTextBlock}"
+                                    Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}" />
 
-                                <Grid
+                                <TextBlock
                                     x:Name="ItemDateModifiedGrid"
                                     Grid.Column="5"
                                     Width="{Binding ColumnsViewModel.DateModifiedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
-                                    Visibility="{Binding ColumnsViewModel.DateModifiedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind ItemDateModified, Mode=OneWay}" />
-                                </Grid>
+                                    Style="{StaticResource ColumnContentTextBlock}"
+                                    Text="{x:Bind ItemDateModified, Mode=OneWay}"
+                                    Visibility="{Binding ColumnsViewModel.DateModifiedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
-                                <Grid
+                                <TextBlock
                                     x:Name="ItemDateCreatedGrid"
                                     Grid.Column="6"
                                     Width="{Binding ColumnsViewModel.DateCreatedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
-                                    Visibility="{Binding ColumnsViewModel.DateCreatedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind ItemDateCreated, Mode=OneWay}" />
-                                </Grid>
+                                    Style="{StaticResource ColumnContentTextBlock}"
+                                    Text="{x:Bind ItemDateCreated, Mode=OneWay}"
+                                    Visibility="{Binding ColumnsViewModel.DateCreatedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
-                                <Grid
+                                <TextBlock
                                     x:Name="ItemTypeGrid"
                                     Grid.Column="7"
                                     Width="{Binding ColumnsViewModel.ItemTypeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
-                                    Visibility="{Binding ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind ItemType, Mode=OneWay}" />
-                                </Grid>
+                                    Style="{StaticResource ColumnContentTextBlock}"
+                                    Text="{x:Bind ItemType, Mode=OneWay}"
+                                    Visibility="{Binding ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
-                                <Grid
+                                <TextBlock
                                     x:Name="ItemSizeGrid"
                                     Grid.Column="8"
                                     Width="{Binding ColumnsViewModel.SizeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
-                                    Visibility="{Binding ColumnsViewModel.SizeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind FileSize, Mode=OneWay}" />
-                                </Grid>
+                                    Style="{StaticResource ColumnContentTextBlock}"
+                                    Text="{x:Bind FileSize, Mode=OneWay}"
+                                    Visibility="{Binding ColumnsViewModel.SizeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
-                                <Grid
+                                <FontIcon
                                     x:Name="ItemStatusGrid"
                                     Grid.Column="9"
                                     Width="{Binding ColumnsViewModel.StatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-                                    Padding="12,0,0,0"
+                                    Margin="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
-                                    Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-                                    <FontIcon
-                                        x:Name="CloudDriveSyncStatusGlyph"
-                                        AutomationProperties.Name="{x:Bind SyncStatusString, Mode=OneWay}"
-                                        FontSize="12"
-                                        Glyph="{x:Bind SyncStatusUI.Glyph, Mode=OneWay}" />
-                                </Grid>
+                                    AutomationProperties.Name="{x:Bind SyncStatusString, Mode=OneWay}"
+                                    FontSize="12"
+                                    Glyph="{x:Bind SyncStatusUI.Glyph, Mode=OneWay}"
+                                    Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>

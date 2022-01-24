@@ -99,5 +99,7 @@ namespace Files.Interacts
         void DecompressArchiveToChildFolder();
 
         void InstallInfDriver();
+
+        void InstallFont();
     }
 }

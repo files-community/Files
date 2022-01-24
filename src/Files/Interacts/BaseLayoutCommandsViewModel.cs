@@ -73,6 +73,7 @@ namespace Files.Interacts
             DecompressArchiveHereCommand = new RelayCommand(CommandsModel.DecompressArchiveHere);
             DecompressArchiveToChildFolderCommand = new RelayCommand(CommandsModel.DecompressArchiveToChildFolder);
             InstallInfDriver = new RelayCommand(CommandsModel.InstallInfDriver);
+            InstallFontCommand = new RelayCommand(CommandsModel.InstallFont);
         }
 
         #endregion Command Initialization
@@ -170,6 +171,8 @@ namespace Files.Interacts
         public ICommand DecompressArchiveToChildFolderCommand { get; private set; }
 
         public ICommand InstallInfDriver { get; set; }
+
+        public ICommand InstallFontCommand { get; private set; }
 
         #endregion Commands
 
