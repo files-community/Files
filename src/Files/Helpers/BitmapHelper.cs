@@ -31,6 +31,10 @@ namespace Files.Helpers
         /// </summary>
         /// <param name="filePath">The file path to the image.</param>
         /// <param name="rotation">The rotation direction.</param>
+        /// <remarks>
+        /// https://docs.microsoft.com/en-us/uwp/api/windows.graphics.imaging.bitmapdecoder?view=winrt-22000
+        /// https://docs.microsoft.com/en-us/uwp/api/windows.graphics.imaging.bitmapencoder?view=winrt-22000
+        /// </remarks>
         public static async Task Rotate(string filePath, BitmapRotation rotation)
         {
             if (string.IsNullOrEmpty(filePath))
@@ -43,16 +47,60 @@ namespace Files.Helpers
             if (file == null)
                 return;
 
+            Guid encoderType;
+            switch (file.FileType)
+            {
+                case ".jpeg" or ".jpg":
+                    encoderType = BitmapEncoder.JpegEncoderId;
+                    break;
+                case ".png":
+                    encoderType = BitmapEncoder.PngEncoderId;
+                    break;
+                case ".bmp":
+                    encoderType = BitmapEncoder.BmpEncoderId;
+                    break;
+                case ".tiff":
+                    encoderType = BitmapEncoder.TiffEncoderId;
+                    break;
+                case ".gif":
+                    encoderType = BitmapEncoder.GifEncoderId;
+                    break;
+                default:
+                    return;
+            }
 
-            using IRandomAccessStream fs = await file.OpenAsync(FileAccessMode.ReadWrite), ms = new InMemoryRandomAccessStream();
+            using IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.ReadWrite);
 
-            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fs);
-            BitmapEncoder encoder = await BitmapEncoder.CreateForTranscodingAsync(ms, decoder);
-
+            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
+            SoftwareBitmap softwareBitmap = await decoder.GetSoftwareBitmapAsync();
+            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(encoderType, stream);
+            encoder.SetSoftwareBitmap(softwareBitmap);
             encoder.BitmapTransform.Rotation = rotation;
+            encoder.IsThumbnailGenerated = true;
 
-            await encoder.FlushAsync();
-            await RandomAccessStream.CopyAsync(ms, fs);
+            try
+            {
+                await encoder.FlushAsync();
+            }
+            catch (Exception err)
+            {
+                const int WINCODEC_ERR_UNSUPPORTEDOPERATION = unchecked((int)0x88982F81);
+                switch (err.HResult)
+                {
+                    case WINCODEC_ERR_UNSUPPORTEDOPERATION:
+                        // If the encoder does not support writing a thumbnail, then try again
+                        // but disable thumbnail generation.
+                        encoder.IsThumbnailGenerated = false;
+                        break;
+                    default:
+                        throw;
+                }
+            }
+
+            if (encoder.IsThumbnailGenerated == false)
+            {
+                await encoder.FlushAsync();
+            }
         }
     }
 }
