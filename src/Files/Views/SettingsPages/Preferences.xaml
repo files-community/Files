@@ -340,8 +340,7 @@
                                     </icore:EventTriggerBehavior>
                                 </i:Interaction.Behaviors>
                             </ToggleSwitch>
-                            <local:SettingsBlockControl.ExpandableContent
-                                x:>
+                            <local:SettingsBlockControl.ExpandableContent>
                                 <muxc:InfoBar
                                     x:Name="StateLogin"
                                     CornerRadius="0,0,2,2"
