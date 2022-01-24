@@ -2743,5 +2743,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="Status" xml:space="preserve">
     <value>Status</value>
+  <data name="Install" xml:space="preserve">
+    <value>Install</value>
   </data>
 </root>
