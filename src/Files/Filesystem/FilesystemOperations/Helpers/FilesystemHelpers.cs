@@ -109,6 +109,8 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source, bool showDialog, bool permanently, bool registerHistory)
         {
+            source = await source.ToListAsync();
+
             var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
             PostedStatusBanner banner = null;
             var returnStatus = ReturnResult.InProgress;
@@ -400,6 +402,9 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> RestoreItemsFromTrashAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool registerHistory)
         {
+            source = await source.ToListAsync();
+            destination = await destination.ToListAsync();
+
             var returnCode = FileSystemStatusCode.InProgress;
             var errorCode = new Progress<FileSystemStatusCode>();
             errorCode.ProgressChanged += (s, e) => returnCode = e;
@@ -495,6 +500,9 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
         {
+            source = await source.ToListAsync();
+            destination = await destination.ToListAsync();
+
             var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
             var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
 
@@ -713,6 +721,9 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
         {
+            source = await source.ToListAsync();
+            destination = await destination.ToListAsync();
+
             var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
             var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
 
@@ -975,6 +986,9 @@ namespace Files.Filesystem
             source = source.Where(x => !string.IsNullOrEmpty(x.Path));
             var dest = source.Select(x => Path.Combine(destination,
                 string.Format("ShortcutCreateNewSuffix".GetLocalized(), x.Name) + ".lnk"));
+
+            source = await source.ToListAsync();
+            dest = await dest.ToListAsync();
 
             var history = await filesystemOperations.CreateShortcutItemsAsync(source, dest, null, errorCode, cancellationToken);
 
