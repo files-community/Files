@@ -223,6 +223,7 @@ namespace Files.Views
             NavToolbarViewModel.ExtractCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveCommand.Execute(null));
             NavToolbarViewModel.ExtractHereCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveHereCommand.Execute(null));
             NavToolbarViewModel.ExtractToCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveToChildFolderCommand.Execute(null));
+            NavToolbarViewModel.InstallInfCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallInfDriver.Execute(null));
         }
 
         private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
