@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.SettingsPages
@@ -43,7 +44,8 @@ namespace Files.SettingsPages
                     //StateLogin.Message = "Esta funcionalidade está disponível para ser utilizada.";
                     //StateLogin.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Success;
                     //StateLogin.ActionButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                    StateLogin.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    //StateLogin.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    OpenInLoginControl.Children.Remove(UIElement)this.FindName("StateLogin");
                     break;
             }
         }

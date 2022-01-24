@@ -321,7 +321,8 @@
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
 
-                        <local:SettingsBlockControl 
+                        <local:SettingsBlockControl
+                            x:Name="OpenInLoginControl"
                             Title="{helpers:ResourceString Name=SettingsOpenInLogin}"
                             HorizontalAlignment="Stretch"
                             IsExpanded="True">
@@ -339,7 +340,8 @@
                                     </icore:EventTriggerBehavior>
                                 </i:Interaction.Behaviors>
                             </ToggleSwitch>
-                            <local:SettingsBlockControl.ExpandableContent>
+                            <local:SettingsBlockControl.ExpandableContent
+                                x:>
                                 <muxc:InfoBar
                                     x:Name="StateLogin"
                                     CornerRadius="0,0,2,2"
