@@ -32,8 +32,7 @@ namespace Files.Helpers
                 {
                     { "Arguments", "LaunchApp" },
                     { "WorkingDirectory", string.IsNullOrEmpty(workingDirectory) ? associatedInstance?.FilesystemViewModel?.WorkingDirectory : workingDirectory },
-                    { "Application", applicationPaths.FirstOrDefault() },
-                    { "ApplicationList", JsonConvert.SerializeObject(applicationPaths) },
+                    { "Application", applicationPaths.FirstOrDefault() }
                 };
 
                 if (runAsAdmin)
