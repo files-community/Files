@@ -101,5 +101,7 @@ namespace Files.Interacts
         void RotateImageLeft();
 
         void RotateImageRight();
+
+        void InstallFont();
     }
 }

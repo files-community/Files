@@ -74,6 +74,7 @@ namespace Files.Interacts
             DecompressArchiveToChildFolderCommand = new RelayCommand(CommandsModel.DecompressArchiveToChildFolder);
             RotateImageLeftCommand = new RelayCommand(CommandsModel.RotateImageLeft);
             RotateImageRightCommand = new RelayCommand(CommandsModel.RotateImageRight);
+            InstallFontCommand = new RelayCommand(CommandsModel.InstallFont);
         }
 
         #endregion Command Initialization
@@ -173,6 +174,8 @@ namespace Files.Interacts
         public ICommand RotateImageLeftCommand { get; private set; }
 
         public ICommand RotateImageRightCommand { get; private set; }
+
+        public ICommand InstallFontCommand { get; private set; }
 
         #endregion Commands
 

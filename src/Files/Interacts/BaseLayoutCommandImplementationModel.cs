@@ -801,6 +801,25 @@ namespace Files.Interacts
             SlimContentPage?.PreviewPaneViewModel.UpdateSelectedItemPreview();
         }
 
+        public async void InstallFont()
+        {
+            foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
+            {
+                var connection = await AppServiceConnectionHelper.Instance;
+                if (connection != null)
+                {
+                    var value = new ValueSet
+                    {
+                        { "Arguments", "InstallOperation" },
+                        { "installop", "InstallFont" },
+                        { "filepath", selectedItem.ItemPath },
+                        { "extension", selectedItem.FileExtension },
+                    };
+                    await connection.SendMessageAsync(value);
+                }
+            }
+        }
+
         #endregion Command Implementation
     }
 }

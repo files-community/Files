@@ -132,7 +132,7 @@
             Key="K"
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-            Modifiers="Control" />
+            Modifiers="Control,Shift" />
     </Page.KeyboardAccelerators>
     <Grid
         x:Name="RootGrid"
