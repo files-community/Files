@@ -428,7 +428,6 @@ namespace Files.Filesystem
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
         public bool IsFtpItem => this is FtpItem;
         public bool IsZipItem => this is ZipItem;
-
         public virtual bool IsExecutable => new[] { ".exe", ".bat", ".cmd" }.Contains(Path.GetExtension(ItemPath), StringComparer.OrdinalIgnoreCase);
         public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
 

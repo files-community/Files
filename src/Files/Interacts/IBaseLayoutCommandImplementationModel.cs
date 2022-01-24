@@ -97,5 +97,7 @@ namespace Files.Interacts
         void DecompressArchiveHere();
 
         void DecompressArchiveToChildFolder();
+
+        void InstallFont();
     }
 }

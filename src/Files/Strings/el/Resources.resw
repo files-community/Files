@@ -45,9 +45,6 @@
   <data name="Size" xml:space="preserve">
     <value>Μέγεθος</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Άνοιγμα στο τερματικό...</value>
-  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Δημιουργήθηκε:</value>
   </data>
