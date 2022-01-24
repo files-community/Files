@@ -43,64 +43,25 @@ namespace Files.Helpers
             }
 
             var file = await StorageHelpers.ToStorageItem<IStorageFile>(filePath);
-
             if (file == null)
+            {
                 return;
-
-            Guid encoderType;
-            switch (file.FileType)
-            {
-                case ".jpeg" or ".jpg":
-                    encoderType = BitmapEncoder.JpegEncoderId;
-                    break;
-                case ".png":
-                    encoderType = BitmapEncoder.PngEncoderId;
-                    break;
-                case ".bmp":
-                    encoderType = BitmapEncoder.BmpEncoderId;
-                    break;
-                case ".tiff":
-                    encoderType = BitmapEncoder.TiffEncoderId;
-                    break;
-                case ".gif":
-                    encoderType = BitmapEncoder.GifEncoderId;
-                    break;
-                default:
-                    return;
             }
 
-            using IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.ReadWrite);
+            using IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.ReadWrite);
+            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream);
 
-            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
-            SoftwareBitmap softwareBitmap = await decoder.GetSoftwareBitmapAsync();
-            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(encoderType, stream);
-            encoder.SetSoftwareBitmap(softwareBitmap);
+            using var memStream = new InMemoryRandomAccessStream();
+            BitmapEncoder encoder = await BitmapEncoder.CreateForTranscodingAsync(memStream, decoder);
+
             encoder.BitmapTransform.Rotation = rotation;
-            encoder.IsThumbnailGenerated = true;
 
-            try
-            {
-                await encoder.FlushAsync();
-            }
-            catch (Exception err)
-            {
-                const int WINCODEC_ERR_UNSUPPORTEDOPERATION = unchecked((int)0x88982F81);
-                switch (err.HResult)
-                {
-                    case WINCODEC_ERR_UNSUPPORTEDOPERATION:
-                        // If the encoder does not support writing a thumbnail, then try again
-                        // but disable thumbnail generation.
-                        encoder.IsThumbnailGenerated = false;
-                        break;
-                    default:
-                        throw;
-                }
-            }
+            await encoder.FlushAsync();
 
-            if (encoder.IsThumbnailGenerated == false)
-            {
-                await encoder.FlushAsync();
-            }
+            memStream.Seek(0);
+            fileStream.Seek(0);
+            fileStream.Size = 0;
+            await RandomAccessStream.CopyAsync(memStream, fileStream);
         }
     }
 }
