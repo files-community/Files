@@ -28,8 +28,8 @@ namespace Files.Filesystem.FilesystemHistory
         public StorageHistory(FileOperationType operationType, IStorageItemWithPath source, IStorageItemWithPath destination)
         {
             OperationType = operationType;
-            Source = source.CreateEnumerable();
-            Destination = destination.CreateEnumerable();
+            Source = source.CreateList();
+            Destination = destination.CreateList();
         }
 
         #endregion Constructor
@@ -53,8 +53,8 @@ namespace Files.Filesystem.FilesystemHistory
         public void Modify(FileOperationType operationType, IStorageItemWithPath source, IStorageItemWithPath destination)
         {
             OperationType = operationType;
-            Source = source.CreateEnumerable();
-            Destination = destination.CreateEnumerable();
+            Source = source.CreateList();
+            Destination = destination.CreateList();
         }
 
         #endregion Modify

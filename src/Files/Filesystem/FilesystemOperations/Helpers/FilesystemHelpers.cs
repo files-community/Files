@@ -580,7 +580,7 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source.CreateEnumerable(), destination.CreateEnumerable(), showDialog);
+            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source.CreateList(), destination.CreateList(), showDialog);
 
             if (cancelOperation)
             {
@@ -803,7 +803,7 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Move, source.CreateEnumerable(), destination.CreateEnumerable(), showDialog);
+            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Move, source.CreateList(), destination.CreateList(), showDialog);
 
             if (cancelOperation)
             {
