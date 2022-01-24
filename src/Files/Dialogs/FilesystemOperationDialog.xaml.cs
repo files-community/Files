@@ -3,6 +3,7 @@ using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp.UI;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -26,6 +27,14 @@ namespace Files.Dialogs
             ViewModel = viewModel;
             ViewModel.View = this;
             ViewModel.LoadedCommand.Execute(null);
+
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            DetailsGrid.ItemsSource = ViewModel.Items;
+            DetailsGrid.SelectionMode = ViewModel.ItemsSelectionMode;
         }
 
         private void MenuFlyoutItem_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
