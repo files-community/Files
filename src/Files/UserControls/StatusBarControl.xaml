@@ -27,52 +27,62 @@
 
     <Grid
         Height="32"
+        Padding="8,0"
         HorizontalAlignment="Stretch"
-        Background="{ThemeResource StatusBarBackgroundBrush}">
+        VerticalAlignment="Stretch"
+        Background="{ThemeResource StatusBarBackgroundBrush}"
+        ColumnSpacing="12">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
+
+        <TextBlock
+            x:Name="DirectoryItemCount"
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
+            Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
+        <TextBlock
+            x:Name="SelectedItemsCountString"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
+            Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCountString, Mode=OneWay}"
+            Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
+        <TextBlock
+            x:Name="ItemSize"
+            Grid.Column="2"
+            VerticalAlignment="Center"
+            x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
+            Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}"
+            Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
+
+        <Button
+            x:Name="FullTrustStatus"
+            Grid.Column="4"
+            Width="32"
+            Height="32"
+            VerticalAlignment="Center"
+            x:Load="{x:Bind MainViewModel.IsFullTrustElevated, Mode=OneWay}"
+            AccessKey="M"
+            Background="Transparent"
+            Click="FullTrustStatus_Click"
+            FontSize="16"
+            Style="{StaticResource ToolBarButtonStyle}">
+            <FontIcon FontSize="14" Glyph="&#xEA18;" />
+        </Button>
 
         <muxc:TeachingTip
             x:Name="FullTrustStatusTeachingTip"
             x:Uid="FullTrustStatusTeachingTip"
             Title="Administrator"
+            Grid.ColumnSpan="5"
             Subtitle="Files is running as administrator"
             Target="{x:Bind FullTrustStatus}"
             Visibility="Collapsed" />
-
-        <StackPanel
-            x:Name="SelectionDirectoryInformationPanel"
-            Margin="8,0"
-            VerticalAlignment="Center"
-            x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
-            Orientation="Horizontal"
-            Spacing="12">
-            <TextBlock Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCountString, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
-        </StackPanel>
-
-        <StackPanel
-            Grid.Column="1"
-            Padding="0,0,2,0"
-            HorizontalAlignment="Right"
-            Orientation="Horizontal"
-            Spacing="4">
-
-            <Button
-                x:Name="FullTrustStatus"
-                Width="32"
-                Height="32"
-                x:Load="{x:Bind MainViewModel.IsFullTrustElevated, Mode=OneWay}"
-                AccessKey="M"
-                Background="Transparent"
-                Click="FullTrustStatus_Click"
-                FontSize="16"
-                Style="{StaticResource ToolBarButtonStyle}">
-                <FontIcon FontSize="14" Glyph="&#xEA18;" />
-            </Button>
-        </StackPanel>
     </Grid>
 </UserControl>
