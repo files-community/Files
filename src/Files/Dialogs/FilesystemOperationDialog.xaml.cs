@@ -43,8 +43,7 @@ namespace Files.Dialogs
         {
             (sender as Button).GotFocus -= PrimaryButton_GotFocus;
             chkPermanentlyDelete.IsEnabled = ViewModel.PermanentlyDeleteEnabled;
-            DetailsGrid.ItemsSource = ViewModel.Items;
-            DetailsGrid.SelectionMode = ViewModel.ItemsSelectionMode;
+            DetailsGrid.IsEnabled = true;
         }
 
         private void MenuFlyoutItem_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
