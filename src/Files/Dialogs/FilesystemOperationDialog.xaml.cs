@@ -27,13 +27,11 @@ namespace Files.Dialogs
             ViewModel = viewModel;
             ViewModel.View = this;
             ViewModel.LoadedCommand.Execute(null);
-
-            Loaded += OnLoaded;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            Loaded -= OnLoaded;
+            chkPermanentlyDelete.IsEnabled = ViewModel.PermanentlyDeleteEnabled;
             DetailsGrid.ItemsSource = ViewModel.Items;
             DetailsGrid.SelectionMode = ViewModel.ItemsSelectionMode;
         }
