@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Files.Shared.Misc;
+using System;
 using System.ComponentModel;
 
 namespace Files.Shared
@@ -30,10 +31,10 @@ namespace Files.Shared
                 var components = rawValue.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var value in components)
                 {
-                    compatOptions.HighDpiOption |= Extensions.GetValueFromDescription<HighDpiOption>(value);
-                    compatOptions.HighDpiOverride |= Extensions.GetValueFromDescription<HighDpiOverride>(value);
-                    compatOptions.ReducedColorMode |= Extensions.GetValueFromDescription<ReducedColorMode>(value);
-                    compatOptions.OSCompatibility |= Extensions.GetValueFromDescription<OSCompatibility>(value);
+                    compatOptions.HighDpiOption |= Misc.Extensions.GetValueFromDescription<HighDpiOption>(value);
+                    compatOptions.HighDpiOverride |= Misc.Extensions.GetValueFromDescription<HighDpiOverride>(value);
+                    compatOptions.ReducedColorMode |= Misc.Extensions.GetValueFromDescription<ReducedColorMode>(value);
+                    compatOptions.OSCompatibility |= Misc.Extensions.GetValueFromDescription<OSCompatibility>(value);
                     compatOptions.ExecuteAt640X480 |= value == CompatOptions.RegExecuteAt640X480;
                     compatOptions.DisableMaximized |= value == CompatOptions.RegDisableMaximized;
                     compatOptions.RunAsAdministrator |= value == CompatOptions.RegRunAsAdministrator;

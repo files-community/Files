@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Files.Models.JsonSettings
+namespace Files.Backend.Models.JsonSettings
 {
     public abstract class BaseObservableJsonSettingsModel : BaseJsonSettingsModel, INotifyPropertyChanged
     {

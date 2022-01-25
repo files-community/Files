@@ -1,11 +1,11 @@
-﻿using Files.EventArguments;
-using Files.Helpers;
-using Files.Models.JsonSettings.Implementation;
+﻿using Files.Backend.EventArguments;
+using Files.Backend.Helpers;
+using Files.Backend.Models.JsonSettings.Implementation;
 using System;
 using System.IO;
 using System.Runtime.CompilerServices;
 
-namespace Files.Models.JsonSettings
+namespace Files.Backend.Models.JsonSettings
 {
     /// <summary>
     /// Clipboard Canvas

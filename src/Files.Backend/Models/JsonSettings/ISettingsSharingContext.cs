@@ -1,6 +1,6 @@
-﻿using Files.EventArguments;
+﻿using Files.Backend.EventArguments;
 
-namespace Files.Models.JsonSettings
+namespace Files.Backend.Models.JsonSettings
 {
     public interface ISettingsSharingContext
     {

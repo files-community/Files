@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Files.Models.JsonSettings.Implementation
+namespace Files.Backend.Models.JsonSettings.Implementation
 {
     public class DefaultJsonSettingsDatabase : IJsonSettingsDatabase
     {

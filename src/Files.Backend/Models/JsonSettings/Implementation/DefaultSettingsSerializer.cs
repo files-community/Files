@@ -1,6 +1,6 @@
-﻿using Files.Helpers;
+﻿using Files.Backend.Helpers;
 
-namespace Files.Models.JsonSettings.Implementation
+namespace Files.Backend.Models.JsonSettings.Implementation
 {
     public class DefaultSettingsSerializer : ISettingsSerializer
     {

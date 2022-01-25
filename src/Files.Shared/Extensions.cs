@@ -4,8 +4,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Files.Shared
+namespace Files.Shared.Misc
 {
+    /*
+     * TODO: Reorganize these extensions under new namespace
+     */
     public static class Extensions
     {
         
