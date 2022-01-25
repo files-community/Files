@@ -33,6 +33,7 @@ namespace Files.Dialogs
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
+            Loaded -= OnLoaded;
             DetailsGrid.ItemsSource = ViewModel.Items;
             DetailsGrid.SelectionMode = ViewModel.ItemsSelectionMode;
         }
