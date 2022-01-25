@@ -31,13 +31,21 @@
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Margin="-2">
+    <Canvas
+        Width="20"
+        Height="20"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch">
         <FontIcon
             x:Name="BaseIcon"
+            Canvas.Left="0"
+            Canvas.Top="0"
             FontFamily="{StaticResource ColoredIconFontFamily}"
             Glyph="{x:Bind BaseLayerGlyph, Mode=OneWay}" />
         <FontIcon
             x:Name="OverlayIcon"
+            Canvas.Left="0"
+            Canvas.Top="0"
             FontFamily="{StaticResource ColoredIconFontFamily}"
             Foreground="{ThemeResource ColoredIconOverlayForeground}"
             Glyph="{x:Bind OverlayLayerGlyph, Mode=OneWay}"
@@ -58,5 +66,5 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-    </Grid>
+    </Canvas>
 </UserControl>
