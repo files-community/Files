@@ -2705,4 +2705,13 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="FileTagColumn" xml:space="preserve">
     <value>File tag column</value>
   </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Rotate left</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Rotate right</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Install</value>
+  </data>
 </root>
