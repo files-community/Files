@@ -643,6 +643,11 @@ namespace Files.Views
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
+                case (true, true, false, true, VirtualKey.T): // ctrl + shift + t, open terminal in directory
+                {
+                    await NavigationHelpers.OpenDirectoryInTerminal(FilesystemViewModel.WorkingDirectory);
+                    break;
+                }
                 case (true, false, false, true, VirtualKey.E): // ctrl + e, extract
                     {
                         if (NavToolbarViewModel.CanExtract)

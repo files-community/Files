@@ -21,6 +21,11 @@
 
     <Page.KeyboardAccelerators>
         <KeyboardAccelerator
+            Key="T"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control,Shift" />
+        <KeyboardAccelerator
             Key="E"
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
