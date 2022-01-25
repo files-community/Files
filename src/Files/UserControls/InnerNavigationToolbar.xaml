@@ -739,13 +739,13 @@
                                     <RowDefinition MinHeight="30" />
                                 </Grid.RowDefinitions>
                                 <TextBlock
-                                    x:Uid="NavToolbarSpacingScrollbarHeader"
+                                    x:Uid="NavToolbarSpacingSliderHeader"
                                     Grid.Row="0"
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
                                     Text="Spacing" />
                                 <Slider 
-                                    x:Uid="NavToolbarSpacingScrollbar"  
+                                    x:Uid="NavToolbarSpacingSlider"
                                     Grid.Row="0"
                                     Grid.Column="1"
                                     Minimum="1" 
@@ -753,6 +753,7 @@
                                     TickFrequency="1"
                                     TickPlacement="BottomRight"   
                                     Value="{x:Bind UserSettingsService.AppearanceSettingsService.SpacingSizePx, Mode=TwoWay}"
+                                    ValueChanged="NavToolbarSpacingSlider_ValueChanged"
                                     />
                                 <TextBlock
                                     Grid.Row="0"
@@ -760,13 +761,13 @@
                                     VerticalAlignment="Center"
                                     Text="px " />
                                 <TextBlock
-                                    x:Uid="NavToolbarPaddingScrollbarHeader"
+                                    x:Uid="NavToolbarPaddingSliderHeader"
                                     Grid.Row="1"
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
                                     Text="Padding " />
                                 <Slider 
-                                    x:Uid="NavToolbarPaddingScrollbar"  
+                                    x:Uid="NavToolbarPaddingSlider"  
                                     Grid.Row="1"
                                     Grid.Column="1"
                                     Minimum="1" 
@@ -774,6 +775,7 @@
                                     TickFrequency="1"
                                     TickPlacement="BottomRight"   
                                     Value="{x:Bind UserSettingsService.AppearanceSettingsService.PaddingSizePx, Mode=TwoWay}"
+                                    ValueChanged="NavToolbarPaddingSlider_ValueChanged"
                                     />
                                 <TextBlock
                                     Grid.Row="1"

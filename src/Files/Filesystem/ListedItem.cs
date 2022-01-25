@@ -27,15 +27,22 @@ namespace Files.Filesystem
         protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         // Need to access this in the DataTemplate to read the updated padding
-        // Need to access this in the DataTemplate to read the updated padding
-        public Thickness SpacingSize
+        public double SpacingSize
         {
-            get => new Thickness(0, UserSettingsService.AppearanceSettingsService.SpacingSizePx / 2, 0, UserSettingsService.AppearanceSettingsService.SpacingSizePx / 2);
+            get => UserSettingsService.AppearanceSettingsService.SpacingSizePx;
+            set
+            {
+                OnPropertyChanged(nameof(SpacingSize));
+            }
         }
 
-        public Thickness PaddingSize
+        public double PaddingSize
         {
-            get => new Thickness(0, UserSettingsService.AppearanceSettingsService.PaddingSizePx / 2, 0, UserSettingsService.AppearanceSettingsService.PaddingSizePx / 2);
+            get => UserSettingsService.AppearanceSettingsService.PaddingSizePx;
+            set
+            {
+                OnPropertyChanged(nameof(PaddingSize));
+            }
         }
 
 

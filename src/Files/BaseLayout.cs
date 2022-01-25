@@ -31,6 +31,7 @@ using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
@@ -317,6 +318,7 @@ namespace Files
         protected abstract void HookEvents();
 
         protected abstract void UnhookEvents();
+        protected abstract SelectorItem ContainerFromItem(ListedItem listedItem);
 
         private void HookBaseEvents()
         {
@@ -514,6 +516,32 @@ namespace Files
             }
             catch (Exception)
             {
+            }
+        }
+        public void UpdateAppearanceSettings()
+        {
+            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
+            {
+                try
+                {
+                    Control itemContainer = ContainerFromItem(listedItem);
+                    if (itemContainer != null)
+                    {
+                        // Doing it this way to keep Left and Right Margin and Padding for the selectedItem selector (the little blue bar)
+                        itemContainer.Margin = new Thickness(itemContainer.Margin.Left, listedItem.SpacingSize/2, itemContainer.Margin.Right, listedItem.SpacingSize/2);
+                        itemContainer.Padding = new Thickness(itemContainer.Padding.Left, listedItem.PaddingSize / 2, itemContainer.Padding.Right, listedItem.PaddingSize / 2);
+                        // Leaving this here in case we'll want to change the ListViewItem/GridViewItem children in the future
+                        //Grid itemGrid = itemContainer.FindDescendant<Grid>();
+                        //if (itemGrid != null)
+                        //{
+                        //    itemGrid.Padding = listedItem.PaddingSize;
+                        //}
+                    }
+                }
+                catch (Exception error)
+                {
+                    Debug.WriteLine(error.Message);
+                }
             }
         }
 

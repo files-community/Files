@@ -9,6 +9,7 @@ using System;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
@@ -306,6 +307,11 @@ namespace Files.Views.LayoutModes
 
                 return ParentShellPageInstance;
             }
+        }
+
+        protected override SelectorItem ContainerFromItem(ListedItem listedItem)
+        {
+            return null;
         }
     }
 }

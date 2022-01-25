@@ -243,7 +243,7 @@
                 </StackPanel>
                 <Grid
                     Grid.Column="1"
-                    Height="60"
+                    Height="Auto"
                     Opacity="{x:Bind Opacity, Mode=OneWay}"
                     Tag="ItemImage">
                     <ContentPresenter

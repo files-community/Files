@@ -510,13 +510,11 @@
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local2:ListedItem">
-                            <!--Padding="{x:Bind PaddingSize, Mode=OneWay}"-->
-                            <Grid
+                            <Grid x:Name="ItemRow"
                                 HorizontalAlignment="Stretch"
                                 AutomationProperties.Name="{x:Bind ItemName, Mode=OneWay}"
                                 IsRightTapEnabled="True"
                                 Loaded="Grid_Loaded"
-                                Padding="{Binding PaddingSize, Mode=OneWay}"
                                 VerticalAlignment="Center"
                                 RightTapped="StackPanel_RightTapped"
                                 ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
@@ -783,7 +781,8 @@
                                 <Setter Property="ItemsPanel">
                                     <Setter.Value>
                                         <ItemsPanelTemplate>
-                                            <ItemsStackPanel Orientation="Vertical" />
+                                            <ItemsStackPanel
+                                                Orientation="Vertical"/>
                                         </ItemsPanelTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -818,7 +817,7 @@
                                                         </Grid.ColumnDefinitions>
                                                         <ItemsPresenter
                                                             Margin="0,0,12,0"
-                                                            Padding="{TemplateBinding Padding}"
+                                                            Padding="{TemplateBinding Padding}"                                                            
                                                             HorizontalAlignment="Stretch"
                                                             Footer="{TemplateBinding Footer}"
                                                             FooterTemplate="{TemplateBinding FooterTemplate}"
@@ -888,11 +887,15 @@
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                             <Setter Property="MinHeight" Value="1" />
                             <Setter Property="Height" Value="Auto" />
+                            <Setter Property="Margin" Value="{Binding SpacingSize}" />
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <ItemsStackPanel AreStickyGroupHeadersEnabled="False" Orientation="Vertical" />
+                            <ItemsStackPanel                                
+                                AreStickyGroupHeadersEnabled="False"
+                                Orientation="Vertical">
+                            </ItemsStackPanel>
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
                     <ListView.Footer>
@@ -981,7 +984,6 @@
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                             <Setter Property="MinHeight" Value="{ThemeResource ListViewMinHeight}" />
                             <Setter Property="Height" Value="{ThemeResource ListViewHeight}" />
-                            <Setter Property="Margin" Value="{Binding SpacingSize, Mode=OneWay}" />
                         </Style>
                     </ListView.ItemContainerStyle>
                 </ListView>

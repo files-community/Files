@@ -12,6 +12,7 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
@@ -103,7 +104,7 @@ namespace Files.Views.LayoutModes
             if (SelectedItems.Any())
             {
                 FileList.ScrollIntoView(SelectedItems.Last());
-                (FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
+                (ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
             }
         }
 
@@ -258,6 +259,7 @@ namespace Files.Views.LayoutModes
             SyncStatusHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.SyncStatus ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
         }
 
+
         private void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
         {
             // This code updates which columns are hidden and which ones are shwn
@@ -338,7 +340,7 @@ namespace Files.Views.LayoutModes
                 return;
             }
             int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
-            ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+            ListViewItem listViewItem = ContainerFromItem(RenamingItem) as ListViewItem;
             TextBox textBox = null;
             if (listViewItem == null)
             {
@@ -426,7 +428,7 @@ namespace Files.Views.LayoutModes
                 Grid.SetColumnSpan(parent, 1);
             }
 
-            ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+            ListViewItem listViewItem = ContainerFromItem(RenamingItem) as ListViewItem;
 
             if (textBox == null || listViewItem == null)
             {
@@ -578,9 +580,8 @@ namespace Files.Views.LayoutModes
             foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
             {
                 listedItem.ItemPropertiesInitialized = false;
-                if (FileList.ContainerFromItem(listedItem) != null)
+                if (ContainerFromItem(listedItem) != null)
                 {
-                    //FileList.ContainerFromItem(listedItem).dis
                     await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
                 }
             }
@@ -617,7 +618,7 @@ namespace Files.Views.LayoutModes
                 }
                 else if (IsRenamingItem)
                 {
-                    ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+                    ListViewItem listViewItem = ContainerFromItem(RenamingItem) as ListViewItem;
                     if (listViewItem != null)
                     {
                         var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
@@ -807,6 +808,11 @@ namespace Files.Views.LayoutModes
         private void FileList_Loaded(object sender, RoutedEventArgs e)
         {
             ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
+        }
+
+        protected override SelectorItem ContainerFromItem(ListedItem listedItem)
+        {
+            return (FileList.ContainerFromItem(listedItem) as SelectorItem);
         }
     }
 }

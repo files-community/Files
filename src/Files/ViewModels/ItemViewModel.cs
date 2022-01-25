@@ -36,6 +36,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -383,6 +384,16 @@ namespace Files.ViewModels
         {
             switch (e.settingName)
             {
+                case nameof(UserSettingsService.AppearanceSettingsService.SpacingSizePx):
+                case nameof(UserSettingsService.AppearanceSettingsService.PaddingSizePx):
+                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                    {
+                        if (WorkingDirectory != "Home".GetLocalized())
+                        {
+                            DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
+                        }
+                    });
+                    break;
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFileExtensions):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden):

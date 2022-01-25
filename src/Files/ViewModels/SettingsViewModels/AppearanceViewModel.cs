@@ -202,5 +202,31 @@ namespace Files.ViewModels.SettingsViewModels
                 }
             }
         }
+
+        public double SpacingSizePx
+        {
+            get => UserSettingsService.AppearanceSettingsService.SpacingSizePx;
+            set
+            {
+                if (value != UserSettingsService.AppearanceSettingsService.SpacingSizePx)
+                {
+                    UserSettingsService.AppearanceSettingsService.SpacingSizePx = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public double PaddingSizePx
+        {
+            get => UserSettingsService.AppearanceSettingsService.PaddingSizePx;
+            set
+            {
+                if (value != UserSettingsService.AppearanceSettingsService.PaddingSizePx)
+                {
+                    UserSettingsService.AppearanceSettingsService.PaddingSizePx = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
     }
 }

@@ -178,7 +178,7 @@ namespace Files.Views.LayoutModes
             foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
             {
                 listedItem.ItemPropertiesInitialized = false;
-                if (FileList.ContainerFromItem(listedItem) != null)
+                if (ContainerFromItem(listedItem) != null)
                 {
                     await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, 24);
                 }
@@ -193,7 +193,7 @@ namespace Files.Views.LayoutModes
                 return;
             }
             int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
-            ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+            ListViewItem listViewItem = ContainerFromItem(RenamingItem) as ListViewItem;
             TextBox textBox = null;
             if (listViewItem == null)
             {
@@ -266,7 +266,7 @@ namespace Files.Views.LayoutModes
             else
             {
                 // Re-focus selected list item
-                ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+                ListViewItem listViewItem = ContainerFromItem(RenamingItem) as ListViewItem;
                 listViewItem?.Focus(FocusState.Programmatic);
 
                 textBox.Visibility = Visibility.Collapsed;
@@ -523,7 +523,7 @@ namespace Files.Views.LayoutModes
                 }
                 else if (IsRenamingItem)
                 {
-                    if (FileList.ContainerFromItem(RenamingItem) is ListViewItem listViewItem
+                    if (ContainerFromItem(RenamingItem) is ListViewItem listViewItem
                         && listViewItem.FindDescendant("ListViewTextBoxItemName") is TextBox textBox)
                     {
                         CommitRename(textBox);
@@ -625,6 +625,11 @@ namespace Files.Views.LayoutModes
                         break;
                 }
             }
+        }
+
+        protected override SelectorItem ContainerFromItem(ListedItem listedItem)
+        {
+            return (FileList.ContainerFromItem(listedItem) as SelectorItem);
         }
     }
 }

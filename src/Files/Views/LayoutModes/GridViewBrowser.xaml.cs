@@ -68,7 +68,7 @@ namespace Files.Views.LayoutModes
             if (SelectedItems.Any())
             {
                 FileList.ScrollIntoView(SelectedItems.Last());
-                (FileList.ContainerFromItem(SelectedItems.Last()) as GridViewItem)?.Focus(FocusState.Keyboard);
+                (ContainerFromItem(SelectedItems.Last()) as GridViewItem)?.Focus(FocusState.Keyboard);
             }
         }
 
@@ -243,7 +243,7 @@ namespace Files.Views.LayoutModes
                 return;
             }
             int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
-            GridViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
+            GridViewItem gridViewItem = ContainerFromItem(RenamingItem) as GridViewItem;
             TextBox textBox = null;
             if (gridViewItem == null)
             {
@@ -364,7 +364,7 @@ namespace Files.Views.LayoutModes
             IsRenamingItem = false;
 
             // Re-focus selected list item
-            GridViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
+            GridViewItem gridViewItem = ContainerFromItem(RenamingItem) as GridViewItem;
             gridViewItem?.Focus(FocusState.Programmatic);
         }
 
@@ -489,7 +489,7 @@ namespace Files.Views.LayoutModes
             foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
             {
                 listedItem.ItemPropertiesInitialized = false;
-                if (FileList.ContainerFromItem(listedItem) != null)
+                if (ContainerFromItem(listedItem) != null)
                 {
                     await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
                 }
@@ -527,7 +527,7 @@ namespace Files.Views.LayoutModes
                 }
                 else if (IsRenamingItem)
                 {
-                    if (FileList.ContainerFromItem(RenamingItem) is GridViewItem gridViewItem)
+                    if (ContainerFromItem(RenamingItem) is GridViewItem gridViewItem)
                     {
                         if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
                         {
@@ -604,6 +604,11 @@ namespace Files.Views.LayoutModes
                     ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoadingForItem(item);
                 }
             }
+        }
+
+        protected override SelectorItem ContainerFromItem(ListedItem listedItem)
+        {
+            return (FileList.ContainerFromItem(listedItem) as SelectorItem);
         }
     }
 }

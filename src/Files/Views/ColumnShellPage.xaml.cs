@@ -538,6 +538,7 @@ namespace Files.Views
                     ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemsCount/Text".GetLocalized()}";
                 }
             }
+            ContentPage.UpdateAppearanceSettings();
         }
 
         private void FilesystemViewModel_ListedItemAdded(object sender, ListedItemAddedEventArgs e)

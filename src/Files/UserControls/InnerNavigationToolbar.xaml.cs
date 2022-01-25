@@ -191,6 +191,15 @@ namespace Files.UserControls
             }
         }
 
+        private void NavToolbarSpacingSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        {
+            UserSettingsService.AppearanceSettingsService.SpacingSizePx = e.NewValue;
+        }
+        private void NavToolbarPaddingSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        {
+            UserSettingsService.AppearanceSettingsService.PaddingSizePx = e.NewValue;
+
+        }
         private void NavToolbarDetailsHeader_Tapped(object sender, TappedRoutedEventArgs e)
     => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(true);
         private void NavToolbarTilesHeader_Tapped(object sender, TappedRoutedEventArgs e)
