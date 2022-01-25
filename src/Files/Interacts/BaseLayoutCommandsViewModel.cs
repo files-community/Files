@@ -72,7 +72,7 @@ namespace Files.Interacts
             DecompressArchiveCommand = new RelayCommand(CommandsModel.DecompressArchive);
             DecompressArchiveHereCommand = new RelayCommand(CommandsModel.DecompressArchiveHere);
             DecompressArchiveToChildFolderCommand = new RelayCommand(CommandsModel.DecompressArchiveToChildFolder);
-            InstallInfDriver = new RelayCommand(CommandsModel.InstallInfDriver);
+            InstallInfDriver = new AsyncRelayCommand(CommandsModel.InstallInfDriver);
             InstallFontCommand = new RelayCommand(CommandsModel.InstallFont);
         }
 

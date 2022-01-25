@@ -786,12 +786,12 @@ namespace Files.Interacts
             }
         }
 
-        public async void InstallInfDriver()
+        public async Task InstallInfDriver()
         {
-            foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
             {
-                var connection = await AppServiceConnectionHelper.Instance;
-                if (connection != null)
+                foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
                 {
                     var value = new ValueSet
                     {
