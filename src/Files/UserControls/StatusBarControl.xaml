@@ -26,6 +26,7 @@
     </UserControl.Resources>
 
     <Grid
+        Height="32"
         Padding="8,0"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
