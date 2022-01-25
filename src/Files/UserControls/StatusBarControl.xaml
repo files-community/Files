@@ -26,8 +26,9 @@
     </UserControl.Resources>
 
     <Grid
-        Height="32"
+        Padding="8,0"
         HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
         Background="{ThemeResource StatusBarBackgroundBrush}"
         ColumnSpacing="12">
         <Grid.ColumnDefinitions>
@@ -41,17 +42,20 @@
         <TextBlock
             x:Name="DirectoryItemCount"
             Grid.Column="0"
+            VerticalAlignment="Center"
             x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
             Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
         <TextBlock
             x:Name="SelectedItemsCountString"
             Grid.Column="1"
+            VerticalAlignment="Center"
             x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
             Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCountString, Mode=OneWay}"
             Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
         <TextBlock
             x:Name="ItemSize"
             Grid.Column="2"
+            VerticalAlignment="Center"
             x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
             Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}"
             Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
@@ -61,6 +65,7 @@
             Grid.Column="4"
             Width="32"
             Height="32"
+            VerticalAlignment="Center"
             x:Load="{x:Bind MainViewModel.IsFullTrustElevated, Mode=OneWay}"
             AccessKey="M"
             Background="Transparent"
