@@ -29,7 +29,6 @@
             <x:Boolean x:Key="True">True</x:Boolean>
             <x:Boolean x:Key="False">False</x:Boolean>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
                 <ResourceDictionary Source="/ResourceDictionaries/PathIcons.xaml" />
                 <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
