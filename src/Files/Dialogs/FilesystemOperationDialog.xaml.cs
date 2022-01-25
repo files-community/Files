@@ -29,8 +29,19 @@ namespace Files.Dialogs
             ViewModel.LoadedCommand.Execute(null);
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        protected override void OnApplyTemplate()
         {
+            base.OnApplyTemplate();
+            var primaryButton = this.FindDescendant("PrimaryButton") as Button;
+            if (primaryButton != null)
+            {
+                primaryButton.GotFocus += PrimaryButton_GotFocus;
+            }
+        }
+
+        private void PrimaryButton_GotFocus(object sender, RoutedEventArgs e)
+        {
+            (sender as Button).GotFocus -= PrimaryButton_GotFocus;
             chkPermanentlyDelete.IsEnabled = ViewModel.PermanentlyDeleteEnabled;
             DetailsGrid.ItemsSource = ViewModel.Items;
             DetailsGrid.SelectionMode = ViewModel.ItemsSelectionMode;
