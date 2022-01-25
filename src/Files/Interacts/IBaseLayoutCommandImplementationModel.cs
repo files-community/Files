@@ -98,6 +98,8 @@ namespace Files.Interacts
 
         void DecompressArchiveToChildFolder();
 
+        Task InstallInfDriver();
+
         void RotateImageLeft();
 
         void RotateImageRight();

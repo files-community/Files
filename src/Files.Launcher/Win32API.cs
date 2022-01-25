@@ -640,5 +640,29 @@ namespace FilesFullTrust
         [DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Auto)]
         public static extern int SHQueryRecycleBin(string pszRootPath,
             ref SHQUERYRBINFO pSHQueryRBInfo);
+
+        public static bool InfDefaultInstall(string filePath)
+        {
+            try
+            {
+                using Process process = new Process();
+                process.StartInfo.FileName = "InfDefaultInstall.exe";
+                process.StartInfo.Verb = "runas";
+                process.StartInfo.UseShellExecute = true;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.Arguments = $"{filePath}";
+                process.Start();
+                if (process.WaitForExit(30 * 1000))
+                {
+                    return process.ExitCode == 0;
+                }
+                return false;
+            }
+            catch (Win32Exception)
+            {
+                // If user cancels UAC
+                return false;
+            }
+        }
     }
 }
