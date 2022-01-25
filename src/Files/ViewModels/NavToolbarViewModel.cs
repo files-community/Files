@@ -810,6 +810,10 @@ namespace Files.ViewModels
 
         public ICommand InstallInfCommand { get; set; }
 
+        public ICommand RotateImageLeftCommand { get; set; }
+
+        public ICommand RotateImageRightCommand { get; set; }
+
         public ICommand InstallFontCommand { get; set; }
 
         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)

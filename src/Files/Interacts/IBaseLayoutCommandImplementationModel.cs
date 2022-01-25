@@ -100,6 +100,10 @@ namespace Files.Interacts
 
         Task InstallInfDriver();
 
+        void RotateImageLeft();
+
+        void RotateImageRight();
+
         void InstallFont();
     }
 }
