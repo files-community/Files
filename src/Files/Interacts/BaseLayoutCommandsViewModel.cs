@@ -73,6 +73,8 @@ namespace Files.Interacts
             DecompressArchiveHereCommand = new RelayCommand(CommandsModel.DecompressArchiveHere);
             DecompressArchiveToChildFolderCommand = new RelayCommand(CommandsModel.DecompressArchiveToChildFolder);
             InstallInfDriver = new RelayCommand(CommandsModel.InstallInfDriver);
+            RotateImageLeftCommand = new RelayCommand(CommandsModel.RotateImageLeft);
+            RotateImageRightCommand = new RelayCommand(CommandsModel.RotateImageRight);
             InstallFontCommand = new RelayCommand(CommandsModel.InstallFont);
         }
 
@@ -171,6 +173,10 @@ namespace Files.Interacts
         public ICommand DecompressArchiveToChildFolderCommand { get; private set; }
 
         public ICommand InstallInfDriver { get; set; }
+
+        public ICommand RotateImageLeftCommand { get; private set; }
+
+        public ICommand RotateImageRightCommand { get; private set; }
 
         public ICommand InstallFontCommand { get; private set; }
 
