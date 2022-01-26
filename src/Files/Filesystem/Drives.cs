@@ -103,6 +103,7 @@ namespace Files.Filesystem
         {
             System.Diagnostics.Debug.WriteLine("DeviceWatcher_EnumerationCompleted");
             await RefreshUI();
+            FolderHelpers.CleanCache();
         }
 
         private async Task RefreshUI()
