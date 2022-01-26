@@ -57,6 +57,16 @@ namespace Files.Helpers
                    fileExtensionToCheck.Equals(".msixbundle", StringComparison.OrdinalIgnoreCase);
         }
 
+        public static bool IsInfFile(string fileExtensionToCheck)
+        {
+            if (string.IsNullOrEmpty(fileExtensionToCheck))
+            {
+                return false;
+            }
+
+            return fileExtensionToCheck.Equals(".inf", StringComparison.OrdinalIgnoreCase);
+        }
+
         /// <summary>
         /// Check if the file extension is a font file.
         /// </summary>
@@ -71,7 +81,7 @@ namespace Files.Helpers
                 return false;
             }
 
-            return fileExtensionToCheck.Equals(".fon", StringComparison.OrdinalIgnoreCase) ||
+          return fileExtensionToCheck.Equals(".fon", StringComparison.OrdinalIgnoreCase) ||
                    fileExtensionToCheck.Equals(".otf", StringComparison.OrdinalIgnoreCase) ||
                    fileExtensionToCheck.Equals(".ttc", StringComparison.OrdinalIgnoreCase) ||
                    fileExtensionToCheck.Equals(".ttf", StringComparison.OrdinalIgnoreCase);

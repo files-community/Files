@@ -28,6 +28,18 @@ namespace FilesFullTrust.MessageHandlers
         {
             switch (message.Get("installop", ""))
             {
+                case "InstallInf":
+                {
+                    var filePath = (string)message["filepath"];
+                    var fileExtension = (string)message["extension"];
+                    var isInf = new[] { ".inf" }.Contains(fileExtension, StringComparer.OrdinalIgnoreCase);
+
+                    if (isInf)
+                    {
+                        Win32API.InfDefaultInstall(filePath);
+                    }
+                    break;
+                }
                 case "InstallFont":
                 {
                     var filePath = (string)message["filepath"];

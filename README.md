@@ -9,7 +9,10 @@
     <img src="https://img.shields.io/badge/Microsoft%20Store-Download-purple.svg?style=flat-round" alt="Store link" />
 </a>
 <a style="text-decoration:none" href="https://files.community/download/stable">
-    <img src="https://img.shields.io/badge/Sideload-Download-blue.svg?style=flat-round" alt="Sideload link" />
+    <img src="https://img.shields.io/badge/Sideload-Download-purple.svg?style=flat-round" alt="Sideload link" />
+</a>
+<a style="text-decoration:none" href="https://files.community/download/preview">
+    <img src="https://img.shields.io/badge/Preview-Download-blue.svg?style=flat-round" alt="Preview link" />
 </a>
 
 ## What is Files?

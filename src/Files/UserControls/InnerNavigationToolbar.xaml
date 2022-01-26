@@ -29,7 +29,6 @@
             <x:Boolean x:Key="True">True</x:Boolean>
             <x:Boolean x:Key="False">False</x:Boolean>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
                 <ResourceDictionary Source="/ResourceDictionaries/PathIcons.xaml" />
                 <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -38,7 +37,7 @@
     <Grid BorderBrush="{ThemeResource ControlStrokeColorDefault}" BorderThickness="0,0,0,1">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <CommandBar
             x:Name="ContextCommandBar"
@@ -203,12 +202,12 @@
                 <AppBarSeparator x:Name="AdditionalActionSeparator" x:Load="{x:Bind ViewModel.HasAdditionalAction, Mode=OneWay}" />
                 <AppBarButton
                     x:Name="EmptyRecycleBinButton"
+                    x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
                     AccessKey="B"
                     Command="{x:Bind ViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanEmptyRecycleBin, Mode=OneWay}"
                     Label="{helpers:ResourceString Name=EmptyRecycleBin}"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=EmptyRecycleBin}"
-                    Visibility="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=Collapsed}">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=EmptyRecycleBin}">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
                     </AppBarButton.Icon>
@@ -217,11 +216,11 @@
                     x:Name="ExtractButton"
                     Width="Auto"
                     MinWidth="40"
+                    x:Load="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
                     AccessKey="Z"
                     IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
                     Label="{helpers:ResourceString Name=Extract}"
-                    LabelPosition="Default"
-                    Visibility="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=Collapsed}">
+                    LabelPosition="Default">
                     <AppBarButton.Content>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
                     </AppBarButton.Content>
@@ -263,6 +262,8 @@
                 </AppBarButton>
                 <AppBarButton
                     x:Name="RunWithPowerShellButton"
+                    Width="Auto"
+                    MinWidth="40"
                     x:Load="{x:Bind ViewModel.IsPowerShellScript, Mode=OneWay, FallbackValue=False}"
                     AutomationProperties.Name="RunWithPowerShell"
                     Command="{x:Bind ViewModel.RunWithPowerShellCommand, Mode=OneWay}"
@@ -275,6 +276,8 @@
                 </AppBarButton>
                 <AppBarButton
                     x:Name="SetAsBackgroundButton"
+                    Width="Auto"
+                    MinWidth="40"
                     x:Load="{x:Bind ViewModel.IsImage, Mode=OneWay, FallbackValue=False}"
                     Command="{x:Bind ViewModel.SetAsBackgroundCommand, Mode=OneWay}"
                     Label="{helpers:ResourceString Name=SetAsBackground}"
@@ -282,6 +285,40 @@
                     ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsBackground}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE91B;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="InstallInfButton"
+                    x:Load="{x:Bind ViewModel.IsInfFile, Mode=OneWay, FallbackValue=False}"
+                    AutomationProperties.Name="InstallInf"
+                    Command="{x:Bind ViewModel.InstallInfCommand, Mode=OneWay}"
+                    Label="{helpers:ResourceString Name=Install}"
+                    LabelPosition="Default"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=Install}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE9F5;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="RotateImageLeftButton"
+                    x:Load="{x:Bind ViewModel.IsImage, Mode=OneWay, FallbackValue=False}"
+                    Command="{x:Bind ViewModel.RotateImageLeftCommand, Mode=OneWay}"
+                    Label="{helpers:ResourceString Name=RotateLeft}"
+                    LabelPosition="Default"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=RotateLeft}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE7A7;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="RotateImageRightButton"
+                    x:Load="{x:Bind ViewModel.IsImage, Mode=OneWay, FallbackValue=False}"
+                    Command="{x:Bind ViewModel.RotateImageRightCommand, Mode=OneWay}"
+                    Label="{helpers:ResourceString Name=RotateRight}"
+                    LabelPosition="Default"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=RotateRight}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE7A6;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton

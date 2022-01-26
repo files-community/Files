@@ -369,6 +369,7 @@ namespace Files
                     // Remove old layout from back stack
                     ParentShellPageInstance.RemoveLastPageFromBackStack();
                 }
+                ParentShellPageInstance.FilesystemViewModel.UpdateEmptyTextType();
             }
         }
 

@@ -19,6 +19,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -784,6 +785,39 @@ namespace Files.Interacts
                         FileOperationType.Extract);
                 }
             }
+        }
+
+        public async Task InstallInfDriver()
+        {
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
+                {
+                    var value = new ValueSet
+                    {
+                        { "Arguments", "InstallOperation" },
+                        { "installop", "InstallInf" },
+                        { "filepath", selectedItem.ItemPath },
+                        { "extension", selectedItem.FileExtension },
+                    };
+                    await connection.SendMessageAsync(value);
+                }
+            }
+        }
+
+        public async void RotateImageLeft()
+        {
+            await BitmapHelper.Rotate(PathNormalization.NormalizePath(SlimContentPage?.SelectedItems.First().ItemPath), BitmapRotation.Clockwise270Degrees);
+            SlimContentPage?.ItemManipulationModel.RefreshItemsThumbnail();
+            SlimContentPage?.PreviewPaneViewModel.UpdateSelectedItemPreview();
+        }
+
+        public async void RotateImageRight()
+        {
+            await BitmapHelper.Rotate(PathNormalization.NormalizePath(SlimContentPage?.SelectedItems.First().ItemPath), BitmapRotation.Clockwise90Degrees);
+            SlimContentPage?.ItemManipulationModel.RefreshItemsThumbnail();
+            SlimContentPage?.PreviewPaneViewModel.UpdateSelectedItemPreview();
         }
 
         public async void InstallFont()
