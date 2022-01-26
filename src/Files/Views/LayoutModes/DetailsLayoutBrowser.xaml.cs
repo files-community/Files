@@ -25,7 +25,8 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
+using Files.Backend.Enums;
+using Files.Backend.ViewModels.Layouts;
 using SortDirection = Files.Enums.SortDirection;
 
 namespace Files.Views.LayoutModes
@@ -157,7 +158,7 @@ namespace Files.Views.LayoutModes
                 else
                 {
                     FolderSettings.DirectorySortOption = val;
-                    FolderSettings.DirectorySortDirection = SortDirection.Ascending;
+                    FolderSettings.DirectorySortDirection = Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending;
                 }
             });
 

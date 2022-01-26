@@ -363,10 +363,6 @@ namespace Files.ViewModels
         {
             if (e.NavigationMode != NavigationMode.Back)
             {
-                //Initialize the static theme helper to capture a reference to this window
-                //to handle theme changes without restarting the app
-                ThemeHelper.Initialize();
-
                 if (e.Parameter == null || (e.Parameter is string eventStr && string.IsNullOrEmpty(eventStr)))
                 {
                     try

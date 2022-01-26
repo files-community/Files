@@ -35,6 +35,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using Files.Backend.ViewModels.ItemListing;
 using Files.Backend.ViewModels.Layouts;
 using static Files.Helpers.PathNormalization;
 
@@ -200,7 +201,7 @@ namespace Files
 
         private List<ListedItem> selectedItems = new List<ListedItem>();
 
-        public List<ListedItem> SelectedItems
+        public List<ListedItemViewModel> SelectedItems
         {
             get
             {
@@ -318,7 +319,7 @@ namespace Files
 
         protected abstract void InitializeCommandsViewModel();
 
-        protected IEnumerable<ListedItem> GetAllItems()
+        protected IEnumerable<ListedItemViewModel> GetAllItems()
         {
             if (CollectionViewSource.IsSourceGrouped)
             {

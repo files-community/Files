@@ -23,5 +23,7 @@ namespace Files.Layouts
         void RemoveSelection(ListedItemViewModel listedItem);
 
         void FocusSelectedItems();
+
+        void ReloadItem(ListedItemViewModel listedItem);
     }
 }

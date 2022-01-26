@@ -2,14 +2,9 @@
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.UserControls;
-using Files.ViewModels.Layouts;
 using Microsoft.Toolkit.Uwp.UI;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -18,9 +13,8 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Files.Backend.ViewModels.ItemListing;
-using Files.Extensions;
-using Files.Layouts.Listing;
 using Files.Backend.ViewModels.Layouts;
+using Files.Shared.Extensions;
 
 #nullable enable
 
@@ -139,11 +133,15 @@ namespace Files.Layouts
                 }
                 else if (IsRenamingItem)
                 {
-                    if (FileListInternal.ContainerFromItem(RenamingItem) is ListViewItem listViewItem)
+                    if (FileListInternal.ContainerFromItem(RenamingItem) is SelectorItem selectorItem)
                     {
-                        if (listViewItem.FindDescendant("ItemNameTextBox") is TextBox textBox)
+                        if (selectorItem.FindDescendant("ItemNameTextBox") is TextBox textBox)
                         {
                             await CommitRename(textBox);
+                        }
+                        else if (selectorItem.FindDescendant("EditPopup") is Popup popup && popup.Child is TextBox textBox2)
+                        {
+                            await CommitRename(textBox2);
                         }
                     }
                 }
@@ -450,6 +448,13 @@ namespace Files.Layouts
             }
         }
 
-#endregion
+        public void ReloadItem(ListedItemViewModel listedItem)
+        {
+            ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+            ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
+            await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(ParentShellPageInstance.SlimContentPage.SelectedItem, currentIconSize);
+        }
+
+        #endregion
     }
 }

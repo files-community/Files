@@ -21,9 +21,9 @@
     xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     xmlns:tui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:uc="using:Files.UserControls"
-    xmlns:vm="using:Files.ViewModels.Layouts"
+    xmlns:vm1="using:Files.Backend.ViewModels.Layouts"
     x:Name="PageRoot"
-    x:TypeArguments="vm:DetailsLayoutViewModel, local:DetailsLayoutBrowser"
+    x:TypeArguments="vm1:DetailsLayoutViewModel, local:DetailsLayoutBrowser"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>

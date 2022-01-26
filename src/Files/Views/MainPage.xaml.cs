@@ -22,6 +22,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
+#nullable enable
+
 namespace Files.Views
 {
     /// <summary>
@@ -29,6 +31,8 @@ namespace Files.Views
     /// </summary>
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
+        private ThemeHelper? _themeHelper;
+
         public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         public MainViewModel MainViewModel => App.MainViewModel;
@@ -53,6 +57,8 @@ namespace Files.Views
         public MainPage()
         {
             this.InitializeComponent();
+
+            _themeHelper ??= ThemeHelper.RegisterWindowInstance(Window.Current, ApplicationView.GetForCurrentView().TitleBar);
 
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
@@ -208,6 +214,8 @@ namespace Files.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            _themeHelper?.UpdateTheme();
+
             ViewModel.OnNavigatedTo(e);
             SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
             SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;

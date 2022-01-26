@@ -13,6 +13,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Files.Backend.ViewModels.ItemListing;
 using Files.Backend.ViewModels.Layouts;
+using Files.Shared.Extensions;
 
 namespace Files.Backend.ViewModels.Layouts
 {

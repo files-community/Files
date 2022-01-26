@@ -21,11 +21,15 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Files.Backend.Enums;
+using Files.Backend.ViewModels.Layouts;
 
 namespace Files.Views.LayoutModes
 {
-    public sealed partial class GridViewBrowser : BaseListedLayout<, GridViewBrowser>
+    internal sealed partial class GridViewBrowser : BaseListedLayout<GridViewLayoutViewModel, GridViewBrowser>
     {
+        protected override ListViewBase FileListInternal => FileList;
+
         /// <summary>
         /// The minimum item width for items. Used in the StretchedGridViewItems behavior.
         /// </summary>
@@ -39,27 +43,6 @@ namespace Files.Views.LayoutModes
 
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
-        }
-
-        protected override void HookEvents()
-        {
-            UnhookEvents();
-            ItemManipulationModel.FocusFileListInvoked += ItemManipulationModel_FocusFileListInvoked;
-            ItemManipulationModel.SelectAllItemsInvoked += ItemManipulationModel_SelectAllItemsInvoked;
-            ItemManipulationModel.ClearSelectionInvoked += ItemManipulationModel_ClearSelectionInvoked;
-            ItemManipulationModel.InvertSelectionInvoked += ItemManipulationModel_InvertSelectionInvoked;
-            ItemManipulationModel.AddSelectedItemInvoked += ItemManipulationModel_AddSelectedItemInvoked;
-            ItemManipulationModel.RemoveSelectedItemInvoked += ItemManipulationModel_RemoveSelectedItemInvoked;
-            ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
-            ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
-            ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
-            ItemManipulationModel.RefreshItemsThumbnailInvoked += ItemManipulationModel_RefreshItemThumbnail;
-
-        }
-
-        private void ItemManipulationModel_RefreshItemThumbnail(object sender, EventArgs args)
-        {
-            ReloadSelectedItemIcon();
         }
 
         private void ItemManipulationModel_ScrollIntoViewInvoked(object sender, ListedItem e)
@@ -94,25 +77,6 @@ namespace Files.Views.LayoutModes
             if (FileList?.Items.Contains(e) ?? false)
             {
                 FileList.SelectedItems.Remove(e);
-            }
-        }
-
-        private void ItemManipulationModel_InvertSelectionInvoked(object sender, EventArgs e)
-        {
-            if (SelectedItems.Count < GetAllItems().Count() / 2)
-            {
-                var oldSelectedItems = SelectedItems.ToList();
-                ItemManipulationModel.SelectAllItems();
-                ItemManipulationModel.RemoveSelectedItems(oldSelectedItems);
-            }
-            else
-            {
-                List<ListedItem> newSelectedItems = GetAllItems()
-                    .Cast<ListedItem>()
-                    .Except(SelectedItems)
-                    .ToList();
-
-                ItemManipulationModel.SetSelectedItems(newSelectedItems);
             }
         }
 
@@ -288,74 +252,6 @@ namespace Files.Views.LayoutModes
                 CurrentIconSize = requestedIconSize; // Update icon size before refreshing
                 await ReloadItemIcons();
             }
-        }
-
-        private async void ReloadSelectedItemIcon()
-        {
-            ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-            ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
-            await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(ParentShellPageInstance.SlimContentPage.SelectedItem, currentIconSize);
-        }
-
-        private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
-        {
-            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
-            if (item == null)
-            {
-                return;
-            }
-            // Skip code if the control or shift key is pressed or if the user is using multiselect
-            if (ctrlPressed || shiftPressed || MainViewModel.MultiselectEnabled)
-            {
-                return;
-            }
-
-            // Check if the setting to open items with a single click is turned on
-            if (item != null
-                && ((UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder) || (UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)))
-            {
-                ResetRenameDoubleClick();
-                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-            }
-            else
-            {
-                var clickedItem = e.OriginalSource as FrameworkElement;
-                if (clickedItem is TextBlock textBlock && textBlock.Name == "ItemName")
-                {
-                    CheckRenameDoubleClick(clickedItem?.DataContext);
-                }
-                else if (IsRenamingItem)
-                {
-                    if (FileList.ContainerFromItem(RenamingItem) is GridViewItem gridViewItem)
-                    {
-                        if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
-                        {
-                            Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
-                            var textBox = popup.Child as TextBox;
-                            CommitRename(textBox);
-                        }
-                        else
-                        {
-                            var textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
-                            CommitRename(textBox);
-                        }
-                    }
-                }
-            }
-        }
-
-        private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            // Skip opening selected items if the double tap doesn't capture an item
-            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
-                 && ((!UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
-                 || (!UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)))
-            {
-                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-            }
-            ResetRenameDoubleClick();
         }
 
         #region IDisposable

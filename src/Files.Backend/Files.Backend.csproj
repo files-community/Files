@@ -134,6 +134,7 @@
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="Enums\SortOptions.cs" />
     <Compile Include="EventArguments\BaseJsonSettingsModelEventArgs.cs" />
+    <Compile Include="Helpers\IntegrationHelpers.cs" />
     <Compile Include="Helpers\NativeFileOperationsHelper.cs" />
     <Compile Include="Models\IFileTag.cs" />
     <Compile Include="Models\JsonSettings\BaseJsonSettingsModel.cs" />
@@ -164,6 +165,7 @@
     <Compile Include="ViewModels\Layouts\BaseListedLayoutViewModel.cs" />
     <Compile Include="ViewModels\Layouts\DetailsLayoutViewModel.cs" />
     <Compile Include="ViewModels\ItemListing\ItemListingModel.cs" />
+    <Compile Include="ViewModels\Layouts\GridViewLayoutViewModel.cs" />
     <EmbeddedResource Include="Properties\Files.Backend.rd.xml" />
   </ItemGroup>
   <ItemGroup>
