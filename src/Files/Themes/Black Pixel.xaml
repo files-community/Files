@@ -30,7 +30,6 @@
             <!--  Dual Panes  -->
             <SolidColorBrush x:Key="PaneBorderBrush" Color="#00000000" />
             <!--  File Browser Control Background  -->
-            <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="#000000" />
             <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="#000000" />
             <!--  Hover effects  -->
             <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#21FFFFFF" />
@@ -111,7 +110,6 @@
             <!--  Dual Panes  -->
             <SolidColorBrush x:Key="PaneBorderBrush" Color="#00000000" />
             <!--  File Browser Control Background  -->
-            <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="#000000" />
             <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="#000000" />
             <!--  Hover effects  -->
             <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#21FFFFFF" />

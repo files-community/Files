@@ -38,7 +38,6 @@
                             <!--  Horizontal Tab Control  -->
                             <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
                             <!--  File Browser Control  -->
-                            <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
 
                             <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
@@ -68,7 +67,6 @@
                             <!--  Horizontal Tab Control  -->
                             <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
                             <!--  File Browser Control  -->
-                            <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
 
                             <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
@@ -108,7 +106,6 @@
                             <!--  Horizontal Tab Control  -->
                             <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
                             <!--  File Browser Control  -->
-                            <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
                             <StaticResource x:Key="FileBrowserHeaderBackgroundBrush" ResourceKey="SolidBackgroundFillColorBaseBrush" />
 
                             <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
