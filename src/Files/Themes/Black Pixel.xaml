@@ -80,8 +80,6 @@
             <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#000000" />
             <SolidColorBrush x:Key="SidebarBorderBrush" Color="#00000000" />
             <SolidColorBrush x:Key="SidebarContentBackgroundBrush" Color="#000000" />
-            <!--  Status Bar Background  -->
-            <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="#000000" />
             <!--  Text input  -->
             <SolidColorBrush x:Key="TextControlSelectionHighlightColor" Color="#1A73E8" />
             <!--  Titlebar  -->
@@ -166,8 +164,6 @@
             <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#000000" />
             <SolidColorBrush x:Key="SidebarBorderBrush" Color="#00000000" />
             <SolidColorBrush x:Key="SidebarContentBackgroundBrush" Color="#000000" />
-            <!--  Status Bar Background  -->
-            <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="#000000" />
             <!--  Text input  -->
             <SolidColorBrush x:Key="TextControlSelectionHighlightColor" Color="#1A73E8" />
             <!--  Titlebar  -->
