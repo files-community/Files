@@ -1,8 +1,7 @@
 ﻿using Files.Backend.Enums;
-using Files.Backend.Services.Settings;
 using System.ComponentModel;
 
-namespace Files.Backend.Services
+namespace Files.Backend.Services.Settings
 {
     public interface ILayoutSettingsService : IBaseSettingsService, INotifyPropertyChanged
     {

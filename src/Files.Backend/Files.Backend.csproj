@@ -136,6 +136,9 @@
     <Compile Include="EventArguments\BaseJsonSettingsModelEventArgs.cs" />
     <Compile Include="Helpers\IntegrationHelpers.cs" />
     <Compile Include="Helpers\NativeFileOperationsHelper.cs" />
+    <Compile Include="Messages\TabAddRequestedMessage.cs" />
+    <Compile Include="Messages\TabDisposalRequestedMessage.cs" />
+    <Compile Include="Models\Icons\IconModel.cs" />
     <Compile Include="Models\IFileTag.cs" />
     <Compile Include="Models\JsonSettings\BaseJsonSettingsModel.cs" />
     <Compile Include="Models\JsonSettings\BaseObservableJsonSettingsModel.cs" />
@@ -148,16 +151,18 @@
     <Compile Include="Models\JsonSettings\ISettingsSerializer.cs" />
     <Compile Include="Models\JsonSettings\ISettingsSharingContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\IAppearanceSettingsService.cs" />
-    <Compile Include="Services\IBundlesSettingsService.cs" />
-    <Compile Include="Services\IFileTagsSettingsService.cs" />
-    <Compile Include="Services\ILayoutSettingsService.cs" />
-    <Compile Include="Services\IMultitaskingSettingsService.cs" />
-    <Compile Include="Services\IPreferencesSettingsService.cs" />
-    <Compile Include="Services\IPreviewPaneSettingsService.cs" />
-    <Compile Include="Services\IWidgetsSettingsService.cs" />
+    <Compile Include="Services\IApplicationService.cs" />
+    <Compile Include="Services\Settings\IAppearanceSettingsService.cs" />
+    <Compile Include="Services\Settings\IBundlesSettingsService.cs" />
+    <Compile Include="Services\Settings\IFileTagsSettingsService.cs" />
+    <Compile Include="Services\Settings\ILayoutSettingsService.cs" />
+    <Compile Include="Services\Settings\IMultitaskingSettingsService.cs" />
+    <Compile Include="Services\Settings\IPreferencesSettingsService.cs" />
+    <Compile Include="Services\Settings\IPreviewPaneSettingsService.cs" />
+    <Compile Include="Services\Settings\IWidgetsSettingsService.cs" />
     <Compile Include="Services\Settings\IBaseSettingsService.cs" />
     <Compile Include="Services\Settings\IUserSettingsService.cs" />
+    <Compile Include="ViewModels\Shell\FuturisticShellPageViewModel.cs" />
     <Compile Include="ViewModels\ItemListing\ListedFileViewModel.cs" />
     <Compile Include="ViewModels\ItemListing\ListedFolderViewModel.cs" />
     <Compile Include="ViewModels\ItemListing\ListedItemViewModel.cs" />
@@ -166,6 +171,9 @@
     <Compile Include="ViewModels\Layouts\DetailsLayoutViewModel.cs" />
     <Compile Include="ViewModels\ItemListing\ItemListingModel.cs" />
     <Compile Include="ViewModels\Layouts\GridViewLayoutViewModel.cs" />
+    <Compile Include="ViewModels\Shell\Multitasking\BaseMultitaskingControlViewModel.cs" />
+    <Compile Include="ViewModels\Shell\Tabs\ITabItemViewModel.cs" />
+    <Compile Include="ViewModels\Shell\Tabs\TabItemViewModel.cs" />
     <EmbeddedResource Include="Properties\Files.Backend.rd.xml" />
   </ItemGroup>
   <ItemGroup>

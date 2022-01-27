@@ -1,4 +1,6 @@
 ﻿using System;
+using Files.Backend.EventArguments;
+using Files.Backend.Models.JsonSettings;
 
 namespace Files.Backend.Services.Settings
 {

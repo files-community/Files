@@ -1,8 +1,7 @@
-﻿using Files.Backend.Services.Settings;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace Files.Backend.Services
+namespace Files.Backend.Services.Settings
 {
     public interface IBundlesSettingsService : IBaseSettingsService
     {

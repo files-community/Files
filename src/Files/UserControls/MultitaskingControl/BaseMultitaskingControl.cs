@@ -9,11 +9,24 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Files.Backend.ViewModels.Shell.Multitasking;
 
 namespace Files.UserControls.MultitaskingControl
 {
-    public class BaseMultitaskingControl : UserControl, IMultitaskingControl, INotifyPropertyChanged
+    public abstract class BaseMultitaskingControl : UserControl, IMultitaskingControl, INotifyPropertyChanged
     {
+
+
+        public BaseMultitaskingControlViewModel ViewModel
+        {
+            get => (BaseMultitaskingControlViewModel)GetValue(ViewModelProperty);
+            set => SetValue(ViewModelProperty, value);
+        }
+        public static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register("ViewModel", typeof(BaseMultitaskingControlViewModel), typeof(BaseMultitaskingControl), new PropertyMetadata(null));
+
+
+
         private static bool isRestoringClosedTab = false; // Avoid reopening two tabs
 
         protected ITabItemContent CurrentSelectedAppInstance;

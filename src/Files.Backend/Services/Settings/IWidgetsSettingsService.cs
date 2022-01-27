@@ -1,7 +1,6 @@
-﻿using Files.Backend.Services.Settings;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
-namespace Files.Backend.Services
+namespace Files.Backend.Services.Settings
 {
     public interface IWidgetsSettingsService : IBaseSettingsService, INotifyPropertyChanged
     {
