@@ -66,8 +66,6 @@
             <SolidColorBrush x:Key="TextControlBackgroundDisabled" Color="#00000000" />
             <SolidColorBrush x:Key="TextControlBorderBrush" Color="#00000000" />
             <SolidColorBrush x:Key="TextControlButtonBackground" Color="#00000000" />
-            <!--  Preview pane  -->
-            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="#000000" />
             <!--  Settings  -->
             <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="#191919" />
             <!--  ScrollBars  -->
@@ -149,8 +147,6 @@
             <SolidColorBrush x:Key="TextControlBackgroundDisabled" Color="#00000000" />
             <SolidColorBrush x:Key="TextControlBorderBrush" Color="#00000000" />
             <SolidColorBrush x:Key="TextControlButtonBackground" Color="#00000000" />
-            <!--  Preview pane  -->
-            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="#000000" />
             <!--  Settings  -->
             <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="#191919" />
             <!--  ScrollBars  -->
