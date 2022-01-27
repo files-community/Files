@@ -510,7 +510,7 @@ namespace Files.ViewModels
 
         private bool IsSearchResults { get; set; }
 
-        private void UpdateEmptyTextType()
+        public void UpdateEmptyTextType()
         {
             EmptyTextType = FilesAndFolders.Count == 0 ? (IsSearchResults ? EmptyTextType.NoSearchResultsFound : EmptyTextType.FolderEmpty) : EmptyTextType.None;
         }
