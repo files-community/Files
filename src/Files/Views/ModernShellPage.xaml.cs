@@ -183,6 +183,31 @@ namespace Files.Views
             SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
 
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
+
+            Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+        }
+
+        private async void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
+        {
+            args.Handled = true;
+
+            if (ContentPage == null)
+            {
+                return;
+            }
+
+            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
+                              CurrentPageType == typeof(GridViewBrowser);
+
+            var modifierKey = Window.Current.CoreWindow.GetKeyState(VirtualKey.LeftControl);
+
+            if (modifierKey.HasFlag(CoreVirtualKeyStates.Down) || tabInstance)
+            {
+                if (args.VirtualKey == ContentPage.AccentKey)
+                {
+                    await NavigationHelpers.OpenDirectoryInTerminal(FilesystemViewModel.WorkingDirectory);
+                }
+            }
         }
 
         private void InitToolbarCommands()
@@ -643,11 +668,6 @@ namespace Files.Views
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
-                case (true, true, false, true, VirtualKey.T): // ctrl + shift + t, open terminal in directory
-                {
-                    await NavigationHelpers.OpenDirectoryInTerminal(FilesystemViewModel.WorkingDirectory);
-                    break;
-                }
                 case (true, false, false, true, VirtualKey.E): // ctrl + e, extract
                     {
                         if (NavToolbarViewModel.CanExtract)
@@ -656,7 +676,6 @@ namespace Files.Views
                         }
                         break;
                     }
-
                 case (true, false, false, true, VirtualKey.Z): // ctrl + z, undo
                     if (!InstanceViewModel.IsPageTypeSearchResults)
                     {
@@ -959,6 +978,7 @@ namespace Files.Views
 
         public void Dispose()
         {
+            Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
             Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested;
             App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
