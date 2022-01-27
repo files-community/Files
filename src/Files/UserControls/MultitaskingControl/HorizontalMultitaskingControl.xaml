@@ -7,77 +7,16 @@
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:vm="using:Files.ViewModels"
+    xmlns:vc="using:Files.ValueConverters"
+    xmlns:vm="using:Files.Backend.ViewModels.Shell.Tabs"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary>
-                    <MenuFlyout
-                        x:Key="TabFlyout"
-                        x:Name="TabItemContextMenu"
-                        Opening="TabItemContextMenu_Opening">
-                        <MenuFlyoutItem
-                            x:Uid="HorizontalMultitaskingControlNewTab"
-                            Click="{x:Bind vm:MainPageViewModel.AddNewTabAtIndex}"
-                            KeyboardAcceleratorTextOverride="Ctrl+T"
-                            Text="New tab">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
-                            </MenuFlyoutItem.Icon>
-                            <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator
-                                    Key="T"
-                                    IsEnabled="False"
-                                    Modifiers="Control" />
-                            </MenuFlyoutItem.KeyboardAccelerators>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            x:Uid="HorizontalMultitaskingControlDuplicateTab"
-                            Click="{x:Bind vm:MainPageViewModel.DuplicateTabAtIndex}"
-                            KeyboardAcceleratorTextOverride="Ctrl+Shift+K"
-                            Text="Duplicate tab">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11B;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            x:Name="MenuItemMoveTabToNewWindow"
-                            x:Uid="HorizontalMultitaskingControlMoveTabToNewWindow"
-                            Click="MoveTabToNewWindow"
-                            Text="Move tab to new window">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8A7;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            x:Name="MenuItemCloseTabsToTheRight"
-                            x:Uid="HorizontalMultitaskingControlCloseTabsToTheRight"
-                            Click="CloseTabsToTheRight"
-                            DataContextChanged="MenuItemCloseTabsToTheRight_DataContextChanged"
-                            Text="Close tabs to the right" />
-                        <MenuFlyoutItem
-                            x:Name="MenuItemReopenClosedTab"
-                            x:Uid="HorizontalMultitaskingControlReopenClosedTab"
-                            Click="ReopenClosedTab"
-                            KeyboardAcceleratorTextOverride="Ctrl+Shift+T"
-                            Text="Reopen closed tab">
-                            <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator
-                                    Key="T"
-                                    IsEnabled="False"
-                                    Modifiers="Control,Shift" />
-                            </MenuFlyoutItem.KeyboardAccelerators>
-                        </MenuFlyoutItem>
-                    </MenuFlyout>
-                </ResourceDictionary>
+        <vc:IconModelToIconSourceConverter x:Key="IconModelToIconSourceConverter" />
 
-                <ResourceDictionary Source="/ResourceDictionaries/TabView_themeresources.xaml" />
-                <ResourceDictionary Source="/ResourceDictionaries/TabViewItem_shared.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+        <ResourceDictionary Source="/ResourceDictionaries/TabView_themeresources.xaml" />
+        <ResourceDictionary Source="/ResourceDictionaries/TabViewItem_shared.xaml" />
     </UserControl.Resources>
 
     <Grid HorizontalAlignment="Stretch" Background="{ThemeResource HorizontalTabControlBackgroundBrush}">
@@ -90,37 +29,93 @@
             Margin="4,0"
             VerticalAlignment="Stretch"
             HorizontalContentAlignment="Left"
-            AddTabButtonClick="TabView_AddTabButtonClick"
+            AddTabButtonCommand="{x:Bind ViewModel.AddTabCommand}"
             AllowDropTabs="True"
             Background="Transparent"
             CanDragTabs="True"
             DragLeave="TabStrip_DragLeave"
             IsAddTabButtonVisible="False"
-            SelectedIndex="{x:Bind local1:App.MainViewModel.TabStripSelectedIndex, Mode=TwoWay}"
+            SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=TwoWay}"
             SelectionChanged="TabStrip_SelectionChanged"
             TabCloseRequested="TabStrip_TabCloseRequested"
             TabDragCompleted="TabStrip_TabDragCompleted"
             TabDragStarting="TabStrip_TabDragStarting"
             TabDroppedOutside="TabStrip_TabDroppedOutside"
             TabItemsChanged="HorizontalTabView_TabItemsChanged"
-            TabItemsSource="{x:Bind Items, Mode=OneWay}"
+            TabItemsSource="{x:Bind ViewModel.Tabs}"
             TabStripDragOver="TabStrip_TabStripDragOver"
             TabStripDrop="TabStrip_TabStripDrop"
             Visibility="{x:Bind TabStripVisibility, Mode=OneWay}">
             <muxc:TabView.TabItemTemplate>
-                <DataTemplate x:DataType="local:TabItem">
+                <DataTemplate x:DataType="vm:TabItemViewModel">
                     <muxc:TabViewItem
                         Padding="2,0,2,2"
-                        AllowDrop="{x:Bind AllowStorageItemDrop, Mode=OneWay}"
-                        ContextFlyout="{StaticResource TabFlyout}"
+                        AllowDrop="True"
                         CornerRadius="4"
                         DragEnter="TabViewItem_DragEnter"
                         DragLeave="TabViewItem_DragLeave"
                         Drop="TabViewItem_Drop"
                         Header="{x:Bind Header, Mode=OneWay}"
-                        IconSource="{x:Bind IconSource, Mode=OneWay}"
-                        Style="{ThemeResource TabViewItemStyle}"
-                        ToolTipService.ToolTip="{x:Null}" />
+                        IconSource="{x:Bind TabIcon, Mode=OneWay, Converter={StaticResource IconModelToIconSourceConverter}}"
+                        Style="{ThemeResource TabViewItemStyle}">
+                        <muxc:TabViewItem.ContextFlyout>
+                            <MenuFlyout
+                                Opening="TabItemContextMenu_Opening">
+                                <MenuFlyoutItem
+                                    x:Uid="HorizontalMultitaskingControlNewTab"
+                                    Command="{x:Bind OpenNewTabCommand}"
+                                    KeyboardAcceleratorTextOverride="Ctrl+T"
+                                    Text="New tab">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
+                                    </MenuFlyoutItem.Icon>
+                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                        <KeyboardAccelerator
+                                            Key="T"
+                                            IsEnabled="False"
+                                            Modifiers="Control" />
+                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem
+                                    x:Uid="HorizontalMultitaskingControlDuplicateTab"
+                                    Click="{x:Bind vm:MainPageViewModel.DuplicateTabAtIndex}"
+                                    KeyboardAcceleratorTextOverride="Ctrl+Shift+K"
+                                    Text="Duplicate tab">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11B;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem
+                                    x:Name="MenuItemMoveTabToNewWindow"
+                                    x:Uid="HorizontalMultitaskingControlMoveTabToNewWindow"
+                                    Click="MoveTabToNewWindow"
+                                    Text="Move tab to new window">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8A7;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem
+                                    x:Name="MenuItemCloseTabsToTheRight"
+                                    x:Uid="HorizontalMultitaskingControlCloseTabsToTheRight"
+                                    Click="CloseTabsToTheRight"
+                                    DataContextChanged="MenuItemCloseTabsToTheRight_DataContextChanged"
+                                    Text="Close tabs to the right" />
+                                <MenuFlyoutItem
+                                    x:Name="MenuItemReopenClosedTab"
+                                    x:Uid="HorizontalMultitaskingControlReopenClosedTab"
+                                    Click="ReopenClosedTab"
+                                    KeyboardAcceleratorTextOverride="Ctrl+Shift+T"
+                                    Text="Reopen closed tab">
+                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                        <KeyboardAccelerator
+                                            Key="T"
+                                            IsEnabled="False"
+                                            Modifiers="Control,Shift" />
+                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </muxc:TabViewItem.ContextFlyout>
+                    </muxc:TabViewItem>
                 </DataTemplate>
             </muxc:TabView.TabItemTemplate>
         </muxc:TabView>

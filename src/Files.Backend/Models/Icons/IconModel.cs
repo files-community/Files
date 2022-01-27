@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace Files.Backend.Models.Icons
+﻿namespace Files.Backend.Models.Icons
 {
-    public abstract class IconModel : IDisposable
+    public abstract class IconModel
     {
-        public abstract void Dispose();
+        public string AdditionalFormat { get; set; }
     }
 }

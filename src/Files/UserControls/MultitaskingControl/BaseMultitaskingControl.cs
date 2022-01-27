@@ -15,16 +15,11 @@ namespace Files.UserControls.MultitaskingControl
 {
     public abstract class BaseMultitaskingControl : UserControl, IMultitaskingControl, INotifyPropertyChanged
     {
-
-
-        public BaseMultitaskingControlViewModel ViewModel
+        public MultitaskingControlViewModel ViewModel
         {
-            get => (BaseMultitaskingControlViewModel)GetValue(ViewModelProperty);
-            set => SetValue(ViewModelProperty, value);
+            get => (MultitaskingControlViewModel)DataContext;
+            set => DataContext = value;
         }
-        public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof(BaseMultitaskingControlViewModel), typeof(BaseMultitaskingControl), new PropertyMetadata(null));
-
 
 
         private static bool isRestoringClosedTab = false; // Avoid reopening two tabs
@@ -92,11 +87,6 @@ namespace Files.UserControls.MultitaskingControl
         protected void TabStrip_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
         {
             CloseTab(args.Item as TabItem);
-        }
-
-        protected async void TabView_AddTabButtonClick(TabView sender, object args)
-        {
-            await MainPageViewModel.AddNewTabAsync();
         }
 
         public void MultitaskingControl_Loaded(object sender, RoutedEventArgs e)

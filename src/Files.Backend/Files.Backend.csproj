@@ -139,6 +139,7 @@
     <Compile Include="Messages\TabAddRequestedMessage.cs" />
     <Compile Include="Messages\TabDisposalRequestedMessage.cs" />
     <Compile Include="Models\Icons\IconModel.cs" />
+    <Compile Include="Models\Icons\UriIconModel.cs" />
     <Compile Include="Models\IFileTag.cs" />
     <Compile Include="Models\JsonSettings\BaseJsonSettingsModel.cs" />
     <Compile Include="Models\JsonSettings\BaseObservableJsonSettingsModel.cs" />
@@ -171,7 +172,7 @@
     <Compile Include="ViewModels\Layouts\DetailsLayoutViewModel.cs" />
     <Compile Include="ViewModels\ItemListing\ItemListingModel.cs" />
     <Compile Include="ViewModels\Layouts\GridViewLayoutViewModel.cs" />
-    <Compile Include="ViewModels\Shell\Multitasking\BaseMultitaskingControlViewModel.cs" />
+    <Compile Include="ViewModels\Shell\Multitasking\MultitaskingControlViewModel.cs" />
     <Compile Include="ViewModels\Shell\Tabs\ITabItemViewModel.cs" />
     <Compile Include="ViewModels\Shell\Tabs\TabItemViewModel.cs" />
     <EmbeddedResource Include="Properties\Files.Backend.rd.xml" />

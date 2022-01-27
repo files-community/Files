@@ -4,7 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Files.Backend.Messages;
 using Files.Backend.Services;
@@ -15,15 +17,26 @@ using Files.Shared.Extensions;
 
 namespace Files.Backend.ViewModels.Shell.Multitasking
 {
-    public class BaseMultitaskingControlViewModel
+    public sealed class MultitaskingControlViewModel : ObservableObject
     {
         private IApplicationService ApplicationService { get; } = Ioc.Default.GetRequiredService<IApplicationService>();
 
         public ObservableCollection<TabItemViewModel> Tabs { get; }
 
-        public BaseMultitaskingControlViewModel()
+        private TabItemViewModel? _SelectedItem;
+        public TabItemViewModel SelectedItem
+        {
+            get => _SelectedItem!;
+            set => SetProperty(ref _SelectedItem, value); // TODO(i): Wake up a sleeping tab
+        }
+
+        public IRelayCommand AddTabCommand { get; }
+
+        public MultitaskingControlViewModel()
         {
             this.Tabs = new();
+
+            AddTabCommand = new RelayCommand(AddTab);
         }
 
         public void CloseTab(TabItemViewModel tabItemViewModel)
@@ -50,6 +63,11 @@ namespace Files.Backend.ViewModels.Shell.Multitasking
             WeakReferenceMessenger.Default.Send(new TabAddRequestedMessage(tabItemViewModel));
 
             return tabItemViewModel;
+        }
+
+        private void AddTab()
+        {
+            _ = AddTab(new());
         }
     }
 }
