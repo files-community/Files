@@ -29,7 +29,6 @@
             <SolidColorBrush x:Key="ContentDialogBorderBrush" Color="#00000000" />
             <!--  Dual Panes  -->
             <SolidColorBrush x:Key="PaneBorderBrush" Color="#00000000" />
-            <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="#000000" />
             <!--  File Browser Control Background  -->
             <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="#000000" />
             <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="#000000" />
@@ -113,7 +112,6 @@
             <SolidColorBrush x:Key="ContentDialogBorderBrush" Color="#00000000" />
             <!--  Dual Panes  -->
             <SolidColorBrush x:Key="PaneBorderBrush" Color="#00000000" />
-            <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="#000000" />
             <!--  File Browser Control Background  -->
             <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="#000000" />
             <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="#000000" />

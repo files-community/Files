@@ -48,8 +48,6 @@
                             <SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
                             <!--  Horizontal Tab Control  -->
                             <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
-                            <!--  PaneHolderPage  -->
-                            <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="Transparent" />
                             <!--  File Browser Control  -->
                             <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
@@ -84,8 +82,6 @@
                             <SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
                             <!--  Horizontal Tab Control  -->
                             <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
-                            <!--  PaneHolderPage  -->
-                            <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="Transparent" />
                             <!--  File Browser Control  -->
                             <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
@@ -131,8 +127,6 @@
                             <SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
                             <!--  Horizontal Tab Control  -->
                             <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
-                            <!--  PaneHolderPage  -->
-                            <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="Transparent" />
                             <!--  File Browser Control  -->
                             <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
                             <StaticResource x:Key="FileBrowserHeaderBackgroundBrush" ResourceKey="SolidBackgroundFillColorBaseBrush" />
