@@ -21,8 +21,6 @@
                         <ResourceDictionary x:Key="Light">
                             <Color x:Key="SolidBackgroundAcrylic">#FFFFFF</Color>
                             <!--  Corner Radius  -->
-                            <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
-                            <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
                             <CornerRadius x:Key="NavToolbarCornerRadius">0,0,0,8</CornerRadius>
                             <!--  Tabs  -->
                             <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SubtleFillColorTransparent}" />
@@ -49,8 +47,6 @@
                         <ResourceDictionary x:Key="Default">
                             <Color x:Key="SolidBackgroundAcrylic">#2C2C2C</Color>
                             <!--  Corner Radius  -->
-                            <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
-                            <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
                             <CornerRadius x:Key="NavToolbarCornerRadius">0,0,0,8</CornerRadius>
 
                             <!--  Tabs  -->
@@ -89,8 +85,6 @@
                             <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{StaticResource SystemColorWindowColor}" />
                             <Color x:Key="SolidBackgroundAcrylic">#2C2C2C</Color>
                             <!--  Corner Radius  -->
-                            <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
-                            <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
                             <CornerRadius x:Key="NavToolbarCornerRadius">0,0,0,8</CornerRadius>
                             <!--  Tabs  -->
                             <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SystemColorWindowColor}" />
