@@ -1392,7 +1392,7 @@
           <target state="translated">자세히</target>
         </trans-unit>
         <trans-unit id="No" translate="yes" xml:space="preserve">
-          <source>No</source>/
+          <source>No</source>
           <target state="translated">아니오</target>
         </trans-unit>
         <trans-unit id="UpdateConsentDialogContent" translate="yes" xml:space="preserve">
