@@ -77,14 +77,6 @@
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintOpacity="0.65" />
 
-            <!--  PreviewPane  -->
-            <AcrylicBrush
-                x:Key="PreviewPaneBackgroundBrush"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
-                TintColor="{ThemeResource SolidBackgroundFillColorBase}"
-                TintOpacity="0.65" />
-
             <!--  Sidebar  -->
             <AcrylicBrush
                 x:Key="SidebarContentBackgroundBrush"
@@ -165,14 +157,6 @@
                 BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
-                TintOpacity="0.5" />
-
-            <!--  PreviewPane  -->
-            <AcrylicBrush
-                x:Key="PreviewPaneBackgroundBrush"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
-                TintColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintOpacity="0.5" />
 
             <!--  Sidebar  -->
