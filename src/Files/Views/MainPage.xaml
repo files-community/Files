@@ -357,8 +357,8 @@
                 <RowDefinition Height="32" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*" />
-                <ColumnDefinition Width="Auto" MinWidth="100" />
+                <ColumnDefinition Width="3*" MinWidth="100" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition x:Name="PreviewPaneColumn" Width="Auto" />
             </Grid.ColumnDefinitions>
 
