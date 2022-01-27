@@ -355,21 +355,15 @@
                 SizeChanged="RootGrid_SizeChanged">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" MinHeight="100" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition
-                        x:Name="PreviewPaneRow"
-                        Height="0"
-                        MaxHeight="250" />
+                    <RowDefinition x:Name="PreviewPaneRow" Height="Auto" />
                     <RowDefinition Height="32" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="3*" MinWidth="100" />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition
-                        x:Name="PreviewPaneColumn"
-                        Width="0"
-                        MaxWidth="400" />
+                    <ColumnDefinition x:Name="PreviewPaneColumn" Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <controls:InnerNavigationToolbar
