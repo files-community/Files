@@ -81,10 +81,10 @@ namespace Files.Helpers
                 return false;
             }
 
-          return fileExtensionToCheck.Equals(".fon", StringComparison.OrdinalIgnoreCase) ||
-                   fileExtensionToCheck.Equals(".otf", StringComparison.OrdinalIgnoreCase) ||
-                   fileExtensionToCheck.Equals(".ttc", StringComparison.OrdinalIgnoreCase) ||
-                   fileExtensionToCheck.Equals(".ttf", StringComparison.OrdinalIgnoreCase);
+            return fileExtensionToCheck.Equals(".fon", StringComparison.OrdinalIgnoreCase) ||
+                     fileExtensionToCheck.Equals(".otf", StringComparison.OrdinalIgnoreCase) ||
+                     fileExtensionToCheck.Equals(".ttc", StringComparison.OrdinalIgnoreCase) ||
+                     fileExtensionToCheck.Equals(".ttf", StringComparison.OrdinalIgnoreCase);
         }
     }
 }
