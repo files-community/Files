@@ -3498,6 +3498,18 @@ Files 不會收集、儲存、共享或發佈任何使用者的個人資料。
           <source>Open in</source>
           <target state="translated">開啟於</target>
         </trans-unit>
+        <trans-unit id="RotateLeft" translate="yes" xml:space="preserve">
+          <source>Rotate left</source>
+          <target state="new">Rotate left</target>
+        </trans-unit>
+        <trans-unit id="RotateRight" translate="yes" xml:space="preserve">
+          <source>Rotate right</source>
+          <target state="new">Rotate right</target>
+        </trans-unit>
+        <trans-unit id="Install" translate="yes" xml:space="preserve">
+          <source>Install</source>
+          <target state="new">Install</target>
+        </trans-unit>
       </group>
     </body>
   </file>

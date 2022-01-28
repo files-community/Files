@@ -2232,11 +2232,11 @@
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
 *個人資料收集聲明*
-Files 不會收集、存儲、共享或發布任何使用者的個資。
+Files 不會收集、儲存、共享或發佈任何使用者的個人資料。
 
-*非個資數據收集聲明*
+*非個人資料數據收集聲明*
 
-我們使用 App Center 來追蹤使用者在應用程式的使用情況，並藉此查找錯誤及修復問題。所有資料都是以匿名身分回傳至 App Center，您的個資也不會被回傳。
+我們使用 App Center 來追蹤使用者在應用程式的使用情況，並藉此查找錯誤及修復問題。所有資料都是以匿名身份回傳至 App Center，您的個人資料也不會被回傳。
   </value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
@@ -2459,7 +2459,7 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
     <value>系統</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
-    <value>系統（增強）</value>
+    <value>系統（進階）</value>
   </data>
   <data name="Windows7" xml:space="preserve">
     <value>Windows 7</value>
@@ -2595,5 +2595,38 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>位元組</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>解壓縮</value>
+  </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>解壓縮檔案</value>
+  </data>
+  <data name="ExtractHere" xml:space="preserve">
+    <value>解壓縮至此</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="ExtractToChildFolder" xml:space="preserve">
+    <value>解壓縮至 {0}</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>執行腳本</value>
+  </data>
+  <data name="RunWithPowerShell" xml:space="preserve">
+    <value>以PowerShell執行</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>設定為桌面背景</value>
+  </data>
+  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
+    <value>停用此選項前請勿移除Files，否則你將無法開啟檔案總管。</value>
+  </data>
+  <data name="ShowFolderSizesWarning" xml:space="preserve">
+    <value>計算資料夾大小消耗較多資源，可能會導致你的中央處理器使用率上升。</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>開啟於</value>
   </data>
 </root>

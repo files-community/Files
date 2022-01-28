@@ -3515,6 +3515,18 @@ We use App Center to track which settings are being used, find bugs, and fix cra
           <source>Open in</source>
           <target state="new">Open in</target>
         </trans-unit>
+        <trans-unit id="RotateLeft" translate="yes" xml:space="preserve">
+          <source>Rotate left</source>
+          <target state="new">Rotate left</target>
+        </trans-unit>
+        <trans-unit id="RotateRight" translate="yes" xml:space="preserve">
+          <source>Rotate right</source>
+          <target state="new">Rotate right</target>
+        </trans-unit>
+        <trans-unit id="Install" translate="yes" xml:space="preserve">
+          <source>Install</source>
+          <target state="new">Install</target>
+        </trans-unit>
       </group>
     </body>
   </file>

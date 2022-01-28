@@ -2572,4 +2572,61 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Files mit Windows starten</value>
   </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Attribute</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Versteckt</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>Weitere Details</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Nur lesen</value>
+  </data>
+  <data name="CleanupDrive" xml:space="preserve">
+    <value>Datenträgerinhalt bereinigen</value>
+  </data>
+  <data name="DiskCleanup" xml:space="preserve">
+    <value>Datenträger bereinigen</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Typ:</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Bytes</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Entpacken</value>
+  </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>Dateien entpacken</value>
+  </data>
+  <data name="ExtractHere" xml:space="preserve">
+    <value>Hier entpacken</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Strg+E</value>
+  </data>
+  <data name="ExtractToChildFolder" xml:space="preserve">
+    <value>Nach {0} entpacken</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Skriptdatei ausführen</value>
+  </data>
+  <data name="RunWithPowerShell" xml:space="preserve">
+    <value>Mit PowerShell ausführen</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Als Desktophintergrund festlegen</value>
+  </data>
+  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
+    <value>Entferne Files nicht von deinem Gerät bevor diese Option ausgeschaltet ist, da ansonsten der Dateiexplorer nicht mehr geöffnet werden kann.</value>
+  </data>
+  <data name="ShowFolderSizesWarning" xml:space="preserve">
+    <value>Da das Berechnen der Ordnergrößen rechenintensiv ist kann die CPU-Auslastung erhöht werden.</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Öffnen in</value>
+  </data>
 </root>
