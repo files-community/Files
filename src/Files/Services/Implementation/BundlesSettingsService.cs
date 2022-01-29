@@ -47,5 +47,9 @@ namespace Files.Services.Implementation
             // Return string in Json format
             return jsonSettingsSerializer.SerializeToJson(SavedBundles);
         }
+
+        public void ReportToAppCenter()
+        {
+        }
     }
 }

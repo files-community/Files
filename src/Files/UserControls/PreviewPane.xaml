@@ -28,7 +28,6 @@
     <Grid
         x:Name="RootGrid"
         HorizontalAlignment="Stretch"
-        Background="{ThemeResource PreviewPaneBackgroundBrush}"
         BorderBrush="{ThemeResource ControlStrokeColorDefault}"
         BorderThickness="0,0,0,1">
         <Grid.RowDefinitions>

@@ -97,5 +97,13 @@ namespace Files.Interacts
         void DecompressArchiveHere();
 
         void DecompressArchiveToChildFolder();
+
+        Task InstallInfDriver();
+
+        void RotateImageLeft();
+
+        void RotateImageRight();
+
+        void InstallFont();
     }
 }

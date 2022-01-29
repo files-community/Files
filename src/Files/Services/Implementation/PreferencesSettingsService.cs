@@ -1,4 +1,5 @@
 ﻿using Files.Models.JsonSettings;
+using Microsoft.AppCenter.Analytics;
 using System.Collections.Generic;
 
 namespace Files.Services.Implementation
@@ -9,34 +10,6 @@ namespace Files.Services.Implementation
         {
             // Initialize settings
             this.RegisterSettingsContext(settingsSharingContext);
-        }
-
-        public override void RaiseOnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
-        {
-            switch (e.settingName)
-            {
-                case nameof(ShowConfirmDeleteDialog):
-                case nameof(OpenFoldersInNewTab):
-                case nameof(ShowFileExtensions):
-                case nameof(AreHiddenItemsVisible):
-                case nameof(AreSystemItemsHidden):
-                case nameof(ListAndSortDirectoriesAlongsideFiles):
-                case nameof(OpenFilesWithOneClick):
-                case nameof(OpenFoldersWithOneClick):
-                case nameof(SearchUnindexedItems):
-                case nameof(AreLayoutPreferencesPerFolder):
-                case nameof(AdaptiveLayoutEnabled):
-                case nameof(AreFileTagsEnabled):
-                case nameof(ShowFolderSize):
-                case nameof(OpenSpecificPageOnStartup):
-                case nameof(ContinueLastSessionOnStartUp):
-                case nameof(OpenNewTabOnStartup):
-                case nameof(AlwaysOpenNewInstance):
-                    Microsoft.AppCenter.Analytics.Analytics.TrackEvent($"{e.settingName} {e.newValue}");
-                    break;
-            }
-
-            base.RaiseOnSettingChangedEvent(sender, e);
         }
 
         public bool ShowConfirmDeleteDialog
@@ -157,6 +130,55 @@ namespace Files.Services.Implementation
         {
             get => Get<List<string>>(null);
             set => Set(value);
+        }
+
+        public override void RaiseOnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        {
+            switch (e.settingName)
+            {
+                case nameof(ShowConfirmDeleteDialog):
+                case nameof(OpenFoldersInNewTab):
+                case nameof(ShowFileExtensions):
+                case nameof(AreHiddenItemsVisible):
+                case nameof(AreSystemItemsHidden):
+                case nameof(ListAndSortDirectoriesAlongsideFiles):
+                case nameof(OpenFilesWithOneClick):
+                case nameof(OpenFoldersWithOneClick):
+                case nameof(SearchUnindexedItems):
+                case nameof(AreLayoutPreferencesPerFolder):
+                case nameof(AdaptiveLayoutEnabled):
+                case nameof(AreFileTagsEnabled):
+                case nameof(ShowFolderSize):
+                case nameof(OpenSpecificPageOnStartup):
+                case nameof(ContinueLastSessionOnStartUp):
+                case nameof(OpenNewTabOnStartup):
+                case nameof(AlwaysOpenNewInstance):
+                    Analytics.TrackEvent($"{e.settingName} {e.newValue}");
+                    break;
+            }
+
+            base.RaiseOnSettingChangedEvent(sender, e);
+        }
+
+        public void ReportToAppCenter()
+        {
+            Analytics.TrackEvent($"{nameof(ShowConfirmDeleteDialog)}, {ShowConfirmDeleteDialog}");
+            Analytics.TrackEvent($"{nameof(OpenFoldersInNewTab)}, {OpenFoldersInNewTab}");
+            Analytics.TrackEvent($"{nameof(ShowFileExtensions)}, {ShowFileExtensions}");
+            Analytics.TrackEvent($"{nameof(AreHiddenItemsVisible)}, {AreHiddenItemsVisible}");
+            Analytics.TrackEvent($"{nameof(AreSystemItemsHidden)}, {AreSystemItemsHidden}");
+            Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)}, {ListAndSortDirectoriesAlongsideFiles}");
+            Analytics.TrackEvent($"{nameof(OpenFilesWithOneClick)}, {OpenFilesWithOneClick}");
+            Analytics.TrackEvent($"{nameof(OpenFoldersWithOneClick)}, {OpenFoldersWithOneClick}");
+            Analytics.TrackEvent($"{nameof(SearchUnindexedItems)}, {SearchUnindexedItems}");
+            Analytics.TrackEvent($"{nameof(AreLayoutPreferencesPerFolder)}, {AreLayoutPreferencesPerFolder}");
+            Analytics.TrackEvent($"{nameof(AdaptiveLayoutEnabled)}, {AdaptiveLayoutEnabled}");
+            Analytics.TrackEvent($"{nameof(AreFileTagsEnabled)}, {AreFileTagsEnabled}");
+            Analytics.TrackEvent($"{nameof(ShowFolderSize)}, {ShowFolderSize}");
+            Analytics.TrackEvent($"{nameof(OpenSpecificPageOnStartup)}, {OpenSpecificPageOnStartup}");
+            Analytics.TrackEvent($"{nameof(ContinueLastSessionOnStartUp)}, {ContinueLastSessionOnStartUp}");
+            Analytics.TrackEvent($"{nameof(OpenNewTabOnStartup)}, {OpenNewTabOnStartup}");
+            Analytics.TrackEvent($"{nameof(AlwaysOpenNewInstance)}, {AlwaysOpenNewInstance}");
         }
     }
 }

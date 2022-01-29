@@ -354,10 +354,10 @@ namespace FilesFullTrust
             RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"kernel32.dll\\\", SetLastError = false)]public static extern bool SetVolumeLabel(string lpRootPathName, string lpVolumeName);'; $SetVolumeLabel = Add-Type -MemberDefinition $Signature -Name \"Win32SetVolumeLabel\" -Namespace Win32Functions -PassThru; $SetVolumeLabel::SetVolumeLabel('{driveName}', '{newLabel}')\"", true);
         }
 
-        public static void MountVhdDisk(string vhdPath)
+        public static bool MountVhdDisk(string vhdPath)
         {
             // mounting requires elevation
-            RunPowershellCommand($"-command \"Mount-DiskImage -ImagePath '{vhdPath}'\"", true);
+            return RunPowershellCommand($"-command \"Mount-DiskImage -ImagePath '{vhdPath}'\"", true);
         }
 
         public static Bitmap GetBitmapFromHBitmap(HBITMAP hBitmap)
@@ -640,5 +640,29 @@ namespace FilesFullTrust
         [DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Auto)]
         public static extern int SHQueryRecycleBin(string pszRootPath,
             ref SHQUERYRBINFO pSHQueryRBInfo);
+
+        public static bool InfDefaultInstall(string filePath)
+        {
+            try
+            {
+                using Process process = new Process();
+                process.StartInfo.FileName = "InfDefaultInstall.exe";
+                process.StartInfo.Verb = "runas";
+                process.StartInfo.UseShellExecute = true;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.Arguments = $"{filePath}";
+                process.Start();
+                if (process.WaitForExit(30 * 1000))
+                {
+                    return process.ExitCode == 0;
+                }
+                return false;
+            }
+            catch (Win32Exception)
+            {
+                // If user cancels UAC
+                return false;
+            }
+        }
     }
 }

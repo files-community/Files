@@ -75,7 +75,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Elérési út megadása</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Keresés</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
@@ -1027,7 +1027,7 @@
     <value>Visszajelzés küldése a fejlesztőknek</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Támogatás PayPal-on</value>
+    <value>Támogatás GitHub-on</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Részletek</value>
@@ -1764,9 +1764,6 @@
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Beillesztés</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Megnyitás terminálban...</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Új</value>
   </data>
@@ -1996,7 +1993,7 @@
     <value>Almappák engedélyeinek lecserélése ennek az objektum engedélyeivel</value>
   </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>Pane bezárása</value>
+    <value>Panel bezárása</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
     <value>Fájl leírása</value>
@@ -2107,7 +2104,7 @@
     <value>Mappák rendezése a fájlokkal együtt</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Nem indexelt elemek megjelenítése a fájlok és mappák keresésekor (hoszabb keresési idő)</value>
+    <value>Nem indexelt elemek megjelenítése a fájlok és mappák keresésekor</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
     <value>Beállítások megjegyzése mappánként</value>
@@ -2422,5 +2419,182 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Mappa útvonala</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>Beállítások exportálása</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>Beállítások importálása</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>Beállítások kezelése</value>
+  </data>
+  <data name="SettingsImportErrorDescription" xml:space="preserve">
+    <value>Nem sikerült a beállítások importálása, a fájl sérült lehet.</value>
+  </data>
+  <data name="SettingsImportErrorTitle" xml:space="preserve">
+    <value>Hiba történt az importálás közben</value>
+  </data>
+  <data name="ChooseCustomIcon" xml:space="preserve">
+    <value>Egyéni mappa ikon</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Testreszabás</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>Visszaállítás</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>Kompatibilitás</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Egyik sem</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
+    <value>Bejelentkezem a Windows-ba</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
+    <value>Elindítom ezt a programot</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>Rendszer</value>
+  </data>
+  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
+    <value>Rendszer (kibővített)</value>
+  </data>
+  <data name="Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
+    <value>Windows Vista SP1</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
+    <value>Windows Vista SP2</value>
+  </data>
+  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
+    <value>16 bites (65536) szín</value>
+  </data>
+  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
+    <value>8 bites (256) szín</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Kompatibilis üzemmód</value>
+  </data>
+  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+    <value>Teljes képernyős optimalizálások letiltása</value>
+  </data>
+  <data name="ExecuteAt640X480" xml:space="preserve">
+    <value>Futtatás 640 x 480 képpontos képernyőfelbontással</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Beállítások</value>
+  </data>
+  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
+    <value>Nagy DIP-beállítások módosítása</value>
+  </data>
+  <data name="ReducedColorMode" xml:space="preserve">
+    <value>Csökkentett színmód</value>
+  </data>
+  <data name="RegisterForRestart" xml:space="preserve">
+    <value>Program újraindításának regisztrálása</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>Futtatás rendszergazdaként</value>
+  </data>
+  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+    <value>Kompatibilitási hibaelhárító futtatása</value>
+  </data>
+  <data name="UseMainMonitorDPISettings" xml:space="preserve">
+    <value>Használja az elsődleges kijelzőhöz beállított DPI-t, amikor</value>
+  </data>
+  <data name="SettingsDefaultFilesManager" xml:space="preserve">
+    <value>Alapértelmezett fájlkezelő</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
+    <value>A Files beállítása alapértelmezett fájlkezelőként</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Lomtár kiürítése</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Oldalsáv</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Fájlok és mappák</value>
+  </data>
+  <data name="OpenNewInstance" xml:space="preserve">
+    <value>A mappák tálcáról megnyitásakor új folyamat indítása</value>
+  </data>
+  <data name="StartupSettings" xml:space="preserve">
+    <value>Indítás</value>
+  </data>
+  <data name="ThirdPartyLicenses" xml:space="preserve">
+    <value>Harmadik fél licencei</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
+    <value>Ez az opció rendszerfájlokat módosít és nem várt következményei is lehetnek az eszközödön. A fejlesztők nem vállalnak felelősséget az emiatt esetlegesen bekövetkező problémákért. Az opció engedélyezésével automatikusan elfogadod az ezzel járó kockázatot. Emellett szeretnénk felhívni a figyelmedet arra, hogy a Files eltávolításával a módosítások nem kerülnek visszaállításra és előfordulhat, hogy nem tudod újra használni a Windows Fájlkezelőt, kivéve ha a Files eltávolítása előtt le nem tiltod ezt az opciót.</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Összes törlése</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Oszlopok</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Nagy ikonok</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Közepes ikonok</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Kis ikonok</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Lista</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Könyvtár létrehozása</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>A könyvtár neve</value>
+  </data>
+  <data name="ShowFolderSize" xml:space="preserve">
+    <value>Mappák méretének megjelenítése</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Kihagyás</value>
+  </data>
+  <data name="SettingsOpenInLogin" xml:space="preserve">
+    <value>A Files futtatása a Windows indulásakor</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Attribútumok</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Rejtett</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>Részletek</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Írásvédett</value>
+  </data>
+  <data name="CleanupDrive" xml:space="preserve">
+    <value>Meghajtó tárterület kezelése</value>
+  </data>
+  <data name="DiskCleanup" xml:space="preserve">
+    <value>Tárterület kezelése</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Típus:</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Bájt</value>
   </data>
 </root>

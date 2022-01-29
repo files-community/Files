@@ -132,7 +132,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Entrer un chemin d'accès</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Rechercher</value>
   </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
@@ -1763,9 +1763,6 @@
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Coller</value>
-  </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Ouvrir dans le Terminal...</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nouveau</value>

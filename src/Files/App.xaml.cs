@@ -26,6 +26,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -156,6 +157,8 @@ namespace Files
 
         private static async Task InitializeAppComponentsAsync()
         {
+            var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
             // Start off a list of tasks we need to run before we can continue startup
             await Task.Run(async () =>
             {
@@ -175,6 +178,8 @@ namespace Files
                     ExternalResourcesHelper.LoadOtherThemesAsync(),
                     ContextFlyoutItemHelper.CachedNewContextMenuEntries
                 );
+
+                userSettingsService.ReportToAppCenter();
             });
 
             // Check for required updates
@@ -522,6 +527,20 @@ namespace Files
             }
 
             DrivesManager?.Dispose();
+
+            // Try to maintain clipboard data after app close
+            Common.Extensions.IgnoreExceptions(() =>
+            {
+                var dataPackage = Clipboard.GetContent();
+                if (dataPackage.Properties.PackageFamilyName == Package.Current.Id.FamilyName)
+                {
+                    if (dataPackage.Contains(StandardDataFormats.StorageItems))
+                    {
+                        Clipboard.Flush();
+                    }
+                }
+            }, Logger);
+
             deferral.Complete();
         }
 

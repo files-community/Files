@@ -33,7 +33,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-
 using SortDirection = Files.Enums.SortDirection;
 
 namespace Files.Views
@@ -204,6 +203,16 @@ namespace Files.Views
             NavToolbarViewModel.DeleteCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DeleteItemCommand.Execute(null));
             NavToolbarViewModel.CutCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.CutItemCommand.Execute(null));
             NavToolbarViewModel.EmptyRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.EmptyRecycleBinCommand.Execute(null));
+            NavToolbarViewModel.RunWithPowerShellCommand = new RelayCommand(async () => await Win32Helpers.InvokeWin32ComponentAsync("powershell", this, PathNormalization.NormalizePath(SlimContentPage?.SelectedItem.ItemPath)));
+            NavToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
+            NavToolbarViewModel.SetAsBackgroundCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.SetAsDesktopBackgroundItemCommand.Execute(null));
+            NavToolbarViewModel.ExtractCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveCommand.Execute(null));
+            NavToolbarViewModel.ExtractHereCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveHereCommand.Execute(null));
+            NavToolbarViewModel.ExtractToCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveToChildFolderCommand.Execute(null));
+            NavToolbarViewModel.InstallInfCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallInfDriver.Execute(null));
+            NavToolbarViewModel.RotateImageLeftCommand = new RelayCommand(async () => SlimContentPage?.CommandsViewModel.RotateImageLeftCommand.Execute(null));
+            NavToolbarViewModel.RotateImageRightCommand = new RelayCommand(async () => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.Execute(null));
+            NavToolbarViewModel.InstallFontCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallFontCommand.Execute(null));
         }
 
         private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
@@ -547,6 +556,7 @@ namespace Files.Views
             FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
             FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
             FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
+            FilesystemViewModel.ListedItemAdded += FilesystemViewModel_ListedItemAdded;
             OnNavigationParamsChanged();
             this.Loaded -= Page_Loaded;
         }
@@ -573,6 +583,18 @@ namespace Files.Views
                 {
                     ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemsCount/Text".GetLocalized()}";
                 }
+            }
+        }
+
+        private void FilesystemViewModel_ListedItemAdded(object sender, ListedItemAddedEventArgs e)
+        {
+            ListedItem itemToSelect = e?.Item;
+            if (itemToSelect != null && ContentPage != null)
+            {
+                // set focus since selection might occur before the UI finishes updating
+                ContentPage.ItemManipulationModel.FocusFileList();
+                ContentPage.ItemManipulationModel.SetSelectedItem(itemToSelect);
+                ContentPage.ItemManipulationModel.ScrollIntoView(itemToSelect);
             }
         }
 
@@ -622,6 +644,15 @@ namespace Files.Views
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
+                case (true, false, false, true, VirtualKey.E): // ctrl + e, extract
+                    {
+                        if (NavToolbarViewModel.CanExtract)
+                        {
+                            NavToolbarViewModel.ExtractCommand.Execute(null);
+                        }
+                        break;
+                    }
+
                 case (true, false, false, true, VirtualKey.Z): // ctrl + z, undo
                     if (!InstanceViewModel.IsPageTypeSearchResults)
                     {
@@ -747,6 +778,10 @@ namespace Files.Views
                     break;
                 case (true, false, false, true, VirtualKey.H): // ctrl + h, show/hide hidden items
                     UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = !UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible;
+                    break;
+                
+                case (true, true, false, true, VirtualKey.K): // ctrl + shift + k, duplicate tab
+                    await NavigationHelpers.OpenPathInNewTab(this.FilesystemViewModel.WorkingDirectory);
                     break;
 
                 case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
@@ -949,6 +984,7 @@ namespace Files.Views
                 FilesystemViewModel.DirectoryInfoUpdated -= FilesystemViewModel_DirectoryInfoUpdated;
                 FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
                 FilesystemViewModel.OnSelectionRequestedEvent -= FilesystemViewModel_OnSelectionRequestedEvent;
+                FilesystemViewModel.ListedItemAdded -= FilesystemViewModel_ListedItemAdded;
                 FilesystemViewModel.Dispose();
             }
 
@@ -976,8 +1012,6 @@ namespace Files.Views
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete:
                     NavToolbarViewModel.CanRefresh = true;
                     SetLoadingIndicatorForTabs(false);
-                    // Set focus to the file list to allow arrow navigation
-                    ContentPage?.ItemManipulationModel.FocusFileList();
                     // Select previous directory
                     if (!InstanceViewModel.IsPageTypeSearchResults && !string.IsNullOrWhiteSpace(e.PreviousDirectory))
                     {
@@ -1131,6 +1165,7 @@ namespace Files.Views
 
     public class NavigationArguments
     {
+        public bool FocusOnNavigation { get; set; } = false;
         public string NavPathParam { get; set; } = null;
         public IShellPage AssociatedTabInstance { get; set; }
         public bool IsSearchResultPage { get; set; } = false;

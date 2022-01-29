@@ -48,6 +48,7 @@ namespace FilesFullTrust
                 messageHandlers.Add(new ContextMenuHandler());
                 messageHandlers.Add(new QuickLookHandler());
                 messageHandlers.Add(new Win32MessageHandler());
+                messageHandlers.Add(new InstallOperationsHandler());
 
                 // Connect to app service and wait until the connection gets closed
                 appServiceExit = new ManualResetEvent(false);
