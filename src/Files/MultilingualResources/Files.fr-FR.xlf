@@ -3250,11 +3250,11 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="HighDpiOption_UseDPIOnLogin" translate="yes" xml:space="preserve">
           <source>On Windows login</source>
-          <target state="new">On Windows login</target>
+          <target state="translated">À la connexion Windows </target>
         </trans-unit>
         <trans-unit id="HighDpiOption_UseDPIOnProgramStart" translate="yes" xml:space="preserve">
           <source>On program start</source>
-          <target state="new">On program start</target>
+          <target state="translated">Au démarrage du programme</target>
         </trans-unit>
         <trans-unit id="HighDpiOverride_System" translate="yes" xml:space="preserve">
           <source>System</source>
@@ -3326,7 +3326,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="RunCompatibilityTroubleShooter" translate="yes" xml:space="preserve">
           <source>Run compatibility troubleshooter</source>
-          <target state="new">Run compatibility troubleshooter</target>
+          <target state="translated">Résoudre les problèmes de compatibilité</target>
         </trans-unit>
         <trans-unit id="UseMainMonitorDPISettings" translate="yes" xml:space="preserve">
           <source>Use DPI settings of the main monitor</source>
@@ -3390,7 +3390,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="Tiles" translate="yes" xml:space="preserve">
           <source>Tiles</source>
-          <target state="new">Tiles</target>
+          <target state="translated">Tuiles</target>
         </trans-unit>
         <trans-unit id="FolderWidgetCreateNewLibraryDialogTitleText" translate="yes" xml:space="preserve">
           <source>Create Library</source>
@@ -3418,7 +3418,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="Hidden" translate="yes" xml:space="preserve">
           <source>Hidden</source>
-          <target state="new">Hidden</target>
+          <target state="translated">Caché</target>
         </trans-unit>
         <trans-unit id="MoreDetails" translate="yes" xml:space="preserve">
           <source>More details</source>
@@ -3430,11 +3430,11 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="CleanupDrive" translate="yes" xml:space="preserve">
           <source>Cleanup your drive contents</source>
-          <target state="new">Cleanup your drive contents</target>
+          <target state="translated">Nettoyer le contenu du disque</target>
         </trans-unit>
         <trans-unit id="DiskCleanup" translate="yes" xml:space="preserve">
           <source>Disk cleanup</source>
-          <target state="new">Disk cleanup</target>
+          <target state="translated">Nettoyer le disque</target>
         </trans-unit>
         <trans-unit id="Type" translate="yes" xml:space="preserve">
           <source>Type:</source>
@@ -3442,7 +3442,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="Bytes" translate="yes" xml:space="preserve">
           <source>Bytes</source>
-          <target state="new">Bytes</target>
+          <target state="translated">Octets</target>
         </trans-unit>
         <trans-unit id="Extract" translate="yes" xml:space="preserve">
           <source>Extract</source>
@@ -3486,19 +3486,19 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
           <source>Open in</source>
-          <target state="new">Open in</target>
+          <target state="translated">Ouvrir dans</target>
         </trans-unit>
         <trans-unit id="RotateLeft" translate="yes" xml:space="preserve">
           <source>Rotate left</source>
-          <target state="new">Rotate left</target>
+          <target state="translated">Tourner à gauche</target>
         </trans-unit>
         <trans-unit id="RotateRight" translate="yes" xml:space="preserve">
           <source>Rotate right</source>
-          <target state="new">Rotate right</target>
+          <target state="translated">Tourner à droite</target>
         </trans-unit>
         <trans-unit id="Install" translate="yes" xml:space="preserve">
           <source>Install</source>
-          <target state="new">Install</target>
+          <target state="translated">Installer</target>
         </trans-unit>
       </group>
     </body>
