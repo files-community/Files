@@ -101,20 +101,14 @@ namespace Files.UserControls.MultitaskingControl
             return MainPageViewModel.AppInstances.Select(x => x.Control?.TabItemContent).ToList();
         }
 
-        public void CloseTabsToTheRight(object sender, RoutedEventArgs e)
-        {
-            MultitaskingTabsHelpers.CloseTabsToTheRight(((FrameworkElement)sender).DataContext as TabItem, this);
-        }
-
         public void CloseTabsToTheLeft(object sender, RoutedEventArgs e)
-        {
-            MultitaskingTabsHelpers.CloseTabsToTheLeft(((FrameworkElement)sender).DataContext as TabItem, this);
-        }
+            => MultitaskingTabsHelpers.CloseTabsToTheLeft(((FrameworkElement)sender).DataContext as TabItem, this);
+
+        public void CloseTabsToTheRight(object sender, RoutedEventArgs e)
+            => MultitaskingTabsHelpers.CloseTabsToTheRight(((FrameworkElement)sender).DataContext as TabItem, this);
 
         public void CloseOthers(object sender, RoutedEventArgs e)
-        {
-            MultitaskingTabsHelpers.CloseOthers(((FrameworkElement)sender).DataContext as TabItem, this);
-        }
+            => MultitaskingTabsHelpers.CloseOthers(((FrameworkElement)sender).DataContext as TabItem, this);
 
         public async void ReopenClosedTab(object sender, RoutedEventArgs e)
         {
