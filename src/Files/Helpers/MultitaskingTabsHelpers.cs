@@ -10,55 +10,34 @@ namespace Files.Helpers
 {
     public static class MultitaskingTabsHelpers
     {
+        public static void CloseTabsToTheLeft(TabItem clickedTab, IMultitaskingControl multitaskingControl)
+        {
+            if (multitaskingControl is not null)
+            {
+                var tabs = MainPageViewModel.AppInstances;
+                var currentIndex = tabs.IndexOf(clickedTab);
+
+                tabs.Take(currentIndex).ToList().ForEach(tab => multitaskingControl.CloseTab(tab));
+            }
+        }
+
         public static void CloseTabsToTheRight(TabItem clickedTab, IMultitaskingControl multitaskingControl)
         {
-            int index = MainPageViewModel.AppInstances.IndexOf(clickedTab);
-            List<TabItem> tabsToClose = new List<TabItem>();
-
-            for (int i = index + 1; i < MainPageViewModel.AppInstances.Count; i++)
+            if (multitaskingControl is not null)
             {
-                tabsToClose.Add(MainPageViewModel.AppInstances[i]);
-            }
+                var tabs = MainPageViewModel.AppInstances;
+                var currentIndex = tabs.IndexOf(clickedTab);
 
-            foreach (var item in tabsToClose)
-            {
-                multitaskingControl?.CloseTab(item);
+                tabs.Skip(currentIndex + 1).ToList().ForEach(tab => multitaskingControl.CloseTab(tab));
             }
         }
 
-         public static void CloseTabsToTheLeft(TabItem clickedTab, IMultitaskingControl multitaskingControl)
+        public static void CloseOthers(TabItem clickedTab, IMultitaskingControl multitaskingControl)
         {
-            int index = MainPageViewModel.AppInstances.IndexOf(clickedTab);
-            List<TabItem> tabsToClose = new List<TabItem>();
-
-            for (int i = 0; i < index; i++)
+            if (multitaskingControl is not null)
             {
-                tabsToClose.Add(MainPageViewModel.AppInstances[i]);
-            }
-
-            foreach (var item in tabsToClose)
-            {
-                multitaskingControl?.CloseTab(item);
-            }
-        }
-
-         public static void CloseOthers(TabItem clickedTab, IMultitaskingControl multitaskingControl)
-        {
-            int index = MainPageViewModel.AppInstances.IndexOf(clickedTab);
-            List<TabItem> tabsToClose = new List<TabItem>();
-
-            for (int i = 0; i < index; i++)
-            {
-                tabsToClose.Add(MainPageViewModel.AppInstances[i]);
-            }
-            for (int i = index + 1; i < MainPageViewModel.AppInstances.Count; i++)
-            {
-                tabsToClose.Add(MainPageViewModel.AppInstances[i]);
-            }
-
-            foreach (var item in tabsToClose)
-            {
-                multitaskingControl?.CloseTab(item);
+                var tabs = MainPageViewModel.AppInstances;
+                tabs.Where((t) => t != clickedTab).ToList().ForEach(tab => multitaskingControl.CloseTab(tab));
             }
         }
 
