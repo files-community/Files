@@ -639,7 +639,7 @@ namespace Files.ViewModels
 
         public async void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            var itemTappedPath = ((sender as Border).DataContext as PathBoxItem).Path;
+            var itemTappedPath = ((sender as TextBlock).DataContext as PathBoxItem).Path;
 
             if (pointerRoutedEventArgs != null)
             {
