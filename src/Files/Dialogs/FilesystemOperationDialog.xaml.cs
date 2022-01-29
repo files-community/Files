@@ -42,7 +42,10 @@ namespace Files.Dialogs
         private void PrimaryButton_GotFocus(object sender, RoutedEventArgs e)
         {
             (sender as Button).GotFocus -= PrimaryButton_GotFocus;
-            chkPermanentlyDelete.IsEnabled = ViewModel.PermanentlyDeleteEnabled;
+            if (chkPermanentlyDelete != null)
+            {
+                chkPermanentlyDelete.IsEnabled = ViewModel.PermanentlyDeleteEnabled;
+            }
             DetailsGrid.IsEnabled = true;
         }
 
