@@ -30,7 +30,6 @@
         Padding="8,0"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
-        Background="{ThemeResource StatusBarBackgroundBrush}"
         ColumnSpacing="12">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />

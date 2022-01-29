@@ -32,8 +32,6 @@
                         <ResourceDictionary x:Key="Light">
                             <Color x:Key="SolidBackgroundAcrylic">#FFFFFF</Color>
                             <!--  Corner Radius  -->
-                            <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
-                            <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
                             <CornerRadius x:Key="NavToolbarCornerRadius">0,0,0,8</CornerRadius>
                             <!--  Tabs  -->
                             <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SubtleFillColorTransparent}" />
@@ -48,15 +46,8 @@
                             <SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
                             <!--  Horizontal Tab Control  -->
                             <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
-                            <!--  PaneHolderPage  -->
-                            <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="Transparent" />
-                            <!--  Status Bar Control  -->
-                            <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="Transparent" />
                             <!--  File Browser Control  -->
-                            <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
-                            <!--  Preview pane  -->
-                            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="Transparent" />
 
                             <SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
 
@@ -69,8 +60,6 @@
                         <ResourceDictionary x:Key="Dark">
                             <Color x:Key="SolidBackgroundAcrylic">#2C2C2C</Color>
                             <!--  Corner Radius  -->
-                            <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
-                            <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
                             <CornerRadius x:Key="NavToolbarCornerRadius">0,0,0,8</CornerRadius>
 
                             <!--  Tabs  -->
@@ -86,16 +75,8 @@
                             <SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
                             <!--  Horizontal Tab Control  -->
                             <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
-                            <!--  PaneHolderPage  -->
-                            <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="Transparent" />
-                            <!--  Status Bar Control  -->
-                            <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="Transparent" />
                             <!--  File Browser Control  -->
-                            <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
-
-                            <!--  Preview pane  -->
-                            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="Transparent" />
 
                             <SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
 
@@ -119,8 +100,6 @@
                             <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{StaticResource SystemColorWindowColor}" />
                             <Color x:Key="SolidBackgroundAcrylic">#2C2C2C</Color>
                             <!--  Corner Radius  -->
-                            <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
-                            <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
                             <CornerRadius x:Key="NavToolbarCornerRadius">0,0,0,8</CornerRadius>
                             <!--  Tabs  -->
                             <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SystemColorWindowColor}" />
@@ -135,15 +114,8 @@
                             <SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
                             <!--  Horizontal Tab Control  -->
                             <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
-                            <!--  PaneHolderPage  -->
-                            <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="Transparent" />
-                            <!--  Status Bar Control  -->
-                            <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="Transparent" />
                             <!--  File Browser Control  -->
-                            <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
                             <StaticResource x:Key="FileBrowserHeaderBackgroundBrush" ResourceKey="SolidBackgroundFillColorBaseBrush" />
-                            <!--  Preview pane  -->
-                            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="Transparent" />
 
                             <SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
 
