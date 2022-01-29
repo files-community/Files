@@ -26,6 +26,42 @@ namespace Files.Helpers
             }
         }
 
+         public static void CloseTabsToTheLeft(TabItem clickedTab, IMultitaskingControl multitaskingControl)
+        {
+            int index = MainPageViewModel.AppInstances.IndexOf(clickedTab);
+            List<TabItem> tabsToClose = new List<TabItem>();
+
+            for (int i = 0; i < index; i++)
+            {
+                tabsToClose.Add(MainPageViewModel.AppInstances[i]);
+            }
+
+            foreach (var item in tabsToClose)
+            {
+                multitaskingControl?.CloseTab(item);
+            }
+        }
+
+         public static void CloseOthers(TabItem clickedTab, IMultitaskingControl multitaskingControl)
+        {
+            int index = MainPageViewModel.AppInstances.IndexOf(clickedTab);
+            List<TabItem> tabsToClose = new List<TabItem>();
+
+            for (int i = 0; i < index; i++)
+            {
+                tabsToClose.Add(MainPageViewModel.AppInstances[i]);
+            }
+            for (int i = index + 1; i < MainPageViewModel.AppInstances.Count; i++)
+            {
+                tabsToClose.Add(MainPageViewModel.AppInstances[i]);
+            }
+
+            foreach (var item in tabsToClose)
+            {
+                multitaskingControl?.CloseTab(item);
+            }
+        }
+
         public static async Task MoveTabToNewWindow(TabItem tab, IMultitaskingControl multitaskingControl)
         {
             int index = MainPageViewModel.AppInstances.IndexOf(tab);

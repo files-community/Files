@@ -59,6 +59,18 @@
                             DataContextChanged="MenuItemCloseTabsToTheRight_DataContextChanged"
                             Text="Close tabs to the right" />
                         <MenuFlyoutItem
+                            x:Name="MenuItemCloseTabsToTheLeft"
+                            x:Uid="HorizontalMultitaskingControlCloseTabsToTheLeft"
+                            Click="CloseTabsToTheLeft"
+                            DataContextChanged="MenuItemCloseTabsToTheLeft_DataContextChanged"
+                            Text="Close tabs to the right" />
+                        <MenuFlyoutItem
+                            x:Name="MenuItemCloseOthers"
+                            x:Uid="HorizontalMultitaskingControlCloseOthers"
+                            Click="CloseOthers"
+                            DataContextChanged="MenuItemCloseOthers_DataContextChanged"
+                            Text="Close tabs to the right" />
+                        <MenuFlyoutItem
                             x:Name="MenuItemReopenClosedTab"
                             x:Uid="HorizontalMultitaskingControlReopenClosedTab"
                             Click="ReopenClosedTab"

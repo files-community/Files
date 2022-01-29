@@ -203,6 +203,34 @@ namespace Files.UserControls.MultitaskingControl
             }
         }
 
+        private void MenuItemCloseTabsToTheLeft_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            TabItem tabItem = args.NewValue as TabItem;
+
+            if (MainPageViewModel.AppInstances.IndexOf(tabItem) == 0)
+            {
+                MenuItemCloseTabsToTheLeft.IsEnabled = false;
+            }
+            else
+            {
+                MenuItemCloseTabsToTheLeft.IsEnabled = true;
+            }
+        }
+
+        private void MenuItemCloseOthers_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            TabItem tabItem = args.NewValue as TabItem;
+
+            if (MainPageViewModel.AppInstances.Count == 1)
+            {
+                MenuItemCloseOthers.IsEnabled = false;
+            }
+            else
+            {
+                MenuItemCloseOthers.IsEnabled = true;
+            }
+        }
+
         public override DependencyObject ContainerFromItem(ITabItem item) => HorizontalTabView.ContainerFromItem(item);
 
         public UIElement ActionsControl
