@@ -49,6 +49,8 @@ namespace Files
 
         protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
 
+        protected IFolderSizeProvider FolderSizeProvider { get; } = Ioc.Default.GetService<IFolderSizeProvider>();
+
         protected Task<NamedPipeAsAppServiceConnection> Connection => AppServiceConnectionHelper.Instance;
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
@@ -269,13 +271,7 @@ namespace Files
                         {
                             SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemsSelected/Text".GetLocalized()}";
                             ResetRenameDoubleClick();
-
-                            bool isSizeKnown = !selectedItems.Any(item => string.IsNullOrEmpty(item.FileSize));
-                            if (isSizeKnown)
-                            {
-                                long size = selectedItems.Sum(item => item.FileSizeBytes);
-                                SelectedItemsPropertiesViewModel.ItemSize = size.ToSizeString();
-                            }
+                            UpdateSelectionSize();
                         }
                     }
 
@@ -312,6 +308,8 @@ namespace Files
 
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
             tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+
+            FolderSizeProvider.FolderSizeChanged += FolderSizeProvider_FolderSizeChanged;
         }
 
         protected abstract void HookEvents();
@@ -531,6 +529,22 @@ namespace Files
             await ParentShellPageInstance.FilesystemViewModel.ReloadItemGroupHeaderImagesAsync();
         }
 
+        private void FolderSizeProvider_FolderSizeChanged(object sender, FolderSizeChangedEventArgs e)
+        {
+            if (e.Folder is null)
+            {
+                SelectedItemsPropertiesViewModel.IsSizeKnown = false;
+                SelectedItemsPropertiesViewModel.ItemSizeBytes = 0;
+                SelectedItemsPropertiesViewModel.ItemSize = string.Empty;
+            }
+
+            var items = (selectedItems?.Any() ?? false) ? selectedItems : GetAllItems();
+            if (items.Contains(e.Folder))
+            {
+                UpdateSelectionSize();
+            }
+        }
+
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
@@ -624,16 +638,27 @@ namespace Files
         {
             if (e.PropertyName == nameof(ListedItem.FileSize))
             {
-                var items = selectedItems;
-                if (items is not null)
+                UpdateSelectionSize();
+            }
+        }
+
+        private void UpdateSelectionSize()
+        {
+            var items = (selectedItems?.Any() ?? false) ? selectedItems : GetAllItems();
+            if (items is not null)
+            {
+                bool isSizeKnown = !items.Any(item => string.IsNullOrEmpty(item.FileSize));
+                SelectedItemsPropertiesViewModel.IsSizeKnown = isSizeKnown;
+                if (isSizeKnown)
                 {
-                    bool isSizeKnown = !items.Any(item => string.IsNullOrEmpty(item.FileSize));
-                    if (isSizeKnown)
-                    {
-                        long size = items.Sum(item => item.FileSizeBytes);
-                        SelectedItemsPropertiesViewModel.ItemSizeBytes = size;
-                        SelectedItemsPropertiesViewModel.ItemSize = size.ToSizeString();
-                    }
+                    long size = items.Sum(item => item.FileSizeBytes);
+                    SelectedItemsPropertiesViewModel.ItemSizeBytes = size;
+                    SelectedItemsPropertiesViewModel.ItemSize = size.ToSizeString();
+                }
+                else
+                {
+                    SelectedItemsPropertiesViewModel.ItemSizeBytes = 0;
+                    SelectedItemsPropertiesViewModel.ItemSize = string.Empty;
                 }
             }
         }
