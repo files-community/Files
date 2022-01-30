@@ -2231,11 +2231,6 @@
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
-*Dati personali raccolti*
-Files non raccoglie, archivia, condivide o pubblica nessuna informazione personale.
-
-*Dati non-personali raccolti*
-
 Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risolvere problemi. Tutte le informazioni inviate ad App Center sono anonime e non contengono dati utente o contestuali.
   </value>
   </data>
@@ -2537,7 +2532,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
     <value>Licenze di terze parti</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Questa impostazione modifica file di sistema e può causare effetti indesiderati sul tuo dispositivo. Gli sviluppatori non si assumono alcuna responsabilità. Continuando con questa opzione si accettano i rischi legati ad essa. Da notare che disinstallare Files non annulla questa modifica e potrebbe causare l'impossibilità di aprire Esplora Risorse, ricorda di disattivare questa opzione prima di disinstallare Files!</value>
+    <value>Questa impostazione modifica il registro di sistema e può causare effetti indesiderati sul tuo dispositivo. Continuando con questa opzione si accettano i rischi legati ad essa.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Rimuovi tutto</value>
@@ -2595,5 +2590,47 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Byte</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Estrai</value>
+  </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>Estrai i file</value>
+  </data>
+  <data name="ExtractHere" xml:space="preserve">
+    <value>Estrai qui</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="ExtractToChildFolder" xml:space="preserve">
+    <value>Estrai in {0}</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Esegui script</value>
+  </data>
+  <data name="RunWithPowerShell" xml:space="preserve">
+    <value>Esegui con PowerShell</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Imposta come sfondo desktop</value>
+  </data>
+  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
+    <value>Non disinstallare Files senza aver disabilitato questa opzione. Non farlo causa l'impossibilità di aprire Esplora Risorse.</value>
+  </data>
+  <data name="ShowFolderSizesWarning" xml:space="preserve">
+    <value>Calcolare la dimensione delle cartelle richiede molte risorse a aumenta il carico CPU.</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Apri in</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Ruota a sinistra</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Ruota a destra</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Installa</value>
   </data>
 </root>
