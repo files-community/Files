@@ -2629,6 +2629,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   </data>
   <data name="Install" xml:space="preserve">
     <value>Installa</value>
+  </data>
   <data name="CloseTabsToTheLeft" xml:space="preserve">
     <value>Chiudi schede a sinistra</value>
   </data>

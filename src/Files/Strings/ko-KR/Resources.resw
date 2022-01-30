@@ -1335,9 +1335,6 @@
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>관리자 권한으로 계속하시겠습니까?</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>오른쪽 탭 닫기</value>
-  </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>관리자 권한</value>
   </data>

@@ -1443,9 +1443,6 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Item count</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Close tabs to the right</value>
-  </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>Deletion Failed</value>
   </data>

@@ -1924,10 +1924,6 @@
           <source>Item count</source>
           <target state="translated">Item telling</target>
         </trans-unit>
-        <trans-unit id="HorizontalMultitaskingControlCloseTabsToTheRight.Text" translate="yes" xml:space="preserve">
-          <source>Close tabs to the right</source>
-          <target state="translated">Sluit duimgidse aan die regterkant</target>
-        </trans-unit>
         <trans-unit id="StatusDeletionFailed" translate="yes" xml:space="preserve">
           <source>Deletion Failed</source>
           <target state="translated">Skrapping het Misluk</target>
@@ -3508,6 +3504,18 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
         <trans-unit id="Install" translate="yes" xml:space="preserve">
           <source>Install</source>
           <target state="new">Install</target>
+        </trans-unit>
+        <trans-unit id="CloseTabsToTheLeft" translate="yes" xml:space="preserve">
+          <source>Close tabs to the left</source>
+          <target state="new">Close tabs to the left</target>
+        </trans-unit>
+        <trans-unit id="CloseTabsToTheRight" translate="yes" xml:space="preserve">
+          <source>Close tabs to the right</source>
+          <target state="new">Close tabs to the right</target>
+        </trans-unit>
+        <trans-unit id="CloseOthers" translate="yes" xml:space="preserve">
+          <source>Close others</source>
+          <target state="new">Close others</target>
         </trans-unit>
       </group>
     </body>

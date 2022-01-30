@@ -1779,10 +1779,6 @@
           <source>Item count</source>
           <target state="translated">Jumlah item</target>
         </trans-unit>
-        <trans-unit id="HorizontalMultitaskingControlCloseTabsToTheRight.Text" translate="yes" xml:space="preserve">
-          <source>Close tabs to the right</source>
-          <target state="translated">Tutup tab ke kanan</target>
-        </trans-unit>
         <trans-unit id="StatusDeletionFailed" translate="yes" xml:space="preserve">
           <source>Deletion Failed</source>
           <target state="translated">Penghapusan Gagal</target>
@@ -3510,6 +3506,18 @@ Kami menggunakan App Center untuk melacak penggunaan aplikasi, menemukan bug, da
         <trans-unit id="Install" translate="yes" xml:space="preserve">
           <source>Install</source>
           <target state="new">Install</target>
+        </trans-unit>
+        <trans-unit id="CloseTabsToTheLeft" translate="yes" xml:space="preserve">
+          <source>Close tabs to the left</source>
+          <target state="new">Close tabs to the left</target>
+        </trans-unit>
+        <trans-unit id="CloseTabsToTheRight" translate="yes" xml:space="preserve">
+          <source>Close tabs to the right</source>
+          <target state="new">Close tabs to the right</target>
+        </trans-unit>
+        <trans-unit id="CloseOthers" translate="yes" xml:space="preserve">
+          <source>Close others</source>
+          <target state="new">Close others</target>
         </trans-unit>
       </group>
     </body>

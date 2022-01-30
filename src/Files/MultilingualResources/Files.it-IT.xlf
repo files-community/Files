@@ -3500,7 +3500,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
         <trans-unit id="Install" translate="yes" xml:space="preserve">
           <source>Install</source>
           <target state="translated">Installa</target>
-        </trans-unit>      
+        </trans-unit>
         <trans-unit id="CloseTabsToTheLeft" translate="yes" xml:space="preserve">
           <source>Close tabs to the left</source>
           <target state="translated">Chiudi schede a sinistra</target>

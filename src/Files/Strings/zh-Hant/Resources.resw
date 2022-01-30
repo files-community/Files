@@ -1335,9 +1335,6 @@
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>是否要以系統管理員身分繼續？</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>關閉右邊的索引標籤</value>
-  </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>系統管理員</value>
   </data>

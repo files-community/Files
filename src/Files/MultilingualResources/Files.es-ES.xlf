@@ -1771,10 +1771,6 @@
           <source>Would you like to continue as administrator?</source>
           <target state="translated">¿Le gustaría continuar como administrador?</target>
         </trans-unit>
-        <trans-unit id="HorizontalMultitaskingControlCloseTabsToTheRight.Text" translate="yes" xml:space="preserve">
-          <source>Close tabs to the right</source>
-          <target state="translated">Cerrar las pestañas de la derecha</target>
-        </trans-unit>
         <trans-unit id="FullTrustStatusTeachingTip.Title" translate="yes" xml:space="preserve">
           <source>Administrator</source>
           <target state="translated" state-qualifier="tm-suggestion">Administrador</target>
@@ -3510,6 +3506,18 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
         <trans-unit id="Install" translate="yes" xml:space="preserve">
           <source>Install</source>
           <target state="new">Install</target>
+        </trans-unit>
+        <trans-unit id="CloseTabsToTheLeft" translate="yes" xml:space="preserve">
+          <source>Close tabs to the left</source>
+          <target state="new">Close tabs to the left</target>
+        </trans-unit>
+        <trans-unit id="CloseTabsToTheRight" translate="yes" xml:space="preserve">
+          <source>Close tabs to the right</source>
+          <target state="new">Close tabs to the right</target>
+        </trans-unit>
+        <trans-unit id="CloseOthers" translate="yes" xml:space="preserve">
+          <source>Close others</source>
+          <target state="new">Close others</target>
         </trans-unit>
       </group>
     </body>
