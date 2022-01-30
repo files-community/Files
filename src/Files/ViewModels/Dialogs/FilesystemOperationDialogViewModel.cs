@@ -306,7 +306,7 @@ namespace Files.ViewModels.Dialogs
 
         private static async Task LoadItemsIcon(IEnumerable<FilesystemOperationItemViewModel> items, CancellationToken token)
         {
-            await Task.Run(() => items.ParallelForEach(async (item) =>
+            await items.ParallelForEach(async (item) =>
             {
                 try
                 {
@@ -321,7 +321,7 @@ namespace Files.ViewModels.Dialogs
                     }
                 }
                 catch { }
-            }, 10, token));
+            }, 10, token);
         }
     }
 }

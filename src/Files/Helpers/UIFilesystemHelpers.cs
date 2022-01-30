@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -40,8 +41,11 @@ namespace Files.Helpers
                         // FTP don't support cut, fallback to copy
                         if (listedItem is not FtpItem)
                         {
-                            // Dim opacities accordingly
-                            listedItem.Opacity = Constants.UI.DimItemOpacity;
+                            _ = CoreApplication.MainView.DispatcherQueue.TryEnqueue(Windows.System.DispatcherQueuePriority.Low, () =>
+                           {
+                                // Dim opacities accordingly
+                                listedItem.Opacity = Constants.UI.DimItemOpacity;
+                           });
                         }
                         if (listedItem is FtpItem ftpItem)
                         {
@@ -72,7 +76,7 @@ namespace Files.Helpers
                                 throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
                             }
                         }
-                    }, 10, default, TaskScheduler.FromCurrentSynchronizationContext());
+                    }, 10);
                 }
                 catch (Exception ex)
                 {
@@ -167,7 +171,7 @@ namespace Files.Helpers
                                 throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
                             }
                         }
-                    }, 10, default, TaskScheduler.FromCurrentSynchronizationContext());
+                    }, 10);
                 }
                 catch (Exception ex)
                 {

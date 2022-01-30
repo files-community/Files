@@ -851,7 +851,7 @@ namespace Files
                             throw new IOException($"Failed to process {item.ItemPath}.", (int)result.ErrorCode);
                         }
                     }
-                }, 10, default, TaskScheduler.FromCurrentSynchronizationContext());
+                }, 10);
             }
             catch (Exception ex)
             {
