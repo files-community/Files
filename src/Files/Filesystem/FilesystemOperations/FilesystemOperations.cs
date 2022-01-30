@@ -774,9 +774,7 @@ namespace Files.Filesystem
         {
             var rawStorageHistory = new List<IStorageHistory>();
 
-            var sourceCount = source.Count();
-            foreach (var item in source
-                .Zip(destination, (src, dest, index) => new { src, dest, index }))
+            for (int i = 0; i < source.Count; i++)
             {
                 if (token.IsCancellationRequested)
                 {
@@ -784,16 +782,16 @@ namespace Files.Filesystem
                 }
 
                 rawStorageHistory.Add(await RestoreFromTrashAsync(
-                    item.src,
-                    item.dest,
+                    source[i],
+                    destination[i],
                     null,
                     errorCode,
                     token));
 
-                progress?.Report(item.index / (float)sourceCount * 100.0f);
+                progress?.Report(i / (float)source.Count * 100.0f);
             }
 
-            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
+            if (rawStorageHistory.Any() && rawStorageHistory.All((item) => item != null))
             {
                 return new StorageHistory(
                     rawStorageHistory[0].OperationType,
@@ -989,30 +987,28 @@ namespace Files.Filesystem
         {
             var rawStorageHistory = new List<IStorageHistory>();
 
-            var sourceCount = source.Count();
-            foreach (var item in source
-                .Zip(destination, collisions, (src, dest, coll, index) => new { src, dest, coll, index }))
+            for (int i = 0; i < source.Count; i++)
             {
                 if (token.IsCancellationRequested)
                 {
                     break;
                 }
 
-                if (item.coll != FileNameConflictResolveOptionType.Skip)
+                if (collisions[i] != FileNameConflictResolveOptionType.Skip)
                 {
                     rawStorageHistory.Add(await CopyAsync(
-                        item.src,
-                        item.dest,
-                        item.coll.Convert(),
+                        source[i],
+                        destination[i],
+                        collisions[i].Convert(),
                         null,
                         errorCode,
                         token));
                 }
 
-                progress?.Report(item.index / (float)sourceCount * 100.0f);
+                progress?.Report(i / (float)source.Count * 100.0f);
             }
 
-            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
+            if (rawStorageHistory.Any() && rawStorageHistory.All((item) => item != null))
             {
                 return new StorageHistory(
                     rawStorageHistory[0].OperationType,
@@ -1030,31 +1026,29 @@ namespace Files.Filesystem
         public async Task<IStorageHistory> MoveItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken token)
         {
             var rawStorageHistory = new List<IStorageHistory>();
-            
-            var sourceCount = source.Count();
-            foreach (var item in source
-                .Zip(destination, collisions, (src, dest, coll, index) => new { src, dest, coll, index }))
+
+            for (int i = 0; i < source.Count; i++)
             {
                 if (token.IsCancellationRequested)
                 {
                     break;
                 }
 
-                if (item.coll != FileNameConflictResolveOptionType.Skip)
+                if (collisions[i] != FileNameConflictResolveOptionType.Skip)
                 {
                     rawStorageHistory.Add(await MoveAsync(
-                        item.src,
-                        item.dest,
-                        item.coll.Convert(),
+                        source[i],
+                        destination[i],
+                        collisions[i].Convert(),
                         null,
                         errorCode,
                         token));
                 }
 
-                progress?.Report(item.index / (float)sourceCount * 100.0f);
+                progress?.Report(i / (float)source.Count * 100.0f);
             }
 
-            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
+            if (rawStorageHistory.Any() && rawStorageHistory.All((item) => item != null))
             {
                 return new StorageHistory(
                     rawStorageHistory[0].OperationType,
@@ -1074,16 +1068,14 @@ namespace Files.Filesystem
             bool originalPermanently = permanently;
             var rawStorageHistory = new List<IStorageHistory>();
 
-            var sourceCount = source.Count();
-            foreach (var item in source
-                .Select((src, index) => new { src, index }))
+            for (int i = 0; i < source.Count; i++)
             {
                 if (token.IsCancellationRequested)
                 {
                     break;
                 }
 
-                if (recycleBinHelpers.IsPathUnderRecycleBin(item.src.Path))
+                if (recycleBinHelpers.IsPathUnderRecycleBin(source[i].Path))
                 {
                     permanently = true;
                 }
@@ -1092,11 +1084,11 @@ namespace Files.Filesystem
                     permanently = originalPermanently;
                 }
 
-                rawStorageHistory.Add(await DeleteAsync(item.src, null, errorCode, permanently, token));
-                progress?.Report((float)item.index / sourceCount * 100.0f);
+                rawStorageHistory.Add(await DeleteAsync(source[i], null, errorCode, permanently, token));
+                progress?.Report(i / (float)source.Count * 100.0f);
             }
 
-            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
+            if (rawStorageHistory.Any() && rawStorageHistory.All((item) => item != null))
             {
                 return new StorageHistory(
                     rawStorageHistory[0].OperationType,

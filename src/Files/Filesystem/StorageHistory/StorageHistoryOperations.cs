@@ -56,9 +56,9 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        foreach (var source in history.Source)
+                        for (int i = 0; i < history.Source.Count; i++)
                         {
-                            await filesystemOperations.CreateAsync(source, errorCode, cancellationToken);
+                            await filesystemOperations.CreateAsync(history.Source[i], errorCode, cancellationToken);
                         }
 
                         break;
@@ -84,12 +84,11 @@ namespace Files.Filesystem.FilesystemHistory
                         }
 
                         NameCollisionOption collision = NameCollisionOption.GenerateUniqueName;
-                        foreach (var item in history.Source
-                            .Zip(history.Destination, (src, dest, index) => new { src, dest, index }))
+                        for (int i = 0; i < history.Source.Count; i++)
                         {
                             await filesystemOperations.RenameAsync(
-                                item.src,
-                                Path.GetFileName(item.dest.Path),
+                                history.Source[i],
+                                Path.GetFileName(history.Destination[i].Path),
                                 collision,
                                 errorCode,
                                 cancellationToken);
@@ -213,12 +212,11 @@ namespace Files.Filesystem.FilesystemHistory
                         }
 
                         NameCollisionOption collision = NameCollisionOption.GenerateUniqueName;
-                        foreach (var item in history.Source
-                            .Zip(history.Destination, (src, dest, index) => new { src, dest, index }))
+                        for (int i = 0; i < history.Destination.Count(); i++)
                         {
                             await filesystemOperations.RenameAsync(
-                                item.dest,
-                                Path.GetFileName(item.src.Path),
+                                history.Destination[i],
+                                Path.GetFileName(history.Source[i].Path),
                                 collision,
                                 errorCode,
                                 cancellationToken);

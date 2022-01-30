@@ -164,7 +164,6 @@ namespace Files.Filesystem
         {
             var createdSources = new List<IStorageItemWithPath>();
             var createdDestination = new List<IStorageItemWithPath>();
-            var sourceCount = source.Count();
 
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection != null)
@@ -189,11 +188,11 @@ namespace Files.Filesystem
                         createdSources.Add(item.src);
                         createdDestination.Add(StorageHelpers.FromPathAndType(item.dest, FilesystemItemType.File));
                     }
-                    progress?.Report(item.index / (float)sourceCount * 100.0f);
+                    progress?.Report(item.index / (float)source.Count * 100.0f);
                 }
             }
 
-            errorCode?.Report(createdSources.Count == sourceCount ? FileSystemStatusCode.Success : FileSystemStatusCode.Generic);
+            errorCode?.Report(createdSources.Count == source.Count ? FileSystemStatusCode.Success : FileSystemStatusCode.Generic);
             return new StorageHistory(FileOperationType.CreateLink, createdSources, createdDestination);
         }
 
