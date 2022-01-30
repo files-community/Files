@@ -21,6 +21,11 @@
     SecondaryButtonText="{x:Bind ViewModel.SecondaryButtonText, Mode=OneWay}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <icore:EventTriggerBehavior EventName="Closing">
+            <icore:InvokeCommandAction Command="{x:Bind ViewModel.ClosingCommand, Mode=OneWay}" />
+        </icore:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
 
     <ContentDialog.Resources>
         <ResourceDictionary>
