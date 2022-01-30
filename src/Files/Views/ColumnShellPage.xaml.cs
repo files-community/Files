@@ -18,7 +18,6 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -596,13 +595,13 @@ namespace Files.Views
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
                 case (true, false, false, true, VirtualKey.E): // ctrl + e, extract
-                {
-                    if (NavToolbarViewModel.CanExtract)
                     {
-                        NavToolbarViewModel.ExtractCommand.Execute(null);
+                        if (NavToolbarViewModel.CanExtract)
+                        {
+                            NavToolbarViewModel.ExtractCommand.Execute(null);
+                        }
+                        break;
                     }
-                    break;
-                }
 
                 case (true, false, false, true, VirtualKey.Z): // ctrl + z, undo
                     if (!InstanceViewModel.IsPageTypeSearchResults)

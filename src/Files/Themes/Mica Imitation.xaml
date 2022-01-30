@@ -30,6 +30,12 @@
 
             <!--  Tabs Area Background  -->
             <AcrylicBrush
+                x:Key="RootBackgroundBrush"
+                BackgroundSource="HostBackdrop"
+                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                TintOpacity="0.95" />
+            <AcrylicBrush
                 x:Key="HorizontalTabControlBackgroundBrush"
                 BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
@@ -72,14 +78,6 @@
                 TintColor="{ThemeResource SolidBackgroundFillColorQuarternary}"
                 TintOpacity="0.95" />
 
-            <!--  PreviewPane  -->
-            <AcrylicBrush
-                x:Key="PreviewPaneBackgroundBrush"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorQuarternary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorQuarternary}"
-                TintOpacity="0.95" />
-
             <!--  Sidebar  -->
             <AcrylicBrush
                 x:Key="SidebarContentBackgroundBrush"
@@ -115,6 +113,12 @@
                 TintOpacity="1" />
 
             <!--  Tabs Area Background  -->
+            <AcrylicBrush
+                x:Key="RootBackgroundBrush"
+                BackgroundSource="HostBackdrop"
+                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                TintOpacity="0.95" />
             <AcrylicBrush
                 x:Key="HorizontalTabControlBackgroundBrush"
                 BackgroundSource="HostBackdrop"
@@ -158,14 +162,6 @@
                 FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintOpacity="1" />
-
-            <!--  PreviewPane  -->
-            <AcrylicBrush
-                x:Key="PreviewPaneBackgroundBrush"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintOpacity="0.95" />
 
             <!--  Sidebar  -->
             <AcrylicBrush

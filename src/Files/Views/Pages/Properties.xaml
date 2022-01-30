@@ -139,9 +139,10 @@
 
         <Grid
             Grid.Row="2"
-            Padding="12" BorderThickness="0,1,0,0"
+            Padding="12"
             Background="{ThemeResource CardBackgroundFillColorSecondary}"
-            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="0,1,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />

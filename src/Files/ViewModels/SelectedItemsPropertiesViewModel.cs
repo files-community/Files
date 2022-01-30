@@ -302,7 +302,7 @@ namespace Files.ViewModels
                 SetProperty(ref driveUsedSpace, value);
             }
         }
-        
+
         private string driveUsedSpaceLongSize;
 
         public string DriveUsedSpaceLongSize
@@ -347,7 +347,7 @@ namespace Files.ViewModels
                 SetProperty(ref driveFreeSpace, value);
             }
         }
-        
+
         private string driveFreeSpaceLongSize;
 
         public string DriveFreeSpaceLongSize
@@ -460,7 +460,7 @@ namespace Files.ViewModels
                 SetProperty(ref driveCapacity, value);
             }
         }
-        
+
         private string driveCapacityLongSize;
 
         public string DriveCapacityLongSize
