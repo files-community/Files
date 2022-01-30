@@ -29,9 +29,7 @@
             <SolidColorBrush x:Key="ContentDialogBorderBrush" Color="#00000000" />
             <!--  Dual Panes  -->
             <SolidColorBrush x:Key="PaneBorderBrush" Color="#00000000" />
-            <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="#000000" />
             <!--  File Browser Control Background  -->
-            <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="#000000" />
             <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="#000000" />
             <!--  Hover effects  -->
             <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#21FFFFFF" />
@@ -67,8 +65,6 @@
             <SolidColorBrush x:Key="TextControlBackgroundDisabled" Color="#00000000" />
             <SolidColorBrush x:Key="TextControlBorderBrush" Color="#00000000" />
             <SolidColorBrush x:Key="TextControlButtonBackground" Color="#00000000" />
-            <!--  Preview pane  -->
-            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="#000000" />
             <!--  Settings  -->
             <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="#191919" />
             <!--  ScrollBars  -->
@@ -80,8 +76,6 @@
             <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#000000" />
             <SolidColorBrush x:Key="SidebarBorderBrush" Color="#00000000" />
             <SolidColorBrush x:Key="SidebarContentBackgroundBrush" Color="#000000" />
-            <!--  Status Bar Background  -->
-            <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="#000000" />
             <!--  Text input  -->
             <SolidColorBrush x:Key="TextControlSelectionHighlightColor" Color="#1A73E8" />
             <!--  Titlebar  -->
@@ -115,9 +109,7 @@
             <SolidColorBrush x:Key="ContentDialogBorderBrush" Color="#00000000" />
             <!--  Dual Panes  -->
             <SolidColorBrush x:Key="PaneBorderBrush" Color="#00000000" />
-            <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="#000000" />
             <!--  File Browser Control Background  -->
-            <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="#000000" />
             <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="#000000" />
             <!--  Hover effects  -->
             <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#21FFFFFF" />
@@ -153,8 +145,6 @@
             <SolidColorBrush x:Key="TextControlBackgroundDisabled" Color="#00000000" />
             <SolidColorBrush x:Key="TextControlBorderBrush" Color="#00000000" />
             <SolidColorBrush x:Key="TextControlButtonBackground" Color="#00000000" />
-            <!--  Preview pane  -->
-            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="#000000" />
             <!--  Settings  -->
             <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="#191919" />
             <!--  ScrollBars  -->
@@ -166,8 +156,6 @@
             <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#000000" />
             <SolidColorBrush x:Key="SidebarBorderBrush" Color="#00000000" />
             <SolidColorBrush x:Key="SidebarContentBackgroundBrush" Color="#000000" />
-            <!--  Status Bar Background  -->
-            <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="#000000" />
             <!--  Text input  -->
             <SolidColorBrush x:Key="TextControlSelectionHighlightColor" Color="#1A73E8" />
             <!--  Titlebar  -->

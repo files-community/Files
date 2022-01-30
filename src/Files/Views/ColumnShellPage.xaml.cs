@@ -18,7 +18,6 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -219,10 +218,16 @@ namespace Files.Views
             NavToolbarViewModel.DeleteCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DeleteItemCommand.Execute(null));
             NavToolbarViewModel.CutCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.CutItemCommand.Execute(null));
             NavToolbarViewModel.EmptyRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.EmptyRecycleBinCommand.Execute(null));
+            NavToolbarViewModel.RunWithPowerShellCommand = new RelayCommand(async () => await Win32Helpers.InvokeWin32ComponentAsync("powershell", this, PathNormalization.NormalizePath(SlimContentPage?.SelectedItem.ItemPath)));
             NavToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
+            NavToolbarViewModel.SetAsBackgroundCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.SetAsDesktopBackgroundItemCommand.Execute(null));
             NavToolbarViewModel.ExtractCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveCommand.Execute(null));
             NavToolbarViewModel.ExtractHereCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveHereCommand.Execute(null));
             NavToolbarViewModel.ExtractToCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveToChildFolderCommand.Execute(null));
+            NavToolbarViewModel.InstallInfCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallInfDriver.Execute(null));
+            NavToolbarViewModel.RotateImageLeftCommand = new RelayCommand(async () => SlimContentPage?.CommandsViewModel.RotateImageLeftCommand.Execute(null));
+            NavToolbarViewModel.RotateImageRightCommand = new RelayCommand(async () => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.Execute(null));
+            NavToolbarViewModel.InstallFontCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallFontCommand.Execute(null));
         }
 
         private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
@@ -590,13 +595,13 @@ namespace Files.Views
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
                 case (true, false, false, true, VirtualKey.E): // ctrl + e, extract
-                {
-                    if (NavToolbarViewModel.CanExtract)
                     {
-                        NavToolbarViewModel.ExtractCommand.Execute(null);
+                        if (NavToolbarViewModel.CanExtract)
+                        {
+                            NavToolbarViewModel.ExtractCommand.Execute(null);
+                        }
+                        break;
                     }
-                    break;
-                }
 
                 case (true, false, false, true, VirtualKey.Z): // ctrl + z, undo
                     if (!InstanceViewModel.IsPageTypeSearchResults)
@@ -719,7 +724,7 @@ namespace Files.Views
                     UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = !UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible;
                     break;
 
-                case (true, false, false, true, VirtualKey.K): // ctrl + k, duplicate tab
+                case (true, true, false, true, VirtualKey.K): // ctrl + shift + k, duplicate tab
                     await NavigationHelpers.OpenPathInNewTab(this.FilesystemViewModel.WorkingDirectory);
                     break;
 

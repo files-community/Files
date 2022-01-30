@@ -1772,10 +1772,6 @@
           <source>Would you like to continue as administrator?</source>
           <target state="translated">Хотели бы Вы продолжить работу в качестве администратора?</target>
         </trans-unit>
-        <trans-unit id="HorizontalMultitaskingControlCloseTabsToTheRight.Text" translate="yes" xml:space="preserve">
-          <source>Close tabs to the right</source>
-          <target state="translated" state-qualifier="tm-suggestion">Закрыть вкладки справа</target>
-        </trans-unit>
         <trans-unit id="FullTrustStatusTeachingTip.Title" translate="yes" xml:space="preserve">
           <source>Administrator</source>
           <target state="translated" state-qualifier="tm-suggestion">Администратор</target>
@@ -3500,6 +3496,30 @@ Files не собирает, хранит, распространяет или �
         <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
           <source>Open in</source>
           <target state="new">Open in</target>
+        </trans-unit>
+        <trans-unit id="RotateLeft" translate="yes" xml:space="preserve">
+          <source>Rotate left</source>
+          <target state="new">Rotate left</target>
+        </trans-unit>
+        <trans-unit id="RotateRight" translate="yes" xml:space="preserve">
+          <source>Rotate right</source>
+          <target state="new">Rotate right</target>
+        </trans-unit>
+        <trans-unit id="Install" translate="yes" xml:space="preserve">
+          <source>Install</source>
+          <target state="new">Install</target>
+        </trans-unit>
+        <trans-unit id="CloseTabsToTheLeft" translate="yes" xml:space="preserve">
+          <source>Close tabs to the left</source>
+          <target state="new">Close tabs to the left</target>
+        </trans-unit>
+        <trans-unit id="CloseTabsToTheRight" translate="yes" xml:space="preserve">
+          <source>Close tabs to the right</source>
+          <target state="new">Close tabs to the right</target>
+        </trans-unit>
+        <trans-unit id="CloseOthers" translate="yes" xml:space="preserve">
+          <source>Close others</source>
+          <target state="new">Close others</target>
         </trans-unit>
       </group>
     </body>

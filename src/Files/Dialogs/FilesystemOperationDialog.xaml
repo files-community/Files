@@ -22,10 +22,6 @@
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
-        <!--  No need to specify CommandParameter - `e` is passed by default  -->
-        <icore:EventTriggerBehavior EventName="Loaded">
-            <icore:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand, Mode=OneWay}" />
-        </icore:EventTriggerBehavior>
         <icore:EventTriggerBehavior EventName="Closing">
             <icore:InvokeCommandAction Command="{x:Bind ViewModel.ClosingCommand, Mode=OneWay}" />
         </icore:EventTriggerBehavior>
@@ -71,13 +67,14 @@
                 x:Load="{x:Bind ViewModel.PermanentlyDeleteLoad, Mode=OneWay}"
                 Content="Permanently delete"
                 IsChecked="{x:Bind ViewModel.PermanentlyDelete, Mode=TwoWay}"
-                IsEnabled="{x:Bind ViewModel.PermanentlyDeleteEnabled, Mode=OneWay}" />
+                IsEnabled="False" />
 
             <Grid>
                 <ListView
                     x:Name="DetailsGrid"
                     Grid.Row="1"
                     MaxHeight="200"
+                    IsEnabled="False"
                     IsItemClickEnabled="False"
                     ItemsSource="{x:Bind ViewModel.Items}"
                     SelectionMode="{x:Bind ViewModel.ItemsSelectionMode, Mode=OneWay}">

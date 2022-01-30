@@ -9,7 +9,6 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -51,6 +50,13 @@ namespace Files.Views.LayoutModes
             ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
             ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
             ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
+            ItemManipulationModel.RefreshItemsThumbnailInvoked += ItemManipulationModel_RefreshItemThumbnail;
+
+        }
+
+        private void ItemManipulationModel_RefreshItemThumbnail(object sender, EventArgs args)
+        {
+            ReloadSelectedItemIcon();
         }
 
         private void ItemManipulationModel_ScrollIntoViewInvoked(object sender, ListedItem e)
@@ -494,6 +500,13 @@ namespace Files.Views.LayoutModes
                     await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
                 }
             }
+        }
+
+        private async void ReloadSelectedItemIcon()
+        {
+            ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+            ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
+            await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(ParentShellPageInstance.SlimContentPage.SelectedItem, currentIconSize);
         }
 
         private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)

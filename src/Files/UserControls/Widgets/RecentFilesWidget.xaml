@@ -10,6 +10,7 @@
 
     <StackPanel
         x:Name="RecentsListGrid"
+        MinHeight="200"
         Orientation="Vertical"
         Spacing="4">
         <TextBlock

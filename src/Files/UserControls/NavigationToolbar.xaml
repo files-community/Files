@@ -514,7 +514,7 @@
                     </Button.KeyboardAccelerators>
                 </Button>
 
-                <Grid x:Name="OngoingTasksGrid" Visibility="{x:Bind OngoingTasksViewModel.AnyBannersPresent, Mode=OneWay}">
+                <Grid Visibility="{x:Bind OngoingTasksViewModel.AnyBannersPresent, Mode=OneWay}">
                     <Button
                         x:Name="OngoingTasks"
                         Width="36"
@@ -524,8 +524,7 @@
                         AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}"
                         Background="Transparent"
                         Style="{StaticResource ToolBarButtonStyle}"
-                        ToolTipService.ToolTip="{helpers:ResourceString Name=OngoingTasks}"
-                        Visibility="Visible">
+                        ToolTipService.ToolTip="{helpers:ResourceString Name=OngoingTasks}">
                         <Button.Content>
                             <Grid>
                                 <FontIcon

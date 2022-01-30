@@ -51,8 +51,7 @@ namespace Files.ViewModels
         private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
         private readonly ConcurrentDictionary<string, bool> itemLoadQueue;
         private readonly AsyncManualResetEvent operationEvent;
-        private IntPtr hWatchDir;
-        private IAsyncAction aWatcherAction;
+        private IAsyncAction aProcessQueueAction;
 
         // files and folders list for manipulating
         private List<ListedItem> filesAndFolders;
@@ -68,7 +67,7 @@ namespace Files.ViewModels
         private bool shouldDisplayFileExtensions = false;
         public ListedItem CurrentFolder { get; private set; }
         public CollectionViewSource viewSource;
-        private CancellationTokenSource addFilesCTS, semaphoreCTS, loadPropsCTS;
+        private CancellationTokenSource addFilesCTS, semaphoreCTS, loadPropsCTS, watcherCTS;
 
         public event EventHandler DirectoryInfoUpdated;
 
@@ -359,6 +358,7 @@ namespace Files.ViewModels
             addFilesCTS = new CancellationTokenSource();
             semaphoreCTS = new CancellationTokenSource();
             loadPropsCTS = new CancellationTokenSource();
+            watcherCTS = new CancellationTokenSource();
             operationEvent = new AsyncManualResetEvent();
             enumFolderSemaphore = new SemaphoreSlim(1, 1);
             shouldDisplayFileExtensions = UserSettingsService.PreferencesSettingsService.ShowFileExtensions;
@@ -510,7 +510,7 @@ namespace Files.ViewModels
 
         private bool IsSearchResults { get; set; }
 
-        private void UpdateEmptyTextType()
+        public void UpdateEmptyTextType()
         {
             EmptyTextType = FilesAndFolders.Count == 0 ? (IsSearchResults ? EmptyTextType.NoSearchResultsFound : EmptyTextType.FolderEmpty) : EmptyTextType.None;
         }
@@ -1338,25 +1338,14 @@ namespace Files.ViewModels
 
         public void CloseWatcher()
         {
-            if (aWatcherAction != null)
+            if (aProcessQueueAction != null)
             {
-                aWatcherAction?.Cancel();
-
-                if (aWatcherAction.Status != AsyncStatus.Started)
-                {
-                    aWatcherAction = null;  // Prevent duplicate execution of this block
-                    Debug.WriteLine("watcher canceled");
-                    CancelIoEx(hWatchDir, IntPtr.Zero);
-                    Debug.WriteLine("watcher handle closed");
-                    CloseHandle(hWatchDir);
-                }
+                aProcessQueueAction?.Cancel();
+                aProcessQueueAction = null;  // Prevent duplicate execution of this block
+                Debug.WriteLine("process queue canceled");
             }
-            if (watchedItemsOperation != null)
-            {
-                itemQueryResult.ContentsChanged -= ItemQueryResult_ContentsChanged;
-                watchedItemsOperation?.Cancel();
-                watchedItemsOperation = null;
-            }
+            watcherCTS?.Cancel();
+            watcherCTS = new CancellationTokenSource();
         }
 
         public async Task EnumerateItemsFromSpecialFolderAsync(string path)
@@ -1743,8 +1732,6 @@ namespace Files.ViewModels
 
         private StorageItemQueryResult itemQueryResult;
 
-        private IAsyncOperation<IReadOnlyList<IStorageItem>> watchedItemsOperation;
-
         private async void WatchForStorageFolderChanges(BaseStorageFolder rootFolder)
         {
             if (rootFolder == null)
@@ -1764,7 +1751,12 @@ namespace Files.ViewModels
                 {
                     itemQueryResult = rootFolder.CreateItemQueryWithOptions(options).ToStorageItemQueryResult();
                     itemQueryResult.ContentsChanged += ItemQueryResult_ContentsChanged;
-                    watchedItemsOperation = itemQueryResult.GetItemsAsync(0, 1); // Just get one item to start getting notifications
+                    var watchedItemsOperation = itemQueryResult.GetItemsAsync(0, 1); // Just get one item to start getting notifications
+                    watcherCTS.Token.Register(() =>
+                    {
+                        itemQueryResult.ContentsChanged -= ItemQueryResult_ContentsChanged;
+                        watchedItemsOperation?.Cancel();
+                    });
                 }
             });
         }
@@ -1790,8 +1782,8 @@ namespace Files.ViewModels
 
         private void WatchForDirectoryChanges(string path, CloudDriveSyncStatus syncStatus)
         {
-            Debug.WriteLine("WatchForDirectoryChanges: {0}", path);
-            hWatchDir = NativeFileOperationsHelper.CreateFileFromApp(path, 1, 1 | 2 | 4,
+            Debug.WriteLine($"WatchForDirectoryChanges: {path}");
+            var hWatchDir = NativeFileOperationsHelper.CreateFileFromApp(path, 1, 1 | 2 | 4,
                 IntPtr.Zero, 3, (uint)NativeFileOperationsHelper.File_Attributes.BackupSemantics | (uint)NativeFileOperationsHelper.File_Attributes.Overlapped, IntPtr.Zero);
             if (hWatchDir.ToInt64() == -1)
             {
@@ -1800,10 +1792,12 @@ namespace Files.ViewModels
 
             var hasSyncStatus = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown;
 
-            var cts = new CancellationTokenSource();
-            _ = Windows.System.Threading.ThreadPool.RunAsync((x) => ProcessOperationQueue(cts.Token, hasSyncStatus));
+            if (aProcessQueueAction == null) // Only start one ProcessOperationQueue
+            {
+                aProcessQueueAction = Windows.System.Threading.ThreadPool.RunAsync((x) => ProcessOperationQueue(x, hasSyncStatus));
+            }
 
-            aWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>
+            var aWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>
             {
                 byte[] buff = new byte[4096];
                 var rand = Guid.NewGuid();
@@ -1883,14 +1877,23 @@ namespace Files.ViewModels
                 }
                 CloseHandle(overlapped.hEvent);
                 operationQueue.Clear();
-                cts.Cancel();
                 Debug.WriteLine("aWatcherAction done: {0}", rand);
             });
 
-            Debug.WriteLine("Task exiting...");
+            watcherCTS.Token.Register(() =>
+            {
+                if (aWatcherAction != null)
+                {
+                    aWatcherAction?.Cancel();
+                    aWatcherAction = null;  // Prevent duplicate execution of this block
+                    Debug.WriteLine("watcher canceled");
+                }
+                CancelIoEx(hWatchDir, IntPtr.Zero);
+                CloseHandle(hWatchDir);
+            });
         }
 
-        private async void ProcessOperationQueue(CancellationToken cancellationToken, bool hasSyncStatus)
+        private async void ProcessOperationQueue(IAsyncAction action, bool hasSyncStatus)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
@@ -1910,15 +1913,15 @@ namespace Files.ViewModels
 
             try
             {
-                while (!cancellationToken.IsCancellationRequested)
+                while (action.Status != AsyncStatus.Canceled)
                 {
-                    if (await operationEvent.WaitAsync(200, cancellationToken))
+                    if (await operationEvent.WaitAsync(200))
                     {
                         operationEvent.Reset();
 
                         while (operationQueue.TryDequeue(out var operation))
                         {
-                            if (cancellationToken.IsCancellationRequested) break;
+                            if (action.Status == AsyncStatus.Canceled) break;
                             try
                             {
                                 switch (operation.Action)
@@ -1927,7 +1930,7 @@ namespace Files.ViewModels
                                         lastItemAdded = await AddFileOrFolderAsync(operation.FileName, returnformat);
                                         if (lastItemAdded != null)
                                         {
-                                            anyEdits = true;                      
+                                            anyEdits = true;
                                         }
                                         break;
 
@@ -1992,8 +1995,8 @@ namespace Files.ViewModels
                     {
                         await OrderFilesAndFoldersAsync();
                         await ApplyFilesAndFoldersChangesAsync();
-                        if (lastItemAdded != null) 
-                        { 
+                        if (lastItemAdded != null)
+                        {
                             await NotifyListedItemAddedAsync(lastItemAdded);
                         }
                         anyEdits = false;
