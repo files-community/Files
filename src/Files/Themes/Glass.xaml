@@ -125,15 +125,15 @@
                 FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintOpacity="0.4" />
-
-            <!--  Tabs  -->
-            <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="transparent" />
             <AcrylicBrush
                 x:Key="RootBackgroundBrush"
                 BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
-                TintOpacity="0.5" />
+                FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
+                TintColor="{ThemeResource SolidBackgroundFillColorBase}"
+                TintOpacity="0.4" />
+
+            <!--  Tabs  -->
+            <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="transparent" />
             <AcrylicBrush
                 x:Key="TabViewItemHeaderBackgroundSelected"
                 BackgroundSource="HostBackdrop"
