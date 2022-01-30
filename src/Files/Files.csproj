@@ -1046,7 +1046,7 @@
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
-    <None Include="MultilingualResources\Files.nb-NO.xlf" />
+    <XliffResource Include="MultilingualResources\Files.nb-NO.xlf" />
     <XliffResource Include="MultilingualResources\Files.sk-SK.xlf" />
     <None Include="Resources\PreviewPanePropertiesInformation.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

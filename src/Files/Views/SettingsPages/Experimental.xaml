@@ -93,10 +93,10 @@
                 Text="{helpers:ResourceString Name=SettingsDefaultFilesManager}" />
 
             <local:SettingsBlockControl
-                HorizontalAlignment="Stretch"
-                IsExpanded="True"
                 Title="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}"
-                Description="{helpers:ResourceString Name=SettingsSetAsDefaultFileManagerDescription}">
+                HorizontalAlignment="Stretch"
+                Description="{helpers:ResourceString Name=SettingsSetAsDefaultFileManagerDescription}"
+                IsExpanded="True">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xEC50;" />
                 </local:SettingsBlockControl.Icon>
