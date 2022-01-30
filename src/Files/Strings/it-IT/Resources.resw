@@ -1335,9 +1335,6 @@
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>Vuoi continuare come amministratore?</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Chiudi schede a destra</value>
-  </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Amministratore</value>
   </data>
@@ -2632,5 +2629,13 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   </data>
   <data name="Install" xml:space="preserve">
     <value>Installa</value>
+  <data name="CloseTabsToTheLeft" xml:space="preserve">
+    <value>Chiudi schede a sinistra</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Chiudi schede a destra</value>
+  </data>
+  <data name="CloseOthers" xml:space="preserve">
+    <value>Chiudi le altre schede</value>
   </data>
 </root>

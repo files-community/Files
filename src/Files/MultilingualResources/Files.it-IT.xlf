@@ -1771,10 +1771,6 @@
           <source>Would you like to continue as administrator?</source>
           <target state="translated">Vuoi continuare come amministratore?</target>
         </trans-unit>
-        <trans-unit id="HorizontalMultitaskingControlCloseTabsToTheRight.Text" translate="yes" xml:space="preserve">
-          <source>Close tabs to the right</source>
-          <target state="translated">Chiudi schede a destra</target>
-        </trans-unit>
         <trans-unit id="FullTrustStatusTeachingTip.Title" translate="yes" xml:space="preserve">
           <source>Administrator</source>
           <target state="translated">Amministratore</target>
@@ -3516,6 +3512,30 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
         <trans-unit id="Install" translate="yes" xml:space="preserve">
           <source>Install</source>
           <target state="new">Install</target>
+        </trans-unit>
+        <trans-unit id="RotateLeft" translate="yes" xml:space="preserve">
+          <source>Rotate left</source>
+          <target state="new">Rotate left</target>
+        </trans-unit>
+        <trans-unit id="RotateRight" translate="yes" xml:space="preserve">
+          <source>Rotate right</source>
+          <target state="new">Rotate right</target>
+        </trans-unit>
+        <trans-unit id="Install" translate="yes" xml:space="preserve">
+          <source>Install</source>
+          <target state="new">Install</target>
+        </trans-unit>
+        <trans-unit id="CloseTabsToTheLeft" translate="yes" xml:space="preserve">
+          <source>Close tabs to the left</source>
+          <target state="translated">Chiudi schede a sinistra</target>
+        </trans-unit>
+        <trans-unit id="CloseTabsToTheRight" translate="yes" xml:space="preserve">
+          <source>Close tabs to the right</source>
+          <target state="translated">Chiudi schede a destra</target>
+        </trans-unit>
+        <trans-unit id="CloseOthers" translate="yes" xml:space="preserve">
+          <source>Close others</source>
+          <target state="translated">Chiudi le altre schede</target>
         </trans-unit>
       </group>
     </body>

@@ -923,7 +923,7 @@
                     x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                     Command="{x:Bind ViewModel.OpenDirectoryInDefaultTerminalCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
-                    Label="{helpers:ResourceString Name=OpenInTerminal}">
+                    Label="{x:Bind ViewModel.OpenInTerminal, Mode=OneWay}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE756;" />
                     </AppBarButton.Icon>

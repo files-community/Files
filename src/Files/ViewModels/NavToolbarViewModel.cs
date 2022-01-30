@@ -330,6 +330,7 @@ namespace Files.ViewModels
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
             SearchBox.Escaped += SearchRegion_Escaped;
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+            App.TerminalController.ModelChanged += OnTerminalsChanged;
         }
 
         private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
@@ -405,7 +406,7 @@ namespace Files.ViewModels
 
         public void PathBoxItem_DragLeave(object sender, DragEventArgs e)
         {
-            if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
+            if (!((sender as StackPanel).DataContext is PathBoxItem pathBoxItem) ||
                 pathBoxItem.Path == "Home".GetLocalized())
             {
                 return;
@@ -430,7 +431,7 @@ namespace Files.ViewModels
 
             dragOverPath = null; // Reset dragged over pathbox item
 
-            if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
+            if (!((sender as StackPanel).DataContext is PathBoxItem pathBoxItem) ||
                 pathBoxItem.Path == "Home".GetLocalized())
             {
                 return;
@@ -455,7 +456,7 @@ namespace Files.ViewModels
 
         public async void PathBoxItem_DragOver(object sender, DragEventArgs e)
         {
-            if (IsSingleItemOverride || !((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
+            if (IsSingleItemOverride || !((sender as StackPanel).DataContext is PathBoxItem pathBoxItem) ||
                 pathBoxItem.Path == "Home".GetLocalized())
             {
                 return;
@@ -638,7 +639,7 @@ namespace Files.ViewModels
 
         public async void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            var itemTappedPath = ((sender as Border).DataContext as PathBoxItem).Path;
+            var itemTappedPath = ((sender as TextBlock).DataContext as PathBoxItem).Path;
 
             if (pointerRoutedEventArgs != null)
             {
@@ -1156,10 +1157,18 @@ namespace Files.ViewModels
         public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension);
         public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension));
 
+        public string OpenInTerminal => $"{"OpenIn".GetLocalized()} {App.TerminalController.Model.GetDefaultTerminal()?.Name}";
+
+        private void OnTerminalsChanged(object _)
+        {
+            OnPropertyChanged(nameof(OpenInTerminal));
+        }
+
         public void Dispose()
         {
             SearchBox.Escaped -= SearchRegion_Escaped;
             UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+            App.TerminalController.ModelChanged -= OnTerminalsChanged;
 
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
