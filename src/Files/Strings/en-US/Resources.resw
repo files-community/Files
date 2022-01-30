@@ -1560,9 +1560,6 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Item count</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Close tabs to the right</value>
-  </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>Deletion Failed</value>
   </data>
@@ -2737,5 +2734,14 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="Install" xml:space="preserve">
     <value>Install</value>
+  </data>
+  <data name="CloseTabsToTheLeft" xml:space="preserve">
+    <value>Close tabs to the left</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Close tabs to the right</value>
+  </data>
+  <data name="CloseOthers" xml:space="preserve">
+    <value>Close others</value>
   </data>
 </root>

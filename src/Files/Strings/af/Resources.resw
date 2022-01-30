@@ -1450,9 +1450,6 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Item telling</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Sluit duimgidse aan die regterkant</value>
-  </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>Skrapping het Misluk</value>
   </data>

@@ -1308,9 +1308,6 @@
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>Хотели бы Вы продолжить работу в качестве администратора?</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Закрыть вкладки справа</value>
-  </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Администратор</value>
   </data>

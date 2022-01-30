@@ -125,7 +125,7 @@ namespace Files.UserControls.Settings
 
         private void SettingsBlockControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if(ActionableButton != null)
+            if (ActionableButton != null)
             {
                 AutomationProperties.SetName(ActionableButton, Title);
             }
