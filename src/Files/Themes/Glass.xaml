@@ -7,7 +7,6 @@
         <ResourceDictionary x:Key="Default">
 
             <!--  Background Resources  -->
-            <SolidColorBrush x:Key="RootBackgroundBrush" Color="#AA020205" />
             <Color x:Key="SolidBackground">#020205</Color>
             <Color x:Key="SolidBackgroundFillColorBase">#020205</Color>
             <Color x:Key="SolidBackgroundFillColorSecondary">#111115</Color>
@@ -34,6 +33,12 @@
                 TintOpacity="0.5" />
 
             <!--  Tabs Area Background  -->
+            <AcrylicBrush
+                x:Key="RootBackgroundBrush"
+                BackgroundSource="HostBackdrop"
+                FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
+                TintColor="{ThemeResource SolidBackgroundFillColorBase}"
+                TintOpacity="0.5" />
             <AcrylicBrush
                 x:Key="HorizontalTabControlBackgroundBrush"
                 BackgroundSource="HostBackdrop"
@@ -89,7 +94,6 @@
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
             <!--  Background Resources  -->
-            <SolidColorBrush x:Key="RootBackgroundBrush" Color="#AABBBBBC" />
             <Color x:Key="SolidBackground">#BBBBBC</Color>
             <Color x:Key="SolidBackgroundFillColorBase">#BBBBBC</Color>
             <Color x:Key="SolidBackgroundFillColorSecondary">#C9C9CA</Color>
@@ -124,6 +128,12 @@
 
             <!--  Tabs  -->
             <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="transparent" />
+            <AcrylicBrush
+                x:Key="RootBackgroundBrush"
+                BackgroundSource="HostBackdrop"
+                FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
+                TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
+                TintOpacity="0.5" />
             <AcrylicBrush
                 x:Key="TabViewItemHeaderBackgroundSelected"
                 BackgroundSource="HostBackdrop"
