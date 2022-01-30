@@ -818,10 +818,23 @@ namespace Files
 
             e.Items.OfType<ListedItem>().ForEach(item => SelectedItems.Add(item));
 
+            var itemsCount = e.Items.Count;
+            PostedStatusBanner banner = itemsCount > 10 ? App.OngoingTasksViewModel.PostOperationBanner(
+                string.Empty,
+                string.Format(itemsCount > 1 ? "StatusPreparingItemsDetails_Plural".GetLocalized() : "StatusPreparingItemsDetails_Singular".GetLocalized(), itemsCount),
+                0,
+                ReturnResult.InProgress,
+                FileOperationType.Copy, new CancellationTokenSource()) : null;
+
             try
             {
                 await e.Items.OfType<ListedItem>().ParallelForEach(async item =>
                 {
+                    if (banner != null)
+                    {
+                        ((IProgress<float>)banner.Progress).Report(selectedStorageItems.Count / (float)itemsCount * 100);
+                    }
+
                     if (item is FtpItem ftpItem)
                     {
                         if (item.PrimaryItemAttribute == StorageItemTypes.File)
@@ -851,7 +864,7 @@ namespace Files
                             throw new IOException($"Failed to process {item.ItemPath}.", (int)result.ErrorCode);
                         }
                     }
-                }, 10);
+                }, 10, banner?.CancellationToken ?? default);
             }
             catch (Exception ex)
             {
@@ -865,8 +878,11 @@ namespace Files
                 {
                     e.Cancel = true;
                 }
+                banner?.Remove();
                 return;
             }
+
+            banner?.Remove();
 
             var onlyStandard = selectedStorageItems.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);
             if (onlyStandard)
