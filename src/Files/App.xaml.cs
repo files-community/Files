@@ -29,6 +29,7 @@ using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
@@ -462,9 +463,7 @@ namespace Files
                     var eventArgsForNotification = args as ToastNotificationActivatedEventArgs;
                     if (eventArgsForNotification.Argument == "report")
                     {
-                        // Launch the URI and open log files location
-                        //SettingsViewModel.OpenLogLocation();
-                        SettingsViewModel.ReportIssueOnGitHub();
+                        await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.FeedbackUri));
                     }
                     break;
 

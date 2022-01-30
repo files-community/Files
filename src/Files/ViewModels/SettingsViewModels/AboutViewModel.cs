@@ -26,15 +26,14 @@ namespace Files.ViewModels.SettingsViewModels
         private IBundlesSettingsService BundlesSettingsService { get; } = Ioc.Default.GetService<IBundlesSettingsService>();
         protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
 
-        public RelayCommand OpenLogLocationCommand => new RelayCommand(() => SettingsViewModel.OpenLogLocation());
-        public RelayCommand CopyVersionInfoCommand => new RelayCommand(() => CopyVersionInfo());
+        public RelayCommand OpenLogLocationCommand => new(OpenLogLocation);
+        public RelayCommand CopyVersionInfoCommand => new(CopyVersionInfo);
 
         public ICommand ExportSettingsCommand { get; }
 
         public ICommand ImportSettingsCommand { get; }
 
-        public RelayCommand<ItemClickEventArgs> ClickAboutFeedbackItemCommand =>
-            new RelayCommand<ItemClickEventArgs>(ClickAboutFeedbackItem);
+        public RelayCommand<ItemClickEventArgs> ClickAboutFeedbackItemCommand => new(ClickAboutFeedbackItem);
 
         public AboutViewModel()
         {
@@ -148,6 +147,8 @@ namespace Files.ViewModels.SettingsViewModels
             });
         }
 
+        public static async void OpenLogLocation() => await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+
         public string Version
         {
             get
@@ -157,45 +158,24 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public string AppName
-        {
-            get
-            {
-                return Package.Current.DisplayName;
-            }
-        }
+        public string AppName => Package.Current.DisplayName;
 
         private async void ClickAboutFeedbackItem(ItemClickEventArgs e)
         {
             var clickedItem = (StackPanel)e.ClickedItem;
-            switch (clickedItem.Tag)
+            var uri = clickedItem.Tag switch
             {
-                case "Feedback":
-                    SettingsViewModel.ReportIssueOnGitHub();
-                    break;
-
-                case "ReleaseNotes":
-                    await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/releases"));
-                    break;
-
-                case "Documentation":
-                    await Launcher.LaunchUriAsync(new Uri(@"https://files.community/docs"));
-                    break;
-
-                case "Contributors":
-                    await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/graphs/contributors"));
-                    break;
-
-                case "PrivacyPolicy":
-                    await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/blob/main/Privacy.md"));
-                    break;
-
-                case "SupportUs":
-                    await Launcher.LaunchUriAsync(new Uri(@"https://github.com/sponsors/yaichenbaum"));
-                    break;
-
-                default:
-                    break;
+                "Contributors" => Constants.GitHub.ContributorsUri,
+                "Documentation" => Constants.GitHub.DocumentationUri,
+                "Feedback" => Constants.GitHub.FeedbackUri,
+                "PrivacyPolicy" => Constants.GitHub.PrivacyPolicyUri,
+                "ReleaseNotes" => Constants.GitHub.ReleaseNotesUri,
+                "SupportUs" => Constants.GitHub.SupportUsUri,
+                _ => null,
+            };
+            if (uri is not null)
+            {
+                await Launcher.LaunchUriAsync(new Uri(uri));
             }
         }
     }

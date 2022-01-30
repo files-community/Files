@@ -169,5 +169,15 @@
 
             public const string CachedEmptyItemName = "fileicon_cache";
         }
+
+        public static class GitHub
+        {
+            public const string ContributorsUri = @"https://github.com/files-community/Files/graphs/contributors";
+            public const string DocumentationUri = @"https://files.community/docs";
+            public const string FeedbackUri = @"https://github.com/files-community/Files/issues/new/choose";
+            public const string PrivacyPolicyUri = @"https://github.com/files-community/Files/blob/main/Privacy.md";
+            public const string ReleaseNotesUri = @"https://github.com/files-community/Files/releases";
+            public const string SupportUsUri = @"https://github.com/sponsors/yaichenbaum";
+        }
     }
 }

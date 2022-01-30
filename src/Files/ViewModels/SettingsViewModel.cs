@@ -12,11 +12,9 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
 using Windows.Storage;
-using Windows.System;
 
 namespace Files.ViewModels
 {
@@ -36,22 +34,6 @@ namespace Files.ViewModels
             {
                 DefaultLanguages.Add(new DefaultLanguageModel(lang));
             }
-        }
-
-        public static async void OpenLogLocation()
-        {
-            await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
-        }
-
-        public static async void OpenThemesFolder()
-        {
-            await CoreApplication.MainView.Dispatcher.YieldAsync();
-            await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ImportedThemesFolder.Path);
-        }
-
-        public static async void ReportIssueOnGitHub()
-        {
-            await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/issues/new/choose"));
         }
 
         public bool AreRegistrySettingsMergedToJson
@@ -188,7 +170,7 @@ namespace Files.ViewModels
 
         public event EventHandler ThemeModeChanged;
 
-        public RelayCommand UpdateThemeElements => new RelayCommand(() =>
+        public RelayCommand UpdateThemeElements => new(() =>
         {
             ThemeModeChanged?.Invoke(this, EventArgs.Empty);
         });
@@ -208,7 +190,7 @@ namespace Files.ViewModels
                 originalValue = Get(originalValue, propertyName);
 
                 localSettings.Values[propertyName] = value;
-                if (!base.SetProperty(ref originalValue, value, propertyName))
+                if (!SetProperty(ref originalValue, value, propertyName))
                 {
                     return false;
                 }
@@ -234,7 +216,7 @@ namespace Files.ViewModels
             {
                 var value = localSettings.Values[name];
 
-                if (!(value is TValue tValue))
+                if (value is not TValue tValue)
                 {
                     if (value is IConvertible)
                     {
