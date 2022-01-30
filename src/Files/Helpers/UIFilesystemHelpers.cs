@@ -37,7 +37,7 @@ namespace Files.Helpers
                 associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
                 var itemsCount = associatedInstance.SlimContentPage.SelectedItems.Count;
-                PostedStatusBanner banner = itemsCount > 10 ? App.OngoingTasksViewModel.PostOperationBanner(
+                PostedStatusBanner banner = itemsCount > 50 ? App.OngoingTasksViewModel.PostOperationBanner(
                     string.Empty,
                     string.Format(itemsCount > 1 ? "StatusPreparingItemsDetails_Plural".GetLocalized() : "StatusPreparingItemsDetails_Singular".GetLocalized(), itemsCount),
                     0,
@@ -156,7 +156,7 @@ namespace Files.Helpers
             if (associatedInstance.SlimContentPage.IsItemSelected)
             {
                 var itemsCount = associatedInstance.SlimContentPage.SelectedItems.Count;
-                PostedStatusBanner banner = itemsCount > 10 ? App.OngoingTasksViewModel.PostOperationBanner(
+                PostedStatusBanner banner = itemsCount > 50 ? App.OngoingTasksViewModel.PostOperationBanner(
                     string.Empty,
                     string.Format(itemsCount > 1 ? "StatusPreparingItemsDetails_Plural".GetLocalized() : "StatusPreparingItemsDetails_Singular".GetLocalized(), itemsCount),
                     0,

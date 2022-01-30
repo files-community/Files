@@ -820,7 +820,7 @@ namespace Files
             e.Items.OfType<ListedItem>().ForEach(item => SelectedItems.Add(item));
 
             var itemsCount = e.Items.Count;
-            PostedStatusBanner banner = itemsCount > 10 ? App.OngoingTasksViewModel.PostOperationBanner(
+            PostedStatusBanner banner = itemsCount > 50 ? App.OngoingTasksViewModel.PostOperationBanner(
                 string.Empty,
                 string.Format(itemsCount > 1 ? "StatusPreparingItemsDetails_Plural".GetLocalized() : "StatusPreparingItemsDetails_Singular".GetLocalized(), itemsCount),
                 0,
