@@ -18,15 +18,14 @@ namespace FilesFullTrust.MessageHandlers
 
         public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
         {
-            switch (arguments)
+            if (arguments is "InstallOperation")
             {
-                case "InstallOperation":
-                    await ParseInstallOperationAsync(connection, message);
-                    break;
+                ParseInstallOperation(connection, message);
+                await Task.Yield();
             }
         }
 
-        private async Task ParseInstallOperationAsync(PipeStream connection, Dictionary<string, object> message)
+        private static void ParseInstallOperation(PipeStream connection, Dictionary<string, object> message)
         {
             switch (message.Get("installop", ""))
             {
