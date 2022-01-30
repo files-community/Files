@@ -15,11 +15,9 @@ using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -815,86 +813,62 @@ namespace Files
 
         protected async void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
-            ConcurrentBag<IStorageItem> selectedStorageItems = new ConcurrentBag<IStorageItem>();
+            List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
+            var result = (FilesystemResult)false;
 
             e.Items.OfType<ListedItem>().ForEach(item => SelectedItems.Add(item));
 
-            var itemsCount = e.Items.Count;
-            PostedStatusBanner banner = itemsCount > 10 ? App.OngoingTasksViewModel.PostOperationBanner(
-                string.Empty,
-                string.Format(itemsCount > 1 ? "StatusPreparingItemsDetails_Plural".GetLocalized() : "StatusPreparingItemsDetails_Singular".GetLocalized(), itemsCount),
-                0,
-                ReturnResult.InProgress,
-                FileOperationType.Copy, new CancellationTokenSource()) : null;
-
-            try
+            foreach (var item in e.Items.OfType<ListedItem>())
             {
-                await e.Items.OfType<ListedItem>().ParallelForEach(async item =>
+                if (item is FtpItem ftpItem)
                 {
-                    if (banner != null)
+                    if (item.PrimaryItemAttribute == StorageItemTypes.File)
                     {
-                        ((IProgress<float>)banner.Progress).Report(selectedStorageItems.Count / (float)itemsCount * 100);
-                    }
-
-                    if (item is FtpItem ftpItem)
-                    {
-                        if (item.PrimaryItemAttribute == StorageItemTypes.File)
-                        {
-                            selectedStorageItems.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
-                        }
-                        else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                        {
-                            selectedStorageItems.Add(new FtpStorageFolder(ftpItem));
-                        }
-                    }
-                    else if (item.PrimaryItemAttribute == StorageItemTypes.File || item is ZipItem)
-                    {
-                        var result = await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
-                            .OnSuccess(t => selectedStorageItems.Add(t));
-                        if (!result)
-                        {
-                            throw new IOException($"Failed to process {item.ItemPath}.", (int)result.ErrorCode);
-                        }
+                        selectedStorageItems.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
                     }
                     else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
-                        var result = await ParentShellPageInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
-                            .OnSuccess(t => selectedStorageItems.Add(t));
-                        if (!result)
-                        {
-                            throw new IOException($"Failed to process {item.ItemPath}.", (int)result.ErrorCode);
-                        }
+                        selectedStorageItems.Add(new FtpStorageFolder(ftpItem));
                     }
-                }, 10, banner?.CancellationToken ?? default);
-            }
-            catch (Exception ex)
-            {
-                if (ex.HResult == (int)FileSystemStatusCode.Unauthorized)
-                {
-                    var itemList = e.Items.OfType<ListedItem>().Select(x => StorageHelpers.FromPathAndType(
-                        x.ItemPath, x.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-                    e.Data.Properties["FileDrop"] = itemList.ToList();
                 }
-                else
+                else if (item.PrimaryItemAttribute == StorageItemTypes.File || item is ZipItem)
                 {
-                    e.Cancel = true;
+                    result = await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
+                        .OnSuccess(t => selectedStorageItems.Add(t));
+                    if (!result)
+                    {
+                        break;
+                    }
                 }
-                banner?.Remove();
-                return;
+                else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    result = await ParentShellPageInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
+                        .OnSuccess(t => selectedStorageItems.Add(t));
+                    if (!result)
+                    {
+                        break;
+                    }
+                }
             }
 
-            banner?.Remove();
+            if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
+            {
+                var itemList = e.Items.OfType<ListedItem>().Select(x => StorageHelpers.FromPathAndType(
+                    x.ItemPath, x.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+                e.Data.Properties["FileDrop"] = itemList.ToList();
+                return;
+            }
 
             var onlyStandard = selectedStorageItems.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);
             if (onlyStandard)
             {
-                selectedStorageItems = new ConcurrentBag<IStorageItem>(await selectedStorageItems.ToStandardStorageItemsAsync());
+                selectedStorageItems = await selectedStorageItems.ToStandardStorageItemsAsync();
             }
             if (selectedStorageItems.Count == 1)
             {
-                if (selectedStorageItems.Single() is IStorageFile file)
+                if (selectedStorageItems[0] is IStorageFile file)
                 {
-                    var itemExtension = Path.GetExtension(file.Name);
+                    var itemExtension = System.IO.Path.GetExtension(file.Name);
                     if (ImagePreviewViewModel.Extensions.Any((ext) => ext.Equals(itemExtension, StringComparison.OrdinalIgnoreCase)))
                     {
                         var streamRef = Windows.Storage.Streams.RandomAccessStreamReference.CreateFromFile(file);
