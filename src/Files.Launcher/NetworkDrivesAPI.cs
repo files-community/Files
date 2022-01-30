@@ -95,18 +95,17 @@ namespace FilesFullTrust
             /// <inheritdoc/>
             protected override bool RunDialog(IntPtr hwndOwner)
             {
-                using (var lpnres = SafeCoTaskMemHandle.CreateFromStructure(nres))
-                {
-                    opts.hwndOwner = hwndOwner;
-                    opts.lpConnRes = lpnres.DangerousGetHandle();
-                    if (ReadOnlyPath && !string.IsNullOrEmpty(nres.lpRemoteName))
-                        opts.dwFlags |= CONN_DLG.CONNDLG_RO_PATH;
-                    var ret = WNetConnectionDialog1(opts);
-                    opts.lpConnRes = IntPtr.Zero;
-                    if (ret == unchecked((uint)-1)) return false;
-                    ret.ThrowIfFailed();
-                    return true;
-                }
+                using var lpnres = SafeCoTaskMemHandle.CreateFromStructure(nres);
+
+                opts.hwndOwner = hwndOwner;
+                opts.lpConnRes = lpnres.DangerousGetHandle();
+                if (ReadOnlyPath && !string.IsNullOrEmpty(nres.lpRemoteName))
+                    opts.dwFlags |= CONN_DLG.CONNDLG_RO_PATH;
+                var ret = WNetConnectionDialog1(opts);
+                opts.lpConnRes = IntPtr.Zero;
+                if (ret == unchecked((uint)-1)) return false;
+                ret.ThrowIfFailed();
+                return true;
             }
         }
 

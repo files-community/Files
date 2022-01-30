@@ -158,11 +158,8 @@ namespace FilesFullTrust.MessageHandlers
                 Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
             };
 
-            bool filterMenuItemsImpl(string menuItem)
-            {
-                return string.IsNullOrEmpty(menuItem) ? false : knownItems.Contains(menuItem)
-                    || (!showOpenMenu && menuItem.Equals("open", StringComparison.OrdinalIgnoreCase));
-            }
+            bool filterMenuItemsImpl(string menuItem) => !string.IsNullOrEmpty(menuItem)
+                && (knownItems.Contains(menuItem) || (!showOpenMenu && menuItem.Equals("open", StringComparison.OrdinalIgnoreCase)));
 
             return filterMenuItemsImpl;
         }

@@ -218,48 +218,7 @@ namespace FilesFullTrust
             });
         }
 
-        private IEnumerable<string> SearchForUserOrGroup(string userName, string domain = "")
-        {
-            try
-            {
-                using var session = CimSession.Create(null);
-                var users = session
-                    .QueryInstances(@"root\cimv2", "WQL", $"select * from Win32_Account where Name like '%{userName}%' and Domain like '%{domain}%'");
-
-                return users.Select(x => x.CimInstanceProperties["SID"].Value as string);
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        private IEnumerable<string> GetGroupsForUser(string sid)
-        {
-            try
-            {
-                using var session = CimSession.Create(null);
-                var user = session
-                    .QueryInstances(@"root\cimv2", "WQL", $"select * from Win32_UserAccount where SID='{sid}'")
-                    .FirstOrDefault();
-
-                if (user != null)
-                {
-                    var groups = session.EnumerateAssociatedInstances(@"root\cimv2", user, "Win32_GroupUser", "Win32_Group", null, null);
-                    return groups.Select(x => x.CimInstanceProperties["SID"].Value as string);
-                }
-                return null;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        public bool HasPermission(FileSystemRights perm)
-        {
-            return GetEffectiveRights().HasFlag(perm);
-        }
+        public bool HasPermission(FileSystemRights perm) => GetEffectiveRights().HasFlag(perm);
 
         public FileSystemRights GetEffectiveRights()
         {

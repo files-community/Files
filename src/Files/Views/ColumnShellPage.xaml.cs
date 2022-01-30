@@ -49,7 +49,7 @@ namespace Files.Views
         private readonly StorageHistoryHelpers storageHistoryHelpers;
         public IBaseLayout SlimContentPage => ContentPage;
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
-        private CancellationTokenSource cancellationTokenSource;
+        private readonly CancellationTokenSource cancellationTokenSource;
 
         public bool CanNavigateBackward => false;
         public bool CanNavigateForward => false;
@@ -57,12 +57,12 @@ namespace Files.Views
         public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
 
         public MainViewModel MainViewModel => App.MainViewModel;
-        private bool isCurrentInstance { get; set; } = false;
 
         public bool IsColumnView { get; } = true;
 
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
+        private bool isCurrentInstance = false;
         public bool IsCurrentInstance
         {
             get
