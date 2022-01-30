@@ -225,7 +225,8 @@ namespace FilesFullTrust.MessageHandlers
                                     if (!Extensions.IgnoreExceptions(() =>
                                     {
                                         using var shi = new ShellItem(fileToDeletePath[i]);
-                                        op.QueueDeleteOperation(shi);
+                                        var file = Extensions.IgnoreExceptions(() => GetFirstFile(shi)) ?? shi;
+                                        op.QueueDeleteOperation(file);
                                     }))
                                     {
                                         shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -811,6 +812,28 @@ namespace FilesFullTrust.MessageHandlers
                     }
                     break;
             }
+        }
+
+        private ShellItem GetFirstFile(ShellItem shi)
+        {
+            if (!shi.IsFolder || shi.Attributes.HasFlag(ShellItemAttribute.Stream))
+            {
+                return shi;
+            }
+            using var shf = new ShellFolder(shi);
+            if (shf.FirstOrDefault(x => !x.IsFolder || x.Attributes.HasFlag(ShellItemAttribute.Stream)) is ShellItem item)
+            {
+                return item;
+            }
+            foreach (var shsfi in shf.Where(x => x.IsFolder && !x.Attributes.HasFlag(ShellItemAttribute.Stream)))
+            {
+                using var shsf = new ShellFolder(shsfi);
+                if (GetFirstFile(shsf) is ShellItem item2)
+                {
+                    return item2;
+                }
+            }
+            return null;
         }
 
         public void WaitForCompletion()
