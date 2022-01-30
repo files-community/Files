@@ -517,13 +517,6 @@ namespace Files.ViewModels
             set => SetProperty(ref isItemSelected, value);
         }
 
-        private bool isSizeKnown;
-        public bool IsSizeKnown
-        {
-            get => isSizeKnown;
-            set => SetProperty(ref isSizeKnown, value);
-        }
-
         public SelectedItemsPropertiesViewModel()
         {
         }

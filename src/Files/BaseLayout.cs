@@ -533,9 +533,9 @@ namespace Files
         {
             if (e.Folder is null)
             {
-                SelectedItemsPropertiesViewModel.IsSizeKnown = false;
                 SelectedItemsPropertiesViewModel.ItemSizeBytes = 0;
                 SelectedItemsPropertiesViewModel.ItemSize = string.Empty;
+                SelectedItemsPropertiesViewModel.ItemSizeVisibility = false;
             }
 
             var items = (selectedItems?.Any() ?? false) ? selectedItems : GetAllItems();
@@ -648,7 +648,6 @@ namespace Files
             if (items is not null)
             {
                 bool isSizeKnown = !items.Any(item => string.IsNullOrEmpty(item.FileSize));
-                SelectedItemsPropertiesViewModel.IsSizeKnown = isSizeKnown;
                 if (isSizeKnown)
                 {
                     long size = items.Sum(item => item.FileSizeBytes);
@@ -660,6 +659,7 @@ namespace Files
                     SelectedItemsPropertiesViewModel.ItemSizeBytes = 0;
                     SelectedItemsPropertiesViewModel.ItemSize = string.Empty;
                 }
+                SelectedItemsPropertiesViewModel.ItemSizeVisibility = isSizeKnown;
             }
         }
 
