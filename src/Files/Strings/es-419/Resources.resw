@@ -1341,9 +1341,6 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Elementos</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Cerrar las pestañas de la derecha</value>
-  </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>Error al eliminar</value>
   </data>
