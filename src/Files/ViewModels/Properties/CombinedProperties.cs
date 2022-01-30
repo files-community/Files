@@ -10,7 +10,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
 
 namespace Files.ViewModels.Properties
 {
