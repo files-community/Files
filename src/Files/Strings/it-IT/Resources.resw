@@ -2600,6 +2600,6 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
     <value>Chiudi schede a destra</value>
   </data>
   <data name="CloseOthers" xml:space="preserve">
-    <value>Chiudi altre schede</value>
+    <value>Chiudi le altre schede</value>
   </data>
 </root>
