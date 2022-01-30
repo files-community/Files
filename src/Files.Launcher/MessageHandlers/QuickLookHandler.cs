@@ -3,12 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
+using System.Runtime.Versioning;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 
 namespace FilesFullTrust.MessageHandlers
 {
+    [SupportedOSPlatform("Windows10.0.10240")]
     public class QuickLookHandler : IMessageHandler
     {
         private static readonly Logger Logger = Program.Logger;

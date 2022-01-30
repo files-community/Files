@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using Tulpep.ActiveDirectoryObjectPicker;
 
 namespace FilesFullTrust
 {
+    [SupportedOSPlatform("Windows10.0.10240")]
     public class FilePermissions
     {
         public string FilePath { get; set; }
@@ -298,6 +300,7 @@ namespace FilesFullTrust
         }
     }
 
+    [SupportedOSPlatform("Windows")]
     public class FileSystemAccessRule2
     {
         public AccessControlType AccessControlType { get; set; }

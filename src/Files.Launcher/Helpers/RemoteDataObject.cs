@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
+using System.Runtime.Versioning;
 using System.Windows.Forms;
 using Vanara.PInvoke;
 using STATSTG = System.Runtime.InteropServices.ComTypes.STATSTG;
@@ -11,6 +12,7 @@ using STATSTG = System.Runtime.InteropServices.ComTypes.STATSTG;
 namespace FilesFullTrust.Helpers
 {
     // Class taken from Rx-Explorer (https://github.com/zhuxb711/RX-Explorer)
+    [SupportedOSPlatform("Windows")]
     public class RemoteDataObject
     {
         /// <summary>

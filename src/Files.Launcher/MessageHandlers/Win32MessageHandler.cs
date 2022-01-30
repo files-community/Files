@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel;
@@ -15,6 +16,7 @@ using Windows.Storage;
 
 namespace FilesFullTrust.MessageHandlers
 {
+    [SupportedOSPlatform("Windows10.0.10240")]
     public class Win32MessageHandler : IMessageHandler
     {
         public void Initialize(PipeStream connection)

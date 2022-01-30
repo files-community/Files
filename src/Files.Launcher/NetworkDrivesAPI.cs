@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Vanara.Extensions;
@@ -9,6 +10,7 @@ using static Vanara.PInvoke.Mpr;
 
 namespace FilesFullTrust
 {
+    [SupportedOSPlatform("Windows10.0.10240")]
     public class NetworkDrivesAPI
     {
         /// <summary>

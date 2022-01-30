@@ -6,12 +6,14 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using Vanara.InteropServices;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 
 namespace FilesFullTrust
 {
+    [SupportedOSPlatform("Windows10.0.10240")]
     public class ContextMenu : Win32ContextMenu, IDisposable
     {
         private Shell32.IContextMenu cMenu;

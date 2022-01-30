@@ -4,10 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 
 namespace FilesFullTrust.Helpers
 {
+    [SupportedOSPlatform("Windows10.0.10240")]
     public class CloudDrivesDetector
     {
         public static async Task<List<CloudProvider>> DetectCloudDrives()
