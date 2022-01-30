@@ -2797,8 +2797,7 @@
         </trans-unit>
         <trans-unit id="SettingsSearchUnindexedItems" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders</source>
-          <target state="needs-review-translation">파일 및 폴더 검색 시 색인되지 않은 항목도 표시 (검색 시간이 길어질 수 있음)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">파일 및 폴더 검색 시 색인되지 않은 항목도 표시</target>
         </trans-unit>
         <trans-unit id="SettingsEnableLayoutPreferencesPerFolder" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
