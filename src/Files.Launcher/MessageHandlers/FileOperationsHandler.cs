@@ -77,20 +77,12 @@ namespace FilesFullTrust.MessageHandlers
                         var operation = (DataPackageOperation)(long)message["operation"];
                         var fileList = new System.Collections.Specialized.StringCollection();
                         fileList.AddRange(fileToCopy.Split('|'));
-                        if (operation == DataPackageOperation.Copy)
-                        {
-                            System.Windows.Forms.Clipboard.SetFileDropList(fileList);
-                        }
-                        else if (operation == DataPackageOperation.Move)
-                        {
-                            byte[] moveEffect = new byte[] { 2, 0, 0, 0 };
-                            MemoryStream dropEffect = new MemoryStream();
-                            dropEffect.Write(moveEffect, 0, moveEffect.Length);
-                            var data = new System.Windows.Forms.DataObject();
-                            data.SetFileDropList(fileList);
-                            data.SetData("Preferred DropEffect", dropEffect);
-                            System.Windows.Forms.Clipboard.SetDataObject(data, true);
-                        }
+                        MemoryStream dropEffect = new MemoryStream(operation == DataPackageOperation.Copy ?
+                            new byte[] { 5, 0, 0, 0 } : new byte[] { 2, 0, 0, 0 });
+                        var data = new System.Windows.Forms.DataObject();
+                        data.SetFileDropList(fileList);
+                        data.SetData("Preferred DropEffect", dropEffect);
+                        System.Windows.Forms.Clipboard.SetDataObject(data, true);
                         return true;
                     });
                     break;
