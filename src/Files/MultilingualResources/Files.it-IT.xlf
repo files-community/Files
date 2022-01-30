@@ -3500,31 +3500,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
         <trans-unit id="Install" translate="yes" xml:space="preserve">
           <source>Install</source>
           <target state="translated">Installa</target>
-        </trans-unit>
-        <trans-unit id="RotateLeft" translate="yes" xml:space="preserve">
-          <source>Rotate left</source>
-          <target state="new">Rotate left</target>
-        </trans-unit>
-        <trans-unit id="RotateRight" translate="yes" xml:space="preserve">
-          <source>Rotate right</source>
-          <target state="new">Rotate right</target>
-        </trans-unit>
-        <trans-unit id="Install" translate="yes" xml:space="preserve">
-          <source>Install</source>
-          <target state="new">Install</target>
-        </trans-unit>
-        <trans-unit id="RotateLeft" translate="yes" xml:space="preserve">
-          <source>Rotate left</source>
-          <target state="new">Rotate left</target>
-        </trans-unit>
-        <trans-unit id="RotateRight" translate="yes" xml:space="preserve">
-          <source>Rotate right</source>
-          <target state="new">Rotate right</target>
-        </trans-unit>
-        <trans-unit id="Install" translate="yes" xml:space="preserve">
-          <source>Install</source>
-          <target state="new">Install</target>
-        </trans-unit>
+        </trans-unit>      
         <trans-unit id="CloseTabsToTheLeft" translate="yes" xml:space="preserve">
           <source>Close tabs to the left</source>
           <target state="translated">Chiudi schede a sinistra</target>
