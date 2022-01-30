@@ -16,7 +16,7 @@ namespace FilesFullTrust.MessageHandlers
     [SupportedOSPlatform("Windows10.0.10240")]
     public class ContextMenuHandler : IMessageHandler
     {
-        private DisposableDictionary handleTable;
+        private readonly DisposableDictionary handleTable;
 
         public ContextMenuHandler()
         {

@@ -909,8 +909,8 @@ namespace FilesFullTrust.MessageHandlers
 
         private class ProgressHandler : IDisposable
         {
-            private ManualResetEvent operationsCompletedEvent;
-            private PipeStream connection;
+            private readonly ManualResetEvent operationsCompletedEvent;
+            private readonly PipeStream connection;
 
             private class OperationWithProgress
             {
@@ -918,8 +918,8 @@ namespace FilesFullTrust.MessageHandlers
                 public bool Canceled { get; set; }
             }
 
-            private Shell32.ITaskbarList4 taskbar;
-            private ConcurrentDictionary<string, OperationWithProgress> operations;
+            private readonly Shell32.ITaskbarList4 taskbar;
+            private readonly ConcurrentDictionary<string, OperationWithProgress> operations;
 
             public System.Windows.Forms.IWin32Window OwnerWindow { get; set; }
 

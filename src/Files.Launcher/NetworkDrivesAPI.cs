@@ -18,7 +18,7 @@ namespace FilesFullTrust
         /// </summary>
         public class NetworkConnectionDialog : CommonDialog
         {
-            private NETRESOURCE nres = new NETRESOURCE();
+            private readonly NETRESOURCE nres = new NETRESOURCE();
             private CONNECTDLGSTRUCT opts;
 
             /// <summary>Initializes a new instance of the <see cref="NetworkConnectionDialog"/> class.</summary>
