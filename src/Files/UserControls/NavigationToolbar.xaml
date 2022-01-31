@@ -563,6 +563,27 @@
                 </Grid>
 
                 <Button
+                    x:Name="UpdateButton"
+                    x:Load="{x:Bind ViewModel.UpdateSettingsService.IsUpdateAvailable, Mode=OneWay}"
+                    Width="36"
+                    Height="32"
+                    AccessKey="U"
+                    AutomationProperties.AutomationId="UpdateButton"
+                    AutomationProperties.Name="{helpers:ResourceString Name=UpdateAvailable}"
+                    Background="Transparent"
+                    Command="{x:Bind ViewModel.UpdateCommand, Mode=OneWay}"
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=UpdateAvailable}"
+                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <Grid>
+                        <FontIcon FontSize="14" Glyph="&#xE896;" />
+                        <muxc:InfoBadge
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"/>
+                    </Grid>
+                </Button>
+
+                <Button
                     x:Name="SettingsButton"
                     Width="36"
                     Height="32"
