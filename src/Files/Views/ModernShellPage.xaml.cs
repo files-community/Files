@@ -215,7 +215,7 @@ namespace Files.Views
             NavToolbarViewModel.RotateImageLeftCommand = new RelayCommand(async () => SlimContentPage?.CommandsViewModel.RotateImageLeftCommand.Execute(null));
             NavToolbarViewModel.RotateImageRightCommand = new RelayCommand(async () => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.Execute(null));
             NavToolbarViewModel.InstallFontCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallFontCommand.Execute(null));
-            NavToolbarViewModel.UpdateCommand = new RelayCommand(() => UpdateSettingsService.DownloadUpdates());
+            NavToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await UpdateSettingsService.DownloadUpdates());
         }
 
         private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)

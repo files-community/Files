@@ -572,6 +572,7 @@
                     AutomationProperties.Name="{helpers:ResourceString Name=UpdateAvailable}"
                     Background="Transparent"
                     Command="{x:Bind ViewModel.UpdateCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.UpdateSettingsService.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=UpdateAvailable}"
                     HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">

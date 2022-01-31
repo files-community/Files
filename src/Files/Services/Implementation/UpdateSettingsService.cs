@@ -1,17 +1,19 @@
-﻿using System;
+﻿using Files.Models.JsonSettings;
+using Microsoft.Toolkit.Uwp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Services.Store;
 using Windows.UI.Xaml.Controls;
-using Files.Models.JsonSettings;
-using Microsoft.Toolkit.Uwp;
+using Files.Enums;
 
 namespace Files.Services.Implementation
 {
     public class UpdateSettingsService : BaseObservableJsonSettingsModel, IUpdateSettingsService
     {
         private StoreContext _storeContext;
+        private IList<StorePackageUpdate> _updatePackages;
 
         private bool _isUpdateAvailable;
 
@@ -25,15 +27,21 @@ namespace Files.Services.Implementation
             }
         }
 
-        public bool MandatoryOnly
+        private bool _isUpdating;
+
+        public bool IsUpdating
         {
-            get => Get(true);
-            set => Set(value);
+            get => _isUpdating;
+            private set
+            {
+                _isUpdating = value;
+                OnPropertyChanged(nameof(IsUpdating));
+            }
         }
 
-        private async Task SetStoreContext()
+        public UpdateSettingsService()
         {
-            _storeContext ??= await Task.Run(StoreContext.GetDefault);
+            _updatePackages = new List<StorePackageUpdate>();
         }
 
         private static async Task<bool> ShowDialogAsync()
@@ -53,62 +61,63 @@ namespace Files.Services.Implementation
 
         public void ReportToAppCenter() {}
 
-        public async void DownloadUpdates()
+        public async Task DownloadUpdates()
         {
-            var dialog = await ShowDialogAsync();
+            // Notify that we are starting updates.
+            IsUpdating = true;
 
-            if (!dialog)
+            await GetUpdatePackages();
+
+            // Prompt the user to download if the package list
+            // contains mandatory updates.
+            if (IsMandatory)
             {
-                return;
+                var dialog = await ShowDialogAsync();
+
+                if (!dialog)
+                {
+                    IsUpdating = false;
+                    return;
+                }
             }
 
-            var updateList = await GetUpdateList();
-
-            if (updateList is not null && updateList.Count > 1)
+            if (_updatePackages is not null && _updatePackages.Count > 1)
             {
                 App.SaveSessionTabs();
-                var downloadOperation = _storeContext.RequestDownloadAndInstallStorePackageUpdatesAsync(updateList);
+                var downloadOperation = _storeContext.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
                 await downloadOperation.AsTask();
 
+                _updatePackages.Clear();
                 IsUpdateAvailable = false;
             }
+
+            // Notify that update is complete.
+            IsUpdating = false;
         }
 
         public async void CheckForUpdates()
         {
-            // Uncomment to test button appearing on toolbar.
-// #if DEBUG
-//             IsUpdateAvailable = true;
-//             return;
-// #endif
+            await GetUpdatePackages();
 
-            var updateList = await GetUpdateList();
-
-            if (updateList is not null && updateList.Count > 0)
+            if (_updatePackages is not null && _updatePackages.Count > 0)
             {
                 IsUpdateAvailable = true;
             }
         }
 
-        private async Task<IReadOnlyList<StorePackageUpdate>> GetUpdateList()
+        private async Task GetUpdatePackages()
         {
-            IReadOnlyList<StorePackageUpdate> updateList = null;
             try
             {
-                await SetStoreContext();
-
-                updateList = await _storeContext.GetAppAndOptionalStorePackageUpdatesAsync();
-
-                if (MandatoryOnly)
-                {
-                    updateList = updateList.Where(e => e.Mandatory).ToList();
-                }
+                _storeContext ??= await Task.Run(StoreContext.GetDefault);
+                var updateList = await _storeContext.GetAppAndOptionalStorePackageUpdatesAsync();
+                _updatePackages = updateList.ToList();
             }
             catch (Exception)
             {
             }
-
-            return updateList;
         }
+
+        private bool IsMandatory => _updatePackages?.Where(e => e.Mandatory).ToList().Count >= 1;
     }
 }
