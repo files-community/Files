@@ -3510,7 +3510,7 @@ Korzystamy z App Center, aby śledzić wykorzystanie aplikacji, znajdować błę
         </trans-unit>
         <trans-unit id="CloseTabsToTheLeft" translate="yes" xml:space="preserve">
           <source>Close tabs to the left</source>
-          <target state="translated">Zamnij karty po lewej</target>
+          <target state="translated">Zamknij karty po lewej</target>
         </trans-unit>
         <trans-unit id="CloseTabsToTheRight" translate="yes" xml:space="preserve">
           <source>Close tabs to the right</source>
