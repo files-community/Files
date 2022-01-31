@@ -174,7 +174,6 @@
                     x:Name="DeleteButton"
                     Width="Auto"
                     MinWidth="40"
-                    AccessKey="D"
                     Command="{x:Bind ViewModel.DeleteCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
                     Label="{helpers:ResourceString Name=Delete}"
