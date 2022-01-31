@@ -2792,7 +2792,7 @@
         </trans-unit>
         <trans-unit id="SettingsSearchUnindexedItems" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders</source>
-          <target state="needs-review-translation">Pokaż niezindeksowane elementy podczas wyszukiwania plików i folderów</target>
+          <target state="translated">Pokaż niezindeksowane elementy podczas wyszukiwania plików i folderów</target>
         </trans-unit>
         <trans-unit id="SettingsEnableLayoutPreferencesPerFolder" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
