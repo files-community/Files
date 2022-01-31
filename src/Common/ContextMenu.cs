@@ -16,6 +16,7 @@ namespace Files.Common
         MFT_RIGHTJUSTIFY = 16384
     }
 
+    // just an unnecessary comment
     public class Win32ContextMenu
     {
         public List<Win32ContextMenuItem> Items { get; set; }
