@@ -9,7 +9,6 @@ using System;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views.LayoutModes
@@ -45,7 +44,7 @@ namespace Files.Views.LayoutModes
 
             var nextBladeIndex = ColumnHost.ActiveBlades.IndexOf(column.ListView.FindAscendant<BladeItem>()) + 1;
 
-            if (ColumnHost.ActiveBlades.ElementAtOrDefault(nextBladeIndex) is not BladeItem nextBlade || 
+            if (ColumnHost.ActiveBlades.ElementAtOrDefault(nextBladeIndex) is not BladeItem nextBlade ||
                 ((nextBlade.Content as Frame)?.Content as IShellPage)?.FilesystemViewModel?.WorkingDirectory != column.NavPathParam)
             {
                 DismissOtherBlades(column.ListView);
@@ -210,7 +209,7 @@ namespace Files.Views.LayoutModes
             var destPath = navArgs != null ? (navArgs.IsSearchResultPage ? navArgs.SearchPathParam : navArgs.NavPathParam) : navigationPath;
             var columnPath = ((ColumnHost.ActiveBlades.Last().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
             var columnFirstPath = ((ColumnHost.ActiveBlades.First().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
-            
+
             if (string.IsNullOrEmpty(destPath) || string.IsNullOrEmpty(destPath) || string.IsNullOrEmpty(destPath))
             {
                 ParentShellPageInstance.NavigateToPath(navigationPath, sourcePageType, navArgs);
@@ -266,7 +265,7 @@ namespace Files.Views.LayoutModes
                 }
             }
         }
-        
+
         public void SetSelectedPathOrNavigate(PathNavigationEventArgs e)
         {
             if (ColumnHost.ActiveBlades?.Count > 1)

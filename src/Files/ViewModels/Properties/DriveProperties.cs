@@ -5,7 +5,6 @@ using Files.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
 using Windows.Storage.FileProperties;
-using Windows.UI.Xaml;
 
 namespace Files.ViewModels.Properties
 {

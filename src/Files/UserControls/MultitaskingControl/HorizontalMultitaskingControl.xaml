@@ -64,10 +64,10 @@
                             DataContextChanged="MenuItemCloseTabsToTheRight_DataContextChanged"
                             Text="{helpers:ResourceString Name=CloseTabsToTheRight}" />
                         <MenuFlyoutItem
-                            x:Name="MenuItemCloseOthers"
-                            Click="CloseOthers"
-                            DataContextChanged="MenuItemCloseOthers_DataContextChanged"
-                            Text="{helpers:ResourceString Name=CloseOthers}" />
+                            x:Name="MenuItemCloseOtherTabs"
+                            Click="CloseOtherTabs"
+                            DataContextChanged="MenuItemCloseOtherTabs_DataContextChanged"
+                            Text="{helpers:ResourceString Name=CloseOtherTabs}" />
                         <MenuFlyoutItem
                             x:Name="MenuItemReopenClosedTab"
                             x:Uid="HorizontalMultitaskingControlReopenClosedTab"
