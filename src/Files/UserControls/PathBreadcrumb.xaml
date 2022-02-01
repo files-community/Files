@@ -89,7 +89,6 @@
 
                 <FontIcon
                     x:Name="PathSeaparatorIcon"
-                    Margin="0,4"
                     DataContextChanged="PathItemSeparator_DataContextChanged"
                     FontSize="12"
                     Glyph="&#xE76C;"
