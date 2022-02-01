@@ -1,12 +1,12 @@
-﻿using Files.Models.JsonSettings;
-using Microsoft.Toolkit.Uwp;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Files.Models.JsonSettings;
+using Microsoft.Toolkit.Uwp;
 using Windows.Services.Store;
 using Windows.UI.Xaml.Controls;
-using Files.Enums;
 
 namespace Files.Services.Implementation
 {
@@ -14,6 +14,8 @@ namespace Files.Services.Implementation
     {
         private StoreContext _storeContext;
         private IList<StorePackageUpdate> _updatePackages;
+
+        private bool IsMandatory => _updatePackages?.Where(e => e.Mandatory).ToList().Count >= 1;
 
         private bool _isUpdateAvailable;
 
@@ -44,6 +46,81 @@ namespace Files.Services.Implementation
             _updatePackages = new List<StorePackageUpdate>();
         }
 
+        public void ReportToAppCenter() {}
+
+        public async Task DownloadUpdates()
+        {
+            OnUpdateInProgress();
+
+            if (!HasUpdates())
+            {
+                return;
+            }
+
+            // double check for Mandatory
+            if (IsMandatory)
+            {
+                // Show dialog
+                var dialog = await ShowDialogAsync();
+                if (!dialog)
+                {
+                    // User rejected mandatory update.
+                    OnUpdateCancelled();
+                    return;
+                }
+            }
+
+            await DownloadAndInstall();
+            OnUpdateCompleted();
+        }
+
+        public async Task DownloadMandatoryUpdates()
+        {
+            // Prompt the user to download if the package list
+            // contains mandatory updates.
+            if (IsMandatory && HasUpdates())
+            {
+                if (await ShowDialogAsync())
+                {
+                    OnUpdateInProgress();
+                    await DownloadAndInstall();
+                    OnUpdateCompleted();
+                }
+            }
+        }
+
+        public async Task CheckForUpdates()
+        {
+            await GetUpdatePackages();
+
+            if (_updatePackages is not null && _updatePackages.Count > 0)
+            {
+                IsUpdateAvailable = true;
+            }
+        }
+
+        private async Task DownloadAndInstall()
+        {
+            App.SaveSessionTabs();
+            var downloadOperation = _storeContext.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
+            await downloadOperation.AsTask();
+        }
+
+        private async Task GetUpdatePackages()
+        {
+            try
+            {
+                _storeContext ??= await Task.Run(StoreContext.GetDefault);
+                var updateList = await _storeContext.GetAppAndOptionalStorePackageUpdatesAsync();
+                _updatePackages = updateList?.ToList();
+            }
+            catch (FileNotFoundException)
+            {
+                // Suppress the FileNotFoundException.
+                // GetAppAndOptionalStorePackageUpdatesAsync throws for unknown reasons.
+            }
+        }
+
         private static async Task<bool> ShowDialogAsync()
         {
             //TODO: Use IDialogService in future.
@@ -59,65 +136,26 @@ namespace Files.Services.Implementation
             return result == ContentDialogResult.Primary;
         }
 
-        public void ReportToAppCenter() {}
-
-        public async Task DownloadUpdates()
+        private bool HasUpdates()
         {
-            // Notify that we are starting updates.
+            return _updatePackages is not null && _updatePackages.Count >= 1;
+        }
+
+        protected virtual void OnUpdateInProgress()
+        {
             IsUpdating = true;
+        }
 
-            await GetUpdatePackages();
+        protected virtual void OnUpdateCompleted()
+        {
+            IsUpdating = false;
+            IsUpdateAvailable = false;
+            _updatePackages.Clear();
+        }
 
-            // Prompt the user to download if the package list
-            // contains mandatory updates.
-            if (IsMandatory)
-            {
-                var dialog = await ShowDialogAsync();
-
-                if (!dialog)
-                {
-                    IsUpdating = false;
-                    return;
-                }
-            }
-
-            if (_updatePackages is not null && _updatePackages.Count > 1)
-            {
-                App.SaveSessionTabs();
-                var downloadOperation = _storeContext.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
-                await downloadOperation.AsTask();
-
-                _updatePackages.Clear();
-                IsUpdateAvailable = false;
-            }
-
-            // Notify that update is complete.
+        protected virtual void OnUpdateCancelled()
+        {
             IsUpdating = false;
         }
-
-        public async void CheckForUpdates()
-        {
-            await GetUpdatePackages();
-
-            if (_updatePackages is not null && _updatePackages.Count > 0)
-            {
-                IsUpdateAvailable = true;
-            }
-        }
-
-        private async Task GetUpdatePackages()
-        {
-            try
-            {
-                _storeContext ??= await Task.Run(StoreContext.GetDefault);
-                var updateList = await _storeContext.GetAppAndOptionalStorePackageUpdatesAsync();
-                _updatePackages = updateList.ToList();
-            }
-            catch (Exception)
-            {
-            }
-        }
-
-        private bool IsMandatory => _updatePackages?.Where(e => e.Mandatory).ToList().Count >= 1;
     }
 }

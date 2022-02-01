@@ -184,7 +184,9 @@ namespace Files
             });
 
             // Check for required updates
-            Ioc.Default.GetRequiredService<IUpdateSettingsService>().CheckForUpdates();
+            var updateService = Ioc.Default.GetRequiredService<IUpdateSettingsService>();
+            await updateService.CheckForUpdates();
+            await updateService.DownloadMandatoryUpdates();
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)

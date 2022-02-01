@@ -16,18 +16,10 @@ namespace Files.Services
         /// </summary>
         bool IsUpdating { get; }
 
-        /// <summary>
-        /// Downloads updates.
-        /// </summary>
-        /// <remarks>
-        /// Prompts the user for consent if the update is considered
-        /// a mandatory update.
-        /// </remarks>
         Task DownloadUpdates();
 
-        /// <summary>
-        /// Checks for updates.
-        /// </summary>
-        void CheckForUpdates();
+        Task DownloadMandatoryUpdates();
+
+        Task CheckForUpdates();
     }
 }
