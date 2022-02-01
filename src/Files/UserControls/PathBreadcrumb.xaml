@@ -63,7 +63,8 @@
                 Spacing="4"
                 Tag="{Binding Path}">
                 <TextBlock
-                    VerticalAlignment="Center"
+                    Height="24"
+                    Padding="0,4,0,0"
                     FontSize="12"
                     PointerPressed="PathBoxItem_PointerPressed"
                     Tapped="PathBoxItem_Tapped"
@@ -89,6 +90,8 @@
 
                 <FontIcon
                     x:Name="PathSeaparatorIcon"
+                    Height="24"
+                    Margin="0,4,0,0"
                     DataContextChanged="PathItemSeparator_DataContextChanged"
                     FontSize="12"
                     Glyph="&#xE76C;"
