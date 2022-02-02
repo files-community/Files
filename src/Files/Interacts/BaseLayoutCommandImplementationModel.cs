@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using Files.Dialogs;
 using Files.Enums;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
@@ -183,26 +184,21 @@ namespace Files.Interacts
 
         public virtual async void RestoreItem(RoutedEventArgs e)
         {
-            if (SlimContentPage.IsItemSelected)
+            var items = SlimContentPage.SelectedItems.ToList().Where(x => x is RecycleBinItem).Select((item) => new
             {
-                foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
-                {
-                    if (listedItem is RecycleBinItem binItem)
-                    {
-                        FilesystemItemType itemType = binItem.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
-                        await FilesystemHelpers.RestoreFromTrashAsync(StorageHelpers.FromPathAndType(
-                            (listedItem as RecycleBinItem).ItemPath,
-                            itemType), (listedItem as RecycleBinItem).ItemOriginalPath, true);
-                    }
-                }
-            }
+                Source = StorageHelpers.FromPathAndType(
+                    item.ItemPath,
+                    item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory),
+                Dest = (item as RecycleBinItem).ItemOriginalPath
+            });
+            await FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
         }
 
         public virtual async void DeleteItem(RoutedEventArgs e)
         {
-            var items = await Task.Run(() => SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
+            var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
                 item.ItemPath,
-                item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)));
+                item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
             await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
         }
 

@@ -58,7 +58,7 @@ namespace Files.DataModels
         public List<FilesystemOperationItemViewModel> ToItems(Action updatePrimaryButtonEnabled, Action optionGenerateNewName, Action optionReplaceExisting, Action optionSkip)
         {
             List<FilesystemOperationItemViewModel> items = new List<FilesystemOperationItemViewModel>();
-            List<FilesystemItemsOperationItemModel> nonConflictingItems = IncomingItems.Except(ConflictingItems).ToList();
+            IEnumerable<FilesystemItemsOperationItemModel> nonConflictingItems = IncomingItems.Except(ConflictingItems);
 
             // Add conflicting items first
             items.AddRange(ConflictingItems.Select((item, index) =>
