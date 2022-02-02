@@ -574,7 +574,7 @@
                     Command="{x:Bind ViewModel.UpdateCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.UpdateSettingsService.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=UpdateAvailable}"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=UpdateFiles}"
                     HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Grid>
                         <FontIcon FontSize="14" Glyph="&#xE896;" />
