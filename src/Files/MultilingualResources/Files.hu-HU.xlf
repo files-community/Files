@@ -3371,7 +3371,7 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
           <source>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</source>
-          <target state="translated">Ez az opció rendszerfájlokat módosít és nem várt következményei is lehetnek az eszközödön. A fejlesztők nem vállalnak felelősséget az emiatt esetlegesen bekövetkező problémákért. Az opció engedélyezésével automatikusan elfogadod az ezzel járó kockázatot.</target>
+          <target state="translated">Ez az opció beállításjegyzék értékeket módosít és nem várt következményei is lehetnek az eszközödön. A fejlesztők nem vállalnak felelősséget az emiatt esetlegesen bekövetkező problémákért. Az opció engedélyezésével elfogadod az ezzel járó kockázatot.</target>
         </trans-unit>
         <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
           <source>Clear all</source>
