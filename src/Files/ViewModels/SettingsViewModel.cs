@@ -11,6 +11,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
@@ -34,9 +35,11 @@ namespace Files.ViewModels
             {
                 DefaultLanguages.Add(new DefaultLanguageModel(lang));
             }
-        }
 
-        public bool AreRegistrySettingsMergedToJson
+            UpdateThemeElements = new RelayCommand(() => ThemeModeChanged?.Invoke(this, EventArgs.Empty));
+    }
+
+    public bool AreRegistrySettingsMergedToJson
         {
             get => Get(false);
             set => Set(value);
@@ -170,10 +173,7 @@ namespace Files.ViewModels
 
         public event EventHandler ThemeModeChanged;
 
-        public RelayCommand UpdateThemeElements => new(() =>
-        {
-            ThemeModeChanged?.Invoke(this, EventArgs.Empty);
-        });
+        public ICommand UpdateThemeElements { get; }
 
         #region ReadAndSaveSettings
 
