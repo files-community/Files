@@ -576,12 +576,7 @@
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=UpdateFiles}"
                     HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-                    <Grid>
-                        <FontIcon FontSize="14" Glyph="&#xE896;" />
-                        <muxc:InfoBadge
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"/>
-                    </Grid>
+                    <FontIcon FontSize="14" Glyph="&#xE896;" />
                 </Button>
 
                 <Button
