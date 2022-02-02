@@ -2747,4 +2747,13 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="SidebarDocuments" xml:space="preserve">
     <value>Documents</value>
   </data>
+  <data name="Music" xml:space="preserve">
+    <value>Music</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Pictures</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videos</value>
+  </data>
 </root>
