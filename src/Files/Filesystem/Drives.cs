@@ -26,6 +26,8 @@ namespace Files.Filesystem
 {
     public class DrivesManager : ObservableObject
     {
+        private static readonly IFolderSizeProvider folderSizeProvider = Ioc.Default.GetService<IFolderSizeProvider>();
+
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         private static readonly Logger Logger = App.Logger;
@@ -103,6 +105,7 @@ namespace Files.Filesystem
         {
             System.Diagnostics.Debug.WriteLine("DeviceWatcher_EnumerationCompleted");
             await RefreshUI();
+            folderSizeProvider.CleanCache();
         }
 
         private async Task RefreshUI()

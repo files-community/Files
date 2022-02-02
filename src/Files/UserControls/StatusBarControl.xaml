@@ -58,7 +58,7 @@
             VerticalAlignment="Center"
             x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
             Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}"
-            Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
+            Visibility="{x:Bind SelectedItemsPropertiesViewModel.ItemSizeVisibility, Mode=OneWay}" />
 
         <Button
             x:Name="FullTrustStatus"
