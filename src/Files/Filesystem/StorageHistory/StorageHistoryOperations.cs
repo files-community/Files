@@ -1,5 +1,6 @@
 ﻿using Files.Enums;
 using Files.Helpers;
+using Files.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -55,9 +56,9 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        for (int i = 0; i < history.Source.Count(); i++)
+                        for (int i = 0; i < history.Source.Count; i++)
                         {
-                            await filesystemOperations.CreateAsync(history.Source.ElementAt(i), errorCode, cancellationToken);
+                            await filesystemOperations.CreateAsync(history.Source[i], errorCode, cancellationToken);
                         }
 
                         break;
@@ -70,7 +71,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        await filesystemOperations.CreateShortcutItemsAsync(history.Source, history.Destination.Select(item => item.Path), null, errorCode, cancellationToken);
+                        await filesystemOperations.CreateShortcutItemsAsync(history.Source, await history.Destination.Select(item => item.Path).ToListAsync(), null, errorCode, cancellationToken);
 
                         break;
                     }
@@ -83,11 +84,11 @@ namespace Files.Filesystem.FilesystemHistory
                         }
 
                         NameCollisionOption collision = NameCollisionOption.GenerateUniqueName;
-                        for (int i = 0; i < history.Source.Count(); i++)
+                        for (int i = 0; i < history.Source.Count; i++)
                         {
                             await filesystemOperations.RenameAsync(
-                                history.Source.ElementAt(i),
-                                Path.GetFileName(history.Destination.ElementAt(i).Path),
+                                history.Source[i],
+                                Path.GetFileName(history.Destination[i].Path),
                                 collision,
                                 errorCode,
                                 cancellationToken);
@@ -103,7 +104,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        return await filesystemHelpers.CopyItemsAsync(history.Source, history.Destination.Select((item) => item.Path), false, false);
+                        return await filesystemHelpers.CopyItemsAsync(history.Source, history.Destination.Select(item => item.Path), false, false);
                     }
 
                 case FileOperationType.Move: // Move PASS
@@ -113,7 +114,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        return await filesystemHelpers.MoveItemsAsync(history.Source, history.Destination.Select((item) => item.Path), false, false);
+                        return await filesystemHelpers.MoveItemsAsync(history.Source, history.Destination.Select(item => item.Path), false, false);
                     }
 
                 case FileOperationType.Extract: // Extract PASS
@@ -152,10 +153,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        for (int i = 0; i < history.Destination.Count(); i++)
-                        {
-                            await filesystemHelpers.RestoreFromTrashAsync(history.Source.ElementAt(i), history.Destination.ElementAt(i).Path, false);
-                        }
+                        await filesystemHelpers.RestoreItemsFromTrashAsync(history.Source, history.Destination.Select(item => item.Path), false);
 
                         break;
                     }
@@ -217,8 +215,8 @@ namespace Files.Filesystem.FilesystemHistory
                         for (int i = 0; i < history.Destination.Count(); i++)
                         {
                             await filesystemOperations.RenameAsync(
-                                history.Destination.ElementAt(i),
-                                Path.GetFileName(history.Source.ElementAt(i).Path),
+                                history.Destination[i],
+                                Path.GetFileName(history.Source[i].Path),
                                 collision,
                                 errorCode,
                                 cancellationToken);
@@ -248,7 +246,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        return await filesystemHelpers.MoveItemsAsync(history.Destination, history.Source.Select((item) => item.Path), false, false);
+                        return await filesystemHelpers.MoveItemsAsync(history.Destination, history.Source.Select(item => item.Path), false, false);
                     }
 
                 case FileOperationType.Extract: // Extract PASS
@@ -269,13 +267,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        for (int i = 0; i < history.Destination.Count(); i++)
-                        {
-                            returnStatus = await filesystemHelpers.RestoreFromTrashAsync(
-                                history.Destination.ElementAt(i),
-                                history.Source.ElementAt(i).Path,
-                                false);
-                        }
+                        returnStatus = await filesystemHelpers.RestoreItemsFromTrashAsync(history.Destination, history.Source.Select(item => item.Path), false);
 
                         if (returnStatus == ReturnResult.IntegrityCheckFailed) // Not found, corrupted
                         {
@@ -326,11 +318,11 @@ namespace Files.Filesystem.FilesystemHistory
 
         // history.Destination is null with CreateNew
         private bool IsHistoryNull(IStorageHistory history) =>
-            !(history.Source.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path))
-                && (history.Destination == null || history.Destination.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path))));
+            !(history.Source.All((item) => item != null && !string.IsNullOrWhiteSpace(item.Path))
+                && (history.Destination == null || history.Destination.All((item) => item != null && !string.IsNullOrWhiteSpace(item.Path))));
 
         private bool IsHistoryNull(IEnumerable<IStorageItemWithPath> source) =>
-            !(source.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path)));
+            !source.All((item) => item != null && !string.IsNullOrWhiteSpace(item.Path));
 
         #endregion Private Helpers
 
