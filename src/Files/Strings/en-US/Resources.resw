@@ -2745,6 +2745,6 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Close others</value>
   </data>
   <data name="UpdateAvailable" xml:space="preserve">
-    <value>Update Available!</value>
+    <value>Update Files</value>
   </data>
 </root>
