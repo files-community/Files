@@ -568,7 +568,6 @@
                     Width="36"
                     Height="32"
                     AccessKey="U"
-                    AutomationProperties.AutomationId="UpdateButton"
                     AutomationProperties.Name="{helpers:ResourceString Name=UpdateFiles}"
                     Background="Transparent"
                     Command="{x:Bind ViewModel.UpdateCommand, Mode=OneWay}"
