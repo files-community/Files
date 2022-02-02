@@ -43,10 +43,10 @@ namespace Files.Views
 
         public OngoingTasksViewModel OngoingTasksViewModel => App.OngoingTasksViewModel;
 
-        public ICommand ToggleFullScreenAcceleratorCommand { get; private set; }
+        public ICommand ToggleFullScreenAcceleratorCommand { get; }
 
-        private ICommand ToggleCompactOverlayCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleCompactOverlay());
-        private ICommand SetCompactOverlayCommand => new RelayCommand<bool>(x => SetCompactOverlay(x));
+        private ICommand ToggleCompactOverlayCommand { get; }
+        private ICommand SetCompactOverlayCommand { get; }
 
         public bool IsVerticalTabFlyoutEnabled => UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled;
 
@@ -67,6 +67,8 @@ namespace Files.Views
             AllowDrop = true;
 
             ToggleFullScreenAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ToggleFullScreenAccelerator);
+            ToggleCompactOverlayCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleCompactOverlay());
+            SetCompactOverlayCommand = new RelayCommand<bool>(x => SetCompactOverlay(x));
 
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
         }
