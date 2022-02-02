@@ -1432,7 +1432,7 @@
         </trans-unit>
         <trans-unit id="Folders" translate="yes" xml:space="preserve">
           <source>Folders</source>
-          <target state="new"/target>
+          <target state="new"</target>
         </trans-unit>
         <trans-unit id="NavToolbarDetails.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Details (Ctrl+Shift+1)</source>
