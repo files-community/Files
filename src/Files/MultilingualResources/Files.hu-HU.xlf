@@ -3371,7 +3371,7 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
           <source>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</source>
-          <target state="translated">Ez az opció beállításjegyzék értékeket módosít és nem várt következményei is lehetnek az eszközödön. A fejlesztők nem vállalnak felelősséget az emiatt esetlegesen bekövetkező problémákért. Az opció engedélyezésével elfogadod az ezzel járó kockázatot.</target>
+          <target state="translated">Ez az opció beállításjegyzék értékeket módosít és nem várt következményei is lehetnek az eszközén. A fejlesztők nem vállalnak felelősséget az emiatt esetlegesen bekövetkező problémákért. Az opció engedélyezésével elfogadja az ezzel járó kockázatot.</target>
         </trans-unit>
         <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
           <source>Clear all</source>
@@ -3471,11 +3471,11 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
         </trans-unit>
         <trans-unit id="RunScript" translate="yes" xml:space="preserve">
           <source>Run script</source>
-          <target state="new">Run script</target>
+          <target state="translated">Szkript futtatása</target>
         </trans-unit>
         <trans-unit id="RunWithPowerShell" translate="yes" xml:space="preserve">
           <source>Run with PowerShell</source>
-          <target state="new">Run with PowerShell</target>
+          <target state="translated">Futtatás PowerShell használatával</target>
         </trans-unit>
         <trans-unit id="SetAsBackground" translate="yes" xml:space="preserve">
           <source>Set as desktop background</source>
@@ -3491,7 +3491,7 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
         </trans-unit>
         <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
           <source>Open in</source>
-          <target state="new">Open in</target>
+          <target state="translated">Megnyitás a következővel:</target>
         </trans-unit>
         <trans-unit id="RotateLeft" translate="yes" xml:space="preserve">
           <source>Rotate left</source>
@@ -3507,15 +3507,15 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
         </trans-unit>
         <trans-unit id="CloseTabsToTheLeft" translate="yes" xml:space="preserve">
           <source>Close tabs to the left</source>
-          <target state="new">Close tabs to the left</target>
+          <target state="translated">Lapok bezárása balra</target>
         </trans-unit>
         <trans-unit id="CloseTabsToTheRight" translate="yes" xml:space="preserve">
           <source>Close tabs to the right</source>
-          <target state="new">Close tabs to the right</target>
+          <target state="translated">Lapok bezárása jobbra</target>
         </trans-unit>
         <trans-unit id="CloseOthers" translate="yes" xml:space="preserve">
           <source>Close others</source>
-          <target state="new">Close others</target>
+          <target state="translated">Többi lap bezárása</target>
         </trans-unit>
       </group>
     </body>
