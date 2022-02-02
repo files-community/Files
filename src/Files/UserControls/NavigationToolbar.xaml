@@ -567,7 +567,7 @@
                     x:Load="{x:Bind ViewModel.UpdateSettingsService.IsUpdateAvailable, Mode=OneWay}"
                     Width="36"
                     Height="32"
-                    AccessKey="U"
+                    AccessKey="1"
                     AutomationProperties.Name="{helpers:ResourceString Name=UpdateFiles}"
                     Background="Transparent"
                     Command="{x:Bind ViewModel.UpdateCommand, Mode=OneWay}"
