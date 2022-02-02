@@ -204,7 +204,7 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public async void OpenThemesFolder()
+        public async Task OpenThemesFolder()
         {
             await CoreApplication.MainView.Dispatcher.YieldAsync();
             await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ImportedThemesFolder.Path);

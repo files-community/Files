@@ -26,19 +26,23 @@ namespace Files.ViewModels.SettingsViewModels
         private IBundlesSettingsService BundlesSettingsService { get; } = Ioc.Default.GetService<IBundlesSettingsService>();
         protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
 
-        public RelayCommand OpenLogLocationCommand => new(OpenLogLocation);
-        public RelayCommand CopyVersionInfoCommand => new(CopyVersionInfo);
+        public ICommand OpenLogLocationCommand { get; }
+        public ICommand CopyVersionInfoCommand { get; }
 
         public ICommand ExportSettingsCommand { get; }
-
         public ICommand ImportSettingsCommand { get; }
 
-        public RelayCommand<ItemClickEventArgs> ClickAboutFeedbackItemCommand => new(ClickAboutFeedbackItem);
+        public ICommand ClickAboutFeedbackItemCommand { get; }
 
         public AboutViewModel()
         {
+            OpenLogLocationCommand = new AsyncRelayCommand(OpenLogLocation);
+            CopyVersionInfoCommand = new RelayCommand(CopyVersionInfo);
+
             ExportSettingsCommand = new AsyncRelayCommand(ExportSettings);
             ImportSettingsCommand = new AsyncRelayCommand(ImportSettings);
+
+            ClickAboutFeedbackItemCommand = new AsyncRelayCommand<ItemClickEventArgs>(ClickAboutFeedbackItem);
         }
 
         private async Task ExportSettings()
@@ -147,7 +151,7 @@ namespace Files.ViewModels.SettingsViewModels
             });
         }
 
-        public static async void OpenLogLocation() => await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+        public static async Task OpenLogLocation() => await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
 
         public string Version
         {
@@ -160,17 +164,17 @@ namespace Files.ViewModels.SettingsViewModels
 
         public string AppName => Package.Current.DisplayName;
 
-        private async void ClickAboutFeedbackItem(ItemClickEventArgs e)
+        private async Task ClickAboutFeedbackItem(ItemClickEventArgs e)
         {
             var clickedItem = (StackPanel)e.ClickedItem;
             var uri = clickedItem.Tag switch
             {
-                "Contributors" => Constants.GitHub.ContributorsUri,
-                "Documentation" => Constants.GitHub.DocumentationUri,
-                "Feedback" => Constants.GitHub.FeedbackUri,
-                "PrivacyPolicy" => Constants.GitHub.PrivacyPolicyUri,
-                "ReleaseNotes" => Constants.GitHub.ReleaseNotesUri,
-                "SupportUs" => Constants.GitHub.SupportUsUri,
+                "Contributors" => Constants.GitHub.ContributorsUrl,
+                "Documentation" => Constants.GitHub.DocumentationUrl,
+                "Feedback" => Constants.GitHub.FeedbackUrl,
+                "PrivacyPolicy" => Constants.GitHub.PrivacyPolicyUrl,
+                "ReleaseNotes" => Constants.GitHub.ReleaseNotesUrl,
+                "SupportUs" => Constants.GitHub.SupportUsUrl,
                 _ => null,
             };
             if (uri is not null)

@@ -463,7 +463,7 @@ namespace Files
                     var eventArgsForNotification = args as ToastNotificationActivatedEventArgs;
                     if (eventArgsForNotification.Argument == "report")
                     {
-                        await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.FeedbackUri));
+                        await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.FeedbackUrl));
                     }
                     break;
 
