@@ -111,6 +111,7 @@ namespace Files
 
                 // TODO: FileSystem operations:
                 // (IFilesystemHelpersService, IFilesystemOperationsService)
+                .AddSingleton<IFolderSizeProvider, FolderSizeProvider>()
 
                 ; // End of service configuration
 
