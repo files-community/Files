@@ -2741,7 +2741,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="CloseTabsToTheRight" xml:space="preserve">
     <value>Close tabs to the right</value>
   </data>
-  <data name="CloseOthers" xml:space="preserve">
-    <value>Close others</value>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Close other tabs</value>
   </data>
 </root>

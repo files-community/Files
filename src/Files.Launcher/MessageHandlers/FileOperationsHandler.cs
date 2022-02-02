@@ -77,20 +77,12 @@ namespace FilesFullTrust.MessageHandlers
                         var operation = (DataPackageOperation)(long)message["operation"];
                         var fileList = new System.Collections.Specialized.StringCollection();
                         fileList.AddRange(fileToCopy.Split('|'));
-                        if (operation == DataPackageOperation.Copy)
-                        {
-                            System.Windows.Forms.Clipboard.SetFileDropList(fileList);
-                        }
-                        else if (operation == DataPackageOperation.Move)
-                        {
-                            byte[] moveEffect = new byte[] { 2, 0, 0, 0 };
-                            MemoryStream dropEffect = new MemoryStream();
-                            dropEffect.Write(moveEffect, 0, moveEffect.Length);
-                            var data = new System.Windows.Forms.DataObject();
-                            data.SetFileDropList(fileList);
-                            data.SetData("Preferred DropEffect", dropEffect);
-                            System.Windows.Forms.Clipboard.SetDataObject(data, true);
-                        }
+                        MemoryStream dropEffect = new MemoryStream(operation == DataPackageOperation.Copy ?
+                            new byte[] { 5, 0, 0, 0 } : new byte[] { 2, 0, 0, 0 });
+                        var data = new System.Windows.Forms.DataObject();
+                        data.SetFileDropList(fileList);
+                        data.SetData("Preferred DropEffect", dropEffect);
+                        System.Windows.Forms.Clipboard.SetDataObject(data, true);
                         return true;
                     });
                     break;
@@ -233,7 +225,8 @@ namespace FilesFullTrust.MessageHandlers
                                     if (!Extensions.IgnoreExceptions(() =>
                                     {
                                         using var shi = new ShellItem(fileToDeletePath[i]);
-                                        op.QueueDeleteOperation(shi);
+                                        var file = Extensions.IgnoreExceptions(() => GetFirstFile(shi)) ?? shi;
+                                        op.QueueDeleteOperation(file);
                                     }))
                                     {
                                         shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -819,6 +812,28 @@ namespace FilesFullTrust.MessageHandlers
                     }
                     break;
             }
+        }
+
+        private ShellItem GetFirstFile(ShellItem shi)
+        {
+            if (!shi.IsFolder || shi.Attributes.HasFlag(ShellItemAttribute.Stream))
+            {
+                return shi;
+            }
+            using var shf = new ShellFolder(shi);
+            if (shf.FirstOrDefault(x => !x.IsFolder || x.Attributes.HasFlag(ShellItemAttribute.Stream)) is ShellItem item)
+            {
+                return item;
+            }
+            foreach (var shsfi in shf.Where(x => x.IsFolder && !x.Attributes.HasFlag(ShellItemAttribute.Stream)))
+            {
+                using var shsf = new ShellFolder(shsfi);
+                if (GetFirstFile(shsf) is ShellItem item2)
+                {
+                    return item2;
+                }
+            }
+            return null;
         }
 
         public void WaitForCompletion()
