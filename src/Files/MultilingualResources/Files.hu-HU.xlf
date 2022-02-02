@@ -3513,8 +3513,8 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
           <source>Close tabs to the right</source>
           <target state="translated">Lapok bezárása jobbra</target>
         </trans-unit>
-        <trans-unit id="CloseOthers" translate="yes" xml:space="preserve">
-          <source>Close others</source>
+        <trans-unit id="CloseOtherTabs" translate="yes" xml:space="preserve">
+          <source>Close other tabs</source>
           <target state="translated">Többi lap bezárása</target>
         </trans-unit>
       </group>
