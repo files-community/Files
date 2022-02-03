@@ -174,7 +174,7 @@ namespace Files.Filesystem
             get => fileImage;
             set
             {
-                if (value is BitmapImage imgOld)
+                if (fileImage is BitmapImage imgOld)
                 {
                     imgOld.ImageOpened -= Img_ImageOpened;
                 }
