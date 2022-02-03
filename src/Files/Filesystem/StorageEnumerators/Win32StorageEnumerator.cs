@@ -24,8 +24,10 @@ namespace Files.Filesystem.StorageEnumerators
 {
     public static class Win32StorageEnumerator
     {
-        private static string folderTypeTextLocalized = "FileFolderListItem".GetLocalized();
-        private static IFileListCache fileListCache = FileListCacheController.GetInstance();
+        private static readonly IFolderSizeProvider folderSizeProvider = Ioc.Default.GetService<IFolderSizeProvider>();
+
+        private static readonly string folderTypeTextLocalized = "FileFolderListItem".GetLocalized();
+        private static readonly IFileListCache fileListCache = FileListCacheController.GetInstance();
 
         public static async Task<List<ListedItem>> ListEntries(
             string path,
@@ -90,7 +92,7 @@ namespace Files.Filesystem.StorageEnumerators
 
                                 if (showFolderSize)
                                 {
-                                    FolderHelpers.UpdateFolder(folder, cancellationToken);
+                                    folderSizeProvider.UpdateFolder(folder, cancellationToken);
                                 }
                             }
                         }

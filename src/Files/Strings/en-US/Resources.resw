@@ -2741,4 +2741,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="Videos" xml:space="preserve">
     <value>Videos</value>
   </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Update Files</value>
+  </data>
 </root>
