@@ -60,7 +60,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupContinueWhereYouLeftOff.Content" translate="yes" xml:space="preserve">
           <source>Continue where you left off</source>
-          <target state="translated">Dort weitermachen, wo Sie aufgehört haben</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenANewTab.Content" translate="yes" xml:space="preserve">
           <source>Open a new tab</source>
@@ -128,7 +128,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutPropertiesFolder.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
-          <target state="translated">Eigenschaften</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutExtract.Text" translate="yes" xml:space="preserve">
           <source>Extract</source>
@@ -140,7 +140,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" translate="yes" xml:space="preserve">
           <source>Open in new window</source>
-          <target state="translated">In neuem Fenster öffnen</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" translate="yes" xml:space="preserve">
           <source>Set as desktop background</source>
@@ -160,7 +160,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutProperties.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
-          <target state="translated">Eigenschaften</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="NavigationToolbarVisiblePath.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter a path</source>
@@ -288,39 +288,39 @@
         </trans-unit>
         <trans-unit id="NavToolbarInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
-          <target state="translated">Auswahl umkehren</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="Open" translate="yes" xml:space="preserve">
           <source>Open</source>
-          <target state="translated">Öffnen</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="PropertiesTitle" translate="yes" xml:space="preserve">
           <source>Properties</source>
-          <target state="translated">Eigenschaften</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="PropertiesTitleSecondary.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
-          <target state="translated">Eigenschaften</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="SideBarOpenInNewTab.Text" translate="yes" xml:space="preserve">
           <source>Open in new tab</source>
-          <target state="translated">In neuem Tab öffnen</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="SideBarOpenInNewWindow.Text" translate="yes" xml:space="preserve">
           <source>Open in new window</source>
-          <target state="translated">In neuem Fenster öffnen</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
-          <target state="translated">Experimentell</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
           <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
-          <target state="translated">WARNUNG: EXPERIMENTELLE FUNKTIONEN!</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
           <source>Experimental</source>
-          <target state="translated">Experimentell</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogContent" translate="yes" xml:space="preserve">
           <source>An item with this name already exists in this directory.</source>
@@ -1594,7 +1594,7 @@
         </trans-unit>
         <trans-unit id="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
-          <target state="translated">Eigenschaften</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="OngoingTasksFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Ongoing tasks flyout</source>
@@ -2819,7 +2819,7 @@
         </trans-unit>
         <trans-unit id="NavSettingsButton" translate="yes" xml:space="preserve">
           <source>Settings</source>
-          <target state="translated">Einstellungen</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="ConsentDialogTitle" translate="yes" xml:space="preserve">
           <source>Updates available</source>
@@ -3516,9 +3516,9 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
           <source>Close tabs to the right</source>
           <target state="new">Close tabs to the right</target>
         </trans-unit>
-        <trans-unit id="CloseOthers" translate="yes" xml:space="preserve">
-          <source>Close others</source>
-          <target state="new">Close others</target>
+        <trans-unit id="CloseOtherTabs" translate="yes" xml:space="preserve">
+          <source>Close other tabs</source>
+          <target state="new">Close other tabs</target>
         </trans-unit>
       </group>
     </body>
