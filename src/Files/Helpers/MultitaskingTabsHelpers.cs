@@ -32,7 +32,7 @@ namespace Files.Helpers
             }
         }
 
-        public static void CloseOthers(TabItem clickedTab, IMultitaskingControl multitaskingControl)
+        public static void CloseOtherTabs(TabItem clickedTab, IMultitaskingControl multitaskingControl)
         {
             if (multitaskingControl is not null)
             {
