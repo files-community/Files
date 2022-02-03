@@ -517,7 +517,18 @@ namespace Files.Filesystem
         // For shortcut elements (.lnk and .url)
         public string TargetPath { get; set; }
 
-        public override string ItemName => Path.GetFileNameWithoutExtension(ItemNameRaw); // Always hide extension
+        public override string ItemName
+        {
+            get
+            {
+                if(IsSymLink)
+                {
+                    return ItemNameRaw;
+                }
+
+                return Path.GetFileNameWithoutExtension(ItemNameRaw);
+            }
+        } // Always hide extension
 
         public string Arguments { get; set; }
         public string WorkingDirectory { get; set; }
