@@ -3483,7 +3483,7 @@ App Center を使用して、アプリの使用状況を追跡し、バグを見
         </trans-unit>
         <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
           <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
-          <target state="translated">このオプションをオフにせずデバイスを削除しないでください。このオプションをオフにしてから削除しないと、ファイル エクスプローラーを開くことができなくなります。</target>
+          <target state="translated">このオプションをオフにせずデバイスからFiles を削除しないでください。このオプションをオフにしてからFiles を削除しないと、ファイル エクスプローラーを開くことができなくなります。</target>
         </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
