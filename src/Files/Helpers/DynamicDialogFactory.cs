@@ -56,27 +56,42 @@ namespace Files.Helpers
                 Opacity = 0.0d
             };
 
-            inputText.TextChanged += (s, e) =>
-            {
-                var textBox = s as TextBox;
-                dialog.ViewModel.AdditionalData = textBox.Text;
+            string previousInput = "";
+            int previousCursorPosition = 0;
+            bool ignoreTextChange = false;
 
+            inputText.TextChanging += (textBox, e) =>
+            {
                 if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
                 {
-                    dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Cancel;
                     tipText.Opacity = 1.0d;
+                    ignoreTextChange = true;
+                    previousCursorPosition = textBox.SelectionStart - 1;
+                    textBox.Text = previousInput;
+                    textBox.SelectionStart = previousCursorPosition;
                     return;
                 }
-                else if (!string.IsNullOrWhiteSpace(textBox.Text))
-                {
-                    dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel;
-                }
-                else
-                {
-                    dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Cancel;
-                }
+            };
 
-                tipText.Opacity = 0.0d;
+            inputText.TextChanged += (s, e) =>
+            {
+                if (!ignoreTextChange)
+                {
+                    var textBox = s as TextBox;
+                    dialog.ViewModel.AdditionalData = textBox.Text;
+                    if (!string.IsNullOrWhiteSpace(textBox.Text))
+                    {
+                        dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel;
+                    }
+                    else
+                    {
+                        dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Cancel;
+                    }
+                    tipText.Opacity = 0.0d;
+                    previousInput = textBox.Text;
+
+                }
+                ignoreTextChange = false;
             };
 
             inputText.Loaded += (s, e) =>
