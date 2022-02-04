@@ -51,7 +51,7 @@ namespace Files.UserControls.Widgets
         public bool IsUserCreatedLibrary => Library != null && !LibraryHelper.IsDefaultLibrary(Library.Path);
         public LibraryLocationItem Library { get; set; }
         public string Path { get; set; }
-        public RelayCommand<LibraryCardItem> SelectCommand { get; set; }
+        public ICommand SelectCommand { get; set; }
         public string Text { get; set; }
     }
 
@@ -66,7 +66,7 @@ namespace Files.UserControls.Widgets
         {
             InitializeComponent();
 
-            LibraryCardCommand = new RelayCommand<LibraryCardItem>(async (item) => await OpenLibraryCard(item));
+            LibraryCardCommand = new AsyncRelayCommand<LibraryCardItem>(OpenLibraryCard);
 
             Loaded += FolderWidget_Loaded;
             Unloaded += FolderWidget_Unloaded;
@@ -90,7 +90,7 @@ namespace Files.UserControls.Widgets
 
         public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowFoldersWidget;
 
-        public RelayCommand<LibraryCardItem> LibraryCardCommand { get; }
+        public ICommand LibraryCardCommand { get; }
 
         public ICommand ShowCreateNewLibraryDialogCommand { get; } = new RelayCommand(LibraryHelper.ShowCreateNewLibraryDialog);
 

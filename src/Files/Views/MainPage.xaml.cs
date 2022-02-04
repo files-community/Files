@@ -67,8 +67,8 @@ namespace Files.Views
             AllowDrop = true;
 
             ToggleFullScreenAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ToggleFullScreenAccelerator);
-            ToggleCompactOverlayCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleCompactOverlay());
-            SetCompactOverlayCommand = new RelayCommand<bool>(x => SetCompactOverlay(x));
+            ToggleCompactOverlayCommand = new RelayCommand(ToggleCompactOverlay);
+            SetCompactOverlayCommand = new RelayCommand<bool>(SetCompactOverlay);
 
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
         }
