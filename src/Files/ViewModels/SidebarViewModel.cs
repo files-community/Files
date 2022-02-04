@@ -114,6 +114,20 @@ namespace Files.ViewModels
             }
         }
 
+        private bool isSidebarVisible = true;
+
+        public bool IsSidebarVisible
+        {
+            get => isSidebarVisible;
+            set
+            {
+                if (SetProperty(ref isSidebarVisible, value))
+                {
+                    OnPropertyChanged(nameof(IsSidebarVisible));
+                }
+            }
+        }
+
         private INavigationControlItem selectedSidebarItem;
 
         public INavigationControlItem SidebarSelectedItem

@@ -48,6 +48,8 @@ namespace Files.Views
         private ICommand ToggleCompactOverlayCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleCompactOverlay());
         private ICommand SetCompactOverlayCommand => new RelayCommand<bool>(x => SetCompactOverlay(x));
 
+        public ICommand ToggleSidebarVisibilityCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleSidebarVisibility(x));
+       
         public bool IsVerticalTabFlyoutEnabled => UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled;
 
         public MainPage()
@@ -350,6 +352,12 @@ namespace Files.Views
                 view.TryEnterFullScreenMode();
             }
 
+            e.Handled = true;
+        }
+
+        private void ToggleSidebarVisibility(KeyboardAcceleratorInvokedEventArgs e)
+        {
+            SidebarAdaptiveViewModel.IsSidebarVisible = !SidebarAdaptiveViewModel.IsSidebarVisible;
             e.Handled = true;
         }
 
