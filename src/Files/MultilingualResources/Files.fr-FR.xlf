@@ -1360,8 +1360,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Support us on GitHub</source>
-          <target state="needs-review-translation">Soutenez-nous sur PayPal</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Soutenez-nous sur GitHub</target>
         </trans-unit>
         <trans-unit id="Details" translate="yes" xml:space="preserve">
           <source>Details</source>
@@ -1734,10 +1733,6 @@
         <trans-unit id="PropertyItemCount" translate="yes" xml:space="preserve">
           <source>Item count</source>
           <target state="translated">Nombre d'éléments</target>
-        </trans-unit>
-        <trans-unit id="HorizontalMultitaskingControlCloseTabsToTheRight.Text" translate="yes" xml:space="preserve">
-          <source>Close tabs to the right</source>
-          <target state="translated">Fermer les onglets à droite</target>
         </trans-unit>
         <trans-unit id="StatusDeletionFailed" translate="yes" xml:space="preserve">
           <source>Deletion Failed</source>
@@ -2343,10 +2338,6 @@
           <source>Paste</source>
           <target state="translated">Coller</target>
         </trans-unit>
-        <trans-unit id="OpenInTerminal" translate="yes" xml:space="preserve">
-          <source>Open in Terminal...</source>
-          <target state="translated">Ouvrir dans le Terminal...</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNew.Label" translate="yes" xml:space="preserve">
           <source>New</source>
           <target state="translated">Nouveau</target>
@@ -2801,8 +2792,7 @@
         </trans-unit>
         <trans-unit id="SettingsSearchUnindexedItems" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders</source>
-          <target state="needs-review-translation">Afficher les éléments non indexés lors de la recherche de fichiers et dossiers (peut prendre plus de temps)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Afficher les éléments non indexés lors de la recherche de fichiers et dossiers</target>
         </trans-unit>
         <trans-unit id="SettingsEnableLayoutPreferencesPerFolder" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
@@ -2970,21 +2960,9 @@
         </trans-unit>
         <trans-unit id="SettingsPrivacyPolicyMarkdownBlock.Text" translate="yes" xml:space="preserve">
           <source>
-*Personal Information Collection*
-Files does not collect, store, share or publish any personal information.
-
-*Non-personal Information Collection*
-
-We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
+We use App Center to track which settings are being used, find bugs, and fix crashes. Information sent to App Center is anonymous and free of any user or contextual data.
   </source>
-          <target state="translated">
-*Collecte d'informations personnelles*
-Files ne collecte, ne stocke, ne partage ni ne publie aucune information personnelle.
-
-*Collecte d'informations non personnelles
-
-Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver des bogues et réparer les pannes. Toutes les informations envoyées à App Center sont anonymes et exemptes de toute donnée relative à l'utilisateur ou au contexte.
-  </target>
+          <target state="translated">Nous utilisons App Center pour suivre l'utilisation de l'application, trouver des bogues et réparer les pannes. Toutes les informations envoyées à App Center sont anonymes et exemptes de toute donnée relative à l'utilisateur ou au contexte.</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionName.Text" translate="yes" xml:space="preserve">
           <source>Name</source>
@@ -3204,15 +3182,15 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowDateCreated.Text" translate="yes" xml:space="preserve">
           <source>Date created column</source>
-          <target state="new">Date created column</target>
+          <target state="translated">Date de création</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowItemSize.Text" translate="yes" xml:space="preserve">
           <source>Item size column</source>
-          <target state="new">Item size column</target>
+          <target state="translated">Taille</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsOpenDialog" translate="yes" xml:space="preserve">
           <source>Use Files as Open File Dialog</source>
-          <target state="new">Use Files as Open File Dialog</target>
+          <target state="translated">Utiliser Files comme sélecteur de fichiers</target>
         </trans-unit>
         <trans-unit id="Tag" translate="yes" xml:space="preserve">
           <source>Tag</source>
@@ -3248,15 +3226,15 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
         </trans-unit>
         <trans-unit id="ChooseCustomIcon" translate="yes" xml:space="preserve">
           <source>Choose a custom folder icon</source>
-          <target state="new">Choose a custom folder icon</target>
+          <target state="translated">Choisir une icône de dossier personnalisée</target>
         </trans-unit>
         <trans-unit id="Customization" translate="yes" xml:space="preserve">
           <source>Customization</source>
-          <target state="translated">Customisation</target>
+          <target state="translated">Personnalisation</target>
         </trans-unit>
         <trans-unit id="RestoreDefault" translate="yes" xml:space="preserve">
           <source>Restore default</source>
-          <target state="translated">Restorer par défaut</target>
+          <target state="translated">Par défaut</target>
         </trans-unit>
         <trans-unit id="Compatibility" translate="yes" xml:space="preserve">
           <source>Compatibility</source>
@@ -3268,11 +3246,11 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
         </trans-unit>
         <trans-unit id="HighDpiOption_UseDPIOnLogin" translate="yes" xml:space="preserve">
           <source>On Windows login</source>
-          <target state="new">On Windows login</target>
+          <target state="translated">À la connexion Windows </target>
         </trans-unit>
         <trans-unit id="HighDpiOption_UseDPIOnProgramStart" translate="yes" xml:space="preserve">
           <source>On program start</source>
-          <target state="new">On program start</target>
+          <target state="translated">Au démarrage du programme</target>
         </trans-unit>
         <trans-unit id="HighDpiOverride_System" translate="yes" xml:space="preserve">
           <source>System</source>
@@ -3316,7 +3294,7 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
         </trans-unit>
         <trans-unit id="DisableFullscreenOptimizations" translate="yes" xml:space="preserve">
           <source>Disable fullscreen optimizations</source>
-          <target state="new">Disable fullscreen optimizations</target>
+          <target state="translated">Désactiver les optimisations plein écran</target>
         </trans-unit>
         <trans-unit id="ExecuteAt640X480" translate="yes" xml:space="preserve">
           <source>Run at 640 x 480 screen resolution</source>
@@ -3344,123 +3322,191 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
         </trans-unit>
         <trans-unit id="RunCompatibilityTroubleShooter" translate="yes" xml:space="preserve">
           <source>Run compatibility troubleshooter</source>
-          <target state="new">Run compatibility troubleshooter</target>
+          <target state="translated">Résoudre les problèmes de compatibilité</target>
         </trans-unit>
         <trans-unit id="UseMainMonitorDPISettings" translate="yes" xml:space="preserve">
           <source>Use DPI settings of the main monitor</source>
-          <target state="new">Use DPI settings of the main monitor</target>
+          <target state="translated">Utiliser les paramètres DPI du moniteur principal</target>
         </trans-unit>
         <trans-unit id="SettingsDefaultFilesManager" translate="yes" xml:space="preserve">
           <source>Default file manager</source>
-          <target state="new">Default file manager</target>
+          <target state="translated">Gestionnaire de fichiers par défaut</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManager" translate="yes" xml:space="preserve">
           <source>Set Files as the default file manager</source>
-          <target state="new">Set Files as the default file manager</target>
+          <target state="translated">Définir Files comme gestionnaire de fichiers par défaut</target>
         </trans-unit>
         <trans-unit id="EmptyRecycleBin" translate="yes" xml:space="preserve">
           <source>Empty Recycle Bin</source>
-          <target state="new">Empty Recycle Bin</target>
+          <target state="translated">Vider la Corbeille</target>
         </trans-unit>
         <trans-unit id="Sidebar" translate="yes" xml:space="preserve">
           <source>Sidebar</source>
-          <target state="new">Sidebar</target>
+          <target state="translated">Panneau latéral</target>
         </trans-unit>
         <trans-unit id="FilesAndFolders" translate="yes" xml:space="preserve">
           <source>Files and folders</source>
-          <target state="new">Files and folders</target>
+          <target state="translated">Fichiers et dossiers</target>
         </trans-unit>
         <trans-unit id="OpenNewInstance" translate="yes" xml:space="preserve">
           <source>Open new instance when opening directories from the taskbar jumplist</source>
-          <target state="new">Open new instance when opening directories from the taskbar jumplist</target>
+          <target state="translated">Ouvrir une nouvelle instance lors de l'ouverture d'un dossier depuis la liste de raccourcis de la barre des tâches</target>
         </trans-unit>
         <trans-unit id="StartupSettings" translate="yes" xml:space="preserve">
           <source>Startup settings</source>
-          <target state="new">Startup settings</target>
+          <target state="translated">Au démarrage</target>
         </trans-unit>
         <trans-unit id="ThirdPartyLicenses" translate="yes" xml:space="preserve">
           <source>Third party licenses</source>
-          <target state="new">Third party licenses</target>
+          <target state="translated">Licences tierces</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
-          <source>This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</source>
-          <target state="new">This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</target>
+          <source>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</source>
+          <target state="translated">Cette option modifie le registre système et peut avoir des effets secondaires inattendus sur votre système. Continuez à vos risques et périls.</target>
         </trans-unit>
         <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
           <source>Clear all</source>
-          <target state="new">Clear all</target>
+          <target state="translated">Effacer tout</target>
         </trans-unit>
         <trans-unit id="Columns" translate="yes" xml:space="preserve">
           <source>Columns</source>
-          <target state="new">Columns</target>
+          <target state="translated">Colonnes</target>
         </trans-unit>
         <trans-unit id="LargeIcons" translate="yes" xml:space="preserve">
           <source>Large Icons</source>
-          <target state="new">Large Icons</target>
+          <target state="translated">Grandes Icônes</target>
         </trans-unit>
         <trans-unit id="MediumIcons" translate="yes" xml:space="preserve">
           <source>Medium Icons</source>
-          <target state="new">Medium Icons</target>
+          <target state="translated">Moyennes Icônes</target>
         </trans-unit>
         <trans-unit id="SmallIcons" translate="yes" xml:space="preserve">
           <source>Small Icons</source>
-          <target state="new">Small Icons</target>
+          <target state="translated">Petites Icônes</target>
         </trans-unit>
         <trans-unit id="Tiles" translate="yes" xml:space="preserve">
           <source>Tiles</source>
-          <target state="new">Tiles</target>
+          <target state="translated">Tuiles</target>
         </trans-unit>
         <trans-unit id="FolderWidgetCreateNewLibraryDialogTitleText" translate="yes" xml:space="preserve">
           <source>Create Library</source>
-          <target state="new">Create Library</target>
+          <target state="translated">Créer une bibliothèque</target>
         </trans-unit>
         <trans-unit id="FolderWidgetCreateNewLibraryInputPlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter Library name</source>
-          <target state="new">Enter Library name</target>
+          <target state="translated">Entrer le nom de la bibliothèque</target>
         </trans-unit>
         <trans-unit id="ShowFolderSize" translate="yes" xml:space="preserve">
           <source>Show folder size</source>
-          <target state="new">Show folder size</target>
+          <target state="translated">Afficher la taille des dossiers</target>
         </trans-unit>
         <trans-unit id="Skip" translate="yes" xml:space="preserve">
           <source>Skip</source>
-          <target state="new">Skip</target>
+          <target state="translated">Passer</target>
         </trans-unit>
         <trans-unit id="SettingsOpenInLogin" translate="yes" xml:space="preserve">
           <source>Open Files on Windows Startup</source>
-          <target state="new">Open Files on Windows Startup</target>
+          <target state="translated">Ouvrir Files au démarrage de Windows</target>
         </trans-unit>
         <trans-unit id="Attributes" translate="yes" xml:space="preserve">
           <source>Attributes</source>
-          <target state="new">Attributes</target>
+          <target state="translated">Attributs</target>
         </trans-unit>
         <trans-unit id="Hidden" translate="yes" xml:space="preserve">
           <source>Hidden</source>
-          <target state="new">Hidden</target>
+          <target state="translated">Caché</target>
         </trans-unit>
         <trans-unit id="MoreDetails" translate="yes" xml:space="preserve">
           <source>More details</source>
-          <target state="new">More details</target>
+          <target state="translated">Plus de détails</target>
         </trans-unit>
         <trans-unit id="ReadOnly" translate="yes" xml:space="preserve">
           <source>Read only</source>
-          <target state="new">Read only</target>
+          <target state="translated">Lecture seule</target>
         </trans-unit>
         <trans-unit id="CleanupDrive" translate="yes" xml:space="preserve">
           <source>Cleanup your drive contents</source>
-          <target state="new">Cleanup your drive contents</target>
+          <target state="translated">Nettoyer le contenu du disque</target>
         </trans-unit>
         <trans-unit id="DiskCleanup" translate="yes" xml:space="preserve">
           <source>Disk cleanup</source>
-          <target state="new">Disk cleanup</target>
+          <target state="translated">Nettoyer le disque</target>
         </trans-unit>
         <trans-unit id="Type" translate="yes" xml:space="preserve">
           <source>Type:</source>
-          <target state="new">Type:</target>
+          <target state="translated">Type :</target>
         </trans-unit>
         <trans-unit id="Bytes" translate="yes" xml:space="preserve">
           <source>Bytes</source>
-          <target state="new">Bytes</target>
+          <target state="translated">Octets</target>
+        </trans-unit>
+        <trans-unit id="Extract" translate="yes" xml:space="preserve">
+          <source>Extract</source>
+          <target state="translated">Extraire</target>
+        </trans-unit>
+        <trans-unit id="ExtractFiles" translate="yes" xml:space="preserve">
+          <source>Extract files</source>
+          <target state="translated">Extraire les fichiers</target>
+        </trans-unit>
+        <trans-unit id="ExtractHere" translate="yes" xml:space="preserve">
+          <source>Extract here</source>
+          <target state="translated">Extraire ici</target>
+        </trans-unit>
+        <trans-unit id="ExtractKeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+E</source>
+          <target state="translated">Ctrl+E</target>
+        </trans-unit>
+        <trans-unit id="ExtractToChildFolder" translate="yes" xml:space="preserve">
+          <source>Extract to {0}</source>
+          <target state="translated">Extraire vers {0}</target>
+        </trans-unit>
+        <trans-unit id="RunScript" translate="yes" xml:space="preserve">
+          <source>Run script</source>
+          <target state="translated">Exécuter le script</target>
+        </trans-unit>
+        <trans-unit id="RunWithPowerShell" translate="yes" xml:space="preserve">
+          <source>Run with PowerShell</source>
+          <target state="translated">Exécuter avec PowerShell</target>
+        </trans-unit>
+        <trans-unit id="SetAsBackground" translate="yes" xml:space="preserve">
+          <source>Set as desktop background</source>
+          <target state="translated">Définir comme fond d'écran</target>
+        </trans-unit>
+        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
+          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
+          <target state="translated">Ne pas supprimer les fichiers de votre système sans désactiver cette option. Ne pas le faire vous empêchera d'ouvrir l'explorateur de fichiers.</target>
+        </trans-unit>
+        <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
+          <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
+          <target state="translated">Le calcul de la taille des dossiers consomme beaucoup de ressources et peut entraîner une augmentation de l'utilisation du processeur.</target>
+        </trans-unit>
+        <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
+          <source>Open in</source>
+          <target state="translated">Ouvrir dans</target>
+        </trans-unit>
+        <trans-unit id="RotateLeft" translate="yes" xml:space="preserve">
+          <source>Rotate left</source>
+          <target state="translated">Tourner à gauche</target>
+        </trans-unit>
+        <trans-unit id="RotateRight" translate="yes" xml:space="preserve">
+          <source>Rotate right</source>
+          <target state="translated">Tourner à droite</target>
+        </trans-unit>
+        <trans-unit id="Install" translate="yes" xml:space="preserve">
+          <source>Install</source>
+          <target state="translated">Installer</target>
+        </trans-unit>
+        <trans-unit id="CloseTabsToTheLeft" translate="yes" xml:space="preserve">
+          <source>Close tabs to the left</source>
+          <target state="translated">Fermer les onglets à gauche</target>
+        </trans-unit>
+        <trans-unit id="CloseTabsToTheRight" translate="yes" xml:space="preserve">
+          <source>Close tabs to the right</source>
+          <target state="translated">Fermer les onglets à droite</target>
+        </trans-unit>
+        <trans-unit id="CloseOthers" translate="yes" xml:space="preserve">
+          <source>Close others</source>
+          <target state="translated">Fermer les autres</target>
         </trans-unit>
       </group>
     </body>

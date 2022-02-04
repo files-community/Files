@@ -173,17 +173,17 @@ namespace Files.UserControls.Widgets
             });
             ItemsAdded.Add(new LibraryCardItem
             {
-                Text = "SidebarMusic".GetLocalized(),
+                Text = "Music".GetLocalized(),
                 Path = UserDataPaths.GetDefault().Music,
             });
             ItemsAdded.Add(new LibraryCardItem
             {
-                Text = "SidebarPictures".GetLocalized(),
+                Text = "Pictures".GetLocalized(),
                 Path = UserDataPaths.GetDefault().Pictures,
             });
             ItemsAdded.Add(new LibraryCardItem
             {
-                Text = "SidebarVideos".GetLocalized(),
+                Text = "Videos".GetLocalized(),
                 Path = UserDataPaths.GetDefault().Videos,
             });
 

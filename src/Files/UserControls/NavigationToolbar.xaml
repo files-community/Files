@@ -514,7 +514,7 @@
                     </Button.KeyboardAccelerators>
                 </Button>
 
-                <Grid x:Name="OngoingTasksGrid" Visibility="{x:Bind OngoingTasksViewModel.AnyBannersPresent, Mode=OneWay}">
+                <Grid Visibility="{x:Bind OngoingTasksViewModel.AnyBannersPresent, Mode=OneWay}">
                     <Button
                         x:Name="OngoingTasks"
                         Width="36"
@@ -524,8 +524,7 @@
                         AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}"
                         Background="Transparent"
                         Style="{StaticResource ToolBarButtonStyle}"
-                        ToolTipService.ToolTip="{helpers:ResourceString Name=OngoingTasks}"
-                        Visibility="Visible">
+                        ToolTipService.ToolTip="{helpers:ResourceString Name=OngoingTasks}">
                         <Button.Content>
                             <Grid>
                                 <FontIcon
@@ -562,6 +561,22 @@
                         VerticalAlignment="Top"
                         Value="{x:Bind OngoingTasksViewModel.InfoBadgeValue, Mode=OneWay}" />
                 </Grid>
+
+                <Button
+                    x:Name="UpdateButton"
+                    x:Load="{x:Bind ViewModel.UpdateSettingsService.IsUpdateAvailable, Mode=OneWay}"
+                    Width="36"
+                    Height="32"
+                    AccessKey="1"
+                    AutomationProperties.Name="{helpers:ResourceString Name=UpdateFiles}"
+                    Background="Transparent"
+                    Command="{x:Bind ViewModel.UpdateCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.UpdateSettingsService.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=UpdateFiles}"
+                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <FontIcon FontSize="14" Glyph="&#xE896;" />
+                </Button>
 
                 <Button
                     x:Name="SettingsButton"

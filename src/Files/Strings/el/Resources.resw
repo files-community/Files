@@ -45,9 +45,6 @@
   <data name="Size" xml:space="preserve">
     <value>Μέγεθος</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Άνοιγμα στο τερματικό...</value>
-  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Δημιουργήθηκε:</value>
   </data>
@@ -1433,9 +1430,6 @@
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Αριθμός αντικειμένων</value>
-  </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Κλείσιμο καρτελών δεξιά</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>Η διαγραφή απέτυχε</value>

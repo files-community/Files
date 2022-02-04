@@ -21,32 +21,15 @@ namespace Files.Helpers
         };
 
         public StorageFolder ThemeFolder { get; set; }
-        public StorageFolder OptionalPackageThemesFolder { get; set; }
+        public StorageFolder ImportedThemesFolder { get; set; }
 
         public string CurrentThemeResources { get; set; }
 
         public async Task LoadSelectedTheme()
         {
-            if (App.OptionalPackageManager.TryGetOptionalPackage(Constants.OptionalPackages.ThemesOptionalPackagesName, out var package))
-            {
-                Debug.WriteLine(package.InstalledLocation.Path);
-                OptionalPackageThemesFolder = package.InstalledLocation;
-            }
-
-            ThemeFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes", CreationCollisionOption.OpenIfExists);
-
-            // This is used to migrate to the new theme setting
-            // It can be removed in a future update
-            if (ApplicationData.Current.LocalSettings.Values.TryGetValue("PathToThemeFile", out var path))
-            {
-                var pathStr = path as string;
-                App.AppSettings.SelectedTheme = new AppTheme()
-                {
-                    Name = pathStr.Replace(".xaml", "", StringComparison.Ordinal),
-                    Path = pathStr,
-                };
-                ApplicationData.Current.LocalSettings.Values.Remove("PathToThemeFile");
-            }
+            StorageFolder appInstalledFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+            ThemeFolder = await appInstalledFolder.GetFolderAsync("Themes");
+            ImportedThemesFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes", CreationCollisionOption.OpenIfExists);
 
             if (App.AppSettings.SelectedTheme.Path != null)
             {
@@ -59,11 +42,7 @@ namespace Files.Helpers
             try
             {
                 await AddThemesAsync(ThemeFolder);
-
-                if (OptionalPackageThemesFolder != null)
-                {
-                    await AddThemesAsync(OptionalPackageThemesFolder, true);
-                }
+                await AddThemesAsync(ImportedThemesFolder);
             }
             catch (Exception)
             {
@@ -71,7 +50,7 @@ namespace Files.Helpers
             }
         }
 
-        private async Task AddThemesAsync(StorageFolder folder, bool isOptionalPackage = false)
+        private async Task AddThemesAsync(StorageFolder folder)
         {
             foreach (var file in (await folder.GetFilesAsync()).Where(x => x.FileType == ".xaml"))
             {
@@ -80,7 +59,6 @@ namespace Files.Helpers
                     Name = file.Name.Replace(".xaml", "", StringComparison.Ordinal),
                     Path = file.Name,
                     AbsolutePath = file.Path,
-                    IsFromOptionalPackage = isOptionalPackage
                 });
             }
         }
@@ -111,21 +89,16 @@ namespace Files.Helpers
             {
                 return null;
             }
-            if (theme.IsFromOptionalPackage)
+
+            if (theme.AbsolutePath.Contains(ImportedThemesFolder.Path))
             {
-                if (OptionalPackageThemesFolder != null)
-                {
-                    file = await OptionalPackageThemesFolder.GetFileAsync(theme.Path);
-                }
-                else
-                {
-                    return null;
-                }
+                file = await ImportedThemesFolder.GetFileAsync(theme.Path);
             }
             else
             {
                 file = await ThemeFolder.GetFileAsync(theme.Path);
             }
+
             var code = await FileIO.ReadTextAsync(file);
             var xaml = XamlReader.Load(code) as ResourceDictionary;
             xaml.Add("CustomThemeID", theme.Key);
@@ -164,7 +137,6 @@ namespace Files.Helpers
         public string Name { get; set; }
         public string Path { get; set; }
         public string AbsolutePath { get; set; }
-        public bool IsFromOptionalPackage { get; set; }
-        public string Key => $"{Name}-{IsFromOptionalPackage}";
+        public string Key => $"{Name}";
     }
 }

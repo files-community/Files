@@ -1335,9 +1335,6 @@
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>Yönetici olarak devam etmek ister misiniz?</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Sağdaki sekmeleri kapat</value>
-  </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Yönetici</value>
   </data>
@@ -1763,9 +1760,6 @@
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Yapıştırmak</value>
-  </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Terminalde aç...</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Yeni</value>

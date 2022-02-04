@@ -71,7 +71,7 @@ namespace Files.ViewModels.SettingsViewModels
             PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
             var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalized());
-            recentsItem.Items.Add(new MenuFlyoutItemViewModel("SidebarHome".GetLocalized(), "Home".GetLocalized(), AddPageCommand));
+            recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalized(), "Home".GetLocalized(), AddPageCommand));
             PopulateRecentItems(recentsItem).ContinueWith(_ =>
             {
                 AddFlyoutItemsSource = new ReadOnlyCollection<IMenuFlyoutItem>(new IMenuFlyoutItem[] {
@@ -293,7 +293,7 @@ namespace Files.ViewModels.SettingsViewModels
                 {
                     if (Path == "Home".GetLocalized())
                     {
-                        return "SidebarHome".GetLocalized();
+                        return "Home".GetLocalized();
                     }
                     if (Path == CommonPaths.RecycleBinPath)
                     {

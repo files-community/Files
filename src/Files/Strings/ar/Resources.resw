@@ -418,7 +418,7 @@
     <value>بيتابايت</value>
   </data>
   <data name="ByteSymbol" xml:space="preserve">
-    <value>B</value>
+    <value>بايت</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>تشغيل كمسؤول</value>
@@ -484,7 +484,7 @@
     <value>الصفحات</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>ويندوز الافتراضي</value>
+    <value>اللغة الإفتراضية للنظام</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>لا توجد نتائج</value>
@@ -853,7 +853,7 @@
     <value>مسار كبير للصورة المصغرة</value>
   </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
-    <value>User Web Url</value>
+    <value>عنوان موقع الويب الخاص بالمستخدم</value>
   </data>
   <data name="PropertyWriter" xml:space="preserve">
     <value>الكاتب</value>
@@ -961,7 +961,7 @@
     <value>عنصر سلة المحذوفات</value>
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
-    <value>Shortcut item</value>
+    <value>إختصار عنصر</value>
   </data>
   <data name="Drives" xml:space="preserve">
     <value>محركات الأقراص:</value>
@@ -1138,7 +1138,7 @@
     <value>إدخال اسم جديد</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>إعادة تسمية {0}</value>
+    <value>إعادة تسمية "{0}"</value>
   </data>
   <data name="CreateBundle" xml:space="preserve">
     <value>إنشاء حزمة</value>
@@ -1158,8 +1158,17 @@
   <data name="PropertyItemPathDisplay" xml:space="preserve">
     <value>مسار العنصر</value>
   </data>
+  <data name="SidebarCloudDrives" xml:space="preserve">
+    <value>محركات السحابة</value>
+  </data>
+  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
+    <value>لوحة المعاينة (Ctrl+P)</value>
+  </data>
   <data name="PropertyItemName" xml:space="preserve">
-    <value>اسم الصنف</value>
+    <value>اسم العنصر</value>
+  </data>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>محركات الشبكة</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>الشبكة</value>
@@ -1167,14 +1176,23 @@
   <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
     <value>خصائص</value>
   </data>
+  <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>قائمة المهام المنبثقة</value>
+  </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
-    <value>التوفر عند الاتصال</value>
+    <value>متوفر عند الاتصال</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
-    <value>‏‏متوفر دون اتصال</value>
+    <value>متوفر دون اتصال</value>
+  </data>
+  <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
+    <value>متوفر جزئيًا في وضع عدم الاتصال</value>
   </data>
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
-    <value>‏‏مزامنة</value>
+    <value>مزامنة</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
+    <value>مستثنى من المزامنة</value>
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>غير محسوب</value>
@@ -1185,17 +1203,50 @@
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
     <value>تفاصيل الملف</value>
   </data>
+  <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
+    <value>معاينة الملف</value>
+  </data>
+  <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
+    <value>لوحة معاينة الملف المحدد</value>
+  </data>
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>الوثائق</value>
   </data>
+  <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>زيارة موقع الوثائق</value>
+  </data>
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
+    <value>تحديد متعدد</value>
+  </data>
+  <data name="RenameFileDialog.Text" xml:space="preserve">
+    <value>إذا قمت بتغيير امتداد الملف، فقد يصبح الملف غير قابل للاستخدام. هل أنت متأكد أنك تريد تغييره؟</value>
+  </data>
+  <data name="DriveTypeCDRom" xml:space="preserve">
+    <value>محرك الأقراص المضغوطة (CD ROM)</value>
+  </data>
+  <data name="DriveTypeCloudDrive" xml:space="preserve">
+    <value>محرك السحابة</value>
+  </data>
+  <data name="DriveTypeFixed" xml:space="preserve">
+    <value>محرك الأقراص الثابتة</value>
+  </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
-    <value>محرك الأقراص المرنة</value>
+    <value> محرك الأقراص المرنة (Floppy Disk)</value>
   </data>
   <data name="DriveTypeNetwork" xml:space="preserve">
-    <value>محرك أقراص الشبكة</value>
+    <value>محرك الشبكة</value>
+  </data>
+  <data name="DriveTypeRam" xml:space="preserve">
+    <value>قرص التخزين المؤقت (RAM Disk)</value>
+  </data>
+  <data name="DriveTypeRemovable" xml:space="preserve">
+    <value>جهاز تخزين قابل للإزالة</value>
   </data>
   <data name="DriveTypeUnknown" xml:space="preserve">
     <value>غير معروف</value>
+  </data>
+  <data name="DriveTypeVirtualDrive" xml:space="preserve">
+    <value>قرص وهمي</value>
   </data>
   <data name="DateCreated" xml:space="preserve">
     <value>تاريخ الإنشاء</value>
@@ -1204,10 +1255,16 @@
     <value>خيارات إضافية</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
-    <value>تعيين محرك أقراص الشبكة</value>
+    <value>خريطة قرص الشبكة</value>
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>قطع الاتصال</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>المزيد من خيارات الحزم</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>المزيد من خيارات محركات الأقراص</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>المفضلة</value>
@@ -1222,13 +1279,13 @@
     <value>لا تتوفر تفاصيل.</value>
   </data>
   <data name="NoItemSelected" xml:space="preserve">
-    <value>لم يتم تحديد أي صنف</value>
+    <value>لم يتم تحديد أي عنصر</value>
   </data>
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>الهدف</value>
   </data>
   <data name="Arguments" xml:space="preserve">
-    <value>‏‏الوسيطات</value>
+    <value>الوسيطات (المعاملات)</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>المكتبات</value>
@@ -1236,17 +1293,50 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>عدد العناصر</value>
   </data>
+  <data name="StatusDeletionFailed" xml:space="preserve">
+    <value>فشل الحذف</value>
+  </data>
   <data name="StatusUnknownError" xml:space="preserve">
-    <value>An unknown error has occurred.</value>
+    <value>حدث خطأ غير معروف.</value>
+  </data>
+  <data name="StatusDeletionComplete" xml:space="preserve">
+    <value>إكتمل الحذف</value>
+  </data>
+  <data name="StatusOperationCompleted" xml:space="preserve">
+    <value>اكتملت العملية.</value>
+  </data>
+  <data name="StatusRecycleComplete" xml:space="preserve">
+    <value>إكتمل النقل الي سلة المحذوفات</value>
+  </data>
+  <data name="StatusMoveComplete" xml:space="preserve">
+    <value>إكتمل النقل</value>
   </data>
   <data name="StatusCopyComplete" xml:space="preserve">
-    <value>نسخة غير كاملة</value>
+    <value>إكتمل النسخ</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>إغلاق علامات التبويب على اليسار</value>
+  <data name="ElevateConfirmDialog.Title" xml:space="preserve">
+    <value>يتطب هذا الإجراء صلاحيات المسؤول</value>
+  </data>
+  <data name="ElevateConfirmDialog.Content" xml:space="preserve">
+    <value>هل ترغب في الاستمرار كمسؤول؟</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>المسؤول</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
+    <value>Files قيد التشغيل كمسؤول</value>
+  </data>
+  <data name="PinItemToStart.Text" xml:space="preserve">
+    <value>التثبيت في قائمة االبداية (Start menu)</value>
+  </data>
+  <data name="UnpinItemFromStart.Text" xml:space="preserve">
+    <value>إلغاء التثبيت من قائمة البداية (Start menu)</value>
+  </data>
+  <data name="ColumnsShortcutTooltip" xml:space="preserve">
+    <value>الأعمدة (Ctrl+Shift+6)</value>
+  </data>
+  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
+    <value>يوجد {0:#,##0} ملف، {1:#,##0} مجلد من {2:#,##0} موقعاً</value>
   </data>
   <data name="ItemTypeLibrary" xml:space="preserve">
     <value>مكتبة</value>
@@ -1258,13 +1348,40 @@
     <value>مكتبة</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
-    <value>المواقع</value>
+    <value>المواقع:</value>
+  </data>
+  <data name="SetAsDefaultSavePath" xml:space="preserve">
+    <value>تعيين كمسار حفظ افتراضي</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
-    <value>‏‏إزالة</value>
+    <value>إزالة</value>
+  </data>
+  <data name="LibraryNoLocations.Text" xml:space="preserve">
+    <value>لا توجد مواقع</value>
+  </data>
+  <data name="ErrorInputEmpty" xml:space="preserve">
+    <value>لا يمكن أن يكون حقل الإدخال فارغًا!</value>
+  </data>
+  <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
+    <value>يجب ألا يحتوي الاسم على الأحرف التالية: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="ErrorNameInputRestricted" xml:space="preserve">
+    <value>استخدام هذا الاسم غير مسموح به!</value>
+  </data>
+  <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
+    <value>توجد بالفعل مكتبة بنفس الاسم!</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
+    <value>حذف المكتبة</value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>إنشاء</value>
+  </data>
+  <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>افتح مستشعر التخزين</value>
+  </data>
+  <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>افتح مستشعر التخزين</value>
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>‏‏السرعة وفق ISO</value>
@@ -1272,20 +1389,50 @@
   <data name="Copy" xml:space="preserve">
     <value>نسخ</value>
   </data>
+  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>سيتم نسخ {0} من العناصر</value>
+  </data>
+  <data name="CopyItemsDialogTitle" xml:space="preserve">
+    <value>نسخ العناصر</value>
+  </data>
+  <data name="DeleteItemsDialogTitle" xml:space="preserve">
+    <value>حذف العناصر</value>
+  </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>‏‏نقل</value>
+    <value>نقل</value>
+  </data>
+  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>سيتم نقل {0} من العناصر</value>
+  </data>
+  <data name="MoveItemsDialogTitle" xml:space="preserve">
+    <value>نقل عناصر</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>سيتم حذف {0} من العناصر.</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>‏‏متابعة</value>
+    <value>متابعة</value>
+  </data>
+  <data name="ConflictingItemsDialogTitle" xml:space="preserve">
+    <value>إسم الملف/الملفات متعارضة</value>
+  </data>
+  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>سيتم نسخ عنصر واحد</value>
+  </data>
+  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>سيتم حذف عنصر واحد</value>
+  </data>
+  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>سيتم نقل عنصر واحد</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>حذف دائم</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>ألم تجد ما تبحث عنه؟</value>
+  </data>
+  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
+    <value>البحث عن العناصر غير المفهرسة.</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
     <value>تراجع</value>

@@ -1341,9 +1341,6 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Jumlah item</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Tutup tab ke kanan</value>
-  </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>Penghapusan Gagal</value>
   </data>
@@ -1763,9 +1760,6 @@
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Tempel</value>
-  </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Buka di Terminal...</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Baru</value>

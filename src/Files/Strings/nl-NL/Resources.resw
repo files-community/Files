@@ -1335,9 +1335,6 @@
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>Wilt u doorgaan als administrator?</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Tabbladen rechts sluiten</value>
-  </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Administrator</value>
   </data>
@@ -1763,9 +1760,6 @@
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Plakken</value>
-  </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Openen in terminal...</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nieuw</value>

@@ -45,9 +45,6 @@
   <data name="Size" xml:space="preserve">
     <value>ზომა</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>ტერმინალში გახსნა...</value>
-  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>შექმნილია:</value>
   </data>
@@ -1427,9 +1424,6 @@
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>ნივთების რაოდენობა</value>
-  </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>ჩანართების დახურვა მარჯვნივ</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>წაშლა ვერ მოხერხდა</value>

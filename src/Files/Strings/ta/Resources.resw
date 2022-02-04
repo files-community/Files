@@ -952,9 +952,6 @@
   <data name="StatusUnknownError" xml:space="preserve">
     <value>அறியப்படாத பிழை ஒன்று நேர்ந்தது.</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>வலது பக்கம் உள்ள தாவல்களை மூடு</value>
-  </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>நிர்வாகி</value>
   </data>

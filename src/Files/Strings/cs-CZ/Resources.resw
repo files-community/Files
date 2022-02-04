@@ -1209,9 +1209,6 @@
   <data name="StatusCopyComplete" xml:space="preserve">
     <value>Kopírování dokončeno</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Zavřít záložky napravo</value>
-  </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Správce</value>
   </data>
@@ -1424,9 +1421,6 @@
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Vložit</value>
-  </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>_Otevřít v terminálu</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nová položka:</value>

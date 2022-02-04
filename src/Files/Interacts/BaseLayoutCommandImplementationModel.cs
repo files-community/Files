@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using Files.Dialogs;
 using Files.Enums;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
@@ -19,6 +20,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -182,26 +184,21 @@ namespace Files.Interacts
 
         public virtual async void RestoreItem(RoutedEventArgs e)
         {
-            if (SlimContentPage.IsItemSelected)
+            var items = SlimContentPage.SelectedItems.ToList().Where(x => x is RecycleBinItem).Select((item) => new
             {
-                foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
-                {
-                    if (listedItem is RecycleBinItem binItem)
-                    {
-                        FilesystemItemType itemType = binItem.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
-                        await FilesystemHelpers.RestoreFromTrashAsync(StorageHelpers.FromPathAndType(
-                            (listedItem as RecycleBinItem).ItemPath,
-                            itemType), (listedItem as RecycleBinItem).ItemOriginalPath, true);
-                    }
-                }
-            }
+                Source = StorageHelpers.FromPathAndType(
+                    item.ItemPath,
+                    item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory),
+                Dest = (item as RecycleBinItem).ItemOriginalPath
+            });
+            await FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
         }
 
         public virtual async void DeleteItem(RoutedEventArgs e)
         {
-            var items = await Task.Run(() => SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
+            var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
                 item.ItemPath,
-                item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)));
+                item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
             await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
         }
 
@@ -782,6 +779,58 @@ namespace Files.Interacts
                         0,
                         ReturnResult.Success,
                         FileOperationType.Extract);
+                }
+            }
+        }
+
+        public async Task InstallInfDriver()
+        {
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
+                {
+                    var value = new ValueSet
+                    {
+                        { "Arguments", "InstallOperation" },
+                        { "installop", "InstallInf" },
+                        { "filepath", selectedItem.ItemPath },
+                        { "extension", selectedItem.FileExtension },
+                    };
+                    await connection.SendMessageAsync(value);
+                }
+            }
+        }
+
+        public async void RotateImageLeft()
+        {
+            await BitmapHelper.Rotate(PathNormalization.NormalizePath(SlimContentPage?.SelectedItems.First().ItemPath), BitmapRotation.Clockwise270Degrees);
+            SlimContentPage?.ItemManipulationModel.RefreshItemsThumbnail();
+            SlimContentPage?.PreviewPaneViewModel.UpdateSelectedItemPreview();
+        }
+
+        public async void RotateImageRight()
+        {
+            await BitmapHelper.Rotate(PathNormalization.NormalizePath(SlimContentPage?.SelectedItems.First().ItemPath), BitmapRotation.Clockwise90Degrees);
+            SlimContentPage?.ItemManipulationModel.RefreshItemsThumbnail();
+            SlimContentPage?.PreviewPaneViewModel.UpdateSelectedItemPreview();
+        }
+
+        public async void InstallFont()
+        {
+            foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
+            {
+                var connection = await AppServiceConnectionHelper.Instance;
+                if (connection != null)
+                {
+                    var value = new ValueSet
+                    {
+                        { "Arguments", "InstallOperation" },
+                        { "installop", "InstallFont" },
+                        { "filepath", selectedItem.ItemPath },
+                        { "extension", selectedItem.FileExtension },
+                    };
+                    await connection.SendMessageAsync(value);
                 }
             }
         }

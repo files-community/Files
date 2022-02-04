@@ -45,9 +45,6 @@
   <data name="Size" xml:space="preserve">
     <value>Veličina</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Otvori u Terminalu...</value>
-  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Napravljeno:</value>
   </data>
@@ -1445,9 +1442,6 @@
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Broj stavki</value>
-  </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Zatvori kartice s desne strane</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>Brisanje nije uspjelo</value>

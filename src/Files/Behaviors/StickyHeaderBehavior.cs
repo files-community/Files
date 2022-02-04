@@ -3,17 +3,17 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Behaviors;
 using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
+using Microsoft.Toolkit.Uwp.UI.Behaviors;
+using System.Linq;
 using Windows.Foundation;
+using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.Foundation.Metadata;
-using System.Linq;
 
 namespace Files.Behaviors
 {

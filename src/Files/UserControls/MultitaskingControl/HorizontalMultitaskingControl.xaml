@@ -7,6 +7,7 @@
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:vm="using:Files.ViewModels"
     d:DesignHeight="300"
     d:DesignWidth="400"
@@ -37,6 +38,7 @@
                         <MenuFlyoutItem
                             x:Uid="HorizontalMultitaskingControlDuplicateTab"
                             Click="{x:Bind vm:MainPageViewModel.DuplicateTabAtIndex}"
+                            KeyboardAcceleratorTextOverride="Ctrl+Shift+K"
                             Text="Duplicate tab">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11B;" />
@@ -52,11 +54,20 @@
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
+                            x:Name="MenuItemCloseTabsToTheLeft"
+                            Click="CloseTabsToTheLeft"
+                            DataContextChanged="MenuItemCloseTabsToTheLeft_DataContextChanged"
+                            Text="{helpers:ResourceString Name=CloseTabsToTheLeft}" />
+                        <MenuFlyoutItem
                             x:Name="MenuItemCloseTabsToTheRight"
-                            x:Uid="HorizontalMultitaskingControlCloseTabsToTheRight"
                             Click="CloseTabsToTheRight"
                             DataContextChanged="MenuItemCloseTabsToTheRight_DataContextChanged"
-                            Text="Close tabs to the right" />
+                            Text="{helpers:ResourceString Name=CloseTabsToTheRight}" />
+                        <MenuFlyoutItem
+                            x:Name="MenuItemCloseOtherTabs"
+                            Click="CloseOtherTabs"
+                            DataContextChanged="MenuItemCloseOtherTabs_DataContextChanged"
+                            Text="{helpers:ResourceString Name=CloseOtherTabs}" />
                         <MenuFlyoutItem
                             x:Name="MenuItemReopenClosedTab"
                             x:Uid="HorizontalMultitaskingControlReopenClosedTab"

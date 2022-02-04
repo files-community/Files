@@ -51,9 +51,6 @@
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Voreinstellungen</value>
   </data>
-  <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Dort weitermachen, wo Sie aufgehört haben</value>
-  </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>Einen neuen Tab öffnen</value>
   </data>
@@ -102,17 +99,11 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Einfügen</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
-    <value>Eigenschaften</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Entpacken</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
     <value>In neuem Tab öffnen</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
-    <value>In neuem Fenster öffnen</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
     <value>Als Desktophintergrund festlegen</value>
@@ -125,9 +116,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Umbenennen</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
-    <value>Eigenschaften</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Pfad eingeben</value>
@@ -221,33 +209,6 @@
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>ist ein Unterordner des Quellordners</value>
-  </data>
-  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
-    <value>Auswahl umkehren</value>
-  </data>
-  <data name="Open" xml:space="preserve">
-    <value>Öffnen</value>
-  </data>
-  <data name="PropertiesTitle" xml:space="preserve">
-    <value>Eigenschaften</value>
-  </data>
-  <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
-    <value>Eigenschaften</value>
-  </data>
-  <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
-    <value>In neuem Tab öffnen</value>
-  </data>
-  <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
-    <value>In neuem Fenster öffnen</value>
-  </data>
-  <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
-    <value>Experimentell</value>
-  </data>
-  <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
-    <value>WARNUNG: EXPERIMENTELLE FUNKTIONEN!</value>
-  </data>
-  <data name="SettingsNavExperimental.Content" xml:space="preserve">
-    <value>Experimentell</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>In diesem Verzeichnis existiert bereits eine Datei oder ein Ordner mit diesem Namen.</value>
@@ -1200,9 +1161,6 @@
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Files-Dokumentation aufrufen</value>
   </data>
-  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
-    <value>Eigenschaften</value>
-  </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>Laufende Aufgaben-Flyout</value>
   </data>
@@ -1334,9 +1292,6 @@
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>Möchten Sie als Administrator fortfahren?</value>
-  </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Rechte Tabs schließen</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Administrator</value>
@@ -1764,9 +1719,6 @@
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Einfügen</value>
   </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>In Konsolenanwendung öffnen...</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Neu</value>
   </data>
@@ -2123,9 +2075,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
     <value>Von Favoriten lösen</value>
-  </data>
-  <data name="NavSettingsButton" xml:space="preserve">
-    <value>Einstellungen</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Updates verfügbar</value>
@@ -2574,5 +2523,62 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Files mit Windows starten</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Attribute</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Versteckt</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>Weitere Details</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Nur lesen</value>
+  </data>
+  <data name="CleanupDrive" xml:space="preserve">
+    <value>Datenträgerinhalt bereinigen</value>
+  </data>
+  <data name="DiskCleanup" xml:space="preserve">
+    <value>Datenträger bereinigen</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Typ:</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Bytes</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Entpacken</value>
+  </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>Dateien entpacken</value>
+  </data>
+  <data name="ExtractHere" xml:space="preserve">
+    <value>Hier entpacken</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Strg+E</value>
+  </data>
+  <data name="ExtractToChildFolder" xml:space="preserve">
+    <value>Nach {0} entpacken</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Skriptdatei ausführen</value>
+  </data>
+  <data name="RunWithPowerShell" xml:space="preserve">
+    <value>Mit PowerShell ausführen</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Als Desktophintergrund festlegen</value>
+  </data>
+  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
+    <value>Entferne Files nicht von deinem Gerät bevor diese Option ausgeschaltet ist, da ansonsten der Dateiexplorer nicht mehr geöffnet werden kann.</value>
+  </data>
+  <data name="ShowFolderSizesWarning" xml:space="preserve">
+    <value>Da das Berechnen der Ordnergrößen rechenintensiv ist kann die CPU-Auslastung erhöht werden.</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Öffnen in</value>
   </data>
 </root>

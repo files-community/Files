@@ -20,7 +20,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <Grid>
+        <Grid Canvas.ZIndex="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />

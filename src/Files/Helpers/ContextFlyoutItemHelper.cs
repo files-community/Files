@@ -503,7 +503,7 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "OpenInTerminal".GetLocalized(),
+                    Text = $"{"OpenIn".GetLocalized()} {App.TerminalController.Model.GetDefaultTerminal()?.Name}",
                     Glyph = "\uE756",
                     Command = commandsViewModel.OpenDirectoryInDefaultTerminalCommand,
                 },
