@@ -638,6 +638,8 @@
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
                                         TextChanged="ListViewTextBoxItemName_TextChanged"
+                                        TextChanging="ListViewTextBoxItemName_TextChanging"
+                                        SelectionChanged="ListViewTextBoxItemName_SelectionChanged"
                                         Visibility="Collapsed">
                                         <TextBox.Resources>
                                             <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />

@@ -63,6 +63,11 @@ namespace Files.Views.LayoutModes
 
         public ScrollViewer ContentScroller { get; private set; }
 
+        private string previousInput = "";
+        private int previousCursorPosition = 0;
+        private bool ignoreTextChange = false;
+        private string previousRestrictedAttempt = "";
+
         public DetailsLayoutBrowser() : base()
         {
             InitializeComponent();
@@ -365,21 +370,44 @@ namespace Files.Views.LayoutModes
             textBox.Select(0, selectedTextLength);
             IsRenamingItem = true;
         }
-
-        private void ListViewTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
+        private void ListViewTextBoxItemName_SelectionChanged(object s, RoutedEventArgs e)
         {
-            var textBox = sender as TextBox;
+            previousCursorPosition = ((TextBox)s).SelectionStart;
+        }
 
+        private void ListViewTextBoxItemName_TextChanging(TextBox textBox, TextBoxTextChangingEventArgs args)
+        {
             if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
             {
-                FileNameTeachingTip.Visibility = Visibility.Visible;
-                FileNameTeachingTip.IsOpen = true;
+                if (previousRestrictedAttempt == textBox.Text)
+                {
+                    textBox.Text = textBox.Text.Remove(textBox.Text.Length - previousRestrictedAttempt.Length);
+                    string filtered = FilesystemHelpers.FilterRestrictedCharacters(previousRestrictedAttempt);
+                    textBox.Text += filtered;
+                    textBox.SelectionStart = previousCursorPosition + Math.Abs(textBox.Text.Length - previousInput.Length);
+                }
+                else
+                {
+                    ignoreTextChange = true;
+                    FileNameTeachingTip.Visibility = Visibility.Visible;
+                    FileNameTeachingTip.IsOpen = true;
+                    previousRestrictedAttempt = textBox.Text;
+                    textBox.Text = previousInput;
+                    textBox.SelectionStart = previousCursorPosition;
+                }
+                return;
             }
-            else
+        }
+        private void ListViewTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!ignoreTextChange)
             {
+                var textBox = sender as TextBox;
                 FileNameTeachingTip.IsOpen = false;
                 FileNameTeachingTip.Visibility = Visibility.Collapsed;
+                previousInput = textBox.Text;
             }
+            ignoreTextChange = false;
         }
 
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
