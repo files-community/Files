@@ -1183,6 +1183,20 @@ namespace Files.Filesystem
             return false;
         }
 
+        public static string FilterRestrictedCharacters(string input)
+        {
+            string filtered = "";
+            foreach (char c in input)
+            {
+                Debug.WriteLine(c);
+                if (!RestrictedCharacters.Contains(c))
+                {
+                    filtered = string.Concat(filtered, c);
+                }
+            }
+            return filtered;
+        }
+
         #endregion Public Helpers
 
         #region IDisposable

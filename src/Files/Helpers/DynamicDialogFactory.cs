@@ -60,15 +60,32 @@ namespace Files.Helpers
             int previousCursorPosition = 0;
             bool ignoreTextChange = false;
 
+            string previousRestrictedAttempt = "";
+
+            inputText.SelectionChanged += (s, e) =>
+            {
+                previousCursorPosition = ((TextBox) s).SelectionStart;
+            };
+
             inputText.TextChanging += (textBox, e) =>
             {
                 if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
                 {
-                    tipText.Opacity = 1.0d;
-                    ignoreTextChange = true;
-                    previousCursorPosition = textBox.SelectionStart - 1;
-                    textBox.Text = previousInput;
-                    textBox.SelectionStart = previousCursorPosition;
+                    if (previousRestrictedAttempt == textBox.Text)
+                    {
+                        textBox.Text = textBox.Text.Remove(textBox.Text.Length - previousRestrictedAttempt.Length);
+                        string filtered = FilesystemHelpers.FilterRestrictedCharacters(previousRestrictedAttempt);
+                        textBox.Text += filtered;
+                        textBox.SelectionStart = previousCursorPosition + Math.Abs(textBox.Text.Length - previousInput.Length);
+                    }
+                    else
+                    {
+                        ignoreTextChange = true;
+                        tipText.Opacity = 1.0d;
+                        previousRestrictedAttempt = textBox.Text;
+                        textBox.Text = previousInput;
+                        textBox.SelectionStart = previousCursorPosition;
+                    }
                     return;
                 }
             };
@@ -89,7 +106,6 @@ namespace Files.Helpers
                     }
                     tipText.Opacity = 0.0d;
                     previousInput = textBox.Text;
-
                 }
                 ignoreTextChange = false;
             };
