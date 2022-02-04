@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="Files.UserControls.Widgets.DrivesWidget"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -62,15 +62,16 @@
             ItemsSource="{x:Bind local:DrivesWidget.ItemsAdded}">
             <muxc:ItemsRepeater.Layout>
                 <muxc:UniformGridLayout
-                    ItemsStretch="None"
+                    ItemsStretch="Fill"
                     MinColumnSpacing="8"
                     MinItemHeight="88"
+                    MinItemWidth="250"
                     MinRowSpacing="8"
                     Orientation="Horizontal" />
             </muxc:ItemsRepeater.Layout>
             <muxc:ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="navigationcontrolitems:DriveItem">
-                    <Grid Width="280">
+                    <Grid>
                         <Button
                             Padding="0"
                             HorizontalAlignment="Stretch"
