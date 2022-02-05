@@ -386,6 +386,7 @@ namespace Files.ViewModels
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFileExtensions):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden):
+                case nameof(UserSettingsService.PreferencesSettingsService.AreItemsStartingWithDotHidden):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled):
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFolderSize):
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
@@ -2121,7 +2122,10 @@ namespace Files.ViewModels
 
             var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
             var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-            if (isHidden && (!UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible || (isSystem && UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden)))
+            if ((isHidden &&
+               (!UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible ||
+               (isSystem && UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) ||
+               (startWithDot && UserSettingsService.PreferencesSettingsService.AreItemsStartingWithDotHidden))
             {
                 // Do not add to file list if hidden/system attribute is set and system/hidden file are not to be shown
                 return null;
