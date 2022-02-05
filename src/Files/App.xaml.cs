@@ -27,9 +27,11 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.UI.Core;
+using Windows.UI.Core.Preview;
 using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -215,12 +217,19 @@ namespace Files
 
             var rootFrame = EnsureWindowIsInitialized();
 
-            if (e.PrelaunchActivated == false)
+            if (AppInstance.GetInstances().Any() && !AppInstance.GetInstances().FirstOrDefault(x => x.IsCurrentInstance).Key.Equals(Program.PrelaunchInstanceKey))
+            {
+                AppInstance.Unregister();
+            }
+
+            if (!e.PrelaunchActivated)
             {
                 if (canEnablePrelaunch)
                 {
                     TryEnablePrelaunch();
                 }
+
+                AppInstance.Unregister();
 
                 if (rootFrame.Content == null)
                 {
@@ -240,6 +249,7 @@ namespace Files
                 // Ensure the current window is active
                 Window.Current.Activate();
                 Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+                SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += App_CloseRequested;
             }
             else
             {
@@ -258,6 +268,16 @@ namespace Files
                     }
                 }
             }
+        }
+
+        private async void App_CloseRequested(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
+        {
+            var defer = e.GetDeferral();
+            AppInstance.Unregister();
+
+            await (await AppServiceConnectionHelper.Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "PrepareForPrelaunch" }});
+            
+            defer.Complete();
         }
 
         protected override async void OnFileActivated(FileActivatedEventArgs e)

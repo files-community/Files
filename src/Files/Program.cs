@@ -13,7 +13,7 @@ namespace Files
 {
     internal class Program
     {
-        const string PrelaunchInstanceKey = "PrelaunchInstance";
+        public static readonly string PrelaunchInstanceKey = "PrelaunchInstance";
 
         private static async Task Main()
         {
@@ -33,20 +33,18 @@ namespace Files
                 {
                     var launchArgs = activatedArgs as LaunchActivatedEventArgs;
 
-                    if (launchArgs.PrelaunchActivated && AppInstance.GetInstances().Count == 0)
+                    if (launchArgs.PrelaunchActivated && !AppInstance.GetInstances().Any(x => x.Key.Equals(PrelaunchInstanceKey)))
                     {
                         AppInstance.FindOrRegisterInstanceForKey(PrelaunchInstanceKey);
-                        ApplicationData.Current.LocalSettings.Values["WAS_PRELAUNCH_INSTANCE_ACTIVATED"] = false;
                         Application.Start(_ => new App());
                         return;
                     }
                     else
                     {
-                        bool wasPrelaunchInstanceActivated = ApplicationData.Current.LocalSettings.Values.Get("WAS_PRELAUNCH_INSTANCE_ACTIVATED", true);
-                        if (AppInstance.GetInstances().Any(x => x.Key.Equals(PrelaunchInstanceKey)) && !wasPrelaunchInstanceActivated)
+                        var instances = AppInstance.GetInstances();
+                        if (instances.Any(x => x.Key.Equals(PrelaunchInstanceKey)))
                         {
                             var plInstance = AppInstance.GetInstances().First(x => x.Key.Equals(PrelaunchInstanceKey));
-                            ApplicationData.Current.LocalSettings.Values["WAS_PRELAUNCH_INSTANCE_ACTIVATED"] = true;
                             plInstance.RedirectActivationTo();
                             await TerminateUwpAppInstance(proc.Id);
                             return;

@@ -14,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using static FilesFullTrust.Win32API;
 
 namespace FilesFullTrust
 {
@@ -21,6 +22,8 @@ namespace FilesFullTrust
     {
         public static Logger Logger { get; private set; }
         private static readonly LogWriter logWriter = new LogWriter();
+
+        private static bool shouldPrelaunchBeforeTerminate;
 
         [STAThread]
         private static async Task Main(string[] args)
@@ -173,8 +176,17 @@ namespace FilesFullTrust
             switch (arguments)
             {
                 case "Terminate":
+                    if (shouldPrelaunchBeforeTerminate)
+                    {
+                        ApplicationActivationManager appActiveManager = new ApplicationActivationManager();
+                        appActiveManager.ActivateApplication((string)message["PrelaunchAppId"], null, ActivateOptions.Prelaunch, out uint pid);
+                    }
                     // Exit fulltrust process (UWP is closed or suspended)
                     appServiceExit?.Set();
+                    break;
+
+                case "PrepareForPrelaunch":
+                    shouldPrelaunchBeforeTerminate = true;
                     break;
 
                 case "Elevate":
