@@ -29,7 +29,12 @@ namespace Files.Services
         /// Gets or sets a value indicating whether or not system items should be visible.
         /// </summary>
         bool AreSystemItemsHidden { get; set; }
-
+        
+        /// <summary>
+        /// Gets or sets a value indicating whether or not elements whose name begins with a dot should be visible.
+        /// </summary>
+        bool AreItemsStartingWithDotHidden { get; set; }
+        
         /// <summary>
         /// Gets or sets a value indicating whether or not files should be sorted together with folders.
         /// </summary>
