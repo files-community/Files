@@ -297,7 +297,7 @@ namespace Files
         protected bool ignoreTextChange = false;
         protected string previousRestrictedAttempt = "";
 
-        protected void ListViewTextBoxItemName_SelectionChanged(object s, RoutedEventArgs e)
+        private void ListViewTextBoxItemName_SelectionChanged(object s, RoutedEventArgs e)
         {
             previousCursorPosition = ((TextBox)s).SelectionStart;
         }

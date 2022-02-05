@@ -366,6 +366,11 @@ namespace Files.Views.LayoutModes
             IsRenamingItem = true;
         }
 
+        private void ListViewTextBoxItemName_SelectionChanged(object s, RoutedEventArgs e)
+        {
+            previousCursorPosition = ((TextBox)s).SelectionStart;
+        }
+
         private void ListViewTextBoxItemName_TextChanging(TextBox textBox, TextBoxTextChangingEventArgs args)
         {
             if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
