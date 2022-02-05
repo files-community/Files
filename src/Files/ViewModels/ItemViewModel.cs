@@ -2122,6 +2122,7 @@ namespace Files.ViewModels
 
             var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
             var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+            var startWithDot = findData.cFileName.StartsWith(".");
             if ((isHidden &&
                (!UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible ||
                (isSystem && UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) ||
