@@ -44,7 +44,7 @@
         </trans-unit>
         <trans-unit id="PropertiesItemFileName.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Item Name</source>
-          <target state="translated">Nama Item</target>
+          <target state="translated">Nama Benda</target>
         </trans-unit>
         <trans-unit id="PropertiesItemPath.Text" translate="yes" xml:space="preserve">
           <source>Path:</source>
@@ -64,7 +64,7 @@
         </trans-unit>
         <trans-unit id="ErrorDialogIsASubfolder" translate="yes" xml:space="preserve">
           <source>is a subfolder of the source folder</source>
-          <target state="translated">adalah subfolder dari folder sumber</target>
+          <target state="translated">ini adalah subfolder dari sumber folder</target>
         </trans-unit>
         <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
@@ -128,7 +128,7 @@
         </trans-unit>
         <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
           <source>Experimental</source>
-          <target state="translated">Experimental</target>
+          <target state="translated">Experimen</target>
         </trans-unit>
         <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
           <source>Preferences</source>
@@ -136,7 +136,7 @@
         </trans-unit>
         <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
           <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
-          <target state="translated">PERINGATAN: FITUR EXPERIMENTAL KE DEPAN!</target>
+          <target state="translated">PERINGATAN: INI FITUR EXPERIMEN BERHATI HATILAH!</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupContinueWhereYouLeftOff.Content" translate="yes" xml:space="preserve">
           <source>Continue where you left off</source>
@@ -180,7 +180,7 @@
         </trans-unit>
         <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
           <source>Videos</source>
-          <target state="translated" state-qualifier="tm-suggestion">Video</target>
+          <target state="translated" state-qualifier="tm-suggestion">Tontonan</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
           <source>Sort by</source>
@@ -208,7 +208,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNewFile.Text" translate="yes" xml:space="preserve">
           <source>File</source>
-          <target state="translated" state-qualifier="tm-suggestion">File</target>
+          <target state="translated" state-qualifier="tm-suggestion">Berkas</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutPropertiesFolder.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
@@ -320,7 +320,7 @@
         </trans-unit>
         <trans-unit id="NavForwardButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Forward (Alt+Right Arrow)</source>
-          <target state="translated">maju (Alt+Panah Kanan)</target>
+          <target state="translated">Maju (Alt+Panah Kanan)</target>
         </trans-unit>
         <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Up (Alt+Up Arrow)</source>
@@ -660,7 +660,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
           <source>Windows default</source>
-          <target state="translated">Default dari Windows</target>
+          <target state="translated">Bawaan dari Windows</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarVisiblePathNoResults" translate="yes" xml:space="preserve">
           <source>No results</source>
@@ -3341,19 +3341,19 @@ Kami menggunakan App Center untuk melacak penggunaan aplikasi, menemukan bug, da
         </trans-unit>
         <trans-unit id="SettingsDefaultFilesManager" translate="yes" xml:space="preserve">
           <source>Default file manager</source>
-          <target state="translated">Pengelola file default</target>
+          <target state="translated">Pengelola file bawaan</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManager" translate="yes" xml:space="preserve">
           <source>Set Files as the default file manager</source>
-          <target state="translated">Setel Files sebagai pengelola file default</target>
+          <target state="translated">Setel Files sebagai pengelola file bawaan</target>
         </trans-unit>
         <trans-unit id="EmptyRecycleBin" translate="yes" xml:space="preserve">
           <source>Empty Recycle Bin</source>
-          <target state="translated">Recycle Bin Kosong</target>
+          <target state="translated">Tempat sampah Kosong</target>
         </trans-unit>
         <trans-unit id="Sidebar" translate="yes" xml:space="preserve">
           <source>Sidebar</source>
-          <target state="translated">Sidebar</target>
+          <target state="translated">Panel Samping</target>
         </trans-unit>
         <trans-unit id="FilesAndFolders" translate="yes" xml:space="preserve">
           <source>Files and folders</source>
@@ -3369,15 +3369,15 @@ Kami menggunakan App Center untuk melacak penggunaan aplikasi, menemukan bug, da
         </trans-unit>
         <trans-unit id="ThirdPartyLicenses" translate="yes" xml:space="preserve">
           <source>Third party licenses</source>
-          <target state="new">Third party licenses</target>
+          <target state="new">Lisensi Pihak ke tiga</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
           <source>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</source>
-          <target state="new">This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</target>
+          <target state="new">Opsi ini mengubah regenari sistem dan dapat memiliki efek samping yang tidak terduga pada perangkat Anda. Lanjutkan dengan risiko Anda sendiri.</target>
         </trans-unit>
         <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
           <source>Clear all</source>
-          <target state="new">Clear all</target>
+          <target state="new">Hapus semua</target>
         </trans-unit>
         <trans-unit id="Columns" translate="yes" xml:space="preserve">
           <source>Columns</source>
@@ -3385,67 +3385,67 @@ Kami menggunakan App Center untuk melacak penggunaan aplikasi, menemukan bug, da
         </trans-unit>
         <trans-unit id="LargeIcons" translate="yes" xml:space="preserve">
           <source>Large Icons</source>
-          <target state="new">Large Icons</target>
+          <target state="new">Ikon Besar</target>
         </trans-unit>
         <trans-unit id="MediumIcons" translate="yes" xml:space="preserve">
           <source>Medium Icons</source>
-          <target state="new">Medium Icons</target>
+          <target state="new">Ikon Sedang</target>
         </trans-unit>
         <trans-unit id="SmallIcons" translate="yes" xml:space="preserve">
           <source>Small Icons</source>
-          <target state="new">Small Icons</target>
+          <target state="new">Ikon kecil</target>
         </trans-unit>
         <trans-unit id="Tiles" translate="yes" xml:space="preserve">
           <source>Tiles</source>
-          <target state="new">Tiles</target>
+          <target state="new">Ubin</target>
         </trans-unit>
         <trans-unit id="FolderWidgetCreateNewLibraryDialogTitleText" translate="yes" xml:space="preserve">
           <source>Create Library</source>
-          <target state="new">Create Library</target>
+          <target state="new">Buat Perpustakaan</target>
         </trans-unit>
         <trans-unit id="FolderWidgetCreateNewLibraryInputPlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter Library name</source>
-          <target state="new">Enter Library name</target>
+          <target state="new">Masukkan nama Perpustakaan</target>
         </trans-unit>
         <trans-unit id="ShowFolderSize" translate="yes" xml:space="preserve">
           <source>Show folder size</source>
-          <target state="new">Show folder size</target>
+          <target state="new">Tampilkan ukuran folder</target>
         </trans-unit>
         <trans-unit id="Skip" translate="yes" xml:space="preserve">
           <source>Skip</source>
-          <target state="new">Skip</target>
+          <target state="new">Lewati</target>
         </trans-unit>
         <trans-unit id="SettingsOpenInLogin" translate="yes" xml:space="preserve">
           <source>Open Files on Windows Startup</source>
-          <target state="new">Open Files on Windows Startup</target>
+          <target state="new">Buka File saat Windows aktif</target>
         </trans-unit>
         <trans-unit id="Attributes" translate="yes" xml:space="preserve">
           <source>Attributes</source>
-          <target state="new">Attributes</target>
+          <target state="new">Atribut</target>
         </trans-unit>
         <trans-unit id="Hidden" translate="yes" xml:space="preserve">
           <source>Hidden</source>
-          <target state="new">Hidden</target>
+          <target state="new">Tersembunyi</target>
         </trans-unit>
         <trans-unit id="MoreDetails" translate="yes" xml:space="preserve">
           <source>More details</source>
-          <target state="new">More details</target>
+          <target state="new">Rincian selengkapnya</target>
         </trans-unit>
         <trans-unit id="ReadOnly" translate="yes" xml:space="preserve">
           <source>Read only</source>
-          <target state="new">Read only</target>
+          <target state="new">Hanya baca</target>
         </trans-unit>
         <trans-unit id="CleanupDrive" translate="yes" xml:space="preserve">
           <source>Cleanup your drive contents</source>
-          <target state="new">Cleanup your drive contents</target>
+          <target state="new">Bersihkan konten drive Anda</target>
         </trans-unit>
         <trans-unit id="DiskCleanup" translate="yes" xml:space="preserve">
           <source>Disk cleanup</source>
-          <target state="new">Disk cleanup</target>
+          <target state="new">Pembersihan disk</target>
         </trans-unit>
         <trans-unit id="Type" translate="yes" xml:space="preserve">
           <source>Type:</source>
-          <target state="new">Type:</target>
+          <target state="new">Ketik:</target>
         </trans-unit>
         <trans-unit id="Bytes" translate="yes" xml:space="preserve">
           <source>Bytes</source>
@@ -3453,15 +3453,15 @@ Kami menggunakan App Center untuk melacak penggunaan aplikasi, menemukan bug, da
         </trans-unit>
         <trans-unit id="Extract" translate="yes" xml:space="preserve">
           <source>Extract</source>
-          <target state="new">Extract</target>
+          <target state="new">Ekstrak</target>
         </trans-unit>
         <trans-unit id="ExtractFiles" translate="yes" xml:space="preserve">
           <source>Extract files</source>
-          <target state="new">Extract files</target>
+          <target state="new">Ekstrak berkas</target>
         </trans-unit>
         <trans-unit id="ExtractHere" translate="yes" xml:space="preserve">
           <source>Extract here</source>
-          <target state="new">Extract here</target>
+          <target state="new">Ekstrak di sini</target>
         </trans-unit>
         <trans-unit id="ExtractKeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+E</source>
@@ -3469,55 +3469,55 @@ Kami menggunakan App Center untuk melacak penggunaan aplikasi, menemukan bug, da
         </trans-unit>
         <trans-unit id="ExtractToChildFolder" translate="yes" xml:space="preserve">
           <source>Extract to {0}</source>
-          <target state="new">Extract to {0}</target>
+          <target state="new">Ekstrak ke {0}</target>
         </trans-unit>
         <trans-unit id="RunScript" translate="yes" xml:space="preserve">
           <source>Run script</source>
-          <target state="new">Run script</target>
+          <target state="new">Jalankan perintah</target>
         </trans-unit>
         <trans-unit id="RunWithPowerShell" translate="yes" xml:space="preserve">
           <source>Run with PowerShell</source>
-          <target state="new">Run with PowerShell</target>
+          <target state="new">Jalankan dengan PowerShell</target>
         </trans-unit>
         <trans-unit id="SetAsBackground" translate="yes" xml:space="preserve">
           <source>Set as desktop background</source>
-          <target state="new">Set as desktop background</target>
+          <target state="new">Tetapkan sebagai latar belakang desktop</target>
         </trans-unit>
         <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
           <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
-          <target state="new">Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</target>
+          <target state="new">Jangan hapus File dari perangkat Anda tanpa mematikan opsi ini. Jika tidak melakukannya Anda tidak dapat membuka File Explorer(Bawaan).</target>
         </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
-          <target state="new">Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</target>
+          <target state="new">Menghitung ukuran folder membutuhkan banyak sumber daya dan dapat menyebabkan penggunaan CPU Anda meningkat.</target>
         </trans-unit>
         <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
           <source>Open in</source>
-          <target state="new">Open in</target>
+          <target state="new">Buka di</target>
         </trans-unit>
         <trans-unit id="RotateLeft" translate="yes" xml:space="preserve">
           <source>Rotate left</source>
-          <target state="new">Rotate left</target>
+          <target state="new">Miringkan ke kiri</target>
         </trans-unit>
         <trans-unit id="RotateRight" translate="yes" xml:space="preserve">
           <source>Rotate right</source>
-          <target state="new">Rotate right</target>
+          <target state="new">Miringkan ke kanan</target>
         </trans-unit>
         <trans-unit id="Install" translate="yes" xml:space="preserve">
           <source>Install</source>
-          <target state="new">Install</target>
+          <target state="new">Pasang</target>
         </trans-unit>
         <trans-unit id="CloseTabsToTheLeft" translate="yes" xml:space="preserve">
           <source>Close tabs to the left</source>
-          <target state="new">Close tabs to the left</target>
+          <target state="new">Tutup tab di sebelah kiri</target>
         </trans-unit>
         <trans-unit id="CloseTabsToTheRight" translate="yes" xml:space="preserve">
           <source>Close tabs to the right</source>
-          <target state="new">Close tabs to the right</target>
+          <target state="new">Tutup tab di sebelah kanan</target>
         </trans-unit>
         <trans-unit id="CloseOthers" translate="yes" xml:space="preserve">
           <source>Close others</source>
-          <target state="new">Close others</target>
+          <target state="new">Tutup lainnya</target>
         </trans-unit>
       </group>
     </body>
