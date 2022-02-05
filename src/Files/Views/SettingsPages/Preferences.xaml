@@ -161,6 +161,16 @@
                                 IsOn="{Binding AreSystemItemsHidden, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
+                        
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersHideItemsStartingWithDot}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon contract13NotPresent:Glyph="&#xE72E;" contract13Present:Glyph="&#xED1A;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersHideItemsStartingWithDot}"
+                                IsOn="{Binding AreItemsStartingWithDotHidden, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
 
                         <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowFileExtensions}" HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
