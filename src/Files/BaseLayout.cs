@@ -292,6 +292,16 @@ namespace Files
 
         private DispatcherQueueTimer dragOverTimer, tapDebounceTimer;
 
+        protected string previousInput = "";
+        protected int previousCursorPosition = 0;
+        protected bool ignoreTextChange = false;
+        protected string previousRestrictedAttempt = "";
+
+        protected void ListViewTextBoxItemName_SelectionChanged(object s, RoutedEventArgs e)
+        {
+            previousCursorPosition = ((TextBox)s).SelectionStart;
+        }
+
         public BaseLayout()
         {
             ItemManipulationModel = new ItemManipulationModel();

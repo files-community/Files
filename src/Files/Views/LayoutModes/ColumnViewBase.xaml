@@ -308,6 +308,8 @@
                                     VerticalAlignment="Stretch"
                                     TextAlignment="Left"
                                     TextChanged="ListViewTextBoxItemName_TextChanged"
+                                    TextChanging="ListViewTextBoxItemName_TextChanging"
+                                    SelectionChanged="ListViewTextBoxItemName_SelectionChanged"
                                     TextWrapping="Wrap"
                                     Visibility="Collapsed" />
                                 <Grid Grid.Column="2">

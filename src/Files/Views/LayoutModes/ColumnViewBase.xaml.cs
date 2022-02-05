@@ -125,25 +125,42 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private void ListViewTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
+        private void ListViewTextBoxItemName_TextChanging(TextBox textBox, TextBoxTextChangingEventArgs args)
         {
-            var textBox = sender as TextBox;
-
             if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
             {
-                FileNameTeachingTip.Visibility = Visibility.Visible;
-                FileNameTeachingTip.IsOpen = true;
-            }
-            else
-            {
-                if (FileNameTeachingTip.IsOpen == true)
+                if (previousRestrictedAttempt == textBox.Text)
                 {
-                    FileNameTeachingTip.IsOpen = false;
-                    FileNameTeachingTip.Visibility = Visibility.Collapsed;
+                    textBox.Text = textBox.Text.Remove(textBox.Text.Length - previousRestrictedAttempt.Length);
+                    string filtered = FilesystemHelpers.FilterRestrictedCharacters(previousRestrictedAttempt);
+                    textBox.Text += filtered;
+                    textBox.SelectionStart = previousCursorPosition + Math.Abs(textBox.Text.Length - previousInput.Length);
                 }
+                else
+                {
+                    ignoreTextChange = true;
+                    FileNameTeachingTip.Visibility = Visibility.Visible;
+                    FileNameTeachingTip.IsOpen = true;
+                    previousRestrictedAttempt = textBox.Text;
+                    textBox.Text = previousInput;
+                    textBox.SelectionStart = previousCursorPosition;
+                }
+                return;
             }
         }
 
+        private void ListViewTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!ignoreTextChange)
+            {
+                var textBox = sender as TextBox;
+                FileNameTeachingTip.IsOpen = false;
+                FileNameTeachingTip.Visibility = Visibility.Collapsed;
+                previousInput = textBox.Text;
+            }
+            ignoreTextChange = false;
+        }
+        
         public event EventHandler ItemInvoked;
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -251,6 +268,10 @@ namespace Files.Views.LayoutModes
 
         private async void CommitRename(TextBox textBox)
         {
+            previousInput = "";
+            previousCursorPosition = 0;
+            ignoreTextChange = false;
+            previousRestrictedAttempt = "";
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');
             await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);

@@ -63,11 +63,6 @@ namespace Files.Views.LayoutModes
 
         public ScrollViewer ContentScroller { get; private set; }
 
-        private string previousInput = "";
-        private int previousCursorPosition = 0;
-        private bool ignoreTextChange = false;
-        private string previousRestrictedAttempt = "";
-
         public DetailsLayoutBrowser() : base()
         {
             InitializeComponent();
@@ -370,10 +365,6 @@ namespace Files.Views.LayoutModes
             textBox.Select(0, selectedTextLength);
             IsRenamingItem = true;
         }
-        private void ListViewTextBoxItemName_SelectionChanged(object s, RoutedEventArgs e)
-        {
-            previousCursorPosition = ((TextBox)s).SelectionStart;
-        }
 
         private void ListViewTextBoxItemName_TextChanging(TextBox textBox, TextBoxTextChangingEventArgs args)
         {
@@ -409,7 +400,7 @@ namespace Files.Views.LayoutModes
             }
             ignoreTextChange = false;
         }
-
+        
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Escape)
@@ -441,6 +432,10 @@ namespace Files.Views.LayoutModes
 
         private async void CommitRename(TextBox textBox)
         {
+            previousInput = "";
+            previousCursorPosition = 0;
+            ignoreTextChange = false;
+            previousRestrictedAttempt = "";
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');
             await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
