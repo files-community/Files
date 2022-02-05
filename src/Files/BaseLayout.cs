@@ -292,6 +292,11 @@ namespace Files
 
         private DispatcherQueueTimer dragOverTimer, tapDebounceTimer;
 
+        protected string previousInput = "";
+        protected int previousCursorPosition = 0;
+        protected bool ignoreTextChange = false;
+        protected string previousRestrictedAttempt = "";
+
         public BaseLayout()
         {
             ItemManipulationModel = new ItemManipulationModel();

@@ -63,11 +63,6 @@ namespace Files.Views.LayoutModes
 
         public ScrollViewer ContentScroller { get; private set; }
 
-        private string previousInput = "";
-        private int previousCursorPosition = 0;
-        private bool ignoreTextChange = false;
-        private string previousRestrictedAttempt = "";
-
         public DetailsLayoutBrowser() : base()
         {
             InitializeComponent();

@@ -125,23 +125,45 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private void ListViewTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
+        private void ListViewTextBoxItemName_SelectionChanged(object s, RoutedEventArgs e)
         {
-            var textBox = sender as TextBox;
+            previousCursorPosition = ((TextBox)s).SelectionStart;
+        }
 
+        private void ListViewTextBoxItemName_TextChanging(TextBox textBox, TextBoxTextChangingEventArgs args)
+        {
             if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
             {
-                FileNameTeachingTip.Visibility = Visibility.Visible;
-                FileNameTeachingTip.IsOpen = true;
-            }
-            else
-            {
-                if (FileNameTeachingTip.IsOpen == true)
+                if (previousRestrictedAttempt == textBox.Text)
                 {
-                    FileNameTeachingTip.IsOpen = false;
-                    FileNameTeachingTip.Visibility = Visibility.Collapsed;
+                    textBox.Text = textBox.Text.Remove(textBox.Text.Length - previousRestrictedAttempt.Length);
+                    string filtered = FilesystemHelpers.FilterRestrictedCharacters(previousRestrictedAttempt);
+                    textBox.Text += filtered;
+                    textBox.SelectionStart = previousCursorPosition + Math.Abs(textBox.Text.Length - previousInput.Length);
                 }
+                else
+                {
+                    ignoreTextChange = true;
+                    FileNameTeachingTip.Visibility = Visibility.Visible;
+                    FileNameTeachingTip.IsOpen = true;
+                    previousRestrictedAttempt = textBox.Text;
+                    textBox.Text = previousInput;
+                    textBox.SelectionStart = previousCursorPosition;
+                }
+                return;
             }
+        }
+
+        private void ListViewTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!ignoreTextChange)
+            {
+                var textBox = sender as TextBox;
+                FileNameTeachingTip.IsOpen = false;
+                FileNameTeachingTip.Visibility = Visibility.Collapsed;
+                previousInput = textBox.Text;
+            }
+            ignoreTextChange = false;
         }
 
         public event EventHandler ItemInvoked;
