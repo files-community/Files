@@ -107,6 +107,11 @@ namespace Files.Dialogs
                 (sender as Grid).FindAscendant<ListViewItem>().ContextFlyout = ItemContextFlyout;
             }
         }
+
+        private void RootDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
+        {
+            ViewModel.ClosingCommand.Execute(null);
+        }
     }
 
     public interface IFilesystemOperationDialogView
