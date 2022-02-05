@@ -22,7 +22,7 @@ namespace Files.Services
 
         IAppearanceSettingsService AppearanceSettingsService { get; }
 
-        IPreviewPaneSettingsService PreviewPaneSettingsService { get; }
+        IPaneSettingsService PaneSettingsService { get; }
 
         ILayoutSettingsService LayoutSettingsService { get; }
     }

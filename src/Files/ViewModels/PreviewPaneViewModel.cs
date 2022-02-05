@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Enums;
+using Files.Filesystem;
 using Files.Services;
 using Files.UserControls.FilePreviews;
 using Files.ViewModels.Previews;
@@ -60,6 +61,12 @@ namespace Files.ViewModels
         {
             get => previewPaneContent;
             set => SetProperty(ref previewPaneContent, value);
+        }
+
+        public bool IsPaneSelected
+        {
+            get => UserSettingsService.PaneSettingsService.Content is PaneContents.Preview;
+            set => UserSettingsService.PaneSettingsService.Content = !IsPaneSelected ? PaneContents.Preview : PaneContents.None;
         }
 
         public PreviewPaneViewModel()
@@ -268,7 +275,10 @@ namespace Files.ViewModels
         {
             switch (e.settingName)
             {
-                case nameof(UserSettingsService.PreviewPaneSettingsService.ShowPreviewOnly):
+                case nameof(IPaneSettingsService.Content):
+                    OnPropertyChanged(nameof(IsPaneSelected));
+                    break;
+                case nameof(IPaneSettingsService.ShowPreviewOnly):
                     // the preview will need refreshing as the file details won't be accurate
                     needsRefresh = true;
                     break;
