@@ -41,6 +41,12 @@ namespace Files.Services.Implementation
             get => Get(true);
             set => Set(value);
         }
+        
+        public bool AreItemsStartingWithDotHidden
+        {
+            get => Get(false);
+            set => Set(value);
+        }
 
         public bool ListAndSortDirectoriesAlongsideFiles
         {
@@ -141,6 +147,7 @@ namespace Files.Services.Implementation
                 case nameof(ShowFileExtensions):
                 case nameof(AreHiddenItemsVisible):
                 case nameof(AreSystemItemsHidden):
+                case nameof(AreItemsStartingWithDotHidden):
                 case nameof(ListAndSortDirectoriesAlongsideFiles):
                 case nameof(OpenFilesWithOneClick):
                 case nameof(OpenFoldersWithOneClick):
@@ -167,6 +174,7 @@ namespace Files.Services.Implementation
             Analytics.TrackEvent($"{nameof(ShowFileExtensions)}, {ShowFileExtensions}");
             Analytics.TrackEvent($"{nameof(AreHiddenItemsVisible)}, {AreHiddenItemsVisible}");
             Analytics.TrackEvent($"{nameof(AreSystemItemsHidden)}, {AreSystemItemsHidden}");
+            Analytics.TrackEvent($"{nameof(AreItemsStartingWithDotHidden)}, {AreItemsStartingWithDotHidden}");
             Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)}, {ListAndSortDirectoriesAlongsideFiles}");
             Analytics.TrackEvent($"{nameof(OpenFilesWithOneClick)}, {OpenFilesWithOneClick}");
             Analytics.TrackEvent($"{nameof(OpenFoldersWithOneClick)}, {OpenFoldersWithOneClick}");
