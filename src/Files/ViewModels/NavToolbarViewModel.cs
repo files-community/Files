@@ -329,6 +329,11 @@ namespace Files.ViewModels
 
         public NavToolbarViewModel()
         {
+            BackClickCommand = new RelayCommand<RoutedEventArgs>(e => BackRequested?.Invoke(this, EventArgs.Empty));
+            ForwardClickCommand = new RelayCommand<RoutedEventArgs>(e => ForwardRequested?.Invoke(this, EventArgs.Empty));
+            UpClickCommand = new RelayCommand<RoutedEventArgs>(e => UpRequested?.Invoke(this, EventArgs.Empty));
+            RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
+
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
             SearchBox.Escaped += SearchRegion_Escaped;
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -584,10 +589,10 @@ namespace Files.ViewModels
             set => SetProperty(ref pathControlDisplayText, value);
         }
 
-        public ICommand BackClickCommand => new RelayCommand<RoutedEventArgs>(e => BackRequested?.Invoke(this, EventArgs.Empty));
-        public ICommand ForwardClickCommand => new RelayCommand<RoutedEventArgs>(e => ForwardRequested?.Invoke(this, EventArgs.Empty));
-        public ICommand UpClickCommand => new RelayCommand<RoutedEventArgs>(e => UpRequested?.Invoke(this, EventArgs.Empty));
-        public ICommand RefreshClickCommand => new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
+        public ICommand BackClickCommand { get; }
+        public ICommand ForwardClickCommand { get; }
+        public ICommand UpClickCommand { get; }
+        public ICommand RefreshClickCommand { get; }
 
         public void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {

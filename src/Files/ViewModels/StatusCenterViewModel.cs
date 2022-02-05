@@ -313,7 +313,7 @@ namespace Files.ViewModels
 
         public Action PrimaryButtonClick { get; }
 
-        public ICommand CancelCommand => new RelayCommand<RoutedEventArgs>(args => CancelOperation());
+        public ICommand CancelCommand { get; }
 
         public bool SolutionButtonsVisible { get; } = false;
 
@@ -343,6 +343,8 @@ namespace Files.ViewModels
             initialProgress = progress;
             Status = status;
             Operation = operation;
+
+            CancelCommand = new RelayCommand(CancelOperation);
 
             switch (Status)
             {
