@@ -321,10 +321,10 @@ namespace Files.Helpers
             return szRead;
         }
 
-        public static bool WriteStringToFile(string filePath, string str, File_Attributes flags = 0)
+        public static bool WriteStringToFile(string filePath, string str, bool append = false, File_Attributes flags = 0)
         {
             IntPtr hStream = CreateFileFromApp(filePath,
-                GENERIC_WRITE, 0, IntPtr.Zero, CREATE_ALWAYS, (uint)(File_Attributes.BackupSemantics | flags), IntPtr.Zero);
+                append ? FILE_APPEND_DATA : GENERIC_WRITE, 0, IntPtr.Zero, append ? OPEN_ALWAYS : CREATE_ALWAYS, (uint)(File_Attributes.BackupSemantics | flags), IntPtr.Zero);
             if (hStream.ToInt64() == -1)
             {
                 return false;
