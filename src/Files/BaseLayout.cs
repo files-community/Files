@@ -847,10 +847,10 @@ namespace Files
             var itemsCount = e.Items.Count;
             PostedStatusBanner banner = itemsCount > 50 ? App.OngoingTasksViewModel.PostOperationBanner(
                 string.Empty,
-                string.Format(itemsCount > 1 ? "StatusPreparingItemsDetails_Plural".GetLocalized() : "StatusPreparingItemsDetails_Singular".GetLocalized(), itemsCount),
+                string.Format("StatusPreparingItemsDetails_Plural".GetLocalized(), itemsCount),
                 0,
                 ReturnResult.InProgress,
-                FileOperationType.Copy, new CancellationTokenSource()) : null;
+                FileOperationType.Prepare, new CancellationTokenSource()) : null;
 
             try
             {
