@@ -168,7 +168,7 @@
                             </local:SettingsBlockControl.Icon>
                             <ToggleSwitch
                                 AutomationProperties.Name="{helpers:ResourceString Name=ShowDotFiles}"
-                                IsOn="{Binding AreItemsStartingWithDotHidden, Mode=TwoWay}"
+                                IsOn="{Binding ShowDotFiles, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
 
