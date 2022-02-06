@@ -3517,7 +3517,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
           <source>Preparing {0} items</source>
           <target state="translated">Preparando {0} elementi</target>
         </trans-unit>
-        <trans-unit id="PrepareInProgress.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="PrepareInProgress" translate="yes" xml:space="preserve">
           <source>Preparing items</source>
           <target state="translated">Preparazione in corso</target>
         </trans-unit>

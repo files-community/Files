@@ -397,7 +397,7 @@ namespace Files.ViewModels
                                 break;
 
                             case FileOperationType.Prepare:
-                                Title = "PrepareInProgress/Title".GetLocalized();
+                                Title = "PrepareInProgress".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
                                     Glyph = "\xE89A"
