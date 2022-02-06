@@ -3,12 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Storage;
 
 namespace FilesFullTrust.MessageHandlers
 {
+    [SupportedOSPlatform("Windows10.0.10240")]
     public class FileTagsHandler : IMessageHandler
     {
         public static string ReadFileTag(string filePath)

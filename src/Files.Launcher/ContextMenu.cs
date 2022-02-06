@@ -6,12 +6,14 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using Vanara.InteropServices;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 
 namespace FilesFullTrust
 {
+    [SupportedOSPlatform("Windows10.0.10240")]
     public class ContextMenu : Win32ContextMenu, IDisposable
     {
         private Shell32.IContextMenu cMenu;
@@ -36,9 +38,11 @@ namespace FilesFullTrust
             try
             {
                 var currentWindows = Win32API.GetDesktopWindows();
-                var pici = new Shell32.CMINVOKECOMMANDINFOEX();
-                pici.lpVerb = new SafeResourceId(verb, CharSet.Ansi);
-                pici.nShow = ShowWindowCommand.SW_SHOWNORMAL;
+                var pici = new Shell32.CMINVOKECOMMANDINFOEX
+                {
+                    lpVerb = new SafeResourceId(verb, CharSet.Ansi),
+                    nShow = ShowWindowCommand.SW_SHOWNORMAL,
+                };
                 pici.cbSize = (uint)Marshal.SizeOf(pici);
                 cMenu.InvokeCommand(pici);
                 Win32API.BringToForeground(currentWindows);
@@ -63,9 +67,11 @@ namespace FilesFullTrust
             try
             {
                 var currentWindows = Win32API.GetDesktopWindows();
-                var pici = new Shell32.CMINVOKECOMMANDINFOEX();
-                pici.lpVerb = Macros.MAKEINTRESOURCE(itemID);
-                pici.nShow = ShowWindowCommand.SW_SHOWNORMAL;
+                var pici = new Shell32.CMINVOKECOMMANDINFOEX
+                {
+                    lpVerb = Macros.MAKEINTRESOURCE(itemID),
+                    nShow = ShowWindowCommand.SW_SHOWNORMAL,
+                };
                 pici.cbSize = (uint)Marshal.SizeOf(pici);
                 cMenu.InvokeCommand(pici);
                 Win32API.BringToForeground(currentWindows);
