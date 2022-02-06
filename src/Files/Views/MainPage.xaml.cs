@@ -48,7 +48,7 @@ namespace Files.Views
         private ICommand ToggleCompactOverlayCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleCompactOverlay());
         private ICommand SetCompactOverlayCommand => new RelayCommand<bool>(x => SetCompactOverlay(x));
 
-        public ICommand ToggleSidebarVisibilityCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleSidebarVisibility(x));
+        private ICommand ToggleSidebarCollapsedStateCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleSidebarCollapsedState(x));
        
         public bool IsVerticalTabFlyoutEnabled => UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled;
 
@@ -355,10 +355,11 @@ namespace Files.Views
             e.Handled = true;
         }
 
-        private void ToggleSidebarVisibility(KeyboardAcceleratorInvokedEventArgs e)
+        private void ToggleSidebarCollapsedState(KeyboardAcceleratorInvokedEventArgs e)
         {
-            SidebarAdaptiveViewModel.IsSidebarVisible = !SidebarAdaptiveViewModel.IsSidebarVisible;
-            e.Handled = true;
+            SidebarAdaptiveViewModel.IsSidebarOpen = !SidebarAdaptiveViewModel.IsSidebarOpen;
+
+            e.Handled=true;
         }
 
         private void SidebarControl_Loaded(object sender, RoutedEventArgs e)

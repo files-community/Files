@@ -101,28 +101,6 @@ namespace Files.UserControls
 
         public static readonly DependencyProperty TabContentProperty = DependencyProperty.Register(nameof(TabContent), typeof(UIElement), typeof(SidebarControl), new PropertyMetadata(null));
 
-        public static readonly DependencyProperty IsSidebarVisibleProperty = DependencyProperty.Register(nameof(IsSidebarVisible), typeof(bool), typeof(SidebarControl), new PropertyMetadata(null));
-
-        public bool IsSidebarVisible
-        {
-            get => IsPaneVisible;
-            set
-            {
-                IsPaneVisible = value;
-                if (IsPaneVisible)
-                {
-                    IsPaneOpen = isOnlyIconMode ? false : true;
-                    //restoring pane length
-                    OpenPaneLength = UserSettingsService.AppearanceSettingsService.SidebarWidth;
-                }
-                else
-                {
-                    //setting pane length to remove animation when pane is showing in compact mode
-                    OpenPaneLength = isOnlyIconMode ? CompactPaneLength : UserSettingsService.AppearanceSettingsService.SidebarWidth;
-                }
-            }
-        }
-
         public UIElement TabContent
         {
             get => (UIElement)GetValue(TabContentProperty);

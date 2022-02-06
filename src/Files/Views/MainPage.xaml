@@ -211,7 +211,7 @@
             Modifiers="Control,Menu">
             <i:Interaction.Behaviors>
                 <icore:EventTriggerBehavior EventName="Invoked">
-                    <icore:InvokeCommandAction Command="{x:Bind ToggleSidebarVisibilityCommand}"/>
+                    <icore:InvokeCommandAction Command="{x:Bind ToggleSidebarCollapsedStateCommand}"/>
                 </icore:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </KeyboardAccelerator>
@@ -226,7 +226,6 @@
         DisplayModeChanged="{x:Bind SidebarAdaptiveViewModel.SidebarControl_DisplayModeChanged}"
         EmptyRecycleBinCommand="{x:Bind SidebarAdaptiveViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
         IsPaneOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
-        IsSidebarVisible="{x:Bind SidebarAdaptiveViewModel.IsSidebarVisible, Mode=OneWay}"
         IsPaneToggleButtonVisible="False"
         Loaded="SidebarControl_Loaded"
         PaneDisplayMode="Left"
