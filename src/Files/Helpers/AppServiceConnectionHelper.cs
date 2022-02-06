@@ -49,12 +49,9 @@ namespace Files.Helpers
             var deferral = e.SuspendingOperation.GetDeferral();
             var nullConn = Task.FromResult<NamedPipeAsAppServiceConnection>(null);
             ConnectionChanged?.Invoke(null, nullConn);
-            var res = await (await Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "Terminate" }});
-            if (res == AppServiceResponseStatus.Success)
-            {
-                (await Instance)?.Dispose();
-                Instance = nullConn;
-            }
+            (await Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "Terminate" }};
+            (await Instance)?.Dispose();
+            Instance = nullConn;
             deferral.Complete();
         }
 

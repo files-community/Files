@@ -71,8 +71,6 @@ namespace Files
 
         public IServiceProvider Services { get; private set; }
 
-        public static readonly string FamilyName = Package.Current.Id.FamilyName + "!App";
-
         public App()
         {
             // Initialize logger
@@ -230,8 +228,6 @@ namespace Files
                     TryEnablePrelaunch();
                 }
 
-                (await AppServiceConnectionHelper.Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "PrepareForPrelaunch" }, { "PrelaunchAppId", App.FamilyName } });
-
                 if (rootFrame.Content == null)
                 {
                     // When the navigation stack isn't restored navigate to the first page,
@@ -270,12 +266,9 @@ namespace Files
             }
         }
 
-        private async void App_CloseRequested(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
+        private void App_CloseRequested(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
         {
-            var defer = e.GetDeferral();
             AppInstance.Unregister();
-            
-            defer.Complete();
         }
 
         protected override async void OnFileActivated(FileActivatedEventArgs e)
@@ -339,10 +332,16 @@ namespace Files
                 args.WindowActivationState == CoreWindowActivationState.PointerActivated)
             {
                 ShowErrorNotification = true;
-                ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
                 if (MainViewModel != null)
                 {
                     MainViewModel.Clipboard_ContentChanged(null, null);
+                }
+                var proc = Process.GetCurrentProcess();
+                ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = proc.Id;
+                if (ApplicationData.Current.LocalSettings.Values.Get("PRELAUNCH_INSTANCE", -1) == proc.Id)
+                {
+                    ApplicationData.Current.LocalSettings.Values["PRELAUNCH_INSTANCE"] = -1;
+                    _ = Program.PrepareForPrelaunch();
                 }
             }
         }

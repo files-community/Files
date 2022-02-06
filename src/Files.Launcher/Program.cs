@@ -12,6 +12,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using static Vanara.PInvoke.Shell32;
@@ -22,8 +23,6 @@ namespace FilesFullTrust
     {
         public static Logger Logger { get; private set; }
         private static readonly LogWriter logWriter = new LogWriter();
-
-        private static bool shouldPrelaunchBeforeTerminate;
 
         [STAThread]
         private static async Task Main(string[] args)
@@ -180,11 +179,6 @@ namespace FilesFullTrust
                     appServiceExit?.Set();
                     break;
 
-                case "PrepareForPrelaunch":
-                    var appActiveManager = new IApplicationActivationManager();
-                    appActiveManager.ActivateApplication((string)message["PrelaunchAppId"], null, ACTIVATEOPTIONS.AO_PRELAUNCH, out uint pid);
-                    break;
-
                 case "Elevate":
                     // Relaunch fulltrust process as admin
                     if (!IsAdministrator())
@@ -231,23 +225,15 @@ namespace FilesFullTrust
             {
                 localSettings.Values.Remove("Arguments");
 
-                if (arguments == "StartUwp")
+                if (arguments == "TerminateUwp")
                 {
-                    var folder = localSettings.Values.Get("Folder", "");
-                    localSettings.Values.Remove("Folder");
-
-                    using Process process = new Process();
-                    process.StartInfo.UseShellExecute = true;
-                    process.StartInfo.FileName = "files.exe";
-                    process.StartInfo.Arguments = folder;
-                    process.Start();
-
                     TerminateProcess((int)localSettings.Values["pid"]);
                     return true;
                 }
-                else if (arguments == "TerminateUwp")
+                else if (arguments == "PrepareForPrelaunch")
                 {
-                    TerminateProcess((int)localSettings.Values["pid"]);
+                    var appActiveManager = new IApplicationActivationManager();
+                    appActiveManager.ActivateApplication(Package.Current.Id.FamilyName + "!App", null, ACTIVATEOPTIONS.AO_PRELAUNCH, out uint pid);
                     return true;
                 }
                 else if (arguments == "ShellCommand")
