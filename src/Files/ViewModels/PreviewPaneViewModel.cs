@@ -64,6 +64,8 @@ namespace Files.ViewModels
 
         public PreviewPaneViewModel()
         {
+            ShowPreviewOnlyInvoked = new RelayCommand(() => UpdateSelectedItemPreview());
+
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
         }
 
@@ -262,7 +264,7 @@ namespace Files.ViewModels
             }
         }
 
-        public ICommand ShowPreviewOnlyInvoked => new RelayCommand(() => UpdateSelectedItemPreview());
+        public ICommand ShowPreviewOnlyInvoked { get; }
 
         private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
         {

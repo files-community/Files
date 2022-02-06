@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -231,6 +231,9 @@
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Show hidden files and folders</value>
   </data>
+  <data name="ShowDotFiles" xml:space="preserve">
+    <value>Show dot files</value>
+  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimental</value>
   </data>
@@ -267,20 +270,8 @@
   <data name="Downloads" xml:space="preserve">
     <value>Downloads</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Music</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Pictures</value>
-  </data>
   <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
     <value>Unpin from Favorites</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Videos</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sort by</value>
@@ -2741,7 +2732,19 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="CloseTabsToTheRight" xml:space="preserve">
     <value>Close tabs to the right</value>
   </data>
-  <data name="CloseOthers" xml:space="preserve">
-    <value>Close others</value>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Close other tabs</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Music</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Pictures</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videos</value>
+  </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Update Files</value>
   </data>
 </root>
