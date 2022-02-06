@@ -31,7 +31,7 @@ namespace Files.Helpers
                     userSettingsService.PreferencesSettingsService.ShowFileExtensions = appSettings.Get(true, "ShowFileExtensions");
                     userSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = appSettings.Get(false, "AreHiddenItemsVisible");
                     userSettingsService.PreferencesSettingsService.AreSystemItemsHidden = appSettings.Get(true, "AreSystemItemsHidden");
-                    userSettingsService.PreferencesSettingsService.AreItemsStartingWithDotHidden = appSettings.Get(false, "AreItemsStartingWithDotHidden");
+                    userSettingsService.PreferencesSettingsService.ShowDotFiles = appSettings.Get(false, "ShowDotFiles");
                     userSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles = appSettings.Get(false, "ListAndSortDirectoriesAlongsideFiles");
                     userSettingsService.PreferencesSettingsService.OpenFilesWithOneClick = appSettings.Get(false, "OpenItemsWithOneClick");
                     userSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick = appSettings.Get(false, "OpenItemsWithOneClick");
