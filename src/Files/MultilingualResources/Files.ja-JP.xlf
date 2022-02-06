@@ -3346,7 +3346,7 @@ App Center を使用して、アプリの使用状況を追跡し、バグを見
         </trans-unit>
         <trans-unit id="EmptyRecycleBin" translate="yes" xml:space="preserve">
           <source>Empty Recycle Bin</source>
-          <target state="translated">ごみ箱は空です</target>
+          <target state="translated">ゴミ箱を空にする</target>
         </trans-unit>
         <trans-unit id="Sidebar" translate="yes" xml:space="preserve">
           <source>Sidebar</source>
