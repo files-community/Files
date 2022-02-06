@@ -532,6 +532,19 @@ namespace Files.ViewModels.SettingsViewModels
                 }
             }
         }
+        
+        public bool ShowDotFiles
+        {
+            get => UserSettingsService.PreferencesSettingsService.ShowDotFiles;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.ShowDotFiles)
+                {
+                    UserSettingsService.PreferencesSettingsService.ShowDotFiles = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public bool ShowFileExtensions
         {

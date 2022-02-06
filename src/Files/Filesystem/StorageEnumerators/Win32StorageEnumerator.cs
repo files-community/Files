@@ -53,7 +53,11 @@ namespace Files.Filesystem.StorageEnumerators
             {
                 var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
                 var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-                if (!isHidden || (userSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && (!isSystem || !userSettingsService.PreferencesSettingsService.AreSystemItemsHidden)))
+                var startWithDot = findData.cFileName.StartsWith(".");
+                if ((!isHidden ||
+                   (userSettingsService.PreferencesSettingsService.AreHiddenItemsVisible &&
+                   (!isSystem || !userSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) &&
+                   (!startWithDot || userSettingsService.PreferencesSettingsService.ShowDotFiles))
                 {
                     if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                     {
