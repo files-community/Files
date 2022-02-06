@@ -521,14 +521,15 @@ namespace Files.Filesystem
         {
             get
             {
-                if(IsSymLink)
+                if (IsSymLink)
                 {
-                    return ItemNameRaw;
+                    return base.ItemName;
                 }
 
+                // Always hide extension for shortcuts
                 return Path.GetFileNameWithoutExtension(ItemNameRaw);
             }
-        } // Always hide extension
+        }
 
         public string Arguments { get; set; }
         public string WorkingDirectory { get; set; }
