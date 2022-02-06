@@ -147,7 +147,7 @@ namespace Files.Services.Implementation
                 case nameof(ShowFileExtensions):
                 case nameof(AreHiddenItemsVisible):
                 case nameof(AreSystemItemsHidden):
-                case nameof(AreItemsStartingWithDotHidden):
+                case nameof(ShowDotFiles):
                 case nameof(ListAndSortDirectoriesAlongsideFiles):
                 case nameof(OpenFilesWithOneClick):
                 case nameof(OpenFoldersWithOneClick):
