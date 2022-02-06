@@ -167,7 +167,7 @@
                                 <FontIcon contract13NotPresent:Glyph="&#xE72E;" contract13Present:Glyph="&#xED1A;" />
                             </local:SettingsBlockControl.Icon>
                             <ToggleSwitch
-                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersHideItemsStartingWithDot}"
+                                AutomationProperties.Name="{helpers:ResourceString Name=ShowDotFiles}"
                                 IsOn="{Binding AreItemsStartingWithDotHidden, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
