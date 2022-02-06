@@ -212,7 +212,7 @@ namespace Files.Filesystem.Search
                     bool shouldBeListed = (!isHidden || 
                         (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && 
                         (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) && 
-                        (!startWithDot || !UserSettingsService.PreferencesSettingsService.AreItemsStartingWithDotHidden);
+                        (!startWithDot || UserSettingsService.PreferencesSettingsService.ShowDotFiles);
                     
                     if (shouldBeListed)
                     {
@@ -306,7 +306,7 @@ namespace Files.Filesystem.Search
                         bool shouldBeListed = (hiddenOnly ?
                             isHidden && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden) :
                             !isHidden || (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) &&
-                            (!startWithDot || !UserSettingsService.PreferencesSettingsService.AreItemsStartingWithDotHidden);
+                            (!startWithDot || UserSettingsService.PreferencesSettingsService.ShowDotFiles);
                         
                         if (shouldBeListed)
                         {
