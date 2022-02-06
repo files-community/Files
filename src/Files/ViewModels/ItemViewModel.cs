@@ -2126,7 +2126,7 @@ namespace Files.ViewModels
             if ((isHidden &&
                (!UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible ||
                (isSystem && UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) ||
-               (startWithDot && UserSettingsService.PreferencesSettingsService.AreItemsStartingWithDotHidden))
+               (startWithDot && !UserSettingsService.PreferencesSettingsService.ShowDotFiles))
             {
                 // Do not add to file list if hidden/system attribute is set and system/hidden file are not to be shown
                 return null;
