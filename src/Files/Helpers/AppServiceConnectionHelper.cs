@@ -49,7 +49,7 @@ namespace Files.Helpers
             var deferral = e.SuspendingOperation.GetDeferral();
             var nullConn = Task.FromResult<NamedPipeAsAppServiceConnection>(null);
             ConnectionChanged?.Invoke(null, nullConn);
-            (await Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "Terminate" }};
+            (await Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "Terminate" } });
             (await Instance)?.Dispose();
             Instance = nullConn;
             deferral.Complete();
