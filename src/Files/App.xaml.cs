@@ -71,6 +71,8 @@ namespace Files
 
         public IServiceProvider Services { get; private set; }
 
+        public static readonly string FamilyName = Package.Current.Id.FamilyName + "!App";
+
         public App()
         {
             // Initialize logger
@@ -217,19 +219,17 @@ namespace Files
 
             var rootFrame = EnsureWindowIsInitialized();
 
-            if (AppInstance.GetInstances().Any() && !AppInstance.GetInstances().FirstOrDefault(x => x.IsCurrentInstance).Key.Equals(Program.PrelaunchInstanceKey))
-            {
-                AppInstance.Unregister();
-            }
+            SystemNavigationManagerPreview.GetForCurrentView().CloseRequested -= App_CloseRequested;
+            SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += App_CloseRequested;
 
+            
             if (!e.PrelaunchActivated)
             {
                 if (canEnablePrelaunch)
                 {
                     TryEnablePrelaunch();
                 }
-
-                AppInstance.Unregister();
+                (await AppServiceConnectionHelper.Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "PrepareForPrelaunch" }, { "PrelaunchAppId", App.FamilyName } });
 
                 if (rootFrame.Content == null)
                 {
@@ -249,7 +249,6 @@ namespace Files
                 // Ensure the current window is active
                 Window.Current.Activate();
                 Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-                SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += App_CloseRequested;
             }
             else
             {
@@ -274,10 +273,23 @@ namespace Files
         {
             var defer = e.GetDeferral();
             AppInstance.Unregister();
-
-            await (await AppServiceConnectionHelper.Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "PrepareForPrelaunch" }});
             
             defer.Complete();
+        }
+
+        private bool UnregisterPrelaunchedInstance()
+        {
+            var instances = AppInstance.GetInstances();
+            if (instances.FirstOrDefault(x => x.Key.Equals(Program.PrelaunchInstanceKey)) is AppInstance plInstance)
+            {
+                if (plInstance.IsCurrentInstance)
+                {
+                    AppInstance.Unregister();
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         protected override async void OnFileActivated(FileActivatedEventArgs e)

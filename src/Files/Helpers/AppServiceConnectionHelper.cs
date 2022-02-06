@@ -24,7 +24,9 @@ namespace Files.Helpers
 
         public static void Register()
         {
+            App.Current.Suspending -= OnSuspending;
             App.Current.Suspending += OnSuspending;
+            App.Current.LeavingBackground -= OnLeavingBackground;
             App.Current.LeavingBackground += OnLeavingBackground;
         }
 
@@ -47,10 +49,13 @@ namespace Files.Helpers
             var deferral = e.SuspendingOperation.GetDeferral();
             var nullConn = Task.FromResult<NamedPipeAsAppServiceConnection>(null);
             ConnectionChanged?.Invoke(null, nullConn);
-            await (await Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "Terminate" }, { "PrelaunchAppId", Package.Current.Id.FamilyName + "!App" } });
-            (await Instance)?.Dispose();
-            Instance = nullConn;
-            deferral.Complete();
+            var res = await (await Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "Terminate" }});
+            if (res == AppServiceResponseStatus.Success)
+            {
+                (await Instance)?.Dispose();
+                Instance = nullConn;
+                deferral.Complete();
+            }
         }
 
         public static async Task<bool> Elevate(this NamedPipeAsAppServiceConnection connection)

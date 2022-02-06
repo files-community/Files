@@ -176,17 +176,14 @@ namespace FilesFullTrust
             switch (arguments)
             {
                 case "Terminate":
-                    if (shouldPrelaunchBeforeTerminate)
-                    {
-                        ApplicationActivationManager appActiveManager = new ApplicationActivationManager();
-                        appActiveManager.ActivateApplication((string)message["PrelaunchAppId"], null, ActivateOptions.Prelaunch, out uint pid);
-                    }
                     // Exit fulltrust process (UWP is closed or suspended)
                     appServiceExit?.Set();
                     break;
 
                 case "PrepareForPrelaunch":
-                    shouldPrelaunchBeforeTerminate = true;
+                    ApplicationActivationManager appActiveManager = new ApplicationActivationManager();
+                        appActiveManager.ActivateApplication((string)message["PrelaunchAppId"], null, ActivateOptions.Prelaunch, out uint pid);
+                        shouldPrelaunchBeforeTerminate = false;
                     break;
 
                 case "Elevate":

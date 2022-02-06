@@ -2,6 +2,7 @@
 using Files.Common;
 using Files.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -26,96 +27,101 @@ namespace Files
                 if (AppInstance.RecommendedInstance != null)
                 {
                     AppInstance.RecommendedInstance.RedirectActivationTo();
-                    await TerminateUwpAppInstance(proc.Id);
-                    return;
                 }
-                else if (activatedArgs is LaunchActivatedEventArgs)
+                else
                 {
-                    var launchArgs = activatedArgs as LaunchActivatedEventArgs;
-
-                    if (launchArgs.PrelaunchActivated && !AppInstance.GetInstances().Any(x => x.Key.Equals(PrelaunchInstanceKey)))
+                    if (activatedArgs is LaunchActivatedEventArgs launchArgs)
                     {
-                        AppInstance.FindOrRegisterInstanceForKey(PrelaunchInstanceKey);
-                        Application.Start(_ => new App());
-                        return;
-                    }
-                    else
-                    {
-                        var instances = AppInstance.GetInstances();
-                        if (instances.Any(x => x.Key.Equals(PrelaunchInstanceKey)))
+                        if (launchArgs.PrelaunchActivated)
                         {
-                            var plInstance = AppInstance.GetInstances().First(x => x.Key.Equals(PrelaunchInstanceKey));
-                            plInstance.RedirectActivationTo();
-                            await TerminateUwpAppInstance(proc.Id);
-                            return;
+                            var instance = AppInstance.FindOrRegisterInstanceForKey(PrelaunchInstanceKey);
+                            RedirectOrStartActivation(instance, true);
                         }
                         else
                         {
-                            var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-                            var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
-                            if (!instance.IsCurrentInstance && !string.IsNullOrWhiteSpace(launchArgs.Arguments))
+                            var preLaunchInstance = FindAppInstanceForKey(PrelaunchInstanceKey);
+                            if (preLaunchInstance != null && ApplicationData.Current.LocalSettings.Values.Get("PENDING_LAUNCH_FROM_PRELAUNCH", false))
                             {
-                                instance.RedirectActivationTo();
-                                await TerminateUwpAppInstance(proc.Id);
-                                return;
+                                ApplicationData.Current.LocalSettings.Values["PENDING_LAUNCH_FROM_PRELAUNCH"] = false;
+                                preLaunchInstance.RedirectActivationTo();
+                            }
+                            else
+                            {
+                                var instance = AppInstance.FindOrRegisterInstanceForKey(proc.Id.ToString());
+                                RedirectOrStartActivation(instance);
                             }
                         }
                     }
-                }
-                else if (activatedArgs is CommandLineActivatedEventArgs cmdLineArgs)
-                {
-                    var operation = cmdLineArgs.Operation;
-                    var cmdLineString = operation.Arguments;
-                    var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
-
-                    if (parsedCommands != null)
+                    else if (activatedArgs is CommandLineActivatedEventArgs cmdLineArgs)
                     {
-                        foreach (var command in parsedCommands)
+                        var operation = cmdLineArgs.Operation;
+                        var cmdLineString = operation.Arguments;
+                        var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
+
+                        if (parsedCommands != null)
                         {
-                            switch (command.Type)
+                            foreach (var command in parsedCommands)
                             {
-                                case ParsedCommandType.ExplorerShellCommand:
-                                    if (!CommonPaths.ShellPlaces.ContainsKey(command.Payload.ToUpperInvariant()))
-                                    {
-                                        await OpenShellCommandInExplorerAsync(command.Payload, proc.Id);
-                                        return; // Exit
-                                    }
-                                    break;
-                                default:
-                                    break;
+                                switch (command.Type)
+                                {
+                                    case ParsedCommandType.ExplorerShellCommand:
+                                        if (!CommonPaths.ShellPlaces.ContainsKey(command.Payload.ToUpperInvariant()))
+                                        {
+                                            await OpenShellCommandInExplorerAsync(command.Payload, proc.Id);
+                                            return; // Exit
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
                         }
-                    }
 
-                    // Always open a new instance for OpenDialog
-                    if (parsedCommands == null || !parsedCommands.Any(x => x.Type == ParsedCommandType.OutputPath))
-                    {
-                        var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-                        var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
-                        if (!instance.IsCurrentInstance)
+                        // Always open a new instance for OpenDialog
+                        if (parsedCommands == null || !parsedCommands.Any(x => x.Type == ParsedCommandType.OutputPath))
                         {
-                            instance.RedirectActivationTo();
-                            await TerminateUwpAppInstance(proc.Id);
-                            return;
+                            var instance = AppInstance.FindOrRegisterInstanceForKey(proc.Id.ToString());
+                            RedirectOrStartActivation(instance);
                         }
                     }
-                }
-                else if (activatedArgs is FileActivatedEventArgs)
-                {
-                    var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-                    var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
-                    if (!instance.IsCurrentInstance)
+                    else
                     {
-                        instance.RedirectActivationTo();
-                        await TerminateUwpAppInstance(proc.Id);
-                        return;
+                        var instance = AppInstance.FindOrRegisterInstanceForKey(proc.Id.ToString());
+                        RedirectOrStartActivation(instance);
                     }
                 }
             }
+            else
+            {
+                AppInstance.FindOrRegisterInstanceForKey(proc.Id.ToString());
+                Application.Start(_ => new App());
+            }
+        }
 
-            AppInstance.FindOrRegisterInstanceForKey(proc.Id.ToString());
-            ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = proc.Id;
-            Application.Start(_ => new App());
+        public static void RedirectOrStartActivation(AppInstance instance, bool forPrelaunch = false)
+        {
+            if (instance.IsCurrentInstance)
+            {
+                if (forPrelaunch)
+                {
+                    ApplicationData.Current.LocalSettings.Values["PENDING_LAUNCH_FROM_PRELAUNCH"] = true;
+                }
+                Application.Start(_ => new App());
+            }
+            else
+            {
+                if (forPrelaunch)
+                {
+                    ApplicationData.Current.LocalSettings.Values["PENDING_LAUNCH_FROM_PRELAUNCH"] = false;
+                }
+                instance.RedirectActivationTo();
+            }
+        }
+
+        public static AppInstance FindAppInstanceForKey(string key, IList<AppInstance> instances = null)
+        {
+            instances ??= AppInstance.GetInstances();
+            return instances.FirstOrDefault(x => x.Key.Equals(key));
         }
 
         public static async Task OpenShellCommandInExplorerAsync(string shellCommand, int pid)
@@ -146,6 +152,7 @@ namespace Files
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
+        [Obsolete("This method is no longer needed for multi-instancing", false)]
         public static async Task TerminateUwpAppInstance(int pid)
         {
             ApplicationData.Current.LocalSettings.Values["Arguments"] = "TerminateUwp";
