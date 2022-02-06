@@ -395,6 +395,14 @@ namespace Files.ViewModels
                                     Glyph = "\xEF87"    // RecycleBin Custom Glyph
                                 };
                                 break;
+
+                            case FileOperationType.Prepare:
+                                Title = "PrepareInProgress".GetLocalized();
+                                GlyphSource = new FontIconSource()
+                                {
+                                    Glyph = "\xE89A"
+                                };
+                                break;
                         }
                     }
                     FullTitle = $"{Title} ({initialProgress}%)";
