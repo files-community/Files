@@ -151,16 +151,6 @@
                                 IsOn="{Binding AreHiddenItemsVisible, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
-
-                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}" HorizontalAlignment="Stretch">
-                            <local:SettingsBlockControl.Icon>
-                                <FontIcon contract13NotPresent:Glyph="&#xE72E;" contract13Present:Glyph="&#xED1A;" />
-                            </local:SettingsBlockControl.Icon>
-                            <ToggleSwitch
-                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}"
-                                IsOn="{Binding AreSystemItemsHidden, Mode=TwoWay}"
-                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-                        </local:SettingsBlockControl>
                         
                         <local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowDotFiles}" HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
@@ -169,6 +159,16 @@
                             <ToggleSwitch
                                 AutomationProperties.Name="{helpers:ResourceString Name=ShowDotFiles}"
                                 IsOn="{Binding ShowDotFiles, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+                        
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon contract13NotPresent:Glyph="&#xE72E;" contract13Present:Glyph="&#xED1A;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}"
+                                IsOn="{Binding AreSystemItemsHidden, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
 
