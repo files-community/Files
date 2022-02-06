@@ -47,6 +47,10 @@ namespace Files.ViewModels.SettingsViewModels
 
         public PreferencesViewModel()
         {
+            ChangePageCommand = new AsyncRelayCommand(ChangePage);
+            RemovePageCommand = new RelayCommand(RemovePage);
+            AddPageCommand = new RelayCommand<string>(async (path) => await AddPage(path));
+
             DefaultLanguages = App.AppSettings.DefaultLanguages;
             Terminals = App.TerminalController.Model.Terminals;
             DateFormats = new List<string>
@@ -71,7 +75,7 @@ namespace Files.ViewModels.SettingsViewModels
             PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
             var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalized());
-            recentsItem.Items.Add(new MenuFlyoutItemViewModel("SidebarHome".GetLocalized(), "Home".GetLocalized(), AddPageCommand));
+            recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalized(), "Home".GetLocalized(), AddPageCommand));
             PopulateRecentItems(recentsItem).ContinueWith(_ =>
             {
                 AddFlyoutItemsSource = new ReadOnlyCollection<IMenuFlyoutItem>(new IMenuFlyoutItem[] {
@@ -215,9 +219,9 @@ namespace Files.ViewModels.SettingsViewModels
             set => SetProperty(ref addFlyoutItemsSource, value);
         }
 
-        public RelayCommand ChangePageCommand => new RelayCommand(ChangePage);
-        public RelayCommand RemovePageCommand => new RelayCommand(RemovePage);
-        public RelayCommand<string> AddPageCommand => new RelayCommand<string>(AddPage);
+        public ICommand ChangePageCommand { get; }
+        public ICommand RemovePageCommand { get; }
+        public RelayCommand<string> AddPageCommand { get; }
 
         public bool AlwaysOpenANewInstance
         {
@@ -233,7 +237,7 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        private async void ChangePage()
+        private async Task ChangePage()
         {
             var folderPicker = new FolderPicker();
             folderPicker.FileTypeFilter.Add("*");
@@ -265,7 +269,7 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        private async void AddPage(string path = null)
+        private async Task AddPage(string path = null)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -293,7 +297,7 @@ namespace Files.ViewModels.SettingsViewModels
                 {
                     if (Path == "Home".GetLocalized())
                     {
-                        return "SidebarHome".GetLocalized();
+                        return "Home".GetLocalized();
                     }
                     if (Path == CommonPaths.RecycleBinPath)
                     {

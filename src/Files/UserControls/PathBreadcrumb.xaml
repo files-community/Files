@@ -63,7 +63,7 @@
                 Spacing="4"
                 Tag="{Binding Path}">
                 <TextBlock
-                    VerticalAlignment="Center"
+                    Padding="0,4"
                     FontSize="12"
                     PointerPressed="PathBoxItem_PointerPressed"
                     Tapped="PathBoxItem_Tapped"
