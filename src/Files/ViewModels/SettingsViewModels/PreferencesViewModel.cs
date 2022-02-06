@@ -529,14 +529,14 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
         
-        public bool AreItemsStartingWithDotHidden
+        public bool ShowDotFiles
         {
-            get => UserSettingsService.PreferencesSettingsService.AreItemsStartingWithDotHidden;
+            get => UserSettingsService.PreferencesSettingsService.ShowDotFiles;
             set
             {
-                if (value != UserSettingsService.PreferencesSettingsService.AreItemsStartingWithDotHidden)
+                if (value != UserSettingsService.PreferencesSettingsService.ShowDotFiles)
                 {
-                    UserSettingsService.PreferencesSettingsService.AreItemsStartingWithDotHidden = value;
+                    UserSettingsService.PreferencesSettingsService.ShowDotFiles = value;
                     OnPropertyChanged();
                 }
             }
