@@ -162,7 +162,7 @@
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
                         
-                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersHideItemsStartingWithDot}" HorizontalAlignment="Stretch">
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowDotFiles}" HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon contract13NotPresent:Glyph="&#xE72E;" contract13Present:Glyph="&#xED1A;" />
                             </local:SettingsBlockControl.Icon>
