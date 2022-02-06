@@ -51,7 +51,7 @@ namespace Files.ViewModels
         private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
         private readonly ConcurrentDictionary<string, bool> itemLoadQueue;
         private readonly AsyncManualResetEvent operationEvent;
-        private IAsyncAction aProcessQueueAction;
+        private Task aProcessQueueAction;
 
         // files and folders list for manipulating
         private List<ListedItem> filesAndFolders;
@@ -1338,12 +1338,7 @@ namespace Files.ViewModels
 
         public void CloseWatcher()
         {
-            if (aProcessQueueAction != null)
-            {
-                aProcessQueueAction?.Cancel();
-                aProcessQueueAction = null;  // Prevent duplicate execution of this block
-                Debug.WriteLine("process queue canceled");
-            }
+            aProcessQueueAction = null;
             watcherCTS?.Cancel();
             watcherCTS = new CancellationTokenSource();
         }
@@ -1794,7 +1789,7 @@ namespace Files.ViewModels
 
             if (aProcessQueueAction == null) // Only start one ProcessOperationQueue
             {
-                aProcessQueueAction = Windows.System.Threading.ThreadPool.RunAsync((x) => ProcessOperationQueue(x, hasSyncStatus));
+                aProcessQueueAction = Task.Run(() => ProcessOperationQueue(watcherCTS.Token, hasSyncStatus));
             }
 
             var aWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>
@@ -1893,7 +1888,7 @@ namespace Files.ViewModels
             });
         }
 
-        private async void ProcessOperationQueue(IAsyncAction action, bool hasSyncStatus)
+        private async Task ProcessOperationQueue(CancellationToken cancellationToken, bool hasSyncStatus)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
@@ -1910,18 +1905,19 @@ namespace Files.ViewModels
 
             bool anyEdits = false;
             ListedItem lastItemAdded = null;
+            var rand = Guid.NewGuid();
 
             try
             {
-                while (action.Status != AsyncStatus.Canceled)
+                while (!cancellationToken.IsCancellationRequested)
                 {
-                    if (await operationEvent.WaitAsync(200))
+                    if (await operationEvent.WaitAsync(200, cancellationToken))
                     {
                         operationEvent.Reset();
 
                         while (operationQueue.TryDequeue(out var operation))
                         {
-                            if (action.Status == AsyncStatus.Canceled) break;
+                            if (cancellationToken.IsCancellationRequested) break;
                             try
                             {
                                 switch (operation.Action)
@@ -2007,6 +2003,8 @@ namespace Files.ViewModels
             {
                 // Prevent disposed cancellation token
             }
+
+            Debug.WriteLine("aProcessQueueAction done: {0}", rand);
         }
 
         public ListedItem AddFileOrFolderFromShellFile(ShellFileItem item, string dateReturnFormat = null)

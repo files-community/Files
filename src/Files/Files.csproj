@@ -1107,10 +1107,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Themes\Black Pixel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Themes\Blue Acrylic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
