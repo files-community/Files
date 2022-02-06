@@ -42,7 +42,7 @@ namespace Files.Services.Implementation
             set => Set(value);
         }
         
-        public bool AreItemsStartingWithDotHidden
+        public bool ShowDotFiles
         {
             get => Get(false);
             set => Set(value);
