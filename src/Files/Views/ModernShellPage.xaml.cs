@@ -51,6 +51,8 @@ namespace Files.Views
 
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
+        private IUpdateSettingsService UpdateSettingsService { get; } = Ioc.Default.GetService<IUpdateSettingsService>();
+
         public bool IsCurrentInstance
         {
             get
@@ -213,6 +215,7 @@ namespace Files.Views
             NavToolbarViewModel.RotateImageLeftCommand = new RelayCommand(async () => SlimContentPage?.CommandsViewModel.RotateImageLeftCommand.Execute(null));
             NavToolbarViewModel.RotateImageRightCommand = new RelayCommand(async () => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.Execute(null));
             NavToolbarViewModel.InstallFontCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallFontCommand.Execute(null));
+            NavToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await UpdateSettingsService.DownloadUpdates());
         }
 
         private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
@@ -699,9 +702,9 @@ namespace Files.Views
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
                     if (ContentPage.IsItemSelected && !NavToolbarViewModel.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
                     {
-                        var items = await Task.Run(() => SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
+                        var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
                             item.ItemPath,
-                            item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)));
+                            item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
                         await FilesystemHelpers.DeleteItemsAsync(items, true, true, true);
                     }
 
@@ -743,9 +746,9 @@ namespace Files.Views
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
                     if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
                     {
-                        var items = await Task.Run(() => SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
+                        var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
                             item.ItemPath,
-                            item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)));
+                            item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
                         await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
                     }
 
@@ -789,27 +792,27 @@ namespace Files.Views
                     break;
 
                 case (true, true, false, _, VirtualKey.Number1): // ctrl+shift+1, details view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number2): // ctrl+shift+2, tiles view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeTiles.Execute(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeTiles(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number3): // ctrl+shift+3, grid small view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall.Execute(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number4): // ctrl+shift+4, grid medium view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium.Execute(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number5): // ctrl+shift+5, grid large view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge.Execute(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number6): // ctrl+shift+6, column view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView.Execute(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView(true);
                     break;
             }
 
