@@ -44,7 +44,7 @@ namespace Files.Services.Implementation
         
         public bool ShowDotFiles
         {
-            get => Get(false);
+            get => Get(true);
             set => Set(value);
         }
 
