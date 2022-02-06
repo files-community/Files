@@ -341,6 +341,7 @@ namespace Files.Views.LayoutModes
         {
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');
+            System.Diagnostics.Debug.WriteLine(newItemName);
             await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
         }
 
@@ -355,6 +356,13 @@ namespace Files.Views.LayoutModes
                 Popup popup = textBox.Parent as Popup;
                 TextBlock textBlock = (popup.Parent as Grid).Children[1] as TextBlock;
                 popup.IsOpen = false;
+            }
+            else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
+            {
+                Grid grid = textBox.Parent as Grid;
+                TextBlock textBlock = grid.Children[0] as TextBlock;
+                textBox.Visibility = Visibility.Collapsed;
+                textBlock.Visibility = Visibility.Visible;
             }
             else
             {
