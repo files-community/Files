@@ -57,7 +57,7 @@ namespace Files.Filesystem.StorageEnumerators
                 if ((!isHidden ||
                    (userSettingsService.PreferencesSettingsService.AreHiddenItemsVisible &&
                    (!isSystem || !userSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) &&
-                   (!startWithDot || !userSettingsService.PreferencesSettingsService.AreItemsStartingWithDotHidden))
+                   (!startWithDot || userSettingsService.PreferencesSettingsService.ShowDotFiles))
                 {
                     if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                     {
