@@ -341,7 +341,6 @@ namespace Files.Views.LayoutModes
         {
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');
-            System.Diagnostics.Debug.WriteLine(newItemName);
             await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
         }
 
