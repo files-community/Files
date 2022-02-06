@@ -37,7 +37,7 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        public void Dispose() {}
+        public void Dispose() { }
 
         private static void ToggleQuickLook(string path, bool switchPreview)
         {

@@ -96,7 +96,6 @@ namespace FilesFullTrust
             protected override bool RunDialog(IntPtr hwndOwner)
             {
                 using var lpnres = SafeCoTaskMemHandle.CreateFromStructure(nres);
-
                 opts.hwndOwner = hwndOwner;
                 opts.lpConnRes = lpnres.DangerousGetHandle();
                 if (ReadOnlyPath && !string.IsNullOrEmpty(nres.lpRemoteName))

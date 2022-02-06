@@ -217,23 +217,23 @@ namespace FilesFullTrust.MessageHandlers
 
                             var shellOperationResult = new ShellOperationResult();
 
-                                for (var i = 0; i < fileToDeletePath.Length; i++)
+                            for (var i = 0; i < fileToDeletePath.Length; i++)
+                            {
+                                if (!Extensions.IgnoreExceptions(() =>
                                 {
-                                    if (!Extensions.IgnoreExceptions(() =>
+                                    using var shi = new ShellItem(fileToDeletePath[i]);
+                                    var file = Extensions.IgnoreExceptions(() => GetFirstFile(shi)) ?? shi;
+                                    op.QueueDeleteOperation(file);
+                                }))
+                                {
+                                    shellOperationResult.Items.Add(new ShellOperationItemResult()
                                     {
-                                        using var shi = new ShellItem(fileToDeletePath[i]);
-                                        var file = Extensions.IgnoreExceptions(() => GetFirstFile(shi)) ?? shi;
-                                        op.QueueDeleteOperation(file);
-                                    }))
-                                    {
-                                        shellOperationResult.Items.Add(new ShellOperationItemResult()
-                                        {
-                                            Succeeded = false,
-                                            Source = fileToDeletePath[i],
-                                            HResult = (int)-1
-                                        });
-                                    }
+                                        Succeeded = false,
+                                        Source = fileToDeletePath[i],
+                                        HResult = (int)-1
+                                    });
                                 }
+                            }
 
                             var deleteTcs = new TaskCompletionSource<bool>();
                             op.PreDeleteItem += (s, e) =>
@@ -247,7 +247,7 @@ namespace FilesFullTrust.MessageHandlers
                                         HResult = (int)HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND
                                     });
                                     throw new Win32Exception(HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND); // E_FAIL, stops operation
-                                    }
+                                }
                                 else
                                 {
                                     shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -257,7 +257,7 @@ namespace FilesFullTrust.MessageHandlers
                                         HResult = (int)HRESULT.COPYENGINE_E_USER_CANCELLED
                                     });
                                     throw new Win32Exception(HRESULT.COPYENGINE_E_USER_CANCELLED); // E_FAIL, stops operation
-                                    }
+                                }
                             };
                             op.FinishOperations += (s, e) => deleteTcs.TrySetResult(e.Result.Succeeded);
 
@@ -326,7 +326,7 @@ namespace FilesFullTrust.MessageHandlers
                                 if (!permanently && !e.Flags.HasFlag(ShellFileOperations.TransferFlags.DeleteRecycleIfPossible))
                                 {
                                     throw new Win32Exception(HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND); // E_FAIL, stops operation
-                                    }
+                                }
                             };
                             op.PostDeleteItem += (s, e) =>
                             {
@@ -345,7 +345,7 @@ namespace FilesFullTrust.MessageHandlers
                                 if (progressHandler.CheckCanceled(operationID))
                                 {
                                     throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
-                                    }
+                                }
                                 progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
                             };
 
@@ -494,7 +494,7 @@ namespace FilesFullTrust.MessageHandlers
                                 if (progressHandler.CheckCanceled(operationID))
                                 {
                                     throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
-                                    }
+                                }
                                 progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
                             };
 
@@ -578,7 +578,7 @@ namespace FilesFullTrust.MessageHandlers
                                 if (progressHandler.CheckCanceled(operationID))
                                 {
                                     throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
-                                    }
+                                }
                                 progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
                             };
 
