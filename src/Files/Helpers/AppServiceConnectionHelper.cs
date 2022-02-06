@@ -54,8 +54,8 @@ namespace Files.Helpers
             {
                 (await Instance)?.Dispose();
                 Instance = nullConn;
-                deferral.Complete();
             }
+            deferral.Complete();
         }
 
         public static async Task<bool> Elevate(this NamedPipeAsAppServiceConnection connection)

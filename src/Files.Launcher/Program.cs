@@ -14,7 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using static FilesFullTrust.Win32API;
+using static Vanara.PInvoke.Shell32;
 
 namespace FilesFullTrust
 {
@@ -181,9 +181,8 @@ namespace FilesFullTrust
                     break;
 
                 case "PrepareForPrelaunch":
-                    ApplicationActivationManager appActiveManager = new ApplicationActivationManager();
-                        appActiveManager.ActivateApplication((string)message["PrelaunchAppId"], null, ActivateOptions.Prelaunch, out uint pid);
-                        shouldPrelaunchBeforeTerminate = false;
+                    var appActiveManager = new IApplicationActivationManager();
+                    appActiveManager.ActivateApplication((string)message["PrelaunchAppId"], null, ACTIVATEOPTIONS.AO_PRELAUNCH, out uint pid);
                     break;
 
                 case "Elevate":

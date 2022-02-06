@@ -219,16 +219,17 @@ namespace Files
 
             var rootFrame = EnsureWindowIsInitialized();
 
-            SystemNavigationManagerPreview.GetForCurrentView().CloseRequested -= App_CloseRequested;
-            SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += App_CloseRequested;
+            var navigationManager = SystemNavigationManagerPreview.GetForCurrentView();
+            navigationManager.CloseRequested -= App_CloseRequested;
+            navigationManager.CloseRequested += App_CloseRequested;
 
-            
             if (!e.PrelaunchActivated)
             {
                 if (canEnablePrelaunch)
                 {
                     TryEnablePrelaunch();
                 }
+
                 (await AppServiceConnectionHelper.Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "PrepareForPrelaunch" }, { "PrelaunchAppId", App.FamilyName } });
 
                 if (rootFrame.Content == null)
@@ -275,21 +276,6 @@ namespace Files
             AppInstance.Unregister();
             
             defer.Complete();
-        }
-
-        private bool UnregisterPrelaunchedInstance()
-        {
-            var instances = AppInstance.GetInstances();
-            if (instances.FirstOrDefault(x => x.Key.Equals(Program.PrelaunchInstanceKey)) is AppInstance plInstance)
-            {
-                if (plInstance.IsCurrentInstance)
-                {
-                    AppInstance.Unregister();
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         protected override async void OnFileActivated(FileActivatedEventArgs e)
