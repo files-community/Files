@@ -930,8 +930,6 @@ namespace Files.UserControls
 
         private double originalSize = 0;
 
-        private bool isOnlyIconMode = false;
-
         private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
@@ -964,7 +962,6 @@ namespace Files.UserControls
                     if (Constants.UI.MinimumSidebarWidth + val <= CompactPaneLength || closeImmediatleyOnOversize) // collapse the sidebar
                     {
                         IsPaneOpen = false;
-                        isOnlyIconMode = true;
                     }
                 }
             }
@@ -974,7 +971,6 @@ namespace Files.UserControls
                 {
                     OpenPaneLength = Constants.UI.MinimumSidebarWidth + (val + CompactPaneLength - Constants.UI.MinimumSidebarWidth); // set open sidebar length to minimum value to keep it smooth
                     IsPaneOpen = true;
-                    isOnlyIconMode = false;
                 }
             }
         }
@@ -999,7 +995,6 @@ namespace Files.UserControls
         private void ResizeElementBorder_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             IsPaneOpen = !IsPaneOpen;
-            isOnlyIconMode = !IsPaneOpen;
         }
 
         private async void OpenInNewPane_Click(object sender, RoutedEventArgs e)
