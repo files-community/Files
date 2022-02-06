@@ -174,7 +174,7 @@ namespace Files.Services.Implementation
             Analytics.TrackEvent($"{nameof(ShowFileExtensions)}, {ShowFileExtensions}");
             Analytics.TrackEvent($"{nameof(AreHiddenItemsVisible)}, {AreHiddenItemsVisible}");
             Analytics.TrackEvent($"{nameof(AreSystemItemsHidden)}, {AreSystemItemsHidden}");
-            Analytics.TrackEvent($"{nameof(AreItemsStartingWithDotHidden)}, {AreItemsStartingWithDotHidden}");
+            Analytics.TrackEvent($"{nameof(ShowDotFiles)}, {ShowDotFiles}");
             Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)}, {ListAndSortDirectoriesAlongsideFiles}");
             Analytics.TrackEvent($"{nameof(OpenFilesWithOneClick)}, {OpenFilesWithOneClick}");
             Analytics.TrackEvent($"{nameof(OpenFoldersWithOneClick)}, {OpenFoldersWithOneClick}");
