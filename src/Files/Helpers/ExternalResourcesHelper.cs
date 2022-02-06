@@ -93,10 +93,12 @@ namespace Files.Helpers
             if (theme.AbsolutePath.Contains(ImportedThemesFolder.Path))
             {
                 file = await ImportedThemesFolder.GetFileAsync(theme.Path);
+                theme.IsImportedTheme = true;
             }
             else
             {
                 file = await ThemeFolder.GetFileAsync(theme.Path);
+                theme.IsImportedTheme = false;
             }
 
             var code = await FileIO.ReadTextAsync(file);
@@ -138,5 +140,6 @@ namespace Files.Helpers
         public string Path { get; set; }
         public string AbsolutePath { get; set; }
         public string Key => $"{Name}";
+        public bool IsImportedTheme { get; set; }
     }
 }

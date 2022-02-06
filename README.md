@@ -51,7 +51,7 @@ In the architecture pane, select the correct architecture for your system as Deb
 
 ## Contributors
 
-Want to contribute to this project? Feel free to open an [issue](/issues) or [pull request](/pulls). View our [Contributing guidelines](https://github.com/files-community/Files/blob/main/.github/CONTRIBUTING.md) to make sure you're up to date on the latest guidelines for contributing to the Files codebase.
+Want to contribute to this project? Feel free to open an [issue](https://github.com/files-community/Files/issues) or [pull request](https://github.com/files-community/Files/pulls). View our [Contributing guidelines](https://github.com/files-community/Files/blob/main/.github/CONTRIBUTING.md) to make sure you're up to date on the latest guidelines for contributing to the Files codebase.
 
 ## Screenshots
 
