@@ -10,7 +10,7 @@ using Windows.Foundation.Collections;
 namespace FilesFullTrust
 {
     [SupportedOSPlatform("Windows10.0.10240")]
-    public class DeviceWatcher : IDisposable
+    public class DeviceWatcher : Disposable
     {
         private ManagementEventWatcher insertWatcher, removeWatcher, modifyWatcher;
         private PipeStream connection;
@@ -81,14 +81,17 @@ namespace FilesFullTrust
             }
         }
 
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            insertWatcher?.Dispose();
-            removeWatcher?.Dispose();
-            modifyWatcher?.Dispose();
-            insertWatcher = null;
-            removeWatcher = null;
-            modifyWatcher = null;
+            if (disposing)
+            {
+                insertWatcher?.Dispose();
+                removeWatcher?.Dispose();
+                modifyWatcher?.Dispose();
+                insertWatcher = null;
+                removeWatcher = null;
+                modifyWatcher = null;
+            }
         }
     }
 }

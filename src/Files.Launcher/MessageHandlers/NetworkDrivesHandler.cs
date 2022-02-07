@@ -12,7 +12,7 @@ using Windows.Foundation.Collections;
 namespace FilesFullTrust.MessageHandlers
 {
     [SupportedOSPlatform("Windows10.0.10240")]
-    public class NetworkDrivesHandler : IMessageHandler
+    public class NetworkDrivesHandler : Disposable, IMessageHandler
     {
         public void Initialize(PipeStream connection)
         {
@@ -80,10 +80,6 @@ namespace FilesFullTrust.MessageHandlers
                     _ = NetworkDrivesAPI.DisconnectNetworkDrive(drivePath);
                     break;
             }
-        }
-
-        public void Dispose()
-        {
         }
     }
 }

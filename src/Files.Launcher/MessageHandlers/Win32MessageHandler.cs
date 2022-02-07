@@ -17,7 +17,7 @@ using Windows.Storage;
 namespace FilesFullTrust.MessageHandlers
 {
     [SupportedOSPlatform("Windows10.0.10240")]
-    public class Win32MessageHandler : IMessageHandler
+    public class Win32MessageHandler : Disposable, IMessageHandler
     {
         public void Initialize(PipeStream connection)
         {
@@ -219,10 +219,6 @@ namespace FilesFullTrust.MessageHandlers
                     }
                     break;
             }
-        }
-
-        public void Dispose()
-        {
         }
     }
 }

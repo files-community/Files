@@ -10,7 +10,7 @@ using System.Runtime.Versioning;
 namespace FilesFullTrust.MessageHandlers
 {
     [SupportedOSPlatform("Windows10.0.10240")]
-    public class InstallOperationsHandler : IMessageHandler
+    public class InstallOperationsHandler : Disposable, IMessageHandler
     {
         public void Initialize(PipeStream connection)
         {
@@ -58,10 +58,6 @@ namespace FilesFullTrust.MessageHandlers
                     break;
                 }
             }
-        }
-
-        public void Dispose()
-        {
         }
     }
 }
