@@ -71,7 +71,7 @@ namespace FilesFullTrust.Helpers
 
         /// <summary>Gets the set of child folders that are contained in the library.</summary>
         /// <value>A <see cref="ShellItemArray"/> containing the child folders.</value>
-        public ShellLibraryFolders Folders => folders ?? (folders = GetFilteredFolders());
+        public ShellLibraryFolders Folders => folders ??= GetFilteredFolders();
 
         public void Reload()
         {
@@ -85,7 +85,7 @@ namespace FilesFullTrust.Helpers
         /// <value>The default icon location.</value>
         public IconLocation IconLocation
         {
-            get { IconLocation.TryParse(lib.GetIcon(), out var l); return l; }
+            get { _ = IconLocation.TryParse(lib.GetIcon(), out var l); return l; }
             set => lib.SetIcon(value.ToString());
         }
 
@@ -128,6 +128,7 @@ namespace FilesFullTrust.Helpers
             folders = null;
 
             base.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>Gets the set of child folders that are contained in the library.</summary>
@@ -194,6 +195,7 @@ namespace FilesFullTrust.Helpers
             {
                 lib = null;
                 base.Dispose();
+                GC.SuppressFinalize(this);
             }
 
             /// <summary>Removes the specified location.</summary>

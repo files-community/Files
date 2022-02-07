@@ -13,9 +13,7 @@ namespace FilesFullTrust
     public class DeviceWatcher : Disposable
     {
         private ManagementEventWatcher insertWatcher, removeWatcher, modifyWatcher;
-        private PipeStream connection;
-
-        private const string WpdGuid = "{6ac27878-a6fa-4155-ba85-f98f491d4f33}";
+        private readonly PipeStream connection;
 
         public DeviceWatcher(PipeStream connection)
         {

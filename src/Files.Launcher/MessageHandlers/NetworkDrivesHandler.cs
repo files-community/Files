@@ -36,7 +36,7 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        private async Task ParseNetworkDriveOperationAsync(PipeStream connection, Dictionary<string, object> message)
+        private static async Task ParseNetworkDriveOperationAsync(PipeStream connection, Dictionary<string, object> message)
         {
             switch (message.Get("netdriveop", ""))
             {
@@ -65,8 +65,10 @@ namespace FilesFullTrust.MessageHandlers
                         }
                         return locations;
                     });
-                    var response = new ValueSet();
-                    response.Add("NetworkLocations", JsonConvert.SerializeObject(networkLocations));
+                    var response = new ValueSet
+                    {
+                        { "NetworkLocations", JsonConvert.SerializeObject(networkLocations) }
+                    };
                     await Win32API.SendMessageAsync(connection, response, message.Get("RequestID", (string)null));
                     break;
 
