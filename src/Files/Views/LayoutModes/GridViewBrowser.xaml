@@ -107,7 +107,7 @@
                         Background="{ThemeResource SystemChromeHighColor}"
                         CornerRadius="4" />
                     <Image
-                        x:Name="IconOverlay"
+                        x:Name="GridIconOverlay"
                         Width="60"
                         Height="60"
                         Margin="8,0,0,8"
@@ -175,7 +175,7 @@
                         ToolTipService.ToolTip="{x:Bind FileTagUI.TagName, Mode=OneWay}"
                         Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
                     <TextBlock
-                        x:Name="ItemName"
+                        x:Name="GridItemName"
                         Grid.Column="2"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
@@ -277,7 +277,7 @@
                         Background="{ThemeResource SystemChromeHighColor}"
                         CornerRadius="4" />
                     <Image
-                        x:Name="IconOverlay"
+                        x:Name="TileIconOverlay"
                         Width="48"
                         Height="48"
                         Margin="8"
@@ -324,7 +324,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock
-                        x:Name="ItemName"
+                        x:Name="TileItemName"
                         Grid.Row="0"
                         HorizontalAlignment="Left"
                         MaxLines="2"

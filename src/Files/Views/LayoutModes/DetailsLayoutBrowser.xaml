@@ -593,7 +593,7 @@
                                         x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
                                         Glyph="&#xE71B;" />
                                     <Image
-                                        x:Name="IconOverlay"
+                                        x:Name="ThumbnailIconOverlay"
                                         Width="16"
                                         Height="16"
                                         HorizontalAlignment="Left"
@@ -628,7 +628,7 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock
-                                        x:Name="ItemName"
+                                        x:Name="DetailItemName"
                                         VerticalAlignment="Center"
                                         Text="{x:Bind ItemName, Mode=OneWay}"
                                         TextTrimming="CharacterEllipsis" />
