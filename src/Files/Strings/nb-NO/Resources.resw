@@ -129,18 +129,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>Nedlastinger</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Hjem</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Musikk</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Bilder</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Videoer</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sorter etter</value>
   </data>

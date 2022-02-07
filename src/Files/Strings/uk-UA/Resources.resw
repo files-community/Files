@@ -99,18 +99,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>Завантаження</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Головна</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Музика</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Зображення</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Відео</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Сортування</value>
   </data>
