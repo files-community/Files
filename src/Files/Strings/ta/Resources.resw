@@ -126,18 +126,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>பதிவிறக்கங்கள்</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>முகப்பு</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>இசை</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>புகைப்படங்கள்</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>காணொளிகள்</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>இதன்படி வரிசைப்படுத்து</value>
   </data>

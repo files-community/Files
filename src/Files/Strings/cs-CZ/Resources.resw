@@ -129,18 +129,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>Stažené soubory</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Domů</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Hudba</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Obrázky</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Videa</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Řadit podle</value>
   </data>

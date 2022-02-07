@@ -132,18 +132,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>Lejupielādes</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Sākums</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Mūzika</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Attēli</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Video</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Kārtot pēc</value>
   </data>

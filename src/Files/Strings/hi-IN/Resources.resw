@@ -129,18 +129,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>डाउनलोड्स</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>गृह</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>संगीत</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>तस्वीरें</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>चलचित्र</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>द्वारा सॉर्ट करें</value>
   </data>

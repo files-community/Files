@@ -72,18 +72,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>Pobrane</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Strona Główna</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Muzyka</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Obrazy</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Wideo</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sortuj według</value>
   </data>
@@ -172,7 +160,7 @@
     <value>Wprowadź nazwę elementu</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Wprowadź nazwę pliku</value>
+    <value>Wprowadź nazwę elementu</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Ustaw nazwę</value>
@@ -1027,7 +1015,7 @@
     <value>Wyślij programistom raport o problemie z dodatkowymi informacjami</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Wspomóż nas przez PayPal</value>
+    <value>Wspieraj nas poprzez GitHub</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Szczegóły</value>
@@ -2095,13 +2083,13 @@
     <value>Ukryj chronione pliki systemu operacyjnego (zalecane)</value>
   </data>
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Otwieraj elementy jednym kliknięciem</value>
+    <value>Otwieraj pliki jednym kliknięciem</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>Wyświetlaj i sortuj katalogi obok plików</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Pokaż niezindeksowane elementy podczas wyszukiwania plików i folderów (wyszukiwania mogą potrwać dłużej)</value>
+    <value>Pokaż niezindeksowane elementy podczas wyszukiwania plików i folderów</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
     <value>Włącz indywidualne preferencje dla poszczególnych katalogów</value>
@@ -2228,12 +2216,7 @@
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
-*Zbieranie danych osobowych*
-Files nie zbiera, nie przechowuje, nie udostępnia ani nie publikuje żadnych danych osobowych.
-
-*Zbieranie danych nieosobowych*
-
-Korzystamy z App Center, aby śledzić wykorzystanie aplikacji, znajdować błędy i naprawiać awarie. Wszystkie informacje przesyłane do App Center są anonimowe i wolne od jakichkolwiek danych użytkownika lub kontekstowych.
+Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błędy i naprawiać awarie. Informacje przesyłane do App Center są anonimowe i wolne od jakichkolwiek danych użytkownika bądź danych kontekstowych.
   </value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
@@ -2534,7 +2517,7 @@ Korzystamy z App Center, aby śledzić wykorzystanie aplikacji, znajdować błę
     <value>Licencje firm trzecich</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>To ustawienie modyfikuje pliki systemu i może wywołać niechciane efekty uboczne na Twoim urządzeniu. Deweloperzy nie ponoszą odpowiedzialności w przypadku wystąpienia problemów. Kontynuowanie z tą opcją jest potwierdzeniem akceptacji ryzyka związanego z tym działaniem. Pamiętaj, że odinstalowanie aplikacji Files nie cofnie tych zmian i może uniemożliwić otwarcie eksploratora plików, chyba że wyłączysz to ustawienie przed usunięciem apikacji Files z urządzenia.</value>
+    <value>To ustawienie modyfikuje pliki systemu i może wywołać niechciane efekty uboczne na Twoim urządzeniu. Kontynuujesz na własne ryzyko.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Wyczyść wszystkie</value>
@@ -2592,5 +2575,53 @@ Korzystamy z App Center, aby śledzić wykorzystanie aplikacji, znajdować błę
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bajty</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Wyodrębnij</value>
+  </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>Wyodrębnij pliki</value>
+  </data>
+  <data name="ExtractHere" xml:space="preserve">
+    <value>Wyodrębnij tutaj</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="ExtractToChildFolder" xml:space="preserve">
+    <value>Wyodrębnij do {0}</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Uruchom skrypt</value>
+  </data>
+  <data name="RunWithPowerShell" xml:space="preserve">
+    <value>Otwórz za pomocą programu PowerShell</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Ustaw jako tło pulpitu</value>
+  </data>
+  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
+    <value>Nie usuwaj aplikacji Files ze swojego urządzenia bez wyłączania tej opcji. Nie zrobienie tego uniemożliwi Ci otwarcie Eksploratora plików.</value>
+  </data>
+  <data name="ShowFolderSizesWarning" xml:space="preserve">
+    <value>Obliczanie rozmiaru folderów wymaga dużej ilości zasobów i może spowodować wzrost wykorzystania procesora.</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Otwórz za pomocą</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Obróć w lewo</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Obróć w prawo</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Zainstaluj</value>
+  </data>
+  <data name="CloseTabsToTheLeft" xml:space="preserve">
+    <value>Zamknij karty po lewej</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Zamknij karty po prawej</value>
   </data>
 </root>

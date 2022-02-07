@@ -129,18 +129,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>ଡାଉନଲୋଡଗୁଡ଼ିକ</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>ଘର</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>ସଙ୍ଗୀତ</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>ଛବିଗୁଡିକ</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>ଚଳଚ୍ଚିତ୍ରଗୁଡିକ</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>ଦ୍ୱାରା କ୍ରମ</value>
   </data>
