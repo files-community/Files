@@ -102,7 +102,6 @@ namespace Files.InteractionTests
 				}
 				catch (OpenQA.Selenium.WebDriverException) { }
 
-				_session.SwitchTo().Window("Home - Files");
 				// Wait if something is still animating in the visual tree
 				_session.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
 				_session.Manage().Window.Maximize();
