@@ -5,11 +5,11 @@
 
   <MainBundle Name="{Name}"
               Version="{Version}"
-              Publisher="{Publisher}"
+              Publisher="CN=Yair Aichenbaum, O=Yair Aichenbaum, L=Redmond, S=Washington, C=US"
               Uri="{MainPackageUri}"/>
 
   <UpdateSettings>
-	<OnLaunch HoursBetweenUpdateChecks="0" ShowPrompt="true"/>
+	<OnLaunch HoursBetweenUpdateChecks="0"/>
 	<AutomaticBackgroundTask/>
   </UpdateSettings>
 
