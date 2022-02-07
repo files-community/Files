@@ -48,6 +48,8 @@ namespace Files.Views
         private ICommand ToggleCompactOverlayCommand { get; }
         private ICommand SetCompactOverlayCommand { get; }
 
+        private ICommand ToggleSidebarCollapsedStateCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleSidebarCollapsedState(x));
+       
         public bool IsVerticalTabFlyoutEnabled => UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled;
 
         public MainPage()
@@ -353,6 +355,13 @@ namespace Files.Views
             }
 
             e.Handled = true;
+        }
+
+        private void ToggleSidebarCollapsedState(KeyboardAcceleratorInvokedEventArgs e)
+        {
+            SidebarAdaptiveViewModel.IsSidebarOpen = !SidebarAdaptiveViewModel.IsSidebarOpen;
+
+            e.Handled=true;
         }
 
         private void SidebarControl_Loaded(object sender, RoutedEventArgs e)

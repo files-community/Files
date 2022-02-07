@@ -3,11 +3,13 @@ using FilesFullTrust.MMI;
 using Microsoft.Management.Infrastructure;
 using System;
 using System.IO.Pipes;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 
 namespace FilesFullTrust
 {
+    [SupportedOSPlatform("Windows10.0.10240")]
     public class DeviceWatcher : IDisposable
     {
         private ManagementEventWatcher insertWatcher, removeWatcher, modifyWatcher;
