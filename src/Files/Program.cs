@@ -18,6 +18,8 @@ namespace Files
         {
             var proc = System.Diagnostics.Process.GetCurrentProcess();
 
+            NativeFileOperationsHelper.WriteStringToFile(System.IO.Path.Combine(CommonPaths.DesktopPath, "debug.txt"), $"Started: {proc.Id}\n", true);
+
             if (!ApplicationData.Current.LocalSettings.Values.Get("AlwaysOpenANewInstance", false))
             {
                 IActivatedEventArgs activatedArgs = AppInstance.GetActivatedEventArgs();
@@ -35,6 +37,7 @@ namespace Files
                     if (launchArgs.PrelaunchActivated)
                     {
                         ApplicationData.Current.LocalSettings.Values["PRELAUNCH_INSTANCE"] = proc.Id;
+                        NativeFileOperationsHelper.WriteStringToFile(System.IO.Path.Combine(CommonPaths.DesktopPath, "debug.txt"), $"Is prelaunch\n", true);
                     }
                     else
                     {
@@ -103,6 +106,7 @@ namespace Files
             var prelaunchInstance = FindAppInstanceForKey(prelaunchPid.ToString());
             if (prelaunchInstance != null && !prelaunchInstance.IsCurrentInstance)
             {
+                NativeFileOperationsHelper.WriteStringToFile(System.IO.Path.Combine(CommonPaths.DesktopPath, "debug.txt"), $"Redirect to prelaunch\n", true);
                 prelaunchInstance.RedirectActivationTo();
                 await TerminateUwpAppInstance(proc.Id);
                 return;
@@ -110,6 +114,7 @@ namespace Files
 
             App.ShouldPrepareForPrelaunch = prelaunchInstance == null && prelaunchPid != proc.Id;
 
+            NativeFileOperationsHelper.WriteStringToFile(System.IO.Path.Combine(CommonPaths.DesktopPath, "debug.txt"), $"Create App: {App.ShouldPrepareForPrelaunch}\n", true);
             AppInstance.FindOrRegisterInstanceForKey(proc.Id.ToString());
             ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = proc.Id;
             Application.Start(_ => new App());
