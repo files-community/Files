@@ -13,7 +13,6 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using static Vanara.PInvoke.Shell32;
@@ -33,11 +32,16 @@ namespace FilesFullTrust
             await logWriter.InitializeAsync("debug_fulltrust.log");
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
 
+            Logger.Info($"FTP Main");
+
             if (HandleCommandLineArgs())
             {
                 // Handles OpenShellCommandInExplorer
+                Logger.Info($"FTP CommandLine: done");
                 return;
             }
+
+            Logger.Info($"FTP Setup");
 
             try
             {
@@ -102,12 +106,15 @@ namespace FilesFullTrust
                 $"Sessions\\{Process.GetCurrentProcess().SessionId}\\AppContainerNamedObjects\\{packageSid}\\FilesInteropService_ServerPipe",
                 PipeDirection.InOut, PipeOptions.Asynchronous);
 
+            Logger.Info($"FTP InitializeAppServiceConnection");
+
             try
             {
                 using var cts = new CancellationTokenSource();
                 cts.CancelAfter(TimeSpan.FromSeconds(15));
                 await connection.ConnectAsync(cts.Token);
                 connection.ReadMode = PipeTransmissionMode.Message;
+                Logger.Info($"FTP Connected");
             }
             catch (Exception ex)
             {
@@ -232,6 +239,8 @@ namespace FilesFullTrust
             if (!string.IsNullOrWhiteSpace(arguments))
             {
                 localSettings.Values.Remove("Arguments");
+                
+                Logger.Info($"FTP CommandLine:{arguments}");
 
                 if (arguments == "TerminateUwp")
                 {
