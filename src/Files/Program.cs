@@ -107,10 +107,8 @@ namespace Files
                 await TerminateUwpAppInstance(proc.Id);
                 return;
             }
-            if (prelaunchInstance == null && prelaunchPid != proc.Id)
-            {
-                _ = PrepareForPrelaunch();
-            }
+
+            App.ShouldPrepareForPrelaunch = prelaunchInstance == null && prelaunchPid != proc.Id;
 
             AppInstance.FindOrRegisterInstanceForKey(proc.Id.ToString());
             ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = proc.Id;
@@ -135,12 +133,6 @@ namespace Files
         {
             ApplicationData.Current.LocalSettings.Values["Arguments"] = "TerminateUwp";
             ApplicationData.Current.LocalSettings.Values["pid"] = pid;
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-        }
-
-        public static async Task PrepareForPrelaunch()
-        {
-            ApplicationData.Current.LocalSettings.Values["Arguments"] = "PrepareForPrelaunch";
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
     }

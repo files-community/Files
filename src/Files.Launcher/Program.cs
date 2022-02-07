@@ -181,6 +181,12 @@ namespace FilesFullTrust
                     appServiceExit?.Set();
                     break;
 
+                case "PrepareForPrelaunch":
+                    // Prelaunch app
+                    var appActiveManager = new IApplicationActivationManager();
+                    appActiveManager.ActivateApplication((string)message["PrelaunchAppId"], null, ACTIVATEOPTIONS.AO_PRELAUNCH, out uint pid);
+                    break;
+
                 case "Elevate":
                     // Relaunch fulltrust process as admin
                     if (!IsAdministrator())
@@ -230,12 +236,6 @@ namespace FilesFullTrust
                 if (arguments == "TerminateUwp")
                 {
                     TerminateProcess((int)localSettings.Values["pid"]);
-                    return true;
-                }
-                else if (arguments == "PrepareForPrelaunch")
-                {
-                    var appActiveManager = new IApplicationActivationManager();
-                    appActiveManager.ActivateApplication(Package.Current.Id.FamilyName + "!App", null, ACTIVATEOPTIONS.AO_PRELAUNCH, out uint pid);
                     return true;
                 }
                 else if (arguments == "ShellCommand")

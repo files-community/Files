@@ -31,7 +31,6 @@ using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.UI.Core;
-using Windows.UI.Core.Preview;
 using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -69,7 +68,11 @@ namespace Files
 
         public static string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
 
+        public static readonly string FamilyName = Package.Current.Id.FamilyName + "!App";
+
         public IServiceProvider Services { get; private set; }
+
+        public static bool ShouldPrepareForPrelaunch { get; set; }
 
         public App()
         {
@@ -217,10 +220,6 @@ namespace Files
 
             var rootFrame = EnsureWindowIsInitialized();
 
-            var navigationManager = SystemNavigationManagerPreview.GetForCurrentView();
-            navigationManager.CloseRequested -= App_CloseRequested;
-            navigationManager.CloseRequested += App_CloseRequested;
-
             if (!e.PrelaunchActivated)
             {
                 if (canEnablePrelaunch)
@@ -264,11 +263,6 @@ namespace Files
                     }
                 }
             }
-        }
-
-        private void App_CloseRequested(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
-        {
-            AppInstance.Unregister();
         }
 
         protected override async void OnFileActivated(FileActivatedEventArgs e)
@@ -326,22 +320,29 @@ namespace Files
             return rootFrame;
         }
 
-        private void CoreWindow_Activated(CoreWindow sender, WindowActivatedEventArgs args)
+        private async void CoreWindow_Activated(CoreWindow sender, WindowActivatedEventArgs args)
         {
             if (args.WindowActivationState == CoreWindowActivationState.CodeActivated ||
                 args.WindowActivationState == CoreWindowActivationState.PointerActivated)
             {
                 ShowErrorNotification = true;
+
                 if (MainViewModel != null)
                 {
                     MainViewModel.Clipboard_ContentChanged(null, null);
                 }
+
                 var proc = Process.GetCurrentProcess();
                 ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = proc.Id;
                 if (ApplicationData.Current.LocalSettings.Values.Get("PRELAUNCH_INSTANCE", -1) == proc.Id)
                 {
                     ApplicationData.Current.LocalSettings.Values["PRELAUNCH_INSTANCE"] = -1;
-                    _ = Program.PrepareForPrelaunch();
+                    (await AppServiceConnectionHelper.Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "PrepareForPrelaunch" }, { "PrelaunchAppId", App.FamilyName } });
+                }
+                else if (ShouldPrepareForPrelaunch)
+                {
+                    ShouldPrepareForPrelaunch = false;
+                    (await AppServiceConnectionHelper.Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "PrepareForPrelaunch" }, { "PrelaunchAppId", App.FamilyName } });
                 }
             }
         }
