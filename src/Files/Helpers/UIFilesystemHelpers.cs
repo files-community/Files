@@ -1,16 +1,20 @@
 ﻿using Files.Common;
 using Files.Dialogs;
 using Files.Enums;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Interacts;
+using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -32,17 +36,32 @@ namespace Files.Helpers
                 // First, reset DataGrid Rows that may be in "cut" command mode
                 associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
+                var itemsCount = associatedInstance.SlimContentPage.SelectedItems.Count;
+                PostedStatusBanner banner = itemsCount > 50 ? App.OngoingTasksViewModel.PostOperationBanner(
+                    string.Empty,
+                    string.Format("StatusPreparingItemsDetails_Plural".GetLocalized(), itemsCount),
+                    0,
+                    ReturnResult.InProgress,
+                    FileOperationType.Prepare, new CancellationTokenSource()) : null;
+
                 try
                 {
-                    await Task.WhenAll(associatedInstance.SlimContentPage.SelectedItems.ToList().Select(async listedItem =>
+                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEach(async listedItem =>
                     {
+                        if (banner != null)
+                        {
+                            ((IProgress<float>)banner.Progress).Report(items.Count / (float)itemsCount * 100);
+                        }
+
                         // FTP don't support cut, fallback to copy
                         if (listedItem is not FtpItem)
                         {
-                            // Dim opacities accordingly
-                            listedItem.Opacity = Constants.UI.DimItemOpacity;
+                            _ = CoreApplication.MainView.DispatcherQueue.TryEnqueue(Windows.System.DispatcherQueuePriority.Low, () =>
+                           {
+                                // Dim opacities accordingly
+                                listedItem.Opacity = Constants.UI.DimItemOpacity;
+                           });
                         }
-
                         if (listedItem is FtpItem ftpItem)
                         {
                             if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
@@ -72,7 +91,7 @@ namespace Files.Helpers
                                 throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
                             }
                         }
-                    }));
+                    }, 10, banner?.CancellationToken ?? default);
                 }
                 catch (Exception ex)
                 {
@@ -92,13 +111,17 @@ namespace Files.Helpers
                             });
                             if (status == AppServiceResponseStatus.Success)
                             {
+                                banner?.Remove();
                                 return;
                             }
                         }
                     }
                     associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
+                    banner?.Remove();
                     return;
                 }
+
+                banner?.Remove();
             }
 
             var onlyStandard = items.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);
@@ -130,14 +153,25 @@ namespace Files.Helpers
             };
             ConcurrentBag<IStorageItem> items = new ConcurrentBag<IStorageItem>();
 
-            string copySourcePath = associatedInstance.FilesystemViewModel.WorkingDirectory;
-
             if (associatedInstance.SlimContentPage.IsItemSelected)
             {
+                var itemsCount = associatedInstance.SlimContentPage.SelectedItems.Count;
+                PostedStatusBanner banner = itemsCount > 50 ? App.OngoingTasksViewModel.PostOperationBanner(
+                    string.Empty,
+                    string.Format("StatusPreparingItemsDetails_Plural".GetLocalized(), itemsCount),
+                    0,
+                    ReturnResult.InProgress,
+                    FileOperationType.Prepare, new CancellationTokenSource()) : null;
+
                 try
                 {
-                    await Task.WhenAll(associatedInstance.SlimContentPage.SelectedItems.ToList().Select(async listedItem =>
+                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEach(async listedItem =>
                     {
+                        if (banner != null)
+                        {
+                            ((IProgress<float>)banner.Progress).Report(items.Count / (float)itemsCount * 100);
+                        }
+
                         if (listedItem is FtpItem ftpItem)
                         {
                             if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
@@ -167,7 +201,7 @@ namespace Files.Helpers
                                 throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
                             }
                         }
-                    }));
+                    }, 10, banner?.CancellationToken ?? default);
                 }
                 catch (Exception ex)
                 {
@@ -178,17 +212,25 @@ namespace Files.Helpers
                         if (connection != null)
                         {
                             string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
-                            await connection.SendMessageAsync(new ValueSet()
+                            AppServiceResponseStatus status = await connection.SendMessageAsync(new ValueSet()
                             {
                                 { "Arguments", "FileOperation" },
                                 { "fileop", "Clipboard" },
                                 { "filepath", filePaths },
                                 { "operation", (int)DataPackageOperation.Copy }
                             });
+                            if (status == AppServiceResponseStatus.Success)
+                            {
+                                banner?.Remove();
+                                return;
+                            }
                         }
                     }
+                    banner?.Remove();
                     return;
                 }
+
+                banner?.Remove();
             }
 
             var onlyStandard = items.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);

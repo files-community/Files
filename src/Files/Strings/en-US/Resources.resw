@@ -2747,4 +2747,10 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="UpdateFiles" xml:space="preserve">
     <value>Update Files</value>
   </data>
+  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
+    <value>Preparing {0} items</value>
+  </data>
+  <data name="PrepareInProgress" xml:space="preserve">
+    <value>Preparing items</value>
+  </data>
 </root>

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace FilesFullTrust.Helpers
 {
+    [SupportedOSPlatform("Windows")]
     public class ThreadWithMessageQueue<T> : IDisposable
     {
         private readonly BlockingCollection<Internal> messageQueue;

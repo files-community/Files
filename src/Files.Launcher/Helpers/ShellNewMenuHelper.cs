@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using Windows.Storage;
 
 namespace FilesFullTrust.Helpers
 {
+    [SupportedOSPlatform("Windows10.0.10240")]
     public static class ShellNewMenuHelper
     {
         public static async Task<List<ShellNewEntry>> GetNewContextMenuEntries()

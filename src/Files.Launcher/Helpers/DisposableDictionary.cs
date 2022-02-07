@@ -5,7 +5,7 @@ namespace FilesFullTrust.Helpers
 {
     public class DisposableDictionary : IDisposable
     {
-        private ConcurrentDictionary<string, object> dict;
+        private readonly ConcurrentDictionary<string, object> dict;
 
         public DisposableDictionary()
         {
