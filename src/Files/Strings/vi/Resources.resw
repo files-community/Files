@@ -156,20 +156,8 @@
   <data name="Downloads" xml:space="preserve">
     <value>Tải xuống</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Trang chủ</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Âm nhạc</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Hình ảnh</value>
-  </data>
   <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
     <value>Huỷ ghim vào Ưa thích</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Video</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sắp xếp theo</value>

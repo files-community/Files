@@ -126,18 +126,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>ダウンロード</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>ホーム</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>ミュージック</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>ピクチャ</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>ビデオ</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>並べ替え</value>
   </data>
@@ -2516,7 +2504,7 @@ App Center を使用して、アプリの使用状況を追跡し、バグを見
     <value>Files を標準のファイルマネージャーに設定する</value>
   </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>ごみ箱は空です</value>
+    <value>ゴミ箱を空にする</value>
   </data>
   <data name="Sidebar" xml:space="preserve">
     <value>サイドバー</value>
@@ -2592,5 +2580,53 @@ App Center を使用して、アプリの使用状況を追跡し、バグを見
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>バイト</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>抽出</value>
+  </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>ファイルを抽出</value>
+  </data>
+  <data name="ExtractHere" xml:space="preserve">
+    <value>ここに抽出</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="ExtractToChildFolder" xml:space="preserve">
+    <value>{0}へ抽出</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>スクリプトを実行</value>
+  </data>
+  <data name="RunWithPowerShell" xml:space="preserve">
+    <value>PowerShell で実行</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>デスクトップ背景に設定</value>
+  </data>
+  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
+    <value>このオプションをオフにせずデバイスから Files を削除しないでください。このオプションをオフにしてから Files を削除しないと、ファイル エクスプローラーを開くことができなくなります。</value>
+  </data>
+  <data name="ShowFolderSizesWarning" xml:space="preserve">
+    <value>フォルダー サイズの計算はリソースを消費するため、CPU使用率が上昇する可能性があります。</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>開く</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>左に回転</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>右に回転</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>インストール</value>
+  </data>
+  <data name="CloseTabsToTheLeft" xml:space="preserve">
+    <value>これより左のタブを閉じる</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>これより右のタブを閉じる</value>
   </data>
 </root>

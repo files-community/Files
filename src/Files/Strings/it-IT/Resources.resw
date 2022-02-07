@@ -111,18 +111,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>Download</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Musica</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Immagini</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Video</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Ordina per</value>
   </data>
@@ -736,10 +724,10 @@
     <value>Dimensioni</value>
   </data>
   <data name="PropertyHorizontalResolution" xml:space="preserve">
-    <value>Risolutione orizzontale</value>
+    <value>Risoluzione orizzontale</value>
   </data>
   <data name="PropertyVerticalResolution" xml:space="preserve">
-    <value>Risolutione verticale</value>
+    <value>Risoluzione verticale</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
     <value>Larghezza</value>
@@ -2094,6 +2082,9 @@
   <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>Nascondi file protetti e di sistema (Raccomandato)</value>
   </data>
+  <data name="ShowDotFiles" xml:space="preserve">
+    <value>Mostra file e cartelle che iniziano con un punto</value>
+  </data>
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
     <value>Apri i file con un solo click</value>
   </data>
@@ -2636,7 +2627,25 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   <data name="CloseTabsToTheRight" xml:space="preserve">
     <value>Chiudi schede a destra</value>
   </data>
-  <data name="CloseOthers" xml:space="preserve">
+  <data name="CloseOtherTabs" xml:space="preserve">
     <value>Chiudi le altre schede</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Musica</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Immagini</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Aggiorna Files</value>
+  </data>
+  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
+    <value>Preparando {0} elementi</value>
+  </data>
+  <data name="PrepareInProgress" xml:space="preserve">
+    <value>Preparazione in corso</value>
   </data>
 </root>
