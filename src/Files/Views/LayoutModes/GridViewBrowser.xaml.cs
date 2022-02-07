@@ -332,23 +332,6 @@ namespace Files.Views.LayoutModes
             ignoreTextChange = false;
         }
 
-        /*
-        private void GridViewTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var textBox = sender as TextBox;
-
-            if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
-            {
-                FileNameTeachingTip.Visibility = Visibility.Visible;
-                FileNameTeachingTip.IsOpen = true;
-            }
-            else
-            {
-                FileNameTeachingTip.IsOpen = false;
-                FileNameTeachingTip.Visibility = Visibility.Collapsed;
-            }
-        }
-        */
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Escape)
