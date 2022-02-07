@@ -72,18 +72,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>Téléchargements</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Accueil</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Musique</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Images</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Vidéos</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Trier par</value>
   </data>
@@ -2621,5 +2609,11 @@
   </data>
   <data name="Install" xml:space="preserve">
     <value>Installer</value>
+  </data>
+  <data name="CloseTabsToTheLeft" xml:space="preserve">
+    <value>Fermer les onglets à gauche</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Fermer les onglets à droite</value>
   </data>
 </root>
