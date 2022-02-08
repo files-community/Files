@@ -87,7 +87,7 @@ namespace Files.Views
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 // Set window size in the loaded event to prevent flickering
-                if (App.IsWindowDecorationsAllowed)
+                if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
                 {
                     appWindow.TitleBar.SetPreferredVisibility(AppWindowTitleBarVisibility.AlwaysHidden);
                     appWindow.Frame.DragRegionVisuals.Add(TitleBarDragArea);
@@ -188,7 +188,7 @@ namespace Files.Views
                     switch (RequestedTheme)
                     {
                         case ElementTheme.Default:
-                            if (App.IsWindowDecorationsAllowed)
+                            if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
                             {
                                 crossIcon.Foreground = new SolidColorBrush((Color)Application.Current.Resources["SystemBaseHighColor"]);
                                 ((ColorAnimation)CrossHoverAnim.Children[0]).From = (Color)Application.Current.Resources["SystemBaseHighColor"];
@@ -202,7 +202,7 @@ namespace Files.Views
                             break;
 
                         case ElementTheme.Light:
-                            if (App.IsWindowDecorationsAllowed)
+                            if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
                             {
                                 crossIcon.Foreground = new SolidColorBrush(Colors.Black);
                                 ((ColorAnimation)CrossHoverAnim.Children[0]).From = Colors.Black;
@@ -216,7 +216,7 @@ namespace Files.Views
                             break;
 
                         case ElementTheme.Dark:
-                            if (App.IsWindowDecorationsAllowed)
+                            if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
                             {
                                 crossIcon.Foreground = new SolidColorBrush(Colors.White);
                                 ((ColorAnimation)CrossHoverAnim.Children[0]).From = Colors.White;
@@ -249,7 +249,7 @@ namespace Files.Views
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                if (App.IsWindowDecorationsAllowed)
+                if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
                 {
                     await appWindow.CloseAsync();
                 }
@@ -268,7 +268,7 @@ namespace Files.Views
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                if (App.IsWindowDecorationsAllowed)
+                if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
                 {
                     await appWindow.CloseAsync();
                 }
@@ -289,7 +289,7 @@ namespace Files.Views
             {
                 if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
                 {
-                    if (App.IsWindowDecorationsAllowed)
+                    if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
                     {
                         await appWindow.CloseAsync();
                     }

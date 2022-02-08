@@ -58,7 +58,7 @@ namespace Files.Helpers
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                if (App.IsWindowDecorationsAllowed)
+                if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
                 {
                     AppWindow appWindow = await AppWindow.TryCreateAsync();
 
