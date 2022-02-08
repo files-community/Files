@@ -796,7 +796,7 @@
         </trans-unit>
         <trans-unit id="RestartNotificationText.Text" translate="yes" xml:space="preserve">
           <source>The application needs to be restarted in order to apply these settings, would you like to restart the app?</source>
-          <target state="translated">Aby zastosować te ustawienia, należy ponownie uruchomić aplikację. Czy chcesz to zrobić teraz?</target>
+          <target state="translated">Aby zastosować te ustawienia, należy ponownie uruchomić aplikację. Czy chcesz zrobić to teraz?</target>
         </trans-unit>
         <trans-unit id="AddDialog.Title" translate="yes" xml:space="preserve">
           <source>Create a New Item</source>
