@@ -63,16 +63,16 @@
             <muxc:ItemsRepeater.Layout>
                 <muxc:UniformGridLayout
                     ItemsStretch="Fill"
+                    MaximumRowsOrColumns="6"
                     MinColumnSpacing="8"
                     MinItemHeight="88"
-                    MinItemWidth="250"
+                    MinItemWidth="280"
                     MinRowSpacing="8"
                     Orientation="Horizontal" />
             </muxc:ItemsRepeater.Layout>
             <muxc:ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="navigationcontrolitems:DriveItem">
                     <Button
-                        Width="280"
                         Padding="0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
