@@ -448,29 +448,27 @@ namespace Files.Filesystem
                         return;
                     }
 
+                    DriveItem driveItem;
+
+                    using (var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(() => rootAdded.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask()))
+                    {
+                        var type = GetDriveType(driveAdded);
+                        driveItem = await DriveItem.CreateFromPropertiesAsync(rootAdded, deviceId, type, thumbnail);
+                    }
+
                     lock (drivesList)
                     {
                         // If drive already in list, skip.
                         var matchingDrive = drivesList.FirstOrDefault(x => x.DeviceID == deviceId ||
-                        string.IsNullOrEmpty(rootAdded.Result.Path) ? x.Path.Contains(rootAdded.Result.Name, StringComparison.Ordinal) : x.Path == rootAdded.Result.Path);
+                            string.IsNullOrEmpty(rootAdded.Result.Path) ? x.Path.Contains(rootAdded.Result.Name, StringComparison.Ordinal) : x.Path == rootAdded.Result.Path);
                         if (matchingDrive != null)
                         {
                             // Update device id to match drive letter
                             matchingDrive.DeviceID = deviceId;
                             return;
                         }
-                    }
-
-                    using (var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(() => rootAdded.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask()))
-                    {
-                        var type = GetDriveType(driveAdded);
-                        var driveItem = await DriveItem.CreateFromPropertiesAsync(rootAdded, deviceId, type, thumbnail);
-
-                        lock (drivesList)
-                        {
-                            Logger.Info($"Drive added from fulltrust process: {driveItem.Path}, {driveItem.Type}");
-                            drivesList.Add(driveItem);
-                        }
+                        Logger.Info($"Drive added from fulltrust process: {driveItem.Path}, {driveItem.Type}");
+                        drivesList.Add(driveItem);
                     }
 
                     DeviceWatcher_EnumerationCompleted(null, null);
