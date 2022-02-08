@@ -73,15 +73,6 @@ namespace Files.Views
             SetCompactOverlayCommand = new RelayCommand<bool>(SetCompactOverlay);
 
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-
-            Window.Current.VisibilityChanged += WindowVisibilityChangedEventHandler;
-        }
-
-        private NavigationEventArgs navArgs;
-
-        private void WindowVisibilityChangedEventHandler(System.Object sender, Windows.UI.Core.VisibilityChangedEventArgs e)
-        {
-            NativeFileOperationsHelper.WriteStringToFile(System.IO.Path.Combine(CommonPaths.DesktopPath, "debug.txt"), $"Window Visible: {e.Visible}\n", true);
         }
 
         private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
