@@ -27,7 +27,6 @@ namespace Files
                 if (AppInstance.RecommendedInstance != null)
                 {
                     AppInstance.RecommendedInstance.RedirectActivationTo();
-                    await TerminateUwpAppInstance(proc.Id);
                     return;
                 }
                 else if (activatedArgs is LaunchActivatedEventArgs)
@@ -46,7 +45,6 @@ namespace Files
                         if (instance != null && !instance.IsCurrentInstance && !string.IsNullOrWhiteSpace(launchArgs.Arguments))
                         {
                             instance.RedirectActivationTo();
-                            await TerminateUwpAppInstance(proc.Id);
                             return;
                         }
                     }
@@ -84,7 +82,6 @@ namespace Files
                         if (instance != null && !instance.IsCurrentInstance)
                         {
                             instance.RedirectActivationTo();
-                            await TerminateUwpAppInstance(proc.Id);
                             return;
                         }
                     }
@@ -96,7 +93,6 @@ namespace Files
                     if (instance != null && !instance.IsCurrentInstance)
                     {
                         instance.RedirectActivationTo();
-                        await TerminateUwpAppInstance(proc.Id);
                         return;
                     }
                 }
@@ -108,7 +104,6 @@ namespace Files
             {
                 NativeFileOperationsHelper.WriteStringToFile(System.IO.Path.Combine(CommonPaths.DesktopPath, "debug.txt"), $"Redirect to prelaunch\n", true);
                 prelaunchInstance.RedirectActivationTo();
-                await TerminateUwpAppInstance(proc.Id);
                 return;
             }
 
@@ -130,13 +125,6 @@ namespace Files
         {
             ApplicationData.Current.LocalSettings.Values["ShellCommand"] = shellCommand;
             ApplicationData.Current.LocalSettings.Values["Arguments"] = "ShellCommand";
-            ApplicationData.Current.LocalSettings.Values["pid"] = pid;
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-        }
-
-        public static async Task TerminateUwpAppInstance(int pid)
-        {
-            ApplicationData.Current.LocalSettings.Values["Arguments"] = "TerminateUwp";
             ApplicationData.Current.LocalSettings.Values["pid"] = pid;
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
