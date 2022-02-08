@@ -335,6 +335,7 @@
                         x:Name="TileViewTextBoxItemName"
                         Grid.Row="0"
                         HorizontalAlignment="Left"
+                        TextChanged="GridViewTextBoxItemName_TextChanged"
                         Text="{x:Bind ItemName, Mode=OneWay}"
                         Visibility="Collapsed" />
                     <TextBlock

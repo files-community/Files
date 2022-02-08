@@ -6,15 +6,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Foundation.Collections;
 
 namespace FilesFullTrust.MessageHandlers
 {
+    [SupportedOSPlatform("Windows10.0.10240")]
     public class ContextMenuHandler : IMessageHandler
     {
-        private DisposableDictionary handleTable;
+        private readonly DisposableDictionary handleTable;
 
         public ContextMenuHandler()
         {
@@ -156,11 +158,8 @@ namespace FilesFullTrust.MessageHandlers
                 Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
             };
 
-            bool filterMenuItemsImpl(string menuItem)
-            {
-                return string.IsNullOrEmpty(menuItem) ? false : knownItems.Contains(menuItem)
-                    || (!showOpenMenu && menuItem.Equals("open", StringComparison.OrdinalIgnoreCase));
-            }
+            bool filterMenuItemsImpl(string menuItem) => !string.IsNullOrEmpty(menuItem)
+                && (knownItems.Contains(menuItem) || (!showOpenMenu && menuItem.Equals("open", StringComparison.OrdinalIgnoreCase)));
 
             return filterMenuItemsImpl;
         }
