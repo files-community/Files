@@ -242,12 +242,7 @@ namespace FilesFullTrust
                 
                 Logger.Info($"FTP CommandLine:{arguments}");
 
-                if (arguments == "TerminateUwp")
-                {
-                    TerminateProcess((int)localSettings.Values["pid"]);
-                    return true;
-                }
-                else if (arguments == "ShellCommand")
+                if (arguments == "ShellCommand")
                 {
                     TerminateProcess((int)localSettings.Values["pid"]);
 
