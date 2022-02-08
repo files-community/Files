@@ -9,8 +9,11 @@ using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
+using Windows.UI.WindowManagement;
+using Windows.UI.WindowManagement.Preview;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media.Animation;
 using static Files.Views.Properties;
 
@@ -55,33 +58,61 @@ namespace Files.Helpers
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                CoreApplicationView newWindow = CoreApplication.CreateNewView();
-                ApplicationView newView = null;
-
-                await newWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                if (App.IsWindowDecorationsAllowed)
                 {
+                    AppWindow appWindow = await AppWindow.TryCreateAsync();
+
                     Frame frame = new Frame();
                     frame.Navigate(typeof(Properties), new PropertiesPageNavigationArguments()
                     {
                         Item = item,
                         AppInstanceArgument = associatedInstance
                     }, new SuppressNavigationTransitionInfo());
-                    Window.Current.Content = frame;
-                    Window.Current.Activate();
+                    ElementCompositionPreview.SetAppWindowContent(appWindow, frame);
+                    (frame.Content as Properties).appWindow = appWindow;
 
-                    newView = ApplicationView.GetForCurrentView();
-                    newWindow.TitleBar.ExtendViewIntoTitleBar = true;
-                    newView.Title = "PropertiesTitle".GetLocalized();
-                    newView.PersistedStateId = "Properties";
-                    newView.SetPreferredMinSize(new Size(460, 550));
+                    appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                    appWindow.Title = "PropertiesTitle".GetLocalized();
+                    appWindow.PersistedStateId = "Properties";
+                    WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(460, 550));
 
-                    bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newView.Id);
-                    if (viewShown && newView != null)
+                    bool windowShown = await appWindow.TryShowAsync();
+                    if (windowShown)
                     {
                         // Set window size again here as sometimes it's not resized in the page Loaded event
-                        newView.TryResizeView(new Size(460, 550));
+                        appWindow.RequestSize(new Size(460, 550));
                     }
-                });
+                }
+                else
+                {
+                    CoreApplicationView newWindow = CoreApplication.CreateNewView();
+                    ApplicationView newView = null;
+
+                    await newWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        Frame frame = new Frame();
+                        frame.Navigate(typeof(Properties), new PropertiesPageNavigationArguments()
+                        {
+                            Item = item,
+                            AppInstanceArgument = associatedInstance
+                        }, new SuppressNavigationTransitionInfo());
+                        Window.Current.Content = frame;
+                        Window.Current.Activate();
+
+                        newView = ApplicationView.GetForCurrentView();
+                        newWindow.TitleBar.ExtendViewIntoTitleBar = true;
+                        newView.Title = "PropertiesTitle".GetLocalized();
+                        newView.PersistedStateId = "Properties";
+                        newView.SetPreferredMinSize(new Size(460, 550));
+
+                        bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newView.Id);
+                        if (viewShown && newView != null)
+                        {
+                            // Set window size again here as sometimes it's not resized in the page Loaded event
+                            newView.TryResizeView(new Size(460, 550));
+                        }
+                    });
+                }
             }
             else
             {
