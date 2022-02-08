@@ -156,18 +156,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>გადმოწერილები</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>მთავარი</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>მუსიკები</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>სურათები</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>ვიდეოები</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>დახარისხება</value>
   </data>

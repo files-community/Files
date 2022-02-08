@@ -5,26 +5,29 @@ using System.IO.Pipes;
 using System.Threading.Tasks;
 using System.Linq;
 using Files.Common;
+using System.Runtime.Versioning;
 
 namespace FilesFullTrust.MessageHandlers
 {
+    [SupportedOSPlatform("Windows10.0.10240")]
     public class InstallOperationsHandler : IMessageHandler
     {
         public void Initialize(PipeStream connection)
         {
         }
 
-        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
         {
             switch (arguments)
             {
                 case "InstallOperation":
-                    await ParseInstallOperationAsync(connection, message);
+                    ParseInstallOperation(connection, message);
                     break;
             }
+            return Task.CompletedTask;
         }
 
-        private async Task ParseInstallOperationAsync(PipeStream connection, Dictionary<string, object> message)
+        private static void ParseInstallOperation(PipeStream connection, Dictionary<string, object> message)
         {
             switch (message.Get("installop", ""))
             {

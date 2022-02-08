@@ -11,6 +11,7 @@
     xmlns:vc="using:Files.Converters"
     x:Name="RootDialog"
     Title="{x:Bind ViewModel.Title, Mode=OneWay}"
+    Closing="RootDialog_Closing"
     CornerRadius="{StaticResource OverlayCornerRadius}"
     DefaultButton="Primary"
     IsPrimaryButtonEnabled="{x:Bind ViewModel.PrimaryButtonEnabled, Mode=OneWay}"

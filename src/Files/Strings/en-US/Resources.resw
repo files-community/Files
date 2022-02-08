@@ -231,6 +231,9 @@
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Show hidden files and folders</value>
   </data>
+  <data name="ShowDotFiles" xml:space="preserve">
+    <value>Show dot files</value>
+  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimental</value>
   </data>
@@ -2743,5 +2746,11 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Update Files</value>
+  </data>
+  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
+    <value>Preparing {0} items</value>
+  </data>
+  <data name="PrepareInProgress" xml:space="preserve">
+    <value>Preparing items</value>
   </data>
 </root>

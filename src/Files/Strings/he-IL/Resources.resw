@@ -126,18 +126,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>הורדות</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>בית</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>מוסיקה</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>תמונות</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>סרטוני וידאו</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>מיין לפי</value>
   </data>

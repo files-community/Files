@@ -3,6 +3,7 @@ using FilesFullTrust.Helpers;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO.Pipes;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -10,6 +11,7 @@ using Windows.Foundation.Collections;
 
 namespace FilesFullTrust.MessageHandlers
 {
+    [SupportedOSPlatform("Windows10.0.10240")]
     public class NetworkDrivesHandler : IMessageHandler
     {
         public void Initialize(PipeStream connection)

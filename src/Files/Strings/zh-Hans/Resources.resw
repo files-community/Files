@@ -72,18 +72,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>下载</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>主页</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>音乐</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>图片</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>视频</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>类型</value>
   </data>

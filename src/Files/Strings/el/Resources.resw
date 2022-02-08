@@ -156,20 +156,8 @@
   <data name="Downloads" xml:space="preserve">
     <value>Λήψεις</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Αρχική σελίδα</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Μουσική</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Εικόνες</value>
-  </data>
   <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
     <value>Ξεκαρφίτσωμα από Αγαπημένα</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Βίντεο</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Ταξινόμηση κατά</value>
