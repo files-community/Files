@@ -620,7 +620,10 @@ namespace FilesFullTrust
                         }
                         Marshal.ReleaseComObject(serv);
                     }
-                    Marshal.ReleaseComObject(item);
+                    if (item != null)
+                    {
+                        Marshal.ReleaseComObject(item);
+                    }
                 }
 
                 Marshal.ReleaseComObject(shellWindows);
