@@ -637,9 +637,9 @@
                                         MaxWidth="{Binding MaxWidthForRenameTextbox, ElementName=PageRoot, Mode=OneWay}"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
-                                        TextChanged="ListViewTextBoxItemName_TextChanged"
-                                        TextChanging="ListViewTextBoxItemName_TextChanging"
-                                        SelectionChanged="ListViewTextBoxItemName_SelectionChanged"
+                                        TextChanged="RenameTextBoxItemName_TextChanged"
+                                        TextChanging="RenameTextBoxItemName_TextChanging"
+                                        SelectionChanged="RenameTextBoxItemName_SelectionChanged"
                                         Visibility="Collapsed">
                                         <TextBox.Resources>
                                             <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />

@@ -307,9 +307,9 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
                                     TextAlignment="Left"
-                                    TextChanged="ListViewTextBoxItemName_TextChanged"
-                                    TextChanging="ListViewTextBoxItemName_TextChanging"
-                                    SelectionChanged="ListViewTextBoxItemName_SelectionChanged"
+                                    TextChanged="RenameTextBoxItemName_TextChanged"
+                                    TextChanging="RenameTextBoxItemName_TextChanging"
+                                    SelectionChanged="RenameTextBoxItemName_SelectionChanged"
                                     TextWrapping="Wrap"
                                     Visibility="Collapsed" />
                                 <Grid Grid.Column="2">

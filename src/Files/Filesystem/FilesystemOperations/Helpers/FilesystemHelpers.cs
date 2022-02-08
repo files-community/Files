@@ -23,6 +23,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.Filesystem
@@ -1188,13 +1189,47 @@ namespace Files.Filesystem
             string filtered = "";
             foreach (char c in input)
             {
-                Debug.WriteLine(c);
                 if (!RestrictedCharacters.Contains(c))
                 {
                     filtered = string.Concat(filtered, c);
                 }
             }
             return filtered;
+        }
+
+        public static void RenameHelperTextChanging(Microsoft.UI.Xaml.Controls.TeachingTip FileNameTeachingTip, TextBox textBox, BaseLayout view)
+        {
+            if (ContainsRestrictedCharacters(textBox.Text))
+            {
+                if (view.renameTextBoxPreviousRestrictedAttempt == textBox.Text)
+                {
+                    textBox.Text = textBox.Text.Remove(textBox.Text.Length - view.renameTextBoxPreviousRestrictedAttempt.Length);
+                    string filtered = FilterRestrictedCharacters(view.renameTextBoxPreviousRestrictedAttempt);
+                    textBox.Text += filtered;
+                    textBox.SelectionStart = view.renameTextBoxPreviousCursorPosition + Math.Abs(textBox.Text.Length - view.renameTextBoxPreviousInput.Length);
+                }
+                else
+                {
+                    view.renameTextBoxIgnoreTextChange = true;
+                    FileNameTeachingTip.Visibility = Visibility.Visible;
+                    FileNameTeachingTip.IsOpen = true;
+                    view.renameTextBoxPreviousRestrictedAttempt = textBox.Text;
+                    textBox.Text = view.renameTextBoxPreviousInput;
+                    textBox.SelectionStart = view.renameTextBoxPreviousCursorPosition;
+                }
+                return;
+            }
+        }
+
+        public static void RenameHelperTextChanged(Microsoft.UI.Xaml.Controls.TeachingTip FileNameTeachingTip, TextBox textBox, BaseLayout view)
+        {
+            if (!view.renameTextBoxIgnoreTextChange)
+            {
+                FileNameTeachingTip.IsOpen = false;
+                FileNameTeachingTip.Visibility = Visibility.Collapsed;
+                view.renameTextBoxPreviousInput = textBox.Text;
+            }
+            view.renameTextBoxIgnoreTextChange = false;
         }
 
         #endregion Public Helpers

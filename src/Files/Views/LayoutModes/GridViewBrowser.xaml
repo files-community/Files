@@ -197,9 +197,9 @@
                         Background="{ThemeResource SolidBackgroundFillColorSecondary}"
                         Text="{x:Bind ItemName, Mode=OneWay}"
                         TextAlignment="Center"
-                        TextChanged="GridViewTextBoxItemName_TextChanged"
-                        TextChanging="GridViewTextBoxItemName_TextChanging"
-                        SelectionChanged="GridViewTextBoxItemName_SelectionChanged"
+                        TextChanged="RenameTextBoxItemName_TextChanged"
+                        TextChanging="RenameTextBoxItemName_TextChanging"
+                        SelectionChanged="RenameTextBoxItemName_SelectionChanged"
                         TextWrapping="Wrap" />
                 </Popup>
             </Grid>
@@ -338,9 +338,9 @@
                         Grid.Row="0"
                         HorizontalAlignment="Left"
                         Text="{x:Bind ItemName, Mode=OneWay}"
-                        TextChanged="GridViewTextBoxItemName_TextChanged"
-                        TextChanging="GridViewTextBoxItemName_TextChanging"
-                        SelectionChanged="GridViewTextBoxItemName_SelectionChanged"
+                        TextChanged="RenameTextBoxItemName_TextChanged"
+                        TextChanging="RenameTextBoxItemName_TextChanging"
+                        SelectionChanged="RenameTextBoxItemName_SelectionChanged"
                         Visibility="Collapsed" />
                     <TextBlock
                         Grid.Row="1"

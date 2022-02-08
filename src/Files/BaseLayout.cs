@@ -14,6 +14,7 @@ using Files.Views;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -294,15 +295,39 @@ namespace Files
 
         private DispatcherQueueTimer dragOverTimer, tapDebounceTimer;
 
-        protected string previousInput = "";
-        protected int previousCursorPosition = 0;
-        protected bool ignoreTextChange = false;
-        protected string previousRestrictedAttempt = "";
+        public string renameTextBoxPreviousInput { get; set; } = "";
+        public int renameTextBoxPreviousCursorPosition { get; set; } = 0;
+        public bool renameTextBoxIgnoreTextChange { get; set; } = false;
+        public string renameTextBoxPreviousRestrictedAttempt { get; set; } = "";
 
-        private void ListViewTextBoxItemName_SelectionChanged(object s, RoutedEventArgs e)
+        protected TeachingTip FileNameTeachingTip;
+
+        protected BaseLayout View;
+
+        protected void SetFileNameTeachingTip(TeachingTip fileNameTeachingTip) 
         {
-            previousCursorPosition = ((TextBox)s).SelectionStart;
+            FileNameTeachingTip = fileNameTeachingTip;
         }
+
+        protected void SetView(BaseLayout view)
+        {
+            View = view;
+        }
+
+        protected void RenameTextBoxItemName_SelectionChanged(object s, RoutedEventArgs e)
+        {
+            renameTextBoxPreviousCursorPosition = ((TextBox)s).SelectionStart;
+        }
+
+        protected void RenameTextBoxItemName_TextChanging(TextBox textBox, TextBoxTextChangingEventArgs args)
+        {
+            FilesystemHelpers.RenameHelperTextChanging(FileNameTeachingTip, textBox, View);
+        }
+        protected void RenameTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            FilesystemHelpers.RenameHelperTextChanged(FileNameTeachingTip, (sender as TextBox), View);
+        }
+
 
         public BaseLayout()
         {

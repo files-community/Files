@@ -243,6 +243,8 @@ namespace Files.Views.LayoutModes
 
         override public void StartRenameItem()
         {
+            SetView(this);
+            SetFileNameTeachingTip(FileNameTeachingTip);
             RenamingItem = SelectedItem;
             if (RenamingItem == null)
             {
@@ -291,46 +293,6 @@ namespace Files.Views.LayoutModes
             textBox.Select(0, selectedTextLength);
             IsRenamingItem = true;
         }
-        private void GridViewTextBoxItemName_SelectionChanged(object s, RoutedEventArgs e)
-        {
-            previousCursorPosition = ((TextBox)s).SelectionStart;
-        }
-
-        private void GridViewTextBoxItemName_TextChanging(TextBox textBox, TextBoxTextChangingEventArgs args)
-        {
-            if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
-            {
-                if (previousRestrictedAttempt == textBox.Text)
-                {
-                    textBox.Text = textBox.Text.Remove(textBox.Text.Length - previousRestrictedAttempt.Length);
-                    string filtered = FilesystemHelpers.FilterRestrictedCharacters(previousRestrictedAttempt);
-                    textBox.Text += filtered;
-                    textBox.SelectionStart = previousCursorPosition + Math.Abs(textBox.Text.Length - previousInput.Length);
-                }
-                else
-                {
-                    ignoreTextChange = true;
-                    FileNameTeachingTip.Visibility = Visibility.Visible;
-                    FileNameTeachingTip.IsOpen = true;
-                    previousRestrictedAttempt = textBox.Text;
-                    textBox.Text = previousInput;
-                    textBox.SelectionStart = previousCursorPosition;
-                }
-                return;
-            }
-        }
-
-        private void GridViewTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!ignoreTextChange)
-            {
-                var textBox = sender as TextBox;
-                FileNameTeachingTip.IsOpen = false;
-                FileNameTeachingTip.Visibility = Visibility.Collapsed;
-                previousInput = textBox.Text;
-            }
-            ignoreTextChange = false;
-        }
 
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
@@ -363,10 +325,10 @@ namespace Files.Views.LayoutModes
 
         private async void CommitRename(TextBox textBox)
         {
-            previousInput = "";
-            previousCursorPosition = 0;
-            ignoreTextChange = false;
-            previousRestrictedAttempt = "";
+            renameTextBoxPreviousInput = "";
+            renameTextBoxPreviousCursorPosition = 0;
+            renameTextBoxIgnoreTextChange = false;
+            renameTextBoxPreviousRestrictedAttempt = "";
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');
             await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
@@ -396,7 +358,7 @@ namespace Files.Views.LayoutModes
             textBox.KeyDown -= RenameTextBox_KeyDown;
             FileNameTeachingTip.IsOpen = false;
             IsRenamingItem = false;
-
+            
             // Re-focus selected list item
             GridViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
             gridViewItem?.Focus(FocusState.Programmatic);
