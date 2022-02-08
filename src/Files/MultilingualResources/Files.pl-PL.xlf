@@ -2120,7 +2120,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>View Files privacy policy</source>
-          <target state="translated">Wyświetl zasady ochrony prywatności aplikacji Files</target>
+          <target state="translated">Wyświetl politykę prywatności aplikacji Files</target>
         </trans-unit>
         <trans-unit id="RenameFileDialogTitle" translate="yes" xml:space="preserve">
           <source>Rename</source>
