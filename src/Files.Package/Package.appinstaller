@@ -5,7 +5,7 @@
 
   <MainBundle Name="{Name}"
               Version="{Version}"
-              Publisher="CN=Yair Aichenbaum, O=Yair Aichenbaum, L=Redmond, S=Washington, C=US"
+              Publisher="{Publisher}"
               Uri="{MainPackageUri}"/>
 
   <UpdateSettings>
