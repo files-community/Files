@@ -28,13 +28,10 @@ namespace Files.Helpers
             App.Current.Suspending += OnSuspending;
             App.Current.LeavingBackground -= OnLeavingBackground;
             App.Current.LeavingBackground += OnLeavingBackground;
-
-            NativeFileOperationsHelper.WriteStringToFile(System.IO.Path.Combine(CommonPaths.DesktopPath, "debug.txt"), $"Register\n", true);
         }
 
         private static async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
         {
-            NativeFileOperationsHelper.WriteStringToFile(System.IO.Path.Combine(CommonPaths.DesktopPath, "debug.txt"), $"OnLeavingBackground\n", true);
             if (await Instance == null)
             {
                 // Need to reinitialize AppService when app is resuming
@@ -49,7 +46,6 @@ namespace Files.Helpers
 
         private async static void OnSuspending(object sender, SuspendingEventArgs e)
         {
-            NativeFileOperationsHelper.WriteStringToFile(System.IO.Path.Combine(CommonPaths.DesktopPath, "debug.txt"), $"OnSuspending\n", true);
             var deferral = e.SuspendingOperation.GetDeferral();
             var nullConn = Task.FromResult<NamedPipeAsAppServiceConnection>(null);
             ConnectionChanged?.Invoke(null, nullConn);
@@ -102,7 +98,6 @@ namespace Files.Helpers
 
         private static async Task<NamedPipeAsAppServiceConnection> BuildConnection(bool launchFullTrust)
         {
-            NativeFileOperationsHelper.WriteStringToFile(System.IO.Path.Combine(CommonPaths.DesktopPath, "debug.txt"), $"BuildConnection\n", true);
             try
             {
                 if (launchFullTrust)
@@ -116,7 +111,6 @@ namespace Files.Helpers
                 var connection = new NamedPipeAsAppServiceConnection();
                 if (await connection.Connect(@"LOCAL\FilesInteropService_ServerPipe", TimeSpan.FromSeconds(15)))
                 {
-                    NativeFileOperationsHelper.WriteStringToFile(System.IO.Path.Combine(CommonPaths.DesktopPath, "debug.txt"), $"Connected\n", true);
                     return connection;
                 }
                 connection.Dispose();

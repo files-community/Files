@@ -80,24 +80,16 @@ namespace Files
             // Initialize logger
             Logger = new Logger(logWriter);
 
-            NativeFileOperationsHelper.WriteStringToFile(System.IO.Path.Combine(CommonPaths.DesktopPath, "debug.txt"), $"App Constructor\n", true);
-
             UnhandledException += OnUnhandledException;
             TaskScheduler.UnobservedTaskException += OnUnobservedException;
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
-            Resuming += App_Resuming;
 
             AppServiceConnectionHelper.Register();
 
             this.Services = ConfigureServices();
             Ioc.Default.ConfigureServices(Services);
-        }
-
-        private void App_Resuming(object sender, object e)
-        {
-            NativeFileOperationsHelper.WriteStringToFile(System.IO.Path.Combine(CommonPaths.DesktopPath, "debug.txt"), $"App_Resuming\n", true);
         }
 
         private IServiceProvider ConfigureServices()
@@ -206,7 +198,6 @@ namespace Files
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
         {
-            NativeFileOperationsHelper.WriteStringToFile(System.IO.Path.Combine(CommonPaths.DesktopPath, "debug.txt"), $"APP OnLeavingBackground\n", true);
             DrivesManager?.ResumeDeviceWatcher();
         }
 
@@ -219,8 +210,6 @@ namespace Files
         {
             await logWriter.InitializeAsync("debug.log");
             Logger.Info($"App launched. Prelaunch: {e.PrelaunchActivated}");
-
-            NativeFileOperationsHelper.WriteStringToFile(System.IO.Path.Combine(CommonPaths.DesktopPath, "debug.txt"), $"App launched. Prelaunch: {e.PrelaunchActivated}\n", true);
 
             //start tracking app usage
             SystemInformation.Instance.TrackAppUse(e);
@@ -337,8 +326,6 @@ namespace Files
             if (args.WindowActivationState == CoreWindowActivationState.CodeActivated ||
                 args.WindowActivationState == CoreWindowActivationState.PointerActivated)
             {
-                NativeFileOperationsHelper.WriteStringToFile(System.IO.Path.Combine(CommonPaths.DesktopPath, "debug.txt"), $"CoreWindow_Activated\n", true);
-
                 ShowErrorNotification = true;
 
                 if (MainViewModel != null)
@@ -351,13 +338,11 @@ namespace Files
                 if (ApplicationData.Current.LocalSettings.Values.Get("PRELAUNCH_INSTANCE", -1) == proc.Id)
                 {
                     ApplicationData.Current.LocalSettings.Values["PRELAUNCH_INSTANCE"] = -1;
-                    NativeFileOperationsHelper.WriteStringToFile(System.IO.Path.Combine(CommonPaths.DesktopPath, "debug.txt"), $"PRELAUNCH_INSTANCE 1\n", true);
                     (await AppServiceConnectionHelper.Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "PrepareForPrelaunch" }, { "PrelaunchAppId", App.FamilyName } });
                 }
                 else if (ShouldPrepareForPrelaunch)
                 {
                     ShouldPrepareForPrelaunch = false;
-                    NativeFileOperationsHelper.WriteStringToFile(System.IO.Path.Combine(CommonPaths.DesktopPath, "debug.txt"), $"PRELAUNCH_INSTANCE 2\n", true);
                     (await AppServiceConnectionHelper.Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "PrepareForPrelaunch" }, { "PrelaunchAppId", App.FamilyName } });
                 }
             }
@@ -367,8 +352,6 @@ namespace Files
         {
             await logWriter.InitializeAsync("debug.log");
             Logger.Info($"App activated by {args.Kind.ToString()}");
-
-            NativeFileOperationsHelper.WriteStringToFile(System.IO.Path.Combine(CommonPaths.DesktopPath, "debug.txt"), $"App activated by {args.Kind.ToString()}\n", true);
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
             _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
