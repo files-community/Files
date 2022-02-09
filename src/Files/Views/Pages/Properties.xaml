@@ -10,12 +10,13 @@
     d:DesignHeight="700"
     d:DesignWidth="400"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="False"
+    Background="{ThemeResource RootBackgroundBrush}"
     KeyDown="Page_KeyDown"
     Loaded="Properties_Loaded"
     Loading="Page_Loading"
     Unloaded="Properties_Unloaded"
     mc:Ignorable="d">
-    <Grid Background="{ThemeResource RootBackgroundBrush}">
+    <Grid>
         <Grid.Resources>
             <ResourceDictionary>
                 <Thickness x:Key="NavigationViewTopPaneHeight">40</Thickness>
