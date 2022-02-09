@@ -3492,7 +3492,7 @@
         </trans-unit>
         <trans-unit id="ShowDotFiles" translate="yes" xml:space="preserve">
           <source>Show dot files</source>
-          <target state="new">顯示隱藏檔案</target>
+          <target state="translated">顯示隱藏檔案</target>
         </trans-unit>
         <trans-unit id="CloseOtherTabs" translate="yes" xml:space="preserve">
           <source>Close other tabs</source>
