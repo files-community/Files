@@ -484,7 +484,7 @@
         </trans-unit>
         <trans-unit id="FileNameTeachingTip.Subtitle" translate="yes" xml:space="preserve">
           <source>The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
-          <target state="translated">اسم الملف يجب ان يحتوي على: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
+          <target state="translated">اسم الملف لا يجب ان يحتوي على: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
         </trans-unit>
         <trans-unit id="FileNameTeachingTip.CloseButtonContent" translate="yes" xml:space="preserve">
           <source>OK</source>
