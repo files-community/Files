@@ -40,6 +40,7 @@
 
         <Grid
             x:Name="AppWindowTitleBarCaptionButtonsGrid"
+            x:Load="{x:Bind helpers:WindowDecorationsHelper.IsWindowDecorationsAllowed}"
             Grid.Row="0"
             Height="32"
             HorizontalAlignment="Right"

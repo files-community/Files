@@ -102,8 +102,6 @@ namespace Files.Views
                         _ => new SolidColorBrush((Color)Application.Current.Resources["SystemBaseHighColor"])
                     };
 
-                    AppWindowTitleBarCaptionButtonsGrid.Visibility = Visibility.Visible;
-
                     var micaIsSupported = ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "TryCreateBlurredWallpaperBackdropBrush");
                     if (micaIsSupported)
                     {
