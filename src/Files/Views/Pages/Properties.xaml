@@ -53,6 +53,7 @@
                 PointerEntered="CloseRect_PointerEntered"
                 PointerExited="CloseRect_PointerExited"
                 PointerPressed="CloseRect_PointerPressed"
+                AutomationProperties.Name="{helpers:ResourceString Name=Close}"
                 ToolTipService.ToolTip="{helpers:ResourceString Name=Close}" />
             <Viewbox
                 Width="10"
