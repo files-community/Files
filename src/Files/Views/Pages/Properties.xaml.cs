@@ -43,6 +43,8 @@ namespace Files.Views
         private Storyboard CrossHoverAnim;
         private Storyboard CrossUnHoverAnim;
 
+        private XamlCompositionBrushBase micaBrush;
+
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public AppWindow appWindow;
@@ -81,7 +83,7 @@ namespace Files.Views
 
         private async void Properties_Loaded(object sender, RoutedEventArgs e)
         {
-            Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
+            if (!WindowDecorationsHelper.IsWindowDecorationsAllowed) Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
 
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
@@ -101,6 +103,14 @@ namespace Files.Views
                     };
 
                     AppWindowTitleBarCaptionButtonsGrid.Visibility = Visibility.Visible;
+
+                    var micaIsSupported = ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "TryCreateBlurredWallpaperBackdropBrush");
+                    if (micaIsSupported)
+                    {
+                        micaBrush = new Brushes.MicaBrush(false);
+                        (micaBrush as Brushes.MicaBrush).SetAppWindow(appWindow);
+                        Background = micaBrush;
+                    }
 
                     var duration = new Duration(TimeSpan.FromMilliseconds(280));
 
