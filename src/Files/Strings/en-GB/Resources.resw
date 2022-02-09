@@ -159,20 +159,8 @@
   <data name="Downloads" xml:space="preserve">
     <value>Downloads</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Music</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Pictures</value>
-  </data>
   <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
     <value>Unpin from Favourites</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Videos</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sort by</value>

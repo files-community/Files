@@ -2,7 +2,7 @@
     x:Class="Files.Views.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
     xmlns:controls="using:Files.UserControls"
     xmlns:converters="using:Files.Converters"
@@ -205,6 +205,16 @@
                 </icore:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </KeyboardAccelerator>
+        <KeyboardAccelerator
+            Key="S" 
+            x:Name="ToggleSidebarVisibilityKeyboardAcceleretor"
+            Modifiers="Control,Menu">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ToggleSidebarCollapsedStateCommand}"/>
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
     </Page.KeyboardAccelerators>
 
     <controls:SidebarControl
@@ -345,21 +355,19 @@
             </Grid>
         </controls:SidebarControl.TabContent>
 
-        <Grid
-            x:Name="RootGrid"
-            PreviewKeyDown="RootGrid_PreviewKeyDown"
-            SizeChanged="RootGrid_SizeChanged">
+        <Grid x:Name="RootGrid" PreviewKeyDown="RootGrid_PreviewKeyDown" SizeChanged="RootGrid_SizeChanged">
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" MinHeight="100" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition x:Name="PreviewPaneRow" Height="Auto" />
+                <RowDefinition x:Name="PaneRow" Height="Auto" />
                 <RowDefinition Height="32" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*" MinWidth="100" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition x:Name="PreviewPaneColumn" Width="Auto" />
+                <ColumnDefinition x:Name="PaneColumn" Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <controls:InnerNavigationToolbar
@@ -369,7 +377,7 @@
                 IsCompactOverlay="{x:Bind IsCompactOverlay, Mode=OneWay}"
                 Loaded="NavToolbar_Loaded"
                 SetCompactOverlayCommand="{x:Bind SetCompactOverlayCommand}"
-                ShowPreviewPaneButton="{x:Bind IsPreviewPaneDisabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                ShowPreviewPaneButton="{x:Bind IsPreviewPaneEnabled, Mode=OneWay}"
                 TabIndex="2" />
 
             <ContentPresenter
@@ -379,24 +387,15 @@
                 HorizontalContentAlignment="Stretch"
                 Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
 
-            <controls:PreviewPane
-                x:Name="PreviewPane"
-                x:Uid="SelectedFilePreviewPane"
-                Grid.Row="1"
-                Grid.Column="2"
-                HorizontalContentAlignment="Stretch"
-                x:Load="{x:Bind LoadPreviewPane, Mode=OneWay}"
-                AutomationProperties.Name="Selected file preview pane"
-                Loading="PreviewPane_Loading" />
-
-            <Custom:GridSplitter
-                x:Name="PreviewPaneGridSplitter"
-                Grid.Row="1"
-                Grid.Column="1"
-                x:Load="{x:Bind LoadPreviewPane, Mode=OneWay}"
-                ManipulationCompleted="PreviewPaneGridSplitter_ManipulationCompleted"
+            <custom:GridSplitter x:Name="PaneSplitter" Grid.Row="1" Grid.Column="1"
+                x:Load="{x:Bind IsPaneEnabled, Mode=OneWay}"
+                ManipulationCompleted="PaneSplitter_ManipulationCompleted"
                 ResizeBehavior="BasedOnAlignment"
                 Style="{StaticResource DefaultGridSplitterStyle}" />
+
+            <controls:PaneControl x:Name="Pane" Grid.Row="1" Grid.Column="2"
+                x:Load="{x:Bind IsPaneEnabled, Mode=OneWay}"
+                HorizontalContentAlignment="Stretch" Visibility="{x:Bind IsPaneEnabled, Mode=OneWay}" />
 
             <controls:StatusBarControl
                 x:Name="StatusBarControl"

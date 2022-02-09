@@ -29,6 +29,7 @@ using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
@@ -48,6 +49,7 @@ namespace Files
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
         public static SettingsViewModel AppSettings { get; private set; }
         public static MainViewModel MainViewModel { get; private set; }
+        public static PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
         public static JumpListManager JumpList { get; private set; }
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
         public static TerminalController TerminalController { get; private set; }
@@ -101,7 +103,7 @@ namespace Files
                 .AddSingleton<IWidgetsSettingsService, WidgetsSettingsService>((sp) => new WidgetsSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 .AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 .AddSingleton<IPreferencesSettingsService, PreferencesSettingsService>((sp) => new PreferencesSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
-                .AddSingleton<IPreviewPaneSettingsService, PreviewPaneSettingsService>((sp) => new PreviewPaneSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IPaneSettingsService, PaneSettingsService>((sp) => new PaneSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 .AddSingleton<ILayoutSettingsService, LayoutSettingsService>((sp) => new LayoutSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 // Settings not related to IUserSettingsService:
                 .AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
@@ -130,6 +132,7 @@ namespace Files
 
             JumpList ??= new JumpListManager();
             MainViewModel ??= new MainViewModel();
+            PreviewPaneViewModel ??= new PreviewPaneViewModel();
             LibraryManager ??= new LibraryManager();
             DrivesManager ??= new DrivesManager();
             NetworkDrivesManager ??= new NetworkDrivesManager();
@@ -466,9 +469,7 @@ namespace Files
                     var eventArgsForNotification = args as ToastNotificationActivatedEventArgs;
                     if (eventArgsForNotification.Argument == "report")
                     {
-                        // Launch the URI and open log files location
-                        //SettingsViewModel.OpenLogLocation();
-                        SettingsViewModel.ReportIssueOnGitHub();
+                        await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.FeedbackUrl));
                     }
                     break;
 
@@ -531,6 +532,7 @@ namespace Files
             }
 
             DrivesManager?.Dispose();
+            PreviewPaneViewModel?.Dispose();
 
             // Try to maintain clipboard data after app close
             Common.Extensions.IgnoreExceptions(() =>

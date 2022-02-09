@@ -77,22 +77,48 @@ namespace Files.Filesystem.StorageItems
 
         public override IAsyncAction MoveAsync(IStorageFolder destinationFolder)
         {
-            return File.MoveAsync(destinationFolder);
+            return MoveAsync(destinationFolder, Name, NameCollisionOption.FailIfExists);
         }
 
         public override IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName)
         {
-            return File.MoveAsync(destinationFolder, desiredNewName);
+            return MoveAsync(destinationFolder, desiredNewName, NameCollisionOption.FailIfExists);
         }
 
         public override IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
         {
-            return File.MoveAsync(destinationFolder, desiredNewName, option);
+            return AsyncInfo.Run(async (cancellationToken) =>
+            {
+                var destFolder = destinationFolder.AsBaseStorageFolder(); // Avoid calling IStorageFolder method
+                if (destFolder is SystemStorageFolder sysFolder)
+                {
+                    // File created by CreateFileAsync will get immediately deleted on MTP?! (#7206)
+                    await File.MoveAsync(sysFolder.Folder, desiredNewName, option);
+                    return;
+                }
+                var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
+                using (var inStream = await this.OpenStreamForReadAsync())
+                using (var outStream = await destFile.OpenStreamForWriteAsync())
+                {
+                    await inStream.CopyToAsync(outStream);
+                    await outStream.FlushAsync();
+                }
+                // Move unsupported, copy but do not delete original
+            });
         }
 
         public override IAsyncAction MoveAndReplaceAsync(IStorageFile fileToReplace)
         {
-            return File.MoveAndReplaceAsync(fileToReplace);
+            return AsyncInfo.Run(async (cancellationToken) =>
+            {
+                using (var inStream = await this.OpenStreamForReadAsync())
+                using (var outStream = await fileToReplace.OpenStreamForWriteAsync())
+                {
+                    await inStream.CopyToAsync(outStream);
+                    await outStream.FlushAsync();
+                }
+                // Move unsupported, copy but do not delete original
+            });
         }
 
         public override string ContentType => File.ContentType;

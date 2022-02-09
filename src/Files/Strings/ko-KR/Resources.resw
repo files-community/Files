@@ -72,18 +72,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>다운로드</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>홈</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>음악</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>사진</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>동영상</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>정렬 기준</value>
   </data>
@@ -163,7 +151,7 @@
     <value>권한 부여</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>파일들을 표시 가능한 권한을 얻기 위한 설정 페이지가 열립니다. 이 단계를 완료하려면 앱을 재시작 하면 됩니다.</value>
+    <value>시작하기 위해서는 파일들을 표시 가능한 권한을 부여해야 합니다. 권한을 얻기 위한 설정 페이지가 열립니다. 이 단계를 완료하려면 앱을 재시작 하면 됩니다.</value>
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>파일 폴더</value>
@@ -2101,7 +2089,7 @@
     <value>파일과 함께 경로 나열 및 정렬</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>파일 및 폴더 검색 시 색인되지 않은 항목도 표시 (검색 시간이 길어질 수 있음)</value>
+    <value>파일 및 폴더 검색 시 색인되지 않은 항목도 표시</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
     <value>각 디렉토리마다 설정 따로 적용하기</value>
@@ -2228,7 +2216,7 @@
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
-App Center를 사용하여 사용 중인 설정을 추적하고, 버그를 찾고, 충돌을 수정합니다. App Center로 전송되는 정보는 익명이며 사용자 또는 컨텍스트 데이터가 없습니다.
+저희는 App Center를 사용하여 사용 중인 설정을 추적하고, 버그를 찾고, 충돌을 수정합니다. App Center로 전송되는 정보는 익명 처리되며 사용자와 직간접적으로 관련되어 있는 데이터는 일체 포함되지 않습니다.
   </value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
@@ -2529,7 +2517,7 @@ App Center를 사용하여 사용 중인 설정을 추적하고, 버그를 찾�
     <value>제 3자 라이선스</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>이 설정은 시스템 레지스트리를 수정하기 때문에 예기치 않은 부작용이 일어날 수 있습니다. 계속 진행할 경우 책임은 사용자에게 있습니다.</value>
+    <value>이 설정은 시스템 레지스트리를 수정하며 예기치 않은 부작용을 낳을 수 있습니다. 계속 진행할 경우 책임은 사용자에게 있습니다.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>모두 비우기</value>
@@ -2620,5 +2608,20 @@ App Center를 사용하여 사용 중인 설정을 추적하고, 버그를 찾�
   </data>
   <data name="OpenIn" xml:space="preserve">
     <value>~으로 열기</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>왼쪽으로 회전</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>오른쪽으로 회전</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>설치</value>
+  </data>
+  <data name="CloseTabsToTheLeft" xml:space="preserve">
+    <value>좌측 탭 닫기</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>우측 탭 닫기</value>
   </data>
 </root>

@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
@@ -17,6 +18,7 @@ using Windows.Storage;
 
 namespace FilesFullTrust
 {
+    [SupportedOSPlatform("Windows10.0.10240")]
     internal class Program
     {
         public static Logger Logger { get; private set; }

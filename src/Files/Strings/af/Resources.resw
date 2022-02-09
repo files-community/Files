@@ -159,20 +159,8 @@
   <data name="Downloads" xml:space="preserve">
     <value>Aflaaie</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Tuis</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Musiek</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Prente</value>
-  </data>
   <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
     <value>Onpen van gunstelinge</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Video's</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sorteer volgens</value>

@@ -386,6 +386,7 @@ namespace Files.ViewModels
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFileExtensions):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden):
+                case nameof(UserSettingsService.PreferencesSettingsService.ShowDotFiles):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled):
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFolderSize):
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
@@ -1230,7 +1231,7 @@ namespace Files.ViewModels
                     AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
                 }
 
-                if (UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled)
+                if (App.PreviewPaneViewModel.IsPaneSelected)
                 {
                     // Find and select README file
                     foreach (var item in filesAndFolders)
@@ -1725,8 +1726,6 @@ namespace Files.ViewModels
             return (CloudDriveSyncStatus)syncStatus;
         }
 
-        private StorageItemQueryResult itemQueryResult;
-
         private async void WatchForStorageFolderChanges(BaseStorageFolder rootFolder)
         {
             if (rootFolder == null)
@@ -1744,7 +1743,7 @@ namespace Files.ViewModels
                 options.SetThumbnailPrefetch(ThumbnailMode.ListView, 0, ThumbnailOptions.ReturnOnlyIfCached);
                 if (rootFolder.AreQueryOptionsSupported(options))
                 {
-                    itemQueryResult = rootFolder.CreateItemQueryWithOptions(options).ToStorageItemQueryResult();
+                    var itemQueryResult = rootFolder.CreateItemQueryWithOptions(options).ToStorageItemQueryResult();
                     itemQueryResult.ContentsChanged += ItemQueryResult_ContentsChanged;
                     var watchedItemsOperation = itemQueryResult.GetItemsAsync(0, 1); // Just get one item to start getting notifications
                     watcherCTS.Token.Register(() =>
@@ -2119,7 +2118,11 @@ namespace Files.ViewModels
 
             var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
             var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-            if (isHidden && (!UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible || (isSystem && UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden)))
+            var startWithDot = findData.cFileName.StartsWith(".");
+            if ((isHidden &&
+               (!UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible ||
+               (isSystem && UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) ||
+               (startWithDot && !UserSettingsService.PreferencesSettingsService.ShowDotFiles))
             {
                 // Do not add to file list if hidden/system attribute is set and system/hidden file are not to be shown
                 return null;

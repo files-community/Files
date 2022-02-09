@@ -42,17 +42,17 @@ namespace Files.Views
         private readonly StorageHistoryHelpers storageHistoryHelpers;
         public IBaseLayout SlimContentPage => ContentPage;
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
-        private CancellationTokenSource cancellationTokenSource;
+        private readonly CancellationTokenSource cancellationTokenSource;
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
         public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
         public MainViewModel MainViewModel => App.MainViewModel;
-        private bool isCurrentInstance { get; set; } = false;
 
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         private IUpdateSettingsService UpdateSettingsService { get; } = Ioc.Default.GetService<IUpdateSettingsService>();
 
+        private bool isCurrentInstance = false;
         public bool IsCurrentInstance
         {
             get
@@ -220,8 +220,7 @@ namespace Files.Views
 
         private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
         {
-            WidgetsPage currentPage = ItemDisplayFrame?.Content as WidgetsPage;
-            if (currentPage != null)
+            if (ItemDisplayFrame?.Content is WidgetsPage currentPage)
             {
                 currentPage.RefreshWidgetList();
             }
@@ -765,7 +764,7 @@ namespace Files.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.P):
-                    UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled = !UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled;
+                    App.PreviewPaneViewModel.IsPaneSelected = !App.PreviewPaneViewModel.IsPaneSelected;
                     break;
 
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh

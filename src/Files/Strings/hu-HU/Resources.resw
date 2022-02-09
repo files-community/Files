@@ -129,18 +129,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>Letöltések</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Kezdőlap</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Zene</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Képek</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Videók</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Rendezés</value>
   </data>
@@ -2535,7 +2523,7 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
     <value>Harmadik fél licencei</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Ez az opció rendszerfájlokat módosít és nem várt következményei is lehetnek az eszközödön. A fejlesztők nem vállalnak felelősséget az emiatt esetlegesen bekövetkező problémákért. Az opció engedélyezésével automatikusan elfogadod az ezzel járó kockázatot. Emellett szeretnénk felhívni a figyelmedet arra, hogy a Files eltávolításával a módosítások nem kerülnek visszaállításra és előfordulhat, hogy nem tudod újra használni a Windows Fájlkezelőt, kivéve ha a Files eltávolítása előtt le nem tiltod ezt az opciót.</value>
+    <value>Ez az opció beállításjegyzék értékeket módosít és nem várt következményei is lehetnek az eszközén. A fejlesztők nem vállalnak felelősséget az emiatt esetlegesen bekövetkező problémákért. Az opció engedélyezésével elfogadja az ezzel járó kockázatot.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Összes törlése</value>
@@ -2593,5 +2581,56 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bájt</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Kicsomagolás...</value>
+  </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>Fájlok kicsomagolása</value>
+  </data>
+  <data name="ExtractHere" xml:space="preserve">
+    <value>Kicsomagolás ide</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="ExtractToChildFolder" xml:space="preserve">
+    <value>Kicsomagolás ide: {0}</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Szkript futtatása</value>
+  </data>
+  <data name="RunWithPowerShell" xml:space="preserve">
+    <value>Futtatás PowerShell használatával</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Beállítás asztali háttérképként</value>
+  </data>
+  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
+    <value>Ha eltávolítaná a Files alkalmazást, előtte kapcsolja ki ezt a opciót. Ennek elmaradása megakadáylozza a Windows Fájlkezelő megnyitásában.</value>
+  </data>
+  <data name="ShowFolderSizesWarning" xml:space="preserve">
+    <value>A mappa méretek meghatározása erőforrás-igényes és a processzorhasználat növekedésével járhat.</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Megnyitás a következővel:</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Elforgatás balra</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Elforgatás jobbra</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Telepítés</value>
+  </data>
+  <data name="CloseTabsToTheLeft" xml:space="preserve">
+    <value>Lapok bezárása balra</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Lapok bezárása jobbra</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Többi lap bezárása</value>
   </data>
 </root>

@@ -69,18 +69,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>Downloads</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Musik</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Bilder</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Videos</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sortieren nach</value>
   </data>
@@ -2372,7 +2360,7 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Ordnerpfad</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Einstellungn exportieren</value>
+    <value>Einstellungen exportieren</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
     <value>Einstellungen importieren</value>

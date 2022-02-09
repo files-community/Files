@@ -15,9 +15,11 @@ using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -61,6 +63,8 @@ namespace Files
 
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
 
+        public PreviewPaneViewModel PreviewPaneViewModel => App.PreviewPaneViewModel;
+
         public MainViewModel MainViewModel => App.MainViewModel;
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
@@ -73,8 +77,6 @@ namespace Files
         public BaseLayoutCommandsViewModel CommandsViewModel { get; protected set; }
 
         public IShellPage ParentShellPageInstance { get; private set; } = null;
-
-        public PreviewPaneViewModel PreviewPaneViewModel { get; } = new PreviewPaneViewModel();
 
         public bool IsRenamingItem { get; set; } = false;
         public ListedItem RenamingItem { get; set; } = null;
@@ -232,9 +234,13 @@ namespace Files
                         }
 
                         // check if the preview pane is open before updating the model
-                        if (((Window.Current.Content as Frame)?.Content as MainPage)?.LoadPreviewPane ?? false)
+                        if (PreviewPaneViewModel.IsPaneSelected)
                         {
-                            PreviewPaneViewModel.UpdateSelectedItemPreview();
+                            bool isPaneEnabled = ((Window.Current.Content as Frame)?.Content as MainPage)?.IsPaneEnabled ?? false;
+                            if (isPaneEnabled)
+                            {
+                                PreviewPaneViewModel.UpdateSelectedItemPreview();
+                            }
                         }
                     }
 
@@ -838,62 +844,86 @@ namespace Files
 
         protected async void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
-            List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
-            var result = (FilesystemResult)false;
+            ConcurrentBag<IStorageItem> selectedStorageItems = new ConcurrentBag<IStorageItem>();
 
             e.Items.OfType<ListedItem>().ForEach(item => SelectedItems.Add(item));
 
-            foreach (var item in e.Items.OfType<ListedItem>())
+            var itemsCount = e.Items.Count;
+            PostedStatusBanner banner = itemsCount > 50 ? App.OngoingTasksViewModel.PostOperationBanner(
+                string.Empty,
+                string.Format("StatusPreparingItemsDetails_Plural".GetLocalized(), itemsCount),
+                0,
+                ReturnResult.InProgress,
+                FileOperationType.Prepare, new CancellationTokenSource()) : null;
+
+            try
             {
-                if (item is FtpItem ftpItem)
+                await e.Items.OfType<ListedItem>().ParallelForEach(async item =>
                 {
-                    if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                    if (banner != null)
                     {
-                        selectedStorageItems.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
+                        ((IProgress<float>)banner.Progress).Report(selectedStorageItems.Count / (float)itemsCount * 100);
+                    }
+
+                    if (item is FtpItem ftpItem)
+                    {
+                        if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                        {
+                            selectedStorageItems.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
+                        }
+                        else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                        {
+                            selectedStorageItems.Add(new FtpStorageFolder(ftpItem));
+                        }
+                    }
+                    else if (item.PrimaryItemAttribute == StorageItemTypes.File || item is ZipItem)
+                    {
+                        var result = await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
+                            .OnSuccess(t => selectedStorageItems.Add(t));
+                        if (!result)
+                        {
+                            throw new IOException($"Failed to process {item.ItemPath}.", (int)result.ErrorCode);
+                        }
                     }
                     else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
-                        selectedStorageItems.Add(new FtpStorageFolder(ftpItem));
+                        var result = await ParentShellPageInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
+                            .OnSuccess(t => selectedStorageItems.Add(t));
+                        if (!result)
+                        {
+                            throw new IOException($"Failed to process {item.ItemPath}.", (int)result.ErrorCode);
+                        }
                     }
-                }
-                else if (item.PrimaryItemAttribute == StorageItemTypes.File || item is ZipItem)
-                {
-                    result = await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
-                        .OnSuccess(t => selectedStorageItems.Add(t));
-                    if (!result)
-                    {
-                        break;
-                    }
-                }
-                else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                {
-                    result = await ParentShellPageInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
-                        .OnSuccess(t => selectedStorageItems.Add(t));
-                    if (!result)
-                    {
-                        break;
-                    }
-                }
+                }, 10, banner?.CancellationToken ?? default);
             }
-
-            if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
+            catch (Exception ex)
             {
-                var itemList = e.Items.OfType<ListedItem>().Select(x => StorageHelpers.FromPathAndType(
-                    x.ItemPath, x.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-                e.Data.Properties["FileDrop"] = itemList.ToList();
+                if (ex.HResult == (int)FileSystemStatusCode.Unauthorized)
+                {
+                    var itemList = e.Items.OfType<ListedItem>().Select(x => StorageHelpers.FromPathAndType(
+                        x.ItemPath, x.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+                    e.Data.Properties["FileDrop"] = itemList.ToList();
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+                banner?.Remove();
                 return;
             }
+
+            banner?.Remove();
 
             var onlyStandard = selectedStorageItems.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);
             if (onlyStandard)
             {
-                selectedStorageItems = await selectedStorageItems.ToStandardStorageItemsAsync();
+                selectedStorageItems = new ConcurrentBag<IStorageItem>(await selectedStorageItems.ToStandardStorageItemsAsync());
             }
             if (selectedStorageItems.Count == 1)
             {
-                if (selectedStorageItems[0] is IStorageFile file)
+                if (selectedStorageItems.Single() is IStorageFile file)
                 {
-                    var itemExtension = System.IO.Path.GetExtension(file.Name);
+                    var itemExtension = Path.GetExtension(file.Name);
                     if (ImagePreviewViewModel.Extensions.Any((ext) => ext.Equals(itemExtension, StringComparison.OrdinalIgnoreCase)))
                     {
                         var streamRef = Windows.Storage.Streams.RandomAccessStreamReference.CreateFromFile(file);
