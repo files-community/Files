@@ -7,6 +7,12 @@
         <ResourceDictionary x:Key="Default">
             <!--  Acrylic Resources  -->
             <AcrylicBrush
+                x:Key="RootBackgroundBrush"
+                BackgroundSource="HostBackdrop"
+                FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
+                TintColor="{ThemeResource SolidBackgroundFillColorBase}"
+                TintOpacity="0.75" />
+            <AcrylicBrush
                 x:Key="SolidBackgroundFillColorBaseBrush"
                 BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
@@ -60,6 +66,12 @@
 
         <ResourceDictionary x:Key="Light">
             <!--  Acrylic Resources  -->
+            <AcrylicBrush
+                x:Key="RootBackgroundBrush"
+                BackgroundSource="HostBackdrop"
+                FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
+                TintColor="{ThemeResource SolidBackgroundFillColorBase}"
+                TintOpacity="0.75" />
             <AcrylicBrush
                 x:Key="SolidBackgroundFillColorBaseBrush"
                 BackgroundSource="HostBackdrop"

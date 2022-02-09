@@ -1,4 +1,4 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Windows.Input;
@@ -72,6 +72,7 @@ namespace Files.Interacts
             DecompressArchiveCommand = new RelayCommand(CommandsModel.DecompressArchive);
             DecompressArchiveHereCommand = new RelayCommand(CommandsModel.DecompressArchiveHere);
             DecompressArchiveToChildFolderCommand = new RelayCommand(CommandsModel.DecompressArchiveToChildFolder);
+            InstallInfDriver = new AsyncRelayCommand(CommandsModel.InstallInfDriver);
             RotateImageLeftCommand = new RelayCommand(CommandsModel.RotateImageLeft);
             RotateImageRightCommand = new RelayCommand(CommandsModel.RotateImageRight);
             InstallFontCommand = new RelayCommand(CommandsModel.InstallFont);
@@ -170,6 +171,8 @@ namespace Files.Interacts
         public ICommand DecompressArchiveHereCommand { get; private set; }
 
         public ICommand DecompressArchiveToChildFolderCommand { get; private set; }
+
+        public ICommand InstallInfDriver { get; set; }
 
         public ICommand RotateImageLeftCommand { get; private set; }
 

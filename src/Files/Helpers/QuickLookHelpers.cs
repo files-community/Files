@@ -13,7 +13,7 @@ namespace Files.Helpers
                 return;
             }
 
-            await Common.Extensions.IgnoreExceptions(async () =>
+            await Shared.Extensions.IgnoreExceptions(async () =>
             {
                 Debug.WriteLine("Toggle QuickLook");
                 var connection = await AppServiceConnectionHelper.Instance;

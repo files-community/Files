@@ -6,14 +6,6 @@ using Windows.Storage;
 
 namespace Files.Filesystem
 {
-    public static class FilesystemErrorCodeExtensions
-    {
-        public static bool HasFlag(this FileSystemStatusCode errorCode, FileSystemStatusCode flag)
-        {
-            return (errorCode & flag) != FileSystemStatusCode.Success;
-        }
-    }
-
     public class FilesystemResult<T> : FilesystemResult
     {
         public FilesystemResult(T result, FileSystemStatusCode errorCode) : base(errorCode)
@@ -118,14 +110,14 @@ namespace Files.Filesystem
             }
         }
 
-        public async static Task<FilesystemResult<V>> OnSuccess<V, T>(this Task<FilesystemResult<T>> wrapped, Func<T, Task<V>> func)
+        public async static Task<FilesystemResult<T>> OnSuccess<T>(this Task<FilesystemResult<T>> wrapped, Func<T, Task<T>> func)
         {
             var res = await wrapped;
             if (res)
             {
                 return await Wrap(() => func(res.Result));
             }
-            return new FilesystemResult<V>(default, res.ErrorCode);
+            return new FilesystemResult<T>(default, res.ErrorCode);
         }
 
         public async static Task<FilesystemResult> OnSuccess<T>(this Task<FilesystemResult<T>> wrapped, Func<T, Task> func)

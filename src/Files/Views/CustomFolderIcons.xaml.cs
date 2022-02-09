@@ -1,4 +1,4 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
@@ -10,6 +10,7 @@ using System.Windows.Input;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -111,6 +112,8 @@ namespace Files.Views
 
         private async Task RestoreDefaultIcon()
         {
+            RestoreDefaultButton.IsEnabled = false;
+
             var setIconTask = IsShortcutItem ?
                 SetCustomFileIcon(selectedItemPath, null) :
                 SetCustomFolderIcon(selectedItemPath, null);
@@ -118,7 +121,10 @@ namespace Files.Views
             {
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                 {
-                    appInstance?.FilesystemViewModel?.RefreshItems(null);
+                    appInstance?.FilesystemViewModel?.RefreshItems(null, async () =>
+                    {
+                        await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => RestoreDefaultButton.IsEnabled = true);
+                    });
                 });
             }
         }

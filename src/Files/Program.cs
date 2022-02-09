@@ -1,5 +1,5 @@
 ﻿using Files.CommandLine;
-using Files.Common;
+using Files.Shared;
 using Files.Helpers;
 using System;
 using System.Linq;

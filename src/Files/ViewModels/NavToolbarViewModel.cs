@@ -1,4 +1,4 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
@@ -14,7 +14,6 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -331,6 +330,7 @@ namespace Files.ViewModels
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
             SearchBox.Escaped += SearchRegion_Escaped;
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+            App.TerminalController.ModelChanged += OnTerminalsChanged;
         }
 
         private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
@@ -406,7 +406,7 @@ namespace Files.ViewModels
 
         public void PathBoxItem_DragLeave(object sender, DragEventArgs e)
         {
-            if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
+            if (!((sender as StackPanel).DataContext is PathBoxItem pathBoxItem) ||
                 pathBoxItem.Path == "Home".GetLocalized())
             {
                 return;
@@ -431,7 +431,7 @@ namespace Files.ViewModels
 
             dragOverPath = null; // Reset dragged over pathbox item
 
-            if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
+            if (!((sender as StackPanel).DataContext is PathBoxItem pathBoxItem) ||
                 pathBoxItem.Path == "Home".GetLocalized())
             {
                 return;
@@ -456,7 +456,7 @@ namespace Files.ViewModels
 
         public async void PathBoxItem_DragOver(object sender, DragEventArgs e)
         {
-            if (IsSingleItemOverride || !((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
+            if (IsSingleItemOverride || !((sender as StackPanel).DataContext is PathBoxItem pathBoxItem) ||
                 pathBoxItem.Path == "Home".GetLocalized())
             {
                 return;
@@ -639,7 +639,7 @@ namespace Files.ViewModels
 
         public async void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            var itemTappedPath = ((sender as Border).DataContext as PathBoxItem).Path;
+            var itemTappedPath = ((sender as TextBlock).DataContext as PathBoxItem).Path;
 
             if (pointerRoutedEventArgs != null)
             {
@@ -807,6 +807,8 @@ namespace Files.ViewModels
         public ICommand RunWithPowerShellCommand { get; set; }
 
         public ICommand SetAsBackgroundCommand { get; set; }
+
+        public ICommand InstallInfCommand { get; set; }
 
         public ICommand RotateImageLeftCommand { get; set; }
 
@@ -990,7 +992,7 @@ namespace Files.ViewModels
 
         private static async Task<bool> LaunchApplicationFromPath(string currentInput, string workingDir)
         {
-            var trimmedInput= currentInput.Trim();
+            var trimmedInput = currentInput.Trim();
             var fileName = trimmedInput;
             var arguments = "";
             if (trimmedInput.Contains(' '))
@@ -1132,6 +1134,7 @@ namespace Files.ViewModels
                     OnPropertyChanged(nameof(CanViewProperties));
                     OnPropertyChanged(nameof(CanExtract));
                     OnPropertyChanged(nameof(ExtractToText));
+                    OnPropertyChanged(nameof(IsInfFile));
                     OnPropertyChanged(nameof(IsPowerShellScript));
                     OnPropertyChanged(nameof(IsImage));
                     OnPropertyChanged(nameof(IsFont));
@@ -1140,23 +1143,32 @@ namespace Files.ViewModels
             }
         }
 
-        public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont;
+        public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
 
-        public bool CanCopy            => SelectedItems is not null && SelectedItems.Any();
-        public bool CanShare           => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcutItem && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem));
-        public bool CanRename          => SelectedItems is not null && SelectedItems.Count == 1;
-        public bool CanViewProperties  => SelectedItems is not null && SelectedItems.Any();
+        public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
+        public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcutItem && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem));
+        public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
+        public bool CanViewProperties => SelectedItems is not null && SelectedItems.Any();
         public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
-        public bool CanExtract         => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsZipFile(SelectedItems.First().FileExtension);
-        public string ExtractToText    => SelectedItems is not null && SelectedItems.Count == 1 ? string.Format("ExtractToChildFolder".GetLocalized() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalized();
+        public bool CanExtract => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsZipFile(SelectedItems.First().FileExtension);
+        public string ExtractToText => SelectedItems is not null && SelectedItems.Count == 1 ? string.Format("ExtractToChildFolder".GetLocalized() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalized();
         public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension);
-        public bool IsImage            => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsImageFile(SelectedItems.First().FileExtension);
-        public bool IsFont             => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension));
+        public bool IsImage => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsImageFile(SelectedItems.First().FileExtension);
+        public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension);
+        public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension));
+
+        public string OpenInTerminal => $"{"OpenIn".GetLocalized()} {App.TerminalController.Model.GetDefaultTerminal()?.Name}";
+
+        private void OnTerminalsChanged(object _)
+        {
+            OnPropertyChanged(nameof(OpenInTerminal));
+        }
 
         public void Dispose()
         {
             SearchBox.Escaped -= SearchRegion_Escaped;
             UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+            App.TerminalController.ModelChanged -= OnTerminalsChanged;
 
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;

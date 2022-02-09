@@ -1,4 +1,4 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.IO;

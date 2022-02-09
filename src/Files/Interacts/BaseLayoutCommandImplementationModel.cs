@@ -1,4 +1,4 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
@@ -783,6 +783,25 @@ namespace Files.Interacts
                         0,
                         ReturnResult.Success,
                         FileOperationType.Extract);
+                }
+            }
+        }
+
+        public async Task InstallInfDriver()
+        {
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
+                {
+                    var value = new ValueSet
+                    {
+                        { "Arguments", "InstallOperation" },
+                        { "installop", "InstallInf" },
+                        { "filepath", selectedItem.ItemPath },
+                        { "extension", selectedItem.FileExtension },
+                    };
+                    await connection.SendMessageAsync(value);
                 }
             }
         }

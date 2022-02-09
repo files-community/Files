@@ -1,15 +1,12 @@
-using Files.Common;
+using Files.Shared;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
-using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
-using Windows.Foundation.Metadata;
-using Windows.System;
 
 namespace Files.Views
 {

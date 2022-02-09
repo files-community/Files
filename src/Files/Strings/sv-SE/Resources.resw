@@ -1287,9 +1287,6 @@
   <data name="StatusCopyComplete" xml:space="preserve">
     <value>Kopiering slutförd</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Stäng flikar till höger</value>
-  </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Administratör</value>
   </data>

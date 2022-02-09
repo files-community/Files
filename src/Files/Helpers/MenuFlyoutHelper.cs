@@ -60,7 +60,7 @@ namespace Files.Helpers
         #endregion ItemsSource
 
         #region IsVisible
-        
+
         public static bool GetIsVisible(DependencyObject d) => (bool)d.GetValue(IsVisibleProperty);
 
         public static void SetIsVisible(DependencyObject d, bool value) => d.SetValue(IsVisibleProperty, value);
@@ -75,7 +75,7 @@ namespace Files.Helpers
             }
 
             var boolValue = (bool)e.NewValue;
- 
+
             // hide the MenuFlyout if it's bool is false.
             if (!boolValue)
                 flyout.Hide();

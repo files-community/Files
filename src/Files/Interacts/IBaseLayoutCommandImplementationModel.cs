@@ -1,4 +1,4 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
@@ -97,6 +97,8 @@ namespace Files.Interacts
         void DecompressArchiveHere();
 
         void DecompressArchiveToChildFolder();
+
+        Task InstallInfDriver();
 
         void RotateImageLeft();
 
