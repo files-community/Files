@@ -10,13 +10,12 @@
     d:DesignHeight="700"
     d:DesignWidth="400"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="False"
-    Background="{ThemeResource PropertiesDialogRootBackgroundBrush}"
     KeyDown="Page_KeyDown"
     Loaded="Properties_Loaded"
     Loading="Page_Loading"
     Unloaded="Properties_Unloaded"
     mc:Ignorable="d">
-    <Grid>
+    <Grid Background="{ThemeResource RootBackgroundBrush}">
         <Grid.Resources>
             <ResourceDictionary>
                 <Thickness x:Key="NavigationViewTopPaneHeight">40</Thickness>
@@ -45,9 +44,26 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Background="Transparent">
-            <Rectangle x:Name="CloseRect" Fill="Transparent" VerticalAlignment="Stretch" Width="46" PointerPressed="CloseRect_PointerPressed" PointerEntered="CloseRect_PointerEntered" PointerExited="CloseRect_PointerExited" ToolTipService.ToolTip="{helpers:ResourceString Name=Close}"/>
-            <Viewbox Height="10" Width="10" IsHitTestVisible="False">
-                <PathIcon x:Name="crossIcon" Data="F1 M 11.416016 10 L 20 18.583984 L 18.583984 20 L 10 11.416016 L 1.416016 20 L 0 18.583984 L 8.583984 10 L 0 1.416016 L 1.416016 0 L 10 8.583984 L 18.583984 0 L 20 1.416016 Z " IsHitTestVisible="False" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Rectangle
+                x:Name="CloseRect"
+                Width="46"
+                VerticalAlignment="Stretch"
+                Fill="Transparent"
+                PointerEntered="CloseRect_PointerEntered"
+                PointerExited="CloseRect_PointerExited"
+                PointerPressed="CloseRect_PointerPressed"
+                ToolTipService.ToolTip="{helpers:ResourceString Name=Close}" />
+            <Viewbox
+                Width="10"
+                Height="10"
+                IsHitTestVisible="False">
+                <PathIcon
+                    x:Name="crossIcon"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Data="F1 M 11.416016 10 L 20 18.583984 L 18.583984 20 L 10 11.416016 L 1.416016 20 L 0 18.583984 L 8.583984 10 L 0 1.416016 L 1.416016 0 L 10 8.583984 L 18.583984 0 L 20 1.416016 Z "
+                    Foreground="Black"
+                    IsHitTestVisible="False" />
             </Viewbox>
         </Grid>
 
