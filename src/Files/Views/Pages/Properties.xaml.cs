@@ -109,7 +109,7 @@ namespace Files.Views
                     {
                         micaBrush = new Brushes.MicaBrush(false);
                         (micaBrush as Brushes.MicaBrush).SetAppWindow(appWindow);
-                        Background = micaBrush;
+                        Frame.Background = micaBrush;
                     }
 
                     var duration = new Duration(TimeSpan.FromMilliseconds(280));
