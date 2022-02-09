@@ -42,17 +42,17 @@ namespace Files.Views
         private readonly StorageHistoryHelpers storageHistoryHelpers;
         public IBaseLayout SlimContentPage => ContentPage;
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
-        private CancellationTokenSource cancellationTokenSource;
+        private readonly CancellationTokenSource cancellationTokenSource;
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
         public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
         public MainViewModel MainViewModel => App.MainViewModel;
-        private bool isCurrentInstance { get; set; } = false;
 
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         private IUpdateSettingsService UpdateSettingsService { get; } = Ioc.Default.GetService<IUpdateSettingsService>();
 
+        private bool isCurrentInstance = false;
         public bool IsCurrentInstance
         {
             get
@@ -220,8 +220,7 @@ namespace Files.Views
 
         private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
         {
-            WidgetsPage currentPage = ItemDisplayFrame?.Content as WidgetsPage;
-            if (currentPage != null)
+            if (ItemDisplayFrame?.Content is WidgetsPage currentPage)
             {
                 currentPage.RefreshWidgetList();
             }
@@ -765,7 +764,7 @@ namespace Files.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.P):
-                    UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled = !UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled;
+                    App.PreviewPaneViewModel.IsPaneSelected = !App.PreviewPaneViewModel.IsPaneSelected;
                     break;
 
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
@@ -792,27 +791,27 @@ namespace Files.Views
                     break;
 
                 case (true, true, false, _, VirtualKey.Number1): // ctrl+shift+1, details view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number2): // ctrl+shift+2, tiles view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeTiles.Execute(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeTiles(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number3): // ctrl+shift+3, grid small view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall.Execute(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number4): // ctrl+shift+4, grid medium view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium.Execute(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number5): // ctrl+shift+5, grid large view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge.Execute(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number6): // ctrl+shift+6, column view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView.Execute(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView(true);
                     break;
             }
 

@@ -52,5 +52,10 @@ namespace Files.Enums
         /// A link to an item has been created
         /// </summary>
         CreateLink = 9,
+
+        /// <summary>
+        /// An item is being preparend for copy/move/drag
+        /// </summary>
+        Prepare = 10,
     }
 }

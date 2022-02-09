@@ -356,10 +356,10 @@ namespace Files.Views.LayoutModes
                 TextBlock textBlock = (popup.Parent as Grid).Children[1] as TextBlock;
                 popup.IsOpen = false;
             }
-            else
+            else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
             {
-                StackPanel parentPanel = textBox.Parent as StackPanel;
-                TextBlock textBlock = parentPanel.Children[0] as TextBlock;
+                Grid grid = textBox.Parent as Grid;
+                TextBlock textBlock = grid.Children[0] as TextBlock;
                 textBox.Visibility = Visibility.Collapsed;
                 textBlock.Visibility = Visibility.Visible;
             }

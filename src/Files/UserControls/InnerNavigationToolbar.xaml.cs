@@ -28,6 +28,7 @@ namespace Files.UserControls
             Ioc.Default.GetService<IUserSettingsService>();
 
         public MainViewModel MainViewModel => App.MainViewModel;
+        public PreviewPaneViewModel PreviewPaneViewModel => App.PreviewPaneViewModel;
 
         public NavToolbarViewModel ViewModel
         {
@@ -192,16 +193,16 @@ namespace Files.UserControls
         }
 
         private void NavToolbarDetailsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-    => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(true);
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView(true);
         private void NavToolbarTilesHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles.Execute(true);
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles(true);
         private void NavToolbarSmallIconsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall.Execute(true);
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall(true);
         private void NavToolbarMediumIconsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium.Execute(true);
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium(true);
         private void NavToolbarLargeIconsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge.Execute(true);
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge(true);
         private void NavToolbarColumnsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView.Execute(true);
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView(true);
     }
 }

@@ -72,18 +72,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>下載</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>首頁</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>音樂</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>圖片</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>影片</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>排序</value>
   </data>
@@ -2621,9 +2609,24 @@ Files 不會收集、儲存、共享或發佈任何使用者的個人資料。
     <value>停用此選項前請勿移除Files，否則你將無法開啟檔案總管。</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>計算資料夾大小消耗較多資源，可能會導致你的中央處理器使用率上升。</value>
+    <value>計算資料夾大小消耗較多資源，可能會導致CPU使用率上升。</value>
   </data>
   <data name="OpenIn" xml:space="preserve">
     <value>開啟於</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>向左旋轉</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>向右旋轉</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>安裝</value>
+  </data>
+  <data name="CloseTabsToTheLeft" xml:space="preserve">
+    <value>關閉左邊的索引標籤</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>關閉右邊的索引標籤</value>
   </data>
 </root>
