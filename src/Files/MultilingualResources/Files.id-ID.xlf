@@ -3531,8 +3531,8 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
           <source>Preparing items</source>
           <target state="translated">Mempersiapkan Item</target>
         </trans-unit>
-        <trans-unit id="Off" translate="yes" xml:space="preserve">
-          <source>Preparing items</source>
+        <trans-unit id="SliderButtonSwitch" translate="yes" xml:space="preserve">
+          <source>Off</source>
           <target state="translated">Nonaktif</target>
         </trans-unit>
       </group>
