@@ -185,33 +185,22 @@ namespace Files.Views
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated += AppSettings_SortDirectionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
 
+            PreviewKeyDown += ColumnShellPage_PreviewKeyDown;
             Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested += ColumnShellPage_BackRequested;
 
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
-
-            Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
         }
-        private async void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
+
+        private async void ColumnShellPage_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            args.Handled = true;
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) || CurrentPageType == typeof(GridViewBrowser);
 
-            if (ContentPage == null)
+            if (tabInstance && e.Key == (VirtualKey)192 && ctrlPressed) // VirtualKey for ` (accent key)
             {
-                return;
-            }
-
-            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
-                              CurrentPageType == typeof(GridViewBrowser);
-
-            var modifierKey = Window.Current.CoreWindow.GetKeyState(VirtualKey.LeftControl);
-
-            if (modifierKey.HasFlag(CoreVirtualKeyStates.Down) || tabInstance)
-            {
-                if (args.VirtualKey == ContentPage.AccentKey)
-                {
-                    await NavigationHelpers.OpenDirectoryInTerminal(FilesystemViewModel.WorkingDirectory);
-                }
+                e.Handled = true;
+                await NavigationHelpers.OpenDirectoryInTerminal(FilesystemViewModel.WorkingDirectory);
             }
         }
 
@@ -868,7 +857,7 @@ namespace Files.Views
 
         public void Dispose()
         {
-            Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
+            PreviewKeyDown -= ColumnShellPage_PreviewKeyDown;
             Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested -= ColumnShellPage_BackRequested;
             App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;

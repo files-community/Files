@@ -1047,8 +1047,6 @@ namespace Files
 
         public readonly VirtualKey MinusKey = (VirtualKey)189;
 
-        public readonly VirtualKey AccentKey = (VirtualKey)192;
-
         public virtual void Dispose()
         {
             PreviewPaneViewModel?.Dispose();
