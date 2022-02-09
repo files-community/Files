@@ -39,15 +39,7 @@ namespace Files.ViewModels
 
             SetLayoutInformation();
         }
-
-        public FolderSettingsViewModel(FolderLayoutModes modeOverride)
-        {
-            rootLayoutMode = modeOverride;
-
-            this.LayoutPreference = new LayoutPreferences();
-
-            SetLayoutInformation();
-        }
+        public FolderSettingsViewModel(FolderLayoutModes modeOverride) : this() => rootLayoutMode = modeOverride;
 
         private readonly FolderLayoutModes? rootLayoutMode;
 
