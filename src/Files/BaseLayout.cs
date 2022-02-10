@@ -64,6 +64,8 @@ namespace Files
 
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
 
+        public PreviewPaneViewModel PreviewPaneViewModel => App.PreviewPaneViewModel;
+
         public MainViewModel MainViewModel => App.MainViewModel;
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
@@ -76,8 +78,6 @@ namespace Files
         public BaseLayoutCommandsViewModel CommandsViewModel { get; protected set; }
 
         public IShellPage ParentShellPageInstance { get; private set; } = null;
-
-        public PreviewPaneViewModel PreviewPaneViewModel { get; } = new PreviewPaneViewModel();
 
         public bool IsRenamingItem { get; set; } = false;
         public ListedItem RenamingItem { get; set; } = null;
@@ -235,9 +235,13 @@ namespace Files
                         }
 
                         // check if the preview pane is open before updating the model
-                        if (((Window.Current.Content as Frame)?.Content as MainPage)?.LoadPreviewPane ?? false)
+                        if (PreviewPaneViewModel.IsPaneSelected)
                         {
-                            PreviewPaneViewModel.UpdateSelectedItemPreview();
+                            bool isPaneEnabled = ((Window.Current.Content as Frame)?.Content as MainPage)?.IsPaneEnabled ?? false;
+                            if (isPaneEnabled)
+                            {
+                                PreviewPaneViewModel.UpdateSelectedItemPreview();
+                            }
                         }
                     }
 
