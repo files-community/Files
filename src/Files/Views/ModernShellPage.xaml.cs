@@ -196,8 +196,20 @@ namespace Files.Views
 
             if (tabInstance && e.Key == (VirtualKey)192 && ctrlPressed) // VirtualKey for ` (accent key)
             {
+                string path;
+                // Check if there is a folder selected, if not use the current directory.
+                if (SlimContentPage?.SelectedItem is not null &&
+                    SlimContentPage?.SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    path = SlimContentPage.SelectedItem.ItemPath;
+                }
+                else
+                {
+                    path = FilesystemViewModel.WorkingDirectory;
+                }
+
+                await NavigationHelpers.OpenDirectoryInTerminal(path);
                 e.Handled = true;
-                await NavigationHelpers.OpenDirectoryInTerminal(FilesystemViewModel.WorkingDirectory);
             }
         }
 

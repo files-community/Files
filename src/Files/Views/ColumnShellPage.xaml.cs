@@ -33,7 +33,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-
+using Files.Interacts;
 using SortDirection = Files.Enums.SortDirection;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -201,8 +201,20 @@ namespace Files.Views
 
             if (tabInstance && e.Key == (VirtualKey)192 && ctrlPressed) // VirtualKey for ` (accent key)
             {
+                string path;
+                // Check if there is a folder selected, if not use the current directory.
+                if (SlimContentPage?.SelectedItem is not null &&
+                    SlimContentPage?.SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    path = SlimContentPage.SelectedItem.ItemPath;
+                }
+                else
+                {
+                    path = FilesystemViewModel.WorkingDirectory;
+                }
+
+                await NavigationHelpers.OpenDirectoryInTerminal(path);
                 e.Handled = true;
-                await NavigationHelpers.OpenDirectoryInTerminal(FilesystemViewModel.WorkingDirectory);
             }
         }
 
