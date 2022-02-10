@@ -62,7 +62,7 @@
             ItemsSource="{x:Bind local:DrivesWidget.ItemsAdded}">
             <muxc:ItemsRepeater.Layout>
                 <muxc:UniformGridLayout
-                    ItemsStretch="Fill"
+                    ItemsStretch="None"
                     MinColumnSpacing="8"
                     MinItemHeight="88"
                     MinItemWidth="280"
