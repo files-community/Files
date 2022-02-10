@@ -15,13 +15,6 @@ namespace Files.UserControls.MultitaskingControl
 {
     public abstract class BaseMultitaskingControl : UserControl, IMultitaskingControl, INotifyPropertyChanged
     {
-        public MultitaskingControlViewModel ViewModel
-        {
-            get => (MultitaskingControlViewModel)DataContext;
-            set => DataContext = value;
-        }
-
-
         private static bool isRestoringClosedTab = false; // Avoid reopening two tabs
 
         protected ITabItemContent CurrentSelectedAppInstance;

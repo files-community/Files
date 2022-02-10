@@ -36,7 +36,7 @@ namespace Files.Backend.ViewModels.Shell.Multitasking
         {
             this.Tabs = new();
 
-            AddTabCommand = new RelayCommand(AddTab);
+            AddTabCommand = new RelayCommand(() => AddTab());
         }
 
         public void CloseTab(TabItemViewModel tabItemViewModel)
@@ -54,20 +54,23 @@ namespace Files.Backend.ViewModels.Shell.Multitasking
             }
         }
 
-        public TabItemViewModel AddTab(FuturisticShellPageViewModel futuristicShellPageViewModel, int index = -1)
+        public TabItemViewModel AddTab()
+        {
+            return AddTab(-1);
+        }
+
+        public TabItemViewModel AddTab(int index)
         {
             index = index == -1 ? Tabs.Count : index;
+
+            var futuristicShellPageViewModel = new FuturisticShellPageViewModel();
+
             var tabItemViewModel = new TabItemViewModel(futuristicShellPageViewModel);
 
             Tabs.Insert(index, tabItemViewModel);
             WeakReferenceMessenger.Default.Send(new TabAddRequestedMessage(tabItemViewModel));
 
             return tabItemViewModel;
-        }
-
-        private void AddTab()
-        {
-            _ = AddTab(new());
         }
     }
 }

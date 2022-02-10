@@ -1,4 +1,4 @@
-﻿<local:BaseMultitaskingControl
+﻿<UserControl
     x:Class="Files.UserControls.MultitaskingControl.HorizontalMultitaskingControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -124,4 +124,4 @@
             HorizontalAlignment="Left"
             Child="{x:Bind ActionsControl, Mode=OneWay}" />
     </Grid>
-</local:BaseMultitaskingControl>
+</UserControl>

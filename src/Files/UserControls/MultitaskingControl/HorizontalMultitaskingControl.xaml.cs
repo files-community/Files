@@ -3,17 +3,27 @@ using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.ComponentModel;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Files.Backend.ViewModels.Shell.Multitasking;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Files.UserControls.MultitaskingControl
 {
-    public sealed partial class HorizontalMultitaskingControl : BaseMultitaskingControl
+    public sealed partial class HorizontalMultitaskingControl : UserControl, IMultitaskingControl, INotifyPropertyChanged
     {
+        public MultitaskingControlViewModel ViewModel
+        {
+            get => (MultitaskingControlViewModel)DataContext;
+            set => DataContext = value;
+        }
+
+
         private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
         private TabViewItem hoveredTabViewItem = null;
 
@@ -22,6 +32,8 @@ namespace Files.UserControls.MultitaskingControl
         public HorizontalMultitaskingControl()
         {
             InitializeComponent();
+
+            this.ViewModel = new();
             tabHoverTimer.Interval = TimeSpan.FromMilliseconds(500);
             tabHoverTimer.Tick += TabHoverSelected;
         }
