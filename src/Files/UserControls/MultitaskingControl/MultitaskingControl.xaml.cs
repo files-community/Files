@@ -1,29 +1,19 @@
 ﻿using Files.Backend.Helpers;
 using Files.Backend.ViewModels.Shell.Multitasking;
 using Files.Backend.ViewModels.Shell.Tabs;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 
 namespace Files.UserControls.MultitaskingControl
 {
     public sealed partial class MultitaskingControl : UserControl
     {
-        private const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
-        private const string TabPathIdentifier = "FilesTabViewItemPath";
 
         private TabViewItem hoveredTabViewItem = null;
 
@@ -97,25 +87,16 @@ namespace Files.UserControls.MultitaskingControl
 
         private void TabStrip_TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)
         {
-            var tabViewItemArgs = (args.Item as TabItemViewModel).TabItemArguments;
-            args.Data.Properties.Add(TabPathIdentifier, tabViewItemArgs.Serialize());
             args.Data.RequestedOperation = DataPackageOperation.Move;
         }
 
         private void TabStrip_TabStripDragOver(object sender, DragEventArgs e)
         {
-            if (e.DataView.Properties.ContainsKey(TabPathIdentifier))
-            {
-                HorizontalTabView.CanReorderTabs = true;
-                e.AcceptedOperation = DataPackageOperation.Move;
-                e.DragUIOverride.Caption = "TabStripDragAndDropUIOverrideCaption".GetLocalized();
-                e.DragUIOverride.IsCaptionVisible = true;
-                e.DragUIOverride.IsGlyphVisible = false;
-            }
-            else
-            {
-                HorizontalTabView.CanReorderTabs = false;
-            }
+            HorizontalTabView.CanReorderTabs = true;
+            e.AcceptedOperation = DataPackageOperation.Move;
+            e.DragUIOverride.Caption = "TabStripDragAndDropUIOverrideCaption".GetLocalized();
+            e.DragUIOverride.IsCaptionVisible = true;
+            e.DragUIOverride.IsGlyphVisible = false;
         }
 
         private void TabStrip_DragLeave(object sender, DragEventArgs e)
@@ -131,13 +112,8 @@ namespace Files.UserControls.MultitaskingControl
                 return;
             }
 
-            if (!e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) || !(tabViewItemPathObj is string tabViewItemString))
-            {
-                return;
-            }
-
             var index = -1;
-
+            // What purpose does this block below serve?
             for (int i = 0; i < ViewModel.Tabs.Count; i++)
             {
                 var item = tabStrip.ContainerFromIndex(i) as TabViewItem;
@@ -149,28 +125,12 @@ namespace Files.UserControls.MultitaskingControl
                 }
             }
 
-            var tabViewItemArgs = TabItemArguments.Deserialize(tabViewItemString);
-            ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
-            await MainPageViewModel.AddNewTabByParam(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationArg, index);
+            // TODO: We need to figure out a standardized way to construct new tabs with a navigation argument
+            await ViewModel.AddTab(/*tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationArg, index*/);
         }
 
-        private void TabStrip_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)
-        {
-            if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier) &&
-                (bool)ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier])
-            {
-                CloseTab(args.Item as TabItemViewModel);
-            }
-            else
-            {
-                HorizontalTabView.SelectedItem = args.Tab;
-            }
-
-            if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier))
-            {
-                ApplicationData.Current.LocalSettings.Values.Remove(TabDropHandledIdentifier);
-            }
-        }
+        private void TabStrip_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args) => ViewModel.CloseTab(args.Item as TabItemViewModel);
+        
 
         private async void TabStrip_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
         {

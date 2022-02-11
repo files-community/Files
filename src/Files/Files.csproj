@@ -457,9 +457,6 @@
       <DependentUpon>NavigationToolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MultitaskingControl\BaseMultitaskingControl.cs" />
-    <Compile Include="UserControls\MultitaskingControl\HorizontalMultitaskingControl.xaml.cs">
-      <DependentUpon>HorizontalMultitaskingControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="DataModels\TerminalFileModel.cs" />
     <Compile Include="DataModels\Terminal.cs" />
     <Compile Include="Dialogs\AddItemDialog.xaml.cs">
@@ -483,9 +480,6 @@
     </Compile>
     <Compile Include="UserControls\OngoingTasksFlyout.xaml.cs">
       <DependentUpon>OngoingTasksFlyout.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\MultitaskingControl\VerticalTabViewControl.xaml.cs">
-      <DependentUpon>VerticalTabViewControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Widgets\DrivesWidget.xaml.cs">
       <DependentUpon>DrivesWidget.xaml</DependentUpon>
@@ -1299,10 +1293,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\MultitaskingControl\HorizontalMultitaskingControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UserControls\NavigationToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1336,10 +1326,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\SidebarControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\MultitaskingControl\VerticalTabViewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
