@@ -1044,7 +1044,7 @@
         </trans-unit>
         <trans-unit id="PropertyEncodingBitrate" translate="yes" xml:space="preserve">
           <source>Encoding Bitrate</source>
-          <target state="translated">Bitrate</target>
+          <target state="translated">Velocità in bit</target>
         </trans-unit>
         <trans-unit id="Compression" translate="yes" xml:space="preserve">
           <source>Compression</source>
