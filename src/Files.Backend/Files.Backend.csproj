@@ -136,6 +136,7 @@
     <Compile Include="EventArguments\BaseJsonSettingsModelEventArgs.cs" />
     <Compile Include="Helpers\IntegrationHelpers.cs" />
     <Compile Include="Helpers\NativeFileOperationsHelper.cs" />
+    <Compile Include="Helpers\NavigationHelpers.cs" />
     <Compile Include="Messages\TabAddRequestedMessage.cs" />
     <Compile Include="Messages\TabDisposalRequestedMessage.cs" />
     <Compile Include="Models\Icons\IconModel.cs" />

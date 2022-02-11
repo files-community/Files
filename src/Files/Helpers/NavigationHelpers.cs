@@ -1,11 +1,4 @@
-﻿using Files.Shared;
-using Files.Enums;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Services;
-using Files.ViewModels;
-using Files.Views;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+﻿using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -18,7 +11,6 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.System;
-using Windows.UI.Core;
 
 namespace Files.Helpers
 {

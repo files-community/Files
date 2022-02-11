@@ -250,86 +250,17 @@
                         Background="Transparent"
                         Loaded="DragArea_Loaded" />
 
-                    <usercontrols:HorizontalMultitaskingControl
-                        x:Name="horizontalMultitaskingControl"
+					<usercontrols:MultitaskingControl
+                        x:Name="MultitaskingControl"
                         Grid.Column="1"
                         Height="50"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
-                        x:FieldModifier="public"
                         x:Load="False"
-                        Loaded="HorizontalMultitaskingControl_Loaded"
                         TabIndex="0"
                         TabStripVisibility="Visible"
                         Visibility="Visible">
-                        <usercontrols:HorizontalMultitaskingControl.ActionsControl>
-                            <StackPanel
-                                x:Name="ActionButtonsPanel"
-                                Grid.Column="1"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Stretch"
-                                Orientation="Horizontal"
-                                Spacing="4">
-                                <Button
-                                    x:Name="HorizontalMultitaskingControlAddButton"
-                                    x:Uid="HorizontalMultitaskingControlAddButton"
-                                    Width="32"
-                                    Height="32"
-                                    Padding="8"
-                                    AutomationProperties.Name="New tab (Ctrl+T)"
-                                    Background="Transparent"
-                                    BorderBrush="Transparent"
-                                    BorderThickness="0"
-                                    Click="{x:Bind ViewModel.AddNewTab, Mode=OneWay}"
-                                    ToolTipService.ToolTip="New tab (Ctrl+T)">
-                                    <Button.Content>
-                                        <FontIcon
-                                            x:Name="HorizontalMultitaskingControlAddButtonIcon"
-                                            FontSize="12"
-                                            Glyph="&#xE710;" />
-                                    </Button.Content>
-                                </Button>
-                                <Button
-                                    x:Name="VerticalTabStripInvokeButton"
-                                    x:Uid="VerticalTabFlyout"
-                                    Width="32"
-                                    Height="32"
-                                    Padding="8"
-                                    HorizontalAlignment="Right"
-                                    x:Load="{x:Bind IsVerticalTabFlyoutEnabled, Mode=OneWay}"
-                                    AccessKey="T"
-                                    AllowDrop="True"
-                                    AutomationProperties.Name="Vertical tab flyout"
-                                    Background="Transparent"
-                                    BorderBrush="Transparent"
-                                    BorderThickness="0"
-                                    DragEnter="VerticalTabStripInvokeButton_DragEnter"
-                                    IsTapEnabled="True"
-                                    Loaded="VerticalTabStripInvokeButton_Loaded"
-                                    Tapped="VerticalTabStrip_Tapped"
-                                    ToolTipService.ToolTip="Vertical tab flyout">
-                                    <Button.Content>
-                                        <FontIcon
-                                            x:Name="VerticalTabStripInvokeButtonIcon"
-                                            FontSize="12"
-                                            Glyph="&#xF5ED;" />
-                                    </Button.Content>
-                                    <Button.Flyout>
-                                        <Flyout
-                                            x:Name="VerticalTabViewFlyout"
-                                            contract8Present:ShouldConstrainToRootBounds="False"
-                                            Placement="Bottom">
-                                            <usercontrols:VerticalTabViewControl
-                                                x:Name="VerticalTabs"
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Stretch"
-                                                x:FieldModifier="public" />
-                                        </Flyout>
-                                    </Button.Flyout>
-                                </Button>
-                            </StackPanel>
-                        </usercontrols:HorizontalMultitaskingControl.ActionsControl>
-                    </usercontrols:HorizontalMultitaskingControl>
+					</usercontrols:MultitaskingControl>
 
                     <controls:NavigationToolbar
                         x:Name="NavToolbar"
@@ -387,7 +318,7 @@
                     Grid.Column="0"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
-                    Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
+                    Content="{x:Bind MultitaskingControl.ViewModel.SelectedItem, Mode=OneWay}" />
 
                 <controls:PreviewPane
                     x:Name="PreviewPane"

@@ -67,17 +67,17 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <TextBlock
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<TextBlock
             x:Uid="VerticalTabViewHeader"
             Padding="4,6"
             FontWeight="Medium"
             Text="Open tabs" />
-        <muxc:TabView
+		<muxc:TabView
             x:Name="VerticalTabView"
             Grid.Row="1"
             HorizontalAlignment="Stretch"
@@ -101,13 +101,13 @@
             TabStripDragOver="TabStrip_TabStripDragOver"
             TabStripDrop="TabStrip_TabStripDrop"
             TabWidthMode="Equal">
-            <muxc:TabView.Resources>
-                <ThemeResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="SolidBackgroundFillColorBaseBrush" />
-                <Thickness x:Key="TabViewHeaderPadding">0,0,0,0</Thickness>
-            </muxc:TabView.Resources>
-            <muxc:TabView.TabItemTemplate>
-                <DataTemplate x:DataType="local:TabItem">
-                    <muxc:TabViewItem
+			<muxc:TabView.Resources>
+				<ThemeResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="SolidBackgroundFillColorBaseBrush" />
+				<Thickness x:Key="TabViewHeaderPadding">0,0,0,0</Thickness>
+			</muxc:TabView.Resources>
+			<muxc:TabView.TabItemTemplate>
+				<DataTemplate x:DataType="local:TabItem">
+					<muxc:TabViewItem
                         Width="250"
                         Height="40"
                         Padding="1"
@@ -120,12 +120,12 @@
                         IconSource="{x:Bind IconSource, Mode=OneWay}"
                         Style="{StaticResource TabViewItemStyle}"
                         ToolTipService.ToolTip="{x:Null}">
-                        <muxc:TabViewItem.Resources>
-                            <StaticResource x:Key="TabViewItemSeparator" ResourceKey="SystemControlTransparentBrush" />
-                        </muxc:TabViewItem.Resources>
-                    </muxc:TabViewItem>
-                </DataTemplate>
-            </muxc:TabView.TabItemTemplate>
-        </muxc:TabView>
-    </Grid>
+						<muxc:TabViewItem.Resources>
+							<StaticResource x:Key="TabViewItemSeparator" ResourceKey="SystemControlTransparentBrush" />
+						</muxc:TabViewItem.Resources>
+					</muxc:TabViewItem>
+				</DataTemplate>
+			</muxc:TabView.TabItemTemplate>
+		</muxc:TabView>
+	</Grid>
 </local:BaseMultitaskingControl>
