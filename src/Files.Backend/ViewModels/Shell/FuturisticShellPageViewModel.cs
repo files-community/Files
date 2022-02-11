@@ -10,6 +10,13 @@ namespace Files.Backend.ViewModels.Shell
 {
     public sealed class FuturisticShellPageViewModel : ObservableObject
     {
-        public BaseLayoutViewModel ActiveLayoutViewModel { get; }
+        public BaseLayoutViewModel ActiveLayoutViewModel
+        {
+            get;
+        }
+
+        public BaseLayoutViewModel LeftLayoutViewModel { get; private set; }
+
+        public BaseLayoutViewModel RightLayoutViewModel { get; private set; }
     }
 }

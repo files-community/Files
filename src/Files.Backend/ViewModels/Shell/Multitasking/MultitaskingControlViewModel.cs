@@ -40,8 +40,8 @@ namespace Files.Backend.ViewModels.Shell.Multitasking
         {
             this.Tabs = new();
 
+            AddTabCommand = new RelayCommand(() => AddTab());
             this.Tabs.CollectionChanged += Tabs_CollectionChanged;
-            AddTabCommand = new RelayCommand(AddTab);
             IsVerticalTabFlyoutEnabled = UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled;
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
         }
@@ -79,9 +79,17 @@ namespace Files.Backend.ViewModels.Shell.Multitasking
             }
         }
 
-        public TabItemViewModel AddTab(FuturisticShellPageViewModel futuristicShellPageViewModel, int index = -1)
+        public TabItemViewModel AddTab()
+        {
+            return AddTab(-1);
+        }
+
+        public TabItemViewModel AddTab(int index)
         {
             index = index == -1 ? Tabs.Count : index;
+
+            var futuristicShellPageViewModel = new FuturisticShellPageViewModel();
+
             var tabItemViewModel = new TabItemViewModel(futuristicShellPageViewModel);
 
             Tabs.Insert(index, tabItemViewModel);

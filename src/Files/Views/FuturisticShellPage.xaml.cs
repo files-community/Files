@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Files.Backend.ViewModels.Shell;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -26,5 +27,14 @@ namespace Files.Views
         {
             this.InitializeComponent();
         }
+
+
+        public FuturisticShellPageViewModel ViewModel
+        {
+            get => (FuturisticShellPageViewModel)GetValue(ViewModelProperty);
+            set => SetValue(ViewModelProperty, value);
+        }
+        public static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register("ViewModel", typeof(FuturisticShellPageViewModel), typeof(FuturisticShellPage), new PropertyMetadata(null));
     }
 }
