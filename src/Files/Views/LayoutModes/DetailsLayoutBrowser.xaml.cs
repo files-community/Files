@@ -346,6 +346,7 @@ namespace Files.Views.LayoutModes
                 return;
             }
             TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
+            RenamingTextBlock = textBlock;
             textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
             //TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
             //textBox = (gridViewItem.ContentTemplateRoot as Grid).FindName("TileViewTextBoxItemName") as TextBox;
@@ -401,7 +402,7 @@ namespace Files.Views.LayoutModes
         {
             renameTextBoxPreviousInput = "";
             renameTextBoxPreviousCursorPosition = 0;
-            renameTextBoxIgnoreTextChange = false;
+            renameTextBoxPasted = false;
             renameTextBoxPreviousRestrictedAttempt = "";
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');

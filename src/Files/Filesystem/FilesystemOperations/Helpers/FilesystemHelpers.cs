@@ -11,6 +11,7 @@ using Files.ViewModels;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -1196,40 +1197,48 @@ namespace Files.Filesystem
             }
             return filtered;
         }
-
-        public static void RenameHelperTextChanging(Microsoft.UI.Xaml.Controls.TeachingTip FileNameTeachingTip, TextBox textBox, BaseLayout view)
+        
+        public static void RenameHelperTextChanging(TeachingTip FileNameTeachingTip, TextBox textBox, TextBlock textBlock, BaseLayout view)
         {
-            if (ContainsRestrictedCharacters(textBox.Text))
+            if (view.renameTextBoxPreviousInput == "")
             {
-                if (view.renameTextBoxPreviousRestrictedAttempt == textBox.Text)
-                {
-                    textBox.Text = textBox.Text.Remove(textBox.Text.Length - view.renameTextBoxPreviousRestrictedAttempt.Length);
-                    string filtered = FilterRestrictedCharacters(view.renameTextBoxPreviousRestrictedAttempt);
-                    textBox.Text += filtered;
-                    textBox.SelectionStart = view.renameTextBoxPreviousCursorPosition + Math.Abs(textBox.Text.Length - view.renameTextBoxPreviousInput.Length);
-                }
-                else
-                {
-                    view.renameTextBoxIgnoreTextChange = true;
-                    FileNameTeachingTip.Visibility = Visibility.Visible;
-                    FileNameTeachingTip.IsOpen = true;
-                    view.renameTextBoxPreviousRestrictedAttempt = textBox.Text;
-                    textBox.Text = view.renameTextBoxPreviousInput;
-                    textBox.SelectionStart = view.renameTextBoxPreviousCursorPosition;
-                }
-                return;
+                view.renameTextBoxPreviousInput = /*((textBox.Parent as Grid).Children[0] as TextBlock)*/textBlock.Text;
             }
-        }
-
-        public static void RenameHelperTextChanged(Microsoft.UI.Xaml.Controls.TeachingTip FileNameTeachingTip, TextBox textBox, BaseLayout view)
-        {
-            if (!view.renameTextBoxIgnoreTextChange)
+            bool hasRestrictedCharacter = ContainsRestrictedCharacters(textBox.Text);
+            if (hasRestrictedCharacter)
             {
-                FileNameTeachingTip.IsOpen = false;
+                switch (view.renameTextBoxPasted, view.renameTextBoxPreviousRestrictedAttempt == textBox.Text)
+                {
+                    case (true, true):
+                        textBox.Text = textBox.Text.Remove(textBox.Text.Length - view.renameTextBoxPreviousRestrictedAttempt.Length);
+                        string filtered = FilterRestrictedCharacters(view.renameTextBoxPreviousRestrictedAttempt);
+                        textBox.Text += filtered;
+                        textBox.SelectionStart = view.renameTextBoxPreviousCursorPosition + Math.Abs(textBox.Text.Length - view.renameTextBoxPreviousInput.Length);
+                        FileNameTeachingTip.Visibility = Visibility.Collapsed;
+                        FileNameTeachingTip.IsOpen = false;
+                        break;
+                    case (true, false):
+                        FileNameTeachingTip.Visibility = Visibility.Visible;
+                        FileNameTeachingTip.IsOpen = true;
+                        view.renameTextBoxPreviousRestrictedAttempt = textBox.Text;
+                        textBox.Text = view.renameTextBoxPreviousInput;
+                        textBox.SelectionStart = view.renameTextBoxPreviousCursorPosition;
+                        break;
+                    default:
+                        FileNameTeachingTip.Visibility = Visibility.Visible;
+                        FileNameTeachingTip.IsOpen = true;
+                        textBox.Text = view.renameTextBoxPreviousInput;
+                        textBox.SelectionStart = view.renameTextBoxPreviousCursorPosition;
+                        break;
+                }
+            }
+            else
+            {
                 FileNameTeachingTip.Visibility = Visibility.Collapsed;
-                view.renameTextBoxPreviousInput = textBox.Text;
+                FileNameTeachingTip.IsOpen = false;
             }
-            view.renameTextBoxIgnoreTextChange = false;
+            view.renameTextBoxPreviousInput = textBox.Text;
+            view.renameTextBoxPasted = false;
         }
 
         #endregion Public Helpers

@@ -236,7 +236,7 @@ namespace Files.Views.LayoutModes
         {
             renameTextBoxPreviousInput = "";
             renameTextBoxPreviousCursorPosition = 0;
-            renameTextBoxIgnoreTextChange = false;
+            renameTextBoxPasted = false;
             renameTextBoxPreviousRestrictedAttempt = "";
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');

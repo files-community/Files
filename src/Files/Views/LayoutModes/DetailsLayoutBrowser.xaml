@@ -629,6 +629,7 @@
                                     </Grid.ColumnDefinitions>
                                     <TextBlock
                                         x:Name="ItemName"
+                                        x:Uid="ItemName"
                                         VerticalAlignment="Center"
                                         Text="{x:Bind ItemName, Mode=OneWay}"
                                         TextTrimming="CharacterEllipsis" />
@@ -637,9 +638,9 @@
                                         MaxWidth="{Binding MaxWidthForRenameTextbox, ElementName=PageRoot, Mode=OneWay}"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
-                                        TextChanged="RenameTextBoxItemName_TextChanged"
-                                        TextChanging="RenameTextBoxItemName_TextChanging"
                                         SelectionChanged="RenameTextBoxItemName_SelectionChanged"
+                                        Paste="RenameTextBoxItemName_Paste"
+                                        TextChanging="RenameTextBoxItemName_TextChanging"
                                         Visibility="Collapsed">
                                         <TextBox.Resources>
                                             <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />

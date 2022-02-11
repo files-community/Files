@@ -197,9 +197,9 @@
                         Background="{ThemeResource SolidBackgroundFillColorSecondary}"
                         Text="{x:Bind ItemName, Mode=OneWay}"
                         TextAlignment="Center"
-                        TextChanged="RenameTextBoxItemName_TextChanged"
                         TextChanging="RenameTextBoxItemName_TextChanging"
                         SelectionChanged="RenameTextBoxItemName_SelectionChanged"
+                        Paste="RenameTextBoxItemName_Paste"
                         TextWrapping="Wrap" />
                 </Popup>
             </Grid>
@@ -338,9 +338,9 @@
                         Grid.Row="0"
                         HorizontalAlignment="Left"
                         Text="{x:Bind ItemName, Mode=OneWay}"
-                        TextChanged="RenameTextBoxItemName_TextChanged"
                         TextChanging="RenameTextBoxItemName_TextChanging"
                         SelectionChanged="RenameTextBoxItemName_SelectionChanged"
+                        Paste="RenameTextBoxItemName_Paste"
                         Visibility="Collapsed" />
                     <TextBlock
                         Grid.Row="1"

@@ -245,6 +245,7 @@ namespace Files.Views.LayoutModes
         {
             SetView(this);
             SetFileNameTeachingTip(FileNameTeachingTip);
+            
             RenamingItem = SelectedItem;
             if (RenamingItem == null)
             {
@@ -262,6 +263,7 @@ namespace Files.Views.LayoutModes
             {
                 Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
                 TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+                RenamingTextBlock = textBlock;
                 //Popup popup = (gridViewItem.ContentTemplateRoot as Grid).FindName("EditPopup") as Popup;
                 //TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
                 textBox = popup.Child as TextBox;
@@ -272,6 +274,7 @@ namespace Files.Views.LayoutModes
             else
             {
                 TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+                RenamingTextBlock = textBlock;
                 textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
                 //TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
                 //textBox = (gridViewItem.ContentTemplateRoot as Grid).FindName("TileViewTextBoxItemName") as TextBox;
@@ -327,7 +330,7 @@ namespace Files.Views.LayoutModes
         {
             renameTextBoxPreviousInput = "";
             renameTextBoxPreviousCursorPosition = 0;
-            renameTextBoxIgnoreTextChange = false;
+            renameTextBoxPasted = false;
             renameTextBoxPreviousRestrictedAttempt = "";
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');

@@ -307,9 +307,9 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
                                     TextAlignment="Left"
-                                    TextChanged="RenameTextBoxItemName_TextChanged"
                                     TextChanging="RenameTextBoxItemName_TextChanging"
                                     SelectionChanged="RenameTextBoxItemName_SelectionChanged"
+                                    Paste="RenameTextBoxItemName_Paste"
                                     TextWrapping="Wrap"
                                     Visibility="Collapsed" />
                                 <Grid Grid.Column="2">

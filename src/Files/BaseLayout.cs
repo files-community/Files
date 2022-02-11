@@ -301,7 +301,7 @@ namespace Files
 
         public string renameTextBoxPreviousInput { get; set; } = "";
         public int renameTextBoxPreviousCursorPosition { get; set; } = 0;
-        public bool renameTextBoxIgnoreTextChange { get; set; } = false;
+        public bool renameTextBoxPasted { get; set; } = false;
         public string renameTextBoxPreviousRestrictedAttempt { get; set; } = "";
 
         protected TeachingTip FileNameTeachingTip;
@@ -317,19 +317,21 @@ namespace Files
         {
             View = view;
         }
-
+        
         protected void RenameTextBoxItemName_SelectionChanged(object s, RoutedEventArgs e)
         {
             renameTextBoxPreviousCursorPosition = ((TextBox)s).SelectionStart;
         }
-
+        
         protected void RenameTextBoxItemName_TextChanging(TextBox textBox, TextBoxTextChangingEventArgs args)
         {
-            FilesystemHelpers.RenameHelperTextChanging(FileNameTeachingTip, textBox, View);
+            
+            FilesystemHelpers.RenameHelperTextChanging(FileNameTeachingTip, textBox, RenamingTextBlock, View);
         }
-        protected void RenameTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
+        
+        protected void RenameTextBoxItemName_Paste(object sender, TextControlPasteEventArgs e)
         {
-            FilesystemHelpers.RenameHelperTextChanged(FileNameTeachingTip, (sender as TextBox), View);
+            renameTextBoxPasted = true;
         }
 
 
