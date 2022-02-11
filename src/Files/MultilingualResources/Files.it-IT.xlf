@@ -888,7 +888,7 @@
         </trans-unit>
         <trans-unit id="EjectNotificationHeader" translate="yes" xml:space="preserve">
           <source>Safe to remove hardware</source>
-          <target state="translated">è sicuro rimuovere il dispositivo</target>
+          <target state="translated">È sicuro rimuovere il dispositivo</target>
         </trans-unit>
         <trans-unit id="EjectNotificationBody" translate="yes" xml:space="preserve">
           <source>The device can now be safely removed from the computer.</source>
