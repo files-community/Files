@@ -6,6 +6,7 @@ using Microsoft.Toolkit.Uwp;
 using System;
 using Windows.ApplicationModel.Core;
 using Windows.System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.Helpers
@@ -51,63 +52,69 @@ namespace Files.Helpers
             TextBlock tipText = new TextBlock()
             {
                 Text = "RenameDialogSymbolsTip/Text".GetLocalized(),
-                Margin = new Windows.UI.Xaml.Thickness(0, 0, 4, 0),
-                TextWrapping = Windows.UI.Xaml.TextWrapping.Wrap,
+                Margin = new Thickness(0, 0, 4, 0),
+                TextWrapping = TextWrapping.Wrap,
                 Opacity = 0.0d
             };
 
-            string previousInput = "";
-            int previousCursorPosition = 0;
-            bool ignoreTextChange = false;
+            bool renameTextBoxPasted = false;
+            string renameTextBoxPreviousRestrictedAttempt = "";
+            int renameTextBoxPreviousCursorPosition = 0;
+            string renameTextBoxPreviousInput = "";
 
-            string previousRestrictedAttempt = "";
+            inputText.TextChanging += (textBox, args) =>
+            {
+                bool hasRestrictedCharacter = FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text);
+                if (hasRestrictedCharacter)
+                {
+                    switch (renameTextBoxPasted, renameTextBoxPreviousRestrictedAttempt == textBox.Text)
+                    {
+                        case (true, true):
+                            textBox.Text = textBox.Text.Remove(textBox.Text.Length - renameTextBoxPreviousRestrictedAttempt.Length);
+                            string filtered = FilesystemHelpers.FilterRestrictedCharacters(renameTextBoxPreviousRestrictedAttempt);
+                            textBox.Text += filtered;
+                            textBox.SelectionStart = renameTextBoxPreviousCursorPosition + Math.Abs(textBox.Text.Length - renameTextBoxPreviousInput.Length);
+                            tipText.Opacity = 0.0d;
+                            break;
+                        case (true, false):
+                            tipText.Opacity = 1.0d;
+                            renameTextBoxPreviousRestrictedAttempt = textBox.Text;
+                            textBox.Text = renameTextBoxPreviousInput;
+                            textBox.SelectionStart = renameTextBoxPreviousCursorPosition;
+                            break;
+                        default:
+                            tipText.Opacity = 1.0d;
+                            textBox.Text = renameTextBoxPreviousInput;
+                            textBox.SelectionStart = renameTextBoxPreviousCursorPosition;
+                            break;
+                    }
+                }
+                else
+                {
+                    textBox.SelectionStart++;
+                    tipText.Opacity = 0.0d;
+                }
+                renameTextBoxPreviousInput = textBox.Text;
+                renameTextBoxPasted = false;
+                dialog.ViewModel.AdditionalData = textBox.Text;
+                if (!string.IsNullOrWhiteSpace(textBox.Text))
+                {
+                    dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel;
+                }
+                else
+                {
+                    dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Cancel;
+                }
+            };
 
             inputText.SelectionChanged += (s, e) =>
             {
-                previousCursorPosition = ((TextBox) s).SelectionStart;
+                renameTextBoxPreviousCursorPosition = ((TextBox)s).SelectionStart;
             };
 
-            inputText.TextChanging += (textBox, e) =>
+            inputText.Paste += (s, e) =>
             {
-                if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
-                {
-                    if (previousRestrictedAttempt == textBox.Text)
-                    {
-                        textBox.Text = textBox.Text.Remove(textBox.Text.Length - previousRestrictedAttempt.Length);
-                        string filtered = FilesystemHelpers.FilterRestrictedCharacters(previousRestrictedAttempt);
-                        textBox.Text += filtered;
-                        textBox.SelectionStart = previousCursorPosition + Math.Abs(textBox.Text.Length - previousInput.Length);
-                    }
-                    else
-                    {
-                        ignoreTextChange = true;
-                        tipText.Opacity = 1.0d;
-                        previousRestrictedAttempt = textBox.Text;
-                        textBox.Text = previousInput;
-                        textBox.SelectionStart = previousCursorPosition;
-                    }
-                    return;
-                }
-            };
-
-            inputText.TextChanged += (s, e) =>
-            {
-                if (!ignoreTextChange)
-                {
-                    var textBox = s as TextBox;
-                    dialog.ViewModel.AdditionalData = textBox.Text;
-                    if (!string.IsNullOrWhiteSpace(textBox.Text))
-                    {
-                        dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel;
-                    }
-                    else
-                    {
-                        dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Cancel;
-                    }
-                    tipText.Opacity = 0.0d;
-                    previousInput = textBox.Text;
-                }
-                ignoreTextChange = false;
+                renameTextBoxPasted = true;
             };
 
             inputText.Loaded += (s, e) =>
