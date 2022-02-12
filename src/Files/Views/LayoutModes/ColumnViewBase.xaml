@@ -256,7 +256,7 @@
                                         Background="{ThemeResource SystemChromeHighColor}"
                                         CornerRadius="4" />
                                     <Image
-                                        x:Name="ColumnIconOverlay"
+                                        x:Name="IconOverlay"
                                         Width="16"
                                         Height="16"
                                         HorizontalAlignment="Left"
@@ -292,7 +292,7 @@
                                     Margin="5,0,5,0"
                                     HorizontalAlignment="Left">
                                     <TextBlock
-                                        x:Name="ColumnItemName"
+                                        x:Name="ItemName"
                                         Grid.Column="1"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"

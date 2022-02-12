@@ -36,7 +36,7 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        private static async Task ParseNetworkDriveOperationAsync(PipeStream connection, Dictionary<string, object> message)
+        private async Task ParseNetworkDriveOperationAsync(PipeStream connection, Dictionary<string, object> message)
         {
             switch (message.Get("netdriveop", ""))
             {
