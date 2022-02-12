@@ -107,5 +107,87 @@ namespace Files.Helpers
                 }
             }
         }
+
+        public static PostedStatusBanner PostBanner_Copy(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, ReturnResult returnStatus, bool canceled, int itemsCopied)
+        {
+            var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
+            var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
+
+            if (canceled)
+            {
+                return OngoingTasksViewModel.PostBanner(
+                    "StatusCopyCanceled".GetLocalized(),
+                    string.Format(source.Count() > 1 ?
+                        itemsCopied > 1 ? "StatusCopyCanceledDetails_Plural".GetLocalized() : "StatusCopyCanceledDetails_Plural2".GetLocalized() :
+                        "StatusCopyCanceledDetails_Singular".GetLocalized(), source.Count(), destinationDir, itemsCopied),
+                    0,
+                    ReturnResult.Cancelled,
+                    FileOperationType.Copy);
+            }
+            else if (returnStatus == ReturnResult.InProgress)
+            {
+                return OngoingTasksViewModel.PostOperationBanner(
+                    string.Empty,
+                    string.Format(source.Count() > 1 ? "StatusCopyingItemsDetails_Plural".GetLocalized() : "StatusCopyingItemsDetails_Singular".GetLocalized(), source.Count(), destinationDir),
+                    0,
+                    ReturnResult.InProgress,
+                    FileOperationType.Copy, new CancellationTokenSource());
+            }
+            else if (returnStatus == ReturnResult.Success)
+            {
+                return OngoingTasksViewModel.PostBanner(
+                    "StatusCopyComplete".GetLocalized(),
+                    string.Format(source.Count() > 1 ? "StatusCopiedItemsDetails_Plural".GetLocalized() : "StatusCopiedItemsDetails_Singular".GetLocalized(), source.Count(), destinationDir, itemsCopied),
+                    0,
+                    ReturnResult.Success,
+                    FileOperationType.Copy);
+            }
+            else
+            {
+                // TODO
+                return null;
+            }
+        }
+
+        public static PostedStatusBanner PostBanner_Move(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, ReturnResult returnStatus, bool canceled, int itemsMoved)
+        {
+            var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
+            var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
+
+            if (canceled)
+            {
+                return OngoingTasksViewModel.PostBanner(
+                    "StatusMoveCanceled".GetLocalized(),
+                    string.Format(source.Count() > 1 ?
+                        itemsMoved > 1 ? "StatusMoveCanceledDetails_Plural".GetLocalized() : "StatusMoveCanceledDetails_Plural2".GetLocalized()
+                        : "StatusMoveCanceledDetails_Singular".GetLocalized(), source.Count(), sourceDir, destinationDir, itemsMoved),
+                    0,
+                    ReturnResult.Cancelled,
+                    FileOperationType.Move);
+            }
+            else if (returnStatus == ReturnResult.InProgress)
+            {
+                return OngoingTasksViewModel.PostOperationBanner(
+                    string.Empty,
+                    string.Format(source.Count() > 1 ? "StatusMovingItemsDetails_Plural".GetLocalized() : "StatusMovingItemsDetails_Singular".GetLocalized(), source.Count(), sourceDir, destinationDir),
+                    0,
+                    ReturnResult.InProgress,
+                    FileOperationType.Move, new CancellationTokenSource());
+            }
+            else if (returnStatus == ReturnResult.Success)
+            {
+                return OngoingTasksViewModel.PostBanner(
+                    "StatusMoveComplete".GetLocalized(),
+                    string.Format(source.Count() > 1 ? "StatusMovedItemsDetails_Plural".GetLocalized() : "StatusMovedItemsDetails_Singular".GetLocalized(), source.Count(), sourceDir, destinationDir, itemsMoved),
+                    0,
+                    ReturnResult.Success,
+                    FileOperationType.Move);
+            }
+            else
+            {
+                // TODO
+                return null;
+            }
+        }
     }
 }

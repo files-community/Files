@@ -43,8 +43,6 @@ namespace Files.Filesystem
 
         private Task<NamedPipeAsAppServiceConnection> ServiceConnection => AppServiceConnectionHelper.Instance;
 
-        private OngoingTasksViewModel OngoingTasksViewModel => App.OngoingTasksViewModel;
-
         #region Helpers Members
 
         private static readonly char[] RestrictedCharacters = new[] { '\\', '/', ':', '*', '?', '"', '<', '>', '|' };
@@ -319,21 +317,13 @@ namespace Files.Filesystem
             source = await source.ToListAsync();
             destination = await destination.ToListAsync();
 
-            var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
-            var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
-
-            PostedStatusBanner banner = OngoingTasksViewModel.PostOperationBanner(
-                string.Empty,
-                string.Format(source.Count() > 1 ? "StatusCopyingItemsDetails_Plural".GetLocalized() : "StatusCopyingItemsDetails_Singular".GetLocalized(), source.Count(), destinationDir),
-                0,
-                ReturnResult.InProgress,
-                FileOperationType.Copy, new CancellationTokenSource());
-
-            var token = banner.CancellationToken;
-
             var returnStatus = ReturnResult.InProgress;
+
+            var banner = PostBannerHelpers.PostBanner_Copy(source, destination, returnStatus, false, 0);
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
+            var token = banner.CancellationToken;
+            
             var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source, destination, showDialog);
 
             if (cancelOperation)
@@ -360,26 +350,7 @@ namespace Files.Filesystem
             banner.Remove();
             sw.Stop();
 
-            if (!token.IsCancellationRequested)
-            {
-                OngoingTasksViewModel.PostBanner(
-                    "StatusCopyComplete".GetLocalized(),
-                    string.Format(source.Count() > 1 ? "StatusCopiedItemsDetails_Plural".GetLocalized() : "StatusCopiedItemsDetails_Singular".GetLocalized(), source.Count(), destinationDir, itemsCopied),
-                    0,
-                    ReturnResult.Success,
-                    FileOperationType.Copy);
-            }
-            else
-            {
-                OngoingTasksViewModel.PostBanner(
-                    "StatusCopyCanceled".GetLocalized(),
-                    string.Format(source.Count() > 1 ?
-                        itemsCopied > 1 ? "StatusCopyCanceledDetails_Plural".GetLocalized() : "StatusCopyCanceledDetails_Plural2".GetLocalized() :
-                        "StatusCopyCanceledDetails_Singular".GetLocalized(), source.Count(), destinationDir, itemsCopied),
-                    0,
-                    ReturnResult.Cancelled,
-                    FileOperationType.Copy);
-            }
+            PostBannerHelpers.PostBanner_Copy(source, destination, returnStatus, token.IsCancellationRequested, itemsCopied);
 
             return returnStatus;
         }
@@ -486,20 +457,15 @@ namespace Files.Filesystem
             source = await source.ToListAsync();
             destination = await destination.ToListAsync();
 
+            var returnStatus = ReturnResult.InProgress;
+
             var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
             var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
 
-            PostedStatusBanner banner = OngoingTasksViewModel.PostOperationBanner(
-                string.Empty,
-                string.Format(source.Count() > 1 ? "StatusMovingItemsDetails_Plural".GetLocalized() : "StatusMovingItemsDetails_Singular".GetLocalized(), source.Count(), sourceDir, destinationDir),
-                0,
-                ReturnResult.InProgress,
-                FileOperationType.Move, new CancellationTokenSource());
+            var banner = PostBannerHelpers.PostBanner_Move(source, destination, returnStatus, false, 0);
+            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
             var token = banner.CancellationToken;
-
-            var returnStatus = ReturnResult.InProgress;
-            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
             var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Move, source, destination, showDialog);
 
@@ -529,26 +495,7 @@ namespace Files.Filesystem
             banner.Remove();
             sw.Stop();
 
-            if (!token.IsCancellationRequested)
-            {
-                OngoingTasksViewModel.PostBanner(
-                    "StatusMoveComplete".GetLocalized(),
-                    string.Format(source.Count() > 1 ? "StatusMovedItemsDetails_Plural".GetLocalized() : "StatusMovedItemsDetails_Singular".GetLocalized(), source.Count(), sourceDir, destinationDir, itemsMoved),
-                    0,
-                    ReturnResult.Success,
-                    FileOperationType.Move);
-            }
-            else
-            {
-                OngoingTasksViewModel.PostBanner(
-                    "StatusMoveCanceled".GetLocalized(),
-                    string.Format(source.Count() > 1 ?
-                        itemsMoved > 1 ? "StatusMoveCanceledDetails_Plural".GetLocalized() : "StatusMoveCanceledDetails_Plural2".GetLocalized()
-                        : "StatusMoveCanceledDetails_Singular".GetLocalized(), source.Count(), sourceDir, destinationDir, itemsMoved),
-                    0,
-                    ReturnResult.Cancelled,
-                    FileOperationType.Move);
-            }
+            PostBannerHelpers.PostBanner_Move(source, destination, returnStatus, token.IsCancellationRequested, itemsMoved);
 
             return returnStatus;
         }
