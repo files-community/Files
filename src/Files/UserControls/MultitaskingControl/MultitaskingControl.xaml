@@ -168,6 +168,14 @@
                         Header="{x:Bind Header, Mode=OneWay}"
                         IconSource="{x:Bind TabIcon, Mode=OneWay, Converter={StaticResource IconModelToIconSourceConverter}}"
                         Style="{ThemeResource TabViewItemStyle}">
+						<i:Interaction.Behaviors>
+							<Core:DataTriggerBehavior Binding="{x:Bind IsLoading, Mode=OneWay}" Value="True">
+								<Core:GoToStateAction StateName="Loading"/>
+							</Core:DataTriggerBehavior>
+							<Core:DataTriggerBehavior Binding="{x:Bind IsLoading, Mode=OneWay}" Value="False">
+								<Core:GoToStateAction StateName="NotLoading"/>
+							</Core:DataTriggerBehavior>
+						</i:Interaction.Behaviors>
 					</muxc:TabViewItem>
                 </DataTemplate>
             </muxc:TabView.TabItemTemplate>
