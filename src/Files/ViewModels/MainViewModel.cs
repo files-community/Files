@@ -16,6 +16,8 @@ namespace Files.ViewModels
     {
         public SettingsViewModel AppSettings => App.AppSettings;
 
+        public IPaneViewModel PaneViewModel { get; } = new PaneViewModel();
+
         public MainViewModel()
         {
             Window.Current.SizeChanged += Current_SizeChanged;

@@ -63,12 +63,6 @@ namespace Files.ViewModels
             set => SetProperty(ref previewPaneContent, value);
         }
 
-        public bool IsPaneSelected
-        {
-            get => UserSettingsService.PaneSettingsService.Content is PaneContents.Preview;
-            set => UserSettingsService.PaneSettingsService.Content = !IsPaneSelected ? PaneContents.Preview : PaneContents.None;
-        }
-
         public PreviewPaneViewModel()
         {
             ShowPreviewOnlyInvoked = new RelayCommand(() => UpdateSelectedItemPreview());
@@ -275,15 +269,10 @@ namespace Files.ViewModels
 
         private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
         {
-            switch (e.settingName)
+            if (e.settingName is nameof(IPaneSettingsService.ShowPreviewOnly))
             {
-                case nameof(IPaneSettingsService.Content):
-                    OnPropertyChanged(nameof(IsPaneSelected));
-                    break;
-                case nameof(IPaneSettingsService.ShowPreviewOnly):
-                    // the preview will need refreshing as the file details won't be accurate
-                    needsRefresh = true;
-                    break;
+                // the preview will need refreshing as the file details won't be accurate
+                needsRefresh = true;
             }
         }
 

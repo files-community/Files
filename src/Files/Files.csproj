@@ -286,7 +286,8 @@
     <Compile Include="UserControls\InnerNavigationToolbar.xaml.cs">
       <DependentUpon>InnerNavigationToolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\PaneControl.xaml.cs">
+    <Compile Include="UserControls\Pane\Pane.cs" />
+    <Compile Include="UserControls\Pane\PaneControl.xaml.cs">
       <DependentUpon>PaneControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\PathBreadcrumb.xaml.cs">
@@ -374,6 +375,7 @@
     </Compile>
     <Compile Include="ViewModels\Dialogs\DecompressArchiveDialogViewModel.cs" />
     <Compile Include="ViewModels\NavToolbarViewModel.cs" />
+    <Compile Include="ViewModels\PaneViewModel.cs" />
     <Compile Include="ViewModels\Previews\ArchivePreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
     <Compile Include="ViewModels\Properties\CompatibilityProperties.cs" />
@@ -407,7 +409,7 @@
     <Compile Include="ViewModels\Previews\ShortcutPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\TextPreviewViewModel.cs" />
     <Compile Include="ViewModels\Properties\FileProperty.cs" />
-    <Compile Include="UserControls\PreviewPane.xaml.cs">
+    <Compile Include="UserControls\Pane\PreviewPane.xaml.cs">
       <DependentUpon>PreviewPane.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\FilePreviews\ImagePreview.xaml.cs">
@@ -1247,7 +1249,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\PaneControl.xaml">
+    <Page Include="UserControls\Pane\PaneControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1279,7 +1281,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\PreviewPane.xaml">
+    <Page Include="UserControls\Pane\PreviewPane.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

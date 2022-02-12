@@ -790,7 +790,7 @@ namespace Files.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.P):
-                    App.PreviewPaneViewModel.IsPaneSelected = !App.PreviewPaneViewModel.IsPaneSelected;
+                    App.PaneViewModel.IsPreviewSelected = !App.PaneViewModel.IsPreviewSelected;
                     break;
 
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
