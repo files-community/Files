@@ -15,7 +15,6 @@ namespace Files.UserControls.MultitaskingControl
 
         public static List<TabItemArguments[]> RecentlyClosedTabs { get; private set; } = new List<TabItemArguments[]>();
 
-
         public async void ReopenClosedTab(object sender, RoutedEventArgs e)
         {
             if (!isRestoringClosedTab && RecentlyClosedTabs.Any())

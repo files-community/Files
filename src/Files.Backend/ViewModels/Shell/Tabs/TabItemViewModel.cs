@@ -25,20 +25,18 @@ namespace Files.Backend.ViewModels.Shell.Tabs
             set => SetProperty(ref _TabIcon, value);
         }
 
-        private bool isLoading;
-
+        private bool _IsLoading;
         public bool IsLoading
         {
-            get => isLoading;
-            set => SetProperty(ref isLoading, value);
+            get => _IsLoading;
+            set => SetProperty(ref _IsLoading, value);
         }
 
-        private bool allowStorageItemDrop;
-
+        private bool _AllowStorageItemDrop;
         public bool AllowStorageItemDrop
         {
-            get => allowStorageItemDrop;
-            set => SetProperty(ref allowStorageItemDrop, value);
+            get => _AllowStorageItemDrop;
+            set => SetProperty(ref _AllowStorageItemDrop, value);
         }
 
         public IRelayCommand OpenNewTabCommand { get; }

@@ -14,7 +14,7 @@ namespace Files.UserControls.MultitaskingControl
 {
     public sealed partial class MultitaskingControl : UserControl
     {
-
+        private DispatcherTimer _tabHoverTimer = null;
         private TabViewItem hoveredTabViewItem = null;
 
         public MultitaskingControlViewModel ViewModel
@@ -36,9 +36,6 @@ namespace Files.UserControls.MultitaskingControl
         // Using a DependencyProperty as the backing store for TabStripVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TabStripVisibilityProperty =
             DependencyProperty.Register(nameof(TabStripVisibility), typeof(Visibility), typeof(MultitaskingControl), new PropertyMetadata(Visibility.Visible));
-
-
-        private DispatcherTimer tabHoverTimer;
 
         public MultitaskingControl()
         {
@@ -130,7 +127,6 @@ namespace Files.UserControls.MultitaskingControl
         }
 
         private void TabStrip_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args) => ViewModel.CloseTab(args.Item as TabItemViewModel);
-        
 
         private async void TabStrip_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
         {
