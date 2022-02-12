@@ -1202,7 +1202,7 @@ namespace Files.Filesystem
         {
             if (view.renameTextBoxPreviousInput == "")
             {
-                view.renameTextBoxPreviousInput = /*((textBox.Parent as Grid).Children[0] as TextBlock)*/textBlock.Text;
+                view.renameTextBoxPreviousInput = textBlock.Text;
             }
             bool hasRestrictedCharacter = ContainsRestrictedCharacters(textBox.Text);
             if (hasRestrictedCharacter)
