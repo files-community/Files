@@ -167,22 +167,27 @@ namespace Files
                     ListedItem jumpedToItem = null;
                     ListedItem previouslySelectedItem = null;
 
-                    // Use FilesAndFolders because only displayed entries should be jumped to
-                    IEnumerable<ListedItem> candidateItems = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Where(f => f.ItemName.Length >= value.Length && string.Equals(f.ItemName.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
-
                     if (IsItemSelected)
                     {
                         previouslySelectedItem = SelectedItem;
                     }
 
-                    // If the user is trying to cycle through items
-                    // starting with the same letter
-                    if (value.Length == 1 && previouslySelectedItem != null)
+                    // Select first matching item after currently selected item
+                    if (previouslySelectedItem != null)
                     {
-                        jumpedToItem = candidateItems.SkipWhile(x => x != previouslySelectedItem).Skip(1).FirstOrDefault();
+                        // Use FilesAndFolders because only displayed entries should be jumped to
+                        IEnumerable<ListedItem> candidateItems = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders
+                            .SkipWhile(x => x != previouslySelectedItem)
+                            .Skip(value.Length == 1 ? 1 : 0) // User is trying to cycle through items starting with the same letter
+                            .Where(f => f.ItemName.Length >= value.Length && string.Equals(f.ItemName.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
+                        jumpedToItem = candidateItems.FirstOrDefault();
                     }
+
                     if (jumpedToItem == null)
                     {
+                        // Use FilesAndFolders because only displayed entries should be jumped to
+                        IEnumerable<ListedItem> candidateItems = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders
+                            .Where(f => f.ItemName.Length >= value.Length && string.Equals(f.ItemName.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
                         jumpedToItem = candidateItems.FirstOrDefault();
                     }
 
