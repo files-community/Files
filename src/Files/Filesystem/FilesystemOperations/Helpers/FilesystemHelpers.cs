@@ -111,8 +111,6 @@ namespace Files.Filesystem
         {
             source = await source.ToListAsync();
 
-            var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
-            PostedStatusBanner banner = null;
             var returnStatus = ReturnResult.InProgress;
 
             var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => recycleBinHelpers.IsPathUnderRecycleBin(path));
@@ -156,27 +154,7 @@ namespace Files.Filesystem
             }
 
             // post the status banner
-            if (permanently)
-            {
-                // deleting items from <x>
-                banner = OngoingTasksViewModel.PostOperationBanner(string.Empty,
-                    string.Format(source.Count() > 1 ? "StatusDeletingItemsDetails_Plural".GetLocalized() : "StatusDeletingItemsDetails_Singular".GetLocalized(), source.Count(), sourceDir),
-                    0,
-                    ReturnResult.InProgress,
-                    FileOperationType.Delete,
-                    new CancellationTokenSource());
-            }
-            else
-            {
-                // "Moving items from <x> to recycle bin"
-                banner = OngoingTasksViewModel.PostOperationBanner(string.Empty,
-                    string.Format(source.Count() > 1 ? "StatusMovingItemsDetails_Plural".GetLocalized() : "StatusMovingItemsDetails_Singular".GetLocalized(), source.Count(), sourceDir, "TheRecycleBin".GetLocalized()),
-                    0,
-                    ReturnResult.InProgress,
-                    FileOperationType.Recycle,
-                    new CancellationTokenSource());
-            }
-
+            var banner = PostBannerHelpers.PostBanner_Delete(source, returnStatus, permanently, false, 0);
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
             var token = banner.CancellationToken;
@@ -199,73 +177,7 @@ namespace Files.Filesystem
             banner.Remove();
             sw.Stop();
 
-            if (token.IsCancellationRequested)
-            {
-                if (permanently)
-                {
-                    OngoingTasksViewModel.PostBanner(
-                        "StatusDeletionCancelled".GetLocalized(),
-                        string.Format(source.Count() > 1 ?
-                            itemsDeleted > 1 ? "StatusDeleteCanceledDetails_Plural".GetLocalized() : "StatusDeleteCanceledDetails_Plural2".GetLocalized()
-                            : "StatusDeleteCanceledDetails_Singular".GetLocalized(), source.Count(), sourceDir, null, itemsDeleted),
-                        0,
-                        ReturnResult.Cancelled,
-                        FileOperationType.Delete);
-                }
-                else
-                {
-                    OngoingTasksViewModel.PostBanner(
-                        "StatusRecycleCancelled".GetLocalized(),
-                        string.Format(source.Count() > 1 ?
-                            itemsDeleted > 1 ? "StatusMoveCanceledDetails_Plural".GetLocalized() : "StatusMoveCanceledDetails_Plural2".GetLocalized()
-                            : "StatusMoveCanceledDetails_Singular".GetLocalized(), source.Count(), sourceDir, "TheRecycleBin".GetLocalized(), itemsDeleted),
-                        0,
-                        ReturnResult.Cancelled,
-                        FileOperationType.Recycle);
-                }
-            }
-            else if (returnStatus == ReturnResult.Success)
-            {
-                if (permanently)
-                {
-                    OngoingTasksViewModel.PostBanner(
-                        "StatusDeletionComplete".GetLocalized(),
-                        string.Format(source.Count() > 1 ? "StatusDeletedItemsDetails_Plural".GetLocalized() : "StatusDeletedItemsDetails_Singular".GetLocalized(), source.Count(), sourceDir, itemsDeleted),
-                        0,
-                        ReturnResult.Success,
-                        FileOperationType.Delete);
-                }
-                else
-                {
-                    OngoingTasksViewModel.PostBanner(
-                        "StatusRecycleComplete".GetLocalized(),
-                        string.Format(source.Count() > 1 ? "StatusMovedItemsDetails_Plural".GetLocalized() : "StatusMovedItemsDetails_Singular".GetLocalized(), source.Count(), sourceDir, "TheRecycleBin".GetLocalized()),
-                        0,
-                        ReturnResult.Success,
-                        FileOperationType.Recycle);
-                }
-            }
-            else
-            {
-                if (permanently)
-                {
-                    OngoingTasksViewModel.PostBanner(
-                        "StatusDeletionFailed".GetLocalized(),
-                        string.Format(source.Count() > 1 ? "StatusDeletionFailedDetails_Plural".GetLocalized() : "StatusDeletionFailedDetails_Singular".GetLocalized(), source.Count(), sourceDir),
-                        0,
-                        ReturnResult.Failed,
-                        FileOperationType.Delete);
-                }
-                else
-                {
-                    OngoingTasksViewModel.PostBanner(
-                        "StatusRecycleFailed".GetLocalized(),
-                        string.Format(source.Count() > 1 ? "StatusMoveFailedDetails_Plural".GetLocalized() : "StatusMoveFailedDetails_Singular".GetLocalized(), source.Count(), sourceDir, "TheRecycleBin".GetLocalized()),
-                        0,
-                        ReturnResult.Failed,
-                        FileOperationType.Recycle);
-                }
-            }
+            PostBannerHelpers.PostBanner_Delete(source, returnStatus, permanently, token.IsCancellationRequested, itemsDeleted);
 
             return returnStatus;
         }
