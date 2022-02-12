@@ -272,91 +272,7 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> DeleteItemAsync(IStorageItemWithPath source, bool showDialog, bool permanently, bool registerHistory)
         {
-            PostedStatusBanner banner;
-            bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
-            var canBeSentToBin = !deleteFromRecycleBin && await recycleBinHelpers.HasRecycleBin(source.Path);
-
-            if (!canBeSentToBin)
-            {
-                permanently = true;
-            }
-
-            if (permanently)
-            {
-                banner = OngoingTasksViewModel.PostBanner(string.Empty,
-                associatedInstance.FilesystemViewModel.WorkingDirectory,
-                0,
-                ReturnResult.InProgress,
-                FileOperationType.Delete);
-            }
-            else
-            {
-                banner = OngoingTasksViewModel.PostBanner(string.Empty,
-                associatedInstance.FilesystemViewModel.WorkingDirectory,
-                0,
-                ReturnResult.InProgress,
-                FileOperationType.Recycle);
-            }
-
-            var returnStatus = ReturnResult.InProgress;
-
-            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
-
-            if (((!permanently && !canBeSentToBin) || UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog) && showDialog) // Check if the setting to show a confirmation dialog is on
-            {
-                List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
-
-                var srcPath = source.Path;
-                if (recycleBinHelpers.IsPathUnderRecycleBin(srcPath))
-                {
-                    var binItems = associatedInstance.FilesystemViewModel.FilesAndFolders;
-                    var matchingItem = binItems.FirstOrDefault(x => x.ItemPath == srcPath); // Get original file name
-                    incomingItems.Add(new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, srcPath, null, matchingItem?.ItemName));
-                }
-                else
-                {
-                    incomingItems.Add(new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, srcPath, null));
-                }
-
-                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
-                    FilesystemOperationType.Delete,
-                    false,
-                    canBeSentToBin ? permanently : true,
-                    canBeSentToBin,
-                    incomingItems,
-                    new List<FilesystemItemsOperationItemModel>()));
-
-                ContentDialogResult result = await dialog.TryShowAsync();
-
-                if (result != ContentDialogResult.Primary)
-                {
-                    banner.Remove();
-                    return ReturnResult.Cancelled; // Return if the result isn't delete
-                }
-
-                // Delete selected item if the result is Yes
-                permanently = dialog.ViewModel.PermanentlyDelete;
-            }
-
-            var sw = new Stopwatch();
-            sw.Start();
-
-            IStorageHistory history = await filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
-            ((IProgress<float>)banner.Progress).Report(100.0f);
-            await Task.Yield();
-
-            if (!permanently && registerHistory)
-            {
-                App.HistoryWrapper.AddHistory(history);
-            }
-
-            App.JumpList.RemoveFolder(source.Path); // Remove items from jump list
-
-            banner.Remove();
-            sw.Stop();
-
-            PostBannerHelpers.PostBanner_Delete(returnStatus, permanently ? FileOperationType.Delete : FileOperationType.Recycle, sw, associatedInstance);
-            return returnStatus;
+            return await DeleteItemsAsync(source.CreateEnumerable(), showDialog, permanently, registerHistory);
         }
 
         public async Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItem> source, bool showDialog, bool permanently, bool registerHistory)
@@ -385,19 +301,7 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> RestoreItemFromTrashAsync(IStorageItemWithPath source, string destination, bool registerHistory)
         {
-            var returnCode = FileSystemStatusCode.InProgress;
-            var errorCode = new Progress<FileSystemStatusCode>();
-            errorCode.ProgressChanged += (s, e) => returnCode = e;
-
-            IStorageHistory history = await filesystemOperations.RestoreFromTrashAsync(source, destination, null, errorCode, cancellationToken);
-
-            if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
-            {
-                App.HistoryWrapper.AddHistory(history);
-            }
-
-            await Task.Yield();
-            return returnCode.ToStatus();
+            return await RestoreItemsFromTrashAsync(source.CreateEnumerable(), destination.CreateEnumerable(), registerHistory);
         }
 
         public async Task<ReturnResult> RestoreItemsFromTrashAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool registerHistory)
@@ -570,61 +474,7 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CopyItemAsync(IStorageItemWithPath source, string destination, bool showDialog, bool registerHistory)
         {
-            PostedStatusBanner banner = OngoingTasksViewModel.PostBanner(
-                string.Empty,
-                associatedInstance.FilesystemViewModel.WorkingDirectory,
-                0,
-                ReturnResult.InProgress,
-                FileOperationType.Copy);
-
-            var returnStatus = ReturnResult.InProgress;
-            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
-
-            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source.CreateList(), destination.CreateList(), showDialog);
-
-            if (cancelOperation)
-            {
-                banner.Remove();
-                return ReturnResult.Cancelled;
-            }
-
-            var sw = new Stopwatch();
-            sw.Start();
-
-            itemManipulationModel?.ClearSelection();
-
-            IStorageHistory history = null;
-            if (collisions.First() != FileNameConflictResolveOptionType.Skip)
-            {
-                history = await filesystemOperations.CopyAsync(source, destination, collisions.First().Convert(), banner.Progress, banner.ErrorCode, cancellationToken);
-                ((IProgress<float>)banner.Progress).Report(100.0f);
-                await Task.Yield();
-            }
-            else
-            {
-                ((IProgress<float>)banner.Progress).Report(100.0f);
-                return ReturnResult.Cancelled;
-            }
-
-            if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
-            {
-                App.HistoryWrapper.AddHistory(history);
-            }
-
-            banner.Remove();
-            sw.Stop();
-
-            if (sw.Elapsed.TotalSeconds >= 10)
-            {
-                OngoingTasksViewModel.PostBanner(
-                    "StatusCopyComplete".GetLocalized(),
-                    "StatusOperationCompleted".GetLocalized(),
-                    0,
-                    ReturnResult.Success,
-                    FileOperationType.Copy);
-            }
-
-            return returnStatus;
+            return await CopyItemsAsync(source.CreateEnumerable(), destination.CreateEnumerable(), showDialog, registerHistory);
         }
 
         public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
@@ -793,70 +643,7 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> MoveItemAsync(IStorageItemWithPath source, string destination, bool showDialog, bool registerHistory)
         {
-            PostedStatusBanner banner = OngoingTasksViewModel.PostBanner(
-                string.Empty,
-                associatedInstance.FilesystemViewModel.WorkingDirectory,
-                0,
-                ReturnResult.InProgress,
-                FileOperationType.Move);
-
-            var returnStatus = ReturnResult.InProgress;
-            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
-
-            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Move, source.CreateList(), destination.CreateList(), showDialog);
-
-            if (cancelOperation)
-            {
-                banner.Remove();
-                return ReturnResult.Cancelled;
-            }
-
-            if (cancelOperation)
-            {
-                banner.Remove();
-                return ReturnResult.Cancelled;
-            }
-
-            var sw = new Stopwatch();
-            sw.Start();
-
-            itemManipulationModel?.ClearSelection();
-
-            IStorageHistory history = null;
-
-            if (collisions.First() != FileNameConflictResolveOptionType.Skip)
-            {
-                history = await filesystemOperations.MoveAsync(source, destination, collisions.First().Convert(), banner.Progress, banner.ErrorCode, cancellationToken);
-                ((IProgress<float>)banner.Progress).Report(100.0f);
-                await Task.Yield();
-            }
-            else
-            {
-                ((IProgress<float>)banner.Progress).Report(100.0f);
-                return ReturnResult.Cancelled;
-            }
-
-            if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
-            {
-                App.HistoryWrapper.AddHistory(history);
-            }
-
-            App.JumpList.RemoveFolder(source.Path); // Remove items from jump list
-
-            banner.Remove();
-            sw.Stop();
-
-            if (sw.Elapsed.TotalSeconds >= 10)
-            {
-                OngoingTasksViewModel.PostBanner(
-                    "StatusMoveComplete".GetLocalized(),
-                    "StatusOperationCompleted".GetLocalized(),
-                    0,
-                    ReturnResult.Success,
-                    FileOperationType.Move);
-            }
-
-            return returnStatus;
+            return await MoveItemsAsync(source.CreateEnumerable(), destination.CreateEnumerable(), showDialog, registerHistory);
         }
 
         public async Task<ReturnResult> MoveItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
