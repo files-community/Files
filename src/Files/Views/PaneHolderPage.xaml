@@ -11,7 +11,6 @@
     xmlns:local="using:Files.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    Background="{ThemeResource PaneHolderPageBackgroundBrush}"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -38,10 +37,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        Background="{ThemeResource PaneHolderPageBackgroundBrush}">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition
                 x:Name="LeftColumn"
@@ -53,15 +49,13 @@
                 MinWidth="0" />
         </Grid.ColumnDefinitions>
 
-        <Border x:Name="PaneLeftBorder">
-            <local:ModernShellPage
-                x:Name="PaneLeft"
-                ContentChanged="Pane_ContentChanged"
-                IsPageMainPane="True"
-                Loaded="PaneLeft_Loaded"
-                NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
-                PaneHolder="{x:Bind}" />
-        </Border>
+        <local:ModernShellPage
+            x:Name="PaneLeft"
+            ContentChanged="Pane_ContentChanged"
+            IsPageMainPane="True"
+            Loaded="PaneLeft_Loaded"
+            NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
+            PaneHolder="{x:Bind}" />
 
         <Border
             x:Name="PaneRightBorder"

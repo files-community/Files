@@ -97,7 +97,7 @@
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="common:IconFileInfo">
                         <Grid Width="32" Height="32">
-                            <Image UserControls:ImageFromBytes.SourceBytes="{x:Bind IconDataBytes, Mode=OneWay}" />
+                            <Image UserControls:ImageFromBytes.SourceBytes="{x:Bind IconDataBytes}" />
                         </Grid>
                     </DataTemplate>
                 </GridView.ItemTemplate>

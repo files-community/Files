@@ -129,18 +129,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>Downloads</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Página Inicial</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Músicas</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Imagens</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Vídeos</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Classificar por</value>
   </data>
@@ -1310,9 +1298,6 @@
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Contagem de itens</value>
-  </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Fechar as guias à direita</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>Exclusão falhada</value>

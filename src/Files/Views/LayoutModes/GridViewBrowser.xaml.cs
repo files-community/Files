@@ -9,7 +9,6 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -51,6 +50,13 @@ namespace Files.Views.LayoutModes
             ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
             ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
             ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
+            ItemManipulationModel.RefreshItemsThumbnailInvoked += ItemManipulationModel_RefreshItemThumbnail;
+
+        }
+
+        private void ItemManipulationModel_RefreshItemThumbnail(object sender, EventArgs args)
+        {
+            ReloadSelectedItemIcon();
         }
 
         private void ItemManipulationModel_ScrollIntoViewInvoked(object sender, ListedItem e)
@@ -350,10 +356,10 @@ namespace Files.Views.LayoutModes
                 TextBlock textBlock = (popup.Parent as Grid).Children[1] as TextBlock;
                 popup.IsOpen = false;
             }
-            else
+            else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
             {
-                StackPanel parentPanel = textBox.Parent as StackPanel;
-                TextBlock textBlock = parentPanel.Children[0] as TextBlock;
+                Grid grid = textBox.Parent as Grid;
+                TextBlock textBlock = grid.Children[0] as TextBlock;
                 textBox.Visibility = Visibility.Collapsed;
                 textBlock.Visibility = Visibility.Visible;
             }
@@ -494,6 +500,13 @@ namespace Files.Views.LayoutModes
                     await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
                 }
             }
+        }
+
+        private async void ReloadSelectedItemIcon()
+        {
+            ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+            ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
+            await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(ParentShellPageInstance.SlimContentPage.SelectedItem, currentIconSize);
         }
 
         private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)

@@ -49,6 +49,8 @@ namespace Files.ViewModels
 
         public ICommand AddNewInstanceAcceleratorCommand { get; private set; }
 
+        public ICommand ReopenClosedTabAcceleratorCommand { get; private set; }
+
         public MainPageViewModel()
         {
             // Create commands
@@ -56,6 +58,7 @@ namespace Files.ViewModels
             OpenNewWindowAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
             CloseSelectedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CloseSelectedTabKeyboardAccelerator);
             AddNewInstanceAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(AddNewInstanceAccelerator);
+            ReopenClosedTabAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ReopenClosedTabAccelerator);
         }
 
         private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs e)
@@ -162,16 +165,13 @@ namespace Files.ViewModels
 
         private async void AddNewInstanceAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
-            bool shift = e.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
+            await AddNewTabAsync();
+            e.Handled = true;
+        }
 
-            if (!shift)
-            {
-                await AddNewTabAsync();
-            }
-            else // ctrl + shift + t, restore recently closed tab
-            {
-                ((BaseMultitaskingControl)MultitaskingControl).ReopenClosedTab(null, null);
-            }
+        private void ReopenClosedTabAccelerator(KeyboardAcceleratorInvokedEventArgs e)
+        {
+            ((BaseMultitaskingControl)MultitaskingControl).ReopenClosedTab(null, null);
             e.Handled = true;
         }
 
@@ -288,29 +288,9 @@ namespace Files.ViewModels
             }
             else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
             {
-                var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path);
-                switch (libName)
-                {
-                    case "Documents":
-                        tabLocationHeader = $"Sidebar{libName}".GetLocalized(); // Show localized name
-                        break;
-
-                    case "Pictures":
-                        tabLocationHeader = $"Sidebar{libName}".GetLocalized(); // Show localized name
-                        break;
-
-                    case "Music":
-                        tabLocationHeader = $"Sidebar{libName}".GetLocalized(); // Show localized name
-                        break;
-
-                    case "Videos":
-                        tabLocationHeader = $"Sidebar{libName}".GetLocalized(); // Show localized name
-                        break;
-
-                    default:
-                        tabLocationHeader = library.Text; // Show original name
-                        break;
-                }
+                var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path).GetLocalized();
+                // If localized string is empty use the library name.
+                tabLocationHeader = string.IsNullOrEmpty(libName) ? library.Text : libName;
             }
             else
             {

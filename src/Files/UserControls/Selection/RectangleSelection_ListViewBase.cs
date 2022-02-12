@@ -1,8 +1,8 @@
 ﻿using Files.Helpers.XamlHelpers;
+using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Toolkit.Uwp.UI;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -198,7 +198,7 @@ namespace Files.UserControls.Selection
             e.Handled = true;
         }
 
-        private void RectangleSelection_LayoutUpdated(object sender, object e)
+        private void RectangleSelection_SizeChanged(object sender, object e)
         {
             if (scrollViewer == null)
             {
@@ -207,7 +207,7 @@ namespace Files.UserControls.Selection
 
             if (scrollViewer != null)
             {
-                uiElement.LayoutUpdated -= RectangleSelection_LayoutUpdated;
+                uiElement.SizeChanged -= RectangleSelection_SizeChanged;
             }
         }
 
@@ -228,7 +228,7 @@ namespace Files.UserControls.Selection
                 scrollViewer = DependencyObjectHelpers.FindChild<ScrollViewer>(uiElement, sv => sv.VerticalScrollMode != ScrollMode.Disabled);
                 if (scrollViewer == null)
                 {
-                    uiElement.LayoutUpdated += RectangleSelection_LayoutUpdated;
+                    uiElement.SizeChanged += RectangleSelection_SizeChanged;
                 }
             }
         }

@@ -28,6 +28,8 @@ namespace Files.Interacts
 
         public event EventHandler RefreshItemsOpacityInvoked;
 
+        public event EventHandler RefreshItemsThumbnailInvoked;
+
         public void FocusFileList()
         {
             FocusFileListInvoked?.Invoke(this, EventArgs.Empty);
@@ -109,6 +111,11 @@ namespace Files.Interacts
         public void RefreshItemsOpacity()
         {
             RefreshItemsOpacityInvoked?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void RefreshItemsThumbnail()
+        {
+            RefreshItemsThumbnailInvoked?.Invoke(this, EventArgs.Empty);
         }
     }
 }

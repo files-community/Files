@@ -72,18 +72,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>Téléchargements</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Accueil</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Musique</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Images</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Vidéos</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Trier par</value>
   </data>
@@ -1027,7 +1015,7 @@
     <value>Envoyer aux développeurs un rapport d'incident avec des informations détaillées</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Soutenez-nous sur PayPal</value>
+    <value>Soutenez-nous sur GitHub</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Détails</value>
@@ -1307,9 +1295,6 @@
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Nombre d'éléments</value>
-  </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Fermer les onglets à droite</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>Erreur de suppression</value>
@@ -2104,7 +2089,7 @@
     <value>Lister et trier les dossiers avec les fichiers</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Afficher les éléments non indexés lors de la recherche de fichiers et dossiers (peut prendre plus de temps)</value>
+    <value>Afficher les éléments non indexés lors de la recherche de fichiers et dossiers</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
     <value>Activer les préférences individuelles pour les dossiers</value>
@@ -2230,14 +2215,7 @@
     <value>Icônes du système Fluent UI</value>
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
-    <value>
-*Collecte d'informations personnelles*
-Files ne collecte, ne stocke, ne partage ni ne publie aucune information personnelle.
-
-*Collecte d'informations non personnelles
-
-Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver des bogues et réparer les pannes. Toutes les informations envoyées à App Center sont anonymes et exemptes de toute donnée relative à l'utilisateur ou au contexte.
-  </value>
+    <value>Nous utilisons App Center pour suivre l'utilisation de l'application, trouver des bogues et réparer les pannes. Toutes les informations envoyées à App Center sont anonymes et exemptes de toute donnée relative à l'utilisateur ou au contexte.</value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Nom</value>
@@ -2401,6 +2379,15 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
     <value>Monter tout en haut</value>
   </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
+    <value>Date de création</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
+    <value>Taille</value>
+  </data>
+  <data name="SettingsSetAsOpenDialog" xml:space="preserve">
+    <value>Utiliser Files comme sélecteur de fichiers</value>
+  </data>
   <data name="Tag" xml:space="preserve">
     <value>Étiquette</value>
   </data>
@@ -2425,17 +2412,26 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
   <data name="SettingsImportErrorTitle" xml:space="preserve">
     <value>Erreur lors de l'importation des paramètres</value>
   </data>
+  <data name="ChooseCustomIcon" xml:space="preserve">
+    <value>Choisir une icône de dossier personnalisée</value>
+  </data>
   <data name="Customization" xml:space="preserve">
-    <value>Customisation</value>
+    <value>Personnalisation</value>
   </data>
   <data name="RestoreDefault" xml:space="preserve">
-    <value>Restorer par défaut</value>
+    <value>Par défaut</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
     <value>Compatibilité</value>
   </data>
   <data name="None" xml:space="preserve">
     <value>Aucun</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
+    <value>À la connexion Windows </value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
+    <value>Au démarrage du programme</value>
   </data>
   <data name="HighDpiOverride_System" xml:space="preserve">
     <value>Système</value>
@@ -2467,6 +2463,9 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
   <data name="CompatibilityMode" xml:space="preserve">
     <value>Mode compatibilité</value>
   </data>
+  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+    <value>Désactiver les optimisations plein écran</value>
+  </data>
   <data name="ExecuteAt640X480" xml:space="preserve">
     <value>Execute avec une résolution de 640 x 480</value>
   </data>
@@ -2478,5 +2477,143 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Exécuter en tant qu'administrateur</value>
+  </data>
+  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+    <value>Résoudre les problèmes de compatibilité</value>
+  </data>
+  <data name="UseMainMonitorDPISettings" xml:space="preserve">
+    <value>Utiliser les paramètres DPI du moniteur principal</value>
+  </data>
+  <data name="SettingsDefaultFilesManager" xml:space="preserve">
+    <value>Gestionnaire de fichiers par défaut</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
+    <value>Définir Files comme gestionnaire de fichiers par défaut</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Vider la Corbeille</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Panneau latéral</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Fichiers et dossiers</value>
+  </data>
+  <data name="OpenNewInstance" xml:space="preserve">
+    <value>Ouvrir une nouvelle instance lors de l'ouverture d'un dossier depuis la liste de raccourcis de la barre des tâches</value>
+  </data>
+  <data name="StartupSettings" xml:space="preserve">
+    <value>Au démarrage</value>
+  </data>
+  <data name="ThirdPartyLicenses" xml:space="preserve">
+    <value>Licences tierces</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
+    <value>Cette option modifie le registre système et peut avoir des effets secondaires inattendus sur votre système. Continuez à vos risques et périls.</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Effacer tout</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Colonnes</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Grandes Icônes</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Moyennes Icônes</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Petites Icônes</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Tuiles</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Créer une bibliothèque</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>Entrer le nom de la bibliothèque</value>
+  </data>
+  <data name="ShowFolderSize" xml:space="preserve">
+    <value>Afficher la taille des dossiers</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Passer</value>
+  </data>
+  <data name="SettingsOpenInLogin" xml:space="preserve">
+    <value>Ouvrir Files au démarrage de Windows</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Attributs</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Caché</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>Plus de détails</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Lecture seule</value>
+  </data>
+  <data name="CleanupDrive" xml:space="preserve">
+    <value>Nettoyer le contenu du disque</value>
+  </data>
+  <data name="DiskCleanup" xml:space="preserve">
+    <value>Nettoyer le disque</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type :</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Octets</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Extraire</value>
+  </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>Extraire les fichiers</value>
+  </data>
+  <data name="ExtractHere" xml:space="preserve">
+    <value>Extraire ici</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="ExtractToChildFolder" xml:space="preserve">
+    <value>Extraire vers {0}</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Exécuter le script</value>
+  </data>
+  <data name="RunWithPowerShell" xml:space="preserve">
+    <value>Exécuter avec PowerShell</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Définir comme fond d'écran</value>
+  </data>
+  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
+    <value>Ne pas supprimer les fichiers de votre système sans désactiver cette option. Ne pas le faire vous empêchera d'ouvrir l'explorateur de fichiers.</value>
+  </data>
+  <data name="ShowFolderSizesWarning" xml:space="preserve">
+    <value>Le calcul de la taille des dossiers consomme beaucoup de ressources et peut entraîner une augmentation de l'utilisation du processeur.</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Ouvrir dans</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Tourner à gauche</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Tourner à droite</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Installer</value>
+  </data>
+  <data name="CloseTabsToTheLeft" xml:space="preserve">
+    <value>Fermer les onglets à gauche</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Fermer les onglets à droite</value>
   </data>
 </root>

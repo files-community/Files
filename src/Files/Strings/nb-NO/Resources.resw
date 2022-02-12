@@ -129,18 +129,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>Nedlastinger</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Hjem</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Musikk</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Bilder</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Videoer</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sorter etter</value>
   </data>
@@ -1335,9 +1323,6 @@
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>Vil du fortsette som administrator?</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Lukk faner til høyre</value>
-  </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Administrator</value>
   </data>
@@ -1763,9 +1748,6 @@
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Lim inn</value>
-  </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Åpne i Terminal...</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Ny</value>

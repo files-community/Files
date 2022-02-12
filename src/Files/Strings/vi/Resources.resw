@@ -156,20 +156,8 @@
   <data name="Downloads" xml:space="preserve">
     <value>Tải xuống</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Trang chủ</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Âm nhạc</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Hình ảnh</value>
-  </data>
   <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
     <value>Huỷ ghim vào Ưa thích</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Video</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sắp xếp theo</value>
@@ -1431,9 +1419,6 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Số lượng mục</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Đóng các tab bên phải</value>
-  </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>Hoạt động xóa bỏ bị thất bại</value>
   </data>
@@ -2595,5 +2580,38 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Byte</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Giải nén</value>
+  </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>Giải nén tệp tin</value>
+  </data>
+  <data name="ExtractHere" xml:space="preserve">
+    <value>Giải nén ở đây</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="ExtractToChildFolder" xml:space="preserve">
+    <value>Giải nén vào {0}</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Chạy script</value>
+  </data>
+  <data name="RunWithPowerShell" xml:space="preserve">
+    <value>Chạy bằng PowerShell</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Cài làm ảnh nền desktop</value>
+  </data>
+  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
+    <value>Không xóa Files khỏi thiết bị của bạn khi chưa tắt tùy chọn này. Không làm như vậy sẽ ngăn bạn mở File Explorer.</value>
+  </data>
+  <data name="ShowFolderSizesWarning" xml:space="preserve">
+    <value>Việc tính toán kích thước thư mục tốn nhiều tài nguyên và có thể khiến mức sử dụng CPU của bạn tăng lên.</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Mở trong</value>
   </data>
 </root>

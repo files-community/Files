@@ -1,5 +1,4 @@
 ﻿using Files.Extensions;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -32,8 +31,7 @@ namespace Files.Helpers
                 {
                     { "Arguments", "LaunchApp" },
                     { "WorkingDirectory", string.IsNullOrEmpty(workingDirectory) ? associatedInstance?.FilesystemViewModel?.WorkingDirectory : workingDirectory },
-                    { "Application", applicationPaths.FirstOrDefault() },
-                    { "ApplicationList", JsonConvert.SerializeObject(applicationPaths) },
+                    { "Application", applicationPaths.FirstOrDefault() }
                 };
 
                 if (runAsAdmin)
