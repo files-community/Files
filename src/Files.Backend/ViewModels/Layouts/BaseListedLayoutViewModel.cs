@@ -1,19 +1,11 @@
-﻿using Files.Extensions;
-using Files.Filesystem;
-using Files.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Files.Backend.ViewModels.ItemListing;
-using Files.Backend.ViewModels.Layouts;
 using Files.Shared.Extensions;
+using Files.Backend.Helpers;
 
 namespace Files.Backend.ViewModels.Layouts
 {

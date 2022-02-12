@@ -98,11 +98,6 @@ namespace Files.Backend.ViewModels.Shell.Multitasking
             return tabItemViewModel;
         }
 
-        private void AddTab()
-        {
-            _ = AddTab(new());
-        }
-
         public void CloseTabsToTheRight(TabItemViewModel clickedTab)
         {
             int index = Tabs.IndexOf(clickedTab);

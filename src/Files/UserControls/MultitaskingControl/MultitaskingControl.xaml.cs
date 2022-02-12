@@ -35,7 +35,7 @@ namespace Files.UserControls.MultitaskingControl
 
         // Using a DependencyProperty as the backing store for TabStripVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TabStripVisibilityProperty =
-            DependencyProperty.Register("TabStripVisibility", typeof(Visibility), typeof(HorizontalMultitaskingControl), new PropertyMetadata(Visibility.Visible));
+            DependencyProperty.Register(nameof(TabStripVisibility), typeof(Visibility), typeof(MultitaskingControl), new PropertyMetadata(Visibility.Visible));
 
 
         private DispatcherTimer tabHoverTimer;
@@ -126,7 +126,7 @@ namespace Files.UserControls.MultitaskingControl
             }
 
             // TODO: We need to figure out a standardized way to construct new tabs with a navigation argument
-            await ViewModel.AddTab(/*tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationArg, index*/);
+            ViewModel.AddTab(/*tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationArg, index*/);
         }
 
         private void TabStrip_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args) => ViewModel.CloseTab(args.Item as TabItemViewModel);
