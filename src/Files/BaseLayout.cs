@@ -179,8 +179,7 @@ namespace Files
                     // starting with the same letter
                     if (value.Length == 1 && previouslySelectedItem != null)
                     {
-                        // Try to select item lexicographically bigger than the previous item
-                        jumpedToItem = candidateItems.FirstOrDefault(f => f.ItemName.CompareTo(previouslySelectedItem.ItemName) > 0);
+                        jumpedToItem = candidateItems.SkipWhile(x => x != previouslySelectedItem).Skip(1).FirstOrDefault();
                     }
                     if (jumpedToItem == null)
                     {
