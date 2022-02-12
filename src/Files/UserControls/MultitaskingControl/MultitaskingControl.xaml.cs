@@ -40,9 +40,9 @@ namespace Files.UserControls.MultitaskingControl
         public MultitaskingControl()
         {
             this.InitializeComponent();
-            tabHoverTimer = new DispatcherTimer();
-            tabHoverTimer.Interval = TimeSpan.FromMilliseconds(500);
-            tabHoverTimer.Tick += TabHoverSelected;
+           _tabHoverTimer = new DispatcherTimer();
+           _tabHoverTimer.Interval = TimeSpan.FromMilliseconds(500);
+           _tabHoverTimer.Tick += TabHoverSelected;
 
         }
 
@@ -51,7 +51,7 @@ namespace Files.UserControls.MultitaskingControl
             throw new NotImplementedException();
             //await ((sender as TabViewItem).DataContext as TabItemViewModel).TabShell.ActiveLayoutViewModel.TabItemDrop(sender, e);
             HorizontalTabView.CanReorderTabs = true;
-            tabHoverTimer.Stop();
+           _tabHoverTimer.Stop();
         }
 
         private async void TabViewItem_DragEnter(object sender, DragEventArgs e)
@@ -61,21 +61,21 @@ namespace Files.UserControls.MultitaskingControl
             if (e.AcceptedOperation != DataPackageOperation.None)
             {
                 HorizontalTabView.CanReorderTabs = false;
-                tabHoverTimer.Start();
+               _tabHoverTimer.Start();
                 hoveredTabViewItem = sender as TabViewItem;
             }
         }
 
         private void TabViewItem_DragLeave(object sender, DragEventArgs e)
         {
-            tabHoverTimer.Stop();
+           _tabHoverTimer.Stop();
             hoveredTabViewItem = null;
         }
 
         // Select tab that is hovered over for a certain duration
         private void TabHoverSelected(object sender, object e)
         {
-            tabHoverTimer.Stop();
+           _tabHoverTimer.Stop();
             if (hoveredTabViewItem != null)
             {
                 ViewModel.SelectedItem = hoveredTabViewItem.DataContext as TabItemViewModel;
