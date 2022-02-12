@@ -140,6 +140,84 @@ namespace Files.UserControls
 
         public bool IsLibrariesHeader { get; set; }
 
+        public bool ShowFavoritesSection
+        {
+            get => UserSettingsService.AppearanceSettingsService.ShowFavoritesSection;
+            set
+            {
+                if (value != UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
+                {
+                    UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = value;
+                    App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
+                }
+            }
+        }
+
+        public bool ShowLibrarySection
+        {
+            get => UserSettingsService.AppearanceSettingsService.ShowLibrarySection;
+            set
+            {
+                if (value != UserSettingsService.AppearanceSettingsService.ShowLibrarySection)
+                {
+                    UserSettingsService.AppearanceSettingsService.ShowLibrarySection = value;
+                    App.LibraryManager.UpdateLibrariesSectionVisibility();
+                }
+            }
+        }
+
+        public bool ShowDrivesSection
+        {
+            get => UserSettingsService.AppearanceSettingsService.ShowDrivesSection;
+            set
+            {
+                if (value != UserSettingsService.AppearanceSettingsService.ShowDrivesSection)
+                {
+                    UserSettingsService.AppearanceSettingsService.ShowDrivesSection = value;
+                    App.DrivesManager.UpdateDrivesSectionVisibility();
+                }
+            }
+        }
+
+        public bool ShowCloudDrivesSection
+        {
+            get => UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection;
+            set
+            {
+                if (value != UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection)
+                {
+                    UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = value;
+                    App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
+                }
+            }
+        }
+
+        public bool ShowNetworkDrivesSection
+        {
+            get => UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection;
+            set
+            {
+                if (value != UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
+                {
+                    UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = value;
+                    App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
+                }
+            }
+        }
+
+        public bool ShowWslSection
+        {
+            get => UserSettingsService.AppearanceSettingsService.ShowWslSection;
+            set
+            {
+                if (value != UserSettingsService.AppearanceSettingsService.ShowWslSection)
+                {
+                    UserSettingsService.AppearanceSettingsService.ShowWslSection = value;
+                    App.WSLDistroManager.UpdateWslSectionVisibility();
+                }
+            }
+        }
+
         public INavigationControlItem RightClickedItem;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -153,13 +231,11 @@ namespace Files.UserControls
         {
             if ("SidebarFavorites".GetLocalized().Equals(RightClickedItem.Text))
             {
-                UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = false;
-                App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
+                ShowFavoritesSection = false;
             }
             else if ("SidebarLibraries".GetLocalized().Equals(RightClickedItem.Text))
             {
-                UserSettingsService.AppearanceSettingsService.ShowLibrarySection = false;
-                App.LibraryManager.UpdateLibrariesSectionVisibility();
+                ShowLibrarySection = false;
             }
             else if ("SidebarCloudDrives".GetLocalized().Equals(RightClickedItem.Text))
             {
@@ -168,18 +244,15 @@ namespace Files.UserControls
             }
             else if ("Drives".GetLocalized().Equals(RightClickedItem.Text))
             {
-                UserSettingsService.AppearanceSettingsService.ShowDrivesSection = false;
-                App.DrivesManager.UpdateDrivesSectionVisibility();
+                ShowDrivesSection = false;
             }
             else if ("SidebarNetworkDrives".GetLocalized().Equals(RightClickedItem.Text))
             {
-                UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = false;
-                App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
+                ShowNetworkDrivesSection = false;
             }
             else if ("WSL".GetLocalized().Equals(RightClickedItem.Text))
             {
-                UserSettingsService.AppearanceSettingsService.ShowWslSection = false;
-                App.WSLDistroManager.UpdateWslSectionVisibility();
+                ShowWslSection = false;
             }
         }
 
@@ -332,6 +405,89 @@ namespace Files.UserControls
             }
         }
 
+        private void PaneRoot_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            var sidebarContextMenu = new MenuFlyout();
+            var sidebarContextMenuSectionsSubMenu = new MenuFlyoutSubItem()
+            {
+                Text = "Sections".GetLocalized(),
+                Icon = new FontIcon() { Glyph = "\uE71D" }
+            };
+            var sidebarContextMenuItems = new List<MenuFlyoutItemBase>()
+            {
+                new MenuFlyoutItem()
+                {
+                    Text="ShowAllSections".GetLocalized(),
+                    Icon=new FontIcon(){ Glyph="\uE8A9" },
+                    IsEnabled=!areAllSectionsHaveSameVisibility(true),
+                    Command=new RelayCommand(()=>setAllSectionVisibility(true))
+                },
+                new MenuFlyoutItem()
+                {
+                    Text="HideAllSections".GetLocalized(),
+                    Icon=new FontIcon(){ Glyph="\uE77A" },
+                    IsEnabled=!areAllSectionsHaveSameVisibility(false),
+                    Command=new RelayCommand(()=>setAllSectionVisibility(false))
+                },
+                new MenuFlyoutSeparator(),
+                sidebarContextMenuSectionsSubMenu,
+            };
+            var sidebarContextMenuSectionsSubMenuItems = new List<MenuFlyoutItemBase>()
+            {
+                new ToggleMenuFlyoutItem()
+                {
+                    Text="SidebarFavorites".GetLocalized(),
+                    IsChecked=ShowFavoritesSection,
+                    Command=new RelayCommand(()=>ShowFavoritesSection=!ShowFavoritesSection)
+                },
+                new ToggleMenuFlyoutItem()
+                {
+                    Text="SidebarLibraries".GetLocalized(),
+                    IsChecked=ShowLibrarySection,
+                    Command=new RelayCommand(()=>ShowLibrarySection=!ShowLibrarySection)
+                },
+                new ToggleMenuFlyoutItem()
+                {
+                    Text="Drives".GetLocalized(),
+                    IsChecked=ShowDrivesSection,
+                    Command=new RelayCommand(()=>ShowDrivesSection=!ShowDrivesSection)
+                },
+                new ToggleMenuFlyoutItem()
+                {
+                    Text="SidebarNetworkDrives".GetLocalized(),
+                    IsChecked=ShowNetworkDrivesSection,
+                    Command=new RelayCommand(()=>ShowNetworkDrivesSection=!ShowNetworkDrivesSection)
+                },
+                new ToggleMenuFlyoutItem()
+                {
+                    Text="SidebarCloudDrives".GetLocalized(),
+                    IsChecked=ShowCloudDrivesSection,
+                    Command=new RelayCommand(()=>ShowCloudDrivesSection=!ShowCloudDrivesSection)
+                },
+                new ToggleMenuFlyoutItem()
+                {
+                    Text="WSL".GetLocalized(),
+                    IsChecked=ShowWslSection,
+                    Command=new RelayCommand(()=>ShowWslSection=!ShowWslSection)
+                }
+            };
+            sidebarContextMenuSectionsSubMenuItems.ForEach((i) => sidebarContextMenuSectionsSubMenu.Items.Add(i));
+            sidebarContextMenuItems.ForEach((i) => sidebarContextMenu.Items.Add(i));
+            sidebarContextMenu.ShowAt(this, new Windows.UI.Xaml.Controls.Primitives.FlyoutShowOptions() { Position = e.GetPosition(this) });
+
+            e.Handled = true;
+        }
+
+        private void setAllSectionVisibility(bool isVisible)
+        {
+            ShowFavoritesSection = isVisible;
+            ShowLibrarySection = isVisible;
+            ShowDrivesSection = isVisible;
+            ShowCloudDrivesSection = isVisible;
+            ShowNetworkDrivesSection = isVisible;
+            ShowWslSection = isVisible;
+        }
+        private bool areAllSectionsHaveSameVisibility(bool isVisible) => (ShowFavoritesSection == isVisible && ShowLibrarySection == isVisible && ShowDrivesSection == isVisible && ShowCloudDrivesSection == isVisible && ShowNetworkDrivesSection == isVisible && ShowWslSection == isVisible);
         private void NavigationViewLocationItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             var itemContextMenuFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();

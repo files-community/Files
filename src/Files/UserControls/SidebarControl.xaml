@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:navigationcontrolitems="using:Files.DataModels.NavigationControlItems"
+    xmlns:navigationcontrolitems="using:Files.DataModels.NavigationControlItems" 
     HorizontalAlignment="Stretch"
     d:DesignHeight="768"
     d:DesignWidth="200"
@@ -90,7 +90,6 @@
             </DataTemplate>
 
             <mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
-
             <Style TargetType="SplitView">
                 <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
                 <Setter Property="BorderThickness" Value="{ThemeResource SplitViewLeftBorderThemeThickness}" />
@@ -132,7 +131,6 @@
                                     VerticalAlignment="Stretch"
                                     Background="{ThemeResource SidebarContentBackgroundBrush}"
                                     IsHitTestVisible="False" />
-
                                 <!--  Pane Content Area  -->
                                 <Grid
                                     x:Name="PaneRoot"
@@ -145,8 +143,8 @@
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     CornerRadius="{TemplateBinding CornerRadius}"
+                                    RightTapped="PaneRoot_RightTapped"
                                     Visibility="Collapsed">
-
                                     <Grid.BackgroundTransition>
                                         <BrushTransition />
                                     </Grid.BackgroundTransition>

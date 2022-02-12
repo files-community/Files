@@ -2753,4 +2753,13 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="PrepareInProgress" xml:space="preserve">
     <value>Preparing items</value>
   </data>
+  <data name="HideAllSections" xml:space="preserve">
+    <value>Hide all sections</value>
+  </data>
+  <data name="Sections" xml:space="preserve">
+    <value>Sections</value>
+  </data>
+  <data name="ShowAllSections" xml:space="preserve">
+    <value>Show all sections</value>
+  </data>
 </root>
