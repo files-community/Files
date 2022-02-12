@@ -1,5 +1,6 @@
 ﻿using Files.DataModels.NavigationControlItems;
 using Files.Enums;
+using Files.EventArguments;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
@@ -30,8 +31,6 @@ namespace Files.Views
     /// </summary>
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
-        private bool isPaneHorizontal = false;
-
         public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         public MainViewModel MainViewModel => App.MainViewModel;
@@ -52,7 +51,7 @@ namespace Files.Views
         private ICommand SetCompactOverlayCommand { get; }
 
         private ICommand ToggleSidebarCollapsedStateCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleSidebarCollapsedState(x));
-       
+
         public bool IsVerticalTabFlyoutEnabled => UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled;
 
         public MainPage()
@@ -78,14 +77,13 @@ namespace Files.Views
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
         }
 
-        private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
             switch (e.settingName)
             {
                 case nameof(IPaneSettingsService.Content):
                     LoadPaneChanged();
                     break;
-
                 case nameof(IMultitaskingSettingsService.IsVerticalTabFlyoutEnabled):
                     OnPropertyChanged(nameof(IsVerticalTabFlyoutEnabled));
                     break;
@@ -374,60 +372,68 @@ namespace Files.Views
             if (Pane is null || !IsPaneEnabled)
             {
                 PaneRow.MinHeight = 0;
+                PaneRow.MaxHeight = double.MaxValue;
                 PaneRow.Height = new GridLength(0);
                 PaneColumn.MinWidth = 0;
+                PaneColumn.MaxWidth = double.MaxValue;
                 PaneColumn.Width = new GridLength(0);
             }
-            else if (RootGrid.ActualWidth > 700)
+            else
             {
-                Pane.SetValue(Grid.RowProperty, 1);
-                Pane.SetValue(Grid.ColumnProperty, 2);
-
-                PaneSplitter.SetValue(Grid.RowProperty, 1);
-                PaneSplitter.SetValue(Grid.ColumnProperty, 1);
-                PaneSplitter.Width = 2;
-                PaneSplitter.Height = RootGrid.ActualHeight;
-
-                PaneRow.MinHeight = 0;
-                PaneRow.Height = new GridLength(0);
-                PaneColumn.MinWidth = 150;
-                PaneColumn.Width = new GridLength(UserSettingsService.PaneSettingsService.VerticalSizePx, GridUnitType.Pixel);
-
-                isPaneHorizontal = false;
-            }
-            else if (RootGrid.ActualWidth <= 700)
-            {
-                PaneRow.MinHeight = 140;
-                PaneRow.Height = new GridLength(UserSettingsService.PaneSettingsService.HorizontalSizePx, GridUnitType.Pixel);
-                PaneColumn.MinWidth = 0;
-                PaneColumn.Width = new GridLength(0);
-
-                Pane.SetValue(Grid.RowProperty, 3);
-                Pane.SetValue(Grid.ColumnProperty, 0);
-
-                PaneSplitter.SetValue(Grid.RowProperty, 2);
-                PaneSplitter.SetValue(Grid.ColumnProperty, 0);
-                PaneSplitter.Height = 2;
-                PaneSplitter.Width = RootGrid.Width;
-
-                isPaneHorizontal = true;
+                Pane.UpdatePosition(RootGrid.ActualWidth, RootGrid.ActualHeight);
+                switch (Pane.Position)
+                {
+                    case PanePositions.None:
+                        PaneRow.MinHeight = 0;
+                        PaneRow.Height = new GridLength(0);
+                        PaneColumn.MinWidth = 0;
+                        PaneColumn.Width = new GridLength(0);
+                        break;
+                    case PanePositions.Right:
+                        Pane.SetValue(Grid.RowProperty, 1);
+                        Pane.SetValue(Grid.ColumnProperty, 2);
+                        PaneSplitter.SetValue(Grid.RowProperty, 1);
+                        PaneSplitter.SetValue(Grid.ColumnProperty, 1);
+                        PaneSplitter.Width = 2;
+                        PaneSplitter.Height = RootGrid.ActualHeight;
+                        PaneColumn.MinWidth = Pane.MinWidth;
+                        PaneColumn.MaxWidth = Pane.MaxWidth;
+                        PaneColumn.Width = new GridLength(UserSettingsService.PaneSettingsService.VerticalSizePx, GridUnitType.Pixel);
+                        PaneRow.MinHeight = 0;
+                        PaneRow.MaxHeight = double.MaxValue;
+                        PaneRow.Height = new GridLength(0);
+                        break;
+                    case PanePositions.Bottom:
+                        Pane.SetValue(Grid.RowProperty, 3);
+                        Pane.SetValue(Grid.ColumnProperty, 0);
+                        PaneSplitter.SetValue(Grid.RowProperty, 2);
+                        PaneSplitter.SetValue(Grid.ColumnProperty, 0);
+                        PaneSplitter.Height = 2;
+                        PaneSplitter.Width = RootGrid.ActualWidth;
+                        PaneColumn.MinWidth = 0;
+                        PaneColumn.MaxWidth = double.MaxValue;
+                        PaneColumn.Width = new GridLength(0);
+                        PaneRow.MinHeight = Pane.MinHeight;
+                        PaneRow.MaxHeight = Pane.MaxHeight;
+                        PaneRow.Height = new GridLength(UserSettingsService.PaneSettingsService.HorizontalSizePx, GridUnitType.Pixel);
+                        break;
+                }
             }
         }
 
         private void PaneSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            if (Pane is null)
+            if (Pane is IPane p)
             {
-                return;
-            }
-
-            if (isPaneHorizontal)
-            {
-                UserSettingsService.PaneSettingsService.HorizontalSizePx = Pane.ActualHeight;
-            }
-            else
-            {
-                UserSettingsService.PaneSettingsService.VerticalSizePx = Pane.ActualWidth;
+                switch (p.Position)
+                {
+                    case PanePositions.Right:
+                        UserSettingsService.PaneSettingsService.VerticalSizePx = Pane.ActualWidth;
+                        break;
+                    case PanePositions.Bottom:
+                        UserSettingsService.PaneSettingsService.HorizontalSizePx = Pane.ActualHeight;
+                        break;
+                }
             }
         }
 

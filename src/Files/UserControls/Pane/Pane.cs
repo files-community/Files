@@ -2,12 +2,12 @@
 {
     public interface IPane
     {
-        PanePosition Position { get; }
+        PanePositions Position { get; }
 
         void UpdatePosition(double panelWidth, double panelHeight);
     }
 
-    public enum PanePosition : ushort
+    public enum PanePositions : ushort
     {
         None,
         Right,

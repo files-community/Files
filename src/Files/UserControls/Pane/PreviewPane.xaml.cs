@@ -9,8 +9,10 @@ using Windows.UI.Xaml.Input;
 
 namespace Files.UserControls
 {
-    public sealed partial class PreviewPane : UserControl
+    public sealed partial class PreviewPane : UserControl, IPane
     {
+        public PanePositions Position { get; private set; } = PanePositions.None;
+
         private IPaneSettingsService PaneSettingsService { get; } = Ioc.Default.GetService<IPaneSettingsService>();
 
         private PreviewPaneViewModel ViewModel => App.PreviewPaneViewModel;
@@ -19,14 +21,24 @@ namespace Files.UserControls
 
         public PreviewPane() => InitializeComponent();
 
+        public void UpdatePosition(double panelWidth, double panelHeight)
+        {
+            if (panelWidth > 700)
+            {
+                Position = PanePositions.Right;
+                (MinWidth, MinHeight) = (150, 0);
+            }
+            else
+            {
+                Position = PanePositions.Bottom;
+                (MinWidth, MinHeight) = (0, 140);
+            }
+        }
+
         private string GetLocalized(string resName) => resName.GetLocalized();
 
-        private void MenuFlyoutItem_Tapped(object sender, TappedRoutedEventArgs e) => ViewModel?.UpdateSelectedItemPreview(true);
-
         private void Root_Loading(FrameworkElement sender, object args)
-        {
-            ViewModel.UpdateSelectedItemPreview();
-        }
+            => ViewModel.UpdateSelectedItemPreview();
         private void Root_Unloaded(object sender, RoutedEventArgs e)
         {
             PreviewControlPresenter.Content = null;
@@ -34,6 +46,9 @@ namespace Files.UserControls
         }
         private void Root_SizeChanged(object sender, SizeChangedEventArgs e)
             => Context.IsHorizontal = Root.ActualWidth >= Root.ActualHeight;
+
+        private void MenuFlyoutItem_Tapped(object sender, TappedRoutedEventArgs e)
+            => ViewModel?.UpdateSelectedItemPreview(true);
 
         private class ObservableContext : ObservableObject
         {
