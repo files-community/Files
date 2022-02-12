@@ -673,7 +673,15 @@ namespace Files.ViewModels
                     return;
                 }
 
-                filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection).ToList();
+                if (CurrentFolder.ItemPath == CommonPaths.DownloadsPath)
+                {
+                    filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, SortOption.DateModified, SortDirection.Descending).ToList();
+                }
+                else
+                {   
+                    filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection).ToList();
+                }
+
             }
 
             if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
