@@ -2753,4 +2753,16 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="PrepareInProgress" xml:space="preserve">
     <value>Preparing items</value>
   </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Copy failed</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
+    <value>Failed to copy {0} items from {1} to {2}</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
+    <value>Failed to copy {0} item from {1} to {2}</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Move failed</value>
+  </data>
 </root>

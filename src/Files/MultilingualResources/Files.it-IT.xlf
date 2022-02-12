@@ -3525,6 +3525,22 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
           <source>Preparing items</source>
           <target state="translated">Preparazione in corso</target>
         </trans-unit>
+        <trans-unit id="StatusCopyFailed" translate="yes" xml:space="preserve">
+          <source>Copy failed</source>
+          <target state="translated">Copia non riuscita</target>
+        </trans-unit>
+        <trans-unit id="StatusCopyFailedDetails_Plural" translate="yes" xml:space="preserve">
+          <source>Failed to copy {0} items from {1} to {2}</source>
+          <target state="translated">Copia di {0} elementi da {1} a {2} fallita</target>
+        </trans-unit>
+        <trans-unit id="StatusCopyFailedDetails_Singular" translate="yes" xml:space="preserve">
+          <source>Failed to copy {0} item from {1} to {2}</source>
+          <target state="translated">Copia di {0} elemento da {1} a {2} fallita</target>
+        </trans-unit>
+        <trans-unit id="StatusMoveFailed" translate="yes" xml:space="preserve">
+          <source>Move failed</source>
+          <target state="translated">Spostamento non riuscito</target>
+        </trans-unit>
       </group>
     </body>
   </file>

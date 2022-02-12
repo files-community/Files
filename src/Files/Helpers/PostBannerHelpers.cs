@@ -144,8 +144,12 @@ namespace Files.Helpers
             }
             else
             {
-                // TODO
-                return null;
+                return OngoingTasksViewModel.PostBanner(
+                    "StatusCopyFailed".GetLocalized(),
+                    string.Format(source.Count() > 1 ? "StatusCopyFailedDetails_Plural".GetLocalized() : "StatusCopyFailedDetails_Singular".GetLocalized(), source.Count(), sourceDir, destinationDir),
+                    0,
+                    ReturnResult.Failed,
+                    FileOperationType.Copy);
             }
         }
 
@@ -185,8 +189,12 @@ namespace Files.Helpers
             }
             else
             {
-                // TODO
-                return null;
+                return OngoingTasksViewModel.PostBanner(
+                    "StatusMoveFailed".GetLocalized(),
+                    string.Format(source.Count() > 1 ? "StatusMoveFailedDetails_Plural".GetLocalized() : "StatusMoveFailedDetails_Singular".GetLocalized(), source.Count(), sourceDir, destinationDir),
+                    0,
+                    ReturnResult.Failed,
+                    FileOperationType.Move);
             }
         }
     }
