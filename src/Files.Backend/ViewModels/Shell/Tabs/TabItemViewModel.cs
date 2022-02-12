@@ -32,13 +32,6 @@ namespace Files.Backend.ViewModels.Shell.Tabs
             set => SetProperty(ref _IsLoading, value);
         }
 
-        private bool _AllowStorageItemDrop;
-        public bool AllowStorageItemDrop
-        {
-            get => _AllowStorageItemDrop;
-            set => SetProperty(ref _AllowStorageItemDrop, value);
-        }
-
         public IRelayCommand OpenNewTabCommand { get; }
 
         public TabItemViewModel(FuturisticShellPageViewModel tabShell)

@@ -224,7 +224,6 @@ namespace Files.ViewModels
 
         public static async Task UpdateTabInfo(TabItemViewModel tabItem, object navigationArg)
         {
-            tabItem.AllowStorageItemDrop = true;
             if (navigationArg is PaneNavigationArguments paneArgs)
             {
                 if (!string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam) && !string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam))

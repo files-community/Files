@@ -274,7 +274,7 @@
                                                 Width="250"
                                                 Height="40"
                                                 Padding="1"
-                                                AllowDrop="{x:Bind AllowStorageItemDrop, Mode=OneWay}"
+                                                AllowDrop="True"
                                                 CornerRadius="4"
                                                 DragEnter="TabViewItem_DragEnter"
                                                 DragLeave="TabViewItem_DragLeave"
