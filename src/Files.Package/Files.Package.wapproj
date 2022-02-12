@@ -476,6 +476,7 @@
     <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-400.png" />
+    <Content Include="Package.appinstaller" />
   </ItemGroup>
   <ItemGroup>
     <None Include="nupkgs\microsoft.management.infrastructure.runtime.win.2.0.1.nupkg" />
