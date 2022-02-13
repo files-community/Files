@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.Storage;
 
-namespace Files.Services.Implementation
+namespace Files.ServicesImplementation.SettingsServices
 {
     public sealed class FileTagsSettingsService : BaseJsonSettingsModel, IFileTagsSettingsService
     {

@@ -4,7 +4,7 @@ using Files.Backend.Services.Settings;
 using Microsoft.AppCenter.Analytics;
 using System.Collections.Generic;
 
-namespace Files.Services.Implementation
+namespace Files.ServicesImplementation.SettingsServices
 {
     public class PreferencesSettingsService : BaseObservableJsonSettingsModel, IPreferencesSettingsService
     {

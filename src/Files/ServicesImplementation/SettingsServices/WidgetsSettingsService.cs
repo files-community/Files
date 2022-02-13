@@ -3,7 +3,7 @@ using Files.Backend.Models.JsonSettings;
 using Files.Backend.Services.Settings;
 using Microsoft.AppCenter.Analytics;
 
-namespace Files.Services.Implementation
+namespace Files.ServicesImplementation.SettingsServices
 {
     public class WidgetsSettingsService : BaseObservableJsonSettingsModel, IWidgetsSettingsService
     {

@@ -2,30 +2,43 @@
 using Files.Backend.Models.JsonSettings;
 using Files.Backend.Services.Settings;
 using Microsoft.AppCenter.Analytics;
+using System;
 
-namespace Files.Services.Implementation
+namespace Files.ServicesImplementation.SettingsServices
 {
-    public class MultitaskingSettingsService : BaseObservableJsonSettingsModel, IMultitaskingSettingsService
+    public class PreviewPaneSettingsService : BaseObservableJsonSettingsModel, IPreviewPaneSettingsService
     {
-        public MultitaskingSettingsService(ISettingsSharingContext settingsSharingContext)
+        public PreviewPaneSettingsService(ISettingsSharingContext settingsSharingContext)
         {
             // Initialize settings
             this.RegisterSettingsContext(settingsSharingContext);
         }
 
-        public bool IsVerticalTabFlyoutEnabled
+        public double PreviewPaneMediaVolume
         {
-            get => Get(true);
+            get => Math.Min(Math.Max(Get(1.0d), 0.0d), 1.0d);
             set => Set(value);
         }
 
-        public bool IsDualPaneEnabled
+        public double PreviewPaneSizeHorizontalPx
+        {
+            get => Get(Math.Min(Math.Max(Get(300d), 50d), 600d));
+            set => Set(value);
+        }
+
+        public double PreviewPaneSizeVerticalPx
+        {
+            get => Get(Math.Min(Math.Max(Get(250d), 50d), 600d));
+            set => Set(value);
+        }
+
+        public bool PreviewPaneEnabled
         {
             get => Get(false);
             set => Set(value);
         }
 
-        public bool AlwaysOpenDualPaneInNewTab
+        public bool ShowPreviewOnly
         {
             get => Get(false);
             set => Set(value);
@@ -35,9 +48,7 @@ namespace Files.Services.Implementation
         {
             switch (e.settingName)
             {
-                case nameof(IsVerticalTabFlyoutEnabled):
-                case nameof(IsDualPaneEnabled):
-                case nameof(AlwaysOpenDualPaneInNewTab):
+                case nameof(ShowPreviewOnly):
                     Analytics.TrackEvent($"{e.settingName} {e.newValue}");
                     break;
             }
@@ -47,9 +58,7 @@ namespace Files.Services.Implementation
 
         public void ReportToAppCenter()
         {
-            Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutEnabled)}, {IsVerticalTabFlyoutEnabled}");
-            Analytics.TrackEvent($"{nameof(IsDualPaneEnabled)}, {IsDualPaneEnabled}");
-            Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)}, {AlwaysOpenDualPaneInNewTab}");
+            Analytics.TrackEvent($"{nameof(ShowPreviewOnly)}, {ShowPreviewOnly}");
         }
     }
 }

@@ -137,8 +137,10 @@
     <Compile Include="Helpers\IntegrationHelpers.cs" />
     <Compile Include="Helpers\NativeFileOperationsHelper.cs" />
     <Compile Include="Helpers\NavigationHelpers.cs" />
+    <Compile Include="Messages\ActiveLayoutChangedMessage.cs" />
     <Compile Include="Messages\TabAddRequestedMessage.cs" />
     <Compile Include="Messages\TabDisposalRequestedMessage.cs" />
+    <Compile Include="Messages\TabInstanceChangedMessage.cs" />
     <Compile Include="Models\Icons\IconModel.cs" />
     <Compile Include="Models\Icons\UriIconModel.cs" />
     <Compile Include="Models\IFileTag.cs" />
@@ -154,6 +156,8 @@
     <Compile Include="Models\JsonSettings\ISettingsSharingContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IApplicationService.cs" />
+    <Compile Include="Services\IFallbackStorageEnumeratorService.cs" />
+    <Compile Include="Services\IStorageEnumeratorService.cs" />
     <Compile Include="Services\Settings\IAppearanceSettingsService.cs" />
     <Compile Include="Services\Settings\IBundlesSettingsService.cs" />
     <Compile Include="Services\Settings\IFileTagsSettingsService.cs" />

@@ -22,18 +22,14 @@ namespace Files.UserControls.MultitaskingControl
             get => (MultitaskingControlViewModel)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
         }
-
-        // Using a DependencyProperty as the backing store for ViewModel.
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register(nameof(ViewModel), typeof(MultitaskingControlViewModel), typeof(MultitaskingControl), new PropertyMetadata(null));
 
         public Visibility TabStripVisibility
         {
-            get { return (Visibility)GetValue(TabStripVisibilityProperty); }
-            set { SetValue(TabStripVisibilityProperty, value); }
+            get => (Visibility)GetValue(TabStripVisibilityProperty);
+            set => SetValue(TabStripVisibilityProperty, value);
         }
-
-        // Using a DependencyProperty as the backing store for TabStripVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TabStripVisibilityProperty =
             DependencyProperty.Register(nameof(TabStripVisibility), typeof(Visibility), typeof(MultitaskingControl), new PropertyMetadata(Visibility.Visible));
 
@@ -43,7 +39,6 @@ namespace Files.UserControls.MultitaskingControl
            _tabHoverTimer = new DispatcherTimer();
            _tabHoverTimer.Interval = TimeSpan.FromMilliseconds(500);
            _tabHoverTimer.Tick += TabHoverSelected;
-
         }
 
         private async void TabViewItem_Drop(object sender, DragEventArgs e)
@@ -167,6 +162,11 @@ namespace Files.UserControls.MultitaskingControl
             {
                 MenuItemCloseTabsToTheRight.IsEnabled = true;
             }
+        }
+
+        private void TabStrip_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

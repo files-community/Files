@@ -4,7 +4,7 @@ using Files.Backend.Services.Settings;
 using Microsoft.AppCenter.Analytics;
 using System;
 
-namespace Files.Services.Implementation
+namespace Files.ServicesImplementation.SettingsServices
 {
     public class AppearanceSettingsService : BaseObservableJsonSettingsModel, IAppearanceSettingsService
     {

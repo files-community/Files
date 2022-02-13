@@ -9,12 +9,6 @@ namespace Files.Backend.Helpers
 {
     public static class NavigationHelpers
     {
-        public static async Task<bool> OpenPathInNewWindowAsync(string path)
-        {
-            var folderUri = new Uri($"files-uwp:?folder={Uri.EscapeDataString(path)}");
-            return await Launcher.LaunchUriAsync(folderUri);
-        }
-
         // TODO: Make this helper function rely on a collection of items rather than a tab instance
         //public static async void OpenSelectedItems(List<ListedItem>, bool openViaApplicationPicker = false)
         //{

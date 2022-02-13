@@ -4,7 +4,7 @@ using Files.Controllers;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
-using Files.Services.Implementation;
+using Files.ServicesImplementation;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.AppCenter;
@@ -34,8 +34,11 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using Files.Backend.Services;
 using Files.Backend.ViewModels.Shell.Multitasking;
 using Files.Backend.Services.Settings;
+using Files.ServicesImplementation.SettingsServices;
+using Files.Shared.Extensions;
 using IUserSettingsService = Files.Backend.Services.Settings.IUserSettingsService;
 
 namespace Files
@@ -98,12 +101,12 @@ namespace Files
                 // Base IUserSettingsService as parent settings store (to get ISettingsSharingContext from)
                 .AddSingleton<IUserSettingsService, UserSettingsService>()
                 // Children settings (from IUserSettingsService)
-                .AddSingleton<IMultitaskingSettingsService, MultitaskingSettingsService>((sp) => new MultitaskingSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
-                .AddSingleton<IWidgetsSettingsService, WidgetsSettingsService>((sp) => new WidgetsSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
-                .AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
-                .AddSingleton<IPreferencesSettingsService, PreferencesSettingsService>((sp) => new PreferencesSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
-                .AddSingleton<IPreviewPaneSettingsService, PreviewPaneSettingsService>((sp) => new PreviewPaneSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
-                .AddSingleton<ILayoutSettingsService, LayoutSettingsService>((sp) => new LayoutSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IMultitaskingSettingsService, MultitaskingSettingsService>((sp) => new MultitaskingSettingsService(sp.GetRequiredService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IWidgetsSettingsService, WidgetsSettingsService>((sp) => new WidgetsSettingsService(sp.GetRequiredService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService(sp.GetRequiredService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IPreferencesSettingsService, PreferencesSettingsService>((sp) => new PreferencesSettingsService(sp.GetRequiredService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IPreviewPaneSettingsService, PreviewPaneSettingsService>((sp) => new PreviewPaneSettingsService(sp.GetRequiredService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<ILayoutSettingsService, LayoutSettingsService>((sp) => new LayoutSettingsService(sp.GetRequiredService<IUserSettingsService>().GetSharingContext()))
                 // Settings not related to IUserSettingsService:
                 .AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
                 .AddSingleton<IBundlesSettingsService, BundlesSettingsService>()
@@ -112,6 +115,9 @@ namespace Files
 
                 // TODO: FileSystem operations:
                 // (IFilesystemHelpersService, IFilesystemOperationsService)
+
+                .AddTransient<IFallbackStorageEnumeratorService, WindowsStorageEnumerator>()
+                .AddTransient<IStorageEnumeratorService, Win32StorageEnumerator>()
 
                 ; // End of service configuration
 

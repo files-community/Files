@@ -242,15 +242,18 @@
     <Compile Include="Layouts\IBaseListedLayoutItemSelectionModel.cs" />
     <Compile Include="Layouts\Listing\LayoutItemsListing.cs" />
     <Compile Include="Models\FileTagModel.cs" />
-    <Compile Include="Services\Implementation\AppearanceSettingsService.cs" />
-    <Compile Include="Services\Implementation\BundlesSettingsService.cs" />
-    <Compile Include="Services\Implementation\FileTagsSettingsService.cs" />
-    <Compile Include="Services\Implementation\LayoutSettingsService.cs" />
-    <Compile Include="Services\Implementation\MultitaskingSettingsService.cs" />
-    <Compile Include="Services\Implementation\PreferencesSettingsService.cs" />
-    <Compile Include="Services\Implementation\PreviewPaneSettingsService.cs" />
-    <Compile Include="Services\Implementation\UserSettingsService.cs" />
-    <Compile Include="Services\Implementation\WidgetsSettingsService.cs" />
+    <Compile Include="ServicesImplementation\ApplicationService.cs" />
+    <Compile Include="ServicesImplementation\SettingsServices\AppearanceSettingsService.cs" />
+    <Compile Include="ServicesImplementation\SettingsServices\BundlesSettingsService.cs" />
+    <Compile Include="ServicesImplementation\SettingsServices\FileTagsSettingsService.cs" />
+    <Compile Include="ServicesImplementation\SettingsServices\LayoutSettingsService.cs" />
+    <Compile Include="ServicesImplementation\SettingsServices\MultitaskingSettingsService.cs" />
+    <Compile Include="ServicesImplementation\SettingsServices\PreferencesSettingsService.cs" />
+    <Compile Include="ServicesImplementation\SettingsServices\PreviewPaneSettingsService.cs" />
+    <Compile Include="ServicesImplementation\SettingsServices\UserSettingsService.cs" />
+    <Compile Include="ServicesImplementation\SettingsServices\WidgetsSettingsService.cs" />
+    <Compile Include="ServicesImplementation\Win32StorageEnumerator.cs" />
+    <Compile Include="ServicesImplementation\WindowsStorageEnumerator.cs" />
     <Compile Include="UserControls\ColoredIcon.xaml.cs">
       <DependentUpon>ColoredIcon.xaml</DependentUpon>
     </Compile>
@@ -267,7 +270,7 @@
     <Compile Include="UserControls\InnerNavigationToolbar.xaml.cs">
       <DependentUpon>InnerNavigationToolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\MultitaskingControl\MultitaskingControl.xaml.cs">
+    <Compile Include="UserControls\MultitaskingControl.xaml.cs">
       <DependentUpon>MultitaskingControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\PathBreadcrumb.xaml.cs">
@@ -454,7 +457,6 @@
     <Compile Include="UserControls\NavigationToolbar.xaml.cs">
       <DependentUpon>NavigationToolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\MultitaskingControl\BaseMultitaskingControl.cs" />
     <Compile Include="DataModels\TerminalFileModel.cs" />
     <Compile Include="DataModels\Terminal.cs" />
     <Compile Include="Dialogs\AddItemDialog.xaml.cs">
@@ -1219,7 +1221,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\MultitaskingControl\MultitaskingControl.xaml">
+    <Page Include="UserControls\MultitaskingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1601,6 +1603,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\JsonSettings\" />
+    <Folder Include="UserControls\MultitaskingControl\" />
     <Folder Include="ViewModels\Layouts\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '16.0' ">

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using Windows.Storage;
 
-namespace Files.Services.Implementation
+namespace Files.ServicesImplementation.SettingsServices
 {
     public sealed class BundlesSettingsService : BaseObservableJsonSettingsModel, IBundlesSettingsService
     {

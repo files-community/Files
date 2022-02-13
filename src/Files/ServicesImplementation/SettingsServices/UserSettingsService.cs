@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using Windows.Storage;
 
-namespace Files.Services.Implementation
+namespace Files.ServicesImplementation.SettingsServices
 {
     public class UserSettingsService : BaseJsonSettingsModel, IUserSettingsService
     {

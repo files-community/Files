@@ -3,7 +3,7 @@ using Files.Backend.EventArguments;
 using Files.Backend.Models.JsonSettings;
 using Files.Backend.Services.Settings;
 
-namespace Files.Services.Implementation
+namespace Files.ServicesImplementation.SettingsServices
 {
     public sealed class LayoutSettingsService : BaseObservableJsonSettingsModel, ILayoutSettingsService
     {
