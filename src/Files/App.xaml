@@ -51,8 +51,6 @@
 
                             <SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
 
-                            <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
-
                             <StaticResource x:Key="SidebarContentBackgroundBrush" ResourceKey="LayerFillColorDefaultBrush" />
                             <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
@@ -79,8 +77,6 @@
                             <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
 
                             <SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
-
-                            <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
 
                             <StaticResource x:Key="SidebarContentBackgroundBrush" ResourceKey="LayerFillColorDefaultBrush" />
                             <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="Transparent" />
@@ -118,8 +114,6 @@
                             <StaticResource x:Key="FileBrowserHeaderBackgroundBrush" ResourceKey="SolidBackgroundFillColorBaseBrush" />
 
                             <SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
-
-                            <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
 
                             <StaticResource x:Key="SidebarContentBackgroundBrush" ResourceKey="LayerFillColorDefaultBrush" />
                             <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="Transparent" />

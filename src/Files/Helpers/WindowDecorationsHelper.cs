@@ -26,9 +26,13 @@ namespace Files.Helpers
 
                 LimitedAccessFeatureRequestResult accessResult = LimitedAccessFeatures.TryUnlockFeature("com.microsoft.windows.windowdecorations", token, attestation);
                 if (accessResult.Status == LimitedAccessFeatureStatus.Available)
+                {
                     IsWindowDecorationsAllowed = true;
+                }
                 else
+                {
                     IsWindowDecorationsAllowed = false;
+                }
             }
             else
             {

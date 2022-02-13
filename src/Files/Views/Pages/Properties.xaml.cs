@@ -83,8 +83,6 @@ namespace Files.Views
 
         private async void Properties_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!WindowDecorationsHelper.IsWindowDecorationsAllowed) Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
-
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
@@ -108,6 +106,10 @@ namespace Files.Views
                         micaBrush = new Brushes.MicaBrush(false);
                         (micaBrush as Brushes.MicaBrush).SetAppWindow(appWindow);
                         Frame.Background = micaBrush;
+                    }
+                    else
+                    {
+                        Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
                     }
 
                     var duration = new Duration(TimeSpan.FromMilliseconds(280));
@@ -154,6 +156,8 @@ namespace Files.Views
                 }
                 else
                 {
+                    Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
+
                     TitleBar = ApplicationView.GetForCurrentView().TitleBar;
                     TitleBar.ButtonBackgroundColor = Colors.Transparent;
                     TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
@@ -163,6 +167,7 @@ namespace Files.Views
             }
             else
             {
+                Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
                 propertiesDialog = DependencyObjectHelpers.FindParent<ContentDialog>(this);
                 propertiesDialog.Closed += PropertiesDialog_Closed;
             }
