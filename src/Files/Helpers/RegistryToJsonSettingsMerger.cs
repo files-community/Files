@@ -1,5 +1,6 @@
 ﻿using Files.Enums;
 using Files.Services;
+using Files.Services.Implementation;
 using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System;
@@ -20,12 +21,12 @@ namespace Files.Helpers
 
                 try
                 {
-                    // Preview pane
-                    userSettingsService.PreviewPaneSettingsService.PreviewPaneSizeHorizontalPx = appSettings.Get(300d, "PreviewPaneSizeHorizontal");
-                    userSettingsService.PreviewPaneSettingsService.PreviewPaneSizeVerticalPx = appSettings.Get(250d, "PreviewPaneSizeVertical");
-                    userSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled = appSettings.Get(false, "PreviewPaneEnabled");
-                    userSettingsService.PreviewPaneSettingsService.ShowPreviewOnly = appSettings.Get(false, "ShowPreviewOnly");
-                    userSettingsService.PreviewPaneSettingsService.PreviewPaneMediaVolume = appSettings.Get(1.0d, "MediaVolume");
+                    // Pane
+                    userSettingsService.PaneSettingsService.Content = appSettings.Get(PaneContents.None, PaneSettingsService.ContentKey);
+                    userSettingsService.PaneSettingsService.HorizontalSizePx = appSettings.Get(300d, PaneSettingsService.HorizontalSizePxKey);
+                    userSettingsService.PaneSettingsService.VerticalSizePx = appSettings.Get(250d, PaneSettingsService.VerticalSizePxKey);
+                    userSettingsService.PaneSettingsService.MediaVolume = appSettings.Get(1.0d, PaneSettingsService.MediaVolumeKey);
+                    userSettingsService.PaneSettingsService.ShowPreviewOnly = appSettings.Get(false, PaneSettingsService.ShowPreviewOnlyKey);
 
                     // Files and folders
                     userSettingsService.PreferencesSettingsService.ShowFileExtensions = appSettings.Get(true, "ShowFileExtensions");
