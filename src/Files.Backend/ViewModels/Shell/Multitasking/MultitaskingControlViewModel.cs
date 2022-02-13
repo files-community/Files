@@ -40,6 +40,8 @@ namespace Files.Backend.ViewModels.Shell.Multitasking
 
         public IRelayCommand AddTabCommand { get; }
 
+        public IAsyncRelayCommand TabDroppedOutsideCommand { get; }
+
         public MultitaskingControlViewModel()
         {
             this.Tabs = new();
@@ -50,6 +52,19 @@ namespace Files.Backend.ViewModels.Shell.Multitasking
             this.UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 
             AddTabCommand = new RelayCommand(() => AddTab());
+            TabDroppedOutsideCommand = new AsyncRelayCommand<TabItemViewModel>(TabDroppedOutside!);
+        }
+
+        private async Task TabDroppedOutside(TabItemViewModel tabItemViewModel)
+        {
+            if (!await ApplicationService.OpenInNewWindowAsync( /* TODO(i): path goes here */ ))
+            {
+                SelectedItem = Tabs.Last();
+            }
+            else
+            {
+                CloseTab(tabItemViewModel);
+            }
         }
 
         public TabItemViewModel AddTab(int index = -1)

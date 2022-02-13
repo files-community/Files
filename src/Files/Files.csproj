@@ -1603,7 +1603,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\JsonSettings\" />
-    <Folder Include="UserControls\MultitaskingControl\" />
     <Folder Include="ViewModels\Layouts\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '16.0' ">

@@ -121,27 +121,19 @@ namespace Files.UserControls.MultitaskingControl
             ViewModel.AddTab(/*tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationArg, index*/);
         }
 
-        private void TabStrip_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args) => ViewModel.CloseTab(args.Item as TabItemViewModel);
+        private void TabStrip_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)
+        {
+            ViewModel.CloseTab((TabItemViewModel)args.Item);
+        }
 
-        private async void TabStrip_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
+        private void TabStrip_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
         {
             if (ViewModel.Tabs.Count == 1)
             {
                 return;
             }
 
-            var indexOfTabViewItem = ViewModel.Tabs.IndexOf((TabItemViewModel)args.Item);
-            var selectedTabViewItemIndex = sender.SelectedIndex;
-            ViewModel.Tabs.Remove(args.Item as TabItemViewModel);
-            if (!await NavigationHelpers.OpenPathInNewWindowAsync( /* path goes here*/    ))
-            {
-                ViewModel.Tabs.Insert(indexOfTabViewItem, args.Item as TabItemViewModel);
-                sender.SelectedIndex = selectedTabViewItemIndex;
-            }
-            else
-            {
-                ViewModel.CloseTab(args.Item as TabItemViewModel);
-            }
+            ViewModel.TabDroppedOutsideCommand.Execute((TabItemViewModel)args.Item);
         }
 
         private void TabItemContextMenu_Opening(object sender, object e)
@@ -152,21 +144,9 @@ namespace Files.UserControls.MultitaskingControl
 
         private void MenuItemCloseTabsToTheRight_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
-            TabItemViewModel tabItem = args.NewValue as TabItemViewModel;
+            var tabItem = args.NewValue as TabItemViewModel;
 
-            if (ViewModel.Tabs.IndexOf(tabItem) == ViewModel.Tabs.Count - 1)
-            {
-                MenuItemCloseTabsToTheRight.IsEnabled = false;
-            }
-            else
-            {
-                MenuItemCloseTabsToTheRight.IsEnabled = true;
-            }
-        }
-
-        private void TabStrip_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
+            MenuItemCloseTabsToTheRight.IsEnabled = ViewModel.Tabs.IndexOf(tabItem) != ViewModel.Tabs.Count - 1;
         }
     }
 }
