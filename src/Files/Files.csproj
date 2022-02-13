@@ -242,7 +242,6 @@
     <Compile Include="Layouts\IBaseListedLayoutItemSelectionModel.cs" />
     <Compile Include="Layouts\Listing\LayoutItemsListing.cs" />
     <Compile Include="Models\FileTagModel.cs" />
-    <Compile Include="Services\IBaseSettingsService.cs" />
     <Compile Include="Services\Implementation\AppearanceSettingsService.cs" />
     <Compile Include="Services\Implementation\BundlesSettingsService.cs" />
     <Compile Include="Services\Implementation\FileTagsSettingsService.cs" />
@@ -252,7 +251,6 @@
     <Compile Include="Services\Implementation\PreviewPaneSettingsService.cs" />
     <Compile Include="Services\Implementation\UserSettingsService.cs" />
     <Compile Include="Services\Implementation\WidgetsSettingsService.cs" />
-    <Compile Include="Services\IUserSettingsService.cs" />
     <Compile Include="UserControls\ColoredIcon.xaml.cs">
       <DependentUpon>ColoredIcon.xaml</DependentUpon>
     </Compile>
