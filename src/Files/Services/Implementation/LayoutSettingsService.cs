@@ -1,5 +1,7 @@
-﻿using Files.Enums;
-using Files.Models.JsonSettings;
+﻿using Files.Backend.Enums;
+using Files.Backend.EventArguments;
+using Files.Backend.Models.JsonSettings;
+using Files.Backend.Services.Settings;
 
 namespace Files.Services.Implementation
 {

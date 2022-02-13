@@ -1,4 +1,5 @@
-﻿using Files.Models.JsonSettings;
+﻿using Files.Backend.Models.JsonSettings;
+using Files.Backend.Services.Settings;
 using System;
 using System.Collections.Generic;
 using Windows.Storage;

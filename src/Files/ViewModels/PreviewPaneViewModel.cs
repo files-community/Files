@@ -1,5 +1,6 @@
-﻿using Files.Filesystem;
-using Files.Services;
+﻿using Files.Backend.EventArguments;
+using Files.Backend.Services.Settings;
+using Files.Filesystem;
 using Files.UserControls.FilePreviews;
 using Files.ViewModels.Previews;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -264,7 +265,7 @@ namespace Files.ViewModels
 
         public ICommand ShowPreviewOnlyInvoked => new RelayCommand(() => UpdateSelectedItemPreview());
 
-        private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
             switch (e.settingName)
             {

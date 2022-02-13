@@ -1,5 +1,7 @@
-﻿using Files.Filesystem;
-using Files.Models.JsonSettings;
+﻿using Files.Backend.Models;
+using Files.Models;
+using Files.Backend.Models.JsonSettings;
+using Files.Backend.Services.Settings;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -12,13 +14,13 @@ namespace Files.Services.Implementation
     {
         public event EventHandler OnSettingImportedEvent;
 
-        private static readonly List<FileTag> s_defaultFileTags = new List<FileTag>()
+        private static readonly List<IFileTag> s_defaultFileTags = new List<IFileTag>()
         {
-            new FileTag("Blue", "#0072BD"),
-            new FileTag("Orange", "#D95319"),
-            new FileTag("Yellow", "#EDB120"),
-            new FileTag("Green", "#77AC30"),
-            new FileTag("Azure", "#4DBEEE")
+            new FileTagModel("Blue", "#0072BD"),
+            new FileTagModel("Orange", "#D95319"),
+            new FileTagModel("Yellow", "#EDB120"),
+            new FileTagModel("Green", "#77AC30"),
+            new FileTagModel("Azure", "#4DBEEE")
         };
 
         public FileTagsSettingsService()
@@ -27,13 +29,13 @@ namespace Files.Services.Implementation
         {
         }
 
-        public IList<FileTag> FileTagList
+        public IList<IFileTag> FileTagList
         {
-            get => Get<List<FileTag>>(s_defaultFileTags);
+            get => Get<List<IFileTag>>(s_defaultFileTags);
             set => Set(value);
         }
 
-        public FileTag GetTagById(string uid)
+        public IFileTag GetTagById(string uid)
         {
             if (FileTagList.Any(x => x.Uid == null))
             {
@@ -43,13 +45,13 @@ namespace Files.Services.Implementation
             var tag = FileTagList.SingleOrDefault(x => x.Uid == uid);
             if (!string.IsNullOrEmpty(uid) && tag == null)
             {
-                tag = new FileTag("FileTagUnknown".GetLocalized(), "#9ea3a1", uid);
+                tag = new FileTagModel("FileTagUnknown".GetLocalized(), "#9ea3a1", uid);
                 FileTagList = FileTagList.Append(tag).ToList();
             }
             return tag;
         }
 
-        public IEnumerable<FileTag> GetTagsByName(string tagName)
+        public IEnumerable<IFileTag> GetTagsByName(string tagName)
         {
             return FileTagList.Where(x => x.TagName.StartsWith(tagName, StringComparison.OrdinalIgnoreCase));
         }
@@ -58,9 +60,9 @@ namespace Files.Services.Implementation
         {
             if (import is string importString)
             {
-                FileTagList = jsonSettingsSerializer.DeserializeFromJson<List<FileTag>>(importString);
+                FileTagList = jsonSettingsSerializer.DeserializeFromJson<List<IFileTag>>(importString);
             }
-            else if (import is List<FileTag> importList)
+            else if (import is List<IFileTag> importList)
             {
                 FileTagList = importList;
             }

@@ -1,4 +1,4 @@
-﻿using Files.Shared;
+﻿using Files.Shared.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
@@ -41,17 +41,10 @@ namespace Files.ViewModels
 
 
         public MultitaskingControl MultitaskingControl { get; set; }
+        private int SelectedTabItemIndex => MultitaskingControl.ViewModel.Tabs.IndexOf(MultitaskingControl.ViewModel.SelectedItem);
 
-        [Obsolete("AppInstances will be removed soon. Use a MultitaskingControlViewModel instance instead", false)]
-        public static ObservableCollection<TabItem> AppInstances { get; private set; } = new ObservableCollection<TabItem>();
-
-        private TabItem selectedTabItem;
-
-        public TabItem SelectedTabItem
-        {
-            get => selectedTabItem;
-            set => SetProperty(ref selectedTabItem, value);
-        }
+        [Obsolete("AppInstances will be removed soon", false)]
+        public static ObservableCollection<TabItemViewModel> AppInstances { get; private set; } = new ObservableCollection<TabItemViewModel>();
 
         public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
 
@@ -118,12 +111,12 @@ namespace Files.ViewModels
 
                 case VirtualKey.Tab:
                     bool shift = e.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
-
+                    int index = SelectedTabItemIndex;
                     if (!shift) // ctrl + tab, select next tab
                     {
-                        if ((App.MainViewModel.TabStripSelectedIndex + 1) < AppInstances.Count)
+                        if ((index + 1) < AppInstances.Count)
                         {
-                            indexToSelect = App.MainViewModel.TabStripSelectedIndex + 1;
+                            indexToSelect = index + 1;
                         }
                         else
                         {
@@ -132,9 +125,9 @@ namespace Files.ViewModels
                     }
                     else // ctrl + shift + tab, select previous tab
                     {
-                        if ((App.MainViewModel.TabStripSelectedIndex - 1) >= 0)
+                        if ((index - 1) >= 0)
                         {
-                            indexToSelect = App.MainViewModel.TabStripSelectedIndex - 1;
+                            indexToSelect = index - 1;
                         }
                         else
                         {
@@ -148,7 +141,7 @@ namespace Files.ViewModels
             // Only select the tab if it is in the list
             if (indexToSelect < AppInstances.Count)
             {
-                App.MainViewModel.TabStripSelectedIndex = indexToSelect;
+                MultitaskingControl.ViewModel.SelectedItem = MultitaskingControl.ViewModel.Tabs[indexToSelect];
             }
             e.Handled = true;
         }
@@ -162,28 +155,28 @@ namespace Files.ViewModels
 
         private void CloseSelectedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
-            if (App.MainViewModel.TabStripSelectedIndex >= AppInstances.Count)
+            if (SelectedTabItemIndex >= AppInstances.Count)
             {
-                TabItem tabItem = AppInstances[AppInstances.Count - 1];
-                MultitaskingControl?.CloseTab(tabItem);
+                TabItemViewModel tabItem = AppInstances[AppInstances.Count - 1];
+                MultitaskingControl?.ViewModel.CloseTab(tabItem);
             }
             else
             {
-                TabItem tabItem = AppInstances[App.MainViewModel.TabStripSelectedIndex];
-                MultitaskingControl?.CloseTab(tabItem);
+                TabItemViewModel tabItem = AppInstances[SelectedTabItemIndex];
+                MultitaskingControl?.ViewModel.CloseTab(tabItem);
             }
             e.Handled = true;
         }
 
         private async void AddNewInstanceAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
-            await AddNewTabAsync();
+            MultitaskingControl?.ViewModel.AddTab();
             e.Handled = true;
         }
 
         private void ReopenClosedTabAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
-            MultitaskingControl.ReopenClosedTab(null, null);
+            MultitaskingControl.ViewModel.ReopenClosedTab(null, null);
             e.Handled = true;
         }
 

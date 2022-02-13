@@ -1,9 +1,12 @@
-﻿using Files.Shared;
+﻿using Files.Backend.EventArguments;
+using Files.Backend.Models.JsonSettings;
+using Files.Shared.Extensions;
+using Files.Backend.Services.Settings;
+using Files.Shared;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using Files.Services;
 using Files.UserControls;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -30,7 +33,8 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using static Files.UserControls.INavigationToolbar;
 using SearchBox = Files.UserControls.SearchBox;
-using SortDirection = Files.Enums.SortDirection;
+using Files.Backend.Enums;
+using SortDirection = Files.Backend.Enums.SortDirection;
 
 namespace Files.ViewModels
 {
@@ -333,7 +337,7 @@ namespace Files.ViewModels
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
         }
 
-        private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
             switch (e.settingName)
             {

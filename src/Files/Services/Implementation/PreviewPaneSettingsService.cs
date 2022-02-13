@@ -1,5 +1,6 @@
-﻿using Files.EventArguments;
-using Files.Models.JsonSettings;
+﻿using Files.Backend.EventArguments;
+using Files.Backend.Models.JsonSettings;
+using Files.Backend.Services.Settings;
 using Microsoft.AppCenter.Analytics;
 using System;
 

@@ -1,5 +1,6 @@
-﻿using Files.Filesystem;
-using Files.Services;
+﻿using Files.Backend.EventArguments;
+using Files.Backend.Services.Settings;
+using Files.Filesystem;
 using Files.UserControls.MultitaskingControl;
 using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -205,7 +206,7 @@ namespace Files.Views
             // TODO: fallback / error when failed to get NavigationViewCompactPaneLength value?
         }
 
-        private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
             switch (e.settingName)
             {

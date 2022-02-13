@@ -4,9 +4,7 @@ using Files.Controllers;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
-using Files.Services;
 using Files.Services.Implementation;
-using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.AppCenter;
@@ -36,6 +34,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using Files.Backend.ViewModels.Shell.Multitasking;
+using Files.Backend.Services.Settings;
+using IUserSettingsService = Files.Backend.Services.Settings.IUserSettingsService;
 
 namespace Files
 {
@@ -218,19 +219,21 @@ namespace Files
                     TryEnablePrelaunch();
                 }
 
-                if (rootFrame.Content == null)
+                // TODO: Do not access through MainPage
+                if (rootFrame.Content is MainPage content)
+                {
+                    MultitaskingControlViewModel tabsControlViewModel = content.ViewModel.MultitaskingControl.ViewModel;
+                    if (!(string.IsNullOrEmpty(e.Arguments) && tabsControlViewModel.Tabs.Count > 0))
+                    {
+                        await tabsControlViewModel.AddTab(e.Arguments);
+                    }
+                }
+                else
                 {
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
                     rootFrame.Navigate(typeof(MainPage), e.Arguments, new SuppressNavigationTransitionInfo());
-                }
-                else
-                {
-                    if (!(string.IsNullOrEmpty(e.Arguments) && MainPageViewModel.AppInstances.Count > 0))
-                    {
-                        await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
-                    }
                 }
 
                 // Ensure the current window is active
@@ -239,19 +242,21 @@ namespace Files
             }
             else
             {
-                if (rootFrame.Content == null)
+                // TODO: Do not access through MainPage
+                if (rootFrame.Content is MainPage content)
+                {
+                    MultitaskingControlViewModel tabsControlViewModel = content.ViewModel.MultitaskingControl.ViewModel;
+                    if (!(string.IsNullOrEmpty(e.Arguments) && tabsControlViewModel.Tabs.Count > 0))
+                    {
+                        await tabsControlViewModel.AddTab(e.Arguments);
+                    }
+                }
+                else
                 {
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
                     rootFrame.Navigate(typeof(MainPage), e.Arguments, new SuppressNavigationTransitionInfo());
-                }
-                else
-                {
-                    if (!(string.IsNullOrEmpty(e.Arguments) && MainPageViewModel.AppInstances.Count > 0))
-                    {
-                        await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
-                    }
                 }
             }
         }

@@ -216,7 +216,7 @@
                     Height="32"
                     Padding="8"
                     HorizontalAlignment="Right"
-                    x:Load="{x:Bind IsVerticalTabFlyoutEnabled, Mode=OneWay}"
+                    x:Load="{x:Bind ViewModel.IsVerticalTabFlyoutEnabled, Mode=OneWay}"
                     AccessKey="T"
                     AllowDrop="True"
                     AutomationProperties.Name="Vertical tab flyout"

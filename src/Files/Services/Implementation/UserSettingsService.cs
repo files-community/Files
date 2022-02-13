@@ -1,5 +1,7 @@
-﻿using Files.Extensions;
-using Files.Models.JsonSettings;
+﻿using Files.Backend.EventArguments;
+using Files.Backend.Models.JsonSettings;
+using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System.Collections.Generic;
 using System.IO;
@@ -81,7 +83,7 @@ namespace Files.Services.Implementation
                 {
                     foreach (var item in diff)
                     {
-                        RaiseOnSettingChangedEvent(this, new EventArguments.SettingChangedEventArgs(item.Key, item.Value));
+                        RaiseOnSettingChangedEvent(this, new SettingChangedEventArgs(item.Key, item.Value));
                     }
 
                     return true;
