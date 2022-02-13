@@ -303,6 +303,5 @@ namespace Files.ViewModels
             get => tabControlMargin;
             set => SetProperty(ref tabControlMargin, value);
         }
-
     }
 }
