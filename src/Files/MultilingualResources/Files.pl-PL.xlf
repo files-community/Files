@@ -8,7 +8,7 @@
       <group id="FILES/STRINGS/EN-US/RESOURCES.RESW" datatype="resx">
         <trans-unit id="PropertiesCreated.Text" translate="yes" xml:space="preserve">
           <source>Created:</source>
-          <target state="translated">Utworzony:</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="PropertiesItemFileName.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Item Name</source>
@@ -16,47 +16,47 @@
         </trans-unit>
         <trans-unit id="PropertiesItemPath.Text" translate="yes" xml:space="preserve">
           <source>Path:</source>
-          <target state="translated">Lokalizacja:</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="PropertiesItemSize.Text" translate="yes" xml:space="preserve">
           <source>Size:</source>
-          <target state="translated">Rozmiar:</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="PropertiesModified.Text" translate="yes" xml:space="preserve">
           <source>Modified:</source>
-          <target state="translated">Zmodyfikowany:</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="RecentItemClearAll.Text" translate="yes" xml:space="preserve">
           <source>Clear all items</source>
-          <target state="translated">Wyczyść całą listę</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
           <source>Files you've previously accessed will show up here</source>
-          <target state="translated">Tutaj pojawią się ostatnio otwierane przez Ciebie pliki</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
-          <target state="translated">Otwórz lokalizację pliku</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="RecentItemRemove.Text" translate="yes" xml:space="preserve">
           <source>Remove this item</source>
-          <target state="translated">Usuń z listy</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
           <source>Submit feedback</source>
-          <target state="translated">Prześlij opinię</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="About" translate="yes" xml:space="preserve">
           <source>About</source>
-          <target state="translated">O programie</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="Appearance" translate="yes" xml:space="preserve">
           <source>Appearance</source>
-          <target state="translated">Wygląd</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
           <source>Preferences</source>
-          <target state="translated">Opcje</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupContinueWhereYouLeftOff.Content" translate="yes" xml:space="preserve">
           <source>Continue where you left off</source>
@@ -64,27 +64,27 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenANewTab.Content" translate="yes" xml:space="preserve">
           <source>Open a new tab</source>
-          <target state="translated">Otwórz nową kartę</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
           <source>Open a specific page or pages</source>
-          <target state="translated">Otwórz konkretną kartę lub karty</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTitle.Text" translate="yes" xml:space="preserve">
           <source>Preferences</source>
-          <target state="translated">Opcje</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="Desktop" translate="yes" xml:space="preserve">
           <source>Desktop</source>
-          <target state="translated">Pulpit</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="Documents" translate="yes" xml:space="preserve">
           <source>Documents</source>
-          <target state="translated">Dokumenty</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="Downloads" translate="yes" xml:space="preserve">
           <source>Downloads</source>
-          <target state="translated">Pobrane</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
           <source>Sort by</source>
@@ -152,7 +152,7 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarSearchRegion.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Search</source>
-          <target state="translated">Szukaj</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
@@ -904,7 +904,7 @@
         </trans-unit>
         <trans-unit id="NavSearchButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Search</source>
-          <target state="translated">Wyszukaj</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="PropertiesDialogReadOnly.Text" translate="yes" xml:space="preserve">
           <source>Read-only</source>
@@ -1184,7 +1184,7 @@
         </trans-unit>
         <trans-unit id="PropertySectionMusic" translate="yes" xml:space="preserve">
           <source>Music</source>
-          <target state="translated">Muzyka</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="Address" translate="yes" xml:space="preserve">
           <source>Address</source>
@@ -1340,7 +1340,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Send the developers an issue report with more information</source>
-          <target state="translated">Wyślij programistom raport o problemie z dodatkowymi informacjami</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Support us on GitHub</source>
@@ -1688,7 +1688,7 @@
         </trans-unit>
         <trans-unit id="Browse" translate="yes" xml:space="preserve">
           <source>Browse</source>
-          <target state="translated">Wyszukaj</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="DetailsPanePreviewNotAvaliableText" translate="yes" xml:space="preserve">
           <source>No preview available</source>
@@ -1920,7 +1920,7 @@
         </trans-unit>
         <trans-unit id="NavToolbarShowDrivesWidget.Header" translate="yes" xml:space="preserve">
           <source>Show Drives widget</source>
-          <target state="translated">Pokaż widżet dysków</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="NavToolbarShowRecentFilesWidget.Header" translate="yes" xml:space="preserve">
           <source>Show Recent Files widget</source>
@@ -1988,11 +1988,11 @@
         </trans-unit>
         <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
-          <target state="translated">Opcje zaznaczania</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="NavToolbarSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
-          <target state="translated">Opcje zaznaczania</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>File icon</source>
@@ -2756,7 +2756,7 @@
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowFileExtensions" translate="yes" xml:space="preserve">
           <source>Show extensions for known file types</source>
-          <target state="translated">Pokaż rozszerzenia znanych plików</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
@@ -2800,7 +2800,7 @@
         </trans-unit>
         <trans-unit id="NavSettingsButton" translate="yes" xml:space="preserve">
           <source>Settings</source>
-          <target state="translated">Ustawienia</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="ConsentDialogTitle" translate="yes" xml:space="preserve">
           <source>Updates available</source>
@@ -2920,7 +2920,7 @@
         </trans-unit>
         <trans-unit id="DateFormat" translate="yes" xml:space="preserve">
           <source>Date format</source>
-          <target state="translated">Format daty</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
@@ -3080,7 +3080,7 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
         </trans-unit>
         <trans-unit id="NavToolbarShowFileExtensionsHeader.Text" translate="yes" xml:space="preserve">
           <source>Show file extensions</source>
-          <target state="translated">Pokaż rozszerzenia plików</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="NavToolbarShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show hidden items</source>
@@ -3088,7 +3088,7 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
         </trans-unit>
         <trans-unit id="NavToolbarShowFileExtensions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show file extensions</source>
-          <target state="translated">Pokaż rozszerzenia plików</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="NavToolbarShowHiddenItemsHeader.Text" translate="yes" xml:space="preserve">
           <source>Show hidden items</source>
@@ -3288,7 +3288,7 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
         </trans-unit>
         <trans-unit id="Options" translate="yes" xml:space="preserve">
           <source>Options</source>
-          <target state="translated">Opcje</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="OverrideDPIScalingBehaviour" translate="yes" xml:space="preserve">
           <source>Override high DPI scaling behaviour</source>
@@ -3332,7 +3332,7 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
         </trans-unit>
         <trans-unit id="FilesAndFolders" translate="yes" xml:space="preserve">
           <source>Files and folders</source>
-          <target state="translated">Pliki i foldery</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="OpenNewInstance" translate="yes" xml:space="preserve">
           <source>Open new instance when opening directories from the taskbar jumplist</source>
@@ -3344,7 +3344,7 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
         </trans-unit>
         <trans-unit id="ThirdPartyLicenses" translate="yes" xml:space="preserve">
           <source>Third party licenses</source>
-          <target state="translated">Licencje firm trzecich</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
           <source>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</source>
@@ -3500,15 +3500,15 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
         </trans-unit>
         <trans-unit id="Music" translate="yes" xml:space="preserve">
           <source>Music</source>
-          <target state="translated">Muzyka</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="Pictures" translate="yes" xml:space="preserve">
           <source>Pictures</source>
-          <target state="translated">Obrazy</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="Videos" translate="yes" xml:space="preserve">
           <source>Videos</source>
-          <target state="translated">Wideo</target>
+          <target state="new"></target>
         </trans-unit>
         <trans-unit id="UpdateFiles" translate="yes" xml:space="preserve">
           <source>Update Files</source>
