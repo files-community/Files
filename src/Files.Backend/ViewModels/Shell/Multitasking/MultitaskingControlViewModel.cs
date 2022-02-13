@@ -18,7 +18,7 @@ using Files.Shared.Extensions;
 
 namespace Files.Backend.ViewModels.Shell.Multitasking
 {
-    public sealed class MultitaskingControlViewModel : ObservableObject
+    public sealed class MultitaskingControlViewModel : ObservableObject, IRecipient<TabAddRequestedMessage>
     {
         private IApplicationService ApplicationService { get; } = Ioc.Default.GetRequiredService<IApplicationService>();
 
@@ -44,6 +44,8 @@ namespace Files.Backend.ViewModels.Shell.Multitasking
         {
             this.Tabs = new();
 
+            WeakReferenceMessenger.Default.Register<TabAddRequestedMessage>(this);
+
             this.Tabs.CollectionChanged += Tabs_CollectionChanged;
             this.UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 
@@ -52,11 +54,16 @@ namespace Files.Backend.ViewModels.Shell.Multitasking
 
         public TabItemViewModel AddTab(int index = -1)
         {
-            index = index == -1 ? Tabs.Count : index;
-
             var instanceMessenger = new WeakReferenceMessenger();
             var futuristicShellPageViewModel = new FuturisticShellPageViewModel(instanceMessenger);
             var tabItemViewModel = new TabItemViewModel(futuristicShellPageViewModel);
+
+            return AddTab(tabItemViewModel, index);
+        }
+
+        public TabItemViewModel AddTab(TabItemViewModel tabItemViewModel, int index = -1)
+        {
+            index = index == -1 ? Tabs.Count : index;
 
             Tabs.Insert(index, tabItemViewModel);
             WeakReferenceMessenger.Default.Send(new TabAddRequestedMessage(tabItemViewModel));
@@ -119,6 +126,11 @@ namespace Files.Backend.ViewModels.Shell.Multitasking
                     OnPropertyChanged(nameof(IsVerticalTabFlyoutEnabled));
                     break;
             }
+        }
+
+        public void Receive(TabAddRequestedMessage message)
+        {
+            AddTab(message.Value);
         }
     }
 }
