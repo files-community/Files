@@ -261,6 +261,8 @@ namespace Files
                     }
                 }
             }
+
+            WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
 
         protected override async void OnFileActivated(FileActivatedEventArgs e)
@@ -293,6 +295,8 @@ namespace Files
             // Ensure the current window is active
             Window.Current.Activate();
             Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+
+            WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
 
         private Frame EnsureWindowIsInitialized()
@@ -482,6 +486,8 @@ namespace Files
             // Ensure the current window is active.
             Window.Current.Activate();
             Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+
+            WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
 
         private void TryEnablePrelaunch()
