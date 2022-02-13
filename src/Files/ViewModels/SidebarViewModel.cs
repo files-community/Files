@@ -22,10 +22,6 @@ namespace Files.ViewModels
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
         public ICommand EmptyRecycleBinCommand { get; private set; }
 
-        public ICommand ShowAllSectionsCommand { get; private set; }
-
-        public ICommand HideAllSectionsCommand { get; private set; }
-
         private IPaneHolder paneHolder;
 
         public IPaneHolder PaneHolder
@@ -196,12 +192,6 @@ namespace Files.ViewModels
             }
         }
 
-        private bool areAllSectionsHaveSameVisibility(bool isVisible) => (ShowFavoritesSection == isVisible && ShowLibrarySection == isVisible && ShowDrivesSection == isVisible && ShowCloudDrivesSection == isVisible && ShowNetworkDrivesSection == isVisible && ShowWslSection == isVisible);
-
-        public bool AreAllSectionsVisible => areAllSectionsHaveSameVisibility(true);
-
-        public bool AreAllSectionsHidden => areAllSectionsHaveSameVisibility(false);
-
         private INavigationControlItem selectedSidebarItem;
 
         public INavigationControlItem SidebarSelectedItem
@@ -213,30 +203,12 @@ namespace Files.ViewModels
         public SidebarViewModel()
         {
             EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(EmptyRecycleBin);
-            ShowAllSectionsCommand = new RelayCommand(() => SetAllSectionsVisibility(true));
-            HideAllSectionsCommand = new RelayCommand(() => SetAllSectionsVisibility(false));
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
         }
 
         public async void EmptyRecycleBin(RoutedEventArgs e)
         {
             await RecycleBinHelpers.S_EmptyRecycleBin();
-        }
-
-        public void SetAllSectionsVisibility(bool isVisible)
-        {
-            ShowFavoritesSection = isVisible;
-            ShowLibrarySection = isVisible;
-            ShowDrivesSection = isVisible;
-            ShowCloudDrivesSection = isVisible;
-            ShowNetworkDrivesSection = isVisible;
-            ShowWslSection = isVisible;
-        }
-
-        public void NotifyAllSectionVisibilityChanged()
-        {
-            OnPropertyChanged(nameof(AreAllSectionsHidden));
-            OnPropertyChanged(nameof(AreAllSectionsVisible));
         }
 
         private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
@@ -250,27 +222,21 @@ namespace Files.ViewModels
                     }
                     break;
                 case nameof(UserSettingsService.AppearanceSettingsService.ShowFavoritesSection):
-                    NotifyAllSectionVisibilityChanged();
                     OnPropertyChanged(nameof(ShowFavoritesSection));
                     break;
                 case nameof(UserSettingsService.AppearanceSettingsService.ShowLibrarySection):
-                    NotifyAllSectionVisibilityChanged();
                     OnPropertyChanged(nameof(ShowLibrarySection));
                     break;
                 case nameof(UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection):
-                    NotifyAllSectionVisibilityChanged();
                     OnPropertyChanged(nameof(ShowCloudDrivesSection));
                     break;
                 case nameof(UserSettingsService.AppearanceSettingsService.ShowDrivesSection):
-                    NotifyAllSectionVisibilityChanged();
                     OnPropertyChanged(nameof(ShowDrivesSection));
                     break;
                 case nameof(UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection):
-                    NotifyAllSectionVisibilityChanged();
                     OnPropertyChanged(nameof(ShowNetworkDrivesSection));
                     break;
                 case nameof(UserSettingsService.AppearanceSettingsService.ShowWslSection):
-                    NotifyAllSectionVisibilityChanged();
                     OnPropertyChanged(nameof(ShowWslSection));
                     break;
             }

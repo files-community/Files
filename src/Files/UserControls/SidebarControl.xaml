@@ -23,29 +23,7 @@
     <muxc:NavigationView.Resources>
         <ResourceDictionary>
             <MenuFlyout x:Key="SidebarContextMenu">
-                <MenuFlyoutItem 
-                     Text="{helpers:ResourceString Name=ShowAllSections}"
-                     IsEnabled="{Binding AreAllSectionsVisible, Converter={StaticResource BoolNegationConverter},Mode=OneWay}"
-                     Command="{Binding ShowAllSectionsCommand}">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE8A9;"/>
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
-                <MenuFlyoutItem 
-                     Text="{helpers:ResourceString Name=HideAllSections}"
-                     IsEnabled="{Binding AreAllSectionsHidden, Converter={StaticResource BoolNegationConverter},Mode=OneWay}"
-                     Command="{Binding HideAllSectionsCommand}">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE77A;"/>
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
-                <MenuFlyoutSeparator/>
-                <MenuFlyoutSubItem 
-                    Text="{helpers:ResourceString Name=Sections}">
-                    <MenuFlyoutSubItem.Icon>
-                        <FontIcon Glyph="&#xE71D;"/>
-                    </MenuFlyoutSubItem.Icon>
-                    <ToggleMenuFlyoutItem
+                <ToggleMenuFlyoutItem
                         Text="{helpers:ResourceString Name=SidebarFavorites}"
                         IsChecked="{Binding ShowFavoritesSection,Mode=TwoWay}"/>
                     <ToggleMenuFlyoutItem
@@ -60,10 +38,9 @@
                     <ToggleMenuFlyoutItem
                         Text="{helpers:ResourceString Name=SidebarNetworkDrives}"
                         IsChecked="{Binding ShowNetworkDrivesSection,Mode=TwoWay}"/>
-                    <ToggleMenuFlyoutItem
+                <ToggleMenuFlyoutItem
                         Text="{helpers:ResourceString Name=WSL}"
                         IsChecked="{Binding ShowWslSection,Mode=TwoWay}"/>
-                </MenuFlyoutSubItem>
             </MenuFlyout>
             <DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
                 <muxc:NavigationViewItem
