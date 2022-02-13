@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:navigationcontrolitems="using:Files.DataModels.NavigationControlItems"
     HorizontalAlignment="Stretch"
     d:DesignHeight="768"
@@ -21,6 +22,49 @@
     mc:Ignorable="d">
     <muxc:NavigationView.Resources>
         <ResourceDictionary>
+            <MenuFlyout x:Key="SidebarContextMenu">
+                <MenuFlyoutItem 
+                     Text="{helpers:ResourceString Name=ShowAllSections}"
+                     IsEnabled="{Binding AreAllSectionsVisible, Converter={StaticResource BoolNegationConverter},Mode=OneWay}"
+                     Command="{Binding ShowAllSectionsCommand}">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xE8A9;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem 
+                     Text="{helpers:ResourceString Name=HideAllSections}"
+                     IsEnabled="{Binding AreAllSectionsHidden, Converter={StaticResource BoolNegationConverter},Mode=OneWay}"
+                     Command="{Binding HideAllSectionsCommand}">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xE77A;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutSubItem 
+                    Text="{helpers:ResourceString Name=Sections}">
+                    <MenuFlyoutSubItem.Icon>
+                        <FontIcon Glyph="&#xE71D;"/>
+                    </MenuFlyoutSubItem.Icon>
+                    <ToggleMenuFlyoutItem
+                        Text="{helpers:ResourceString Name=SidebarFavorites}"
+                        IsChecked="{Binding ShowFavoritesSection,Mode=TwoWay}"/>
+                    <ToggleMenuFlyoutItem
+                        Text="{helpers:ResourceString Name=SidebarLibraries}"
+                        IsChecked="{Binding ShowLibrarySection,Mode=TwoWay}"/>
+                    <ToggleMenuFlyoutItem
+                        Text="{helpers:ResourceString Name=Drives}"
+                        IsChecked="{Binding ShowDrivesSection,Mode=TwoWay}"/>
+                    <ToggleMenuFlyoutItem
+                        Text="{helpers:ResourceString Name=SidebarCloudDrives}"
+                        IsChecked="{Binding ShowCloudDrivesSection,Mode=TwoWay}"/>
+                    <ToggleMenuFlyoutItem
+                        Text="{helpers:ResourceString Name=SidebarNetworkDrives}"
+                        IsChecked="{Binding ShowNetworkDrivesSection,Mode=TwoWay}"/>
+                    <ToggleMenuFlyoutItem
+                        Text="{helpers:ResourceString Name=WSL}"
+                        IsChecked="{Binding ShowWslSection,Mode=TwoWay}"/>
+                </MenuFlyoutSubItem>
+            </MenuFlyout>
             <DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
                 <muxc:NavigationViewItem
                     AllowDrop="True"
