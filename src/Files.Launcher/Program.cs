@@ -25,7 +25,7 @@ namespace FilesFullTrust
         private static readonly LogWriter logWriter = new LogWriter();
 
         [STAThread]
-        private static async Task Main(string[] args)
+        private static async Task Main()
         {
             Logger = new Logger(logWriter);
             await logWriter.InitializeAsync("debug_fulltrust.log");
@@ -40,17 +40,19 @@ namespace FilesFullTrust
             try
             {
                 // Create message handlers
-                messageHandlers = new List<IMessageHandler>();
-                messageHandlers.Add(new RecycleBinHandler());
-                messageHandlers.Add(new LibrariesHandler());
-                messageHandlers.Add(new FileTagsHandler());
-                messageHandlers.Add(new ApplicationLaunchHandler());
-                messageHandlers.Add(new NetworkDrivesHandler());
-                messageHandlers.Add(new FileOperationsHandler());
-                messageHandlers.Add(new ContextMenuHandler());
-                messageHandlers.Add(new QuickLookHandler());
-                messageHandlers.Add(new Win32MessageHandler());
-                messageHandlers.Add(new InstallOperationsHandler());
+                messageHandlers = new List<IMessageHandler>
+                {
+                    new RecycleBinHandler(),
+                    new LibrariesHandler(),
+                    new FileTagsHandler(),
+                    new ApplicationLaunchHandler(),
+                    new NetworkDrivesHandler(),
+                    new FileOperationsHandler(),
+                    new ContextMenuHandler(),
+                    new QuickLookHandler(),
+                    new Win32MessageHandler(),
+                    new InstallOperationsHandler()
+                };
 
                 // Connect to app service and wait until the connection gets closed
                 appServiceExit = new ManualResetEvent(false);
@@ -189,7 +191,7 @@ namespace FilesFullTrust
                             {
                                 elevatedProcess.StartInfo.Verb = "runas";
                                 elevatedProcess.StartInfo.UseShellExecute = true;
-                                elevatedProcess.StartInfo.FileName = Process.GetCurrentProcess().MainModule.FileName;
+                                elevatedProcess.StartInfo.FileName = Environment.ProcessPath;
                                 elevatedProcess.StartInfo.Arguments = "elevate";
                                 elevatedProcess.Start();
                             }
