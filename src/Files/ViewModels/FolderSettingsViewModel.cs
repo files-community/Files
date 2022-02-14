@@ -1,7 +1,9 @@
 ﻿using Files.Enums;
 using Files.EventArguments;
 using Files.Helpers;
-using Files.Services;
+using Files.Backend.EventArguments;
+using Files.Backend.Models.JsonSettings;
+using Files.Backend.Services.Settings;
 using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -11,6 +13,7 @@ using System;
 using System.Linq;
 using Windows.Storage;
 using static Files.ViewModels.FolderLayoutInformation;
+using Files.Backend.Enums;
 
 namespace Files.ViewModels
 {

@@ -1,4 +1,5 @@
-﻿using Files.DataModels.NavigationControlItems;
+﻿using Files.Backend.EventArguments;
+using Files.DataModels.NavigationControlItems;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
@@ -52,7 +53,6 @@ namespace Files.Views
         private ICommand ToggleCompactOverlayCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleCompactOverlay());
         private ICommand SetCompactOverlayCommand => new RelayCommand<bool>(x => SetCompactOverlay(x));
 
-        public bool IsVerticalTabFlyoutEnabled => UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled;
 
         public MainPage()
         {
@@ -77,21 +77,15 @@ namespace Files.Views
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
         }
 
-        private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
             switch (e.settingName)
             {
                 case nameof(UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled):
                     LoadPreviewPaneChanged();
                     break;
-
-                case nameof(UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled):
-                    OnPropertyChanged(nameof(IsVerticalTabFlyoutEnabled));
-                    break;
             }
         }
-
-        public UserControl MultitaskingControl => VerticalTabs;
 
         private void VerticalTabStrip_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -123,20 +117,6 @@ namespace Files.Views
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
             RightPaddingColumn.Width = new GridLength(sender.SystemOverlayRightInset);
-        }
-
-        private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (!(ViewModel.MultitaskingControl is HorizontalMultitaskingControl))
-            {
-                ViewModel.MultitaskingControl = horizontalMultitaskingControl;
-                ViewModel.MultitaskingControls.Add(horizontalMultitaskingControl);
-                ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
-            }
-            if (UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled)
-            {
-                FindName(nameof(VerticalTabStripInvokeButton));
-            }
         }
 
         public void TabItemContent_ContentChanged(object sender, TabItemArguments e)

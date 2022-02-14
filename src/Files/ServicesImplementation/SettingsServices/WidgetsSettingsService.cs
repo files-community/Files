@@ -1,7 +1,9 @@
-﻿using Files.Models.JsonSettings;
+﻿using Files.Backend.EventArguments;
+using Files.Backend.Models.JsonSettings;
+using Files.Backend.Services.Settings;
 using Microsoft.AppCenter.Analytics;
 
-namespace Files.Services.Implementation
+namespace Files.ServicesImplementation.SettingsServices
 {
     public class WidgetsSettingsService : BaseObservableJsonSettingsModel, IWidgetsSettingsService
     {
@@ -59,7 +61,7 @@ namespace Files.Services.Implementation
             set => Set(value);
         }
 
-        public override void RaiseOnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        public override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
             switch (e.settingName)
             {

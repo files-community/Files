@@ -1054,16 +1054,6 @@ namespace Files.Views
             }
         }
 
-        private void SetLoadingIndicatorForTabs(bool isLoading)
-        {
-            var multitaskingControls = ((Window.Current.Content as Frame).Content as MainPage).ViewModel.MultitaskingControls;
-
-            foreach (var x in multitaskingControls)
-            {
-                x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.Control.TabItemContent == PaneHolder), isLoading);
-            }
-        }
-
         public Task TabItemDragOver(object sender, DragEventArgs e) => SlimContentPage?.CommandsViewModel.CommandsModel.DragOver(e);
 
         public Task TabItemDrop(object sender, DragEventArgs e) => SlimContentPage?.CommandsViewModel.CommandsModel.Drop(e);

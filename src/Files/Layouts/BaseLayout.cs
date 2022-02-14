@@ -9,7 +9,6 @@ using Files.Interacts;
 using Files.Services;
 using Files.UserControls;
 using Files.ViewModels;
-using Files.ViewModels.Layouts;
 using Files.ViewModels.Previews;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -783,11 +782,8 @@ namespace Files
 
         protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
-            if (ParentShellPageInstance.IsCurrentInstance)
-            {
-                char letter = Convert.ToChar(args.KeyCode);
-                JumpString += letter.ToString().ToLowerInvariant();
-            }
+            char letter = Convert.ToChar(args.KeyCode);
+            JumpString += letter.ToString().ToLowerInvariant();
         }
 
         protected async void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)

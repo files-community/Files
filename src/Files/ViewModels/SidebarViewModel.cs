@@ -1,7 +1,8 @@
-﻿using Files.DataModels.NavigationControlItems;
+﻿using Files.Backend.EventArguments;
+using Files.Backend.Services.Settings;
+using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Services;
 using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -133,7 +134,7 @@ namespace Files.ViewModels
             await RecycleBinHelpers.S_EmptyRecycleBin();
         }
 
-        private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
             switch (e.settingName)
             {

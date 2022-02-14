@@ -1,33 +1,24 @@
-using Files.Enums;
 using Files.EventArguments;
 using Files.Filesystem;
-using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.Interacts;
 using Files.Layouts;
-using Files.UserControls;
 using Files.UserControls.Selection;
 using Files.ViewModels;
-using Files.ViewModels.Layouts;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.Foundation;
-using Windows.Storage;
 using Windows.System;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Files.Backend.Enums;
 using Files.Backend.ViewModels.Layouts;
-using SortDirection = Files.Enums.SortDirection;
+using SortDirection = Files.Backend.Enums.SortDirection;
 
 namespace Files.Views.LayoutModes
 {
@@ -158,7 +149,7 @@ namespace Files.Views.LayoutModes
                 else
                 {
                     FolderSettings.DirectorySortOption = val;
-                    FolderSettings.DirectorySortDirection = Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending;
+                    FolderSettings.DirectorySortDirection = SortDirection.Ascending;
                 }
             });
 

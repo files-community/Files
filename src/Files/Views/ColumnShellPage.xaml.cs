@@ -36,6 +36,7 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 using SortDirection = Files.Enums.SortDirection;
+using Files.Backend.ViewModels.Shell.Tabs;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -945,16 +946,6 @@ namespace Files.Views
                         }
                     }
                     break;
-            }
-        }
-
-        private void SetLoadingIndicatorForTabs(bool isLoading)
-        {
-            var multitaskingControls = ((Window.Current.Content as Frame).Content as MainPage).ViewModel.MultitaskingControls;
-
-            foreach (var x in multitaskingControls)
-            {
-                x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.Control.TabItemContent == PaneHolder), isLoading);
             }
         }
 

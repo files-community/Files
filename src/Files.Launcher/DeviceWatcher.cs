@@ -1,4 +1,4 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using FilesFullTrust.MMI;
 using Microsoft.Management.Infrastructure;
 using System;

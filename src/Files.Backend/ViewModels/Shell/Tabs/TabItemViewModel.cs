@@ -25,6 +25,13 @@ namespace Files.Backend.ViewModels.Shell.Tabs
             set => SetProperty(ref _TabIcon, value);
         }
 
+        private bool _IsLoading;
+        public bool IsLoading
+        {
+            get => _IsLoading;
+            set => SetProperty(ref _IsLoading, value);
+        }
+
         public IRelayCommand OpenNewTabCommand { get; }
 
         public TabItemViewModel(FuturisticShellPageViewModel tabShell)
@@ -32,6 +39,12 @@ namespace Files.Backend.ViewModels.Shell.Tabs
             this.TabShell = tabShell;
 
             this.OpenNewTabCommand = new RelayCommand(OpenNewTab);
+        }
+
+        public void SetDisplayInformation(string header, IconModel icon)
+        {
+            Header = header;
+            TabIcon = icon;
         }
 
         public void PutToSleep()
