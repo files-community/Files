@@ -1,0 +1,27 @@
+﻿<UserControl
+    x:Class="Files.UserControls.PaneControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files.UserControls"
+    xmlns:ctrl="using:Files.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignWidth="400" d:DesignHeight="300" mc:Ignorable="d">
+
+    <UserControl.Resources>
+
+        <local:PaneTemplateSelector x:Key="PaneTemplateSelector"
+            PreviewTemplate="{StaticResource PreviewTemplate}" />
+
+        <DataTemplate x:Key="PreviewTemplate">
+            <ctrl:PreviewPane x:Name="PreviewPane" x:Uid="SelectedFilePreviewPane"
+                HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                AutomationProperties.Name="Selected file preview pane" Loading="PreviewPane_Loading" />
+        </DataTemplate>
+
+    </UserControl.Resources>
+
+    <ContentControl x:Name="Root" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+        Content="{x:Bind PaneService.Content, Mode=OneWay}" ContentTemplateSelector="{StaticResource PaneTemplateSelector}" />
+
+</UserControl>

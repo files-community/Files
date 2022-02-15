@@ -47,6 +47,10 @@ namespace Files.ViewModels.SettingsViewModels
 
         public PreferencesViewModel()
         {
+            ChangePageCommand = new AsyncRelayCommand(ChangePage);
+            RemovePageCommand = new RelayCommand(RemovePage);
+            AddPageCommand = new RelayCommand<string>(async (path) => await AddPage(path));
+
             DefaultLanguages = App.AppSettings.DefaultLanguages;
             Terminals = App.TerminalController.Model.Terminals;
             DateFormats = new List<string>
@@ -215,9 +219,9 @@ namespace Files.ViewModels.SettingsViewModels
             set => SetProperty(ref addFlyoutItemsSource, value);
         }
 
-        public RelayCommand ChangePageCommand => new RelayCommand(ChangePage);
-        public RelayCommand RemovePageCommand => new RelayCommand(RemovePage);
-        public RelayCommand<string> AddPageCommand => new RelayCommand<string>(AddPage);
+        public ICommand ChangePageCommand { get; }
+        public ICommand RemovePageCommand { get; }
+        public RelayCommand<string> AddPageCommand { get; }
 
         public bool AlwaysOpenANewInstance
         {
@@ -233,7 +237,7 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        private async void ChangePage()
+        private async Task ChangePage()
         {
             var folderPicker = new FolderPicker();
             folderPicker.FileTypeFilter.Add("*");
@@ -265,7 +269,7 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        private async void AddPage(string path = null)
+        private async Task AddPage(string path = null)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -524,6 +528,19 @@ namespace Files.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden)
                 {
                     UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        
+        public bool ShowDotFiles
+        {
+            get => UserSettingsService.PreferencesSettingsService.ShowDotFiles;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.ShowDotFiles)
+                {
+                    UserSettingsService.PreferencesSettingsService.ShowDotFiles = value;
                     OnPropertyChanged();
                 }
             }

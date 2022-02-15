@@ -97,7 +97,7 @@
         </Grid.ColumnDefinitions>
         <muxc:TabView
             x:Name="HorizontalTabView"
-            Margin="4,0"
+            Margin="-4,0"
             VerticalAlignment="Stretch"
             HorizontalContentAlignment="Left"
             AddTabButtonClick="TabView_AddTabButtonClick"

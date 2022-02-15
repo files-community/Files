@@ -159,20 +159,8 @@
   <data name="Downloads" xml:space="preserve">
     <value>Изтеглени файлове</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Начало</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Музика</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Картини</value>
-  </data>
   <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
     <value>Откачи от любими</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Видеоклипове</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Сортирай по</value>

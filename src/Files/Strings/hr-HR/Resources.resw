@@ -159,20 +159,8 @@
   <data name="Downloads" xml:space="preserve">
     <value>Preuzimanja</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Početno</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Glazba</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Slike</value>
-  </data>
   <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
     <value>Otkvači iz favorita</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Videozapisi</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sortiraj po</value>

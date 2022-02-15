@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
+using System.Runtime.Versioning;
 using System.Windows.Forms;
 using Vanara.PInvoke;
 using STATSTG = System.Runtime.InteropServices.ComTypes.STATSTG;
@@ -11,27 +12,28 @@ using STATSTG = System.Runtime.InteropServices.ComTypes.STATSTG;
 namespace FilesFullTrust.Helpers
 {
     // Class taken from Rx-Explorer (https://github.com/zhuxb711/RX-Explorer)
+    [SupportedOSPlatform("Windows")]
     public class RemoteDataObject
     {
         /// <summary>
         /// Holds the <see cref="System.Windows.IDataObject"/> that this class is wrapping
         /// </summary>
-        private System.Windows.Forms.IDataObject underlyingDataObject;
+        private readonly System.Windows.Forms.IDataObject underlyingDataObject;
 
         /// <summary>
         /// Holds the <see cref="System.Runtime.InteropServices.ComTypes.IDataObject"/> interface to the <see cref="System.Windows.IDataObject"/> that this class is wrapping.
         /// </summary>
-        private System.Runtime.InteropServices.ComTypes.IDataObject comUnderlyingDataObject;
+        private readonly System.Runtime.InteropServices.ComTypes.IDataObject comUnderlyingDataObject;
 
         /// <summary>
         /// Holds the internal ole <see cref="System.Windows.IDataObject"/> to the <see cref="System.Windows.IDataObject"/> that this class is wrapping.
         /// </summary>
-        private System.Windows.Forms.IDataObject oleUnderlyingDataObject;
+        private readonly System.Windows.Forms.IDataObject oleUnderlyingDataObject;
 
         /// <summary>
         /// Holds the <see cref="MethodInfo"/> of the "GetDataFromHGLOBAL" method of the internal ole <see cref="System.Windows.IDataObject"/>.
         /// </summary>
-        private MethodInfo getDataFromHGLOBALMethod;
+        private readonly MethodInfo getDataFromHGLOBALMethod;
 
         /// <summary>
         /// Initializes a new instance of the class.
