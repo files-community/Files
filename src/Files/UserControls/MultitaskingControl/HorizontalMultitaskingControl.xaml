@@ -90,7 +90,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid HorizontalAlignment="Stretch" Background="{ThemeResource HorizontalTabControlBackgroundBrush}">
+    <Grid HorizontalAlignment="Stretch" Background="Transparent">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />

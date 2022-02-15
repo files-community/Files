@@ -39,12 +39,6 @@
                 FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintOpacity="0.5" />
-            <AcrylicBrush
-                x:Key="HorizontalTabControlBackgroundBrush"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
-                TintColor="{ThemeResource SolidBackgroundFillColorBase}"
-                TintOpacity="0.5" />
 
             <!--  Tabs  -->
             <AcrylicBrush
@@ -119,12 +113,6 @@
                 TintOpacity="0.4" />
 
             <!--  Tabs Area Background  -->
-            <AcrylicBrush
-                x:Key="HorizontalTabControlBackgroundBrush"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
-                TintColor="{ThemeResource SolidBackgroundFillColorBase}"
-                TintOpacity="0.4" />
             <AcrylicBrush
                 x:Key="RootBackgroundBrush"
                 BackgroundSource="HostBackdrop"
