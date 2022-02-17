@@ -2648,4 +2648,16 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   <data name="PrepareInProgress" xml:space="preserve">
     <value>Preparazione in corso</value>
   </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Copia non riuscita</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
+    <value>Copia di {0} elementi da {1} a {2} fallita</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
+    <value>Copia di {0} elemento da {1} a {2} fallita</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Spostamento non riuscito</value>
+  </data>
 </root>
