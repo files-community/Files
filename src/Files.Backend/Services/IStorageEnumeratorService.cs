@@ -6,7 +6,7 @@ namespace Files.Backend.Services
 {
     public interface IStorageEnumeratorService : IDisposable
     {
-        bool IsAvailable { get; }
+        bool IsSupported();
 
         IEnumerable<ListedItemViewModel> Enumerate(); // TODO - just an example
     }

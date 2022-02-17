@@ -104,6 +104,7 @@ namespace Files.ViewModels
 
         public delegate void WorkingDirectoryModifiedEventHandler(object sender, WorkingDirectoryModifiedEventArgs e);
 
+        [Obsolete("This event will be removed soon. Previous subscribers must instead bind to the WorkingDirectory property on the backend filesystem view model.", true)]
         public event WorkingDirectoryModifiedEventHandler WorkingDirectoryModified;
 
         public delegate void PageTypeUpdatedEventHandler(object sender, PageTypeUpdatedEventArgs e);
