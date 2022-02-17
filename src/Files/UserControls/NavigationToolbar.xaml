@@ -2,6 +2,7 @@
     x:Class="Files.UserControls.NavigationToolbar"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
     xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
     xmlns:converters="using:Files.Converters"
     xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
@@ -564,17 +565,18 @@
 
                 <Button
                     x:Name="UpdateButton"
-                    x:Load="{x:Bind ViewModel.UpdateSettingsService.IsUpdateAvailable, Mode=OneWay}"
                     Width="36"
                     Height="32"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    x:Load="{x:Bind ViewModel.UpdateSettingsService.IsUpdateAvailable, Mode=OneWay}"
                     AccessKey="1"
                     AutomationProperties.Name="{helpers:ResourceString Name=UpdateFiles}"
                     Background="Transparent"
                     Command="{x:Bind ViewModel.UpdateCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.UpdateSettingsService.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=UpdateFiles}"
-                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=UpdateFiles}">
                     <FontIcon FontSize="14" Glyph="&#xE896;" />
                 </Button>
 
@@ -582,15 +584,23 @@
                     x:Name="SettingsButton"
                     Width="36"
                     Height="32"
+                    Padding="0"
                     AccessKey="I"
                     AutomationProperties.AutomationId="SettingsButton"
                     AutomationProperties.Name="{helpers:ResourceString Name=NavSettingsButton}"
                     Background="Transparent"
+                    BorderThickness="0"
                     Command="{x:Bind SettingsButtonCommand, Mode=OneWay}"
-                    Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=NavSettingsButton}"
                     Visibility="{x:Bind ShowSettingsButton, Mode=OneWay}">
-                    <FontIcon FontSize="14" Glyph="&#xE115;" />
+                    <muxc:AnimatedIcon x:Name="SettingAnimatedIcon" Height="16">
+                        <muxc:AnimatedIcon.Source>
+                            <animatedvisuals:AnimatedSettingsVisualSource />
+                        </muxc:AnimatedIcon.Source>
+                        <muxc:AnimatedIcon.FallbackIconSource>
+                            <muxc:SymbolIconSource Symbol="Setting" />
+                        </muxc:AnimatedIcon.FallbackIconSource>
+                    </muxc:AnimatedIcon>
                 </Button>
             </StackPanel>
 
