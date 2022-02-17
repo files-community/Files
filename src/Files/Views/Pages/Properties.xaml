@@ -16,7 +16,7 @@
     Loading="Page_Loading"
     Unloaded="Properties_Unloaded"
     mc:Ignorable="d">
-    <Grid>
+    <Grid VerticalAlignment="Stretch">
         <Grid.Resources>
             <ResourceDictionary>
                 <Thickness x:Key="NavigationViewTopPaneHeight">40</Thickness>
