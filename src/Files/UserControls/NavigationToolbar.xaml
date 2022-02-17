@@ -13,7 +13,8 @@
     xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     xmlns:uc="using:Files.UserControls"
     x:Name="NavToolbar"
-    d:DesignHeight="72"
+    Height="42"
+    d:DesignHeight="42"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -564,17 +565,18 @@
 
                 <Button
                     x:Name="UpdateButton"
-                    x:Load="{x:Bind ViewModel.UpdateSettingsService.IsUpdateAvailable, Mode=OneWay}"
                     Width="36"
                     Height="32"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    x:Load="{x:Bind ViewModel.UpdateSettingsService.IsUpdateAvailable, Mode=OneWay}"
                     AccessKey="1"
                     AutomationProperties.Name="{helpers:ResourceString Name=UpdateFiles}"
                     Background="Transparent"
                     Command="{x:Bind ViewModel.UpdateCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.UpdateSettingsService.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=UpdateFiles}"
-                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=UpdateFiles}">
                     <FontIcon FontSize="14" Glyph="&#xE896;" />
                 </Button>
 
