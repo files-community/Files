@@ -2089,7 +2089,7 @@
     <value>將檔案與資料夾一起排序</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>搜尋檔案或資料夾時一併顯示未被索引的項目（可能會延長搜尋時間）</value>
+    <value>搜尋檔案或資料夾時一併顯示未被索引的項目</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
     <value>儲存專屬於該目錄的檢視方式</value>
@@ -2216,13 +2216,8 @@
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
-*個人資料收集聲明*
-Files 不會收集、儲存、共享或發佈任何使用者的個人資料。
-
-*非個人資料數據收集聲明*
-
-我們使用 App Center 來追蹤使用者在應用程式的使用情況，並藉此查找錯誤及修復問題。所有資料都是以匿名身份回傳至 App Center，您的個人資料也不會被回傳。
-  </value>
+            我們使用 App Center 來追蹤使用者在應用程式的使用情況，並藉此查找錯誤及修復問題。所有資料都是以匿名身份回傳至 App Center，您的個人資料也不會被回傳。
+          </value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>名稱</value>
@@ -2522,7 +2517,7 @@ Files 不會收集、儲存、共享或發佈任何使用者的個人資料。
     <value>第三方授權條款</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>此項設定會修改您的系統檔案並有可能會有未預期的副作用。我們對於可能會發生的問題並不負責。請您僅在認知到這個動作可能帶來的問題的情況下才繼續進行。請注意：除非您在解除安裝Files前關閉此設定，否則即使解除安裝Files也不會復原此變更，而且還可能會讓您無法啟動檔案總管。</value>
+    <value>此項設定會修改您的系統檔案並有可能會有未預期的副作用。我們對於可能會發生的問題並不負責。請您僅在認知到這個動作可能帶來的問題的情況下才繼續進行。</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>全部清除</value>
@@ -2628,5 +2623,29 @@ Files 不會收集、儲存、共享或發佈任何使用者的個人資料。
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
     <value>關閉右邊的索引標籤</value>
+  </data>
+  <data name="ShowDotFiles" xml:space="preserve">
+    <value>顯示隱藏檔案</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>關閉其他索引標籤</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>音樂</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>圖片</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>影片</value>
+  </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>更新檔案</value>
+  </data>
+  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
+    <value>正在準備 {0} 個項目</value>
+  </data>
+  <data name="PrepareInProgress" xml:space="preserve">
+    <value>正在準備項目</value>
   </data>
 </root>

@@ -1548,8 +1548,9 @@
           <target state="translated">Unidades de Nuvem</target>
         </trans-unit>
         <trans-unit id="SidebarNetworkDrives" translate="yes" xml:space="preserve">
-          <source>Network drives</source>
-          <target state="translated">Unidades de Rede</target>
+          <source>Network Drives</source>
+          <target state="needs-review-translation">Unidades de Rede</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="Network" translate="yes" xml:space="preserve">
           <source>Network</source>
@@ -3532,6 +3533,22 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
         <trans-unit id="PrepareInProgress" translate="yes" xml:space="preserve">
           <source>Preparing items</source>
           <target state="new">Preparing items</target>
+        </trans-unit>
+        <trans-unit id="StatusCopyFailed" translate="yes" xml:space="preserve">
+          <source>Copy failed</source>
+          <target state="new">Copy failed</target>
+        </trans-unit>
+        <trans-unit id="StatusCopyFailedDetails_Plural" translate="yes" xml:space="preserve">
+          <source>Failed to copy {0} items from {1} to {2}</source>
+          <target state="new">Failed to copy {0} items from {1} to {2}</target>
+        </trans-unit>
+        <trans-unit id="StatusCopyFailedDetails_Singular" translate="yes" xml:space="preserve">
+          <source>Failed to copy {0} item from {1} to {2}</source>
+          <target state="new">Failed to copy {0} item from {1} to {2}</target>
+        </trans-unit>
+        <trans-unit id="StatusMoveFailed" translate="yes" xml:space="preserve">
+          <source>Move failed</source>
+          <target state="new">Move failed</target>
         </trans-unit>
       </group>
     </body>

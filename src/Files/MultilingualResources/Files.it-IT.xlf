@@ -1548,8 +1548,9 @@
           <target state="translated">Archivi Cloud</target>
         </trans-unit>
         <trans-unit id="SidebarNetworkDrives" translate="yes" xml:space="preserve">
-          <source>Network drives</source>
-          <target state="translated">Dischi di rete</target>
+          <source>Network Drives</source>
+          <target state="needs-review-translation">Dischi di rete</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="Network" translate="yes" xml:space="preserve">
           <source>Network</source>

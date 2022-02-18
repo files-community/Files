@@ -40,21 +40,21 @@
 
         <Grid
             x:Name="AppWindowTitleBarCaptionButtonsGrid"
-            x:Load="{x:Bind helpers:WindowDecorationsHelper.IsWindowDecorationsAllowed}"
             Grid.Row="0"
             Height="32"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
+            x:Load="{x:Bind helpers:WindowDecorationsHelper.IsWindowDecorationsAllowed}"
             Background="Transparent">
             <Rectangle
                 x:Name="CloseRect"
                 Width="46"
                 VerticalAlignment="Stretch"
+                AutomationProperties.Name="{helpers:ResourceString Name=Close}"
                 Fill="Transparent"
                 PointerEntered="CloseRect_PointerEntered"
                 PointerExited="CloseRect_PointerExited"
                 PointerPressed="CloseRect_PointerPressed"
-                AutomationProperties.Name="{helpers:ResourceString Name=Close}"
                 ToolTipService.ToolTip="{helpers:ResourceString Name=Close}" />
             <Viewbox
                 Width="10"

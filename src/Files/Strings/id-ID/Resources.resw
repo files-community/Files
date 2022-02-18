@@ -82,7 +82,7 @@
     <value>Pencarian</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>File yang sebelumnya Anda akses akan muncul di sini</value>
+    <value>Berkas yang sebelumnya Anda akses akan muncul di sini</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
     <value>Buka lokasi file</value>
@@ -283,7 +283,7 @@
     <value>Harap masukkan drive yang diperlukan untuk mengakses item ini.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Drive Dilepaskan</value>
+    <value>Penyimpan Dilepaskan</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>Berkas yang Anda coba akses mungkin telah dipindahkan atau dihapus.</value>
@@ -988,7 +988,7 @@
     <value>Item pintasan</value>
   </data>
   <data name="Drives" xml:space="preserve">
-    <value>Drive</value>
+    <value>Penyimpan</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>Pindahkan ke sini</value>
@@ -1141,10 +1141,10 @@
     <value>Tanggal dihapus</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
-    <value>Cloud Drive</value>
+    <value>Penyimpanan Awan</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Opsi lainnya</value>
+    <value>Opsi lainnya...</value>
   </data>
   <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
     <value>Ekspor Bundel</value>
@@ -1213,7 +1213,7 @@
     <value>Nama Item</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Drive jaringan</value>
+    <value>Penyimpanan jaringan</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Jaringan</value>
@@ -1264,34 +1264,34 @@
     <value>Jika Anda mengubah ekstensi berkas, berkas tersebut mungkin menjadi tidak dapat digunakan. Apakah Anda yakin ingin mengubahnya?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
-    <value>Drive CD ROM</value>
+    <value>Penyimpan CD ROM</value>
   </data>
   <data name="DriveTypeCloudDrive" xml:space="preserve">
-    <value>Drive Cloud</value>
+    <value>Penyimpan Awan</value>
   </data>
   <data name="DriveTypeFixed" xml:space="preserve">
-    <value>Drive Fixed Disk</value>
+    <value>Penyimpan Tetap</value>
   </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
-    <value>Drive Floppy Disk</value>
+    <value>Penyimpan Disket</value>
   </data>
   <data name="DriveTypeNetwork" xml:space="preserve">
-    <value>Drive Jaringan</value>
+    <value>Penyimpan Jaringan</value>
   </data>
   <data name="DriveTypeNoRootDirectory" xml:space="preserve">
-    <value>Drive yang Tidak Terpasang</value>
+    <value>Peyimpan yang Tidak Terpasang</value>
   </data>
   <data name="DriveTypeRam" xml:space="preserve">
-    <value>Drive RAM Disk</value>
+    <value>Penyimpan RAM</value>
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
-    <value>Perangkat yang Dapat Dilepas</value>
+    <value>Perangkat Penyimpanan yang Dapat Dilepas</value>
   </data>
   <data name="DriveTypeUnknown" xml:space="preserve">
     <value>Tidak diketahui</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
-    <value>Drive Virtual</value>
+    <value>Penyimpan Maya (Virtual)</value>
   </data>
   <data name="DateCreated" xml:space="preserve">
     <value>Tanggal dibuat</value>
@@ -1300,7 +1300,7 @@
     <value>Opsi lainnya...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
-    <value>Peta drive jaringan</value>
+    <value>Peta penyimpan jaringan</value>
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>Putuskan Sambungan</value>
@@ -1312,7 +1312,7 @@
     <value>Opsi drive lainnya</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
-    <value>Favorit</value>
+    <value>Kesukaan</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Pustaka</value>
@@ -1474,7 +1474,7 @@
     <value>Tampilkan widget Bundel</value>
   </data>
   <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>Tampilkan widget Drive</value>
+    <value>Tampilkan widget Penyimpan</value>
   </data>
   <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
     <value>Tampilkan widget Folder</value>
@@ -1804,7 +1804,7 @@
     <value>Pemilik tidak diketahui</value>
   </data>
   <data name="Default" xml:space="preserve">
-    <value>Default</value>
+    <value>Bawaan</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Buka folder tema</value>
@@ -2023,7 +2023,7 @@
     <value>Ukuran tidak terkompresi</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
-    <value>Masuk ke overlay compact</value>
+    <value>Masuk ke tampilan fleksibel</value>
   </data>
   <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
     <value>Keluar dari overlay kompak</value>
@@ -2486,7 +2486,7 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
     <value>Mode warna yang dikurangi</value>
   </data>
   <data name="RegisterForRestart" xml:space="preserve">
-    <value>Daftar untuk restart</value>
+    <value>Daftar untuk mulai ulang</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Jalankan sebagai administrator</value>
@@ -2576,7 +2576,7 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
     <value>Pembersihan disk</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Ketik:</value>
+    <value>Sejenis:</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
@@ -2628,5 +2628,29 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
     <value>Tutup halaman di sebelah kanan</value>
+  </data>
+  <data name="ShowDotFiles" xml:space="preserve">
+    <value>Tampilkan titik pada berkas</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Tutup halaman lainnya</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Musik</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Gambar</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Tontonan</value>
+  </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Perbarui Files</value>
+  </data>
+  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
+    <value>Mempersiapkan {0} Item</value>
+  </data>
+  <data name="PrepareInProgress" xml:space="preserve">
+    <value>Mempersiapkan Item</value>
   </data>
 </root>
