@@ -2250,13 +2250,13 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
     <value>Sconosciuto</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>Tag del file</value>
+    <value>Etichetta</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
-    <value>Gestisci i tag dei file</value>
+    <value>Gestisci le etichette</value>
   </data>
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Abilita i tag dei file</value>
+    <value>Abilita le etichette</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>Apri Unità</value>
@@ -2655,12 +2655,12 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
     <value>Spostamento non riuscito</value>
   </data>
   <data name="FileTags" xml:space="preserve">
-    <value>Tag del file</value>
+    <value>Etichette</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>Mostra sezione Tag del File</value>
+    <value>Mostra sezione Etichette</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostra sezione Tag del File</value>
+    <value>Mostra sezione Etichette</value>
   </data>
 </root>

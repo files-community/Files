@@ -2994,16 +2994,16 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
           <target state="translated">Sconosciuto</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowFileTag.Text" translate="yes" xml:space="preserve">
-          <source>File tag</source>
-          <target state="translated">Tag del file</target>
+          <source>Tag</source>
+          <target state="translated">Etichetta</target>
         </trans-unit>
         <trans-unit id="SettingsEditFileTagsExpander.Title" translate="yes" xml:space="preserve">
-          <source>Edit file tags</source>
-          <target state="translated">Gestisci i tag dei file</target>
+          <source>Edit tags</source>
+          <target state="translated">Gestisci le etichette</target>
         </trans-unit>
         <trans-unit id="SettingsEnableFileTags.Title" translate="yes" xml:space="preserve">
-          <source>Enable file tags</source>
-          <target state="translated">Abilita i tag dei file</target>
+          <source>Enable tags</source>
+          <target state="translated">Abilita le etichette</target>
         </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
@@ -3535,16 +3535,16 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
           <target state="translated">Spostamento non riuscito</target>
         </trans-unit>
         <trans-unit id="FileTags" translate="yes" xml:space="preserve">
-          <source>File Tags</source>
-          <target state="translated">Tag del file</target>
+          <source>Tags</source>
+          <target state="translated">Etichette</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileTagsSection.Title" translate="yes" xml:space="preserve">
-          <source>Show File Tags section</source>
-          <target state="translated">Mostra sezione Tag del File</target>
+          <source>Show Tags section</source>
+          <target state="translated">Mostra sezione Etichette</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Show File Tags section</source>
-          <target state="translated">Mostra sezione Tag del File</target>
+          <source>Show Tags section</source>
+          <target state="translated">Mostra sezione Etichette</target>
         </trans-unit>
       </group>
     </body>
