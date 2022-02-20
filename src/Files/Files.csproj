@@ -11,7 +11,7 @@
     <AssemblyName>Files</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-    <AppxDefaultResourceQualifiers>Language=en-US;af;ar;bg;ca;da;da-DK;de-DE;el;en-GB;es-ES;es-419;fr-FR;he-IL;hi-IN;hu-HU;id-ID;it-IT;ja-JP;ka;ko-KR;lv-LV;nb-NO;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ru-RU;sk-SK;sv-SE;cs-CZ;ta;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
+    <AppxDefaultResourceQualifiers>Language=en-US;af;ar;bg;ca;da;da-DK;de-DE;el;en-GB;es-ES;es-419;fr-FR;he-IL;hi-IN;hu-HU;id-ID;it-IT;ja-JP;ka;ko-KR;lv-LV;nb-NO;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ru-RU;sk-SK;sv-SE;ta;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.22000.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
@@ -200,6 +200,7 @@
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupingHelper.cs" />
     <Compile Include="Helpers\StorageItemIconHelpers.cs" />
     <Compile Include="Helpers\StorageSenseHelper.cs" />
+    <Compile Include="Helpers\WindowDecorationsHelper.cs" />
     <Compile Include="Helpers\UniversalLogWriter.cs" />
     <Compile Include="Helpers\SaveImageToFile.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
@@ -544,6 +545,7 @@
     <Compile Include="ViewModels\Widgets\IWidgetItemModel.cs" />
     <Compile Include="ViewModels\Widgets\WidgetsListControlItemViewModel.cs" />
     <Compile Include="ViewModels\Widgets\WidgetsListControlViewModel.cs" />
+    <Compile Include="Views\Brushes\MicaBrush.cs" />
     <Compile Include="Views\ColumnParam.cs" />
     <Compile Include="Views\ColumnShellPage.xaml.cs">
       <DependentUpon>ColumnShellPage.xaml</DependentUpon>
@@ -1079,7 +1081,6 @@
     <PRIResource Include="Strings\ar\Resources.resw" />
     <PRIResource Include="Strings\da-DK\Resources.resw" />
     <PRIResource Include="Strings\da\Resources.resw" />
-    <PRIResource Include="Strings\cs-CZ\Resources.resw" />
     <PRIResource Include="Strings\hu-HU\Resources.resw" />
     <PRIResource Include="Strings\or-IN\Resources.resw" />
     <PRIResource Include="Strings\hi-IN\Resources.resw" />
@@ -1590,7 +1591,6 @@
     <XliffResource Include="MultilingualResources\Files.pt-PT.xlf" />
     <XliffResource Include="MultilingualResources\Files.ar.xlf" />
     <XliffResource Include="MultilingualResources\Files.bg.xlf" />
-    <XliffResource Include="MultilingualResources\Files.cs-CZ.xlf" />
     <XliffResource Include="MultilingualResources\Files.da-DK.xlf" />
     <XliffResource Include="MultilingualResources\Files.da.xlf" />
     <XliffResource Include="MultilingualResources\Files.de-DE.xlf" />

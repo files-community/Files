@@ -33,15 +33,6 @@
                             <!--  Navigation Toolbar  -->
                             <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="#00000000" />
                             <SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
-                            <!--  Horizontal Tab Control  -->
-                            <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
-                            <!--  File Browser Control  -->
-                            <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
-
-                            <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
-
-                            <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="#113A3A3A" />
-
                             <Color x:Key="LayerFillColorDefault">#11000000</Color>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Default">
@@ -60,15 +51,6 @@
                             <!--  Navigation Toolbar  -->
                             <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="#00000000" />
                             <SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
-                            <!--  Horizontal Tab Control  -->
-                            <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
-                            <!--  File Browser Control  -->
-                            <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
-
-                            <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
-
-                            <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="#3C3A3A3A" />
-
                             <Color x:Key="LayerFillColorDefault">#11000000</Color>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
@@ -97,15 +79,6 @@
                             <!--  Navigation Toolbar  -->
                             <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
-                            <!--  Horizontal Tab Control  -->
-                            <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
-                            <!--  File Browser Control  -->
-                            <StaticResource x:Key="FileBrowserHeaderBackgroundBrush" ResourceKey="SolidBackgroundFillColorBaseBrush" />
-
-                            <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
-
-                            <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="#3C3A3A3A" />
-
                             <Color x:Key="LayerFillColorDefault">#11000000</Color>
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>

@@ -78,7 +78,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <FontIcon
-                            x:Name="FolderImg"
+                            x:Name="RecentFolderImg"
                             Grid.Column="0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -97,7 +97,7 @@
                             FontSize="24"
                             Glyph="&#xE7C3;" />
                         <Image
-                            x:Name="FileImg"
+                            x:Name="RecentFileImg"
                             Grid.Column="0"
                             Width="24"
                             Height="24"

@@ -11,7 +11,7 @@ using Windows.Foundation.Collections;
 namespace FilesFullTrust.MessageHandlers
 {
     [SupportedOSPlatform("Windows10.0.10240")]
-    public class QuickLookHandler : IMessageHandler
+    public class QuickLookHandler : Disposable, IMessageHandler
     {
         private static readonly Logger Logger = Program.Logger;
 
@@ -36,8 +36,6 @@ namespace FilesFullTrust.MessageHandlers
                     break;
             }
         }
-
-        public void Dispose() { }
 
         private static void ToggleQuickLook(string path, bool switchPreview)
         {

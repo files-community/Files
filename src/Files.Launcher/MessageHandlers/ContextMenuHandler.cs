@@ -14,7 +14,7 @@ using Windows.Foundation.Collections;
 namespace FilesFullTrust.MessageHandlers
 {
     [SupportedOSPlatform("Windows10.0.10240")]
-    public class ContextMenuHandler : IMessageHandler
+    public class ContextMenuHandler : Disposable, IMessageHandler
     {
         private readonly DisposableDictionary handleTable;
 
@@ -164,9 +164,12 @@ namespace FilesFullTrust.MessageHandlers
             return filterMenuItemsImpl;
         }
 
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            handleTable?.Dispose();
+            if (disposing)
+            {
+                handleTable?.Dispose();
+            }
         }
     }
 }

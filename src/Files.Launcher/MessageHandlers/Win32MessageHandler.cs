@@ -17,7 +17,7 @@ using Windows.Storage;
 namespace FilesFullTrust.MessageHandlers
 {
     [SupportedOSPlatform("Windows10.0.10240")]
-    public class Win32MessageHandler : IMessageHandler
+    public class Win32MessageHandler : Disposable, IMessageHandler
     {
         public void Initialize(PipeStream connection)
         {
@@ -26,14 +26,14 @@ namespace FilesFullTrust.MessageHandlers
             ApplicationData.Current.LocalSettings.Values["TEMP"] = Environment.GetEnvironmentVariable("TEMP");
         }
 
-        private void DetectIsSetAsDefaultFileManager()
+        private static void DetectIsSetAsDefaultFileManager()
         {
             using var subkey = Registry.ClassesRoot.OpenSubKey(@"Folder\shell\open\command");
             var command = (string)subkey?.GetValue(string.Empty);
             ApplicationData.Current.LocalSettings.Values["IsSetAsDefaultFileManager"] = !string.IsNullOrEmpty(command) && command.Contains("files.exe");
         }
 
-        private void DetectIsSetAsOpenFileDialog()
+        private static void DetectIsSetAsOpenFileDialog()
         {
             using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\CLSID\{DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7}");
             ApplicationData.Current.LocalSettings.Values["IsSetAsOpenFileDialog"] = subkey?.GetValue(string.Empty) as string == "FilesOpenDialog class";
@@ -65,11 +65,11 @@ namespace FilesFullTrust.MessageHandlers
                     var fileIconPath = (string)message["filePath"];
                     var thumbnailSize = (int)(long)message["thumbnailSize"];
                     var isOverlayOnly = (bool)message["isOverlayOnly"];
-                    var iconOverlay = await Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize, true, isOverlayOnly));
+                    var (icon, overlay) = await Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize, true, isOverlayOnly));
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
-                        { "Icon", iconOverlay.icon },
-                        { "Overlay", iconOverlay.overlay }
+                        { "Icon", icon },
+                        { "Overlay", overlay }
                     }, message.Get("RequestID", (string)null));
                     break;
 
@@ -92,23 +92,22 @@ namespace FilesFullTrust.MessageHandlers
                         var flc = new List<ShellFileItem>();
                         try
                         {
-                            using (var shellFolder = new ShellFolder(folderPath))
+                            using var shellFolder = new ShellFolder(folderPath);
+
+                            foreach (var folderItem in shellFolder)
                             {
-                                foreach (var folderItem in shellFolder)
+                                try
                                 {
-                                    try
-                                    {
-                                        var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
-                                        flc.Add(shellFileItem);
-                                    }
-                                    catch (FileNotFoundException)
-                                    {
-                                        // Happens if files are being deleted
-                                    }
-                                    finally
-                                    {
-                                        folderItem.Dispose();
-                                    }
+                                    var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
+                                    flc.Add(shellFileItem);
+                                }
+                                catch (FileNotFoundException)
+                                {
+                                    // Happens if files are being deleted
+                                }
+                                finally
+                                {
+                                    folderItem.Dispose();
                                 }
                             }
                         }
@@ -219,10 +218,6 @@ namespace FilesFullTrust.MessageHandlers
                     }
                     break;
             }
-        }
-
-        public void Dispose()
-        {
         }
     }
 }

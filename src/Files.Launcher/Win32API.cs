@@ -93,7 +93,7 @@ namespace FilesFullTrust
                 var uwpApps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
                 if (uwpApps.Any())
                 {
-                    return uwpApps.First().PackageFamilyName;
+                    return uwpApps[0].PackageFamilyName;
                 }
                 return null;
             }
@@ -124,7 +124,7 @@ namespace FilesFullTrust
         {
             var lib = Kernel32.LoadLibrary(file);
             StringBuilder result = new StringBuilder(2048);
-            User32.LoadString(lib, number, result, result.Capacity);
+            _ = User32.LoadString(lib, number, result, result.Capacity);
             Kernel32.FreeLibrary(lib);
             return result.ToString();
         }
@@ -159,7 +159,7 @@ namespace FilesFullTrust
             }
         }
 
-        private static object lockObject = new object();
+        private static readonly object lockObject = new object();
 
         public static (string icon, string overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool getOverlay = true, bool onlyGetOverlay = false)
         {
@@ -216,12 +216,11 @@ namespace FilesFullTrust
                         using var hOverlay = imageList.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
                         if (!hOverlay.IsNull && !hOverlay.IsInvalid)
                         {
-                            using (var icon = hOverlay.ToIcon())
-                            using (var image = icon.ToBitmap())
-                            {
-                                byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                                overlayStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
-                            }
+                            using var icon = hOverlay.ToIcon();
+                            using var image = icon.ToBitmap();
+
+                            byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                            overlayStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
                         }
                     }
 
@@ -270,9 +269,8 @@ namespace FilesFullTrust
 
             foreach (int index in indexes)
             {
-                User32.SafeHICON icon;
-                User32.SafeHICON hIcon2;    // This is merely to pass into the function and is unneeded otherwise
-                if (Shell32.SHDefExtractIcon(file, -1 * index, 0, out icon, out hIcon2, Convert.ToUInt32(iconSize)) == HRESULT.S_OK)
+                // This is merely to pass into the function and is unneeded otherwise
+                if (Shell32.SHDefExtractIcon(file, -1 * index, 0, out User32.SafeHICON icon, out User32.SafeHICON hIcon2, Convert.ToUInt32(iconSize)) == HRESULT.S_OK)
                 {
                     using var image = icon.ToBitmap();
                     byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
@@ -298,25 +296,23 @@ namespace FilesFullTrust
             int maxIndex = count - 1;
             if (maxIndex == 0)
             {
-                using (var icon = Shell32.ExtractIcon(currentProc.Handle, file, 0))
-                {
-                    using var image = icon.ToBitmap();
-                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                    var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
-                    iconsList.Add(new IconFileInfo(icoStr, 0));
-                }
+                using var icon = Shell32.ExtractIcon(currentProc.Handle, file, 0);
+                using var image = icon.ToBitmap();
+
+                byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                iconsList.Add(new IconFileInfo(icoStr, 0));
             }
             else if (maxIndex > 0)
             {
                 for (int i = 0; i <= maxIndex; i++)
                 {
-                    using (var icon = Shell32.ExtractIcon(currentProc.Handle, file, i))
-                    {
-                        using var image = icon.ToBitmap();
-                        byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                        var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
-                        iconsList.Add(new IconFileInfo(icoStr, i));
-                    }
+                    using var icon = Shell32.ExtractIcon(currentProc.Handle, file, i);
+                    using var image = icon.ToBitmap();
+
+                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                    var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                    iconsList.Add(new IconFileInfo(icoStr, i));
                 }
             }
             else
@@ -432,10 +428,12 @@ namespace FilesFullTrust
         {
             await Extensions.IgnoreExceptions(async () =>
             {
-                var message = new Dictionary<string, object>(valueSet);
-                message.Add("RequestID", requestID);
+                var message = new Dictionary<string, object>(valueSet)
+                {
+                    { "RequestID", requestID }
+                };
                 var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
-                await pipe.WriteAsync(serialized, 0, serialized.Length);
+                await pipe.WriteAsync(serialized);
             });
         }
 
@@ -509,7 +507,7 @@ namespace FilesFullTrust
                 {
                     if (countMatch != null)
                     {
-                        uniquePath = Path.Combine(directory, $"{nameWithoutExt.Substring(0, countMatch.Index)}({count}){extension}");
+                        uniquePath = Path.Combine(directory, $"{nameWithoutExt[..countMatch.Index]}({count}){extension}");
                     }
                     else
                     {
@@ -527,7 +525,7 @@ namespace FilesFullTrust
                 {
                     if (countMatch != null)
                     {
-                        uniquePath = Path.Combine(directory, $"{Name.Substring(0, countMatch.Index)}({Count})");
+                        uniquePath = Path.Combine(directory, $"{Name[..countMatch.Index]}({Count})");
                     }
                     else
                     {
@@ -639,7 +637,7 @@ namespace FilesFullTrust
         }
 
         // Get information from recycle bin.
-        [DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Auto)]
+        [DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Unicode)]
         public static extern int SHQueryRecycleBin(string pszRootPath,
             ref SHQUERYRBINFO pSHQueryRBInfo);
 
