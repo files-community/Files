@@ -179,7 +179,7 @@ namespace Files.UserControls.MultitaskingControl
             }
             else
             {
-                CloseTab(args.Item as TabItem);
+                (args.Item as TabItem)?.Unload(); // Dispose tab arguments
             }
         }
 
