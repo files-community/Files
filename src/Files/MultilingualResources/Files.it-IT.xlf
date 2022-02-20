@@ -2997,6 +2997,14 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
           <source>File tag</source>
           <target state="translated">Tag del file</target>
         </trans-unit>
+        <trans-unit id="SettingsEditFileTagsExpander.Title" translate="yes" xml:space="preserve">
+          <source>Edit file tags</source>
+          <target state="translated">Gestisci i tag dei file</target>
+        </trans-unit>
+        <trans-unit id="SettingsEnableFileTags.Title" translate="yes" xml:space="preserve">
+          <source>Enable file tags</source>
+          <target state="translated">Abilita i tag dei file</target>
+        </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
           <target state="translated">Apri Unità</target>

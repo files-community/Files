@@ -36,6 +36,35 @@
                 Text="WARNING: EXPERIMENTAL FEATURES AHEAD!" />
 
             <local:SettingsBlockControl
+                x:Uid="SettingsEnableFileTags"
+                Title="Enable file tags"
+                HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE1CB;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch IsOn="{Binding AreFileTagsEnabled, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                <local:SettingsBlockControl.ExpandableContent>
+                    <local:SettingsBlockControl
+                        x:Uid="SettingsEditFileTagsExpander"
+                        Title="Edit file tags"
+                        ButtonCommand="{Binding EditFileTagsCommand}"
+                        IsClickable="True">
+                        <local:SettingsBlockControl.Icon>
+                            <FontIcon
+                                FontSize="14"
+                                Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                Glyph="&#xE104;" />
+                        </local:SettingsBlockControl.Icon>
+
+                        <FontIcon
+                            FontSize="14"
+                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                            Glyph="&#xE2B4;" />
+                    </local:SettingsBlockControl>
+                </local:SettingsBlockControl.ExpandableContent>
+            </local:SettingsBlockControl>
+
+            <local:SettingsBlockControl
                 Title="{helpers:ResourceString Name=ShowFolderSize}"
                 HorizontalAlignment="Stretch"
                 IsExpanded="True">

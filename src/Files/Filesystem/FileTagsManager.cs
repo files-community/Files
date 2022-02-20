@@ -48,7 +48,7 @@ namespace Files.Filesystem
                 try
                 {
                     var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "FileTags".GetLocalized()) as LocationItem;
-                    if (UserSettingsService.AppearanceSettingsService.ShowFileTagsSection && section == null)
+                    if (UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled && UserSettingsService.AppearanceSettingsService.ShowFileTagsSection && section == null)
                     {
                         section = new LocationItem()
                         {

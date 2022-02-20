@@ -262,6 +262,7 @@
                             <ToggleSwitch
                                 x:Uid="SettingsShowFileTagsSectionSwitch"
                                 AutomationProperties.Name="Show File Tags section"
+                                IsEnabled="{Binding AreFileTagsEnabled}"
                                 IsOn="{Binding ShowFileTagsSection, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
