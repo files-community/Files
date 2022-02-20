@@ -21,7 +21,8 @@ namespace Files.Filesystem
         Drive,
         LinuxDistro,
         Location,
-        CloudDrive
+        CloudDrive,
+        FileTag
     }
 
     public enum SectionType

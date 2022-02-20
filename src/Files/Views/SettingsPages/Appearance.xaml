@@ -240,7 +240,7 @@
 
                         <local:SettingsBlockControl
                             x:Uid="SettingsShowWslSection"
-                            Title="Show WSL section on the sidebar"
+                            Title="Show WSL section"
                             HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xEC7A;" />
@@ -249,6 +249,20 @@
                                 x:Uid="SettingsShowWslSectionSwitch"
                                 AutomationProperties.Name="Show WSL section"
                                 IsOn="{Binding ShowWslSection, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+
+                        <local:SettingsBlockControl
+                            x:Uid="SettingsShowFileTagsSection"
+                            Title="Show File Tags section"
+                            HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE1CB;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                x:Uid="SettingsShowFileTagsSectionSwitch"
+                                AutomationProperties.Name="Show File Tags section"
+                                IsOn="{Binding ShowFileTagsSection, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
                     </StackPanel>

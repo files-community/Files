@@ -204,6 +204,20 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
+        public bool ShowFileTagsSection
+        {
+            get => UserSettingsService.AppearanceSettingsService.ShowFileTagsSection;
+            set
+            {
+                if (value != UserSettingsService.AppearanceSettingsService.ShowFileTagsSection)
+                {
+                    UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = value;
+                    App.FileTagsManager.UpdateFileTagsSectionVisibility();
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public async Task OpenThemesFolder()
         {
             await CoreApplication.MainView.Dispatcher.YieldAsync();

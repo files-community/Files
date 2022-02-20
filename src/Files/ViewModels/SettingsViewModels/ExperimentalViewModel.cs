@@ -17,8 +17,6 @@ namespace Files.ViewModels.SettingsViewModels
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        public ICommand EditFileTagsCommand { get; }
-
         public ICommand SetAsDefaultExplorerCommand { get; }
 
         public ICommand SetAsOpenFileDialogCommand { get; }
@@ -28,22 +26,8 @@ namespace Files.ViewModels.SettingsViewModels
             IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
             IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
 
-            EditFileTagsCommand = new AsyncRelayCommand(LaunchFileTagsConfigFile);
             SetAsDefaultExplorerCommand = new AsyncRelayCommand(SetAsDefaultExplorer);
             SetAsOpenFileDialogCommand = new AsyncRelayCommand(SetAsOpenFileDialog);
-        }
-
-        public bool AreFileTagsEnabled
-        {
-            get => UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled)
-                {
-                    UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled = value;
-                    OnPropertyChanged();
-                }
-            }
         }
 
         public bool ShowFolderSize
@@ -55,24 +39,6 @@ namespace Files.ViewModels.SettingsViewModels
                 {
                     UserSettingsService.PreferencesSettingsService.ShowFolderSize = value;
                     OnPropertyChanged();
-                }
-            }
-        }
-
-        private async Task LaunchFileTagsConfigFile()
-        {
-            var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/filetags.json"));
-            if (!await Launcher.LaunchFileAsync(configFile))
-            {
-                var connection = await AppServiceConnectionHelper.Instance;
-                if (connection != null)
-                {
-                    await connection.SendMessageAsync(new ValueSet()
-                    {
-                        { "Arguments", "InvokeVerb" },
-                        { "FilePath", configFile.Path },
-                        { "Verb", "open" }
-                    });
                 }
             }
         }

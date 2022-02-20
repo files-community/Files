@@ -181,6 +181,11 @@ namespace Files.UserControls
                 UserSettingsService.AppearanceSettingsService.ShowWslSection = false;
                 App.WSLDistroManager.UpdateWslSectionVisibility();
             }
+            else if ("FileTags".GetLocalized().Equals(RightClickedItem.Text))
+            {
+                UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = false;
+                App.FileTagsManager.UpdateFileTagsSectionVisibility();
+            }
         }
 
         public void UnpinItem_Click(object sender, RoutedEventArgs e)
@@ -343,8 +348,9 @@ namespace Files.UserControls
             bool cloudDrivesHeader = "SidebarCloudDrives".GetLocalized().Equals(item.Text);
             bool librariesHeader = "SidebarLibraries".GetLocalized().Equals(item.Text);
             bool wslHeader = "WSL".GetLocalized().Equals(item.Text);
+            bool fileTagsHeader = "FileTags".GetLocalized().Equals(item.Text);
             bool favoritesHeader = "SidebarFavorites".GetLocalized().Equals(item.Text);
-            bool header = drivesHeader || networkDrivesHeader || cloudDrivesHeader || librariesHeader || wslHeader || favoritesHeader;
+            bool header = drivesHeader || networkDrivesHeader || cloudDrivesHeader || librariesHeader || wslHeader || fileTagsHeader || favoritesHeader;
 
             if (!header)
             {
@@ -1250,6 +1256,7 @@ namespace Files.UserControls
         public DataTemplate LocationNavItemTemplate { get; set; }
         public DataTemplate DriveNavItemTemplate { get; set; }
         public DataTemplate LinuxNavItemTemplate { get; set; }
+        public DataTemplate FileTagNavItemTemplate { get; set; }
         public DataTemplate HeaderNavItemTemplate { get; set; }
 
         protected override DataTemplate SelectTemplateCore(object item)
@@ -1270,6 +1277,9 @@ namespace Files.UserControls
 
                     case NavigationControlItemType.LinuxDistro:
                         return LinuxNavItemTemplate;
+
+                    case NavigationControlItemType.FileTag:
+                        return FileTagNavItemTemplate;
 
                     case NavigationControlItemType.Header:
                         return HeaderNavItemTemplate;

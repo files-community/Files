@@ -89,6 +89,34 @@
                 </muxc:NavigationViewItem>
             </DataTemplate>
 
+            <DataTemplate x:Key="FileTagNavItem" x:DataType="navigationcontrolitems:FileTagItem">
+                <muxc:NavigationViewItem
+                    AllowDrop="True"
+                    CanDrag="False"
+                    Content="{x:Bind Text}"
+                    DataContext="{x:Bind}"
+                    DragEnter="NavigationViewItem_DragEnter"
+                    DragLeave="NavigationViewItem_DragLeave"
+                    DragOver="NavigationViewLocationItem_DragOver"
+                    Drop="NavigationViewLocationItem_Drop"
+                    IsRightTapEnabled="True"
+                    PointerPressed="Sidebar_PointerPressed"
+                    RightTapped="NavigationViewLocationItem_RightTapped"
+                    Tag="{x:Bind Path}"
+                    ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
+                    <muxc:NavigationViewItem.Icon>
+                        <PathIcon Foreground="{x:Bind FileTag.Color, Mode=OneWay}">
+                            <PathIcon.Data>
+                                <EllipseGeometry
+                                    Center="24,24"
+                                    RadiusX="24"
+                                    RadiusY="24" />
+                            </PathIcon.Data>
+                        </PathIcon>
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+            </DataTemplate>
+
             <mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
 
             <Style TargetType="SplitView">
@@ -985,6 +1013,7 @@
     <muxc:NavigationView.MenuItemTemplateSelector>
         <local:NavItemDataTemplateSelector
             DriveNavItemTemplate="{StaticResource DriveNavItem}"
+            FileTagNavItemTemplate="{StaticResource FileTagNavItem}"
             LinuxNavItemTemplate="{StaticResource LinuxNavItem}"
             LocationNavItemTemplate="{StaticResource LocationNavItem}" />
     </muxc:NavigationView.MenuItemTemplateSelector>
