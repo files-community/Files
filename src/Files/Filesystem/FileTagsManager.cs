@@ -53,7 +53,7 @@ namespace Files.Filesystem
                         section = new LocationItem()
                         {
                             Text = "FileTags".GetLocalized(),
-                            Section = SectionType.WSL,
+                            Section = SectionType.FileTag,
                             SelectsOnInvoked = false,
                             Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/FileTags.png")),
                             ChildItems = new ObservableCollection<INavigationControlItem>()

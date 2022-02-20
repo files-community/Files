@@ -893,6 +893,78 @@ namespace Files.UserControls
             lockFlag = false;
         }
 
+        private async void NavigationViewFileTagItem_DragOver(object sender, DragEventArgs e)
+        {
+            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is FileTagItem fileTagItem) ||
+                !Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+            {
+                return;
+            }
+
+            var deferral = e.GetDeferral();
+            e.Handled = true;
+
+            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
+            var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+
+            if (handledByFtp)
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
+            }
+            else if (!storageItems.Any())
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
+            }
+            else
+            {
+                e.DragUIOverride.IsCaptionVisible = true;
+                e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), fileTagItem.Text);
+                e.AcceptedOperation = DataPackageOperation.Link;
+            }
+
+            deferral.Complete();
+        }
+
+        private async void NavigationViewFileTag_Drop(object sender, DragEventArgs e)
+        {
+            if (lockFlag)
+            {
+                return;
+            }
+            lockFlag = true;
+
+            dragOverItem = null; // Reset dragged over item
+            dragOverSection = null; // Reset dragged over section
+
+            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is FileTagItem fileTagItem))
+            {
+                return;
+            }
+
+            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
+
+            var deferral = e.GetDeferral();
+
+            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
+            var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+
+            if (handledByFtp)
+            {
+                return;
+            }
+
+            foreach (var item in storageItems.Where(x => !string.IsNullOrEmpty(x.Path)))
+            {
+                var listedItem = new ListedItem(null) { ItemPath = item.Path };
+                listedItem.FileFRN = await FileTagsHelper.GetFileFRN(item.Item);
+                listedItem.FileTag = fileTagItem.FileTag.Uid;
+            }
+
+            deferral.Complete();
+            await Task.Yield();
+            lockFlag = false;
+        }
+
         private void Properties_Click(object sender, RoutedEventArgs e)
         {
             SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(RightClickedItem));

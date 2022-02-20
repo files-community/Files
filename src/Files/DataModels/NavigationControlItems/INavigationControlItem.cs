@@ -33,6 +33,7 @@ namespace Files.Filesystem
         Drives,
         CloudDrives,
         Network,
-        WSL
+        WSL,
+        FileTag
     }
 }
