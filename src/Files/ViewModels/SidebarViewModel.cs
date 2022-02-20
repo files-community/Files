@@ -192,6 +192,19 @@ namespace Files.ViewModels
             }
         }
 
+        public bool ShowFileTagsSection
+        {
+            get => UserSettingsService.AppearanceSettingsService.ShowFileTagsSection;
+            set
+            {
+                if (value != UserSettingsService.AppearanceSettingsService.ShowFileTagsSection)
+                {
+                    UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = value;
+                    App.FileTagsManager.UpdateFileTagsSectionVisibility();
+                }
+            }
+        }
+
         private INavigationControlItem selectedSidebarItem;
 
         public INavigationControlItem SidebarSelectedItem
@@ -238,6 +251,9 @@ namespace Files.ViewModels
                     break;
                 case nameof(UserSettingsService.AppearanceSettingsService.ShowWslSection):
                     OnPropertyChanged(nameof(ShowWslSection));
+                    break;
+                case nameof(UserSettingsService.AppearanceSettingsService.ShowFileTagsSection):
+                    OnPropertyChanged(nameof(ShowFileTagsSection));
                     break;
             }
         }

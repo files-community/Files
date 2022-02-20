@@ -3,11 +3,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:local="using:Files.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:helpers="using:Files.Helpers"
     xmlns:navigationcontrolitems="using:Files.DataModels.NavigationControlItems"
     HorizontalAlignment="Stretch"
     d:DesignHeight="768"
@@ -23,24 +23,13 @@
     <muxc:NavigationView.Resources>
         <ResourceDictionary>
             <MenuFlyout x:Key="SidebarContextMenu">
-                <ToggleMenuFlyoutItem
-                        Text="{helpers:ResourceString Name=SidebarFavorites}"
-                        IsChecked="{Binding ShowFavoritesSection,Mode=TwoWay}"/>
-                    <ToggleMenuFlyoutItem
-                        Text="{helpers:ResourceString Name=SidebarLibraries}"
-                        IsChecked="{Binding ShowLibrarySection,Mode=TwoWay}"/>
-                    <ToggleMenuFlyoutItem
-                        Text="{helpers:ResourceString Name=Drives}"
-                        IsChecked="{Binding ShowDrivesSection,Mode=TwoWay}"/>
-                    <ToggleMenuFlyoutItem
-                        Text="{helpers:ResourceString Name=SidebarCloudDrives}"
-                        IsChecked="{Binding ShowCloudDrivesSection,Mode=TwoWay}"/>
-                    <ToggleMenuFlyoutItem
-                        Text="{helpers:ResourceString Name=SidebarNetworkDrives}"
-                        IsChecked="{Binding ShowNetworkDrivesSection,Mode=TwoWay}"/>
-                <ToggleMenuFlyoutItem
-                        Text="{helpers:ResourceString Name=WSL}"
-                        IsChecked="{Binding ShowWslSection,Mode=TwoWay}"/>
+                <ToggleMenuFlyoutItem IsChecked="{Binding ShowFavoritesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarFavorites}" />
+                <ToggleMenuFlyoutItem IsChecked="{Binding ShowLibrarySection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarLibraries}" />
+                <ToggleMenuFlyoutItem IsChecked="{Binding ShowDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=Drives}" />
+                <ToggleMenuFlyoutItem IsChecked="{Binding ShowCloudDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarCloudDrives}" />
+                <ToggleMenuFlyoutItem IsChecked="{Binding ShowNetworkDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarNetworkDrives}" />
+                <ToggleMenuFlyoutItem IsChecked="{Binding ShowWslSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=WSL}" />
+                <ToggleMenuFlyoutItem IsChecked="{Binding ShowFileTagsSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=FileTags}" />
             </MenuFlyout>
             <DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
                 <muxc:NavigationViewItem
