@@ -21,11 +21,11 @@ namespace SevenZip
     /// compr.CompressDirectory(@"C:\Dir", @"C:\Archive.7z");
     /// </example>
     public sealed partial class SevenZipCompressor
-#if UNMANAGED
+#if TRUE
         : SevenZipBase
 #endif
     {
-#if UNMANAGED
+#if TRUE
 
         #region Fields
 
@@ -119,7 +119,7 @@ namespace SevenZip
 #endif
         private static volatile int _lzmaDictionarySize = 1 << 22;
 
-#if UNMANAGED
+#if TRUE
 
         private void CommonInit()
         {
@@ -197,7 +197,7 @@ namespace SevenZip
             }
         }
 
-#if UNMANAGED
+#if TRUE
 
         #region Private functions
 

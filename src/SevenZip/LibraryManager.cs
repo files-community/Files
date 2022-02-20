@@ -12,7 +12,7 @@ namespace SevenZip
     using System.Runtime.InteropServices;
     using System.Text;
 
-#if UNMANAGED
+#if TRUE
     /// <summary>
     /// 7-zip library low-level wrapper.
     /// </summary>

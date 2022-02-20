@@ -20,11 +20,11 @@ namespace SevenZip
     /// }
     /// </example>
     public sealed partial class SevenZipExtractor
-#if UNMANAGED
+#if TRUE
         : SevenZipBase, IDisposable
 #endif
     {
-#if UNMANAGED
+#if TRUE
         private List<ArchiveFileInfo> _archiveFileData;
         private IInArchive _archive;
         private IInStream _archiveStream;
@@ -730,7 +730,7 @@ namespace SevenZip
             }
         }
 
-#if UNMANAGED
+#if TRUE
 
         #region IDisposable Members
 

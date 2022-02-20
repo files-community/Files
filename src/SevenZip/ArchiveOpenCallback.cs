@@ -5,7 +5,7 @@ namespace SevenZip
     using System.IO;
     using System.Runtime.InteropServices;
 
-#if UNMANAGED
+#if TRUE
     /// <summary>
     /// Callback to handle the archive opening
     /// </summary>

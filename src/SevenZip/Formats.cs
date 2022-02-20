@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
 
-#if UNMANAGED
+#if TRUE
     /// <summary>
     /// Readable archive format enumeration.
     /// </summary>

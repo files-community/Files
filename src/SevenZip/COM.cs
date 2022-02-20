@@ -10,7 +10,7 @@
 #endif
     using FILETIME = System.Runtime.InteropServices.ComTypes.FILETIME;
 
-#if UNMANAGED
+#if TRUE
 
     // ReSharper disable file ConvertToAutoProperty - For UWP compatibility.
 

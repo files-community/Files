@@ -5,7 +5,7 @@ namespace SevenZip
     using System.IO;
     using System.Runtime.InteropServices;
 
-#if UNMANAGED
+#if TRUE
     /// <summary>
     /// Archive update callback to handle the process of packing files
     /// </summary>
