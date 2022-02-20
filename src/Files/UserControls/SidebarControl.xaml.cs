@@ -476,6 +476,31 @@ namespace Files.UserControls
             e.Handled = true;
         }
 
+        private void NavigationViewFileTagsItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            var itemContextMenuFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
+            var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
+            var item = sidebarItem.DataContext as FileTagItem;
+
+            IsLocationItem = true;
+            IsLibrariesHeader = false;
+            ShowEjectDevice = false;
+            ShowUnpinItem = false;
+            ShowMoveItemUp = false;
+            ShowMoveItemDown = false;
+            ShowEmptyRecycleBin = false;
+            ShowProperties = false;
+            ShowHideSection = false;
+
+            RightClickedItem = item;
+            var menuItems = GetLocationItemMenuItems();
+            var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+            secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+            itemContextMenuFlyout.ShowAt(sidebarItem, new Windows.UI.Xaml.Controls.Primitives.FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
+
+            e.Handled = true;
+        }
+
         private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
             if (await CheckEmptyDrive(RightClickedItem.Path))

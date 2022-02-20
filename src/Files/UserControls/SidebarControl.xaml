@@ -101,7 +101,7 @@
                     Drop="NavigationViewLocationItem_Drop"
                     IsRightTapEnabled="True"
                     PointerPressed="Sidebar_PointerPressed"
-                    RightTapped="NavigationViewLocationItem_RightTapped"
+                    RightTapped="NavigationViewFileTagsItem_RightTapped"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>

@@ -85,9 +85,9 @@ namespace Files.Filesystem
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    // WSL Not Supported/Enabled
+                    App.Logger.Warn(ex, "Error loading tags section.");
                 }
                 finally
                 {
