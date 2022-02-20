@@ -74,9 +74,9 @@ namespace Files.ViewModels.Properties
                     ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
                     ViewModel.IsShortcutItemPathReadOnly = shortcutItem.IsSymLink;
                     ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
-                    ViewModel.ShortcutItemWorkingDirVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? Visibility.Collapsed : Visibility.Visible;
+                    ViewModel.ShortcutItemWorkingDirVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
                     ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
-                    ViewModel.ShortcutItemArgumentsVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? Visibility.Collapsed : Visibility.Visible;
+                    ViewModel.ShortcutItemArgumentsVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
                     ViewModel.IsSelectedItemShortcut = ".lnk".Equals(Item.FileExtension, StringComparison.OrdinalIgnoreCase);
                     ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
                     {
@@ -105,10 +105,10 @@ namespace Files.ViewModels.Properties
             ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
                 Item.ItemPath, System.IO.FileAttributes.Hidden);
 
-            ViewModel.ItemSizeVisibility = Visibility.Visible;
+            ViewModel.ItemSizeVisibility = true;
             ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
 
-            var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
+            var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.DocumentsView);
             if (fileIconData != null)
             {
                 ViewModel.IconData = fileIconData;

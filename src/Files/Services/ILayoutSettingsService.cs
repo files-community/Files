@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace Files.Services
 {
-    public interface ILayoutSettingsService : INotifyPropertyChanged
+    public interface ILayoutSettingsService : IBaseSettingsService, INotifyPropertyChanged
     {
         /// <summary>
         /// Gets or sets a value indicating whether or not the date column should be visible.

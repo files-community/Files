@@ -1,5 +1,4 @@
-﻿using Files.Extensions;
-using Files.Models.JsonSettings;
+﻿using Files.Models.JsonSettings;
 using System;
 using System.Collections.Generic;
 using Windows.Storage;
@@ -47,6 +46,10 @@ namespace Files.Services.Implementation
         {
             // Return string in Json format
             return jsonSettingsSerializer.SerializeToJson(SavedBundles);
+        }
+
+        public void ReportToAppCenter()
+        {
         }
     }
 }

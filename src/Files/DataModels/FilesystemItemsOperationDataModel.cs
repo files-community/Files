@@ -1,12 +1,8 @@
 ﻿using Files.Enums;
-using Files.Helpers;
 using Files.ViewModels.Dialogs;
-using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.DataModels
 {
@@ -62,10 +58,10 @@ namespace Files.DataModels
         public List<FilesystemOperationItemViewModel> ToItems(Action updatePrimaryButtonEnabled, Action optionGenerateNewName, Action optionReplaceExisting, Action optionSkip)
         {
             List<FilesystemOperationItemViewModel> items = new List<FilesystemOperationItemViewModel>();
-            List<FilesystemItemsOperationItemModel> nonConflictingItems = IncomingItems.Except(ConflictingItems).ToList();
+            IEnumerable<FilesystemItemsOperationItemModel> nonConflictingItems = IncomingItems.Except(ConflictingItems);
 
             // Add conflicting items first
-            items.AddRange(ConflictingItems.Select((item, index) => 
+            items.AddRange(ConflictingItems.Select((item, index) =>
                 new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
                 {
                     IsConflict = true,

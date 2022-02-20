@@ -4,10 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 
 namespace FilesFullTrust.Helpers
 {
+    [SupportedOSPlatform("Windows10.0.10240")]
     public class CloudDrivesDetector
     {
         public static async Task<List<CloudProvider>> DetectCloudDrives()
@@ -16,12 +18,30 @@ namespace FilesFullTrust.Helpers
             {
                 Extensions.IgnoreExceptions(DetectOneDrive, Program.Logger),
                 Extensions.IgnoreExceptions(DetectSharepoint, Program.Logger),
-                Extensions.IgnoreExceptions(DetectGenericCloudDrive, Program.Logger)
+                Extensions.IgnoreExceptions(DetectGenericCloudDrive, Program.Logger),
+                Extensions.IgnoreExceptions(DetectYandexDisk, Program.Logger),
             };
 
             await Task.WhenAll(tasks);
 
             return tasks.Where(o => o.Result != null).SelectMany(o => o.Result).OrderBy(o => o.ID.ToString()).ThenBy(o => o.Name).Distinct().ToList();
+        }
+
+        private static Task<List<CloudProvider>> DetectYandexDisk()
+        {
+            var results = new List<CloudProvider>();
+            using var yandexKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Yandex\Yandex.Disk.2");
+            var syncedFolder = (string)yandexKey?.GetValue("RootFolder");
+            if (syncedFolder != null)
+            {
+                results.Add(new CloudProvider()
+                {
+                    ID = CloudProviders.Yandex,
+                    Name = $"Yandex Disk",
+                    SyncFolder = syncedFolder
+                });
+            }
+            return Task.FromResult(results);
         }
 
         private static Task<List<CloudProvider>> DetectGenericCloudDrive()
@@ -40,6 +60,13 @@ namespace FilesFullTrust.Helpers
                         continue;
                     }
 
+                    //Nextcloud specific
+                    var appName = (string)namespaceKey?.GetValue("ApplicationName");
+                    if (!string.IsNullOrEmpty(appName) && appName == "Nextcloud")
+                    {
+                        driveType = appName;
+                    }
+
                     using var bagKey = subKey.OpenSubKey(@"Instance\InitPropertyBag");
                     var syncedFolder = (string)bagKey?.GetValue("TargetFolderPath");
                     if (syncedFolder == null)
@@ -47,11 +74,13 @@ namespace FilesFullTrust.Helpers
                         continue;
                     }
 
-                    // Also works for OneDrive, Box, Amazon Drive, iCloudDrive, Dropbox
+                    // Also works for OneDrive, Box, iCloudDrive, Dropbox
                     CloudProviders? driveID = driveType switch
                     {
                         "MEGA" => CloudProviders.Mega,
                         "Amazon Drive" => CloudProviders.AmazonDrive,
+                        "Nextcloud" => CloudProviders.Nextcloud,
+                        "Jottacloud" => CloudProviders.Jottacloud,
                         _ => null
                     };
                     if (driveID == null)
@@ -66,6 +95,8 @@ namespace FilesFullTrust.Helpers
                         {
                             CloudProviders.Mega => $"MEGA ({Path.GetFileName(syncedFolder.TrimEnd('\\'))})",
                             CloudProviders.AmazonDrive => $"Amazon Drive",
+                            CloudProviders.Nextcloud => $"{ (!string.IsNullOrEmpty((string)namespaceKey?.GetValue("")) ? (string)namespaceKey?.GetValue(""):"Nextcloud")}",
+                            CloudProviders.Jottacloud => $"Jottacloud",
                             _ => null
                         },
                         SyncFolder = syncedFolder

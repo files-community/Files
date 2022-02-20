@@ -1,7 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.Services;
 using Files.UserControls.MultitaskingControl;
-using Files.ViewModels;
 using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
@@ -145,12 +144,12 @@ namespace Files.Views
         {
             get
             {
-                if (ActivePane.IsColumnView)
+                if (ActivePane != null && ActivePane.IsColumnView)
                 {
                     return (ActivePane.SlimContentPage as ColumnViewBrowser).ActiveColumnShellPage;
                 }
 
-                return ActivePane;
+                return ActivePane ?? PaneLeft;
             }
         }
 
@@ -258,18 +257,6 @@ namespace Files.Views
             };
         }
 
-        private void PaneLeft_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            ActivePane = PaneLeft;
-            e.Handled = false;
-        }
-
-        private void PaneRight_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            ActivePane = PaneRight;
-            e.Handled = false;
-        }
-
         private void PaneResizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
             if (PaneRight != null && PaneRight.ActualWidth <= 300)
@@ -285,7 +272,7 @@ namespace Files.Views
                 InitialPageType = typeof(PaneHolderPage),
                 NavigationArg = new PaneNavigationArguments()
                 {
-                    LeftPaneNavPathParam = e.NavigationArg as string ?? PaneLeft.TabItemArguments?.NavigationArg as string,
+                    LeftPaneNavPathParam = e?.NavigationArg as string ?? PaneLeft.TabItemArguments?.NavigationArg as string,
                     RightPaneNavPathParam = IsRightPaneVisible ? PaneRight?.TabItemArguments?.NavigationArg as string : null
                 }
             };
@@ -359,12 +346,17 @@ namespace Files.Views
 
         private void PaneLeft_Loaded(object sender, RoutedEventArgs e)
         {
-            (sender as UIElement).AddHandler(UIElement.PointerPressedEvent, new PointerEventHandler(PaneLeft_PointerPressed), true);
+            (sender as UIElement).GotFocus += Pane_GotFocus;
         }
 
         private void PaneRight_Loaded(object sender, RoutedEventArgs e)
         {
-            (sender as UIElement).AddHandler(UIElement.PointerPressedEvent, new PointerEventHandler(PaneRight_PointerPressed), true);
+            (sender as UIElement).GotFocus += Pane_GotFocus;
+        }
+
+        private void Pane_GotFocus(object sender, RoutedEventArgs e)
+        {
+            ActivePane = sender == PaneLeft ? PaneLeft : PaneRight;
         }
 
         public void Dispose()

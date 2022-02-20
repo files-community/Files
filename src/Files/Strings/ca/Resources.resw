@@ -27,7 +27,7 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Document de text</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>Copia la ubicació</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -36,23 +36,14 @@
   <data name="Browse" xml:space="preserve">
     <value>Busca</value>
   </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>Discos</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Nom</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>Data de modificació</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>Tipus</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>Mida</value>
-  </data>
-  <data name="OpenInTerminal" xml:space="preserve">
-    <value>Obre a terminal...</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Creat:</value>
@@ -75,9 +66,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>és una subcarpeta de la carpeta d'origen</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Tipus d'element:</value>
-  </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Seleccioneu-lo tot</value>
   </data>
@@ -99,7 +87,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Introdueix una ruta</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Busca</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
@@ -153,44 +141,26 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferències</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>Escriptori</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>Descàrregues</value>
-  </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Inici</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Música</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Imatges</value>
   </data>
   <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
     <value>Desancora de favorits</value>
   </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Vídeos</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Ordena per</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>Nom</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>Data de modificació</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Tipus</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>Ascendent</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>Descendent</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>Actualitza</value>
@@ -213,7 +183,7 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Extreu</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>Obre</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
@@ -303,9 +273,6 @@
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Propietats</value>
   </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Atributs:</value>
-  </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Propietats</value>
   </data>
@@ -329,9 +296,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>Vista en quadrícula (Petita)</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>Vista en rajoles</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Aquest element no ha pogut ser esborrat</value>
@@ -543,7 +507,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>Crea accés directe</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>Obre ubicació de l'arxiu</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
@@ -672,9 +636,6 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Establir com a</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>Copia la ubicació</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel·la</value>
   </data>
@@ -684,7 +645,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Tria un tipus per al nou element de sota</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>Arxiu</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
@@ -716,12 +677,6 @@
   </data>
   <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
     <value>Bocadillo vertical</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Edita aplicacions de terminal</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Edita aplicacions de terminal</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Idioma</value>

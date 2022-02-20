@@ -18,7 +18,6 @@ using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -27,8 +26,10 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
@@ -48,6 +49,7 @@ namespace Files
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
         public static SettingsViewModel AppSettings { get; private set; }
         public static MainViewModel MainViewModel { get; private set; }
+        public static PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
         public static JumpListManager JumpList { get; private set; }
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
         public static TerminalController TerminalController { get; private set; }
@@ -79,9 +81,9 @@ namespace Files
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
-            
+
             AppServiceConnectionHelper.Register();
-            
+
             this.Services = ConfigureServices();
             Ioc.Default.ConfigureServices(Services);
         }
@@ -101,16 +103,18 @@ namespace Files
                 .AddSingleton<IWidgetsSettingsService, WidgetsSettingsService>((sp) => new WidgetsSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 .AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 .AddSingleton<IPreferencesSettingsService, PreferencesSettingsService>((sp) => new PreferencesSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
-                .AddSingleton<IPreviewPaneSettingsService, PreviewPaneSettingsService>((sp) => new PreviewPaneSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IPaneSettingsService, PaneSettingsService>((sp) => new PaneSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 .AddSingleton<ILayoutSettingsService, LayoutSettingsService>((sp) => new LayoutSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 // Settings not related to IUserSettingsService:
                 .AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
                 .AddSingleton<IBundlesSettingsService, BundlesSettingsService>()
+                .AddSingleton<IUpdateSettingsService, UpdateSettingsService>()
 
                 // TODO: Dialogs:
 
                 // TODO: FileSystem operations:
                 // (IFilesystemHelpersService, IFilesystemOperationsService)
+                .AddSingleton<IFolderSizeProvider, FolderSizeProvider>()
 
                 ; // End of service configuration
 
@@ -128,6 +132,7 @@ namespace Files
 
             JumpList ??= new JumpListManager();
             MainViewModel ??= new MainViewModel();
+            PreviewPaneViewModel ??= new PreviewPaneViewModel();
             LibraryManager ??= new LibraryManager();
             DrivesManager ??= new DrivesManager();
             NetworkDrivesManager ??= new NetworkDrivesManager();
@@ -157,6 +162,8 @@ namespace Files
 
         private static async Task InitializeAppComponentsAsync()
         {
+            var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
             // Start off a list of tasks we need to run before we can continue startup
             await Task.Run(async () =>
             {
@@ -176,10 +183,14 @@ namespace Files
                     ExternalResourcesHelper.LoadOtherThemesAsync(),
                     ContextFlyoutItemHelper.CachedNewContextMenuEntries
                 );
+
+                userSettingsService.ReportToAppCenter();
             });
 
             // Check for required updates
-            new AppUpdater().CheckForUpdatesAsync();
+            var updateService = Ioc.Default.GetRequiredService<IUpdateSettingsService>();
+            await updateService.CheckForUpdates();
+            await updateService.DownloadMandatoryUpdates();
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
@@ -196,7 +207,7 @@ namespace Files
         {
             await logWriter.InitializeAsync("debug.log");
             Logger.Info($"App launched. Prelaunch: {e.PrelaunchActivated}");
-            
+
             //start tracking app usage
             SystemInformation.Instance.TrackAppUse(e);
 
@@ -250,6 +261,8 @@ namespace Files
                     }
                 }
             }
+
+            WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
 
         protected override async void OnFileActivated(FileActivatedEventArgs e)
@@ -282,6 +295,8 @@ namespace Files
             // Ensure the current window is active
             Window.Current.Activate();
             Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+
+            WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
 
         private Frame EnsureWindowIsInitialized()
@@ -458,10 +473,11 @@ namespace Files
                     var eventArgsForNotification = args as ToastNotificationActivatedEventArgs;
                     if (eventArgsForNotification.Argument == "report")
                     {
-                        // Launch the URI and open log files location
-                        //SettingsViewModel.OpenLogLocation();
-                        SettingsViewModel.ReportIssueOnGitHub();
+                        await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.FeedbackUrl));
                     }
+                    break;
+
+                case ActivationKind.StartupTask:
                     break;
             }
 
@@ -470,6 +486,8 @@ namespace Files
             // Ensure the current window is active.
             Window.Current.Activate();
             Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+
+            WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
 
         private void TryEnablePrelaunch()
@@ -520,6 +538,21 @@ namespace Files
             }
 
             DrivesManager?.Dispose();
+            PreviewPaneViewModel?.Dispose();
+
+            // Try to maintain clipboard data after app close
+            Common.Extensions.IgnoreExceptions(() =>
+            {
+                var dataPackage = Clipboard.GetContent();
+                if (dataPackage.Properties.PackageFamilyName == Package.Current.Id.FamilyName)
+                {
+                    if (dataPackage.Contains(StandardDataFormats.StorageItems))
+                    {
+                        Clipboard.Flush();
+                    }
+                }
+            }, Logger);
+
             deferral.Complete();
         }
 
@@ -542,7 +575,7 @@ namespace Files
                     }
                     else
                     {
-                        var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "NewTab".GetLocalized() };
+                        var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalized() };
                         return defaultArg.Serialize();
                     }
                 }).ToList();

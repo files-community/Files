@@ -3,26 +3,41 @@ using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Files.Helpers
 {
     public static class MultitaskingTabsHelpers
     {
+        public static void CloseTabsToTheLeft(TabItem clickedTab, IMultitaskingControl multitaskingControl)
+        {
+            if (multitaskingControl is not null)
+            {
+                var tabs = MainPageViewModel.AppInstances;
+                var currentIndex = tabs.IndexOf(clickedTab);
+
+                tabs.Take(currentIndex).ToList().ForEach(tab => multitaskingControl.CloseTab(tab));
+            }
+        }
+
         public static void CloseTabsToTheRight(TabItem clickedTab, IMultitaskingControl multitaskingControl)
         {
-            int index = MainPageViewModel.AppInstances.IndexOf(clickedTab);
-            List<TabItem> tabsToClose = new List<TabItem>();
-
-            for (int i = index + 1; i < MainPageViewModel.AppInstances.Count; i++)
+            if (multitaskingControl is not null)
             {
-                tabsToClose.Add(MainPageViewModel.AppInstances[i]);
+                var tabs = MainPageViewModel.AppInstances;
+                var currentIndex = tabs.IndexOf(clickedTab);
+
+                tabs.Skip(currentIndex + 1).ToList().ForEach(tab => multitaskingControl.CloseTab(tab));
             }
+        }
 
-            foreach (var item in tabsToClose)
+        public static void CloseOtherTabs(TabItem clickedTab, IMultitaskingControl multitaskingControl)
+        {
+            if (multitaskingControl is not null)
             {
-                multitaskingControl?.CloseTab(item);
+                var tabs = MainPageViewModel.AppInstances;
+                tabs.Where((t) => t != clickedTab).ToList().ForEach(tab => multitaskingControl.CloseTab(tab));
             }
         }
 
@@ -39,7 +54,7 @@ namespace Files.Helpers
             }
             else
             {
-                await NavigationHelpers.OpenPathInNewWindowAsync("NewTab".GetLocalized());
+                await NavigationHelpers.OpenPathInNewWindowAsync("Home".GetLocalized());
             }
         }
 

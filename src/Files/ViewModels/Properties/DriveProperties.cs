@@ -5,7 +5,6 @@ using Files.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
 using Windows.Storage.FileProperties;
-using Windows.UI.Xaml;
 
 namespace Files.ViewModels.Properties
 {
@@ -38,7 +37,7 @@ namespace Files.ViewModels.Properties
 
         public async override void GetSpecialProperties()
         {
-            ViewModel.ItemAttributesVisibility = Visibility.Collapsed;
+            ViewModel.ItemAttributesVisibility = false;
             var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(Drive.Path));
             BaseStorageFolder diskRoot = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(Drive.Path, item));
 
@@ -57,7 +56,7 @@ namespace Files.ViewModels.Properties
 
             if (diskRoot == null || diskRoot.Properties == null)
             {
-                ViewModel.LastSeparatorVisibility = Visibility.Collapsed;
+                ViewModel.LastSeparatorVisibility = false;
                 return;
             }
 
@@ -76,7 +75,7 @@ namespace Files.ViewModels.Properties
             }
             catch (Exception e)
             {
-                ViewModel.LastSeparatorVisibility = Visibility.Collapsed;
+                ViewModel.LastSeparatorVisibility = false;
                 App.Logger.Warn(e, e.Message);
             }
         }

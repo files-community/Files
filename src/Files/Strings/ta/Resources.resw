@@ -24,14 +24,8 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>உரை ஆவணம்</value>
   </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>இயக்ககங்கள்</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>பெயர்</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>மாற்றப்பட்ட தேதி</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>வகை</value>
@@ -60,9 +54,6 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>மூல கோப்புறையின் துணைக் கோப்புறை</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>உருப்படி வகை:</value>
-  </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>அனைத்தையும் தேர்ந்தெடு</value>
   </data>
@@ -81,7 +72,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>ஒரு பாதையை உள்ளிடுக</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>தேடு</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
@@ -126,35 +117,20 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>விருப்பங்கள்</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>திரைப்பலகம்</value>
   </data>
-  <data name="SidebarDocuments" xml:space="preserve">
+  <data name="Documents" xml:space="preserve">
     <value>ஆவணங்கள்</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>பதிவிறக்கங்கள்</value>
-  </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>முகப்பு</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>இசை</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>புகைப்படங்கள்</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>காணொளிகள்</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>இதன்படி வரிசைப்படுத்து</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>பெயர்</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>மாற்றப்பட்ட தேதி</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>வகை</value>
@@ -162,17 +138,11 @@
   <data name="Ascending" xml:space="preserve">
     <value>ஏறுவரிசை</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>இறங்குவரிசை</value>
-  </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>புதுப்பி</value>
   </data>
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>ஒட்டு</value>
-  </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5 hash:</value>
   </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>பண்புகள்</value>
@@ -180,7 +150,7 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>பிரித்தெடு</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>திற</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
@@ -264,9 +234,6 @@
   <data name="PropertiesTitle" xml:space="preserve">
     <value>பண்புகள்</value>
   </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>பண்புக் கூறுகள்:</value>
-  </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>பண்புகள்</value>
   </data>
@@ -290,9 +257,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>சிறிய சின்னங்கள்</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>ஓடுகள்</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>சரி</value>
@@ -522,7 +486,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>குறுக்குவழியை உருவாக்கு</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>கோப்பு இருப்பிடத்தைத் திற</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
@@ -619,9 +583,6 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>இவ்வாறு அமை</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>இருப்பிடத்தை நகலெடு</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>தாவலை சேர்</value>
   </data>
@@ -657,9 +618,6 @@
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>ஒரு கோப்புறை மேல் செல்</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Edit terminal applications</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>எங்களை ஆதரவளி</value>
@@ -757,7 +715,7 @@
   <data name="PropertyComposer" xml:space="preserve">
     <value>இயற்றுனர்</value>
   </data>
-  <data name="PropertyConductor" xml:space="preserve">
+  <data name="Conductor" xml:space="preserve">
     <value>நடத்துபவர்</value>
   </data>
   <data name="PropertyGenre" xml:space="preserve">
@@ -805,7 +763,7 @@
   <data name="PropertySectionMusic" xml:space="preserve">
     <value>இசை</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>முகவரி</value>
   </data>
   <data name="PropertyContributor" xml:space="preserve">
@@ -841,7 +799,7 @@
   <data name="PropertyOrientation" xml:space="preserve">
     <value>திசை</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>ஆவணம்</value>
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
@@ -874,7 +832,7 @@
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>கோப்பு</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>கோப்பு</value>
   </data>
   <data name="NewFile" xml:space="preserve">
@@ -883,10 +841,10 @@
   <data name="Add" xml:space="preserve">
     <value>சேர்</value>
   </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>திருத்து</value>
   </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+  <data name="Remove" xml:space="preserve">
     <value>அகற்று</value>
   </data>
   <data name="Folders" xml:space="preserve">
@@ -970,7 +928,7 @@
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>இலக்கு</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
+  <data name="Arguments" xml:space="preserve">
     <value>இணைப்பு மாறிகள்</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
@@ -981,9 +939,6 @@
   </data>
   <data name="StatusUnknownError" xml:space="preserve">
     <value>அறியப்படாத பிழை ஒன்று நேர்ந்தது.</value>
-  </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>வலது பக்கம் உள்ள தாவல்களை மூடு</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>நிர்வாகி</value>
@@ -1072,7 +1027,7 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>&amp;மிகச்சிறிய</value>
   </data>
-  <data name="ItemTimeText_Today" xml:space="preserve">
+  <data name="Today" xml:space="preserve">
     <value>இன்று</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
@@ -1168,7 +1123,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>புதிய சாளரம்</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>இருப்பிடத்தை நகலெடு</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
@@ -1180,7 +1135,7 @@
   <data name="Security" xml:space="preserve">
     <value>பாதுகாப்பு</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>அனுமதி</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -1303,7 +1258,7 @@
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>புதுப்பி</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+  <data name="AddFile" xml:space="preserve">
     <value>கோப்பைச் சேர்</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
@@ -1345,13 +1300,13 @@
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>பெயரிடு</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>மாற்றப்பட்ட தேதி</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>தட்டச்சுசெய்யவும்</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>இறங்குவரிசையில்</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

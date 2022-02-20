@@ -1,5 +1,4 @@
-﻿using Files.Common;
-using Files.DataModels.NavigationControlItems;
+﻿using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Services;
@@ -11,7 +10,6 @@ using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;

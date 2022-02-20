@@ -11,9 +11,9 @@
     <AssemblyName>Files</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-    <AppxDefaultResourceQualifiers>Language=en-US;af;ar;ca;da;da-DK;de-DE;el;en-GB;es-ES;es-419;fr-FR;he-IL;hi-IN;hu-HU;id-ID;it-IT;ja-JP;ka;ko-KR;lv-LV;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ru-RU;sv-SE;cs-CZ;ta;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
+    <AppxDefaultResourceQualifiers>Language=en-US;af;ar;bg;ca;da;da-DK;de-DE;el;en-GB;es-ES;es-419;fr-FR;he-IL;hi-IN;hu-HU;id-ID;it-IT;ja-JP;ka;ko-KR;lv-LV;nb-NO;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ru-RU;sk-SK;sv-SE;ta;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.22000.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>16</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -118,6 +118,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="BaseLayout.cs" />
+    <Compile Include="Behaviors\StickyHeaderBehavior.cs" />
     <Compile Include="CommandLine\CommandLineParser.cs" />
     <Compile Include="CommandLine\ParsedCommand.cs" />
     <Compile Include="CommandLine\ParsedCommands.cs" />
@@ -139,11 +140,12 @@
     <Compile Include="Converters\StringArrayToString.cs" />
     <Compile Include="Converters\WidthToRightMargin.cs" />
     <Compile Include="Converters\UInt32ToString.cs" />
-    <Compile Include="Converters\VisiblityInvertConverter.cs" />
+    <Compile Include="Converters\VisibilityInvertConverter.cs" />
     <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
     <Compile Include="DataModels\FilesystemItemsOperationDataModel.cs" />
     <Compile Include="DataModels\NavigationControlItems\WslDistroItem.cs" />
     <Compile Include="Enums\LocalizedEnum.cs" />
+    <Compile Include="Enums\PaneContents.cs" />
     <Compile Include="Extensions\ShellNewEntryExtensions.cs" />
     <Compile Include="Dialogs\DecompressArchiveDialog.xaml.cs">
       <DependentUpon>DecompressArchiveDialog.xaml</DependentUpon>
@@ -167,13 +169,13 @@
     <Compile Include="EventArguments\BaseJsonSettingsModelEventArgs.cs" />
     <Compile Include="EventArguments\Bundles\BundlesOpenPathEventArgs.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
-    <Compile Include="Events\ContextItemsChangedEventArgs.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ImageSourceExtensions.cs" />
     <Compile Include="Extensions\KeyboardAcceleratorExtensions.cs" />
     <Compile Include="Filesystem\FilesystemOperations\ShellFilesystemOperations.cs" />
     <Compile Include="Filesystem\FileTagsHelper.cs" />
+    <Compile Include="Filesystem\FolderSizeProvider.cs" />
     <Compile Include="Filesystem\FtpManager.cs" />
     <Compile Include="Filesystem\Permissions\FilePermissionsManager.cs" />
     <Compile Include="Filesystem\Permissions\FileSystemAccessRule.cs" />
@@ -190,12 +192,15 @@
     <Compile Include="Filesystem\StorageItems\ZipStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\ZipStorageFolder.cs" />
     <Compile Include="Helpers\CommonPaths.cs" />
+    <Compile Include="Helpers\FileExtensionHelpers.cs" />
     <Compile Include="Helpers\RegistryToJsonSettingsMerger.cs" />
     <Compile Include="Helpers\ResourceHelpers.cs" />
     <Compile Include="Helpers\FtpHelpers.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupedCollection.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupingHelper.cs" />
     <Compile Include="Helpers\StorageItemIconHelpers.cs" />
+    <Compile Include="Helpers\StorageSenseHelper.cs" />
+    <Compile Include="Helpers\WindowDecorationsHelper.cs" />
     <Compile Include="Helpers\UniversalLogWriter.cs" />
     <Compile Include="Helpers\SaveImageToFile.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
@@ -246,6 +251,7 @@
     <Compile Include="Models\JsonSettings\Implementation\DefaultSettingsSerializer.cs" />
     <Compile Include="Models\JsonSettings\ISettingsSerializer.cs" />
     <Compile Include="Services\IAppearanceSettingsService.cs" />
+    <Compile Include="Services\IBaseSettingsService.cs" />
     <Compile Include="Services\IBundlesSettingsService.cs" />
     <Compile Include="Services\IFileTagsSettingsService.cs" />
     <Compile Include="Services\ILayoutSettingsService.cs" />
@@ -255,14 +261,16 @@
     <Compile Include="Services\Implementation\LayoutSettingsService.cs" />
     <Compile Include="Services\Implementation\MultitaskingSettingsService.cs" />
     <Compile Include="Services\Implementation\PreferencesSettingsService.cs" />
-    <Compile Include="Services\Implementation\PreviewPaneSettingsService.cs" />
+    <Compile Include="Services\Implementation\PaneSettingsService.cs" />
     <Compile Include="Services\Implementation\UserSettingsService.cs" />
     <Compile Include="Services\Implementation\WidgetsSettingsService.cs" />
     <Compile Include="Services\IMultitaskingSettingsService.cs" />
     <Compile Include="Services\IPreferencesSettingsService.cs" />
-    <Compile Include="Services\IPreviewPaneSettingsService.cs" />
+    <Compile Include="Services\IPaneSettingsService.cs" />
+    <Compile Include="Services\IUpdateSettingsService.cs" />
     <Compile Include="Services\IUserSettingsService.cs" />
     <Compile Include="Services\IWidgetsSettingsService.cs" />
+    <Compile Include="Services\Implementation\UpdateSettingsService.cs" />
     <Compile Include="UserControls\ColoredIcon.xaml.cs">
       <DependentUpon>ColoredIcon.xaml</DependentUpon>
     </Compile>
@@ -278,6 +286,9 @@
     <Compile Include="UserControls\ImageFromBytes.cs" />
     <Compile Include="UserControls\InnerNavigationToolbar.xaml.cs">
       <DependentUpon>InnerNavigationToolbar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PaneControl.xaml.cs">
+      <DependentUpon>PaneControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\PathBreadcrumb.xaml.cs">
       <DependentUpon>PathBreadcrumb.xaml</DependentUpon>
@@ -431,7 +442,6 @@
     <Compile Include="Filesystem\StorageHistory\StorageHistory.cs" />
     <Compile Include="Filesystem\StorageHistory\StorageHistoryOperations.cs" />
     <Compile Include="Filesystem\StorageHistory\StorageHistoryWrapper.cs" />
-    <Compile Include="Helpers\AcrylicTheme.cs" />
     <Compile Include="Helpers\Convert\ErrorCodeConverter.cs" />
     <Compile Include="Helpers\StorageHelpers.cs" />
     <Compile Include="Helpers\DialogDisplayHelper.cs" />
@@ -535,6 +545,7 @@
     <Compile Include="ViewModels\Widgets\IWidgetItemModel.cs" />
     <Compile Include="ViewModels\Widgets\WidgetsListControlItemViewModel.cs" />
     <Compile Include="ViewModels\Widgets\WidgetsListControlViewModel.cs" />
+    <Compile Include="Views\Brushes\MicaBrush.cs" />
     <Compile Include="Views\ColumnParam.cs" />
     <Compile Include="Views\ColumnShellPage.xaml.cs">
       <DependentUpon>ColumnShellPage.xaml</DependentUpon>
@@ -622,388 +633,388 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\AppTiles\BadgeLogo.scale-100.png" />
-    <Content Include="Assets\AppTiles\BadgeLogo.scale-125.png" />
-    <Content Include="Assets\AppTiles\BadgeLogo.scale-150.png" />
-    <Content Include="Assets\AppTiles\BadgeLogo.scale-200.png" />
-    <Content Include="Assets\AppTiles\BadgeLogo.scale-400.png" />
-    <Content Include="Assets\AppTiles\contrast-black\BadgeLogo.scale-100_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\BadgeLogo.scale-125_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\BadgeLogo.scale-150_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\BadgeLogo.scale-200_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\BadgeLogo.scale-400_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Large310x310Logo.scale-100_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Large310x310Logo.scale-125_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Large310x310Logo.scale-150_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Large310x310Logo.scale-200_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Large310x310Logo.scale-400_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Small71x71Logo.scale-100_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Small71x71Logo.scale-125_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Small71x71Logo.scale-150_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Small71x71Logo.scale-200_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Small71x71Logo.scale-400_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\SplashScreen.scale-100_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\SplashScreen.scale-125_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\SplashScreen.scale-150_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\SplashScreen.scale-200_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\SplashScreen.scale-400_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square150x150Logo.scale-100_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square150x150Logo.scale-125_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square150x150Logo.scale-150_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square150x150Logo.scale-200_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square150x150Logo.scale-400_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.scale-100_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.scale-125_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.scale-150_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.scale-200_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.scale-400_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-16_altform-lightunplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-16_altform-unplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-16_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-20_altform-lightunplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-20_altform-unplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-20_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-24_altform-lightunplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-24_altform-unplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-24_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-256_altform-lightunplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-256_altform-unplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-256_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-30_altform-lightunplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-30_altform-unplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-30_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-32_altform-lightunplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-32_altform-unplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-32_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-36_altform-lightunplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-36_altform-unplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-36_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-40_altform-lightunplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-40_altform-unplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-40_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-48_altform-lightunplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-48_altform-unplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-48_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-60_altform-lightunplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-60_altform-unplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-60_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-64_altform-lightunplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-64_altform-unplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-64_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-72_altform-lightunplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-72_altform-unplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-72_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-80_altform-lightunplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-80_altform-unplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-80_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-96_altform-lightunplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-96_altform-unplated_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Square44x44Logo.targetsize-96_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\StoreLogo.scale-100_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\StoreLogo.scale-125_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\StoreLogo.scale-150_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\StoreLogo.scale-200_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\StoreLogo.scale-400_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Wide310x150Logo.scale-100_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Wide310x150Logo.scale-125_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Wide310x150Logo.scale-150_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Wide310x150Logo.scale-200_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-black\Wide310x150Logo.scale-400_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\BadgeLogo.scale-100.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\BadgeLogo.scale-125.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\BadgeLogo.scale-150.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\BadgeLogo.scale-200.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\BadgeLogo.scale-400.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Large310x310Logo.scale-100.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Large310x310Logo.scale-125.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Large310x310Logo.scale-150.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Large310x310Logo.scale-200.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Large310x310Logo.scale-400.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Small71x71Logo.scale-100.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Small71x71Logo.scale-125.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Small71x71Logo.scale-150.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Small71x71Logo.scale-200.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Small71x71Logo.scale-400.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\SplashScreen.scale-100.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\SplashScreen.scale-125.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\SplashScreen.scale-150.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\SplashScreen.scale-200.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\SplashScreen.scale-400.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square150x150Logo.scale-100.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square150x150Logo.scale-125.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square150x150Logo.scale-150.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square150x150Logo.scale-400.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.scale-100.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.scale-125.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.scale-150.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.scale-400.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-16.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-16_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-20.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-20_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-24.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-256.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-256_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-30.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-30_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-32.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-32_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-36.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-36_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-40.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-40_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-48.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-48_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-60.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-60_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-64.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-64_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-72.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-72_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-80.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-80_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-96.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Square44x44Logo.targetsize-96_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\StoreLogo.scale-100.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\StoreLogo.scale-125.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\StoreLogo.scale-150.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\StoreLogo.scale-200.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\StoreLogo.scale-400.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Wide310x150Logo.scale-100.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Wide310x150Logo.scale-125.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Wide310x150Logo.scale-150.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Wide310x150Logo.scale-200.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Wide310x150Logo.scale-400.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\BadgeLogo.scale-100.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\BadgeLogo.scale-125.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\BadgeLogo.scale-150.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\BadgeLogo.scale-200.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\BadgeLogo.scale-400.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Large310x310Logo.scale-100.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Large310x310Logo.scale-125.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Large310x310Logo.scale-150.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Large310x310Logo.scale-200.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Large310x310Logo.scale-400.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Small71x71Logo.scale-100.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Small71x71Logo.scale-125.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Small71x71Logo.scale-150.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Small71x71Logo.scale-200.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Small71x71Logo.scale-400.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\SplashScreen.scale-100.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\SplashScreen.scale-125.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\SplashScreen.scale-150.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\SplashScreen.scale-200.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\SplashScreen.scale-400.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square150x150Logo.scale-100.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square150x150Logo.scale-125.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square150x150Logo.scale-150.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square150x150Logo.scale-400.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.scale-100.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.scale-125.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.scale-150.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.scale-400.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-16.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-16_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-20.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-20_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-24.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-24_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-256.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-256_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-30.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-30_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-32.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-32_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-36.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-36_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-40.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-40_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-48.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-48_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-60.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-60_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-64.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-64_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-72.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-72_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-80.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-80_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-96.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Square44x44Logo.targetsize-96_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\StoreLogo.scale-100.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\StoreLogo.scale-125.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\StoreLogo.scale-150.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\StoreLogo.scale-200.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\StoreLogo.scale-400.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Wide310x150Logo.scale-100.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Wide310x150Logo.scale-125.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Wide310x150Logo.scale-150.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Wide310x150Logo.scale-200.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\Wide310x150Logo.scale-400.png" />
-    <Content Include="Assets\AppTiles\contrast-white\BadgeLogo.scale-100_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\BadgeLogo.scale-125_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\BadgeLogo.scale-150_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\BadgeLogo.scale-200_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\BadgeLogo.scale-400_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Large310x310Logo.scale-100_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Large310x310Logo.scale-125_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Large310x310Logo.scale-150_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Large310x310Logo.scale-200_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Large310x310Logo.scale-400_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Small71x71Logo.scale-100_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Small71x71Logo.scale-125_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Small71x71Logo.scale-150_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Small71x71Logo.scale-200_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Small71x71Logo.scale-400_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\SplashScreen.scale-100_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\SplashScreen.scale-125_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\SplashScreen.scale-150_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\SplashScreen.scale-200_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\SplashScreen.scale-400_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square150x150Logo.scale-100_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square150x150Logo.scale-125_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square150x150Logo.scale-150_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square150x150Logo.scale-200_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square150x150Logo.scale-400_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.scale-100_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.scale-125_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.scale-150_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.scale-200_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.scale-400_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-16_altform-lightunplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-16_altform-unplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-16_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-20_altform-lightunplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-20_altform-unplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-20_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-24_altform-lightunplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-24_altform-unplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-24_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-256_altform-lightunplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-256_altform-unplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-256_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-30_altform-lightunplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-30_altform-unplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-30_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-32_altform-lightunplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-32_altform-unplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-32_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-36_altform-lightunplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-36_altform-unplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-36_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-40_altform-lightunplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-40_altform-unplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-40_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-48_altform-lightunplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-48_altform-unplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-48_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-60_altform-lightunplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-60_altform-unplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-60_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-64_altform-lightunplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-64_altform-unplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-64_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-72_altform-lightunplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-72_altform-unplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-72_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-80_altform-lightunplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-80_altform-unplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-80_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-96_altform-lightunplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-96_altform-unplated_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Square44x44Logo.targetsize-96_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\StoreLogo.scale-100_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\StoreLogo.scale-125_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\StoreLogo.scale-150_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\StoreLogo.scale-200_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\StoreLogo.scale-400_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Wide310x150Logo.scale-100_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Wide310x150Logo.scale-125_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Wide310x150Logo.scale-150_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Wide310x150Logo.scale-200_contrast-white.png" />
-    <Content Include="Assets\AppTiles\contrast-white\Wide310x150Logo.scale-400_contrast-white.png" />
-    <Content Include="Assets\AppTiles\Large310x310Logo.scale-100.png" />
-    <Content Include="Assets\AppTiles\Large310x310Logo.scale-125.png" />
-    <Content Include="Assets\AppTiles\Large310x310Logo.scale-150.png" />
-    <Content Include="Assets\AppTiles\Large310x310Logo.scale-200.png" />
-    <Content Include="Assets\AppTiles\Large310x310Logo.scale-400.png" />
-    <Content Include="Assets\AppTiles\Small71x71Logo.scale-100.png" />
-    <Content Include="Assets\AppTiles\Small71x71Logo.scale-125.png" />
-    <Content Include="Assets\AppTiles\Small71x71Logo.scale-150.png" />
-    <Content Include="Assets\AppTiles\Small71x71Logo.scale-200.png" />
-    <Content Include="Assets\AppTiles\Small71x71Logo.scale-400.png" />
-    <Content Include="Assets\AppTiles\SplashScreen.scale-100.png" />
-    <Content Include="Assets\AppTiles\SplashScreen.scale-125.png" />
-    <Content Include="Assets\AppTiles\SplashScreen.scale-150.png" />
-    <Content Include="Assets\AppTiles\SplashScreen.scale-200.png" />
-    <Content Include="Assets\AppTiles\SplashScreen.scale-400.png" />
-    <Content Include="Assets\AppTiles\Square150x150Logo.scale-100.png" />
-    <Content Include="Assets\AppTiles\Square150x150Logo.scale-125.png" />
-    <Content Include="Assets\AppTiles\Square150x150Logo.scale-150.png" />
-    <Content Include="Assets\AppTiles\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\AppTiles\Square150x150Logo.scale-400.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.scale-100.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.scale-125.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.scale-150.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.scale-400.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-16.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-16_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-16_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-20.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-20_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-20_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-24.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-24_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-256.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-256_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-256_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-30.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-30_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-30_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-32.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-32_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-32_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-36.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-36_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-36_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-40.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-40_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-40_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-48.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-48_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-48_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-60.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-60_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-60_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-64.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-64_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-64_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-72.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-72_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-72_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-80.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-80_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-80_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-96.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-96_altform-lightunplated.png" />
-    <Content Include="Assets\AppTiles\Square44x44Logo.targetsize-96_altform-unplated.png" />
-    <Content Include="Assets\AppTiles\StoreLogo.scale-100.png" />
-    <Content Include="Assets\AppTiles\StoreLogo.scale-125.png" />
-    <Content Include="Assets\AppTiles\StoreLogo.scale-150.png" />
-    <Content Include="Assets\AppTiles\StoreLogo.scale-200.png" />
-    <Content Include="Assets\AppTiles\StoreLogo.scale-400.png" />
-    <Content Include="Assets\AppTiles\Wide310x150Logo.scale-100.png" />
-    <Content Include="Assets\AppTiles\Wide310x150Logo.scale-125.png" />
-    <Content Include="Assets\AppTiles\Wide310x150Logo.scale-150.png" />
-    <Content Include="Assets\AppTiles\Wide310x150Logo.scale-200.png" />
-    <Content Include="Assets\AppTiles\Wide310x150Logo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\BadgeLogo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\BadgeLogo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\BadgeLogo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\BadgeLogo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\BadgeLogo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\BadgeLogo.scale-100_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\BadgeLogo.scale-125_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\BadgeLogo.scale-150_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\BadgeLogo.scale-200_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\BadgeLogo.scale-400_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Large310x310Logo.scale-100_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Large310x310Logo.scale-125_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Large310x310Logo.scale-150_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Large310x310Logo.scale-200_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Large310x310Logo.scale-400_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Small71x71Logo.scale-100_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Small71x71Logo.scale-125_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Small71x71Logo.scale-150_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Small71x71Logo.scale-200_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Small71x71Logo.scale-400_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\SplashScreen.scale-100_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\SplashScreen.scale-125_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\SplashScreen.scale-150_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\SplashScreen.scale-200_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\SplashScreen.scale-400_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square150x150Logo.scale-100_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square150x150Logo.scale-125_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square150x150Logo.scale-150_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square150x150Logo.scale-200_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square150x150Logo.scale-400_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.scale-100_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.scale-125_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.scale-150_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.scale-200_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.scale-400_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-16_altform-lightunplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-16_altform-unplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-16_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-20_altform-lightunplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-20_altform-unplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-20_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-24_altform-lightunplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-24_altform-unplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-24_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-256_altform-lightunplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-256_altform-unplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-256_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-30_altform-lightunplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-30_altform-unplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-30_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-32_altform-lightunplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-32_altform-unplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-32_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-36_altform-lightunplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-36_altform-unplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-36_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-40_altform-lightunplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-40_altform-unplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-40_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-48_altform-lightunplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-48_altform-unplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-48_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-60_altform-lightunplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-60_altform-unplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-60_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-64_altform-lightunplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-64_altform-unplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-64_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-72_altform-lightunplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-72_altform-unplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-72_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-80_altform-lightunplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-80_altform-unplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-80_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-96_altform-lightunplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-96_altform-unplated_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Square44x44Logo.targetsize-96_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\StoreLogo.scale-100_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\StoreLogo.scale-125_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\StoreLogo.scale-150_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\StoreLogo.scale-200_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\StoreLogo.scale-400_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Wide310x150Logo.scale-100_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Wide310x150Logo.scale-125_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Wide310x150Logo.scale-150_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Wide310x150Logo.scale-200_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-black\Wide310x150Logo.scale-400_contrast-black.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\BadgeLogo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\BadgeLogo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\BadgeLogo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\BadgeLogo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\BadgeLogo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Large310x310Logo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Large310x310Logo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Large310x310Logo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Large310x310Logo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Large310x310Logo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Small71x71Logo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Small71x71Logo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Small71x71Logo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Small71x71Logo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Small71x71Logo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\SplashScreen.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\SplashScreen.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\SplashScreen.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\SplashScreen.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\SplashScreen.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square150x150Logo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square150x150Logo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-16.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-16_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-20.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-20_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-24.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-256.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-256_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-30.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-30_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-32.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-32_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-36.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-36_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-40.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-40_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-48.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-48_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-60.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-60_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-64.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-64_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-72.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-72_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-80.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-80_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-96.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Square44x44Logo.targetsize-96_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\StoreLogo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\StoreLogo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\StoreLogo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\StoreLogo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\StoreLogo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Wide310x150Logo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Wide310x150Logo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Wide310x150Logo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Wide310x150Logo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-dark\Wide310x150Logo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\BadgeLogo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\BadgeLogo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\BadgeLogo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\BadgeLogo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\BadgeLogo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Large310x310Logo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Large310x310Logo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Large310x310Logo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Large310x310Logo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Large310x310Logo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Small71x71Logo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Small71x71Logo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Small71x71Logo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Small71x71Logo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Small71x71Logo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\SplashScreen.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\SplashScreen.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\SplashScreen.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\SplashScreen.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\SplashScreen.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square150x150Logo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square150x150Logo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-16.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-16_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-20.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-20_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-24.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-24_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-256.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-256_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-30.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-30_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-32.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-32_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-36.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-36_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-40.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-40_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-48.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-48_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-60.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-60_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-64.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-64_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-72.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-72_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-80.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-80_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-96.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Square44x44Logo.targetsize-96_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\StoreLogo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\StoreLogo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\StoreLogo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\StoreLogo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\StoreLogo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Wide310x150Logo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Wide310x150Logo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Wide310x150Logo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Wide310x150Logo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\contrast-standard\theme-light\Wide310x150Logo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\BadgeLogo.scale-100_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\BadgeLogo.scale-125_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\BadgeLogo.scale-150_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\BadgeLogo.scale-200_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\BadgeLogo.scale-400_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Large310x310Logo.scale-100_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Large310x310Logo.scale-125_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Large310x310Logo.scale-150_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Large310x310Logo.scale-200_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Large310x310Logo.scale-400_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Small71x71Logo.scale-100_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Small71x71Logo.scale-125_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Small71x71Logo.scale-150_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Small71x71Logo.scale-200_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Small71x71Logo.scale-400_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\SplashScreen.scale-100_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\SplashScreen.scale-125_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\SplashScreen.scale-150_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\SplashScreen.scale-200_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\SplashScreen.scale-400_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square150x150Logo.scale-100_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square150x150Logo.scale-125_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square150x150Logo.scale-150_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square150x150Logo.scale-200_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square150x150Logo.scale-400_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.scale-100_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.scale-125_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.scale-150_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.scale-200_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.scale-400_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-16_altform-lightunplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-16_altform-unplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-16_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-20_altform-lightunplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-20_altform-unplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-20_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-24_altform-lightunplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-24_altform-unplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-24_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-256_altform-lightunplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-256_altform-unplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-256_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-30_altform-lightunplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-30_altform-unplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-30_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-32_altform-lightunplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-32_altform-unplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-32_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-36_altform-lightunplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-36_altform-unplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-36_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-40_altform-lightunplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-40_altform-unplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-40_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-48_altform-lightunplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-48_altform-unplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-48_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-60_altform-lightunplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-60_altform-unplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-60_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-64_altform-lightunplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-64_altform-unplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-64_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-72_altform-lightunplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-72_altform-unplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-72_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-80_altform-lightunplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-80_altform-unplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-80_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-96_altform-lightunplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-96_altform-unplated_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Square44x44Logo.targetsize-96_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\StoreLogo.scale-100_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\StoreLogo.scale-125_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\StoreLogo.scale-150_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\StoreLogo.scale-200_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\StoreLogo.scale-400_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Wide310x150Logo.scale-100_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Wide310x150Logo.scale-125_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Wide310x150Logo.scale-150_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Wide310x150Logo.scale-200_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\contrast-white\Wide310x150Logo.scale-400_contrast-white.png" />
+    <Content Include="Assets\AppTilesDev\Large310x310Logo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\Large310x310Logo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\Large310x310Logo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\Large310x310Logo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\Large310x310Logo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\Small71x71Logo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\Small71x71Logo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\Small71x71Logo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\Small71x71Logo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\Small71x71Logo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\SplashScreen.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\SplashScreen.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\SplashScreen.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\SplashScreen.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\SplashScreen.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\Square150x150Logo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\Square150x150Logo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-16.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-16_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-16_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-20.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-20_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-20_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-24.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-24_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-256.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-256_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-256_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-30.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-30_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-30_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-32.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-32_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-32_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-36.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-36_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-36_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-40.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-40_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-40_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-48.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-48_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-48_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-60.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-60_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-60_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-64.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-64_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-64_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-72.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-72_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-72_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-80.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-80_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-80_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-96.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-96_altform-lightunplated.png" />
+    <Content Include="Assets\AppTilesDev\Square44x44Logo.targetsize-96_altform-unplated.png" />
+    <Content Include="Assets\AppTilesDev\StoreLogo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\StoreLogo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\StoreLogo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\StoreLogo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\StoreLogo.scale-400.png" />
+    <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-100.png" />
+    <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-125.png" />
+    <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-150.png" />
+    <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-200.png" />
+    <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-400.png" />
     <Content Include="Assets\error.png" />
     <Content Include="Assets\FluentIcons\CloudDrive.png" />
     <Content Include="Assets\FluentIcons\Home.png" />
@@ -1030,25 +1041,6 @@
     <Content Include="Assets\tile-0-300x300.png" />
     <Content Include="Resources\AppCenterKey.txt" />
     <Content Include="Resources\BingMapsKey.txt" />
-    <PRIResource Include="Strings\af\Resources.resw" />
-    <PRIResource Include="Strings\hr-HR\Resources.resw" />
-    <PRIResource Include="Strings\vi\Resources.resw" />
-    <PRIResource Include="Strings\ca\Resources.resw" />
-    <PRIResource Include="Strings\en-GB\Resources.resw" />
-    <PRIResource Include="Strings\el\Resources.resw" />
-    <PRIResource Include="Strings\ka\Resources.resw" />
-    <PRIResource Include="Strings\id-ID\Resources.resw" />
-    <PRIResource Include="Strings\es-419\Resources.resw" />
-    <PRIResource Include="Strings\pt-PT\Resources.resw" />
-    <XliffResource Include="MultilingualResources\Files.af.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ca.xlf" />
-    <XliffResource Include="MultilingualResources\Files.el.xlf" />
-    <XliffResource Include="MultilingualResources\Files.en-GB.xlf" />
-    <XliffResource Include="MultilingualResources\Files.hr-HR.xlf" />
-    <XliffResource Include="MultilingualResources\Files.id-ID.xlf" />
-    <XliffResource Include="MultilingualResources\Files.es-419.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ka.xlf" />
-    <XliffResource Include="MultilingualResources\Files.pt-PT.xlf" />
     <Content Include="Assets\WSL\alpine.svg" />
     <Content Include="Assets\WSL\alpinepng.png" />
     <Content Include="Assets\WSL\debian.svg" />
@@ -1062,19 +1054,33 @@
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
+    <XliffResource Include="MultilingualResources\Files.nb-NO.xlf" />
+    <XliffResource Include="MultilingualResources\Files.sk-SK.xlf" />
     <None Include="Resources\PreviewPanePropertiesInformation.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\PropertiesInformation.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <PRIResource Include="Strings\sk-SK\Resources.resw" />
+    <PRIResource Include="Strings\bg\Resources.resw" />
+    <PRIResource Include="Strings\nb-NO\Resources.resw" />
+    <PRIResource Include="Strings\af\Resources.resw" />
+    <PRIResource Include="Strings\hr-HR\Resources.resw" />
+    <PRIResource Include="Strings\vi\Resources.resw" />
+    <PRIResource Include="Strings\ca\Resources.resw" />
+    <PRIResource Include="Strings\en-GB\Resources.resw" />
+    <PRIResource Include="Strings\el\Resources.resw" />
+    <PRIResource Include="Strings\ka\Resources.resw" />
+    <PRIResource Include="Strings\id-ID\Resources.resw" />
+    <PRIResource Include="Strings\es-419\Resources.resw" />
+    <PRIResource Include="Strings\pt-PT\Resources.resw" />
     <PRIResource Include="Strings\lv-LV\Resources.resw" />
     <PRIResource Include="Strings\sv-SE\Resources.resw" />
     <PRIResource Include="Strings\ko-KR\Resources.resw" />
     <PRIResource Include="Strings\ar\Resources.resw" />
     <PRIResource Include="Strings\da-DK\Resources.resw" />
     <PRIResource Include="Strings\da\Resources.resw" />
-    <PRIResource Include="Strings\cs-CZ\Resources.resw" />
     <PRIResource Include="Strings\hu-HU\Resources.resw" />
     <PRIResource Include="Strings\or-IN\Resources.resw" />
     <PRIResource Include="Strings\hi-IN\Resources.resw" />
@@ -1102,6 +1108,82 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Content Include="Themes\Acrylic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Blue Acrylic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Bound to be Blue.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Bronze.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Burgundy.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Deep Sea.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Discord.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Dracula.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Glass.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Green Grass.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Lavender.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Leaf Green.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Luxury Red.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Magentistic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Mica Imitation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Middle Blue.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Red Wave.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Solarized.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Turquoise.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
     <Page Include="Dialogs\BitlockerDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1142,6 +1224,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Content Include="Themes\Nord.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
     <Page Include="UserControls\ColoredIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1161,6 +1247,10 @@
     <Page Include="UserControls\InnerNavigationToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PaneControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\PathBreadcrumb.xaml">
       <SubType>Designer</SubType>
@@ -1424,19 +1514,19 @@
       <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="FluentFTP">
-      <Version>35.2.2</Version>
+      <Version>36.1.0</Version>
     </PackageReference>
     <PackageReference Include="ini-parser-netstandard">
       <Version>2.5.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
-      <Version>4.4.0</Version>
+      <Version>4.5.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Crashes">
-      <Version>4.4.0</Version>
+      <Version>4.5.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Data.Sqlite.Core">
-      <Version>6.0.1</Version>
+      <Version>6.0.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection">
       <Version>6.0.0</Version>
@@ -1466,7 +1556,7 @@
       <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.7.1-prerelease.211026002</Version>
+      <Version>2.8.0-prerelease.220118001</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>2.0.1</Version>
@@ -1490,8 +1580,17 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <XliffResource Include="MultilingualResources\Files.af.xlf" />
+    <XliffResource Include="MultilingualResources\Files.ca.xlf" />
+    <XliffResource Include="MultilingualResources\Files.el.xlf" />
+    <XliffResource Include="MultilingualResources\Files.en-GB.xlf" />
+    <XliffResource Include="MultilingualResources\Files.hr-HR.xlf" />
+    <XliffResource Include="MultilingualResources\Files.id-ID.xlf" />
+    <XliffResource Include="MultilingualResources\Files.es-419.xlf" />
+    <XliffResource Include="MultilingualResources\Files.ka.xlf" />
+    <XliffResource Include="MultilingualResources\Files.pt-PT.xlf" />
     <XliffResource Include="MultilingualResources\Files.ar.xlf" />
-    <XliffResource Include="MultilingualResources\Files.cs-CZ.xlf" />
+    <XliffResource Include="MultilingualResources\Files.bg.xlf" />
     <XliffResource Include="MultilingualResources\Files.da-DK.xlf" />
     <XliffResource Include="MultilingualResources\Files.da.xlf" />
     <XliffResource Include="MultilingualResources\Files.de-DE.xlf" />
@@ -1528,11 +1627,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="WindowsDesktop, Version=10.0.19041.0">
+    <SDKReference Include="WindowsDesktop, Version=10.0.22000.0">
       <Name>Windows Desktop Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '16.0' ">
     <VisualStudioVersion>16.0</VisualStudioVersion>
   </PropertyGroup>

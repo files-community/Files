@@ -14,6 +14,7 @@
 
     <local:PropertiesTab.Resources>
         <ResourceDictionary>
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -33,307 +34,270 @@
         </ResourceDictionary>
     </local:PropertiesTab.Resources>
 
-    <StackPanel Style="{StaticResource PropertiesTab}">
-        <Grid>
+    <StackPanel
+        Padding="12,0,12,12"
+        Spacing="4"
+        Style="{StaticResource PropertiesTab}">
+        <Grid
+            Padding="12"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            ColumnSpacing="8"
+            CornerRadius="4"
+            RowSpacing="8">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition
+                    Width="Auto"
+                    MinWidth="100"
+                    MaxWidth="140" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Grid
+            <usercontrols:FileIcon
                 x:Name="Icon"
                 Grid.Row="0"
                 Grid.Column="0"
-                Width="80"
-                Height="80"
+                Width="40"
+                Height="40"
                 Margin="{StaticResource PropertyNameMargin}"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch">
-                <usercontrols:FileIcon
-                    AutomationProperties.AccessibilityView="Raw"
-                    FileIconImageData="{x:Bind ViewModel.IconData, Mode=OneWay}"
-                    ItemSize="80"
-                    ViewModel="{x:Bind ViewModel}" />
-            </Grid>
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                AutomationProperties.AccessibilityView="Raw"
+                FileIconImageData="{x:Bind ViewModel.IconData, Mode=OneWay}"
+                ItemSize="40"
+                ViewModel="{x:Bind ViewModel}" />
+
             <StackPanel
                 Grid.Row="0"
                 Grid.Column="1"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center">
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                Spacing="8">
                 <TextBox
                     x:Name="ItemFileName"
                     x:Uid="PropertiesItemFileName"
-                    Style="{StaticResource PropertyValueTextBox}"
-                    Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}"
-                    Visibility="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}" />
+                    x:Load="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}"
+                    Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}" />
                 <TextBlock
                     x:Name="itemFilesAndFoldersCountValueTop"
-                    Style="{StaticResource PropertyValueTextBlock}"
-                    Text="{x:Bind ViewModel.FilesAndFoldersCountString, Mode=OneWay}"
-                    Visibility="{x:Bind ViewModel.FilesAndFoldersCountVisibility, Mode=OneWay}" />
+                    x:Load="{x:Bind ViewModel.FilesAndFoldersCountVisibility, Mode=OneWay}"
+                    Text="{x:Bind ViewModel.FilesAndFoldersCountString, Mode=OneWay}" />
             </StackPanel>
-            <MenuFlyoutSeparator
+
+            <TextBlock
+                x:Name="ItemType"
                 Grid.Row="1"
                 Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Margin="-12,0"
-                HorizontalAlignment="Stretch" />
-
-            <TextBlock
-                x:Uid="PropertiesItemType"
-                Grid.Row="2"
-                Grid.Column="0"
+                Padding="4,0,0,0"
+                x:Load="{x:Bind ViewModel.ItemTypeVisibility, Mode=OneWay}"
+                FontWeight="SemiBold"
                 Style="{StaticResource PropertyName}"
-                Text="Item type:"
-                Visibility="{x:Bind ViewModel.ItemTypeVisibility, Mode=OneWay}" />
+                Text="{helpers:ResourceString Name=Type}" />
             <TextBlock
                 x:Name="itemTypeValue"
-                Grid.Row="2"
+                Grid.Row="1"
                 Grid.Column="1"
+                x:Load="{x:Bind ViewModel.ItemTypeVisibility, Mode=OneWay}"
                 Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.ItemType, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ItemTypeVisibility, Mode=OneWay}" />
+                Text="{x:Bind ViewModel.ItemType, Mode=OneWay}" />
 
             <TextBlock
+                x:Name="FileSystem"
                 x:Uid="PropertiesDriveFileSystem"
-                Grid.Row="3"
+                Grid.Row="2"
                 Grid.Column="0"
+                Padding="4,0,0,0"
+                x:Load="{x:Bind ViewModel.DriveFileSystemVisibility, Mode=OneWay}"
+                FontWeight="SemiBold"
                 Style="{StaticResource PropertyName}"
-                Text="File system:"
-                Visibility="{x:Bind ViewModel.DriveFileSystemVisibility, Mode=OneWay}" />
+                Text="File system:" />
             <TextBlock
                 x:Name="DriveFileSystemValue"
-                Grid.Row="3"
+                Grid.Row="2"
                 Grid.Column="1"
+                x:Load="{x:Bind ViewModel.DriveFileSystemVisibility, Mode=OneWay}"
                 Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.DriveFileSystem, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.DriveFileSystemVisibility, Mode=OneWay}" />
+                Text="{x:Bind ViewModel.DriveFileSystem, Mode=OneWay}" />
+        </Grid>
 
-            <TextBlock
-                x:Uid="PropertiesItemPath"
-                Grid.Row="4"
-                Grid.Column="0"
-                Style="{StaticResource PropertyName}"
-                Text="Path:"
-                Visibility="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}" />
-            <TextBlock
-                x:Name="itemPathValue"
-                Grid.Row="4"
-                Grid.Column="1"
-                Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.ItemPath, Mode=OneWay}"
-                TextWrapping="Wrap"
-                Visibility="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}" />
+        <!--  Item details  -->
+        <muxc:Expander
+            x:Name="ItemDetails"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            x:Load="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}"
+            Header="{helpers:ResourceString Name=MoreDetails}"
+            IsExpanded="True">
+            <muxc:Expander.Content>
+                <Grid
+                    HorizontalAlignment="Stretch"
+                    ColumnSpacing="8"
+                    RowSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition
+                            Width="Auto"
+                            MinWidth="100"
+                            MaxWidth="140" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <!--  Item path  -->
+                    <TextBlock
+                        x:Uid="PropertiesItemPath"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource PropertyName}"
+                        Text="Path:"
+                        Visibility="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}" />
+                    <TextBlock
+                        x:Name="itemPathValue"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Style="{StaticResource PropertyValueTextBlock}"
+                        Text="{x:Bind ViewModel.ItemPath, Mode=OneWay}"
+                        TextWrapping="Wrap"
+                        Visibility="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}" />
 
-            <TextBlock
-                x:Uid="PropertiesItemSize"
-                Grid.Row="5"
-                Grid.Column="0"
-                Style="{StaticResource PropertyName}"
-                Text="Size:"
-                Visibility="{x:Bind ViewModel.ItemSizeVisibility, Mode=OneWay}" />
-            <Grid
-                Grid.Row="5"
-                Grid.Column="1"
-                Style="{StaticResource PropertyValueGrid}"
-                Visibility="{x:Bind ViewModel.ItemSizeVisibility, Mode=OneWay}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="100" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
-                    x:Name="itemSizeValue"
-                    Grid.Column="0"
-                    IsTextSelectionEnabled="True"
-                    Text="{x:Bind ViewModel.ItemSize, Mode=OneWay}" />
-                <muxc:ProgressRing
-                    x:Name="ItemSizeProgress"
-                    Grid.Column="1"
-                    Margin="0,-10"
-                    HorizontalAlignment="Left"
-                    Visibility="{x:Bind ViewModel.ItemSizeProgressVisibility, Mode=OneWay}" />
-            </Grid>
+                    <!--  Item size  -->
+                    <TextBlock
+                        x:Uid="PropertiesItemSize"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource PropertyName}"
+                        Text="Size:"
+                        Visibility="{x:Bind ViewModel.ItemSizeVisibility, Mode=OneWay}" />
+                    <Grid
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Style="{StaticResource PropertyValueGrid}"
+                        Visibility="{x:Bind ViewModel.ItemSizeVisibility, Mode=OneWay}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" MinWidth="100" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            x:Name="itemSizeValue"
+                            Grid.Column="0"
+                            IsTextSelectionEnabled="True"
+                            Text="{x:Bind ViewModel.ItemSize, Mode=OneWay}" />
+                        <muxc:ProgressBar
+                            x:Name="ItemSizeProgress"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Visibility="{x:Bind ViewModel.ItemSizeProgressVisibility, Mode=OneWay}" />
+                    </Grid>
 
-            <TextBlock
-                x:Name="PropertiesMD5Hash"
-                x:Uid="PropertiesItemMD5Hash"
-                Grid.Row="6"
-                Grid.Column="0"
-                Style="{StaticResource PropertyName}"
-                Text="MD5Hash:"
-                Visibility="{x:Bind ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
-            <TextBlock
-                x:Name="itemMD5HashValue"
-                Grid.Row="6"
-                Grid.Column="1"
-                Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.ItemMD5Hash, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
-            <muxc:ProgressBar
-                x:Name="ItemMD5HashProgress"
-                Grid.Row="6"
-                Grid.Column="1"
-                Margin="{StaticResource PropertyValueMargin}"
-                VerticalAlignment="Center"
-                ShowError="{x:Bind ViewModel.ItemMD5HashCalcError, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ItemMD5HashProgressVisibility, Mode=OneWay}" />
+                    <MenuFlyoutSeparator
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="-12,0"
+                        Background="{ThemeResource CardStrokeColorDefaultBrush}" />
 
-            <MenuFlyoutSeparator
-                Grid.Row="8"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Margin="-12,0" />
+                    <!--  Date created  -->
+                    <TextBlock
+                        x:Uid="PropertiesCreated"
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Style="{StaticResource PropertyName}"
+                        Text="Created:"
+                        Visibility="{x:Bind ViewModel.ItemCreatedTimestampVisibiity, Mode=OneWay}" />
+                    <TextBlock
+                        x:Name="itemCreatedTimestampValue"
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Style="{StaticResource PropertyValueTextBlock}"
+                        Text="{x:Bind ViewModel.ItemCreatedTimestamp, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.ItemCreatedTimestampVisibiity, Mode=OneWay}" />
 
-            <StackPanel
-                Grid.Row="9"
-                Grid.Column="0"
-                Margin="{StaticResource PropertyNameMargin}"
-                Orientation="Horizontal"
-                Visibility="{x:Bind ViewModel.DriveUsedSpaceVisibiity, Mode=OneWay}">
-                <Rectangle
-                    Width="15"
-                    Height="15"
-                    Margin="0,0,10,0"
-                    Fill="{ThemeResource SystemAccentColor}"
-                    RadiusX="2"
-                    RadiusY="2" />
-                <TextBlock
-                    x:Uid="PropertiesDriveUsedSpace"
-                    VerticalAlignment="Center"
-                    FontWeight="SemiBold"
-                    Text="Used space:" />
-            </StackPanel>
+                    <!--  Date modified  -->
+                    <TextBlock
+                        x:Uid="PropertiesModified"
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Style="{StaticResource PropertyName}"
+                        Text="Modified:"
+                        Visibility="{x:Bind ViewModel.ItemModifiedTimestampVisibility, Mode=OneWay}" />
+                    <TextBlock
+                        x:Name="itemModifiedTimestampValue"
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Style="{StaticResource PropertyValueTextBlock}"
+                        Text="{x:Bind ViewModel.ItemModifiedTimestamp, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.ItemModifiedTimestampVisibility, Mode=OneWay}" />
 
-            <TextBlock
-                x:Name="driveUsedSpaceValue"
-                Grid.Row="9"
-                Grid.Column="1"
-                Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.DriveUsedSpace, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.DriveUsedSpaceVisibiity, Mode=OneWay}" />
+                    <!--  Date accessed  -->
+                    <TextBlock
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Style="{StaticResource PropertyName}"
+                        Text="{helpers:ResourceString Name=Accessed}"
+                        Visibility="{x:Bind ViewModel.ItemAccessedTimestampVisibility, Mode=OneWay}" />
+                    <TextBlock
+                        x:Name="itemAccessedTimestampValue"
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        Style="{StaticResource PropertyValueTextBlock}"
+                        Text="{x:Bind ViewModel.ItemAccessedTimestamp, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.ItemAccessedTimestampVisibility, Mode=OneWay}" />
+                </Grid>
+            </muxc:Expander.Content>
+        </muxc:Expander>
 
-            <StackPanel
-                Grid.Row="10"
-                Grid.Column="0"
-                Margin="{StaticResource PropertyNameMargin}"
-                Orientation="Horizontal"
-                Visibility="{x:Bind ViewModel.DriveFreeSpaceVisibiity, Mode=OneWay}">
-                <Rectangle
-                    Width="15"
-                    Height="15"
-                    Margin="0,0,10,0"
-                    Fill="{ThemeResource ProgressRingBackgroundThemeBrush}"
-                    RadiusX="2"
-                    RadiusY="2" />
-                <TextBlock
-                    x:Uid="PropertiesDriveFreeSpace"
-                    VerticalAlignment="Center"
-                    FontWeight="SemiBold"
-                    Text="Free space:" />
-            </StackPanel>
-            <TextBlock
-                x:Name="driveFreeSpaceValue"
-                Grid.Row="10"
-                Grid.Column="1"
-                Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.DriveFreeSpace, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.DriveFreeSpaceVisibiity, Mode=OneWay}" />
-
-            <TextBlock
-                x:Uid="PropertiesCreated"
-                Grid.Row="11"
-                Grid.Column="0"
-                Style="{StaticResource PropertyName}"
-                Text="Created:"
-                Visibility="{x:Bind ViewModel.ItemCreatedTimestampVisibiity, Mode=OneWay}" />
-            <TextBlock
-                x:Name="itemCreatedTimestampValue"
-                Grid.Row="11"
-                Grid.Column="1"
-                Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.ItemCreatedTimestamp, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ItemCreatedTimestampVisibiity, Mode=OneWay}" />
-
-            <TextBlock
-                x:Uid="PropertiesModified"
-                Grid.Row="12"
-                Grid.Column="0"
-                Style="{StaticResource PropertyName}"
-                Text="Modified:"
-                Visibility="{x:Bind ViewModel.ItemModifiedTimestampVisibility, Mode=OneWay}" />
-            <TextBlock
-                x:Name="itemModifiedTimestampValue"
-                Grid.Row="12"
-                Grid.Column="1"
-                Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.ItemModifiedTimestamp, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ItemModifiedTimestampVisibility, Mode=OneWay}" />
-
-            <TextBlock
-                Grid.Row="13"
-                Grid.Column="0"
-                Style="{StaticResource PropertyName}"
-                Text="{helpers:ResourceString Name=Accessed}"
-                Visibility="{x:Bind ViewModel.ItemAccessedTimestampVisibility, Mode=OneWay}" />
-            <TextBlock
-                x:Name="itemAccessedTimestampValue"
-                Grid.Row="13"
-                Grid.Column="1"
-                Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.ItemAccessedTimestamp, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ItemAccessedTimestampVisibility, Mode=OneWay}" />
-
-            <MenuFlyoutSeparator
-                Grid.Row="15"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Margin="-12,0"
-                Visibility="{x:Bind ViewModel.LastSeparatorVisibility, Mode=OneWay}" />
-
-            <TextBlock
-                x:Uid="PropertiesDriveCapacity"
-                Grid.Row="16"
-                Grid.Column="0"
-                Style="{StaticResource PropertyName}"
-                Text="Capacity:"
-                Visibility="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}" />
-            <TextBlock
-                x:Uid="driveCapacityValue"
-                Grid.Row="16"
-                Grid.Column="1"
-                Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.DriveCapacity, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}" />
-
+        <!--  Disk details  -->
+        <Grid
+            x:Name="DiskDetailsGrid"
+            Padding="12"
+            HorizontalAlignment="Stretch"
+            x:Load="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            ColumnSpacing="8"
+            CornerRadius="4"
+            RowSpacing="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="72" />
+                <ColumnDefinition
+                    Width="Auto"
+                    MinWidth="100"
+                    MaxWidth="140" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <!--  Space used progress  -->
             <muxc:ProgressRing
-                Grid.Row="17"
+                x:Name="SpaceUserProgressRing"
+                Grid.Row="0"
+                Grid.RowSpan="3"
                 Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Width="70"
-                Height="70"
-                Margin="10"
+                Width="60"
+                Height="60"
+                HorizontalAlignment="Left"
+                x:Load="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}"
                 IsIndeterminate="False"
-                Visibility="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}"
                 Value="{x:Bind ViewModel.DrivePercentageValue, Mode=OneWay}">
 
                 <muxc:ProgressRing.Template>
@@ -373,40 +337,218 @@
                 </muxc:ProgressRing.Template>
             </muxc:ProgressRing>
 
-            <TextBlock
-                x:Uid="PropertiesAttributes"
-                Grid.Row="18"
-                Grid.Column="0"
-                VerticalAlignment="Center"
-                FontWeight="SemiBold"
-                Style="{StaticResource PropertyName}"
-                Text="Attributes:"
-                Visibility="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}" />
+            <!--  Disk used space  -->
             <StackPanel
-                Grid.Row="18"
+                x:Name="DriveUsedSpaceStackPanel"
+                Grid.Row="0"
                 Grid.Column="1"
-                Margin="{StaticResource PropertyValueMargin}"
-                VerticalAlignment="Center"
-                Orientation="Horizontal"
-                Spacing="16"
-                Visibility="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}">
-                <CheckBox IsChecked="{x:Bind ViewModel.IsReadOnly, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.IsReadOnlyEnabled, Mode=OneWay}">
-                    <CheckBox.Content>
-                        <TextBlock
-                            x:Uid="PropertiesDialogReadOnly"
-                            Text="Read-only"
-                            TextWrapping="WrapWholeWords" />
-                    </CheckBox.Content>
-                </CheckBox>
-                <CheckBox IsChecked="{x:Bind ViewModel.IsHidden, Mode=TwoWay}">
-                    <CheckBox.Content>
-                        <TextBlock
-                            x:Uid="PropertiesDialogHidden"
-                            Text="Hidden"
-                            TextWrapping="WrapWholeWords" />
-                    </CheckBox.Content>
-                </CheckBox>
+                x:Load="{x:Bind ViewModel.DriveUsedSpaceVisibiity, Mode=OneWay}"
+                Orientation="Horizontal">
+                <Rectangle
+                    Width="15"
+                    Height="15"
+                    Margin="0,0,10,0"
+                    Fill="{ThemeResource SystemAccentColorLight2}"
+                    RadiusX="2"
+                    RadiusY="2"
+                    Stroke="{ThemeResource TextControlElevationBorderBrush}" />
+                <TextBlock
+                    x:Uid="PropertiesDriveUsedSpace"
+                    VerticalAlignment="Center"
+                    FontWeight="SemiBold"
+                    Text="Used space:" />
             </StackPanel>
+            <TextBlock
+                x:Name="driveUsedSpaceValue"
+                Grid.Row="0"
+                Grid.Column="2"
+                x:Load="{x:Bind ViewModel.DriveUsedSpaceVisibiity, Mode=OneWay}"
+                Style="{StaticResource PropertyValueTextBlock}"
+                Text="{x:Bind ViewModel.DriveUsedSpace, Mode=OneWay}" />
+            <Button
+                Grid.Row="0"
+                Grid.Column="3"
+                Padding="8,6"
+                AutomationProperties.Name="{helpers:ResourceString Name=Bytes}"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                ToolTipService.ToolTip="{helpers:ResourceString Name=Bytes}">
+                <FontIcon FontSize="16" Glyph="&#xE946;" />
+                <Button.Flyout>
+                    <Flyout>
+                        <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind ViewModel.DriveUsedSpaceLongSize, Mode=OneWay}" />
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+
+
+            <!--  Disk free space  -->
+            <StackPanel
+                x:Name="DiskSpaceStackPanel"
+                Grid.Row="1"
+                Grid.Column="1"
+                x:Load="{x:Bind ViewModel.DriveFreeSpaceVisibiity, Mode=OneWay}"
+                Orientation="Horizontal">
+                <Rectangle
+                    Width="15"
+                    Height="15"
+                    Margin="0,0,10,0"
+                    Fill="{ThemeResource ProgressRingBackgroundThemeBrush}"
+                    RadiusX="2"
+                    RadiusY="2"
+                    Stroke="{ThemeResource TextControlElevationBorderBrush}" />
+                <TextBlock
+                    x:Uid="PropertiesDriveFreeSpace"
+                    VerticalAlignment="Center"
+                    FontWeight="SemiBold"
+                    Text="Free space:" />
+            </StackPanel>
+            <TextBlock
+                x:Name="driveFreeSpaceValue"
+                Grid.Row="1"
+                Grid.Column="2"
+                x:Load="{x:Bind ViewModel.DriveFreeSpaceVisibiity, Mode=OneWay}"
+                Style="{StaticResource PropertyValueTextBlock}"
+                Text="{x:Bind ViewModel.DriveFreeSpace, Mode=OneWay}" />
+            <Button
+                Grid.Row="1"
+                Grid.Column="3"
+                Padding="8,6"
+                AutomationProperties.Name="{helpers:ResourceString Name=Bytes}"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                ToolTipService.ToolTip="{helpers:ResourceString Name=Bytes}">
+                <FontIcon FontSize="16" Glyph="&#xE946;" />
+                <Button.Flyout>
+                    <Flyout>
+                        <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind ViewModel.DriveFreeSpaceLongSize, Mode=OneWay}" />
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+
+            <!--  Drive capacity  -->
+            <TextBlock
+                x:Name="PropertiesDriveCapacity"
+                x:Uid="PropertiesDriveCapacity"
+                Grid.Row="2"
+                Grid.Column="1"
+                Padding="28,0,0,0"
+                x:Load="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}"
+                Style="{StaticResource PropertyName}"
+                Text="Capacity:" />
+            <TextBlock
+                x:Name="DriveCapacityValue"
+                x:Uid="driveCapacityValue"
+                Grid.Row="2"
+                Grid.Column="2"
+                x:Load="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}"
+                Style="{StaticResource PropertyValueTextBlock}"
+                Text="{x:Bind ViewModel.DriveCapacity, Mode=OneWay}" />
+            <Button
+                Grid.Row="2"
+                Grid.Column="3"
+                Padding="8,6"
+                AutomationProperties.Name="{helpers:ResourceString Name=Bytes}"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                ToolTipService.ToolTip="{helpers:ResourceString Name=Bytes}">
+                <FontIcon FontSize="16" Glyph="&#xE946;" />
+                <Button.Flyout>
+                    <Flyout>
+                        <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind ViewModel.DriveCapacityLongSize, Mode=OneWay}" />
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+
+            <MenuFlyoutSeparator
+                Grid.Row="3"
+                Grid.Column="0"
+                Grid.ColumnSpan="4"
+                Margin="-12,0"
+                Background="{ThemeResource CardStrokeColorDefaultBrush}" />
+
+            <!--  Disk cleanup  -->
+            <TextBlock
+                Grid.Row="4"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Style="{StaticResource PropertyValueTextBlock}"
+                Text="{helpers:ResourceString Name=CleanupDrive}" />
+            <Button
+                x:Name="DiskCleanupButton"
+                Grid.Row="4"
+                Grid.Column="2"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Right"
+                Click="DiskCleanupButton_Click"
+                Content="{helpers:ResourceString Name=DiskCleanup}" />
         </Grid>
+
+        <!--  Item attributes  -->
+        <muxc:Expander
+            x:Name="ItemAttributes"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            x:Load="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}"
+            Header="{helpers:ResourceString Name=Attributes}"
+            IsExpanded="False">
+            <muxc:Expander.Content>
+                <Grid
+                    HorizontalAlignment="Stretch"
+                    ColumnSpacing="8"
+                    RowSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock
+                        x:Uid="PropertiesDialogReadOnly"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Text="Read-only"
+                        TextWrapping="WrapWholeWords" />
+                    <CheckBox
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        MinWidth="0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        AutomationProperties.Name="{helpers:ResourceString Name=ReadOnly}"
+                        IsChecked="{x:Bind ViewModel.IsReadOnly, Mode=TwoWay}"
+                        IsEnabled="{x:Bind ViewModel.IsReadOnlyEnabled, Mode=OneWay}" />
+
+                    <MenuFlyoutSeparator
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Margin="-12,0"
+                        Background="{ThemeResource CardStrokeColorDefaultBrush}" />
+
+                    <TextBlock
+                        x:Uid="PropertiesDialogHidden"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Text="Hidden"
+                        TextWrapping="WrapWholeWords" />
+                    <CheckBox
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        MinWidth="0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        AutomationProperties.Name="{helpers:ResourceString Name=Hidden}"
+                        IsChecked="{x:Bind ViewModel.IsHidden, Mode=TwoWay}" />
+                </Grid>
+            </muxc:Expander.Content>
+        </muxc:Expander>
     </StackPanel>
 </local:PropertiesTab>

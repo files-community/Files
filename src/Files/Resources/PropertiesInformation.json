@@ -1,6 +1,6 @@
 ﻿[
   {
-    "NameResource": "PropertyAddress",
+    "NameResource": "Address",
     "SectionResource": "PropertySectionGPS",
     "Property": null,
     "IsReadOnly": true,
@@ -226,7 +226,7 @@
     "ID": null
   },
   {
-    "NameResource": "PropertyConductor",
+    "NameResource": "Conductor",
     "SectionResource": "PropertySectionMusic",
     "Property": "System.Music.Conductor",
     "IsReadOnly": false,
@@ -403,84 +403,84 @@
   },
   {
     "NameResource": "PropertyContributor",
-    "SectionResource": "PropertySectionDocument",
+    "SectionResource": "Document",
     "Property": "System.Document.Contributor",
     "IsReadOnly": true,
     "ID": null
   },
   {
     "NameResource": "PropertyLastAuthor",
-    "SectionResource": "PropertySectionDocument",
+    "SectionResource": "Document",
     "Property": "System.Document.LastAuthor",
     "IsReadOnly": true,
     "ID": null
   },
   {
     "NameResource": "PropertyRevisionNumber",
-    "SectionResource": "PropertySectionDocument",
+    "SectionResource": "Document",
     "Property": "System.Document.RevisionNumber",
     "IsReadOnly": true,
     "ID": null
   },
   {
     "NameResource": "PropertyVersion",
-    "SectionResource": "PropertySectionDocument",
+    "SectionResource": "Document",
     "Property": "System.Document.Version",
     "IsReadOnly": true,
     "ID": null
   },
   {
     "NameResource": "PropertyTotalEditingTime",
-    "SectionResource": "PropertySectionDocument",
+    "SectionResource": "Document",
     "Property": "System.Document.TotalEditingTime",
     "IsReadOnly": true,
     "ID": null
   },
   {
     "NameResource": "PropertyTemplate",
-    "SectionResource": "PropertySectionDocument",
+    "SectionResource": "Document",
     "Property": "System.Document.Template",
     "IsReadOnly": true,
     "ID": null
   },
   {
     "NameResource": "PropertyWordCount",
-    "SectionResource": "PropertySectionDocument",
+    "SectionResource": "Document",
     "Property": "System.Document.WordCount",
     "IsReadOnly": true,
     "ID": null
   },
   {
     "NameResource": "PropertyCharacterCount",
-    "SectionResource": "PropertySectionDocument",
+    "SectionResource": "Document",
     "Property": "System.Document.CharacterCount",
     "IsReadOnly": true,
     "ID": null
   },
   {
     "NameResource": "PropertyLineCount",
-    "SectionResource": "PropertySectionDocument",
+    "SectionResource": "Document",
     "Property": "System.Document.LineCount",
     "IsReadOnly": true,
     "ID": null
   },
   {
     "NameResource": "PropertyParagraphCount",
-    "SectionResource": "PropertySectionDocument",
+    "SectionResource": "Document",
     "Property": "System.Document.ParagraphCount",
     "IsReadOnly": true,
     "ID": null
   },
   {
     "NameResource": "PropertyPageCount",
-    "SectionResource": "PropertySectionDocument",
+    "SectionResource": "Document",
     "Property": "System.Document.PageCount",
     "IsReadOnly": true,
     "ID": null
   },
   {
     "NameResource": "PropertySlideCount",
-    "SectionResource": "PropertySectionDocument",
+    "SectionResource": "Document",
     "Property": "System.Document.SlideCount",
     "IsReadOnly": true,
     "ID": null

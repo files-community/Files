@@ -26,7 +26,7 @@
           <source>Text Document</source>
           <target state="translated">Έγγραφο κειμένου</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarCopyPath.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="CopyLocation" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="translated">Aντιγραφή τοποθεσίας</target>
         </trans-unit>
@@ -38,17 +38,9 @@
           <source>Browse</source>
           <target state="translated">Περιηγηθείτε στο</target>
         </trans-unit>
-        <trans-unit id="SidebarDrives" translate="yes" xml:space="preserve">
-          <source>Drives</source>
-          <target state="translated">Μονάδες Δίσκου</target>
-        </trans-unit>
         <trans-unit id="nameColumn.Header" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="translated">Όνομα</target>
-        </trans-unit>
-        <trans-unit id="dateColumn.Header" translate="yes" xml:space="preserve">
-          <source>Date modified</source>
-          <target state="translated">Ημερομηνία τροποποίησης</target>
         </trans-unit>
         <trans-unit id="typeColumn.Header" translate="yes" xml:space="preserve">
           <source>Type</source>
@@ -57,10 +49,6 @@
         <trans-unit id="Size" translate="yes" xml:space="preserve">
           <source>Size</source>
           <target state="translated">Μέγεθος</target>
-        </trans-unit>
-        <trans-unit id="OpenInTerminal" translate="yes" xml:space="preserve">
-          <source>Open in Terminal...</source>
-          <target state="translated">Άνοιγμα στο τερματικό...</target>
         </trans-unit>
         <trans-unit id="PropertiesCreated.Text" translate="yes" xml:space="preserve">
           <source>Created:</source>
@@ -90,10 +78,6 @@
           <source>is a subfolder of the source folder</source>
           <target state="translated">είναι ένας υποφάκελος του αρχικού φακέλου</target>
         </trans-unit>
-        <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
-          <source>Item type:</source>
-          <target state="translated">Τύπος αντικειμένου:</target>
-        </trans-unit>
         <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
           <target state="translated">Επιλογή όλων</target>
@@ -122,7 +106,7 @@
           <source>Enter a path</source>
           <target state="translated">Εισάγετε μια διαδρομή</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarSearchReigon.PlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="NavigationToolbarSearchRegion.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Search</source>
           <target state="translated">Αναζήτηση</target>
         </trans-unit>
@@ -184,7 +168,7 @@
         </trans-unit>
         <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
           <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
-          <target state="translated">ΠΡΟΕΙΔΟΠΟΊΗΣΗ: ΠΕΙΡΑΜΑΤΙΚΆ ΧΑΡΑΚΤΗΡΙΣΤΙΚΆ ΜΠΡΟΣΤΆ!</target>
+          <target state="translated">ΠΡΟΕΙΔΟΠΟΊΗΣΗ: ΑΚΟΛΟΥΘΟΎΝ ΠΕΙΡΑΜΑΤΙΚΆ ΧΑΡΑΚΤΗΡΙΣΤΙΚΆ!</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupContinueWhereYouLeftOff.Content" translate="yes" xml:space="preserve">
           <source>Continue where you left off</source>
@@ -202,49 +186,29 @@
           <source>Preferences</source>
           <target state="translated">Προτιμήσεις</target>
         </trans-unit>
-        <trans-unit id="SidebarDesktop" translate="yes" xml:space="preserve">
+        <trans-unit id="Desktop" translate="yes" xml:space="preserve">
           <source>Desktop</source>
           <target state="translated">Επιφάνεια εργασίας</target>
         </trans-unit>
-        <trans-unit id="SidebarDocuments" translate="yes" xml:space="preserve">
+        <trans-unit id="Documents" translate="yes" xml:space="preserve">
           <source>Documents</source>
           <target state="translated">Έγγραφα</target>
         </trans-unit>
-        <trans-unit id="SidebarDownloads" translate="yes" xml:space="preserve">
+        <trans-unit id="Downloads" translate="yes" xml:space="preserve">
           <source>Downloads</source>
           <target state="translated">Λήψεις</target>
-        </trans-unit>
-        <trans-unit id="SidebarHome" translate="yes" xml:space="preserve">
-          <source>Home</source>
-          <target state="translated">Αρχική σελίδα</target>
-        </trans-unit>
-        <trans-unit id="SidebarMusic" translate="yes" xml:space="preserve">
-          <source>Music</source>
-          <target state="translated">Μουσική</target>
-        </trans-unit>
-        <trans-unit id="SidebarPictures" translate="yes" xml:space="preserve">
-          <source>Pictures</source>
-          <target state="translated">Εικόνες</target>
         </trans-unit>
         <trans-unit id="SideBarUnpinFromFavorites.Text" translate="yes" xml:space="preserve">
           <source>Unpin from Favorites</source>
           <target state="translated">Ξεκαρφίτσωμα από Αγαπημένα</target>
         </trans-unit>
-        <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
-          <source>Videos</source>
-          <target state="translated">Βίντεο</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
           <source>Sort by</source>
           <target state="translated">Ταξινόμηση κατά</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByName.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Name" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="translated">Όνομα</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDate.Text" translate="yes" xml:space="preserve">
-          <source>Date modified</source>
-          <target state="translated">Ημερομηνία τροποποίησης</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByType.Text" translate="yes" xml:space="preserve">
           <source>Type</source>
@@ -254,10 +218,6 @@
           <source>Ascending</source>
           <target state="translated">Αύξουσα σειρά</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDescending.Text" translate="yes" xml:space="preserve">
-          <source>Descending</source>
-          <target state="translated">Φθίνουσα σειρά</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRefresh.Text" translate="yes" xml:space="preserve">
           <source>Refresh</source>
           <target state="translated">Ανανέωση</target>
@@ -265,10 +225,6 @@
         <trans-unit id="BaseLayoutContextFlyoutPaste.Text" translate="yes" xml:space="preserve">
           <source>Paste</source>
           <target state="translated">Επικόλληση</target>
-        </trans-unit>
-        <trans-unit id="PropertiesItemMD5Hash.Text" translate="yes" xml:space="preserve">
-          <source>MD5Hash:</source>
-          <target state="translated">MD5Hash:</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNew.Label" translate="yes" xml:space="preserve">
           <source>New</source>
@@ -290,7 +246,7 @@
           <source>Extract</source>
           <target state="translated">Εξαγωγή</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenItem.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Open" translate="yes" xml:space="preserve">
           <source>Open</source>
           <target state="translated">Άνοιγμα</target>
         </trans-unit>
@@ -410,10 +366,6 @@
           <source>Properties</source>
           <target state="translated">Ιδιότητες</target>
         </trans-unit>
-        <trans-unit id="PropertiesAttributes.Text" translate="yes" xml:space="preserve">
-          <source>Attributes:</source>
-          <target state="translated">Χαρακτηριστικά:</target>
-        </trans-unit>
         <trans-unit id="PropertiesTitleSecondary.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated">Ιδιότητες</target>
@@ -445,10 +397,6 @@
         <trans-unit id="BaseLayoutContextFlyoutSmallIcons.Text" translate="yes" xml:space="preserve">
           <source>Small Icons</source>
           <target state="translated">Μικρά εικονίδια</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutTiles.Text" translate="yes" xml:space="preserve">
-          <source>Tiles</source>
-          <target state="translated">Πλακίδια</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogOKButton.Content" translate="yes" xml:space="preserve">
           <source>OK</source>
@@ -508,7 +456,8 @@
         </trans-unit>
         <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
-          <target state="translated">Επιλογές επιλογής</target>
+          <target state="needs-review-translation">Επιλογή</target>
+          <note from="MultilingualEditor" annotates="source" priority="4">Translated as "Select" in order to fit with "Sort" button and to avoid "επιλογές επιλογής" which sounds weird.</note>
         </trans-unit>
         <trans-unit id="PropertiesDialogReadOnly.Text" translate="yes" xml:space="preserve">
           <source>Read-only</source>
@@ -770,7 +719,7 @@
           <source>Create shortcut</source>
           <target state="translated">Δημιουργία συντόμευσης</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenFileLocation" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated">Άνοιγμα θέσης αρχείου</target>
         </trans-unit>
@@ -942,10 +891,6 @@
           <source>Set as</source>
           <target state="translated">Ορίστε ως</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutCopyLocation.Text" translate="yes" xml:space="preserve">
-          <source>Copy location</source>
-          <target state="translated">Αντιγραφή τοποθεσίας</target>
-        </trans-unit>
         <trans-unit id="Cancel" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated">Ακύρωση</target>
@@ -958,7 +903,7 @@
           <source>Choose a type for this new item below</source>
           <target state="translated">Επιλέξτε έναν τύπο για αυτό το νέο στοιχείο παρακάτω</target>
         </trans-unit>
-        <trans-unit id="AddDialogListFileHeader" translate="yes" xml:space="preserve">
+        <trans-unit id="File" translate="yes" xml:space="preserve">
           <source>File</source>
           <target state="translated">Αρχείο</target>
         </trans-unit>
@@ -1001,14 +946,6 @@
         <trans-unit id="VerticalTabFlyout.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Vertical tab flyout</source>
           <target state="translated">Κάθετη αναδυόμενη καρτέλα</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Edit terminal applications</source>
-          <target state="translated">Επεξεργασία τερματικών εφαρμογών</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Edit terminal applications</source>
-          <target state="translated">Επεξεργασία τερματικών εφαρμογών</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.Title" translate="yes" xml:space="preserve">
           <source>Language</source>
@@ -1194,7 +1131,7 @@
           <source>Composer</source>
           <target state="translated">Συνθέτης</target>
         </trans-unit>
-        <trans-unit id="PropertyConductor" translate="yes" xml:space="preserve">
+        <trans-unit id="Conductor" translate="yes" xml:space="preserve">
           <source>Conductor</source>
           <target state="translated">Διευθυντής ορχήστρας</target>
         </trans-unit>
@@ -1406,17 +1343,18 @@
           <source>Video</source>
           <target state="translated">Βίντεο</target>
         </trans-unit>
-        <trans-unit id="PropertySectionDocument" translate="yes" xml:space="preserve">
+        <trans-unit id="Document" translate="yes" xml:space="preserve">
           <source>Document</source>
           <target state="translated">Έγγραφο</target>
         </trans-unit>
-        <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
+        <trans-unit id="Address" translate="yes" xml:space="preserve">
           <source>Address</source>
           <target state="translated">Διεύθυνση</target>
         </trans-unit>
         <trans-unit id="NavToolbarSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
-          <target state="translated">Επιλογές επιλογής</target>
+          <target state="needs-review-translation">Επιλογή</target>
+          <note from="MultilingualEditor" annotates="source" priority="4">Translated as "Select" in order to fit with "Sort" button and to avoid "επιλογές επιλογής" which sounds weird.</note>
         </trans-unit>
         <trans-unit id="NavToolbarSelectionOptions.Label" translate="yes" xml:space="preserve">
           <source>Select</source>
@@ -1536,8 +1474,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Support us on GitHub</source>
-          <target state="needs-review-translation">Υποστηρίξτε μας στο PayPal</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Υποστηρίξτε μας στο GitHub</target>
         </trans-unit>
         <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles" translate="yes" xml:space="preserve">
           <source>List and sort directories alongside files</source>
@@ -1587,11 +1524,11 @@
           <source>Add</source>
           <target state="translated">Προσθήκη</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonEdit.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Edit" translate="yes" xml:space="preserve">
           <source>Edit</source>
           <target state="translated">Επεξεργασία</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonRemove.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Remove" translate="yes" xml:space="preserve">
           <source>Remove</source>
           <target state="translated">Αφαίρεση</target>
         </trans-unit>
@@ -1667,10 +1604,6 @@
           <source>Small Icons (Ctrl+Shift+3)</source>
           <target state="translated">Μικρά εικονίδια (Ctrl+Shift+3)</target>
         </trans-unit>
-        <trans-unit id="NavToolbarTiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Tiles</source>
-          <target state="translated">Πλακίδια</target>
-        </trans-unit>
         <trans-unit id="NavToolbarTiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Tiles (Ctrl+Shift+2)</source>
           <target state="translated">Πλακίδια (Ctrl+Shift+2)</target>
@@ -1703,14 +1636,6 @@
           <source>Input field cannot be empty!</source>
           <target state="translated">Το πεδίο εισαγωγής δεν μπορεί να είναι κενό!</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetAddBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Enter Bundle name</source>
-          <target state="translated">Εισάγετε το όνομα δέσμης</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetAddBundleNameInput.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Enter Bundle name</source>
-          <target state="translated">Εισάγετε το όνομα δέσμης</target>
-        </trans-unit>
         <trans-unit id="BundleItemFlyouOpenInNewTabMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Open in new tab</source>
           <target state="translated">Άνοιγμα σε νέα καρτέλα</target>
@@ -1735,13 +1660,9 @@
           <source>Drag and drop any file or folder here to quickly access it</source>
           <target state="translated">Σύρετε οποιοδήποτε αρχείο ή φάκελο εδώ για γρήγορη πρόσβαση σε αυτό</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="EnterBundleName" translate="yes" xml:space="preserve">
           <source>Enter Bundle name</source>
           <target state="translated">Εισάγετε το όνομα δέσμης</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetRenameBundleDialogInputPlaceholderText" translate="yes" xml:space="preserve">
-          <source>Desired name</source>
-          <target state="translated">Επιθυμητό όνομα</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetRenameBundleDialogSubtitleText" translate="yes" xml:space="preserve">
           <source>Enter new name</source>
@@ -1767,7 +1688,7 @@
           <source>Rename Bundle</source>
           <target state="translated">Μετονομασία δέσμης</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetAddBundleInputPlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="DesiredName" translate="yes" xml:space="preserve">
           <source>Desired name</source>
           <target state="translated">Επιθυμητό όνομα</target>
         </trans-unit>
@@ -1939,7 +1860,7 @@
           <source>Target</source>
           <target state="translated">Στόχος</target>
         </trans-unit>
-        <trans-unit id="PropertyItemArguments" translate="yes" xml:space="preserve">
+        <trans-unit id="Arguments" translate="yes" xml:space="preserve">
           <source>Arguments</source>
           <target state="translated">Επιχειρήματα</target>
         </trans-unit>
@@ -1961,11 +1882,7 @@
         </trans-unit>
         <trans-unit id="PropertyItemCount" translate="yes" xml:space="preserve">
           <source>Item count</source>
-          <target state="translated">Αριθμός αντικειμένων</target>
-        </trans-unit>
-        <trans-unit id="HorizontalMultitaskingControlCloseTabsToTheRight.Text" translate="yes" xml:space="preserve">
-          <source>Close tabs to the right</source>
-          <target state="translated">Κλείσιμο καρτελών δεξιά</target>
+          <target state="translated">Αριθμός στοιχείων</target>
         </trans-unit>
         <trans-unit id="StatusDeletionFailed" translate="yes" xml:space="preserve">
           <source>Deletion Failed</source>
@@ -2097,7 +2014,7 @@
         </trans-unit>
         <trans-unit id="CopyItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Copy item(s)</source>
-          <target state="translated">Αντιγραφή αντικειμένου(ων)</target>
+          <target state="translated">Αντιγραφή στοιχείου(ων)</target>
         </trans-unit>
         <trans-unit id="DeleteItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Delete item(s)</source>
@@ -2113,7 +2030,7 @@
         </trans-unit>
         <trans-unit id="MoveItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Move item(s)</source>
-          <target state="translated">Μετακίνηση αντικειμένου(ων)</target>
+          <target state="translated">Μετακίνηση στοιχείου(ων)</target>
         </trans-unit>
         <trans-unit id="DeleteItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be deleted</source>
@@ -2315,7 +2232,7 @@
           <source>Tiny</source>
           <target state="translated">Μικροσκοπικό</target>
         </trans-unit>
-        <trans-unit id="ItemTimeText_Today" translate="yes" xml:space="preserve">
+        <trans-unit id="Today" translate="yes" xml:space="preserve">
           <source>Today</source>
           <target state="translated">Σήμερα</target>
         </trans-unit>
@@ -2389,11 +2306,11 @@
         </trans-unit>
         <trans-unit id="StatusMoveCanceledDetails_Plural" translate="yes" xml:space="preserve">
           <source>Moving {0} items from {1} to {2} was canceled after moving {3} items</source>
-          <target state="translated">Η μετακίνηση {0} αντικειμένων από {1} σε {2} ακυρώθηκε μετά τη μετακίνηση {3} αντικειμένων</target>
+          <target state="translated">Η μετακίνηση {0} στοιχείων από {1} σε {2} ακυρώθηκε μετά τη μετακίνηση {3} στοιχείων</target>
         </trans-unit>
         <trans-unit id="StatusMoveCanceledDetails_Plural2" translate="yes" xml:space="preserve">
           <source>Moving {0} items from {1} to {2} was canceled after moving {3} item</source>
-          <target state="translated">Η μετακίνηση {0} αντικειμένων από {1} σε {2} ακυρώθηκε μετά τη μετακίνηση {3} αντικειμένου</target>
+          <target state="translated">Η μετακίνηση {0} στοιχείων από {1} σε {2} ακυρώθηκε μετά τη μετακίνηση {3} στοιχείου</target>
         </trans-unit>
         <trans-unit id="StatusMovingItemsDetails_Singular" translate="yes" xml:space="preserve">
           <source>Moving {0} item from {1} to {2}</source>
@@ -2405,11 +2322,11 @@
         </trans-unit>
         <trans-unit id="StatusMovedItemsDetails_Singular" translate="yes" xml:space="preserve">
           <source>Successfully moved {0} item from {1} to {2}</source>
-          <target state="translated">Επιτυχής μετακίνηση {0} αντικειμένου από {1} σε {2}</target>
+          <target state="translated">Επιτυχής μετακίνηση {0} στοιχείου από {1} σε {2}</target>
         </trans-unit>
         <trans-unit id="StatusMovedItemsDetails_Plural" translate="yes" xml:space="preserve">
           <source>Successfully moved {0} items from {1} to {2}</source>
-          <target state="translated">Επιτυχής μετακίνηση {0} αντικειμένων από {1} σε {2}</target>
+          <target state="translated">Επιτυχής μετακίνηση {0} στοιχείων από {1} σε {2}</target>
         </trans-unit>
         <trans-unit id="StatusMoveFailedDetails_Singular" translate="yes" xml:space="preserve">
           <source>Failed to move {0} item from {1} to {2}</source>
@@ -2417,7 +2334,7 @@
         </trans-unit>
         <trans-unit id="StatusMoveFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to move {0} items from {1} to {2}</source>
-          <target state="translated">Η μετακίνηση {0} αντικειμένων από {1} σε {2} απέτυχε</target>
+          <target state="translated">Η μετακίνηση {0} στοιχείων από {1} σε {2} απέτυχε</target>
         </trans-unit>
         <trans-unit id="StatusCopyCanceledDetails_Singular" translate="yes" xml:space="preserve">
           <source>Copying {0} item to {1} was canceled</source>
@@ -2489,11 +2406,11 @@
         </trans-unit>
         <trans-unit id="MoveInProgress" translate="yes" xml:space="preserve">
           <source>Moving items</source>
-          <target state="translated">Μετακίνηση αντικειμένων</target>
+          <target state="translated">Μετακίνηση στοιχείων</target>
         </trans-unit>
         <trans-unit id="CopyInProgress.Title" translate="yes" xml:space="preserve">
           <source>Copying items</source>
-          <target state="translated">Αντιγραφή αντικειμένων</target>
+          <target state="translated">Αντιγραφή στοιχείων</target>
         </trans-unit>
         <trans-unit id="StatusRecycleFailed" translate="yes" xml:space="preserve">
           <source>Recycle failed</source>
@@ -2503,7 +2420,7 @@
           <source>Recycle cancelled</source>
           <target state="translated">Η ανακύκλωση ακυρώθηκε</target>
         </trans-unit>
-        <trans-unit id="StatusCancellingOp" translate="yes" xml:space="preserve">
+        <trans-unit id="canceling" translate="yes" xml:space="preserve">
           <source>canceling</source>
           <target state="translated">ακύρωση</target>
         </trans-unit>
@@ -2523,11 +2440,11 @@
           <source>Security</source>
           <target state="translated">Ασφάλεια</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedPermissions.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AdvancedPermissions" translate="yes" xml:space="preserve">
           <source>Advanced permissions</source>
           <target state="translated">Προηγμένα δικαιώματα</target>
         </trans-unit>
-        <trans-unit id="SecurityAllowLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Allow" translate="yes" xml:space="preserve">
           <source>Allow</source>
           <target state="translated">Αποδοχή</target>
         </trans-unit>
@@ -2881,13 +2798,13 @@
         </trans-unit>
         <trans-unit id="SideBarHideSectionFromSideBar.Text" translate="yes" xml:space="preserve">
           <source>Hide {0} section</source>
-          <target state="translated">Απόκρυψη {0} τμήματος</target>
+          <target state="translated">Απόκρυψη τμήματος {0}</target>
         </trans-unit>
         <trans-unit id="NavSettingsButton" translate="yes" xml:space="preserve">
           <source>Settings</source>
           <target state="translated">Ρυθμίσεις</target>
         </trans-unit>
-        <trans-unit id="BundleOptionsFlyoutAddFileMenuItem.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AddFile" translate="yes" xml:space="preserve">
           <source>Add file</source>
           <target state="translated">Προσθήκη αρχείου</target>
         </trans-unit>
@@ -2897,7 +2814,7 @@
         </trans-unit>
         <trans-unit id="BundleOptionsFlyoutAddItemMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Add item...</source>
-          <target state="translated">Προσθήκη αντικειμένου...</target>
+          <target state="translated">Προσθήκη στοιχείου...</target>
         </trans-unit>
         <trans-unit id="ConsentDialogTitle" translate="yes" xml:space="preserve">
           <source>Updates available</source>
@@ -3029,29 +2946,17 @@
         </trans-unit>
         <trans-unit id="SettingsPrivacyPolicyMarkdownBlock.Text" translate="yes" xml:space="preserve">
           <source>
-*Personal Information Collection*
-Files does not collect, store, share or publish any personal information.
-
-*Non-personal Information Collection*
-
-We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
+We use App Center to track which settings are being used, find bugs, and fix crashes. Information sent to App Center is anonymous and free of any user or contextual data.
   </source>
-          <target state="needs-review-translation">
-*Συλλογή προσωπικών πληροφοριών*
-
-Η Files δεν συλλέγει, αποθηκεύει, μοιράζεται ή δημοσιεύει προσωπικές πληροφορίες.
-
-*Συλλογή μη προσωπικών πληροφοριών*
-
-Χρησιμοποιούμε το Κέντρο εφαρμογών για να παρακολουθούμε τη χρήση της εφαρμογής, να βρίσκουμε σφάλματα και να διορθώνουμε συντριβές. Όλες οι πληροφορίες που αποστέλλονται στο App Center είναι ανώνυμες και δεν περιέχουν δεδομένα χρήστη ή συμφραζόμενα.
+          <target state="translated">
+Χρησιμοποιούμε το Κέντρο Εφαρμογών για να παρακολουθούμε τη χρήση της εφαρμογής, να βρίσκουμε σφάλματα και να διορθώνουμε συντριβές. Όλες οι πληροφορίες που αποστέλλονται στο Κέντρο Εφαρμογών είναι ανώνυμες και δεν περιέχουν δεδομένα χρήστη ή συμφραζόμενα.
   </target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionName.Text" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="translated">Όνομα</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionDateModified.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateModifiedLowerCase" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="translated">Ημερομηνία τροποποίησης</target>
         </trans-unit>
@@ -3063,7 +2968,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Type</source>
           <target state="translated">Τύπος</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Descending" translate="yes" xml:space="preserve">
           <source>Descending</source>
           <target state="translated">Φθίνουσα σειρά</target>
         </trans-unit>
@@ -3094,14 +2999,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="DetailsViewHeaderFlyout_ShowFileTag.Text" translate="yes" xml:space="preserve">
           <source>File tag</source>
           <target state="translated">Ετικέτα αρχείου</target>
-        </trans-unit>
-        <trans-unit id="SettingsEditFileTags.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Edit file tags</source>
-          <target state="translated">Επεξεργασία ετικετών αρχείων</target>
-        </trans-unit>
-        <trans-unit id="SettingsEditFileTags.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Edit file tags</source>
-          <target state="translated">Επεξεργασία ετικετών αρχείων</target>
         </trans-unit>
         <trans-unit id="SettingsEditFileTagsExpander.Title" translate="yes" xml:space="preserve">
           <source>Edit file tags</source>
@@ -3157,7 +3054,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         </trans-unit>
         <trans-unit id="NoSearchResultsFound" translate="yes" xml:space="preserve">
           <source>No items found</source>
-          <target state="translated">Δεν βρέθηκαν αντικείμενα</target>
+          <target state="translated">Δεν βρέθηκαν στοιχεία</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Bundles Widget</source>
@@ -3297,11 +3194,11 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         </trans-unit>
         <trans-unit id="ExportSettings" translate="yes" xml:space="preserve">
           <source>Export Settings</source>
-          <target state="translated" state-qualifier="tm-suggestion">Ρυθμίσεις εξαγωγής</target>
+          <target state="translated">Εξαγωγή ρυθμίσεων</target>
         </trans-unit>
         <trans-unit id="ImportSettings" translate="yes" xml:space="preserve">
           <source>Import Settings</source>
-          <target state="translated" state-qualifier="tm-suggestion">Ρυθμίσεις εισαγωγής</target>
+          <target state="translated">Εισαγωγή ρυθμίσεων</target>
         </trans-unit>
         <trans-unit id="ManageSettings" translate="yes" xml:space="preserve">
           <source>Manage Settings</source>
@@ -3441,7 +3338,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         </trans-unit>
         <trans-unit id="OpenNewInstance" translate="yes" xml:space="preserve">
           <source>Open new instance when opening directories from the taskbar jumplist</source>
-          <target state="new">Open new instance when opening directories from the taskbar jumplist</target>
+          <target state="needs-review-translation">Άνοιγμα νέου παραθύρου κατά το άνοιγμα καταλόγων από τη λίστα συντομεύσεων της γραμμής εργασιών</target>
         </trans-unit>
         <trans-unit id="StartupSettings" translate="yes" xml:space="preserve">
           <source>Startup settings</source>
@@ -3452,8 +3349,8 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <target state="translated">Άδειες τρίτων</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
-          <source>This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</source>
-          <target state="translated">Αυτή η ρύθμιση τροποποιεί αρχεία του συστήματος και μπορεί να έχει απροσδόκητες παρενέργειες στη συσκευή σας. Οι προγραμματιστές δεν λαμβάνουν καμία ευθύνη σε περίπτωση που κάποιο πρόβλημα προκύψει ως αποτέλεσμα. Αν συνεχίσετε με αυτή την επιλογή αναγνωρίζετε τους κινδύνους που ενέχει αυτή η ενέργεια. Προσέξτε πως η απεγκατάση του Files δεν θα αναιρέσει αυτές τις αλλαγές και μπορεί να σας αποτρέψει από το άνοιγμα της εξερεύνησης αρχείων, εκτός αν απενεργοποιήσετε αυτή τη ρύθμιση πριν αφαιρέσετε το Files από τη συσκευή σας.</target>
+          <source>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</source>
+          <target state="translated">Αυτή η ρύθμιση τροποποιεί αρχεία του συστήματος και μπορεί να έχει απροσδόκητες παρενέργειες στη συσκευή σας. Συνεχίστε με δική σας ευθύνη.</target>
         </trans-unit>
         <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
           <source>Clear all</source>
@@ -3461,39 +3358,171 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         </trans-unit>
         <trans-unit id="Columns" translate="yes" xml:space="preserve">
           <source>Columns</source>
-          <target state="new">Columns</target>
+          <target state="translated">Στήλες</target>
         </trans-unit>
         <trans-unit id="LargeIcons" translate="yes" xml:space="preserve">
           <source>Large Icons</source>
-          <target state="new">Large Icons</target>
+          <target state="translated">Μεγάλα εικονίδια</target>
         </trans-unit>
         <trans-unit id="MediumIcons" translate="yes" xml:space="preserve">
           <source>Medium Icons</source>
-          <target state="new">Medium Icons</target>
+          <target state="translated">Μεσαία εικονίδια</target>
         </trans-unit>
         <trans-unit id="SmallIcons" translate="yes" xml:space="preserve">
           <source>Small Icons</source>
-          <target state="new">Small Icons</target>
+          <target state="translated">Μικρά εικονίδια</target>
         </trans-unit>
         <trans-unit id="Tiles" translate="yes" xml:space="preserve">
           <source>Tiles</source>
-          <target state="new">Tiles</target>
+          <target state="translated">Πλακίδια</target>
         </trans-unit>
         <trans-unit id="FolderWidgetCreateNewLibraryDialogTitleText" translate="yes" xml:space="preserve">
           <source>Create Library</source>
-          <target state="new">Create Library</target>
+          <target state="translated">Δημιουργία βιβλιοθήκης</target>
         </trans-unit>
         <trans-unit id="FolderWidgetCreateNewLibraryInputPlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter Library name</source>
-          <target state="new">Enter Library name</target>
+          <target state="translated">Εισάγετε το όνομα της βιβλιοθήκης</target>
         </trans-unit>
         <trans-unit id="ShowFolderSize" translate="yes" xml:space="preserve">
           <source>Show folder size</source>
-          <target state="new">Show folder size</target>
+          <target state="translated">Εμφάνιση μεγέθους φακέλων</target>
         </trans-unit>
-        <trans-unit id="ErrorDialogSkip" translate="yes" xml:space="preserve">
+        <trans-unit id="Skip" translate="yes" xml:space="preserve">
           <source>Skip</source>
-          <target state="new">Skip</target>
+          <target state="translated">Παράλειψη</target>
+        </trans-unit>
+        <trans-unit id="SettingsOpenInLogin" translate="yes" xml:space="preserve">
+          <source>Open Files on Windows Startup</source>
+          <target state="translated">Άνοιγμα του Files κατά την εκκίνηση των Windows</target>
+        </trans-unit>
+        <trans-unit id="Attributes" translate="yes" xml:space="preserve">
+          <source>Attributes</source>
+          <target state="translated">Χαρακτηριστικά</target>
+        </trans-unit>
+        <trans-unit id="Hidden" translate="yes" xml:space="preserve">
+          <source>Hidden</source>
+          <target state="translated">Κρυφό</target>
+        </trans-unit>
+        <trans-unit id="MoreDetails" translate="yes" xml:space="preserve">
+          <source>More details</source>
+          <target state="translated">Περισσότερες λεπτομέρειες</target>
+        </trans-unit>
+        <trans-unit id="ReadOnly" translate="yes" xml:space="preserve">
+          <source>Read only</source>
+          <target state="translated">Μόνο για ανάγνωση</target>
+        </trans-unit>
+        <trans-unit id="CleanupDrive" translate="yes" xml:space="preserve">
+          <source>Cleanup your drive contents</source>
+          <target state="translated">Εκκαθάριση των περιεχομένων του δίσκου</target>
+        </trans-unit>
+        <trans-unit id="DiskCleanup" translate="yes" xml:space="preserve">
+          <source>Disk cleanup</source>
+          <target state="translated">Εκκαθάριση δίσκου</target>
+        </trans-unit>
+        <trans-unit id="Type" translate="yes" xml:space="preserve">
+          <source>Type:</source>
+          <target state="translated">Τύπος:</target>
+        </trans-unit>
+        <trans-unit id="Bytes" translate="no" xml:space="preserve">
+          <source>Bytes</source>
+          <target state="final">Bytes</target>
+        </trans-unit>
+        <trans-unit id="Extract" translate="yes" xml:space="preserve">
+          <source>Extract</source>
+          <target state="translated">Εξαγωγή</target>
+        </trans-unit>
+        <trans-unit id="ExtractFiles" translate="yes" xml:space="preserve">
+          <source>Extract files</source>
+          <target state="translated">Εξαγωγή αρχείων</target>
+        </trans-unit>
+        <trans-unit id="ExtractHere" translate="yes" xml:space="preserve">
+          <source>Extract here</source>
+          <target state="translated">Εξαγωγή εδώ</target>
+        </trans-unit>
+        <trans-unit id="ExtractKeyboardAcceleratorTextOverride" translate="no" xml:space="preserve">
+          <source>Ctrl+E</source>
+          <target state="final">Ctrl+E</target>
+        </trans-unit>
+        <trans-unit id="ExtractToChildFolder" translate="yes" xml:space="preserve">
+          <source>Extract to {0}</source>
+          <target state="translated">Αποσυμπίεση στο {0}</target>
+        </trans-unit>
+        <trans-unit id="RunScript" translate="yes" xml:space="preserve">
+          <source>Run script</source>
+          <target state="translated">Εκτέλεση script</target>
+        </trans-unit>
+        <trans-unit id="RunWithPowerShell" translate="yes" xml:space="preserve">
+          <source>Run with PowerShell</source>
+          <target state="translated">Άνοιγμα με PowerShell</target>
+        </trans-unit>
+        <trans-unit id="SetAsBackground" translate="yes" xml:space="preserve">
+          <source>Set as desktop background</source>
+          <target state="translated">Ορισμός ως φόντου επιφάνειας εργασίας</target>
+        </trans-unit>
+        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
+          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
+          <target state="translated">Μην αφαιρέσετε το Files από την συσκευή σας χωρίς να απενεργοποιήσετε αυτή τη ρύθμιση. Εαν δεν το κάνετε δεν θα μπορέσετε να ανοίξετε την Εξερεύνηση Αρχείων.</target>
+        </trans-unit>
+        <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
+          <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
+          <target state="translated">Ο υπολογισμός μεγέθους των φακέλων είναι υπολογιστικά απαιτητικός και μπορεί να προκαλέσει αύξηση της χρήσης του επεξεργαστή.</target>
+        </trans-unit>
+        <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
+          <source>Open in</source>
+          <target state="translated">Άνοιγμα σε</target>
+        </trans-unit>
+        <trans-unit id="RotateLeft" translate="yes" xml:space="preserve">
+          <source>Rotate left</source>
+          <target state="translated">Περιστροφή αριστερά</target>
+        </trans-unit>
+        <trans-unit id="RotateRight" translate="yes" xml:space="preserve">
+          <source>Rotate right</source>
+          <target state="translated">Περιστροφή δεξιά</target>
+        </trans-unit>
+        <trans-unit id="Install" translate="yes" xml:space="preserve">
+          <source>Install</source>
+          <target state="translated">Εγκατάσταση</target>
+        </trans-unit>
+        <trans-unit id="CloseTabsToTheLeft" translate="yes" xml:space="preserve">
+          <source>Close tabs to the left</source>
+          <target state="translated">Κλείσιμο καρτέλων αριστερά</target>
+        </trans-unit>
+        <trans-unit id="CloseTabsToTheRight" translate="yes" xml:space="preserve">
+          <source>Close tabs to the right</source>
+          <target state="translated">Κλείσιμο καρτέλων δεξιά</target>
+        </trans-unit>
+        <trans-unit id="ShowDotFiles" translate="yes" xml:space="preserve">
+          <source>Show dot files</source>
+          <target state="needs-review-translation">Εμφάνιση dot files</target>
+        </trans-unit>
+        <trans-unit id="CloseOtherTabs" translate="yes" xml:space="preserve">
+          <source>Close other tabs</source>
+          <target state="translated">Κλείσιμο των άλλων καρτέλων</target>
+        </trans-unit>
+        <trans-unit id="Music" translate="yes" xml:space="preserve">
+          <source>Music</source>
+          <target state="translated">Μουσική</target>
+        </trans-unit>
+        <trans-unit id="Pictures" translate="yes" xml:space="preserve">
+          <source>Pictures</source>
+          <target state="translated">Εικόνες</target>
+        </trans-unit>
+        <trans-unit id="Videos" translate="yes" xml:space="preserve">
+          <source>Videos</source>
+          <target state="translated">Βίντεο</target>
+        </trans-unit>
+        <trans-unit id="UpdateFiles" translate="yes" xml:space="preserve">
+          <source>Update Files</source>
+          <target state="translated">Ενημέρωση του Files</target>
+        </trans-unit>
+        <trans-unit id="StatusPreparingItemsDetails_Plural" translate="yes" xml:space="preserve">
+          <source>Preparing {0} items</source>
+          <target state="translated">Προετοιμασία {0} στοιχείων</target>
+        </trans-unit>
+        <trans-unit id="PrepareInProgress" translate="yes" xml:space="preserve">
+          <source>Preparing items</source>
+          <target state="translated">Προετοιμασία στοιχείων</target>
         </trans-unit>
       </group>
     </body>

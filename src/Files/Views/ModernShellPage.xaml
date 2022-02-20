@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="RootPage"
-    Background="{ThemeResource FileBrowserBackgroundBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
     Loaded="Page_Loaded"
     mc:Ignorable="d">
@@ -19,6 +18,11 @@
     </Page.Resources>
 
     <Page.KeyboardAccelerators>
+        <KeyboardAccelerator
+            Key="E"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control" />
         <KeyboardAccelerator
             Key="Z"
             Invoked="KeyboardAccelerator_Invoked"
@@ -100,6 +104,11 @@
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Menu" />
         <KeyboardAccelerator
+            Key="K"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control,Shift" />
+        <KeyboardAccelerator
             Key="F2"
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
@@ -153,27 +162,12 @@
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Control,Shift" />
     </Page.KeyboardAccelerators>
-    <Grid
-        x:Name="RootGrid"
+
+    <Frame
+        x:Name="ItemDisplayFrame"
+        HorizontalAlignment="Stretch"
+        x:FieldModifier="public"
         BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
-        BorderThickness="{x:Bind CurrentInstanceBorderThickness, Mode=OneWay}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="2*" />
-        </Grid.RowDefinitions>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-
-        <Frame
-            x:Name="ItemDisplayFrame"
-            Grid.Row="2"
-            HorizontalAlignment="Stretch"
-            x:FieldModifier="public"
-            Background="{ThemeResource FileBrowserBackgroundBrush}"
-            Navigated="ItemDisplayFrame_Navigated" />
-    </Grid>
+        BorderThickness="{x:Bind CurrentInstanceBorderThickness, Mode=OneWay}"
+        Navigated="ItemDisplayFrame_Navigated" />
 </Page>

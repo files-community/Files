@@ -31,12 +31,6 @@
                 </TransitionCollection>
             </StackPanel.ChildrenTransitions>
 
-            <TextBlock
-                Padding="0,0,0,12"
-                FontSize="20"
-                FontWeight="Medium"
-                Text="{helpers:ResourceString Name=About}" />
-
             <local:SettingsBlockControl
                 Title="{x:Bind ViewModel.AppName}"
                 HorizontalAlignment="Stretch"

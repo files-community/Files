@@ -1,13 +1,9 @@
 ﻿using Common;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using Files.Models.JsonSettings;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml.Media;
@@ -39,6 +35,11 @@ namespace Files.Filesystem
 
         public static void WriteFileTag(string filePath, string tag)
         {
+            var isReadOnly = NativeFileOperationsHelper.HasFileAttribute(filePath, System.IO.FileAttributes.ReadOnly);
+            if (isReadOnly) // Unset read-only attribute (#7534)
+            {
+                NativeFileOperationsHelper.UnsetFileAttribute(filePath, System.IO.FileAttributes.ReadOnly);
+            }
             if (tag == null)
             {
                 NativeFileOperationsHelper.DeleteFileFromApp($"{filePath}:files");
@@ -46,6 +47,10 @@ namespace Files.Filesystem
             else if (ReadFileTag(filePath) != tag)
             {
                 NativeFileOperationsHelper.WriteStringToFile($"{filePath}:files", tag);
+            }
+            if (isReadOnly) // Restore read-only attribute (#7534)
+            {
+                NativeFileOperationsHelper.SetFileAttribute(filePath, System.IO.FileAttributes.ReadOnly);
             }
         }
 

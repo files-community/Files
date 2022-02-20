@@ -90,12 +90,20 @@ namespace Files.Interacts
 
         void SearchUnindexedItems(RoutedEventArgs e);
 
-        void CreateFolderWithSelection(RoutedEventArgs e);
+        Task CreateFolderWithSelection(RoutedEventArgs e);
 
-        void DecompressArchive();
+        Task DecompressArchive();
 
-        void DecompressArchiveHere();
+        Task DecompressArchiveHere();
 
-        void DecompressArchiveToChildFolder();
+        Task DecompressArchiveToChildFolder();
+
+        Task InstallInfDriver();
+
+        Task RotateImageLeft();
+
+        Task RotateImageRight();
+
+        Task InstallFont();
     }
 }

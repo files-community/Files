@@ -8,6 +8,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:datamodels="using:Files.DataModels"
     xmlns:helpers="using:Files.Helpers"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Files.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
@@ -29,13 +31,6 @@
                     <EntranceThemeTransition />
                 </TransitionCollection>
             </StackPanel.ChildrenTransitions>
-
-            <TextBlock
-                x:Uid="SettingsPreferencesTitle"
-                Padding="0,0,0,12"
-                FontSize="20"
-                FontWeight="Medium"
-                Text="Preferences" />
 
             <local:SettingsBlockControl
                 x:Uid="SettingsPreferencesAppLanguage"
@@ -85,7 +80,7 @@
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="datamodels:Terminal">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                                <TextBlock Text="{x:Bind Name}" />
                             </StackPanel>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
@@ -156,7 +151,17 @@
                                 IsOn="{Binding AreHiddenItemsVisible, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
-
+                        
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowDotFiles}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE7B3;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=ShowDotFiles}"
+                                IsOn="{Binding ShowDotFiles, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+                        
                         <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}" HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon contract13NotPresent:Glyph="&#xE72E;" contract13Present:Glyph="&#xED1A;" />
@@ -280,17 +285,15 @@
                                         </AppBarButton.Flyout>
                                     </AppBarButton>
                                     <AppBarButton
-                                        x:Uid="AppBarButtonEdit"
                                         Command="{Binding ChangePageCommand}"
                                         Icon="Edit"
                                         IsEnabled="{Binding IsPageListEditEnabled}"
-                                        Label="Edit" />
+                                        Label="{helpers:ResourceString Name=Edit}" />
                                     <AppBarButton
-                                        x:Uid="AppBarButtonRemove"
                                         Command="{Binding RemovePageCommand}"
                                         Icon="Delete"
                                         IsEnabled="{Binding IsPageListEditEnabled}"
-                                        Label="Remove" />
+                                        Label="{helpers:ResourceString Name=Remove}" />
                                 </CommandBar>
 
                                 <ListView
@@ -325,6 +328,23 @@
                                 AutomationProperties.Name="{helpers:ResourceString Name=OpenNewInstance}"
                                 IsOn="{Binding AlwaysOpenANewInstance, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenInLogin}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE7E8;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenInLogin}"
+                                IsEnabled="{Binding CanOpenInLogin, Mode=OneWay}"
+                                IsOn="{Binding OpenInLogin, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}">
+                                <i:Interaction.Behaviors>
+                                    <icore:EventTriggerBehavior EventName="Toggled">
+                                        <icore:InvokeCommandAction Command="{Binding OpenFilesAtStartupCommand, Mode=OneWay}" />
+                                    </icore:EventTriggerBehavior>
+                                </i:Interaction.Behaviors>
+                            </ToggleSwitch>
                         </local:SettingsBlockControl>
                     </StackPanel>
                 </local:SettingsBlockControl.ExpandableContent>

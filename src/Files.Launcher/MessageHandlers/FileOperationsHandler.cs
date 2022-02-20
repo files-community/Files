@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
@@ -19,7 +20,8 @@ using Windows.Foundation.Collections;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    public class FileOperationsHandler : IMessageHandler
+    [SupportedOSPlatform("Windows10.0.10240")]
+    public class FileOperationsHandler : Disposable, IMessageHandler
     {
         private FileTagsDb dbInstance;
         private ProgressHandler progressHandler;
@@ -77,20 +79,12 @@ namespace FilesFullTrust.MessageHandlers
                         var operation = (DataPackageOperation)(long)message["operation"];
                         var fileList = new System.Collections.Specialized.StringCollection();
                         fileList.AddRange(fileToCopy.Split('|'));
-                        if (operation == DataPackageOperation.Copy)
-                        {
-                            System.Windows.Forms.Clipboard.SetFileDropList(fileList);
-                        }
-                        else if (operation == DataPackageOperation.Move)
-                        {
-                            byte[] moveEffect = new byte[] { 2, 0, 0, 0 };
-                            MemoryStream dropEffect = new MemoryStream();
-                            dropEffect.Write(moveEffect, 0, moveEffect.Length);
-                            var data = new System.Windows.Forms.DataObject();
-                            data.SetFileDropList(fileList);
-                            data.SetData("Preferred DropEffect", dropEffect);
-                            System.Windows.Forms.Clipboard.SetDataObject(data, true);
-                        }
+                        MemoryStream dropEffect = new MemoryStream(operation == DataPackageOperation.Copy ?
+                            new byte[] { 5, 0, 0, 0 } : new byte[] { 2, 0, 0, 0 });
+                        var data = new System.Windows.Forms.DataObject();
+                        data.SetFileDropList(fileList);
+                        data.SetData("Preferred DropEffect", dropEffect);
+                        System.Windows.Forms.Clipboard.SetDataObject(data, true);
                         return true;
                     });
                     break;
@@ -114,10 +108,8 @@ namespace FilesFullTrust.MessageHandlers
                                     }
 
                                     string uniqueName = Win32API.GenerateUniquePath(Path.Combine(dropPath, package.Name));
-                                    using (FileStream stream = new FileStream(uniqueName, FileMode.CreateNew))
-                                    {
-                                        package.ContentStream.CopyTo(stream);
-                                    }
+                                    using FileStream stream = new FileStream(uniqueName, FileMode.CreateNew);
+                                    package.ContentStream.CopyTo(stream);
                                 }
                                 else
                                 {
@@ -146,55 +138,139 @@ namespace FilesFullTrust.MessageHandlers
                         var dataStr = message.Get("data", (string)null);
                         var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
                         {
-                            using (var op = new ShellFileOperations())
+                            using var op = new ShellFileOperations();
+
+                            op.Options = ShellFileOperations.OperationFlags.Silent
+                                        | ShellFileOperations.OperationFlags.NoConfirmMkDir
+                                        | ShellFileOperations.OperationFlags.RenameOnCollision
+                                        | ShellFileOperations.OperationFlags.NoErrorUI;
+
+                            var shellOperationResult = new ShellOperationResult();
+
+                            if (!Extensions.IgnoreExceptions(() =>
                             {
-                                op.Options = ShellFileOperations.OperationFlags.Silent
-                                            | ShellFileOperations.OperationFlags.NoConfirmMkDir
-                                            | ShellFileOperations.OperationFlags.RenameOnCollision
-                                            | ShellFileOperations.OperationFlags.NoErrorUI;
-
-                                var shellOperationResult = new ShellOperationResult();
-
                                 using var shd = new ShellFolder(Path.GetDirectoryName(filePath));
                                 op.QueueNewItemOperation(shd, Path.GetFileName(filePath),
                                     (string)message["fileop"] == "CreateFolder" ? FileAttributes.Directory : FileAttributes.Normal, template);
+                            }))
+                            {
+                                shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                {
+                                    Succeeded = false,
+                                    Destination = filePath,
+                                    HResult = (int)-1
+                                });
+                            }
 
-                                var createTcs = new TaskCompletionSource<bool>();
-                                op.PostNewItem += (s, e) =>
+                            var createTcs = new TaskCompletionSource<bool>();
+                            op.PostNewItem += (s, e) =>
+                            {
+                                shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                {
+                                    Succeeded = e.Result.Succeeded,
+                                    Destination = e.DestItem.GetParsingPath(),
+                                    HResult = (int)e.Result
+                                });
+                            };
+                            op.FinishOperations += (s, e) => createTcs.TrySetResult(e.Result.Succeeded);
+
+                            try
+                            {
+                                op.PerformOperations();
+                            }
+                            catch
+                            {
+                                createTcs.TrySetResult(false);
+                            }
+
+                            if (dataStr != null && (shellOperationResult.Items.SingleOrDefault()?.Succeeded ?? false))
+                            {
+                                Extensions.IgnoreExceptions(() =>
+                                {
+                                    var dataBytes = Convert.FromBase64String(dataStr);
+                                    using var fs = new FileStream(shellOperationResult.Items.Single().Destination, FileMode.Open);
+                                    fs.Write(dataBytes, 0, dataBytes.Length);
+                                    fs.Flush();
+                                }, Program.Logger);
+                            }
+
+                            return (await createTcs.Task, shellOperationResult);
+                        });
+                        await Win32API.SendMessageAsync(connection, new ValueSet() {
+                            { "Success", success },
+                            { "Result", JsonConvert.SerializeObject(shellOperationResult) }
+                        }, message.Get("RequestID", (string)null));
+                    }
+                    break;
+
+                case "TestRecycle":
+                    {
+                        var fileToDeletePath = ((string)message["filepath"]).Split('|');
+                        var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
+                        {
+                            using var op = new ShellFileOperations();
+
+                            op.Options = ShellFileOperations.OperationFlags.Silent
+                                        | ShellFileOperations.OperationFlags.NoConfirmation
+                                        | ShellFileOperations.OperationFlags.NoErrorUI;
+                            op.Options |= ShellFileOperations.OperationFlags.RecycleOnDelete;
+
+                            var shellOperationResult = new ShellOperationResult();
+
+                            for (var i = 0; i < fileToDeletePath.Length; i++)
+                            {
+                                if (!Extensions.IgnoreExceptions(() =>
+                                {
+                                    using var shi = new ShellItem(fileToDeletePath[i]);
+                                    var file = Extensions.IgnoreExceptions(() => GetFirstFile(shi)) ?? shi;
+                                    op.QueueDeleteOperation(file);
+                                }))
                                 {
                                     shellOperationResult.Items.Add(new ShellOperationItemResult()
                                     {
-                                        Succeeded = e.Result.Succeeded,
-                                        Destination = e.DestItem?.FileSystemPath,
-                                        HRresult = (int)e.Result
+                                        Succeeded = false,
+                                        Source = fileToDeletePath[i],
+                                        HResult = (int)-1
                                     });
-                                };
-                                op.FinishOperations += (s, e) => createTcs.TrySetResult(e.Result.Succeeded);
-
-                                try
-                                {
-                                    op.PerformOperations();
                                 }
-                                catch
-                                {
-                                    createTcs.TrySetResult(false);
-                                }
-
-                                if (dataStr != null && (shellOperationResult.Items.SingleOrDefault()?.Succeeded ?? false))
-                                {
-                                    Extensions.IgnoreExceptions(() =>
-                                    {
-                                        var dataBytes = Convert.FromBase64String(dataStr);
-                                        using (var fs = new FileStream(shellOperationResult.Items.Single().Destination, FileMode.Open))
-                                        {
-                                            fs.Write(dataBytes, 0, dataBytes.Length);
-                                            fs.Flush();
-                                        }
-                                    }, Program.Logger);
-                                }
-
-                                return (await createTcs.Task, shellOperationResult);
                             }
+
+                            var deleteTcs = new TaskCompletionSource<bool>();
+                            op.PreDeleteItem += (s, e) =>
+                            {
+                                if (!e.Flags.HasFlag(ShellFileOperations.TransferFlags.DeleteRecycleIfPossible))
+                                {
+                                    shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                    {
+                                        Succeeded = false,
+                                        Source = e.SourceItem.GetParsingPath(),
+                                        HResult = (int)HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND
+                                    });
+                                    throw new Win32Exception(HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND); // E_FAIL, stops operation
+                                }
+                                else
+                                {
+                                    shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                    {
+                                        Succeeded = true,
+                                        Source = e.SourceItem.GetParsingPath(),
+                                        HResult = (int)HRESULT.COPYENGINE_E_USER_CANCELLED
+                                    });
+                                    throw new Win32Exception(HRESULT.COPYENGINE_E_USER_CANCELLED); // E_FAIL, stops operation
+                                }
+                            };
+                            op.FinishOperations += (s, e) => deleteTcs.TrySetResult(e.Result.Succeeded);
+
+                            try
+                            {
+                                op.PerformOperations();
+                            }
+                            catch
+                            {
+                                deleteTcs.TrySetResult(false);
+                            }
+
+                            return (await deleteTcs.Task, shellOperationResult);
                         });
                         await Win32API.SendMessageAsync(connection, new ValueSet() {
                             { "Success", success },
@@ -211,71 +287,80 @@ namespace FilesFullTrust.MessageHandlers
                         var ownerHwnd = (long)message["HWND"];
                         var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
                         {
-                            using (var op = new ShellFileOperations())
+                            using var op = new ShellFileOperations();
+                            op.Options = ShellFileOperations.OperationFlags.Silent
+                                        | ShellFileOperations.OperationFlags.NoConfirmation
+                                        | ShellFileOperations.OperationFlags.NoErrorUI;
+                            op.OwnerWindow = Win32API.Win32Window.FromLong(ownerHwnd);
+                            if (!permanently)
                             {
-                                op.Options = ShellFileOperations.OperationFlags.Silent
-                                            | ShellFileOperations.OperationFlags.NoConfirmation
-                                            | ShellFileOperations.OperationFlags.NoErrorUI;
-                                op.OwnerWindow = Win32API.Win32Window.FromLong(ownerHwnd);
-                                if (!permanently)
-                                {
-                                    op.Options |= ShellFileOperations.OperationFlags.RecycleOnDelete
-                                                | ShellFileOperations.OperationFlags.WantNukeWarning;
-                                }
+                                op.Options |= ShellFileOperations.OperationFlags.RecycleOnDelete
+                                            | ShellFileOperations.OperationFlags.WantNukeWarning;
+                            }
 
-                                var shellOperationResult = new ShellOperationResult();
+                            var shellOperationResult = new ShellOperationResult();
 
-                                for (var i = 0; i < fileToDeletePath.Length; i++)
+                            for (var i = 0; i < fileToDeletePath.Length; i++)
+                            {
+                                if (!Extensions.IgnoreExceptions(() =>
                                 {
                                     using var shi = new ShellItem(fileToDeletePath[i]);
                                     op.QueueDeleteOperation(shi);
-                                }
-
-                                progressHandler.OwnerWindow = op.OwnerWindow;
-                                progressHandler.AddOperation(operationID);
-
-                                var deleteTcs = new TaskCompletionSource<bool>();
-                                op.PreDeleteItem += (s, e) =>
-                                {
-                                    if (!permanently && !e.Flags.HasFlag(ShellFileOperations.TransferFlags.DeleteRecycleIfPossible))
-                                    {
-                                        throw new Win32Exception(HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND); // E_FAIL, stops operation
-                                    }
-                                };
-                                op.PostDeleteItem += (s, e) =>
+                                }))
                                 {
                                     shellOperationResult.Items.Add(new ShellOperationItemResult()
                                     {
-                                        Succeeded = e.Result.Succeeded,
-                                        Source = e.SourceItem.FileSystemPath ?? e.SourceItem.ParsingName,
-                                        Destination = e.DestItem?.FileSystemPath,
-                                        HRresult = (int)e.Result
+                                        Succeeded = false,
+                                        Source = fileToDeletePath[i],
+                                        HResult = (int)-1
                                     });
-                                };
-                                op.PostDeleteItem += (s, e) => UpdateFileTagsDb(s, e, "delete");
-                                op.FinishOperations += (s, e) => deleteTcs.TrySetResult(e.Result.Succeeded);
-                                op.UpdateProgress += (s, e) =>
-                                {
-                                    if (progressHandler.CheckCanceled(operationID))
-                                    {
-                                        throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
-                                    }
-                                    progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
-                                };
-
-                                try
-                                {
-                                    op.PerformOperations();
                                 }
-                                catch
-                                {
-                                    deleteTcs.TrySetResult(false);
-                                }
-
-                                progressHandler.RemoveOperation(operationID);
-
-                                return (await deleteTcs.Task, shellOperationResult);
                             }
+
+                            progressHandler.OwnerWindow = op.OwnerWindow;
+                            progressHandler.AddOperation(operationID);
+
+                            var deleteTcs = new TaskCompletionSource<bool>();
+                            op.PreDeleteItem += (s, e) =>
+                            {
+                                if (!permanently && !e.Flags.HasFlag(ShellFileOperations.TransferFlags.DeleteRecycleIfPossible))
+                                {
+                                    throw new Win32Exception(HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND); // E_FAIL, stops operation
+                                }
+                            };
+                            op.PostDeleteItem += (s, e) =>
+                            {
+                                shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                {
+                                    Succeeded = e.Result.Succeeded,
+                                    Source = e.SourceItem.GetParsingPath(),
+                                    Destination = e.DestItem.GetParsingPath(),
+                                    HResult = (int)e.Result
+                                });
+                            };
+                            op.PostDeleteItem += (_, e) => UpdateFileTagsDb(e, "delete");
+                            op.FinishOperations += (s, e) => deleteTcs.TrySetResult(e.Result.Succeeded);
+                            op.UpdateProgress += (s, e) =>
+                            {
+                                if (progressHandler.CheckCanceled(operationID))
+                                {
+                                    throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
+                                }
+                                progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
+                            };
+
+                            try
+                            {
+                                op.PerformOperations();
+                            }
+                            catch
+                            {
+                                deleteTcs.TrySetResult(false);
+                            }
+
+                            progressHandler.RemoveOperation(operationID);
+
+                            return (await deleteTcs.Task, shellOperationResult);
                         });
                         await Win32API.SendMessageAsync(connection, new ValueSet() {
                             { "Success", success },
@@ -292,47 +377,56 @@ namespace FilesFullTrust.MessageHandlers
                         var overwriteOnRename = (bool)message["overwrite"];
                         var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
                         {
-                            using (var op = new ShellFileOperations())
+                            using var op = new ShellFileOperations();
+                            var shellOperationResult = new ShellOperationResult();
+
+                            op.Options = ShellFileOperations.OperationFlags.Silent
+                                      | ShellFileOperations.OperationFlags.NoErrorUI;
+                            op.Options |= !overwriteOnRename ? ShellFileOperations.OperationFlags.RenameOnCollision : 0;
+
+                            if (!Extensions.IgnoreExceptions(() =>
                             {
-                                var shellOperationResult = new ShellOperationResult();
-
-                                op.Options = ShellFileOperations.OperationFlags.Silent
-                                          | ShellFileOperations.OperationFlags.NoErrorUI;
-                                op.Options |= !overwriteOnRename ? ShellFileOperations.OperationFlags.RenameOnCollision : 0;
-
                                 using var shi = new ShellItem(fileToRenamePath);
                                 op.QueueRenameOperation(shi, newName);
-
-                                progressHandler.OwnerWindow = op.OwnerWindow;
-                                progressHandler.AddOperation(operationID);
-
-                                var renameTcs = new TaskCompletionSource<bool>();
-                                op.PostRenameItem += (s, e) =>
+                            }))
+                            {
+                                shellOperationResult.Items.Add(new ShellOperationItemResult()
                                 {
-                                    shellOperationResult.Items.Add(new ShellOperationItemResult()
-                                    {
-                                        Succeeded = e.Result.Succeeded,
-                                        Source = e.SourceItem.FileSystemPath ?? e.SourceItem.ParsingName,
-                                        Destination = !string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(e.SourceItem.FileSystemPath), e.Name) : null,
-                                        HRresult = (int)e.Result
-                                    });
-                                };
-                                op.PostRenameItem += (s, e) => UpdateFileTagsDb(s, e, "rename");
-                                op.FinishOperations += (s, e) => renameTcs.TrySetResult(e.Result.Succeeded);
-
-                                try
-                                {
-                                    op.PerformOperations();
-                                }
-                                catch
-                                {
-                                    renameTcs.TrySetResult(false);
-                                }
-
-                                progressHandler.RemoveOperation(operationID);
-
-                                return (await renameTcs.Task, shellOperationResult);
+                                    Succeeded = false,
+                                    Source = fileToRenamePath,
+                                    HResult = (int)-1
+                                });
                             }
+
+                            progressHandler.OwnerWindow = op.OwnerWindow;
+                            progressHandler.AddOperation(operationID);
+
+                            var renameTcs = new TaskCompletionSource<bool>();
+                            op.PostRenameItem += (s, e) =>
+                            {
+                                shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                {
+                                    Succeeded = e.Result.Succeeded,
+                                    Source = e.SourceItem.GetParsingPath(),
+                                    Destination = !string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(e.SourceItem.GetParsingPath()), e.Name) : null,
+                                    HResult = (int)e.Result
+                                });
+                            };
+                            op.PostRenameItem += (_, e) => UpdateFileTagsDb(e, "rename");
+                            op.FinishOperations += (s, e) => renameTcs.TrySetResult(e.Result.Succeeded);
+
+                            try
+                            {
+                                op.PerformOperations();
+                            }
+                            catch
+                            {
+                                renameTcs.TrySetResult(false);
+                            }
+
+                            progressHandler.RemoveOperation(operationID);
+
+                            return (await renameTcs.Task, shellOperationResult);
                         });
                         await Win32API.SendMessageAsync(connection, new ValueSet() {
                             { "Success", success },
@@ -350,64 +444,72 @@ namespace FilesFullTrust.MessageHandlers
                         var ownerHwnd = (long)message["HWND"];
                         var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
                         {
-                            using (var op = new ShellFileOperations())
+                            using var op = new ShellFileOperations();
+                            var shellOperationResult = new ShellOperationResult();
+
+                            op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
+                                        | ShellFileOperations.OperationFlags.Silent
+                                        | ShellFileOperations.OperationFlags.NoErrorUI;
+                            op.OwnerWindow = Win32API.Win32Window.FromLong(ownerHwnd);
+                            op.Options |= !overwriteOnMove ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
+                                : ShellFileOperations.OperationFlags.NoConfirmation;
+
+                            for (var i = 0; i < fileToMovePath.Length; i++)
                             {
-                                var shellOperationResult = new ShellOperationResult();
-
-                                op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
-                                            | ShellFileOperations.OperationFlags.Silent
-                                            | ShellFileOperations.OperationFlags.NoErrorUI;
-                                op.OwnerWindow = Win32API.Win32Window.FromLong(ownerHwnd);
-                                op.Options |= !overwriteOnMove ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
-                                    : ShellFileOperations.OperationFlags.NoConfirmation;
-
-                                for (var i = 0; i < fileToMovePath.Length; i++)
+                                if (!Extensions.IgnoreExceptions(() =>
                                 {
-                                    using (ShellItem shi = new ShellItem(fileToMovePath[i]))
-                                    using (ShellFolder shd = new ShellFolder(Path.GetDirectoryName(moveDestination[i])))
-                                    {
-                                        op.QueueMoveOperation(shi, shd, Path.GetFileName(moveDestination[i]));
-                                    }
-                                }
-
-                                progressHandler.OwnerWindow = op.OwnerWindow;
-                                progressHandler.AddOperation(operationID);
-
-                                var moveTcs = new TaskCompletionSource<bool>();
-                                op.PostMoveItem += (s, e) =>
+                                    using ShellItem shi = new ShellItem(fileToMovePath[i]);
+                                    using ShellFolder shd = new ShellFolder(Path.GetDirectoryName(moveDestination[i]));
+                                    op.QueueMoveOperation(shi, shd, Path.GetFileName(moveDestination[i]));
+                                }))
                                 {
                                     shellOperationResult.Items.Add(new ShellOperationItemResult()
                                     {
-                                        Succeeded = e.Result.Succeeded,
-                                        Source = e.SourceItem.FileSystemPath ?? e.SourceItem.ParsingName,
-                                        Destination = e.DestFolder?.FileSystemPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null,
-                                        HRresult = (int)e.Result
+                                        Succeeded = false,
+                                        Source = fileToMovePath[i],
+                                        Destination = moveDestination[i],
+                                        HResult = (int)-1
                                     });
-                                };
-                                op.PostMoveItem += (s, e) => UpdateFileTagsDb(s, e, "move");
-                                op.FinishOperations += (s, e) => moveTcs.TrySetResult(e.Result.Succeeded);
-                                op.UpdateProgress += (s, e) =>
-                                {
-                                    if (progressHandler.CheckCanceled(operationID))
-                                    {
-                                        throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
-                                    }
-                                    progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
-                                };
-
-                                try
-                                {
-                                    op.PerformOperations();
                                 }
-                                catch
-                                {
-                                    moveTcs.TrySetResult(false);
-                                }
-
-                                progressHandler.RemoveOperation(operationID);
-
-                                return (await moveTcs.Task, shellOperationResult);
                             }
+
+                            progressHandler.OwnerWindow = op.OwnerWindow;
+                            progressHandler.AddOperation(operationID);
+
+                            var moveTcs = new TaskCompletionSource<bool>();
+                            op.PostMoveItem += (s, e) =>
+                            {
+                                shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                {
+                                    Succeeded = e.Result.Succeeded,
+                                    Source = e.SourceItem.GetParsingPath(),
+                                    Destination = e.DestFolder.GetParsingPath() != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.GetParsingPath(), e.Name) : null,
+                                    HResult = (int)e.Result
+                                });
+                            };
+                            op.PostMoveItem += (_, e) => UpdateFileTagsDb(e, "move");
+                            op.FinishOperations += (s, e) => moveTcs.TrySetResult(e.Result.Succeeded);
+                            op.UpdateProgress += (s, e) =>
+                            {
+                                if (progressHandler.CheckCanceled(operationID))
+                                {
+                                    throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
+                                }
+                                progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
+                            };
+
+                            try
+                            {
+                                op.PerformOperations();
+                            }
+                            catch
+                            {
+                                moveTcs.TrySetResult(false);
+                            }
+
+                            progressHandler.RemoveOperation(operationID);
+
+                            return (await moveTcs.Task, shellOperationResult);
                         });
                         await Win32API.SendMessageAsync(connection, new ValueSet() {
                             { "Success", success },
@@ -425,64 +527,73 @@ namespace FilesFullTrust.MessageHandlers
                         var ownerHwnd = (long)message["HWND"];
                         var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
                         {
-                            using (var op = new ShellFileOperations())
+                            using var op = new ShellFileOperations();
+
+                            var shellOperationResult = new ShellOperationResult();
+
+                            op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
+                                        | ShellFileOperations.OperationFlags.Silent
+                                        | ShellFileOperations.OperationFlags.NoErrorUI;
+                            op.OwnerWindow = Win32API.Win32Window.FromLong(ownerHwnd);
+                            op.Options |= !overwriteOnCopy ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
+                                : ShellFileOperations.OperationFlags.NoConfirmation;
+
+                            for (var i = 0; i < fileToCopyPath.Length; i++)
                             {
-                                var shellOperationResult = new ShellOperationResult();
-
-                                op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
-                                            | ShellFileOperations.OperationFlags.Silent
-                                            | ShellFileOperations.OperationFlags.NoErrorUI;
-                                op.OwnerWindow = Win32API.Win32Window.FromLong(ownerHwnd);
-                                op.Options |= !overwriteOnCopy ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
-                                    : ShellFileOperations.OperationFlags.NoConfirmation;
-
-                                for (var i = 0; i < fileToCopyPath.Length; i++)
+                                if (!Extensions.IgnoreExceptions(() =>
                                 {
-                                    using (ShellItem shi = new ShellItem(fileToCopyPath[i]))
-                                    using (ShellFolder shd = new ShellFolder(Path.GetDirectoryName(copyDestination[i])))
-                                    {
-                                        op.QueueCopyOperation(shi, shd, Path.GetFileName(copyDestination[i]));
-                                    }
-                                }
-
-                                progressHandler.OwnerWindow = op.OwnerWindow;
-                                progressHandler.AddOperation(operationID);
-
-                                var copyTcs = new TaskCompletionSource<bool>();
-                                op.PostCopyItem += (s, e) =>
+                                    using ShellItem shi = new ShellItem(fileToCopyPath[i]);
+                                    using ShellFolder shd = new ShellFolder(Path.GetDirectoryName(copyDestination[i]));
+                                    op.QueueCopyOperation(shi, shd, Path.GetFileName(copyDestination[i]));
+                                }))
                                 {
                                     shellOperationResult.Items.Add(new ShellOperationItemResult()
                                     {
-                                        Succeeded = e.Result.Succeeded,
-                                        Source = e.SourceItem.FileSystemPath ?? e.SourceItem.ParsingName,
-                                        Destination = e.DestFolder?.FileSystemPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null,
-                                        HRresult = (int)e.Result
+                                        Succeeded = false,
+                                        Source = fileToCopyPath[i],
+                                        Destination = copyDestination[i],
+                                        HResult = (int)-1
                                     });
-                                };
-                                op.PostCopyItem += (s, e) => UpdateFileTagsDb(s, e, "copy");
-                                op.FinishOperations += (s, e) => copyTcs.TrySetResult(e.Result.Succeeded);
-                                op.UpdateProgress += (s, e) =>
-                                {
-                                    if (progressHandler.CheckCanceled(operationID))
-                                    {
-                                        throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
-                                    }
-                                    progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
-                                };
-
-                                try
-                                {
-                                    op.PerformOperations();
                                 }
-                                catch
-                                {
-                                    copyTcs.TrySetResult(false);
-                                }
-
-                                progressHandler.RemoveOperation(operationID);
-
-                                return (await copyTcs.Task, shellOperationResult);
                             }
+
+                            progressHandler.OwnerWindow = op.OwnerWindow;
+                            progressHandler.AddOperation(operationID);
+
+                            var copyTcs = new TaskCompletionSource<bool>();
+                            op.PostCopyItem += (s, e) =>
+                            {
+                                shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                {
+                                    Succeeded = e.Result.Succeeded,
+                                    Source = e.SourceItem.GetParsingPath(),
+                                    Destination = e.DestFolder.GetParsingPath() != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.GetParsingPath(), e.Name) : null,
+                                    HResult = (int)e.Result
+                                });
+                            };
+                            op.PostCopyItem += (_, e) => UpdateFileTagsDb(e, "copy");
+                            op.FinishOperations += (s, e) => copyTcs.TrySetResult(e.Result.Succeeded);
+                            op.UpdateProgress += (s, e) =>
+                            {
+                                if (progressHandler.CheckCanceled(operationID))
+                                {
+                                    throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
+                                }
+                                progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
+                            };
+
+                            try
+                            {
+                                op.PerformOperations();
+                            }
+                            catch
+                            {
+                                copyTcs.TrySetResult(false);
+                            }
+
+                            progressHandler.RemoveOperation(operationID);
+
+                            return (await copyTcs.Task, shellOperationResult);
                         });
                         await Win32API.SendMessageAsync(connection, new ValueSet() {
                             { "Success", success },
@@ -531,7 +642,7 @@ namespace FilesFullTrust.MessageHandlers
                         Program.Logger.Warn(ex, ex.Message);
                         await Win32API.SendMessageAsync(connection, new ValueSet()
                         {
-                            { "ShortcutInfo", JsonConvert.SerializeObject(null) }
+                            { "ShortcutInfo", JsonConvert.SerializeObject(new ShellLinkItem()) }
                         }, message.Get("RequestID", (string)null));
                     }
                     break;
@@ -676,7 +787,7 @@ namespace FilesFullTrust.MessageHandlers
                         bool success = false;
                         if (string.IsNullOrEmpty(compatOptions) || compatOptions == "~")
                         {
-                            success = Win32API.RunPowershellCommand(@$"Remove-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' | Out-Null", false); 
+                            success = Win32API.RunPowershellCommand(@$"Remove-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' | Out-Null", false);
                         }
                         else
                         {
@@ -688,25 +799,49 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
+        private ShellItem GetFirstFile(ShellItem shi)
+        {
+            if (!shi.IsFolder || shi.Attributes.HasFlag(ShellItemAttribute.Stream))
+            {
+                return shi;
+            }
+            using var shf = new ShellFolder(shi);
+            if (shf.FirstOrDefault(x => !x.IsFolder || x.Attributes.HasFlag(ShellItemAttribute.Stream)) is ShellItem item)
+            {
+                return item;
+            }
+            foreach (var shsfi in shf.Where(x => x.IsFolder && !x.Attributes.HasFlag(ShellItemAttribute.Stream)))
+            {
+                using var shsf = new ShellFolder(shsfi);
+                if (GetFirstFile(shsf) is ShellItem item2)
+                {
+                    return item2;
+                }
+            }
+            return null;
+        }
+
         public void WaitForCompletion()
         {
             progressHandler.WaitForCompletion();
         }
 
-        private void UpdateFileTagsDb(object sender, ShellFileOperations.ShellFileOpEventArgs e, string operationType)
+        private void UpdateFileTagsDb(ShellFileOperations.ShellFileOpEventArgs e, string operationType)
         {
             if (e.Result.Succeeded)
             {
+                var sourcePath = e.SourceItem.GetParsingPath();
+                var destPath = e.DestFolder.GetParsingPath();
                 var destination = operationType switch
                 {
-                    "delete" => e.DestItem?.FileSystemPath,
-                    "rename" => (!string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(e.SourceItem.FileSystemPath), e.Name) : null),
-                    "copy" => (e.DestFolder?.FileSystemPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null),
-                    _ => (e.DestFolder?.FileSystemPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null)
+                    "delete" => e.DestItem.GetParsingPath(),
+                    "rename" => !string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(sourcePath), e.Name) : null,
+                    "copy" => destPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destPath, e.Name) : null,
+                    _ => destPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destPath, e.Name) : null
                 };
                 if (destination == null)
                 {
-                    dbInstance.SetTag(e.SourceItem.FileSystemPath, null, null); // remove tag from deleted files
+                    dbInstance.SetTag(sourcePath, null, null); // remove tag from deleted files
                 }
                 else
                 {
@@ -714,7 +849,7 @@ namespace FilesFullTrust.MessageHandlers
                     {
                         if (operationType == "copy")
                         {
-                            var tag = dbInstance.GetTag(e.SourceItem.FileSystemPath);
+                            var tag = dbInstance.GetTag(sourcePath);
                             dbInstance.SetTag(destination, FileTagsHandler.GetFileFRN(destination), tag); // copy tag to new files
                             using var si = new ShellItem(destination);
                             if (si.IsFolder) // File tag is not copied automatically for folders
@@ -724,13 +859,13 @@ namespace FilesFullTrust.MessageHandlers
                         }
                         else
                         {
-                            dbInstance.UpdateTag(e.SourceItem.FileSystemPath, FileTagsHandler.GetFileFRN(destination), destination); // move tag to new files
+                            dbInstance.UpdateTag(sourcePath, FileTagsHandler.GetFileFRN(destination), destination); // move tag to new files
                         }
                     }, Program.Logger);
                 }
                 if (e.Result == HRESULT.COPYENGINE_S_DONT_PROCESS_CHILDREN) // child items not processed, update manually
                 {
-                    var tags = dbInstance.GetAllUnderPath(e.SourceItem.FileSystemPath).ToList();
+                    var tags = dbInstance.GetAllUnderPath(sourcePath).ToList();
                     if (destination == null) // remove tag for items contained in the folder
                     {
                         tags.ForEach(t => dbInstance.SetTag(t.FilePath, null, null));
@@ -743,7 +878,7 @@ namespace FilesFullTrust.MessageHandlers
                             {
                                 Extensions.IgnoreExceptions(() =>
                                 {
-                                    var subPath = t.FilePath.Replace(e.SourceItem.FileSystemPath, destination, StringComparison.Ordinal);
+                                    var subPath = t.FilePath.Replace(sourcePath, destination, StringComparison.Ordinal);
                                     dbInstance.SetTag(subPath, FileTagsHandler.GetFileFRN(subPath), t.Tag);
                                 }, Program.Logger);
                             });
@@ -754,7 +889,7 @@ namespace FilesFullTrust.MessageHandlers
                             {
                                 Extensions.IgnoreExceptions(() =>
                                 {
-                                    var subPath = t.FilePath.Replace(e.SourceItem.FileSystemPath, destination, StringComparison.Ordinal);
+                                    var subPath = t.FilePath.Replace(sourcePath, destination, StringComparison.Ordinal);
                                     dbInstance.UpdateTag(t.FilePath, FileTagsHandler.GetFileFRN(subPath), subPath);
                                 }, Program.Logger);
                             });
@@ -764,16 +899,19 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            progressHandler?.Dispose();
-            dbInstance?.Dispose();
+            if (disposing)
+            {
+                progressHandler?.Dispose();
+                dbInstance?.Dispose();
+            }
         }
 
         private class ProgressHandler : IDisposable
         {
-            private ManualResetEvent operationsCompletedEvent;
-            private PipeStream connection;
+            private readonly ManualResetEvent operationsCompletedEvent;
+            private readonly PipeStream connection;
 
             private class OperationWithProgress
             {
@@ -781,8 +919,8 @@ namespace FilesFullTrust.MessageHandlers
                 public bool Canceled { get; set; }
             }
 
-            private Shell32.ITaskbarList4 taskbar;
-            private ConcurrentDictionary<string, OperationWithProgress> operations;
+            private readonly Shell32.ITaskbarList4 taskbar;
+            private readonly ConcurrentDictionary<string, OperationWithProgress> operations;
 
             public System.Windows.Forms.IWin32Window OwnerWindow { get; set; }
 

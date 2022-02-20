@@ -40,7 +40,7 @@ namespace Files.Filesystem.StorageItems
         private IRandomAccessStream imrac;
         private ulong byteSize;
         private bool isWritten;
-        
+
         public Action DisposeCallback { get; set; }
 
         public NonSeekableRandomAccessStreamForWrite(Stream stream)
