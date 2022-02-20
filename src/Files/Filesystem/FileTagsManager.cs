@@ -96,7 +96,7 @@ namespace Files.Filesystem
             });
         }
 
-        private void RemoveWslSideBarSection()
+        private void RemoveFileTagsSideBarSection()
         {
             try
             {
@@ -118,7 +118,7 @@ namespace Files.Filesystem
             }
             else
             {
-                RemoveWslSideBarSection();
+                RemoveFileTagsSideBarSection();
             }
         }
     }
