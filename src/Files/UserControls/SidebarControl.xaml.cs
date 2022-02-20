@@ -337,6 +337,14 @@ namespace Files.UserControls
             }
         }
 
+        private void PaneRoot_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            var sidebarContextMenu = this.FindResource("SidebarContextMenu") as MenuFlyout;
+            sidebarContextMenu.ShowAt(this, new Windows.UI.Xaml.Controls.Primitives.FlyoutShowOptions() { Position = e.GetPosition(this) });
+
+            e.Handled = true;
+        }
+
         private void NavigationViewLocationItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             var itemContextMenuFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
