@@ -1,5 +1,4 @@
 ﻿using Files.Common;
-using Files.Enums;
 using System;
 using System.Collections.Generic;
 using System.IO;

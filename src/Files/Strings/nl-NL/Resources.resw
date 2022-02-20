@@ -24,9 +24,6 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Grootte:</value>
   </data>
-  <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Itemtype:</value>
-  </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Gewijzigd op:</value>
   </data>
@@ -66,59 +63,32 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Voorkeuren</value>
   </data>
-  <data name="SidebarDesktop" xml:space="preserve">
+  <data name="Desktop" xml:space="preserve">
     <value>Bureaublad</value>
   </data>
-  <data name="SidebarDocuments" xml:space="preserve">
+  <data name="Documents" xml:space="preserve">
     <value>Documenten</value>
   </data>
-  <data name="SidebarDownloads" xml:space="preserve">
+  <data name="Downloads" xml:space="preserve">
     <value>Downloads</value>
-  </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Muziek</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Afbeeldingen</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Video's</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sorteren op</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>Naam</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>Gewijzigd op</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Type</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
-    <value>Grootte</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+  <data name="Ascending" xml:space="preserve">
     <value>Oplopend</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>Aflopend</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>Vernieuwen</value>
   </data>
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Plakken</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
-    <value>Openen in terminal...</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
-    <value>Map</value>
   </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Eigenschappen</value>
@@ -141,9 +111,6 @@
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>Knippen</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
-    <value>Kopiëren</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Naam wijzigen</value>
   </data>
@@ -153,7 +120,7 @@
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Geef een pad op</value>
   </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Zoeken</value>
   </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
@@ -162,28 +129,19 @@
   <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>Selectie wissen</value>
   </data>
-  <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
-    <value>Map</value>
-  </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
     <value>Bitmapafbeelding</value>
   </data>
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Tekstdocument</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
-    <value>Lijstweergave</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Naam</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>Gewijzigd op</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
     <value>Type</value>
   </data>
-  <data name="sizeColumn.Header" xml:space="preserve">
+  <data name="Size" xml:space="preserve">
     <value>Grootte</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -207,16 +165,13 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Naam instellen</value>
   </data>
-  <data name="SystemTheme" xml:space="preserve">
-    <value>Standaard</value>
-  </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Licht</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
     <value>Donker</value>
   </data>
-  <data name="ApplicationTimeStye" xml:space="preserve">
+  <data name="Application" xml:space="preserve">
     <value>Toepassing</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
@@ -243,14 +198,8 @@
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Zoeken (Ctrl+F)</value>
   </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>Stations</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Bestand</value>
-  </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5Hash:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Deze actie kan niet worden uitgevoerd</value>
@@ -261,20 +210,14 @@
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>is een submap van de bronmap</value>
   </data>
-  <data name="ErrorDialogSkip" xml:space="preserve">
-    <value>Overslaan</value>
-  </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Selectie omkeren</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>Openen</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Eigenschappen</value>
-  </data>
-  <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Kenmerken:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Eigenschappen</value>
@@ -314,9 +257,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>Rasterweergave (klein)</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>Tegelweergave</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>OK</value>
@@ -417,7 +357,7 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>items</value>
   </data>
-  <data name="PropertiesAccessed.Text" xml:space="preserve">
+  <data name="Accessed" xml:space="preserve">
     <value>Laatst geopend:</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
@@ -546,7 +486,7 @@
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>Snelkoppeling maken</value>
   </data>
-  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+  <data name="OpenFileLocation" xml:space="preserve">
     <value>Bestandslocatie openen</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
@@ -561,14 +501,8 @@
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>Werkmap:</value>
   </data>
-  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
-    <value>Toepassing</value>
-  </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>Bestand</value>
-  </data>
-  <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
-    <value>Map</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Webkoppeling</value>
@@ -593,9 +527,6 @@
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
     <value>Onbekend</value>
-  </data>
-  <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
-    <value>Logboeklocatie openen</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Er is een probleem opgetreden met Files waarvoor de ontwikkelaars zich niet hebben voorbereid.</value>
@@ -666,20 +597,11 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Instellen als</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>Locatie kopiëren</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Tabblad toevoegen</value>
   </data>
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
     <value>Tabbladen openen</value>
-  </data>
-  <data name="ButtonNo.Content" xml:space="preserve">
-    <value>Nee</value>
-  </data>
-  <data name="ButtonYes.Content" xml:space="preserve">
-    <value>Ja</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>De toepassing moet worden herstart om deze instellingen toe te passen. Wilt u dit nu doen?</value>
@@ -693,7 +615,7 @@
   <data name="Cancel" xml:space="preserve">
     <value>Annuleren</value>
   </data>
-  <data name="AddDialogListFolderHeader" xml:space="preserve">
+  <data name="Folder" xml:space="preserve">
     <value>Map</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
@@ -713,12 +635,6 @@
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Een mapniveau omhoog gaan</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminaltoepassingen bewerken</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Terminaltoepassingen bewerken</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Steun ons</value>
@@ -764,9 +680,6 @@
   </data>
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>Verticale resolutie</value>
-  </data>
-  <data name="PropertyCompressionText" xml:space="preserve">
-    <value>Compressie</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
     <value>Horizontale grootte</value>
@@ -819,7 +732,7 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Versleutelingsbitrate</value>
   </data>
-  <data name="PropertyCompression" xml:space="preserve">
+  <data name="Compression" xml:space="preserve">
     <value>Compressie</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
@@ -828,16 +741,13 @@
   <data name="PropertySampleRate" xml:space="preserve">
     <value>Sample-rate</value>
   </data>
-  <data name="PropertyDisplayArtist" xml:space="preserve">
-    <value>Artiest</value>
-  </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>Albumartiest</value>
   </data>
   <data name="PropertyAlbumTitle" xml:space="preserve">
     <value>Albumtitel</value>
   </data>
-  <data name="PropertyArtist" xml:space="preserve">
+  <data name="Artist" xml:space="preserve">
     <value>Artiest</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
@@ -846,7 +756,7 @@
   <data name="PropertyComposer" xml:space="preserve">
     <value>Componist</value>
   </data>
-  <data name="PropertyConductor" xml:space="preserve">
+  <data name="Conductor" xml:space="preserve">
     <value>Dirigent</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
@@ -939,7 +849,7 @@
   <data name="PropertySectionMusic" xml:space="preserve">
     <value>Muziek</value>
   </data>
-  <data name="PropertyAddress" xml:space="preserve">
+  <data name="Address" xml:space="preserve">
     <value>Adres</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
@@ -1005,14 +915,11 @@
   <data name="PropertyOrientation" xml:space="preserve">
     <value>Afdrukstand</value>
   </data>
-  <data name="PropertySectionDocument" xml:space="preserve">
+  <data name="Document" xml:space="preserve">
     <value>Document</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Bestand</value>
-  </data>
-  <data name="FolderItemAutomation" xml:space="preserve">
-    <value>Map</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Prullenbakitem</value>
@@ -1113,7 +1020,7 @@
   <data name="Details" xml:space="preserve">
     <value>Details</value>
   </data>
-  <data name="UpdateClose" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>Nee</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1125,7 +1032,7 @@
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Bestand</value>
   </data>
-  <data name="AddDialogListFileHeader" xml:space="preserve">
+  <data name="File" xml:space="preserve">
     <value>Bestand</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
@@ -1140,13 +1047,13 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Oorspronkelijk pad</value>
   </data>
-  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+  <data name="Add" xml:space="preserve">
     <value>Toevoegen</value>
   </data>
-  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>Wijzigen</value>
   </data>
-  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+  <data name="Remove" xml:space="preserve">
     <value>Wissen</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -1188,20 +1095,8 @@
   <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
     <value>Rasterweergave (klein)</value>
   </data>
-  <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Tegelweergave</value>
-  </data>
-  <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>Detailweergave</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
+  <data name="DateDeleted" xml:space="preserve">
     <value>Verwijderd op</value>
-  </data>
-  <data name="dateDeletedColumn.Header" xml:space="preserve">
-    <value>Verwijderd op</value>
-  </data>
-  <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
-    <value>Bevestigen</value>
   </data>
   <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
     <value>Een bundel met deze naam bestaat al.</value>
@@ -1209,28 +1104,16 @@
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
     <value>Veld mag niet leeg zijn.</value>
   </data>
-  <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
-    <value>Voer een bundelnaam in</value>
-  </data>
-  <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
-    <value>Voer een bundelnaam in</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
-    <value>Gewenste naam</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
-    <value>Bevestigen</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
     <value>Voer nieuwe naam in</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>Naam van "{0}" wijzigen</value>
   </data>
-  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+  <data name="DesiredName" xml:space="preserve">
     <value>Gewenste naam</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Confirm" xml:space="preserve">
     <value>Bevestigen</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
@@ -1241,9 +1124,6 @@
   </data>
   <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
     <value>Bundels importeren</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleItem.Text" xml:space="preserve">
-    <value>Bundel maken</value>
   </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
     <value>In nieuw tabblad openen</value>
@@ -1263,14 +1143,8 @@
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Bestanden en mappen slepen en hier neerzetten om er later snel toegang tot te krijgen</value>
   </data>
-  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
-    <value>Bevestigen</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="EnterBundleName" xml:space="preserve">
     <value>Voer bundelnaam in</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>Bundel maken</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
     <value>Naam van bundel wijzigen</value>
@@ -1278,7 +1152,7 @@
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Meer opties...</value>
   </data>
-  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
+  <data name="CreateBundle" xml:space="preserve">
     <value>Bundel maken</value>
   </data>
   <data name="PropertyItemPathDisplay" xml:space="preserve">
@@ -1377,10 +1251,7 @@
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Virtueel station</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
-    <value>Gemaakt op</value>
-  </data>
-  <data name="DateCreatedColumn.Header" xml:space="preserve">
+  <data name="DateCreated" xml:space="preserve">
     <value>Gemaakt op</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
@@ -1416,7 +1287,7 @@
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>Doel</value>
   </data>
-  <data name="PropertyItemArguments" xml:space="preserve">
+  <data name="Arguments" xml:space="preserve">
     <value>Argumenten</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
@@ -1446,17 +1317,11 @@
   <data name="StatusCopyComplete" xml:space="preserve">
     <value>Kopiëren voltooid</value>
   </data>
-  <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
-    <value>Nee</value>
-  </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Deze bewerking vereist administratorrechten</value>
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>Wilt u doorgaan als administrator?</value>
-  </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Tabbladen rechts sluiten</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Administrator</value>
@@ -1470,14 +1335,8 @@
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>Van startscherm losmaken</value>
   </data>
-  <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
-    <value>Kolomweergave</value>
-  </data>
-  <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>Kolomweergave (Ctrl+Shift+6)</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
-    <value>Kolomweergave</value>
   </data>
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
     <value>{0:#,##0} bestanden, {1:#,##0} mappen uit {2:#,##0} locaties</value>
@@ -1494,13 +1353,7 @@
   <data name="LibraryLocations.Text" xml:space="preserve">
     <value>Locaties:</value>
   </data>
-  <data name="LibraryLocationsButtonAdd.Label" xml:space="preserve">
-    <value>Toevoegen</value>
-  </data>
-  <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
-    <value>Standaard</value>
-  </data>
-  <data name="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SetAsDefaultSavePath" xml:space="preserve">
     <value>Als standaardpad instellen</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
@@ -1536,7 +1389,7 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO-snelheid</value>
   </data>
-  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+  <data name="Copy" xml:space="preserve">
     <value>Kopiëren</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
@@ -1614,20 +1467,11 @@
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>Bestaand(e) item(s) vervangen</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
-    <value>Overslaan</value>
-  </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>Bestaand(e) item(s) vervangen</value>
   </data>
-  <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
-    <value>Overslaan</value>
-  </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
     <value>Bestaand(e) item(s) vervangen</value>
-  </data>
-  <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
-    <value>Overslaan</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Nieuwe naam genereren</value>
@@ -1713,7 +1557,7 @@
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>Zeer klein</value>
   </data>
-  <data name="ItemTimeText_Today" xml:space="preserve">
+  <data name="Today" xml:space="preserve">
     <value>Vandaag</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
@@ -1854,7 +1698,7 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>Recyclen geannuleerd</value>
   </data>
-  <data name="StatusCancellingOp" xml:space="preserve">
+  <data name="canceling" xml:space="preserve">
     <value>annuleren</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
@@ -1899,14 +1743,11 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nieuw venster</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+  <data name="CopyLocation" xml:space="preserve">
     <value>Locatie kopiëren</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Plakken</value>
-  </data>
-  <data name="NavigationToolbarOpenInTerminal.Label" xml:space="preserve">
-    <value>Openen in terminal...</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nieuw</value>
@@ -1917,10 +1758,10 @@
   <data name="Security" xml:space="preserve">
     <value>Beveiliging</value>
   </data>
-  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+  <data name="AdvancedPermissions" xml:space="preserve">
     <value>Geavanceerde machtigingen</value>
   </data>
-  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+  <data name="Allow" xml:space="preserve">
     <value>Toestaan</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
@@ -1947,7 +1788,7 @@
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
     <value>Namen van groepen of gebruikers</value>
   </data>
-  <data name="SecurityWriteLabel.Text" xml:space="preserve">
+  <data name="Write" xml:space="preserve">
     <value>Schrijven</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">
@@ -1962,7 +1803,7 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Onbekende gebruiker</value>
   </data>
-  <data name="DefaultTheme" xml:space="preserve">
+  <data name="Default" xml:space="preserve">
     <value>Standaard</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
@@ -2019,7 +1860,7 @@
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>Speciaal</value>
   </data>
-  <data name="SecurityAdvancedAccessLabel.Text" xml:space="preserve">
+  <data name="Access" xml:space="preserve">
     <value>Toegang</value>
   </data>
   <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
@@ -2039,9 +1880,6 @@
   </data>
   <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
     <value>Overgenomen</value>
-  </data>
-  <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
-    <value>Nee</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Machtigingen</value>
@@ -2124,9 +1962,6 @@
   <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
     <value>Schrijf uitgebreide attributen</value>
   </data>
-  <data name="SecurityNoneLabel.Text" xml:space="preserve">
-    <value>Geen</value>
-  </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
     <value>Converteer geërfde machtigingen naar expliciete machtigingen</value>
   </data>
@@ -2141,12 +1976,6 @@
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>Vervang alle onderliggende object machtigingen met erfbare machtigingsgegevens van dit object</value>
-  </data>
-  <data name="CreateBundleBtn.AutomationProperties.Name" xml:space="preserve">
-    <value>Bundel maken</value>
-  </data>
-  <data name="CreateBundleBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Bundel maken</value>
   </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Deelvenster sluiten</value>
@@ -2171,9 +2000,6 @@
   </data>
   <data name="DecompressArchiveDialog.Title" xml:space="preserve">
     <value>Kies een bestemming en pak de bestanden uit</value>
-  </data>
-  <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
-    <value>Bladeren</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Open doelmap na voltooiing</value>
@@ -2271,9 +2097,6 @@
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>Nuttige links</value>
   </data>
-  <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
-    <value>Kopieer</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>Toevoegen aan favorieten</value>
   </data>
@@ -2285,12 +2108,6 @@
   </data>
   <data name="NavSettingsButton" xml:space="preserve">
     <value>Instellingen</value>
-  </data>
-  <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Kopieer</value>
-  </data>
-  <data name="NavigationToolbarCopy.Label" xml:space="preserve">
-    <value>Kopieer</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Updates beschikbaar</value>
@@ -2304,7 +2121,7 @@
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>Bijwerken</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+  <data name="AddFile" xml:space="preserve">
     <value>Bestand toevoegen</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
@@ -2379,7 +2196,7 @@
   <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
     <value>Bewerk terminal toepassingen</value>
   </data>
-  <data name="SettingsDateFormat.Title" xml:space="preserve">
+  <data name="DateFormat" xml:space="preserve">
     <value>Datumnotatie</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
@@ -2407,23 +2224,11 @@ Files verzamelt, bewaart, deelt of publiceert geen persoonlijke informatie.
 We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes te verhelpen. Alle informatie die naar App Center gestuurd wordt is anoniem en bevat geen gebruikers of contextuele data. 
   </value>
   </data>
-  <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
-    <value>Geen</value>
-  </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Naam</value>
   </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+  <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Datum gewijzigd</value>
-  </data>
-  <data name="NavToolbarArrangementOptionDateCreated.Text" xml:space="preserve">
-    <value>Aanmakdatum</value>
-  </data>
-  <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
-    <value>Grootte</value>
-  </data>
-  <data name="NavToolbarArrangementOptionDateDeleted.Text" xml:space="preserve">
-    <value>Verwijderdatum</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
     <value>Originele map</value>
@@ -2431,10 +2236,7 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>Type</value>
   </data>
-  <data name="NavToolbarSortDirectionOptionAscending.Text" xml:space="preserve">
-    <value>Oplopend</value>
-  </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+  <data name="Descending" xml:space="preserve">
     <value>Aflopend</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
@@ -2458,12 +2260,6 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
     <value>Bestandslabel</value>
   </data>
-  <data name="SettingsEditFileTags.AutomationProperties.Name" xml:space="preserve">
-    <value>Bewerk bestandslabels</value>
-  </data>
-  <data name="SettingsEditFileTags.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Bewerk bestandslabels</value>
-  </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Bewerk bestandslabels</value>
   </data>
@@ -2478,5 +2274,311 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Een schijf plaatsen</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>Toepassen op alles</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>Onderdeel van set</value>
+  </data>
+  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Oke</value>
+  </data>
+  <data name="AskCredentialDialog.Title" xml:space="preserve">
+    <value>Gegevens vereist</value>
+  </data>
+  <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
+    <value>Anoniem</value>
+  </data>
+  <data name="CredentialDialogDescription.Text" xml:space="preserve">
+    <value>Vul je gegevens in:</value>
+  </data>
+  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
+    <value>Wachtwoord</value>
+  </data>
+  <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
+    <value>Gebruikersnaam</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>Geen items gevonden</value>
+  </data>
+  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Bundels Widget</value>
+  </data>
+  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Schijven Widget</value>
+  </data>
+  <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Bibliotheken Widget</value>
+  </data>
+  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Recente bestanden Widget</value>
+  </data>
+  <data name="OpenLogLocation" xml:space="preserve">
+    <value>Open logboek locatie</value>
+  </data>
+  <data name="LinkToFolderCaptionText" xml:space="preserve">
+    <value>Maak een link in {0}</value>
+  </data>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>Toon bestandsnaamextensies</value>
+  </data>
+  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Toon verborgen items</value>
+  </data>
+  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
+    <value>Toon bestandsnaamextensies</value>
+  </data>
+  <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
+    <value>Toon verborgen items</value>
+  </data>
+  <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Toon favorieten sectie</value>
+  </data>
+  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Pin Prullenbak aan favorieten</value>
+  </data>
+  <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Toon cloud schijven sectie</value>
+  </data>
+  <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Toon schijven sectie</value>
+  </data>
+  <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Toon bibliotheek sectie</value>
+  </data>
+  <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Toon netwerk sectie</value>
+  </data>
+  <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Toon WSL sectie</value>
+  </data>
+  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Open mappen in een nieuw tabblad</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Taal</value>
+  </data>
+  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Toon een bevestigingsvenster bij het verwijderen van bestanden of mappen</value>
+  </data>
+  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Terminal applicatie</value>
+  </data>
+  <data name="OngoingTasks" xml:space="preserve">
+    <value>Lopende taken</value>
+  </data>
+  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
+    <value>Laad volledige voorbeeld</value>
+  </data>
+  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
+    <value>Toon alleen voorbeeld</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
+    <value>erplaats één omlaag</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
+    <value>Verplaats één omhoog</value>
+  </data>
+  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
+    <value>Verplaatsen naar onderkant</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
+    <value>Verplaatsen naar bovenkant</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
+    <value>Aanmaakdatum kolom</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
+    <value>Bestands grootte kolom</value>
+  </data>
+  <data name="SettingsSetAsOpenDialog" xml:space="preserve">
+    <value>Gebruik Files als Open Bestand Dialoog</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
+    <value>Open mappen met één klik</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>Pad van map</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>Instellingen Exporteren</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>Instellingen importeren</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>Instellingen beheren</value>
+  </data>
+  <data name="SettingsImportErrorDescription" xml:space="preserve">
+    <value>Kan instellingen niet importeren. Het instellingenbestand is beschadigd.</value>
+  </data>
+  <data name="SettingsImportErrorTitle" xml:space="preserve">
+    <value>Fout bij importeren van instellingen</value>
+  </data>
+  <data name="ChooseCustomIcon" xml:space="preserve">
+    <value>Kies een aangepast mappictogram</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Aanpassingen</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>Standaardwaarden herstellen</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>Compatibiliteit</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Geen</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
+    <value>Bij inloggen van Windows</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
+    <value>Bij opstarten van programma</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>Systeem</value>
+  </data>
+  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
+    <value>Systeem (geavanceerd)</value>
+  </data>
+  <data name="Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
+    <value>Windows Vista SP1</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
+    <value>Windows Vista SP2</value>
+  </data>
+  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
+    <value>16 Bit kleuren (65536)</value>
+  </data>
+  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
+    <value>8 Bit kleuren (256)</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Compatibiliteitsmodus</value>
+  </data>
+  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+    <value>Optimalisaties voor volledig scherm uitschakelen</value>
+  </data>
+  <data name="ExecuteAt640X480" xml:space="preserve">
+    <value>Uitvoeren met een schermresolutie van 640 x 480</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Opties</value>
+  </data>
+  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
+    <value>Hoge DPI-schaalgedrag negeren</value>
+  </data>
+  <data name="ReducedColorMode" xml:space="preserve">
+    <value>Gereduceerde kleurmodus</value>
+  </data>
+  <data name="RegisterForRestart" xml:space="preserve">
+    <value>Registreer voor herstart</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>Als administrator uitvoeren</value>
+  </data>
+  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+    <value>Voer de probleemoplosser voor compatibiliteit uit</value>
+  </data>
+  <data name="UseMainMonitorDPISettings" xml:space="preserve">
+    <value>Gebruik DPI instellingen van de hoofd monitor</value>
+  </data>
+  <data name="SettingsDefaultFilesManager" xml:space="preserve">
+    <value>Standaard verkenner</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
+    <value>Stel Files in als standaard verkenner</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Prullenbak legen</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Zijbalk</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Bestanden en mappen</value>
+  </data>
+  <data name="OpenNewInstance" xml:space="preserve">
+    <value>Nieuwe instantie openen bij het openen van mappen vanuit de jumplist in de taakbalk </value>
+  </data>
+  <data name="StartupSettings" xml:space="preserve">
+    <value>Opstart instellingen</value>
+  </data>
+  <data name="ThirdPartyLicenses" xml:space="preserve">
+    <value>Licenties van derden</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
+    <value>Deze instelling wijzigt systeembestanden en kan onverwachte bijwerkingen op uw apparaat hebben. De ontwikkelaars nemen geen verantwoordelijkheid in het geval er zich een probleem voordoet. Doorgaan met deze optie is een erkenning van de risico's die aan deze actie zijn verbonden. Houd er rekening mee dat het verwijderen van Files deze wijzigingen niet ongedaan maakt en kan voorkomen dat u de verkenner kunt openen, tenzij u deze instelling uitschakelt voordat u Files van uw apparaat verwijdert.</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Wis alles</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Kolommen</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Grote Pictogrammen</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Middelgrote Pictogrammen</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Kleine Pictogrammen</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Tegels</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Maak Bibliotheek</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>Vul de Bibliotheek naam in</value>
+  </data>
+  <data name="ShowFolderSize" xml:space="preserve">
+    <value>Toon folder grootte</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Overslaan</value>
+  </data>
+  <data name="SettingsOpenInLogin" xml:space="preserve">
+    <value>Open Files bij opstarten Windows</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Attributen</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Verborgen</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>Meer details</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Alleen lezen</value>
+  </data>
+  <data name="CleanupDrive" xml:space="preserve">
+    <value>Schoon de inhoud van je schijf op</value>
+  </data>
+  <data name="DiskCleanup" xml:space="preserve">
+    <value>Schijf opschoning</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type:</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Bytes</value>
   </data>
 </root>

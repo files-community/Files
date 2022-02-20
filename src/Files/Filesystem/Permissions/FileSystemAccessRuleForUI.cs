@@ -109,7 +109,7 @@ namespace Files.Filesystem.Permissions
             _ => "\xF140"
         };
 
-        public string IsInheritedForUI => IsInherited ? "Yes".GetLocalized() : "SecurityAdvancedInheritedNoLabel".GetLocalized();
+        public string IsInheritedForUI => IsInherited ? "Yes".GetLocalized() : "No".GetLocalized();
 
         public string FileSystemRightsForUI => string.Join(", ", GetPermissionStrings());
 
@@ -332,7 +332,7 @@ namespace Files.Filesystem.Permissions
                 gpl.Add(new GrantedPermission(this)
                 {
                     Permission = FileSystemRights.Write,
-                    Name = "SecurityWriteLabel/Text".GetLocalized(),
+                    Name = "Write".GetLocalized(),
                     IsEditable = !IsInherited
                 });
                 gpl.Add(new SpecialPermission(this)
@@ -392,7 +392,7 @@ namespace Files.Filesystem.Permissions
             var ret = new List<string>();
             if (FileSystemRights == 0)
             {
-                ret.Add("SecurityNoneLabel/Text".GetLocalized());
+                ret.Add("None".GetLocalized());
             }
             if (GrantsFullControl)
             {
@@ -412,7 +412,7 @@ namespace Files.Filesystem.Permissions
             }
             if (!GrantsFullControl && !GrantsModify && GrantsWrite)
             {
-                ret.Add("SecurityWriteLabel/Text".GetLocalized());
+                ret.Add("Write".GetLocalized());
             }
             if (GrantsSpecial)
             {

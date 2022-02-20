@@ -39,6 +39,9 @@ namespace Files.Common
         DropBox,
         AppleCloud,
         AmazonDrive,
-        Box
+        Nextcloud,
+        Yandex,
+        Box,
+        Jottacloud
     }
 }

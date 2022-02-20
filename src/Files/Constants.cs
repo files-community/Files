@@ -59,7 +59,7 @@
             /// <summary>
             /// The minimum width of the sidebar in expanded state
             /// </summary>
-            public const double MinimumSidebarWidth = 250;
+            public const double MinimumSidebarWidth = 180;
 
             public const double MaximumSidebarWidth = 500;
 
@@ -163,16 +163,21 @@
             public const string PreviewPaneDetailsPropertiesJsonPath = @"ms-appx:///Resources/PreviewPanePropertiesInformation.json";
         }
 
-        public static class OptionalPackages
-        {
-            public const string ThemesOptionalPackagesName = "49306atecsolution.ThemesforFiles";
-        }
-
         public static class Filesystem
         {
             public const int ExtendedAsciiCodePage = 437;
 
             public const string CachedEmptyItemName = "fileicon_cache";
+        }
+
+        public static class GitHub
+        {
+            public const string ContributorsUrl = @"https://github.com/files-community/Files/graphs/contributors";
+            public const string DocumentationUrl = @"https://files.community/docs";
+            public const string FeedbackUrl = @"https://github.com/files-community/Files/issues/new/choose";
+            public const string PrivacyPolicyUrl = @"https://github.com/files-community/Files/blob/main/Privacy.md";
+            public const string ReleaseNotesUrl = @"https://github.com/files-community/Files/releases";
+            public const string SupportUsUrl = @"https://github.com/sponsors/yaichenbaum";
         }
     }
 }

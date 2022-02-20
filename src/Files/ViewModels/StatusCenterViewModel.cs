@@ -10,7 +10,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Input;
-using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -102,6 +101,7 @@ namespace Files.ViewModels
             PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
             StatusBannersSource.Insert(0, banner);
             ProgressBannerPosted?.Invoke(this, postedBanner);
+            UpdateBanner(banner);
             return postedBanner;
         }
 
@@ -114,6 +114,7 @@ namespace Files.ViewModels
             PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this, cancellationTokenSource);
             StatusBannersSource.Insert(0, banner);
             ProgressBannerPosted?.Invoke(this, postedBanner);
+            UpdateBanner(banner);
             return postedBanner;
         }
 
@@ -123,6 +124,7 @@ namespace Files.ViewModels
             PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
             StatusBannersSource.Insert(0, banner);
             ProgressBannerPosted?.Invoke(this, postedBanner);
+            UpdateBanner(banner);
             return postedBanner;
         }
 
@@ -311,7 +313,7 @@ namespace Files.ViewModels
 
         public Action PrimaryButtonClick { get; }
 
-        public ICommand CancelCommand => new RelayCommand<RoutedEventArgs>(args => CancelOperation());
+        public ICommand CancelCommand { get; }
 
         public bool SolutionButtonsVisible { get; } = false;
 
@@ -341,6 +343,8 @@ namespace Files.ViewModels
             initialProgress = progress;
             Status = status;
             Operation = operation;
+
+            CancelCommand = new RelayCommand(CancelOperation);
 
             switch (Status)
             {
@@ -389,6 +393,14 @@ namespace Files.ViewModels
                                 {
                                     FontFamily = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
                                     Glyph = "\xEF87"    // RecycleBin Custom Glyph
+                                };
+                                break;
+
+                            case FileOperationType.Prepare:
+                                Title = "PrepareInProgress".GetLocalized();
+                                GlyphSource = new FontIconSource()
+                                {
+                                    Glyph = "\xE89A"
                                 };
                                 break;
                         }
@@ -450,6 +462,8 @@ namespace Files.ViewModels
             PrimaryButtonClick = primaryButtonClicked;
             Status = ReturnResult.Failed;
 
+            CancelCommand = new RelayCommand(CancelOperation);
+
             if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
             {
                 throw new NotImplementedException();
@@ -477,7 +491,7 @@ namespace Files.ViewModels
             {
                 CancellationTokenSource.Cancel();
                 IsCancelled = true;
-                FullTitle = $"{Title} ({"StatusCancellingOp".GetLocalized()})";
+                FullTitle = $"{Title} ({"canceling".GetLocalized()})";
             }
         }
     }

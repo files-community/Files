@@ -1,11 +1,6 @@
-﻿using Microsoft.Toolkit.Uwp;
-using System;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
-using Windows.UI.Core;
 
 namespace Files.Helpers
 {
@@ -17,7 +12,7 @@ namespace Files.Helpers
             {
                 return;
             }
-            
+
             await Common.Extensions.IgnoreExceptions(async () =>
             {
                 Debug.WriteLine("Toggle QuickLook");
@@ -32,7 +27,7 @@ namespace Files.Helpers
                         { "Arguments", "ToggleQuickLook" }
                     });
                 }
-                
+
             }, App.Logger);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Files.Helpers.XamlHelpers;
+using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Files.UserControls.Selection
         private ListViewBase uiElement;
         private ScrollViewer scrollViewer;
         private SelectionChangedEventHandler selectionChanged;
-
+        private DispatcherQueueTimer timer;
         private Point originDragPoint;
         private Dictionary<object, System.Drawing.Rectangle> itemsPosition;
         private List<object> prevSelectedItems;
@@ -28,6 +29,7 @@ namespace Files.UserControls.Selection
             this.selectionRectangle = selectionRectangle;
             this.selectionChanged = selectionChanged;
             itemsPosition = new Dictionary<object, System.Drawing.Rectangle>();
+            timer = DispatcherQueue.GetForCurrentThread().CreateTimer();
             InitEvents(null, null);
         }
 
@@ -58,19 +60,6 @@ namespace Files.UserControls.Selection
                 base.DrawRectangle(currentPoint, originDragPointShifted, uiElement);
                 // Selected area considering scrolled offset
                 var rect = new System.Drawing.Rectangle((int)Canvas.GetLeft(selectionRectangle), (int)Math.Min(originDragPoint.Y, currentPoint.Position.Y + verticalOffset), (int)selectionRectangle.Width, (int)Math.Abs(originDragPoint.Y - (currentPoint.Position.Y + verticalOffset)));
-                foreach (var item in uiElement.Items.ToList().Except(itemsPosition.Keys))
-                {
-                    var listViewItem = (FrameworkElement)uiElement.ContainerFromItem(item); // Get ListViewItem
-                    if (listViewItem == null)
-                    {
-                        continue; // Element is not loaded (virtualized list)
-                    }
-
-                    var gt = listViewItem.TransformToVisual(uiElement);
-                    var itemStartPoint = gt.TransformPoint(new Point(0, verticalOffset)); // Get item position relative to the top of the list (considering scrolled offset)
-                    var itemRect = new System.Drawing.Rectangle((int)itemStartPoint.X, (int)itemStartPoint.Y, (int)listViewItem.ActualWidth, (int)listViewItem.ActualHeight);
-                    itemsPosition[item] = itemRect;
-                }
 
                 foreach (var item in itemsPosition.ToList())
                 {
@@ -108,16 +97,28 @@ namespace Files.UserControls.Selection
 
         private void RectangleSelection_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
+            if (scrollViewer == null)
+            {
+                return;
+            }
+
             itemsPosition.Clear();
+
+            scrollViewer.ViewChanged -= ScrollViewer_ViewChanged;
+            scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
+
             originDragPoint = new Point(e.GetCurrentPoint(uiElement).Position.X, e.GetCurrentPoint(uiElement).Position.Y); // Initial drag point relative to the topleft corner
             prevSelectedItems = uiElement.SelectedItems.Cast<object>().ToList(); // Save current selected items
-            var verticalOffset = scrollViewer?.VerticalOffset ?? 0;
+
+            var verticalOffset = scrollViewer.VerticalOffset;
             originDragPoint.Y += verticalOffset; // Initial drag point relative to the top of the list (considering scrolled offset)
             if (!e.GetCurrentPoint(uiElement).Properties.IsLeftButtonPressed || e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
             {
                 // Trigger only on left click, do not trigger with touch
                 return;
             }
+
+            FetchItemsPosition();
 
             selectionStrategy = e.KeyModifiers.HasFlag(VirtualKeyModifiers.Control) ?
                     new InvertPreviousItemSelectionStrategy(uiElement.SelectedItems, prevSelectedItems) :
@@ -138,6 +139,32 @@ namespace Files.UserControls.Selection
             selectionState = SelectionState.Starting;
         }
 
+        private void FetchItemsPosition()
+        {
+            var verticalOffset = scrollViewer.VerticalOffset;
+            foreach (var item in uiElement.Items.ToList().Except(itemsPosition.Keys))
+            {
+                var listViewItem = (FrameworkElement)uiElement.ContainerFromItem(item); // Get ListViewItem
+                if (listViewItem == null)
+                {
+                    continue; // Element is not loaded (virtualized list)
+                }
+
+                var gt = listViewItem.TransformToVisual(uiElement);
+                var itemStartPoint = gt.TransformPoint(new Point(0, verticalOffset)); // Get item position relative to the top of the list (considering scrolled offset)
+                var itemRect = new System.Drawing.Rectangle((int)itemStartPoint.X, (int)itemStartPoint.Y, (int)listViewItem.ActualWidth, (int)listViewItem.ActualHeight);
+                itemsPosition[item] = itemRect;
+            }
+        }
+
+        private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            if (!timer.IsRunning)
+            {
+                timer.Debounce(FetchItemsPosition, TimeSpan.FromMilliseconds(1000));
+            }
+        }
+
         private void RectangleSelection_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             Canvas.SetLeft(selectionRectangle, 0);
@@ -145,6 +172,8 @@ namespace Files.UserControls.Selection
             selectionRectangle.Width = 0;
             selectionRectangle.Height = 0;
             uiElement.PointerMoved -= RectangleSelection_PointerMoved;
+
+            scrollViewer.ViewChanged -= ScrollViewer_ViewChanged;
             uiElement.ReleasePointerCapture(e.Pointer);
             if (selectionChanged != null)
             {
@@ -157,16 +186,19 @@ namespace Files.UserControls.Selection
                     selectionChanged(sender, null);
                 }
             }
-            if (selectionState == SelectionState.Active)
+            if (selectionState == SelectionState.Active || e.OriginalSource is ListViewBase)
             {
+                // Always trigger SelectionEnded to focus the file list when clicking on the empty space (#2977)
                 OnSelectionEnded();
             }
 
             selectionStrategy = null;
             selectionState = SelectionState.Inactive;
+
+            e.Handled = true;
         }
 
-        private void RectangleSelection_LayoutUpdated(object sender, object e)
+        private void RectangleSelection_SizeChanged(object sender, object e)
         {
             if (scrollViewer == null)
             {
@@ -175,7 +207,7 @@ namespace Files.UserControls.Selection
 
             if (scrollViewer != null)
             {
-                uiElement.LayoutUpdated -= RectangleSelection_LayoutUpdated;
+                uiElement.SizeChanged -= RectangleSelection_SizeChanged;
             }
         }
 
@@ -196,7 +228,7 @@ namespace Files.UserControls.Selection
                 scrollViewer = DependencyObjectHelpers.FindChild<ScrollViewer>(uiElement, sv => sv.VerticalScrollMode != ScrollMode.Disabled);
                 if (scrollViewer == null)
                 {
-                    uiElement.LayoutUpdated += RectangleSelection_LayoutUpdated;
+                    uiElement.SizeChanged += RectangleSelection_SizeChanged;
                 }
             }
         }

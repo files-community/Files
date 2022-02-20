@@ -3,7 +3,6 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels.Properties;
-using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;

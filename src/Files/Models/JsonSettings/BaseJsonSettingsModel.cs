@@ -1,10 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Runtime.CompilerServices;
+﻿using Files.EventArguments;
 using Files.Helpers;
 using Files.Models.JsonSettings.Implementation;
 using System;
-using Files.EventArguments;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace Files.Models.JsonSettings
 {
@@ -57,7 +56,7 @@ namespace Files.Models.JsonSettings
         }
 
         public BaseJsonSettingsModel(string filePath)
-            : this (filePath, null, null, null)
+            : this(filePath, null, null, null)
         {
         }
 

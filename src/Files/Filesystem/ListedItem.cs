@@ -1,5 +1,4 @@
-﻿using ByteSizeLib;
-using Files.Enums;
+﻿using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.Cloud;
 using Files.Filesystem.StorageItems;
@@ -144,7 +143,7 @@ namespace Files.Filesystem
             set => SetProperty(ref opacity, value);
         }
 
-        private CloudDriveSyncStatusUI syncStatusUI = new CloudDriveSyncStatusUI();
+        private CloudDriveSyncStatusUI syncStatusUI = new();
         public CloudDriveSyncStatusUI SyncStatusUI
         {
             get => syncStatusUI;
@@ -175,7 +174,7 @@ namespace Files.Filesystem
             get => fileImage;
             set
             {
-                if (value is BitmapImage imgOld)
+                if (fileImage is BitmapImage imgOld)
                 {
                     imgOld.ImageOpened -= Img_ImageOpened;
                 }
@@ -403,7 +402,7 @@ namespace Files.Filesystem
             }
             else
             {
-                suffix = PrimaryItemAttribute == StorageItemTypes.File ? "FileItemAutomation".GetLocalized() : "FolderItemAutomation".GetLocalized();
+                suffix = PrimaryItemAttribute == StorageItemTypes.File ? "Folder".GetLocalized() : "FolderItemAutomation".GetLocalized();
             }
 
             return $"{ItemName}, {suffix}";
@@ -415,7 +414,6 @@ namespace Files.Filesystem
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
         public bool IsFtpItem => this is FtpItem;
         public bool IsZipItem => this is ZipItem;
-
         public virtual bool IsExecutable => new[] { ".exe", ".bat", ".cmd" }.Contains(Path.GetExtension(ItemPath), StringComparer.OrdinalIgnoreCase);
         public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
 
@@ -432,7 +430,7 @@ namespace Files.Filesystem
         public string Key { get; set; }
 
         /// <summary>
-        /// Manually check if a folder path contains child items, 
+        /// Manually check if a folder path contains child items,
         /// updating the ContainsFilesOrFolders property from its default value of true
         /// </summary>
         public void UpdateContainsFilesFolders()
@@ -500,7 +498,7 @@ namespace Files.Filesystem
             FileSizeBytes = item.Size;
             ContainsFilesOrFolders = !isFile;
             FileImage = null;
-            FileSize = ByteSize.FromBytes(FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
+            FileSize = FileSizeBytes.ToSizeString();
             Opacity = 1;
             IsHiddenItem = false;
         }
@@ -519,7 +517,19 @@ namespace Files.Filesystem
         // For shortcut elements (.lnk and .url)
         public string TargetPath { get; set; }
 
-        public override string ItemName => Path.GetFileNameWithoutExtension(ItemNameRaw); // Always hide extension
+        public override string ItemName
+        {
+            get
+            {
+                if (IsSymLink)
+                {
+                    return base.ItemName;
+                }
+
+                // Always hide extension for shortcuts
+                return Path.GetFileNameWithoutExtension(ItemNameRaw);
+            }
+        }
 
         public string Arguments { get; set; }
         public string WorkingDirectory { get; set; }

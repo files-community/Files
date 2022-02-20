@@ -1,12 +1,10 @@
 ﻿using Files.Common;
-using Files.DataModels;
 using Files.DataModels.NavigationControlItems;
 using Files.Extensions;
 using Files.Helpers;
 using Files.Services;
 using Files.UserControls;
 using Files.ViewModels;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;

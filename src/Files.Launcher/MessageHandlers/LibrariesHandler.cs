@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -13,7 +14,8 @@ using Windows.Foundation.Collections;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    public class LibrariesHandler : IMessageHandler
+    [SupportedOSPlatform("Windows10.0.10240")]
+    public class LibrariesHandler : Disposable, IMessageHandler
     {
         private PipeStream connection;
 
@@ -213,9 +215,12 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            librariesWatcher?.Dispose();
+            if (disposing)
+            {
+                librariesWatcher?.Dispose();
+            }
         }
     }
 }

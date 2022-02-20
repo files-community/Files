@@ -1,5 +1,4 @@
-﻿using ByteSizeLib;
-using Files.Common;
+﻿using Files.Common;
 using Files.Extensions;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
@@ -208,9 +207,13 @@ namespace Files.Filesystem.Search
                 {
                     var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
                     var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+                    var startWithDot = findData.cFileName.StartsWith(".");
                     
-                    bool shouldBeListed = !isHidden || (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden));
-
+                    bool shouldBeListed = (!isHidden || 
+                        (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && 
+                        (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) && 
+                        (!startWithDot || UserSettingsService.PreferencesSettingsService.ShowDotFiles);
+                    
                     if (shouldBeListed)
                     {
                         var item = GetListedItemAsync(match.FilePath, findData);
@@ -298,10 +301,13 @@ namespace Files.Filesystem.Search
 
                         var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
                         var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-                        bool shouldBeListed = hiddenOnly ?
-                            isHidden && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden) :
-                            !isHidden || (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden));
+                        var startWithDot = findData.cFileName.StartsWith(".");
 
+                        bool shouldBeListed = (hiddenOnly ?
+                            isHidden && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden) :
+                            !isHidden || (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) &&
+                            (!startWithDot || UserSettingsService.PreferencesSettingsService.ShowDotFiles);
+                        
                         if (shouldBeListed)
                         {
                             var item = GetListedItemAsync(itemPath, findData);
@@ -417,7 +423,7 @@ namespace Files.Filesystem.Search
                     itemType = itemFileExtension.Trim('.') + " " + itemType;
                 }
 
-                var itemSize = ByteSize.FromBytes(props.Size).ToBinaryString().ConvertSizeAbbreviation();
+                var itemSize = props.Size.ToSizeString();
 
                 listedItem = new ListedItem(null)
                 {

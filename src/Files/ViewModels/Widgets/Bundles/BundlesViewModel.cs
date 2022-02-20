@@ -9,7 +9,6 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -125,7 +124,7 @@ namespace Files.ViewModels.Widgets.Bundles
         {
             TextBox inputText = new TextBox()
             {
-                PlaceholderText = "BundlesWidgetAddBundleInputPlaceholderText".GetLocalized()
+                PlaceholderText = "DesiredName".GetLocalized()
             };
 
             TextBlock tipText = new TextBlock()
@@ -151,9 +150,9 @@ namespace Files.ViewModels.Widgets.Bundles
                         }
                     }
                 },
-                TitleText = "BundlesWidgetCreateBundleDialogTitleText".GetLocalized(),
+                TitleText = "CreateBundle".GetLocalized(),
                 SubtitleText = "BundlesWidgetCreateBundleDialogSubtitleText".GetLocalized(),
-                PrimaryButtonText = "BundlesWidgetCreateBundleDialogPrimaryButtonText".GetLocalized(),
+                PrimaryButtonText = "Confirm".GetLocalized(),
                 CloseButtonText = "Cancel".GetLocalized(),
                 PrimaryButtonAction = (vm, e) =>
                 {

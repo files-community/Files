@@ -1,5 +1,4 @@
-﻿using ByteSizeLib;
-using Files.Extensions;
+﻿using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp;
@@ -11,7 +10,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
 
 namespace Files.ViewModels.Properties
 {
@@ -61,8 +59,8 @@ namespace Files.ViewModels.Properties
             }
             ViewModel.IsHidden = List.All(x => NativeFileOperationsHelper.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.Hidden));
 
-            ViewModel.LastSeparatorVisibility = Visibility.Collapsed;
-            ViewModel.ItemSizeVisibility = Visibility.Visible;
+            ViewModel.LastSeparatorVisibility = false;
+            ViewModel.ItemSizeVisibility = true;
 
             ViewModel.FilesCount += List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).ToList().Count;
             ViewModel.FoldersCount += List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder).ToList().Count;
@@ -71,7 +69,7 @@ namespace Files.ViewModels.Properties
             long filesSize = List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).Sum(x => x.FileSizeBytes);
             long foldersSize = 0;
 
-            ViewModel.ItemSizeProgressVisibility = Visibility.Visible;
+            ViewModel.ItemSizeProgressVisibility = true;
             foreach (var item in List)
             {
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
@@ -91,10 +89,10 @@ namespace Files.ViewModels.Properties
                     }
                 }
             }
-            ViewModel.ItemSizeProgressVisibility = Visibility.Collapsed;
+            ViewModel.ItemSizeProgressVisibility = false;
 
             totalSize = filesSize + foldersSize;
-            ViewModel.ItemSize = $"{ByteSize.FromBytes(totalSize).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(totalSize).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
+            ViewModel.ItemSize = totalSize.ToLongSizeString();
             SetItemsCountString();
         }
 

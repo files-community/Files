@@ -1,19 +1,19 @@
 ﻿using Files.Common;
+using FilesFullTrust.MMI;
+using Microsoft.Management.Infrastructure;
 using System;
 using System.IO.Pipes;
-using Microsoft.Management.Infrastructure;
-using FilesFullTrust.MMI;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 
 namespace FilesFullTrust
 {
-    public class DeviceWatcher : IDisposable
+    [SupportedOSPlatform("Windows10.0.10240")]
+    public class DeviceWatcher : Disposable
     {
         private ManagementEventWatcher insertWatcher, removeWatcher, modifyWatcher;
-        private PipeStream connection;
-
-        private const string WpdGuid = "{6ac27878-a6fa-4155-ba85-f98f491d4f33}";
+        private readonly PipeStream connection;
 
         public DeviceWatcher(PipeStream connection)
         {
@@ -79,14 +79,17 @@ namespace FilesFullTrust
             }
         }
 
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            insertWatcher?.Dispose();
-            removeWatcher?.Dispose();
-            modifyWatcher?.Dispose();
-            insertWatcher = null;
-            removeWatcher = null;
-            modifyWatcher = null;
+            if (disposing)
+            {
+                insertWatcher?.Dispose();
+                removeWatcher?.Dispose();
+                modifyWatcher?.Dispose();
+                insertWatcher = null;
+                removeWatcher = null;
+                modifyWatcher = null;
+            }
         }
     }
 }
