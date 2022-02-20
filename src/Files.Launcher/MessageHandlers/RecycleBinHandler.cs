@@ -17,7 +17,7 @@ using Windows.Storage;
 namespace FilesFullTrust.MessageHandlers
 {
     [SupportedOSPlatform("Windows10.0.10240")]
-    public class RecycleBinHandler : IMessageHandler
+    public class RecycleBinHandler : Disposable, IMessageHandler
     {
         private IList<FileSystemWatcher> binWatchers;
         private PipeStream connection;
@@ -135,11 +135,14 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            foreach (var watcher in binWatchers)
+            if (disposing)
             {
-                watcher.Dispose();
+                foreach (var watcher in binWatchers)
+                {
+                    watcher.Dispose();
+                }
             }
         }
     }

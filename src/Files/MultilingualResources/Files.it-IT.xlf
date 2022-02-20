@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
   <file datatype="xml" source-language="en-US" target-language="it-IT" original="FILES/STRINGS/EN-US/RESOURCES.RESW" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
     <header>
       <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6915.0" tool-company="Microsoft" />
@@ -28,11 +28,11 @@
         </trans-unit>
         <trans-unit id="PropertiesCreated.Text" translate="yes" xml:space="preserve">
           <source>Created:</source>
-          <target state="translated">Creato il:</target>
+          <target state="translated">Data creazione:</target>
         </trans-unit>
         <trans-unit id="PropertiesItemFileName.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Item Name</source>
-          <target state="translated">Nome:</target>
+          <target state="translated">Nome file</target>
         </trans-unit>
         <trans-unit id="PropertiesItemPath.Text" translate="yes" xml:space="preserve">
           <source>Path:</source>
@@ -44,7 +44,7 @@
         </trans-unit>
         <trans-unit id="ErrorDialogThisActionCannotBeDone" translate="yes" xml:space="preserve">
           <source>This action cannot be done</source>
-          <target state="translated">Impossibile eseguire questa operazione</target>
+          <target state="translated">Impossibile eseguire questa azione</target>
         </trans-unit>
         <trans-unit id="ErrorDialogTheDestinationFolder" translate="yes" xml:space="preserve">
           <source>The destination folder</source>
@@ -68,7 +68,7 @@
         </trans-unit>
         <trans-unit id="PropertiesModified.Text" translate="yes" xml:space="preserve">
           <source>Modified:</source>
-          <target state="translated">Modificato il:</target>
+          <target state="translated">Ultima modifica:</target>
         </trans-unit>
         <trans-unit id="RecentItemClearAll.Text" translate="yes" xml:space="preserve">
           <source>Clear all items</source>
@@ -84,7 +84,7 @@
         </trans-unit>
         <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
           <source>Files you've previously accessed will show up here</source>
-          <target state="translated">I file e le cartelle a cui hai avuto accesso di recente verranno visualizzati qui</target>
+          <target state="translated">I file e le cartelle che hai visualizzato di recente verranno mostrati qui</target>
         </trans-unit>
         <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
@@ -120,7 +120,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
           <source>Open a specific page or pages</source>
-          <target state="translated">Apri una specifica pagina/pagine</target>
+          <target state="translated">Apri una o più specifiche pagine</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTitle.Text" translate="yes" xml:space="preserve">
           <source>Preferences</source>
@@ -200,7 +200,7 @@
         </trans-unit>
         <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
           <source>Welcome to Files!</source>
-          <target state="translated">Benvenuti in Files!</target>
+          <target state="translated">Benvenuto in Files!</target>
         </trans-unit>
         <trans-unit id="WelcomeDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Grant Permission</source>
@@ -208,7 +208,7 @@
         </trans-unit>
         <trans-unit id="WelcomeDialogTextBlock.Text" translate="yes" xml:space="preserve">
           <source>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </source>
-          <target state="translated">Per iniziare, devi concederci l'autorizzazione per visualizzare i tuoi file. Si aprirà una pagina Impostazioni in cui puoi concederci questa autorizzazione. Dovrai riaprire l'app ad operazione completata.</target>
+          <target state="translated">Per iniziare, devi concedere l'autorizzazione per visualizzare i tuoi file. Si aprirà una pagina Impostazioni in cui puoi concedere questa autorizzazione. Sarà necessario riaprire l'app quando avrai concesso l'autorizzazione.</target>
         </trans-unit>
         <trans-unit id="FileFolderListItem" translate="yes" xml:space="preserve">
           <source>File folder</source>
@@ -296,19 +296,19 @@
         </trans-unit>
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
-          <target state="translated">Esperimenti</target>
+          <target state="translated">Funzioni sperimentali</target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
           <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
-          <target state="translated">ATTENZIONE: CARATTERISTICHE SPERIMENTALI!</target>
+          <target state="translated">ATTENZIONE: FUNZIONI SPERIMENTALI!</target>
         </trans-unit>
         <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
           <source>Experimental</source>
-          <target state="translated">Esperimenti</target>
+          <target state="translated">Funzioni sperimentali</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogContent" translate="yes" xml:space="preserve">
           <source>An item with this name already exists in this directory.</source>
-          <target state="translated">Un elemento con questo nome esiste già in questa cartella.</target>
+          <target state="translated">Un elemento con lo stesso nome esiste già in questa cartella.</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogTitle" translate="yes" xml:space="preserve">
           <source>Item already exists</source>
@@ -440,7 +440,7 @@
         </trans-unit>
         <trans-unit id="FileNameTeachingTip.Subtitle" translate="yes" xml:space="preserve">
           <source>The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
-          <target state="translated">Il nome dell'elemento non deve contenere i seguenti caratteri: \ / : * ? "  |</target>
+          <target state="translated">Il nome dell'elemento non può contenere i seguenti caratteri: \ / : * ? "  |</target>
         </trans-unit>
         <trans-unit id="FileNameTeachingTip.CloseButtonContent" translate="yes" xml:space="preserve">
           <source>OK</source>
@@ -472,7 +472,7 @@
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to permanently delete all these items?</source>
-          <target state="translated">Sei sicuro di voler cancellare tutti gli elementi?</target>
+          <target state="translated">Sei sicuro di voler cancellare permanentemente questi elementi?</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogTitle" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
@@ -480,11 +480,11 @@
         </trans-unit>
         <trans-unit id="Yes" translate="yes" xml:space="preserve">
           <source>Yes</source>
-          <target state="translated">OK</target>
+          <target state="translated">Sì</target>
         </trans-unit>
         <trans-unit id="ItemSizeBytes" translate="yes" xml:space="preserve">
           <source>bytes</source>
-          <target state="translated">byte</target>
+          <target state="translated">bytes</target>
         </trans-unit>
         <trans-unit id="KiloByteSymbol" translate="yes" xml:space="preserve">
           <source>KB</source>
@@ -528,7 +528,7 @@
         </trans-unit>
         <trans-unit id="BitlockerInvalidPwDialog.Title" translate="yes" xml:space="preserve">
           <source>BitLocker error</source>
-          <target state="translated">Errore BitLocker</target>
+          <target state="translated">Errore di BitLocker</target>
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
           <source>Contains:</source>
@@ -624,7 +624,7 @@
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFile" translate="yes" xml:space="preserve">
           <source>The source and destination file names are the same.</source>
-          <target state="translated">In nomi di origine e di destinazione coincidono.</target>
+          <target state="translated">In nomi del file di origine e di destinazione coincidono.</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFolder" translate="yes" xml:space="preserve">
           <source>The destination folder is the same as the source folder.</source>
@@ -664,7 +664,7 @@
         </trans-unit>
         <trans-unit id="PropertiesShortcutTypeLink" translate="yes" xml:space="preserve">
           <source>Web link</source>
-          <target state="translated">Documento web</target>
+          <target state="translated">Link web</target>
         </trans-unit>
         <trans-unit id="General" translate="yes" xml:space="preserve">
           <source>General</source>
@@ -700,7 +700,7 @@
         </trans-unit>
         <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
           <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</source>
-          <target state="translated">L'elemento è non valido o non accessibile.{0}Messaggio di errore:{0}{1}</target>
+          <target state="translated">L'elemento è non valido o è inaccessibile.{0}Messaggio di errore:{0}{1}</target>
         </trans-unit>
         <trans-unit id="InvalidItemDialogTitle" translate="yes" xml:space="preserve">
           <source>Invalid item</source>
@@ -772,7 +772,7 @@
         </trans-unit>
         <trans-unit id="ContextMenuMoreItemsLabel" translate="yes" xml:space="preserve">
           <source>More</source>
-          <target state="translated">Altre opzioni</target>
+          <target state="translated">Altro</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingTitle.Text" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
@@ -804,7 +804,7 @@
         </trans-unit>
         <trans-unit id="AddDialogDescription.Text" translate="yes" xml:space="preserve">
           <source>Choose a type for this new item below</source>
-          <target state="translated">Scegli il tipo per il nuovo elemento</target>
+          <target state="needs-review-translation">Scegli il tipo per il nuovo elemento</target>
         </trans-unit>
         <trans-unit id="Cancel" translate="yes" xml:space="preserve">
           <source>Cancel</source>
@@ -820,7 +820,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
-          <target state="translated">Modalità di visualizzazione</target>
+          <target state="needs-review-translation">Modalità di visualizzazione</target>
         </trans-unit>
         <trans-unit id="NavBackButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Navigate backwards</source>
@@ -836,7 +836,7 @@
         </trans-unit>
         <trans-unit id="NavUpButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Go up one directory</source>
-          <target state="translated">Sali al livello superiore</target>
+          <target state="translated">Sali alla cartella superiore</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUs.Text" translate="yes" xml:space="preserve">
           <source>Support us</source>
@@ -868,11 +868,11 @@
         </trans-unit>
         <trans-unit id="Drives" translate="yes" xml:space="preserve">
           <source>Drives</source>
-          <target state="translated">Risorse</target>
+          <target state="translated">Dischi</target>
         </trans-unit>
         <trans-unit id="EjectNotificationHeader" translate="yes" xml:space="preserve">
           <source>Safe to remove hardware</source>
-          <target state="translated">Il dispositivo può essere rimosso senza problemi</target>
+          <target state="translated">È sicuro rimuovere il dispositivo</target>
         </trans-unit>
         <trans-unit id="EjectNotificationBody" translate="yes" xml:space="preserve">
           <source>The device can now be safely removed from the computer.</source>
@@ -884,7 +884,7 @@
         </trans-unit>
         <trans-unit id="EjectNotificationErrorDialogBody" translate="yes" xml:space="preserve">
           <source>This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</source>
-          <target state="translated">Questo dispositivo è in uso. Si prega di chiudere ogni programma, finestra o scheda che potrebbe tenerlo occupato e riprovare.</target>
+          <target state="translated">Questo dispositivo è in uso. Si prega di chiudere ogni programma, finestra o scheda che potrebbe utilizzarlo e riprovare.</target>
         </trans-unit>
         <trans-unit id="SideBarEjectDevice.Text" translate="yes" xml:space="preserve">
           <source>Eject</source>
@@ -1064,7 +1064,7 @@
         </trans-unit>
         <trans-unit id="Conductor" translate="yes" xml:space="preserve">
           <source>Conductor</source>
-          <target state="translated">Conduttori</target>
+          <target state="translated">Conduttore</target>
         </trans-unit>
         <trans-unit id="PropertyDiscNumber" translate="yes" xml:space="preserve">
           <source>Disc Number</source>
@@ -1096,7 +1096,7 @@
         </trans-unit>
         <trans-unit id="PropertyContentDistributor" translate="yes" xml:space="preserve">
           <source>Content Distributor</source>
-          <target state="translated">Provider di contenuti</target>
+          <target state="translated">Distributore del contenuto</target>
         </trans-unit>
         <trans-unit id="PropertyDateReleased" translate="yes" xml:space="preserve">
           <source>Date Released</source>
@@ -1104,11 +1104,11 @@
         </trans-unit>
         <trans-unit id="PropertySeriesName" translate="yes" xml:space="preserve">
           <source>Series Name</source>
-          <target state="translated">Serie</target>
+          <target state="translated">Nome serie</target>
         </trans-unit>
         <trans-unit id="PropertySeasonNumber" translate="yes" xml:space="preserve">
           <source>Season Number</source>
-          <target state="translated">Stagione</target>
+          <target state="translated">Numero stagione</target>
         </trans-unit>
         <trans-unit id="PropertyEpisodeNumber" translate="yes" xml:space="preserve">
           <source>Episode Number</source>
@@ -1124,7 +1124,7 @@
         </trans-unit>
         <trans-unit id="PropertyProviderStyle" translate="yes" xml:space="preserve">
           <source>Provider Style</source>
-          <target state="translated">Stile di musica</target>
+          <target state="needs-review-translation">Stile</target>
         </trans-unit>
         <trans-unit id="PropertyPublisher" translate="yes" xml:space="preserve">
           <source>Publisher</source>
@@ -1132,19 +1132,19 @@
         </trans-unit>
         <trans-unit id="PropertyThumbnailLargePath" translate="yes" xml:space="preserve">
           <source>Thumbnail Large Path</source>
-          <target state="translated">Percorso anteprima grande</target>
+          <target state="needs-review-translation">Percorso anteprima grande</target>
         </trans-unit>
         <trans-unit id="PropertyThumbnailLargeUri" translate="yes" xml:space="preserve">
           <source>Thumbnail Large Uri</source>
-          <target state="translated">Url anteprima grande</target>
+          <target state="needs-review-translation">Url anteprima grande</target>
         </trans-unit>
         <trans-unit id="PropertyThumbnailSmallPath" translate="yes" xml:space="preserve">
           <source>Thumbnail Small Path</source>
-          <target state="translated">Percorso anteprima piccola</target>
+          <target state="needs-review-translation">Percorso anteprima piccola</target>
         </trans-unit>
         <trans-unit id="PropertyThumbnailSmallUri" translate="yes" xml:space="preserve">
           <source>Thumbnail Small Uri</source>
-          <target state="translated">Url anteprima piccola</target>
+          <target state="needs-review-translation">Url anteprima piccola</target>
         </trans-unit>
         <trans-unit id="PropertyUserWebUrl" translate="yes" xml:space="preserve">
           <source>User Web Url</source>
@@ -1548,8 +1548,9 @@
           <target state="translated">Archivi Cloud</target>
         </trans-unit>
         <trans-unit id="SidebarNetworkDrives" translate="yes" xml:space="preserve">
-          <source>Network drives</source>
-          <target state="translated">Dischi di rete</target>
+          <source>Network Drives</source>
+          <target state="needs-review-translation">Dischi di rete</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="Network" translate="yes" xml:space="preserve">
           <source>Network</source>
@@ -2984,14 +2985,6 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
           <source>Show favorites section</source>
           <target state="translated">Mostra sezione Preferiti</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByFileTag.Text" translate="yes" xml:space="preserve">
-          <source>File tag</source>
-          <target state="translated">Tag del file</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionFileTag.Text" translate="yes" xml:space="preserve">
-          <source>File tag</source>
-          <target state="translated">Tag del file</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenParentFolder.Text" translate="yes" xml:space="preserve">
           <source>Open parent folder</source>
           <target state="translated">Apri cartella superiore</target>
@@ -3001,16 +2994,16 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
           <target state="translated">Sconosciuto</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowFileTag.Text" translate="yes" xml:space="preserve">
-          <source>File tag</source>
-          <target state="translated">Tag del file</target>
+          <source>Tag</source>
+          <target state="translated">Etichetta</target>
         </trans-unit>
         <trans-unit id="SettingsEditFileTagsExpander.Title" translate="yes" xml:space="preserve">
-          <source>Edit file tags</source>
-          <target state="translated">Gestisci i tag dei file</target>
+          <source>Edit tags</source>
+          <target state="translated">Gestisci le etichette</target>
         </trans-unit>
         <trans-unit id="SettingsEnableFileTags.Title" translate="yes" xml:space="preserve">
-          <source>Enable file tags</source>
-          <target state="translated">Abilita i tag dei file</target>
+          <source>Enable tags</source>
+          <target state="translated">Abilita le etichette</target>
         </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
@@ -3226,7 +3219,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
         </trans-unit>
         <trans-unit id="RestoreDefault" translate="yes" xml:space="preserve">
           <source>Restore default</source>
-          <target state="translated">Ripristina prederfinita</target>
+          <target state="translated">Ripristina predefiniti</target>
         </trans-unit>
         <trans-unit id="Compatibility" translate="yes" xml:space="preserve">
           <source>Compatibility</source>
@@ -3238,7 +3231,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
         </trans-unit>
         <trans-unit id="HighDpiOption_UseDPIOnLogin" translate="yes" xml:space="preserve">
           <source>On Windows login</source>
-          <target state="translated">Al login di Windows</target>
+          <target state="translated">All'avvio di Windows</target>
         </trans-unit>
         <trans-unit id="HighDpiOption_UseDPIOnProgramStart" translate="yes" xml:space="preserve">
           <source>On program start</source>
@@ -3471,7 +3464,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
         </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
-          <target state="translated">Calcolare la dimensione delle cartelle richiede molte risorse a aumenta il carico CPU.</target>
+          <target state="translated">Calcolare la dimensione delle cartelle richiede molte risorse e potrebbe aumentare l'uso della CPU.</target>
         </trans-unit>
         <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
           <source>Open in</source>
@@ -3524,6 +3517,34 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
         <trans-unit id="PrepareInProgress" translate="yes" xml:space="preserve">
           <source>Preparing items</source>
           <target state="translated">Preparazione in corso</target>
+        </trans-unit>
+        <trans-unit id="StatusCopyFailed" translate="yes" xml:space="preserve">
+          <source>Copy failed</source>
+          <target state="translated">Copia non riuscita</target>
+        </trans-unit>
+        <trans-unit id="StatusCopyFailedDetails_Plural" translate="yes" xml:space="preserve">
+          <source>Failed to copy {0} items from {1} to {2}</source>
+          <target state="translated">Copia di {0} elementi da {1} a {2} fallita</target>
+        </trans-unit>
+        <trans-unit id="StatusCopyFailedDetails_Singular" translate="yes" xml:space="preserve">
+          <source>Failed to copy {0} item from {1} to {2}</source>
+          <target state="translated">Copia di {0} elemento da {1} a {2} fallita</target>
+        </trans-unit>
+        <trans-unit id="StatusMoveFailed" translate="yes" xml:space="preserve">
+          <source>Move failed</source>
+          <target state="translated">Spostamento non riuscito</target>
+        </trans-unit>
+        <trans-unit id="FileTags" translate="yes" xml:space="preserve">
+          <source>Tags</source>
+          <target state="translated">Etichette</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowFileTagsSection.Title" translate="yes" xml:space="preserve">
+          <source>Show Tags section</source>
+          <target state="translated">Mostra sezione Etichette</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show Tags section</source>
+          <target state="translated">Mostra sezione Etichette</target>
         </trans-unit>
       </group>
     </body>

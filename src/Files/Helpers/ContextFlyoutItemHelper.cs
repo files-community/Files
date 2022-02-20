@@ -275,7 +275,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortByFileTag/Text".GetLocalized(),
+                            Text = "FileTags".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedByFileTag,
                             Command = new RelayCommand(() => itemViewModel.IsSortedByFileTag = true),
                             ShowItem = userSettingsService.PreferencesSettingsService.AreFileTagsEnabled,
@@ -426,7 +426,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortByFileTag/Text".GetLocalized(),
+                            Text = "FileTags".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FileTag,
                             ShowItem = userSettingsService.PreferencesSettingsService.AreFileTagsEnabled,
                             ShowInRecycleBin = true,
@@ -648,7 +648,8 @@ namespace Files.Helpers
                     Items = new List<ContextMenuFlyoutItemViewModel>() {
                         new()
                         {
-                            Text = "Placeholder"
+                            Text = "Placeholder",
+                            ShowInSearchPage = true,
                         }
                     },
                     ShowInSearchPage = true,

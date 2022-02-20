@@ -143,7 +143,7 @@ namespace Files.Filesystem
             set => SetProperty(ref opacity, value);
         }
 
-        private CloudDriveSyncStatusUI syncStatusUI = new CloudDriveSyncStatusUI();
+        private CloudDriveSyncStatusUI syncStatusUI = new();
         public CloudDriveSyncStatusUI SyncStatusUI
         {
             get => syncStatusUI;

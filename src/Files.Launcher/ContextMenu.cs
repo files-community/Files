@@ -343,19 +343,28 @@ namespace FilesFullTrust
     {
         public ContextMenuItem()
         {
-            this.SubItems = new List<Win32ContextMenuItem>();
+            SubItems = new List<Win32ContextMenuItem>();
         }
 
         public void Dispose()
         {
-            if (SubItems != null)
-            {
-                foreach (var si in SubItems)
-                {
-                    (si as IDisposable)?.Dispose();
-                }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-                SubItems = null;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (SubItems != null)
+                {
+                    foreach (var si in SubItems)
+                    {
+                        (si as IDisposable)?.Dispose();
+                    }
+
+                    SubItems = null;
+                }
             }
         }
     }

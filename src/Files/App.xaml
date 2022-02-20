@@ -31,9 +31,7 @@
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Light">
                             <Color x:Key="SolidBackgroundAcrylic">#FFFFFF</Color>
-                            <!--  Corner Radius  -->
-                            <CornerRadius x:Key="NavToolbarCornerRadius">0,0,0,8</CornerRadius>
-                            <!--  Tabs  -->
+                            <CornerRadius x:Key="NavToolbarCornerRadius">0</CornerRadius>
                             <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SubtleFillColorTransparent}" />
                             <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource ControlFillColorDefault}" />
                             <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SubtleFillColorTertiary}" />
@@ -41,28 +39,17 @@
                             <SolidColorBrush x:Key="TabViewItemSeparator" Color="{StaticResource DividerStrokeColorDefault}" />
                             <SolidColorBrush x:Key="TabContainerFillColorPrimary" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
                             <SolidColorBrush x:Key="TabContainerFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
-                            <!--  Navigation Toolbar  -->
                             <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="#00000000" />
                             <SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
-                            <!--  Horizontal Tab Control  -->
-                            <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
-                            <!--  File Browser Control  -->
                             <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
-
                             <SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
-
-                            <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
-
                             <StaticResource x:Key="SidebarContentBackgroundBrush" ResourceKey="LayerFillColorDefaultBrush" />
                             <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <Color x:Key="SolidBackgroundAcrylic">#2C2C2C</Color>
-                            <!--  Corner Radius  -->
-                            <CornerRadius x:Key="NavToolbarCornerRadius">0,0,0,8</CornerRadius>
-
-                            <!--  Tabs  -->
+                            <CornerRadius x:Key="NavToolbarCornerRadius">0</CornerRadius>
                             <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SubtleFillColorTransparent}" />
                             <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource ControlFillColorDefault}" />
                             <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SubtleFillColorTertiary}" />
@@ -70,38 +57,17 @@
                             <SolidColorBrush x:Key="TabViewItemSeparator" Color="{StaticResource DividerStrokeColorDefault}" />
                             <SolidColorBrush x:Key="TabContainerFillColorPrimary" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
                             <SolidColorBrush x:Key="TabContainerFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
-                            <!--  Navigation Toolbar  -->
                             <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="#00000000" />
                             <SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
-                            <!--  Horizontal Tab Control  -->
-                            <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
-                            <!--  File Browser Control  -->
                             <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
-
                             <SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
-
-                            <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
-
                             <StaticResource x:Key="SidebarContentBackgroundBrush" ResourceKey="LayerFillColorDefaultBrush" />
                             <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
-                            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{StaticResource SystemColorWindowColor}" />
-                            <StaticResource x:Key="SolidBackgroundFillColorBase" ResourceKey="SystemColorWindowColor" />
-                            <StaticResource x:Key="SolidBackgroundFillColorSecondary" ResourceKey="SystemColorWindowColor" />
-                            <StaticResource x:Key="SolidBackgroundFillColorTertiary" ResourceKey="SystemColorWindowColor" />
-                            <StaticResource x:Key="SolidBackgroundFillColorQuarternary" ResourceKey="SystemColorWindowColor" />
-                            <StaticResource x:Key="ControlStrokeColorDefault" ResourceKey="SystemColorWindowTextColor" />
-                            <StaticResource x:Key="ControlStrokeColorSecondary" ResourceKey="SystemColorWindowTextColor" />
-                            <SolidColorBrush x:Key="SolidBackgroundFillColorBaseBrush" Color="{StaticResource SystemColorWindowColor}" />
-                            <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{StaticResource SystemColorWindowColor}" />
-                            <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{StaticResource SystemColorWindowColor}" />
-                            <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{StaticResource SystemColorWindowColor}" />
                             <Color x:Key="SolidBackgroundAcrylic">#2C2C2C</Color>
-                            <!--  Corner Radius  -->
-                            <CornerRadius x:Key="NavToolbarCornerRadius">0,0,0,8</CornerRadius>
-                            <!--  Tabs  -->
+                            <CornerRadius x:Key="NavToolbarCornerRadius">0</CornerRadius>
                             <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SystemColorWindowColor}" />
                             <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource SystemColorHighlightColor}" />
                             <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SystemColorHighlightColor}" />
@@ -109,18 +75,10 @@
                             <SolidColorBrush x:Key="TabViewItemSeparator" Color="{StaticResource SystemColorGrayTextColor}" />
                             <SolidColorBrush x:Key="TabContainerFillColorPrimary" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
                             <SolidColorBrush x:Key="TabContainerFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
-                            <!--  Navigation Toolbar  -->
                             <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
-                            <!--  Horizontal Tab Control  -->
-                            <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
-                            <!--  File Browser Control  -->
                             <StaticResource x:Key="FileBrowserHeaderBackgroundBrush" ResourceKey="SolidBackgroundFillColorBaseBrush" />
-
                             <SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
-
-                            <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
-
                             <StaticResource x:Key="SidebarContentBackgroundBrush" ResourceKey="LayerFillColorDefaultBrush" />
                             <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="#0F000000" />

@@ -63,6 +63,8 @@ namespace Files
 
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
 
+        public PreviewPaneViewModel PreviewPaneViewModel => App.PreviewPaneViewModel;
+
         public MainViewModel MainViewModel => App.MainViewModel;
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
@@ -75,8 +77,6 @@ namespace Files
         public BaseLayoutCommandsViewModel CommandsViewModel { get; protected set; }
 
         public IShellPage ParentShellPageInstance { get; private set; } = null;
-
-        public PreviewPaneViewModel PreviewPaneViewModel { get; } = new PreviewPaneViewModel();
 
         public bool IsRenamingItem { get; set; } = false;
         public ListedItem RenamingItem { get; set; } = null;
@@ -167,23 +167,27 @@ namespace Files
                     ListedItem jumpedToItem = null;
                     ListedItem previouslySelectedItem = null;
 
-                    // Use FilesAndFolders because only displayed entries should be jumped to
-                    IEnumerable<ListedItem> candidateItems = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Where(f => f.ItemName.Length >= value.Length && string.Equals(f.ItemName.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
-
                     if (IsItemSelected)
                     {
                         previouslySelectedItem = SelectedItem;
                     }
 
-                    // If the user is trying to cycle through items
-                    // starting with the same letter
-                    if (value.Length == 1 && previouslySelectedItem != null)
+                    // Select first matching item after currently selected item
+                    if (previouslySelectedItem != null)
                     {
-                        // Try to select item lexicographically bigger than the previous item
-                        jumpedToItem = candidateItems.FirstOrDefault(f => f.ItemName.CompareTo(previouslySelectedItem.ItemName) > 0);
+                        // Use FilesAndFolders because only displayed entries should be jumped to
+                        IEnumerable<ListedItem> candidateItems = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders
+                            .SkipWhile(x => x != previouslySelectedItem)
+                            .Skip(value.Length == 1 ? 1 : 0) // User is trying to cycle through items starting with the same letter
+                            .Where(f => f.ItemName.Length >= value.Length && string.Equals(f.ItemName.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
+                        jumpedToItem = candidateItems.FirstOrDefault();
                     }
+
                     if (jumpedToItem == null)
                     {
+                        // Use FilesAndFolders because only displayed entries should be jumped to
+                        IEnumerable<ListedItem> candidateItems = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders
+                            .Where(f => f.ItemName.Length >= value.Length && string.Equals(f.ItemName.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
                         jumpedToItem = candidateItems.FirstOrDefault();
                     }
 
@@ -234,9 +238,13 @@ namespace Files
                         }
 
                         // check if the preview pane is open before updating the model
-                        if (((Window.Current.Content as Frame)?.Content as MainPage)?.LoadPreviewPane ?? false)
+                        if (PreviewPaneViewModel.IsPaneSelected)
                         {
-                            PreviewPaneViewModel.UpdateSelectedItemPreview();
+                            bool isPaneEnabled = ((Window.Current.Content as Frame)?.Content as MainPage)?.IsPaneEnabled ?? false;
+                            if (isPaneEnabled)
+                            {
+                                PreviewPaneViewModel.UpdateSelectedItemPreview();
+                            }
                         }
                     }
 

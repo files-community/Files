@@ -80,7 +80,7 @@
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="datamodels:Terminal">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                                <TextBlock Text="{x:Bind Name}" />
                             </StackPanel>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>

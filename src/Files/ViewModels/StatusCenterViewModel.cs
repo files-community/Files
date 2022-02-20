@@ -462,6 +462,8 @@ namespace Files.ViewModels
             PrimaryButtonClick = primaryButtonClicked;
             Status = ReturnResult.Failed;
 
+            CancelCommand = new RelayCommand(CancelOperation);
+
             if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
             {
                 throw new NotImplementedException();

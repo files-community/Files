@@ -15,7 +15,7 @@ using Windows.Foundation.Collections;
 namespace FilesFullTrust.MessageHandlers
 {
     [SupportedOSPlatform("Windows10.0.10240")]
-    public class LibrariesHandler : IMessageHandler
+    public class LibrariesHandler : Disposable, IMessageHandler
     {
         private PipeStream connection;
 
@@ -215,9 +215,12 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            librariesWatcher?.Dispose();
+            if (disposing)
+            {
+                librariesWatcher?.Dispose();
+            }
         }
     }
 }
