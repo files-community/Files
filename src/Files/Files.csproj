@@ -143,6 +143,7 @@
     <Compile Include="Converters\VisibilityInvertConverter.cs" />
     <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
     <Compile Include="DataModels\FilesystemItemsOperationDataModel.cs" />
+    <Compile Include="DataModels\NavigationControlItems\FileTagItem.cs" />
     <Compile Include="DataModels\NavigationControlItems\WslDistroItem.cs" />
     <Compile Include="Enums\LocalizedEnum.cs" />
     <Compile Include="Enums\PaneContents.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="Extensions\KeyboardAcceleratorExtensions.cs" />
     <Compile Include="Filesystem\FilesystemOperations\ShellFilesystemOperations.cs" />
     <Compile Include="Filesystem\FileTagsHelper.cs" />
+    <Compile Include="Filesystem\FileTagsManager.cs" />
     <Compile Include="Filesystem\FolderSizeProvider.cs" />
     <Compile Include="Filesystem\FtpManager.cs" />
     <Compile Include="Filesystem\Permissions\FilePermissionsManager.cs" />
@@ -1016,6 +1018,7 @@
     <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-400.png" />
     <Content Include="Assets\error.png" />
     <Content Include="Assets\FluentIcons\CloudDrive.png" />
+    <Content Include="Assets\FluentIcons\FileTags.png" />
     <Content Include="Assets\FluentIcons\Home.png" />
     <Content Include="Assets\FolderIcon2.svg" />
     <Content Include="Assets\FolderIcon.png" />

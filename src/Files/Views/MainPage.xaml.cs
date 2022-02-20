@@ -284,6 +284,21 @@ namespace Files.Views
 
                         break;
                     }
+
+                case NavigationControlItemType.FileTag:
+                    var tagPath = (invokedItemContainer.DataContext as INavigationControlItem).Path; // Get the path of the invoked item
+                    if (SidebarAdaptiveViewModel.PaneHolder?.ActivePane is IShellPage shp)
+                    {
+                        shp.NavigateToPath(tagPath, new NavigationArguments()
+                        {
+                            IsSearchResultPage = true,
+                            SearchPathParam = "Home".GetLocalized(),
+                            SearchQuery = tagPath,
+                            AssociatedTabInstance = shp
+                        });
+                    }
+                    return;
+
                 default:
                     {
                         navigationPath = invokedItemContainer.Tag?.ToString();
