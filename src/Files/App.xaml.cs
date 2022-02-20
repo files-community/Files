@@ -58,6 +58,7 @@ namespace Files
         public static DrivesManager DrivesManager { get; private set; }
         public static WSLDistroManager WSLDistroManager { get; private set; }
         public static LibraryManager LibraryManager { get; private set; }
+        public static FileTagsManager FileTagsManager { get; private set; }
         public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
         public static OptionalPackageManager OptionalPackageManager { get; private set; } = new OptionalPackageManager();
 
@@ -125,7 +126,6 @@ namespace Files
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
         {
             AppSettings ??= new SettingsViewModel();
-            RegistryToJsonSettingsMerger.MergeSettings();
 
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
             await ExternalResourcesHelper.LoadSelectedTheme();
@@ -138,6 +138,7 @@ namespace Files
             NetworkDrivesManager ??= new NetworkDrivesManager();
             CloudDrivesManager ??= new CloudDrivesManager();
             WSLDistroManager ??= new WSLDistroManager();
+            FileTagsManager ??= new FileTagsManager();
             SidebarPinnedController ??= new SidebarPinnedController();
             TerminalController ??= new TerminalController();
         }
@@ -174,6 +175,7 @@ namespace Files
                     LibraryManager.EnumerateLibrariesAsync(),
                     NetworkDrivesManager.EnumerateDrivesAsync(),
                     WSLDistroManager.EnumerateDrivesAsync(),
+                    FileTagsManager.EnumerateFileTagsAsync(),
                     SidebarPinnedController.InitializeAsync()
                 );
                 await Task.WhenAll(
