@@ -648,7 +648,8 @@ namespace Files.Helpers
                     Items = new List<ContextMenuFlyoutItemViewModel>() {
                         new()
                         {
-                            Text = "Placeholder"
+                            Text = "Placeholder",
+                            ShowInSearchPage = true,
                         }
                     },
                     ShowInSearchPage = true,
