@@ -224,8 +224,7 @@ namespace Files.Filesystem
                 return await filesystemOperations.DeleteItemsAsync(source, progress, errorCode, permanently, cancellationToken);
             }
 
-            source = source.DistinctBy(x => x.Path); // #5771
-            var deleleFilePaths = source.Select(s => s.Path);
+            var deleleFilePaths = source.Select(s => s.Path).Distinct();
             var deleteFromRecycleBin = source.Any() ? recycleBinHelpers.IsPathUnderRecycleBin(source.ElementAt(0).Path) : false;
             permanently |= deleteFromRecycleBin;
 
@@ -274,7 +273,7 @@ namespace Files.Filesystem
                 var recycledSources = deleteResult.Items.Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
                 if (recycledSources.Any())
                 {
-                    var sourceMatch = await recycledSources.Select(x => source.SingleOrDefault(s => s.Path == x.Source)).Where(x => x != null).ToListAsync();
+                    var sourceMatch = await recycledSources.Select(x => source.DistinctBy(x => x.Path).SingleOrDefault(s => s.Path == x.Source)).Where(x => x != null).ToListAsync();
                     return new StorageHistory(FileOperationType.Recycle,
                         sourceMatch,
                         await recycledSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
@@ -288,7 +287,7 @@ namespace Files.Filesystem
                 var failedSources = deleteResult.Items
                     .Where(x => !x.Succeeded && x.HResult != HResult.COPYENGINE_E_USER_CANCELLED && x.HResult != HResult.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND);
                 return await filesystemOperations.DeleteItemsAsync(
-                    await failedSources.Select(x => source.SingleOrDefault(s => s.Path == x.Source)).Where(x => x != null).ToListAsync(), progress, errorCode, permanently, cancellationToken);
+                    await failedSources.Select(x => source.DistinctBy(x => x.Path).SingleOrDefault(s => s.Path == x.Source)).Where(x => x != null).ToListAsync(), progress, errorCode, permanently, cancellationToken);
             }
         }
 
