@@ -64,14 +64,18 @@ namespace Files.Interacts
             PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.PointerWheelChanged);
             GridViewSizeDecreaseCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CommandsModel.GridViewSizeDecrease);
             GridViewSizeIncreaseCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CommandsModel.GridViewSizeIncrease);
-            DragOverCommand = new RelayCommand<DragEventArgs>(e => _ = CommandsModel.DragOver(e));
-            DropCommand = new RelayCommand<DragEventArgs>(e => _ = CommandsModel.Drop(e));
+            DragOverCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.DragOver);
+            DropCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.Drop);
             RefreshCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RefreshItems);
             SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(CommandsModel.SearchUnindexedItems);
-            CreateFolderWithSelection = new RelayCommand<RoutedEventArgs>(CommandsModel.CreateFolderWithSelection);
-            DecompressArchiveCommand = new RelayCommand(CommandsModel.DecompressArchive);
-            DecompressArchiveHereCommand = new RelayCommand(CommandsModel.DecompressArchiveHere);
-            DecompressArchiveToChildFolderCommand = new RelayCommand(CommandsModel.DecompressArchiveToChildFolder);
+            CreateFolderWithSelection = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.CreateFolderWithSelection);
+            DecompressArchiveCommand = new AsyncRelayCommand(CommandsModel.DecompressArchive);
+            DecompressArchiveHereCommand = new AsyncRelayCommand(CommandsModel.DecompressArchiveHere);
+            DecompressArchiveToChildFolderCommand = new AsyncRelayCommand(CommandsModel.DecompressArchiveToChildFolder);
+            InstallInfDriver = new AsyncRelayCommand(CommandsModel.InstallInfDriver);
+            RotateImageLeftCommand = new AsyncRelayCommand(CommandsModel.RotateImageLeft);
+            RotateImageRightCommand = new AsyncRelayCommand(CommandsModel.RotateImageRight);
+            InstallFontCommand = new AsyncRelayCommand(CommandsModel.InstallFont);
         }
 
         #endregion Command Initialization
@@ -167,6 +171,14 @@ namespace Files.Interacts
         public ICommand DecompressArchiveHereCommand { get; private set; }
 
         public ICommand DecompressArchiveToChildFolderCommand { get; private set; }
+
+        public ICommand InstallInfDriver { get; set; }
+
+        public ICommand RotateImageLeftCommand { get; private set; }
+
+        public ICommand RotateImageRightCommand { get; private set; }
+
+        public ICommand InstallFontCommand { get; private set; }
 
         #endregion Commands
 

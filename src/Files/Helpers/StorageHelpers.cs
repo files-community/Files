@@ -81,7 +81,7 @@ namespace Files.Helpers
                     {
                         await GetFile();
                     }
-                    
+
                     if (!file || file.Result == null) // Possibly a folder
                     {
                         await GetFolder();

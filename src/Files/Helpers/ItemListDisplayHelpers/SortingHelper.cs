@@ -37,7 +37,7 @@ namespace Files.Helpers
 
             // In ascending order, show folders first, then files.
             // So, we use == StorageItemTypes.File to make the value for a folder equal to 0, and equal to 1 for the rest.
-            static bool folderThenFileAsync(ListedItem listedItem) => (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem.IsZipItem);
+            static bool folderThenFileAsync(ListedItem listedItem) => (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem.IsShortcutItem || listedItem.IsZipItem);
             IOrderedEnumerable<ListedItem> ordered;
 
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using Files.Common;
 
 namespace Files.Models.JsonSettings.Implementation
 {

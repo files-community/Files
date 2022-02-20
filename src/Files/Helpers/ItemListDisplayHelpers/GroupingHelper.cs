@@ -93,7 +93,7 @@ namespace Files.Helpers
                 {
                     ListedItem first = x.First();
                     x.Model.ShowCountTextBelow = true;
-                    x.Model.Text = first.FileTagUI?.TagName ?? "NavToolbarGroupByOptionNone/Text".GetLocalized();
+                    x.Model.Text = first.FileTagUI?.TagName ?? "None".GetLocalized();
                     //x.Model.Icon = first?.FileTagUI?.Color;
                 }, null),
 

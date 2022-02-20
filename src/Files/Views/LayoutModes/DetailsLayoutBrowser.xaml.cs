@@ -4,6 +4,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.Interacts;
+using Files.UserControls;
 using Files.UserControls.Selection;
 using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -11,7 +12,6 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
@@ -40,6 +40,21 @@ namespace Files.Views.LayoutModes
                 {
                     columnsViewModel = value;
                     NotifyPropertyChanged(nameof(ColumnsViewModel));
+                }
+            }
+        }
+
+        private double maxWidthForRenameTextbox;
+
+        public double MaxWidthForRenameTextbox
+        {
+            get => maxWidthForRenameTextbox;
+            set
+            {
+                if (value != maxWidthForRenameTextbox)
+                {
+                    maxWidthForRenameTextbox = value;
+                    NotifyPropertyChanged(nameof(MaxWidthForRenameTextbox));
                 }
             }
         }
@@ -138,35 +153,7 @@ namespace Files.Views.LayoutModes
 
         private void ItemManipulationModel_FocusFileListInvoked(object sender, EventArgs e)
         {
-            FocusFileList();
-        }
-
-        private void FocusFileList()
-        {
-            var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
-            if (focusedElement is ListViewItem lvi)
-            {
-                // if an item in the file list is already focused, don't refocus
-                return;
-            }
-
-            if (FileList.ContainerFromIndex(0) is ListViewItem item)
-            {
-                _ = FocusManager.TryFocusAsync(item, FocusState.Programmatic);
-            }
-            else
-            {
-                FileList.ContainerContentChanging += FileList_FocusItem0;
-            }
-        }
-
-        private void FileList_FocusItem0(ListViewBase sender, ContainerContentChangingEventArgs args)
-        {
-            if (!args.InRecycleQueue && args.ItemIndex == 0)
-            {
-                _ = FocusManager.TryFocusAsync(args.ItemContainer, FocusState.Programmatic);
-                FileList.ContainerContentChanging -= FileList_FocusItem0;
-            }
+            FileList.Focus(FocusState.Programmatic);
         }
 
         protected override void UnhookEvents()
@@ -192,7 +179,12 @@ namespace Files.Views.LayoutModes
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
+            if (eventArgs.Parameter is NavigationArguments navArgs)
+            {
+                navArgs.FocusOnNavigation = true;
+            }
             base.OnNavigatedTo(eventArgs);
+
             if (ParentShellPageInstance.InstanceViewModel?.FolderSettings.ColumnsViewModel != null)
             {
                 ColumnsViewModel = ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel;
@@ -238,7 +230,8 @@ namespace Files.Views.LayoutModes
                 IsTypeCloudDrive = InstanceViewModel.IsPageTypeCloudDrive,
                 IsTypeRecycleBin = InstanceViewModel.IsPageTypeRecycleBin
             });
-            ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 80);
+
+            RootGrid_SizeChanged(null, null);
         }
 
         private void FolderSettings_SortOptionPreferenceUpdated(object sender, SortOption e)
@@ -307,12 +300,10 @@ namespace Files.Views.LayoutModes
             FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
             FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
             ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
-            FileList.ContainerContentChanging -= FileList_FocusItem0;
         }
 
-        private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
+        private void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
         {
-            await Task.Delay(200);
             FileList.Focus(FocusState.Programmatic);
         }
 
@@ -360,6 +351,7 @@ namespace Files.Views.LayoutModes
             OldItemName = textBlock.Text;
             textBlock.Visibility = Visibility.Collapsed;
             textBox.Visibility = Visibility.Visible;
+            Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
 
             textBox.Focus(FocusState.Pointer);
             textBox.LostFocus += RenameTextBox_LostFocus;
@@ -428,14 +420,20 @@ namespace Files.Views.LayoutModes
 
         private void EndRename(TextBox textBox)
         {
-            ListViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
-            if (textBox == null || gridViewItem == null)
+            if (textBox != null && textBox.FindParent<Grid>() is FrameworkElement parent)
+            {
+                Grid.SetColumnSpan(parent, 1);
+            }
+
+            ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+
+            if (textBox == null || listViewItem == null)
             {
                 // Navigating away, do nothing
             }
             else
             {
-                TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+                TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
                 textBox.Visibility = Visibility.Collapsed;
                 textBlock.Visibility = Visibility.Visible;
             }
@@ -444,16 +442,22 @@ namespace Files.Views.LayoutModes
             textBox.KeyDown -= RenameTextBox_KeyDown;
             FileNameTeachingTip.IsOpen = false;
             IsRenamingItem = false;
+
+            // Re-focus selected list item
+            listViewItem?.Focus(FocusState.Programmatic);
         }
 
         private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
+            var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) != null;
+            var isFooterFocused = focusedElement is HyperlinkButton;
 
             if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
             {
-                if (!IsRenamingItem)
+                if (!IsRenamingItem && !isHeaderFocused && !isFooterFocused)
                 {
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                     e.Handled = true;
@@ -466,7 +470,7 @@ namespace Files.Views.LayoutModes
             }
             else if (e.Key == VirtualKey.Space)
             {
-                if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+                if (!IsRenamingItem && !isHeaderFocused && !isFooterFocused && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
                 {
                     e.Handled = true;
                     await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
@@ -477,15 +481,27 @@ namespace Files.Views.LayoutModes
                 // Unfocus the GridView so keyboard shortcut can be handled
                 NavToolbar?.Focus(FocusState.Pointer);
             }
-            else if (ctrlPressed && shiftPressed && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.W))
-            {
-                // Unfocus the ListView so keyboard shortcut can be handled (ctrl + shift + W/"->"/"<-")
-                NavToolbar?.Focus(FocusState.Pointer);
-            }
             else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
             {
                 // Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
                 NavToolbar?.Focus(FocusState.Pointer);
+            }
+            else if (e.Key == VirtualKey.Down)
+            {
+                if (!IsRenamingItem && isHeaderFocused && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+                {
+                    var selectIndex = FileList.SelectedIndex < 0 ? 0 : FileList.SelectedIndex;
+                    if (FileList.ContainerFromIndex(selectIndex) is ListViewItem item)
+                    {
+                        // Focus selected list item or first item
+                        item.Focus(FocusState.Programmatic);
+                        if (!IsItemSelected)
+                        {
+                            FileList.SelectedIndex = 0;
+                        }
+                        e.Handled = true;
+                    }
+                }
             }
         }
 
@@ -497,8 +513,9 @@ namespace Files.Views.LayoutModes
                 {
                     // Don't block the various uses of enter key (key 13)
                     var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
+                    var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) != null;
                     if (args.KeyCode == 13
-                        || focusedElement is Button
+                        || (focusedElement is Button && !isHeaderFocused) // Allow jumpstring when header is focused
                         || focusedElement is TextBox
                         || focusedElement is PasswordBox
                         || DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) != null)
@@ -507,7 +524,6 @@ namespace Files.Views.LayoutModes
                     }
 
                     base.Page_CharacterReceived(sender, args);
-                    FocusFileList();
                 }
             }
         }
@@ -613,7 +629,7 @@ namespace Files.Views.LayoutModes
         {
             // Skip opening selected items if the double tap doesn't capture an item
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
-                 && ((!UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File) 
+                 && ((!UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
                  || (!UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)))
             {
                 NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
@@ -654,6 +670,15 @@ namespace Files.Views.LayoutModes
             UpdateColumnLayout();
         }
 
+        private void GridSplitter_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right)
+            {
+                UpdateColumnLayout();
+                ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel = ColumnsViewModel;
+            }
+        }
+
         private void UpdateColumnLayout()
         {
             ColumnsViewModel.IconColumn.UserLength = new GridLength(Column1.ActualWidth, GridUnitType.Pixel);
@@ -670,7 +695,8 @@ namespace Files.Views.LayoutModes
 
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 80);
+            ColumnsViewModel.SetDesiredSize(Math.Max(0, RootGrid.ActualWidth - 80));
+            MaxWidthForRenameTextbox = Math.Max(0, RootGrid.ActualWidth - 80);
         }
 
         private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
@@ -779,15 +805,6 @@ namespace Files.Views.LayoutModes
         private void FileList_Loaded(object sender, RoutedEventArgs e)
         {
             ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
-            ContentScroller.ViewChanged -= ContentScroller_ViewChanged;
-            ContentScroller.ViewChanged += ContentScroller_ViewChanged;
-        }
-
-        private void ContentScroller_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
-        {
-            //var headerScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "HeaderScrollViewer");
-            var headerScroller = ((sender as ScrollViewer).Parent as Grid).Children[0] as ScrollViewer;
-            headerScroller.ChangeView((sender as ScrollViewer).HorizontalOffset, null, null, true);
         }
     }
 }

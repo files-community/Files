@@ -16,6 +16,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.ApplicationModel;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.AccessCache;
@@ -42,17 +43,24 @@ namespace Files.ViewModels.SettingsViewModels
 
         public ICommand EditTerminalApplicationsCommand { get; }
 
+        public ICommand OpenFilesAtStartupCommand { get; }
+
         public PreferencesViewModel()
         {
+            ChangePageCommand = new AsyncRelayCommand(ChangePage);
+            RemovePageCommand = new RelayCommand(RemovePage);
+            AddPageCommand = new RelayCommand<string>(async (path) => await AddPage(path));
+
             DefaultLanguages = App.AppSettings.DefaultLanguages;
             Terminals = App.TerminalController.Model.Terminals;
             DateFormats = new List<string>
             {
-                "ApplicationTimeStye".GetLocalized(),
+                "Application".GetLocalized(),
                 "SystemTimeStye".GetLocalized()
             };
 
             EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
+            OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);
             App.TerminalController.ModelChanged += ReloadTerminals;
 
             if (UserSettingsService.PreferencesSettingsService.TabsOnStartupList != null)
@@ -67,7 +75,7 @@ namespace Files.ViewModels.SettingsViewModels
             PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
             var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalized());
-            recentsItem.Items.Add(new MenuFlyoutItemViewModel("SidebarHome".GetLocalized(), "Home".GetLocalized(), AddPageCommand));
+            recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalized(), "Home".GetLocalized(), AddPageCommand));
             PopulateRecentItems(recentsItem).ContinueWith(_ =>
             {
                 AddFlyoutItemsSource = new ReadOnlyCollection<IMenuFlyoutItem>(new IMenuFlyoutItem[] {
@@ -75,8 +83,9 @@ namespace Files.ViewModels.SettingsViewModels
                     recentsItem,
                 });
             }, TaskScheduler.FromCurrentSynchronizationContext());
-        }
 
+            _ = DetectOpenFilesAtStartup();
+        }
 
         private async Task PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
         {
@@ -210,9 +219,9 @@ namespace Files.ViewModels.SettingsViewModels
             set => SetProperty(ref addFlyoutItemsSource, value);
         }
 
-        public RelayCommand ChangePageCommand => new RelayCommand(ChangePage);
-        public RelayCommand RemovePageCommand => new RelayCommand(RemovePage);
-        public RelayCommand<string> AddPageCommand => new RelayCommand<string>(AddPage);
+        public ICommand ChangePageCommand { get; }
+        public ICommand RemovePageCommand { get; }
+        public RelayCommand<string> AddPageCommand { get; }
 
         public bool AlwaysOpenANewInstance
         {
@@ -228,7 +237,7 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        private async void ChangePage()
+        private async Task ChangePage()
         {
             var folderPicker = new FolderPicker();
             folderPicker.FileTypeFilter.Add("*");
@@ -260,7 +269,7 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        private async void AddPage(string path = null)
+        private async Task AddPage(string path = null)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -288,7 +297,7 @@ namespace Files.ViewModels.SettingsViewModels
                 {
                     if (Path == "Home".GetLocalized())
                     {
-                        return "SidebarHome".GetLocalized();
+                        return "Home".GetLocalized();
                     }
                     if (Path == CommonPaths.RecycleBinPath)
                     {
@@ -419,6 +428,85 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
+        private bool openInLogin;
+
+        public bool OpenInLogin
+        {
+            get => openInLogin;
+            set => SetProperty(ref openInLogin, value);
+        }
+
+        private bool canOpenInLogin;
+
+        public bool CanOpenInLogin
+        {
+            get => canOpenInLogin;
+            set => SetProperty(ref canOpenInLogin, value);
+        }
+
+        public async Task OpenFilesAtStartup()
+        {
+            var stateMode = await ReadState();
+
+            bool state = stateMode switch
+            {
+                StartupTaskState.Enabled => true,
+                StartupTaskState.EnabledByPolicy => true,
+                StartupTaskState.DisabledByPolicy => false,
+                StartupTaskState.DisabledByUser => false,
+                _ => false,
+            };
+
+            if (state != OpenInLogin)
+            {
+                StartupTask startupTask = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
+                if (OpenInLogin)
+                {
+                    await startupTask.RequestEnableAsync();
+                }
+                else
+                {
+                    startupTask.Disable();
+                }
+                await DetectOpenFilesAtStartup();
+            }
+        }
+
+        public async Task DetectOpenFilesAtStartup()
+        {
+            var stateMode = await ReadState();
+
+            switch (stateMode)
+            {
+                case StartupTaskState.Disabled:
+                    CanOpenInLogin = true;
+                    OpenInLogin = false;
+                    break;
+                case StartupTaskState.Enabled:
+                    CanOpenInLogin = true;
+                    OpenInLogin = true;
+                    break;
+                case StartupTaskState.DisabledByPolicy:
+                    CanOpenInLogin = false;
+                    OpenInLogin = false;
+                    break;
+                case StartupTaskState.DisabledByUser:
+                    CanOpenInLogin = false;
+                    OpenInLogin = false;
+                    break;
+                case StartupTaskState.EnabledByPolicy:
+                    CanOpenInLogin = false;
+                    OpenInLogin = true;
+                    break;
+            }
+        }
+
+        public async Task<StartupTaskState> ReadState()
+        {
+            var state = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
+            return state.State;
+        }
+
         public bool AreHiddenItemsVisible
         {
             get => UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible;
@@ -440,6 +528,19 @@ namespace Files.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden)
                 {
                     UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        
+        public bool ShowDotFiles
+        {
+            get => UserSettingsService.PreferencesSettingsService.ShowDotFiles;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.ShowDotFiles)
+                {
+                    UserSettingsService.PreferencesSettingsService.ShowDotFiles = value;
                     OnPropertyChanged();
                 }
             }

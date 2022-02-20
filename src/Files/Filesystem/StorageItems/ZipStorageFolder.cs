@@ -677,10 +677,8 @@ namespace Files.Filesystem.StorageItems
                 {
                     return false;
                 }
-                using (var stream = new FileStream(hFile, FileAccess.Read))
-                {
-                    return CheckAccess(stream);
-                }
+                using var stream = new FileStream(hFile, FileAccess.Read);
+                return CheckAccess(stream);
             });
         }
 
@@ -688,10 +686,8 @@ namespace Files.Filesystem.StorageItems
         {
             return await Common.Extensions.IgnoreExceptions(async () =>
             {
-                using (var stream = await file.OpenReadAsync())
-                {
-                    return CheckAccess(stream.AsStream());
-                }
+                using var stream = await file.OpenReadAsync();
+                return CheckAccess(stream.AsStream());
             });
         }
 

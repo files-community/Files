@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Files.Services
 {
-    public interface IBundlesSettingsService
+    public interface IBundlesSettingsService : IBaseSettingsService
     {
         event EventHandler OnSettingImportedEvent;
 

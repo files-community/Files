@@ -13,7 +13,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
-using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -58,6 +57,8 @@ namespace Files.UserControls.Widgets
         public string WidgetName => nameof(DrivesWidget);
 
         public string AutomationProperties => "DrivesWidgetAutomationProperties/Name".GetLocalized();
+
+        public string WidgetHeader => "Drives".GetLocalized();
 
         public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowDrivesWidget;
 
@@ -197,24 +198,10 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private async void GoToStorageSense_Click(object sender, RoutedEventArgs e)
+        private void GoToStorageSense_Click(object sender, RoutedEventArgs e)
         {
             string clickedCard = (sender as Button).Tag.ToString();
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null
-                && !clickedCard.StartsWith("C:", StringComparison.OrdinalIgnoreCase)
-                && ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-            {
-                await connection.SendMessageAsync(new ValueSet()
-                {
-                    { "Arguments", "LaunchSettings" },
-                    { "page", "page=SettingsPageStorageSenseStorageOverview&target=SystemSettings_StorageSense_VolumeListLink" }
-                });
-            }
-            else
-            {
-                await Launcher.LaunchUriAsync(new Uri("ms-settings:storagesense"));
-            }
+            StorageSenseHelper.OpenStorageSense(clickedCard);
         }
 
         private async Task<bool> CheckEmptyDrive(string drivePath)

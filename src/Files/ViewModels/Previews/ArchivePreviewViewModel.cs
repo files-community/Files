@@ -1,5 +1,4 @@
-﻿using ByteSizeLib;
-using Files.Extensions;
+﻿using Files.Extensions;
 using Files.Filesystem;
 using Files.ViewModels.Properties;
 using SevenZip;
@@ -58,7 +57,7 @@ namespace Files.ViewModels.Previews
             details.Add(new FileProperty()
             {
                 NameResource = "PropertyUncompressedSize",
-                Value = $"{ByteSize.FromBytes(totalSize).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(totalSize).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})",
+                Value = totalSize.ToLongSizeString(),
             });
 
             _ = await base.LoadPreviewAndDetails(); // Loads the thumbnail preview

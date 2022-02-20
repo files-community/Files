@@ -1,5 +1,4 @@
-﻿using ByteSizeLib;
-using Files.Common;
+﻿using Files.Common;
 using Files.Extensions;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
@@ -25,8 +24,10 @@ namespace Files.Filesystem.StorageEnumerators
 {
     public static class Win32StorageEnumerator
     {
-        private static string folderTypeTextLocalized = "FileFolderListItem".GetLocalized();
-        private static IFileListCache fileListCache = FileListCacheController.GetInstance();
+        private static readonly IFolderSizeProvider folderSizeProvider = Ioc.Default.GetService<IFolderSizeProvider>();
+
+        private static readonly string folderTypeTextLocalized = "FileFolderListItem".GetLocalized();
+        private static readonly IFileListCache fileListCache = FileListCacheController.GetInstance();
 
         public static async Task<List<ListedItem>> ListEntries(
             string path,
@@ -52,7 +53,11 @@ namespace Files.Filesystem.StorageEnumerators
             {
                 var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
                 var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-                if (!isHidden || (userSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && (!isSystem || !userSettingsService.PreferencesSettingsService.AreSystemItemsHidden)))
+                var startWithDot = findData.cFileName.StartsWith(".");
+                if ((!isHidden ||
+                   (userSettingsService.PreferencesSettingsService.AreHiddenItemsVisible &&
+                   (!isSystem || !userSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) &&
+                   (!startWithDot || userSettingsService.PreferencesSettingsService.ShowDotFiles))
                 {
                     if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                     {
@@ -91,7 +96,7 @@ namespace Files.Filesystem.StorageEnumerators
 
                                 if (showFolderSize)
                                 {
-                                    FolderHelpers.UpdateFolder(folder, cancellationToken);
+                                    folderSizeProvider.UpdateFolder(folder, cancellationToken);
                                 }
                             }
                         }
@@ -203,7 +208,7 @@ namespace Files.Filesystem.StorageEnumerators
             }
 
             long itemSizeBytes = findData.GetSize();
-            var itemSize = ByteSize.FromBytes(itemSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
+            var itemSize = itemSizeBytes.ToSizeString();
             string itemType = "ItemTypeFile".GetLocalized();
             string itemFileExtension = null;
 
@@ -271,7 +276,10 @@ namespace Files.Filesystem.StorageEnumerators
                     {
                         var isUrl = findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
                         var shInfo = JsonConvert.DeserializeObject<ShellLinkItem>((string)response["ShortcutInfo"]);
-
+                        if (shInfo == null)
+                        {
+                            return null;
+                        }
                         return new ShortcutItem(null, dateReturnFormat)
                         {
                             PrimaryItemAttribute = shInfo.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File,

@@ -1,25 +1,21 @@
 using Files.Common;
-using Files.Controllers;
 using Files.DataModels;
 using Files.Enums;
-using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
 using Windows.Storage;
-using Windows.System;
 
 namespace Files.ViewModels
 {
@@ -39,25 +35,11 @@ namespace Files.ViewModels
             {
                 DefaultLanguages.Add(new DefaultLanguageModel(lang));
             }
-        }
 
-        public static async void OpenLogLocation()
-        {
-            await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
-        }
+            UpdateThemeElements = new RelayCommand(() => ThemeModeChanged?.Invoke(this, EventArgs.Empty));
+    }
 
-        public static async void OpenThemesFolder()
-        {
-            await CoreApplication.MainView.Dispatcher.YieldAsync();
-            await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
-        }
-            
-        public static async void ReportIssueOnGitHub()
-        {
-            await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/issues/new/choose"));
-        }
-
-        public bool AreRegistrySettingsMergedToJson
+    public bool AreRegistrySettingsMergedToJson
         {
             get => Get(false);
             set => Set(value);
@@ -164,7 +146,7 @@ namespace Files.ViewModels
         {
             get => Newtonsoft.Json.JsonConvert.DeserializeObject<AppTheme>(Get(System.Text.Json.JsonSerializer.Serialize(new AppTheme()
             {
-                Name = "DefaultTheme".GetLocalized()
+                Name = "Default".GetLocalized()
             })));
             set => Set(Newtonsoft.Json.JsonConvert.SerializeObject(value));
         }
@@ -191,12 +173,7 @@ namespace Files.ViewModels
 
         public event EventHandler ThemeModeChanged;
 
-        public RelayCommand UpdateThemeElements => new RelayCommand(() =>
-        {
-            ThemeModeChanged?.Invoke(this, EventArgs.Empty);
-        });
-
-        public AcrylicTheme AcrylicTheme { get; set; } = new AcrylicTheme();
+        public ICommand UpdateThemeElements { get; }
 
         #region ReadAndSaveSettings
 
@@ -213,7 +190,7 @@ namespace Files.ViewModels
                 originalValue = Get(originalValue, propertyName);
 
                 localSettings.Values[propertyName] = value;
-                if (!base.SetProperty(ref originalValue, value, propertyName))
+                if (!SetProperty(ref originalValue, value, propertyName))
                 {
                     return false;
                 }
@@ -239,7 +216,7 @@ namespace Files.ViewModels
             {
                 var value = localSettings.Values[name];
 
-                if (!(value is TValue tValue))
+                if (value is not TValue tValue)
                 {
                     if (value is IConvertible)
                     {

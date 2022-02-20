@@ -14,10 +14,6 @@
           <source>Open in new window</source>
           <target state="translated">புதியச் சாளரத்தில் திற</target>
         </trans-unit>
-        <trans-unit id="ModernNavigationToolbaNewFolder.Text" translate="yes" xml:space="preserve">
-          <source>Folder</source>
-          <target state="translated">கோப்புறை</target>
-        </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewBitmapImage.Text" translate="yes" xml:space="preserve">
           <source>Bitmap Image</source>
           <target state="translated">பிட் வரைபடப் படிமம்</target>
@@ -26,23 +22,15 @@
           <source>Text Document</source>
           <target state="translated">உரை ஆவணம்</target>
         </trans-unit>
-        <trans-unit id="SidebarDrives" translate="yes" xml:space="preserve">
-          <source>Drives</source>
-          <target state="translated">இயக்ககங்கள்</target>
-        </trans-unit>
         <trans-unit id="nameColumn.Header" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="translated">பெயர்</target>
-        </trans-unit>
-        <trans-unit id="dateColumn.Header" translate="yes" xml:space="preserve">
-          <source>Date modified</source>
-          <target state="translated">மாற்றப்பட்ட தேதி</target>
         </trans-unit>
         <trans-unit id="typeColumn.Header" translate="yes" xml:space="preserve">
           <source>Type</source>
           <target state="translated">வகை</target>
         </trans-unit>
-        <trans-unit id="sizeColumn.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="Size" translate="yes" xml:space="preserve">
           <source>Size</source>
           <target state="translated">அளவு</target>
         </trans-unit>
@@ -74,14 +62,6 @@
           <source>is a subfolder of the source folder</source>
           <target state="translated">மூல கோப்புறையின் துணைக் கோப்புறை</target>
         </trans-unit>
-        <trans-unit id="ErrorDialogSkip" translate="yes" xml:space="preserve">
-          <source>Skip</source>
-          <target state="translated">தவிர்</target>
-        </trans-unit>
-        <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
-          <source>Item type:</source>
-          <target state="translated">உருப்படி வகை:</target>
-        </trans-unit>
         <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
           <target state="translated">அனைத்தையும் தேர்ந்தெடு</target>
@@ -93,10 +73,6 @@
         <trans-unit id="NavToolbarClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
           <target state="translated">தேர்வை அழி</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutDetails.Text" translate="yes" xml:space="preserve">
-          <source>Details</source>
-          <target state="translated">விவரங்கள்</target>
         </trans-unit>
         <trans-unit id="PropertiesModified.Text" translate="yes" xml:space="preserve">
           <source>Modified:</source>
@@ -110,7 +86,7 @@
           <source>Enter a path</source>
           <target state="translated">ஒரு பாதையை உள்ளிடுக</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarSearchReigon.PlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="NavigationToolbarSearchRegion.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Search</source>
           <target state="final" state-qualifier="tm-suggestion">தேடு</target>
         </trans-unit>
@@ -170,61 +146,33 @@
           <source>Preferences</source>
           <target state="translated">விருப்பங்கள்</target>
         </trans-unit>
-        <trans-unit id="SidebarDesktop" translate="yes" xml:space="preserve">
+        <trans-unit id="Desktop" translate="yes" xml:space="preserve">
           <source>Desktop</source>
           <target state="translated">திரைப்பலகம்</target>
         </trans-unit>
-        <trans-unit id="SidebarDocuments" translate="yes" xml:space="preserve">
+        <trans-unit id="Documents" translate="yes" xml:space="preserve">
           <source>Documents</source>
           <target state="translated">ஆவணங்கள்</target>
         </trans-unit>
-        <trans-unit id="SidebarDownloads" translate="yes" xml:space="preserve">
+        <trans-unit id="Downloads" translate="yes" xml:space="preserve">
           <source>Downloads</source>
           <target state="translated">பதிவிறக்கங்கள்</target>
-        </trans-unit>
-        <trans-unit id="SidebarHome" translate="yes" xml:space="preserve">
-          <source>Home</source>
-          <target state="translated">முகப்பு</target>
-        </trans-unit>
-        <trans-unit id="SidebarMusic" translate="yes" xml:space="preserve">
-          <source>Music</source>
-          <target state="translated">இசை</target>
-        </trans-unit>
-        <trans-unit id="SidebarPictures" translate="yes" xml:space="preserve">
-          <source>Pictures</source>
-          <target state="translated">புகைப்படங்கள்</target>
-        </trans-unit>
-        <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
-          <source>Videos</source>
-          <target state="translated">காணொளிகள்</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
           <source>Sort by</source>
           <target state="translated">இதன்படி வரிசைப்படுத்து</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByName.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Name" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="translated">பெயர்</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDate.Text" translate="yes" xml:space="preserve">
-          <source>Date modified</source>
-          <target state="translated">மாற்றப்பட்ட தேதி</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByType.Text" translate="yes" xml:space="preserve">
           <source>Type</source>
           <target state="translated">வகை</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySize.Text" translate="yes" xml:space="preserve">
-          <source>Size</source>
-          <target state="translated">அளவு</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByAscending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Ascending" translate="yes" xml:space="preserve">
           <source>Ascending</source>
           <target state="translated">ஏறுவரிசை</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDescending.Text" translate="yes" xml:space="preserve">
-          <source>Descending</source>
-          <target state="translated">இறங்குவரிசை</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRefresh.Text" translate="yes" xml:space="preserve">
           <source>Refresh</source>
@@ -234,18 +182,6 @@
           <source>Paste</source>
           <target state="translated">ஒட்டு</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutOpenInTerminal.Text" translate="yes" xml:space="preserve">
-          <source>Open in Terminal...</source>
-          <target state="translated">முனையத்தில் திற...</target>
-        </trans-unit>
-        <trans-unit id="PropertiesItemMD5Hash.Text" translate="yes" xml:space="preserve">
-          <source>MD5Hash:</source>
-          <target state="translated">MD5 hash:</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNewFolder.Text" translate="yes" xml:space="preserve">
-          <source>Folder</source>
-          <target state="translated">கோப்புறை</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutPropertiesFolder.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated">பண்புகள்</target>
@@ -254,7 +190,7 @@
           <source>Extract</source>
           <target state="translated">பிரித்தெடு</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenItem.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Open" translate="yes" xml:space="preserve">
           <source>Open</source>
           <target state="translated">திற</target>
         </trans-unit>
@@ -277,10 +213,6 @@
         <trans-unit id="BaseLayoutItemContextFlyoutCut.Text" translate="yes" xml:space="preserve">
           <source>Cut</source>
           <target state="translated">வெட்டு</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutCopy.Text" translate="yes" xml:space="preserve">
-          <source>Copy</source>
-          <target state="translated">நகலெடு</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutRename.Text" translate="yes" xml:space="preserve">
           <source>Rename</source>
@@ -322,10 +254,6 @@
           <source>Set Name</source>
           <target state="translated">பெயரை அமை</target>
         </trans-unit>
-        <trans-unit id="SystemTheme" translate="yes" xml:space="preserve">
-          <source>Default</source>
-          <target state="translated">இயல்புநிலை</target>
-        </trans-unit>
         <trans-unit id="LightTheme" translate="yes" xml:space="preserve">
           <source>Light</source>
           <target state="translated">வெளிச்சம்</target>
@@ -334,7 +262,7 @@
           <source>Dark</source>
           <target state="translated">இருள்</target>
         </trans-unit>
-        <trans-unit id="ApplicationTimeStye" translate="yes" xml:space="preserve">
+        <trans-unit id="Application" translate="yes" xml:space="preserve">
           <source>Application</source>
           <target state="translated">பயன்பாடு</target>
         </trans-unit>
@@ -374,10 +302,6 @@
           <source>Properties</source>
           <target state="translated">பண்புகள்</target>
         </trans-unit>
-        <trans-unit id="PropertiesAttributes.Text" translate="yes" xml:space="preserve">
-          <source>Attributes:</source>
-          <target state="translated">பண்புக் கூறுகள்:</target>
-        </trans-unit>
         <trans-unit id="PropertiesTitleSecondary.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated">பண்புகள்</target>
@@ -409,10 +333,6 @@
         <trans-unit id="BaseLayoutContextFlyoutSmallIcons.Text" translate="yes" xml:space="preserve">
           <source>Small Icons</source>
           <target state="translated">சிறிய சின்னங்கள்</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutTiles.Text" translate="yes" xml:space="preserve">
-          <source>Tiles</source>
-          <target state="needs-review-translation">ஓடுகள்</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogOKButton.Content" translate="yes" xml:space="preserve">
           <source>OK</source>
@@ -546,7 +466,7 @@
           <source>items</source>
           <target state="translated" state-qualifier="tm-suggestion">உருப்படிகள்</target>
         </trans-unit>
-        <trans-unit id="PropertiesAccessed.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Accessed" translate="yes" xml:space="preserve">
           <source>Accessed:</source>
           <target state="translated" state-qualifier="tm-suggestion">அணுகியது:</target>
         </trans-unit>
@@ -718,7 +638,7 @@
           <source>Create shortcut</source>
           <target state="translated">குறுக்குவழியை உருவாக்கு</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenFileLocation" translate="yes" xml:space="preserve">
           <source>Open file location</source>
           <target state="translated" state-qualifier="tm-suggestion">கோப்பு இருப்பிடத்தைத் திற</target>
         </trans-unit>
@@ -739,17 +659,9 @@
           <target state="translated">பணிக் கோப்பகம்:
 தற்போதய கோப்புறை</target>
         </trans-unit>
-        <trans-unit id="PropertiesShortcutTypeApplication" translate="yes" xml:space="preserve">
-          <source>Application</source>
-          <target state="translated" state-qualifier="tm-suggestion">பயன்பாடு</target>
-        </trans-unit>
         <trans-unit id="PropertiesShortcutTypeFile" translate="yes" xml:space="preserve">
           <source>File</source>
           <target state="translated" state-qualifier="tm-suggestion">கோப்பு</target>
-        </trans-unit>
-        <trans-unit id="PropertiesShortcutTypeFolder" translate="yes" xml:space="preserve">
-          <source>Folder</source>
-          <target state="translated" state-qualifier="tm-suggestion">கோப்புறை</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutTypeLink" translate="yes" xml:space="preserve">
           <source>Web link</source>
@@ -782,10 +694,6 @@
         <trans-unit id="DriveCapacityUnknown" translate="yes" xml:space="preserve">
           <source>Unknown</source>
           <target state="translated">தெரியாதவை</target>
-        </trans-unit>
-        <trans-unit id="ExceptionNotificationAccessLogFileButton" translate="yes" xml:space="preserve">
-          <source>Open log location</source>
-          <target state="translated">பதிவு கோப்பின் இருப்பிடத்தைத் திற</target>
         </trans-unit>
         <trans-unit id="ExceptionNotificationBody" translate="yes" xml:space="preserve">
           <source>Files ran into a problem that the developers didn't prepare for yet.</source>
@@ -879,10 +787,6 @@
           <source>Set as</source>
           <target state="translated" state-qualifier="tm-suggestion">இவ்வாறு அமை</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutCopyLocation.Text" translate="yes" xml:space="preserve">
-          <source>Copy location</source>
-          <target state="translated" state-qualifier="tm-suggestion">இருப்பிடத்தை நகலெடு</target>
-        </trans-unit>
         <trans-unit id="VerticalTabViewAddTab.Text" translate="yes" xml:space="preserve">
           <source>Add tab</source>
           <target state="translated">தாவலை சேர்</target>
@@ -890,14 +794,6 @@
         <trans-unit id="VerticalTabViewHeader.Text" translate="yes" xml:space="preserve">
           <source>Open tabs</source>
           <target state="translated">திறந்துள்ள தாவல்கள்</target>
-        </trans-unit>
-        <trans-unit id="ButtonNo.Content" translate="yes" xml:space="preserve">
-          <source>No</source>
-          <target state="translated" state-qualifier="tm-suggestion">இல்லை</target>
-        </trans-unit>
-        <trans-unit id="ButtonYes.Content" translate="yes" xml:space="preserve">
-          <source>Yes</source>
-          <target state="translated" state-qualifier="tm-suggestion">ஆம்</target>
         </trans-unit>
         <trans-unit id="RestartNotificationText.Text" translate="yes" xml:space="preserve">
           <source>The application needs to be restarted in order to apply these settings, would you like to restart the app?</source>
@@ -916,7 +812,7 @@
           <source>Cancel</source>
           <target state="translated">இரத்து</target>
         </trans-unit>
-        <trans-unit id="AddDialogListFolderHeader" translate="yes" xml:space="preserve">
+        <trans-unit id="Folder" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="translated" state-qualifier="tm-suggestion">கோப்புறை</target>
         </trans-unit>
@@ -944,14 +840,6 @@
           <source>Go up one directory</source>
           <target state="translated">ஒரு கோப்புறை மேல் செல்</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Edit terminal applications</source>
-          <target state="translated">Edit terminal applications</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Edit terminal applications</source>
-          <target state="new">Edit terminal applications</target>
-        </trans-unit>
         <trans-unit id="SettingsAboutSupportUs.Text" translate="yes" xml:space="preserve">
           <source>Support us</source>
           <target state="translated">எங்களை ஆதரவளி</target>
@@ -968,17 +856,13 @@
           <source>Move here</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இங்கே நகர்த்து</target>
         </trans-unit>
-        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Drives" translate="yes" xml:space="preserve">
           <source>Drives</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இயக்ககங்கள்:</target>
         </trans-unit>
         <trans-unit id="FileItemAutomation" translate="yes" xml:space="preserve">
           <source>File</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">கோப்பு</target>
-        </trans-unit>
-        <trans-unit id="FolderItemAutomation" translate="yes" xml:space="preserve">
-          <source>Folder</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">கோப்புறை</target>
         </trans-unit>
         <trans-unit id="RecycleBinItemAutomation" translate="yes" xml:space="preserve">
           <source>Recycle bin item</source>
@@ -1080,10 +964,6 @@
           <source>Vertical Resolution</source>
           <target state="new">Vertical Resolution</target>
         </trans-unit>
-        <trans-unit id="PropertyCompressionText" translate="yes" xml:space="preserve">
-          <source>Compression</source>
-          <target state="new">Compression</target>
-        </trans-unit>
         <trans-unit id="PropertyHorizontalSize" translate="yes" xml:space="preserve">
           <source>Horizontal Size</source>
           <target state="new">Horizontal Size</target>
@@ -1152,7 +1032,7 @@
           <source>Encoding Bitrate</source>
           <target state="new">Encoding Bitrate</target>
         </trans-unit>
-        <trans-unit id="PropertyCompression" translate="yes" xml:space="preserve">
+        <trans-unit id="Compression" translate="yes" xml:space="preserve">
           <source>Compression</source>
           <target state="new">Compression</target>
         </trans-unit>
@@ -1164,10 +1044,6 @@
           <source>Sample Rate</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">மாதிரி விகிதம்</target>
         </trans-unit>
-        <trans-unit id="PropertyDisplayArtist" translate="yes" xml:space="preserve">
-          <source>Artist</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">கலைஞர்:</target>
-        </trans-unit>
         <trans-unit id="PropertyAlbumArtist" translate="yes" xml:space="preserve">
           <source>Album Artist</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ஆல்பம் கலைஞர்:</target>
@@ -1176,7 +1052,7 @@
           <source>Album Title</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ஆல்பம் தலைப்பு</target>
         </trans-unit>
-        <trans-unit id="PropertyArtist" translate="yes" xml:space="preserve">
+        <trans-unit id="Artist" translate="yes" xml:space="preserve">
           <source>Artist</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">கலைஞர்:</target>
         </trans-unit>
@@ -1188,7 +1064,7 @@
           <source>Composer</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இயற்றுனர்</target>
         </trans-unit>
-        <trans-unit id="PropertyConductor" translate="yes" xml:space="preserve">
+        <trans-unit id="Conductor" translate="yes" xml:space="preserve">
           <source>Conductor</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">நடத்துபவர்</target>
         </trans-unit>
@@ -1312,7 +1188,7 @@
           <source>Music</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இசை</target>
         </trans-unit>
-        <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
+        <trans-unit id="Address" translate="yes" xml:space="preserve">
           <source>Address</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">முகவரி</target>
         </trans-unit>
@@ -1400,7 +1276,7 @@
           <source>Orientation</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">திசை</target>
         </trans-unit>
-        <trans-unit id="PropertySectionDocument" translate="yes" xml:space="preserve">
+        <trans-unit id="Document" translate="yes" xml:space="preserve">
           <source>Document</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ஆவணம்</target>
         </trans-unit>
@@ -1469,14 +1345,14 @@
           <target state="new">Send the developers an issue report with more information</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Support us on PayPal</source>
-          <target state="new">Support us on PayPal</target>
+          <source>Support us on GitHub</source>
+          <target state="new">Support us on GitHub</target>
         </trans-unit>
         <trans-unit id="Details" translate="yes" xml:space="preserve">
           <source>Details</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">விவரங்கள்</target>
         </trans-unit>
-        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
+        <trans-unit id="No" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இல்லை</target>
         </trans-unit>
@@ -1492,7 +1368,7 @@
           <source>File</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">கோப்பு</target>
         </trans-unit>
-        <trans-unit id="AddDialogListFileHeader" translate="yes" xml:space="preserve">
+        <trans-unit id="File" translate="yes" xml:space="preserve">
           <source>File</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">கோப்பு</target>
         </trans-unit>
@@ -1512,15 +1388,15 @@
           <source>Original path</source>
           <target state="new">Original path</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonAdd.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Add" translate="yes" xml:space="preserve">
           <source>Add</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">சேர்</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonEdit.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Edit" translate="yes" xml:space="preserve">
           <source>Edit</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">திருத்து</target>
         </trans-unit>
-        <trans-unit id="AppBarButtonRemove.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="Remove" translate="yes" xml:space="preserve">
           <source>Remove</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">அகற்று</target>
         </trans-unit>
@@ -1540,7 +1416,7 @@
           <source>Customize the right click context menu</source>
           <target state="new">Customize the right click context menu</target>
         </trans-unit>
-        <trans-unit id="FolderWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Folders" translate="yes" xml:space="preserve">
           <source>Folders</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">கோப்புறைகள்</target>
         </trans-unit>
@@ -1576,25 +1452,9 @@
           <source>Small Icons</source>
           <target state="new">Small Icons</target>
         </trans-unit>
-        <trans-unit id="NavToolbarTiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Tiles</source>
-          <target state="new">Tiles</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarDetails.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Details</source>
-          <target state="new">Details</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDateDeleted.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateDeleted" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">தேதி நீக்கப்பட்டது</target>
-        </trans-unit>
-        <trans-unit id="dateDeletedColumn.Header" translate="yes" xml:space="preserve">
-          <source>Date deleted</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">தேதி நீக்கப்பட்டது</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetAddBundleConfirm.Content" translate="yes" xml:space="preserve">
-          <source>Confirm</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">உறுதிசெய்</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleErrorAlreadyExists" translate="yes" xml:space="preserve">
           <source>Bundle with the same name already exists!</source>
@@ -1604,22 +1464,6 @@
           <source>Input field cannot be empty!</source>
           <target state="new">Input field cannot be empty!</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetAddBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Enter Bundle name</source>
-          <target state="new">Enter Bundle name</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetAddBundleNameInput.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Enter Bundle name</source>
-          <target state="new">Enter Bundle name</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetRenameBundleDialogInputPlaceholderText" translate="yes" xml:space="preserve">
-          <source>Desired name</source>
-          <target state="new">Desired name</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetRenameBundleDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Confirm</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">உறுதிசெய்</target>
-        </trans-unit>
         <trans-unit id="BundlesWidgetRenameBundleDialogSubtitleText" translate="yes" xml:space="preserve">
           <source>Enter new name</source>
           <target state="new">Enter new name</target>
@@ -1628,11 +1472,11 @@
           <source>Rename "{0}"</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">{0}"-ஐ மறுபெயரிடு	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={0} is the publication name which is to be renamed}	Pre-Approved	Yes	Yes\r\nFrom	தொடக்கம்	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Label for team name, for the team from where this publication will be published}	Pre-Approved	Yes	Yes\r\nSave	சேமி	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={save the rename of the publication }	Pre-Approved	Yes	Yes\r\nSaving	சேமிக்கிறது	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={saving the renaming of the publication}	Pre-Approved	Yes	Yes\r\nTitle	தலைப்பு	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Label for publication title}	Pre-Approved	Yes	Yes\r\nAssigned	ஒதுக்கப்பட்டது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nCompleted	முடிந்தது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nTeam status report	குழு நிலை அறிக்கை	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nTeam name	குழுப் பெயர்	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nLoading team name…	குழுப் பெயரை ஏற்றுகிறது…	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nAssigned	ஒதுக்கப்பட்டது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nClosed	மூடப்பட்டது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nCompleted	முடிந்தது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nTask status report	பணி நிலை அறிக்கை	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nStore name	ஸ்டோர் பெயர்	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nTask title	பணித் தலைப்பு	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nRefresh the list	பட்டியலைப் புதுப்பி	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Label for the button in the command bar that refreshes the task list from the server.}	Pre-Approved	Yes	Yes\r\nRefreshing the list from the server.	சேவையகத்திலிருந்து பட்டியலைப் புதுப்பிக்கிறது.	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Message read to screenreaders after the sync button is clicked.}	Pre-Approved	Yes	Yes\r\nMore actions, press space to open menu options	மேலும் செயல்கள், மெனு விருப்பங்களைத் திறக்க space-ஐ அழுத்தவும்	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Accessible label for the more actions button for a task in the task grid}	Pre-Approved	Yes	Yes\r\nActions	செயல்கள்	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Accessible label for the column header for the column in the task grid containing the more actions button}	Pre-Approved	Yes	Yes\r\nError uploading	பதிவேற்றுவதில் பிழை	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Error shown in attachment chicklet when an attachment couldn't be uploaded. Prefer short strings.}	Pre-Approved	Yes	Yes\r\nChannel is required.	சேனல் தேவை.	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Error message shown if the user hasn't selected a Teams channel to associate the task with when saving}	Pre-Approved	Yes	Yes\r\nDiscard	நிராகரி	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Discard button label for the unsaved changes confirmation dialog}	Pre-Approved	Yes	Yes\r\nAny changes you've made will be lost.	நீங்கள் செய்துள்ள மாற்றங்களை இழப்பீர்கள்.	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Text of the dialog shown when the user has unsaved changes and attempts to close or navigate away from the editing session.}	Pre-Approved	Yes	Yes\r\nDiscard changes?	மாற்றங்களை நிராகரிக்கவா?	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Title of the dialog shown when the user has unsaved changes and attempts to close or navigate away from the editing session.}	Pre-Approved	Yes	Yes\r\nSelected due date is too far in the past.	தேர்ந்தெடுக்கப்பட்ட கெடு தேதி, கடந்த காலத்தில் மிகவும் பழையதாக உள்ளது.	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Error message shown if the user attempts to save a task with a due date too far in the </target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetAddBundleInputPlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="DesiredName" translate="yes" xml:space="preserve">
           <source>Desired name</source>
           <target state="new">Desired name</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Confirm" translate="yes" xml:space="preserve">
           <source>Confirm</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">உறுதிசெய்</target>
         </trans-unit>
@@ -1647,10 +1491,6 @@
         <trans-unit id="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Import Bundles</source>
           <target state="new">Import Bundles</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleItem.Text" translate="yes" xml:space="preserve">
-          <source>Create Bundle</source>
-          <target state="new">Create Bundle</target>
         </trans-unit>
         <trans-unit id="BundleItemFlyouOpenInNewTabMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Open in new tab</source>
@@ -1668,7 +1508,7 @@
           <source>Remove Bundle</source>
           <target state="new">Remove Bundle</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Bundles" translate="yes" xml:space="preserve">
           <source>Bundles</source>
           <target state="new">Bundles</target>
         </trans-unit>
@@ -1676,17 +1516,9 @@
           <source>Drag and drop any file or folder here to quickly access it</source>
           <target state="new">Drag and drop any file or folder here to quickly access it</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleConfirmButton.Content" translate="yes" xml:space="preserve">
-          <source>Confirm</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">உறுதிசெய்</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
+        <trans-unit id="EnterBundleName" translate="yes" xml:space="preserve">
           <source>Enter Bundle name</source>
           <target state="new">Enter Bundle name</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" translate="yes" xml:space="preserve">
-          <source>Create Bundle</source>
-          <target state="new">Create Bundle</target>
         </trans-unit>
         <trans-unit id="BundleOptionsFlyoutRenameBundleMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Rename Bundle</source>
@@ -1696,7 +1528,7 @@
           <source>More options...</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">கூடுதல் விருப்பங்கள்...</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleDialogTitleText" translate="yes" xml:space="preserve">
+        <trans-unit id="CreateBundle" translate="yes" xml:space="preserve">
           <source>Create Bundle</source>
           <target state="new">Create Bundle</target>
         </trans-unit>
@@ -1828,11 +1660,7 @@
           <source>Virtual Drive</source>
           <target state="new">Virtual Drive</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDateCreated.Text" translate="yes" xml:space="preserve">
-          <source>Date created</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">உருவாக்கிய தேதி</target>
-        </trans-unit>
-        <trans-unit id="DateCreatedColumn.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="DateCreated" translate="yes" xml:space="preserve">
           <source>Date created</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">உருவாக்கிய தேதி</target>
         </trans-unit>
@@ -1880,7 +1708,7 @@
           <source>Target</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இலக்கு</target>
         </trans-unit>
-        <trans-unit id="PropertyItemArguments" translate="yes" xml:space="preserve">
+        <trans-unit id="Arguments" translate="yes" xml:space="preserve">
           <source>Arguments</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இணைப்பு மாறிகள்</target>
         </trans-unit>
@@ -1920,10 +1748,6 @@
           <source>Copy complete</source>
           <target state="new">Copy complete</target>
         </trans-unit>
-        <trans-unit id="ElevateConfirmDialog.CloseButtonText" translate="yes" xml:space="preserve">
-          <source>No</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">இல்லை</target>
-        </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Title" translate="yes" xml:space="preserve">
           <source>This action requires administrator rights</source>
           <target state="new">This action requires administrator rights</target>
@@ -1931,10 +1755,6 @@
         <trans-unit id="ElevateConfirmDialog.Content" translate="yes" xml:space="preserve">
           <source>Would you like to continue as administrator?</source>
           <target state="new">Would you like to continue as administrator?</target>
-        </trans-unit>
-        <trans-unit id="HorizontalMultitaskingControlCloseTabsToTheRight.Text" translate="yes" xml:space="preserve">
-          <source>Close tabs to the right</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">வலது பக்கம் உள்ள தாவல்களை மூடு</target>
         </trans-unit>
         <trans-unit id="FullTrustStatusTeachingTip.Title" translate="yes" xml:space="preserve">
           <source>Administrator</source>
@@ -1952,17 +1772,9 @@
           <source>Unpin from the Start Menu</source>
           <target state="new">Unpin from the Start Menu</target>
         </trans-unit>
-        <trans-unit id="NavToolbarColumnView.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Columns</source>
-          <target state="new">Columns</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarColumnView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="ColumnsShortcutTooltip" translate="yes" xml:space="preserve">
           <source>Columns (Ctrl+Shift+6)</source>
           <target state="new">Columns (Ctrl+Shift+6)</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutColumn.Text" translate="yes" xml:space="preserve">
-          <source>Columns</source>
-          <target state="new">Columns</target>
         </trans-unit>
         <trans-unit id="PropertiesFilesFoldersAndLocationsCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</source>
@@ -1984,15 +1796,7 @@
           <source>Locations:</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இருப்பிடங்கள்</target>
         </trans-unit>
-        <trans-unit id="LibraryLocationsButtonAdd.Label" translate="yes" xml:space="preserve">
-          <source>Add</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">சேர்</target>
-        </trans-unit>
-        <trans-unit id="LibraryLocationsButtonSetDefault.Label" translate="yes" xml:space="preserve">
-          <source>Default</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">இயல்புநிலை</target>
-        </trans-unit>
-        <trans-unit id="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SetAsDefaultSavePath" translate="yes" xml:space="preserve">
           <source>Set as default save path</source>
           <target state="new">Set as default save path</target>
         </trans-unit>
@@ -2040,7 +1844,7 @@
           <source>ISO speed</source>
           <target state="new">ISO speed</target>
         </trans-unit>
-        <trans-unit id="CopyItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Copy" translate="yes" xml:space="preserve">
           <source>Copy</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">நகலெடு</target>
         </trans-unit>
@@ -2144,25 +1948,13 @@
           <source>Replace existing</source>
           <target state="new">Replace existing</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemOptionSkip.Text" translate="yes" xml:space="preserve">
-          <source>Skip</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">தவிர்</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="new">Replace existing</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogOptionSkip.Text" translate="yes" xml:space="preserve">
-          <source>Skip</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">தவிர்</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionReplaceExisting" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="new">Replace existing</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogTakenActionSkip" translate="yes" xml:space="preserve">
-          <source>Skip</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">தவிர்</target>
         </trans-unit>
         <trans-unit id="GenerateNewName" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
@@ -2276,7 +2068,7 @@
           <source>Tiny</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">&amp;மிகச்சிறிய</target>
         </trans-unit>
-        <trans-unit id="ItemTimeText_Today" translate="yes" xml:space="preserve">
+        <trans-unit id="Today" translate="yes" xml:space="preserve">
           <source>Today</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இன்று</target>
         </trans-unit>
@@ -2464,7 +2256,7 @@
           <source>Recycle cancelled</source>
           <target state="new">Recycle cancelled</target>
         </trans-unit>
-        <trans-unit id="StatusCancellingOp" translate="yes" xml:space="preserve">
+        <trans-unit id="canceling" translate="yes" xml:space="preserve">
           <source>canceling</source>
           <target state="new">canceling</target>
         </trans-unit>
@@ -2524,17 +2316,13 @@
           <source>New window</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">புதிய சாளரம்</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarCopyPath.Label" translate="yes" xml:space="preserve">
+        <trans-unit id="CopyLocation" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இருப்பிடத்தை நகலெடு</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarPaste.Label" translate="yes" xml:space="preserve">
           <source>Paste</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ஒட்டு</target>
-        </trans-unit>
-        <trans-unit id="NavigationToolbarOpenInTerminal.Label" translate="yes" xml:space="preserve">
-          <source>Open in Terminal...</source>
-          <target state="new">Open in Terminal...</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNew.Label" translate="yes" xml:space="preserve">
           <source>New</source>
@@ -2548,11 +2336,11 @@
           <source>Security</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">பாதுகாப்பு</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedPermissions.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AdvancedPermissions" translate="yes" xml:space="preserve">
           <source>Advanced permissions</source>
           <target state="new">Advanced permissions</target>
         </trans-unit>
-        <trans-unit id="SecurityAllowLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Allow" translate="yes" xml:space="preserve">
           <source>Allow</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">அனுமதி</target>
         </trans-unit>
@@ -2588,7 +2376,7 @@
           <source>Group or user names</source>
           <target state="new">Group or user names</target>
         </trans-unit>
-        <trans-unit id="SecurityWriteLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Write" translate="yes" xml:space="preserve">
           <source>Write</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">எழுது</target>
         </trans-unit>
@@ -2608,7 +2396,7 @@
           <source>Unknown owner</source>
           <target state="new">Unknown owner</target>
         </trans-unit>
-        <trans-unit id="DefaultTheme" translate="yes" xml:space="preserve">
+        <trans-unit id="Default" translate="yes" xml:space="preserve">
           <source>Default</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இயல்புநிலை</target>
         </trans-unit>
@@ -2664,7 +2452,7 @@
           <source>Restore Libraries</source>
           <target state="new">Restore Libraries</target>
         </trans-unit>
-        <trans-unit id="RecentFilesHeader.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="RecentFiles" translate="yes" xml:space="preserve">
           <source>Recent Files</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">சமீபத்திய கோப்புகள்</target>
         </trans-unit>
@@ -2684,7 +2472,7 @@
           <source>Special</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">சிறப்பு</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedAccessLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Access" translate="yes" xml:space="preserve">
           <source>Access</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">அணுகல்</target>
         </trans-unit>
@@ -2711,10 +2499,6 @@
         <trans-unit id="SecurityAdvancedInheritedLabel.Text" translate="yes" xml:space="preserve">
           <source>Inherited</source>
           <target state="new">Inherited</target>
-        </trans-unit>
-        <trans-unit id="SecurityAdvancedInheritedNoLabel" translate="yes" xml:space="preserve">
-          <source>No</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">இல்லை</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedPermissionsLabel.Text" translate="yes" xml:space="preserve">
           <source>Permissions</source>
@@ -2824,10 +2608,6 @@
           <source>Write extended attributes</source>
           <target state="new">Write extended attributes</target>
         </trans-unit>
-        <trans-unit id="SecurityNoneLabel.Text" translate="yes" xml:space="preserve">
-          <source>None</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ஏதுமில்லை</target>
-        </trans-unit>
         <trans-unit id="SecurityAdvancedInheritedConvert.Text" translate="yes" xml:space="preserve">
           <source>Convert inherited permissions into explicit permissions</source>
           <target state="new">Convert inherited permissions into explicit permissions</target>
@@ -2847,14 +2627,6 @@
         <trans-unit id="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Replace all child object permissions entries with inheritable permission entries from this object</source>
           <target state="new">Replace all child object permissions entries with inheritable permission entries from this object</target>
-        </trans-unit>
-        <trans-unit id="CreateBundleBtn.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Create Bundle</source>
-          <target state="new">Create Bundle</target>
-        </trans-unit>
-        <trans-unit id="CreateBundleBtn.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Create Bundle</source>
-          <target state="new">Create Bundle</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarClosePane.Label" translate="yes" xml:space="preserve">
           <source>Close pane</source>
@@ -2887,10 +2659,6 @@
         <trans-unit id="DecompressArchiveDialog.Title" translate="yes" xml:space="preserve">
           <source>Select a destination and extract files</source>
           <target state="new">Select a destination and extract files</target>
-        </trans-unit>
-        <trans-unit id="DecompressArchiveDialogBrowseFolder.Content" translate="yes" xml:space="preserve">
-          <source>Browse</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">உலாவு</target>
         </trans-unit>
         <trans-unit id="DecompressArchiveDialogOpenDestinationWhenComplete.Content" translate="yes" xml:space="preserve">
           <source>Open destination folder when complete</source>
@@ -3020,10 +2788,6 @@
           <source>Useful links</source>
           <target state="new">Useful links</target>
         </trans-unit>
-        <trans-unit id="SettingCopyVersionInfo.Content" translate="yes" xml:space="preserve">
-          <source>Copy</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">நகலெடு</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutPinToFavorites.Text" translate="yes" xml:space="preserve">
           <source>Pin to Favorites</source>
           <target state="new">Pin to Favorites</target>
@@ -3039,14 +2803,6 @@
         <trans-unit id="NavSettingsButton" translate="yes" xml:space="preserve">
           <source>Settings</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">அமைப்புகள்</target>
-        </trans-unit>
-        <trans-unit id="NavigationToolbarCopy.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Copy</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">நகலெடு</target>
-        </trans-unit>
-        <trans-unit id="NavigationToolbarCopy.Label" translate="yes" xml:space="preserve">
-          <source>Copy</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">நகலெடு</target>
         </trans-unit>
         <trans-unit id="ConsentDialogTitle" translate="yes" xml:space="preserve">
           <source>Updates available</source>
@@ -3064,7 +2820,7 @@
           <source>Update</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">புதுப்பி</target>
         </trans-unit>
-        <trans-unit id="BundleOptionsFlyoutAddFileMenuItem.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="AddFile" translate="yes" xml:space="preserve">
           <source>Add file</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">கோப்பைச் சேர்</target>
         </trans-unit>
@@ -3164,7 +2920,7 @@
           <source>Edit terminal applications</source>
           <target state="new">Edit terminal applications</target>
         </trans-unit>
-        <trans-unit id="SettingsDateFormat.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="DateFormat" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">தேதி வடிவமைப்பு</target>
         </trans-unit>
@@ -3190,45 +2946,19 @@
         </trans-unit>
         <trans-unit id="SettingsPrivacyPolicyMarkdownBlock.Text" translate="yes" xml:space="preserve">
           <source>
-*Personal Information Collection*
-Files does not collect, store, share or publish any personal information.
-
-*Non-personal Information Collection*
-
-We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
+We use App Center to track which settings are being used, find bugs, and fix crashes. Information sent to App Center is anonymous and free of any user or contextual data.
   </source>
           <target state="new">
-*Personal Information Collection*
-Files does not collect, store, share or publish any personal information.
-
-*Non-personal Information Collection*
-
-We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
+We use App Center to track which settings are being used, find bugs, and fix crashes. Information sent to App Center is anonymous and free of any user or contextual data.
   </target>
-        </trans-unit>
-        <trans-unit id="NavToolbarGroupByOptionNone.Text" translate="yes" xml:space="preserve">
-          <source>None</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ஏதுமில்லை</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionName.Text" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">பெயரிடு</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionDateModified.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="DateModifiedLowerCase" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">மாற்றப்பட்ட தேதி</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionDateCreated.Text" translate="yes" xml:space="preserve">
-          <source>Date created</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">உருவாக்கிய தேதி</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionSize.Text" translate="yes" xml:space="preserve">
-          <source>Size</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">அளவு</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionDateDeleted.Text" translate="yes" xml:space="preserve">
-          <source>Date deleted</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">தேதி நீக்கப்பட்டது</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionOriginalFolder.Text" translate="yes" xml:space="preserve">
           <source>Original folder</source>
@@ -3238,11 +2968,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Type</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">தட்டச்சுசெய்யவும்</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOptionAscending.Text" translate="yes" xml:space="preserve">
-          <source>Ascending</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ஏறுவரிசையில்</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Descending" translate="yes" xml:space="preserve">
           <source>Descending</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இறங்குவரிசையில்</target>
         </trans-unit>
@@ -3273,14 +2999,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="DetailsViewHeaderFlyout_ShowFileTag.Text" translate="yes" xml:space="preserve">
           <source>File tag</source>
           <target state="new">File tag</target>
-        </trans-unit>
-        <trans-unit id="SettingsEditFileTags.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Edit file tags</source>
-          <target state="new">Edit file tags</target>
-        </trans-unit>
-        <trans-unit id="SettingsEditFileTags.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Edit file tags</source>
-          <target state="new">Edit file tags</target>
         </trans-unit>
         <trans-unit id="SettingsEditFileTagsExpander.Title" translate="yes" xml:space="preserve">
           <source>Edit file tags</source>
@@ -3362,30 +3080,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Create link in {0}</source>
           <target state="new">Create link in {0}</target>
         </trans-unit>
-        <trans-unit id="NavToolbarColumnsHeader.Text" translate="yes" xml:space="preserve">
-          <source>Columns</source>
-          <target state="new">Columns</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarDetailsHeader.Text" translate="yes" xml:space="preserve">
-          <source>Details</source>
-          <target state="new">Details</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarLargeIconsHeader.Text" translate="yes" xml:space="preserve">
-          <source>Large Icons</source>
-          <target state="new">Large Icons</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarMediumIconsHeader.Text" translate="yes" xml:space="preserve">
-          <source>Medium Icons</source>
-          <target state="new">Medium Icons</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarSmallIconsHeader.Text" translate="yes" xml:space="preserve">
-          <source>Small Icons</source>
-          <target state="new">Small Icons</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarTilesHeader.Text" translate="yes" xml:space="preserve">
-          <source>Tiles</source>
-          <target state="new">Tiles</target>
-        </trans-unit>
         <trans-unit id="NavToolbarShowFileExtensionsHeader.Text" translate="yes" xml:space="preserve">
           <source>Show file extensions</source>
           <target state="new">Show file extensions</target>
@@ -3429,10 +3123,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="SettingsShowWslSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show WSL section</source>
           <target state="new">Show WSL section</target>
-        </trans-unit>
-        <trans-unit id="SettingsDateFormatComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Date format</source>
-          <target state="new">Date format</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>
@@ -3538,7 +3228,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Compatibility</source>
           <target state="new">Compatibility</target>
         </trans-unit>
-        <trans-unit id="HighDpiOption_None" translate="yes" xml:space="preserve">
+        <trans-unit id="None" translate="yes" xml:space="preserve">
           <source>None</source>
           <target state="new">None</target>
         </trans-unit>
@@ -3550,14 +3240,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>On program start</source>
           <target state="new">On program start</target>
         </trans-unit>
-        <trans-unit id="HighDpiOverride_Application" translate="yes" xml:space="preserve">
-          <source>Application</source>
-          <target state="new">Application</target>
-        </trans-unit>
-        <trans-unit id="HighDpiOverride_None" translate="yes" xml:space="preserve">
-          <source>None</source>
-          <target state="new">None</target>
-        </trans-unit>
         <trans-unit id="HighDpiOverride_System" translate="yes" xml:space="preserve">
           <source>System</source>
           <target state="new">System</target>
@@ -3566,15 +3248,11 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>System (advanced)</source>
           <target state="new">System (advanced)</target>
         </trans-unit>
-        <trans-unit id="OSCompatibility_None" translate="yes" xml:space="preserve">
-          <source>None</source>
-          <target state="new">None</target>
-        </trans-unit>
-        <trans-unit id="OSCompatibility_Windows7" translate="yes" xml:space="preserve">
+        <trans-unit id="Windows7" translate="yes" xml:space="preserve">
           <source>Windows 7</source>
           <target state="new">Windows 7</target>
         </trans-unit>
-        <trans-unit id="OSCompatibility_Windows8" translate="yes" xml:space="preserve">
+        <trans-unit id="Windows8" translate="yes" xml:space="preserve">
           <source>Windows 8</source>
           <target state="new">Windows 8</target>
         </trans-unit>
@@ -3597,10 +3275,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="ReducedColorMode_Color8Bit" translate="yes" xml:space="preserve">
           <source>8 Bit Colors (256)</source>
           <target state="new">8 Bit Colors (256)</target>
-        </trans-unit>
-        <trans-unit id="ReducedColorMode_None" translate="yes" xml:space="preserve">
-          <source>None</source>
-          <target state="new">None</target>
         </trans-unit>
         <trans-unit id="CompatibilityMode" translate="yes" xml:space="preserve">
           <source>Compatibility mode</source>
@@ -3675,12 +3349,180 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <target state="new">Third party licenses</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
-          <source>This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</source>
-          <target state="new">This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</target>
+          <source>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</source>
+          <target state="new">This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</target>
         </trans-unit>
         <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
           <source>Clear all</source>
           <target state="new">Clear all</target>
+        </trans-unit>
+        <trans-unit id="Columns" translate="yes" xml:space="preserve">
+          <source>Columns</source>
+          <target state="new">Columns</target>
+        </trans-unit>
+        <trans-unit id="LargeIcons" translate="yes" xml:space="preserve">
+          <source>Large Icons</source>
+          <target state="new">Large Icons</target>
+        </trans-unit>
+        <trans-unit id="MediumIcons" translate="yes" xml:space="preserve">
+          <source>Medium Icons</source>
+          <target state="new">Medium Icons</target>
+        </trans-unit>
+        <trans-unit id="SmallIcons" translate="yes" xml:space="preserve">
+          <source>Small Icons</source>
+          <target state="new">Small Icons</target>
+        </trans-unit>
+        <trans-unit id="Tiles" translate="yes" xml:space="preserve">
+          <source>Tiles</source>
+          <target state="new">Tiles</target>
+        </trans-unit>
+        <trans-unit id="FolderWidgetCreateNewLibraryDialogTitleText" translate="yes" xml:space="preserve">
+          <source>Create Library</source>
+          <target state="new">Create Library</target>
+        </trans-unit>
+        <trans-unit id="FolderWidgetCreateNewLibraryInputPlaceholderText" translate="yes" xml:space="preserve">
+          <source>Enter Library name</source>
+          <target state="new">Enter Library name</target>
+        </trans-unit>
+        <trans-unit id="ShowFolderSize" translate="yes" xml:space="preserve">
+          <source>Show folder size</source>
+          <target state="new">Show folder size</target>
+        </trans-unit>
+        <trans-unit id="Skip" translate="yes" xml:space="preserve">
+          <source>Skip</source>
+          <target state="new">Skip</target>
+        </trans-unit>
+        <trans-unit id="SettingsOpenInLogin" translate="yes" xml:space="preserve">
+          <source>Open Files on Windows Startup</source>
+          <target state="new">Open Files on Windows Startup</target>
+        </trans-unit>
+        <trans-unit id="Attributes" translate="yes" xml:space="preserve">
+          <source>Attributes</source>
+          <target state="new">Attributes</target>
+        </trans-unit>
+        <trans-unit id="Hidden" translate="yes" xml:space="preserve">
+          <source>Hidden</source>
+          <target state="new">Hidden</target>
+        </trans-unit>
+        <trans-unit id="MoreDetails" translate="yes" xml:space="preserve">
+          <source>More details</source>
+          <target state="new">More details</target>
+        </trans-unit>
+        <trans-unit id="ReadOnly" translate="yes" xml:space="preserve">
+          <source>Read only</source>
+          <target state="new">Read only</target>
+        </trans-unit>
+        <trans-unit id="CleanupDrive" translate="yes" xml:space="preserve">
+          <source>Cleanup your drive contents</source>
+          <target state="new">Cleanup your drive contents</target>
+        </trans-unit>
+        <trans-unit id="DiskCleanup" translate="yes" xml:space="preserve">
+          <source>Disk cleanup</source>
+          <target state="new">Disk cleanup</target>
+        </trans-unit>
+        <trans-unit id="Type" translate="yes" xml:space="preserve">
+          <source>Type:</source>
+          <target state="new">Type:</target>
+        </trans-unit>
+        <trans-unit id="Bytes" translate="yes" xml:space="preserve">
+          <source>Bytes</source>
+          <target state="new">Bytes</target>
+        </trans-unit>
+        <trans-unit id="Extract" translate="yes" xml:space="preserve">
+          <source>Extract</source>
+          <target state="new">Extract</target>
+        </trans-unit>
+        <trans-unit id="ExtractFiles" translate="yes" xml:space="preserve">
+          <source>Extract files</source>
+          <target state="new">Extract files</target>
+        </trans-unit>
+        <trans-unit id="ExtractHere" translate="yes" xml:space="preserve">
+          <source>Extract here</source>
+          <target state="new">Extract here</target>
+        </trans-unit>
+        <trans-unit id="ExtractKeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+E</source>
+          <target state="new">Ctrl+E</target>
+        </trans-unit>
+        <trans-unit id="ExtractToChildFolder" translate="yes" xml:space="preserve">
+          <source>Extract to {0}</source>
+          <target state="new">Extract to {0}</target>
+        </trans-unit>
+        <trans-unit id="RunScript" translate="yes" xml:space="preserve">
+          <source>Run script</source>
+          <target state="new">Run script</target>
+        </trans-unit>
+        <trans-unit id="RunWithPowerShell" translate="yes" xml:space="preserve">
+          <source>Run with PowerShell</source>
+          <target state="new">Run with PowerShell</target>
+        </trans-unit>
+        <trans-unit id="SetAsBackground" translate="yes" xml:space="preserve">
+          <source>Set as desktop background</source>
+          <target state="new">Set as desktop background</target>
+        </trans-unit>
+        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
+          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
+          <target state="new">Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</target>
+        </trans-unit>
+        <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
+          <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
+          <target state="new">Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</target>
+        </trans-unit>
+        <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
+          <source>Open in</source>
+          <target state="new">Open in</target>
+        </trans-unit>
+        <trans-unit id="RotateLeft" translate="yes" xml:space="preserve">
+          <source>Rotate left</source>
+          <target state="new">Rotate left</target>
+        </trans-unit>
+        <trans-unit id="RotateRight" translate="yes" xml:space="preserve">
+          <source>Rotate right</source>
+          <target state="new">Rotate right</target>
+        </trans-unit>
+        <trans-unit id="Install" translate="yes" xml:space="preserve">
+          <source>Install</source>
+          <target state="new">Install</target>
+        </trans-unit>
+        <trans-unit id="CloseTabsToTheLeft" translate="yes" xml:space="preserve">
+          <source>Close tabs to the left</source>
+          <target state="new">Close tabs to the left</target>
+        </trans-unit>
+        <trans-unit id="CloseTabsToTheRight" translate="yes" xml:space="preserve">
+          <source>Close tabs to the right</source>
+          <target state="new">Close tabs to the right</target>
+        </trans-unit>
+        <trans-unit id="ShowDotFiles" translate="yes" xml:space="preserve">
+          <source>Show dot files</source>
+          <target state="new">Show dot files</target>
+        </trans-unit>
+        <trans-unit id="CloseOtherTabs" translate="yes" xml:space="preserve">
+          <source>Close other tabs</source>
+          <target state="new">Close other tabs</target>
+        </trans-unit>
+        <trans-unit id="Music" translate="yes" xml:space="preserve">
+          <source>Music</source>
+          <target state="new">Music</target>
+        </trans-unit>
+        <trans-unit id="Pictures" translate="yes" xml:space="preserve">
+          <source>Pictures</source>
+          <target state="new">Pictures</target>
+        </trans-unit>
+        <trans-unit id="Videos" translate="yes" xml:space="preserve">
+          <source>Videos</source>
+          <target state="new">Videos</target>
+        </trans-unit>
+        <trans-unit id="UpdateFiles" translate="yes" xml:space="preserve">
+          <source>Update Files</source>
+          <target state="new">Update Files</target>
+        </trans-unit>
+        <trans-unit id="StatusPreparingItemsDetails_Plural" translate="yes" xml:space="preserve">
+          <source>Preparing {0} items</source>
+          <target state="new">Preparing {0} items</target>
+        </trans-unit>
+        <trans-unit id="PrepareInProgress" translate="yes" xml:space="preserve">
+          <source>Preparing items</source>
+          <target state="new">Preparing items</target>
         </trans-unit>
       </group>
     </body>

@@ -49,6 +49,8 @@ namespace Files.ViewModels
 
         public ICommand AddNewInstanceAcceleratorCommand { get; private set; }
 
+        public ICommand ReopenClosedTabAcceleratorCommand { get; private set; }
+
         public MainPageViewModel()
         {
             // Create commands
@@ -56,6 +58,7 @@ namespace Files.ViewModels
             OpenNewWindowAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
             CloseSelectedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CloseSelectedTabKeyboardAccelerator);
             AddNewInstanceAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(AddNewInstanceAccelerator);
+            ReopenClosedTabAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ReopenClosedTabAccelerator);
         }
 
         private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs e)
@@ -162,16 +165,13 @@ namespace Files.ViewModels
 
         private async void AddNewInstanceAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
-            bool shift = e.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
+            await AddNewTabAsync();
+            e.Handled = true;
+        }
 
-            if (!shift)
-            {
-                await AddNewTabAsync();
-            }
-            else // ctrl + shift + t, restore recently closed tab
-            {
-                ((BaseMultitaskingControl)MultitaskingControl).ReopenClosedTab(null, null);
-            }
+        private void ReopenClosedTabAccelerator(KeyboardAcceleratorInvokedEventArgs e)
+        {
+            ((BaseMultitaskingControl)MultitaskingControl).ReopenClosedTab(null, null);
             e.Handled = true;
         }
 
@@ -180,6 +180,12 @@ namespace Files.ViewModels
             if (string.IsNullOrEmpty(path))
             {
                 path = "Home".GetLocalized();
+            }
+
+            // Support drives launched through jump list by stripping away the question mark at the end.
+            if (path.EndsWith("\\?"))
+            {
+                path = path.Remove(path.Length - 1);
             }
 
             TabItem tabItem = new TabItem()
@@ -258,18 +264,18 @@ namespace Files.ViewModels
             string tabLocationHeader;
             var iconSource = new Microsoft.UI.Xaml.Controls.ImageIconSource();
 
-            if (currentPath == null || currentPath == "Home".GetLocalized())
+            if (string.IsNullOrEmpty(currentPath) || currentPath == "Home".GetLocalized())
             {
                 tabLocationHeader = "Home".GetLocalized();
                 iconSource.ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"));
             }
             else if (currentPath.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
             {
-                tabLocationHeader = "SidebarDesktop".GetLocalized();
+                tabLocationHeader = "Desktop".GetLocalized();
             }
             else if (currentPath.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
             {
-                tabLocationHeader = "SidebarDownloads".GetLocalized();
+                tabLocationHeader = "Downloads".GetLocalized();
             }
             else if (currentPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
@@ -282,29 +288,9 @@ namespace Files.ViewModels
             }
             else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
             {
-                var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path);
-                switch (libName)
-                {
-                    case "Documents":
-                        tabLocationHeader = $"Sidebar{libName}".GetLocalized(); // Show localized name
-                        break;
-
-                    case "Pictures":
-                        tabLocationHeader = $"Sidebar{libName}".GetLocalized(); // Show localized name
-                        break;
-
-                    case "Music":
-                        tabLocationHeader = $"Sidebar{libName}".GetLocalized(); // Show localized name
-                        break;
-
-                    case "Videos":
-                        tabLocationHeader = $"Sidebar{libName}".GetLocalized(); // Show localized name
-                        break;
-
-                    default:
-                        tabLocationHeader = library.Text; // Show original name
-                        break;
-                }
+                var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path).GetLocalized();
+                // If localized string is empty use the library name.
+                tabLocationHeader = string.IsNullOrEmpty(libName) ? library.Text : libName;
             }
             else
             {

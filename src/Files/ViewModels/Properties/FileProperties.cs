@@ -1,5 +1,4 @@
-﻿using ByteSizeLib;
-using Files.Extensions;
+﻿using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
@@ -70,14 +69,14 @@ namespace Files.ViewModels.Properties
                             || shortcutItem.TargetPath.EndsWith(".msi", StringComparison.OrdinalIgnoreCase)
                             || shortcutItem.TargetPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase));
 
-                    ViewModel.ShortcutItemType = isApplication ? "PropertiesShortcutTypeApplication".GetLocalized() :
+                    ViewModel.ShortcutItemType = isApplication ? "Application".GetLocalized() :
                         Item.IsLinkItem ? "PropertiesShortcutTypeLink".GetLocalized() : "PropertiesShortcutTypeFile".GetLocalized();
                     ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
                     ViewModel.IsShortcutItemPathReadOnly = shortcutItem.IsSymLink;
                     ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
-                    ViewModel.ShortcutItemWorkingDirVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? Visibility.Collapsed : Visibility.Visible;
+                    ViewModel.ShortcutItemWorkingDirVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
                     ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
-                    ViewModel.ShortcutItemArgumentsVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? Visibility.Collapsed : Visibility.Visible;
+                    ViewModel.ShortcutItemArgumentsVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
                     ViewModel.IsSelectedItemShortcut = ".lnk".Equals(Item.FileExtension, StringComparison.OrdinalIgnoreCase);
                     ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
                     {
@@ -106,10 +105,10 @@ namespace Files.ViewModels.Properties
             ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
                 Item.ItemPath, System.IO.FileAttributes.Hidden);
 
-            ViewModel.ItemSizeVisibility = Visibility.Visible;
-            ViewModel.ItemSize = $"{ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(Item.FileSizeBytes).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
+            ViewModel.ItemSizeVisibility = true;
+            ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
 
-            var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
+            var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.DocumentsView);
             if (fileIconData != null)
             {
                 ViewModel.IconData = fileIconData;

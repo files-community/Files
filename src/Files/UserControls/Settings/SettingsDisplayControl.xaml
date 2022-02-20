@@ -6,6 +6,7 @@
     xmlns:local="using:Files.UserControls.Settings"
     xmlns:local1="using:Files.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    MinHeight="40"
     d:DesignHeight="300"
     d:DesignWidth="400"
     SizeChanged="MainPanel_SizeChanged"

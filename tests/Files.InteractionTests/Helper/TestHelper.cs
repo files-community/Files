@@ -1,10 +1,6 @@
-﻿using Axe.Windows.Automation;
-using Axe.Windows.Core.Enums;
-using OpenQA.Selenium.Appium.Windows;
+﻿using OpenQA.Selenium.Appium.Windows;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 
 namespace Files.InteractionTests.Helper
 {

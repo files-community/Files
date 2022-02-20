@@ -19,9 +19,6 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Page.DataContext>
-        <settingsviewmodels:AboutViewModel />
-    </Page.DataContext>
 
     <Grid>
         <StackPanel
@@ -34,24 +31,17 @@
                 </TransitionCollection>
             </StackPanel.ChildrenTransitions>
 
-            <TextBlock
-                Padding="0,0,0,12"
-                FontSize="20"
-                FontWeight="Medium"
-                Text="{helpers:ResourceString Name=About}" />
-
             <local:SettingsBlockControl
-                Title="{Binding AppName}"
+                Title="{x:Bind ViewModel.AppName}"
                 HorizontalAlignment="Stretch"
-                Description="{Binding Version}">
+                Description="{x:Bind ViewModel.Version}">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE946;" />
                 </local:SettingsBlockControl.Icon>
                 <Button
                     x:Name="CopyVersionInfo"
-                    x:Uid="SettingCopyVersionInfo"
-                    Command="{Binding CopyVersionInfoCommand}"
-                    Content="Copy" />
+                    Command="{x:Bind ViewModel.CopyVersionInfoCommand}"
+                    Content="{helpers:ResourceString Name=Copy}" />
             </local:SettingsBlockControl>
 
             <local:SettingsBlockControl Title="{helpers:ResourceString Name=ManageSettings}" HorizontalAlignment="Stretch">
@@ -62,39 +52,33 @@
                     <StackPanel>
 
                         <!--  Export  -->
-                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=ExportSettings}">
+                        <local:SettingsBlockControl
+                            Title="{helpers:ResourceString Name=ExportSettings}"
+                            ButtonCommand="{x:Bind ViewModel.ExportSettingsCommand}"
+                            IsClickable="True">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xEDE1;" />
                             </local:SettingsBlockControl.Icon>
 
-                            <Button
-                                Padding="8"
-                                AutomationProperties.Name="{helpers:ResourceString Name=ExportSettings}"
-                                Command="{Binding ExportSettingsCommand}"
-                                ToolTipService.ToolTip="{helpers:ResourceString Name=ExportSettings}">
-                                <FontIcon
-                                    FontSize="14"
-                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                    Glyph="&#xE2B4;" />
-                            </Button>
+                            <FontIcon
+                                FontSize="14"
+                                Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                Glyph="&#xE2B4;" />
                         </local:SettingsBlockControl>
 
                         <!--  Import  -->
-                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=ImportSettings}">
+                        <local:SettingsBlockControl
+                            Title="{helpers:ResourceString Name=ImportSettings}"
+                            ButtonCommand="{x:Bind ViewModel.ImportSettingsCommand}"
+                            IsClickable="True">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xE8B5;" />
                             </local:SettingsBlockControl.Icon>
 
-                            <Button
-                                Padding="8"
-                                AutomationProperties.Name="{helpers:ResourceString Name=ImportSettings}"
-                                Command="{Binding ImportSettingsCommand}"
-                                ToolTipService.ToolTip="{helpers:ResourceString Name=ImportSettings}">
-                                <FontIcon
-                                    FontSize="14"
-                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                    Glyph="&#xE2B4;" />
-                            </Button>
+                            <FontIcon
+                                FontSize="14"
+                                Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                Glyph="&#xE2B4;" />
                         </local:SettingsBlockControl>
                     </StackPanel>
                 </local:SettingsBlockControl.ExpandableContent>
@@ -202,7 +186,7 @@
                             Padding="8,2"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
-                            AutomationProperties.Name="Support us on PayPal"
+                            AutomationProperties.Name="Support us on GitHub"
                             IsEnabled="True">
                             <StackPanel
                                 Padding="4"
@@ -218,7 +202,7 @@
                         </GridViewItem>
                         <i:Interaction.Behaviors>
                             <ic:EventTriggerBehavior EventName="ItemClick">
-                                <ic:InvokeCommandAction Command="{Binding ClickAboutFeedbackItemCommand}" />
+                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.ClickAboutFeedbackItemCommand}" />
                             </ic:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
                     </GridView>
@@ -242,34 +226,27 @@
                 </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=OpenLogLocation}" HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl
+                Title="{helpers:ResourceString Name=OpenLogLocation}"
+                HorizontalAlignment="Stretch"
+                ButtonCommand="{x:Bind ViewModel.OpenLogLocationCommand}"
+                IsClickable="True">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE838;" />
                 </local:SettingsBlockControl.Icon>
 
-                <Button
-                    x:Name="OpenLogLocationButton"
-                    Padding="8"
-                    AutomationProperties.Name="{helpers:ResourceString Name=OpenLogLocation}"
-                    Command="{Binding OpenLogLocationCommand}"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=OpenLogLocation}">
-                    <Button.Content>
-                        <FontIcon
-                            FontSize="14"
-                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                            Glyph="&#xE2B4;" />
-                    </Button.Content>
-                </Button>
+                <FontIcon
+                    FontSize="14"
+                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                    Glyph="&#xE2B4;" />
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl
-                Title="{helpers:ResourceString Name=ThirdPartyLicenses}"
-                HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=ThirdPartyLicenses}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE99A;" />
                 </local:SettingsBlockControl.Icon>
                 <local:SettingsBlockControl.ExpandableContent>
-                    <StackPanel Spacing="4" Padding="4">
+                    <StackPanel Padding="4" Spacing="4">
                         <HyperlinkButton
                             AutomationProperties.Name="QuickLook"
                             Content="QuickLook"

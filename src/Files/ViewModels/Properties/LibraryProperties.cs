@@ -1,5 +1,4 @@
-﻿using ByteSizeLib;
-using Files.Enums;
+﻿using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
@@ -11,7 +10,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
 
 namespace Files.ViewModels.Properties
 {
@@ -111,8 +109,8 @@ namespace Files.ViewModels.Properties
 
         private async void GetLibrarySize(List<BaseStorageFolder> storageFolders, CancellationToken token)
         {
-            ViewModel.ItemSizeVisibility = Visibility.Visible;
-            ViewModel.ItemSizeProgressVisibility = Visibility.Visible;
+            ViewModel.ItemSizeVisibility = true;
+            ViewModel.ItemSizeProgressVisibility = true;
 
             try
             {
@@ -122,14 +120,14 @@ namespace Files.ViewModels.Properties
                     librarySize += await Task.Run(async () => await CalculateFolderSizeAsync(folder.Path, token));
                 }
                 ViewModel.ItemSizeBytes = librarySize;
-                ViewModel.ItemSize = $"{ByteSize.FromBytes(librarySize).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(librarySize).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
+                ViewModel.ItemSize = librarySize.ToLongSizeString();
             }
             catch (Exception ex)
             {
                 App.Logger.Warn(ex, ex.Message);
             }
 
-            ViewModel.ItemSizeProgressVisibility = Visibility.Collapsed;
+            ViewModel.ItemSizeProgressVisibility = false;
 
             SetItemsCountString();
         }

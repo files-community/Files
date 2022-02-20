@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Windows.Input;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
 
@@ -9,6 +11,15 @@ namespace Files.UserControls.Settings
     public sealed partial class SettingsBlockControl : UserControl
     {
         public FrameworkElement SettingsActionableElement { get; set; }
+
+
+        public ICommand ButtonCommand
+        {
+            get { return (ICommand)GetValue(ButtonCommandProperty); }
+            set { SetValue(ButtonCommandProperty, value); }
+        }
+        public static readonly DependencyProperty ButtonCommandProperty =
+            DependencyProperty.Register("ButtonCommand", typeof(ICommand), typeof(SettingsBlockControl), new PropertyMetadata(null));
 
         public static readonly DependencyProperty ExpandableContentProperty = DependencyProperty.Register(
           "ExpandableContent",
@@ -109,11 +120,15 @@ namespace Files.UserControls.Settings
         public SettingsBlockControl()
         {
             this.InitializeComponent();
+            this.Loaded += SettingsBlockControl_Loaded;
         }
 
-        private void ActionableButton_Click(object sender, RoutedEventArgs e)
+        private void SettingsBlockControl_Loaded(object sender, RoutedEventArgs e)
         {
-            Click?.Invoke(this, ExpanderControl.IsExpanded);
+            if (ActionableButton != null)
+            {
+                AutomationProperties.SetName(ActionableButton, Title);
+            }
         }
 
         private void Expander_Expanding(Microsoft.UI.Xaml.Controls.Expander sender, Microsoft.UI.Xaml.Controls.ExpanderExpandingEventArgs args)

@@ -1,10 +1,5 @@
 ﻿using Files.Enums;
 using Files.Models.JsonSettings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Files.Services.Implementation
 {
@@ -74,6 +69,10 @@ namespace Files.Services.Implementation
         {
             get => (GroupOption)Get((long)GroupOption.None);
             set => Set((long)value);
+        }
+
+        public void ReportToAppCenter()
+        {
         }
     }
 }

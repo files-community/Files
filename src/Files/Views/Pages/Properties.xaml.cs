@@ -1,17 +1,12 @@
 ﻿using Files.DataModels.NavigationControlItems;
-using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
-using Files.UserControls.Settings;
 using Files.ViewModels;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
 using System;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Foundation.Metadata;
@@ -19,10 +14,13 @@ using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
+using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views
@@ -39,7 +37,17 @@ namespace Files.Views
 
         private ListedItem listedItem;
 
+        private Storyboard RectHoverAnim;
+        private Storyboard RectUnHoverAnim;
+
+        private Storyboard CrossHoverAnim;
+        private Storyboard CrossUnHoverAnim;
+
+        private XamlCompositionBrushBase micaBrush;
+
         public SettingsViewModel AppSettings => App.AppSettings;
+
+        public AppWindow appWindow;
 
         public Properties()
         {
@@ -75,19 +83,91 @@ namespace Files.Views
 
         private async void Properties_Loaded(object sender, RoutedEventArgs e)
         {
-            Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
-
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 // Set window size in the loaded event to prevent flickering
-                TitleBar = ApplicationView.GetForCurrentView().TitleBar;
-                TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
+                {
+                    appWindow.TitleBar.SetPreferredVisibility(AppWindowTitleBarVisibility.AlwaysHidden);
+                    appWindow.Frame.DragRegionVisuals.Add(TitleBarDragArea);
+
+                    crossIcon.Foreground = ThemeHelper.RootTheme switch
+                    {
+                        ElementTheme.Default => new SolidColorBrush((Color)Application.Current.Resources["SystemBaseHighColor"]),
+                        ElementTheme.Light => new SolidColorBrush(Colors.Black),
+                        ElementTheme.Dark => new SolidColorBrush(Colors.White),
+                        _ => new SolidColorBrush((Color)Application.Current.Resources["SystemBaseHighColor"])
+                    };
+
+                    var micaIsSupported = ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "TryCreateBlurredWallpaperBackdropBrush");
+                    if (micaIsSupported)
+                    {
+                        micaBrush = new Brushes.MicaBrush(false);
+                        (micaBrush as Brushes.MicaBrush).SetAppWindow(appWindow);
+                        Frame.Background = micaBrush;
+                    }
+                    else
+                    {
+                        Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
+                    }
+
+                    var duration = new Duration(TimeSpan.FromMilliseconds(280));
+
+                    RectHoverAnim = new Storyboard();
+                    var RectHoverColorAnim = new ColorAnimation();
+                    RectHoverColorAnim.Duration = duration;
+                    RectHoverColorAnim.From = Colors.Transparent;
+                    RectHoverColorAnim.To = Color.FromArgb(255, 232, 17, 35);
+                    RectHoverColorAnim.EasingFunction = new SineEase();
+                    Storyboard.SetTarget(RectHoverColorAnim, CloseRect);
+                    Storyboard.SetTargetProperty(RectHoverColorAnim, "(Rectangle.Fill).(SolidColorBrush.Color)");
+                    RectHoverAnim.Children.Add(RectHoverColorAnim);
+
+                    RectUnHoverAnim = new Storyboard();
+                    var RectUnHoverColorAnim = new ColorAnimation();
+                    RectUnHoverColorAnim.Duration = duration;
+                    RectUnHoverColorAnim.To = Colors.Transparent;
+                    RectUnHoverColorAnim.From = Color.FromArgb(255, 232, 17, 35);
+                    RectUnHoverColorAnim.EasingFunction = new SineEase();
+                    Storyboard.SetTarget(RectUnHoverColorAnim, CloseRect);
+                    Storyboard.SetTargetProperty(RectUnHoverColorAnim, "(Rectangle.Fill).(SolidColorBrush.Color)");
+                    RectUnHoverAnim.Children.Add(RectUnHoverColorAnim);
+
+                    CrossHoverAnim = new Storyboard();
+                    var CrossHoverColorAnim = new ColorAnimation();
+                    CrossHoverColorAnim.Duration = duration;
+                    CrossHoverColorAnim.From = ((SolidColorBrush)crossIcon.Foreground).Color;
+                    CrossHoverColorAnim.To = Colors.White;
+                    CrossHoverColorAnim.EasingFunction = new SineEase();
+                    Storyboard.SetTarget(CrossHoverColorAnim, crossIcon);
+                    Storyboard.SetTargetProperty(CrossHoverColorAnim, "(PathIcon.Foreground).(SolidColorBrush.Color)");
+                    CrossHoverAnim.Children.Add(CrossHoverColorAnim);
+
+                    CrossUnHoverAnim = new Storyboard();
+                    var CrossUnHoverColorAnim = new ColorAnimation();
+                    CrossUnHoverColorAnim.Duration = duration;
+                    CrossUnHoverColorAnim.To = ((SolidColorBrush)crossIcon.Foreground).Color;
+                    CrossUnHoverColorAnim.From = Colors.White;
+                    CrossUnHoverColorAnim.EasingFunction = new SineEase();
+                    Storyboard.SetTarget(CrossUnHoverColorAnim, crossIcon);
+                    Storyboard.SetTargetProperty(CrossUnHoverColorAnim, "(PathIcon.Foreground).(SolidColorBrush.Color)");
+                    CrossUnHoverAnim.Children.Add(CrossUnHoverColorAnim);
+                }
+                else
+                {
+                    Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
+
+                    TitleBar = ApplicationView.GetForCurrentView().TitleBar;
+                    TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                    TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                    Window.Current.SetTitleBar(TitleBarDragArea);
+                }
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
             }
             else
             {
+                Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
                 propertiesDialog = DependencyObjectHelpers.FindParent<ContentDialog>(this);
                 propertiesDialog.Closed += PropertiesDialog_Closed;
             }
@@ -97,7 +177,6 @@ namespace Files.Views
         {
             AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
             sender.Closed -= PropertiesDialog_Closed;
-            this.FindDescendants().Where(x => x is SettingsBlockControl).Cast<SettingsBlockControl>().Select(x => (x.ExpandableContent as Frame).Content as PropertiesTab).Where(x => x != null).ForEach(tab => tab.Dispose());
             if (tokenSource != null && !tokenSource.IsCancellationRequested)
             {
                 tokenSource.Cancel();
@@ -122,18 +201,45 @@ namespace Files.Views
                     switch (RequestedTheme)
                     {
                         case ElementTheme.Default:
-                            TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
-                            TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
+                            if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
+                            {
+                                crossIcon.Foreground = new SolidColorBrush((Color)Application.Current.Resources["SystemBaseHighColor"]);
+                                ((ColorAnimation)CrossHoverAnim.Children[0]).From = (Color)Application.Current.Resources["SystemBaseHighColor"];
+                                ((ColorAnimation)CrossUnHoverAnim.Children[0]).To = (Color)Application.Current.Resources["SystemBaseHighColor"];
+                            }
+                            else
+                            {
+                                TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
+                                TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
+                            }
                             break;
 
                         case ElementTheme.Light:
-                            TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
-                            TitleBar.ButtonForegroundColor = Colors.Black;
+                            if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
+                            {
+                                crossIcon.Foreground = new SolidColorBrush(Colors.Black);
+                                ((ColorAnimation)CrossHoverAnim.Children[0]).From = Colors.Black;
+                                ((ColorAnimation)CrossUnHoverAnim.Children[0]).To = Colors.Black;
+                            }
+                            else
+                            {
+                                TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
+                                TitleBar.ButtonForegroundColor = Colors.Black;
+                            }
                             break;
 
                         case ElementTheme.Dark:
-                            TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
-                            TitleBar.ButtonForegroundColor = Colors.White;
+                            if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
+                            {
+                                crossIcon.Foreground = new SolidColorBrush(Colors.White);
+                                ((ColorAnimation)CrossHoverAnim.Children[0]).From = Colors.White;
+                                ((ColorAnimation)CrossUnHoverAnim.Children[0]).To = Colors.White;
+                            }
+                            else
+                            {
+                                TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
+                                TitleBar.ButtonForegroundColor = Colors.White;
+                            }
                             break;
                     }
                 }
@@ -142,18 +248,28 @@ namespace Files.Views
 
         private async void OKButton_Click(object sender, RoutedEventArgs e)
         {
-            var saveTaks = this.FindDescendants().Where(x => x is SettingsBlockControl).Cast<SettingsBlockControl>().Select(x => (x.ExpandableContent as Frame).Content as PropertiesTab).Where(x => x != null).Select(async (tab) =>
+            if (contentFrame.Content is PropertiesGeneral propertiesGeneral)
             {
-                return await tab.SaveChangesAsync(listedItem);
-            });
-            if (!(await Task.WhenAll(saveTaks)).All(x => x))
+                await propertiesGeneral.SaveChangesAsync(listedItem);
+            }
+            else
             {
-                return;
+                if (!await (contentFrame.Content as PropertiesTab).SaveChangesAsync(listedItem))
+                {
+                    return;
+                }
             }
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
+                {
+                    await appWindow.CloseAsync();
+                }
+                else
+                {
+                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                }
             }
             else
             {
@@ -165,7 +281,14 @@ namespace Files.Views
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
+                {
+                    await appWindow.CloseAsync();
+                }
+                else
+                {
+                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                }
             }
             else
             {
@@ -179,12 +302,60 @@ namespace Files.Views
             {
                 if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
                 {
-                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                    if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
+                    {
+                        await appWindow.CloseAsync();
+                    }
+                    else
+                    {
+                        await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                    }
                 }
                 else
                 {
                     propertiesDialog?.Hide();
                 }
+            }
+        }
+
+        private void NavigationView_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
+        {
+            var navParam = new PropertyNavParam()
+            {
+                tokenSource = tokenSource,
+                navParameter = navParameterItem,
+                AppInstanceArgument = AppInstance
+            };
+
+            switch (args.SelectedItemContainer.Tag)
+            {
+                case "General":
+                    contentFrame.Navigate(typeof(PropertiesGeneral), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
+
+                case "Shortcut":
+                    contentFrame.Navigate(typeof(PropertiesShortcut), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
+
+                case "Library":
+                    contentFrame.Navigate(typeof(PropertiesLibrary), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
+
+                case "Details":
+                    contentFrame.Navigate(typeof(PropertiesDetails), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
+
+                case "Security":
+                    contentFrame.Navigate(typeof(PropertiesSecurity), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
+
+                case "Customization":
+                    contentFrame.Navigate(typeof(PropertiesCustomization), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
+
+                case "Compatibility":
+                    contentFrame.Navigate(typeof(PropertiesCompatibility), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
             }
         }
 
@@ -215,52 +386,32 @@ namespace Files.Views
             }
         }
 
-        private void SettingsBlockControl_Click(object sender, bool isExpanding)
+        private async void CloseRect_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            var tag = (sender as Control).Tag as string;
-            var contentFrame = (sender as SettingsBlockControl).ExpandableContent as Frame;
-            if (contentFrame.Content != null || !isExpanding)
-            {
-                return;
-            }
+            CrossUnHoverAnim.Stop();
+            RectUnHoverAnim.Stop();
+            CrossHoverAnim.Stop();
+            RectHoverAnim.Stop();
 
-            var navParam = new PropertyNavParam()
-            {
-                tokenSource = tokenSource,
-                navParameter = navParameterItem,
-                AppInstanceArgument = AppInstance
-            };
+            await appWindow.CloseAsync();
+        }
 
-            switch (tag)
-            {
-                case "General":
-                    contentFrame.Navigate(typeof(PropertiesGeneral), navParam);
-                    break;
+        private void CloseRect_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            CrossUnHoverAnim.Stop();
+            RectUnHoverAnim.Stop();
 
-                case "Shortcut":
-                    contentFrame.Navigate(typeof(PropertiesShortcut), navParam);
-                    break;
+            CrossHoverAnim.Begin();
+            RectHoverAnim.Begin();
+        }
 
-                case "Library":
-                    contentFrame.Navigate(typeof(PropertiesLibrary), navParam);
-                    break;
+        private void CloseRect_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            CrossHoverAnim.Stop();
+            RectHoverAnim.Stop();
 
-                case "Details":
-                    contentFrame.Navigate(typeof(PropertiesDetails), navParam);
-                    break;
-
-                case "Security":
-                    contentFrame.Navigate(typeof(PropertiesSecurity), navParam);
-                    break;
-
-                case "Customization":
-                    contentFrame.Navigate(typeof(PropertiesCustomization), navParam);
-                    break;
-
-                case "Compatibility":
-                    contentFrame.Navigate(typeof(PropertiesCompatibility), navParam);
-                    break;
-            }
+            CrossUnHoverAnim.Begin();
+            RectUnHoverAnim.Begin();
         }
     }
 }

@@ -59,6 +59,30 @@ namespace Files.Helpers
 
         #endregion ItemsSource
 
+        #region IsVisible
+
+        public static bool GetIsVisible(DependencyObject d) => (bool)d.GetValue(IsVisibleProperty);
+
+        public static void SetIsVisible(DependencyObject d, bool value) => d.SetValue(IsVisibleProperty, value);
+
+        public static readonly DependencyProperty IsVisibleProperty = DependencyProperty.RegisterAttached("IsVisible", typeof(bool), typeof(MenuFlyoutHelper), new PropertyMetadata(false, OnIsVisiblePropertyChanged));
+
+        private static void OnIsVisiblePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is not MenuFlyout flyout)
+            {
+                return;
+            }
+
+            var boolValue = (bool)e.NewValue;
+
+            // hide the MenuFlyout if it's bool is false.
+            if (!boolValue)
+                flyout.Hide();
+        }
+
+        #endregion IsVisible
+
         private static async void SetupItems(MenuFlyout menu)
         {
             if (menu == null || Windows.ApplicationModel.DesignMode.DesignModeEnabled)
