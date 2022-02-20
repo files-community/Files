@@ -12,34 +12,6 @@ namespace Files.Services.Implementation
             this.RegisterSettingsContext(settingsSharingContext);
         }
 
-        public override void RaiseOnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
-        {
-            switch (e.settingName)
-            {
-                case nameof(ShowConfirmDeleteDialog):
-                case nameof(OpenFoldersInNewTab):
-                case nameof(ShowFileExtensions):
-                case nameof(AreHiddenItemsVisible):
-                case nameof(AreSystemItemsHidden):
-                case nameof(ListAndSortDirectoriesAlongsideFiles):
-                case nameof(OpenFilesWithOneClick):
-                case nameof(OpenFoldersWithOneClick):
-                case nameof(SearchUnindexedItems):
-                case nameof(AreLayoutPreferencesPerFolder):
-                case nameof(AdaptiveLayoutEnabled):
-                case nameof(AreFileTagsEnabled):
-                case nameof(ShowFolderSize):
-                case nameof(OpenSpecificPageOnStartup):
-                case nameof(ContinueLastSessionOnStartUp):
-                case nameof(OpenNewTabOnStartup):
-                case nameof(AlwaysOpenNewInstance):
-                    Microsoft.AppCenter.Analytics.Analytics.TrackEvent($"{e.settingName} {e.newValue}");
-                    break;
-            }
-
-            base.RaiseOnSettingChangedEvent(sender, e);
-        }
-
         public bool ShowConfirmDeleteDialog
         {
             get => Get(true);
