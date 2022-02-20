@@ -126,7 +126,8 @@ namespace Files
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
         {
             AppSettings ??= new SettingsViewModel();
-            
+            RegistryToJsonSettingsMerger.MergeSettings();
+
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
             await ExternalResourcesHelper.LoadSelectedTheme();
 
