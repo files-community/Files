@@ -680,7 +680,7 @@
                                     Grid.Row="0"
                                     Grid.Column="2"
                                     VerticalAlignment="Center"
-                                    Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
+                                    Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
                                     Style="{StaticResource BodyTextBlockStyle}"
                                     Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
                                     Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
@@ -690,7 +690,7 @@
                                     Grid.Column="3"
                                     VerticalAlignment="Center"
                                     FontSize="14"
-                                    Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
+                                    Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
                                     Style="{StaticResource SubheaderTextBlockStyle}"
                                     Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
                                     Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
@@ -699,7 +699,7 @@
                                     Grid.Row="1"
                                     Grid.Column="1"
                                     Grid.ColumnSpan="3"
-                                    Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
+                                    Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
                                     Style="{StaticResource BodyTextBlockStyle}"
                                     Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
                                     Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
