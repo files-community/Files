@@ -252,8 +252,8 @@ namespace Files.Views.LayoutModes
             {
                 FileNameTeachingTip.IsOpen = false;
                 FileNameTeachingTip.Visibility = Visibility.Collapsed;
-
-        
+            }
+        }
 
         private void FolderSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
         {

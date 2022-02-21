@@ -40,6 +40,8 @@ using Windows.UI.Xaml.Navigation;
 using Files.Backend.ViewModels.ItemListing;
 using Files.Backend.ViewModels.Layouts;
 using static Files.Helpers.PathNormalization;
+using Files.Views.LayoutModes;
+using Files.Helpers.XamlHelpers;
 
 #nullable enable
 
@@ -814,15 +816,6 @@ namespace Files
                         clickAction(flyout.Items);
                     }
                 });
-            }
-        }
-
-        protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
-        {
-            if (ParentShellPageInstance.IsCurrentInstance)
-            {
-                char letter = Convert.ToChar(args.KeyCode);
-                JumpString += letter.ToString().ToLowerInvariant();
             }
         }
 

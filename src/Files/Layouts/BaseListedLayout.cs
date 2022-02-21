@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Files.Backend.ViewModels.ItemListing;
 using Files.Backend.ViewModels.Layouts;
 using Files.Shared.Extensions;
+using Files.Backend.Enums;
 
 #nullable enable
 
@@ -318,29 +319,31 @@ namespace Files.Layouts
 
         protected virtual void EndRename(TextBox textBox)
         {
-            if (textBox.FindParent<Grid>() is FrameworkElement parent)
+            if (textBox == null || textBox.Parent == null)
             {
-                Grid.SetColumnSpan(parent, 1);
+                // Navigating away, do nothing
             }
-
-            var selectorItem = (SelectorItem?)FileListInternal.ContainerFromItem(RenamingItem);
-            if (selectorItem != null)
+            else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
             {
-                if (selectorItem.FindDescendant("ItemName") is TextBlock textBlock)
-                {
-                    textBlock.Visibility = Visibility.Visible;
-                }
-
+                Popup popup = textBox.Parent as Popup;
+                TextBlock textBlock = (popup.Parent as Grid).Children[1] as TextBlock;
+                popup.IsOpen = false;
+            }
+            else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
+            {
+                Grid grid = textBox.Parent as Grid;
+                TextBlock textBlock = grid.Children[0] as TextBlock;
                 textBox.Visibility = Visibility.Collapsed;
+                textBlock.Visibility = Visibility.Visible;
             }
 
             textBox.LostFocus -= RenameTextBox_LostFocus;
             textBox.KeyDown -= RenameTextBox_KeyDown;
-
             ViewModel.FileNameTeachingTipOpened = false;
-            IsRenamingItem = false; // TODO(i): Move it or change logic so it's in VM.EndRename()
+            IsRenamingItem = false;
 
             // Re-focus selected list item
+            var selectorItem = FileListInternal.ContainerFromItem(RenamingItem) as SelectorItem;
             selectorItem?.Focus(FocusState.Programmatic);
         }
 
