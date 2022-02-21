@@ -806,14 +806,14 @@ namespace Files.Interacts
         {
             await BitmapHelper.Rotate(PathNormalization.NormalizePath(SlimContentPage?.SelectedItems.First().ItemPath), BitmapRotation.Clockwise270Degrees);
             SlimContentPage?.ItemManipulationModel.RefreshItemsThumbnail();
-            SlimContentPage?.PreviewPaneViewModel.UpdateSelectedItemPreview();
+            App.PreviewPaneViewModel.UpdateSelectedItemPreview();
         }
 
         public async Task RotateImageRight()
         {
             await BitmapHelper.Rotate(PathNormalization.NormalizePath(SlimContentPage?.SelectedItems.First().ItemPath), BitmapRotation.Clockwise90Degrees);
             SlimContentPage?.ItemManipulationModel.RefreshItemsThumbnail();
-            SlimContentPage?.PreviewPaneViewModel.UpdateSelectedItemPreview();
+            App.PreviewPaneViewModel.UpdateSelectedItemPreview();
         }
 
         public async Task InstallFont()

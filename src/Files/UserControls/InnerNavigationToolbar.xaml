@@ -811,7 +811,7 @@
                 MinWidth="40"
                 AccessKey="P"
                 AutomationProperties.Name="Toggle preview pane"
-                IsChecked="{x:Bind PreviewPaneViewModel.IsPaneSelected, Mode=TwoWay}"
+                IsChecked="{x:Bind MainViewModel.PaneViewModel.IsPreviewSelected, Mode=TwoWay}"
                 IsEnabled="{x:Bind ShowPreviewPaneButton, Mode=OneWay}"
                 Label="Preview"
                 LabelPosition="Collapsed"

@@ -63,7 +63,7 @@ namespace Files
 
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
 
-        public PreviewPaneViewModel PreviewPaneViewModel => App.PreviewPaneViewModel;
+        public IPaneViewModel PaneViewModel => App.PaneViewModel;
 
         public MainViewModel MainViewModel => App.MainViewModel;
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
@@ -228,22 +228,22 @@ namespace Files
                         // update preview pane properties
                         if (value?.Count == 1)
                         {
-                            PreviewPaneViewModel.IsItemSelected = true;
-                            PreviewPaneViewModel.SelectedItem = value.First();
+                            App.PreviewPaneViewModel.IsItemSelected = true;
+                            App.PreviewPaneViewModel.SelectedItem = value.First();
                         }
                         else
                         {
-                            PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
-                            PreviewPaneViewModel.SelectedItem = null;
+                            App.PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
+                            App.PreviewPaneViewModel.SelectedItem = null;
                         }
 
                         // check if the preview pane is open before updating the model
-                        if (PreviewPaneViewModel.IsPaneSelected)
+                        if (PaneViewModel.IsPreviewSelected)
                         {
                             bool isPaneEnabled = ((Window.Current.Content as Frame)?.Content as MainPage)?.IsPaneEnabled ?? false;
                             if (isPaneEnabled)
                             {
-                                PreviewPaneViewModel.UpdateSelectedItemPreview();
+                                App.PreviewPaneViewModel.UpdateSelectedItemPreview();
                             }
                         }
                     }
@@ -1109,7 +1109,7 @@ namespace Files
 
         public virtual void Dispose()
         {
-            PreviewPaneViewModel?.Dispose();
+            PaneViewModel?.Dispose();
             UnhookBaseEvents();
         }
 

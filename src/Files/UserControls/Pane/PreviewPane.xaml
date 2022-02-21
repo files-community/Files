@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Name="Root" MinWidth="90"
+    x:Name="Root" x:Uid="SelectedFilePreviewPane"
     x:Class="Files.UserControls.PreviewPane"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,8 +8,9 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:properties="using:Files.ViewModels.Properties"
     xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
-    Unloaded="UserControl_Unloaded" SizeChanged="Root_SizeChanged"
-    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+    Loading="Root_Loading" Unloaded="Root_Unloaded" SizeChanged="Root_SizeChanged"
+    MinWidth="90" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+    AutomationProperties.Name="Selected file preview pane"
     d:DesignWidth="400" d:DesignHeight="300" mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -37,10 +38,10 @@
                 <MenuFlyout>
                     <ToggleMenuFlyoutItem x:Uid="PreviewPaneShowPreviewOnly" Text="Show preview only"
                         IsChecked="{x:Bind PaneSettingsService.ShowPreviewOnly, Mode=TwoWay}"
-                        Command="{x:Bind Model.ShowPreviewOnlyInvoked, Mode=OneWay}" />
+                        Command="{x:Bind ViewModel.ShowPreviewOnlyInvoked, Mode=OneWay}" />
                     <MenuFlyoutItem x:Uid="PreviewPaneLoadCloudItemButton" HorizontalAlignment="Stretch"
                         Text="Load full preview" Tapped="MenuFlyoutItem_Tapped"
-                        Visibility="{x:Bind Model.ShowCloudItemButton, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.ShowCloudItemButton, Mode=OneWay}"
                         ToolTipService.ToolTip="Downloads the item from the cloud and loads the preview" />
                 </MenuFlyout>
             </Grid.ContextFlyout>
@@ -52,7 +53,7 @@
                 TextWrapping="WrapWholeWords" Text="{x:Bind GetLocalized('NoItemSelected')}" />
             <ContentPresenter x:Name="PreviewControlPresenter"
                 HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-                Content="{x:Bind Model.PreviewPaneContent, Mode=OneWay}" Visibility="Collapsed" />
+                Content="{x:Bind ViewModel.PreviewPaneContent, Mode=OneWay}" Visibility="Collapsed" />
             <muxc:ProgressRing x:Name="PreviewLoadingIndicator" IsIndeterminate="True" Visibility="Collapsed" />
         </Grid>
 
@@ -65,12 +66,12 @@
                 <StackPanel Orientation="Vertical">
                     <StackPanel x:Name="DetailsListHeader" Orientation="Vertical" Margin="8,8,8,0" Spacing="5" Visibility="Collapsed">
                         <TextBlock FontSize="20" FontWeight="Bold" HorizontalTextAlignment="Center" IsTextSelectionEnabled="True"
-                            TextWrapping="Wrap" TextAlignment="Center" Text="{x:Bind Model.SelectedItem.ItemName, Mode=OneWay}" />
+                            TextWrapping="Wrap" TextAlignment="Center" Text="{x:Bind ViewModel.SelectedItem.ItemName, Mode=OneWay}" />
                         <TextBlock HorizontalAlignment="Stretch" FontSize="18" HorizontalTextAlignment="Center" IsTextSelectionEnabled="True"
-                            TextWrapping="Wrap" TextAlignment="Center" Text="{x:Bind Model.SelectedItem.ItemType, Mode=OneWay}" />
+                            TextWrapping="Wrap" TextAlignment="Center" Text="{x:Bind ViewModel.SelectedItem.ItemType, Mode=OneWay}" />
                     </StackPanel>
                     <ItemsControl x:Name="FileDetailsRepeater" Margin="8" Visibility="Collapsed"
-                        ItemsSource="{x:Bind Model.SelectedItem.FileDetails, Mode=OneWay}">
+                        ItemsSource="{x:Bind ViewModel.SelectedItem.FileDetails, Mode=OneWay}">
                         <ItemsControl.ItemContainerTransitions>
                             <TransitionCollection>
                                 <EntranceThemeTransition IsStaggeringEnabled="False" />
@@ -124,13 +125,13 @@
             <VisualStateGroup>
                 <VisualState x:Name="NoItemSelected">
                     <VisualState.StateTriggers>
-                        <triggers:IsEqualStateTrigger Value="{x:Bind Model.PreviewPaneState, Mode=OneWay}" To="0" />
-                        <triggers:IsNullOrEmptyStateTrigger Value="{x:Bind Model, Mode=OneWay}" />
+                        <triggers:IsEqualStateTrigger Value="{x:Bind ViewModel.PreviewPaneState, Mode=OneWay}" To="0" />
+                        <triggers:IsNullOrEmptyStateTrigger Value="{x:Bind ViewModel, Mode=OneWay}" />
                     </VisualState.StateTriggers>
                 </VisualState>
                 <VisualState x:Name="NoPreviewAvailable">
                     <VisualState.StateTriggers>
-                        <triggers:IsEqualStateTrigger Value="{x:Bind Model.PreviewPaneState, Mode=OneWay}" To="1" />
+                        <triggers:IsEqualStateTrigger Value="{x:Bind ViewModel.PreviewPaneState, Mode=OneWay}" To="1" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="PreviewErrorText.Visibility" Value="Visible" />
@@ -143,7 +144,7 @@
                 </VisualState>
                 <VisualState x:Name="NoPreviewOrDetailsAvailable">
                     <VisualState.StateTriggers>
-                        <triggers:IsEqualStateTrigger Value="{x:Bind Model.PreviewPaneState, Mode=OneWay}" To="2" />
+                        <triggers:IsEqualStateTrigger Value="{x:Bind ViewModel.PreviewPaneState, Mode=OneWay}" To="2" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="PreviewErrorText.Visibility" Value="Visible" />
@@ -156,7 +157,7 @@
                 </VisualState>
                 <VisualState x:Name="PreviewAndDetailsAvailable">
                     <VisualState.StateTriggers>
-                        <triggers:IsEqualStateTrigger Value="{x:Bind Model.PreviewPaneState, Mode=OneWay}" To="3" />
+                        <triggers:IsEqualStateTrigger Value="{x:Bind ViewModel.PreviewPaneState, Mode=OneWay}" To="3" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />
@@ -168,7 +169,7 @@
                 </VisualState>
                 <VisualState x:Name="LoadingPreview">
                     <VisualState.StateTriggers>
-                        <triggers:IsEqualStateTrigger Value="{x:Bind Model.PreviewPaneState, Mode=OneWay}" To="4" />
+                        <triggers:IsEqualStateTrigger Value="{x:Bind ViewModel.PreviewPaneState, Mode=OneWay}" To="4" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />

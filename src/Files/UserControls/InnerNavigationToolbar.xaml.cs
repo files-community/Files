@@ -28,7 +28,6 @@ namespace Files.UserControls
             Ioc.Default.GetService<IUserSettingsService>();
 
         public MainViewModel MainViewModel => App.MainViewModel;
-        public PreviewPaneViewModel PreviewPaneViewModel => App.PreviewPaneViewModel;
 
         public NavToolbarViewModel ViewModel
         {

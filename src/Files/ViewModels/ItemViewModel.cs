@@ -1231,7 +1231,7 @@ namespace Files.ViewModels
                     AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
                 }
 
-                if (App.PreviewPaneViewModel.IsPaneSelected)
+                if (App.PaneViewModel.IsPreviewSelected)
                 {
                     // Find and select README file
                     foreach (var item in filesAndFolders)

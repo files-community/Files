@@ -20,7 +20,7 @@ namespace Files
 
         ItemManipulationModel ItemManipulationModel { get; }
 
-        PreviewPaneViewModel PreviewPaneViewModel { get; }
+        IPaneViewModel PaneViewModel { get; }
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
