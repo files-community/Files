@@ -324,7 +324,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLargeIcons.Text" translate="yes" xml:space="preserve">
           <source>Large Icons</source>
-          <target state="new">Large Icons</target>
+          <target state="translated">Grandes Icônes</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutMediumIcons.Text" translate="yes" xml:space="preserve">
           <source>Medium Icons</source>
@@ -332,7 +332,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSmallIcons.Text" translate="yes" xml:space="preserve">
           <source>Small Icons</source>
-          <target state="new">Small Icons</target>
+          <target state="translated">Petites Icônes</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogOKButton.Content" translate="yes" xml:space="preserve">
           <source>OK</source>
@@ -1348,7 +1348,7 @@
         </trans-unit>
         <trans-unit id="Details" translate="yes" xml:space="preserve">
           <source>Details</source>
-          <target state="new">Details</target>
+          <target state="translated">Détails</target>
         </trans-unit>
         <trans-unit id="No" translate="yes" xml:space="preserve">
           <source>No</source>
@@ -1440,7 +1440,7 @@
         </trans-unit>
         <trans-unit id="NavToolbarLargeIcons.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Large Icons</source>
-          <target state="new">Large Icons</target>
+          <target state="translated">Grandes Icônes</target>
         </trans-unit>
         <trans-unit id="NavToolbarMediumIcons.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Medium Icons</source>
@@ -1448,7 +1448,7 @@
         </trans-unit>
         <trans-unit id="NavToolbarSmallIcons.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Small Icons</source>
-          <target state="new">Small Icons</target>
+          <target state="translated">Petites Icônes</target>
         </trans-unit>
         <trans-unit id="DateDeleted" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
@@ -1548,8 +1548,7 @@
         </trans-unit>
         <trans-unit id="SidebarNetworkDrives" translate="yes" xml:space="preserve">
           <source>Network Drives</source>
-          <target state="needs-review-translation">Disques réseaux</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Disques réseaux</target>
         </trans-unit>
         <trans-unit id="Network" translate="yes" xml:space="preserve">
           <source>Network</source>
@@ -2641,7 +2640,7 @@
         </trans-unit>
         <trans-unit id="PropertyLanguage" translate="yes" xml:space="preserve">
           <source>Language</source>
-          <target state="new">Language</target>
+          <target state="translated">Langue</target>
         </trans-unit>
         <trans-unit id="PropertyTrademarks" translate="yes" xml:space="preserve">
           <source>Trademarks</source>
@@ -2725,7 +2724,7 @@
         </trans-unit>
         <trans-unit id="SettingsShowWslSection.Title" translate="yes" xml:space="preserve">
           <source>Show WSL section</source>
-          <target state="new">Show WSL section</target>
+          <target state="translated">Afficher la section WSL</target>
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show network section</source>
@@ -2733,7 +2732,7 @@
         </trans-unit>
         <trans-unit id="SettingsPinRecycleBin.Title" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to favorites</source>
-          <target state="new">Pin Recycle Bin to favorites</target>
+          <target state="translated">Épingler la Corbeille aux Favoris</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySection.Title" translate="yes" xml:space="preserve">
           <source>Show library section</source>
@@ -2753,7 +2752,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.Title" translate="yes" xml:space="preserve">
           <source>Language</source>
-          <target state="new">Language</target>
+          <target state="translated">Langue</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowFileExtensions" translate="yes" xml:space="preserve">
           <source>Show extensions for known file types</source>
@@ -2813,7 +2812,7 @@
         </trans-unit>
         <trans-unit id="Close" translate="yes" xml:space="preserve">
           <source>Close</source>
-          <target state="new">Close</target>
+          <target state="translated">Fermer</target>
         </trans-unit>
         <trans-unit id="ConsentDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Update</source>
@@ -2921,7 +2920,7 @@
         </trans-unit>
         <trans-unit id="DateFormat" translate="yes" xml:space="preserve">
           <source>Date format</source>
-          <target state="new">Date format</target>
+          <target state="translated">Format de date</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
@@ -2929,7 +2928,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Title" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>
-          <target state="new">Open folders in new tab</target>
+          <target state="translated">Ouvrir les dossiers dans un nouvel onglet</target>
         </trans-unit>
         <trans-unit id="SettingsPrivacy.Title" translate="yes" xml:space="preserve">
           <source>Privacy policy</source>
@@ -2987,18 +2986,15 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowFileTag.Text" translate="yes" xml:space="preserve">
           <source>Tag</source>
-          <target state="needs-review-translation">Étiquette de fichier</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Étiquette</target>
         </trans-unit>
         <trans-unit id="SettingsEditFileTagsExpander.Title" translate="yes" xml:space="preserve">
           <source>Edit tags</source>
-          <target state="needs-review-translation">Modifier les étiquettes de fichiers</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Éditer les étiquettes</target>
         </trans-unit>
         <trans-unit id="SettingsEnableFileTags.Title" translate="yes" xml:space="preserve">
           <source>Enable tags</source>
-          <target state="needs-review-translation">Activer les étiquettes de fichier</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Activer les étiquettes</target>
         </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
@@ -3066,99 +3062,99 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="OpenLogLocation" translate="yes" xml:space="preserve">
           <source>Open log location</source>
-          <target state="new">Open log location</target>
+          <target state="translated">Ouvrir l'emplacement des fichiers journaux</target>
         </trans-unit>
         <trans-unit id="LinkToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Create link in {0}</source>
-          <target state="new">Create link in {0}</target>
+          <target state="translated">Créer un lien dans {0}</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowFileExtensionsHeader.Text" translate="yes" xml:space="preserve">
           <source>Show file extensions</source>
-          <target state="new">Show file extensions</target>
+          <target state="translated">Afficher les extensions de fichiers</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show hidden items</source>
-          <target state="new">Show hidden items</target>
+          <target state="translated">Afficher les éléments cachés</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowFileExtensions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show file extensions</source>
-          <target state="new">Show file extensions</target>
+          <target state="translated">Afficher les extensions de fichiers</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowHiddenItemsHeader.Text" translate="yes" xml:space="preserve">
           <source>Show hidden items</source>
-          <target state="new">Show hidden items</target>
+          <target state="translated">Afficher les éléments cachés</target>
         </trans-unit>
         <trans-unit id="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show favorites section</source>
-          <target state="new">Show favorites section</target>
+          <target state="translated">Afficher la section Favoris</target>
         </trans-unit>
         <trans-unit id="SettingsPinRecycleBinSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to favorites</source>
-          <target state="new">Pin Recycle Bin to favorites</target>
+          <target state="translated">Épingler la Corbeille aux Favoris</target>
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show cloud drives section</source>
-          <target state="new">Show cloud drives section</target>
+          <target state="translated">Afficher la section Disques Cloud</target>
         </trans-unit>
         <trans-unit id="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show drives section</source>
-          <target state="new">Show drives section</target>
+          <target state="translated">Afficher la section Disques</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show library section</source>
-          <target state="new">Show library section</target>
+          <target state="translated">Afficher la section Bibliothèque</target>
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show network section</source>
-          <target state="new">Show network section</target>
+          <target state="translated">Afficher la section Disques Réseaux</target>
         </trans-unit>
         <trans-unit id="SettingsShowWslSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show WSL section</source>
-          <target state="new">Show WSL section</target>
+          <target state="translated">Afficher la section WSL</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>
-          <target state="new">Open folders in new tab</target>
+          <target state="translated">Ouvrir les dossiers dans un nouvel onglet</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Language</source>
-          <target state="new">Language</target>
+          <target state="translated">Langue</target>
         </trans-unit>
         <trans-unit id="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="new">Show a confirmation dialog when deleting files or folders</target>
+          <target state="translated">Demander confirmation pour supprimer des fichiers ou dossiers</target>
         </trans-unit>
         <trans-unit id="TerminalApplicationsComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Terminal application</source>
-          <target state="new">Terminal application</target>
+          <target state="translated">Application de terminal</target>
         </trans-unit>
         <trans-unit id="OngoingTasks" translate="yes" xml:space="preserve">
           <source>Ongoing Tasks</source>
-          <target state="new">Ongoing Tasks</target>
+          <target state="translated">Tâches en cours</target>
         </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.Text" translate="yes" xml:space="preserve">
           <source>Load full preview</source>
-          <target state="new">Load full preview</target>
+          <target state="translated">Charger l'aperçu complet</target>
         </trans-unit>
         <trans-unit id="PreviewPaneShowPreviewOnly.Text" translate="yes" xml:space="preserve">
           <source>Show preview only</source>
-          <target state="new">Show preview only</target>
+          <target state="translated">Afficher seulement l'aperçu</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveOneDown" translate="yes" xml:space="preserve">
           <source>Move one down</source>
-          <target state="new">Move one down</target>
+          <target state="translated">Descendre d'un cran</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveOneUp" translate="yes" xml:space="preserve">
           <source>Move one up</source>
-          <target state="new">Move one up</target>
+          <target state="translated">Monter d'un cran</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveToBottom" translate="yes" xml:space="preserve">
           <source>Move to bottom</source>
-          <target state="new">Move to bottom</target>
+          <target state="translated">Descendre tout en bas</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveToTop" translate="yes" xml:space="preserve">
           <source>Move to top</source>
-          <target state="new">Move to top</target>
+          <target state="translated">Descendre tout en haut</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowDateCreated.Text" translate="yes" xml:space="preserve">
           <source>Date created column</source>
@@ -3278,7 +3274,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="ExecuteAt640X480" translate="yes" xml:space="preserve">
           <source>Run at 640 x 480 screen resolution</source>
-          <target state="translated">Execute avec une résolution de 640 x 480</target>
+          <target state="translated">Exécute avec une résolution de 640 x 480</target>
         </trans-unit>
         <trans-unit id="Options" translate="yes" xml:space="preserve">
           <source>Options</source>
@@ -3286,7 +3282,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="OverrideDPIScalingBehaviour" translate="yes" xml:space="preserve">
           <source>Override high DPI scaling behaviour</source>
-          <target state="new">Override high DPI scaling behaviour</target>
+          <target state="translated">Ignorer le comportement de mise à l'échelle</target>
         </trans-unit>
         <trans-unit id="ReducedColorMode" translate="yes" xml:space="preserve">
           <source>Reduced color mode</source>
@@ -3350,11 +3346,11 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="Columns" translate="yes" xml:space="preserve">
           <source>Columns</source>
-          <target state="new">Columns</target>
+          <target state="translated">Colonnes</target>
         </trans-unit>
         <trans-unit id="LargeIcons" translate="yes" xml:space="preserve">
           <source>Large Icons</source>
-          <target state="new">Large Icons</target>
+          <target state="translated">Grandes Icônes</target>
         </trans-unit>
         <trans-unit id="MediumIcons" translate="yes" xml:space="preserve">
           <source>Medium Icons</source>
@@ -3362,11 +3358,11 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="SmallIcons" translate="yes" xml:space="preserve">
           <source>Small Icons</source>
-          <target state="new">Small Icons</target>
+          <target state="translated">Petites Icônes</target>
         </trans-unit>
         <trans-unit id="Tiles" translate="yes" xml:space="preserve">
           <source>Tiles</source>
-          <target state="new">Tiles</target>
+          <target state="translated">Tuiles</target>
         </trans-unit>
         <trans-unit id="FolderWidgetCreateNewLibraryDialogTitleText" translate="yes" xml:space="preserve">
           <source>Create Library</source>
@@ -3486,63 +3482,63 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="ShowDotFiles" translate="yes" xml:space="preserve">
           <source>Show dot files</source>
-          <target state="new">Show dot files</target>
+          <target state="translated">Afficher les fichiers dont le nom commence par un point</target>
         </trans-unit>
         <trans-unit id="CloseOtherTabs" translate="yes" xml:space="preserve">
           <source>Close other tabs</source>
-          <target state="new">Close other tabs</target>
+          <target state="translated">Fermer les autres onglets</target>
         </trans-unit>
         <trans-unit id="Music" translate="yes" xml:space="preserve">
           <source>Music</source>
-          <target state="new">Music</target>
+          <target state="translated">Musique</target>
         </trans-unit>
         <trans-unit id="Pictures" translate="yes" xml:space="preserve">
           <source>Pictures</source>
-          <target state="new">Pictures</target>
+          <target state="translated">Images</target>
         </trans-unit>
         <trans-unit id="Videos" translate="yes" xml:space="preserve">
           <source>Videos</source>
-          <target state="new">Videos</target>
+          <target state="translated">Vidéos</target>
         </trans-unit>
         <trans-unit id="UpdateFiles" translate="yes" xml:space="preserve">
           <source>Update Files</source>
-          <target state="new">Update Files</target>
+          <target state="translated">Mettre-à-jour Files</target>
         </trans-unit>
         <trans-unit id="StatusPreparingItemsDetails_Plural" translate="yes" xml:space="preserve">
           <source>Preparing {0} items</source>
-          <target state="new">Preparing {0} items</target>
+          <target state="translated">Préparation de {0} éléments</target>
         </trans-unit>
         <trans-unit id="PrepareInProgress" translate="yes" xml:space="preserve">
           <source>Preparing items</source>
-          <target state="new">Preparing items</target>
+          <target state="translated">Préparation des éléments </target>
         </trans-unit>
         <trans-unit id="StatusCopyFailed" translate="yes" xml:space="preserve">
           <source>Copy failed</source>
-          <target state="new">Copy failed</target>
+          <target state="translated">Copie échouée</target>
         </trans-unit>
         <trans-unit id="StatusCopyFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to copy {0} items from {1} to {2}</source>
-          <target state="new">Failed to copy {0} items from {1} to {2}</target>
+          <target state="translated">Échec de la copie de {0} élements de {1} vers {2}</target>
         </trans-unit>
         <trans-unit id="StatusCopyFailedDetails_Singular" translate="yes" xml:space="preserve">
           <source>Failed to copy {0} item from {1} to {2}</source>
-          <target state="new">Failed to copy {0} item from {1} to {2}</target>
+          <target state="translated">Échec de la copie de {0} élement de {1} vers {2}</target>
         </trans-unit>
         <trans-unit id="StatusMoveFailed" translate="yes" xml:space="preserve">
           <source>Move failed</source>
-          <target state="new">Move failed</target>
+          <target state="translated">Déplacement échoué</target>
         </trans-unit>
         <trans-unit id="FileTags" translate="yes" xml:space="preserve">
           <source>Tags</source>
-          <target state="new">Tags</target>
+          <target state="translated">Étiquettes</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileTagsSection.Title" translate="yes" xml:space="preserve">
           <source>Show Tags section</source>
-          <target state="new">Show Tags section</target>
+          <target state="translated">Afficher la section Étiquettes</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show Tags section</source>
-          <target state="new">Show Tags section</target>
+          <target state="translated">Afficher la section Étiquettes</target>
         </trans-unit>
       </group>
     </body>
