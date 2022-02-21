@@ -2,6 +2,7 @@
     x:Class="Files.UserControls.SidebarControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Files.Helpers"
     xmlns:local="using:Files.UserControls"
@@ -22,6 +23,7 @@
     mc:Ignorable="d">
     <muxc:NavigationView.Resources>
         <ResourceDictionary>
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <MenuFlyout x:Key="SidebarContextMenu">
                 <ToggleMenuFlyoutItem IsChecked="{Binding ShowFavoritesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarFavorites}" />
                 <ToggleMenuFlyoutItem IsChecked="{Binding ShowLibrarySection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarLibraries}" />
@@ -29,7 +31,8 @@
                 <ToggleMenuFlyoutItem IsChecked="{Binding ShowCloudDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarCloudDrives}" />
                 <ToggleMenuFlyoutItem IsChecked="{Binding ShowNetworkDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarNetworkDrives}" />
                 <ToggleMenuFlyoutItem IsChecked="{Binding ShowWslSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=WSL}" />
-                <ToggleMenuFlyoutItem IsChecked="{Binding ShowFileTagsSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=FileTags}" />
+                <ToggleMenuFlyoutItem IsChecked="{Binding ShowFileTagsSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=FileTags}"
+                  Visibility="{Binding AreFileTagsEnabled, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"                    />
             </MenuFlyout>
             <DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
                 <muxc:NavigationViewItem

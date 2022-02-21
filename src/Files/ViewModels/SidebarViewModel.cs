@@ -205,6 +205,11 @@ namespace Files.ViewModels
             }
         }
 
+        public bool AreFileTagsEnabled 
+        {
+            get => UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled;
+        }
+
         private INavigationControlItem selectedSidebarItem;
 
         public INavigationControlItem SidebarSelectedItem
@@ -254,6 +259,9 @@ namespace Files.ViewModels
                     break;
                 case nameof(UserSettingsService.AppearanceSettingsService.ShowFileTagsSection):
                     OnPropertyChanged(nameof(ShowFileTagsSection));
+                    break;
+                case nameof(UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled):
+                    OnPropertyChanged(nameof(AreFileTagsEnabled));
                     break;
             }
         }
