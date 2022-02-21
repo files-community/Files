@@ -30,7 +30,7 @@ namespace Files.Filesystem
         public FolderSizeChangedEventArgs(ListedItem folder) => Folder = folder;
     }
 
-    internal class FolderSizeProvider : IFolderSizeProvider
+    internal class FolderSizeProvider : IFolderSizeProvider, IDisposable
     {
         private readonly IPreferencesSettingsService preferencesSettingsService = Ioc.Default.GetService<IPreferencesSettingsService>();
 
@@ -173,6 +173,11 @@ namespace Files.Filesystem
                 }
                 RaiseSizeChanged(null);
             }
+        }
+
+        public void Dispose()
+        {
+            preferencesSettingsService.PropertyChanged -= PreferencesSettingsService_PropertyChanged;
         }
     }
 }

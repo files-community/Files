@@ -318,8 +318,6 @@ namespace Files
 
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
             tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
-
-            FolderSizeProvider.FolderSizeChanged += FolderSizeProvider_FolderSizeChanged;
         }
 
         protected abstract void HookEvents();
@@ -329,11 +327,13 @@ namespace Files
         private void HookBaseEvents()
         {
             ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
+            FolderSizeProvider.FolderSizeChanged += FolderSizeProvider_FolderSizeChanged;
         }
 
         private void UnhookBaseEvents()
         {
             ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
+            FolderSizeProvider.FolderSizeChanged -= FolderSizeProvider_FolderSizeChanged;
         }
 
         public ItemManipulationModel ItemManipulationModel { get; private set; }
