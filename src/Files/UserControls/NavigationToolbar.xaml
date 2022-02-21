@@ -481,7 +481,7 @@
                 x:Name="SearchRegion"
                 Grid.Column="2"
                 Width="240"
-                Height="33"
+                Height="34"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 Canvas.ZIndex="100"
