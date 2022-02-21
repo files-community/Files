@@ -11,6 +11,7 @@
     xmlns:local="using:Files.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    Background="{ThemeResource PaneHolderPageBackgroundBrush}"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -37,7 +38,10 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        Background="{ThemeResource PaneHolderPageBackgroundBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition
                 x:Name="LeftColumn"

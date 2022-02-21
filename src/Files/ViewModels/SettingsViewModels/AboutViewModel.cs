@@ -26,23 +26,20 @@ namespace Files.ViewModels.SettingsViewModels
         private IBundlesSettingsService BundlesSettingsService { get; } = Ioc.Default.GetService<IBundlesSettingsService>();
         protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
 
-        public ICommand OpenLogLocationCommand { get; }
-        public ICommand CopyVersionInfoCommand { get; }
+        public RelayCommand OpenLogLocationCommand => new RelayCommand(() => SettingsViewModel.OpenLogLocation());
+        public RelayCommand CopyVersionInfoCommand => new RelayCommand(() => CopyVersionInfo());
 
         public ICommand ExportSettingsCommand { get; }
+
         public ICommand ImportSettingsCommand { get; }
 
-        public ICommand ClickAboutFeedbackItemCommand { get; }
+        public RelayCommand<ItemClickEventArgs> ClickAboutFeedbackItemCommand =>
+            new RelayCommand<ItemClickEventArgs>(ClickAboutFeedbackItem);
 
         public AboutViewModel()
         {
-            OpenLogLocationCommand = new AsyncRelayCommand(OpenLogLocation);
-            CopyVersionInfoCommand = new RelayCommand(CopyVersionInfo);
-
             ExportSettingsCommand = new AsyncRelayCommand(ExportSettings);
             ImportSettingsCommand = new AsyncRelayCommand(ImportSettings);
-
-            ClickAboutFeedbackItemCommand = new AsyncRelayCommand<ItemClickEventArgs>(ClickAboutFeedbackItem);
         }
 
         private async Task ExportSettings()
@@ -151,8 +148,6 @@ namespace Files.ViewModels.SettingsViewModels
             });
         }
 
-        public static async Task OpenLogLocation() => await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
-
         public string Version
         {
             get
@@ -162,24 +157,45 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public string AppName => Package.Current.DisplayName;
+        public string AppName
+        {
+            get
+            {
+                return Package.Current.DisplayName;
+            }
+        }
 
-        private async Task ClickAboutFeedbackItem(ItemClickEventArgs e)
+        private async void ClickAboutFeedbackItem(ItemClickEventArgs e)
         {
             var clickedItem = (StackPanel)e.ClickedItem;
-            var uri = clickedItem.Tag switch
+            switch (clickedItem.Tag)
             {
-                "Contributors" => Constants.GitHub.ContributorsUrl,
-                "Documentation" => Constants.GitHub.DocumentationUrl,
-                "Feedback" => Constants.GitHub.FeedbackUrl,
-                "PrivacyPolicy" => Constants.GitHub.PrivacyPolicyUrl,
-                "ReleaseNotes" => Constants.GitHub.ReleaseNotesUrl,
-                "SupportUs" => Constants.GitHub.SupportUsUrl,
-                _ => null,
-            };
-            if (uri is not null)
-            {
-                await Launcher.LaunchUriAsync(new Uri(uri));
+                case "Feedback":
+                    SettingsViewModel.ReportIssueOnGitHub();
+                    break;
+
+                case "ReleaseNotes":
+                    await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/releases"));
+                    break;
+
+                case "Documentation":
+                    await Launcher.LaunchUriAsync(new Uri(@"https://files.community/docs"));
+                    break;
+
+                case "Contributors":
+                    await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/graphs/contributors"));
+                    break;
+
+                case "PrivacyPolicy":
+                    await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/blob/main/Privacy.md"));
+                    break;
+
+                case "SupportUs":
+                    await Launcher.LaunchUriAsync(new Uri(@"https://github.com/sponsors/yaichenbaum"));
+                    break;
+
+                default:
+                    break;
             }
         }
     }

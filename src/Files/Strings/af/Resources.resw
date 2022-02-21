@@ -159,8 +159,20 @@
   <data name="Downloads" xml:space="preserve">
     <value>Aflaaie</value>
   </data>
+  <data name="SidebarHome" xml:space="preserve">
+    <value>Tuis</value>
+  </data>
+  <data name="SidebarMusic" xml:space="preserve">
+    <value>Musiek</value>
+  </data>
+  <data name="SidebarPictures" xml:space="preserve">
+    <value>Prente</value>
+  </data>
   <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
     <value>Onpen van gunstelinge</value>
+  </data>
+  <data name="SidebarVideos" xml:space="preserve">
+    <value>Video's</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sorteer volgens</value>
@@ -1437,6 +1449,9 @@
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Item telling</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>Sluit duimgidse aan die regterkant</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>Skrapping het Misluk</value>

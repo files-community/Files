@@ -129,6 +129,18 @@
   <data name="Downloads" xml:space="preserve">
     <value>ଡାଉନଲୋଡଗୁଡ଼ିକ</value>
   </data>
+  <data name="SidebarHome" xml:space="preserve">
+    <value>ଘର</value>
+  </data>
+  <data name="SidebarMusic" xml:space="preserve">
+    <value>ସଙ୍ଗୀତ</value>
+  </data>
+  <data name="SidebarPictures" xml:space="preserve">
+    <value>ଛବିଗୁଡିକ</value>
+  </data>
+  <data name="SidebarVideos" xml:space="preserve">
+    <value>ଚଳଚ୍ଚିତ୍ରଗୁଡିକ</value>
+  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>ଦ୍ୱାରା କ୍ରମ</value>
   </data>
@@ -869,6 +881,9 @@
   </data>
   <data name="StatusUnknownError" xml:space="preserve">
     <value>ଅଜଣା ତ୍ରୁଟିଟିଏ ଜଣାପଡ଼ୁଛି</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>ଡାହାଣରେ ଟାବ୍‍ଗୁଡିକ ବନ୍ଦ କରନ୍ତୁ</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>ବ୍ୟବସ୍ଥାପକ</value>

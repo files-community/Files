@@ -6,29 +6,26 @@ using System.Threading.Tasks;
 using System.Linq;
 using Files.Shared;
 using Files.Shared.Extensions;
-using System.Runtime.Versioning;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    [SupportedOSPlatform("Windows10.0.10240")]
-    public class InstallOperationsHandler : Disposable, IMessageHandler
+    public class InstallOperationsHandler : IMessageHandler
     {
         public void Initialize(PipeStream connection)
         {
         }
 
-        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
         {
             switch (arguments)
             {
                 case "InstallOperation":
-                    ParseInstallOperation(connection, message);
+                    await ParseInstallOperationAsync(connection, message);
                     break;
             }
-            return Task.CompletedTask;
         }
 
-        private static void ParseInstallOperation(PipeStream connection, Dictionary<string, object> message)
+        private async Task ParseInstallOperationAsync(PipeStream connection, Dictionary<string, object> message)
         {
             switch (message.Get("installop", ""))
             {
@@ -59,6 +56,10 @@ namespace FilesFullTrust.MessageHandlers
                     break;
                 }
             }
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

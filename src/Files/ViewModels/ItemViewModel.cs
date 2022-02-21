@@ -51,7 +51,7 @@ namespace Files.ViewModels
         private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
         private readonly ConcurrentDictionary<string, bool> itemLoadQueue;
         private readonly AsyncManualResetEvent operationEvent;
-        private Task aProcessQueueAction;
+        private IAsyncAction aProcessQueueAction;
 
         // files and folders list for manipulating
         private List<ListedItem> filesAndFolders;
@@ -386,7 +386,6 @@ namespace Files.ViewModels
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFileExtensions):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden):
-                case nameof(UserSettingsService.PreferencesSettingsService.ShowDotFiles):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled):
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFolderSize):
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
@@ -1231,7 +1230,7 @@ namespace Files.ViewModels
                     AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
                 }
 
-                if (App.PreviewPaneViewModel.IsPaneSelected)
+                if (UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled)
                 {
                     // Find and select README file
                     foreach (var item in filesAndFolders)
@@ -1339,7 +1338,12 @@ namespace Files.ViewModels
 
         public void CloseWatcher()
         {
-            aProcessQueueAction = null;
+            if (aProcessQueueAction != null)
+            {
+                aProcessQueueAction?.Cancel();
+                aProcessQueueAction = null;  // Prevent duplicate execution of this block
+                Debug.WriteLine("process queue canceled");
+            }
             watcherCTS?.Cancel();
             watcherCTS = new CancellationTokenSource();
         }
@@ -1726,6 +1730,8 @@ namespace Files.ViewModels
             return (CloudDriveSyncStatus)syncStatus;
         }
 
+        private StorageItemQueryResult itemQueryResult;
+
         private async void WatchForStorageFolderChanges(BaseStorageFolder rootFolder)
         {
             if (rootFolder == null)
@@ -1743,7 +1749,7 @@ namespace Files.ViewModels
                 options.SetThumbnailPrefetch(ThumbnailMode.ListView, 0, ThumbnailOptions.ReturnOnlyIfCached);
                 if (rootFolder.AreQueryOptionsSupported(options))
                 {
-                    var itemQueryResult = rootFolder.CreateItemQueryWithOptions(options).ToStorageItemQueryResult();
+                    itemQueryResult = rootFolder.CreateItemQueryWithOptions(options).ToStorageItemQueryResult();
                     itemQueryResult.ContentsChanged += ItemQueryResult_ContentsChanged;
                     var watchedItemsOperation = itemQueryResult.GetItemsAsync(0, 1); // Just get one item to start getting notifications
                     watcherCTS.Token.Register(() =>
@@ -1788,7 +1794,7 @@ namespace Files.ViewModels
 
             if (aProcessQueueAction == null) // Only start one ProcessOperationQueue
             {
-                aProcessQueueAction = Task.Run(() => ProcessOperationQueue(watcherCTS.Token, hasSyncStatus));
+                aProcessQueueAction = Windows.System.Threading.ThreadPool.RunAsync((x) => ProcessOperationQueue(x, hasSyncStatus));
             }
 
             var aWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>
@@ -1887,7 +1893,7 @@ namespace Files.ViewModels
             });
         }
 
-        private async Task ProcessOperationQueue(CancellationToken cancellationToken, bool hasSyncStatus)
+        private async void ProcessOperationQueue(IAsyncAction action, bool hasSyncStatus)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
@@ -1904,19 +1910,18 @@ namespace Files.ViewModels
 
             bool anyEdits = false;
             ListedItem lastItemAdded = null;
-            var rand = Guid.NewGuid();
 
             try
             {
-                while (!cancellationToken.IsCancellationRequested)
+                while (action.Status != AsyncStatus.Canceled)
                 {
-                    if (await operationEvent.WaitAsync(200, cancellationToken))
+                    if (await operationEvent.WaitAsync(200))
                     {
                         operationEvent.Reset();
 
                         while (operationQueue.TryDequeue(out var operation))
                         {
-                            if (cancellationToken.IsCancellationRequested) break;
+                            if (action.Status == AsyncStatus.Canceled) break;
                             try
                             {
                                 switch (operation.Action)
@@ -2002,8 +2007,6 @@ namespace Files.ViewModels
             {
                 // Prevent disposed cancellation token
             }
-
-            Debug.WriteLine("aProcessQueueAction done: {0}", rand);
         }
 
         public ListedItem AddFileOrFolderFromShellFile(ShellFileItem item, string dateReturnFormat = null)
@@ -2118,11 +2121,7 @@ namespace Files.ViewModels
 
             var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
             var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-            var startWithDot = findData.cFileName.StartsWith(".");
-            if ((isHidden &&
-               (!UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible ||
-               (isSystem && UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) ||
-               (startWithDot && !UserSettingsService.PreferencesSettingsService.ShowDotFiles))
+            if (isHidden && (!UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible || (isSystem && UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden)))
             {
                 // Do not add to file list if hidden/system attribute is set and system/hidden file are not to be shown
                 return null;

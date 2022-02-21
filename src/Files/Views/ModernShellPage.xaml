@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="RootPage"
+    Background="{ThemeResource FileBrowserBackgroundBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
     Loaded="Page_Loaded"
     mc:Ignorable="d">
@@ -167,6 +168,7 @@
         x:Name="ItemDisplayFrame"
         HorizontalAlignment="Stretch"
         x:FieldModifier="public"
+        Background="{ThemeResource FileBrowserBackgroundBrush}"
         BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
         BorderThickness="{x:Bind CurrentInstanceBorderThickness, Mode=OneWay}"
         Navigated="ItemDisplayFrame_Navigated" />

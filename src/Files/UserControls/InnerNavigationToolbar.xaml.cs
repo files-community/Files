@@ -28,7 +28,6 @@ namespace Files.UserControls
             Ioc.Default.GetService<IUserSettingsService>();
 
         public MainViewModel MainViewModel => App.MainViewModel;
-        public PreviewPaneViewModel PreviewPaneViewModel => App.PreviewPaneViewModel;
 
         public NavToolbarViewModel ViewModel
         {
@@ -193,16 +192,16 @@ namespace Files.UserControls
         }
 
         private void NavToolbarDetailsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView(true);
+    => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(true);
         private void NavToolbarTilesHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles(true);
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles.Execute(true);
         private void NavToolbarSmallIconsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall(true);
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall.Execute(true);
         private void NavToolbarMediumIconsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium(true);
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium.Execute(true);
         private void NavToolbarLargeIconsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge(true);
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge.Execute(true);
         private void NavToolbarColumnsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView(true);
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView.Execute(true);
     }
 }

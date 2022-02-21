@@ -14,13 +14,10 @@ using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
-using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views
@@ -37,17 +34,7 @@ namespace Files.Views
 
         private ListedItem listedItem;
 
-        private Storyboard RectHoverAnim;
-        private Storyboard RectUnHoverAnim;
-
-        private Storyboard CrossHoverAnim;
-        private Storyboard CrossUnHoverAnim;
-
-        private XamlCompositionBrushBase micaBrush;
-
         public SettingsViewModel AppSettings => App.AppSettings;
-
-        public AppWindow appWindow;
 
         public Properties()
         {
@@ -83,91 +70,20 @@ namespace Files.Views
 
         private async void Properties_Loaded(object sender, RoutedEventArgs e)
         {
+            Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
+
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 // Set window size in the loaded event to prevent flickering
-                if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
-                {
-                    appWindow.TitleBar.SetPreferredVisibility(AppWindowTitleBarVisibility.AlwaysHidden);
-                    appWindow.Frame.DragRegionVisuals.Add(TitleBarDragArea);
-
-                    crossIcon.Foreground = ThemeHelper.RootTheme switch
-                    {
-                        ElementTheme.Default => new SolidColorBrush((Color)Application.Current.Resources["SystemBaseHighColor"]),
-                        ElementTheme.Light => new SolidColorBrush(Colors.Black),
-                        ElementTheme.Dark => new SolidColorBrush(Colors.White),
-                        _ => new SolidColorBrush((Color)Application.Current.Resources["SystemBaseHighColor"])
-                    };
-
-                    var micaIsSupported = ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "TryCreateBlurredWallpaperBackdropBrush");
-                    if (micaIsSupported)
-                    {
-                        micaBrush = new Brushes.MicaBrush(false);
-                        (micaBrush as Brushes.MicaBrush).SetAppWindow(appWindow);
-                        Frame.Background = micaBrush;
-                    }
-                    else
-                    {
-                        Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
-                    }
-
-                    var duration = new Duration(TimeSpan.FromMilliseconds(280));
-
-                    RectHoverAnim = new Storyboard();
-                    var RectHoverColorAnim = new ColorAnimation();
-                    RectHoverColorAnim.Duration = duration;
-                    RectHoverColorAnim.From = Colors.Transparent;
-                    RectHoverColorAnim.To = Color.FromArgb(255, 232, 17, 35);
-                    RectHoverColorAnim.EasingFunction = new SineEase();
-                    Storyboard.SetTarget(RectHoverColorAnim, CloseRect);
-                    Storyboard.SetTargetProperty(RectHoverColorAnim, "(Rectangle.Fill).(SolidColorBrush.Color)");
-                    RectHoverAnim.Children.Add(RectHoverColorAnim);
-
-                    RectUnHoverAnim = new Storyboard();
-                    var RectUnHoverColorAnim = new ColorAnimation();
-                    RectUnHoverColorAnim.Duration = duration;
-                    RectUnHoverColorAnim.To = Colors.Transparent;
-                    RectUnHoverColorAnim.From = Color.FromArgb(255, 232, 17, 35);
-                    RectUnHoverColorAnim.EasingFunction = new SineEase();
-                    Storyboard.SetTarget(RectUnHoverColorAnim, CloseRect);
-                    Storyboard.SetTargetProperty(RectUnHoverColorAnim, "(Rectangle.Fill).(SolidColorBrush.Color)");
-                    RectUnHoverAnim.Children.Add(RectUnHoverColorAnim);
-
-                    CrossHoverAnim = new Storyboard();
-                    var CrossHoverColorAnim = new ColorAnimation();
-                    CrossHoverColorAnim.Duration = duration;
-                    CrossHoverColorAnim.From = ((SolidColorBrush)crossIcon.Foreground).Color;
-                    CrossHoverColorAnim.To = Colors.White;
-                    CrossHoverColorAnim.EasingFunction = new SineEase();
-                    Storyboard.SetTarget(CrossHoverColorAnim, crossIcon);
-                    Storyboard.SetTargetProperty(CrossHoverColorAnim, "(PathIcon.Foreground).(SolidColorBrush.Color)");
-                    CrossHoverAnim.Children.Add(CrossHoverColorAnim);
-
-                    CrossUnHoverAnim = new Storyboard();
-                    var CrossUnHoverColorAnim = new ColorAnimation();
-                    CrossUnHoverColorAnim.Duration = duration;
-                    CrossUnHoverColorAnim.To = ((SolidColorBrush)crossIcon.Foreground).Color;
-                    CrossUnHoverColorAnim.From = Colors.White;
-                    CrossUnHoverColorAnim.EasingFunction = new SineEase();
-                    Storyboard.SetTarget(CrossUnHoverColorAnim, crossIcon);
-                    Storyboard.SetTargetProperty(CrossUnHoverColorAnim, "(PathIcon.Foreground).(SolidColorBrush.Color)");
-                    CrossUnHoverAnim.Children.Add(CrossUnHoverColorAnim);
-                }
-                else
-                {
-                    Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
-
-                    TitleBar = ApplicationView.GetForCurrentView().TitleBar;
-                    TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                    TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                    Window.Current.SetTitleBar(TitleBarDragArea);
-                }
+                TitleBar = ApplicationView.GetForCurrentView().TitleBar;
+                TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                Window.Current.SetTitleBar(TitleBarDragArea);
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
             }
             else
             {
-                Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
                 propertiesDialog = DependencyObjectHelpers.FindParent<ContentDialog>(this);
                 propertiesDialog.Closed += PropertiesDialog_Closed;
             }
@@ -201,45 +117,18 @@ namespace Files.Views
                     switch (RequestedTheme)
                     {
                         case ElementTheme.Default:
-                            if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
-                            {
-                                crossIcon.Foreground = new SolidColorBrush((Color)Application.Current.Resources["SystemBaseHighColor"]);
-                                ((ColorAnimation)CrossHoverAnim.Children[0]).From = (Color)Application.Current.Resources["SystemBaseHighColor"];
-                                ((ColorAnimation)CrossUnHoverAnim.Children[0]).To = (Color)Application.Current.Resources["SystemBaseHighColor"];
-                            }
-                            else
-                            {
-                                TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
-                                TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
-                            }
+                            TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
+                            TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
                             break;
 
                         case ElementTheme.Light:
-                            if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
-                            {
-                                crossIcon.Foreground = new SolidColorBrush(Colors.Black);
-                                ((ColorAnimation)CrossHoverAnim.Children[0]).From = Colors.Black;
-                                ((ColorAnimation)CrossUnHoverAnim.Children[0]).To = Colors.Black;
-                            }
-                            else
-                            {
-                                TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
-                                TitleBar.ButtonForegroundColor = Colors.Black;
-                            }
+                            TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
+                            TitleBar.ButtonForegroundColor = Colors.Black;
                             break;
 
                         case ElementTheme.Dark:
-                            if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
-                            {
-                                crossIcon.Foreground = new SolidColorBrush(Colors.White);
-                                ((ColorAnimation)CrossHoverAnim.Children[0]).From = Colors.White;
-                                ((ColorAnimation)CrossUnHoverAnim.Children[0]).To = Colors.White;
-                            }
-                            else
-                            {
-                                TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
-                                TitleBar.ButtonForegroundColor = Colors.White;
-                            }
+                            TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
+                            TitleBar.ButtonForegroundColor = Colors.White;
                             break;
                     }
                 }
@@ -262,14 +151,7 @@ namespace Files.Views
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
-                {
-                    await appWindow.CloseAsync();
-                }
-                else
-                {
-                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
-                }
+                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
             }
             else
             {
@@ -281,14 +163,7 @@ namespace Files.Views
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
-                {
-                    await appWindow.CloseAsync();
-                }
-                else
-                {
-                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
-                }
+                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
             }
             else
             {
@@ -302,14 +177,7 @@ namespace Files.Views
             {
                 if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
                 {
-                    if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
-                    {
-                        await appWindow.CloseAsync();
-                    }
-                    else
-                    {
-                        await ApplicationView.GetForCurrentView().TryConsolidateAsync();
-                    }
+                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
                 }
                 else
                 {
@@ -384,34 +252,6 @@ namespace Files.Views
             catch (Exception)
             {
             }
-        }
-
-        private async void CloseRect_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            CrossUnHoverAnim.Stop();
-            RectUnHoverAnim.Stop();
-            CrossHoverAnim.Stop();
-            RectHoverAnim.Stop();
-
-            await appWindow.CloseAsync();
-        }
-
-        private void CloseRect_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            CrossUnHoverAnim.Stop();
-            RectUnHoverAnim.Stop();
-
-            CrossHoverAnim.Begin();
-            RectHoverAnim.Begin();
-        }
-
-        private void CloseRect_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            CrossHoverAnim.Stop();
-            RectHoverAnim.Stop();
-
-            CrossUnHoverAnim.Begin();
-            RectUnHoverAnim.Begin();
         }
     }
 }

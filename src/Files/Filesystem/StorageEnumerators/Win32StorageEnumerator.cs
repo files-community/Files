@@ -24,10 +24,8 @@ namespace Files.Filesystem.StorageEnumerators
 {
     public static class Win32StorageEnumerator
     {
-        private static readonly IFolderSizeProvider folderSizeProvider = Ioc.Default.GetService<IFolderSizeProvider>();
-
-        private static readonly string folderTypeTextLocalized = "FileFolderListItem".GetLocalized();
-        private static readonly IFileListCache fileListCache = FileListCacheController.GetInstance();
+        private static string folderTypeTextLocalized = "FileFolderListItem".GetLocalized();
+        private static IFileListCache fileListCache = FileListCacheController.GetInstance();
 
         public static async Task<List<ListedItem>> ListEntries(
             string path,
@@ -53,11 +51,7 @@ namespace Files.Filesystem.StorageEnumerators
             {
                 var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
                 var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-                var startWithDot = findData.cFileName.StartsWith(".");
-                if ((!isHidden ||
-                   (userSettingsService.PreferencesSettingsService.AreHiddenItemsVisible &&
-                   (!isSystem || !userSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) &&
-                   (!startWithDot || userSettingsService.PreferencesSettingsService.ShowDotFiles))
+                if (!isHidden || (userSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && (!isSystem || !userSettingsService.PreferencesSettingsService.AreSystemItemsHidden)))
                 {
                     if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                     {
@@ -96,7 +90,7 @@ namespace Files.Filesystem.StorageEnumerators
 
                                 if (showFolderSize)
                                 {
-                                    folderSizeProvider.UpdateFolder(folder, cancellationToken);
+                                    FolderHelpers.UpdateFolder(folder, cancellationToken);
                                 }
                             }
                         }

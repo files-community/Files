@@ -1,7 +1,6 @@
 ﻿using Files.Shared;
 using Files.Dialogs;
 using Files.Enums;
-using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
@@ -184,21 +183,26 @@ namespace Files.Interacts
 
         public virtual async void RestoreItem(RoutedEventArgs e)
         {
-            var items = SlimContentPage.SelectedItems.ToList().Where(x => x is RecycleBinItem).Select((item) => new
+            if (SlimContentPage.IsItemSelected)
             {
-                Source = StorageHelpers.FromPathAndType(
-                    item.ItemPath,
-                    item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory),
-                Dest = (item as RecycleBinItem).ItemOriginalPath
-            });
-            await FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
+                foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
+                {
+                    if (listedItem is RecycleBinItem binItem)
+                    {
+                        FilesystemItemType itemType = binItem.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
+                        await FilesystemHelpers.RestoreFromTrashAsync(StorageHelpers.FromPathAndType(
+                            (listedItem as RecycleBinItem).ItemPath,
+                            itemType), (listedItem as RecycleBinItem).ItemOriginalPath, true);
+                    }
+                }
+            }
         }
 
         public virtual async void DeleteItem(RoutedEventArgs e)
         {
-            var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
+            var items = await Task.Run(() => SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
                 item.ItemPath,
-                item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+                item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)));
             await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
         }
 
@@ -326,7 +330,7 @@ namespace Files.Interacts
                     {
                         path = path.Replace("\\", "/", StringComparison.Ordinal);
                     }
-                    DataPackage data = new();
+                    DataPackage data = new DataPackage();
                     data.SetText(path);
                     Clipboard.SetContent(data);
                     Clipboard.Flush();
@@ -355,7 +359,7 @@ namespace Files.Interacts
             async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
             {
                 DataRequestDeferral dataRequestDeferral = args.Request.GetDeferral();
-                List<IStorageItem> items = new();
+                List<IStorageItem> items = new List<IStorageItem>();
                 DataRequest dataRequest = args.Request;
 
                 /*dataRequest.Data.Properties.Title = "Data Shared From Files";
@@ -620,19 +624,19 @@ namespace Files.Interacts
             associatedInstance.SubmitSearch(associatedInstance.InstanceViewModel.CurrentSearchQuery, true);
         }
 
-        public async Task CreateFolderWithSelection(RoutedEventArgs e)
+        public async void CreateFolderWithSelection(RoutedEventArgs e)
         {
             await UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
         }
 
-        public async Task DecompressArchive()
+        public async void DecompressArchive()
         {
             BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
 
             if (archive != null)
             {
-                DecompressArchiveDialog decompressArchiveDialog = new();
-                DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive);
+                DecompressArchiveDialog decompressArchiveDialog = new DecompressArchiveDialog();
+                DecompressArchiveDialogViewModel decompressArchiveViewModel = new DecompressArchiveDialogViewModel(archive);
                 decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
 
                 ContentDialogResult option = await decompressArchiveDialog.ShowAsync();
@@ -645,7 +649,7 @@ namespace Files.Interacts
                         return;
                     }
 
-                    CancellationTokenSource extractCancellation = new();
+                    CancellationTokenSource extractCancellation = new CancellationTokenSource();
                     PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
                         string.Empty,
                         "ExtractingArchiveText".GetLocalized(),
@@ -667,7 +671,7 @@ namespace Files.Interacts
                         return; // Could not create dest folder
                     }
 
-                    Stopwatch sw = new();
+                    Stopwatch sw = new Stopwatch();
                     sw.Start();
 
                     await ZipHelpers.ExtractArchive(archive, destinationFolder, banner.Progress, extractCancellation.Token);
@@ -693,14 +697,14 @@ namespace Files.Interacts
             }
         }
 
-        public async Task DecompressArchiveHere()
+        public async void DecompressArchiveHere()
         {
             BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
             BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
 
             if (archive != null && currentFolder != null)
             {
-                CancellationTokenSource extractCancellation = new();
+                CancellationTokenSource extractCancellation = new CancellationTokenSource();
                 PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
                     string.Empty,
                     "ExtractingArchiveText".GetLocalized(),
@@ -709,7 +713,7 @@ namespace Files.Interacts
                     FileOperationType.Extract,
                     extractCancellation);
 
-                Stopwatch sw = new();
+                Stopwatch sw = new Stopwatch();
                 sw.Start();
 
                 await ZipHelpers.ExtractArchive(archive, currentFolder, banner.Progress, extractCancellation.Token);
@@ -729,7 +733,7 @@ namespace Files.Interacts
             }
         }
 
-        public async Task DecompressArchiveToChildFolder()
+        public async void DecompressArchiveToChildFolder()
         {
             var selectedItem = associatedInstance?.SlimContentPage?.SelectedItem;
             if (selectedItem == null)
@@ -748,7 +752,7 @@ namespace Files.Interacts
 
             if (archive != null && destinationFolder != null)
             {
-                CancellationTokenSource extractCancellation = new();
+                CancellationTokenSource extractCancellation = new CancellationTokenSource();
                 PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
                     string.Empty,
                     "ExtractingArchiveText".GetLocalized(),
@@ -757,7 +761,7 @@ namespace Files.Interacts
                     FileOperationType.Extract,
                     extractCancellation);
 
-                Stopwatch sw = new();
+                Stopwatch sw = new Stopwatch();
                 sw.Start();
 
                 await ZipHelpers.ExtractArchive(archive, destinationFolder, banner.Progress, extractCancellation.Token);
@@ -796,21 +800,21 @@ namespace Files.Interacts
             }
         }
 
-        public async Task RotateImageLeft()
+        public async void RotateImageLeft()
         {
             await BitmapHelper.Rotate(PathNormalization.NormalizePath(SlimContentPage?.SelectedItems.First().ItemPath), BitmapRotation.Clockwise270Degrees);
             SlimContentPage?.ItemManipulationModel.RefreshItemsThumbnail();
             SlimContentPage?.PreviewPaneViewModel.UpdateSelectedItemPreview();
         }
 
-        public async Task RotateImageRight()
+        public async void RotateImageRight()
         {
             await BitmapHelper.Rotate(PathNormalization.NormalizePath(SlimContentPage?.SelectedItems.First().ItemPath), BitmapRotation.Clockwise90Degrees);
             SlimContentPage?.ItemManipulationModel.RefreshItemsThumbnail();
             SlimContentPage?.PreviewPaneViewModel.UpdateSelectedItemPreview();
         }
 
-        public async Task InstallFont()
+        public async void InstallFont()
         {
             foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
             {

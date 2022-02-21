@@ -62,8 +62,6 @@ namespace Files.Filesystem
 
         #endregion Delete
 
-        #region Restore
-
         /// <summary>
         /// Restores <paramref name="source"/> from the RecycleBin to <paramref name="destination"/> fullPath
         /// </summary>
@@ -71,36 +69,7 @@ namespace Files.Filesystem
         /// <param name="destination">The destination fullPath to restore to</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> RestoreItemFromTrashAsync(IStorageItem source, string destination, bool registerHistory);
-
-        /// <summary>
-        /// Restores <paramref name="source"/> from the RecycleBin to <paramref name="destination"/> fullPath
-        /// </summary>
-        /// <param name="source">The source Recycle Bin item path</param>
-        /// <param name="destination">The destination fullPath to restore to</param>
-        /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
-        /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> RestoreItemsFromTrashAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory);
-
-        /// <summary>
-        /// Restores <paramref name="source"/> from the RecycleBin to <paramref name="destination"/> fullPath
-        /// </summary>
-        /// <param name="source">The source Recycle Bin item path</param>
-        /// <param name="destination">The destination fullPath to restore to</param>
-        /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
-        /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> RestoreItemFromTrashAsync(IStorageItemWithPath source, string destination, bool registerHistory);
-
-        /// <summary>
-        /// Restores <paramref name="source"/> from the RecycleBin to <paramref name="destination"/> fullPath
-        /// </summary>
-        /// <param name="source">The source Recycle Bin item path</param>
-        /// <param name="destination">The destination fullPath to restore to</param>
-        /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
-        /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> RestoreItemsFromTrashAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool registerHistory);
-
-        #endregion Restore
+        Task<ReturnResult> RestoreFromTrashAsync(IStorageItemWithPath source, string destination, bool registerHistory);
 
         /// <summary>
         /// Performs relevant operation based on <paramref name="operation"/>

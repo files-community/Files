@@ -1,7 +1,6 @@
 ﻿using Files.DataModels;
 using Files.Dialogs;
 using Files.Enums;
-using Files.Extensions;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -10,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
@@ -108,26 +106,14 @@ namespace Files.ViewModels.Dialogs
 
         public ICommand ApplyToAllCommand { get; private set; }
 
-        public ICommand ClosingCommand { get; private set; }
-
-        private CancellationTokenSource ClosingCts { get; }
-
         public FilesystemOperationDialogViewModel()
         {
-            ClosingCts = new CancellationTokenSource();
-
             // Create commands
             PrimaryButtonCommand = new RelayCommand(PrimaryButton);
             SecondaryButtonCommand = new RelayCommand(SecondaryButton);
-
             LoadedCommand = new RelayCommand(() =>
             {
                 UpdatePrimaryButtonEnabled();
-            });
-
-            ClosingCommand = new RelayCommand(() =>
-            {
-                ClosingCts.Cancel();
             });
 
             ApplyToAllCommand = new RelayCommand<string>(s =>
@@ -298,22 +284,21 @@ namespace Files.ViewModels.Dialogs
             };
             viewModel.Items = new ObservableCollection<FilesystemOperationItemViewModel>(itemsData.ToItems(
                 viewModel.UpdatePrimaryButtonEnabled, viewModel.OptionGenerateNewName, viewModel.OptionReplaceExisting, viewModel.OptionSkip));
-            _ = LoadItemsIcon(viewModel.Items, viewModel.ClosingCts.Token);
+            _ = LoadItemsIcon(viewModel.Items);
             FilesystemOperationDialog dialog = new FilesystemOperationDialog(viewModel);
 
             return dialog;
         }
 
-        private static async Task LoadItemsIcon(IEnumerable<FilesystemOperationItemViewModel> items, CancellationToken token)
+        private static async Task LoadItemsIcon(IEnumerable<FilesystemOperationItemViewModel> items)
         {
-            await items.ParallelForEach(async (item) =>
+            await Task.Run(() => Task.WhenAll(items.ToList().Select(async (item) =>
             {
                 try
                 {
                     var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(item.SourcePath, 64u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
                     if (iconData != null)
                     {
-                        if (token.IsCancellationRequested) return;
                         await Windows.ApplicationModel.Core.CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
                         {
                             item.ItemIcon = await iconData.ToBitmapAsync();
@@ -321,7 +306,7 @@ namespace Files.ViewModels.Dialogs
                     }
                 }
                 catch { }
-            }, 10, token);
+            })));
         }
     }
 }

@@ -266,9 +266,29 @@ namespace Files.ViewModels
             }
             else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
             {
-                var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path).GetLocalized();
-                // If localized string is empty use the library name.
-                tabLocationHeader = string.IsNullOrEmpty(libName) ? library.Text : libName;
+                var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path);
+                switch (libName)
+                {
+                    case "Documents":
+                        tabLocationHeader = $"Sidebar{libName}".GetLocalized(); // Show localized name
+                        break;
+
+                    case "Pictures":
+                        tabLocationHeader = $"Sidebar{libName}".GetLocalized(); // Show localized name
+                        break;
+
+                    case "Music":
+                        tabLocationHeader = $"Sidebar{libName}".GetLocalized(); // Show localized name
+                        break;
+
+                    case "Videos":
+                        tabLocationHeader = $"Sidebar{libName}".GetLocalized(); // Show localized name
+                        break;
+
+                    default:
+                        tabLocationHeader = library.Text; // Show original name
+                        break;
+                }
             }
             else
             {

@@ -118,7 +118,7 @@ namespace Files.Helpers
                             ShowInSearchPage = true,
                             ShowInFtpPage = true,
                             ShowInZipPage = true,
-                            Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeDetailsViewCommand,
+                            Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView,
                             CommandParameter = true,
                             KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutDetails/KeyboardAcceleratorTextOverride".GetLocalized(),
                             KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number1, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
@@ -132,7 +132,7 @@ namespace Files.Helpers
                             ShowInSearchPage = true,
                             ShowInFtpPage = true,
                             ShowInZipPage = true,
-                            Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeTilesCommand,
+                            Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeTiles,
                             CommandParameter = true,
                             KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutTiles/KeyboardAcceleratorTextOverride".GetLocalized(),
                             KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number2, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
@@ -146,7 +146,7 @@ namespace Files.Helpers
                             ShowInSearchPage = true,
                             ShowInFtpPage = true,
                             ShowInZipPage = true,
-                            Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmallCommand,
+                            Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall,
                             CommandParameter = true,
                             KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutSmallIcons/KeyboardAcceleratorTextOverride".GetLocalized(),
                             KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number3, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
@@ -160,7 +160,7 @@ namespace Files.Helpers
                             ShowInSearchPage = true,
                             ShowInFtpPage = true,
                             ShowInZipPage = true,
-                            Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMediumCommand,
+                            Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium,
                             CommandParameter = true,
                             KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutMediumIcons/KeyboardAcceleratorTextOverride".GetLocalized(),
                             KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number4, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
@@ -174,7 +174,7 @@ namespace Files.Helpers
                             ShowInSearchPage = true,
                             ShowInFtpPage = true,
                             ShowInZipPage = true,
-                            Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLargeCommand,
+                            Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge,
                             CommandParameter = true,
                             KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutLargeIcons/KeyboardAcceleratorTextOverride".GetLocalized(),
                             KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number5, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
@@ -189,7 +189,7 @@ namespace Files.Helpers
                             ShowInSearchPage = true,
                             ShowInFtpPage = true,
                             ShowInZipPage = true,
-                            Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeColumnViewCommand,
+                            Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeColumnView,
                             CommandParameter = true,
                             KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutColumn/KeyboardAcceleratorTextOverride".GetLocalized(),
                             KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number6, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
@@ -275,7 +275,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "FileTags".GetLocalized(),
+                            Text = "BaseLayoutContextFlyoutSortByFileTag/Text".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedByFileTag,
                             Command = new RelayCommand(() => itemViewModel.IsSortedByFileTag = true),
                             ShowItem = userSettingsService.PreferencesSettingsService.AreFileTagsEnabled,
@@ -426,7 +426,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "FileTags".GetLocalized(),
+                            Text = "BaseLayoutContextFlyoutSortByFileTag/Text".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FileTag,
                             ShowItem = userSettingsService.PreferencesSettingsService.AreFileTagsEnabled,
                             ShowInRecycleBin = true,
@@ -503,7 +503,7 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = $"{"OpenIn".GetLocalized()} {App.TerminalController.Model.GetDefaultTerminal()?.Name}",
+                    Text = "OpenIn".GetLocalized() + " " + App.TerminalController.Model.GetDefaultTerminal().Name,
                     Glyph = "\uE756",
                     Command = commandsViewModel.OpenDirectoryInDefaultTerminalCommand,
                 },
@@ -648,8 +648,7 @@ namespace Files.Helpers
                     Items = new List<ContextMenuFlyoutItemViewModel>() {
                         new()
                         {
-                            Text = "Placeholder",
-                            ShowInSearchPage = true,
+                            Text = "Placeholder"
                         }
                     },
                     ShowInSearchPage = true,

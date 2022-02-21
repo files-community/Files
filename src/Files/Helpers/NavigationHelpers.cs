@@ -102,7 +102,7 @@ namespace Files.Helpers
             }
         }
 
-        public static async void OpenItemsWithExecutable(IShellPage associatedInstance, IEnumerable<IStorageItemWithPath> items, string executable)
+        public static async void OpenItemsWithExecutable(IShellPage associatedInstance, List<IStorageItemWithPath> items, string executable)
         {
             if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
             {

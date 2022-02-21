@@ -5,15 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
-using System.Runtime.Versioning;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    [SupportedOSPlatform("Windows10.0.10240")]
-    public class QuickLookHandler : Disposable, IMessageHandler
+    public class QuickLookHandler : IMessageHandler
     {
         private static readonly Logger Logger = Program.Logger;
 
@@ -39,22 +37,26 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        private static void ToggleQuickLook(string path, bool switchPreview)
+        public void ToggleQuickLook(string path, bool switchPreview)
         {
             Logger.Info("Toggle QuickLook");
 
             string PipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
             string Message = switchPreview ? "QuickLook.App.PipeMessages.Switch" : "QuickLook.App.PipeMessages.Toggle";
 
-            using var client = new NamedPipeClientStream(".", PipeName, PipeDirection.Out);
-            client.Connect();
+            using (var client = new NamedPipeClientStream(".", PipeName, PipeDirection.Out))
+            {
+                client.Connect();
 
-            using var writer = new StreamWriter(client);
-            writer.WriteLine($"{Message}|{path}");
-            writer.Flush();
+                using (var writer = new StreamWriter(client))
+                {
+                    writer.WriteLine($"{Message}|{path}");
+                    writer.Flush();
+                }
+            }
         }
 
-        private static bool CheckQuickLookAvailability()
+        public bool CheckQuickLookAvailability()
         {
             static int QuickLookServerAvailable()
             {
@@ -93,6 +95,10 @@ namespace FilesFullTrust.MessageHandlers
                 Logger.Info(ex, ex.Message);
                 return false;
             }
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

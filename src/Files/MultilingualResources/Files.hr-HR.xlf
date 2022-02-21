@@ -202,9 +202,25 @@
           <source>Downloads</source>
           <target state="translated">Preuzimanja</target>
         </trans-unit>
+        <trans-unit id="SidebarHome" translate="yes" xml:space="preserve">
+          <source>Home</source>
+          <target state="translated">Početno</target>
+        </trans-unit>
+        <trans-unit id="SidebarMusic" translate="yes" xml:space="preserve">
+          <source>Music</source>
+          <target state="translated">Glazba</target>
+        </trans-unit>
+        <trans-unit id="SidebarPictures" translate="yes" xml:space="preserve">
+          <source>Pictures</source>
+          <target state="translated">Slike</target>
+        </trans-unit>
         <trans-unit id="SideBarUnpinFromFavorites.Text" translate="yes" xml:space="preserve">
           <source>Unpin from Favorites</source>
           <target state="translated">Otkvači iz favorita</target>
+        </trans-unit>
+        <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
+          <source>Videos</source>
+          <target state="translated">Videozapisi</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
           <source>Sort by</source>
@@ -1900,6 +1916,10 @@
           <source>Item count</source>
           <target state="translated">Broj stavki</target>
         </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlCloseTabsToTheRight.Text" translate="yes" xml:space="preserve">
+          <source>Close tabs to the right</source>
+          <target state="translated">Zatvori kartice s desne strane</target>
+        </trans-unit>
         <trans-unit id="StatusDeletionFailed" translate="yes" xml:space="preserve">
           <source>Deletion Failed</source>
           <target state="translated">Brisanje nije uspjelo</target>
@@ -3476,58 +3496,6 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
         <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
           <source>Open in</source>
           <target state="new">Open in</target>
-        </trans-unit>
-        <trans-unit id="RotateLeft" translate="yes" xml:space="preserve">
-          <source>Rotate left</source>
-          <target state="new">Rotate left</target>
-        </trans-unit>
-        <trans-unit id="RotateRight" translate="yes" xml:space="preserve">
-          <source>Rotate right</source>
-          <target state="new">Rotate right</target>
-        </trans-unit>
-        <trans-unit id="Install" translate="yes" xml:space="preserve">
-          <source>Install</source>
-          <target state="new">Install</target>
-        </trans-unit>
-        <trans-unit id="CloseTabsToTheLeft" translate="yes" xml:space="preserve">
-          <source>Close tabs to the left</source>
-          <target state="new">Close tabs to the left</target>
-        </trans-unit>
-        <trans-unit id="CloseTabsToTheRight" translate="yes" xml:space="preserve">
-          <source>Close tabs to the right</source>
-          <target state="new">Close tabs to the right</target>
-        </trans-unit>
-        <trans-unit id="ShowDotFiles" translate="yes" xml:space="preserve">
-          <source>Show dot files</source>
-          <target state="new">Show dot files</target>
-        </trans-unit>
-        <trans-unit id="CloseOtherTabs" translate="yes" xml:space="preserve">
-          <source>Close other tabs</source>
-          <target state="new">Close other tabs</target>
-        </trans-unit>
-        <trans-unit id="Music" translate="yes" xml:space="preserve">
-          <source>Music</source>
-          <target state="new">Music</target>
-        </trans-unit>
-        <trans-unit id="Pictures" translate="yes" xml:space="preserve">
-          <source>Pictures</source>
-          <target state="new">Pictures</target>
-        </trans-unit>
-        <trans-unit id="Videos" translate="yes" xml:space="preserve">
-          <source>Videos</source>
-          <target state="new">Videos</target>
-        </trans-unit>
-        <trans-unit id="UpdateFiles" translate="yes" xml:space="preserve">
-          <source>Update Files</source>
-          <target state="new">Update Files</target>
-        </trans-unit>
-        <trans-unit id="StatusPreparingItemsDetails_Plural" translate="yes" xml:space="preserve">
-          <source>Preparing {0} items</source>
-          <target state="new">Preparing {0} items</target>
-        </trans-unit>
-        <trans-unit id="PrepareInProgress" translate="yes" xml:space="preserve">
-          <source>Preparing items</source>
-          <target state="new">Preparing items</target>
         </trans-unit>
       </group>
     </body>

@@ -129,6 +129,18 @@
   <data name="Downloads" xml:space="preserve">
     <value>التنزيلات</value>
   </data>
+  <data name="SidebarHome" xml:space="preserve">
+    <value>الصفحة الرئيسية</value>
+  </data>
+  <data name="SidebarMusic" xml:space="preserve">
+    <value>موسيقى</value>
+  </data>
+  <data name="SidebarPictures" xml:space="preserve">
+    <value>صور</value>
+  </data>
+  <data name="SidebarVideos" xml:space="preserve">
+    <value>مقاطع الفيديو</value>
+  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>فرز حسب</value>
   </data>
@@ -1307,6 +1319,9 @@
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>هل ترغب في الاستمرار كمسؤول؟</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>إغلاق علامات التبويب على اليسار</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>المسؤول</value>

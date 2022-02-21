@@ -9,6 +9,7 @@ using System;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views.LayoutModes
@@ -44,7 +45,7 @@ namespace Files.Views.LayoutModes
 
             var nextBladeIndex = ColumnHost.ActiveBlades.IndexOf(column.ListView.FindAscendant<BladeItem>()) + 1;
 
-            if (ColumnHost.ActiveBlades.ElementAtOrDefault(nextBladeIndex) is not BladeItem nextBlade ||
+            if (ColumnHost.ActiveBlades.ElementAtOrDefault(nextBladeIndex) is not BladeItem nextBlade || 
                 ((nextBlade.Content as Frame)?.Content as IShellPage)?.FilesystemViewModel?.WorkingDirectory != column.NavPathParam)
             {
                 DismissOtherBlades(column.ListView);
@@ -101,10 +102,10 @@ namespace Files.Views.LayoutModes
         public override void Dispose()
         {
             base.Dispose();
-            ColumnHost.Items.OfType<BladeItem>().Select(x => ((x.Content as Frame)?.Content as ColumnShellPage).SlimContentPage as ColumnViewBase).Where(x => x != null).ForEach(x => x.ItemInvoked -= ColumnViewBase_ItemInvoked);
-            ColumnHost.Items.OfType<BladeItem>().ForEach(x => ((x.Content as Frame)?.Content as ColumnShellPage).ContentChanged -= ColumnViewBrowser_ContentChanged);
-            ColumnHost.Items.OfType<BladeItem>().ForEach(x => ((x.Content as Frame)?.Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus);
-            ColumnHost.Items.OfType<BladeItem>().Select(x => (x.Content as Frame)?.Content).OfType<IDisposable>().ForEach(x => x.Dispose());
+            ColumnHost.ActiveBlades.Select(x => ((x.Content as Frame)?.Content as ColumnShellPage).SlimContentPage as ColumnViewBase).Where(x => x != null).ForEach(x => x.ItemInvoked -= ColumnViewBase_ItemInvoked);
+            ColumnHost.ActiveBlades.ForEach(x => ((x.Content as Frame)?.Content as ColumnShellPage).ContentChanged -= ColumnViewBrowser_ContentChanged);
+            ColumnHost.ActiveBlades.ForEach(x => ((x.Content as Frame)?.Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus);
+            ColumnHost.ActiveBlades.Select(x => (x.Content as Frame)?.Content).OfType<IDisposable>().ForEach(x => x.Dispose());
             UnhookEvents();
             CommandsViewModel?.Dispose();
         }
@@ -209,7 +210,7 @@ namespace Files.Views.LayoutModes
             var destPath = navArgs != null ? (navArgs.IsSearchResultPage ? navArgs.SearchPathParam : navArgs.NavPathParam) : navigationPath;
             var columnPath = ((ColumnHost.ActiveBlades.Last().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
             var columnFirstPath = ((ColumnHost.ActiveBlades.First().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
-
+            
             if (string.IsNullOrEmpty(destPath) || string.IsNullOrEmpty(destPath) || string.IsNullOrEmpty(destPath))
             {
                 ParentShellPageInstance.NavigateToPath(navigationPath, sourcePageType, navArgs);
@@ -265,7 +266,7 @@ namespace Files.Views.LayoutModes
                 }
             }
         }
-
+        
         public void SetSelectedPathOrNavigate(PathNavigationEventArgs e)
         {
             if (ColumnHost.ActiveBlades?.Count > 1)

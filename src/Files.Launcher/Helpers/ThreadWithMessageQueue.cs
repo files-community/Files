@@ -1,27 +1,22 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace FilesFullTrust.Helpers
 {
-    [SupportedOSPlatform("Windows")]
-    public class ThreadWithMessageQueue<T> : Disposable
+    public class ThreadWithMessageQueue<T> : IDisposable
     {
         private readonly BlockingCollection<Internal> messageQueue;
         private readonly Thread thread;
         private readonly DisposableDictionary state;
 
-        protected override void Dispose(bool disposing)
+        public void Dispose()
         {
-            if (disposing)
-            {
-                messageQueue.CompleteAdding();
-                thread.Join();
-                state.Dispose();
-                messageQueue.Dispose();
-            }
+            messageQueue.CompleteAdding();
+            thread.Join();
+            state.Dispose();
+            messageQueue.Dispose();
         }
 
         public async Task<V> PostMessageAsync<V>(T payload)

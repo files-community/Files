@@ -325,7 +325,7 @@ namespace Files.DataModels
             {
                 var homeSection = new LocationItem()
                 {
-                    Text = "Home".GetLocalized(),
+                    Text = "SidebarHome".GetLocalized(),
                     Section = SectionType.Home,
                     Font = MainViewModel.FontName,
                     IsDefaultLocation = true,

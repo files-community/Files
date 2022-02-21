@@ -159,8 +159,20 @@
   <data name="Downloads" xml:space="preserve">
     <value>Изтеглени файлове</value>
   </data>
+  <data name="SidebarHome" xml:space="preserve">
+    <value>Начало</value>
+  </data>
+  <data name="SidebarMusic" xml:space="preserve">
+    <value>Музика</value>
+  </data>
+  <data name="SidebarPictures" xml:space="preserve">
+    <value>Картини</value>
+  </data>
   <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
     <value>Откачи от любими</value>
+  </data>
+  <data name="SidebarVideos" xml:space="preserve">
+    <value>Видеоклипове</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Сортирай по</value>
@@ -1428,6 +1440,9 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Брой елементи</value>
   </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>Затворете разделите вдясно</value>
+  </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>Изтриването не бе успешно</value>
   </data>
@@ -2180,8 +2195,12 @@
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
-Използваме App Center, за да проследяваме кои настройки се използват, да намираме грешки и да коригираме сривове. Информацията, изпратена до App Center, е анонимна и без никакви потребителски или контекстуални данни.
-</value>
+*Събиране на лична информация*
+Files не събира, съхранява, споделя или публикува никаква лична информация.
+
+*Събиране на нелична информация*
+
+Ние използваме App Center, за да следим използването на приложението, да намираме грешки и да коригираме сривове. Цялата информация, изпратена до App Center, е анонимна и не съдържа никакви потребителски или контекстуални данни.</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
     <value>Файлов етикет</value>
@@ -2451,7 +2470,7 @@
     <value>Лицензи на трети страни</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Тази опция променя системния регистър и може да има неочаквани странични ефекти на вашето устройство. Продължете на свой собствен риск.</value>
+    <value>Тази настройка променя системните файлове и може да има неочаквани странични ефекти на вашето устройство. Разработчиците не поемат отговорност в случай, че в резултат на това възникне проблем. Продължаването с тази опция е приемане на рисковете, свързани с това действие. Моля, имайте предвид, че деинсталирането на Files няма да отмени тези промени и може да ви попречи да отворите File Explorer, освен ако не изключите тази настройка, преди да премахнете Files от вашето устройство.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Изчисти всички</value>
@@ -2494,38 +2513,5 @@
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>байтове</value>
-  </data>
-  <data name="OpenIn" xml:space="preserve">
-    <value>Отвори в</value>
-  </data>
-  <data name="Extract" xml:space="preserve">
-    <value>Извлечи</value>
-  </data>
-  <data name="ExtractFiles" xml:space="preserve">
-    <value>Извлечи файлове</value>
-  </data>
-  <data name="ExtractHere" xml:space="preserve">
-    <value>Извлечи тук</value>
-  </data>
-  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+E</value>
-  </data>
-  <data name="ExtractToChildFolder" xml:space="preserve">
-    <value>Извлечи към {0}</value>
-  </data>
-  <data name="RunScript" xml:space="preserve">
-    <value>Изпълни скрипт</value>
-  </data>
-  <data name="RunWithPowerShell" xml:space="preserve">
-    <value>Изпълни с PowerShell</value>
-  </data>
-  <data name="SetAsBackground" xml:space="preserve">
-    <value>Задай като фон на работния плот</value>
-  </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>Не премахвайте Files от устройството си, преди да изключите тази опция. Ако не го направите, това ще ви попречи да отворите File Explorer.</value>
-  </data>
-  <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>Изчисляването на размерите на папките е ресурсоемко и може да доведе до увеличаване на използването на вашия процесор.</value>
   </data>
 </root>

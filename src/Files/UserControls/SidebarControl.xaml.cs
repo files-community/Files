@@ -181,11 +181,6 @@ namespace Files.UserControls
                 UserSettingsService.AppearanceSettingsService.ShowWslSection = false;
                 App.WSLDistroManager.UpdateWslSectionVisibility();
             }
-            else if ("FileTags".GetLocalized().Equals(RightClickedItem.Text))
-            {
-                UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = false;
-                App.FileTagsManager.UpdateFileTagsSectionVisibility();
-            }
         }
 
         public void UnpinItem_Click(object sender, RoutedEventArgs e)
@@ -337,14 +332,6 @@ namespace Files.UserControls
             }
         }
 
-        private void PaneRoot_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            var sidebarContextMenu = this.FindResource("SidebarContextMenu") as MenuFlyout;
-            sidebarContextMenu.ShowAt(this, new Windows.UI.Xaml.Controls.Primitives.FlyoutShowOptions() { Position = e.GetPosition(this) });
-
-            e.Handled = true;
-        }
-
         private void NavigationViewLocationItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             var itemContextMenuFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
@@ -356,9 +343,8 @@ namespace Files.UserControls
             bool cloudDrivesHeader = "SidebarCloudDrives".GetLocalized().Equals(item.Text);
             bool librariesHeader = "SidebarLibraries".GetLocalized().Equals(item.Text);
             bool wslHeader = "WSL".GetLocalized().Equals(item.Text);
-            bool fileTagsHeader = "FileTags".GetLocalized().Equals(item.Text);
             bool favoritesHeader = "SidebarFavorites".GetLocalized().Equals(item.Text);
-            bool header = drivesHeader || networkDrivesHeader || cloudDrivesHeader || librariesHeader || wslHeader || fileTagsHeader || favoritesHeader;
+            bool header = drivesHeader || networkDrivesHeader || cloudDrivesHeader || librariesHeader || wslHeader || favoritesHeader;
 
             if (!header)
             {
@@ -464,31 +450,6 @@ namespace Files.UserControls
             var itemContextMenuFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
             var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             var item = sidebarItem.DataContext as WslDistroItem;
-
-            IsLocationItem = true;
-            IsLibrariesHeader = false;
-            ShowEjectDevice = false;
-            ShowUnpinItem = false;
-            ShowMoveItemUp = false;
-            ShowMoveItemDown = false;
-            ShowEmptyRecycleBin = false;
-            ShowProperties = false;
-            ShowHideSection = false;
-
-            RightClickedItem = item;
-            var menuItems = GetLocationItemMenuItems();
-            var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
-            secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-            itemContextMenuFlyout.ShowAt(sidebarItem, new Windows.UI.Xaml.Controls.Primitives.FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
-
-            e.Handled = true;
-        }
-
-        private void NavigationViewFileTagsItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            var itemContextMenuFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
-            var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
-            var item = sidebarItem.DataContext as FileTagItem;
 
             IsLocationItem = true;
             IsLibrariesHeader = false;
@@ -901,78 +862,6 @@ namespace Files.UserControls
             lockFlag = false;
         }
 
-        private async void NavigationViewFileTagItem_DragOver(object sender, DragEventArgs e)
-        {
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is FileTagItem fileTagItem) ||
-                !Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
-            {
-                return;
-            }
-
-            var deferral = e.GetDeferral();
-            e.Handled = true;
-
-            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-            var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-
-            if (handledByFtp)
-            {
-                e.AcceptedOperation = DataPackageOperation.None;
-            }
-            else if (!storageItems.Any())
-            {
-                e.AcceptedOperation = DataPackageOperation.None;
-            }
-            else
-            {
-                e.DragUIOverride.IsCaptionVisible = true;
-                e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), fileTagItem.Text);
-                e.AcceptedOperation = DataPackageOperation.Link;
-            }
-
-            deferral.Complete();
-        }
-
-        private async void NavigationViewFileTag_Drop(object sender, DragEventArgs e)
-        {
-            if (lockFlag)
-            {
-                return;
-            }
-            lockFlag = true;
-
-            dragOverItem = null; // Reset dragged over item
-            dragOverSection = null; // Reset dragged over section
-
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is FileTagItem fileTagItem))
-            {
-                return;
-            }
-
-            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
-
-            var deferral = e.GetDeferral();
-
-            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-            var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-
-            if (handledByFtp)
-            {
-                return;
-            }
-
-            foreach (var item in storageItems.Where(x => !string.IsNullOrEmpty(x.Path)))
-            {
-                var listedItem = new ListedItem(null) { ItemPath = item.Path };
-                listedItem.FileFRN = await FileTagsHelper.GetFileFRN(item.Item);
-                listedItem.FileTag = fileTagItem.FileTag.Uid;
-            }
-
-            deferral.Complete();
-            await Task.Yield();
-            lockFlag = false;
-        }
-
         private void Properties_Click(object sender, RoutedEventArgs e)
         {
             SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(RightClickedItem));
@@ -1361,7 +1250,6 @@ namespace Files.UserControls
         public DataTemplate LocationNavItemTemplate { get; set; }
         public DataTemplate DriveNavItemTemplate { get; set; }
         public DataTemplate LinuxNavItemTemplate { get; set; }
-        public DataTemplate FileTagNavItemTemplate { get; set; }
         public DataTemplate HeaderNavItemTemplate { get; set; }
 
         protected override DataTemplate SelectTemplateCore(object item)
@@ -1382,9 +1270,6 @@ namespace Files.UserControls
 
                     case NavigationControlItemType.LinuxDistro:
                         return LinuxNavItemTemplate;
-
-                    case NavigationControlItemType.FileTag:
-                        return FileTagNavItemTemplate;
 
                     case NavigationControlItemType.Header:
                         return HeaderNavItemTemplate;

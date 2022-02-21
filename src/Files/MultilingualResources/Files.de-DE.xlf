@@ -60,7 +60,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupContinueWhereYouLeftOff.Content" translate="yes" xml:space="preserve">
           <source>Continue where you left off</source>
-          <target state="translated">Weitermachen wo Sie aufgehört haben</target>
+          <target state="translated">Dort weitermachen, wo Sie aufgehört haben</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenANewTab.Content" translate="yes" xml:space="preserve">
           <source>Open a new tab</source>
@@ -85,6 +85,22 @@
         <trans-unit id="Downloads" translate="yes" xml:space="preserve">
           <source>Downloads</source>
           <target state="translated">Downloads</target>
+        </trans-unit>
+        <trans-unit id="SidebarHome" translate="yes" xml:space="preserve">
+          <source>Home</source>
+          <target state="translated">Home</target>
+        </trans-unit>
+        <trans-unit id="SidebarMusic" translate="yes" xml:space="preserve">
+          <source>Music</source>
+          <target state="translated">Musik</target>
+        </trans-unit>
+        <trans-unit id="SidebarPictures" translate="yes" xml:space="preserve">
+          <source>Pictures</source>
+          <target state="translated">Bilder</target>
+        </trans-unit>
+        <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
+          <source>Videos</source>
+          <target state="translated">Videos</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
           <source>Sort by</source>
@@ -300,7 +316,7 @@
         </trans-unit>
         <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
           <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
-          <target state="translated">WARNUNG: Experimentelle Funktionen!</target>
+          <target state="translated">WARNUNG: EXPERIMENTELLE FUNKTIONEN!</target>
         </trans-unit>
         <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
           <source>Experimental</source>
@@ -1757,6 +1773,10 @@
           <source>Would you like to continue as administrator?</source>
           <target state="translated">Möchten Sie als Administrator fortfahren?</target>
         </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlCloseTabsToTheRight.Text" translate="yes" xml:space="preserve">
+          <source>Close tabs to the right</source>
+          <target state="translated">Rechte Tabs schließen</target>
+        </trans-unit>
         <trans-unit id="FullTrustStatusTeachingTip.Title" translate="yes" xml:space="preserve">
           <source>Administrator</source>
           <target state="translated" state-qualifier="tm-suggestion">Administrator</target>
@@ -3201,7 +3221,7 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
         </trans-unit>
         <trans-unit id="ExportSettings" translate="yes" xml:space="preserve">
           <source>Export Settings</source>
-          <target state="translated">Einstellungen exportieren</target>
+          <target state="translated">Einstellungn exportieren</target>
         </trans-unit>
         <trans-unit id="ImportSettings" translate="yes" xml:space="preserve">
           <source>Import Settings</source>
@@ -3479,58 +3499,6 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
         <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
           <source>Open in</source>
           <target state="translated">Öffnen in</target>
-        </trans-unit>
-        <trans-unit id="RotateLeft" translate="yes" xml:space="preserve">
-          <source>Rotate left</source>
-          <target state="translated">Gegen den Uhrzeigersinn drehen</target>
-        </trans-unit>
-        <trans-unit id="RotateRight" translate="yes" xml:space="preserve">
-          <source>Rotate right</source>
-          <target state="translated">Mit dem Uhrzeigersinn drehen</target>
-        </trans-unit>
-        <trans-unit id="Install" translate="yes" xml:space="preserve">
-          <source>Install</source>
-          <target state="translated">Installieren</target>
-        </trans-unit>
-        <trans-unit id="CloseTabsToTheLeft" translate="yes" xml:space="preserve">
-          <source>Close tabs to the left</source>
-          <target state="translated">Tabs links schließen</target>
-        </trans-unit>
-        <trans-unit id="CloseTabsToTheRight" translate="yes" xml:space="preserve">
-          <source>Close tabs to the right</source>
-          <target state="translated">Tabs rechts schließen</target>
-        </trans-unit>
-        <trans-unit id="CloseOtherTabs" translate="yes" xml:space="preserve">
-          <source>Close other tabs</source>
-          <target state="translated">Andere Tabs schließen</target>
-        </trans-unit>
-        <trans-unit id="ShowDotFiles" translate="yes" xml:space="preserve">
-          <source>Show dot files</source>
-          <target state="translated">Dateien die mit einem Punkt beginnen anzeigen</target>
-        </trans-unit>
-        <trans-unit id="Music" translate="yes" xml:space="preserve">
-          <source>Music</source>
-          <target state="translated">Musik</target>
-        </trans-unit>
-        <trans-unit id="Pictures" translate="yes" xml:space="preserve">
-          <source>Pictures</source>
-          <target state="translated">Bilder</target>
-        </trans-unit>
-        <trans-unit id="Videos" translate="yes" xml:space="preserve">
-          <source>Videos</source>
-          <target state="translated">Videos</target>
-        </trans-unit>
-        <trans-unit id="UpdateFiles" translate="yes" xml:space="preserve">
-          <source>Update Files</source>
-          <target state="translated">Files aktualisieren</target>
-        </trans-unit>
-        <trans-unit id="StatusPreparingItemsDetails_Plural" translate="yes" xml:space="preserve">
-          <source>Preparing {0} items</source>
-          <target state="translated">{0} Objekte werden vorbereitet</target>
-        </trans-unit>
-        <trans-unit id="PrepareInProgress" translate="yes" xml:space="preserve">
-          <source>Preparing items</source>
-          <target state="translated">Objekte werden vorbereitet</target>
         </trans-unit>
       </group>
     </body>

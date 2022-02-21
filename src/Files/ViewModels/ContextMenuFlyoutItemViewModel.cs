@@ -84,7 +84,7 @@ namespace Files.ViewModels
         public string OverlayLayerGlyph { get; set; }
         public string BaseLayerGlyph { get; set; }
 
-        public ColoredIcon ToColoredIcon() => new()
+        public ColoredIcon ToColoredIcon() => new ColoredIcon()
         {
             OverlayLayerGlyph = OverlayLayerGlyph,
             BaseLayerGlyph = BaseLayerGlyph,

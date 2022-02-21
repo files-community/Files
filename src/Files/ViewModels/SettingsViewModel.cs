@@ -11,11 +11,12 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
 using Windows.Storage;
+using Windows.System;
 
 namespace Files.ViewModels
 {
@@ -35,11 +36,25 @@ namespace Files.ViewModels
             {
                 DefaultLanguages.Add(new DefaultLanguageModel(lang));
             }
+        }
 
-            UpdateThemeElements = new RelayCommand(() => ThemeModeChanged?.Invoke(this, EventArgs.Empty));
-    }
+        public static async void OpenLogLocation()
+        {
+            await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+        }
 
-    public bool AreRegistrySettingsMergedToJson
+        public static async void OpenThemesFolder()
+        {
+            await CoreApplication.MainView.Dispatcher.YieldAsync();
+            await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ImportedThemesFolder.Path);
+        }
+
+        public static async void ReportIssueOnGitHub()
+        {
+            await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/issues/new/choose"));
+        }
+
+        public bool AreRegistrySettingsMergedToJson
         {
             get => Get(false);
             set => Set(value);
@@ -173,7 +188,10 @@ namespace Files.ViewModels
 
         public event EventHandler ThemeModeChanged;
 
-        public ICommand UpdateThemeElements { get; }
+        public RelayCommand UpdateThemeElements => new RelayCommand(() =>
+        {
+            ThemeModeChanged?.Invoke(this, EventArgs.Empty);
+        });
 
         #region ReadAndSaveSettings
 
@@ -190,7 +208,7 @@ namespace Files.ViewModels
                 originalValue = Get(originalValue, propertyName);
 
                 localSettings.Values[propertyName] = value;
-                if (!SetProperty(ref originalValue, value, propertyName))
+                if (!base.SetProperty(ref originalValue, value, propertyName))
                 {
                     return false;
                 }
@@ -216,7 +234,7 @@ namespace Files.ViewModels
             {
                 var value = localSettings.Values[name];
 
-                if (value is not TValue tValue)
+                if (!(value is TValue tValue))
                 {
                     if (value is IConvertible)
                     {

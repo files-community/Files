@@ -3,10 +3,13 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
+using Windows.System;
 
 namespace Files.Views
 {
@@ -16,7 +19,6 @@ namespace Files.Views
         {
             this.InitializeComponent();
         }
-
         public override async Task<bool> SaveChangesAsync(ListedItem item)
         {
             if (BaseProperties is DriveProperties driveProps)
@@ -55,7 +57,7 @@ namespace Files.Views
                     if (AppInstance.FilesystemViewModel != null && App.LibraryManager.CanCreateLibrary(newName).result)
                     {
                         var libraryPath = library.ItemPath;
-                        var renamed = await AppInstance.FilesystemHelpers.RenameAsync(new StorageFileWithPath(null, libraryPath), $"{newName}{ShellLibraryItem.EXTENSION}", Windows.Storage.NameCollisionOption.FailIfExists, false);
+                        var renamed = await AppInstance.FilesystemHelpers.RenameAsync(new StorageFileWithPath(null, libraryPath), newName, Windows.Storage.NameCollisionOption.FailIfExists, false);
                         if (renamed == Enums.ReturnResult.Success)
                         {
                             var newPath = Path.Combine(Path.GetDirectoryName(libraryPath), $"{newName}{ShellLibraryItem.EXTENSION}");
@@ -68,26 +70,8 @@ namespace Files.Views
                     }
                 }
             }
-            else if (BaseProperties is CombinedProperties combinedProps)
-            {
-                // Handle the visibility attribute for multiple files
-                if (AppInstance?.SlimContentPage?.ItemManipulationModel != null) // null on homepage
-                {
-                    foreach (var fileOrFolder in combinedProps.List)
-                    {
-                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden, AppInstance.SlimContentPage.ItemManipulationModel));
-                    }
-                }
-                return true;
-            }
             else
             {
-                // Handle the visibility attribute for a single file
-                if (AppInstance?.SlimContentPage?.ItemManipulationModel != null) // null on homepage
-                {
-                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHidden, AppInstance.SlimContentPage.ItemManipulationModel));
-                }
-
                 ViewModel.ItemName = ItemFileName.Text; // Make sure ItemName is updated
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
@@ -95,7 +79,29 @@ namespace Files.Views
                           ViewModel.ItemName,
                           AppInstance));
                 }
-                return true;
+
+                // Handle the hidden attribute
+                if (BaseProperties is CombinedProperties combinedProps)
+                {
+                    // Handle each file independently
+                    if (AppInstance?.SlimContentPage?.ItemManipulationModel != null) // null on homepage
+                    {
+                        foreach (var fileOrFolder in combinedProps.List)
+                        {
+                            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden, AppInstance.SlimContentPage.ItemManipulationModel));
+                        }
+                    }
+                    return true;
+                }
+                else
+                {
+                    // Handle the visibility attribute for a single file
+                    if (AppInstance?.SlimContentPage?.ItemManipulationModel != null) // null on homepage
+                    {
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHidden, AppInstance.SlimContentPage.ItemManipulationModel));
+                    }
+                    return true;
+                }
             }
 
             return false;

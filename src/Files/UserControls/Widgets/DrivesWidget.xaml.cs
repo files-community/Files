@@ -13,6 +13,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;

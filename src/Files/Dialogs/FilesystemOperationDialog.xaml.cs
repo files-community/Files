@@ -42,10 +42,7 @@ namespace Files.Dialogs
         private void PrimaryButton_GotFocus(object sender, RoutedEventArgs e)
         {
             (sender as Button).GotFocus -= PrimaryButton_GotFocus;
-            if (chkPermanentlyDelete != null)
-            {
-                chkPermanentlyDelete.IsEnabled = ViewModel.PermanentlyDeleteEnabled;
-            }
+            chkPermanentlyDelete.IsEnabled = ViewModel.PermanentlyDeleteEnabled;
             DetailsGrid.IsEnabled = true;
         }
 
@@ -106,11 +103,6 @@ namespace Files.Dialogs
             {
                 (sender as Grid).FindAscendant<ListViewItem>().ContextFlyout = ItemContextFlyout;
             }
-        }
-
-        private void RootDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
-        {
-            ViewModel.ClosingCommand.Execute(null);
         }
     }
 

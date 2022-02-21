@@ -25,15 +25,15 @@ namespace Files.UserControls.FilePreviews
 
         private void PlayerContext_Loaded(object sender, RoutedEventArgs e)
         {
-            PlayerContext.MediaPlayer.Volume = UserSettingsService.PaneSettingsService.MediaVolume;
+            PlayerContext.MediaPlayer.Volume = UserSettingsService.PreviewPaneSettingsService.PreviewPaneMediaVolume;
             PlayerContext.MediaPlayer.VolumeChanged += MediaPlayer_VolumeChanged;
         }
 
         private void MediaPlayer_VolumeChanged(MediaPlayer sender, object args)
         {
-            if (sender.Volume != UserSettingsService.PaneSettingsService.MediaVolume)
+            if (sender.Volume != UserSettingsService.PreviewPaneSettingsService.PreviewPaneMediaVolume)
             {
-                UserSettingsService.PaneSettingsService.MediaVolume = sender.Volume;
+                UserSettingsService.PreviewPaneSettingsService.PreviewPaneMediaVolume = sender.Volume;
             }
         }
 

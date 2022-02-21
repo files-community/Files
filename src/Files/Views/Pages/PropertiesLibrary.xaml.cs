@@ -9,7 +9,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 
@@ -61,17 +60,15 @@ namespace Files.Views
             }
         }
 
-        public ICommand AddLocationCommand { get; }
-        public ICommand SetDefaultLocationCommand { get; }
-        public ICommand RemoveLocationCommand { get; }
+        public RelayCommand AddLocationCommand => new RelayCommand(AddLocation);
+
+        public RelayCommand SetDefaultLocationCommand => new RelayCommand(SetDefaultLocation);
+
+        public RelayCommand RemoveLocationCommand => new RelayCommand(RemoveLocation);
 
         public PropertiesLibrary()
         {
             InitializeComponent();
-
-            AddLocationCommand = new AsyncRelayCommand(AddLocation);
-            SetDefaultLocationCommand = new RelayCommand(SetDefaultLocation);
-            RemoveLocationCommand = new RelayCommand(RemoveLocation);
         }
 
         protected override void Properties_Loaded(object sender, RoutedEventArgs e)
@@ -96,7 +93,7 @@ namespace Files.Views
             }
         }
 
-        private async Task AddLocation()
+        private async void AddLocation()
         {
             var folderPicker = new FolderPicker();
             folderPicker.FileTypeFilter.Add("*");

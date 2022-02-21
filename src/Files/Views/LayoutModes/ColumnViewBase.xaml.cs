@@ -614,13 +614,13 @@ namespace Files.Views.LayoutModes
                     case Enums.FolderLayoutModes.ColumnView:
                         break;
                     case Enums.FolderLayoutModes.DetailsView:
-                        parent.FolderSettings.ToggleLayoutModeDetailsView(true);
+                        parent.FolderSettings.ToggleLayoutModeDetailsView.Execute(true);
                         break;
                     case Enums.FolderLayoutModes.TilesView:
-                        parent.FolderSettings.ToggleLayoutModeTiles(true);
+                        parent.FolderSettings.ToggleLayoutModeTiles.Execute(true);
                         break;
                     case Enums.FolderLayoutModes.GridView:
-                        parent.FolderSettings.ToggleLayoutModeGridView(e.GridViewSize);
+                        parent.FolderSettings.ToggleLayoutModeGridView.Execute(e.GridViewSize);
                         break;
                 }
             }

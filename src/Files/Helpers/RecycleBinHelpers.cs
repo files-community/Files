@@ -80,8 +80,7 @@ namespace Files.Helpers
                 Title = "ConfirmEmptyBinDialogTitle".GetLocalized(),
                 Content = "ConfirmEmptyBinDialogContent".GetLocalized(),
                 PrimaryButtonText = "Yes".GetLocalized(),
-                SecondaryButtonText = "Cancel".GetLocalized(),
-                DefaultButton = ContentDialogButton.Primary
+                SecondaryButtonText = "Cancel".GetLocalized()
             };
 
             ContentDialogResult result = await ConfirmEmptyBinDialog.ShowAsync();

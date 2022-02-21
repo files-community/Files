@@ -11,7 +11,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.System;
@@ -51,7 +50,7 @@ namespace Files.UserControls.Widgets
         public bool IsUserCreatedLibrary => Library != null && !LibraryHelper.IsDefaultLibrary(Library.Path);
         public LibraryLocationItem Library { get; set; }
         public string Path { get; set; }
-        public ICommand SelectCommand { get; set; }
+        public RelayCommand<LibraryCardItem> SelectCommand { get; set; }
         public string Text { get; set; }
     }
 
@@ -65,8 +64,6 @@ namespace Files.UserControls.Widgets
         public FolderWidget()
         {
             InitializeComponent();
-
-            LibraryCardCommand = new AsyncRelayCommand<LibraryCardItem>(OpenLibraryCard);
 
             Loaded += FolderWidget_Loaded;
             Unloaded += FolderWidget_Unloaded;
@@ -90,11 +87,31 @@ namespace Files.UserControls.Widgets
 
         public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowFoldersWidget;
 
-        public ICommand LibraryCardCommand { get; }
+        public RelayCommand<LibraryCardItem> LibraryCardClicked => new RelayCommand<LibraryCardItem>(async (item) =>
+        {
+            if (string.IsNullOrEmpty(item.Path))
+            {
+                return;
+            }
+            if (item.IsLibrary && item.Library.IsEmpty)
+            {
+                // TODO: show message?
+                return;
+            }
 
-        public ICommand ShowCreateNewLibraryDialogCommand { get; } = new RelayCommand(LibraryHelper.ShowCreateNewLibraryDialog);
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            if (ctrlPressed)
+            {
+                await NavigationHelpers.OpenPathInNewTab(item.Path);
+                return;
+            }
 
-        public readonly ICommand ShowRestoreLibrariesDialogCommand = new RelayCommand(LibraryHelper.ShowRestoreDefaultLibrariesDialog);
+            LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
+        });
+
+        public RelayCommand ShowCreateNewLibraryDialogCommand => new RelayCommand(LibraryHelper.ShowCreateNewLibraryDialog);
+
+        public readonly RelayCommand ShowRestoreLibrariesDialogCommand = new RelayCommand(LibraryHelper.ShowRestoreDefaultLibrariesDialog);
 
         public bool ShowMultiPaneControls
         {
@@ -128,7 +145,7 @@ namespace Files.UserControls.Widgets
         {
             foreach (var item in ItemsAdded.ToList()) // ToList() is necessary
             {
-                item.SelectCommand = LibraryCardCommand;
+                item.SelectCommand = LibraryCardClicked;
                 item.AutomationProperties = item.Text;
                 await this.LoadLibraryIcon(item);
             }
@@ -156,17 +173,17 @@ namespace Files.UserControls.Widgets
             });
             ItemsAdded.Add(new LibraryCardItem
             {
-                Text = "Music".GetLocalized(),
+                Text = "SidebarMusic".GetLocalized(),
                 Path = UserDataPaths.GetDefault().Music,
             });
             ItemsAdded.Add(new LibraryCardItem
             {
-                Text = "Pictures".GetLocalized(),
+                Text = "SidebarPictures".GetLocalized(),
                 Path = UserDataPaths.GetDefault().Pictures,
             });
             ItemsAdded.Add(new LibraryCardItem
             {
-                Text = "Videos".GetLocalized(),
+                Text = "SidebarVideos".GetLocalized(),
                 Path = UserDataPaths.GetDefault().Videos,
             });
 
@@ -238,28 +255,6 @@ namespace Files.UserControls.Widgets
             {
                 item.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => item.IconData.ToBitmapAsync());
             }
-        }
-
-        private async Task OpenLibraryCard(LibraryCardItem item)
-        {
-            if (string.IsNullOrEmpty(item.Path))
-            {
-                return;
-            }
-            if (item.IsLibrary && item.Library.IsEmpty)
-            {
-                // TODO: show message?
-                return;
-            }
-
-            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            if (ctrlPressed)
-            {
-                await NavigationHelpers.OpenPathInNewTab(item.Path);
-                return;
-            }
-
-            LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
         }
     }
 }

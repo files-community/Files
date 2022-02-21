@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
   <file datatype="xml" source-language="en-US" target-language="tr-TR" original="FILES/STRINGS/EN-US/RESOURCES.RESW" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
     <header>
@@ -85,6 +85,22 @@
         <trans-unit id="Downloads" translate="yes" xml:space="preserve">
           <source>Downloads</source>
           <target state="translated">İndirilenler</target>
+        </trans-unit>
+        <trans-unit id="SidebarHome" translate="yes" xml:space="preserve">
+          <source>Home</source>
+          <target state="translated">Açılış</target>
+        </trans-unit>
+        <trans-unit id="SidebarMusic" translate="yes" xml:space="preserve">
+          <source>Music</source>
+          <target state="translated">Müzikler</target>
+        </trans-unit>
+        <trans-unit id="SidebarPictures" translate="yes" xml:space="preserve">
+          <source>Pictures</source>
+          <target state="translated">Resimler</target>
+        </trans-unit>
+        <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
+          <source>Videos</source>
+          <target state="translated">Videolar</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
           <source>Sort by</source>
@@ -1761,6 +1777,10 @@
           <source>Would you like to continue as administrator?</source>
           <target state="translated">Yönetici olarak devam etmek ister misiniz?</target>
         </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlCloseTabsToTheRight.Text" translate="yes" xml:space="preserve">
+          <source>Close tabs to the right</source>
+          <target state="translated" state-qualifier="tm-suggestion">Sağdaki sekmeleri kapat</target>
+        </trans-unit>
         <trans-unit id="FullTrustStatusTeachingTip.Title" translate="yes" xml:space="preserve">
           <source>Administrator</source>
           <target state="translated" state-qualifier="tm-suggestion">Yönetici</target>
@@ -3077,99 +3097,99 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
         </trans-unit>
         <trans-unit id="BundlesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Bundles Widget</source>
-          <target state="translated">Paket Widget'ı</target>
+          <target state="new">Bundles Widget</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Drives Widget</source>
-          <target state="translated">Diskler/Sürücüler Widget'ı</target>
+          <target state="new">Drives Widget</target>
         </trans-unit>
         <trans-unit id="FolderWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Libraries Widget</source>
-          <target state="translated">Kütüphaneler Widget'ı</target>
+          <target state="new">Libraries Widget</target>
         </trans-unit>
         <trans-unit id="RecentFilesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Recent Files Widget</source>
-          <target state="translated">Son Dosyalar Widget'ı</target>
+          <target state="new">Recent Files Widget</target>
         </trans-unit>
         <trans-unit id="OpenLogLocation" translate="yes" xml:space="preserve">
           <source>Open log location</source>
-          <target state="translated">Kayıt konumunu aç</target>
+          <target state="new">Open log location</target>
         </trans-unit>
         <trans-unit id="LinkToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Create link in {0}</source>
-          <target state="translated">Şuraya Link Oluştur {0}</target>
+          <target state="new">Create link in {0}</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowFileExtensionsHeader.Text" translate="yes" xml:space="preserve">
           <source>Show file extensions</source>
-          <target state="translated">Dosya eklentilerini göster</target>
+          <target state="new">Show file extensions</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show hidden items</source>
-          <target state="translated">Gizli dosyaları göster</target>
+          <target state="new">Show hidden items</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowFileExtensions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show file extensions</source>
-          <target state="translated">Dosya eklentilerini göster</target>
+          <target state="new">Show file extensions</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowHiddenItemsHeader.Text" translate="yes" xml:space="preserve">
           <source>Show hidden items</source>
-          <target state="translated">Gizli dosyaları göster</target>
+          <target state="new">Show hidden items</target>
         </trans-unit>
         <trans-unit id="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show favorites section</source>
-          <target state="translated">Sık kullanılanlar bölümünü göster</target>
+          <target state="new">Show favorites section</target>
         </trans-unit>
         <trans-unit id="SettingsPinRecycleBinSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to favorites</source>
-          <target state="translated">Geri Dönüşüm Kutusu'nu sık kullanılanlara sabitle</target>
+          <target state="new">Pin Recycle Bin to favorites</target>
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show cloud drives section</source>
-          <target state="translated">Bulut sürücüleri bölümünü göster</target>
+          <target state="new">Show cloud drives section</target>
         </trans-unit>
         <trans-unit id="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show drives section</source>
-          <target state="translated">Diskler/Sürücüler bölümünü göster</target>
+          <target state="new">Show drives section</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show library section</source>
-          <target state="translated">Kitaplık bölümünü göster</target>
+          <target state="new">Show library section</target>
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show network section</source>
-          <target state="translated">Ağ bölümünü göster</target>
+          <target state="new">Show network section</target>
         </trans-unit>
         <trans-unit id="SettingsShowWslSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show WSL section</source>
-          <target state="translated">WSL Bölümünü göster</target>
+          <target state="new">Show WSL section</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>
-          <target state="translated">Dosyaları yeni sekmede göster</target>
+          <target state="new">Open folders in new tab</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Language</source>
-          <target state="translated">Dil</target>
+          <target state="new">Language</target>
         </trans-unit>
         <trans-unit id="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">Dosya veya klasörleri silerken onay iletişim kutusunu gösterme</target>
+          <target state="new">Show a confirmation dialog when deleting files or folders</target>
         </trans-unit>
         <trans-unit id="TerminalApplicationsComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Terminal application</source>
-          <target state="translated">Terminal uygulaması</target>
+          <target state="new">Terminal application</target>
         </trans-unit>
         <trans-unit id="OngoingTasks" translate="yes" xml:space="preserve">
           <source>Ongoing Tasks</source>
-          <target state="translated">Devam Eden Görevler</target>
+          <target state="new">Ongoing Tasks</target>
         </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.Text" translate="yes" xml:space="preserve">
           <source>Load full preview</source>
-          <target state="translated">Tüm önizlemeyi yükle</target>
+          <target state="new">Load full preview</target>
         </trans-unit>
         <trans-unit id="PreviewPaneShowPreviewOnly.Text" translate="yes" xml:space="preserve">
           <source>Show preview only</source>
-          <target state="translated">Sadece önizlemeyi göster</target>
+          <target state="new">Show preview only</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveOneDown" translate="yes" xml:space="preserve">
           <source>Move one down</source>
@@ -3177,95 +3197,95 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveOneUp" translate="yes" xml:space="preserve">
           <source>Move one up</source>
-          <target state="translated">Birini yukarı taşı</target>
+          <target state="new">Move one up</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveToBottom" translate="yes" xml:space="preserve">
           <source>Move to bottom</source>
-          <target state="translated">Dibe taşı</target>
+          <target state="new">Move to bottom</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveToTop" translate="yes" xml:space="preserve">
           <source>Move to top</source>
-          <target state="translated">Yukarıya Taşı</target>
+          <target state="new">Move to top</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowDateCreated.Text" translate="yes" xml:space="preserve">
           <source>Date created column</source>
-          <target state="translated">Sütun oluşturulma tarihi</target>
+          <target state="new">Date created column</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowItemSize.Text" translate="yes" xml:space="preserve">
           <source>Item size column</source>
-          <target state="translated">Öğe Sütun Boyutu</target>
+          <target state="new">Item size column</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsOpenDialog" translate="yes" xml:space="preserve">
           <source>Use Files as Open File Dialog</source>
-          <target state="translated">Dosyaları Dosya Aç İletişim Kutusu Olarak Kullan</target>
+          <target state="new">Use Files as Open File Dialog</target>
         </trans-unit>
         <trans-unit id="Tag" translate="yes" xml:space="preserve">
           <source>Tag</source>
-          <target state="translated">Etiket</target>
+          <target state="new">Tag</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersWithOneClick" translate="yes" xml:space="preserve">
           <source>Open folders with a single click</source>
-          <target state="translated">Tek bir tıklama ile klasörleri açma</target>
+          <target state="new">Open folders with a single click</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionFolderPath.Text" translate="yes" xml:space="preserve">
           <source>Folder path</source>
-          <target state="translated">Klasör yolu</target>
+          <target state="new">Folder path</target>
         </trans-unit>
         <trans-unit id="ExportSettings" translate="yes" xml:space="preserve">
           <source>Export Settings</source>
-          <target state="translated">Ayarları Dışa Aktar</target>
+          <target state="new">Export Settings</target>
         </trans-unit>
         <trans-unit id="ImportSettings" translate="yes" xml:space="preserve">
           <source>Import Settings</source>
-          <target state="translated">Ayarları İçe Aktar</target>
+          <target state="new">Import Settings</target>
         </trans-unit>
         <trans-unit id="ManageSettings" translate="yes" xml:space="preserve">
           <source>Manage Settings</source>
-          <target state="translated">Ayarları Yönet</target>
+          <target state="new">Manage Settings</target>
         </trans-unit>
         <trans-unit id="SettingsImportErrorDescription" translate="yes" xml:space="preserve">
           <source>Couldn't import settings. The settings file is corrupted.</source>
-          <target state="translated">Ayarları içe aktarılamadı. Ayarlar dosyası bozuk.</target>
+          <target state="new">Couldn't import settings. The settings file is corrupted.</target>
         </trans-unit>
         <trans-unit id="SettingsImportErrorTitle" translate="yes" xml:space="preserve">
           <source>Error importing settings</source>
-          <target state="translated">Ayarları içe aktarırken hata oluştu</target>
+          <target state="new">Error importing settings</target>
         </trans-unit>
         <trans-unit id="ChooseCustomIcon" translate="yes" xml:space="preserve">
           <source>Choose a custom folder icon</source>
-          <target state="translated">Özel bir klasör simgesi seçin</target>
+          <target state="new">Choose a custom folder icon</target>
         </trans-unit>
         <trans-unit id="Customization" translate="yes" xml:space="preserve">
           <source>Customization</source>
-          <target state="translated">Kişiselleştirme</target>
+          <target state="new">Customization</target>
         </trans-unit>
         <trans-unit id="RestoreDefault" translate="yes" xml:space="preserve">
           <source>Restore default</source>
-          <target state="translated">Varsayılana sıfırla</target>
+          <target state="new">Restore default</target>
         </trans-unit>
         <trans-unit id="Compatibility" translate="yes" xml:space="preserve">
           <source>Compatibility</source>
-          <target state="translated">Uyumluluk</target>
+          <target state="new">Compatibility</target>
         </trans-unit>
         <trans-unit id="None" translate="yes" xml:space="preserve">
           <source>None</source>
-          <target state="translated">Hiçbiri</target>
+          <target state="new">None</target>
         </trans-unit>
         <trans-unit id="HighDpiOption_UseDPIOnLogin" translate="yes" xml:space="preserve">
           <source>On Windows login</source>
-          <target state="translated">Windows'da oturum açıldığında</target>
+          <target state="new">On Windows login</target>
         </trans-unit>
         <trans-unit id="HighDpiOption_UseDPIOnProgramStart" translate="yes" xml:space="preserve">
           <source>On program start</source>
-          <target state="translated">Program başlatıldığında</target>
+          <target state="new">On program start</target>
         </trans-unit>
         <trans-unit id="HighDpiOverride_System" translate="yes" xml:space="preserve">
           <source>System</source>
-          <target state="translated">Sistem</target>
+          <target state="new">System</target>
         </trans-unit>
         <trans-unit id="HighDpiOverride_SystemAdvanced" translate="yes" xml:space="preserve">
           <source>System (advanced)</source>
-          <target state="translated">Sistem (gelişmiş)</target>
+          <target state="new">System (advanced)</target>
         </trans-unit>
         <trans-unit id="Windows7" translate="yes" xml:space="preserve">
           <source>Windows 7</source>
@@ -3289,155 +3309,155 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
         </trans-unit>
         <trans-unit id="ReducedColorMode_Color16Bit" translate="yes" xml:space="preserve">
           <source>16 Bit Colors (65536)</source>
-          <target state="translated">16 Bit Renkler (65536)</target>
+          <target state="new">16 Bit Colors (65536)</target>
         </trans-unit>
         <trans-unit id="ReducedColorMode_Color8Bit" translate="yes" xml:space="preserve">
           <source>8 Bit Colors (256)</source>
-          <target state="translated">8 Bit Renkler (256)</target>
+          <target state="new">8 Bit Colors (256)</target>
         </trans-unit>
         <trans-unit id="CompatibilityMode" translate="yes" xml:space="preserve">
           <source>Compatibility mode</source>
-          <target state="translated">Uyumluluk modu</target>
+          <target state="new">Compatibility mode</target>
         </trans-unit>
         <trans-unit id="DisableFullscreenOptimizations" translate="yes" xml:space="preserve">
           <source>Disable fullscreen optimizations</source>
-          <target state="translated">Tam ekran iyileştirmelerini kapat</target>
+          <target state="new">Disable fullscreen optimizations</target>
         </trans-unit>
         <trans-unit id="ExecuteAt640X480" translate="yes" xml:space="preserve">
           <source>Run at 640 x 480 screen resolution</source>
-          <target state="translated">640 x 480 ekran çözünürlüğünde çalıştır</target>
+          <target state="new">Run at 640 x 480 screen resolution</target>
         </trans-unit>
         <trans-unit id="Options" translate="yes" xml:space="preserve">
           <source>Options</source>
-          <target state="translated">Seçenekler</target>
+          <target state="new">Options</target>
         </trans-unit>
         <trans-unit id="OverrideDPIScalingBehaviour" translate="yes" xml:space="preserve">
           <source>Override high DPI scaling behaviour</source>
-          <target state="translated">Yüksek DPI ölçekleme davranışını geçersiz kılma</target>
+          <target state="new">Override high DPI scaling behaviour</target>
         </trans-unit>
         <trans-unit id="ReducedColorMode" translate="yes" xml:space="preserve">
           <source>Reduced color mode</source>
-          <target state="translated">Azaltılmış renk modu</target>
+          <target state="new">Reduced color mode</target>
         </trans-unit>
         <trans-unit id="RegisterForRestart" translate="yes" xml:space="preserve">
           <source>Register for restart</source>
-          <target state="translated">Yeniden başlatmak için kaydolun</target>
+          <target state="new">Register for restart</target>
         </trans-unit>
         <trans-unit id="RunAsAdministrator" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
-          <target state="translated">Yönetici olarak çalıştır</target>
+          <target state="new">Run as administrator</target>
         </trans-unit>
         <trans-unit id="RunCompatibilityTroubleShooter" translate="yes" xml:space="preserve">
           <source>Run compatibility troubleshooter</source>
-          <target state="translated">Uyumluluk sorun gidericisi'ni çalıştır</target>
+          <target state="new">Run compatibility troubleshooter</target>
         </trans-unit>
         <trans-unit id="UseMainMonitorDPISettings" translate="yes" xml:space="preserve">
           <source>Use DPI settings of the main monitor</source>
-          <target state="translated">Ana monitörün DPI ayarlarını kullan</target>
+          <target state="new">Use DPI settings of the main monitor</target>
         </trans-unit>
         <trans-unit id="SettingsDefaultFilesManager" translate="yes" xml:space="preserve">
           <source>Default file manager</source>
-          <target state="translated">Varsayılan dosya yöneticisi</target>
+          <target state="new">Default file manager</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManager" translate="yes" xml:space="preserve">
           <source>Set Files as the default file manager</source>
-          <target state="translated">Varsayılan dosya yöneticisi olarak ayarla</target>
+          <target state="new">Set Files as the default file manager</target>
         </trans-unit>
         <trans-unit id="EmptyRecycleBin" translate="yes" xml:space="preserve">
           <source>Empty Recycle Bin</source>
-          <target state="translated">Geri Dönüşüm Kutusunu Boşalt</target>
+          <target state="new">Empty Recycle Bin</target>
         </trans-unit>
         <trans-unit id="Sidebar" translate="yes" xml:space="preserve">
           <source>Sidebar</source>
-          <target state="translated">Kenar</target>
+          <target state="new">Sidebar</target>
         </trans-unit>
         <trans-unit id="FilesAndFolders" translate="yes" xml:space="preserve">
           <source>Files and folders</source>
-          <target state="translated">Dosyalar  ve klasörler</target>
+          <target state="new">Files and folders</target>
         </trans-unit>
         <trans-unit id="OpenNewInstance" translate="yes" xml:space="preserve">
           <source>Open new instance when opening directories from the taskbar jumplist</source>
-          <target state="translated">Görev çubuğu atlama listesinden dizinleri açarken yeni örnek aç</target>
+          <target state="new">Open new instance when opening directories from the taskbar jumplist</target>
         </trans-unit>
         <trans-unit id="StartupSettings" translate="yes" xml:space="preserve">
           <source>Startup settings</source>
-          <target state="translated">Başlatma seçenekleri</target>
+          <target state="new">Startup settings</target>
         </trans-unit>
         <trans-unit id="ThirdPartyLicenses" translate="yes" xml:space="preserve">
           <source>Third party licenses</source>
-          <target state="translated">Üçüncü parti yazılım</target>
+          <target state="new">Third party licenses</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
           <source>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</source>
-          <target state="translated">Bu seçenek sistem kayıt defterini değiştirir ve aygıtınızda beklenmeyen yan etkilere neden olabilir. Kendi sorumluluğunuzda devam edin.</target>
+          <target state="new">This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</target>
         </trans-unit>
         <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
           <source>Clear all</source>
-          <target state="translated">Hepsini sil</target>
+          <target state="new">Clear all</target>
         </trans-unit>
         <trans-unit id="Columns" translate="yes" xml:space="preserve">
           <source>Columns</source>
-          <target state="translated">Sütunlar</target>
+          <target state="new">Columns</target>
         </trans-unit>
         <trans-unit id="LargeIcons" translate="yes" xml:space="preserve">
           <source>Large Icons</source>
-          <target state="translated">Büyük ikonlar</target>
+          <target state="new">Large Icons</target>
         </trans-unit>
         <trans-unit id="MediumIcons" translate="yes" xml:space="preserve">
           <source>Medium Icons</source>
-          <target state="translated">Orta boyutlu ikonlar</target>
+          <target state="new">Medium Icons</target>
         </trans-unit>
         <trans-unit id="SmallIcons" translate="yes" xml:space="preserve">
           <source>Small Icons</source>
-          <target state="translated">Küçük ikonlar</target>
+          <target state="new">Small Icons</target>
         </trans-unit>
         <trans-unit id="Tiles" translate="yes" xml:space="preserve">
           <source>Tiles</source>
-          <target state="translated">Sıralar</target>
+          <target state="new">Tiles</target>
         </trans-unit>
         <trans-unit id="FolderWidgetCreateNewLibraryDialogTitleText" translate="yes" xml:space="preserve">
           <source>Create Library</source>
-          <target state="translated">Kütüphane oluştur</target>
+          <target state="new">Create Library</target>
         </trans-unit>
         <trans-unit id="FolderWidgetCreateNewLibraryInputPlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter Library name</source>
-          <target state="translated">Kütüphane ismi girin</target>
+          <target state="new">Enter Library name</target>
         </trans-unit>
         <trans-unit id="ShowFolderSize" translate="yes" xml:space="preserve">
           <source>Show folder size</source>
-          <target state="translated">Dosya boyutunu göster</target>
+          <target state="new">Show folder size</target>
         </trans-unit>
         <trans-unit id="Skip" translate="yes" xml:space="preserve">
           <source>Skip</source>
-          <target state="translated">Atla</target>
+          <target state="new">Skip</target>
         </trans-unit>
         <trans-unit id="SettingsOpenInLogin" translate="yes" xml:space="preserve">
           <source>Open Files on Windows Startup</source>
-          <target state="translated">Windows başlatıldığında dosyaları aç</target>
+          <target state="new">Open Files on Windows Startup</target>
         </trans-unit>
         <trans-unit id="Attributes" translate="yes" xml:space="preserve">
           <source>Attributes</source>
-          <target state="translated">Öznitelikler</target>
+          <target state="new">Attributes</target>
         </trans-unit>
         <trans-unit id="Hidden" translate="yes" xml:space="preserve">
           <source>Hidden</source>
-          <target state="translated">Gizli</target>
+          <target state="new">Hidden</target>
         </trans-unit>
         <trans-unit id="MoreDetails" translate="yes" xml:space="preserve">
           <source>More details</source>
-          <target state="translated">Daha fazla bilgi</target>
+          <target state="new">More details</target>
         </trans-unit>
         <trans-unit id="ReadOnly" translate="yes" xml:space="preserve">
           <source>Read only</source>
-          <target state="translated">Salt okunur</target>
+          <target state="new">Read only</target>
         </trans-unit>
         <trans-unit id="CleanupDrive" translate="yes" xml:space="preserve">
           <source>Cleanup your drive contents</source>
-          <target state="translated">Sürücü içeriğini temizle</target>
+          <target state="new">Cleanup your drive contents</target>
         </trans-unit>
         <trans-unit id="DiskCleanup" translate="yes" xml:space="preserve">
           <source>Disk cleanup</source>
-          <target state="translated">Disk temizleme</target>
+          <target state="new">Disk cleanup</target>
         </trans-unit>
         <trans-unit id="Type" translate="yes" xml:space="preserve">
           <source>Type:</source>
@@ -3449,15 +3469,15 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
         </trans-unit>
         <trans-unit id="Extract" translate="yes" xml:space="preserve">
           <source>Extract</source>
-          <target state="translated">Ayıkla</target>
+          <target state="new">Extract</target>
         </trans-unit>
         <trans-unit id="ExtractFiles" translate="yes" xml:space="preserve">
           <source>Extract files</source>
-          <target state="translated">Dosyaları ayıkla</target>
+          <target state="new">Extract files</target>
         </trans-unit>
         <trans-unit id="ExtractHere" translate="yes" xml:space="preserve">
           <source>Extract here</source>
-          <target state="translated">Buraya ayıkla</target>
+          <target state="new">Extract here</target>
         </trans-unit>
         <trans-unit id="ExtractKeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+E</source>
@@ -3465,83 +3485,31 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
         </trans-unit>
         <trans-unit id="ExtractToChildFolder" translate="yes" xml:space="preserve">
           <source>Extract to {0}</source>
-          <target state="translated">Şuraya ayıkla {0}</target>
+          <target state="new">Extract to {0}</target>
         </trans-unit>
         <trans-unit id="RunScript" translate="yes" xml:space="preserve">
           <source>Run script</source>
-          <target state="translated">Komut dosyasını çalıştır</target>
+          <target state="new">Run script</target>
         </trans-unit>
         <trans-unit id="RunWithPowerShell" translate="yes" xml:space="preserve">
           <source>Run with PowerShell</source>
-          <target state="translated">PowerShell'le Çalıştır</target>
+          <target state="new">Run with PowerShell</target>
         </trans-unit>
         <trans-unit id="SetAsBackground" translate="yes" xml:space="preserve">
           <source>Set as desktop background</source>
-          <target state="translated">Masaüstü arka planı olarak ayarla</target>
+          <target state="new">Set as desktop background</target>
         </trans-unit>
         <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
           <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
-          <target state="translated">Bu seçeneği kapatmadan Dosyaları cihazınızdan kaldırmayın. Bunu yapmamak Dosya Gezgini'ni açmanızı engeller.</target>
+          <target state="new">Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</target>
         </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
-          <target state="translated">Klasör boyutlarını hesaplamak için yoğun kaynak kullanılır ve CPU kullanımınızın artmasına neden olabilir.</target>
+          <target state="new">Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</target>
         </trans-unit>
         <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
           <source>Open in</source>
-          <target state="translated">Şununla Aç </target>
-        </trans-unit>
-        <trans-unit id="RotateLeft" translate="yes" xml:space="preserve">
-          <source>Rotate left</source>
-          <target state="translated">Sola Döndür</target>
-        </trans-unit>
-        <trans-unit id="RotateRight" translate="yes" xml:space="preserve">
-          <source>Rotate right</source>
-          <target state="translated">Sağa Döndür</target>
-        </trans-unit>
-        <trans-unit id="Install" translate="yes" xml:space="preserve">
-          <source>Install</source>
-          <target state="translated">Yükle</target>
-        </trans-unit>
-        <trans-unit id="CloseTabsToTheLeft" translate="yes" xml:space="preserve">
-          <source>Close tabs to the left</source>
-          <target state="translated">Soldaki sekmeleri kapat</target>
-        </trans-unit>
-        <trans-unit id="CloseTabsToTheRight" translate="yes" xml:space="preserve">
-          <source>Close tabs to the right</source>
-          <target state="translated">Sağdaki sekmeleri kapat</target>
-        </trans-unit>
-        <trans-unit id="ShowDotFiles" translate="yes" xml:space="preserve">
-          <source>Show dot files</source>
-          <target state="translated">dot Dosyalarını Göster</target>
-        </trans-unit>
-        <trans-unit id="CloseOtherTabs" translate="yes" xml:space="preserve">
-          <source>Close other tabs</source>
-          <target state="translated">Diğer Sekmeleri Kapat</target>
-        </trans-unit>
-        <trans-unit id="Music" translate="yes" xml:space="preserve">
-          <source>Music</source>
-          <target state="translated">Müzik</target>
-        </trans-unit>
-        <trans-unit id="Pictures" translate="yes" xml:space="preserve">
-          <source>Pictures</source>
-          <target state="translated">Resimler</target>
-        </trans-unit>
-        <trans-unit id="Videos" translate="yes" xml:space="preserve">
-          <source>Videos</source>
-          <target state="translated">Videolar</target>
-        </trans-unit>
-        <trans-unit id="UpdateFiles" translate="yes" xml:space="preserve">
-          <source>Update Files</source>
-          <target state="translated">Dosyaları Güncelle</target>
-        </trans-unit>
-        <trans-unit id="StatusPreparingItemsDetails_Plural" translate="yes" xml:space="preserve">
-          <source>Preparing {0} items</source>
-          <target state="translated">{0} Tane Dosya Hazırlanıyor</target>
-        </trans-unit>
-        <trans-unit id="PrepareInProgress" translate="yes" xml:space="preserve">
-          <source>Preparing items</source>
-          <target state="translated">Dosyalar Hazırlanıyor</target>
+          <target state="new">Open in</target>
         </trans-unit>
       </group>
     </body>

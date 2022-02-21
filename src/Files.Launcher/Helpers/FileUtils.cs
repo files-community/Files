@@ -57,7 +57,7 @@ namespace FilesFullTrust.Helpers
                                               UInt32 nServices,
                                               string[] rgsServiceNames);
 
-        [DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
+        [DllImport("rstrtmgr.dll", CharSet = CharSet.Auto)]
         static extern int RmStartSession(out uint pSessionHandle, int dwSessionFlags, string strSessionKey);
 
         [DllImport("rstrtmgr.dll")]
@@ -78,21 +78,23 @@ namespace FilesFullTrust.Helpers
         /// <remarks>See also:
         /// http://msdn.microsoft.com/en-us/library/windows/desktop/aa373661(v=vs.85).aspx
         /// http://wyupdate.googlecode.com/svn-history/r401/trunk/frmFilesInUse.cs (no copyright in code at time of viewing)
-        ///
+        /// 
         /// </remarks>
         static public List<Process> WhoIsLocking(string path)
         {
+            uint handle;
             string key = Guid.NewGuid().ToString();
             List<Process> processes = new List<Process>();
 
-            int res = RmStartSession(out uint handle, 0, key);
+            int res = RmStartSession(out handle, 0, key);
             if (res != 0) throw new Exception("Could not begin restart session.  Unable to determine file locker.");
 
             try
             {
                 const int ERROR_MORE_DATA = 234;
-                uint pnProcInfo = 0;
-                uint lpdwRebootReasons = RmRebootReasonNone;
+                uint pnProcInfoNeeded = 0,
+                     pnProcInfo = 0,
+                     lpdwRebootReasons = RmRebootReasonNone;
 
                 string[] resources = new string[] { path }; // Just checking on one resource.
 
@@ -103,7 +105,7 @@ namespace FilesFullTrust.Helpers
                 //Note: there's a race condition here -- the first call to RmGetList() returns
                 //      the total number of process. However, when we call RmGetList() again to get
                 //      the actual processes this number may have increased.
-                res = RmGetList(handle, out uint pnProcInfoNeeded, ref pnProcInfo, null, ref lpdwRebootReasons);
+                res = RmGetList(handle, out pnProcInfoNeeded, ref pnProcInfo, null, ref lpdwRebootReasons);
 
                 if (res == ERROR_MORE_DATA)
                 {
@@ -117,7 +119,7 @@ namespace FilesFullTrust.Helpers
                     {
                         processes = new List<Process>((int)pnProcInfo);
 
-                        // Enumerate all of the results and add them to the
+                        // Enumerate all of the results and add them to the 
                         // list to be returned
                         for (int i = 0; i < pnProcInfo; i++)
                         {
@@ -135,7 +137,7 @@ namespace FilesFullTrust.Helpers
             }
             finally
             {
-                _ = RmEndSession(handle);
+                RmEndSession(handle);
             }
 
             return processes;

@@ -111,6 +111,18 @@
   <data name="Downloads" xml:space="preserve">
     <value>Download</value>
   </data>
+  <data name="SidebarHome" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="SidebarMusic" xml:space="preserve">
+    <value>Musica</value>
+  </data>
+  <data name="SidebarPictures" xml:space="preserve">
+    <value>Immagini</value>
+  </data>
+  <data name="SidebarVideos" xml:space="preserve">
+    <value>Video</value>
+  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Ordina per</value>
   </data>
@@ -724,10 +736,10 @@
     <value>Dimensioni</value>
   </data>
   <data name="PropertyHorizontalResolution" xml:space="preserve">
-    <value>Risoluzione orizzontale</value>
+    <value>Risolutione orizzontale</value>
   </data>
   <data name="PropertyVerticalResolution" xml:space="preserve">
-    <value>Risoluzione verticale</value>
+    <value>Risolutione verticale</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
     <value>Larghezza</value>
@@ -1322,6 +1334,9 @@
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>Vuoi continuare come amministratore?</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>Chiudi schede a destra</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Amministratore</value>
@@ -2082,9 +2097,6 @@
   <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>Nascondi file protetti e di sistema (Raccomandato)</value>
   </data>
-  <data name="ShowDotFiles" xml:space="preserve">
-    <value>Mostra file e cartelle che iniziano con un punto</value>
-  </data>
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
     <value>Apri i file con un solo click</value>
   </data>
@@ -2219,6 +2231,11 @@
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
+*Dati personali raccolti*
+Files non raccoglie, archivia, condivide o pubblica nessuna informazione personale.
+
+*Dati non-personali raccolti*
+
 Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risolvere problemi. Tutte le informazioni inviate ad App Center sono anonime e non contengono dati utente o contestuali.
   </value>
   </data>
@@ -2243,6 +2260,12 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Mostra sezione Preferiti</value>
   </data>
+  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
+    <value>Tag del file</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
+    <value>Tag del file</value>
+  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Apri cartella superiore</value>
   </data>
@@ -2250,13 +2273,13 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
     <value>Sconosciuto</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>Etichetta</value>
+    <value>Tag del file</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
-    <value>Gestisci le etichette</value>
+    <value>Gestisci i tag dei file</value>
   </data>
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Abilita le etichette</value>
+    <value>Abilita i tag dei file</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>Apri Unità</value>
@@ -2514,7 +2537,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
     <value>Licenze di terze parti</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Questa impostazione modifica il registro di sistema e può causare effetti indesiderati sul tuo dispositivo. Continuando con questa opzione si accettano i rischi legati ad essa.</value>
+    <value>Questa impostazione modifica file di sistema e può causare effetti indesiderati sul tuo dispositivo. Gli sviluppatori non si assumono alcuna responsabilità. Continuando con questa opzione si accettano i rischi legati ad essa. Da notare che disinstallare Files non annulla questa modifica e potrebbe causare l'impossibilità di aprire Esplora Risorse, ricorda di disattivare questa opzione prima di disinstallare Files!</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Rimuovi tutto</value>
@@ -2572,95 +2595,5 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Byte</value>
-  </data>
-  <data name="Extract" xml:space="preserve">
-    <value>Estrai</value>
-  </data>
-  <data name="ExtractFiles" xml:space="preserve">
-    <value>Estrai i file</value>
-  </data>
-  <data name="ExtractHere" xml:space="preserve">
-    <value>Estrai qui</value>
-  </data>
-  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+E</value>
-  </data>
-  <data name="ExtractToChildFolder" xml:space="preserve">
-    <value>Estrai in {0}</value>
-  </data>
-  <data name="RunScript" xml:space="preserve">
-    <value>Esegui script</value>
-  </data>
-  <data name="RunWithPowerShell" xml:space="preserve">
-    <value>Esegui con PowerShell</value>
-  </data>
-  <data name="SetAsBackground" xml:space="preserve">
-    <value>Imposta come sfondo desktop</value>
-  </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>Non disinstallare Files senza aver disabilitato questa opzione. Non farlo causa l'impossibilità di aprire Esplora Risorse.</value>
-  </data>
-  <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>Calcolare la dimensione delle cartelle richiede molte risorse a aumenta il carico CPU.</value>
-  </data>
-  <data name="OpenIn" xml:space="preserve">
-    <value>Apri in</value>
-  </data>
-  <data name="RotateLeft" xml:space="preserve">
-    <value>Ruota a sinistra</value>
-  </data>
-  <data name="RotateRight" xml:space="preserve">
-    <value>Ruota a destra</value>
-  </data>
-  <data name="Install" xml:space="preserve">
-    <value>Installa</value>
-  </data>
-  <data name="CloseTabsToTheLeft" xml:space="preserve">
-    <value>Chiudi schede a sinistra</value>
-  </data>
-  <data name="CloseTabsToTheRight" xml:space="preserve">
-    <value>Chiudi schede a destra</value>
-  </data>
-  <data name="CloseOtherTabs" xml:space="preserve">
-    <value>Chiudi le altre schede</value>
-  </data>
-  <data name="Music" xml:space="preserve">
-    <value>Musica</value>
-  </data>
-  <data name="Pictures" xml:space="preserve">
-    <value>Immagini</value>
-  </data>
-  <data name="Videos" xml:space="preserve">
-    <value>Video</value>
-  </data>
-  <data name="UpdateFiles" xml:space="preserve">
-    <value>Aggiorna Files</value>
-  </data>
-  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
-    <value>Preparando {0} elementi</value>
-  </data>
-  <data name="PrepareInProgress" xml:space="preserve">
-    <value>Preparazione in corso</value>
-  </data>
-  <data name="StatusCopyFailed" xml:space="preserve">
-    <value>Copia non riuscita</value>
-  </data>
-  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Copia di {0} elementi da {1} a {2} fallita</value>
-  </data>
-  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Copia di {0} elemento da {1} a {2} fallita</value>
-  </data>
-  <data name="StatusMoveFailed" xml:space="preserve">
-    <value>Spostamento non riuscito</value>
-  </data>
-  <data name="FileTags" xml:space="preserve">
-    <value>Etichette</value>
-  </data>
-  <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>Mostra sezione Etichette</value>
-  </data>
-  <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostra sezione Etichette</value>
   </data>
 </root>

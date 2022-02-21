@@ -32,7 +32,7 @@ namespace Files.Filesystem
         /// </returns>
         Task<(IStorageHistory, IStorageItem)> CreateAsync(IStorageItemWithPath source, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken);
 
-        Task<IStorageHistory> CreateShortcutItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken);
+        Task<IStorageHistory> CreateShortcutItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken);
 
         /// <summary>
         /// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
@@ -81,9 +81,9 @@ namespace Files.Filesystem
         /// <summary>
         /// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
         /// </summary>
-        Task<IStorageHistory> CopyItemsAsync(IList<IStorageItem> source,
-                                            IList<string> destination,
-                                            IList<FileNameConflictResolveOptionType> collisions,
+        Task<IStorageHistory> CopyItemsAsync(IEnumerable<IStorageItem> source,
+                                            IEnumerable<string> destination,
+                                            IEnumerable<FileNameConflictResolveOptionType> collisions,
                                             IProgress<float> progress,
                                             IProgress<FileSystemStatusCode> errorCode,
                                             CancellationToken cancellationToken);
@@ -91,9 +91,9 @@ namespace Files.Filesystem
         /// <summary>
         /// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
         /// </summary>
-        Task<IStorageHistory> CopyItemsAsync(IList<IStorageItemWithPath> source,
-                                            IList<string> destination,
-                                            IList<FileNameConflictResolveOptionType> collisions,
+        Task<IStorageHistory> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source,
+                                            IEnumerable<string> destination,
+                                            IEnumerable<FileNameConflictResolveOptionType> collisions,
                                             IProgress<float> progress,
                                             IProgress<FileSystemStatusCode> errorCode,
                                             CancellationToken cancellationToken);
@@ -145,9 +145,9 @@ namespace Files.Filesystem
         /// <summary>
         /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
         /// </summary>
-        Task<IStorageHistory> MoveItemsAsync(IList<IStorageItem> source,
-                                            IList<string> destination,
-                                            IList<FileNameConflictResolveOptionType> collisions,
+        Task<IStorageHistory> MoveItemsAsync(IEnumerable<IStorageItem> source,
+                                            IEnumerable<string> destination,
+                                            IEnumerable<FileNameConflictResolveOptionType> collisions,
                                             IProgress<float> progress,
                                             IProgress<FileSystemStatusCode> errorCode,
                                             CancellationToken cancellationToken);
@@ -155,9 +155,9 @@ namespace Files.Filesystem
         /// <summary>
         /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
         /// </summary>
-        Task<IStorageHistory> MoveItemsAsync(IList<IStorageItemWithPath> source,
-                                            IList<string> destination,
-                                            IList<FileNameConflictResolveOptionType> collisions,
+        Task<IStorageHistory> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source,
+                                            IEnumerable<string> destination,
+                                            IEnumerable<FileNameConflictResolveOptionType> collisions,
                                             IProgress<float> progress,
                                             IProgress<FileSystemStatusCode> errorCode,
                                             CancellationToken cancellationToken);
@@ -214,7 +214,7 @@ namespace Files.Filesystem
         /// <summary>
         /// Deletes provided <paramref name="source"/>
         /// </summary>
-        Task<IStorageHistory> DeleteItemsAsync(IList<IStorageItem> source,
+        Task<IStorageHistory> DeleteItemsAsync(IEnumerable<IStorageItem> source,
                                             IProgress<float> progress,
                                             IProgress<FileSystemStatusCode> errorCode,
                                             bool permanently,
@@ -223,7 +223,7 @@ namespace Files.Filesystem
         /// <summary>
         /// Deletes provided <paramref name="source"/>
         /// </summary>
-        Task<IStorageHistory> DeleteItemsAsync(IList<IStorageItemWithPath> source,
+        Task<IStorageHistory> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source,
                                             IProgress<float> progress,
                                             IProgress<FileSystemStatusCode> errorCode,
                                             bool permanently,
@@ -268,66 +268,6 @@ namespace Files.Filesystem
                                           NameCollisionOption collision,
                                           IProgress<FileSystemStatusCode> errorCode,
                                           CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Restores <paramref name="source"/> from the RecycleBin to <paramref name="destination"/> fullPath
-        /// </summary>
-        /// <param name="source">The source Recycle Bin item path</param>
-        /// <param name="destination">The destination fullPath to restore to</param>
-        /// <param name="progress">Progress of the operation</param>
-        /// <param name="errorCode">Status of the operation</param>
-        /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
-        /// <returns><see cref="IStorageHistory"/> where:
-        /// <br/>
-        /// Source: The trash item fullPath
-        /// <br/>
-        /// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> has been restored
-        /// </returns>
-        Task<IStorageHistory> RestoreItemsFromTrashAsync(IList<IStorageItem> source,
-                                                         IList<string> destination,
-                                                         IProgress<float> progress,
-                                                         IProgress<FileSystemStatusCode> errorCode,
-                                                         CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Restores <paramref name="source"/> from the RecycleBin to <paramref name="destination"/> fullPath
-        /// </summary>
-        /// <param name="source">The source Recycle Bin item path</param>
-        /// <param name="destination">The destination fullPath to restore to</param>
-        /// <param name="progress">Progress of the operation</param>
-        /// <param name="errorCode">Status of the operation</param>
-        /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
-        /// <returns><see cref="IStorageHistory"/> where:
-        /// <br/>
-        /// Source: The trash item fullPath
-        /// <br/>
-        /// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> has been restored
-        /// </returns>
-        Task<IStorageHistory> RestoreFromTrashAsync(IStorageItem source,
-                                                    string destination,
-                                                    IProgress<float> progress,
-                                                    IProgress<FileSystemStatusCode> errorCode,
-                                                    CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Restores <paramref name="source"/> from the RecycleBin to <paramref name="destination"/> fullPath
-        /// </summary>
-        /// <param name="source">The source Recycle Bin item path</param>
-        /// <param name="destination">The destination fullPath to restore to</param>
-        /// <param name="progress">Progress of the operation</param>
-        /// <param name="errorCode">Status of the operation</param>
-        /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
-        /// <returns><see cref="IStorageHistory"/> where:
-        /// <br/>
-        /// Source: The trash item fullPath
-        /// <br/>
-        /// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> has been restored
-        /// </returns>
-        Task<IStorageHistory> RestoreItemsFromTrashAsync(IList<IStorageItemWithPath> source,
-                                                         IList<string> destination,
-                                                         IProgress<float> progress,
-                                                         IProgress<FileSystemStatusCode> errorCode,
-                                                         CancellationToken cancellationToken);
 
         /// <summary>
         /// Restores <paramref name="source"/> from the RecycleBin to <paramref name="destination"/> fullPath

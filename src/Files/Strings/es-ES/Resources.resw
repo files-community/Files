@@ -72,6 +72,18 @@
   <data name="Downloads" xml:space="preserve">
     <value>Descargas</value>
   </data>
+  <data name="SidebarHome" xml:space="preserve">
+    <value>Inicio</value>
+  </data>
+  <data name="SidebarMusic" xml:space="preserve">
+    <value>Música</value>
+  </data>
+  <data name="SidebarPictures" xml:space="preserve">
+    <value>Imágenes</value>
+  </data>
+  <data name="SidebarVideos" xml:space="preserve">
+    <value>Videos</value>
+  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Ordenar por</value>
   </data>
@@ -1323,6 +1335,9 @@
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>¿Le gustaría continuar como administrador?</value>
   </data>
+  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
+    <value>Cerrar las pestañas de la derecha</value>
+  </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Administrador</value>
   </data>
@@ -2081,9 +2096,6 @@
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>Ocultar archivos protegidos del sistema operativo (recomendado)</value>
-  </data>
-  <data name="ShowDotFiles" xml:space="preserve">
-    <value>Mostrar archivos que comienzan con un punto</value>
   </data>
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
     <value>Abrir elementos con un solo clic</value>

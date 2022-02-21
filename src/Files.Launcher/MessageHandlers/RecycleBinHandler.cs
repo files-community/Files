@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
 using System.Runtime.InteropServices;
-using System.Runtime.Versioning;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
@@ -17,8 +16,7 @@ using Windows.Storage;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    [SupportedOSPlatform("Windows10.0.10240")]
-    public class RecycleBinHandler : Disposable, IMessageHandler
+    public class RecycleBinHandler : IMessageHandler
     {
         private IList<FileSystemWatcher> binWatchers;
         private PipeStream connection;
@@ -136,14 +134,11 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        protected override void Dispose(bool disposing)
+        public void Dispose()
         {
-            if (disposing)
+            foreach (var watcher in binWatchers)
             {
-                foreach (var watcher in binWatchers)
-                {
-                    watcher.Dispose();
-                }
+                watcher.Dispose();
             }
         }
     }

@@ -14,6 +14,7 @@ using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 
 namespace Files.ViewModels.Properties
 {

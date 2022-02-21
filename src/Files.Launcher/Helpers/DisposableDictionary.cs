@@ -3,9 +3,9 @@ using System.Collections.Concurrent;
 
 namespace FilesFullTrust.Helpers
 {
-    public class DisposableDictionary : Disposable
+    public class DisposableDictionary : IDisposable
     {
-        private readonly ConcurrentDictionary<string, object> dict;
+        private ConcurrentDictionary<string, object> dict;
 
         public DisposableDictionary()
         {
@@ -56,15 +56,12 @@ namespace FilesFullTrust.Helpers
             (elem as IDisposable)?.Dispose();
         }
 
-        protected override void Dispose(bool disposing)
+        public void Dispose()
         {
-            if (disposing)
+            foreach (var elem in dict)
             {
-                foreach (var elem in dict)
-                {
-                    dict.TryRemove(elem.Key, out _);
-                    (elem.Value as IDisposable)?.Dispose();
-                }
+                dict.TryRemove(elem.Key, out _);
+                (elem.Value as IDisposable)?.Dispose();
             }
         }
     }

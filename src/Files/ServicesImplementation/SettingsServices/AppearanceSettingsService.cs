@@ -66,12 +66,6 @@ namespace Files.ServicesImplementation.SettingsServices
             set => Set(value);
         }
 
-        public bool ShowFileTagsSection
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
         public bool PinRecycleBinToSidebar
         {
             get => Get(true);
@@ -94,7 +88,6 @@ namespace Files.ServicesImplementation.SettingsServices
                 case nameof(ShowCloudDrivesSection):
                 case nameof(ShowNetworkDrivesSection):
                 case nameof(ShowWslSection):
-                case nameof(ShowFileTagsSection):
                 case nameof(PinRecycleBinToSidebar):
                     Analytics.TrackEvent($"{e.settingName} {e.newValue}");
                     break;
@@ -111,7 +104,6 @@ namespace Files.ServicesImplementation.SettingsServices
             Analytics.TrackEvent($"{nameof(ShowCloudDrivesSection)}, {ShowCloudDrivesSection}");
             Analytics.TrackEvent($"{nameof(ShowNetworkDrivesSection)}, {ShowNetworkDrivesSection}");
             Analytics.TrackEvent($"{nameof(ShowWslSection)}, {ShowWslSection}");
-            Analytics.TrackEvent($"{nameof(ShowFileTagsSection)}, {ShowFileTagsSection}");
             Analytics.TrackEvent($"{nameof(PinRecycleBinToSidebar)}, {PinRecycleBinToSidebar}");
         }
     }
