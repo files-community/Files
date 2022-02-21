@@ -156,6 +156,7 @@
     <Compile Include="Models\JsonSettings\ISettingsSharingContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IApplicationService.cs" />
+    <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\IFallbackStorageEnumeratorService.cs" />
     <Compile Include="Services\IStorageEnumeratorService.cs" />
     <Compile Include="Services\Settings\IAppearanceSettingsService.cs" />
