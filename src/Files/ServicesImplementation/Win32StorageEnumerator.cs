@@ -1,68 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.ItemListing;
 using Files.Filesystem;
 using Microsoft.Toolkit.Uwp;
+using Files.Shared.Extensions;
 using static Files.Helpers.NativeFindStorageItemHelper;
+using static Files.Helpers.NativeFileOperationsHelper;
+
+#nullable enable
 
 namespace Files.ServicesImplementation
 {
     internal sealed class Win32StorageEnumerator : IStorageEnumeratorService
     {
-        private IntPtr hFile;
-        private WIN32_FIND_DATA findData;
-
-        public string WorkingDirectory
+        public bool IsAvailable(string directoryPath)
         {
-            get; private set;
-        }
-
-        public bool IsSupported()
-        {
-            if (string.IsNullOrWhiteSpace(WorkingDirectory))
+            if (string.IsNullOrWhiteSpace(directoryPath))
             {
                 return false;
             }
 
-            if (hFile == null)
+            var hFile = FindFirstDefault(directoryPath, out _);
+
+            if (!hFile.IsHandleInvalid())
             {
-                FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-                int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-                hFile = FindFirstFileExFromApp(WorkingDirectory + "\\*.*", findInfoLevel, out findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
-                    additionalFlags);
+                // Handle is valid...
+                FindClose(hFile);
+                return true;
             }
-            return !(hFile == IntPtr.Zero || hFile.ToInt64() == -1);
+
+            return false;
         }
 
-        public void SetWorkingDirectory(string value)
+        public IEnumerable<string> Enumerate(string path)
         {
-            if (string.IsNullOrWhiteSpace(value))
+            bool hasNext = false;
+            var hFile = FindFirstDefault(path, out _);
+
+            if (hFile.IsHandleInvalid())
             {
-                WorkingDirectory = null;
-                return;
+                return Array.Empty<string>();
             }
 
-            if (App.LibraryManager.TryGetLibrary(value, out _) 
-                || !Path.IsPathRooted(value) || value == "Home".GetLocalized())
+            List<string> finalList = new();
+
+            do
             {
-                WorkingDirectory = null;
-            }
-            else
-            {
-                WorkingDirectory = value;
-            }
+                hasNext = FindNextFile(hFile, out var findData);
+                finalList.Add(findData.cFileName);
+            } while(hasNext);
+
+            FindClose(hFile);
+
+            return finalList;
         }
 
-        public IEnumerable<ListedItemViewModel> Enumerate()
+        private IntPtr FindFirstDefault(string lpFileName, out WIN32_FIND_DATA lpFindFileData)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
+            return FindFirstFileExFromApp(lpFileName + "\\*.*", FINDEX_INFO_LEVELS.FindExInfoBasic, out lpFindFileData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, FIND_FIRST_EX_LARGE_FETCH);
         }
     }
 }

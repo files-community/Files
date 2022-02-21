@@ -1,13 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using Files.Backend.ViewModels.ItemListing;
+﻿using System.Collections.Generic;
 
 namespace Files.Backend.Services
 {
-    public interface IStorageEnumeratorService : IDisposable
+    public interface IStorageEnumeratorService
     {
-        bool IsSupported();
+        /// <summary>
+        /// Checks whether the <see cref="IStorageEnumeratorService"/> is available for provided <paramref name="directoryPath"/>.
+        /// </summary>
+        /// <param name="directoryPath"></param>
+        /// <returns></returns>
+        bool IsAvailable(string directoryPath);
 
-        IEnumerable<ListedItemViewModel> Enumerate(); // TODO - just an example
+        IEnumerable<string> Enumerate(string path); // TODO(i) - instead of returning strings, return a wrapper around WIN32_FIND_DATA (?)
     }
 }

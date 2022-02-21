@@ -241,7 +241,6 @@
     <Compile Include="Layouts\IBaseListedLayout.cs" />
     <Compile Include="Layouts\IBaseListedLayoutItemSelectionModel.cs" />
     <Compile Include="Layouts\Listing\LayoutItemsListing.cs" />
-    <Compile Include="Models\FileTagModel.cs" />
     <Compile Include="ServicesImplementation\ApplicationService.cs" />
     <Compile Include="ServicesImplementation\SettingsServices\AppearanceSettingsService.cs" />
     <Compile Include="ServicesImplementation\SettingsServices\BundlesSettingsService.cs" />
@@ -1602,7 +1601,6 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\JsonSettings\" />
     <Folder Include="ViewModels\Layouts\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '16.0' ">

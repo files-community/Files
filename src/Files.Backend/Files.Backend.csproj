@@ -134,6 +134,7 @@
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="Enums\SortOptions.cs" />
     <Compile Include="EventArguments\BaseJsonSettingsModelEventArgs.cs" />
+    <Compile Include="Extensions\LocalizationExtensions.cs" />
     <Compile Include="Helpers\IntegrationHelpers.cs" />
     <Compile Include="Helpers\NativeFileOperationsHelper.cs" />
     <Compile Include="Helpers\NavigationHelpers.cs" />
@@ -141,9 +142,9 @@
     <Compile Include="Messages\TabAddRequestedMessage.cs" />
     <Compile Include="Messages\TabDisposalRequestedMessage.cs" />
     <Compile Include="Messages\TabInstanceChangedMessage.cs" />
+    <Compile Include="Models\FileTagModel.cs" />
     <Compile Include="Models\Icons\IconModel.cs" />
     <Compile Include="Models\Icons\UriIconModel.cs" />
-    <Compile Include="Models\IFileTag.cs" />
     <Compile Include="Models\JsonSettings\BaseJsonSettingsModel.cs" />
     <Compile Include="Models\JsonSettings\BaseObservableJsonSettingsModel.cs" />
     <Compile Include="Models\JsonSettings\IJsonSettingsDatabase.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IApplicationService.cs" />
     <Compile Include="Services\IFallbackStorageEnumeratorService.cs" />
+    <Compile Include="Services\ILocalizationService.cs" />
     <Compile Include="Services\IStorageEnumeratorService.cs" />
     <Compile Include="Services\Settings\IAppearanceSettingsService.cs" />
     <Compile Include="Services\Settings\IBundlesSettingsService.cs" />
@@ -193,7 +195,9 @@
       <Version>13.0.1</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ViewModels\Dialogs\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Files.Shared\Files.Shared.csproj">
       <Project>{0533133f-2559-4b53-a0fd-0970bc0e312e}</Project>
