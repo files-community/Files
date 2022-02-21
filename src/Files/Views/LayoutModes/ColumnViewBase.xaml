@@ -419,7 +419,7 @@
                                         <TextBlock
                                             Margin="4,0,0,0"
                                             VerticalAlignment="Center"
-                                            Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
+                                            Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
                                             Style="{StaticResource BodyTextBlockStyle}"
                                             Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
                                             Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
@@ -427,13 +427,13 @@
                                         <TextBlock
                                             VerticalAlignment="Center"
                                             FontSize="14"
-                                            Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
+                                            Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
                                             Style="{StaticResource SubheaderTextBlockStyle}"
                                             Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
                                             Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     </StackPanel>
                                     <TextBlock
-                                        Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
+                                        Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
                                         Style="{StaticResource BodyTextBlockStyle}"
                                         Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
                                         Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
