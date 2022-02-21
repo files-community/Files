@@ -42,15 +42,17 @@ namespace Files.Views
         private readonly StorageHistoryHelpers storageHistoryHelpers;
         public IBaseLayout SlimContentPage => ContentPage;
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
-        private CancellationTokenSource cancellationTokenSource;
+        private readonly CancellationTokenSource cancellationTokenSource;
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
         public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
         public MainViewModel MainViewModel => App.MainViewModel;
-        private bool isCurrentInstance { get; set; } = false;
 
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
+        private IUpdateSettingsService UpdateSettingsService { get; } = Ioc.Default.GetService<IUpdateSettingsService>();
+
+        private bool isCurrentInstance = false;
         public bool IsCurrentInstance
         {
             get
@@ -183,6 +185,32 @@ namespace Files.Views
             SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
 
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
+
+            PreviewKeyDown += ModernShellPage_PreviewKeyDown;
+        }
+
+        private async void ModernShellPage_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) || CurrentPageType == typeof(GridViewBrowser);
+
+            if (tabInstance && e.Key == (VirtualKey)192 && ctrlPressed) // VirtualKey for ` (accent key)
+            {
+                string path;
+                // Check if there is a folder selected, if not use the current directory.
+                if (SlimContentPage?.SelectedItem is not null &&
+                    SlimContentPage?.SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    path = SlimContentPage.SelectedItem.ItemPath;
+                }
+                else
+                {
+                    path = FilesystemViewModel.WorkingDirectory;
+                }
+
+                await NavigationHelpers.OpenDirectoryInTerminal(path);
+                e.Handled = true;
+            }
         }
 
         private void InitToolbarCommands()
@@ -210,15 +238,15 @@ namespace Files.Views
             NavToolbarViewModel.ExtractHereCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveHereCommand.Execute(null));
             NavToolbarViewModel.ExtractToCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveToChildFolderCommand.Execute(null));
             NavToolbarViewModel.InstallInfCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallInfDriver.Execute(null));
-            NavToolbarViewModel.RotateImageLeftCommand = new RelayCommand(async () => SlimContentPage?.CommandsViewModel.RotateImageLeftCommand.Execute(null));
-            NavToolbarViewModel.RotateImageRightCommand = new RelayCommand(async () => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.Execute(null));
+            NavToolbarViewModel.RotateImageLeftCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RotateImageLeftCommand.Execute(null));
+            NavToolbarViewModel.RotateImageRightCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.Execute(null));
             NavToolbarViewModel.InstallFontCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallFontCommand.Execute(null));
+            NavToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await UpdateSettingsService.DownloadUpdates());
         }
 
         private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
         {
-            WidgetsPage currentPage = ItemDisplayFrame?.Content as WidgetsPage;
-            if (currentPage != null)
+            if (ItemDisplayFrame?.Content is WidgetsPage currentPage)
             {
                 currentPage.RefreshWidgetList();
             }
@@ -699,9 +727,9 @@ namespace Files.Views
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
                     if (ContentPage.IsItemSelected && !NavToolbarViewModel.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
                     {
-                        var items = await Task.Run(() => SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
+                        var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
                             item.ItemPath,
-                            item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)));
+                            item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
                         await FilesystemHelpers.DeleteItemsAsync(items, true, true, true);
                     }
 
@@ -743,9 +771,9 @@ namespace Files.Views
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
                     if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
                     {
-                        var items = await Task.Run(() => SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
+                        var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
                             item.ItemPath,
-                            item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)));
+                            item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
                         await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
                     }
 
@@ -762,7 +790,7 @@ namespace Files.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.P):
-                    UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled = !UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled;
+                    App.PreviewPaneViewModel.IsPaneSelected = !App.PreviewPaneViewModel.IsPaneSelected;
                     break;
 
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
@@ -779,7 +807,7 @@ namespace Files.Views
                 case (true, false, false, true, VirtualKey.H): // ctrl + h, show/hide hidden items
                     UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = !UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible;
                     break;
-                
+
                 case (true, true, false, true, VirtualKey.K): // ctrl + shift + k, duplicate tab
                     await NavigationHelpers.OpenPathInNewTab(this.FilesystemViewModel.WorkingDirectory);
                     break;
@@ -789,27 +817,27 @@ namespace Files.Views
                     break;
 
                 case (true, true, false, _, VirtualKey.Number1): // ctrl+shift+1, details view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number2): // ctrl+shift+2, tiles view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeTiles.Execute(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeTiles(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number3): // ctrl+shift+3, grid small view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall.Execute(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number4): // ctrl+shift+4, grid medium view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium.Execute(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number5): // ctrl+shift+5, grid large view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge.Execute(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number6): // ctrl+shift+6, column view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView.Execute(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView(true);
                     break;
             }
 
@@ -955,6 +983,7 @@ namespace Files.Views
 
         public void Dispose()
         {
+            PreviewKeyDown -= ModernShellPage_PreviewKeyDown;
             Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested;
             App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;

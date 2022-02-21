@@ -27,6 +27,7 @@ using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
@@ -52,6 +53,7 @@ namespace Files
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
         public static SettingsViewModel AppSettings { get; private set; }
         public static MainViewModel MainViewModel { get; private set; }
+        public static PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
         public static JumpListManager JumpList { get; private set; }
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
         public static TerminalController TerminalController { get; private set; }
@@ -60,6 +62,7 @@ namespace Files
         public static DrivesManager DrivesManager { get; private set; }
         public static WSLDistroManager WSLDistroManager { get; private set; }
         public static LibraryManager LibraryManager { get; private set; }
+        public static FileTagsManager FileTagsManager { get; private set; }
         public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
         public static OptionalPackageManager OptionalPackageManager { get; private set; } = new OptionalPackageManager();
 
@@ -101,20 +104,22 @@ namespace Files
                 // Base IUserSettingsService as parent settings store (to get ISettingsSharingContext from)
                 .AddSingleton<IUserSettingsService, UserSettingsService>()
                 // Children settings (from IUserSettingsService)
-                .AddSingleton<IMultitaskingSettingsService, MultitaskingSettingsService>((sp) => new MultitaskingSettingsService(sp.GetRequiredService<IUserSettingsService>().GetSharingContext()))
-                .AddSingleton<IWidgetsSettingsService, WidgetsSettingsService>((sp) => new WidgetsSettingsService(sp.GetRequiredService<IUserSettingsService>().GetSharingContext()))
-                .AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService(sp.GetRequiredService<IUserSettingsService>().GetSharingContext()))
-                .AddSingleton<IPreferencesSettingsService, PreferencesSettingsService>((sp) => new PreferencesSettingsService(sp.GetRequiredService<IUserSettingsService>().GetSharingContext()))
-                .AddSingleton<IPreviewPaneSettingsService, PreviewPaneSettingsService>((sp) => new PreviewPaneSettingsService(sp.GetRequiredService<IUserSettingsService>().GetSharingContext()))
-                .AddSingleton<ILayoutSettingsService, LayoutSettingsService>((sp) => new LayoutSettingsService(sp.GetRequiredService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IMultitaskingSettingsService, MultitaskingSettingsService>((sp) => new MultitaskingSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IWidgetsSettingsService, WidgetsSettingsService>((sp) => new WidgetsSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IPreferencesSettingsService, PreferencesSettingsService>((sp) => new PreferencesSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IPaneSettingsService, PaneSettingsService>((sp) => new PaneSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<ILayoutSettingsService, LayoutSettingsService>((sp) => new LayoutSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 // Settings not related to IUserSettingsService:
                 .AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
                 .AddSingleton<IBundlesSettingsService, BundlesSettingsService>()
+                .AddSingleton<IUpdateSettingsService, UpdateSettingsService>()
 
                 // TODO: Dialogs:
 
                 // TODO: FileSystem operations:
                 // (IFilesystemHelpersService, IFilesystemOperationsService)
+                .AddSingleton<IFolderSizeProvider, FolderSizeProvider>()
 
                 .AddTransient<IFallbackStorageEnumeratorService, WindowsStorageEnumerator>()
                 .AddTransient<IStorageEnumeratorService, Win32StorageEnumerator>()
@@ -128,18 +133,19 @@ namespace Files
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
         {
             AppSettings ??= new SettingsViewModel();
-            RegistryToJsonSettingsMerger.MergeSettings();
 
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
             await ExternalResourcesHelper.LoadSelectedTheme();
 
             JumpList ??= new JumpListManager();
             MainViewModel ??= new MainViewModel();
+            PreviewPaneViewModel ??= new PreviewPaneViewModel();
             LibraryManager ??= new LibraryManager();
             DrivesManager ??= new DrivesManager();
             NetworkDrivesManager ??= new NetworkDrivesManager();
             CloudDrivesManager ??= new CloudDrivesManager();
             WSLDistroManager ??= new WSLDistroManager();
+            FileTagsManager ??= new FileTagsManager();
             SidebarPinnedController ??= new SidebarPinnedController();
             TerminalController ??= new TerminalController();
         }
@@ -176,6 +182,7 @@ namespace Files
                     LibraryManager.EnumerateLibrariesAsync(),
                     NetworkDrivesManager.EnumerateDrivesAsync(),
                     WSLDistroManager.EnumerateDrivesAsync(),
+                    FileTagsManager.EnumerateFileTagsAsync(),
                     SidebarPinnedController.InitializeAsync()
                 );
                 await Task.WhenAll(
@@ -190,7 +197,9 @@ namespace Files
             });
 
             // Check for required updates
-            new AppUpdater().CheckForUpdatesAsync();
+            var updateService = Ioc.Default.GetRequiredService<IUpdateSettingsService>();
+            await updateService.CheckForUpdates();
+            await updateService.DownloadMandatoryUpdates();
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
@@ -265,6 +274,8 @@ namespace Files
                     rootFrame.Navigate(typeof(MainPage), e.Arguments, new SuppressNavigationTransitionInfo());
                 }
             }
+
+            WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
 
         protected override async void OnFileActivated(FileActivatedEventArgs e)
@@ -297,6 +308,8 @@ namespace Files
             // Ensure the current window is active
             Window.Current.Activate();
             Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+
+            WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
 
         private Frame EnsureWindowIsInitialized()
@@ -473,9 +486,7 @@ namespace Files
                     var eventArgsForNotification = args as ToastNotificationActivatedEventArgs;
                     if (eventArgsForNotification.Argument == "report")
                     {
-                        // Launch the URI and open log files location
-                        //SettingsViewModel.OpenLogLocation();
-                        SettingsViewModel.ReportIssueOnGitHub();
+                        await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.FeedbackUrl));
                     }
                     break;
 
@@ -488,6 +499,8 @@ namespace Files
             // Ensure the current window is active.
             Window.Current.Activate();
             Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+
+            WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
 
         private void TryEnablePrelaunch()
@@ -538,6 +551,7 @@ namespace Files
             }
 
             DrivesManager?.Dispose();
+            PreviewPaneViewModel?.Dispose();
 
             // Try to maintain clipboard data after app close
             Shared.Extensions.IgnoreExceptions(() =>

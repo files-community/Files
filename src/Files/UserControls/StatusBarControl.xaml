@@ -30,7 +30,6 @@
         Padding="8,0"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
-        Background="{ThemeResource StatusBarBackgroundBrush}"
         ColumnSpacing="12">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -59,7 +58,7 @@
             VerticalAlignment="Center"
             x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
             Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}"
-            Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
+            Visibility="{x:Bind SelectedItemsPropertiesViewModel.ItemSizeVisibility, Mode=OneWay}" />
 
         <Button
             x:Name="FullTrustStatus"

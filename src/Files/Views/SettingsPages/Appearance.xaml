@@ -21,8 +21,6 @@
                         <ResourceDictionary x:Key="Light">
                             <Color x:Key="SolidBackgroundAcrylic">#FFFFFF</Color>
                             <!--  Corner Radius  -->
-                            <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
-                            <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
                             <CornerRadius x:Key="NavToolbarCornerRadius">0,0,0,8</CornerRadius>
                             <!--  Tabs  -->
                             <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SubtleFillColorTransparent}" />
@@ -35,29 +33,11 @@
                             <!--  Navigation Toolbar  -->
                             <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="#00000000" />
                             <SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
-                            <!--  Horizontal Tab Control  -->
-                            <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
-                            <!--  PaneHolderPage  -->
-                            <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="Transparent" />
-                            <!--  Status Bar Control  -->
-                            <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="Transparent" />
-                            <!--  File Browser Control  -->
-                            <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
-                            <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
-                            <!--  Preview pane  -->
-                            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="#21000000" />
-
-                            <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
-
-                            <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="#113A3A3A" />
-
                             <Color x:Key="LayerFillColorDefault">#11000000</Color>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Default">
                             <Color x:Key="SolidBackgroundAcrylic">#2C2C2C</Color>
                             <!--  Corner Radius  -->
-                            <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
-                            <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
                             <CornerRadius x:Key="NavToolbarCornerRadius">0,0,0,8</CornerRadius>
 
                             <!--  Tabs  -->
@@ -71,23 +51,6 @@
                             <!--  Navigation Toolbar  -->
                             <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="#00000000" />
                             <SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
-                            <!--  Horizontal Tab Control  -->
-                            <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
-                            <!--  PaneHolderPage  -->
-                            <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="Transparent" />
-                            <!--  Status Bar Control  -->
-                            <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="Transparent" />
-                            <!--  File Browser Control  -->
-                            <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
-                            <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
-
-                            <!--  Preview pane  -->
-                            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="#31000000" />
-
-                            <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
-
-                            <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="#3C3A3A3A" />
-
                             <Color x:Key="LayerFillColorDefault">#11000000</Color>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
@@ -104,8 +67,6 @@
                             <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{StaticResource SystemColorWindowColor}" />
                             <Color x:Key="SolidBackgroundAcrylic">#2C2C2C</Color>
                             <!--  Corner Radius  -->
-                            <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
-                            <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
                             <CornerRadius x:Key="NavToolbarCornerRadius">0,0,0,8</CornerRadius>
                             <!--  Tabs  -->
                             <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SystemColorWindowColor}" />
@@ -118,22 +79,6 @@
                             <!--  Navigation Toolbar  -->
                             <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
-                            <!--  Horizontal Tab Control  -->
-                            <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
-                            <!--  PaneHolderPage  -->
-                            <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="Transparent" />
-                            <!--  Status Bar Control  -->
-                            <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="Transparent" />
-                            <!--  File Browser Control  -->
-                            <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
-                            <StaticResource x:Key="FileBrowserHeaderBackgroundBrush" ResourceKey="SolidBackgroundFillColorBaseBrush" />
-                            <!--  Preview pane  -->
-                            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorQuarternary}" />
-
-                            <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
-
-                            <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="#3C3A3A3A" />
-
                             <Color x:Key="LayerFillColorDefault">#11000000</Color>
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
@@ -295,7 +240,7 @@
 
                         <local:SettingsBlockControl
                             x:Uid="SettingsShowWslSection"
-                            Title="Show WSL section on the sidebar"
+                            Title="Show WSL section"
                             HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xEC7A;" />
@@ -304,6 +249,21 @@
                                 x:Uid="SettingsShowWslSectionSwitch"
                                 AutomationProperties.Name="Show WSL section"
                                 IsOn="{Binding ShowWslSection, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+
+                        <local:SettingsBlockControl
+                            x:Uid="SettingsShowFileTagsSection"
+                            Title="Show File Tags section"
+                            HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE1CB;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                x:Uid="SettingsShowFileTagsSectionSwitch"
+                                AutomationProperties.Name="Show File Tags section"
+                                IsEnabled="{Binding AreFileTagsEnabled}"
+                                IsOn="{Binding ShowFileTagsSection, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
                     </StackPanel>

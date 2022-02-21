@@ -10,14 +10,13 @@ namespace Files.UserControls.FilePreviews
     public sealed partial class CodePreview : UserControl
     {
         private RichTextBlockFormatter formatter;
-        private bool rendered;
 
         private CodePreviewViewModel ViewModel { get; set; }
 
         public CodePreview(CodePreviewViewModel model)
         {
             ViewModel = model;
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void RenderDocument()
@@ -28,7 +27,6 @@ namespace Files.UserControls.FilePreviews
                 formatter = new RichTextBlockFormatter(ActualTheme);
 
                 formatter.FormatRichTextBlock(ViewModel.TextValue, ViewModel.CodeLanguage, codeView);
-                rendered = true;
             }
         }
 
@@ -41,7 +39,6 @@ namespace Files.UserControls.FilePreviews
         {
             try
             {
-                rendered = false;
                 RenderDocument();
             }
             catch (Exception)

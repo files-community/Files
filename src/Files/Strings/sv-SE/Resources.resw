@@ -129,18 +129,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>Hämtade filer</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Startsida</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Musik</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Bilder</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Filmer</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sortera efter</value>
   </data>
@@ -1286,9 +1274,6 @@
   </data>
   <data name="StatusCopyComplete" xml:space="preserve">
     <value>Kopiering slutförd</value>
-  </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Stäng flikar till höger</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Administratör</value>

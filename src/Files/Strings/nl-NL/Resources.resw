@@ -72,18 +72,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>Downloads</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Muziek</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Afbeeldingen</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Video's</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sorteren op</value>
   </data>
@@ -1334,9 +1322,6 @@
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>Wilt u doorgaan als administrator?</value>
-  </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Tabbladen rechts sluiten</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Administrator</value>

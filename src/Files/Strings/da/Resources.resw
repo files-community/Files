@@ -129,18 +129,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>Overførelser</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Hjem</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Musik</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Billeder</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Videoer</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sortér efter</value>
   </data>
@@ -1220,9 +1208,6 @@
   </data>
   <data name="StatusCopyComplete" xml:space="preserve">
     <value>Kopiering er fuldført.</value>
-  </data>
-  <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>Luk faner til højre</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>administrator</value>

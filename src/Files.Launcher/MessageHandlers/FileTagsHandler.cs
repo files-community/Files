@@ -4,13 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Storage;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    public class FileTagsHandler : IMessageHandler
+    [SupportedOSPlatform("Windows10.0.10240")]
+    public class FileTagsHandler : Disposable, IMessageHandler
     {
         public static string ReadFileTag(string filePath)
         {
@@ -122,10 +124,6 @@ namespace FilesFullTrust.MessageHandlers
         }
 
         public void Initialize(PipeStream connection)
-        {
-        }
-
-        public void Dispose()
         {
         }
     }

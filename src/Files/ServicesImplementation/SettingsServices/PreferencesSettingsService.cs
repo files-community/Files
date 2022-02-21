@@ -43,6 +43,12 @@ namespace Files.ServicesImplementation.SettingsServices
             get => Get(true);
             set => Set(value);
         }
+        
+        public bool ShowDotFiles
+        {
+            get => Get(true);
+            set => Set(value);
+        }
 
         public bool ListAndSortDirectoriesAlongsideFiles
         {
@@ -143,6 +149,7 @@ namespace Files.ServicesImplementation.SettingsServices
                 case nameof(ShowFileExtensions):
                 case nameof(AreHiddenItemsVisible):
                 case nameof(AreSystemItemsHidden):
+                case nameof(ShowDotFiles):
                 case nameof(ListAndSortDirectoriesAlongsideFiles):
                 case nameof(OpenFilesWithOneClick):
                 case nameof(OpenFoldersWithOneClick):
@@ -169,6 +176,7 @@ namespace Files.ServicesImplementation.SettingsServices
             Analytics.TrackEvent($"{nameof(ShowFileExtensions)}, {ShowFileExtensions}");
             Analytics.TrackEvent($"{nameof(AreHiddenItemsVisible)}, {AreHiddenItemsVisible}");
             Analytics.TrackEvent($"{nameof(AreSystemItemsHidden)}, {AreSystemItemsHidden}");
+            Analytics.TrackEvent($"{nameof(ShowDotFiles)}, {ShowDotFiles}");
             Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)}, {ListAndSortDirectoriesAlongsideFiles}");
             Analytics.TrackEvent($"{nameof(OpenFilesWithOneClick)}, {OpenFilesWithOneClick}");
             Analytics.TrackEvent($"{nameof(OpenFoldersWithOneClick)}, {OpenFoldersWithOneClick}");

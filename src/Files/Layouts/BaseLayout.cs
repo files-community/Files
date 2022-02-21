@@ -15,9 +15,11 @@ using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -75,12 +77,17 @@ namespace Files
 
         private readonly DispatcherTimer jumpTimer;
 
+        protected IFolderSizeProvider FolderSizeProvider { get; } = Ioc.Default.GetService<IFolderSizeProvider>();
+
+        protected Task<NamedPipeAsAppServiceConnection> Connection => AppServiceConnectionHelper.Instance;
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
         public FolderSettingsViewModel FolderSettings => ParentShellPageInstance.InstanceViewModel.FolderSettings;
 
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
+
+        public PreviewPaneViewModel PreviewPaneViewModel => App.PreviewPaneViewModel;
 
         public MainViewModel MainViewModel => App.MainViewModel;
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
@@ -94,8 +101,6 @@ namespace Files
         public BaseLayoutCommandsViewModel CommandsViewModel { get; protected set; }
 
         public IShellPage ParentShellPageInstance { get; private set; } = null;
-
-        public PreviewPaneViewModel PreviewPaneViewModel { get; } = new PreviewPaneViewModel();
 
         public bool IsRenamingItem { get; set; } = false;
         public ListedItem RenamingItem { get; set; } = null;
@@ -164,23 +169,27 @@ namespace Files
                     ListedItem jumpedToItem = null;
                     ListedItem previouslySelectedItem = null;
 
-                    // Use FilesAndFolders because only displayed entries should be jumped to
-                    IEnumerable<ListedItem> candidateItems = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Where(f => f.ItemName.Length >= value.Length && string.Equals(f.ItemName.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
-
                     if (IsItemSelected)
                     {
                         previouslySelectedItem = SelectedItem;
                     }
 
-                    // If the user is trying to cycle through items
-                    // starting with the same letter
-                    if (value.Length == 1 && previouslySelectedItem != null)
+                    // Select first matching item after currently selected item
+                    if (previouslySelectedItem != null)
                     {
-                        // Try to select item lexicographically bigger than the previous item
-                        jumpedToItem = candidateItems.FirstOrDefault(f => f.ItemName.CompareTo(previouslySelectedItem.ItemName) > 0);
+                        // Use FilesAndFolders because only displayed entries should be jumped to
+                        IEnumerable<ListedItem> candidateItems = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders
+                            .SkipWhile(x => x != previouslySelectedItem)
+                            .Skip(value.Length == 1 ? 1 : 0) // User is trying to cycle through items starting with the same letter
+                            .Where(f => f.ItemName.Length >= value.Length && string.Equals(f.ItemName.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
+                        jumpedToItem = candidateItems.FirstOrDefault();
                     }
+
                     if (jumpedToItem == null)
                     {
+                        // Use FilesAndFolders because only displayed entries should be jumped to
+                        IEnumerable<ListedItem> candidateItems = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders
+                            .Where(f => f.ItemName.Length >= value.Length && string.Equals(f.ItemName.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
                         jumpedToItem = candidateItems.FirstOrDefault();
                     }
 
@@ -231,9 +240,13 @@ namespace Files
                         }
 
                         // check if the preview pane is open before updating the model
-                        if (((Window.Current.Content as Frame)?.Content as MainPage)?.LoadPreviewPane ?? false)
+                        if (PreviewPaneViewModel.IsPaneSelected)
                         {
-                            PreviewPaneViewModel.UpdateSelectedItemPreview();
+                            bool isPaneEnabled = ((Window.Current.Content as Frame)?.Content as MainPage)?.IsPaneEnabled ?? false;
+                            if (isPaneEnabled)
+                            {
+                                PreviewPaneViewModel.UpdateSelectedItemPreview();
+                            }
                         }
                     }
 
@@ -270,13 +283,7 @@ namespace Files
                         {
                             SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemsSelected/Text".GetLocalized()}";
                             ResetRenameDoubleClick();
-
-                            bool isSizeKnown = !selectedItems.Any(item => string.IsNullOrEmpty(item.FileSize));
-                            if (isSizeKnown)
-                            {
-                                long size = selectedItems.Sum(item => item.FileSizeBytes);
-                                SelectedItemsPropertiesViewModel.ItemSize = size.ToSizeString();
-                            }
+                            UpdateSelectionSize();
                         }
                     }
 
@@ -308,6 +315,8 @@ namespace Files
 
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
             tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+
+            FolderSizeProvider.FolderSizeChanged += FolderSizeProvider_FolderSizeChanged;
         }
 
         private void JumpTimer_Tick(object sender, object e)
@@ -509,6 +518,22 @@ namespace Files
             await ParentShellPageInstance.FilesystemViewModel.ReloadItemGroupHeaderImagesAsync();
         }
 
+        private void FolderSizeProvider_FolderSizeChanged(object sender, FolderSizeChangedEventArgs e)
+        {
+            if (e.Folder is null)
+            {
+                SelectedItemsPropertiesViewModel.ItemSizeBytes = 0;
+                SelectedItemsPropertiesViewModel.ItemSize = string.Empty;
+                SelectedItemsPropertiesViewModel.ItemSizeVisibility = false;
+            }
+
+            var items = (selectedItems?.Any() ?? false) ? selectedItems : GetAllItems();
+            if (items.Contains(e.Folder))
+            {
+                UpdateSelectionSize();
+            }
+        }
+
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
@@ -602,17 +627,28 @@ namespace Files
         {
             if (e.PropertyName == nameof(ListedItem.FileSize))
             {
-                var items = selectedItems;
-                if (items is not null)
+                UpdateSelectionSize();
+            }
+        }
+
+        private void UpdateSelectionSize()
+        {
+            var items = (selectedItems?.Any() ?? false) ? selectedItems : GetAllItems();
+            if (items is not null)
+            {
+                bool isSizeKnown = !items.Any(item => string.IsNullOrEmpty(item.FileSize));
+                if (isSizeKnown)
                 {
-                    bool isSizeKnown = !items.Any(item => string.IsNullOrEmpty(item.FileSize));
-                    if (isSizeKnown)
-                    {
-                        long size = items.Sum(item => item.FileSizeBytes);
-                        SelectedItemsPropertiesViewModel.ItemSizeBytes = size;
-                        SelectedItemsPropertiesViewModel.ItemSize = size.ToSizeString();
-                    }
+                    long size = items.Sum(item => item.FileSizeBytes);
+                    SelectedItemsPropertiesViewModel.ItemSizeBytes = size;
+                    SelectedItemsPropertiesViewModel.ItemSize = size.ToSizeString();
                 }
+                else
+                {
+                    SelectedItemsPropertiesViewModel.ItemSizeBytes = 0;
+                    SelectedItemsPropertiesViewModel.ItemSize = string.Empty;
+                }
+                SelectedItemsPropertiesViewModel.ItemSizeVisibility = isSizeKnown;
             }
         }
 
@@ -788,62 +824,86 @@ namespace Files
 
         protected async void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
-            List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
-            var result = (FilesystemResult)false;
+            ConcurrentBag<IStorageItem> selectedStorageItems = new ConcurrentBag<IStorageItem>();
 
             e.Items.OfType<ListedItem>().ForEach(item => SelectedItems.Add(item));
 
-            foreach (var item in e.Items.OfType<ListedItem>())
+            var itemsCount = e.Items.Count;
+            PostedStatusBanner banner = itemsCount > 50 ? App.OngoingTasksViewModel.PostOperationBanner(
+                string.Empty,
+                string.Format("StatusPreparingItemsDetails_Plural".GetLocalized(), itemsCount),
+                0,
+                ReturnResult.InProgress,
+                FileOperationType.Prepare, new CancellationTokenSource()) : null;
+
+            try
             {
-                if (item is FtpItem ftpItem)
+                await e.Items.OfType<ListedItem>().ParallelForEach(async item =>
                 {
-                    if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                    if (banner != null)
                     {
-                        selectedStorageItems.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
+                        ((IProgress<float>)banner.Progress).Report(selectedStorageItems.Count / (float)itemsCount * 100);
+                    }
+
+                    if (item is FtpItem ftpItem)
+                    {
+                        if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                        {
+                            selectedStorageItems.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
+                        }
+                        else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                        {
+                            selectedStorageItems.Add(new FtpStorageFolder(ftpItem));
+                        }
+                    }
+                    else if (item.PrimaryItemAttribute == StorageItemTypes.File || item is ZipItem)
+                    {
+                        var result = await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
+                            .OnSuccess(t => selectedStorageItems.Add(t));
+                        if (!result)
+                        {
+                            throw new IOException($"Failed to process {item.ItemPath}.", (int)result.ErrorCode);
+                        }
                     }
                     else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
-                        selectedStorageItems.Add(new FtpStorageFolder(ftpItem));
+                        var result = await ParentShellPageInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
+                            .OnSuccess(t => selectedStorageItems.Add(t));
+                        if (!result)
+                        {
+                            throw new IOException($"Failed to process {item.ItemPath}.", (int)result.ErrorCode);
+                        }
                     }
-                }
-                else if (item.PrimaryItemAttribute == StorageItemTypes.File || item is ZipItem)
-                {
-                    result = await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
-                        .OnSuccess(t => selectedStorageItems.Add(t));
-                    if (!result)
-                    {
-                        break;
-                    }
-                }
-                else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                {
-                    result = await ParentShellPageInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
-                        .OnSuccess(t => selectedStorageItems.Add(t));
-                    if (!result)
-                    {
-                        break;
-                    }
-                }
+                }, 10, banner?.CancellationToken ?? default);
             }
-
-            if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
+            catch (Exception ex)
             {
-                var itemList = e.Items.OfType<ListedItem>().Select(x => StorageHelpers.FromPathAndType(
-                    x.ItemPath, x.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-                e.Data.Properties["FileDrop"] = itemList.ToList();
+                if (ex.HResult == (int)FileSystemStatusCode.Unauthorized)
+                {
+                    var itemList = e.Items.OfType<ListedItem>().Select(x => StorageHelpers.FromPathAndType(
+                        x.ItemPath, x.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+                    e.Data.Properties["FileDrop"] = itemList.ToList();
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+                banner?.Remove();
                 return;
             }
+
+            banner?.Remove();
 
             var onlyStandard = selectedStorageItems.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);
             if (onlyStandard)
             {
-                selectedStorageItems = await selectedStorageItems.ToStandardStorageItemsAsync();
+                selectedStorageItems = new ConcurrentBag<IStorageItem>(await selectedStorageItems.ToStandardStorageItemsAsync());
             }
             if (selectedStorageItems.Count == 1)
             {
-                if (selectedStorageItems[0] is IStorageFile file)
+                if (selectedStorageItems.Single() is IStorageFile file)
                 {
-                    var itemExtension = System.IO.Path.GetExtension(file.Name);
+                    var itemExtension = Path.GetExtension(file.Name);
                     if (ImagePreviewViewModel.Extensions.Any((ext) => ext.Equals(itemExtension, StringComparison.OrdinalIgnoreCase)))
                     {
                         var streamRef = Windows.Storage.Streams.RandomAccessStreamReference.CreateFromFile(file);

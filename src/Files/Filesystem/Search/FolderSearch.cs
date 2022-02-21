@@ -207,9 +207,13 @@ namespace Files.Filesystem.Search
                 {
                     var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
                     var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-
-                    bool shouldBeListed = !isHidden || (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden));
-
+                    var startWithDot = findData.cFileName.StartsWith(".");
+                    
+                    bool shouldBeListed = (!isHidden || 
+                        (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && 
+                        (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) && 
+                        (!startWithDot || UserSettingsService.PreferencesSettingsService.ShowDotFiles);
+                    
                     if (shouldBeListed)
                     {
                         var item = GetListedItemAsync(match.FilePath, findData);
@@ -297,10 +301,13 @@ namespace Files.Filesystem.Search
 
                         var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
                         var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-                        bool shouldBeListed = hiddenOnly ?
-                            isHidden && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden) :
-                            !isHidden || (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden));
+                        var startWithDot = findData.cFileName.StartsWith(".");
 
+                        bool shouldBeListed = (hiddenOnly ?
+                            isHidden && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden) :
+                            !isHidden || (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) &&
+                            (!startWithDot || UserSettingsService.PreferencesSettingsService.ShowDotFiles);
+                        
                         if (shouldBeListed)
                         {
                             var item = GetListedItemAsync(itemPath, findData);

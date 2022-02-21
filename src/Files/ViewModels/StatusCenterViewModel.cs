@@ -313,7 +313,7 @@ namespace Files.ViewModels
 
         public Action PrimaryButtonClick { get; }
 
-        public ICommand CancelCommand => new RelayCommand<RoutedEventArgs>(args => CancelOperation());
+        public ICommand CancelCommand { get; }
 
         public bool SolutionButtonsVisible { get; } = false;
 
@@ -343,6 +343,8 @@ namespace Files.ViewModels
             initialProgress = progress;
             Status = status;
             Operation = operation;
+
+            CancelCommand = new RelayCommand(CancelOperation);
 
             switch (Status)
             {
@@ -391,6 +393,14 @@ namespace Files.ViewModels
                                 {
                                     FontFamily = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
                                     Glyph = "\xEF87"    // RecycleBin Custom Glyph
+                                };
+                                break;
+
+                            case FileOperationType.Prepare:
+                                Title = "PrepareInProgress".GetLocalized();
+                                GlyphSource = new FontIconSource()
+                                {
+                                    Glyph = "\xE89A"
                                 };
                                 break;
                         }
@@ -451,6 +461,8 @@ namespace Files.ViewModels
             SecondaryButtonText = secondaryButtonText;
             PrimaryButtonClick = primaryButtonClicked;
             Status = ReturnResult.Failed;
+
+            CancelCommand = new RelayCommand(CancelOperation);
 
             if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
             {

@@ -198,25 +198,9 @@
           <source>Downloads</source>
           <target state="translated">Tải xuống</target>
         </trans-unit>
-        <trans-unit id="SidebarHome" translate="yes" xml:space="preserve">
-          <source>Home</source>
-          <target state="translated">Trang chủ</target>
-        </trans-unit>
-        <trans-unit id="SidebarMusic" translate="yes" xml:space="preserve">
-          <source>Music</source>
-          <target state="translated">Âm nhạc</target>
-        </trans-unit>
-        <trans-unit id="SidebarPictures" translate="yes" xml:space="preserve">
-          <source>Pictures</source>
-          <target state="translated">Hình ảnh</target>
-        </trans-unit>
         <trans-unit id="SideBarUnpinFromFavorites.Text" translate="yes" xml:space="preserve">
           <source>Unpin from Favorites</source>
           <target state="translated">Huỷ ghim vào Ưa thích</target>
-        </trans-unit>
-        <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
-          <source>Videos</source>
-          <target state="translated">Video</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
           <source>Sort by</source>
@@ -1910,10 +1894,6 @@
           <source>Item count</source>
           <target state="translated">Số lượng mục</target>
         </trans-unit>
-        <trans-unit id="HorizontalMultitaskingControlCloseTabsToTheRight.Text" translate="yes" xml:space="preserve">
-          <source>Close tabs to the right</source>
-          <target state="translated">Đóng các tab bên phải</target>
-        </trans-unit>
         <trans-unit id="StatusDeletionFailed" translate="yes" xml:space="preserve">
           <source>Deletion Failed</source>
           <target state="translated">Hoạt động xóa bỏ bị thất bại</target>
@@ -3471,47 +3451,99 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
         </trans-unit>
         <trans-unit id="Extract" translate="yes" xml:space="preserve">
           <source>Extract</source>
-          <target state="new">Extract</target>
+          <target state="translated">Giải nén</target>
         </trans-unit>
         <trans-unit id="ExtractFiles" translate="yes" xml:space="preserve">
           <source>Extract files</source>
-          <target state="new">Extract files</target>
+          <target state="translated">Giải nén tệp tin</target>
         </trans-unit>
         <trans-unit id="ExtractHere" translate="yes" xml:space="preserve">
           <source>Extract here</source>
-          <target state="new">Extract here</target>
+          <target state="translated">Giải nén ở đây</target>
         </trans-unit>
         <trans-unit id="ExtractKeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+E</source>
-          <target state="new">Ctrl+E</target>
+          <target state="translated">Ctrl+E</target>
         </trans-unit>
         <trans-unit id="ExtractToChildFolder" translate="yes" xml:space="preserve">
           <source>Extract to {0}</source>
-          <target state="new">Extract to {0}</target>
+          <target state="translated">Giải nén vào {0}</target>
         </trans-unit>
         <trans-unit id="RunScript" translate="yes" xml:space="preserve">
           <source>Run script</source>
-          <target state="new">Run script</target>
+          <target state="translated">Chạy script</target>
         </trans-unit>
         <trans-unit id="RunWithPowerShell" translate="yes" xml:space="preserve">
           <source>Run with PowerShell</source>
-          <target state="new">Run with PowerShell</target>
+          <target state="translated">Chạy bằng PowerShell</target>
         </trans-unit>
         <trans-unit id="SetAsBackground" translate="yes" xml:space="preserve">
           <source>Set as desktop background</source>
-          <target state="new">Set as desktop background</target>
+          <target state="translated">Cài làm ảnh nền desktop</target>
         </trans-unit>
         <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
           <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
-          <target state="new">Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</target>
+          <target state="translated">Không xóa Files khỏi thiết bị của bạn khi chưa tắt tùy chọn này. Không làm như vậy sẽ ngăn bạn mở File Explorer.</target>
         </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
-          <target state="new">Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</target>
+          <target state="translated">Việc tính toán kích thước thư mục tốn nhiều tài nguyên và có thể khiến mức sử dụng CPU của bạn tăng lên.</target>
         </trans-unit>
         <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
           <source>Open in</source>
-          <target state="new">Open in</target>
+          <target state="translated">Mở trong</target>
+        </trans-unit>
+        <trans-unit id="RotateLeft" translate="yes" xml:space="preserve">
+          <source>Rotate left</source>
+          <target state="new">Rotate left</target>
+        </trans-unit>
+        <trans-unit id="RotateRight" translate="yes" xml:space="preserve">
+          <source>Rotate right</source>
+          <target state="new">Rotate right</target>
+        </trans-unit>
+        <trans-unit id="Install" translate="yes" xml:space="preserve">
+          <source>Install</source>
+          <target state="new">Install</target>
+        </trans-unit>
+        <trans-unit id="CloseTabsToTheLeft" translate="yes" xml:space="preserve">
+          <source>Close tabs to the left</source>
+          <target state="new">Close tabs to the left</target>
+        </trans-unit>
+        <trans-unit id="CloseTabsToTheRight" translate="yes" xml:space="preserve">
+          <source>Close tabs to the right</source>
+          <target state="new">Close tabs to the right</target>
+        </trans-unit>
+        <trans-unit id="ShowDotFiles" translate="yes" xml:space="preserve">
+          <source>Show dot files</source>
+          <target state="new">Show dot files</target>
+        </trans-unit>
+        <trans-unit id="CloseOtherTabs" translate="yes" xml:space="preserve">
+          <source>Close other tabs</source>
+          <target state="new">Close other tabs</target>
+        </trans-unit>
+        <trans-unit id="Music" translate="yes" xml:space="preserve">
+          <source>Music</source>
+          <target state="new">Music</target>
+        </trans-unit>
+        <trans-unit id="Pictures" translate="yes" xml:space="preserve">
+          <source>Pictures</source>
+          <target state="new">Pictures</target>
+        </trans-unit>
+        <trans-unit id="Videos" translate="yes" xml:space="preserve">
+          <source>Videos</source>
+          <target state="new">Videos</target>
+        </trans-unit>
+        <trans-unit id="UpdateFiles" translate="yes" xml:space="preserve">
+          <source>Update Files</source>
+          <target state="new">Update Files</target>
+        </trans-unit>
+        <trans-unit id="StatusPreparingItemsDetails_Plural" translate="yes" xml:space="preserve">
+          <source>Preparing {0} items</source>
+          <target state="new">Preparing {0} items</target>
+        </trans-unit>
+        <trans-unit id="PrepareInProgress" translate="yes" xml:space="preserve">
+          <source>Preparing items</source>
+          <target state="new">Preparing items</target>
         </trans-unit>
       </group>
     </body>

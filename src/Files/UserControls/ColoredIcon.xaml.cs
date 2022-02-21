@@ -33,8 +33,6 @@ namespace Files.UserControls
             this.InitializeComponent();
         }
 
-        private long foregroundChangedToken;
-
         private void ForegroundChanged(DependencyObject sender, DependencyProperty dp)
         {
             var v = sender.GetValue(dp);
@@ -58,7 +56,7 @@ namespace Files.UserControls
             var p = this.FindAscendant<ContentPresenter>();
             if (p is not null)
             {
-                foregroundChangedToken = p.RegisterPropertyChangedCallback(ContentPresenter.ForegroundProperty, ForegroundChanged);
+                p.RegisterPropertyChangedCallback(ContentPresenter.ForegroundProperty, ForegroundChanged);
             }
         }
     }
