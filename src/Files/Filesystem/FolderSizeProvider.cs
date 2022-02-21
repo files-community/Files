@@ -174,5 +174,10 @@ namespace Files.Filesystem
                 RaiseSizeChanged(null);
             }
         }
+
+        public void Dispose()
+        {
+            preferencesSettingsService.PropertyChanged -= PreferencesSettingsService_PropertyChanged;
+        }
     }
 }
