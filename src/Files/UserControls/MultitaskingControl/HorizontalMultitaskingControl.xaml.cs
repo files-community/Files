@@ -179,7 +179,7 @@ namespace Files.UserControls.MultitaskingControl
             }
             else
             {
-                CloseTab(args.Item as TabItem);
+                (args.Item as TabItem)?.Unload(); // Dispose tab arguments
             }
         }
 
@@ -201,10 +201,10 @@ namespace Files.UserControls.MultitaskingControl
             MenuItemCloseTabsToTheRight.IsEnabled = MainPageViewModel.AppInstances.IndexOf(tabItem) < MainPageViewModel.AppInstances.Count - 1;
         }
 
-        private void MenuItemCloseOthers_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        private void MenuItemCloseOtherTabs_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
             TabItem tabItem = args.NewValue as TabItem;
-            MenuItemCloseOthers.IsEnabled = MainPageViewModel.AppInstances.Count > 1;
+            MenuItemCloseOtherTabs.IsEnabled = MainPageViewModel.AppInstances.Count > 1;
         }
 
         public override DependencyObject ContainerFromItem(ITabItem item) => HorizontalTabView.ContainerFromItem(item);

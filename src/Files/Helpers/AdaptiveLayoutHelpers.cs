@@ -16,9 +16,9 @@ namespace Files.Helpers
 
             if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder && userSettingsService.PreferencesSettingsService.AdaptiveLayoutEnabled && !folderSettings.LayoutPreference.IsAdaptiveLayoutOverridden)
             {
-                Action layoutDetails = () => folderSettings.ToggleLayoutModeDetailsView.Execute(false);
-                Action layoutTiles = () => folderSettings.ToggleLayoutModeTiles.Execute(false);
-                Action layoutGridView = () => folderSettings.ToggleLayoutModeGridView.Execute(folderSettings.GridViewSize);
+                Action layoutDetails = () => folderSettings.ToggleLayoutModeDetailsView(false);
+                Action layoutTiles = () => folderSettings.ToggleLayoutModeTiles(false);
+                Action layoutGridView = () => folderSettings.ToggleLayoutModeGridView(folderSettings.GridViewSize);
 
                 bool desktopIniFound = false;
 

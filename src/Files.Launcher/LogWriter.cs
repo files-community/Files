@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using System;
 using System.Diagnostics;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -8,6 +9,7 @@ using static Vanara.PInvoke.Kernel32;
 
 namespace FilesFullTrust
 {
+    [SupportedOSPlatform("Windows10.0.10240")]
     internal class LogWriter : ILogWriter
     {
         private string logFilePath;

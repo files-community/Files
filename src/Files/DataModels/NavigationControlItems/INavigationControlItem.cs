@@ -21,7 +21,8 @@ namespace Files.Filesystem
         Drive,
         LinuxDistro,
         Location,
-        CloudDrive
+        CloudDrive,
+        FileTag
     }
 
     public enum SectionType
@@ -32,6 +33,7 @@ namespace Files.Filesystem
         Drives,
         CloudDrives,
         Network,
-        WSL
+        WSL,
+        FileTag
     }
 }

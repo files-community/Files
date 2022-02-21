@@ -1,7 +1,6 @@
 ﻿using Files.Dialogs;
 using Files.Helpers.XamlHelpers;
 using Files.UserControls.Settings;
-using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -36,7 +35,7 @@ namespace Files.SettingsPages
         {
             ThemesTeachingTip.IsOpen = false;
             this.FindAscendant<SettingsDialog>()?.Hide();
-            SettingsViewModel.OpenThemesFolder();
+            ViewModel.OpenThemesFolder();
         }
 
         private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

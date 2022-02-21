@@ -72,18 +72,6 @@
   <data name="Downloads" xml:space="preserve">
     <value>Загрузки</value>
   </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Главная</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Музыка</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Изображения</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Видео</value>
-  </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Введите путь</value>
   </data>

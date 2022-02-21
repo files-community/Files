@@ -37,6 +37,8 @@ namespace Files.ViewModels
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
+        public IUpdateSettingsService UpdateSettingsService { get; } = Ioc.Default.GetService<IUpdateSettingsService>();
+
         public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
         public delegate void ToolbarFlyoutOpenedEventHandler(object sender, ToolbarFlyoutOpenedEventArgs e);
@@ -327,6 +329,11 @@ namespace Files.ViewModels
 
         public NavToolbarViewModel()
         {
+            BackClickCommand = new RelayCommand<RoutedEventArgs>(e => BackRequested?.Invoke(this, EventArgs.Empty));
+            ForwardClickCommand = new RelayCommand<RoutedEventArgs>(e => ForwardRequested?.Invoke(this, EventArgs.Empty));
+            UpClickCommand = new RelayCommand<RoutedEventArgs>(e => UpRequested?.Invoke(this, EventArgs.Empty));
+            RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
+
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
             SearchBox.Escaped += SearchRegion_Escaped;
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -582,10 +589,10 @@ namespace Files.ViewModels
             set => SetProperty(ref pathControlDisplayText, value);
         }
 
-        public ICommand BackClickCommand => new RelayCommand<RoutedEventArgs>(e => BackRequested?.Invoke(this, EventArgs.Empty));
-        public ICommand ForwardClickCommand => new RelayCommand<RoutedEventArgs>(e => ForwardRequested?.Invoke(this, EventArgs.Empty));
-        public ICommand UpClickCommand => new RelayCommand<RoutedEventArgs>(e => UpRequested?.Invoke(this, EventArgs.Empty));
-        public ICommand RefreshClickCommand => new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
+        public ICommand BackClickCommand { get; }
+        public ICommand ForwardClickCommand { get; }
+        public ICommand UpClickCommand { get; }
+        public ICommand RefreshClickCommand { get; }
 
         public void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
@@ -815,6 +822,8 @@ namespace Files.ViewModels
         public ICommand RotateImageRightCommand { get; set; }
 
         public ICommand InstallFontCommand { get; set; }
+
+        public ICommand UpdateCommand { get; set; }
 
         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
         {

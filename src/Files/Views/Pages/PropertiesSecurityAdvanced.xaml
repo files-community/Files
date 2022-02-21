@@ -16,7 +16,7 @@
     d:Height="550"
     d:Width="850"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="False"
-    Background="{ThemeResource PropertiesDialogRootBackgroundBrush}"
+    Background="{ThemeResource RootBackgroundBrush}"
     KeyDown="Page_KeyDown"
     Loaded="Properties_Loaded"
     Loading="Page_Loading"

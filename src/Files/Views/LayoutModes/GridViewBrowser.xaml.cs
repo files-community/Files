@@ -239,7 +239,23 @@ namespace Files.Views.LayoutModes
             IsRenamingItem = true;
         }
 
-        private async void FolderSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
+        private void GridViewTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+
+            if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
+            {
+                FileNameTeachingTip.Visibility = Visibility.Visible;
+                FileNameTeachingTip.IsOpen = true;
+            }
+            else
+            {
+                FileNameTeachingTip.IsOpen = false;
+                FileNameTeachingTip.Visibility = Visibility.Collapsed;
+
+        
+
+        private void FolderSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
         {
             SetItemMinWidth();
             var requestedIconSize = FolderSettings.GetIconSize(); // Get new icon size

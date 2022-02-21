@@ -55,6 +55,11 @@ namespace Files.Backend.Services
         bool ShowWslSection { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether [show wsl section].
+        /// </summary>
+        bool ShowFileTagsSection { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether or not recycle bin should be pinned to the sidebar.
         /// </summary>
         bool PinRecycleBinToSidebar { get; set; }

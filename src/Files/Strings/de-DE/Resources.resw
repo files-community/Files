@@ -51,9 +51,6 @@
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Voreinstellungen</value>
   </data>
-  <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Dort weitermachen, wo Sie aufgehört haben</value>
-  </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>Einen neuen Tab öffnen</value>
   </data>
@@ -71,18 +68,6 @@
   </data>
   <data name="Downloads" xml:space="preserve">
     <value>Downloads</value>
-  </data>
-  <data name="SidebarHome" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="SidebarMusic" xml:space="preserve">
-    <value>Musik</value>
-  </data>
-  <data name="SidebarPictures" xml:space="preserve">
-    <value>Bilder</value>
-  </data>
-  <data name="SidebarVideos" xml:space="preserve">
-    <value>Videos</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sortieren nach</value>
@@ -102,17 +87,11 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Einfügen</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
-    <value>Eigenschaften</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Entpacken</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
     <value>In neuem Tab öffnen</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
-    <value>In neuem Fenster öffnen</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
     <value>Als Desktophintergrund festlegen</value>
@@ -125,9 +104,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Umbenennen</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
-    <value>Eigenschaften</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Pfad eingeben</value>
@@ -221,33 +197,6 @@
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>ist ein Unterordner des Quellordners</value>
-  </data>
-  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
-    <value>Auswahl umkehren</value>
-  </data>
-  <data name="Open" xml:space="preserve">
-    <value>Öffnen</value>
-  </data>
-  <data name="PropertiesTitle" xml:space="preserve">
-    <value>Eigenschaften</value>
-  </data>
-  <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
-    <value>Eigenschaften</value>
-  </data>
-  <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
-    <value>In neuem Tab öffnen</value>
-  </data>
-  <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
-    <value>In neuem Fenster öffnen</value>
-  </data>
-  <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
-    <value>Experimentell</value>
-  </data>
-  <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
-    <value>WARNUNG: EXPERIMENTELLE FUNKTIONEN!</value>
-  </data>
-  <data name="SettingsNavExperimental.Content" xml:space="preserve">
-    <value>Experimentell</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>In diesem Verzeichnis existiert bereits eine Datei oder ein Ordner mit diesem Namen.</value>
@@ -1200,9 +1149,6 @@
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Files-Dokumentation aufrufen</value>
   </data>
-  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
-    <value>Eigenschaften</value>
-  </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>Laufende Aufgaben-Flyout</value>
   </data>
@@ -2118,9 +2064,6 @@
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
     <value>Von Favoriten lösen</value>
   </data>
-  <data name="NavSettingsButton" xml:space="preserve">
-    <value>Einstellungen</value>
-  </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Updates verfügbar</value>
   </data>
@@ -2417,7 +2360,7 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Ordnerpfad</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Einstellungn exportieren</value>
+    <value>Einstellungen exportieren</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
     <value>Einstellungen importieren</value>
