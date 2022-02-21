@@ -249,14 +249,8 @@
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>Définir en tant qu'écran de verrouillage</value>
   </data>
-  <data name="BaseLayoutContextFlyoutLargeIcons.Text" xml:space="preserve">
-    <value>Grandes Icônes</value>
-  </data>
   <data name="BaseLayoutContextFlyoutMediumIcons.Text" xml:space="preserve">
     <value>Moyennes Icônes</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
-    <value>Petites Icônes</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>OK</value>
@@ -1017,9 +1011,6 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Soutenez-nous sur GitHub</value>
   </data>
-  <data name="Details" xml:space="preserve">
-    <value>Détails</value>
-  </data>
   <data name="No" xml:space="preserve">
     <value>Non</value>
   </data>
@@ -1086,14 +1077,8 @@
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Tuiles (Ctrl+Shift+2)</value>
   </data>
-  <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Grandes Icônes</value>
-  </data>
   <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
     <value>Moyennes Icônes</value>
-  </data>
-  <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Petites Icônes</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Date de suppression</value>
@@ -1986,9 +1971,6 @@
   <data name="PropertyCompany" xml:space="preserve">
     <value>Société</value>
   </data>
-  <data name="PropertyLanguage" xml:space="preserve">
-    <value>Langue</value>
-  </data>
   <data name="PropertyTrademarks" xml:space="preserve">
     <value>Marques</value>
   </data>
@@ -2049,14 +2031,8 @@
   <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
     <value>Afficher la section Disques</value>
   </data>
-  <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>Afficher la section WSL</value>
-  </data>
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
     <value>Afficher la section Disques Réseaux</value>
-  </data>
-  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Épingler la Corbeille aux Favoris</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
     <value>Afficher la section Bibliothèques</value>
@@ -2069,9 +2045,6 @@
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Déplacer les éléments de débordement dans un sous-menu</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
-    <value>Langue</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Afficher les extensions des types de fichiers connus</value>
@@ -2114,9 +2087,6 @@
   </data>
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>Les mises à jour sont prêtes à être installées</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>Fermer</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>Mise à jour</value>
@@ -2196,14 +2166,8 @@
   <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
     <value>Éditer les applications de terminal</value>
   </data>
-  <data name="DateFormat" xml:space="preserve">
-    <value>Format de la date</value>
-  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
     <value>Afficher une boîte de dialogue de confirmation lors de la suppression de fichiers ou de dossiers</value>
-  </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
-    <value>Ouvrir les dossiers dans un nouvel onglet</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Politique de confidentialité</value>
@@ -2237,12 +2201,6 @@
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Afficher la section Favoris</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Étiquette de fichier</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>Étiquette de fichier</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Ouvrir le dossier parent</value>
@@ -2306,78 +2264,6 @@
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widget Fichiers Récents</value>
-  </data>
-  <data name="OpenLogLocation" xml:space="preserve">
-    <value>Ouvrir l'emplacement des fichiers journaux</value>
-  </data>
-  <data name="LinkToFolderCaptionText" xml:space="preserve">
-    <value>Créer un lien dans {0}</value>
-  </data>
-  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
-    <value>Afficher l'extension des fichiers</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Afficher les fichiers cachés</value>
-  </data>
-  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
-    <value>Afficher l'extension des fichiers</value>
-  </data>
-  <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
-    <value>Afficher les fichiers cachés</value>
-  </data>
-  <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Afficher la section des favoris</value>
-  </data>
-  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Épingler la Corbeille aux favoris</value>
-  </data>
-  <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Afficher la section des disques Cloud</value>
-  </data>
-  <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Afficher la section des disques</value>
-  </data>
-  <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Afficher la section des librairies</value>
-  </data>
-  <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Afficher la section des réseaux</value>
-  </data>
-  <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Afficher la section WSL</value>
-  </data>
-  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Ouvrir les dossiers dans un nouvel onglet</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Langue</value>
-  </data>
-  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Afficher une fenêtre de confirmation à la fermeture ou la suppression d'un dossier</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Application de Terminal</value>
-  </data>
-  <data name="OngoingTasks" xml:space="preserve">
-    <value>Tâches en cours</value>
-  </data>
-  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
-    <value>Afficher la prévisualisation complète</value>
-  </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Afficher les précédents uniquement</value>
-  </data>
-  <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
-    <value>Descendre d'un cran</value>
-  </data>
-  <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
-    <value>Monter d'un cran</value>
-  </data>
-  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
-    <value>Descendre tout en bas</value>
-  </data>
-  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
-    <value>Monter tout en haut</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Date de création</value>
@@ -2514,20 +2400,8 @@
   <data name="ClearAll" xml:space="preserve">
     <value>Effacer tout</value>
   </data>
-  <data name="Columns" xml:space="preserve">
-    <value>Colonnes</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Grandes Icônes</value>
-  </data>
   <data name="MediumIcons" xml:space="preserve">
     <value>Moyennes Icônes</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Petites Icônes</value>
-  </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Tuiles</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Créer une bibliothèque</value>
