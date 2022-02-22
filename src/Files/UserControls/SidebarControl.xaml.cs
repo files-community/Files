@@ -25,6 +25,7 @@ using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 
 namespace Files.UserControls
@@ -84,6 +85,16 @@ namespace Files.UserControls
             dragOverSectionTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
             dragOverItemTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
+
+        public SidebarViewModel ViewModel
+        {
+            get => (SidebarViewModel)GetValue(ViewModelProperty);
+            set => SetValue(ViewModelProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register(nameof(ViewModel), typeof(SidebarViewModel), typeof(SidebarControl), new PropertyMetadata(null));
 
         public static readonly DependencyProperty SelectedSidebarItemProperty = DependencyProperty.Register(nameof(SelectedSidebarItem), typeof(INavigationControlItem), typeof(SidebarControl), new PropertyMetadata(null));
 
@@ -339,8 +350,8 @@ namespace Files.UserControls
 
         private void PaneRoot_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            var sidebarContextMenu = this.FindResource("SidebarContextMenu") as MenuFlyout;
-            sidebarContextMenu.ShowAt(this, new Windows.UI.Xaml.Controls.Primitives.FlyoutShowOptions() { Position = e.GetPosition(this) });
+            var contextMenu= FlyoutBase.GetAttachedFlyout(this);
+            contextMenu.ShowAt(this, new FlyoutShowOptions() { Position = e.GetPosition(this) });
 
             e.Handled = true;
         }
@@ -400,7 +411,7 @@ namespace Files.UserControls
                 }
 
                 secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-                itemContextMenuFlyout.ShowAt(sidebarItem, new Windows.UI.Xaml.Controls.Primitives.FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
+                itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
 
                 LoadShellMenuItems(itemContextMenuFlyout);
             }
@@ -420,7 +431,7 @@ namespace Files.UserControls
                 var menuItems = GetLocationItemMenuItems();
                 var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
                 secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-                itemContextMenuFlyout.ShowAt(sidebarItem, new Windows.UI.Xaml.Controls.Primitives.FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
+                itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
             }
 
             e.Handled = true;
@@ -452,7 +463,7 @@ namespace Files.UserControls
             }
 
             secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-            itemContextMenuFlyout.ShowAt(sidebarItem, new Windows.UI.Xaml.Controls.Primitives.FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
+            itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
 
             LoadShellMenuItems(itemContextMenuFlyout);
 
@@ -479,7 +490,7 @@ namespace Files.UserControls
             var menuItems = GetLocationItemMenuItems();
             var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
             secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-            itemContextMenuFlyout.ShowAt(sidebarItem, new Windows.UI.Xaml.Controls.Primitives.FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
+            itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
 
             e.Handled = true;
         }
@@ -504,7 +515,7 @@ namespace Files.UserControls
             var menuItems = GetLocationItemMenuItems();
             var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
             secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-            itemContextMenuFlyout.ShowAt(sidebarItem, new Windows.UI.Xaml.Controls.Primitives.FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
+            itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
 
             e.Handled = true;
         }
