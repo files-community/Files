@@ -6,6 +6,7 @@
     xmlns:helpers="using:Files.Helpers"
     xmlns:local="using:Files.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:navigationcontrolitems="using:Files.DataModels.NavigationControlItems"
     HorizontalAlignment="Stretch"
@@ -127,6 +128,8 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
+
+            <mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
 
             <Style TargetType="SplitView">
                 <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
