@@ -21,19 +21,20 @@
     OpenPaneLength="{x:Bind UserSettingsService.AppearanceSettingsService.SidebarWidth, Mode=OneTime}"
     SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
     mc:Ignorable="d">
+    <FlyoutBase.AttachedFlyout>
+        <MenuFlyout x:Name="SidebarContextMenu">
+            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.ShowFavoritesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarFavorites}" />
+            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.ShowLibrarySection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarLibraries}" />
+            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.ShowDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=Drives}" />
+            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.ShowCloudDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarCloudDrives}" />
+            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.ShowNetworkDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarNetworkDrives}" />
+            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.ShowWslSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=WSL}" />
+            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.ShowFileTagsSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=FileTags}" x:Name="SidebarContextMenuFileTagsSection" x:Load="{x:Bind ViewModel.AreFileTagsEnabled, Mode=OneWay}" />
+        </MenuFlyout>
+    </FlyoutBase.AttachedFlyout>
     <muxc:NavigationView.Resources>
         <ResourceDictionary>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-            <MenuFlyout x:Key="SidebarContextMenu">
-                <ToggleMenuFlyoutItem IsChecked="{Binding ShowFavoritesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarFavorites}" />
-                <ToggleMenuFlyoutItem IsChecked="{Binding ShowLibrarySection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarLibraries}" />
-                <ToggleMenuFlyoutItem IsChecked="{Binding ShowDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=Drives}" />
-                <ToggleMenuFlyoutItem IsChecked="{Binding ShowCloudDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarCloudDrives}" />
-                <ToggleMenuFlyoutItem IsChecked="{Binding ShowNetworkDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarNetworkDrives}" />
-                <ToggleMenuFlyoutItem IsChecked="{Binding ShowWslSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=WSL}" />
-                <ToggleMenuFlyoutItem IsChecked="{Binding ShowFileTagsSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=FileTags}"
-                  Visibility="{Binding AreFileTagsEnabled, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"                    />
-            </MenuFlyout>
             <DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
                 <muxc:NavigationViewItem
                     AllowDrop="True"
@@ -188,7 +189,7 @@
                                     CornerRadius="{TemplateBinding CornerRadius}"
                                     RightTapped="PaneRoot_RightTapped"
                                     Visibility="Collapsed">
-
+                                    
                                     <Grid.BackgroundTransition>
                                         <BrushTransition />
                                     </Grid.BackgroundTransition>

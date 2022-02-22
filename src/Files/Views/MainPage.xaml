@@ -228,7 +228,7 @@
         IsPaneOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
         IsPaneToggleButtonVisible="False"
         Loaded="SidebarControl_Loaded"
-        DataContext="{x:Bind SidebarAdaptiveViewModel}"
+        ViewModel="{x:Bind SidebarAdaptiveViewModel}"
         PaneDisplayMode="Left"
         SelectedSidebarItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}">
         <controls:SidebarControl.TabContent>
