@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="LiteDB" Version="4.1.4" />
+	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </ItemGroup>
 
 </Project>
