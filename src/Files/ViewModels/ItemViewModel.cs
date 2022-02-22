@@ -42,6 +42,10 @@ using Windows.UI.Xaml.Media.Imaging;
 using static Files.Helpers.NativeDirectoryChangesHelper;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
+using Files.Backend.Models;
+using Files.Backend.ViewModels.Dialogs;
+using Files.Shared.Enums;
+using System.Text;
 
 namespace Files.ViewModels
 {
@@ -1442,15 +1446,14 @@ namespace Files.ViewModels
                         {
                             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                             {
-                                var dialog = new CredentialDialog();
+                                var dialogViewModel = new CredentialDialogViewModel();
+                                IDialog<CredentialDialogViewModel> credentialDialog = null; // TODO(i): Get the dialog from IDialogService
 
-                                if (await dialog.TryShowAsync() == Windows.UI.Xaml.Controls.ContentDialogResult.Primary)
+                                if (await credentialDialog.ShowAsync() == DialogResult.Primary)
                                 {
-                                    var result = await dialog.Result;
-
-                                    if (!result.Anonymous)
+                                    if (!dialogViewModel.IsAnonymous)
                                     {
-                                        client.Credentials = new NetworkCredential(result.UserName, result.Password);
+                                        client.Credentials = new NetworkCredential(dialogViewModel.UserName, Encoding.UTF8.GetString(dialogViewModel.Password));
                                     }
                                 }
                                 else

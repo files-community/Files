@@ -6,6 +6,8 @@
     xmlns:local="using:Files.Dialogs"
     xmlns:local2="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vc="using:Files.ValueConverters"
+    xmlns:vm="using:Files.Backend.ViewModels.Dialogs"
     x:Name="AddDialog"
     x:Uid="AddDialog"
     Title="Create a New Item"
@@ -17,6 +19,10 @@
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
+
+    <ContentDialog.Resources>
+        <vc:IconModelToIconSourceConverter x:Key="IconModelToIconSourceConverter" />
+    </ContentDialog.Resources>
 
     <Grid RowSpacing="25">
         <Grid.RowDefinitions>
@@ -38,10 +44,10 @@
                 Width="400"
                 IsItemClickEnabled="True"
                 ItemClick="ListView_ItemClick"
-                ItemsSource="{x:Bind AddItemsList}"
+                ItemsSource="{x:Bind ViewModel.AddItemsList}"
                 SelectionMode="None">
                 <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="local:AddListItem">
+                    <DataTemplate x:DataType="vm:AddListItem">
                         <Grid Height="50">
                             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                                 <Grid Margin="0,0,10,0" VerticalAlignment="Center">
@@ -59,7 +65,7 @@
                                         Margin="0"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
-                                        Source="{x:Bind Icon}"
+                                        Source="{x:Bind Icon, Converter={StaticResource IconModelToIconSourceConverter}}"
                                         Stretch="Uniform" />
                                 </Grid>
                                 <StackPanel>

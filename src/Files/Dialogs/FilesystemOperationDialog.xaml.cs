@@ -1,8 +1,12 @@
-﻿using Files.Enums;
+﻿using Files.Backend.Models;
+using Files.Enums;
+using Files.Shared.Enums;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -10,7 +14,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files.Dialogs
 {
-    public sealed partial class FilesystemOperationDialog : ContentDialog, IFilesystemOperationDialogView
+    public sealed partial class FilesystemOperationDialog : ContentDialog, IDialog<FilesystemOperationDialogViewModel>, IFilesystemOperationDialogView
     {
         public FilesystemOperationDialogViewModel ViewModel
         {
@@ -28,6 +32,9 @@ namespace Files.Dialogs
             ViewModel.View = this;
             ViewModel.LoadedCommand.Execute(null);
         }
+
+        
+        public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
 
         protected override void OnApplyTemplate()
         {

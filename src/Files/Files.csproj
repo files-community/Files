@@ -217,9 +217,6 @@
     <Compile Include="DataModels\SidebarPinnedModel.cs" />
     <Compile Include="Controllers\TerminalController.cs" />
     <Compile Include="Enums\ReturnResult.cs" />
-    <Compile Include="Dialogs\BitlockerDialog.xaml.cs">
-      <DependentUpon>BitlockerDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Helpers\ContextFlyoutItemHelper.cs" />
     <Compile Include="Helpers\EnumConversionHelpers.cs" />
     <Compile Include="Helpers\Fractions.cs" />
@@ -243,6 +240,7 @@
     <Compile Include="Layouts\Listing\LayoutItemsListing.cs" />
     <Compile Include="Models\FileTagModel.cs" />
     <Compile Include="ServicesImplementation\ApplicationService.cs" />
+    <Compile Include="ServicesImplementation\DialogService.cs" />
     <Compile Include="ServicesImplementation\SettingsServices\AppearanceSettingsService.cs" />
     <Compile Include="ServicesImplementation\SettingsServices\BundlesSettingsService.cs" />
     <Compile Include="ServicesImplementation\SettingsServices\FileTagsSettingsService.cs" />
@@ -1157,10 +1155,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Content>
-    <Page Include="Dialogs\BitlockerDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Dialogs\DecompressArchiveDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

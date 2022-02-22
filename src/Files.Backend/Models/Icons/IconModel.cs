@@ -2,6 +2,6 @@
 {
     public abstract class IconModel
     {
-        public string AdditionalFormat { get; set; }
+        public string FormatInfo { get; set; }
     }
 }

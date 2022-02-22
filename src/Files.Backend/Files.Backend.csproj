@@ -143,6 +143,7 @@
     <Compile Include="Messages\TabInstanceChangedMessage.cs" />
     <Compile Include="Models\Icons\IconModel.cs" />
     <Compile Include="Models\Icons\UriIconModel.cs" />
+    <Compile Include="Models\IDialog.cs" />
     <Compile Include="Models\IFileTag.cs" />
     <Compile Include="Models\JsonSettings\BaseJsonSettingsModel.cs" />
     <Compile Include="Models\JsonSettings\BaseObservableJsonSettingsModel.cs" />
@@ -155,6 +156,8 @@
     <Compile Include="Models\JsonSettings\ISettingsSerializer.cs" />
     <Compile Include="Models\JsonSettings\ISettingsSharingContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SecureStore\DisposableArray.cs" />
+    <Compile Include="SecureStore\FreeableStore.cs" />
     <Compile Include="Services\IApplicationService.cs" />
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\IFallbackStorageEnumeratorService.cs" />
@@ -169,6 +172,9 @@
     <Compile Include="Services\Settings\IWidgetsSettingsService.cs" />
     <Compile Include="Services\Settings\IBaseSettingsService.cs" />
     <Compile Include="Services\Settings\IUserSettingsService.cs" />
+    <Compile Include="ViewModels\Dialogs\AddItemDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\CredentialDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\ElevateConfirmDialogViewModel.cs" />
     <Compile Include="ViewModels\Shell\FuturisticShellPageViewModel.cs" />
     <Compile Include="ViewModels\ItemListing\ListedFileViewModel.cs" />
     <Compile Include="ViewModels\ItemListing\ListedFolderViewModel.cs" />
