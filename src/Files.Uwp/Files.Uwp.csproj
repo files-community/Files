@@ -1626,9 +1626,13 @@
       <Project>{3d19293f-0e3a-4946-ade3-680a1e9123ec}</Project>
       <Name>BackgroundTasks</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common\Common.csproj">
+    <ProjectReference Include="..\Files.Backend\Files.Backend.csproj">
+      <Project>{4cfe0bbc-8d07-49a0-8b10-4edd61abcf57}</Project>
+      <Name>Files.Backend</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Files.Shared\Files.Shared.csproj">
       <Project>{0533133f-2559-4b53-a0fd-0970bc0e312e}</Project>
-      <Name>Common</Name>
+      <Name>Files.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
