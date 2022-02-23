@@ -1,6 +1,6 @@
 using Files.Extensions;
 using Files.Backend.Services.Settings;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;

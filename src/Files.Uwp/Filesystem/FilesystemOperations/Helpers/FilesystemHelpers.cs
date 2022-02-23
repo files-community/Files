@@ -9,7 +9,7 @@ using Files.Interacts;
 using Files.Backend.Services.Settings;
 using Files.ViewModels;
 using Files.ViewModels.Dialogs;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -24,6 +24,7 @@ using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
+using Files.Shared.Extensions;
 
 namespace Files.Filesystem
 {

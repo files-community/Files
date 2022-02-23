@@ -4,7 +4,7 @@ using System;
 
 #nullable enable
 
-namespace Files.Backend.ViewModels
+namespace Files.Backend.ViewModels.FileTags
 {
     [Serializable]
     public sealed class FileTagViewModel
@@ -15,10 +15,11 @@ namespace Files.Backend.ViewModels
 
         public string ColorString { get; set; }
 
-        private ColorModel? _color;
+        [JsonIgnore]
+        private ColorModel? _ColorModel;
 
         [JsonIgnore]
-        public ColorModel Color => _color ??= new SolidBrushColorModel(ColorString);
+        public ColorModel ColorModel => _ColorModel ??= new SolidBrushColorModel(ColorString);
 
         public FileTagViewModel(string tagName, string colorString)
         {
@@ -28,7 +29,7 @@ namespace Files.Backend.ViewModels
         }
 
         [JsonConstructor]
-        public FileTagViewModel(string tagName, string colorString, string uid)
+        private FileTagViewModel(string tagName, string colorString, string uid)
         {
             TagName = tagName;
             ColorString = colorString;

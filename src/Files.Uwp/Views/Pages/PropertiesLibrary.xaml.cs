@@ -2,7 +2,7 @@
 using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels.Properties;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

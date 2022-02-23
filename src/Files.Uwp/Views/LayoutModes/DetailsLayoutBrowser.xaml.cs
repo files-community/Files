@@ -7,7 +7,7 @@ using Files.Interacts;
 using Files.UserControls;
 using Files.UserControls.Selection;
 using Files.ViewModels;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;

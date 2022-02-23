@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp;
+﻿using Files.Shared.Enums;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Globalization;
 
@@ -113,7 +114,7 @@ namespace Files.Extensions
         public static (string text, string range, string glyph, int index) GetUserSettingsFriendlyTimeSpan(this DateTimeOffset dt)
         {
             var result = dt.GetFriendlyTimeSpan();
-            if (App.AppSettings.DisplayedTimeStyle == Enums.TimeStyle.Application)
+            if (App.AppSettings.DisplayedTimeStyle == TimeStyle.Application)
             {
                 return result;
             }

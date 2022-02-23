@@ -2,8 +2,8 @@
 using Files.Helpers;
 using Files.ViewModels.Widgets;
 using Files.ViewModels.Widgets.Bundles;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Windows.Input;
 using Windows.UI.Xaml;

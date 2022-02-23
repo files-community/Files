@@ -11,7 +11,7 @@ using Files.UserControls;
 using Files.ViewModels;
 using Files.ViewModels.Previews;
 using Files.Views;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;

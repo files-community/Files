@@ -1,12 +1,12 @@
 ﻿using Files.Filesystem;
 using Files.Backend.Services.Settings;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Files.Backend.ViewModels;
+using Files.Backend.ViewModels.FileTags;
 
 namespace Files.UserControls
 {

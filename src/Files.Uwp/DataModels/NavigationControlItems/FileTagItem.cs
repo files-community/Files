@@ -1,4 +1,4 @@
-﻿using Files.Backend.ViewModels;
+﻿using Files.Backend.ViewModels.FileTags;
 using Files.Filesystem;
 
 namespace Files.DataModels.NavigationControlItems

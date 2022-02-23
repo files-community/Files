@@ -2,7 +2,7 @@
 using Files.Backend.Services.Settings;
 using Files.UserControls.MultitaskingControl;
 using Files.Views.LayoutModes;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.ComponentModel;

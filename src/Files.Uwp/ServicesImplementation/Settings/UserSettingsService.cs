@@ -3,7 +3,7 @@ using Files.Extensions;
 using Files.Shared.EventArguments;
 using Files.Uwp.Serialization;
 using Files.Uwp.Serialization.Implementation;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using System.Collections.Generic;
 using System.IO;
 using Windows.Storage;

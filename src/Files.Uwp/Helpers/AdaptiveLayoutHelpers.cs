@@ -1,7 +1,7 @@
 ﻿using Files.Backend.Services.Settings;
 using Files.ViewModels;
 using Files.ViewModels.Previews;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using System;
 using System.Linq;
 using Windows.Storage;

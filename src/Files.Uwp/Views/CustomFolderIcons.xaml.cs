@@ -1,6 +1,6 @@
 ﻿using Files.Common;
 using Files.Helpers;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -15,6 +15,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using static Files.Views.PropertiesCustomization;
+using Files.Shared.Extensions;
 
 namespace Files.Views
 {

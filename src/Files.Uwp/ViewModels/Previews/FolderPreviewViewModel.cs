@@ -4,7 +4,7 @@ using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Backend.Services.Settings;
 using Files.ViewModels.Properties;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
