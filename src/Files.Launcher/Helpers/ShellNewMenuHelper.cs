@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Files.Shared.Extensions;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -98,11 +99,11 @@ namespace FilesFullTrust.Helpers
                 }
             }
 
-            var folder = await Extensions.IgnoreExceptions(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("extensions", CreationCollisionOption.OpenIfExists).AsTask());
-            var sampleFile = folder != null ? await Extensions.IgnoreExceptions(() => folder.CreateFileAsync("file" + extension, CreationCollisionOption.OpenIfExists).AsTask()) : null;
+            var folder = await SafetyExtensions.IgnoreExceptions(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("extensions", CreationCollisionOption.OpenIfExists).AsTask());
+            var sampleFile = folder != null ? await SafetyExtensions.IgnoreExceptions(() => folder.CreateFileAsync("file" + extension, CreationCollisionOption.OpenIfExists).AsTask()) : null;
 
             var displayType = sampleFile != null ? sampleFile.DisplayType : string.Format("{0} {1}", "file", extension);
-            var thumbnail = sampleFile != null ? await Extensions.IgnoreExceptions(() => sampleFile.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale).AsTask()) : null;
+            var thumbnail = sampleFile != null ? await SafetyExtensions.IgnoreExceptions(() => sampleFile.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale).AsTask()) : null;
 
             string iconString = null;
             if (thumbnail != null)

@@ -1,5 +1,5 @@
-﻿using Files.Enums;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Files.Shared.Enums;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Files.ViewModels
 {

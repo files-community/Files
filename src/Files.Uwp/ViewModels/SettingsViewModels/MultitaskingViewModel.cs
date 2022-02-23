@@ -1,6 +1,6 @@
-﻿using Files.Services;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+﻿using Files.Backend.Services.Settings;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 
 namespace Files.ViewModels.SettingsViewModels
 {

@@ -1,5 +1,5 @@
 ﻿using Files.DataModels;
-using Files.Enums;
+using Files.Shared.Enums;
 using Files.Filesystem;
 using Newtonsoft.Json;
 using System;
@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Files.Shared.Extensions;
 
 namespace Files.Controllers
 {
@@ -116,7 +117,7 @@ namespace Files.Controllers
 
         private async Task<IEnumerable<string>> ReadV1PinnedItemsFile()
         {
-            return await Common.Extensions.IgnoreExceptions(async () =>
+            return await SafetyExtensions.IgnoreExceptions(async () =>
             {
                 var oldPinnedItemsFile = await ApplicationData.Current.LocalCacheFolder.GetFileAsync("PinnedItems.txt");
                 var oldPinnedItems = await FileIO.ReadLinesAsync(oldPinnedItemsFile);
@@ -127,7 +128,7 @@ namespace Files.Controllers
 
         private async Task<IEnumerable<string>> ReadV2PinnedItemsFile()
         {
-            return await Common.Extensions.IgnoreExceptions(async () =>
+            return await SafetyExtensions.IgnoreExceptions(async () =>
             {
                 var oldPinnedItemsFile = await ApplicationData.Current.LocalCacheFolder.GetFileAsync("PinnedItems.json");
                 var model = JsonConvert.DeserializeObject<SidebarPinnedModel>(await FileIO.ReadTextAsync(oldPinnedItemsFile));

@@ -150,6 +150,19 @@
             public const int FolderPreviewThumbnailCount = 10;
         }
 
+        public static class PaneContent
+        {
+            public const string ContentKey = "PaneContent";
+
+            public const string HorizontalSizePxKey = "PaneHorizontalSizePx";
+
+            public const string VerticalSizePxKey = "PaneVerticalSizePx";
+
+            public const string MediaVolumeKey = "PaneMediaVolume";
+
+            public const string ShowPreviewOnlyKey = "ShowPreviewOnly";
+        }
+
         public static class ResourceFilePaths
         {
             /// <summary>

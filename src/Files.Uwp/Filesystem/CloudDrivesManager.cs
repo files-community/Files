@@ -1,10 +1,10 @@
-using Files.Common;
+using Files.Shared;
 using Files.DataModels.NavigationControlItems;
 using Files.Filesystem.Cloud;
 using Files.Helpers;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.UserControls;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;

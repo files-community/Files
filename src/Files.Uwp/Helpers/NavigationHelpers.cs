@@ -1,11 +1,11 @@
 ﻿using Files.Common;
-using Files.Enums;
+using Files.Shared.Enums;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.ViewModels;
 using Files.Views;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -464,19 +464,19 @@ namespace Files.Helpers
 
                                 switch (sortOption)
                                 {
-                                    case Enums.SortOption.Name:
+                                    case SortOption.Name:
                                         sortEntry.PropertyName = "System.ItemNameDisplay";
                                         queryOptions.SortOrder.Clear();
                                         queryOptions.SortOrder.Add(sortEntry);
                                         break;
 
-                                    case Enums.SortOption.DateModified:
+                                    case SortOption.DateModified:
                                         sortEntry.PropertyName = "System.DateModified";
                                         queryOptions.SortOrder.Clear();
                                         queryOptions.SortOrder.Add(sortEntry);
                                         break;
 
-                                    case Enums.SortOption.DateCreated:
+                                    case SortOption.DateCreated:
                                         sortEntry.PropertyName = "System.DateCreated";
                                         queryOptions.SortOrder.Clear();
                                         queryOptions.SortOrder.Add(sortEntry);

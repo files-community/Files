@@ -1,10 +1,10 @@
 ﻿using Files.DataModels;
 using Files.Dialogs;
-using Files.Enums;
+using Files.Shared.Enums;
 using Files.Extensions;
 using Files.Helpers;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;

@@ -1,17 +1,25 @@
-﻿using System;
+﻿using Files.Shared.Extensions;
+using System;
 using System.ComponentModel;
 
-namespace Files.Common
+namespace Files.Shared
 {
     public class CompatibilityOptions
     {
         public OSCompatibility OSCompatibility { get; set; }
+
         public ReducedColorMode ReducedColorMode { get; set; }
+
         public bool ExecuteAt640X480 { get; set; }
+
         public bool DisableMaximized { get; set; }
+
         public bool RunAsAdministrator { get; set; }
+
         public bool RegisterForRestart { get; set; }
+
         public HighDpiOption HighDpiOption { get; set; }
+
         public HighDpiOverride HighDpiOverride { get; set; }
 
         public override string ToString()
@@ -30,10 +38,10 @@ namespace Files.Common
                 var components = rawValue.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var value in components)
                 {
-                    compatOptions.HighDpiOption |= Extensions.GetValueFromDescription<HighDpiOption>(value);
-                    compatOptions.HighDpiOverride |= Extensions.GetValueFromDescription<HighDpiOverride>(value);
-                    compatOptions.ReducedColorMode |= Extensions.GetValueFromDescription<ReducedColorMode>(value);
-                    compatOptions.OSCompatibility |= Extensions.GetValueFromDescription<OSCompatibility>(value);
+                    compatOptions.HighDpiOption |= ComponentModelExtensions.GetValueFromDescription<HighDpiOption>(value);
+                    compatOptions.HighDpiOverride |= ComponentModelExtensions.GetValueFromDescription<HighDpiOverride>(value);
+                    compatOptions.ReducedColorMode |= ComponentModelExtensions.GetValueFromDescription<ReducedColorMode>(value);
+                    compatOptions.OSCompatibility |= ComponentModelExtensions.GetValueFromDescription<OSCompatibility>(value);
                     compatOptions.ExecuteAt640X480 |= value == CompatOptions.RegExecuteAt640X480;
                     compatOptions.DisableMaximized |= value == CompatOptions.RegDisableMaximized;
                     compatOptions.RunAsAdministrator |= value == CompatOptions.RegRunAsAdministrator;

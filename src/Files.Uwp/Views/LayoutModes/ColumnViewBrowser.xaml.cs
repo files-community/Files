@@ -2,6 +2,7 @@
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
+using Files.Shared.Extensions;
 using Files.UserControls;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -125,7 +126,7 @@ namespace Files.Views.LayoutModes
         {
             if (index >= 0)
             {
-                Common.Extensions.IgnoreExceptions(() =>
+                SafetyExtensions.IgnoreExceptions(() =>
                 {
                     while (ColumnHost.ActiveBlades.Count > index + 1)
                     {

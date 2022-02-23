@@ -1,12 +1,9 @@
 ﻿using Common;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.UI.Xaml.Media;
 
 namespace Files.Filesystem
 {
@@ -71,33 +68,6 @@ namespace Files.Filesystem
 
         private FileTagsHelper()
         {
-        }
-    }
-
-    public class FileTag // TODO: Change name to FileTagModel
-    {
-        public string TagName { get; set; }
-        public string Uid { get; set; }
-        public string ColorString { get; set; }
-
-        private SolidColorBrush color;
-
-        [JsonIgnore]
-        public SolidColorBrush Color => color ??= new SolidColorBrush(ColorString.ToColor());
-
-        public FileTag(string tagName, string colorString)
-        {
-            TagName = tagName;
-            ColorString = colorString;
-            Uid = Guid.NewGuid().ToString();
-        }
-
-        [JsonConstructor]
-        public FileTag(string tagName, string colorString, string uid)
-        {
-            TagName = tagName;
-            ColorString = colorString;
-            Uid = uid;
         }
     }
 }

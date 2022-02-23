@@ -3,6 +3,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.Interacts;
+using Files.Shared.Enums;
 using Files.UserControls.Selection;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -611,15 +612,15 @@ namespace Files.Views.LayoutModes
             {
                 switch (e.LayoutMode)
                 {
-                    case Enums.FolderLayoutModes.ColumnView:
+                    case FolderLayoutModes.ColumnView:
                         break;
-                    case Enums.FolderLayoutModes.DetailsView:
+                    case FolderLayoutModes.DetailsView:
                         parent.FolderSettings.ToggleLayoutModeDetailsView(true);
                         break;
-                    case Enums.FolderLayoutModes.TilesView:
+                    case FolderLayoutModes.TilesView:
                         parent.FolderSettings.ToggleLayoutModeTiles(true);
                         break;
-                    case Enums.FolderLayoutModes.GridView:
+                    case FolderLayoutModes.GridView:
                         parent.FolderSettings.ToggleLayoutModeGridView(e.GridViewSize);
                         break;
                 }

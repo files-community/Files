@@ -1,5 +1,6 @@
 ﻿using Files.Common;
 using Files.Helpers;
+using Files.Shared.Extensions;
 using FluentFTP;
 using Microsoft.Toolkit.Uwp;
 using System;

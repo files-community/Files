@@ -1,4 +1,4 @@
-﻿using Files.Enums;
+﻿using Files.Shared.Enums;
 using Files.ViewModels.Dialogs;
 using System;
 using Windows.UI.Xaml.Controls;

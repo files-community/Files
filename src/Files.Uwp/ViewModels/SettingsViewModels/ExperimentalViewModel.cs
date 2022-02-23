@@ -1,9 +1,9 @@
-﻿using Files.Common;
+﻿using Files.Shared.Extensions;
 using Files.Helpers;
-using Files.Services;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;

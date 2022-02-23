@@ -4,11 +4,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls"
-    xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vc="using:Files.Uwp.ValueConverters"
+    xmlns:vm="using:Files.Backend.ViewModels.FileTags"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
+    </UserControl.Resources>
 
     <Grid x:Name="LayoutRoot" Height="34">
         <ListView
@@ -34,12 +39,12 @@
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="local2:FileTag">
+                <DataTemplate x:DataType="vm:FileTagViewModel">
                     <Ellipse
                         Width="14"
                         Height="14"
-                        Fill="{x:Bind Color}"
-                        ToolTipService.ToolTip="{x:Bind TagName}" />
+                        Fill="{x:Bind ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
+                        ToolTipService.ToolTip="{x:Bind TagName, Mode=OneWay}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.ItemsPanel>

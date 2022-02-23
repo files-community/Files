@@ -1,7 +1,7 @@
 ﻿using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.ViewModels.Properties;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Threading.Tasks;

@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Common
+namespace Files.Shared
 {
     public class Logger
     {
