@@ -203,7 +203,7 @@ namespace Files.Filesystem
 
                 if (image.PixelWidth > 0)
                 {
-                    Common.Extensions.IgnoreExceptions(() =>
+                    ActionExtensions.IgnoreExceptions(() =>
                     {
                         LoadFileIcon = true;
                         PlaceholderDefaultIcon = null;

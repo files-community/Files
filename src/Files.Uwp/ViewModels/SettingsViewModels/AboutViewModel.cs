@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Extensions;
+using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Services;
@@ -142,7 +143,7 @@ namespace Files.ViewModels.SettingsViewModels
 
         public void CopyVersionInfo()
         {
-            Common.Extensions.IgnoreExceptions(() =>
+            ActionExtensions.IgnoreExceptions(() =>
             {
                 DataPackage dataPackage = new DataPackage();
                 dataPackage.RequestedOperation = DataPackageOperation.Copy;

@@ -125,7 +125,7 @@ namespace Files.Views.LayoutModes
         {
             if (index >= 0)
             {
-                Common.Extensions.IgnoreExceptions(() =>
+                ActionExtensions.IgnoreExceptions(() =>
                 {
                     while (ColumnHost.ActiveBlades.Count > index + 1)
                     {

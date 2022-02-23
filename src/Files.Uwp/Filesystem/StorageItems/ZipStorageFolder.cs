@@ -51,7 +51,7 @@ namespace Files.Filesystem.StorageItems
             {
                 return entry.Name;
             }
-            var decoded = Common.Extensions.IgnoreExceptions(() =>
+            var decoded = ActionExtensions.IgnoreExceptions(() =>
             {
                 var rawBytes = Encoding.GetEncoding(Constants.Filesystem.ExtendedAsciiCodePage).GetBytes(entry.Name);
                 return zipEncoding.GetString(rawBytes);
@@ -70,7 +70,7 @@ namespace Files.Filesystem.StorageItems
                 {
                     return Encoding.UTF8;
                 }
-                var guessedEncoding = Common.Extensions.IgnoreExceptions(() =>
+                var guessedEncoding = ActionExtensions.IgnoreExceptions(() =>
                 {
                     var rawBytes = Encoding.GetEncoding(Constants.Filesystem.ExtendedAsciiCodePage).GetBytes(entry.Name);
                     cdet.Feed(rawBytes, 0, rawBytes.Length);
@@ -579,7 +579,7 @@ namespace Files.Filesystem.StorageItems
 
         private static bool CheckAccess(string path)
         {
-            return Common.Extensions.IgnoreExceptions(() =>
+            return ActionExtensions.IgnoreExceptions(() =>
             {
                 var hFile = NativeFileOperationsHelper.OpenFileForRead(path);
                 if (hFile.IsInvalid)
@@ -593,7 +593,7 @@ namespace Files.Filesystem.StorageItems
 
         private static async Task<bool> CheckAccess(IStorageFile file)
         {
-            return await Common.Extensions.IgnoreExceptions(async () =>
+            return await ActionExtensions.IgnoreExceptions(async () =>
             {
                 using var stream = await file.OpenReadAsync();
                 return CheckAccess(stream.AsStream());
@@ -602,7 +602,7 @@ namespace Files.Filesystem.StorageItems
 
         private static bool CheckAccess(Stream stream)
         {
-            return Common.Extensions.IgnoreExceptions(() =>
+            return ActionExtensions.IgnoreExceptions(() =>
             {
                 using (ZipFile zipFile = new(stream))
                 {

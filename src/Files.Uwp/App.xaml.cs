@@ -1,5 +1,6 @@
 using Files.CommandLine;
 using Files.Controllers;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
@@ -526,7 +527,7 @@ namespace Files
 
             if (OutputPath != null)
             {
-                await Shared.Extensions.IgnoreExceptions(async () =>
+                await ActionExtensions.IgnoreExceptions(async () =>
                 {
                     var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
                     if (instance == null)
@@ -547,7 +548,7 @@ namespace Files
             PreviewPaneViewModel?.Dispose();
 
             // Try to maintain clipboard data after app close
-            Shared.Extensions.IgnoreExceptions(() =>
+            ActionExtensions.IgnoreExceptions(() =>
             {
                 var dataPackage = Clipboard.GetContent();
                 if (dataPackage.Properties.PackageFamilyName == Package.Current.Id.FamilyName)
