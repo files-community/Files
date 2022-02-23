@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Platforms>x86;x64;arm64</Platforms>
     <RuntimeIdentifiers>win-arm64;win-x86;win-x64</RuntimeIdentifiers>
     <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>

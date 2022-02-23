@@ -242,6 +242,7 @@
     <Compile Include="Serialization\Implementation\DefaultSettingsSerializer.cs" />
     <Compile Include="Serialization\ISettingsSerializer.cs" />
     <Compile Include="Serialization\ISettingsSharingContext.cs" />
+    <Compile Include="ServicesImplementation\DialogService.cs" />
     <Compile Include="ServicesImplementation\Settings\AppearanceSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\BundlesSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\FileTagsSettingsService.cs" />
