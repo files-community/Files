@@ -21,7 +21,7 @@ using Windows.Foundation.Collections;
 namespace FilesFullTrust.MessageHandlers
 {
     [SupportedOSPlatform("Windows10.0.10240")]
-    public class FileOperationsHandler : IMessageHandler
+    public class FileOperationsHandler : Disposable, IMessageHandler
     {
         private FileTagsDb dbInstance;
         private ProgressHandler progressHandler;
@@ -899,10 +899,13 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            progressHandler?.Dispose();
-            dbInstance?.Dispose();
+            if (disposing)
+            {
+                progressHandler?.Dispose();
+                dbInstance?.Dispose();
+            }
         }
 
         private class ProgressHandler : IDisposable

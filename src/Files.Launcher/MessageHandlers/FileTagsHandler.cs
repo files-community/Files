@@ -11,7 +11,7 @@ using Windows.Storage;
 namespace FilesFullTrust.MessageHandlers
 {
     [SupportedOSPlatform("Windows10.0.10240")]
-    public class FileTagsHandler : IMessageHandler
+    public class FileTagsHandler : Disposable, IMessageHandler
     {
         public static string ReadFileTag(string filePath)
         {
@@ -123,10 +123,6 @@ namespace FilesFullTrust.MessageHandlers
         }
 
         public void Initialize(PipeStream connection)
-        {
-        }
-
-        public void Dispose()
         {
         }
     }

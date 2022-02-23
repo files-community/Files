@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Files Logo" src="src/Files/Assets/AppTiles/StoreLogo.scale-400.png" width="100px" />
+  <img alt="Files Logo" src="src/Files.Uwp/Assets/AppTiles/StoreLogo.scale-400.png" width="100px" />
   <h1 align="center">Files</h1>
 </p>
 
@@ -55,4 +55,4 @@ Want to contribute to this project? Feel free to open an [issue](https://github.
 
 ## Screenshots
 
-![Files](src/Files/Assets/FilesHome.png)
+![Files](src/Files.Uwp/Assets/FilesHome.png)
