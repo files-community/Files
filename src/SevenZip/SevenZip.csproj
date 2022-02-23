@@ -2,6 +2,8 @@
   <PropertyGroup>
     <AssemblyName>SevenZipSharp</AssemblyName>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
+	<Platforms>x86;x64;arm64</Platforms>
+	<RuntimeIdentifiers>win-arm64;win-x86;win-x64</RuntimeIdentifiers>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>SevenZip.snk</AssemblyOriginatorKeyFile>
     <AssemblyTitle>SevenZipSharp</AssemblyTitle>
