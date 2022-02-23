@@ -90,7 +90,8 @@
                 Padding="0,12,0,4"
                 FontSize="14"
                 FontWeight="Medium"
-                Text="{helpers:ResourceString Name=SettingsDefaultFilesManager}" />
+                Text="{helpers:ResourceString Name=SettingsDefaultFilesManager}"
+                Visibility="{Binding IsSetAsDefaultVisible, Mode=OneWay}" />
 
             <local:SettingsBlockControl
                 x:Name="SetAsDefaultSettingsBlockControl"
