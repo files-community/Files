@@ -7,8 +7,8 @@
     <ProjectGuid>{64C30C4E-A69A-411C-9F78-776E7AAD583C}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Files</RootNamespace>
-    <AssemblyName>Files</AssemblyName>
+    <RootNamespace>Files.Uwp</RootNamespace>
+    <AssemblyName>Files.Uwp</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
     <AppxDefaultResourceQualifiers>Language=en-US;af;ar;bg;ca;da;da-DK;de-DE;el;en-GB;es-ES;es-419;fr-FR;he-IL;hi-IN;hu-HU;id-ID;it-IT;ja-JP;ka;ko-KR;lv-LV;nb-NO;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ru-RU;sk-SK;sv-SE;ta;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>

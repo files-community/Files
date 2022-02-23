@@ -20,6 +20,7 @@
     xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     xmlns:tui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:uc="using:Files.UserControls"
+    xmlns:vc="using:Files.Uwp.ValueConverters"
     x:Name="PageRoot"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -47,6 +48,7 @@
                 EmptyValue="Collapsed"
                 NotEmptyValue="Visible" />
 
+            <vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
             <converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
@@ -650,7 +652,7 @@
                                         Margin="4,0,0,0"
                                         VerticalAlignment="Center"
                                         x:Phase="2"
-                                        Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
+                                        Fill="{x:Bind FileTagUI.ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
                                         Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
                                 </Grid>
 

@@ -18,6 +18,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:tui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:uc="using:Files.UserControls"
+    xmlns:vc="using:Files.Uwp.ValueConverters"
     x:Name="PageRoot"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -30,6 +31,7 @@
         </icore:EventTriggerBehavior>
     </i:Interaction.Behaviors>
     <local:BaseLayout.Resources>
+        <vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
         <converters:BoolToVisibilityConverter
             x:Key="NegatedBoolToVisibilityConverter"
@@ -171,7 +173,7 @@
                         Height="12"
                         Margin="0,0,4,0"
                         x:Phase="2"
-                        Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
+                        Fill="{x:Bind FileTagUI.ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
                         ToolTipService.ToolTip="{x:Bind FileTagUI.TagName, Mode=OneWay}"
                         Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
                     <TextBlock
@@ -231,7 +233,7 @@
                         Height="12"
                         Margin="0,4,0,4"
                         x:Phase="2"
-                        Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
+                        Fill="{x:Bind FileTagUI.ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
                         ToolTipService.ToolTip="{x:Bind FileTagUI.TagName, Mode=OneWay}"
                         Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
                     <FontIcon
@@ -335,8 +337,8 @@
                         x:Name="TileViewTextBoxItemName"
                         Grid.Row="0"
                         HorizontalAlignment="Left"
-                        TextChanged="GridViewTextBoxItemName_TextChanged"
                         Text="{x:Bind ItemName, Mode=OneWay}"
+                        TextChanged="GridViewTextBoxItemName_TextChanged"
                         Visibility="Collapsed" />
                     <TextBlock
                         Grid.Row="1"

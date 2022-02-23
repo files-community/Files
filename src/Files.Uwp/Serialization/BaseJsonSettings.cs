@@ -64,6 +64,7 @@ namespace Files.Uwp.Serialization
             {
                 // Can register only once
                 _settingsSharingContext = settingsSharingContext;
+                IsAvailable = settingsSharingContext.Instance.IsAvailable;
                 return true;
             }
 

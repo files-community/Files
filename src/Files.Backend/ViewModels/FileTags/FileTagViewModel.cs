@@ -29,7 +29,7 @@ namespace Files.Backend.ViewModels.FileTags
         }
 
         [JsonConstructor]
-        private FileTagViewModel(string tagName, string colorString, string uid)
+        public FileTagViewModel(string tagName, string colorString, string uid)
         {
             TagName = tagName;
             ColorString = colorString;
