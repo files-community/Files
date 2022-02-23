@@ -90,13 +90,16 @@
                 Padding="0,12,0,4"
                 FontSize="14"
                 FontWeight="Medium"
-                Text="{helpers:ResourceString Name=SettingsDefaultFilesManager}" />
+                Text="{helpers:ResourceString Name=SettingsDefaultFilesManager}"
+                Visibility="{Binding IsSetAsDefaultVisible, Mode=OneWay}" />
 
             <local:SettingsBlockControl
+                x:Name="SetAsDefaultSettingsBlockControl"
                 Title="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}"
                 HorizontalAlignment="Stretch"
                 Description="{helpers:ResourceString Name=SettingsSetAsDefaultFileManagerDescription}"
-                IsExpanded="True">
+                IsExpanded="True"
+                Visibility="{Binding IsSetAsDefaultVisible, Mode=OneWay}">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xEC50;" />
                 </local:SettingsBlockControl.Icon>
