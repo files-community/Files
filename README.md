@@ -30,7 +30,6 @@ Have any questions? Check out our [documentation site](https://files.community/d
 
 ### 1: Prerequisites
 
-- Windows 11
 - [Git](https://git-scm.com)
 - [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) with the UWP Development Kit and following individual components:
     - Windows 11 SDK (10.0.22000)
