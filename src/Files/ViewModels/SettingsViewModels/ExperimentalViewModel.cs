@@ -132,7 +132,7 @@ namespace Files.ViewModels.SettingsViewModels
 
         private bool DetectIsSetAsDefaultVisible()
         {
-            if (Package.Current.Id.FamilyName == "FilesUWP_dwm5abbcs5pn0" && !IsSetAsDefaultFileManager)
+            if (Package.Current.Id.FamilyName == "49306atecsolution.FilesUWP_et10x9a9vyk8t" && !IsSetAsDefaultFileManager)
             {
                 return false;
             }
