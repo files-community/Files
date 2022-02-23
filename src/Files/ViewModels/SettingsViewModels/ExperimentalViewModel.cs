@@ -28,7 +28,7 @@ namespace Files.ViewModels.SettingsViewModels
         {
             IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
             IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
-            IsSideloadVersion = DetectIsSideloadVersion();
+            IsSetAsDefaultVisible = DetectIsSetAsDefaultVisible();
 
             EditFileTagsCommand = new AsyncRelayCommand(LaunchFileTagsConfigFile);
             SetAsDefaultExplorerCommand = new AsyncRelayCommand(SetAsDefaultExplorer);
@@ -130,9 +130,9 @@ namespace Files.ViewModels.SettingsViewModels
             return ApplicationData.Current.LocalSettings.Values.Get("IsSetAsOpenFileDialog", false);
         }
 
-        private bool DetectIsSideloadVersion()
+        private bool DetectIsSetAsDefaultVisible()
         {
-            if (Package.Current.Id.FamilyName == "49306atecsolution.FilesUWP_dwm5abbcs5pn0")
+            if (Package.Current.Id.FamilyName == "FilesUWP_dwm5abbcs5pn0" && !IsSetAsDefaultFileManager)
             {
                 return false;
             }
@@ -154,13 +154,14 @@ namespace Files.ViewModels.SettingsViewModels
             get => isSetAsOpenFileDialog;
             set => SetProperty(ref isSetAsOpenFileDialog, value);
         }
-        
-        private bool isSideloadVersion;
 
-        public bool IsSideloadVersion
+
+        private bool isSetAsDefaultVisible;
+
+        public bool IsSetAsDefaultVisible
         {
-            get => isSideloadVersion;
-            set => SetProperty(ref isSideloadVersion, value);
+            get => isSetAsDefaultVisible;
+            set => SetProperty(ref isSetAsDefaultVisible, value);
         }
     }
 }

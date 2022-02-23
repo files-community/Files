@@ -9,7 +9,7 @@
     xmlns:local="using:Files.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels" xmlns:converters="using:Files.Converters"
+    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
@@ -93,11 +93,12 @@
                 Text="{helpers:ResourceString Name=SettingsDefaultFilesManager}" />
 
             <local:SettingsBlockControl
+                x:Name="SetAsDefaultSettingsBlockControl"
                 Title="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}"
                 HorizontalAlignment="Stretch"
                 Description="{helpers:ResourceString Name=SettingsSetAsDefaultFileManagerDescription}"
                 IsExpanded="True"
-                x:Load="{Binding converters:MultiBooleanConverter.OrConvertToVisibility(IsSetAsDefaultFileManager, IsSideloadVersion), Mode=OneWay}">
+                Visibility="{Binding IsSetAsDefaultVisible, Mode=OneWay}">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xEC50;" />
                 </local:SettingsBlockControl.Icon>
