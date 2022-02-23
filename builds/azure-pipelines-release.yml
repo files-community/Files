@@ -84,7 +84,7 @@ jobs:
       solution: '**/*.wapproj'
       platform: 'x86'
       configuration: '$(buildConfiguration)'
-      msbuildArguments: '/t:build;_GenerateAppxPackage /restore /p:AppxLogTelemetryFromSideloadingScript=False /p:GenerateAppInstallerFile=True /p:AppInstallerUri=https://filescommunity.blob.core.windows.net/files/preview/ /p:AppInstallerCheckForUpdateFrequency=OnApplicationRun /p:AppInstallerUpdateFrequency=1 /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=Sideload /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="$(caCertificate.secureFilePath)" /p:PackageCertificatePassword="$(signingCert.password)" /p:PackageCertificateThumbprint=""'
+      msbuildArguments: '/t:build;_GenerateAppxPackage /restore /p:AppxLogTelemetryFromSideloadingScript=False /p:GenerateAppInstallerFile=True /p:AppInstallerUri=https://filescommunity.blob.core.windows.net/files/stable/ /p:AppInstallerCheckForUpdateFrequency=OnApplicationRun /p:AppInstallerUpdateFrequency=1 /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=Sideload /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="$(caCertificate.secureFilePath)" /p:PackageCertificatePassword="$(signingCert.password)" /p:PackageCertificateThumbprint=""'
       maximumCpuCount: true
 
   - task: CopyFiles@2
@@ -108,96 +108,4 @@ jobs:
       Destination: 'AzureBlob'
       storage: 'filescommunity'
       ContainerName: 'files'
-      BlobPrefix: 'preview'
-
-### Store release ###
-- job: StoreRelease
-  timeoutInMinutes: 120
-
-  steps:
-  - task: PowerShell@2
-    inputs:
-      targetType: 'inline'
-      script: |
-        [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest
-        $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
-        $xmlDoc.Package.Identity.Publisher="CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7"
-        $xmlDoc.Package.Properties.DisplayName="Files"
-        $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
-        $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest')
-      failOnStderr: true
-
-  - task: PowerShell@2
-    displayName: 'Use Release Logo'
-    inputs:
-      targetType: 'inline'
-      script: |
-        gci $(Build.SourcesDirectory)\src -Include *.csproj, *.appxmanifest, *.wapproj -recurse | ForEach -Process {
-        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "Assets\\AppTilesDev", "Assets\AppTiles"}) | Set-Content $_ -NoNewline
-        }
-      failOnStderr: true
-
-  - task: DownloadSecureFile@1
-    name: mapsDevKey
-    displayName: 'Download Bing Maps Dev Key'
-    inputs:
-      secureFile: 'BingMapsKey.txt'
-
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: '$(Agent.TempDirectory)'
-      Contents: '$(mapsDevKey.secureFilePath)'
-      TargetFolder: '$(Build.SourcesDirectory)\src\Files\Resources'
-      overWrite: true
-
-  - task: DownloadSecureFile@1
-    name: appCenterDevKey
-    displayName: 'Download AppCenter Dev Key'
-    inputs:
-      secureFile: 'AppCenterKey.txt'
-
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: '$(Agent.TempDirectory)'
-      Contents: '$(appCenterDevKey.secureFilePath)'
-      TargetFolder: '$(Build.SourcesDirectory)\src\Files\Resources'
-      overWrite: true
-
-  - task: UseDotNet@2
-    inputs:
-      packageType: sdk
-      version: 6.0.100
-
-  - task: MSBuild@1
-    inputs:
-      solution: '**/*.wapproj'
-      platform: 'x86'
-      configuration: '$(buildConfiguration)'
-      msbuildArguments: '/t:build;_GenerateAppxPackage /restore /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
-      maximumCpuCount: true
-    
-  - task: CopyFiles@2
-    displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
-    inputs:
-      SourceFolder: '$(system.defaultworkingdirectory)'
-      Contents: '**\bin\$(BuildConfiguration)\**'
-      TargetFolder: '$(build.artifactstagingdirectory)'
-
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: Store'
-    inputs:
-      PathtoPublish: '$(build.artifactstagingdirectory)'
-      ArtifactName: 'Store'
-      publishLocation: 'Container'
-
-  - task: store-flight@0
-    inputs:
-      serviceEndpoint: 'Files'
-      appId: '9NGHP3DX8HDX'
-      flightName: 'Files - Preview'
-      packagePath: '$(appxPackageDir)\**\*.msixupload'
-      force: false
-      skipPolling: false
-      deletePackages: true
-      numberOfPackagesToKeep: '5'
-      isMandatoryUpdate: true
+      BlobPrefix: 'stable'
