@@ -7,6 +7,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.ApplicationModel;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
@@ -27,6 +28,7 @@ namespace Files.ViewModels.SettingsViewModels
         {
             IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
             IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
+            IsSideloadVersion = DetectIsSideloadVersion();
 
             EditFileTagsCommand = new AsyncRelayCommand(LaunchFileTagsConfigFile);
             SetAsDefaultExplorerCommand = new AsyncRelayCommand(SetAsDefaultExplorer);
@@ -128,6 +130,15 @@ namespace Files.ViewModels.SettingsViewModels
             return ApplicationData.Current.LocalSettings.Values.Get("IsSetAsOpenFileDialog", false);
         }
 
+        private bool DetectIsSideloadVersion()
+        {
+            if (Package.Current.Id.FamilyName == "49306atecsolution.FilesUWP_dwm5abbcs5pn0")
+            {
+                return false;
+            }
+            return true;
+        }
+
         private bool isSetAsDefaultFileManager;
 
         public bool IsSetAsDefaultFileManager
@@ -142,6 +153,14 @@ namespace Files.ViewModels.SettingsViewModels
         {
             get => isSetAsOpenFileDialog;
             set => SetProperty(ref isSetAsOpenFileDialog, value);
+        }
+        
+        private bool isSideloadVersion;
+
+        public bool IsSideloadVersion
+        {
+            get => isSideloadVersion;
+            set => SetProperty(ref isSideloadVersion, value);
         }
     }
 }
