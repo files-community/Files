@@ -15,7 +15,6 @@ namespace Files.Backend.ViewModels
 
         public string ColorString { get; set; }
 
-        [JsonIgnore]
         private ColorModel? _color;
 
         [JsonIgnore]
