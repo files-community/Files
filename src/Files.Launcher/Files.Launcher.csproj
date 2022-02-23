@@ -29,7 +29,7 @@
     <PackageReference Include="Vanara.Windows.Shell" Version="3.3.15" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
     <Content Include="Assets\FilesOpenDialog\SetFilesAsDefault.reg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
