@@ -1,7 +1,7 @@
-﻿using Files.Common;
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
+using Files.Shared;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

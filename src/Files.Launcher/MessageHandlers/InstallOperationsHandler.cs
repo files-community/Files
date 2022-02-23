@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Files.Shared.Extensions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
-using System.Threading.Tasks;
 using System.Linq;
-using Files.Common;
 using System.Runtime.Versioning;
+using System.Threading.Tasks;
 
 namespace FilesFullTrust.MessageHandlers
 {

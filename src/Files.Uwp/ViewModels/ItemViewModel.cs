@@ -1,4 +1,3 @@
-using Files.Common;
 using Files.Dialogs;
 using Files.Enums;
 using Files.EventArguments;
@@ -11,6 +10,8 @@ using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
 using Files.Services;
+using Files.Shared;
+using Files.Shared.Extensions;
 using Files.UserControls;
 using Files.ViewModels.Previews;
 using FluentFTP;

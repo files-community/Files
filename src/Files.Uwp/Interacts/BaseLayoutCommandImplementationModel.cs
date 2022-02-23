@@ -1,10 +1,9 @@
-﻿using Files.Common;
-using Files.Dialogs;
+﻿using Files.Dialogs;
 using Files.Enums;
-using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
+using Files.Shared;
 using Files.ViewModels;
 using Files.ViewModels.Dialogs;
 using Files.Views;

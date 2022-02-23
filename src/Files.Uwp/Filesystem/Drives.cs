@@ -1,8 +1,8 @@
-using Files.Common;
 using Files.DataModels.NavigationControlItems;
 using Files.Enums;
 using Files.Helpers;
 using Files.Services;
+using Files.Shared;
 using Files.UserControls;
 using Files.UserControls.Widgets;
 using Microsoft.Toolkit.Mvvm.ComponentModel;

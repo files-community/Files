@@ -1,4 +1,5 @@
-﻿using Files.Common;
+﻿using Files.Shared;
+using Files.Shared.Misc;
 using System;
 using System.IO;
 using System.Linq;

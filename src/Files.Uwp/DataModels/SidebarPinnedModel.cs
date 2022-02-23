@@ -1,9 +1,9 @@
-﻿using Files.Common;
-using Files.Controllers;
+﻿using Files.Controllers;
 using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Services;
+using Files.Shared.Extensions;
 using Files.UserControls;
 using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;

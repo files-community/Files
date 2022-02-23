@@ -1,5 +1,5 @@
-﻿using Files.Common;
-using Files.Filesystem.Cloud.Providers;
+﻿using Files.Filesystem.Cloud.Providers;
+using Files.Shared;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

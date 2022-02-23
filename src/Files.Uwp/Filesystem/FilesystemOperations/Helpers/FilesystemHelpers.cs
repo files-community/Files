@@ -1,5 +1,4 @@
-﻿using Files.Common;
-using Files.DataModels;
+﻿using Files.DataModels;
 using Files.Dialogs;
 using Files.Enums;
 using Files.Extensions;
@@ -7,7 +6,8 @@ using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.Interacts;
 using Files.Services;
-using Files.ViewModels;
+using Files.Shared;
+using Files.Shared.Extensions;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
@@ -379,7 +379,7 @@ namespace Files.Filesystem
                 return ReturnResult.Failed;
             }
 
-            if (!source.IsEmpty())
+            if (!Shared.Extensions.LinqExtensions.IsEmpty(source))
             {
                 ReturnResult returnStatus = ReturnResult.InProgress;
 
@@ -390,7 +390,7 @@ namespace Files.Filesystem
                     if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
                     {
                         binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
-                        if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
+                        if (!Shared.Extensions.LinqExtensions.IsEmpty(binItems)) // Might still be null because we're deserializing the list from Json
                         {
                             var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
                             destinations.Add(PathNormalization.Combine(destination, matchingItem?.FileName ?? item.Name));
@@ -531,7 +531,7 @@ namespace Files.Filesystem
                 if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
                 {
                     binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
-                    if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
+                    if (!Shared.Extensions.LinqExtensions.IsEmpty(binItems)) // Might still be null because we're deserializing the list from Json
                     {
                         var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
                         destinations.Add(PathNormalization.Combine(destination, matchingItem?.FileName ?? item.Name));

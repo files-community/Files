@@ -1,5 +1,7 @@
 ﻿using Common;
-using Files.Common;
+using Files.Shared;
+using Files.Shared.Extensions;
+using Files.Shared.Misc;
 using FilesFullTrust.Helpers;
 using Microsoft.Win32;
 using Newtonsoft.Json;

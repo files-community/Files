@@ -1,5 +1,5 @@
-using Files.Common;
 using Files.Filesystem;
+using Files.Shared;
 using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;

@@ -1,8 +1,8 @@
-﻿using Files.Common;
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Services;
+using Files.Shared.Extensions;
 using Files.UserControls.MultitaskingControl;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;

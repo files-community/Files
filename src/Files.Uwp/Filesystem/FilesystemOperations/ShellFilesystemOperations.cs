@@ -1,8 +1,9 @@
-﻿using Files.Common;
-using Files.Enums;
+﻿using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
+using Files.Shared;
+using Files.Shared.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -135,7 +136,7 @@ namespace Files.Filesystem
                 if (copiedSources.Any())
                 {
                     var sourceMatch = await copiedSources.Select(x => sourceRename.SingleOrDefault(s => s.Path == x.Source)).Where(x => x != null).ToListAsync();
-                    return new StorageHistory(FileOperationType.Copy, 
+                    return new StorageHistory(FileOperationType.Copy,
                         sourceMatch,
                         await copiedSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
                             .Select(item => StorageHelpers.FromPathAndType(item.rSrc.Destination, item.oSrc.ItemType)).ToListAsync());
@@ -524,7 +525,7 @@ namespace Files.Filesystem
                         .Select(src => StorageHelpers.FromPathAndType(
                             Path.Combine(Path.GetDirectoryName(src.rSrc.Source), Path.GetFileName(src.rSrc.Source).Replace("$R", "$I", StringComparison.Ordinal)),
                             src.oSrc.ItemType)).ToListAsync(), null, null, true, cancellationToken);
-                    return new StorageHistory(FileOperationType.Restore, 
+                    return new StorageHistory(FileOperationType.Restore,
                         sourceMatch,
                         await movedSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
                             .Select(item => StorageHelpers.FromPathAndType(item.rSrc.Destination, item.oSrc.ItemType)).ToListAsync());

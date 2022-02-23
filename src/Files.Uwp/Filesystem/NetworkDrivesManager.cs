@@ -1,7 +1,7 @@
-﻿using Files.Common;
-using Files.DataModels.NavigationControlItems;
+﻿using Files.DataModels.NavigationControlItems;
 using Files.Helpers;
 using Files.Services;
+using Files.Shared;
 using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;

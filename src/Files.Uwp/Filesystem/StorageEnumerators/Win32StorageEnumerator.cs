@@ -1,9 +1,9 @@
-﻿using Files.Common;
-using Files.Extensions;
+﻿using Files.Extensions;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
 using Files.Services;
+using Files.Shared;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;

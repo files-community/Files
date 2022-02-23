@@ -1,8 +1,8 @@
 ﻿using ByteSizeLib;
-using Files.Common;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Shared.Extensions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;

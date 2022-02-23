@@ -1,6 +1,6 @@
-﻿using Files.Common;
-using Files.Extensions;
+﻿using Files.Extensions;
 using Files.Helpers;
+using Files.Shared;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;

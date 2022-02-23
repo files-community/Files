@@ -1,8 +1,8 @@
-﻿using Files.Common;
-using Files.DataModels.NavigationControlItems;
+﻿using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Filesystem.Permissions;
 using Files.Helpers;
+using Files.Shared.Extensions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;

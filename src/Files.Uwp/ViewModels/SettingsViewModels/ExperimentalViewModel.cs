@@ -1,6 +1,6 @@
-﻿using Files.Common;
-using Files.Helpers;
+﻿using Files.Helpers;
 using Files.Services;
+using Files.Shared.Extensions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;

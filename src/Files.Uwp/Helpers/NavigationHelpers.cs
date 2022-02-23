@@ -1,8 +1,8 @@
-﻿using Files.Common;
-using Files.Enums;
+﻿using Files.Enums;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Services;
+using Files.Shared;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;

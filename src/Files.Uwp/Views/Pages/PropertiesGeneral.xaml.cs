@@ -1,6 +1,6 @@
-using Files.Common;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Shared;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
 using System.IO;

@@ -1,7 +1,6 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using FilesFullTrust.MMI;
 using Microsoft.Management.Infrastructure;
-using System;
 using System.IO.Pipes;
 using System.Runtime.Versioning;
 using System.Threading.Tasks;

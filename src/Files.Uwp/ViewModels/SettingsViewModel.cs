@@ -1,7 +1,7 @@
-using Files.Common;
 using Files.DataModels;
 using Files.Enums;
 using Files.Helpers;
+using Files.Shared.Extensions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;

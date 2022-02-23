@@ -1,5 +1,6 @@
-﻿using Files.Common;
-using Files.Helpers;
+﻿using Files.Helpers;
+using Files.Shared;
+using Files.Shared.Extensions;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;

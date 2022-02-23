@@ -1,9 +1,10 @@
-﻿using Files.Common;
-using Files.Enums;
+﻿using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
+using Files.Shared;
+using Files.Shared.Extensions;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;

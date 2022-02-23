@@ -1,7 +1,7 @@
-﻿using Files.Common;
-using Files.Dialogs;
+﻿using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
+using Files.Shared;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;

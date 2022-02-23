@@ -1,10 +1,10 @@
-﻿using Files.Common;
-using Files.Dialogs;
+﻿using Files.Dialogs;
 using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Interacts;
+using Files.Shared;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using System;

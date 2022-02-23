@@ -1,8 +1,8 @@
-﻿using Files.Common;
-using Files.Extensions;
+﻿using Files.Extensions;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Services;
+using Files.Shared.Extensions;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -208,12 +208,12 @@ namespace Files.Filesystem.Search
                     var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
                     var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
                     var startWithDot = findData.cFileName.StartsWith(".");
-                    
-                    bool shouldBeListed = (!isHidden || 
-                        (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && 
-                        (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) && 
+
+                    bool shouldBeListed = (!isHidden ||
+                        (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible &&
+                        (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) &&
                         (!startWithDot || UserSettingsService.PreferencesSettingsService.ShowDotFiles);
-                    
+
                     if (shouldBeListed)
                     {
                         var item = GetListedItemAsync(match.FilePath, findData);
@@ -307,7 +307,7 @@ namespace Files.Filesystem.Search
                             isHidden && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden) :
                             !isHidden || (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) &&
                             (!startWithDot || UserSettingsService.PreferencesSettingsService.ShowDotFiles);
-                        
+
                         if (shouldBeListed)
                         {
                             var item = GetListedItemAsync(itemPath, findData);

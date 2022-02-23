@@ -1,5 +1,4 @@
-﻿using Files.Common;
-using Files.Dialogs;
+﻿using Files.Dialogs;
 using Files.Enums;
 using Files.EventArguments;
 using Files.Filesystem;
@@ -7,6 +6,7 @@ using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.Search;
 using Files.Helpers;
 using Files.Services;
+using Files.Shared;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;

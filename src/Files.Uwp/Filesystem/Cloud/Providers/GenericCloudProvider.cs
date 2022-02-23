@@ -1,5 +1,5 @@
-﻿using Files.Common;
-using Files.Helpers;
+﻿using Files.Helpers;
+using Files.Shared;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

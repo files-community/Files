@@ -1,9 +1,9 @@
-﻿using Files.Common;
-using Files.Enums;
+﻿using Files.Enums;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Services;
+using Files.Shared.Extensions;
 using Files.UserControls;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;

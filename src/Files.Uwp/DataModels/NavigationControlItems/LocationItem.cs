@@ -1,5 +1,5 @@
-﻿using Files.Common;
-using Files.Filesystem;
+﻿using Files.Filesystem;
+using Files.Shared;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
