@@ -1,7 +1,7 @@
 ﻿using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;

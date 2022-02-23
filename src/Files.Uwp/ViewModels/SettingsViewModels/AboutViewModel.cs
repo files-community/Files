@@ -1,7 +1,8 @@
-﻿using Files.Filesystem;
+﻿using Files.Backend.Services.Settings;
+using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using Files.Services;
+using Files.Shared.Extensions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -22,9 +23,9 @@ namespace Files.ViewModels.SettingsViewModels
 {
     public class AboutViewModel : ObservableObject
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
-        private IBundlesSettingsService BundlesSettingsService { get; } = Ioc.Default.GetService<IBundlesSettingsService>();
-        protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+        private IBundlesSettingsService BundlesSettingsService { get; } = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
+        protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
         public ICommand OpenLogLocationCommand { get; }
         public ICommand CopyVersionInfoCommand { get; }
@@ -142,7 +143,7 @@ namespace Files.ViewModels.SettingsViewModels
 
         public void CopyVersionInfo()
         {
-            Common.Extensions.IgnoreExceptions(() =>
+            SafetyExtensions.IgnoreExceptions(() =>
             {
                 DataPackage dataPackage = new DataPackage();
                 dataPackage.RequestedOperation = DataPackageOperation.Copy;

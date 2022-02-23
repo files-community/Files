@@ -1,4 +1,4 @@
-﻿using Files.Enums;
+﻿using Files.Shared.Enums;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;

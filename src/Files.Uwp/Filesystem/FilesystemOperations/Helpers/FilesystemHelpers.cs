@@ -1,12 +1,12 @@
 ﻿using Files.Common;
 using Files.DataModels;
 using Files.Dialogs;
-using Files.Enums;
+using Files.Shared.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.Interacts;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.ViewModels;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;

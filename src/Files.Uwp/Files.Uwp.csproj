@@ -145,8 +145,6 @@
     <Compile Include="DataModels\FilesystemItemsOperationDataModel.cs" />
     <Compile Include="DataModels\NavigationControlItems\FileTagItem.cs" />
     <Compile Include="DataModels\NavigationControlItems\WslDistroItem.cs" />
-    <Compile Include="Enums\LocalizedEnum.cs" />
-    <Compile Include="Enums\PaneContents.cs" />
     <Compile Include="Extensions\ShellNewEntryExtensions.cs" />
     <Compile Include="Dialogs\DecompressArchiveDialog.xaml.cs">
       <DependentUpon>DecompressArchiveDialog.xaml</DependentUpon>
@@ -160,14 +158,6 @@
     <Compile Include="Dialogs\FilesystemOperationDialog.xaml.cs">
       <DependentUpon>FilesystemOperationDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Enums\DynamicDialogButtons.cs" />
-    <Compile Include="Enums\DynamicDialogResult.cs" />
-    <Compile Include="Enums\FileNameConflictResolveOptionType.cs" />
-    <Compile Include="Enums\FilesystemOperationType.cs" />
-    <Compile Include="Enums\FolderLayout.cs" />
-    <Compile Include="Enums\FolderLayoutModes.cs" />
-    <Compile Include="Enums\IconPersistenceOptions.cs" />
-    <Compile Include="EventArguments\BaseJsonSettingsModelEventArgs.cs" />
     <Compile Include="EventArguments\Bundles\BundlesOpenPathEventArgs.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
@@ -195,6 +185,7 @@
     <Compile Include="Filesystem\StorageItems\ZipStorageFolder.cs" />
     <Compile Include="Helpers\CommonPaths.cs" />
     <Compile Include="Helpers\FileExtensionHelpers.cs" />
+    <Compile Include="Helpers\LocalizedEnumHelper.cs" />
     <Compile Include="Helpers\ResourceHelpers.cs" />
     <Compile Include="Helpers\FtpHelpers.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupedCollection.cs" />
@@ -210,7 +201,6 @@
     <Compile Include="Filesystem\WSLDistroManager.cs" />
     <Compile Include="Filesystem\StorageEnumerators\UniversalStorageEnumerator.cs" />
     <Compile Include="Filesystem\StorageEnumerators\Win32StorageEnumerator.cs" />
-    <Compile Include="Enums\FileSystemStatusCode.cs" />
     <Compile Include="EventArguments\LayoutModeEventArgs.cs" />
     <Compile Include="Filesystem\CloudDrivesManager.cs" />
     <Compile Include="Helpers\AdaptiveLayoutHelpers.cs" />
@@ -218,10 +208,8 @@
     <Compile Include="Helpers\AppServiceConnectionHelper.cs" />
     <Compile Include="Helpers\AppUpdater.cs" />
     <Compile Include="DataModels\DefaultLanguageModel.cs" />
-    <Compile Include="Enums\FileOperationType.cs" />
     <Compile Include="DataModels\SidebarPinnedModel.cs" />
     <Compile Include="Controllers\TerminalController.cs" />
-    <Compile Include="Enums\ReturnResult.cs" />
     <Compile Include="Dialogs\BitlockerDialog.xaml.cs">
       <DependentUpon>BitlockerDialog.xaml</DependentUpon>
     </Compile>
@@ -243,36 +231,26 @@
     <Compile Include="Interacts\ItemManipulationModel.cs" />
     <Compile Include="ISearchBox.cs" />
     <Compile Include="IsExternalInit.cs" />
-    <Compile Include="Models\JsonSettings\BaseObservableJsonSettingsModel.cs" />
-    <Compile Include="Models\JsonSettings\ISettingsSharingContext.cs" />
-    <Compile Include="Models\JsonSettings\IJsonSettingsDatabase.cs" />
-    <Compile Include="Models\JsonSettings\IJsonSettingsSerializer.cs" />
-    <Compile Include="Models\JsonSettings\Implementation\CachingJsonSettingsDatabase.cs" />
-    <Compile Include="Models\JsonSettings\Implementation\DefaultJsonSettingsDatabase.cs" />
-    <Compile Include="Models\JsonSettings\Implementation\DefaultJsonSettingsSerializer.cs" />
-    <Compile Include="Models\JsonSettings\Implementation\DefaultSettingsSerializer.cs" />
-    <Compile Include="Models\JsonSettings\ISettingsSerializer.cs" />
-    <Compile Include="Services\IAppearanceSettingsService.cs" />
-    <Compile Include="Services\IBaseSettingsService.cs" />
-    <Compile Include="Services\IBundlesSettingsService.cs" />
-    <Compile Include="Services\IFileTagsSettingsService.cs" />
-    <Compile Include="Services\ILayoutSettingsService.cs" />
-    <Compile Include="Services\Implementation\AppearanceSettingsService.cs" />
-    <Compile Include="Services\Implementation\BundlesSettingsService.cs" />
-    <Compile Include="Services\Implementation\FileTagsSettingsService.cs" />
-    <Compile Include="Services\Implementation\LayoutSettingsService.cs" />
-    <Compile Include="Services\Implementation\MultitaskingSettingsService.cs" />
-    <Compile Include="Services\Implementation\PreferencesSettingsService.cs" />
-    <Compile Include="Services\Implementation\PaneSettingsService.cs" />
-    <Compile Include="Services\Implementation\UserSettingsService.cs" />
-    <Compile Include="Services\Implementation\WidgetsSettingsService.cs" />
-    <Compile Include="Services\IMultitaskingSettingsService.cs" />
-    <Compile Include="Services\IPreferencesSettingsService.cs" />
-    <Compile Include="Services\IPaneSettingsService.cs" />
-    <Compile Include="Services\IUpdateSettingsService.cs" />
-    <Compile Include="Services\IUserSettingsService.cs" />
-    <Compile Include="Services\IWidgetsSettingsService.cs" />
-    <Compile Include="Services\Implementation\UpdateSettingsService.cs" />
+    <Compile Include="Serialization\BaseJsonSettings.cs" />
+    <Compile Include="Serialization\BaseObservableJsonSettings.cs" />
+    <Compile Include="Serialization\IJsonSettingsDatabase.cs" />
+    <Compile Include="Serialization\IJsonSettingsSerializer.cs" />
+    <Compile Include="Serialization\Implementation\CachingJsonSettingsDatabase.cs" />
+    <Compile Include="Serialization\Implementation\DefaultJsonSettingsDatabase.cs" />
+    <Compile Include="Serialization\Implementation\DefaultJsonSettingsSerializer.cs" />
+    <Compile Include="Serialization\Implementation\DefaultSettingsSerializer.cs" />
+    <Compile Include="Serialization\ISettingsSerializer.cs" />
+    <Compile Include="Serialization\ISettingsSharingContext.cs" />
+    <Compile Include="ServicesImplementation\Settings\AppearanceSettingsService.cs" />
+    <Compile Include="ServicesImplementation\Settings\BundlesSettingsService.cs" />
+    <Compile Include="ServicesImplementation\Settings\FileTagsSettingsService.cs" />
+    <Compile Include="ServicesImplementation\Settings\LayoutSettingsService.cs" />
+    <Compile Include="ServicesImplementation\Settings\MultitaskingSettingsService.cs" />
+    <Compile Include="ServicesImplementation\Settings\PreferencesSettingsService.cs" />
+    <Compile Include="ServicesImplementation\Settings\PaneSettingsService.cs" />
+    <Compile Include="ServicesImplementation\Settings\UserSettingsService.cs" />
+    <Compile Include="ServicesImplementation\Settings\WidgetsSettingsService.cs" />
+    <Compile Include="ServicesImplementation\Settings\UpdateSettingsService.cs" />
     <Compile Include="UserControls\ColoredIcon.xaml.cs">
       <DependentUpon>ColoredIcon.xaml</DependentUpon>
     </Compile>
@@ -385,7 +363,6 @@
     <Compile Include="ViewModels\Properties\SecurityProperties.cs" />
     <Compile Include="ViewModels\SearchBoxViewModel.cs" />
     <Compile Include="ViewModels\SidebarViewModel.cs" />
-    <Compile Include="Models\JsonSettings\BaseJsonSettingsModel.cs" />
     <Compile Include="ViewModels\ColumnsViewModel.cs" />
     <Compile Include="ViewModels\Pages\YourHomeViewModel.cs" />
     <Compile Include="ViewModels\StatusCenterViewModel.cs" />
@@ -423,7 +400,6 @@
     <Compile Include="Filesystem\Cloud\CloudDriveSyncStatusUI.cs" />
     <Compile Include="Filesystem\Cloud\Providers\AppleCloudProvider.cs" />
     <Compile Include="Filesystem\Cloud\Providers\BoxCloudProvider.cs" />
-    <Compile Include="Enums\CloudDriveSyncStatus.cs" />
     <Compile Include="Filesystem\Cloud\CloudProviderController.cs" />
     <Compile Include="Filesystem\Cloud\Providers\DropBoxCloudProvider.cs" />
     <Compile Include="Filesystem\Cloud\Providers\GoogleDriveCloudProvider.cs" />
@@ -495,11 +471,6 @@
     <Compile Include="Dialogs\PropertiesDialog.xaml.cs">
       <DependentUpon>PropertiesDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Enums\FormFactorMode.cs" />
-    <Compile Include="Enums\SidebarOpacity.cs" />
-    <Compile Include="Enums\SortOptions.cs" />
-    <Compile Include="Enums\TimeStyle.cs" />
-    <Compile Include="Enums\WallpaperType.cs" />
     <Compile Include="DataModels\NavigationControlItems\DriveItem.cs" />
     <Compile Include="Filesystem\Drives.cs" />
     <Compile Include="UserControls\MultitaskingControl\TabItem\ITabItem.cs" />
@@ -1519,7 +1490,7 @@
       <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="FluentFTP">
-      <Version>36.1.0</Version>
+      <Version>37.0.1</Version>
     </PackageReference>
     <PackageReference Include="ini-parser-netstandard">
       <Version>2.5.2</Version>
@@ -1626,13 +1597,13 @@
       <Project>{3d19293f-0e3a-4946-ade3-680a1e9123ec}</Project>
       <Name>BackgroundTasks</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Files.Backend\Files.Backend.csproj">
-      <Project>{4cfe0bbc-8d07-49a0-8b10-4edd61abcf57}</Project>
-      <Name>Files.Backend</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Files.Shared\Files.Shared.csproj">
       <Project>{0533133f-2559-4b53-a0fd-0970bc0e312e}</Project>
       <Name>Files.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Files.Backend\Files.Backend.csproj">
+      <Project>{4cfe0bbc-8d07-49a0-8b10-4edd61abcf57}</Project>
+      <Name>Files.Backend</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -1640,6 +1611,7 @@
       <Name>Windows Desktop Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '16.0' ">
     <VisualStudioVersion>16.0</VisualStudioVersion>
   </PropertyGroup>

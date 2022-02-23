@@ -1,10 +1,10 @@
 ﻿using Files.DataModels.NavigationControlItems;
-using Files.Enums;
+using Files.Shared.Enums;
 using Files.EventArguments;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
@@ -23,6 +23,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using Files.Shared.EventArguments;
 
 namespace Files.Views
 {
@@ -79,7 +80,7 @@ namespace Files.Views
 
         private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
-            switch (e.settingName)
+            switch (e.SettingName)
             {
                 case nameof(IPaneSettingsService.Content):
                     LoadPaneChanged();

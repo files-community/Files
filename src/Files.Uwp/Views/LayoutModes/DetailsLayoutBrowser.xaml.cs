@@ -1,4 +1,4 @@
-using Files.Enums;
+using Files.Shared.Enums;
 using Files.EventArguments;
 using Files.Filesystem;
 using Files.Helpers;
@@ -23,7 +23,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-using SortDirection = Files.Enums.SortDirection;
+using SortDirection = Files.Shared.Enums.SortDirection;
 
 namespace Files.Views.LayoutModes
 {

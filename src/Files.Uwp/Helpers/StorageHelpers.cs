@@ -1,4 +1,4 @@
-using Files.Enums;
+using Files.Shared.Enums;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using System;

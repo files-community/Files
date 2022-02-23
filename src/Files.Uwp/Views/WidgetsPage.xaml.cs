@@ -2,7 +2,7 @@
 using Files.Dialogs;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.UserControls.Widgets;
 using Files.ViewModels;
 using Files.ViewModels.Pages;

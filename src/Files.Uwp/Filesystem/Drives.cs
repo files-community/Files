@@ -1,8 +1,8 @@
 using Files.Common;
 using Files.DataModels.NavigationControlItems;
-using Files.Enums;
+using Files.Shared.Enums;
 using Files.Helpers;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.UserControls;
 using Files.UserControls.Widgets;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -21,6 +21,7 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Core;
 using DriveType = Files.DataModels.NavigationControlItems.DriveType;
+using Files.Shared;
 
 namespace Files.Filesystem
 {

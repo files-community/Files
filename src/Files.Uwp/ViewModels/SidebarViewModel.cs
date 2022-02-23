@@ -1,7 +1,7 @@
 ﻿using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using Windows.UI.Xaml;
+using Files.Shared.EventArguments;
 
 namespace Files.ViewModels
 {
@@ -229,9 +230,9 @@ namespace Files.ViewModels
             await RecycleBinHelpers.S_EmptyRecycleBin();
         }
 
-        private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
-            switch (e.settingName)
+            switch (e.SettingName)
             {
                 case nameof(UserSettingsService.AppearanceSettingsService.IsSidebarOpen):
                     if (UserSettingsService.AppearanceSettingsService.IsSidebarOpen != IsSidebarOpen)

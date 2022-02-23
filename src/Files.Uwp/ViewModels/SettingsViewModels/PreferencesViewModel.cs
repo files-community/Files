@@ -1,10 +1,10 @@
-﻿using Files.Common;
+﻿using Files.Shared.Extensions;
 using Files.Controllers;
 using Files.DataModels;
-using Files.Enums;
+using Files.Shared.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;

@@ -1,5 +1,5 @@
 ﻿using Files.Dialogs;
-using Files.Enums;
+using Files.Shared.Enums;
 using Files.Filesystem;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp;

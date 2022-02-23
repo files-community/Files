@@ -1,5 +1,5 @@
 ﻿using Files.Filesystem;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.UserControls.MultitaskingControl;
 using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -14,6 +14,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using Files.Shared.EventArguments;
 
 namespace Files.Views
 {
@@ -205,9 +206,9 @@ namespace Files.Views
             // TODO: fallback / error when failed to get NavigationViewCompactPaneLength value?
         }
 
-        private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
-            switch (e.settingName)
+            switch (e.SettingName)
             {
                 case nameof(UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled):
                     NotifyPropertyChanged(nameof(IsMultiPaneEnabled));

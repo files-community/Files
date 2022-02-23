@@ -1,4 +1,4 @@
-﻿using Files.Enums;
+﻿using Files.Shared.Enums;
 using Files.Helpers;
 using Files.Interacts;
 using Microsoft.Toolkit.Mvvm.ComponentModel;

@@ -5,7 +5,7 @@ using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Helpers.ContextFlyouts;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;

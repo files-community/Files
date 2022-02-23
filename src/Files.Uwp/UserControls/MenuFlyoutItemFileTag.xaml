@@ -6,6 +6,7 @@
     xmlns:local="using:Files.UserControls"
     xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Files.Backend.ViewModels"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -34,7 +35,7 @@
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="local2:FileTag">
+                <DataTemplate x:DataType="vm:FileTagViewModel">
                     <Ellipse
                         Width="14"
                         Height="14"

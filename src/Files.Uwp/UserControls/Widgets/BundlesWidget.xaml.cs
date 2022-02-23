@@ -1,4 +1,4 @@
-﻿using Files.Services;
+﻿using Files.Backend.Services.Settings;
 using Files.ViewModels.Widgets;
 using Files.ViewModels.Widgets.Bundles;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;

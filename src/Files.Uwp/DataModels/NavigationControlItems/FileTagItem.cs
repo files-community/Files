@@ -1,5 +1,5 @@
-﻿using Files.Filesystem;
-using System;
+﻿using Files.Backend.ViewModels;
+using Files.Filesystem;
 
 namespace Files.DataModels.NavigationControlItems
 {
@@ -27,6 +27,6 @@ namespace Files.DataModels.NavigationControlItems
 
         public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
 
-        public FileTag FileTag { get; set; }
+        public FileTagViewModel FileTag { get; set; }
     }
 }

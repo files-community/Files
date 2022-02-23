@@ -1,7 +1,8 @@
 using Files.Common;
 using Files.Dialogs;
-using Files.Enums;
-using Files.EventArguments;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
+using Files.Shared.EventArguments;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.Cloud;
@@ -10,7 +11,7 @@ using Files.Filesystem.StorageEnumerators;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.UserControls;
 using Files.ViewModels.Previews;
 using FluentFTP;
@@ -381,7 +382,7 @@ namespace Files.ViewModels
 
         private async void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
-            switch (e.settingName)
+            switch (e.SettingName)
             {
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFileExtensions):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible):

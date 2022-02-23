@@ -1,5 +1,5 @@
-﻿using Files.Common;
-using Files.Enums;
+﻿using Files.Shared;
+using Files.Shared.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
+using Files.Uwp.Helpers;
 
 namespace Files.ViewModels.Properties
 {
@@ -90,8 +91,8 @@ namespace Files.ViewModels.Properties
             }
         }
 
-        public LocalizedEnum<OSCompatibility> osCompatibility;
-        public LocalizedEnum<OSCompatibility> OSCompatibility
+        public LocalizedEnumHelper<OSCompatibility> osCompatibility;
+        public LocalizedEnumHelper<OSCompatibility> OSCompatibility
         {
             get => osCompatibility;
             set
@@ -103,8 +104,8 @@ namespace Files.ViewModels.Properties
             }
         }
 
-        public LocalizedEnum<ReducedColorMode> reducedColorMode;
-        public LocalizedEnum<ReducedColorMode> ReducedColorMode
+        public LocalizedEnumHelper<ReducedColorMode> reducedColorMode;
+        public LocalizedEnumHelper<ReducedColorMode> ReducedColorMode
         {
             get => reducedColorMode;
             set
@@ -116,8 +117,8 @@ namespace Files.ViewModels.Properties
             }
         }
 
-        public LocalizedEnum<HighDpiOption> highDpiOption;
-        public LocalizedEnum<HighDpiOption> HighDpiOption
+        public LocalizedEnumHelper<HighDpiOption> highDpiOption;
+        public LocalizedEnumHelper<HighDpiOption> HighDpiOption
         {
             get => highDpiOption;
             set
@@ -129,8 +130,8 @@ namespace Files.ViewModels.Properties
             }
         }
 
-        public LocalizedEnum<HighDpiOverride> highDpiOverride;
-        public LocalizedEnum<HighDpiOverride> HighDpiOverride
+        public LocalizedEnumHelper<HighDpiOverride> highDpiOverride;
+        public LocalizedEnumHelper<HighDpiOverride> HighDpiOverride
         {
             get => highDpiOverride;
             set
@@ -142,10 +143,10 @@ namespace Files.ViewModels.Properties
             }
         }
 
-        public List<LocalizedEnum<HighDpiOption>> HighDpiOptionList { get; } = Enum.GetValues(typeof(HighDpiOption)).Cast<HighDpiOption>().Select(x => new LocalizedEnum<HighDpiOption>(x)).ToList();
-        public List<LocalizedEnum<HighDpiOverride>> HighDpiOverrideList { get; } = Enum.GetValues(typeof(HighDpiOverride)).Cast<HighDpiOverride>().Where(x => x != Common.HighDpiOverride.Advanced).Select(x => new LocalizedEnum<HighDpiOverride>(x)).ToList();
-        public List<LocalizedEnum<OSCompatibility>> OSCompatibilityList { get; } = Enum.GetValues(typeof(OSCompatibility)).Cast<OSCompatibility>().Select(x => new LocalizedEnum<OSCompatibility>(x)).ToList();
-        public List<LocalizedEnum<ReducedColorMode>> ReducedColorModeList { get; } = Enum.GetValues(typeof(ReducedColorMode)).Cast<ReducedColorMode>().Select(x => new LocalizedEnum<ReducedColorMode>(x)).ToList();
+        public List<LocalizedEnumHelper<HighDpiOption>> HighDpiOptionList { get; } = Enum.GetValues(typeof(HighDpiOption)).Cast<HighDpiOption>().Select(x => new LocalizedEnumHelper<HighDpiOption>(x)).ToList();
+        public List<LocalizedEnumHelper<HighDpiOverride>> HighDpiOverrideList { get; } = Enum.GetValues(typeof(HighDpiOverride)).Cast<HighDpiOverride>().Where(x => x != Shared.HighDpiOverride.Advanced).Select(x => new LocalizedEnumHelper<HighDpiOverride>(x)).ToList();
+        public List<LocalizedEnumHelper<OSCompatibility>> OSCompatibilityList { get; } = Enum.GetValues(typeof(OSCompatibility)).Cast<OSCompatibility>().Select(x => new LocalizedEnumHelper<OSCompatibility>(x)).ToList();
+        public List<LocalizedEnumHelper<ReducedColorMode>> ReducedColorModeList { get; } = Enum.GetValues(typeof(ReducedColorMode)).Cast<ReducedColorMode>().Select(x => new LocalizedEnumHelper<ReducedColorMode>(x)).ToList();
 
         public IRelayCommand RunTroubleshooterCommand { get; set; }
 

@@ -1,9 +1,9 @@
 ﻿using Files.Common;
-using Files.Enums;
+using Files.Shared.Enums;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Interacts;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;

@@ -1,11 +1,12 @@
 ﻿using Files.Filesystem;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Files.Backend.ViewModels;
 
 namespace Files.UserControls
 {
@@ -26,27 +27,27 @@ namespace Files.UserControls
                 obj.SelectedItem = obj.GetFileTag(e.NewValue as List<ListedItem>);
             })));
 
-        public FileTag SelectedItem
+        public FileTagViewModel SelectedItem
         {
-            get { return (FileTag)GetValue(SelectedItemProperty); }
-            set { SetValue(SelectedItemProperty, value); }
+            get => (FileTagViewModel)GetValue(SelectedItemProperty);
+            set => SetValue(SelectedItemProperty, value);
         }
 
         public static readonly DependencyProperty SelectedItemProperty =
-            DependencyProperty.Register("SelectedItem", typeof(FileTag), typeof(MenuFlyoutItemFileTag), new PropertyMetadata(null, new PropertyChangedCallback((s, e) =>
+            DependencyProperty.Register("SelectedItem", typeof(FileTagViewModel), typeof(MenuFlyoutItemFileTag), new PropertyMetadata(null, new PropertyChangedCallback((s, e) =>
             {
                 var obj = s as MenuFlyoutItemFileTag;
-                obj.SetFileTag(obj.SelectedItems, e.NewValue as FileTag);
+                obj.SetFileTag(obj.SelectedItems, e.NewValue as FileTagViewModel);
             })));
 
-        public IList<FileTag> ItemsSource
+        public IList<FileTagViewModel> ItemsSource
         {
-            get { return (IList<FileTag>)GetValue(ItemsSourceProperty); }
+            get { return (IList<FileTagViewModel>)GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
         }
 
         public static readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register("ItemsSource", typeof(IList<FileTag>), typeof(MenuFlyoutItemFileTag), new PropertyMetadata(null));
+            DependencyProperty.Register("ItemsSource", typeof(IList<FileTagViewModel>), typeof(MenuFlyoutItemFileTag), new PropertyMetadata(null));
 
         public MenuFlyoutItemFileTag()
         {
@@ -62,7 +63,7 @@ namespace Files.UserControls
             }
         }
 
-        public FileTag GetFileTag(List<ListedItem> selectedItems)
+        public FileTagViewModel GetFileTag(List<ListedItem> selectedItems)
         {
             if (selectedItems == null || selectedItems.Count == 0)
             {
@@ -79,7 +80,7 @@ namespace Files.UserControls
             }
         }
 
-        public void SetFileTag(List<ListedItem> selectedItems, FileTag selectedTag)
+        public void SetFileTag(List<ListedItem> selectedItems, FileTagViewModel selectedTag)
         {
             if (selectedItems == null || selectedItems.Count == 0)
             {

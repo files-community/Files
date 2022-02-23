@@ -1,5 +1,5 @@
 using Files.Extensions;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;

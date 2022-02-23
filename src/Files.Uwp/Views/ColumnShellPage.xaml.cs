@@ -1,12 +1,12 @@
 using Files.Common;
 using Files.Dialogs;
-using Files.Enums;
+using Files.Shared.Enums;
 using Files.EventArguments;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.Search;
 using Files.Helpers;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
@@ -34,7 +34,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Files.Interacts;
-using SortDirection = Files.Enums.SortDirection;
+using SortDirection = Files.Shared.Enums.SortDirection;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 

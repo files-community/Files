@@ -1,7 +1,7 @@
 ﻿using Files.Common;
 using Files.DataModels.NavigationControlItems;
 using Files.Helpers;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
@@ -15,6 +15,7 @@ using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
+using Files.Shared;
 
 namespace Files.Filesystem
 {

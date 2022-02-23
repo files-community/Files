@@ -1,4 +1,4 @@
-﻿using Files.Enums;
+﻿using Files.Shared.Enums;
 using Files.EventArguments;
 using Files.Extensions;
 using Files.Filesystem;
@@ -6,7 +6,7 @@ using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Helpers.ContextFlyouts;
 using Files.Interacts;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.UserControls;
 using Files.ViewModels;
 using Files.ViewModels.Previews;

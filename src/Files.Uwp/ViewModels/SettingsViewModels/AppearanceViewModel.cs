@@ -1,5 +1,5 @@
 ﻿using Files.Helpers;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;

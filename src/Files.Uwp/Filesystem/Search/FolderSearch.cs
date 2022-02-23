@@ -1,8 +1,8 @@
-﻿using Files.Common;
+﻿using Files.Shared.Extensions;
 using Files.Extensions;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;

@@ -1,5 +1,5 @@
 ﻿using Files.DataModels;
-using Files.Enums;
+using Files.Shared.Enums;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;

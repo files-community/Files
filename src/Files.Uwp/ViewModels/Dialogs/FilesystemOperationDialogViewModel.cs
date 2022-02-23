@@ -1,6 +1,6 @@
 ﻿using Files.DataModels;
 using Files.Dialogs;
-using Files.Enums;
+using Files.Shared.Enums;
 using Files.Extensions;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
