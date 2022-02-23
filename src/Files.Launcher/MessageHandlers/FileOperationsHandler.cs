@@ -1,5 +1,5 @@
 ﻿using Common;
-using Files.Common;
+using Files.Shared;
 using Files.Shared.Extensions;
 using FilesFullTrust.Helpers;
 using Microsoft.Win32;

@@ -1,4 +1,4 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Files.Shared.Extensions;
 using Microsoft.Win32;
 using System;
@@ -98,7 +98,7 @@ namespace FilesFullTrust.Helpers
                         break;
                 }
             }
-
+            
             var folder = await SafetyExtensions.IgnoreExceptions(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("extensions", CreationCollisionOption.OpenIfExists).AsTask());
             var sampleFile = folder != null ? await SafetyExtensions.IgnoreExceptions(() => folder.CreateFileAsync("file" + extension, CreationCollisionOption.OpenIfExists).AsTask()) : null;
 
