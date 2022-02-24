@@ -26,7 +26,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Text="{helpers:ResourceString Name=SearchOptions}" Margin="0,0,0,16" FontSize="18" FontWeight="SemiBold" />
+                <TextBlock Text="{helpers:ResourceString Name=Filters}" Margin="0,0,0,16" FontSize="18" FontWeight="SemiBold" />
                 <local:SearchFilterPicker Grid.Row="1" ViewModel="{x:Bind Filter.Collection}" />
                 <CheckBox Grid.Row="2" Content="{helpers:ResourceString Name=IncludeSubfolders}"
                     IsChecked="{x:Bind Filter.SearchInSubFolders, Mode=TwoWay}" />
