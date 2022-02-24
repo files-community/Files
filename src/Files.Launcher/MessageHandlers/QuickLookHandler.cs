@@ -1,4 +1,5 @@
-﻿using Files.Common;
+﻿using Files.Shared;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,7 +33,7 @@ namespace FilesFullTrust.MessageHandlers
                 case "ToggleQuickLook":
                     var path = (string)message["path"];
                     var switchPreview = (bool)message["switch"];
-                    Extensions.IgnoreExceptions(() => ToggleQuickLook(path, switchPreview), Logger);
+                    SafetyExtensions.IgnoreExceptions(() => ToggleQuickLook(path, switchPreview), Logger);
                     break;
             }
         }

@@ -1,7 +1,7 @@
 ﻿using Files.DataModels.NavigationControlItems;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.UserControls;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;

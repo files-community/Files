@@ -2242,12 +2242,6 @@ Files không thu thập, lưu trữ, chia sẻ hoặc xuất bản bất kỳ th
 Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụng ứng dụng, tìm lỗi và khắc phục sự cố. Tất cả thông tin được gửi đến Trung tâm ứng dụng là ẩn danh và không có bất kỳ dữ liệu người dùng hoặc ngữ cảnh nào.
   </value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Thẻ tệp</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>Thẻ tệp</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Mở thư mục chính</value>
   </data>

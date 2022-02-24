@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
-  <file datatype="xml" source-language="en-US" target-language="lv-LV" original="FILES/STRINGS/EN-US/RESOURCES.RESW" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+  <file datatype="xml" source-language="en-US" target-language="lv-LV" original="FILES.UWP/STRINGS/EN-US/RESOURCES.RESW" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
     <header>
       <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6916.0" tool-company="Microsoft" />
     </header>
     <body>
-      <group id="FILES/STRINGS/EN-US/RESOURCES.RESW" datatype="resx">
+      <group id="FILES.UWP/STRINGS/EN-US/RESOURCES.RESW" datatype="resx">
         <trans-unit id="SideBarOpenInNewTab.Text" translate="yes" xml:space="preserve">
           <source>Open in new tab</source>
           <target state="translated">Atvērt jaunā cilnē</target>
@@ -1563,8 +1563,9 @@
           <target state="translated">Vienuma nosaukums</target>
         </trans-unit>
         <trans-unit id="SidebarNetworkDrives" translate="yes" xml:space="preserve">
-          <source>Network drives</source>
-          <target state="translated">Tīkla diski</target>
+          <source>Network Drives</source>
+          <target state="needs-review-translation">Tīkla diski</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="Network" translate="yes" xml:space="preserve">
           <source>Network</source>
@@ -2984,14 +2985,6 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
           <source>Show favorites section</source>
           <target state="translated">Rādīt favorītu sadaļu</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByFileTag.Text" translate="yes" xml:space="preserve">
-          <source>File tag</source>
-          <target state="translated">Faila birka</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionFileTag.Text" translate="yes" xml:space="preserve">
-          <source>File tag</source>
-          <target state="translated">Faila birka</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenParentFolder.Text" translate="yes" xml:space="preserve">
           <source>Open parent folder</source>
           <target state="translated">Atvērt vecāku mapi</target>
@@ -3001,16 +2994,19 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
           <target state="translated" state-qualifier="tm-suggestion">Nezināms</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowFileTag.Text" translate="yes" xml:space="preserve">
-          <source>File tag</source>
-          <target state="translated">Faila birka</target>
+          <source>Tag</source>
+          <target state="needs-review-translation">Faila birka</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsEditFileTagsExpander.Title" translate="yes" xml:space="preserve">
-          <source>Edit file tags</source>
-          <target state="translated">Rediģēt failu birkas</target>
+          <source>Edit tags</source>
+          <target state="needs-review-translation">Rediģēt failu birkas</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsEnableFileTags.Title" translate="yes" xml:space="preserve">
-          <source>Enable file tags</source>
-          <target state="translated">Iespējot failu birkas</target>
+          <source>Enable tags</source>
+          <target state="needs-review-translation">Iespējot failu birkas</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
@@ -3528,6 +3524,34 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
         <trans-unit id="PrepareInProgress" translate="yes" xml:space="preserve">
           <source>Preparing items</source>
           <target state="new">Preparing items</target>
+        </trans-unit>
+        <trans-unit id="StatusCopyFailed" translate="yes" xml:space="preserve">
+          <source>Copy failed</source>
+          <target state="new">Copy failed</target>
+        </trans-unit>
+        <trans-unit id="StatusCopyFailedDetails_Plural" translate="yes" xml:space="preserve">
+          <source>Failed to copy {0} items from {1} to {2}</source>
+          <target state="new">Failed to copy {0} items from {1} to {2}</target>
+        </trans-unit>
+        <trans-unit id="StatusCopyFailedDetails_Singular" translate="yes" xml:space="preserve">
+          <source>Failed to copy {0} item from {1} to {2}</source>
+          <target state="new">Failed to copy {0} item from {1} to {2}</target>
+        </trans-unit>
+        <trans-unit id="StatusMoveFailed" translate="yes" xml:space="preserve">
+          <source>Move failed</source>
+          <target state="new">Move failed</target>
+        </trans-unit>
+        <trans-unit id="FileTags" translate="yes" xml:space="preserve">
+          <source>Tags</source>
+          <target state="new">Tags</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowFileTagsSection.Title" translate="yes" xml:space="preserve">
+          <source>Show Tags section</source>
+          <target state="new">Show Tags section</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show Tags section</source>
+          <target state="new">Show Tags section</target>
         </trans-unit>
       </group>
     </body>

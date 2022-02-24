@@ -349,7 +349,7 @@
     <value>فتح بواسطة</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
-    <value>اسم الملف يجب ان يحتوي على: \ / : * ? " &lt; &gt; |</value>
+    <value>اسم الملف لا يجب ان يحتوي على: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
     <value>موافق</value>

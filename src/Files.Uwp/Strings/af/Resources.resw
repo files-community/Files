@@ -2247,12 +2247,6 @@ Files versamel, stoor, deel of publiseer geen persoonlike inligting nie.
 
 Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongelukke op te los. Alle inligting wat aan App Center gestuur word, is anoniem en vry van enige gebruiker of kontekstuele data.</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Lêermerker</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>Lêermerker</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Maak oueromslag oop</value>
   </data>

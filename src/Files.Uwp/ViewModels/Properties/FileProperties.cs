@@ -2,7 +2,7 @@
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json.Linq;
 using System;

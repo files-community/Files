@@ -1,12 +1,13 @@
-﻿using Files.Common;
+﻿using Files.Shared.Extensions;
 using Files.Helpers;
-using Files.Services;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.ApplicationModel;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
@@ -27,6 +28,7 @@ namespace Files.ViewModels.SettingsViewModels
         {
             IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
             IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
+            IsSetAsDefaultVisible = DetectIsSetAsDefaultVisible();
 
             EditFileTagsCommand = new AsyncRelayCommand(LaunchFileTagsConfigFile);
             SetAsDefaultExplorerCommand = new AsyncRelayCommand(SetAsDefaultExplorer);
@@ -128,6 +130,15 @@ namespace Files.ViewModels.SettingsViewModels
             return ApplicationData.Current.LocalSettings.Values.Get("IsSetAsOpenFileDialog", false);
         }
 
+        private bool DetectIsSetAsDefaultVisible()
+        {
+            if (Package.Current.Id.FamilyName == "49306atecsolution.FilesUWP_et10x9a9vyk8t" && !IsSetAsDefaultFileManager)
+            {
+                return false;
+            }
+            return true;
+        }
+
         private bool isSetAsDefaultFileManager;
 
         public bool IsSetAsDefaultFileManager
@@ -142,6 +153,15 @@ namespace Files.ViewModels.SettingsViewModels
         {
             get => isSetAsOpenFileDialog;
             set => SetProperty(ref isSetAsOpenFileDialog, value);
+        }
+
+
+        private bool isSetAsDefaultVisible;
+
+        public bool IsSetAsDefaultVisible
+        {
+            get => isSetAsDefaultVisible;
+            set => SetProperty(ref isSetAsDefaultVisible, value);
         }
     }
 }

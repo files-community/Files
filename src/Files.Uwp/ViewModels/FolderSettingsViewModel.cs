@@ -1,11 +1,11 @@
-﻿using Files.Enums;
+﻿using Files.Shared.Enums;
 using Files.EventArguments;
 using Files.Helpers;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.Views.LayoutModes;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System;
 using System.Linq;

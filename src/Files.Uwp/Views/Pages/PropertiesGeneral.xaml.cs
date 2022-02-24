@@ -1,6 +1,7 @@
 using Files.Common;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Shared.Enums;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
 using System.IO;
@@ -56,7 +57,7 @@ namespace Files.Views
                     {
                         var libraryPath = library.ItemPath;
                         var renamed = await AppInstance.FilesystemHelpers.RenameAsync(new StorageFileWithPath(null, libraryPath), $"{newName}{ShellLibraryItem.EXTENSION}", Windows.Storage.NameCollisionOption.FailIfExists, false);
-                        if (renamed == Enums.ReturnResult.Success)
+                        if (renamed == ReturnResult.Success)
                         {
                             var newPath = Path.Combine(Path.GetDirectoryName(libraryPath), $"{newName}{ShellLibraryItem.EXTENSION}");
                             _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>

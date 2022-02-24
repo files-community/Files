@@ -2246,12 +2246,6 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Kedvencek megjelenítése</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Címke</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>Címke</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Tartalmazó mappa megnyitása</value>
   </data>

@@ -4,7 +4,7 @@ using System.IO;
 using System.IO.Pipes;
 using System.Threading.Tasks;
 using System.Linq;
-using Files.Common;
+using Files.Shared.Extensions;
 using System.Runtime.Versioning;
 
 namespace FilesFullTrust.MessageHandlers

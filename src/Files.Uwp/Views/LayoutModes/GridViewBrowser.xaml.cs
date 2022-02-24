@@ -1,4 +1,4 @@
-﻿using Files.Enums;
+﻿using Files.Shared.Enums;
 using Files.EventArguments;
 using Files.Filesystem;
 using Files.Helpers;

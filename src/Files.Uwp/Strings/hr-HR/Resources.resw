@@ -2244,12 +2244,6 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Prikaži odjeljak favorita</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Oznaka datoteke</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>Oznaka datoteke</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Otvori nadređenu mapu</value>
   </data>

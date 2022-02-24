@@ -1,4 +1,4 @@
-﻿using Files.Enums;
+﻿using Files.Shared.Enums;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp.UI;
 using System.Collections.Generic;

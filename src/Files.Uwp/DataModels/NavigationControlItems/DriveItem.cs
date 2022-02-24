@@ -3,7 +3,7 @@ using Files.Common;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Threading.Tasks;
@@ -12,6 +12,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
+using Files.Shared.Extensions;
 
 namespace Files.DataModels.NavigationControlItems
 {

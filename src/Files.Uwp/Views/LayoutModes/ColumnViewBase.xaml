@@ -19,9 +19,11 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:tui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:uc="using:Files.UserControls"
+    xmlns:vc="using:Files.Uwp.ValueConverters"
     x:Name="PageRoot"
     mc:Ignorable="d">
     <local:BaseLayout.Resources>
+        <vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
         <converters:BoolToVisibilityConverter
             x:Key="NegatedBoolToVisibilityConverter"
@@ -325,7 +327,7 @@
                                             Height="12"
                                             Margin="8,0,4,0"
                                             x:Phase="2"
-                                            Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
+                                            Fill="{x:Bind FileTagUI.ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
                                             ToolTipService.ToolTip="{x:Bind FileTagUI.TagName, Mode=OneWay}"
                                             Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
                                     </StackPanel>

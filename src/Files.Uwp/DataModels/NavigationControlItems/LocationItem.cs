@@ -1,6 +1,6 @@
 ﻿using Files.Common;
 using Files.Filesystem;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;

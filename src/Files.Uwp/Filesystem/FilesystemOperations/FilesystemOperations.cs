@@ -1,5 +1,6 @@
 ﻿using Files.Common;
-using Files.Enums;
+using Files.Shared.Extensions;
+using Files.Shared.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.StorageItems;

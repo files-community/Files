@@ -1,14 +1,14 @@
-﻿using Files.Common;
-using Files.Enums;
+﻿using Files.Shared.Extensions;
+using Files.Shared.Enums;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.UserControls;
 using Files.Views;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -29,7 +29,8 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using static Files.UserControls.INavigationToolbar;
 using SearchBox = Files.UserControls.SearchBox;
-using SortDirection = Files.Enums.SortDirection;
+using SortDirection = Files.Shared.Enums.SortDirection;
+using Files.Shared.EventArguments;
 
 namespace Files.ViewModels
 {
@@ -340,16 +341,16 @@ namespace Files.ViewModels
             App.TerminalController.ModelChanged += OnTerminalsChanged;
         }
 
-        private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
-            switch (e.settingName)
+            switch (e.SettingName)
             {
                 case nameof(ShowFoldersWidget):
                 case nameof(ShowDrivesWidget):
                 case nameof(ShowBundlesWidget):
                 case nameof(ShowRecentFilesWidget):
                     RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
-                    OnPropertyChanged(e.settingName);
+                    OnPropertyChanged(e.SettingName);
                     break;
             }
         }

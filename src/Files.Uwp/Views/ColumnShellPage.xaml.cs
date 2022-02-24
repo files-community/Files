@@ -1,18 +1,18 @@
 using Files.Common;
 using Files.Dialogs;
-using Files.Enums;
+using Files.Shared.Enums;
 using Files.EventArguments;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.Search;
 using Files.Helpers;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views.LayoutModes;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -34,7 +34,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Files.Interacts;
-using SortDirection = Files.Enums.SortDirection;
+using SortDirection = Files.Shared.Enums.SortDirection;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -748,9 +748,6 @@ namespace Files.Views
                 case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
                 case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
                     NavToolbarViewModel.IsEditModeEnabled = true;
-                    break;
-                case (true, false, false, true, VirtualKey.H): // ctrl + h, show/hide hidden items
-                    UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = !UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible;
                     break;
 
                 case (true, true, false, true, VirtualKey.K): // ctrl + shift + k, duplicate tab

@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Files.Shared.Extensions;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.IO;
@@ -375,6 +376,7 @@ namespace Files.Helpers
                     { "readwrite", readWrite },
                     { "processid", System.Diagnostics.Process.GetCurrentProcess().Id },
                 });
+
                 if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success && response.Get("Success", false))
                 {
                     return new SafeFileHandle(new IntPtr((long)response["Handle"]), true);

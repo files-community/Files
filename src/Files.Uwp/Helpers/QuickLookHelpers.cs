@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Files.Shared.Extensions;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 
@@ -13,7 +14,7 @@ namespace Files.Helpers
                 return;
             }
 
-            await Common.Extensions.IgnoreExceptions(async () =>
+            await SafetyExtensions.IgnoreExceptions(async () =>
             {
                 Debug.WriteLine("Toggle QuickLook");
                 var connection = await AppServiceConnectionHelper.Instance;
