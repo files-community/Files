@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Files.Common;
+using Files.Shared;
 
 namespace Files.Filesystem
 {
