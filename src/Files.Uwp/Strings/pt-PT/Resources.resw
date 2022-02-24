@@ -2246,12 +2246,6 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Mostrar secção favoritos</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Tag do ficheiro</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>Tag do ficheiro</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Abrir pasta parente</value>
   </data>

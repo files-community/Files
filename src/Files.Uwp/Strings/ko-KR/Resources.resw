@@ -2240,12 +2240,6 @@
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>즐겨찾기 섹션 표시</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>파일 태그</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>파일 태그</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>상위 폴더 열기</value>
   </data>

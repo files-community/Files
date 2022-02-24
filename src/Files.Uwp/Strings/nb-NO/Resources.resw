@@ -2245,12 +2245,6 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Vis seksjon for favoritter</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Fil-merkelapp</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>Fil-merkelapp</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Åpne forelder-mappe</value>
   </data>

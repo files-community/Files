@@ -2216,13 +2216,7 @@ Files не собирает, хранит, распространяет или �
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Показать секцию Избранное</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Метка</value>
-  </data>
   <data name="Tag" xml:space="preserve">
-    <value>Метка</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
     <value>Метка</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">

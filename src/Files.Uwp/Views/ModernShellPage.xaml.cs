@@ -804,9 +804,6 @@ namespace Files.Views
                 case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
                     NavToolbarViewModel.IsEditModeEnabled = true;
                     break;
-                case (true, false, false, true, VirtualKey.H): // ctrl + h, show/hide hidden items
-                    UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = !UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible;
-                    break;
 
                 case (true, true, false, true, VirtualKey.K): // ctrl + shift + k, duplicate tab
                     await NavigationHelpers.OpenPathInNewTab(this.FilesystemViewModel.WorkingDirectory);

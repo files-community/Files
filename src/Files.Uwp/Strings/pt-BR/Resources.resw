@@ -2245,12 +2245,6 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Mostrar a seção de favoritos</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Etiqueta de arquivo</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>Etiqueta de arquivo</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Abrir local do arquivo</value>
   </data>

@@ -2232,12 +2232,6 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Mostrar Favoritos</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Etiqueta de archivo</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>Etiqueta de archivo</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Abrir carpeta principal</value>
   </data>
