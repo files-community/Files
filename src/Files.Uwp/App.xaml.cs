@@ -38,6 +38,8 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Files.Shared;
 using Files.Shared.Extensions;
+using Files.Backend.Services;
+using Files.Uwp.ServicesImplementation;
 
 namespace Files
 {
@@ -113,10 +115,14 @@ namespace Files
                 .AddSingleton<IBundlesSettingsService, BundlesSettingsService>()
                 .AddSingleton<IUpdateSettingsService, UpdateSettingsService>()
 
-                // TODO: Dialogs:
+                // Other services
+                .AddSingleton<IDialogService, DialogService>()
+                .AddSingleton<IImagingService, ImagingService>()
+                .AddSingleton<ILocalizationService, LocalizationService>()
 
-                // TODO: FileSystem operations:
+                // TODO(i): FileSystem operations:
                 // (IFilesystemHelpersService, IFilesystemOperationsService)
+                // (IStorageEnumerator, IFallbackStorageEnumerator)
                 .AddSingleton<IFolderSizeProvider, FolderSizeProvider>()
 
                 ; // End of service configuration

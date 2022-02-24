@@ -9,6 +9,6 @@ namespace Files.Backend.Services
     {
         IDialog<TViewModel> GetDialog<TViewModel>(TViewModel viewModel) where TViewModel : class, INotifyPropertyChanged;
 
-        Task<DialogResult> ShowDialog<TViewModel>(TViewModel viewModel) where TViewModel : class, INotifyPropertyChanged;
+        Task<DialogResult> ShowDialogAsync<TViewModel>(TViewModel viewModel) where TViewModel : class, INotifyPropertyChanged;
     }
 }

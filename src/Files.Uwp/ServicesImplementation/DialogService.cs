@@ -4,12 +4,11 @@ using Files.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using Files.ViewModels.Dialogs;
 using Files.Dialogs;
+using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 
 namespace Files.Uwp.ServicesImplementation
 {
@@ -21,6 +20,7 @@ namespace Files.Uwp.ServicesImplementation
         {
             this._dialogs = new()
             {
+                { typeof(AddItemDialogViewModel), () => new AddItemDialog() },
                 { typeof(DecompressArchiveDialogViewModel), () => new DecompressArchiveDialog() }
             };
         }
@@ -28,13 +28,29 @@ namespace Files.Uwp.ServicesImplementation
         public IDialog<TViewModel> GetDialog<TViewModel>(TViewModel viewModel)
             where TViewModel : class, INotifyPropertyChanged
         {
-            throw new NotImplementedException();
+            _ = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
+
+            if (!_dialogs.TryGetValue(typeof(TViewModel), out var initializer))
+            {
+                throw new ArgumentException($"{typeof(TViewModel)} does not have a dialog associated with it.");
+            }
+
+            var contentDialog = initializer();
+
+            if (contentDialog is not IDialog<TViewModel> dialog)
+            {
+                throw new NotSupportedException($"The dialog does not implement {typeof(IDialog<TViewModel>)}.");
+            }
+
+            dialog.ViewModel = viewModel;
+
+            return dialog;
         }
 
-        public Task<DialogResult> ShowDialog<TViewModel>(TViewModel viewModel)
+        public Task<DialogResult> ShowDialogAsync<TViewModel>(TViewModel viewModel)
             where TViewModel : class, INotifyPropertyChanged
         {
-            throw new NotImplementedException();
+            return GetDialog<TViewModel>(viewModel).ShowAsync();
         }
     }
 }

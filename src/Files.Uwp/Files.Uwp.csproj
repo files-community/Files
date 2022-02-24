@@ -243,6 +243,8 @@
     <Compile Include="Serialization\ISettingsSerializer.cs" />
     <Compile Include="Serialization\ISettingsSharingContext.cs" />
     <Compile Include="ServicesImplementation\DialogService.cs" />
+    <Compile Include="ServicesImplementation\ImagingService.cs" />
+    <Compile Include="ServicesImplementation\LocalizationService.cs" />
     <Compile Include="ServicesImplementation\Settings\AppearanceSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\BundlesSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\FileTagsSettingsService.cs" />
@@ -357,6 +359,7 @@
       <DependentUpon>WidgetsListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValueConverters\ColorModelToColorConverter.cs" />
+    <Compile Include="ValueConverters\ImageModelToImageConverter.cs" />
     <Compile Include="ViewModels\Dialogs\DecompressArchiveDialogViewModel.cs" />
     <Compile Include="ViewModels\NavToolbarViewModel.cs" />
     <Compile Include="ViewModels\PaneViewModel.cs" />

@@ -13,8 +13,8 @@ namespace Files.Backend.Extensions
         {
             if (localizationService == null)
             {
-                FallbackLocalizationService ??= Ioc.Default.GetRequiredService<ILocalizationService>();
-                return FallbackLocalizationService.LocalizeFromResourceKey(resourceKey);
+                FallbackLocalizationService ??= Ioc.Default.GetService<ILocalizationService>();
+                return FallbackLocalizationService?.LocalizeFromResourceKey(resourceKey) ?? string.Empty;
             }
 
             return localizationService.LocalizeFromResourceKey(resourceKey);

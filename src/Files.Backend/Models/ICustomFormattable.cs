@@ -1,9 +1,13 @@
 ﻿#nullable enable
 
+using System.Collections.Generic;
+
 namespace Files.Backend.Models
 {
     public interface ICustomFormattable
     {
-        string? FormatInfo { get; }
+        IReadOnlyCollection<string>? Formats { get;}
+
+        void AppendFormat(string formatInfo);
     }
 }
