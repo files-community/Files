@@ -43,6 +43,9 @@ using Windows.UI.Xaml.Media.Imaging;
 using static Files.Helpers.NativeDirectoryChangesHelper;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
+using Files.Backend.Services;
+using Files.Backend.ViewModels.Dialogs;
+using System.Text;
 
 namespace Files.ViewModels
 {
@@ -57,6 +60,7 @@ namespace Files.ViewModels
         // files and folders list for manipulating
         private List<ListedItem> filesAndFolders;
 
+        private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
         private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
 
@@ -1439,15 +1443,14 @@ namespace Files.ViewModels
                         {
                             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                             {
-                                var dialog = new CredentialDialog();
+                                var credentialDialogViewModel = new CredentialDialogViewModel();
 
-                                if (await dialog.TryShowAsync() == Windows.UI.Xaml.Controls.ContentDialogResult.Primary)
+                                if (await DialogService.ShowDialogAsync(credentialDialogViewModel) == DialogResult.Primary)
                                 {
-                                    var result = await dialog.Result;
-
-                                    if (!result.Anonymous)
+                                    if (!credentialDialogViewModel.IsAnonymous)
                                     {
-                                        client.Credentials = new NetworkCredential(result.UserName, result.Password);
+                                        // Can't do more than that to mitigate immutability of strings. Perhaps convert DisposableArray to SecureString immediately?
+                                        client.Credentials = new NetworkCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(credentialDialogViewModel.Password));
                                     }
                                 }
                                 else

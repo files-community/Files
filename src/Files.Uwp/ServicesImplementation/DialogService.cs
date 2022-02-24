@@ -21,6 +21,7 @@ namespace Files.Uwp.ServicesImplementation
             this._dialogs = new()
             {
                 { typeof(AddItemDialogViewModel), () => new AddItemDialog() },
+                { typeof(CredentialDialogViewModel), () => new CredentialDialog() },
                 { typeof(DecompressArchiveDialogViewModel), () => new DecompressArchiveDialog() }
             };
         }
