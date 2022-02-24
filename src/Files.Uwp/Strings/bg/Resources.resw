@@ -2183,12 +2183,6 @@
 Използваме App Center, за да проследяваме кои настройки се използват, да намираме грешки и да коригираме сривове. Информацията, изпратена до App Center, е анонимна и без никакви потребителски или контекстуални данни.
 </value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Файлов етикет</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>Файлов етикет</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Отвори родителската папка</value>
   </data>

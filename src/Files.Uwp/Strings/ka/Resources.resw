@@ -2244,12 +2244,6 @@
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>ფავორიტების განყოფილების ჩვენება</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>ფაილის იარლიყი</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>ფაილის იარლიყი</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>მშობელი საქაღალდის გახსნა</value>
   </data>
