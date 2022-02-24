@@ -148,48 +148,47 @@ namespace Files.UserControls
 
         public void HideSection_Click(object sender, RoutedEventArgs e)
         {
-            if ("SidebarFavorites".GetLocalized().Equals(RightClickedItem.Text))
+            switch (RightClickedItem.Section)
             {
-                UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = false;
-                App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
-            }
-            else if ("SidebarLibraries".GetLocalized().Equals(RightClickedItem.Text))
-            {
-                UserSettingsService.AppearanceSettingsService.ShowLibrarySection = false;
-                App.LibraryManager.UpdateLibrariesSectionVisibility();
-            }
-            else if ("SidebarCloudDrives".GetLocalized().Equals(RightClickedItem.Text))
-            {
-                UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = false;
-                App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
-            }
-            else if ("Drives".GetLocalized().Equals(RightClickedItem.Text))
-            {
-                UserSettingsService.AppearanceSettingsService.ShowDrivesSection = false;
-                App.DrivesManager.UpdateDrivesSectionVisibility();
-            }
-            else if ("SidebarNetworkDrives".GetLocalized().Equals(RightClickedItem.Text))
-            {
-                UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = false;
-                App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
-            }
-            else if ("WSL".GetLocalized().Equals(RightClickedItem.Text))
-            {
-                UserSettingsService.AppearanceSettingsService.ShowWslSection = false;
-                App.WSLDistroManager.UpdateWslSectionVisibility();
-            }
-            else if ("FileTags".GetLocalized().Equals(RightClickedItem.Text))
-            {
-                UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = false;
-                App.FileTagsManager.UpdateFileTagsSectionVisibility();
+                case SectionType.Favorites:
+                    UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = false;
+                    App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
+                    break;
+                case SectionType.Library:
+                    UserSettingsService.AppearanceSettingsService.ShowLibrarySection = false;
+                    App.LibraryManager.UpdateLibrariesSectionVisibility();
+                    break;
+                case SectionType.CloudDrives:
+                    UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = false;
+                    App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
+                    break;
+                case SectionType.Drives:
+                    UserSettingsService.AppearanceSettingsService.ShowDrivesSection = false;
+                    App.DrivesManager.UpdateDrivesSectionVisibility();
+                    break;
+                case SectionType.Network:
+                    UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = false;
+                    App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
+                    break;
+                case SectionType.WSL:
+                    UserSettingsService.AppearanceSettingsService.ShowWslSection = false;
+                    App.WSLDistroManager.UpdateWslSectionVisibility();
+                    break;
+                case SectionType.FileTag:
+                    UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = false;
+                    App.FileTagsManager.UpdateFileTagsSectionVisibility();
+                    break;
             }
         }
 
         public void UnpinItem_Click(object sender, RoutedEventArgs e)
         {
-            if (string.Equals(CommonPaths.RecycleBinPath, RightClickedItem.Path, StringComparison.OrdinalIgnoreCase))
+            // only recycle bin have this property true   alternative -> new property in LocationItem -> IsRecycleBin
+
+            if (RightClickedItem.MenuOptions.ShowEmptyRecycleBin)
             {
                 UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = false;
+                _ = App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(false);
             }
             else if (RightClickedItem.Section == SectionType.Favorites)
             {
@@ -336,7 +335,7 @@ namespace Files.UserControls
 
         private void PaneRoot_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            var contextMenu= FlyoutBase.GetAttachedFlyout(this);
+            var contextMenu = FlyoutBase.GetAttachedFlyout(this);
             contextMenu.ShowAt(this, new FlyoutShowOptions() { Position = e.GetPosition(this) });
 
             e.Handled = true;
@@ -348,44 +347,27 @@ namespace Files.UserControls
             var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             var item = sidebarItem.DataContext as LocationItem;
 
-            bool drivesHeader = "Drives".GetLocalized().Equals(item.Text);
-            bool networkDrivesHeader = "SidebarNetworkDrives".GetLocalized().Equals(item.Text);
-            bool cloudDrivesHeader = "SidebarCloudDrives".GetLocalized().Equals(item.Text);
-            bool librariesHeader = "SidebarLibraries".GetLocalized().Equals(item.Text);
-            bool wslHeader = "WSL".GetLocalized().Equals(item.Text);
-            bool fileTagsHeader = "FileTags".GetLocalized().Equals(item.Text);
-            bool favoritesHeader = "SidebarFavorites".GetLocalized().Equals(item.Text);
-            bool header = drivesHeader || networkDrivesHeader || cloudDrivesHeader || librariesHeader || wslHeader || fileTagsHeader || favoritesHeader;
+            RightClickedItem = item;
+            var menuItems = GetLocationItemMenuItems(item);
+            var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-            if (!header)
+            if (!item.MenuOptions.ShowHideSection)
             {
-                bool library = item.Section == SectionType.Library;
-                bool favorite = item.Section == SectionType.Favorites;
-                
-                ShowMoveItemUp = item.MenuOptions.ShowUnpinItem && App.SidebarPinnedController.Model.IndexOfItem(item) > 1;
-                ShowMoveItemDown = item.MenuOptions.ShowUnpinItem && App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count;
-
-                RightClickedItem = item;
-                var menuItems = GetLocationItemMenuItems(item);
-                var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+                ShowMoveItemUp = item.MenuOptions.IsItemMovable && App.SidebarPinnedController.Model.IndexOfItem(item) > 1;
+                ShowMoveItemDown = item.MenuOptions.IsItemMovable && App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count;
 
                 if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
                 {
                     secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
                 }
-
-                secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-                itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
-
-                LoadShellMenuItems(itemContextMenuFlyout,item);
             }
-            else
+
+            secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+            itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
+
+            if (!item.MenuOptions.ShowHideSection)
             {
-                RightClickedItem = item;
-                var menuItems = GetLocationItemMenuItems(item);
-                var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
-                secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-                itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
+                LoadShellMenuItems(itemContextMenuFlyout, item);
             }
 
             e.Handled = true;
@@ -412,7 +394,7 @@ namespace Files.UserControls
             secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
             itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
 
-            LoadShellMenuItems(itemContextMenuFlyout,item);
+            LoadShellMenuItems(itemContextMenuFlyout, item);
 
             e.Handled = true;
         }
@@ -1090,7 +1072,7 @@ namespace Files.UserControls
             return false;
         }
 
-        private async void LoadShellMenuItems(Microsoft.UI.Xaml.Controls.CommandBarFlyout itemContextMenuFlyout,INavigationControlItem item)
+        private async void LoadShellMenuItems(Microsoft.UI.Xaml.Controls.CommandBarFlyout itemContextMenuFlyout, INavigationControlItem item)
         {
             try
             {

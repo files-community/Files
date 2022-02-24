@@ -122,7 +122,7 @@ namespace Files.DataModels
                         ShowUnpinItem = true,
                         ShowEmptyRecycleBin = true,
                         ShowHideSection = false,
-                        ShowEjectDevice = false,
+                        ShowEjectDevice = false
                     },
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.RecycleBin)),
                     Path = CommonPaths.RecycleBinPath
@@ -277,9 +277,10 @@ namespace Files.DataModels
                         IsLocationItem = true,
                         ShowProperties = true,
                         IsLibrariesHeader = false,
-                        ShowUnpinItem = false,
+                        ShowUnpinItem = true,
                         ShowHideSection = false,
                         ShowEjectDevice = false,
+                        IsItemMovable=true,
                     }
                 };
 

@@ -149,6 +149,16 @@ namespace Files.DataModels.NavigationControlItems
             item.DeviceID = deviceId;
             item.Root = root;
             _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => item.UpdatePropertiesAsync());
+            item.MenuOptions = new ContextMenuOptions()
+            {
+                IsLocationItem = true,
+                IsLibrariesHeader = false,
+                ShowEjectDevice = item.IsRemovable,
+                ShowUnpinItem = false,
+                ShowEmptyRecycleBin = false,
+                ShowProperties = true,
+                ShowHideSection = false,
+            };
 
             return item;
         }

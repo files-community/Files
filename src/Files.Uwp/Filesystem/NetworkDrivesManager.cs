@@ -46,16 +46,16 @@ namespace Files.Filesystem
                 Path = CommonPaths.NetworkFolderPath,
                 Type = DriveType.Network,
                 ItemType = NavigationControlItemType.Drive,
-                MenuOptions = new ContextMenuOptions()
-                {
-                    IsLocationItem = false,
-                    ShowProperties = false,
-                    IsLibrariesHeader = false,
-                    ShowUnpinItem = false,
-                    ShowHideSection = true,
-                    ShowEjectDevice = false,
-                    ShowEmptyRecycleBin = false,
-                }
+            };
+            networkItem.MenuOptions = new ContextMenuOptions()
+            {
+                IsLocationItem = true,
+                IsLibrariesHeader = false,
+                ShowEjectDevice = networkItem.IsRemovable,
+                ShowUnpinItem = false,
+                ShowEmptyRecycleBin = false,
+                ShowProperties = true,
+                ShowHideSection = false,
             };
             lock (drivesList)
             {
@@ -151,6 +151,16 @@ namespace Files.Filesystem
                             Section = SectionType.Network,
                             SelectsOnInvoked = false,
                             Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives),
+                            MenuOptions = new ContextMenuOptions()
+                            {
+                                IsLocationItem = false,
+                                ShowProperties = false,
+                                IsLibrariesHeader = false,
+                                ShowUnpinItem = false,
+                                ShowHideSection = true,
+                                ShowEjectDevice = false,
+                                ShowEmptyRecycleBin = false,
+                            },
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
                         var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
