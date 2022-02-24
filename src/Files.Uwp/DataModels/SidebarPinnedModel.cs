@@ -114,6 +114,16 @@ namespace Files.DataModels
                 {
                     Text = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                     IsDefaultLocation = true,
+                    MenuOptions = new ContextMenuOptions()
+                    {
+                        IsLocationItem = true,
+                        ShowProperties = false,
+                        IsLibrariesHeader = false,
+                        ShowUnpinItem = true,
+                        ShowEmptyRecycleBin = true,
+                        ShowHideSection = false,
+                        ShowEjectDevice = false,
+                    },
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.RecycleBin)),
                     Path = CommonPaths.RecycleBinPath
                 };
@@ -261,7 +271,16 @@ namespace Files.DataModels
                     Path = path,
                     Section = SectionType.Favorites,
                     IsDefaultLocation = false,
-                    Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
+                    Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\')),
+                    MenuOptions = new ContextMenuOptions()
+                    {
+                        IsLocationItem = true,
+                        ShowProperties = true,
+                        IsLibrariesHeader = false,
+                        ShowUnpinItem = false,
+                        ShowHideSection = false,
+                        ShowEjectDevice = false,
+                    }
                 };
 
                 if (res)
@@ -331,7 +350,16 @@ namespace Files.DataModels
                     IsDefaultLocation = true,
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"))),
                     Path = "Home".GetLocalized(),
-                    ChildItems = new ObservableCollection<INavigationControlItem>()
+                    ChildItems = new ObservableCollection<INavigationControlItem>(),
+                    MenuOptions = new ContextMenuOptions()
+                    {
+                        IsLocationItem = true,
+                        ShowProperties = false,
+                        IsLibrariesHeader = false,
+                        ShowUnpinItem = false,
+                        ShowHideSection = false,
+                        ShowEjectDevice = false,
+                    }
                 };
                 favoriteSection ??= new LocationItem()
                 {
@@ -340,7 +368,17 @@ namespace Files.DataModels
                     SelectsOnInvoked = false,
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.Shell32.QuickAccess)),
                     Font = MainViewModel.FontName,
-                    ChildItems = new ObservableCollection<INavigationControlItem>()
+                    ChildItems = new ObservableCollection<INavigationControlItem>(),
+                    MenuOptions = new ContextMenuOptions()
+                    {
+                        IsLocationItem = false,
+                        ShowProperties = false,
+                        IsLibrariesHeader = false,
+                        ShowUnpinItem = false,
+                        ShowHideSection = true,
+                        ShowEjectDevice = false,
+                        ShowEmptyRecycleBin = false,
+                    }
                 };
 
                 if (homeSection != null)

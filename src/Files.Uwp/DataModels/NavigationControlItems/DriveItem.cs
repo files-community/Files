@@ -98,6 +98,8 @@ namespace Files.DataModels.NavigationControlItems
 
         public SectionType Section { get; set; }
 
+        public ContextMenuOptions MenuOptions { get; set; }
+
         private float percentageUsed = 0.0f;
 
         public float PercentageUsed

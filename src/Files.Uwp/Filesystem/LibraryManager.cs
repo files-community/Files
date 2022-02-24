@@ -198,6 +198,16 @@ namespace Files.Filesystem
                         {
                             Text = "SidebarLibraries".GetLocalized(),
                             Section = SectionType.Library,
+                            MenuOptions = new ContextMenuOptions()
+                            {
+                                IsLocationItem = false,
+                                ShowProperties = false,
+                                IsLibrariesHeader = true,
+                                ShowUnpinItem = false,
+                                ShowHideSection = true,
+                                ShowEjectDevice = false,
+                                ShowEmptyRecycleBin = false,
+                            },
                             SelectsOnInvoked = false,
                             Icon = await UIHelpers.GetIconResource(Constants.ImageRes.Libraries),
                             ChildItems = new ObservableCollection<INavigationControlItem>()

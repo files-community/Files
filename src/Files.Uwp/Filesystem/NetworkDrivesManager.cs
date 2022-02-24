@@ -44,7 +44,17 @@ namespace Files.Filesystem
                 Text = "Network".GetLocalized(),
                 Path = CommonPaths.NetworkFolderPath,
                 Type = DriveType.Network,
-                ItemType = NavigationControlItemType.Drive
+                ItemType = NavigationControlItemType.Drive,
+                MenuOptions = new ContextMenuOptions()
+                {
+                    IsLocationItem = false,
+                    ShowProperties = false,
+                    IsLibrariesHeader = false,
+                    ShowUnpinItem = false,
+                    ShowHideSection = true,
+                    ShowEjectDevice = false,
+                    ShowEmptyRecycleBin = false,
+                }
             };
             lock (drivesList)
             {
@@ -79,6 +89,16 @@ namespace Files.Filesystem
                             DeviceID = item.FilePath,
                             Type = DriveType.Network,
                             ItemType = NavigationControlItemType.Drive
+                        };
+                        networkItem.MenuOptions = new ContextMenuOptions()
+                        {
+                            IsLocationItem = true,
+                            IsLibrariesHeader = false,
+                            ShowEjectDevice = networkItem.IsRemovable,
+                            ShowUnpinItem = false,
+                            ShowEmptyRecycleBin = false,
+                            ShowProperties = true,
+                            ShowHideSection = false,
                         };
                         lock (drivesList)
                         {

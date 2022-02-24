@@ -13,6 +13,8 @@ namespace Files.Filesystem
         public string HoverDisplayText { get; }
 
         public NavigationControlItemType ItemType { get; }
+
+        public ContextMenuOptions MenuOptions { get; } 
     }
 
     public enum NavigationControlItemType
@@ -35,5 +37,22 @@ namespace Files.Filesystem
         Network,
         WSL,
         FileTag
+    }
+
+    public class ContextMenuOptions
+    {
+        public bool ShowUnpinItem { get; set; }
+
+        public bool ShowHideSection { get; set; }
+
+        public bool ShowProperties { get; set; }
+
+        public bool ShowEmptyRecycleBin { get; set; }
+
+        public bool ShowEjectDevice { get; set; }
+
+        public bool IsLocationItem { get; set; }
+
+        public bool IsLibrariesHeader { get; set; }
     }
 }

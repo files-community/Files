@@ -142,6 +142,16 @@ namespace Files.Filesystem
                         {
                             Text = "Drives".GetLocalized(),
                             Section = SectionType.Drives,
+                            MenuOptions = new ContextMenuOptions()
+                            {
+                                IsLocationItem = false,
+                                ShowProperties = false,
+                                IsLibrariesHeader = false,
+                                ShowUnpinItem = false,
+                                ShowHideSection = true,
+                                ShowEjectDevice = false,
+                                ShowEmptyRecycleBin = false,
+                            },
                             SelectsOnInvoked = false,
                             Icon = await UIHelpers.GetIconResource(Constants.ImageRes.ThisPC),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
@@ -236,6 +246,16 @@ namespace Files.Filesystem
 
             using var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(() => root.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask());
             var driveItem = await DriveItem.CreateFromPropertiesAsync(root, deviceId, type, thumbnail);
+            driveItem.MenuOptions = new ContextMenuOptions()
+            {
+                IsLocationItem = true,
+                IsLibrariesHeader = false,
+                ShowEjectDevice = driveItem.IsRemovable,
+                ShowUnpinItem = false,
+                ShowEmptyRecycleBin = false,
+                ShowProperties = true,
+                ShowHideSection = false,
+            };
 
             lock (drivesList)
             {

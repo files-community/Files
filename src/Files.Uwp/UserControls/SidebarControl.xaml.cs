@@ -137,20 +137,6 @@ namespace Files.UserControls
 
         public bool ShowMoveItemDown { get; set; }
 
-        public bool ShowUnpinItem { get; set; }
-
-        public bool ShowHideSection { get; set; }
-
-        public bool ShowProperties { get; set; }
-
-        public bool ShowEmptyRecycleBin { get; set; }
-
-        public bool ShowEjectDevice { get; set; }
-
-        public bool IsLocationItem { get; set; }
-
-        public bool IsLibrariesHeader { get; set; }
-
         public INavigationControlItem RightClickedItem;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -375,34 +361,12 @@ namespace Files.UserControls
             {
                 bool library = item.Section == SectionType.Library;
                 bool favorite = item.Section == SectionType.Favorites;
-
-                IsLocationItem = true;
-                ShowProperties = true;
-                IsLibrariesHeader = false;
-                ShowUnpinItem = ((library || favorite) && !item.IsDefaultLocation);
-                ShowMoveItemUp = ShowUnpinItem && App.SidebarPinnedController.Model.IndexOfItem(item) > 1;
-                ShowMoveItemDown = ShowUnpinItem && App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count;
-                ShowHideSection = false;
-                ShowEjectDevice = false;
-
-                if (string.Equals(item.Path, "Home".GetLocalized(), StringComparison.OrdinalIgnoreCase))
-                {
-                    ShowProperties = false;
-                }
-
-                if (string.Equals(item.Path, CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    ShowEmptyRecycleBin = true;
-                    ShowUnpinItem = true;
-                    ShowProperties = false;
-                }
-                else
-                {
-                    ShowEmptyRecycleBin = false;
-                }
+                
+                ShowMoveItemUp = item.MenuOptions.ShowUnpinItem && App.SidebarPinnedController.Model.IndexOfItem(item) > 1;
+                ShowMoveItemDown = item.MenuOptions.ShowUnpinItem && App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count;
 
                 RightClickedItem = item;
-                var menuItems = GetLocationItemMenuItems();
+                var menuItems = GetLocationItemMenuItems(item);
                 var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
                 if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
@@ -413,22 +377,12 @@ namespace Files.UserControls
                 secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
                 itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
 
-                LoadShellMenuItems(itemContextMenuFlyout);
+                LoadShellMenuItems(itemContextMenuFlyout,item);
             }
             else
             {
-                IsLocationItem = false;
-                ShowProperties = false;
-                IsLibrariesHeader = librariesHeader;
-                ShowUnpinItem = false;
-                ShowMoveItemUp = false;
-                ShowMoveItemDown = false;
-                ShowHideSection = true;
-                ShowEjectDevice = false;
-                ShowEmptyRecycleBin = false;
-
                 RightClickedItem = item;
-                var menuItems = GetLocationItemMenuItems();
+                var menuItems = GetLocationItemMenuItems(item);
                 var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
                 secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
                 itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
@@ -443,18 +397,11 @@ namespace Files.UserControls
             var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             var item = sidebarItem.DataContext as DriveItem;
 
-            IsLocationItem = true;
-            IsLibrariesHeader = false;
-            ShowEjectDevice = item.IsRemovable;
-            ShowUnpinItem = false;
             ShowMoveItemUp = false;
             ShowMoveItemDown = false;
-            ShowEmptyRecycleBin = false;
-            ShowProperties = true;
-            ShowHideSection = false;
 
             RightClickedItem = item;
-            var menuItems = GetLocationItemMenuItems();
+            var menuItems = GetLocationItemMenuItems(item);
             var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
             if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
@@ -465,7 +412,7 @@ namespace Files.UserControls
             secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
             itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
 
-            LoadShellMenuItems(itemContextMenuFlyout);
+            LoadShellMenuItems(itemContextMenuFlyout,item);
 
             e.Handled = true;
         }
@@ -476,18 +423,11 @@ namespace Files.UserControls
             var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             var item = sidebarItem.DataContext as WslDistroItem;
 
-            IsLocationItem = true;
-            IsLibrariesHeader = false;
-            ShowEjectDevice = false;
-            ShowUnpinItem = false;
             ShowMoveItemUp = false;
             ShowMoveItemDown = false;
-            ShowEmptyRecycleBin = false;
-            ShowProperties = false;
-            ShowHideSection = false;
 
             RightClickedItem = item;
-            var menuItems = GetLocationItemMenuItems();
+            var menuItems = GetLocationItemMenuItems(item);
             var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
             secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
             itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
@@ -501,18 +441,11 @@ namespace Files.UserControls
             var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             var item = sidebarItem.DataContext as FileTagItem;
 
-            IsLocationItem = true;
-            IsLibrariesHeader = false;
-            ShowEjectDevice = false;
-            ShowUnpinItem = false;
             ShowMoveItemUp = false;
             ShowMoveItemDown = false;
-            ShowEmptyRecycleBin = false;
-            ShowProperties = false;
-            ShowHideSection = false;
 
             RightClickedItem = item;
-            var menuItems = GetLocationItemMenuItems();
+            var menuItems = GetLocationItemMenuItems(item);
             var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
             secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
             itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
@@ -1157,11 +1090,11 @@ namespace Files.UserControls
             return false;
         }
 
-        private async void LoadShellMenuItems(Microsoft.UI.Xaml.Controls.CommandBarFlyout itemContextMenuFlyout)
+        private async void LoadShellMenuItems(Microsoft.UI.Xaml.Controls.CommandBarFlyout itemContextMenuFlyout,INavigationControlItem item)
         {
             try
             {
-                if (ShowEmptyRecycleBin)
+                if (item.MenuOptions.ShowEmptyRecycleBin)
                 {
                     var emptyRecycleBinItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "EmptyRecycleBin") as AppBarButton;
                     if (emptyRecycleBinItem is not null)
@@ -1170,7 +1103,7 @@ namespace Files.UserControls
                         emptyRecycleBinItem.IsEnabled = binHasItems;
                     }
                 }
-                if (IsLocationItem)
+                if (item.MenuOptions.IsLocationItem)
                 {
                     var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
                     var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await AppServiceConnectionHelper.Instance, currentInstanceViewModel: null, workingDir: null,
@@ -1207,7 +1140,7 @@ namespace Files.UserControls
             catch { }
         }
 
-        public List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems()
+        public List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item)
         {
             return new List<ContextMenuFlyoutItemViewModel>()
             {
@@ -1216,14 +1149,14 @@ namespace Files.UserControls
                     Text = "SideBarCreateNewLibrary/Text".GetLocalized(),
                     Glyph = "\uE710",
                     Command = CreateLibraryCommand,
-                    ShowItem = IsLibrariesHeader
+                    ShowItem = item.MenuOptions.IsLibrariesHeader
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "SideBarRestoreLibraries/Text".GetLocalized(),
                     Glyph = "\uE10E",
                     Command = RestoreLibrariesCommand,
-                    ShowItem = IsLibrariesHeader
+                    ShowItem = item.MenuOptions.IsLibrariesHeader
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -1231,7 +1164,7 @@ namespace Files.UserControls
                     Glyph = "\uEF88",
                     GlyphFontFamilyName = "RecycleBinIcons",
                     Command = EmptyRecycleBinCommand,
-                    ShowItem = ShowEmptyRecycleBin,
+                    ShowItem = item.MenuOptions.ShowEmptyRecycleBin,
                     IsEnabled = false,
                     ID = "EmptyRecycleBin",
                     Tag = "EmptyRecycleBin",
@@ -1242,7 +1175,7 @@ namespace Files.UserControls
                     Glyph = "\uF117",
                     GlyphFontFamilyName = "CustomGlyph",
                     Command = new RelayCommand(() => OpenInNewPane_Click(null, null)),
-                    ShowItem = IsLocationItem && CanOpenInNewPane
+                    ShowItem = item.MenuOptions.IsLocationItem && CanOpenInNewPane
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -1250,14 +1183,14 @@ namespace Files.UserControls
                     Glyph = "\uF113",
                     GlyphFontFamilyName = "CustomGlyph",
                     Command = new RelayCommand(() => OpenInNewTab_Click(null, null)),
-                    ShowItem = IsLocationItem
+                    ShowItem = item.MenuOptions.IsLocationItem
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "SideBarOpenInNewWindow/Text".GetLocalized(),
                     Glyph = "\uE737",
                     Command = new RelayCommand(() => OpenInNewWindow_Click(null, null)),
-                    ShowItem = IsLocationItem
+                    ShowItem = item.MenuOptions.IsLocationItem
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -1292,14 +1225,14 @@ namespace Files.UserControls
                     Text = "SideBarUnpinFromFavorites/Text".GetLocalized(),
                     Glyph = "\uE77A",
                     Command = new RelayCommand(() => UnpinItem_Click(null, null)),
-                    ShowItem = ShowUnpinItem
+                    ShowItem = item.MenuOptions.ShowUnpinItem
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = string.Format("SideBarHideSectionFromSideBar/Text".GetLocalized(), RightClickedItem.Text),
                     Glyph = "\uE77A",
                     Command = new RelayCommand(() => HideSection_Click(null, null)),
-                    ShowItem = ShowHideSection
+                    ShowItem = item.MenuOptions.ShowHideSection
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -1307,14 +1240,14 @@ namespace Files.UserControls
                     Glyph = "\uF10B",
                     GlyphFontFamilyName = "CustomGlyph",
                     Command = new RelayCommand(() => EjectDevice_Click(null, null)),
-                    ShowItem = ShowEjectDevice
+                    ShowItem = item.MenuOptions.ShowEjectDevice
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalized(),
                     Glyph = "\uE946",
                     Command = new RelayCommand(() => Properties_Click(null, null)),
-                    ShowItem = ShowProperties
+                    ShowItem = item.MenuOptions.ShowProperties
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {

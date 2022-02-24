@@ -51,9 +51,18 @@ namespace Files.Filesystem
                 {
                     Text = provider.Name,
                     Path = provider.SyncFolder,
-                    Type = DriveType.CloudDrive,
+                    Type = DriveType.CloudDrive
                 };
-
+                cloudProviderItem.MenuOptions = new ContextMenuOptions()
+                {
+                    IsLocationItem = true,
+                    IsLibrariesHeader = false,
+                    ShowEjectDevice = cloudProviderItem.IsRemovable,
+                    ShowUnpinItem = false,
+                    ShowEmptyRecycleBin = false,
+                    ShowProperties = true,
+                    ShowHideSection = false,
+                };
                 var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, 24);
                 if (iconData != null)
                 {
@@ -111,6 +120,16 @@ namespace Files.Filesystem
                         {
                             Text = "SidebarCloudDrives".GetLocalized(),
                             Section = SectionType.CloudDrives,
+                            MenuOptions = new ContextMenuOptions()
+                            {
+                                IsLocationItem = false,
+                                ShowProperties = false,
+                                IsLibrariesHeader = false,
+                                ShowUnpinItem = false,
+                                ShowHideSection = true,
+                                ShowEjectDevice = false,
+                                ShowEmptyRecycleBin = false,
+                            },
                             SelectsOnInvoked = false,
                             Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png")),
                             ChildItems = new ObservableCollection<INavigationControlItem>()

@@ -56,7 +56,17 @@ namespace Files.Filesystem
                                 Section = SectionType.WSL,
                                 SelectsOnInvoked = false,
                                 Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png")),
-                                ChildItems = new ObservableCollection<INavigationControlItem>()
+                                ChildItems = new ObservableCollection<INavigationControlItem>(),
+                                MenuOptions = new ContextMenuOptions()
+                                {
+                                    IsLocationItem = false,
+                                    ShowProperties = false,
+                                    IsLibrariesHeader = false,
+                                    ShowUnpinItem = false,
+                                    ShowHideSection = true,
+                                    ShowEjectDevice = false,
+                                    ShowEmptyRecycleBin = false,
+                                }
                             };
                             var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
                                         (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
@@ -104,7 +114,17 @@ namespace Files.Filesystem
                                     {
                                         Text = folder.DisplayName,
                                         Path = folder.Path,
-                                        Logo = logoURI
+                                        Logo = logoURI,
+                                        MenuOptions = new ContextMenuOptions()
+                                        {
+                                            IsLocationItem = true,
+                                            IsLibrariesHeader = false,
+                                            ShowEjectDevice = false,
+                                            ShowUnpinItem = false,
+                                            ShowEmptyRecycleBin = false,
+                                            ShowProperties = false,
+                                            ShowHideSection = false,
+                                        }
                                     });
                                 }
                             }

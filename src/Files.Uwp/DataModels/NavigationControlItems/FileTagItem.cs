@@ -23,6 +23,8 @@ namespace Files.DataModels.NavigationControlItems
 
         public SectionType Section { get; set; }
 
+        public ContextMenuOptions MenuOptions { get; set; }
+
         public NavigationControlItemType ItemType => NavigationControlItemType.FileTag;
 
         public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);

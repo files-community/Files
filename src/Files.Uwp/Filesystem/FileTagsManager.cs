@@ -54,6 +54,16 @@ namespace Files.Filesystem
                         {
                             Text = "FileTags".GetLocalized(),
                             Section = SectionType.FileTag,
+                            MenuOptions = new ContextMenuOptions()
+                            {
+                                IsLocationItem = false,
+                                ShowProperties = false,
+                                IsLibrariesHeader = false,
+                                ShowUnpinItem = false,
+                                ShowHideSection = true,
+                                ShowEjectDevice = false,
+                                ShowEmptyRecycleBin = false,
+                            },
                             SelectsOnInvoked = false,
                             Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/FileTags.png")),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
@@ -79,7 +89,17 @@ namespace Files.Filesystem
                                 {
                                     Text = tag.TagName,
                                     Path = $"tag:{tag.TagName}",
-                                    FileTag = tag
+                                    FileTag = tag,
+                                    MenuOptions = new ContextMenuOptions()
+                                    {
+                                        IsLocationItem = true,
+                                        IsLibrariesHeader = false,
+                                        ShowEjectDevice = false,
+                                        ShowUnpinItem = false,
+                                        ShowEmptyRecycleBin = false,
+                                        ShowProperties = false,
+                                        ShowHideSection = false,
+                                    }
                                 });
                             }
                         }
