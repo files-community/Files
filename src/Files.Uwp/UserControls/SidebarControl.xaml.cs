@@ -69,6 +69,28 @@ namespace Files.UserControls
             set => SetValue(EmptyRecycleBinCommandProperty, value);
         }
 
+        public RelayCommand HideSectionCommand => new RelayCommand(HideSection);
+
+        public RelayCommand UnpinItemCommand => new RelayCommand(UnpinItem);
+
+        public RelayCommand MoveItemToTopCommand => new RelayCommand(MoveItemToTop);
+
+        public RelayCommand MoveItemUpCommand => new RelayCommand(MoveItemUp);
+
+        public RelayCommand MoveItemDownCommand => new RelayCommand(MoveItemDown);
+
+        public RelayCommand MoveItemToBottomCommand => new RelayCommand(MoveItemToBottom);
+
+        public RelayCommand OpenInNewTabCommand => new RelayCommand(OpenInNewTab);
+
+        public RelayCommand OpenInNewWindowCommand => new RelayCommand(OpenInNewWindow);
+
+        public RelayCommand OpenInNewPaneCommand => new RelayCommand(OpenInNewPane);
+
+        public RelayCommand EjectDeviceCommand => new RelayCommand(EjectDevice);
+
+        public RelayCommand OpenPropertiesCommand => new RelayCommand(OpenProperties);
+
         public readonly RelayCommand CreateLibraryCommand = new RelayCommand(LibraryHelper.ShowCreateNewLibraryDialog);
 
         public readonly RelayCommand RestoreLibrariesCommand = new RelayCommand(LibraryHelper.ShowRestoreDefaultLibrariesDialog);
@@ -146,7 +168,7 @@ namespace Files.UserControls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void HideSection_Click(object sender, RoutedEventArgs e)
+        public void HideSection()
         {
             switch (RightClickedItem.Section)
             {
@@ -181,7 +203,34 @@ namespace Files.UserControls
             }
         }
 
-        public void UnpinItem_Click(object sender, RoutedEventArgs e)
+        private async void OpenInNewPane()
+        {
+            if (await CheckEmptyDrive((RightClickedItem as INavigationControlItem)?.Path))
+            {
+                return;
+            }
+            SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(RightClickedItem));
+        }
+
+        private async void OpenInNewTab()
+        {
+            if (await CheckEmptyDrive(RightClickedItem.Path))
+            {
+                return;
+            }
+            await NavigationHelpers.OpenPathInNewTab(RightClickedItem.Path);
+        }
+
+        private async void OpenInNewWindow()
+        {
+            if (await CheckEmptyDrive(RightClickedItem.Path))
+            {
+                return;
+            }
+            await NavigationHelpers.OpenPathInNewWindowAsync(RightClickedItem.Path);
+        }
+
+        public void UnpinItem()
         {
             // only recycle bin have this property true   alternative -> new property in LocationItem -> IsRecycleBin
 
@@ -196,7 +245,7 @@ namespace Files.UserControls
             }
         }
 
-        public void MoveItemToTop_Click(object sender, RoutedEventArgs e)
+        public void MoveItemToTop()
         {
             if (RightClickedItem.Section == SectionType.Favorites)
             {
@@ -217,7 +266,7 @@ namespace Files.UserControls
             }
         }
 
-        public void MoveItemUp_Click(object sender, RoutedEventArgs e)
+        public void MoveItemUp()
         {
             if (RightClickedItem.Section == SectionType.Favorites)
             {
@@ -238,7 +287,7 @@ namespace Files.UserControls
             }
         }
 
-        public void MoveItemDown_Click(object sender, RoutedEventArgs e)
+        public void MoveItemDown()
         {
             if (RightClickedItem.Section == SectionType.Favorites)
             {
@@ -259,7 +308,7 @@ namespace Files.UserControls
             }
         }
 
-        public void MoveItemToBottom_Click(object sender, RoutedEventArgs e)
+        public void MoveItemToBottom()
         {
             if (RightClickedItem.Section == SectionType.Favorites)
             {
@@ -278,6 +327,16 @@ namespace Files.UserControls
                     SetValue(SelectedSidebarItemProperty, RightClickedItem);
                 }
             }
+        }
+
+        private void OpenProperties()
+        {
+            SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(RightClickedItem));
+        }
+
+        private async void EjectDevice()
+        {
+            await DriveHelpers.EjectDeviceAsync(RightClickedItem.Path);
         }
 
         public static GridLength GetSidebarCompactSize()
@@ -439,24 +498,6 @@ namespace Files.UserControls
             itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
 
             e.Handled = true;
-        }
-
-        private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
-        {
-            if (await CheckEmptyDrive(RightClickedItem.Path))
-            {
-                return;
-            }
-            await NavigationHelpers.OpenPathInNewTab(RightClickedItem.Path);
-        }
-
-        private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
-        {
-            if (await CheckEmptyDrive(RightClickedItem.Path))
-            {
-                return;
-            }
-            await NavigationHelpers.OpenPathInNewWindowAsync(RightClickedItem.Path);
         }
 
         private void NavigationViewItem_DragStarting(UIElement sender, DragStartingEventArgs args)
@@ -905,16 +946,6 @@ namespace Files.UserControls
             lockFlag = false;
         }
 
-        private void Properties_Click(object sender, RoutedEventArgs e)
-        {
-            SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(RightClickedItem));
-        }
-
-        private async void EjectDevice_Click(object sender, RoutedEventArgs e)
-        {
-            await DriveHelpers.EjectDeviceAsync(RightClickedItem.Path);
-        }
-
         private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
         {
             (this.FindDescendant("TabContentBorder") as Border).Child = TabContent;
@@ -1040,15 +1071,6 @@ namespace Files.UserControls
             IsPaneOpen = !IsPaneOpen;
         }
 
-        private async void OpenInNewPane_Click(object sender, RoutedEventArgs e)
-        {
-            if (await CheckEmptyDrive((RightClickedItem as INavigationControlItem)?.Path))
-            {
-                return;
-            }
-            SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(RightClickedItem));
-        }
-
         private void ResizeElementBorder_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
             if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
@@ -1162,7 +1184,7 @@ namespace Files.UserControls
                     Text = "SideBarOpenInNewPane/Text".GetLocalized(),
                     Glyph = "\uF117",
                     GlyphFontFamilyName = "CustomGlyph",
-                    Command = new RelayCommand(() => OpenInNewPane_Click(null, null)),
+                    Command = OpenInNewPaneCommand,
                     ShowItem = options.IsLocationItem && CanOpenInNewPane
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -1170,56 +1192,56 @@ namespace Files.UserControls
                     Text = "SideBarOpenInNewTab/Text".GetLocalized(),
                     Glyph = "\uF113",
                     GlyphFontFamilyName = "CustomGlyph",
-                    Command = new RelayCommand(() => OpenInNewTab_Click(null, null)),
+                    Command = OpenInNewTabCommand,
                     ShowItem = options.IsLocationItem
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "SideBarOpenInNewWindow/Text".GetLocalized(),
                     Glyph = "\uE737",
-                    Command = new RelayCommand(() => OpenInNewWindow_Click(null, null)),
+                    Command = OpenInNewWindowCommand,
                     ShowItem = options.IsLocationItem
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "SideBarFavoritesMoveToTop".GetLocalized(),
                     Glyph = "\uE11C",
-                    Command = new RelayCommand(() => MoveItemToTop_Click(null, null)),
+                    Command = MoveItemToTopCommand,
                     ShowItem = ShowMoveItemUp
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "SideBarFavoritesMoveOneUp".GetLocalized(),
                     Glyph = "\uE70E",
-                    Command = new RelayCommand(() => MoveItemUp_Click(null, null)),
+                    Command = MoveItemUpCommand,
                     ShowItem = ShowMoveItemUp
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "SideBarFavoritesMoveOneDown".GetLocalized(),
                     Glyph = "\uE70D",
-                    Command = new RelayCommand(() => MoveItemDown_Click(null, null)),
+                    Command = MoveItemDownCommand,
                     ShowItem = ShowMoveItemDown
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "SideBarFavoritesMoveToBottom".GetLocalized(),
                     Glyph = "\uE118",
-                    Command = new RelayCommand(() => MoveItemToBottom_Click(null, null)),
+                    Command = MoveItemToBottomCommand,
                     ShowItem = ShowMoveItemDown
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "SideBarUnpinFromFavorites/Text".GetLocalized(),
                     Glyph = "\uE77A",
-                    Command = new RelayCommand(() => UnpinItem_Click(null, null)),
+                    Command = UnpinItemCommand,
                     ShowItem = options.ShowUnpinItem
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = string.Format("SideBarHideSectionFromSideBar/Text".GetLocalized(), RightClickedItem.Text),
                     Glyph = "\uE77A",
-                    Command = new RelayCommand(() => HideSection_Click(null, null)),
+                    Command = HideSectionCommand,
                     ShowItem = options.ShowHideSection
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -1227,14 +1249,14 @@ namespace Files.UserControls
                     Text = "SideBarEjectDevice/Text".GetLocalized(),
                     Glyph = "\uF10B",
                     GlyphFontFamilyName = "CustomGlyph",
-                    Command = new RelayCommand(() => EjectDevice_Click(null, null)),
+                    Command = EjectDeviceCommand,
                     ShowItem = options.ShowEjectDevice
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalized(),
                     Glyph = "\uE946",
-                    Command = new RelayCommand(() => Properties_Click(null, null)),
+                    Command = OpenPropertiesCommand,
                     ShowItem = options.ShowProperties
                 },
                 new ContextMenuFlyoutItemViewModel()
