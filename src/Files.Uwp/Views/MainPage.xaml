@@ -395,7 +395,7 @@
                 Style="{StaticResource DefaultGridSplitterStyle}" />
 
             <controls:PaneControl x:Name="Pane" Grid.Row="1" Grid.Column="2"
-                x:Load="{x:Bind IsPaneEnabled, Mode=OneWay}"
+                x:Load="{x:Bind IsPaneEnabled, Mode=OneWay}" Updated="Pane_Updated"
                 HorizontalContentAlignment="Stretch" Visibility="{x:Bind IsPaneEnabled, Mode=OneWay}" />
 
             <controls:StatusBarControl

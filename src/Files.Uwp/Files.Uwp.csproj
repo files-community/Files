@@ -131,6 +131,7 @@
     <Compile Include="Converters\DateTimeOffsetToString.cs" />
     <Compile Include="Converters\DoubleArrayToString.cs" />
     <Compile Include="Converters\DoubleToString.cs" />
+    <Compile Include="Converters\HasTextConverter.cs" />
     <Compile Include="Converters\IntToGroupOption.cs" />
     <Compile Include="Converters\IntToSortDirection.cs" />
     <Compile Include="Converters\IntToSortOption.cs" />
@@ -174,6 +175,17 @@
     <Compile Include="Filesystem\Permissions\FileSystemAccessRuleForUI.cs" />
     <Compile Include="Filesystem\Permissions\RulesForUser.cs" />
     <Compile Include="Filesystem\Permissions\UserGroup.cs" />
+    <Compile Include="Filesystem\Search\Key\Date.cs" />
+    <Compile Include="Filesystem\Search\Key\Group.cs" />
+    <Compile Include="Filesystem\Search\Key\Size.cs" />
+    <Compile Include="Filesystem\Search\Range\Date.cs" />
+    <Compile Include="Filesystem\Search\Range\Range.cs" />
+    <Compile Include="Filesystem\Search\Range\Size.cs" />
+    <Compile Include="Filesystem\Search\SearchContent.cs" />
+    <Compile Include="Filesystem\Search\SearchFilter.cs" />
+    <Compile Include="Filesystem\Search\SearchHeader.cs" />
+    <Compile Include="Filesystem\Search\SearchSettings.cs" />
+    <Compile Include="Filesystem\Search\SearchTag.cs" />
     <Compile Include="Filesystem\StorageItems\BaseQueryResults.cs" />
     <Compile Include="Filesystem\StorageItems\BaseStorageItem.cs" />
     <Compile Include="Filesystem\StorageItems\FtpStorageFile.cs" />
@@ -272,6 +284,9 @@
     <Compile Include="UserControls\Pane\PaneControl.xaml.cs">
       <DependentUpon>PaneControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Pane\SearchPane.xaml.cs">
+      <DependentUpon>SearchPane.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\PathBreadcrumb.xaml.cs">
       <DependentUpon>PathBreadcrumb.xaml</DependentUpon>
     </Compile>
@@ -332,6 +347,28 @@
     <Compile Include="UserControls\SearchBox.xaml.cs">
       <DependentUpon>SearchBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Search\CalendarRangePicker.xaml.cs">
+      <DependentUpon>CalendarRangePicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Search\NamedSizeRangePicker.xaml.cs">
+      <DependentUpon>NamedSizeRangePicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Search\RelativeDateRangePicker.xaml.cs">
+      <DependentUpon>RelativeDateRangePicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Search\SearchFilterPage.xaml.cs">
+      <DependentUpon>SearchFilterPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Search\SearchFilterPicker.xaml.cs">
+      <DependentUpon>SearchFilterPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Search\SearchNavigator.cs" />
+    <Compile Include="UserControls\Search\SizeRangeSlider.xaml.cs">
+      <DependentUpon>SizeRangeSlider.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Search\TagsControl.xaml.cs">
+      <DependentUpon>TagsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Selection\ExtendPreviousItemSelectionStrategy.cs" />
     <Compile Include="Helpers\GenericItemsCollection.cs" />
     <Compile Include="UserControls\Selection\IgnorePreviousItemSelectionStrategy.cs" />
@@ -364,6 +401,15 @@
     <Compile Include="ViewModels\Properties\CompatibilityProperties.cs" />
     <Compile Include="ViewModels\Properties\SecurityProperties.cs" />
     <Compile Include="ViewModels\SearchBoxViewModel.cs" />
+    <Compile Include="ViewModels\Search\Key\Date.cs" />
+    <Compile Include="ViewModels\Search\Key\Group.cs" />
+    <Compile Include="ViewModels\Search\Key\Size.cs" />
+    <Compile Include="ViewModels\Search\SearchContentViewModel.cs" />
+    <Compile Include="ViewModels\Search\SearchFilterViewModel.cs" />
+    <Compile Include="ViewModels\Search\SearchHeaderViewModel.cs" />
+    <Compile Include="ViewModels\Search\SearchPageViewModel.cs" />
+    <Compile Include="ViewModels\Search\SearchSettingsViewModel.cs" />
+    <Compile Include="ViewModels\Search\SearchTagViewModel.cs" />
     <Compile Include="ViewModels\SidebarViewModel.cs" />
     <Compile Include="ViewModels\ColumnsViewModel.cs" />
     <Compile Include="ViewModels\Pages\YourHomeViewModel.cs" />
@@ -1230,6 +1276,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserControls\Pane\SearchPane.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserControls\PathBreadcrumb.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1325,6 +1375,34 @@
     <Page Include="UserControls\SearchBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Search\CalendarRangePicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Search\NamedSizeRangePicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Search\RelativeDateRangePicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Search\SearchFilterPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Search\SearchFilterPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Search\SizeRangeSlider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Search\TagsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\Settings\SettingsBlockControl.xaml">
       <Generator>MSBuild:Compile</Generator>

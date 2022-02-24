@@ -1,0 +1,20 @@
+﻿<UserControl
+    x:Class="Files.UserControls.Search.RelativeDateRangePicker"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files.UserControls.Search"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignWidth="400" d:DesignHeight="300" mc:Ignorable="d">
+
+    <ItemsControl ItemsSource="{x:Bind RelativeRanges}">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="local:IRelativeDateRange">
+                <ToggleButton
+                    Margin="0,8,0,0" HorizontalAlignment="Stretch" FontSize="14" FontWeight="SemiBold"
+                    Content="{x:Bind Name}" IsChecked="{x:Bind IsSelected, Mode=TwoWay}" />
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+
+</UserControl>

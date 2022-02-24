@@ -804,6 +804,15 @@
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
+            <AppBarToggleButton x:Name="SearchPane" Width="Auto" MinWidth="40"
+                IsChecked="{x:Bind MainViewModel.PaneViewModel.IsSearchSelected, Mode=TwoWay}"
+                Label="{helpers:ResourceString Name=SearchOptions}" LabelPosition="Collapsed"
+                ToolTipService.ToolTip="{helpers:ResourceString Name=ToggleSearchPane}"
+                AutomationProperties.Name="{helpers:ResourceString Name=ToggleSearchPane}">
+                <AppBarToggleButton.Content>
+                    <FontIcon Glyph="&#xE71C;" />
+                </AppBarToggleButton.Content>
+            </AppBarToggleButton>
             <AppBarToggleButton
                 x:Name="PreviewPane"
                 x:Uid="PreviewPaneToggle"

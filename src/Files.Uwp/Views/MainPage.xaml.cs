@@ -1,15 +1,15 @@
-﻿using Files.DataModels.NavigationControlItems;
-using Files.Shared.Enums;
-using Files.EventArguments;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
+using Files.DataModels.NavigationControlItems;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Backend.Services.Settings;
+using Files.Shared.Enums;
+using Files.Shared.EventArguments;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.ComponentModel;
@@ -23,7 +23,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using Files.Shared.EventArguments;
 
 namespace Files.Views
 {
@@ -418,6 +417,15 @@ namespace Files.Views
                         PaneRow.MinHeight = 0;
                         PaneRow.MaxHeight = double.MaxValue;
                         PaneRow.Height = new GridLength(0);
+
+                        if (Pane.Width < Pane.MinWidth)
+                        {
+                            Pane.Width = Pane.MinWidth;
+                        }
+                        if (Pane.Width > Pane.MaxWidth)
+                        {
+                            Pane.Width = Pane.MaxWidth;
+                        }
                         break;
                     case PanePositions.Bottom:
                         Pane.SetValue(Grid.RowProperty, 3);
@@ -432,6 +440,15 @@ namespace Files.Views
                         PaneRow.MinHeight = Pane.MinHeight;
                         PaneRow.MaxHeight = Pane.MaxHeight;
                         PaneRow.Height = new GridLength(UserSettingsService.PaneSettingsService.HorizontalSizePx, GridUnitType.Pixel);
+
+                        if (Pane.Height < Pane.MinHeight)
+                        {
+                            Pane.Height = Pane.MinHeight;
+                        }
+                        if (Pane.Height > Pane.MaxHeight)
+                        {
+                            Pane.Height = Pane.MaxHeight;
+                        }
                         break;
                 }
             }
@@ -456,6 +473,7 @@ namespace Files.Views
         public bool IsPaneEnabled => UserSettingsService.PaneSettingsService.Content switch
         {
             PaneContents.Preview => IsPreviewPaneEnabled,
+            PaneContents.Search => true,
             _ => false,
         };
 
@@ -527,5 +545,7 @@ namespace Files.Views
         }
 
         private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();
+
+        private void Pane_Updated(object sender, PaneControlUpdatedEventArgs e) => LoadPaneChanged();
     }
 }

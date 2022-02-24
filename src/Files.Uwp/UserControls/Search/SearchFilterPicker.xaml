@@ -1,0 +1,165 @@
+﻿<UserControl
+    x:Class="Files.UserControls.Search.SearchFilterPicker"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:vm="using:Files.ViewModels.Search"
+    xmlns:local="using:Files.UserControls.Search"
+    xmlns:helpers="using:Files.Helpers"
+    xmlns:converters="using:Files.Converters"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignWidth="400" d:DesignHeight="300" mc:Ignorable="d">
+
+    <UserControl.Resources>
+
+        <converters:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
+        <converters:HasTextConverter x:Key="HasTextConverter" />
+
+        <local:SearchFilterPickerTemplateSelector x:Key="PickerTemplateSelector"
+            GroupTemplate="{StaticResource GroupTemplate}"
+            SizeRangeTemplate="{StaticResource SizeRangeTemplate}"
+            DateRangeTemplate="{StaticResource DateRangeTemplate}" />
+
+        <local:TagCollectionTemplateSelector x:Key="TagCollectionTemplateSelector"
+            GroupTagCollectionTemplate="{StaticResource GroupTagCollectionTemplate}"
+            FilterTagCollectionTemplate="{StaticResource FilterTagCollectionTemplate}" />
+
+        <DataTemplate x:Key="GroupTemplate" x:DataType="vm:ISearchFilterViewModelCollection">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{x:Bind Header.Description, Mode=OneWay}"
+                    Style="{StaticResource IndicatorStyle}" Margin="8" VerticalAlignment="Top"
+                    Visibility="{x:Bind Description, Mode=OneWay, Converter={StaticResource HasTextConverter}}" />
+                <ItemsControl ItemsSource="{Binding}" ItemTemplateSelector="{StaticResource TagCollectionTemplateSelector}" />
+                <CommandBar Grid.Row="3" IsOpen="False" Margin="0,0,0,8"
+                    Background="Transparent" DefaultLabelPosition="Right" IsDynamicOverflowEnabled="False">
+                    <AppBarButton x:Name="AddFilterButton" Loaded="AddFilterButton_Loaded"
+                        Icon="Add" Label="{helpers:ResourceString Name=Add}" />
+                </CommandBar>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SizeRangeTemplate" x:DataType="vm:ISizeFilterViewModel">
+            <Grid RowSpacing="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" MinHeight="64" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="{helpers:ResourceString Name=NoSizeRangeSelected}"
+                    Style="{StaticResource IndicatorStyle}" VerticalAlignment="Top" Visibility="{x:Bind IsEmpty, Mode=OneWay}" />
+                <local:TagsControl Tags="{x:Bind Tags, Mode=OneWay}" CanClose="True"
+                    Visibility="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource VisibilityInvertConverter}}" />
+                <local:SizeRangeSlider Grid.Row="1" Range="{x:Bind Range, Mode=TwoWay}" />
+                <TextBlock Grid.Row="2" Text="{helpers:ResourceString Name=OrChooseASizeRange}"
+                    Style="{StaticResource IndicatorStyle}" Margin="0,28,0,-12" />
+                <local:NamedSizeRangePicker Grid.Row="3" Range="{x:Bind Range, Mode=TwoWay}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DateRangeTemplate" x:DataType="vm:IDateFilterViewModel">
+            <Grid RowSpacing="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" MinHeight="64" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="{helpers:ResourceString Name=NoDateRangeSelected}"
+                    Style="{StaticResource IndicatorStyle}" VerticalAlignment="Top" Visibility="{x:Bind IsEmpty, Mode=OneWay}" />
+                <local:TagsControl Tags="{x:Bind Tags, Mode=OneWay}" CanClose="True"
+                    Visibility="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource VisibilityInvertConverter}}" />
+                <local:CalendarRangePicker Grid.Row="1" Range="{x:Bind Range, Mode=TwoWay}" />
+                <TextBlock Grid.Row="2" Text="{helpers:ResourceString Name=OrChooseADateRange}"
+                     Style="{StaticResource IndicatorStyle}" Margin="0,28,0,-12" />
+                <local:RelativeDateRangePicker Grid.Row="3" Range="{x:Bind Range, Mode=TwoWay}" />
+            </Grid>
+        </DataTemplate>
+
+        <Style x:Key="IndicatorStyle" BasedOn="{StaticResource CaptionTextBlockStyle}" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+
+        <ControlTemplate x:Key="HeaderItemTemplate" x:Name="HeaderItemTemplate" TargetType="MenuFlyoutItem">
+            <Button x:Name="AddItemButton" Content="{TemplateBinding Tag}" Tapped="AddItemButton_Tapped"
+                Background="Transparent" BorderBrush="Transparent"
+                MaxWidth="240" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
+                <Button.ContentTemplate>
+                    <DataTemplate x:DataType="vm:ISearchHeaderViewModel">
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Stretch">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="32" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <FontIcon HorizontalAlignment="Left" FontSize="18" Glyph="{x:Bind Glyph}" />
+                                <TextBlock Grid.Column="1" FontSize="16" FontWeight="SemiBold" Text="{x:Bind Label}" />
+                            </Grid>
+                            <TextBlock x:Name="HeaderDescription" FontSize="14" TextWrapping="Wrap" Text="{x:Bind Description}"
+                               x:Load="{x:Bind Description, Converter={StaticResource HasTextConverter}}"
+                               Visibility="{x:Bind Description, Converter={StaticResource HasTextConverter}}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+        </ControlTemplate>
+
+        <DataTemplate x:Key="GroupTagCollectionTemplate" x:DataType="vm:ISearchFilterViewModelCollection">
+            <StackPanel Orientation="Vertical">
+                <Button x:Name="GroupOpenButton" Tapped="OpenButton_Tapped" Content="{Binding}" Style="{StaticResource HeaderTagCollectionStyle}" />
+                <ItemsControl Margin="26,0,0,0" ItemsSource="{Binding}" ItemTemplate="{StaticResource FilterTagCollectionTemplate}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="FilterTagCollectionTemplate" x:DataType="vm:ISearchFilterViewModel">
+            <StackPanel Orientation="Vertical">
+                <Button x:Name="FilterOpenButton" Tapped="OpenButton_Tapped" Content="{Binding}" Style="{StaticResource HeaderTagCollectionStyle}" />
+                <local:TagsControl Margin="22,0,18,0" CanSelect="True" CanClose="True"
+                    Tags="{x:Bind Tags, Mode=OneWay}" MiddleFilter="{Binding Content, ElementName=GroupOpenButton}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <Style x:Key="HeaderTagCollectionStyle" TargetType="Button">
+            <Setter Property="Margin" Value="0,2,0,2" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate x:DataType="vm:ISearchFilterViewModel">
+                        <Grid Margin="0,4,0,4" Background="Transparent" ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="18" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="18" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <FontIcon Width="18" VerticalAlignment="Center" FontSize="18" Glyph="{x:Bind Header.Glyph}" />
+                            <TextBlock Grid.Column="1" Text="{x:Bind Header.Label}" FontSize="15" FontWeight="SemiBold" />
+                            <FontIcon Grid.Column="2" Width="18" FontSize="18" Opacity="0.60" HorizontalAlignment="Right" Glyph="&#xE974;" />
+                        </Grid>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+
+    <ContentControl Margin="0,8,0,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+        Content="{x:Bind ViewModel, Mode=OneWay}" ContentTemplateSelector="{StaticResource PickerTemplateSelector}" />
+
+</UserControl>

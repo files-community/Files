@@ -1,18 +1,23 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
 using Files.CommandLine;
 using Files.Controllers;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
+using Files.Filesystem.Search;
 using Files.Helpers;
-using Files.Uwp.ServicesImplementation.Settings;
+using Files.Shared;
+using Files.Shared.Extensions;
 using Files.UserControls.MultitaskingControl;
+using Files.UserControls.Search;
+using Files.Uwp.ServicesImplementation.Settings;
 using Files.ViewModels;
+using Files.ViewModels.Search;
 using Files.Views;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -36,8 +41,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using Files.Shared;
-using Files.Shared.Extensions;
 
 namespace Files
 {
@@ -112,6 +115,11 @@ namespace Files
                 .AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
                 .AddSingleton<IBundlesSettingsService, BundlesSettingsService>()
                 .AddSingleton<IUpdateSettingsService, UpdateSettingsService>()
+                .AddSingleton<ISearchHeaderProvider, SearchHeaderProvider>()
+                .AddSingleton<ISearchSettings, SearchSettings>()
+                .AddSingleton<ISearchNavigator, SearchNavigator>()
+                .AddSingleton<ISearchFilterViewModelFactory, SearchFilterViewModelFactory>()
+                .AddSingleton<ISearchPageViewModelFactory, SearchPageViewModelFactory>()
 
                 // TODO: Dialogs:
 

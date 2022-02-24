@@ -1,41 +1,50 @@
-﻿using Files.Shared.Enums;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
-using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Shared.Enums;
+using System;
 using System.ComponentModel;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls
 {
     public sealed partial class PaneControl : UserControl, IPane
     {
+        public event EventHandler<PaneControlUpdatedEventArgs> Updated;
+
         public PanePositions Position { get; private set; } = PanePositions.None;
 
-        private IPaneSettingsService PaneService { get; } = Ioc.Default.GetService<IPaneSettingsService>();
+        public PaneContents Content { get; private set; }
 
-        private PaneContents content;
-        private Control pane;
+        public Control Pane { get; private set; }
+
+        private IPaneSettingsService PaneService { get; } = Ioc.Default.GetService<IPaneSettingsService>();
 
         public PaneControl()
         {
             InitializeComponent();
 
             PaneService.PropertyChanged += PaneService_PropertyChanged;
-            Update();
         }
 
         public void UpdatePosition(double panelWidth, double panelHeight)
         {
-            if (pane is IPane p)
+            if (Pane is IPane p)
             {
                 p.UpdatePosition(panelWidth, panelHeight);
                 Position = p.Position;
             }
-            if (pane is not null)
+            else
             {
-                MinWidth = pane.MinWidth;
-                MaxWidth = pane.MaxWidth;
-                MinHeight = pane.MinHeight;
-                MaxHeight = pane.MaxHeight;
+                Position = Pane is not null ? PanePositions.Right : PanePositions.None;
+            }
+
+            if (Pane is not null)
+            {
+                MinWidth = Pane.MinWidth;
+                MaxWidth = Pane.MaxWidth;
+                MinHeight = Pane.MinHeight;
+                MaxHeight = Pane.MaxHeight;
             }
         }
 
@@ -43,30 +52,44 @@ namespace Files.UserControls
         {
             if (e.PropertyName is nameof(IPaneSettingsService.Content))
             {
-                Update();
-            }
-        }
-
-        private void Update()
-        {
-            var newContent = PaneService.Content;
-            if (content != newContent)
-            {
-                content = newContent;
-                pane = GetPane(content);
-
-                Panel.Children.Clear();
-                if (pane is not null)
+                Content = PaneService.Content;
+                if (Content is PaneContents.None)
                 {
-                    Panel.Children.Add(pane);
+                    Updated?.Invoke(this, new PaneControlUpdatedEventArgs(Content, Pane));
                 }
             }
         }
 
-        private static Control GetPane(PaneContents content) => content switch
+
+        private void Pane_Loading(FrameworkElement sender, object args)
         {
-            PaneContents.Preview => new PreviewPane(),
+            Pane = sender as Control;
+            Updated?.Invoke(this, new PaneControlUpdatedEventArgs(Content, Pane));
+        }
+    }
+
+    public class PaneControlUpdatedEventArgs : EventArgs
+    {
+        public Control Pane { get; }
+        public PaneContents Content { get; }
+
+        public PaneControlUpdatedEventArgs(PaneContents content, Control pane)
+            => (Content, Pane) = (content, pane);
+    }
+
+    public class PaneTemplateSelector : DataTemplateSelector
+    {
+        public DataTemplate PreviewTemplate { get; set; }
+        public DataTemplate SearchTemplate { get; set; }
+
+        protected override DataTemplate SelectTemplateCore(object item) => item switch
+        {
+            PaneContents.Preview => PreviewTemplate,
+            PaneContents.Search => SearchTemplate,
             _ => null,
         };
+
+        protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
+            => SelectTemplateCore(item);
     }
 }

@@ -12,6 +12,7 @@ namespace Files.ViewModels
         bool HasContent { get; }
 
         bool IsPreviewSelected { get; set; }
+        bool IsSearchSelected { get; set; }
     }
 
     public class PaneViewModel : ObservableObject, IPaneViewModel
@@ -26,6 +27,11 @@ namespace Files.ViewModels
         {
             get => content is PaneContents.Preview;
             set => SetState(value, PaneContents.Preview);
+        }
+        public bool IsSearchSelected
+        {
+            get => content is PaneContents.Search;
+            set => SetState(value, PaneContents.Search);
         }
 
         public PaneViewModel()
@@ -47,6 +53,7 @@ namespace Files.ViewModels
 
                     OnPropertyChanged(nameof(HasContent));
                     OnPropertyChanged(nameof(IsPreviewSelected));
+                    OnPropertyChanged(nameof(IsSearchSelected));
                 }
             }
         }
