@@ -143,7 +143,7 @@ namespace Files.Filesystem
                         {
                             Text = "Drives".GetLocalized(),
                             Section = SectionType.Drives,
-                            MenuOptions = new ContextMenuOptions()
+                            MenuOptions = new SidebarContextMenuOptions
                             {
                                 IsLocationItem = false,
                                 ShowProperties = false,
@@ -151,7 +151,7 @@ namespace Files.Filesystem
                                 ShowUnpinItem = false,
                                 ShowHideSection = true,
                                 ShowEjectDevice = false,
-                                ShowEmptyRecycleBin = false,
+                                ShowEmptyRecycleBin = false
                             },
                             SelectsOnInvoked = false,
                             Icon = await UIHelpers.GetIconResource(Constants.ImageRes.ThisPC),

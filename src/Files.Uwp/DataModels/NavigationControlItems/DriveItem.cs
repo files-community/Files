@@ -99,7 +99,7 @@ namespace Files.DataModels.NavigationControlItems
 
         public SectionType Section { get; set; }
 
-        public ContextMenuOptions MenuOptions { get; set; }
+        public SidebarContextMenuOptions MenuOptions { get; set; }
 
         private float percentageUsed = 0.0f;
 
@@ -149,7 +149,7 @@ namespace Files.DataModels.NavigationControlItems
             item.DeviceID = deviceId;
             item.Root = root;
             _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => item.UpdatePropertiesAsync());
-            item.MenuOptions = new ContextMenuOptions()
+            item.MenuOptions = new SidebarContextMenuOptions
             {
                 IsLocationItem = true,
                 IsLibrariesHeader = false,
@@ -157,7 +157,7 @@ namespace Files.DataModels.NavigationControlItems
                 ShowUnpinItem = false,
                 ShowEmptyRecycleBin = false,
                 ShowProperties = true,
-                ShowHideSection = false,
+                ShowHideSection = false
             };
 
             return item;

@@ -54,7 +54,7 @@ namespace Files.Filesystem
                         {
                             Text = "FileTags".GetLocalized(),
                             Section = SectionType.FileTag,
-                            MenuOptions = new ContextMenuOptions()
+                            MenuOptions = new SidebarContextMenuOptions
                             {
                                 IsLocationItem = false,
                                 ShowProperties = false,
@@ -62,7 +62,7 @@ namespace Files.Filesystem
                                 ShowUnpinItem = false,
                                 ShowHideSection = true,
                                 ShowEjectDevice = false,
-                                ShowEmptyRecycleBin = false,
+                                ShowEmptyRecycleBin = false
                             },
                             SelectsOnInvoked = false,
                             Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/FileTags.png")),
@@ -90,7 +90,7 @@ namespace Files.Filesystem
                                     Text = tag.TagName,
                                     Path = $"tag:{tag.TagName}",
                                     FileTag = tag,
-                                    MenuOptions = new ContextMenuOptions()
+                                    MenuOptions = new SidebarContextMenuOptions
                                     {
                                         IsLocationItem = true,
                                         IsLibrariesHeader = false,
@@ -98,7 +98,7 @@ namespace Files.Filesystem
                                         ShowUnpinItem = false,
                                         ShowEmptyRecycleBin = false,
                                         ShowProperties = false,
-                                        ShowHideSection = false,
+                                        ShowHideSection = false
                                     }
                                 });
                             }

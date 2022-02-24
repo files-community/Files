@@ -47,7 +47,7 @@ namespace Files.Filesystem
                 Type = DriveType.Network,
                 ItemType = NavigationControlItemType.Drive,
             };
-            networkItem.MenuOptions = new ContextMenuOptions()
+            networkItem.MenuOptions = new SidebarContextMenuOptions
             {
                 IsLocationItem = true,
                 IsLibrariesHeader = false,
@@ -55,7 +55,7 @@ namespace Files.Filesystem
                 ShowUnpinItem = false,
                 ShowEmptyRecycleBin = false,
                 ShowProperties = true,
-                ShowHideSection = false,
+                ShowHideSection = false
             };
             lock (drivesList)
             {
@@ -91,7 +91,7 @@ namespace Files.Filesystem
                             Type = DriveType.Network,
                             ItemType = NavigationControlItemType.Drive
                         };
-                        networkItem.MenuOptions = new ContextMenuOptions()
+                        networkItem.MenuOptions = new SidebarContextMenuOptions
                         {
                             IsLocationItem = true,
                             IsLibrariesHeader = false,
@@ -99,7 +99,7 @@ namespace Files.Filesystem
                             ShowUnpinItem = false,
                             ShowEmptyRecycleBin = false,
                             ShowProperties = true,
-                            ShowHideSection = false,
+                            ShowHideSection = false
                         };
                         lock (drivesList)
                         {
@@ -151,7 +151,7 @@ namespace Files.Filesystem
                             Section = SectionType.Network,
                             SelectsOnInvoked = false,
                             Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives),
-                            MenuOptions = new ContextMenuOptions()
+                            MenuOptions = new SidebarContextMenuOptions
                             {
                                 IsLocationItem = false,
                                 ShowProperties = false,
@@ -159,7 +159,7 @@ namespace Files.Filesystem
                                 ShowUnpinItem = false,
                                 ShowHideSection = true,
                                 ShowEjectDevice = false,
-                                ShowEmptyRecycleBin = false,
+                                ShowEmptyRecycleBin = false
                             },
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };

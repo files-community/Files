@@ -57,7 +57,7 @@ namespace Files.Filesystem
                                 SelectsOnInvoked = false,
                                 Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png")),
                                 ChildItems = new ObservableCollection<INavigationControlItem>(),
-                                MenuOptions = new ContextMenuOptions()
+                                MenuOptions = new SidebarContextMenuOptions
                                 {
                                     IsLocationItem = false,
                                     ShowProperties = false,
@@ -65,7 +65,7 @@ namespace Files.Filesystem
                                     ShowUnpinItem = false,
                                     ShowHideSection = true,
                                     ShowEjectDevice = false,
-                                    ShowEmptyRecycleBin = false,
+                                    ShowEmptyRecycleBin = false
                                 }
                             };
                             var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
@@ -115,7 +115,7 @@ namespace Files.Filesystem
                                         Text = folder.DisplayName,
                                         Path = folder.Path,
                                         Logo = logoURI,
-                                        MenuOptions = new ContextMenuOptions()
+                                        MenuOptions = new SidebarContextMenuOptions
                                         {
                                             IsLocationItem = true,
                                             IsLibrariesHeader = false,
@@ -123,7 +123,7 @@ namespace Files.Filesystem
                                             ShowUnpinItem = false,
                                             ShowEmptyRecycleBin = false,
                                             ShowProperties = false,
-                                            ShowHideSection = false,
+                                            ShowHideSection = false
                                         }
                                     });
                                 }

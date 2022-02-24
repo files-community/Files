@@ -21,14 +21,14 @@ namespace Files.Filesystem
             DefaultSaveFolder = shellLibrary.DefaultSaveFolder;
             Folders = shellLibrary.Folders == null ? null : new ReadOnlyCollection<string>(shellLibrary.Folders);
             IsDefaultLocation = shellLibrary.IsPinned;
-            MenuOptions = new ContextMenuOptions()
+            MenuOptions = new SidebarContextMenuOptions
             {
                 IsLocationItem = true,
                 ShowProperties = true,
                 IsLibrariesHeader = false,
                 ShowUnpinItem = (true && !shellLibrary.IsPinned),
                 ShowHideSection = false,
-                ShowEjectDevice = false,
+                ShowEjectDevice = false
             };
         }
 
