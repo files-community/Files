@@ -115,10 +115,6 @@ namespace Files.ViewModels
 
         public event ItemLoadStatusChangedEventHandler ItemLoadStatusChanged;
 
-        public delegate void ListedItemAddedEventHandler(object sender, ListedItemAddedEventArgs e);
-
-        public event ListedItemAddedEventHandler ListedItemAdded;
-
         public async Task SetWorkingDirectoryAsync(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -635,28 +631,18 @@ namespace Files.ViewModels
             }
         }
 
-        private async Task NotifyListedItemAddedAsync(ListedItem addedItem)
+        private async Task RequestSelectionAsync(List<ListedItem> itemsToSelect)
         {
-            // don't notify if there wasn't a listed item
-            if (addedItem == null)
+            // don't notify if there weren't listed items
+            if (itemsToSelect == null || itemsToSelect.IsEmpty())
             {
                 return;
             }
 
-            void NotifyUI()
+            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
             {
-                ListedItemAdded?.Invoke(this, new ListedItemAddedEventArgs() { Item = addedItem });
-            }
-
-            if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
-            {
-                NotifyUI();
-            }
-            else
-            {
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(NotifyUI);
-            }
-
+                OnSelectionRequestedEvent?.Invoke(this, itemsToSelect);
+            });
         }
 
         private Task OrderFilesAndFoldersAsync()
@@ -1960,7 +1946,8 @@ namespace Files.ViewModels
                                 await ApplyFilesAndFoldersChangesAsync();
                                 if (lastItemAdded != null)
                                 {
-                                    await NotifyListedItemAddedAsync(lastItemAdded);
+                                    await RequestSelectionAsync(new List<ListedItem>() { lastItemAdded });
+                                    lastItemAdded = null;
                                 }
                                 anyEdits = false;
                             }
@@ -1993,7 +1980,8 @@ namespace Files.ViewModels
                         await ApplyFilesAndFoldersChangesAsync();
                         if (lastItemAdded != null)
                         {
-                            await NotifyListedItemAddedAsync(lastItemAdded);
+                            await RequestSelectionAsync(new List<ListedItem>() { lastItemAdded });
+                            lastItemAdded = null;
                         }
                         anyEdits = false;
                     }
@@ -2315,11 +2303,6 @@ namespace Files.ViewModels
             AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
             DefaultIcons.Clear();
         }
-    }
-
-    public class ListedItemAddedEventArgs : EventArgs
-    {
-        public ListedItem Item { get; set; }
     }
 
     public class PageTypeUpdatedEventArgs
