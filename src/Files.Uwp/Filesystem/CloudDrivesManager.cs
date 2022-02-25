@@ -56,12 +56,8 @@ namespace Files.Filesystem
                 cloudProviderItem.MenuOptions = new SidebarContextMenuOptions
                 {
                     IsLocationItem = true,
-                    IsLibrariesHeader = false,
                     ShowEjectDevice = cloudProviderItem.IsRemovable,
-                    ShowUnpinItem = false,
-                    ShowEmptyRecycleBin = false,
-                    ShowProperties = true,
-                    ShowHideSection = false
+                    ShowProperties = true
                 };
                 var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, 24);
                 if (iconData != null)
@@ -122,13 +118,7 @@ namespace Files.Filesystem
                             Section = SectionType.CloudDrives,
                             MenuOptions = new SidebarContextMenuOptions
                             {
-                                IsLocationItem = false,
-                                ShowProperties = false,
-                                IsLibrariesHeader = false,
-                                ShowUnpinItem = false,
-                                ShowHideSection = true,
-                                ShowEjectDevice = false,
-                                ShowEmptyRecycleBin = false
+                                ShowHideSection = true
                             },
                             SelectsOnInvoked = false,
                             Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png")),

@@ -50,12 +50,8 @@ namespace Files.Filesystem
             networkItem.MenuOptions = new SidebarContextMenuOptions
             {
                 IsLocationItem = true,
-                IsLibrariesHeader = false,
                 ShowEjectDevice = networkItem.IsRemovable,
-                ShowUnpinItem = false,
-                ShowEmptyRecycleBin = false,
-                ShowProperties = true,
-                ShowHideSection = false
+                ShowProperties = true
             };
             lock (drivesList)
             {
@@ -94,12 +90,8 @@ namespace Files.Filesystem
                         networkItem.MenuOptions = new SidebarContextMenuOptions
                         {
                             IsLocationItem = true,
-                            IsLibrariesHeader = false,
                             ShowEjectDevice = networkItem.IsRemovable,
-                            ShowUnpinItem = false,
-                            ShowEmptyRecycleBin = false,
-                            ShowProperties = true,
-                            ShowHideSection = false
+                            ShowProperties = true
                         };
                         lock (drivesList)
                         {
@@ -149,18 +141,12 @@ namespace Files.Filesystem
                         {
                             Text = "SidebarNetworkDrives".GetLocalized(),
                             Section = SectionType.Network,
-                            SelectsOnInvoked = false,
-                            Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives),
                             MenuOptions = new SidebarContextMenuOptions
                             {
-                                IsLocationItem = false,
-                                ShowProperties = false,
-                                IsLibrariesHeader = false,
-                                ShowUnpinItem = false,
-                                ShowHideSection = true,
-                                ShowEjectDevice = false,
-                                ShowEmptyRecycleBin = false
+                                ShowHideSection = true
                             },
+                            SelectsOnInvoked = false,
+                            Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
                         var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +

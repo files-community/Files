@@ -16,20 +16,18 @@ namespace Files.Filesystem
         public LibraryLocationItem(ShellLibraryItem shellLibrary)
         {
             Section = SectionType.Library;
+            MenuOptions = new SidebarContextMenuOptions
+            {
+                IsLocationItem = true,
+                ShowProperties = true,
+                ShowUnpinItem = (true && !shellLibrary.IsPinned)
+            };
             Text = shellLibrary.DisplayName;
             Path = shellLibrary.FullPath;
             DefaultSaveFolder = shellLibrary.DefaultSaveFolder;
             Folders = shellLibrary.Folders == null ? null : new ReadOnlyCollection<string>(shellLibrary.Folders);
             IsDefaultLocation = shellLibrary.IsPinned;
-            MenuOptions = new SidebarContextMenuOptions
-            {
-                IsLocationItem = true,
-                ShowProperties = true,
-                IsLibrariesHeader = false,
-                ShowUnpinItem = (true && !shellLibrary.IsPinned),
-                ShowHideSection = false,
-                ShowEjectDevice = false
-            };
+            
         }
 
         public override bool Equals(object obj)

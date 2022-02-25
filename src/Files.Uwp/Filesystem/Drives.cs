@@ -145,13 +145,7 @@ namespace Files.Filesystem
                             Section = SectionType.Drives,
                             MenuOptions = new SidebarContextMenuOptions
                             {
-                                IsLocationItem = false,
-                                ShowProperties = false,
-                                IsLibrariesHeader = false,
-                                ShowUnpinItem = false,
-                                ShowHideSection = true,
-                                ShowEjectDevice = false,
-                                ShowEmptyRecycleBin = false
+                                ShowHideSection = true
                             },
                             SelectsOnInvoked = false,
                             Icon = await UIHelpers.GetIconResource(Constants.ImageRes.ThisPC),

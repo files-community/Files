@@ -200,13 +200,8 @@ namespace Files.Filesystem
                             Section = SectionType.Library,
                             MenuOptions = new SidebarContextMenuOptions
                             {
-                                IsLocationItem = false,
-                                ShowProperties = false,
                                 IsLibrariesHeader = true,
-                                ShowUnpinItem = false,
-                                ShowHideSection = true,
-                                ShowEjectDevice = false,
-                                ShowEmptyRecycleBin = false
+                                ShowHideSection = true
                             },
                             SelectsOnInvoked = false,
                             Icon = await UIHelpers.GetIconResource(Constants.ImageRes.Libraries),

@@ -56,13 +56,7 @@ namespace Files.Filesystem
                             Section = SectionType.FileTag,
                             MenuOptions = new SidebarContextMenuOptions
                             {
-                                IsLocationItem = false,
-                                ShowProperties = false,
-                                IsLibrariesHeader = false,
-                                ShowUnpinItem = false,
-                                ShowHideSection = true,
-                                ShowEjectDevice = false,
-                                ShowEmptyRecycleBin = false
+                                ShowHideSection = true
                             },
                             SelectsOnInvoked = false,
                             Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/FileTags.png")),
@@ -92,13 +86,7 @@ namespace Files.Filesystem
                                     FileTag = tag,
                                     MenuOptions = new SidebarContextMenuOptions
                                     {
-                                        IsLocationItem = true,
-                                        IsLibrariesHeader = false,
-                                        ShowEjectDevice = false,
-                                        ShowUnpinItem = false,
-                                        ShowEmptyRecycleBin = false,
-                                        ShowProperties = false,
-                                        ShowHideSection = false
+                                        IsLocationItem = true
                                     }
                                 });
                             }

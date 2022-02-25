@@ -145,20 +145,16 @@ namespace Files.DataModels.NavigationControlItems
             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () => await item.SetBitmapImage(imageStream));
             item.Text = root.DisplayName;
             item.Type = type;
+            item.MenuOptions = new SidebarContextMenuOptions
+            {
+                IsLocationItem = true,
+                ShowEjectDevice = item.IsRemovable,
+                ShowProperties = true
+            };
             item.Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
             item.DeviceID = deviceId;
             item.Root = root;
             _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => item.UpdatePropertiesAsync());
-            item.MenuOptions = new SidebarContextMenuOptions
-            {
-                IsLocationItem = true,
-                IsLibrariesHeader = false,
-                ShowEjectDevice = item.IsRemovable,
-                ShowUnpinItem = false,
-                ShowEmptyRecycleBin = false,
-                ShowProperties = true,
-                ShowHideSection = false
-            };
 
             return item;
         }

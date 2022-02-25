@@ -117,12 +117,8 @@ namespace Files.DataModels
                     MenuOptions = new SidebarContextMenuOptions
                     {
                         IsLocationItem = true,
-                        ShowProperties = false,
-                        IsLibrariesHeader = false,
                         ShowUnpinItem = true,
-                        ShowEmptyRecycleBin = true,
-                        ShowHideSection = false,
-                        ShowEjectDevice = false
+                        ShowEmptyRecycleBin = true
                     },
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.RecycleBin)),
                     Path = CommonPaths.RecycleBinPath
@@ -270,18 +266,15 @@ namespace Files.DataModels
                     Font = MainViewModel.FontName,
                     Path = path,
                     Section = SectionType.Favorites,
-                    IsDefaultLocation = false,
-                    Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\')),
                     MenuOptions = new SidebarContextMenuOptions
                     {
                         IsLocationItem = true,
                         ShowProperties = true,
-                        IsLibrariesHeader = false,
                         ShowUnpinItem = true,
-                        ShowHideSection = false,
-                        ShowEjectDevice = false,
-                        IsItemMovable=true
-                    }
+                        IsItemMovable = true
+                    },
+                    IsDefaultLocation = false,
+                    Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
                 };
 
                 if (res)
@@ -347,39 +340,28 @@ namespace Files.DataModels
                 {
                     Text = "Home".GetLocalized(),
                     Section = SectionType.Home,
+                    MenuOptions = new SidebarContextMenuOptions
+                    {
+                        IsLocationItem = true
+                    },
                     Font = MainViewModel.FontName,
                     IsDefaultLocation = true,
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"))),
                     Path = "Home".GetLocalized(),
-                    ChildItems = new ObservableCollection<INavigationControlItem>(),
-                    MenuOptions = new SidebarContextMenuOptions
-                    {
-                        IsLocationItem = true,
-                        ShowProperties = false,
-                        IsLibrariesHeader = false,
-                        ShowUnpinItem = false,
-                        ShowHideSection = false,
-                        ShowEjectDevice = false
-                    }
+                    ChildItems = new ObservableCollection<INavigationControlItem>()
                 };
                 favoriteSection ??= new LocationItem()
                 {
                     Text = "SidebarFavorites".GetLocalized(),
                     Section = SectionType.Favorites,
+                    MenuOptions = new SidebarContextMenuOptions
+                    {
+                        ShowHideSection = true
+                    },
                     SelectsOnInvoked = false,
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.Shell32.QuickAccess)),
                     Font = MainViewModel.FontName,
-                    ChildItems = new ObservableCollection<INavigationControlItem>(),
-                    MenuOptions = new SidebarContextMenuOptions
-                    {
-                        IsLocationItem = false,
-                        ShowProperties = false,
-                        IsLibrariesHeader = false,
-                        ShowUnpinItem = false,
-                        ShowHideSection = true,
-                        ShowEjectDevice = false,
-                        ShowEmptyRecycleBin = false
-                    }
+                    ChildItems = new ObservableCollection<INavigationControlItem>()
                 };
 
                 if (homeSection != null)
