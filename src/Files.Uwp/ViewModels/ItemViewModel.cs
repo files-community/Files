@@ -428,9 +428,12 @@ namespace Files.ViewModels
                             break;
 
                         case "Deleted":
+                            // get the item that immediately follows matching item to be removed
+                            // if the matching item is the last item, try to get the previous item; otherwise, null
+                            // case must be ignored since $Recycle.Bin != $RECYCLE.BIN
                             var nextOfMatchingItem = filesAndFolders
-                                .SkipWhile((x) => !x.ItemPath.Equals(itemPath)).Skip(1)
-                                .DefaultIfEmpty(filesAndFolders.TakeWhile((x) => !x.ItemPath.Equals(itemPath)).LastOrDefault())
+                                .SkipWhile((x) => !x.ItemPath.Equals(itemPath, StringComparison.OrdinalIgnoreCase)).Skip(1)
+                                .DefaultIfEmpty(filesAndFolders.TakeWhile((x) => !x.ItemPath.Equals(itemPath, StringComparison.OrdinalIgnoreCase)).LastOrDefault())
                                 .FirstOrDefault();
                             var removedItem = await RemoveFileOrFolderAsync(itemPath);
                             if (removedItem != null)
