@@ -1891,6 +1891,7 @@ namespace Files.ViewModels
 
             bool anyEdits = false;
             ListedItem lastItemAdded = null;
+            ListedItem nextOfLastItemRemoved = null;
             var rand = Guid.NewGuid();
 
             try
@@ -1929,6 +1930,16 @@ namespace Files.ViewModels
                                         break;
 
                                     case FILE_ACTION_REMOVED:
+                                        // get the item that immediately follows matching item to be removed
+                                        // if the matching item is the last item, try to get the previous item; otherwise, null
+                                        nextOfLastItemRemoved = filesAndFolders
+                                            .SkipWhile(x => !x.ItemPath.Equals(operation.FileName)).Skip(1)
+                                            .DefaultIfEmpty(filesAndFolders.TakeWhile(x => !x.ItemPath.Equals(operation.FileName)).LastOrDefault())
+                                            .FirstOrDefault();
+                                        await RemoveFileOrFolderAsync(operation.FileName);
+                                        anyEdits = true;
+                                        break;
+
                                     case FILE_ACTION_RENAMED_OLD_NAME:
                                         await RemoveFileOrFolderAsync(operation.FileName);
                                         anyEdits = true;
@@ -1948,6 +1959,11 @@ namespace Files.ViewModels
                                 {
                                     await RequestSelectionAsync(new List<ListedItem>() { lastItemAdded });
                                     lastItemAdded = null;
+                                }
+                                if (nextOfLastItemRemoved != null)
+                                {
+                                    await RequestSelectionAsync(new List<ListedItem>() { nextOfLastItemRemoved });
+                                    nextOfLastItemRemoved = null;
                                 }
                                 anyEdits = false;
                             }
@@ -1982,6 +1998,11 @@ namespace Files.ViewModels
                         {
                             await RequestSelectionAsync(new List<ListedItem>() { lastItemAdded });
                             lastItemAdded = null;
+                        }
+                        if (nextOfLastItemRemoved != null)
+                        {
+                            await RequestSelectionAsync(new List<ListedItem>() { nextOfLastItemRemoved });
+                            nextOfLastItemRemoved = null;
                         }
                         anyEdits = false;
                     }
