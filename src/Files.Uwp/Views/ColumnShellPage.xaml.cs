@@ -552,6 +552,8 @@ namespace Files.Views
 
         private void FilesystemViewModel_OnSelectionRequestedEvent(object sender, List<ListedItem> e)
         {
+            // set focus since selection might occur before the UI finishes updating
+            ContentPage.ItemManipulationModel.FocusFileList();
             ContentPage.ItemManipulationModel.SetSelectedItems(e);
         }
 

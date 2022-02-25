@@ -428,10 +428,18 @@ namespace Files.ViewModels
                             break;
 
                         case "Deleted":
+                            var nextOfMatchingItem = filesAndFolders
+                                .SkipWhile((x) => !x.ItemPath.Equals(itemPath)).Skip(1)
+                                .DefaultIfEmpty(filesAndFolders.TakeWhile((x) => !x.ItemPath.Equals(itemPath)).LastOrDefault())
+                                .FirstOrDefault();
                             var removedItem = await RemoveFileOrFolderAsync(itemPath);
                             if (removedItem != null)
                             {
                                 await ApplySingleFileChangeAsync(removedItem);
+                            }
+                            if (nextOfMatchingItem != null)
+                            {
+                                await RequestSelectionAsync(new List<ListedItem>() { nextOfMatchingItem });
                             }
                             break;
 
