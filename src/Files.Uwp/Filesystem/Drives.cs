@@ -241,7 +241,7 @@ namespace Files.Filesystem
 
             using var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(() => root.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask());
             var driveItem = await DriveItem.CreateFromPropertiesAsync(root, deviceId, type, thumbnail);
-            
+
             lock (drivesList)
             {
                 // If drive already in list, skip.

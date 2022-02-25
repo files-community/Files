@@ -45,7 +45,7 @@ namespace Files.Filesystem
                 Text = "Network".GetLocalized(),
                 Path = CommonPaths.NetworkFolderPath,
                 Type = DriveType.Network,
-                ItemType = NavigationControlItemType.Drive,
+                ItemType = NavigationControlItemType.Drive
             };
             networkItem.MenuOptions = new SidebarContextMenuOptions
             {
