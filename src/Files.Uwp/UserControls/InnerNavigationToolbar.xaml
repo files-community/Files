@@ -804,7 +804,7 @@
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-            <AppBarToggleButton x:Name="SearchPane" Width="Auto" MinWidth="40"
+            <AppBarToggleButton x:Name="SearchPane" Width="Auto" MinWidth="40" x:Load="False"
                 IsChecked="{x:Bind MainViewModel.PaneViewModel.IsSearchSelected, Mode=TwoWay}"
                 Label="{helpers:ResourceString Name=Filters}" LabelPosition="Collapsed"
                 ToolTipService.ToolTip="{helpers:ResourceString Name=ToggleFilterPane}"
