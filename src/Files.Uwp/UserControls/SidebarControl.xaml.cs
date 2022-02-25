@@ -71,21 +71,6 @@ namespace Files.UserControls
 
         private bool lockFlag = false;
 
-        private bool canOpenInNewPane;
-
-        public bool CanOpenInNewPane
-        {
-            get => canOpenInNewPane;
-            set
-            {
-                if (value != canOpenInNewPane)
-                {
-                    canOpenInNewPane = value;
-                    NotifyPropertyChanged(nameof(CanOpenInNewPane));
-                }
-            }
-        }
-
         /// <summary>
         /// The Model for the pinned sidebar items
         /// </summary>
@@ -183,6 +168,7 @@ namespace Files.UserControls
 
             bool showMoveItemUp = false;
             bool showMoveItemDown = false;
+            bool canOpenInNewPane = ViewModel.PaneHolder.IsMultiPaneEnabled;
 
             if (options.IsItemMovable)
             {
@@ -223,7 +209,7 @@ namespace Files.UserControls
                     Glyph = "\uF117",
                     GlyphFontFamilyName = "CustomGlyph",
                     Command = OpenInNewPaneCommand,
-                    ShowItem = options.IsLocationItem && CanOpenInNewPane
+                    ShowItem = options.IsLocationItem && canOpenInNewPane
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
