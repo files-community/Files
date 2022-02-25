@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Files.Common
+namespace Files.Shared
 {
     public class ShellOperationResult
     {

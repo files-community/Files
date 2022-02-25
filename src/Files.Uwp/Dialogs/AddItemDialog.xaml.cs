@@ -1,5 +1,6 @@
-﻿using Files.Backend.ViewModels.Dialogs.AddItemDialog;
+using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 using Files.Backend.ViewModels.Dialogs;
+using Files.Shared;
 using Files.Extensions;
 using System;
 using Windows.UI.Xaml.Controls;

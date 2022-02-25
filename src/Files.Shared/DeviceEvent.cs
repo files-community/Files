@@ -1,4 +1,4 @@
-﻿namespace Files.Common
+﻿namespace Files.Shared
 {
     public enum DeviceEvent
     {
