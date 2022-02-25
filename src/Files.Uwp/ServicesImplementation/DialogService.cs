@@ -22,7 +22,10 @@ namespace Files.Uwp.ServicesImplementation
             {
                 { typeof(AddItemDialogViewModel), () => new AddItemDialog() },
                 { typeof(CredentialDialogViewModel), () => new CredentialDialog() },
-                { typeof(DecompressArchiveDialogViewModel), () => new DecompressArchiveDialog() }
+                { typeof(ElevateConfirmDialogViewModel), () => new ElevateConfirmDialog() },
+                { typeof(FilesystemOperationDialogViewModel), () => new FilesystemOperationDialog() },
+                { typeof(DecompressArchiveDialogViewModel), () => new DecompressArchiveDialog() },
+                { typeof(SettingsDialogViewModel), () => new SettingsDialog() }
             };
         }
 
