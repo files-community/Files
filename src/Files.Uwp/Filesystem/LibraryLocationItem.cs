@@ -20,6 +20,7 @@ namespace Files.Filesystem
             {
                 IsLocationItem = true,
                 ShowProperties = true,
+                ShowShellItems=true,
                 ShowUnpinItem = (true && !shellLibrary.IsPinned)
             };
             Text = shellLibrary.DisplayName;

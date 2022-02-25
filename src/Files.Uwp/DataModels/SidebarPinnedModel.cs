@@ -118,6 +118,7 @@ namespace Files.DataModels
                     {
                         IsLocationItem = true,
                         ShowUnpinItem = true,
+                        ShowShellItems=true,
                         ShowEmptyRecycleBin = true
                     },
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.RecycleBin)),
@@ -271,6 +272,7 @@ namespace Files.DataModels
                         IsLocationItem = true,
                         ShowProperties = true,
                         ShowUnpinItem = true,
+                        ShowShellItems=true,
                         IsItemMovable = true
                     },
                     IsDefaultLocation = false,

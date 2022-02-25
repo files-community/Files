@@ -149,6 +149,7 @@ namespace Files.DataModels.NavigationControlItems
             {
                 IsLocationItem = true,
                 ShowEjectDevice = item.IsRemovable,
+                ShowShellItems=true,
                 ShowProperties = true
             };
             item.Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;

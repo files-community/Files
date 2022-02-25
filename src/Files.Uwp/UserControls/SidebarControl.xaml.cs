@@ -56,10 +56,6 @@ namespace Files.UserControls
 
         public event SidebarItemDroppedEventHandler SidebarItemDropped;
 
-        private bool showMoveItemUp { get; set; }
-
-        private bool showMoveItemDown { get; set; }
-
         private INavigationControlItem rightClickedItem;
 
         private object dragOverSection, dragOverItem = null;
@@ -181,8 +177,19 @@ namespace Files.UserControls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(SidebarContextMenuOptions options)
+        private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item)
         {
+            SidebarContextMenuOptions options = item.MenuOptions;
+
+            bool showMoveItemUp = false;
+            bool showMoveItemDown = false;
+
+            if (options.IsItemMovable)
+            {
+                showMoveItemUp = options.IsItemMovable && App.SidebarPinnedController.Model.IndexOfItem(item) > 1;
+                showMoveItemDown = options.IsItemMovable && App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count;
+            }
+
             return new List<ContextMenuFlyoutItemViewModel>()
             {
                 new ContextMenuFlyoutItemViewModel()
@@ -520,55 +527,15 @@ namespace Files.UserControls
             e.Handled = true;
         }
 
-        private void NavigationViewLocationItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             var itemContextMenuFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
             var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
-            var item = sidebarItem.DataContext as LocationItem;
+            var item = sidebarItem.DataContext as INavigationControlItem;
 
             rightClickedItem = item;
 
-            if (!item.MenuOptions.ShowHideSection)
-            {
-                showMoveItemUp = item.MenuOptions.IsItemMovable && App.SidebarPinnedController.Model.IndexOfItem(item) > 1;
-                showMoveItemDown = item.MenuOptions.IsItemMovable && App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count;
-
-                var menuItems = GetLocationItemMenuItems(item.MenuOptions);
-                var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
-
-                if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
-                {
-                    secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
-                }
-
-                secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-                itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
-
-                LoadShellMenuItems(itemContextMenuFlyout, item.MenuOptions);
-            }
-            else
-            {
-                var menuItems = GetLocationItemMenuItems(item.MenuOptions);
-                var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
-               
-                secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-                itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
-            }
-
-            e.Handled = true;
-        }
-
-        private void NavigationViewDriveItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            var itemContextMenuFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
-            var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
-            var item = sidebarItem.DataContext as DriveItem;
-
-            showMoveItemUp = false;
-            showMoveItemDown = false;
-
-            rightClickedItem = item;
-            var menuItems = GetLocationItemMenuItems(item.MenuOptions);
+            var menuItems = GetLocationItemMenuItems(item);
             var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
             if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
@@ -579,43 +546,10 @@ namespace Files.UserControls
             secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
             itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
 
-            LoadShellMenuItems(itemContextMenuFlyout, item.MenuOptions);
-
-            e.Handled = true;
-        }
-
-        private void NavigationViewWSLItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            var itemContextMenuFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
-            var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
-            var item = sidebarItem.DataContext as WslDistroItem;
-
-            showMoveItemUp = false;
-            showMoveItemDown = false;
-
-            rightClickedItem = item;
-            var menuItems = GetLocationItemMenuItems(item.MenuOptions);
-            var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
-            secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-            itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
-
-            e.Handled = true;
-        }
-
-        private void NavigationViewFileTagsItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            var itemContextMenuFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
-            var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
-            var item = sidebarItem.DataContext as FileTagItem;
-
-            showMoveItemUp = false;
-            showMoveItemDown = false;
-
-            rightClickedItem = item;
-            var menuItems = GetLocationItemMenuItems(item.MenuOptions);
-            var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
-            secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-            itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
+            if (item.MenuOptions.ShowShellItems)
+            {
+                LoadShellMenuItems(itemContextMenuFlyout, item.MenuOptions);
+            }
 
             e.Handled = true;
         }
@@ -1128,6 +1062,15 @@ namespace Files.UserControls
             }
         }
 
+        private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
+            {
+                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
+                VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPointerOver", true);
+            }
+        }
+
         private void SetSize(double val, bool closeImmediatleyOnOversize = false)
         {
             if (IsPaneOpen)
@@ -1153,15 +1096,6 @@ namespace Files.UserControls
                     OpenPaneLength = Constants.UI.MinimumSidebarWidth + (val + CompactPaneLength - Constants.UI.MinimumSidebarWidth); // set open sidebar length to minimum value to keep it smooth
                     IsPaneOpen = true;
                 }
-            }
-        }
-
-        private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
-            {
-                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
-                VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPointerOver", true);
             }
         }
 

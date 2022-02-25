@@ -50,6 +50,7 @@ namespace Files.Filesystem
             networkItem.MenuOptions = new SidebarContextMenuOptions
             {
                 IsLocationItem = true,
+                ShowShellItems=true,
                 ShowEjectDevice = networkItem.IsRemovable,
                 ShowProperties = true
             };
@@ -91,6 +92,7 @@ namespace Files.Filesystem
                         {
                             IsLocationItem = true,
                             ShowEjectDevice = networkItem.IsRemovable,
+                            ShowShellItems=true,
                             ShowProperties = true
                         };
                         lock (drivesList)

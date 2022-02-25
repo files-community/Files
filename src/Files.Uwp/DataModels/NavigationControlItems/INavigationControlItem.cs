@@ -56,5 +56,7 @@ namespace Files.Filesystem
         public bool ShowEmptyRecycleBin { get; set; }
 
         public bool ShowEjectDevice { get; set; }
+
+        public bool ShowShellItems { get; set; }
     }
 }
