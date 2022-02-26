@@ -847,7 +847,7 @@
                     KeyboardAcceleratorTextOverride="Ctrl+Shift+W"
                     Label="Close pane">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xF89F;" />
+                        <FontIcon Glyph="&#x274c;" />
                     </AppBarButton.Icon>
                     <AppBarButton.KeyboardAccelerators>
                         <KeyboardAccelerator
