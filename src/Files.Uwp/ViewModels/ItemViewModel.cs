@@ -119,10 +119,6 @@ namespace Files.ViewModels
 
         public event ItemLoadStatusChangedEventHandler ItemLoadStatusChanged;
 
-        public delegate void ListedItemAddedEventHandler(object sender, ListedItemAddedEventArgs e);
-
-        public event ListedItemAddedEventHandler ListedItemAdded;
-
         public async Task SetWorkingDirectoryAsync(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -436,10 +432,21 @@ namespace Files.ViewModels
                             break;
 
                         case "Deleted":
+                            // get the item that immediately follows matching item to be removed
+                            // if the matching item is the last item, try to get the previous item; otherwise, null
+                            // case must be ignored since $Recycle.Bin != $RECYCLE.BIN
+                            var nextOfMatchingItem = filesAndFolders
+                                .SkipWhile((x) => !x.ItemPath.Equals(itemPath, StringComparison.OrdinalIgnoreCase)).Skip(1)
+                                .DefaultIfEmpty(filesAndFolders.TakeWhile((x) => !x.ItemPath.Equals(itemPath, StringComparison.OrdinalIgnoreCase)).LastOrDefault())
+                                .FirstOrDefault();
                             var removedItem = await RemoveFileOrFolderAsync(itemPath);
                             if (removedItem != null)
                             {
                                 await ApplySingleFileChangeAsync(removedItem);
+                            }
+                            if (nextOfMatchingItem != null)
+                            {
+                                await RequestSelectionAsync(new List<ListedItem>() { nextOfMatchingItem });
                             }
                             break;
 
@@ -639,28 +646,18 @@ namespace Files.ViewModels
             }
         }
 
-        private async Task NotifyListedItemAddedAsync(ListedItem addedItem)
+        private async Task RequestSelectionAsync(List<ListedItem> itemsToSelect)
         {
-            // don't notify if there wasn't a listed item
-            if (addedItem == null)
+            // don't notify if there weren't listed items
+            if (itemsToSelect == null || itemsToSelect.IsEmpty())
             {
                 return;
             }
 
-            void NotifyUI()
+            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
             {
-                ListedItemAdded?.Invoke(this, new ListedItemAddedEventArgs() { Item = addedItem });
-            }
-
-            if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
-            {
-                NotifyUI();
-            }
-            else
-            {
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(NotifyUI);
-            }
-
+                OnSelectionRequestedEvent?.Invoke(this, itemsToSelect);
+            });
         }
 
         private Task OrderFilesAndFoldersAsync()
@@ -1908,6 +1905,7 @@ namespace Files.ViewModels
 
             bool anyEdits = false;
             ListedItem lastItemAdded = null;
+            ListedItem nextOfLastItemRemoved = null;
             var rand = Guid.NewGuid();
 
             try
@@ -1946,6 +1944,16 @@ namespace Files.ViewModels
                                         break;
 
                                     case FILE_ACTION_REMOVED:
+                                        // get the item that immediately follows matching item to be removed
+                                        // if the matching item is the last item, try to get the previous item; otherwise, null
+                                        nextOfLastItemRemoved = filesAndFolders
+                                            .SkipWhile(x => !x.ItemPath.Equals(operation.FileName)).Skip(1)
+                                            .DefaultIfEmpty(filesAndFolders.TakeWhile(x => !x.ItemPath.Equals(operation.FileName)).LastOrDefault())
+                                            .FirstOrDefault();
+                                        await RemoveFileOrFolderAsync(operation.FileName);
+                                        anyEdits = true;
+                                        break;
+
                                     case FILE_ACTION_RENAMED_OLD_NAME:
                                         await RemoveFileOrFolderAsync(operation.FileName);
                                         anyEdits = true;
@@ -1963,7 +1971,13 @@ namespace Files.ViewModels
                                 await ApplyFilesAndFoldersChangesAsync();
                                 if (lastItemAdded != null)
                                 {
-                                    await NotifyListedItemAddedAsync(lastItemAdded);
+                                    await RequestSelectionAsync(new List<ListedItem>() { lastItemAdded });
+                                    lastItemAdded = null;
+                                }
+                                if (nextOfLastItemRemoved != null)
+                                {
+                                    await RequestSelectionAsync(new List<ListedItem>() { nextOfLastItemRemoved });
+                                    nextOfLastItemRemoved = null;
                                 }
                                 anyEdits = false;
                             }
@@ -1996,7 +2010,13 @@ namespace Files.ViewModels
                         await ApplyFilesAndFoldersChangesAsync();
                         if (lastItemAdded != null)
                         {
-                            await NotifyListedItemAddedAsync(lastItemAdded);
+                            await RequestSelectionAsync(new List<ListedItem>() { lastItemAdded });
+                            lastItemAdded = null;
+                        }
+                        if (nextOfLastItemRemoved != null)
+                        {
+                            await RequestSelectionAsync(new List<ListedItem>() { nextOfLastItemRemoved });
+                            nextOfLastItemRemoved = null;
                         }
                         anyEdits = false;
                     }
@@ -2318,11 +2338,6 @@ namespace Files.ViewModels
             AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
             DefaultIcons.Clear();
         }
-    }
-
-    public class ListedItemAddedEventArgs : EventArgs
-    {
-        public ListedItem Item { get; set; }
     }
 
     public class PageTypeUpdatedEventArgs
