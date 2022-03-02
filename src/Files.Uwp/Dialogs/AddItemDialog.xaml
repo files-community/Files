@@ -6,17 +6,24 @@
     xmlns:local="using:Files.Dialogs"
     xmlns:local2="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vc="using:Files.Uwp.ValueConverters"
+    xmlns:vm="using:Files.Backend.ViewModels.Dialogs.AddItemDialog"
     x:Name="AddDialog"
     x:Uid="AddDialog"
     Title="Create a New Item"
     Grid.RowSpan="4"
     BorderThickness="0"
     CornerRadius="{StaticResource OverlayCornerRadius}"
+    Loaded="AddItemDialog_Loaded"
     PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
     PrimaryButtonText="{local2:ResourceString Name=Cancel}"
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
+
+    <ContentDialog.Resources>
+        <vc:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
+    </ContentDialog.Resources>
 
     <Grid RowSpacing="25">
         <Grid.RowDefinitions>
@@ -38,10 +45,10 @@
                 Width="400"
                 IsItemClickEnabled="True"
                 ItemClick="ListView_ItemClick"
-                ItemsSource="{x:Bind AddItemsList}"
+                ItemsSource="{x:Bind ViewModel.AddItemsList}"
                 SelectionMode="None">
                 <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="local:AddListItem">
+                    <DataTemplate x:DataType="vm:AddItemDialogListItemViewModel">
                         <Grid Height="50">
                             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                                 <Grid Margin="0,0,10,0" VerticalAlignment="Center">
@@ -51,7 +58,7 @@
                                         Height="24"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center">
-                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Glyph}" />
+                                        <FontIcon Glyph="{x:Bind Glyph, Mode=OneWay}" />
                                     </Viewbox>
                                     <Image
                                         Width="24"
@@ -59,12 +66,12 @@
                                         Margin="0"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
-                                        Source="{x:Bind Icon}"
+                                        Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}"
                                         Stretch="Uniform" />
                                 </Grid>
                                 <StackPanel>
-                                    <TextBlock Text="{x:Bind Header}" />
-                                    <TextBlock Foreground="Gray" Text="{x:Bind SubHeader}" />
+                                    <TextBlock Text="{x:Bind Header, Mode=OneWay}" />
+                                    <TextBlock Foreground="Gray" Text="{x:Bind SubHeader, Mode=OneWay}" />
                                 </StackPanel>
                             </StackPanel>
                         </Grid>

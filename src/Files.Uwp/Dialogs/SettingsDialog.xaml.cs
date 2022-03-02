@@ -1,14 +1,23 @@
-﻿using Files.SettingsPages;
+﻿using Files.Backend.ViewModels.Dialogs;
+using Files.SettingsPages;
+using Files.Shared.Enums;
 using Files.ViewModels;
 using System;
+using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.Dialogs
 {
-    public sealed partial class SettingsDialog : ContentDialog
+    public sealed partial class SettingsDialog : ContentDialog, IDialog<SettingsDialogViewModel>
     {
+        public SettingsDialogViewModel ViewModel
+        {
+            get => (SettingsDialogViewModel)DataContext;
+            set => DataContext = value;
+        }
+
         public SettingsViewModel AppSettings => App.AppSettings;
 
         // for some reason the requested theme wasn't being set on the content dialog, so this is used to manually bind to the requested app theme
@@ -21,6 +30,9 @@ namespace Files.Dialogs
             Window.Current.SizeChanged += Current_SizeChanged;
             UpdateDialogLayout();
         }
+
+        
+        public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {

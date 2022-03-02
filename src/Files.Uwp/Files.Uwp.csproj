@@ -211,9 +211,6 @@
     <Compile Include="DataModels\DefaultLanguageModel.cs" />
     <Compile Include="DataModels\SidebarPinnedModel.cs" />
     <Compile Include="Controllers\TerminalController.cs" />
-    <Compile Include="Dialogs\BitlockerDialog.xaml.cs">
-      <DependentUpon>BitlockerDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Helpers\ContextFlyoutItemHelper.cs" />
     <Compile Include="Helpers\EnumConversionHelpers.cs" />
     <Compile Include="Helpers\Fractions.cs" />
@@ -242,6 +239,9 @@
     <Compile Include="Serialization\Implementation\DefaultSettingsSerializer.cs" />
     <Compile Include="Serialization\ISettingsSerializer.cs" />
     <Compile Include="Serialization\ISettingsSharingContext.cs" />
+    <Compile Include="ServicesImplementation\DialogService.cs" />
+    <Compile Include="ServicesImplementation\ImagingService.cs" />
+    <Compile Include="ServicesImplementation\LocalizationService.cs" />
     <Compile Include="ServicesImplementation\Settings\AppearanceSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\BundlesSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\FileTagsSettingsService.cs" />
@@ -356,6 +356,7 @@
       <DependentUpon>WidgetsListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValueConverters\ColorModelToColorConverter.cs" />
+    <Compile Include="ValueConverters\ImageModelToImageConverter.cs" />
     <Compile Include="ViewModels\Dialogs\DecompressArchiveDialogViewModel.cs" />
     <Compile Include="ViewModels\NavToolbarViewModel.cs" />
     <Compile Include="ViewModels\PaneViewModel.cs" />
@@ -1162,10 +1163,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Content>
-    <Page Include="Dialogs\BitlockerDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Dialogs\DecompressArchiveDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

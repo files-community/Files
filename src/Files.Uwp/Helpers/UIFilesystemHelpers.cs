@@ -18,6 +18,7 @@ using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Files.Backend.Enums;
 
 namespace Files.Helpers
 {
@@ -292,12 +293,12 @@ namespace Files.Helpers
             return false;
         }
 
-        public static async void CreateFileFromDialogResultType(AddItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
+        public static async void CreateFileFromDialogResultType(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
         {
             _ = await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
         }
 
-        public static async Task<IStorageItem> CreateFileFromDialogResultTypeForResult(AddItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
+        public static async Task<IStorageItem> CreateFileFromDialogResultTypeForResult(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
         {
             string currentPath = null;
             if (associatedInstance.SlimContentPage != null)
@@ -329,7 +330,7 @@ namespace Files.Helpers
             {
                 switch (itemType)
                 {
-                    case AddItemType.Folder:
+                    case AddItemDialogItemType.Folder:
                         userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalized();
                         created = await FilesystemTasks.Wrap(async () =>
                         {
@@ -339,7 +340,7 @@ namespace Files.Helpers
                         });
                         break;
 
-                    case AddItemType.File:
+                    case AddItemDialogItemType.File:
                         userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? "NewFile".GetLocalized();
                         created = await FilesystemTasks.Wrap(async () =>
                         {
@@ -364,7 +365,7 @@ namespace Files.Helpers
             try
             {
                 await CopyItem(associatedInstance);
-                var folder = await CreateFileFromDialogResultTypeForResult(AddItemType.Folder, null, associatedInstance);
+                var folder = await CreateFileFromDialogResultTypeForResult(AddItemDialogItemType.Folder, null, associatedInstance);
                 if (folder == null)
                 {
                     return;

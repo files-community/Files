@@ -9,6 +9,10 @@ using Windows.System.Profile;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
+using Files.Backend.ViewModels.Dialogs;
+using Files.Backend.Extensions;
 
 namespace Files.ViewModels
 {
@@ -148,8 +152,9 @@ namespace Files.ViewModels
 
         public static async void OpenSettings()
         {
-            SettingsDialog settingsDialog = new SettingsDialog();
-            _ = await settingsDialog.TryShowAsync();
+            var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+            var dialog = dialogService.GetDialog(new SettingsDialogViewModel());
+            await dialog.TryShowAsync();
         }
     }
 }
