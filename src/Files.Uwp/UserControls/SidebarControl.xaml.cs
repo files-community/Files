@@ -155,6 +155,21 @@ namespace Files.UserControls
             set => SetValue(ViewModelProperty, value);
         }
 
+        private bool canOpenInNewPane;
+
+        public bool CanOpenInNewPane
+        {
+            get => canOpenInNewPane;
+            set
+            {
+                if (value != canOpenInNewPane)
+                {
+                    canOpenInNewPane = value;
+                    NotifyPropertyChanged(nameof(CanOpenInNewPane));
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -166,15 +181,8 @@ namespace Files.UserControls
         {
             SidebarContextMenuOptions options = item.MenuOptions;
 
-            bool showMoveItemUp = false;
-            bool showMoveItemDown = false;
-            bool canOpenInNewPane = ViewModel.PaneHolder.IsMultiPaneEnabled;
-
-            if (options.IsItemMovable)
-            {
-                showMoveItemUp = options.IsItemMovable && App.SidebarPinnedController.Model.IndexOfItem(item) > 1;
-                showMoveItemDown = options.IsItemMovable && App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count;
-            }
+            bool showMoveItemUp = options.IsItemMovable? App.SidebarPinnedController.Model.IndexOfItem(item) > 1:false;
+            bool showMoveItemDown = options.IsItemMovable? App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count:false;
 
             return new List<ContextMenuFlyoutItemViewModel>()
             {
@@ -209,7 +217,7 @@ namespace Files.UserControls
                     Glyph = "\uF117",
                     GlyphFontFamilyName = "CustomGlyph",
                     Command = OpenInNewPaneCommand,
-                    ShowItem = options.IsLocationItem && canOpenInNewPane
+                    ShowItem = options.IsLocationItem && CanOpenInNewPane
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
