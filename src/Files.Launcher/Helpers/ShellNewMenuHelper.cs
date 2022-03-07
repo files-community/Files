@@ -78,10 +78,6 @@ namespace FilesFullTrust.Helpers
 
             var extension = root.Name.Substring(root.Name.LastIndexOf('\\') + 1);
             var fileName = (string)key.GetValue("FileName");
-            if (!string.IsNullOrEmpty(fileName) && Path.GetExtension(fileName) != extension)
-            {
-                return null;
-            }
 
             byte[] data = null;
             var dataObj = key.GetValue("Data");
