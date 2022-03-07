@@ -20,7 +20,7 @@ namespace Files.Filesystem
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        private static readonly Logger Logger = App.Logger;
+        private static readonly ILogger Logger = App.Logger;
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
         public IReadOnlyList<DriveItem> Drives
