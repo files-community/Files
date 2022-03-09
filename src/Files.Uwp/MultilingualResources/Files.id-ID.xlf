@@ -952,23 +952,23 @@
         </trans-unit>
         <trans-unit id="PropertyHorizontalSize" translate="yes" xml:space="preserve">
           <source>Horizontal Size</source>
-          <target state="translated">Ukuran Horisontal</target>
+          <target state="translated">Ukuran Mendatar</target>
         </trans-unit>
         <trans-unit id="PropertyVerticalSize" translate="yes" xml:space="preserve">
           <source>Vertical Size</source>
-          <target state="translated">Ukuran Vertikal</target>
+          <target state="translated">Ukuran Tegak</target>
         </trans-unit>
         <trans-unit id="PropertyHorizontalResolution" translate="yes" xml:space="preserve">
           <source>Horizontal Resolution</source>
-          <target state="translated">Resolusi Horisontal</target>
+          <target state="translated">Resolusi Mendatar</target>
         </trans-unit>
         <trans-unit id="PropertyVerticalResolution" translate="yes" xml:space="preserve">
           <source>Vertical Resolution</source>
-          <target state="translated">Resolusi Vertikal</target>
+          <target state="translated">Resolusi Tegak</target>
         </trans-unit>
         <trans-unit id="PropertyColorSpace" translate="yes" xml:space="preserve">
           <source>Color Space</source>
-          <target state="translated">Color Space</target>
+          <target state="translated">Ruang Warna</target>
         </trans-unit>
         <trans-unit id="PropertyColorSpace_Value0" translate="yes" xml:space="preserve">
           <source>sRGB</source>
@@ -996,11 +996,11 @@
         </trans-unit>
         <trans-unit id="PropertyLatitudeRef" translate="yes" xml:space="preserve">
           <source>Latitude Ref</source>
-          <target state="translated">Latitude Ref</target>
+          <target state="translated">Referensi Garis lintang</target>
         </trans-unit>
         <trans-unit id="PropertyLongitudeRef" translate="yes" xml:space="preserve">
           <source>Longitude Ref</source>
-          <target state="translated">Longitude Ref</target>
+          <target state="translated">Referensi Garis bujur</target>
         </trans-unit>
         <trans-unit id="PropertyAltitude" translate="yes" xml:space="preserve">
           <source>Altitude</source>
@@ -1060,7 +1060,7 @@
         </trans-unit>
         <trans-unit id="PropertyBeatsPerMinute" translate="yes" xml:space="preserve">
           <source>Beats Per Minute</source>
-          <target state="translated">Jedugan Per Menit</target>
+          <target state="translated">Ketukan Per Menit</target>
         </trans-unit>
         <trans-unit id="PropertyComposer" translate="yes" xml:space="preserve">
           <source>Composer</source>
@@ -1276,7 +1276,7 @@
         </trans-unit>
         <trans-unit id="PropertySectionVideo" translate="yes" xml:space="preserve">
           <source>Video</source>
-          <target state="translated">Video</target>
+          <target state="translated">Tontonan</target>
         </trans-unit>
         <trans-unit id="Document" translate="yes" xml:space="preserve">
           <source>Document</source>
@@ -1678,23 +1678,23 @@
         </trans-unit>
         <trans-unit id="DriveTypeCDRom" translate="yes" xml:space="preserve">
           <source>CD ROM Drive</source>
-          <target state="translated">Penyimpan CD ROM</target>
+          <target state="translated">Penyimpanan CD ROM</target>
         </trans-unit>
         <trans-unit id="DriveTypeCloudDrive" translate="yes" xml:space="preserve">
           <source>Cloud Drive</source>
-          <target state="translated">Penyimpan Awan</target>
+          <target state="translated">Penyimpanan Awan</target>
         </trans-unit>
         <trans-unit id="DriveTypeFixed" translate="yes" xml:space="preserve">
           <source>Fixed Disk Drive</source>
-          <target state="translated">Penyimpan Tetap</target>
+          <target state="translated">Penyimpanan Tetap</target>
         </trans-unit>
         <trans-unit id="DriveTypeFloppyDisk" translate="yes" xml:space="preserve">
           <source>Floppy Disk Drive</source>
-          <target state="translated">Penyimpan Disket</target>
+          <target state="translated">Penyimpanan Disket</target>
         </trans-unit>
         <trans-unit id="DriveTypeNetwork" translate="yes" xml:space="preserve">
           <source>Network Drive</source>
-          <target state="translated">Penyimpan Jaringan</target>
+          <target state="translated">Penyimpanan Jaringan</target>
         </trans-unit>
         <trans-unit id="DriveTypeNoRootDirectory" translate="yes" xml:space="preserve">
           <source>Unmounted Drive</source>
@@ -1702,7 +1702,7 @@
         </trans-unit>
         <trans-unit id="DriveTypeRam" translate="yes" xml:space="preserve">
           <source>RAM Disk Drive</source>
-          <target state="translated">Penyimpan RAM</target>
+          <target state="translated">Penyimpanan RAM</target>
         </trans-unit>
         <trans-unit id="DriveTypeRemovable" translate="yes" xml:space="preserve">
           <source>Removable Storage Device</source>
@@ -1714,7 +1714,7 @@
         </trans-unit>
         <trans-unit id="DriveTypeVirtualDrive" translate="yes" xml:space="preserve">
           <source>Virtual Drive</source>
-          <target state="translated">Penyimpan Maya (Virtual)</target>
+          <target state="translated">Penyimpanan Maya (Virtual)</target>
         </trans-unit>
         <trans-unit id="DateCreated" translate="yes" xml:space="preserve">
           <source>Date created</source>
@@ -1726,7 +1726,7 @@
         </trans-unit>
         <trans-unit id="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Map network drive</source>
-          <target state="translated">Peta penyimpan jaringan</target>
+          <target state="translated">Peta penyimpanan jaringan</target>
         </trans-unit>
         <trans-unit id="SideBarDisconnectNetworkDrive.Text" translate="yes" xml:space="preserve">
           <source>Disconnect</source>
@@ -1958,7 +1958,7 @@
         </trans-unit>
         <trans-unit id="NavToolbarShowDrivesWidget.Header" translate="yes" xml:space="preserve">
           <source>Show Drives widget</source>
-          <target state="translated">Tampilkan widget Penyimpan</target>
+          <target state="translated">Tampilkan widget Penyimpanan</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowFolderWidget.Header" translate="yes" xml:space="preserve">
           <source>Show Folders widget</source>
@@ -2694,7 +2694,7 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarExitCompactOverlay.Label" translate="yes" xml:space="preserve">
           <source>Exit compact overlay</source>
-          <target state="translated">Keluar dari overlay kompak</target>
+          <target state="translated">Keluar dari tampilan fleksibel</target>
         </trans-unit>
         <trans-unit id="WSL" translate="yes" xml:space="preserve">
           <source>WSL</source>
@@ -2714,15 +2714,15 @@
         </trans-unit>
         <trans-unit id="SettingsVerticalTabFlyout" translate="yes" xml:space="preserve">
           <source>Display the vertical tab flyout on the title bar</source>
-          <target state="translated">Tampilkan halaman mengambang vertikal pada bilah judul</target>
+          <target state="translated">Tampilkan halaman mengambang tegak pada bilah judul</target>
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show cloud drives section</source>
-          <target state="translated">Tampilkan bagian drive cloud</target>
+          <target state="translated">Tampilkan bagian penyimpanan awan</target>
         </trans-unit>
         <trans-unit id="SettingsShowDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show drives section</source>
-          <target state="translated">Tampilkan bagian drive</target>
+          <target state="translated">Tampilkan bagian penyimanan</target>
         </trans-unit>
         <trans-unit id="SettingsShowWslSection.Title" translate="yes" xml:space="preserve">
           <source>Show WSL section</source>
@@ -2734,7 +2734,7 @@
         </trans-unit>
         <trans-unit id="SettingsPinRecycleBin.Title" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to favorites</source>
-          <target state="translated">Sematkan Keranjang Sampah ke favorit</target>
+          <target state="translated">Sematkan Keranjang Sampah ke Kesukaan</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySection.Title" translate="yes" xml:space="preserve">
           <source>Show library section</source>
@@ -2792,15 +2792,15 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutPinToFavorites.Text" translate="yes" xml:space="preserve">
           <source>Pin to Favorites</source>
-          <target state="translated">Sematkan ke Favorit</target>
+          <target state="translated">Sematkan ke Kesukaan</target>
         </trans-unit>
         <trans-unit id="SideBarUnpinFromFavorites.Text" translate="yes" xml:space="preserve">
           <source>Unpin from Favorites</source>
-          <target state="translated">Hapus semat dari Favorit</target>
+          <target state="translated">Hapus semat dari Kesukaan</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutUnpinFromFavorites.Text" translate="yes" xml:space="preserve">
           <source>Unpin from Favorites</source>
-          <target state="translated">Hapus semat dari Favorit</target>
+          <target state="translated">Hapus semat dari Kesukaan</target>
         </trans-unit>
         <trans-unit id="NavSettingsButton" translate="yes" xml:space="preserve">
           <source>Settings</source>
@@ -2812,7 +2812,7 @@
         </trans-unit>
         <trans-unit id="ConsentDialogContent" translate="yes" xml:space="preserve">
           <source>Updates are ready to install</source>
-          <target state="translated">Pembaruan siap untuk diinstal</target>
+          <target state="translated">Pembaruan siap untuk dipasang</target>
         </trans-unit>
         <trans-unit id="Close" translate="yes" xml:space="preserve">
           <source>Close</source>
@@ -3417,11 +3417,11 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
         </trans-unit>
         <trans-unit id="CleanupDrive" translate="yes" xml:space="preserve">
           <source>Cleanup your drive contents</source>
-          <target state="translated">Bersihkan konten drive Anda</target>
+          <target state="translated">Bersihkan konten penyimpanan Anda</target>
         </trans-unit>
         <trans-unit id="DiskCleanup" translate="yes" xml:space="preserve">
           <source>Disk cleanup</source>
-          <target state="translated">Pembersihan disk</target>
+          <target state="translated">Pembersih Penyimpanan</target>
         </trans-unit>
         <trans-unit id="Type" translate="yes" xml:space="preserve">
           <source>Type:</source>
@@ -3529,31 +3529,35 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
         </trans-unit>
         <trans-unit id="StatusCopyFailed" translate="yes" xml:space="preserve">
           <source>Copy failed</source>
-          <target state="new">Copy failed</target>
+          <target state="translated">Gagal menyalin</target>
         </trans-unit>
         <trans-unit id="StatusCopyFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to copy {0} items from {1} to {2}</source>
-          <target state="new">Failed to copy {0} items from {1} to {2}</target>
+          <target state="translated">Gagal menyalin {0} item dari {1} ke {2}</target>
         </trans-unit>
         <trans-unit id="StatusCopyFailedDetails_Singular" translate="yes" xml:space="preserve">
           <source>Failed to copy {0} item from {1} to {2}</source>
-          <target state="new">Failed to copy {0} item from {1} to {2}</target>
+          <target state="translated">Gagal menyalin {0} item dari {1} ke {2}</target>
         </trans-unit>
         <trans-unit id="StatusMoveFailed" translate="yes" xml:space="preserve">
           <source>Move failed</source>
-          <target state="new">Move failed</target>
+          <target state="translated">Gagal memindah</target>
         </trans-unit>
         <trans-unit id="FileTags" translate="yes" xml:space="preserve">
           <source>Tags</source>
-          <target state="new">Tags</target>
+          <target state="translated">Penanda</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileTagsSection.Title" translate="yes" xml:space="preserve">
           <source>Show Tags section</source>
-          <target state="new">Show Tags section</target>
+          <target state="translated">Tampilkan bagian penanda</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show Tags section</source>
-          <target state="new">Show Tags section</target>
+          <target state="translated">Tampilkan bagian penanda</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
+          <source>English (United States)</source>
+          <target state="translated">Inggris (Amerika Serikat)</target>
         </trans-unit>
       </group>
     </body>
