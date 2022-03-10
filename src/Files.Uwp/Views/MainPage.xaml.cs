@@ -24,6 +24,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using Files.Shared.EventArguments;
+using Windows.UI.Xaml.Hosting;
+using Windows.Foundation;
 
 namespace Files.Views
 {
@@ -59,10 +61,6 @@ namespace Files.Views
         {
             InitializeComponent();
 
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
-            var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            CoreTitleBar.ExtendViewIntoTitleBar = true;
-            CoreTitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
             var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
 
             if (flowDirectionSetting == "RTL")
@@ -117,7 +115,7 @@ namespace Files.Views
 
         private void DragArea_Loaded(object sender, RoutedEventArgs e)
         {
-            Window.Current.SetTitleBar(sender as Grid);
+            //Window.Current.SetTitleBar(sender as Grid);
         }
 
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
@@ -325,7 +323,14 @@ namespace Files.Views
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            //Initialize the static theme helper
+            //to handle theme changes without restarting the app
+            ThemeHelper.Initialize();
             Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
+
+            var window = App.AppWindows[this.UIContext];
+            window.TitleBar.ExtendsContentIntoTitleBar = true;
+            RightPaddingColumn.Width = new GridLength(300);
 
             // Defers the status bar loading until after the page has loaded to improve startup perf
             FindName(nameof(StatusBarControl));
@@ -333,18 +338,20 @@ namespace Files.Views
             FindName(nameof(horizontalMultitaskingControl));
             FindName(nameof(NavToolbar));
 
+            double width = ElementCompositionPreview.GetAppWindowContent(window).XamlRoot.Size.Width;
+
             // the adaptive triggers do not evaluate on app startup, manually checking and calling GoToState here fixes https://github.com/files-community/Files/issues/5801
-            if (Window.Current.Bounds.Width < CollapseSearchBoxAdaptiveTrigger.MinWindowWidth)
+            if (width < CollapseSearchBoxAdaptiveTrigger.MinWindowWidth)
             {
                 _ = VisualStateManager.GoToState(this, nameof(CollapseSearchBoxState), true);
             }
 
-            if (Window.Current.Bounds.Width < MinimalSidebarAdaptiveTrigger.MinWindowWidth)
+            if (width < MinimalSidebarAdaptiveTrigger.MinWindowWidth)
             {
                 _ = VisualStateManager.GoToState(this, nameof(MinimalSidebarState), true);
             }
 
-            if (Window.Current.Bounds.Width < CollapseHorizontalTabViewTrigger.MinWindowWidth)
+            if (width < CollapseHorizontalTabViewTrigger.MinWindowWidth)
             {
                 _ = VisualStateManager.GoToState(this, nameof(HorizontalTabViewCollapsed), true);
             }
@@ -465,7 +472,8 @@ namespace Files.Views
             {
                 bool isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
                 bool isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-                bool isBigEnough = Window.Current.Bounds.Width > 450 && Window.Current.Bounds.Height > 400;
+                Size size = ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Size;
+                bool isBigEnough = size.Width > 450 && size.Height > 400;
 
                 return (!isHomePage || isMultiPane) && isBigEnough;
             }

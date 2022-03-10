@@ -4,12 +4,13 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI.Notifications;
+using Windows.UI.WindowManagement;
 
 namespace Files.Helpers
 {
     public static class DriveHelpers
     {
-        public static async Task EjectDeviceAsync(string path)
+        public static async Task EjectDeviceAsync(string path, AppWindow window)
         {
             var removableDevice = new RemovableDevice(path);
             bool result = await removableDevice.EjectAsync();
@@ -53,7 +54,7 @@ namespace Files.Helpers
             {
                 Debug.WriteLine("Can't eject device");
 
-                await DialogDisplayHelper.ShowDialogAsync(
+                await DialogDisplayHelper.ShowDialogAsync(window,
                     "EjectNotificationErrorDialogHeader".GetLocalized(),
                     "EjectNotificationErrorDialogBody".GetLocalized());
             }

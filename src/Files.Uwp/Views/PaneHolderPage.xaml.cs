@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using Files.Shared.EventArguments;
+using Windows.UI.Xaml.Hosting;
 
 namespace Files.Views
 {
@@ -46,7 +47,7 @@ namespace Files.Views
             }
         }
 
-        private bool _windowIsCompact = Window.Current.Bounds.Width <= 750;
+        private bool _windowIsCompact;
 
         private bool windowIsCompact
         {
@@ -80,7 +81,7 @@ namespace Files.Views
 
         public bool IsMultiPaneEnabled
         {
-            get => UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled && !(Window.Current.Bounds.Width <= 750);
+            get => UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled && !(ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Size.Width <= 750);
         }
 
         private NavigationParams navParamsLeft;
@@ -198,12 +199,23 @@ namespace Files.Views
         public PaneHolderPage()
         {
             this.InitializeComponent();
-            Window.Current.SizeChanged += Current_SizeChanged;
+            this.Loaded += PaneHolderPage_Loaded;
             this.ActivePane = PaneLeft;
-            this.IsRightPaneVisible = IsMultiPaneEnabled && UserSettingsService.MultitaskingSettingsService.AlwaysOpenDualPaneInNewTab;
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 
             // TODO: fallback / error when failed to get NavigationViewCompactPaneLength value?
+        }
+
+        private void PaneHolderPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.IsRightPaneVisible = IsMultiPaneEnabled && UserSettingsService.MultitaskingSettingsService.AlwaysOpenDualPaneInNewTab;
+            _windowIsCompact = ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Size.Width <= 750;
+            ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Changed += XamlRoot_Changed;
+        }
+
+        private void XamlRoot_Changed(XamlRoot sender, XamlRootChangedEventArgs args)
+        {
+            windowIsCompact = ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Size.Width <= 750;
         }
 
         private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
@@ -214,11 +226,6 @@ namespace Files.Views
                     NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
                     break;
             }
-        }
-
-        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
-        {
-            windowIsCompact = Window.Current.Bounds.Width <= 750;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -273,7 +280,7 @@ namespace Files.Views
                 InitialPageType = typeof(PaneHolderPage),
                 NavigationArg = new PaneNavigationArguments()
                 {
-                    LeftPaneNavPathParam = e?.NavigationArg as string ?? PaneLeft.TabItemArguments?.NavigationArg as string,
+                    LeftPaneNavPathParam = e?.NavigationArg is PaneNavigationArguments pNavArg ? pNavArg.LeftPaneNavPathParam : e?.NavigationArg.ToString(),
                     RightPaneNavPathParam = IsRightPaneVisible ? PaneRight?.TabItemArguments?.NavigationArg as string : null
                 }
             };
@@ -363,7 +370,7 @@ namespace Files.Views
         public void Dispose()
         {
             UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
-            Window.Current.SizeChanged -= Current_SizeChanged;
+            ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Changed -= XamlRoot_Changed;
             PaneLeft?.Dispose();
             PaneRight?.Dispose();
         }
@@ -375,5 +382,11 @@ namespace Files.Views
         public string LeftPaneSelectItemParam { get; set; } = null;
         public string RightPaneNavPathParam { get; set; } = null;
         public string RightPaneSelectItemParam { get; set; } = null;
+
+        public override string ToString()
+        {
+            // Default to providing some kind of path when needed as String
+            return LeftPaneNavPathParam;
+        }
     }
 }

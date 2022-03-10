@@ -237,11 +237,11 @@ namespace Files.Interacts
             }
             else if (destFolder == FileSystemStatusCode.NotFound)
             {
-                await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
+                await DialogDisplayHelper.ShowDialogAsync(App.AppWindows[((BaseLayout)SlimContentPage).UIContext], "FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
             }
             else
             {
-                await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalized(),
+                await DialogDisplayHelper.ShowDialogAsync(App.AppWindows[((BaseLayout)SlimContentPage).UIContext], "InvalidItemDialogTitle".GetLocalized(),
                     string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, destFolder.ErrorCode.ToString()));
             }
         }
@@ -289,8 +289,7 @@ namespace Files.Interacts
             foreach (ListedItem listedItem in items)
             {
                 var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
-                var folderUri = new Uri($"files-uwp:?folder={@selectedItemPath}");
-                await Launcher.LaunchUriAsync(folderUri);
+                await App.CreateNewAppWindowForPathAsync(selectedItemPath);
             }
         }
 

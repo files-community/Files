@@ -1,9 +1,12 @@
 ﻿using Files.Extensions;
+using Microsoft.Toolkit.Uwp;
 using System;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
+using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Hosting;
 
 namespace Files.Helpers
 {
@@ -13,8 +16,6 @@ namespace Files.Helpers
     public static class ThemeHelper
     {
         private const string selectedAppThemeKey = "theme";
-        private static Window currentApplicationWindow;
-        private static ApplicationViewTitleBar titleBar;
 
         // Keep reference so it does not get optimized/garbage collected
         public static UISettings UiSettings;
@@ -40,20 +41,30 @@ namespace Files.Helpers
             set
             {
                 ApplicationData.Current.LocalSettings.Values[selectedAppThemeKey] = value.ToString();
-                ApplyTheme();
+                ApplyThemeForAllWindows();
+            }
+        }
+
+        private async static void ApplyThemeForAllWindows()
+        {
+            // Make sure we have a reference to our window so we dispatch a UI change
+            if (App.AppWindows.Count > 0)
+            {
+                foreach (AppWindow window in App.AppWindows.Values)
+                {
+                    // Dispatch on UI thread so that we have a current appbar to access and change
+                    await window.DispatcherQueue.EnqueueAsync(() =>
+                    {
+                        ApplyTheme(window);
+                    }, Windows.System.DispatcherQueuePriority.High);
+                }
+
             }
         }
 
         public static void Initialize()
         {
-            // Save reference as this might be null when the user is in another app
-            currentApplicationWindow = Window.Current;
-
-            // Set TitleBar background color
-            titleBar = ApplicationView.GetForCurrentView().TitleBar;
-
-            //Apply the desired theme based on what is set in the application settings
-            ApplyTheme();
+            ApplyThemeForAllWindows();
 
             // Registering to color changes, thus we notice when user changes theme system wide
             UiSettings = new UISettings();
@@ -63,43 +74,47 @@ namespace Files.Helpers
         private static async void UiSettings_ColorValuesChanged(UISettings sender, object args)
         {
             // Make sure we have a reference to our window so we dispatch a UI change
-            if (currentApplicationWindow != null)
+            if (App.AppWindows.Count > 0)
             {
-                // Dispatch on UI thread so that we have a current appbar to access and change
-                await currentApplicationWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                foreach (AppWindow window in App.AppWindows.Values)
                 {
-                    ApplyTheme();
-                });
+                    // Dispatch on UI thread so that we have a current appbar to access and change
+                    await window.DispatcherQueue.EnqueueAsync(() =>
+                    {
+                        ApplyTheme(window);
+                    }, Windows.System.DispatcherQueuePriority.High);
+                }
+                
             }
         }
 
-        private static void ApplyTheme()
+        private static void ApplyTheme(AppWindow window)
         {
             var rootTheme = RootTheme;
 
-            if (Window.Current.Content is FrameworkElement rootElement)
+            if (ElementCompositionPreview.GetAppWindowContent(window) is FrameworkElement rootElement)
             {
                 rootElement.RequestedTheme = rootTheme;
             }
 
-            titleBar.ButtonBackgroundColor = Colors.Transparent;
-            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            window.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+            window.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
             switch (rootTheme)
             {
                 case ElementTheme.Default:
-                    titleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
-                    titleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
+                    window.TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
+                    window.TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
                     break;
 
                 case ElementTheme.Light:
-                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
-                    titleBar.ButtonForegroundColor = Colors.Black;
+                    window.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
+                    window.TitleBar.ButtonForegroundColor = Colors.Black;
                     break;
 
                 case ElementTheme.Dark:
-                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
-                    titleBar.ButtonForegroundColor = Colors.White;
+                    window.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
+                    window.TitleBar.ButtonForegroundColor = Colors.White;
                     break;
             }
             App.AppSettings.UpdateThemeElements.Execute(null);

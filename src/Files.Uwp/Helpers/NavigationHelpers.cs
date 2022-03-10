@@ -31,10 +31,10 @@ namespace Files.Helpers
 
         public static async Task<bool> OpenPathInNewWindowAsync(string path)
         {
-            var folderUri = new Uri($"files-uwp:?folder={Uri.EscapeDataString(path)}");
-            return await Launcher.LaunchUriAsync(folderUri);
+            return await App.CreateNewAppWindowForPathAsync(path);
         }
 
+        [Obsolete("Instead, use the single-instance AppWindow alternatives such as NavigationHelpers.OpenPathInNewWindowAsync(string path)", true)]
         public static async Task<bool> OpenTabInNewWindowAsync(string tabArgs)
         {
             var folderUri = new Uri($"files-uwp:?tab={Uri.EscapeDataString(tabArgs)}");
@@ -43,8 +43,7 @@ namespace Files.Helpers
 
         public static async void LaunchNewWindow()
         {
-            var filesUWPUri = new Uri("files-uwp:");
-            await Launcher.LaunchUriAsync(filesUWPUri);
+            await App.CreateNewAppWindowForPathAsync(null);
         }
 
         public static async Task OpenDirectoryInTerminal(string workingDir)
@@ -224,7 +223,7 @@ namespace Files.Helpers
 
             if (opened.ErrorCode == FileSystemStatusCode.NotFound && !openSilent)
             {
-                await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
+                await DialogDisplayHelper.ShowDialogAsync(App.AppWindows[((ModernShellPage)associatedInstance).XamlRoot.UIContext], "FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 associatedInstance.NavToolbarViewModel.CanRefresh = false;
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {

@@ -343,9 +343,7 @@ namespace Files.ViewModels
         {
             if (e.NavigationMode != NavigationMode.Back)
             {
-                //Initialize the static theme helper to capture a reference to this window
-                //to handle theme changes without restarting the app
-                ThemeHelper.Initialize();
+                
 
                 if (e.Parameter == null || (e.Parameter is string eventStr && string.IsNullOrEmpty(eventStr)))
                 {
@@ -370,7 +368,7 @@ namespace Files.ViewModels
                             foreach (string tabArgsString in UserSettingsService.PreferencesSettingsService.LastSessionTabList)
                             {
                                 var tabArgs = TabItemArguments.Deserialize(tabArgsString);
-                                await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+                                await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg.ToString());
                             }
 
                             if (!UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp)
@@ -399,7 +397,7 @@ namespace Files.ViewModels
                                 foreach (string tabArgsString in UserSettingsService.PreferencesSettingsService.LastSessionTabList)
                                 {
                                     var tabArgs = TabItemArguments.Deserialize(tabArgsString);
-                                    await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+                                    await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg.ToString());
                                 }
                                 var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalized() };
                                 UserSettingsService.PreferencesSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
@@ -427,11 +425,11 @@ namespace Files.ViewModels
                     }
                     else if (e.Parameter is PaneNavigationArguments paneArgs)
                     {
-                        await AddNewTabByParam(typeof(PaneHolderPage), paneArgs);
+                        await AddNewTabByParam(typeof(PaneHolderPage), paneArgs.ToString());
                     }
                     else if (e.Parameter is TabItemArguments tabArgs)
                     {
-                        await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+                        await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg.ToString());
                     }
                 }
             }
@@ -460,7 +458,7 @@ namespace Files.ViewModels
             if (AppInstances[index].TabItemArguments != null)
             {
                 var tabArgs = AppInstances[index].TabItemArguments;
-                await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg, index + 1);
+                await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg.ToString(), index + 1);
             }
             else
             {
@@ -468,7 +466,7 @@ namespace Files.ViewModels
             }
         }
 
-        public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
+        public static async Task AddNewTabByParam(Type type, string tabViewItemArgs, int atIndex = -1)
         {
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
             fontIconSource.FontFamily = App.MainViewModel.FontName;

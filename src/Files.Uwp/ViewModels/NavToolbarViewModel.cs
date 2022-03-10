@@ -31,6 +31,7 @@ using static Files.UserControls.INavigationToolbar;
 using SearchBox = Files.UserControls.SearchBox;
 using SortDirection = Files.Shared.Enums.SortDirection;
 using Files.Shared.EventArguments;
+using Windows.UI.Xaml.Hosting;
 
 namespace Files.ViewModels
 {
@@ -691,7 +692,7 @@ namespace Files.ViewModels
             OnPropertyChanged(nameof(CanEmptyRecycleBin));
         }
 
-        private NavigationToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<NavigationToolbar>();
+        private NavigationToolbar NavToolbar => ElementCompositionPreview.GetAppWindowContent(App.AppWindows.Values.First()).FindDescendant<NavigationToolbar>();
 
         #region WidgetsPage Widgets
 
@@ -923,10 +924,10 @@ namespace Files.ViewModels
                         var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
                         if (matchingDrive != null && matchingDrive.Type == DataModels.NavigationControlItems.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
                         {
-                            bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "Close".GetLocalized());
+                            bool ejectButton = await DialogDisplayHelper.ShowDialogAsync(App.AppWindows[NavToolbar.UIContext], "InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "Close".GetLocalized());
                             if (ejectButton)
                             {
-                                await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                                await DriveHelpers.EjectDeviceAsync(matchingDrive.Path, App.AppWindows[NavToolbar.UIContext]);
                             }
                             return;
                         }
@@ -983,13 +984,13 @@ namespace Files.ViewModels
                             {
                                 if (!await Launcher.LaunchUriAsync(new Uri(currentInput)))
                                 {
-                                    await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalized(),
+                                    await DialogDisplayHelper.ShowDialogAsync(App.AppWindows[NavToolbar.UIContext], "InvalidItemDialogTitle".GetLocalized(),
                                         string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, resFolder.ErrorCode.ToString()));
                                 }
                             }
                             catch (Exception ex) when (ex is UriFormatException || ex is ArgumentException)
                             {
-                                await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalized(),
+                                await DialogDisplayHelper.ShowDialogAsync(App.AppWindows[NavToolbar.UIContext], "InvalidItemDialogTitle".GetLocalized(),
                                     string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, resFolder.ErrorCode.ToString()));
                             }
                         }

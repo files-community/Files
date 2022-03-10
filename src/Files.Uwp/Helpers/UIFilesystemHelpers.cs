@@ -19,6 +19,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Files.Backend.Enums;
+using Files.Views;
 
 namespace Files.Helpers
 {
@@ -277,12 +278,12 @@ namespace Files.Helpers
             if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
                 renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageHelpers.FromPathAndType(item.ItemPath, FilesystemItemType.Directory),
-                    newName, NameCollisionOption.FailIfExists, true);
+                    newName, NameCollisionOption.FailIfExists, true, App.AppWindows[((ModernShellPage)associatedInstance).UIContext]);
             }
             else
             {
                 renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageHelpers.FromPathAndType(item.ItemPath, FilesystemItemType.File),
-                    newName, NameCollisionOption.FailIfExists, true);
+                    newName, NameCollisionOption.FailIfExists, true, App.AppWindows[((ModernShellPage)associatedInstance).UIContext]);
             }
 
             if (renamed == ReturnResult.Success)
@@ -354,7 +355,7 @@ namespace Files.Helpers
 
             if (created == FileSystemStatusCode.Unauthorized)
             {
-                await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
+                await DialogDisplayHelper.ShowDialogAsync(App.AppWindows.Values.First(), "AccessDenied".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
             }
 
             return created.Result.Item2;

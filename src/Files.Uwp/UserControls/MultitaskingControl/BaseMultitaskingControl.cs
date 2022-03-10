@@ -119,7 +119,7 @@ namespace Files.UserControls.MultitaskingControl
                 RecentlyClosedTabs.Remove(lastTab);
                 foreach (var item in lastTab)
                 {
-                    await MainPageViewModel.AddNewTabByParam(item.InitialPageType, item.NavigationArg);
+                    await MainPageViewModel.AddNewTabByParam(item.InitialPageType, item.NavigationArg.ToString());
                 }
                 isRestoringClosedTab = false;
             }

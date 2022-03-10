@@ -34,12 +34,16 @@ using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Files.Shared;
 using Files.Shared.Extensions;
 using Files.Backend.Services;
 using Files.Uwp.ServicesImplementation;
+using System.Collections.Generic;
+using Windows.UI.WindowManagement;
+using Windows.UI;
+using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Files
 {
@@ -75,6 +79,8 @@ namespace Files
         public static string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
 
         public IServiceProvider Services { get; private set; }
+
+        public static Dictionary<UIContext, AppWindow> AppWindows { get; set; } = new Dictionary<UIContext, AppWindow>();
 
         public App()
         {
@@ -225,9 +231,10 @@ namespace Files
             bool canEnablePrelaunch = ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
-            _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
-
-            var rootFrame = EnsureWindowIsInitialized();
+            await InitializeAppComponentsAsync();
+            Frame rootFrame = new Frame();
+            // Use the Frame to act as the navigation context and navigate to the first page
+            rootFrame.NavigationFailed += OnNavigationFailed;
 
             if (e.PrelaunchActivated == false)
             {
@@ -241,7 +248,7 @@ namespace Files
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments, new SuppressNavigationTransitionInfo());
+                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
                 else
                 {
@@ -251,9 +258,21 @@ namespace Files
                     }
                 }
 
-                // Ensure the current window is active
-                Window.Current.Activate();
-                Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+                if (await CreateNewAppWindowAsync(rootFrame))
+                {
+                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                }
+                else
+                {
+                    Window.Current.Activate();
+                }
+
+                ShowErrorNotification = true;
+                ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
+                if (MainViewModel != null)
+                {
+                    MainViewModel.Clipboard_ContentChanged(null, null);
+                }
             }
             else
             {
@@ -262,7 +281,7 @@ namespace Files
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments, new SuppressNavigationTransitionInfo());
+                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
                 else
                 {
@@ -273,7 +292,7 @@ namespace Files
                 }
             }
 
-            WindowDecorationsHelper.RequestWindowDecorationsAccess();
+            //WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
 
         protected override async void OnFileActivated(FileActivatedEventArgs e)
@@ -286,8 +305,9 @@ namespace Files
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
             _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
-
-            var rootFrame = EnsureWindowIsInitialized();
+            Frame rootFrame = new Frame();
+            // Use the Frame to act as the navigation context and navigate to the first page
+            rootFrame.NavigationFailed += OnNavigationFailed;
 
             var index = 0;
             if (rootFrame.Content == null)
@@ -295,7 +315,7 @@ namespace Files
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                rootFrame.Navigate(typeof(MainPage), e.Files.First().Path, new SuppressNavigationTransitionInfo());
+                rootFrame.Navigate(typeof(MainPage), e.Files.First().Path);
                 index = 1;
             }
             for (; index < e.Files.Count; index++)
@@ -303,34 +323,40 @@ namespace Files
                 await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Files[index].Path);
             }
 
-            // Ensure the current window is active
-            Window.Current.Activate();
-            Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-
-            WindowDecorationsHelper.RequestWindowDecorationsAccess();
-        }
-
-        private Frame EnsureWindowIsInitialized()
-        {
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
-            if (!(Window.Current.Content is Frame rootFrame))
+            if (await CreateNewAppWindowAsync(rootFrame))
             {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
-                rootFrame.CacheSize = 1;
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                //if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                //{
-                //    //TODO: Load state from previously suspended application
-                //}
-
-                // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
+                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+            }
+            else
+            {
+                Window.Current.Activate();
             }
 
-            return rootFrame;
+            // WindowDecorationsHelper.RequestWindowDecorationsAccess();
+        }
+
+        public static async Task<bool> CreateNewAppWindowForPathAsync(string path)
+        {
+            Frame frame = new Frame();
+            frame.Navigate(typeof(MainPage), path, new SuppressNavigationTransitionInfo());
+            return await CreateNewAppWindowAsync(frame);
+        }
+
+        private static async Task<bool> CreateNewAppWindowAsync(Frame rootFrame)
+        {
+            AppWindow window = await AppWindow.TryCreateAsync();
+            window.Closed += delegate
+            {
+                AppWindows.Remove(window.UIContext);
+            };
+
+            // Attach the XAML content to the window.
+            ElementCompositionPreview.SetAppWindowContent(window, rootFrame);
+
+            window.TitleBar.ExtendsContentIntoTitleBar = true;
+            AppWindows.Add(rootFrame.UIContext, window);
+            
+            return await window.TryShowAsync();
         }
 
         private void CoreWindow_Activated(CoreWindow sender, WindowActivatedEventArgs args)
@@ -354,8 +380,9 @@ namespace Files
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
             _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
-
-            var rootFrame = EnsureWindowIsInitialized();
+            Frame rootFrame = new Frame();
+            // Use the Frame to act as the navigation context and navigate to the first page
+            rootFrame.NavigationFailed += OnNavigationFailed;
 
             switch (args.Kind)
             {
@@ -364,7 +391,7 @@ namespace Files
 
                     if (eventArgs.Uri.AbsoluteUri == "files-uwp:")
                     {
-                        rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+                        rootFrame.Navigate(typeof(MainPage), null);
                     }
                     else
                     {
@@ -378,18 +405,30 @@ namespace Files
                         switch (parsedArgs[0])
                         {
                             case "tab":
-                                rootFrame.Navigate(typeof(MainPage), TabItemArguments.Deserialize(unescapedValue), new SuppressNavigationTransitionInfo());
+                                rootFrame.Navigate(typeof(MainPage), TabItemArguments.Deserialize(unescapedValue));
                                 break;
 
                             case "folder":
-                                rootFrame.Navigate(typeof(MainPage), unescapedValue, new SuppressNavigationTransitionInfo());
+                                rootFrame.Navigate(typeof(MainPage), unescapedValue);
                                 break;
                         }
                     }
 
-                    // Ensure the current window is active.
-                    Window.Current.Activate();
-                    Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+                    if (await CreateNewAppWindowAsync(rootFrame))
+                    {
+                        await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                    }
+                    else
+                    {
+                        Window.Current.Activate();
+                    }
+                    
+                    ShowErrorNotification = true;
+                    ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
+                    if (MainViewModel != null)
+                    {
+                        MainViewModel.Clipboard_ContentChanged(null, null);
+                    }
                     return;
 
                 case ActivationKind.CommandLineLaunch:
@@ -420,11 +459,11 @@ namespace Files
                             };
                             if (rootFrame.Content != null)
                             {
-                                await MainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
+                                await MainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs.ToString());
                             }
                             else
                             {
-                                rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
+                                rootFrame.Navigate(typeof(MainPage), paneNavigationArgs);
                             }
                         }
                         foreach (var command in parsedCommands)
@@ -472,9 +511,21 @@ namespace Files
 
                         if (rootFrame.Content != null)
                         {
-                            // Ensure the current window is active.
-                            Window.Current.Activate();
-                            Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+                            if (await CreateNewAppWindowAsync(rootFrame))
+                            {
+                                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                            }
+                            else
+                            {
+                                Window.Current.Activate();
+                            }
+
+                            ShowErrorNotification = true;
+                            ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
+                            if (MainViewModel != null)
+                            {
+                                MainViewModel.Clipboard_ContentChanged(null, null);
+                            }
                             return;
                         }
                     }
@@ -492,13 +543,24 @@ namespace Files
                     break;
             }
 
-            rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+            rootFrame.Navigate(typeof(MainPage));
+            if (await CreateNewAppWindowAsync(rootFrame))
+            {
+                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+            }
+            else
+            {
+                Window.Current.Activate();
+            }
 
-            // Ensure the current window is active.
-            Window.Current.Activate();
-            Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+            ShowErrorNotification = true;
+            ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
+            if (MainViewModel != null)
+            {
+                MainViewModel.Clipboard_ContentChanged(null, null);
+            }
 
-            WindowDecorationsHelper.RequestWindowDecorationsAccess();
+            //WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
 
         private void TryEnablePrelaunch()

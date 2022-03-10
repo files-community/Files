@@ -23,6 +23,7 @@ using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Files.Shared.Extensions;
 using Files.Backend.Extensions;
+using Windows.UI.WindowManagement;
 
 namespace Files.Filesystem
 {
@@ -549,12 +550,12 @@ namespace Files.Filesystem
 
         #region Rename
 
-        public async Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory)
+        public async Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory, AppWindow window)
         {
-            return await RenameAsync(source.FromStorageItem(), newName, collision, registerHistory);
+            return await RenameAsync(source.FromStorageItem(), newName, collision, registerHistory, window);
         }
 
-        public async Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory)
+        public async Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory, AppWindow window)
         {
             var returnCode = FileSystemStatusCode.InProgress;
             var errorCode = new Progress<FileSystemStatusCode>();
@@ -574,7 +575,7 @@ namespace Files.Filesystem
                        not when file name has changed */
                     if (Path.GetExtension(source.Path) != Path.GetExtension(newName))
                     {
-                        var yesSelected = await DialogDisplayHelper.ShowDialogAsync("RenameFileDialogTitle".GetLocalized(), "RenameFileDialog/Text".GetLocalized(), "Yes".GetLocalized(), "No".GetLocalized());
+                        var yesSelected = await DialogDisplayHelper.ShowDialogAsync(window, "RenameFileDialogTitle".GetLocalized(), "RenameFileDialog/Text".GetLocalized(), "Yes".GetLocalized(), "No".GetLocalized());
                         if (yesSelected)
                         {
                             history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);

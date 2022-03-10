@@ -1520,21 +1520,21 @@ namespace Files.ViewModels
                 else if (res == FileSystemStatusCode.Unauthorized)
                 {
                     //TODO: proper dialog
-                    await DialogDisplayHelper.ShowDialogAsync(
+                    await DialogDisplayHelper.ShowDialogAsync(App.AppWindows.Values.First(),
                         "AccessDenied".GetLocalized(),
                         "SubDirectoryAccessDenied".GetLocalized());
                     return -1;
                 }
                 else if (res == FileSystemStatusCode.NotFound)
                 {
-                    await DialogDisplayHelper.ShowDialogAsync(
+                    await DialogDisplayHelper.ShowDialogAsync(App.AppWindows.Values.First(),
                         "FolderNotFoundDialog/Title".GetLocalized(),
                         "FolderNotFoundDialog/Text".GetLocalized());
                     return -1;
                 }
                 else
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalized(), res.ErrorCode.ToString());
+                    await DialogDisplayHelper.ShowDialogAsync(App.AppWindows.Values.First(), "DriveUnpluggedDialog/Title".GetLocalized(), res.ErrorCode.ToString());
                     return -1;
                 }
             }
@@ -1633,7 +1633,7 @@ namespace Files.ViewModels
 
                 if (hFile == IntPtr.Zero)
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalized(), "");
+                    await DialogDisplayHelper.ShowDialogAsync(App.AppWindows.Values.First(), "DriveUnpluggedDialog/Title".GetLocalized(), "");
                     return -1;
                 }
                 else if (hFile.ToInt64() == -1)

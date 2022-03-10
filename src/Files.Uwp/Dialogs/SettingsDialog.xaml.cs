@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
 
 namespace Files.Dialogs
 {
@@ -21,38 +22,43 @@ namespace Files.Dialogs
         public SettingsViewModel AppSettings => App.AppSettings;
 
         // for some reason the requested theme wasn't being set on the content dialog, so this is used to manually bind to the requested app theme
-        private FrameworkElement RootAppElement => Window.Current.Content as FrameworkElement;
+        private FrameworkElement RootAppElement;
 
         public SettingsDialog()
         {
             this.InitializeComponent();
             SettingsPane.SelectedItem = SettingsPane.MenuItems[0];
-            Window.Current.SizeChanged += Current_SizeChanged;
+            this.Loaded += SettingsDialog_Loaded;
+        }
+
+        private void SettingsDialog_Loaded(object sender, RoutedEventArgs e)
+        {
+            RootAppElement = ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]) as FrameworkElement;
+            ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Changed += XamlRoot_Changed;
             UpdateDialogLayout();
         }
 
-        
-        public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
-
-        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        private void XamlRoot_Changed(XamlRoot sender, XamlRootChangedEventArgs args)
         {
             UpdateDialogLayout();
         }
+
+        public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
 
         private void UpdateDialogLayout()
         {
-            if (Window.Current.Bounds.Height <= 710)
+            if (ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Size.Height <= 710)
             {
-                ContainerGrid.Height = Window.Current.Bounds.Height - 70;
+                ContainerGrid.Height = ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Size.Height - 70;
             }
             else
             {
                 ContainerGrid.Height = 640;
             }
 
-            if (Window.Current.Bounds.Width <= 800)
+            if (ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Size.Width <= 800)
             {
-                ContainerGrid.Width = Window.Current.Bounds.Width;
+                ContainerGrid.Width = ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Size.Width;
             }
             else
             {
@@ -78,7 +84,7 @@ namespace Files.Dialogs
 
         private void ContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
         {
-            Window.Current.SizeChanged -= Current_SizeChanged;
+            ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Changed -= XamlRoot_Changed;
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)

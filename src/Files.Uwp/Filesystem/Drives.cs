@@ -5,6 +5,7 @@ using Files.Helpers;
 using Files.Backend.Services.Settings;
 using Files.UserControls;
 using Files.UserControls.Widgets;
+using Microsoft.Toolkit.Uwp.Helpers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
@@ -19,9 +20,9 @@ using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.System;
 using Windows.UI.Core;
 using DriveType = Files.DataModels.NavigationControlItems.DriveType;
-using Files.Shared;
 
 namespace Files.Filesystem
 {
@@ -131,7 +132,7 @@ namespace Files.Filesystem
 
         private async Task SyncSideBarItemsUI()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await CoreApplication.GetCurrentView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try

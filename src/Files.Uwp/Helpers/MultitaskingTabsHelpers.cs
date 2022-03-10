@@ -50,7 +50,7 @@ namespace Files.Helpers
 
             if (tabItemArguments != null)
             {
-                await NavigationHelpers.OpenTabInNewWindowAsync(tabItemArguments.Serialize());
+                await NavigationHelpers.OpenPathInNewWindowAsync(tabItemArguments.NavigationArg.ToString());
             }
             else
             {
@@ -58,7 +58,7 @@ namespace Files.Helpers
             }
         }
 
-        public static async Task AddNewTab(Type type, object tabViewItemArgs, int atIndex = -1)
+        public static async Task AddNewTab(Type type, string tabViewItemArgs, int atIndex = -1)
         {
             FontIconSource fontIconSource = new FontIconSource();
             fontIconSource.FontFamily = App.MainViewModel.FontName;

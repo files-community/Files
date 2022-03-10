@@ -18,6 +18,7 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
+using System.Linq;
 
 namespace Files.ViewModels.SettingsViewModels
 {
@@ -136,7 +137,7 @@ namespace Files.ViewModels.SettingsViewModels
                 {
                     App.Logger.Warn(ex, "Error importing settings");
                     UIHelpers.CloseAllDialogs();
-                    await DialogDisplayHelper.ShowDialogAsync("SettingsImportErrorTitle".GetLocalized(), "SettingsImportErrorDescription".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync(App.AppWindows.Values.First(), "SettingsImportErrorTitle".GetLocalized(), "SettingsImportErrorDescription".GetLocalized());
                 }
             }
         }

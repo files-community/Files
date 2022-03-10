@@ -133,7 +133,7 @@ namespace Files.UserControls.MultitaskingControl
 
             var tabViewItemArgs = TabItemArguments.Deserialize(tabViewItemString);
             ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
-            await MainPageViewModel.AddNewTabByParam(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationArg, index);
+            await MainPageViewModel.AddNewTabByParam(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationArg.ToString(), index);
         }
 
         private void TabStrip_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)
@@ -165,7 +165,7 @@ namespace Files.UserControls.MultitaskingControl
             var tabViewItemArgs = (args.Item as TabItem).TabItemArguments;
             var selectedTabViewItemIndex = sender.SelectedIndex;
             Items.Remove(args.Item as TabItem);
-            if (!await NavigationHelpers.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
+            if (!await NavigationHelpers.OpenPathInNewWindowAsync(tabViewItemArgs.NavigationArg.ToString()))
             {
                 Items.Insert(indexOfTabViewItem, args.Item as TabItem);
                 sender.SelectedIndex = selectedTabViewItemIndex;

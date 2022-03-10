@@ -13,6 +13,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs;
 using Files.Backend.Extensions;
+using Windows.UI.Xaml.Hosting;
 
 namespace Files.ViewModels
 {
@@ -24,7 +25,6 @@ namespace Files.ViewModels
 
         public MainViewModel()
         {
-            Window.Current.SizeChanged += Current_SizeChanged;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
 
             DetectFontName();
@@ -71,12 +71,12 @@ namespace Files.ViewModels
                         SetProperty(ref tabStripSelectedIndex, value);
                     }
 
-                    if (value < MainPageViewModel.AppInstances.Count)
-                    {
-                        Frame rootFrame = Window.Current.Content as Frame;
-                        var mainView = rootFrame.Content as MainPage;
-                        mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
-                    }
+                    //if (value < MainPageViewModel.AppInstances.Count)
+                    //{
+                    //    Frame rootFrame = ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]) as Frame;
+                    //    var mainView = rootFrame.Content as MainPage;
+                    //    mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
+                    //}
                 }
             }
         }
@@ -101,7 +101,7 @@ namespace Files.ViewModels
 
         public static bool IsWindowResizedToCompactWidth()
         {
-            return Window.Current.Bounds.Width <= 750;
+            return false; // Window.Currentt.Bounds.Width <= 750;
         }
 
         public bool IsWindowCompactSize

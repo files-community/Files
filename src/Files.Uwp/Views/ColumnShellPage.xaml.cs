@@ -38,6 +38,7 @@ using SortDirection = Files.Shared.Enums.SortDirection;
 using Files.Backend.Enums;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
+using Windows.UI.Xaml.Hosting;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -191,7 +192,7 @@ namespace Files.Views
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated += AppSettings_SortDirectionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
 
-            Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+            CoreWindow.GetForCurrentThread().PointerPressed += CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested += ColumnShellPage_BackRequested;
 
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
@@ -201,7 +202,7 @@ namespace Files.Views
 
         private async void ColumnShellPage_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) || CurrentPageType == typeof(GridViewBrowser);
 
             if (tabInstance && e.Key == (VirtualKey)192 && ctrlPressed) // VirtualKey for ` (accent key)
@@ -866,7 +867,7 @@ namespace Files.Views
         public void Dispose()
         {
             PreviewKeyDown -= ColumnShellPage_PreviewKeyDown;
-            Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
+            CoreWindow.GetForCurrentThread().PointerPressed -= CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested -= ColumnShellPage_BackRequested;
             App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
 
@@ -969,7 +970,7 @@ namespace Files.Views
 
         private void SetLoadingIndicatorForTabs(bool isLoading)
         {
-            var multitaskingControls = ((Window.Current.Content as Frame).Content as MainPage).ViewModel.MultitaskingControls;
+            var multitaskingControls = ((ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]) as Frame).Content as MainPage).ViewModel.MultitaskingControls;
 
             foreach (var x in multitaskingControls)
             {

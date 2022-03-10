@@ -1,4 +1,5 @@
 ﻿using Files.Shared;
+using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,8 +7,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
+using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -29,7 +33,15 @@ namespace Files.Helpers
 
         public static void CloseAllDialogs()
         {
-            var openedDialogs = VisualTreeHelper.GetOpenPopups(Window.Current);
+            List<Popup> openedDialogs = new List<Popup>();
+
+            foreach (AppWindow window in App.AppWindows.Values)
+            {
+                foreach(Popup p in VisualTreeHelper.GetOpenPopupsForXamlRoot(ElementCompositionPreview.GetAppWindowContent(window).XamlRoot))
+                {
+                    openedDialogs.Add(p);
+                }
+            }
 
             foreach (var item in openedDialogs)
             {

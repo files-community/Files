@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.UI.WindowManagement;
 
 namespace Files.Filesystem
 {
@@ -248,7 +249,7 @@ namespace Files.Filesystem
         /// <param name="collision">Determines what to do if item already exists</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory);
+        Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory, AppWindow window);
 
         /// <summary>
         /// Renames <paramref name="source"/> fullPath with <paramref name="newName"/>
@@ -258,6 +259,6 @@ namespace Files.Filesystem
         /// <param name="collision">Determines what to do if item already exists</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory);
+        Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory, AppWindow window);
     }
 }
