@@ -60,13 +60,13 @@ namespace Files.Filesystem
             {
                 return FileSystemStatusCode.NotFound;
             }
-            else if (ex is IOException || ex is FileLoadException)
-            {
-                return FileSystemStatusCode.InUse;
-            }
             else if (ex is PathTooLongException)
             {
                 return FileSystemStatusCode.NameTooLong;
+            }
+            else if (ex is IOException || ex is FileLoadException)
+            {
+                return FileSystemStatusCode.InUse;
             }
             else if (ex is ArgumentException) // Item was invalid
             {

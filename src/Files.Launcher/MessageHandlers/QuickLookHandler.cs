@@ -14,7 +14,7 @@ namespace FilesFullTrust.MessageHandlers
     [SupportedOSPlatform("Windows10.0.10240")]
     public class QuickLookHandler : Disposable, IMessageHandler
     {
-        private static readonly Logger Logger = Program.Logger;
+        private static readonly ILogger Logger = Program.Logger;
 
         public void Initialize(PipeStream connection)
         {

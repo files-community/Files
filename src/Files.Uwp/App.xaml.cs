@@ -67,7 +67,7 @@ namespace Files
         public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
         public static OptionalPackageManager OptionalPackageManager { get; private set; } = new OptionalPackageManager();
 
-        public static Logger Logger { get; private set; }
+        public static ILogger Logger { get; private set; }
         private static readonly UniversalLogWriter logWriter = new UniversalLogWriter();
 
         public static OngoingTasksViewModel OngoingTasksViewModel { get; } = new OngoingTasksViewModel();

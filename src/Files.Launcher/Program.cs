@@ -24,7 +24,7 @@ namespace FilesFullTrust
     [SupportedOSPlatform("Windows10.0.10240")]
     internal class Program
     {
-        public static Logger Logger { get; private set; }
+        public static ILogger Logger { get; private set; }
         private static readonly LogWriter logWriter = new LogWriter();
 
         [STAThread]
