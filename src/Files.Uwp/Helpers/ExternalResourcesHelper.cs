@@ -44,9 +44,9 @@ namespace Files.Helpers
                 await AddThemesAsync(ThemeFolder);
                 await AddThemesAsync(ImportedThemesFolder);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Debug.WriteLine($"Error loading themes");
+                App.Logger.Warn(ex, "Error loading themes");
             }
         }
 
