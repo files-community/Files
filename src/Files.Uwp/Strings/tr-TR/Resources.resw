@@ -390,21 +390,6 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Kilidi aç</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Sürücü kilidini açmak için parolayı yazın</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Parola</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Lütfen yazdığınız parolayı denetleyip yeniden deneyin.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>BitLocker hatası</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>İçeriği:</value>
   </data>

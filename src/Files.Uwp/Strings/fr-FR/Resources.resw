@@ -399,21 +399,6 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Déplacement vers la Corbeille en cours</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Déverrouiller</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Entrez le mot de passe pour déverrouiller le disque</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Mot de passe</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Vérifiez le mot de passe et essayez à nouveau.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>Erreur BitLocker</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Contient :</value>
   </data>

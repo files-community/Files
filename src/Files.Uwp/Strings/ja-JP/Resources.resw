@@ -399,21 +399,6 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>ごみ箱に移動</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>ロック解除</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>パスワードを入力してドライブのロックを解除します</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>パスワード</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>パスワードを確認して、再試行してください。</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>BitLocker のエラーが発生しました</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>内容:</value>
   </data>

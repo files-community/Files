@@ -390,21 +390,6 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Desbloquear</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Escriba la contraseña para desbloquear esta unidad</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Contraseña</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Clave incorrecta, revisa e inténtalo de nuevo.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>Error al intentar desbloquear</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Contiene:</value>
   </data>

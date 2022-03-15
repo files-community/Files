@@ -411,21 +411,6 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>تشغيل كمسؤول</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>إلغاء تأمين</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>ادخل كلمة السر لفتح المحرك </value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>كلمة مرور</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>الرجاء التحقق من كلمة المرور والمحاولة مرة اخرة</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>BitLocker خطا</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>المحتويات:</value>
   </data>
