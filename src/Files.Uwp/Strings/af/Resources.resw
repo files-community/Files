@@ -465,21 +465,6 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Laat loop as administrateur</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ontsluit</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Tik wagwoord in om die aandrywer te ontsluit</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Wagwoord</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Kontroleer asseblief die wagwoord en probeer weer.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>BitLocker fout</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Bevat:</value>
   </data>

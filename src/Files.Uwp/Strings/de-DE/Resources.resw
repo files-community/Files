@@ -399,21 +399,6 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Dateien werden in den Papierkorb verschoben</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Entsperren</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Geben Sie das Passwort ein, um die Festplatte zu entsperren</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Passwort</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Überprüfen Sie das Passwort und versuchen Sie es erneut.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>BitLocker-Fehler</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Inhalt:</value>
   </data>

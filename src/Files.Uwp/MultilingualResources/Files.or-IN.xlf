@@ -541,26 +541,6 @@
           <source>Run as administrator</source>
           <target state="translated">ପ୍ରଶାସକ ଭାବରେ ଚଲାନ୍ତୁ</target>
         </trans-unit>
-        <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Unlock</source>
-          <target state="translated">ଅନଲକ୍ କର</target>
-        </trans-unit>
-        <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
-          <source>Enter password to unlock the drive</source>
-          <target state="translated">ଡ୍ରାଇଭକୁ ଅନଲକ୍ କରିବାକୁ ପାସୱାର୍ଡ ପ୍ରବେଶ କରନ୍ତୁ</target>
-        </trans-unit>
-        <trans-unit id="BitlockerDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Password</source>
-          <target state="translated">ପାସୱାର୍ଡ</target>
-        </trans-unit>
-        <trans-unit id="BitlockerInvalidPwDialog.Text" translate="yes" xml:space="preserve">
-          <source>Please check the password and try again.</source>
-          <target state="translated">ଦୟାକରି ପାସୱାର୍ଡ ଯାଞ୍ଚ କରନ୍ତୁ ଏବଂ ପୁନର୍ବାର ଚେଷ୍ଟା କରନ୍ତୁ |</target>
-        </trans-unit>
-        <trans-unit id="BitlockerInvalidPwDialog.Title" translate="yes" xml:space="preserve">
-          <source>BitLocker error</source>
-          <target state="translated">ବିଟଲକର ତ୍ରୁଟି</target>
-        </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
           <source>Contains:</source>
           <target state="translated">ଧାରଣ କରେ:</target>

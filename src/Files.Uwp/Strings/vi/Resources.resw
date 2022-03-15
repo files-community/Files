@@ -459,21 +459,6 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Chạy với quyền người quản trị</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Mở khóa</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Nhập vào mật khẩu để mở khóa của ổ lưu trữ.</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Mật khẩu</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Làm ơn kiểm tra mật khẩu và thử lần nữa.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>Sự lỗi về Bitlocker</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Chứa:</value>
   </data>

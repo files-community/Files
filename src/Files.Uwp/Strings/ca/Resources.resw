@@ -420,21 +420,6 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Executa com a administrador</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Desbloqueja</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Introdueix la contrasenya per desbloquejar el dispositiu</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Contrasenya</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Contrasenya incorrecta. Torna-ho a intentar.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>Error de BitLocker</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Conté:</value>
   </data>
