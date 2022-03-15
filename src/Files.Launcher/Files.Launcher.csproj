@@ -26,7 +26,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
     <PackageReference Include="Vanara.PInvoke.Mpr" Version="3.4.0" />
-    <PackageReference Include="Vanara.Windows.Shell" Version="3.3.15" />
+    <PackageReference Include="Vanara.Windows.Shell" Version="3.4.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
