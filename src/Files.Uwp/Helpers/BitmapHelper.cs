@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Files.Filesystem;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
@@ -46,9 +47,14 @@ namespace Files.Helpers
                 return;
             }
 
-            using IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.ReadWrite);
-            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream);
+            var fileStreamRes = await FilesystemTasks.Wrap(() => file.OpenAsync(FileAccessMode.ReadWrite).AsTask());
+            using IRandomAccessStream fileStream = fileStreamRes.Result;
+            if (fileStream == null)
+            {
+                return;
+            }
 
+            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream);
             using var memStream = new InMemoryRandomAccessStream();
             BitmapEncoder encoder = await BitmapEncoder.CreateForTranscodingAsync(memStream, decoder);
 
@@ -59,6 +65,7 @@ namespace Files.Helpers
             memStream.Seek(0);
             fileStream.Seek(0);
             fileStream.Size = 0;
+
             await RandomAccessStream.CopyAsync(memStream, fileStream);
         }
     }
