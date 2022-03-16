@@ -99,7 +99,6 @@
             x:Name="HorizontalTabView"
             Margin="-4,0"
             VerticalAlignment="Stretch"
-            HorizontalContentAlignment="Left"
             AddTabButtonClick="TabView_AddTabButtonClick"
             AllowDropTabs="True"
             Background="Transparent"
@@ -120,10 +119,9 @@
             <muxc:TabView.TabItemTemplate>
                 <DataTemplate x:DataType="local:TabItem">
                     <muxc:TabViewItem
-                        Padding="2,0,2,2"
                         AllowDrop="{x:Bind AllowStorageItemDrop, Mode=OneWay}"
                         ContextFlyout="{StaticResource TabFlyout}"
-                        CornerRadius="4"
+                        CornerRadius="4,4,0,0"
                         DragEnter="TabViewItem_DragEnter"
                         DragLeave="TabViewItem_DragLeave"
                         Drop="TabViewItem_Drop"
