@@ -29,7 +29,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	{
 		TCHAR debugPath[MAX_PATH];
 		wsprintf(debugPath, L"%s\\%s", pszPath, L"open_in_folder.txt");
-		_wfreopen_s(&_debugStream, debugPath, L"w", stdout);
+		//_wfreopen_s(&_debugStream, debugPath, L"w", stdout);
 		CoTaskMemFree(pszPath);
 	}
 
