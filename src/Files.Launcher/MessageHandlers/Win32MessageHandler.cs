@@ -1,4 +1,5 @@
-﻿using Files.Common;
+﻿using Files.Shared;
+using Files.Shared.Extensions;
 using FilesFullTrust.Helpers;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -150,7 +151,7 @@ namespace FilesFullTrust.MessageHandlers
                         Directory.CreateDirectory(destFolder);
                         foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.Launcher", "Assets", "FilesOpenDialog")))
                         {
-                            if (!Extensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), Program.Logger))
+                            if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), Program.Logger))
                             {
                                 // Error copying files
                                 DetectIsSetAsDefaultFileManager();
@@ -191,7 +192,7 @@ namespace FilesFullTrust.MessageHandlers
                         Directory.CreateDirectory(destFolder);
                         foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.Launcher", "Assets", "FilesOpenDialog")))
                         {
-                            if (!Extensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), Program.Logger))
+                            if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), Program.Logger))
                             {
                                 // Error copying files
                                 DetectIsSetAsOpenFileDialog();
