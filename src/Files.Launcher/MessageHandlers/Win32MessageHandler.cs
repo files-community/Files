@@ -31,7 +31,7 @@ namespace FilesFullTrust.MessageHandlers
         {
             using var subkey = Registry.ClassesRoot.OpenSubKey(@"Folder\shell\open\command");
             var command = (string)subkey?.GetValue(string.Empty);
-            ApplicationData.Current.LocalSettings.Values["IsSetAsDefaultFileManager"] = !string.IsNullOrEmpty(command) && command.Contains("files.exe");
+            ApplicationData.Current.LocalSettings.Values["IsSetAsDefaultFileManager"] = !string.IsNullOrEmpty(command) && command.Contains("FilesLauncher.exe");
         }
 
         private static void DetectIsSetAsOpenFileDialog()
