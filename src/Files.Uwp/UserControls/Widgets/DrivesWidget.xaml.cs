@@ -18,6 +18,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Files.Uwp.Helpers;
 
 namespace Files.UserControls.Widgets
 {
@@ -75,7 +76,7 @@ namespace Files.UserControls.Widgets
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-            await DriveHelpers.EjectDeviceAsync(item.Path, App.AppWindows[this.UIContext]);
+            await DriveHelpers.EjectDeviceAsync(item.Path, WindowManagementHelpers.GetWindowFromUIContext(this.XamlRoot.UIContext));
         }
 
         private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
@@ -85,7 +86,7 @@ namespace Files.UserControls.Widgets
             {
                 return;
             }
-            await NavigationHelpers.OpenPathInNewTab(item.Path);
+            await NavigationHelpers.OpenPathInNewTab(item.Path, this.XamlRoot.UIContext);
         }
 
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
@@ -117,7 +118,7 @@ namespace Files.UserControls.Widgets
             var ctrlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             if (ctrlPressed)
             {
-                await NavigationHelpers.OpenPathInNewTab(NavigationPath);
+                await NavigationHelpers.OpenPathInNewTab(NavigationPath, this.XamlRoot.UIContext);
                 return;
             }
 
@@ -136,7 +137,7 @@ namespace Files.UserControls.Widgets
                 {
                     return;
                 }
-                await NavigationHelpers.OpenPathInNewTab(navigationPath);
+                await NavigationHelpers.OpenPathInNewTab(navigationPath, this.XamlRoot.UIContext);
             }
         }
 
@@ -211,10 +212,10 @@ namespace Files.UserControls.Widgets
                 var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
                 if (matchingDrive != null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
                 {
-                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync(App.AppWindows[this.UIContext], "InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "Close".GetLocalized());
+                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetWindowContentFromUIElement(this), "InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "Close".GetLocalized());
                     if (ejectButton)
                     {
-                        await DriveHelpers.EjectDeviceAsync(matchingDrive.Path, App.AppWindows[this.UIContext]);
+                        await DriveHelpers.EjectDeviceAsync(matchingDrive.Path, WindowManagementHelpers.GetWindowContentFromUIElement(this));
                     }
                     return true;
                 }

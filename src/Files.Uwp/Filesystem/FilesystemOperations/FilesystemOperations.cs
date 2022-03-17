@@ -22,6 +22,7 @@ using FileAttributes = System.IO.FileAttributes;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs;
+using Files.Uwp.Helpers;
 
 namespace Files.Filesystem
 {
@@ -189,7 +190,7 @@ namespace Files.Filesystem
                 progress?.Report(100.0f);
 
                 // Do not paste files and folders inside the recycle bin
-                await DialogDisplayHelper.ShowDialogAsync(App.AppWindows.Values.First(),
+                await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetAnyWindow(),
                     "ErrorDialogThisActionCannotBeDone".GetLocalized(),
                     "ErrorDialogUnsupportedOperation".GetLocalized());
                 return null;
@@ -389,7 +390,7 @@ namespace Files.Filesystem
                 progress?.Report(100.0f);
 
                 // Do not paste files and folders inside the recycle bin
-                await DialogDisplayHelper.ShowDialogAsync(App.AppWindows.Values.First(),
+                await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetAnyWindow(),
                     "ErrorDialogThisActionCannotBeDone".GetLocalized(),
                     "ErrorDialogUnsupportedOperation".GetLocalized());
                 return null;
@@ -597,7 +598,7 @@ namespace Files.Filesystem
             else if (fsResult == FileSystemStatusCode.InUse)
             {
                 // TODO: retry or show dialog
-                await DialogDisplayHelper.ShowDialogAsync(App.AppWindows.Values.First(), "FileInUseDeleteDialog/Title".GetLocalized(), "FileInUseDeleteDialog/Text".GetLocalized());
+                await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetAnyWindow(), "FileInUseDeleteDialog/Title".GetLocalized(), "FileInUseDeleteDialog/Text".GetLocalized());
             }
 
             if (deleteFromRecycleBin)
@@ -716,20 +717,20 @@ namespace Files.Filesystem
                 }
                 else if (renamed == FileSystemStatusCode.NotAFile || renamed == FileSystemStatusCode.NotAFolder)
                 {
-                    await DialogDisplayHelper.ShowDialogAsync(App.AppWindows.Values.First(), "RenameError/NameInvalid/Title".GetLocalized(), "RenameError/NameInvalid/Text".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetAnyWindow(), "RenameError/NameInvalid/Title".GetLocalized(), "RenameError/NameInvalid/Text".GetLocalized());
                 }
                 else if (renamed == FileSystemStatusCode.NameTooLong)
                 {
-                    await DialogDisplayHelper.ShowDialogAsync(App.AppWindows.Values.First(), "RenameError/TooLong/Title".GetLocalized(), "RenameError/TooLong/Text".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetAnyWindow(), "RenameError/TooLong/Title".GetLocalized(), "RenameError/TooLong/Text".GetLocalized());
                 }
                 else if (renamed == FileSystemStatusCode.InUse)
                 {
                     // TODO: proper dialog, retry
-                    await DialogDisplayHelper.ShowDialogAsync(App.AppWindows.Values.First(), "FileInUseDeleteDialog/Title".GetLocalized(), "");
+                    await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetAnyWindow(), "FileInUseDeleteDialog/Title".GetLocalized(), "");
                 }
                 else if (renamed == FileSystemStatusCode.NotFound)
                 {
-                    await DialogDisplayHelper.ShowDialogAsync(App.AppWindows.Values.First(), "RenameError/ItemDeleted/Title".GetLocalized(), "RenameError/ItemDeleted/Text".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetAnyWindow(), "RenameError/ItemDeleted/Title".GetLocalized(), "RenameError/ItemDeleted/Text".GetLocalized());
                 }
                 else if (renamed == FileSystemStatusCode.AlreadyExists)
                 {
@@ -881,15 +882,15 @@ namespace Files.Filesystem
             {
                 if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.Unauthorized))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync(App.AppWindows.Values.First(), "AccessDenied".GetLocalized(), "AccessDeniedDeleteDialog/Text".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetAnyWindow(), "AccessDenied".GetLocalized(), "AccessDeniedDeleteDialog/Text".GetLocalized());
                 }
                 else if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.Unauthorized))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync(App.AppWindows.Values.First(), "FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetAnyWindow(), "FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 }
                 else if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.AlreadyExists))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync(App.AppWindows.Values.First(), "ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetAnyWindow(), "ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
                 }
             }
 

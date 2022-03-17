@@ -1,4 +1,5 @@
 ﻿using Files.Shared;
+using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -35,9 +36,17 @@ namespace Files.Helpers
         {
             List<Popup> openedDialogs = new List<Popup>();
 
+            if (Window.Current != null)
+            {
+                foreach (Popup p in VisualTreeHelper.GetOpenPopupsForXamlRoot(Window.Current.Content.XamlRoot))
+                {
+                    openedDialogs.Add(p);
+                }
+            }
+
             foreach (AppWindow window in App.AppWindows.Values)
             {
-                foreach(Popup p in VisualTreeHelper.GetOpenPopupsForXamlRoot(ElementCompositionPreview.GetAppWindowContent(window).XamlRoot))
+                foreach(Popup p in VisualTreeHelper.GetOpenPopupsForXamlRoot(WindowManagementHelpers.GetWindowContentFromUIContext(window.UIContext).XamlRoot))
                 {
                     openedDialogs.Add(p);
                 }

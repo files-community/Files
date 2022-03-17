@@ -46,6 +46,7 @@ using FileAttributes = System.IO.FileAttributes;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs;
 using System.Text;
+using Files.Uwp.Helpers;
 
 namespace Files.ViewModels
 {
@@ -1520,21 +1521,21 @@ namespace Files.ViewModels
                 else if (res == FileSystemStatusCode.Unauthorized)
                 {
                     //TODO: proper dialog
-                    await DialogDisplayHelper.ShowDialogAsync(App.AppWindows.Values.First(),
+                    await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetAnyWindow(),
                         "AccessDenied".GetLocalized(),
                         "SubDirectoryAccessDenied".GetLocalized());
                     return -1;
                 }
                 else if (res == FileSystemStatusCode.NotFound)
                 {
-                    await DialogDisplayHelper.ShowDialogAsync(App.AppWindows.Values.First(),
+                    await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetAnyWindow(),
                         "FolderNotFoundDialog/Title".GetLocalized(),
                         "FolderNotFoundDialog/Text".GetLocalized());
                     return -1;
                 }
                 else
                 {
-                    await DialogDisplayHelper.ShowDialogAsync(App.AppWindows.Values.First(), "DriveUnpluggedDialog/Title".GetLocalized(), res.ErrorCode.ToString());
+                    await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetAnyWindow(), "DriveUnpluggedDialog/Title".GetLocalized(), res.ErrorCode.ToString());
                     return -1;
                 }
             }
@@ -1633,7 +1634,7 @@ namespace Files.ViewModels
 
                 if (hFile == IntPtr.Zero)
                 {
-                    await DialogDisplayHelper.ShowDialogAsync(App.AppWindows.Values.First(), "DriveUnpluggedDialog/Title".GetLocalized(), "");
+                    await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetAnyWindow(), "DriveUnpluggedDialog/Title".GetLocalized(), "");
                     return -1;
                 }
                 else if (hFile.ToInt64() == -1)

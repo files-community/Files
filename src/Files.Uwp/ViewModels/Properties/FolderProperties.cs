@@ -14,6 +14,7 @@ using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Core;
+using Files.Uwp.Helpers;
 
 namespace Files.ViewModels.Properties
 {
@@ -63,7 +64,7 @@ namespace Files.ViewModels.Properties
                     ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
                     {
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(
-                            () => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath)));
+                            () => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath), WindowManagementHelpers.GetWindowContent().XamlRoot.UIContext));
                     }, () =>
                     {
                         return !string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath);

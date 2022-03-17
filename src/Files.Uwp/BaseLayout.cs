@@ -38,6 +38,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using static Files.Helpers.PathNormalization;
 using Windows.UI.Xaml.Hosting;
+using Files.Uwp.Helpers;
 
 namespace Files
 {
@@ -101,7 +102,7 @@ namespace Files
             }
         }
 
-        protected NavigationToolbar NavToolbar => ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).FindDescendant<NavigationToolbar>();
+        protected NavigationToolbar NavToolbar => WindowManagementHelpers.GetWindowContentFromUIElement(this).FindDescendant<NavigationToolbar>();
 
         private CollectionViewSource collectionViewSource = new CollectionViewSource()
         {
@@ -241,7 +242,7 @@ namespace Files
                         // check if the preview pane is open before updating the model
                         if (PaneViewModel.IsPreviewSelected)
                         {
-                            bool isPaneEnabled = ((ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]) as Frame)?.Content as MainPage)?.IsPaneEnabled ?? false;
+                            bool isPaneEnabled = ((WindowManagementHelpers.GetWindowContentFromUIElement(this) as Frame)?.Content as MainPage)?.IsPaneEnabled ?? false;
                             if (isPaneEnabled)
                             {
                                 App.PreviewPaneViewModel.UpdateSelectedItemPreview();
@@ -739,17 +740,17 @@ namespace Files
             var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
             var mainItems = ItemModelListToContextFlyoutHelper.GetAppBarButtonsFromModelIgnorePrimary(mainShellMenuItems);
 
-            var openedPopups = Windows.UI.Xaml.Media.VisualTreeHelper.GetOpenPopupsForXamlRoot(ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot);
+            var openedPopups = Windows.UI.Xaml.Media.VisualTreeHelper.GetOpenPopupsForXamlRoot(this.XamlRoot);
             var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
             var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
             if (itemsControl is not null)
             {
                 contextMenuFlyout.SetValue(ContextMenuExtensions.ItemsControlProperty, itemsControl);
 
-                var ttv = secondaryMenu.TransformToVisual(ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]));
+                var ttv = secondaryMenu.TransformToVisual(WindowManagementHelpers.GetWindowContentFromUIElement(this));
                 var cMenuPos = ttv.TransformPoint(new Point(0, 0));
                 var requiredHeight = contextMenuFlyout.SecondaryCommands.Concat(mainItems).Where(x => x is not AppBarSeparator).Count() * Constants.UI.ContextMenuSecondaryItemsHeight;
-                var availableHeight = ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Size.Height - cMenuPos.Y - Constants.UI.ContextMenuPrimaryItemsHeight;
+                var availableHeight = this.XamlRoot.Size.Height - cMenuPos.Y - Constants.UI.ContextMenuPrimaryItemsHeight;
                 if (requiredHeight > availableHeight)
                 {
                     itemsControl.MaxHeight = Math.Min(Constants.UI.ContextMenuMaxHeight, Math.Max(itemsControl.ActualHeight, Math.Min(availableHeight, requiredHeight))); // Set menu max height to current height (avoids menu repositioning)

@@ -7,13 +7,16 @@ using Windows.UI.Xaml.Controls;
 using System.Threading.Tasks;
 using Files.Shared.Enums;
 using Windows.UI.Xaml;
+using Windows.UI;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Files.Dialogs
 {
-    public sealed partial class AddItemDialog : ContentDialog, IDialog<AddItemDialogViewModel>
+    public sealed partial class AddItemDialog : ContentDialog, IDialog<AddItemDialogViewModel>, IDialogWithUIContext
     {
+        public UIContext Context { get; set; }
+
         public AddItemDialogViewModel ViewModel
         {
             get => (AddItemDialogViewModel)DataContext;

@@ -32,6 +32,7 @@ using SearchBox = Files.UserControls.SearchBox;
 using SortDirection = Files.Shared.Enums.SortDirection;
 using Files.Shared.EventArguments;
 using Windows.UI.Xaml.Hosting;
+using Files.Uwp.Helpers;
 
 namespace Files.ViewModels
 {
@@ -47,9 +48,11 @@ namespace Files.ViewModels
 
         public delegate void ToolbarPathItemLoadedEventHandler(object sender, ToolbarPathItemLoadedEventArgs e);
 
+        public delegate void PathBoxItemDroppedEventHandler(object sender, PathBoxItemDroppedEventArgs e);
+
         public delegate void AddressBarTextEnteredEventHandler(object sender, AddressBarTextEnteredEventArgs e);
 
-        public delegate void PathBoxItemDroppedEventHandler(object sender, PathBoxItemDroppedEventArgs e);
+        public event AddressBarTextEnteredEventHandler AddressBarTextEntered;
 
         public event ToolbarPathItemInvokedEventHandler ToolbarPathItemInvoked;
 
@@ -62,8 +65,6 @@ namespace Files.ViewModels
         public event EventHandler EditModeEnabled;
 
         public event ToolbarQuerySubmittedEventHandler PathBoxQuerySubmitted;
-
-        public event AddressBarTextEnteredEventHandler AddressBarTextEntered;
 
         public event PathBoxItemDroppedEventHandler PathBoxItemDropped;
 
@@ -327,8 +328,6 @@ namespace Files.ViewModels
             }
         }
 
-        private PointerRoutedEventArgs pointerRoutedEventArgs;
-
         public NavToolbarViewModel()
         {
             BackClickCommand = new RelayCommand<RoutedEventArgs>(e => BackRequested?.Invoke(this, EventArgs.Empty));
@@ -354,6 +353,14 @@ namespace Files.ViewModels
                     OnPropertyChanged(e.SettingName);
                     break;
             }
+        }
+
+        public void TriggerAddressBarTextEntry(MainPage mp)
+        {
+            AddressBarTextEntered?.Invoke(this, new AddressBarTextEnteredEventArgs()
+            {
+                AddressBarTextField = mp.FocusVisiblePath()
+            });
         }
 
         private DispatcherQueueTimer dragOverTimer;
@@ -426,6 +433,14 @@ namespace Files.ViewModels
                 // Reset dragged over pathbox item
                 dragOverPath = null;
             }
+        }
+
+        public void TriggerToolbarPathItemInvoked(string itemTappedPath)
+        {
+            ToolbarPathItemInvoked?.Invoke(this, new PathNavigationEventArgs()
+            {
+                ItemPath = itemTappedPath
+            });
         }
 
         private bool lockFlag = false;
@@ -551,13 +566,7 @@ namespace Files.ViewModels
             {
                 if (value)
                 {
-                    EditModeEnabled?.Invoke(this, EventArgs.Empty);
-
-                    var visiblePath = NavToolbar.FindDescendant<AutoSuggestBox>(x => x.Name == "VisiblePath");
-                    visiblePath?.Focus(FocusState.Programmatic);
-                    visiblePath?.FindDescendant<TextBox>()?.SelectAll();
-
-                    AddressBarTextEntered?.Invoke(this, new AddressBarTextEnteredEventArgs() { AddressBarTextField = visiblePath });
+                    EditModeEnabled?.Invoke(this, EventArgs.Empty); 
                 }
                 else
                 {
@@ -630,44 +639,11 @@ namespace Files.ViewModels
             (this as INavigationToolbar).IsEditModeEnabled = false;
         }
 
-        public void PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
-            {
-                Windows.UI.Input.PointerPoint ptrPt = e.GetCurrentPoint(NavToolbar);
-                if (ptrPt.Properties.IsMiddleButtonPressed)
-                {
-                    pointerRoutedEventArgs = e;
-                }
-                else
-                {
-                    pointerRoutedEventArgs = null;
-                }
-            }
-        }
-
-        public async void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            var itemTappedPath = ((sender as TextBlock).DataContext as PathBoxItem).Path;
-
-            if (pointerRoutedEventArgs != null)
-            {
-                await Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
-                {
-                    await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
-                });
-                e.Handled = true;
-                pointerRoutedEventArgs = null;
-                return;
-            }
-
-            ToolbarPathItemInvoked?.Invoke(this, new PathNavigationEventArgs()
-            {
-                ItemPath = itemTappedPath
-            });
-        }
-
-        public void SwitchSearchBoxVisibility()
+        /// <summary>
+        /// Toggles visibility of the navigation toolbar search box
+        /// </summary>
+        /// <returns>true when the control becomes Visible, false if hidden from view</returns>
+        public bool SwitchSearchBoxVisibility()
         {
             if (IsSearchBoxVisible)
             {
@@ -677,13 +653,9 @@ namespace Files.ViewModels
             else
             {
                 IsSearchBoxVisible = true;
-
-                // Given that binding and layouting might take a few cycles, when calling UpdateLayout
-                // we can guarantee that the focus call will be able to find an open ASB
-                var searchbox = NavToolbar.FindDescendant("SearchRegion") as SearchBox;
-                searchbox?.UpdateLayout();
-                searchbox?.Focus(FocusState.Programmatic);
             }
+
+            return IsSearchBoxVisible;
         }
 
         public void UpdateAdditionnalActions()
@@ -691,8 +663,6 @@ namespace Files.ViewModels
             OnPropertyChanged(nameof(HasAdditionalAction));
             OnPropertyChanged(nameof(CanEmptyRecycleBin));
         }
-
-        private NavigationToolbar NavToolbar => ElementCompositionPreview.GetAppWindowContent(App.AppWindows.Values.First()).FindDescendant<NavigationToolbar>();
 
         #region WidgetsPage Widgets
 
@@ -924,10 +894,10 @@ namespace Files.ViewModels
                         var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
                         if (matchingDrive != null && matchingDrive.Type == DataModels.NavigationControlItems.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
                         {
-                            bool ejectButton = await DialogDisplayHelper.ShowDialogAsync(App.AppWindows[NavToolbar.UIContext], "InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "Close".GetLocalized());
+                            bool ejectButton = await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetWindowFromUIContext(((Page)shellPage).XamlRoot.UIContext), "InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "Close".GetLocalized());
                             if (ejectButton)
                             {
-                                await DriveHelpers.EjectDeviceAsync(matchingDrive.Path, App.AppWindows[NavToolbar.UIContext]);
+                                await DriveHelpers.EjectDeviceAsync(matchingDrive.Path, WindowManagementHelpers.GetWindowFromUIContext(((Page)shellPage).XamlRoot.UIContext));
                             }
                             return;
                         }
@@ -984,13 +954,13 @@ namespace Files.ViewModels
                             {
                                 if (!await Launcher.LaunchUriAsync(new Uri(currentInput)))
                                 {
-                                    await DialogDisplayHelper.ShowDialogAsync(App.AppWindows[NavToolbar.UIContext], "InvalidItemDialogTitle".GetLocalized(),
+                                    await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetWindowFromUIContext(((Page)shellPage).XamlRoot.UIContext), "InvalidItemDialogTitle".GetLocalized(),
                                         string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, resFolder.ErrorCode.ToString()));
                                 }
                             }
                             catch (Exception ex) when (ex is UriFormatException || ex is ArgumentException)
                             {
-                                await DialogDisplayHelper.ShowDialogAsync(App.AppWindows[NavToolbar.UIContext], "InvalidItemDialogTitle".GetLocalized(),
+                                await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetWindowFromUIContext(((Page)shellPage).XamlRoot.UIContext), "InvalidItemDialogTitle".GetLocalized(),
                                     string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, resFolder.ErrorCode.ToString()));
                             }
                         }

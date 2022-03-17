@@ -40,7 +40,7 @@ namespace Files.UserControls
 
         public event EventHandler RefreshWidgetsRequested;
 
-        public void SwitchSearchBoxVisibility();
+        public bool SwitchSearchBoxVisibility();
 
         public ISearchBox SearchBox { get; }
     }

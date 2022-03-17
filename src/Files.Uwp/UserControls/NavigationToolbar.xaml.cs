@@ -1,5 +1,8 @@
 using Files.Helpers.XamlHelpers;
+using Files.Uwp.Helpers;
 using Files.ViewModels;
+using Files.Views;
+using Microsoft.Toolkit.Uwp;
 using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -75,7 +78,13 @@ namespace Files.UserControls
                 }
             }
             ViewModel.IsEditModeEnabled = true;
+            if (WindowManagementHelpers.GetWindowContentFromUIElement(this) is MainPage mainPage)
+            {
+                ViewModel.TriggerAddressBarTextEntry(mainPage);
+            }
         }
+
+        
 
         private void VisiblePath_KeyDown(object sender, KeyRoutedEventArgs e)
         {
@@ -113,7 +122,18 @@ namespace Files.UserControls
             }
         }
 
-        private void SearchButton_Click(object sender, RoutedEventArgs e) => ViewModel.SwitchSearchBoxVisibility();
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            bool isVisible = ViewModel.SwitchSearchBoxVisibility();
+
+            if (isVisible && WindowManagementHelpers.GetWindowContentFromUIElement(this) is MainPage mp)
+            {
+                // Given that binding and layouting might take a few cycles, when calling UpdateLayout
+                // we can guarantee that the focus call will be able to find an open ASB
+                // (Refer to MainPage.xaml)
+                mp.FocusSearchBox();
+            }
+        }
 
         private void SearchBox_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args) => ViewModel.CloseSearchBox();
 

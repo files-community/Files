@@ -4,14 +4,17 @@ using Files.Shared.Enums;
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Xaml.Controls;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Files.Dialogs
 {
-    public sealed partial class CredentialDialog : ContentDialog, IDialog<CredentialDialogViewModel>
+    public sealed partial class CredentialDialog : ContentDialog, IDialog<CredentialDialogViewModel>, IDialogWithUIContext
     {
+        public UIContext Context { get; set; }
+
         public CredentialDialogViewModel ViewModel
         {
             get => (CredentialDialogViewModel)DataContext;

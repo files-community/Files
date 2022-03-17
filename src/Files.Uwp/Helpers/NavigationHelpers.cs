@@ -19,14 +19,20 @@ using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.UI;
+using Windows.UI.Xaml.Controls;
+using Files.Uwp.Helpers;
 
 namespace Files.Helpers
 {
     public static class NavigationHelpers
     {
-        public static async Task OpenPathInNewTab(string path)
+        public static async Task OpenPathInNewTab(string path, UIContext context)
         {
-            await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
+            if (WindowManagementHelpers.GetWindowContentFromUIContext(context) is MainPage mp)
+            {
+                await mp.ViewModel.MultitaskingControl.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
+            }
         }
 
         public static async Task<bool> OpenPathInNewWindowAsync(string path)
@@ -223,7 +229,7 @@ namespace Files.Helpers
 
             if (opened.ErrorCode == FileSystemStatusCode.NotFound && !openSilent)
             {
-                await DialogDisplayHelper.ShowDialogAsync(App.AppWindows[((ModernShellPage)associatedInstance).XamlRoot.UIContext], "FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
+                await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetWindowFromUIContext(((ModernShellPage)associatedInstance).XamlRoot.UIContext), "FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 associatedInstance.NavToolbarViewModel.CanRefresh = false;
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
@@ -245,7 +251,7 @@ namespace Files.Helpers
             {
                 if (forceOpenInNewTab || userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
                 {
-                    await OpenPathInNewTab(path);
+                    await OpenPathInNewTab(path, ((Page)associatedInstance).XamlRoot.UIContext);
                 }
                 else
                 {
@@ -265,7 +271,7 @@ namespace Files.Helpers
                 {
                     if (forceOpenInNewTab || userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
                     {
-                        await OpenPathInNewTab(library.Text);
+                        await OpenPathInNewTab(library.Text, ((Page)associatedInstance).XamlRoot.UIContext);
                     }
                     else
                     {
@@ -301,7 +307,7 @@ namespace Files.Helpers
                 {
                     if (forceOpenInNewTab || userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
                     {
-                        await OpenPathInNewTab(shortcutInfo.TargetPath);
+                        await OpenPathInNewTab(shortcutInfo.TargetPath, ((Page)associatedInstance).XamlRoot.UIContext);
                     }
                     else
                     {
@@ -321,7 +327,7 @@ namespace Files.Helpers
             {
                 if (forceOpenInNewTab || userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
                 {
-                    await OpenPathInNewTab(path);
+                    await OpenPathInNewTab(path, ((Page)associatedInstance).XamlRoot.UIContext);
                 }
                 else
                 {
@@ -355,7 +361,7 @@ namespace Files.Helpers
                 {
                     if (forceOpenInNewTab || userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
                     {
-                        await OpenPathInNewTab(path);
+                        await OpenPathInNewTab(path, ((Page)associatedInstance).XamlRoot.UIContext);
                     }
                     else
                     {

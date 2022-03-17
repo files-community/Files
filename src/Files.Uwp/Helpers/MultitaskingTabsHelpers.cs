@@ -14,7 +14,7 @@ namespace Files.Helpers
         {
             if (multitaskingControl is not null)
             {
-                var tabs = MainPageViewModel.AppInstances;
+                var tabs = multitaskingControl.Items;
                 var currentIndex = tabs.IndexOf(clickedTab);
 
                 tabs.Take(currentIndex).ToList().ForEach(tab => multitaskingControl.CloseTab(tab));
@@ -25,7 +25,7 @@ namespace Files.Helpers
         {
             if (multitaskingControl is not null)
             {
-                var tabs = MainPageViewModel.AppInstances;
+                var tabs = multitaskingControl.Items;
                 var currentIndex = tabs.IndexOf(clickedTab);
 
                 tabs.Skip(currentIndex + 1).ToList().ForEach(tab => multitaskingControl.CloseTab(tab));
@@ -36,17 +36,17 @@ namespace Files.Helpers
         {
             if (multitaskingControl is not null)
             {
-                var tabs = MainPageViewModel.AppInstances;
+                var tabs = multitaskingControl.Items;
                 tabs.Where((t) => t != clickedTab).ToList().ForEach(tab => multitaskingControl.CloseTab(tab));
             }
         }
 
         public static async Task MoveTabToNewWindow(TabItem tab, IMultitaskingControl multitaskingControl)
         {
-            int index = MainPageViewModel.AppInstances.IndexOf(tab);
-            TabItemArguments tabItemArguments = MainPageViewModel.AppInstances[index].TabItemArguments;
+            int index = multitaskingControl.Items.IndexOf(tab);
+            TabItemArguments tabItemArguments = multitaskingControl.Items[index].TabItemArguments;
 
-            multitaskingControl?.CloseTab(MainPageViewModel.AppInstances[index]);
+            multitaskingControl?.CloseTab(multitaskingControl.Items[index]);
 
             if (tabItemArguments != null)
             {
@@ -56,27 +56,6 @@ namespace Files.Helpers
             {
                 await NavigationHelpers.OpenPathInNewWindowAsync("Home".GetLocalized());
             }
-        }
-
-        public static async Task AddNewTab(Type type, string tabViewItemArgs, int atIndex = -1)
-        {
-            FontIconSource fontIconSource = new FontIconSource();
-            fontIconSource.FontFamily = App.MainViewModel.FontName;
-
-            TabItem tabItem = new TabItem()
-            {
-                Header = null,
-                IconSource = fontIconSource,
-                Description = null
-            };
-            tabItem.Control.NavigationArguments = new TabItemArguments()
-            {
-                InitialPageType = type,
-                NavigationArg = tabViewItemArgs
-            };
-            tabItem.Control.ContentChanged += MainPageViewModel.Control_ContentChanged;
-            await MainPageViewModel.UpdateTabInfo(tabItem, tabViewItemArgs);
-            MainPageViewModel.AppInstances.Insert(atIndex == -1 ? MainPageViewModel.AppInstances.Count : atIndex, tabItem);
         }
     }
 }

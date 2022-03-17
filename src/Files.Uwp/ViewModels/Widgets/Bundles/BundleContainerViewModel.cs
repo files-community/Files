@@ -21,6 +21,7 @@ using Windows.Storage.Pickers;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI;
 
 namespace Files.ViewModels.Widgets.Bundles
 {
@@ -40,6 +41,8 @@ namespace Files.ViewModels.Widgets.Bundles
         private bool itemAddedInternally;
 
         private int internalCollectionCount;
+
+        private UIContext context;
 
         #endregion Private Members
 
@@ -110,10 +113,11 @@ namespace Files.ViewModels.Widgets.Bundles
 
         #region Constructor
 
-        public BundleContainerViewModel()
+        public BundleContainerViewModel(UIContext context)
         {
             internalCollectionCount = Contents.Count;
             Contents.CollectionChanged += Contents_CollectionChanged;
+            this.context = context;
 
             // Create commands
             RemoveBundleCommand = new RelayCommand(RemoveBundle);
@@ -445,7 +449,7 @@ namespace Files.ViewModels.Widgets.Bundles
             // Make sure we don't exceed maximum amount && make sure we don't make duplicates
             if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle && !Contents.Any((item) => item.Path == path))
             {
-                return await AddBundleItem(new BundleItemViewModel(path, itemType)
+                return await AddBundleItem(new BundleItemViewModel(path, itemType, context)
                 {
                     ParentBundleName = BundleName,
                     NotifyItemRemoved = NotifyItemRemovedHandle,
@@ -459,7 +463,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
         private async Task<bool> AddItemsFromPath(IDictionary<string, FilesystemItemType> paths)
         {
-            return await AddBundleItems(paths.Select((item) => new BundleItemViewModel(item.Key, item.Value)
+            return await AddBundleItems(paths.Select((item) => new BundleItemViewModel(item.Key, item.Value, context)
             {
                 ParentBundleName = BundleName,
                 NotifyItemRemoved = NotifyItemRemovedHandle,

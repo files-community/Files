@@ -22,6 +22,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Files.Uwp.Helpers;
 
 namespace Files.ViewModels.Properties
 {
@@ -88,7 +89,7 @@ namespace Files.ViewModels.Properties
                         else
                         {
                             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(
-                                () => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath)));
+                                () => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath), WindowManagementHelpers.GetWindowContent().XamlRoot.UIContext));
                         }
                     }, () =>
                     {

@@ -81,7 +81,7 @@ namespace Files.Views
 
         public bool IsMultiPaneEnabled
         {
-            get => UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled && !(ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Size.Width <= 750);
+            get => UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled && !(this.XamlRoot.Size.Width <= 750);
         }
 
         private NavigationParams navParamsLeft;
@@ -209,13 +209,13 @@ namespace Files.Views
         private void PaneHolderPage_Loaded(object sender, RoutedEventArgs e)
         {
             this.IsRightPaneVisible = IsMultiPaneEnabled && UserSettingsService.MultitaskingSettingsService.AlwaysOpenDualPaneInNewTab;
-            _windowIsCompact = ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Size.Width <= 750;
-            ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Changed += XamlRoot_Changed;
+            _windowIsCompact = this.XamlRoot.Size.Width <= 750;
+            this.XamlRoot.Changed += XamlRoot_Changed;
         }
 
         private void XamlRoot_Changed(XamlRoot sender, XamlRootChangedEventArgs args)
         {
-            windowIsCompact = ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Size.Width <= 750;
+            windowIsCompact = this.XamlRoot.Size.Width <= 750;
         }
 
         private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
@@ -370,7 +370,7 @@ namespace Files.Views
         public void Dispose()
         {
             UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
-            ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Changed -= XamlRoot_Changed;
+            this.XamlRoot.Changed -= XamlRoot_Changed;
             PaneLeft?.Dispose();
             PaneRight?.Dispose();
         }

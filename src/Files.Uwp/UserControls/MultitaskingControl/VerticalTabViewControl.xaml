@@ -78,7 +78,7 @@
             FontWeight="Medium"
             Text="Open tabs" />
         <muxc:TabView
-            x:Name="VerticalTabView"
+            x:Name="TabControl"
             Grid.Row="1"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"

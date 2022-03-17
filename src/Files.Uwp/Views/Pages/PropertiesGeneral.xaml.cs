@@ -8,6 +8,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
+using Files.Uwp.Helpers;
 
 namespace Files.Views
 {
@@ -56,7 +57,7 @@ namespace Files.Views
                     if (AppInstance.FilesystemViewModel != null && App.LibraryManager.CanCreateLibrary(newName).result)
                     {
                         var libraryPath = library.ItemPath;
-                        var renamed = await AppInstance.FilesystemHelpers.RenameAsync(new StorageFileWithPath(null, libraryPath), $"{newName}{ShellLibraryItem.EXTENSION}", Windows.Storage.NameCollisionOption.FailIfExists, false, App.AppWindows[this.UIContext]);
+                        var renamed = await AppInstance.FilesystemHelpers.RenameAsync(new StorageFileWithPath(null, libraryPath), $"{newName}{ShellLibraryItem.EXTENSION}", Windows.Storage.NameCollisionOption.FailIfExists, false, WindowManagementHelpers.GetWindowFromUIContext(this.XamlRoot.UIContext));
                         if (renamed == ReturnResult.Success)
                         {
                             var newPath = Path.Combine(Path.GetDirectoryName(libraryPath), $"{newName}{ShellLibraryItem.EXTENSION}");

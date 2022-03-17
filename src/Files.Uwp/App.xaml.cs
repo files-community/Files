@@ -231,12 +231,15 @@ namespace Files
             bool canEnablePrelaunch = ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
-            await InitializeAppComponentsAsync();
+            _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
+
+            WindowDecorationsHelper.RequestWindowDecorationsAccess();
+
             Frame rootFrame = new Frame();
             // Use the Frame to act as the navigation context and navigate to the first page
             rootFrame.NavigationFailed += OnNavigationFailed;
 
-            if (e.PrelaunchActivated == false)
+            if (!e.PrelaunchActivated)
             {
                 if (canEnablePrelaunch)
                 {
@@ -245,6 +248,8 @@ namespace Files
 
                 if (rootFrame.Content == null)
                 {
+                    Window.Current.Content = rootFrame;
+
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
@@ -252,32 +257,21 @@ namespace Files
                 }
                 else
                 {
-                    if (!(string.IsNullOrEmpty(e.Arguments) && MainPageViewModel.AppInstances.Count > 0))
+                    var rootFrameContent = rootFrame.Content as MainPage;
+                    if (!(string.IsNullOrEmpty(e.Arguments) && rootFrameContent.ViewModel.TabInstances.Count > 0))
                     {
-                        await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
+                        await rootFrameContent.ViewModel.MultitaskingControl.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
                     }
                 }
 
-                if (await CreateNewAppWindowAsync(rootFrame))
-                {
-                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
-                }
-                else
-                {
-                    Window.Current.Activate();
-                }
-
-                ShowErrorNotification = true;
-                ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
-                if (MainViewModel != null)
-                {
-                    MainViewModel.Clipboard_ContentChanged(null, null);
-                }
+                Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+                Window.Current.Activate();
             }
             else
             {
                 if (rootFrame.Content == null)
                 {
+                    Window.Current.Content = rootFrame;
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
@@ -285,14 +279,14 @@ namespace Files
                 }
                 else
                 {
-                    if (!(string.IsNullOrEmpty(e.Arguments) && MainPageViewModel.AppInstances.Count > 0))
+                    var rootFrameContent = rootFrame.Content as MainPage;
+
+                    if (!(string.IsNullOrEmpty(e.Arguments) && rootFrameContent.ViewModel.TabInstances.Count > 0))
                     {
-                        await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
+                        await rootFrameContent.ViewModel.MultitaskingControl.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
                     }
                 }
             }
-
-            //WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
 
         protected override async void OnFileActivated(FileActivatedEventArgs e)
@@ -305,6 +299,8 @@ namespace Files
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
             _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
+            
+            WindowDecorationsHelper.RequestWindowDecorationsAccess();
             Frame rootFrame = new Frame();
             // Use the Frame to act as the navigation context and navigate to the first page
             rootFrame.NavigationFailed += OnNavigationFailed;
@@ -318,45 +314,51 @@ namespace Files
                 rootFrame.Navigate(typeof(MainPage), e.Files.First().Path);
                 index = 1;
             }
+
+            var rootFrameContent = rootFrame.Content as MainPage;
+
             for (; index < e.Files.Count; index++)
             {
-                await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Files[index].Path);
+                await rootFrameContent.ViewModel.MultitaskingControl.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Files[index].Path);
             }
 
-            if (await CreateNewAppWindowAsync(rootFrame))
-            {
-                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
-            }
-            else
-            {
-                Window.Current.Activate();
-            }
-
-            // WindowDecorationsHelper.RequestWindowDecorationsAccess();
+            Window.Current.Content = rootFrame;
+            Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+            Window.Current.Activate();
         }
 
         public static async Task<bool> CreateNewAppWindowForPathAsync(string path)
         {
             Frame frame = new Frame();
+            var w = await CreateNewAppWindowAsync(frame);
             frame.Navigate(typeof(MainPage), path, new SuppressNavigationTransitionInfo());
-            return await CreateNewAppWindowAsync(frame);
+            return w;
         }
 
-        private static async Task<bool> CreateNewAppWindowAsync(Frame rootFrame)
+        private static async Task<bool> CreateNewAppWindowAsync(Frame rootFrame, bool createHidden = false)
         {
             AppWindow window = await AppWindow.TryCreateAsync();
             window.Closed += delegate
             {
                 AppWindows.Remove(window.UIContext);
+                rootFrame.Content = null;
+                window = null;
             };
 
             // Attach the XAML content to the window.
             ElementCompositionPreview.SetAppWindowContent(window, rootFrame);
 
             window.TitleBar.ExtendsContentIntoTitleBar = true;
-            AppWindows.Add(rootFrame.UIContext, window);
-            
-            return await window.TryShowAsync();
+            AppWindows.Add(rootFrame.XamlRoot.UIContext, window);
+
+            if (createHidden)
+            {
+                return true;
+            }
+            else
+            {
+                return await window.TryShowAsync();
+            }
         }
 
         private void CoreWindow_Activated(CoreWindow sender, WindowActivatedEventArgs args)
@@ -380,6 +382,8 @@ namespace Files
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
             _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
+            
+            WindowDecorationsHelper.RequestWindowDecorationsAccess();
             Frame rootFrame = new Frame();
             // Use the Frame to act as the navigation context and navigate to the first page
             rootFrame.NavigationFailed += OnNavigationFailed;
@@ -413,23 +417,7 @@ namespace Files
                                 break;
                         }
                     }
-
-                    if (await CreateNewAppWindowAsync(rootFrame))
-                    {
-                        await ApplicationView.GetForCurrentView().TryConsolidateAsync();
-                    }
-                    else
-                    {
-                        Window.Current.Activate();
-                    }
-                    
-                    ShowErrorNotification = true;
-                    ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
-                    if (MainViewModel != null)
-                    {
-                        MainViewModel.Clipboard_ContentChanged(null, null);
-                    }
-                    return;
+                    break;
 
                 case ActivationKind.CommandLineLaunch:
                     var cmdLineArgs = args as CommandLineActivatedEventArgs;
@@ -457,9 +445,9 @@ namespace Files
                                 LeftPaneNavPathParam = payload,
                                 LeftPaneSelectItemParam = selectItem,
                             };
-                            if (rootFrame.Content != null)
+                            if (rootFrame.Content is MainPage mp)
                             {
-                                await MainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs.ToString());
+                                await mp.ViewModel.MultitaskingControl.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs.ToString());
                             }
                             else
                             {
@@ -508,26 +496,6 @@ namespace Files
                                     break;
                             }
                         }
-
-                        if (rootFrame.Content != null)
-                        {
-                            if (await CreateNewAppWindowAsync(rootFrame))
-                            {
-                                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
-                            }
-                            else
-                            {
-                                Window.Current.Activate();
-                            }
-
-                            ShowErrorNotification = true;
-                            ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
-                            if (MainViewModel != null)
-                            {
-                                MainViewModel.Clipboard_ContentChanged(null, null);
-                            }
-                            return;
-                        }
                     }
                     break;
 
@@ -537,30 +505,15 @@ namespace Files
                     {
                         await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.FeedbackUrl));
                     }
-                    break;
+                    return;
 
                 case ActivationKind.StartupTask:
                     break;
             }
 
-            rootFrame.Navigate(typeof(MainPage));
-            if (await CreateNewAppWindowAsync(rootFrame))
-            {
-                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
-            }
-            else
-            {
-                Window.Current.Activate();
-            }
-
-            ShowErrorNotification = true;
-            ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
-            if (MainViewModel != null)
-            {
-                MainViewModel.Clipboard_ContentChanged(null, null);
-            }
-
-            //WindowDecorationsHelper.RequestWindowDecorationsAccess();
+            Window.Current.Content = rootFrame;
+            Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+            Window.Current.Activate();
         }
 
         private void TryEnablePrelaunch()
@@ -596,17 +549,21 @@ namespace Files
             {
                 await SafetyExtensions.IgnoreExceptions(async () =>
                 {
-                    var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
-                    if (instance == null)
+                    if (Window.Current.Content is MainPage mp)
                     {
-                        return;
+                        var instance = mp.ViewModel.TabInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
+                        if (instance == null)
+                        {
+                            return;
+                        }
+                        var items = (instance.Control.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
+                        if (items == null)
+                        {
+                            return;
+                        }
+
+                        await FileIO.WriteLinesAsync(await StorageFile.GetFileFromPathAsync(OutputPath), items.Select(x => x.ItemPath));
                     }
-                    var items = (instance.Control.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
-                    if (items == null)
-                    {
-                        return;
-                    }
-                    await FileIO.WriteLinesAsync(await StorageFile.GetFileFromPathAsync(OutputPath), items.Select(x => x.ItemPath));
                 }, Logger);
             }
 
@@ -639,9 +596,9 @@ namespace Files
             {
                 bundlesSettingsService.FlushSettings();
             }
-            if (userSettingsService?.PreferencesSettingsService != null)
+            if (userSettingsService?.PreferencesSettingsService != null && Window.Current.Content is MainPage mp)
             {
-                userSettingsService.PreferencesSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
+                userSettingsService.PreferencesSettingsService.LastSessionTabList = mp.ViewModel.TabInstances.DefaultIfEmpty().Select(tab =>
                 {
                     if (tab != null && tab.TabItemArguments != null)
                     {
@@ -752,6 +709,11 @@ namespace Files
 
         public static async void CloseApp()
         {
+            foreach(AppWindow w in AppWindows.Values)
+            {
+                await w.CloseAsync();
+            }
+
             if (!await ApplicationView.GetForCurrentView().TryConsolidateAsync())
             {
                 Application.Current.Exit();

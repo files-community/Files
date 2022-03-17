@@ -22,7 +22,7 @@
                         Opening="TabItemContextMenu_Opening">
                         <MenuFlyoutItem
                             x:Uid="HorizontalMultitaskingControlNewTab"
-                            Click="{x:Bind vm:MainPageViewModel.AddNewTabAtIndex}"
+                            Click="AddNewTab"
                             KeyboardAcceleratorTextOverride="Ctrl+T"
                             Text="New tab">
                             <MenuFlyoutItem.Icon>
@@ -37,7 +37,7 @@
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
                             x:Uid="HorizontalMultitaskingControlDuplicateTab"
-                            Click="{x:Bind vm:MainPageViewModel.DuplicateTabAtIndex}"
+                            Click="DuplicateTabAtIndex"
                             KeyboardAcceleratorTextOverride="Ctrl+Shift+K"
                             Text="Duplicate tab">
                             <MenuFlyoutItem.Icon>
@@ -96,7 +96,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <muxc:TabView
-            x:Name="HorizontalTabView"
+            x:Name="TabControl"
             Margin="-4,0"
             VerticalAlignment="Stretch"
             HorizontalContentAlignment="Left"

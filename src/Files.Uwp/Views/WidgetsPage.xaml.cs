@@ -14,6 +14,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Files.Uwp.Helpers;
 
 namespace Files.Views
 {
@@ -158,7 +159,7 @@ namespace Files.Views
             }
             catch (COMException)
             {
-                await DialogDisplayHelper.ShowDialogAsync(App.AppWindows[this.UIContext],
+                await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetWindowContentFromUIElement(this),
                     "DriveUnpluggedDialog/Title".GetLocalized(),
                     "DriveUnpluggedDialog/Text".GetLocalized());
             }

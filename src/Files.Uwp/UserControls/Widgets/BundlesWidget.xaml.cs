@@ -32,7 +32,7 @@ namespace Files.UserControls.Widgets
         {
             this.InitializeComponent();
 
-            this.ViewModel = new BundlesViewModel();
+            this.ViewModel = new BundlesViewModel(this.XamlRoot.UIContext);
         }
 
         #region IDisposable

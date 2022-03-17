@@ -13,6 +13,7 @@ using System.Windows.Input;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI;
 
 namespace Files.ViewModels.Widgets.Bundles
 {
@@ -29,6 +30,8 @@ namespace Files.ViewModels.Widgets.Bundles
         #endregion Actions
 
         #region Properties
+
+        private UIContext context;
 
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
@@ -99,10 +102,11 @@ namespace Files.ViewModels.Widgets.Bundles
 
         #region Constructor
 
-        public BundleItemViewModel(string path, FilesystemItemType targetType)
+        public BundleItemViewModel(string path, FilesystemItemType targetType, UIContext context)
         {
             this.Path = path;
             this.TargetType = targetType;
+            this.context = context;
 
             // Create commands
             OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
@@ -117,7 +121,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
         private async void OpenInNewTab()
         {
-            await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), Path);
+            await NavigationHelpers.OpenPathInNewTab(Path, context);
         }
 
         private void OpenInNewPane()

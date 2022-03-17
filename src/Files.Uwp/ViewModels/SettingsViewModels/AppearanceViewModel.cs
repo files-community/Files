@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;
+using Windows.UI;
 
 namespace Files.ViewModels.SettingsViewModels
 {
@@ -220,10 +221,10 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public async Task OpenThemesFolder()
+        public async Task OpenThemesFolder(UIContext context)
         {
-            await CoreApplication.MainView.Dispatcher.YieldAsync();
-            await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ImportedThemesFolder.Path);
+            await CoreApplication.MainView.DispatcherQueue.YieldAsync();
+            await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ImportedThemesFolder.Path, context);
         }
     }
 }

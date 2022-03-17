@@ -145,6 +145,8 @@
     <Compile Include="DataModels\FilesystemItemsOperationDataModel.cs" />
     <Compile Include="DataModels\NavigationControlItems\FileTagItem.cs" />
     <Compile Include="DataModels\NavigationControlItems\WslDistroItem.cs" />
+    <Compile Include="Dialogs\IDialogWithUIContext.cs" />
+    <Compile Include="Extensions\DialogExtensions.cs" />
     <Compile Include="Extensions\ShellNewEntryExtensions.cs" />
     <Compile Include="Dialogs\DecompressArchiveDialog.xaml.cs">
       <DependentUpon>DecompressArchiveDialog.xaml</DependentUpon>
@@ -225,6 +227,7 @@
     <Compile Include="Helpers\WallpaperHelpers.cs" />
     <Compile Include="Helpers\WidgetsHelpers.cs" />
     <Compile Include="Helpers\Win32Helpers.cs" />
+    <Compile Include="Helpers\WindowManagementHelpers.cs" />
     <Compile Include="Helpers\ZipHelpers.cs" />
     <Compile Include="Interacts\ItemManipulationModel.cs" />
     <Compile Include="ISearchBox.cs" />
@@ -356,6 +359,7 @@
       <DependentUpon>WidgetsListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValueConverters\ColorModelToColorConverter.cs" />
+    <Compile Include="ValueConverters\ContentObjectToPageConverter.cs" />
     <Compile Include="ValueConverters\ImageModelToImageConverter.cs" />
     <Compile Include="ViewModels\Dialogs\DecompressArchiveDialogViewModel.cs" />
     <Compile Include="ViewModels\NavToolbarViewModel.cs" />

@@ -13,13 +13,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:usercontrols="using:Files.UserControls.MultitaskingControl"
-    xmlns:viewmodels="using:Files.ViewModels"
-    muxc:BackdropMaterial.ApplyToRootOrPageBackground="False"
+    xmlns:viewmodels="using:Files.ViewModels" xmlns:valueconverters="using:Files.Uwp.ValueConverters"
+	muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     Background="Transparent"
     KeyboardAcceleratorPlacementMode="Hidden"
-    Loaded="Page_Loaded"
     NavigationCacheMode="Required"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+	Loaded="Page_Loaded">
     <Page.DataContext>
         <viewmodels:MainPageViewModel />
     </Page.DataContext>
@@ -49,7 +49,8 @@
 
             <converters:WidthToRightMargin x:Key="WidthToRightMarginConverter" />
             <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
-        </ResourceDictionary>
+			<valueconverters:ContentObjectToPageConverter x:Key="ContentToPageConverter" />
+		</ResourceDictionary>
     </Page.Resources>
     <Page.KeyboardAccelerators>
         <KeyboardAccelerator Key="Number1" Modifiers="Control">
@@ -264,6 +265,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Stretch"
                     x:FieldModifier="public"
+					Items="{x:Bind ViewModel.TabInstances, Mode=OneWay}"
                     x:Load="False"
                     Loaded="HorizontalMultitaskingControl_Loaded"
                     TabIndex="0"
@@ -328,6 +330,7 @@
                                         Placement="Bottom">
                                         <usercontrols:VerticalTabViewControl
                                             x:Name="VerticalTabs"
+											Items="{x:Bind ViewModel.TabInstances, Mode=OneWay}"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Stretch"
                                             x:FieldModifier="public" />
@@ -356,7 +359,7 @@
             </Grid>
         </controls:SidebarControl.TabContent>
 
-        <Grid x:Name="RootGrid" PreviewKeyDown="RootGrid_PreviewKeyDown" SizeChanged="RootGrid_SizeChanged">
+        <Grid x:Name="RootGrid" PreviewKeyDown="RootGrid_PreviewKeyDown">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -386,7 +389,7 @@
                 Grid.Column="0"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
-                Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
+                Content="{x:Bind horizontalMultitaskingControl.CurrentSelectedAppInstance, Converter={StaticResource ContentToPageConverter}, Mode=OneWay}" />
 
             <custom:GridSplitter x:Name="PaneSplitter" Grid.Row="1" Grid.Column="1"
                 x:Load="{x:Bind IsPaneEnabled, Mode=OneWay}"

@@ -1,8 +1,11 @@
 ﻿using Files.Extensions;
+using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
@@ -47,6 +50,14 @@ namespace Files.Helpers
 
         private async static void ApplyThemeForAllWindows()
         {
+            if (Window.Current != null)
+            {
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                {
+                    ApplyTheme(ApplicationView.GetForCurrentView());
+                }, Windows.System.DispatcherQueuePriority.High);
+            }
+
             // Make sure we have a reference to our window so we dispatch a UI change
             if (App.AppWindows.Count > 0)
             {
@@ -58,7 +69,6 @@ namespace Files.Helpers
                         ApplyTheme(window);
                     }, Windows.System.DispatcherQueuePriority.High);
                 }
-
             }
         }
 
@@ -92,7 +102,39 @@ namespace Files.Helpers
         {
             var rootTheme = RootTheme;
 
-            if (ElementCompositionPreview.GetAppWindowContent(window) is FrameworkElement rootElement)
+            if (WindowManagementHelpers.GetWindowContentFromAppWindow(window) is FrameworkElement rootElement)
+            {
+                rootElement.RequestedTheme = rootTheme;
+            }
+
+            window.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+            window.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
+            switch (rootTheme)
+            {
+                case ElementTheme.Default:
+                    window.TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
+                    window.TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
+                    break;
+
+                case ElementTheme.Light:
+                    window.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
+                    window.TitleBar.ButtonForegroundColor = Colors.Black;
+                    break;
+
+                case ElementTheme.Dark:
+                    window.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
+                    window.TitleBar.ButtonForegroundColor = Colors.White;
+                    break;
+            }
+            App.AppSettings.UpdateThemeElements.Execute(null);
+        }
+
+        private static void ApplyTheme(ApplicationView window)
+        {
+            var rootTheme = RootTheme;
+
+            if (Window.Current.Content is FrameworkElement rootElement)
             {
                 rootElement.RequestedTheme = rootTheme;
             }

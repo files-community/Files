@@ -360,7 +360,7 @@
                     <FontIcon FontSize="10" Glyph="&#xF246;" />
                 </AppBarButton.Icon>
                 <AppBarButton.Flyout>
-                    <Flyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
+                    <Flyout contract8Present:ShouldConstrainToRootBounds="True" Placement="Bottom">
                         <StackPanel Spacing="12">
                             <TextBlock
                                 x:Uid="NavToolbarManageWidgetsFlyoutHeader"

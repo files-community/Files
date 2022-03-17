@@ -28,6 +28,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Files.Backend.Enums;
+using Files.Uwp.Helpers;
 
 namespace Files.Interacts
 {
@@ -237,11 +238,11 @@ namespace Files.Interacts
             }
             else if (destFolder == FileSystemStatusCode.NotFound)
             {
-                await DialogDisplayHelper.ShowDialogAsync(App.AppWindows[((BaseLayout)SlimContentPage).UIContext], "FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
+                await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetWindowContentFromUIElement((BaseLayout)SlimContentPage).UIContext, "FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
             }
             else
             {
-                await DialogDisplayHelper.ShowDialogAsync(App.AppWindows[((BaseLayout)SlimContentPage).UIContext], "InvalidItemDialogTitle".GetLocalized(),
+                await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetWindowContentFromUIElement((BaseLayout)SlimContentPage).UIContext, "InvalidItemDialogTitle".GetLocalized(),
                     string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, destFolder.ErrorCode.ToString()));
             }
         }
@@ -265,12 +266,15 @@ namespace Files.Interacts
 
         public virtual async void OpenDirectoryInNewTab(RoutedEventArgs e)
         {
-            foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
+            if (WindowManagementHelpers.GetWindowContentFromUIElement((Page)associatedInstance) is MainPage mp)
             {
-                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
+                foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
                 {
-                    await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
-                });
+                    await DispatcherQueue.GetForCurrentThread().EnqueueAsync(async () =>
+                    {
+                        await mp.ViewModel.MultitaskingControl.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+                    }, DispatcherQueuePriority.Low);
+                }
             }
         }
 
@@ -432,11 +436,11 @@ namespace Files.Interacts
 
                     if (Item.IsShortcutItem)
                     {
-                        await NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+                        await NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath, ((Page)associatedInstance).XamlRoot.UIContext);
                     }
                     else
                     {
-                        await NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
+                        await NavigationHelpers.OpenPathInNewTab(Item.ItemPath, ((Page)associatedInstance).XamlRoot.UIContext);
                     }
                 }
             }

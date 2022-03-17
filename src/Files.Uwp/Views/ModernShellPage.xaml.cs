@@ -38,6 +38,7 @@ using Files.Backend.Enums;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 using Windows.UI.Xaml.Hosting;
+using Files.Uwp.Helpers;
 
 namespace Files.Views
 {
@@ -700,7 +701,14 @@ namespace Files.Views
                 case (true, false, false, _, VirtualKey.F): // ctrl + f
                     if (tabInstance || CurrentPageType == typeof(WidgetsPage))
                     {
-                        NavToolbarViewModel.SwitchSearchBoxVisibility();
+                        bool isVisible = NavToolbarViewModel.SwitchSearchBoxVisibility();
+                        if (isVisible && WindowManagementHelpers.GetWindowContentFromUIElement(this) is MainPage mp)
+                        {
+                            // Given that binding and layouting might take a few cycles, when calling UpdateLayout
+                            // we can guarantee that the focus call will be able to find an open ASB
+                            // (Refer to MainPage.xaml)
+                            mp.FocusSearchBox();
+                        }
                     }
                     break;
 
@@ -798,10 +806,14 @@ namespace Files.Views
                 case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
                 case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
                     NavToolbarViewModel.IsEditModeEnabled = true;
+                    if (WindowManagementHelpers.GetWindowContentFromUIElement(this) is MainPage mainPage)
+                    {
+                        NavToolbarViewModel.TriggerAddressBarTextEntry(mainPage);
+                    }
                     break;
 
                 case (true, true, false, true, VirtualKey.K): // ctrl + shift + k, duplicate tab
-                    await NavigationHelpers.OpenPathInNewTab(this.FilesystemViewModel.WorkingDirectory);
+                    await NavigationHelpers.OpenPathInNewTab(this.FilesystemViewModel.WorkingDirectory, this.XamlRoot.UIContext);
                     break;
 
                 case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
@@ -1076,7 +1088,7 @@ namespace Files.Views
 
         private void SetLoadingIndicatorForTabs(bool isLoading)
         {
-            var multitaskingControls = (ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]) as MainPage).ViewModel.MultitaskingControls;
+            var multitaskingControls = (WindowManagementHelpers.GetWindowContentFromUIElement(this) as MainPage).ViewModel.MultitaskingControls;
 
             foreach (var x in multitaskingControls)
             {

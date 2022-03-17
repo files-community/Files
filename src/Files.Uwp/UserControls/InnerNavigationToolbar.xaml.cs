@@ -12,6 +12,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.WindowManagement;
+using Files.Uwp.Helpers;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -41,18 +43,38 @@ namespace Files.UserControls
 
         private async void NavToolbarEnterCompactOverlay_Click(object sender, RoutedEventArgs e)
         {
-            var view = ApplicationView.GetForCurrentView();
-            if (view.ViewMode == ApplicationViewMode.CompactOverlay)
+            object currentWindow = WindowManagementHelpers.GetWindowFromUIContext(this.UIContext);
+            if (currentWindow is AppWindow appWindow)
             {
-                await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
-                NavToolbarExitCompactOverlay.Visibility = Visibility.Collapsed;
-                NavToolbarEnterCompactOverlay.Visibility = Visibility.Visible;
+                var presentationKind = appWindow.Presenter.GetConfiguration().Kind;
+                if (presentationKind == AppWindowPresentationKind.CompactOverlay)
+                {
+                    appWindow.Presenter.RequestPresentation(AppWindowPresentationKind.Default);
+                    NavToolbarExitCompactOverlay.Visibility = Visibility.Collapsed;
+                    NavToolbarEnterCompactOverlay.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    appWindow.Presenter.RequestPresentation(AppWindowPresentationKind.CompactOverlay);
+                    NavToolbarExitCompactOverlay.Visibility = Visibility.Visible;
+                    NavToolbarEnterCompactOverlay.Visibility = Visibility.Collapsed;
+                }
             }
             else
             {
-                await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
-                NavToolbarExitCompactOverlay.Visibility = Visibility.Visible;
-                NavToolbarEnterCompactOverlay.Visibility = Visibility.Collapsed;
+                var view = ApplicationView.GetForCurrentView();
+                if (view.ViewMode == ApplicationViewMode.CompactOverlay)
+                {
+                    await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
+                    NavToolbarExitCompactOverlay.Visibility = Visibility.Collapsed;
+                    NavToolbarEnterCompactOverlay.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+                    NavToolbarExitCompactOverlay.Visibility = Visibility.Visible;
+                    NavToolbarEnterCompactOverlay.Visibility = Visibility.Collapsed;
+                }
             }
         }
 

@@ -550,12 +550,12 @@ namespace Files.Filesystem
 
         #region Rename
 
-        public async Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory, AppWindow window)
+        public async Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory, object window)
         {
             return await RenameAsync(source.FromStorageItem(), newName, collision, registerHistory, window);
         }
 
-        public async Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory, AppWindow window)
+        public async Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory, object window)
         {
             var returnCode = FileSystemStatusCode.InProgress;
             var errorCode = new Progress<FileSystemStatusCode>();

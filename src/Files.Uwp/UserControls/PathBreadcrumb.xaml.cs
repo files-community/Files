@@ -1,4 +1,8 @@
-﻿using Files.ViewModels;
+﻿using Files.Uwp.Helpers;
+using Files.ViewModels;
+using Files.Views;
+using Microsoft.Toolkit.Uwp;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -9,6 +13,8 @@ namespace Files.UserControls
 {
     public sealed partial class PathBreadcrumb : UserControl
     {
+        private PointerRoutedEventArgs pointerRoutedEventArgs;
+
         public NavToolbarViewModel ViewModel
         {
             get => (NavToolbarViewModel)GetValue(ViewModelProperty);
@@ -34,16 +40,48 @@ namespace Files.UserControls
 
         private void PathBoxItem_Drop(object sender, DragEventArgs e) => ViewModel.PathBoxItem_Drop(sender, e);
 
-        private void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e) => ViewModel.PathBoxItem_Tapped(sender, e);
-
-        private void PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e) => ViewModel.PathBoxItem_PointerPressed(sender, e);
-
         private void PathItemSeparator_Loaded(object sender, RoutedEventArgs e)
         {
             var pathSeparatorIcon = sender as FontIcon;
             pathSeparatorIcon.Tapped += (s, e) => pathSeparatorIcon.ContextFlyout.ShowAt(pathSeparatorIcon);
             pathSeparatorIcon.ContextFlyout.Opened += (s, e) => { pathSeparatorIcon.Glyph = "\uE70D"; };
             pathSeparatorIcon.ContextFlyout.Closed += (s, e) => { pathSeparatorIcon.Glyph = "\uE76C"; };
+        }
+
+        public void PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                Windows.UI.Input.PointerPoint ptrPt = e.GetCurrentPoint(this);
+                if (ptrPt.Properties.IsMiddleButtonPressed)
+                {
+                    pointerRoutedEventArgs = e;
+                }
+                else
+                {
+                    pointerRoutedEventArgs = null;
+                }
+            }
+        }
+
+        public async void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            if (WindowManagementHelpers.GetWindowContentFromUIElement(this) is MainPage mp)
+            {
+                var itemTappedPath = ((sender as TextBlock).DataContext as PathBoxItem).Path;
+
+                if (pointerRoutedEventArgs != null)
+                {
+                    await DispatcherQueue.GetForCurrentThread().EnqueueAsync(async () =>
+                    {
+                        await mp.ViewModel.MultitaskingControl.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
+                    }, DispatcherQueuePriority.Low);
+                    e.Handled = true;
+                    pointerRoutedEventArgs = null;
+                    return;
+                }
+                ViewModel.TriggerToolbarPathItemInvoked(itemTappedPath);
+            }
         }
     }
 }

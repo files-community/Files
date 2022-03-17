@@ -7,6 +7,7 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace Files.UserControls.MultitaskingControl
 {
@@ -58,9 +59,20 @@ namespace Files.UserControls.MultitaskingControl
             Control = new TabItemControl();
         }
 
+        public void RegisterForContentChanges()
+        {
+            Control.ContentChanged -= Control_ContentChanged;
+            Control.ContentChanged += Control_ContentChanged;
+        }
+
+        private async void Control_ContentChanged(object sender, TabItemArguments e)
+        {
+            await MainPageViewModel.UpdateTabInfo(this, e.NavigationArg);
+        }
+
         public void Unload()
         {
-            Control.ContentChanged -= MainPageViewModel.Control_ContentChanged;
+            Control.ContentChanged -= Control_ContentChanged;
             tabItemArguments = Control?.NavigationArguments;
             Dispose();
         }

@@ -1,17 +1,20 @@
 ﻿using Files.Backend.ViewModels.Dialogs;
 using Files.SettingsPages;
 using Files.Shared.Enums;
+using Files.Uwp.Helpers;
 using Files.ViewModels;
 using System;
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Core;
+using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 
 namespace Files.Dialogs
 {
-    public sealed partial class SettingsDialog : ContentDialog, IDialog<SettingsDialogViewModel>
+    public sealed partial class SettingsDialog : ContentDialog, IDialog<SettingsDialogViewModel>, IDialogWithUIContext
     {
         public SettingsDialogViewModel ViewModel
         {
@@ -19,6 +22,7 @@ namespace Files.Dialogs
             set => DataContext = value;
         }
 
+        public UIContext Context { get; set; }
         public SettingsViewModel AppSettings => App.AppSettings;
 
         // for some reason the requested theme wasn't being set on the content dialog, so this is used to manually bind to the requested app theme
@@ -33,8 +37,9 @@ namespace Files.Dialogs
 
         private void SettingsDialog_Loaded(object sender, RoutedEventArgs e)
         {
-            RootAppElement = ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]) as FrameworkElement;
-            ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Changed += XamlRoot_Changed;
+            var content = WindowManagementHelpers.GetWindowContentFromUIContext(Context);
+            RootAppElement = content as FrameworkElement;
+            RootAppElement.XamlRoot.Changed += XamlRoot_Changed;
             UpdateDialogLayout();
         }
 
@@ -43,26 +48,54 @@ namespace Files.Dialogs
             UpdateDialogLayout();
         }
 
-        public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
+        public new async Task<DialogResult> ShowAsync()
+        {
+            this.XamlRoot = (WindowManagementHelpers.GetWindowFromUIContext(Context) is AppWindow aw)? ElementCompositionPreview.GetAppWindowContent(aw).XamlRoot : Window.Current.Content.XamlRoot;
+            return (DialogResult)await base.ShowAsync();
+        }
 
         private void UpdateDialogLayout()
         {
-            if (ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Size.Height <= 710)
+            object window = WindowManagementHelpers.GetWindowFromUIContext(Context);
+            if (window is AppWindow aw)
             {
-                ContainerGrid.Height = ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Size.Height - 70;
-            }
-            else
-            {
-                ContainerGrid.Height = 640;
-            }
+                if (ElementCompositionPreview.GetAppWindowContent(aw).XamlRoot.Size.Height <= 710)
+                {
+                    ContainerGrid.Height = ElementCompositionPreview.GetAppWindowContent(aw).XamlRoot.Size.Height - 70;
+                }
+                else
+                {
+                    ContainerGrid.Height = 640;
+                }
 
-            if (ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Size.Width <= 800)
-            {
-                ContainerGrid.Width = ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Size.Width;
+                if (ElementCompositionPreview.GetAppWindowContent(aw).XamlRoot.Size.Width <= 800)
+                {
+                    ContainerGrid.Width = ElementCompositionPreview.GetAppWindowContent(aw).XamlRoot.Size.Width;
+                }
+                else
+                {
+                    ContainerGrid.Width = 800;
+                }
             }
-            else
+            else if (window != null)
             {
-                ContainerGrid.Width = 800;
+                if (Window.Current.Content.XamlRoot.Size.Height <= 710)
+                {
+                    ContainerGrid.Height = Window.Current.Content.XamlRoot.Size.Height - 70;
+                }
+                else
+                {
+                    ContainerGrid.Height = 640;
+                }
+
+                if (Window.Current.Content.XamlRoot.Size.Width <= 800)
+                {
+                    ContainerGrid.Width = Window.Current.Content.XamlRoot.Size.Width;
+                }
+                else
+                {
+                    ContainerGrid.Width = 800;
+                }
             }
         }
 
@@ -84,7 +117,7 @@ namespace Files.Dialogs
 
         private void ContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
         {
-            ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Changed -= XamlRoot_Changed;
+           RootAppElement.XamlRoot.Changed -= XamlRoot_Changed;
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)

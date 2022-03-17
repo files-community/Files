@@ -26,6 +26,12 @@ using Windows.UI.Xaml.Navigation;
 using Files.Shared.EventArguments;
 using Windows.UI.Xaml.Hosting;
 using Windows.Foundation;
+using Windows.Foundation.Metadata;
+using Windows.UI.WindowManagement;
+using Microsoft.Toolkit.Uwp.UI;
+using Windows.System;
+using SearchBox = Files.UserControls.SearchBox;
+using Files.Uwp.Helpers;
 
 namespace Files.Views
 {
@@ -52,9 +58,9 @@ namespace Files.Views
 
         private ICommand ToggleCompactOverlayCommand { get; }
         private ICommand SetCompactOverlayCommand { get; }
-
         private ICommand ToggleSidebarCollapsedStateCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleSidebarCollapsedState(x));
 
+        private NavigationEventArgs _navigationEventArgs;
         public bool IsVerticalTabFlyoutEnabled => UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled;
 
         public MainPage()
@@ -89,7 +95,23 @@ namespace Files.Views
             }
         }
 
-        public UserControl MultitaskingControl => VerticalTabs;
+        public void FocusSearchBox()
+        {
+            // Given that binding and layouting might take a few cycles, when calling UpdateLayout
+            // we can guarantee that the focus call will be able to find an open ASB
+            var searchbox = NavToolbar.FindDescendant("SearchRegion") as SearchBox;
+            searchbox?.UpdateLayout();
+            searchbox?.Focus(FocusState.Programmatic);
+        }
+
+        public AutoSuggestBox FocusVisiblePath()
+        {
+            var visiblePath = NavToolbar.FindDescendant<AutoSuggestBox>(x => x.Name == "VisiblePath");
+            visiblePath?.Focus(FocusState.Programmatic);
+            visiblePath?.FindDescendant<TextBox>()?.SelectAll();
+
+            return visiblePath;
+        }
 
         private void VerticalTabStrip_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -105,17 +127,22 @@ namespace Files.Views
 
         private void VerticalTabStripInvokeButton_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!(ViewModel.MultitaskingControl is VerticalTabViewControl))
-            {
-                ViewModel.MultitaskingControl = VerticalTabs;
-                ViewModel.MultitaskingControls.Add(VerticalTabs);
-                ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
-            }
+            ViewModel.MultitaskingControls.Add(VerticalTabs);
+            VerticalTabs.CurrentInstanceChanged -= MultitaskingControl_CurrentInstanceChanged;
+            VerticalTabs.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
         }
 
         private void DragArea_Loaded(object sender, RoutedEventArgs e)
         {
-            //Window.Current.SetTitleBar(sender as Grid);
+            if (WindowManagementHelpers.GetWindowFromUIContext(this.XamlRoot.UIContext) is Window window)
+            {
+                window.SetTitleBar(sender as Grid);
+            }
+            else if (WindowManagementHelpers.GetWindowFromUIContext(this.XamlRoot.UIContext) is AppWindow appWindow)
+            {
+                appWindow.Frame.DragRegionVisuals.Clear();
+                appWindow.Frame.DragRegionVisuals.Add(sender as Grid);
+            }
         }
 
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
@@ -125,19 +152,24 @@ namespace Files.Views
 
         private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!(ViewModel.MultitaskingControl is HorizontalMultitaskingControl))
+            if (ViewModel.MultitaskingControl == null)
             {
                 ViewModel.MultitaskingControl = horizontalMultitaskingControl;
                 ViewModel.MultitaskingControls.Add(horizontalMultitaskingControl);
-                ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
+                horizontalMultitaskingControl.CurrentInstanceChanged -= MultitaskingControl_CurrentInstanceChanged;
+                horizontalMultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
+
+                // Complete navigation only once primary tab control is loaded
+                ViewModel.OnNavigatedTo(_navigationEventArgs);
             }
+
             if (UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled)
             {
                 FindName(nameof(VerticalTabStripInvokeButton));
             }
         }
 
-        public void TabItemContent_ContentChanged(object sender, TabItemArguments e)
+        public async void TabItemContent_ContentChanged(object sender, TabItemArguments e)
         {
             if (SidebarAdaptiveViewModel.PaneHolder != null)
             {
@@ -147,11 +179,23 @@ namespace Files.Views
                 UpdateStatusBarProperties();
                 LoadPaneChanged();
                 UpdateNavToolbarProperties();
-                ViewModel.UpdateInstanceProperties(paneArgs);
+                string windowTitle = await ViewModel.UpdateInstancePropertiesAsync(paneArgs);
+
+                if (e.NavigationArg == ViewModel.MultitaskingControl.SelectedTabItem?.TabItemArguments.NavigationArg)
+                {
+                    if (WindowManagementHelpers.GetWindowFromUIContext(this.XamlRoot.UIContext) is Window window)
+                    {
+                        ApplicationView.GetForCurrentView().Title = windowTitle;
+                    }
+                    else if (WindowManagementHelpers.GetWindowFromUIContext(this.XamlRoot.UIContext) is AppWindow appWindow)
+                    {
+                        appWindow.Title = windowTitle;
+                    }
+                }
             }
         }
 
-        public void MultitaskingControl_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
+        public async void MultitaskingControl_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
         {
             if (SidebarAdaptiveViewModel.PaneHolder != null)
             {
@@ -164,7 +208,7 @@ namespace Files.Views
             UpdateStatusBarProperties();
             UpdateNavToolbarProperties();
             LoadPaneChanged();
-            ViewModel.UpdateInstanceProperties(navArgs);
+            await ViewModel.UpdateInstancePropertiesAsync(navArgs);
             e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
             e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
         }
@@ -203,7 +247,8 @@ namespace Files.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel.OnNavigatedTo(e);
+            base.OnNavigatedTo(e);
+            _navigationEventArgs = e;
             SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
             SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
             SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
@@ -321,52 +366,33 @@ namespace Files.Views
             }
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            //Initialize the static theme helper
-            //to handle theme changes without restarting the app
-            ThemeHelper.Initialize();
-            Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
-
-            var window = App.AppWindows[this.UIContext];
-            window.TitleBar.ExtendsContentIntoTitleBar = true;
-            RightPaddingColumn.Width = new GridLength(300);
-
-            // Defers the status bar loading until after the page has loaded to improve startup perf
-            FindName(nameof(StatusBarControl));
-            FindName(nameof(InnerNavigationToolbar));
-            FindName(nameof(horizontalMultitaskingControl));
-            FindName(nameof(NavToolbar));
-
-            double width = ElementCompositionPreview.GetAppWindowContent(window).XamlRoot.Size.Width;
-
-            // the adaptive triggers do not evaluate on app startup, manually checking and calling GoToState here fixes https://github.com/files-community/Files/issues/5801
-            if (width < CollapseSearchBoxAdaptiveTrigger.MinWindowWidth)
-            {
-                _ = VisualStateManager.GoToState(this, nameof(CollapseSearchBoxState), true);
-            }
-
-            if (width < MinimalSidebarAdaptiveTrigger.MinWindowWidth)
-            {
-                _ = VisualStateManager.GoToState(this, nameof(MinimalSidebarState), true);
-            }
-
-            if (width < CollapseHorizontalTabViewTrigger.MinWindowWidth)
-            {
-                _ = VisualStateManager.GoToState(this, nameof(HorizontalTabViewCollapsed), true);
-            }
-        }
-
         private void ToggleFullScreenAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
-            ApplicationView view = ApplicationView.GetForCurrentView();
-            if (view.IsFullScreenMode)
+            object currentWindow = WindowManagementHelpers.GetWindowFromUIContext(this.UIContext);
+            
+            if (currentWindow is AppWindow appWindow)
             {
-                view.ExitFullScreenMode();
+                var presentationKind = appWindow.Presenter.GetConfiguration().Kind;
+                if (presentationKind == AppWindowPresentationKind.FullScreen)
+                {
+                    appWindow.Presenter.RequestPresentation(AppWindowPresentationKind.Default);
+                }
+                else
+                {
+                    appWindow.Presenter.RequestPresentation(AppWindowPresentationKind.FullScreen);
+                }
             }
             else
             {
-                view.TryEnterFullScreenMode();
+                ApplicationView view = ApplicationView.GetForCurrentView();
+                if (view.IsFullScreenMode)
+                {
+                    view.ExitFullScreenMode();
+                }
+                else
+                {
+                    view.TryEnterFullScreenMode();
+                }
             }
 
             e.Handled = true;
@@ -376,7 +402,7 @@ namespace Files.Views
         {
             SidebarAdaptiveViewModel.IsSidebarOpen = !SidebarAdaptiveViewModel.IsSidebarOpen;
 
-            e.Handled=true;
+            e.Handled = true;
         }
 
         private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
@@ -384,7 +410,7 @@ namespace Files.Views
             SidebarAdaptiveViewModel.UpdateTabControlMargin(); // Set the correct tab margin on startup
         }
 
-        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e) => LoadPaneChanged();
+        //private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e) => LoadPaneChanged();
 
         /// <summary>
         /// Call this function to update the positioning of the preview pane.
@@ -472,17 +498,23 @@ namespace Files.Views
             {
                 bool isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
                 bool isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-                Size size = ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot.Size;
+                Size size = this.XamlRoot.Size;
                 bool isBigEnough = size.Width > 450 && size.Height > 400;
 
                 return (!isHomePage || isMultiPane) && isBigEnough;
             }
         }
 
+        DispatcherQueueTimer timer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+
         private void LoadPaneChanged()
         {
-            OnPropertyChanged(nameof(IsPaneEnabled));
-            OnPropertyChanged(nameof(IsPreviewPaneEnabled));
+            DispatcherQueueTimerExtensions.Debounce(timer, () =>
+            {
+                OnPropertyChanged(nameof(IsPaneEnabled));
+                OnPropertyChanged(nameof(IsPreviewPaneEnabled));
+            }, TimeSpan.FromSeconds(1));
+
             UpdatePositioning();
         }
 
@@ -493,20 +525,62 @@ namespace Files.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void ToggleCompactOverlay() => SetCompactOverlay(ApplicationView.GetForCurrentView().ViewMode != ApplicationViewMode.CompactOverlay);
-
-        private async void SetCompactOverlay(bool isCompact)
+        private async void SetCompactOverlay(bool shouldEnterCompact)
         {
-            var view = ApplicationView.GetForCurrentView();
-
-            if (!isCompact)
+            object currentWindow = WindowManagementHelpers.GetWindowFromUIContext(this.UIContext);
+            if (currentWindow is AppWindow appWindow)
             {
-                IsCompactOverlay = !await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
+                if (!shouldEnterCompact)
+                {
+                    IsCompactOverlay = !appWindow.Presenter.RequestPresentation(AppWindowPresentationKind.Default);
+                }
+                else
+                {
+                    IsCompactOverlay = appWindow.Presenter.RequestPresentation(AppWindowPresentationKind.CompactOverlay);
+                }
             }
             else
             {
-                IsCompactOverlay = await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
-                view.TryResizeView(new Windows.Foundation.Size(400, 350));
+                var view = ApplicationView.GetForCurrentView();
+                if (!shouldEnterCompact)
+                {
+                    IsCompactOverlay = !await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
+                }
+                else
+                {
+                    IsCompactOverlay = await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+                    view.TryResizeView(new Size(400, 350));
+                }
+            }
+        }
+
+        private async void ToggleCompactOverlay()
+        {
+            object currentWindow = WindowManagementHelpers.GetWindowFromUIContext(this.UIContext);
+            if (currentWindow is AppWindow appWindow)
+            {
+                var presentationKind = appWindow.Presenter.GetConfiguration().Kind;
+                if (presentationKind == AppWindowPresentationKind.CompactOverlay)
+                {
+                    IsCompactOverlay = !appWindow.Presenter.RequestPresentation(AppWindowPresentationKind.Default);
+                }
+                else
+                {
+                    IsCompactOverlay = appWindow.Presenter.RequestPresentation(AppWindowPresentationKind.CompactOverlay);
+                }
+            }
+            else
+            {
+                var view = ApplicationView.GetForCurrentView();
+                if (view.ViewMode == ApplicationViewMode.CompactOverlay)
+                {
+                    IsCompactOverlay = !await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
+                }
+                else
+                {
+                    IsCompactOverlay = await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+                    view.TryResizeView(new Size(400, 350));
+                }
             }
         }
 
@@ -535,5 +609,71 @@ namespace Files.Views
         }
 
         private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            //Initialize the static theme helper
+            //to handle theme changes without restarting the app
+            ThemeHelper.Initialize();
+            double width = 0;
+
+            if (WindowManagementHelpers.GetWindowFromUIContext(this.XamlRoot.UIContext) is Window window)
+            {
+                Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(this, true);
+                CoreApplication.MainView.TitleBar.ExtendViewIntoTitleBar = true;
+                width = Window.Current.CoreWindow.Bounds.Width;
+                CoreApplication.MainView.TitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
+            }
+            else if (WindowManagementHelpers.GetWindowFromUIContext(this.XamlRoot.UIContext) is AppWindow appWindow)
+            {
+                var micaIsSupported = ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "TryCreateBlurredWallpaperBackdropBrush");
+                if (micaIsSupported)
+                {
+                    var micaBrush = new Brushes.MicaBrush(false);
+                    micaBrush.SetAppWindow(appWindow);
+                    Frame.Background = micaBrush;
+                }
+                else
+                {
+                    Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(this, true);
+                }
+
+                width = WindowManagementHelpers.GetWindowContentFromAppWindow(appWindow).XamlRoot.Size.Width;
+                appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                RightPaddingColumn.Width = (CoreApplication.MainView?.TitleBar is CoreApplicationViewTitleBar titlebar) ? new GridLength(titlebar.SystemOverlayRightInset) : new GridLength(300);
+            }
+
+            // Defers the status bar loading until after the page has loaded to improve startup perf
+            FindName(nameof(StatusBarControl));
+            FindName(nameof(InnerNavigationToolbar));
+            FindName(nameof(horizontalMultitaskingControl));
+            FindName(nameof(NavToolbar));
+
+            // the adaptive triggers do not evaluate on app startup, manually checking and calling GoToState here fixes https://github.com/files-community/Files/issues/5801
+            if (width > 0)
+            {
+                if (width < CollapseSearchBoxAdaptiveTrigger.MinWindowWidth)
+                {
+                    _ = VisualStateManager.GoToState(this, nameof(CollapseSearchBoxState), true);
+                }
+
+                if (width < MinimalSidebarAdaptiveTrigger.MinWindowWidth)
+                {
+                    _ = VisualStateManager.GoToState(this, nameof(MinimalSidebarState), true);
+                }
+
+                if (width < CollapseHorizontalTabViewTrigger.MinWindowWidth)
+                {
+                    _ = VisualStateManager.GoToState(this, nameof(HorizontalTabViewCollapsed), true);
+                }
+            }
+            RootGrid.SizeChanged -= RootGrid_SizeChanged;
+            RootGrid.SizeChanged += RootGrid_SizeChanged;
+        }
+
+        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            LoadPaneChanged();
+        }
     }
 }

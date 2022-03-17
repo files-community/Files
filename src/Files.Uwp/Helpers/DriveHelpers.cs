@@ -10,7 +10,7 @@ namespace Files.Helpers
 {
     public static class DriveHelpers
     {
-        public static async Task EjectDeviceAsync(string path, AppWindow window)
+        public static async Task EjectDeviceAsync(string path, object window)
         {
             var removableDevice = new RemovableDevice(path);
             bool result = await removableDevice.EjectAsync();

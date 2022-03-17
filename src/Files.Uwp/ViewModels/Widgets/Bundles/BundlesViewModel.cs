@@ -22,6 +22,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI;
 
 namespace Files.ViewModels.Widgets.Bundles
 {
@@ -35,6 +36,8 @@ namespace Files.ViewModels.Widgets.Bundles
         private bool itemAddedInternally;
 
         private int internalCollectionCount;
+
+        private UIContext context;
 
         #endregion Private Members
 
@@ -93,7 +96,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
         #region Constructor
 
-        public BundlesViewModel()
+        public BundlesViewModel(UIContext context)
         {
             Items.CollectionChanged += Items_CollectionChanged;
 
@@ -208,7 +211,7 @@ namespace Files.ViewModels.Widgets.Bundles
             }
 
             itemAddedInternally = true;
-            Items.Add(new BundleContainerViewModel()
+            Items.Add(new BundleContainerViewModel(this.context)
             {
                 BundleName = savedBundleNameTextInput,
                 NotifyItemRemoved = NotifyItemRemovedHandle,
@@ -379,7 +382,7 @@ namespace Files.ViewModels.Widgets.Bundles
                         {
                             if (bundleItem != null)
                             {
-                                bundleItems.Add(new BundleItemViewModel(bundleItem, await StorageHelpers.GetTypeFromPath(bundleItem))
+                                bundleItems.Add(new BundleItemViewModel(bundleItem, await StorageHelpers.GetTypeFromPath(bundleItem), context)
                                 {
                                     ParentBundleName = bundle.Key,
                                     NotifyItemRemoved = NotifyBundleItemRemovedHandle,
@@ -392,7 +395,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
                     // Fill current bundle with collected bundle items
                     itemAddedInternally = true;
-                    Items.Add(await new BundleContainerViewModel()
+                    Items.Add(await new BundleContainerViewModel(context)
                     {
                         BundleName = bundle.Key,
                         NotifyItemRemoved = NotifyItemRemovedHandle,

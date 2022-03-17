@@ -9,6 +9,11 @@ using Windows.UI.Xaml.Controls;
 using Files.ViewModels.Dialogs;
 using Files.Dialogs;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
+using Windows.UI;
+using System.Linq;
+using Windows.UI.WindowManagement;
+using Windows.UI.Xaml;
+using Files.Uwp.Helpers;
 
 namespace Files.Uwp.ServicesImplementation
 {
@@ -51,10 +56,19 @@ namespace Files.Uwp.ServicesImplementation
             return dialog;
         }
 
-        public Task<DialogResult> ShowDialogAsync<TViewModel>(TViewModel viewModel)
+        public Task<DialogResult> ShowDialogAsync<TViewModel>(TViewModel viewModel, object context = null)
             where TViewModel : class, INotifyPropertyChanged
         {
-            return GetDialog<TViewModel>(viewModel).ShowAsync();
+            var dialog = GetDialog<TViewModel>(viewModel);
+            if (context is UIContext uiContext)
+            {
+                ((IDialogWithUIContext)dialog).Context = uiContext;
+            }
+            else
+            {
+                ((IDialogWithUIContext)dialog).Context = (WindowManagementHelpers.GetAnyWindow() is AppWindow aw) ? aw.UIContext : Window.Current.Content.XamlRoot.UIContext;
+            }
+            return dialog.ShowAsync();
         }
     }
 }

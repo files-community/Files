@@ -28,6 +28,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Hosting;
+using Files.Uwp.Helpers;
 
 namespace Files.UserControls
 {
@@ -326,7 +327,7 @@ namespace Files.UserControls
             var ctrlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             if (ctrlPressed && navigationPath is not null)
             {
-                await NavigationHelpers.OpenPathInNewTab(navigationPath);
+                await NavigationHelpers.OpenPathInNewTab(navigationPath, this.XamlRoot.UIContext);
                 return;
             }
 
@@ -345,7 +346,7 @@ namespace Files.UserControls
                 }
                 IsInPointerPressed = true;
                 e.Handled = true;
-                await NavigationHelpers.OpenPathInNewTab(item.Path);
+                await NavigationHelpers.OpenPathInNewTab(item.Path, this.XamlRoot.UIContext);
             }
         }
 
@@ -527,7 +528,7 @@ namespace Files.UserControls
             {
                 return;
             }
-            await NavigationHelpers.OpenPathInNewTab(RightClickedItem.Path);
+            await NavigationHelpers.OpenPathInNewTab(RightClickedItem.Path, this.XamlRoot.UIContext);
         }
 
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
@@ -992,7 +993,7 @@ namespace Files.UserControls
 
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
         {
-            await DriveHelpers.EjectDeviceAsync(RightClickedItem.Path, App.AppWindows[this.UIContext]);
+            await DriveHelpers.EjectDeviceAsync(RightClickedItem.Path, WindowManagementHelpers.GetWindowFromUIContext(this.XamlRoot.UIContext));
         }
 
         private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
@@ -1147,10 +1148,10 @@ namespace Files.UserControls
                 var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
                 if (matchingDrive != null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
                 {
-                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync(App.AppWindows[this.UIContext], "InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "Close".GetLocalized());
+                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetWindowContentFromUIElement(this), "InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "Close".GetLocalized());
                     if (ejectButton)
                     {
-                        await DriveHelpers.EjectDeviceAsync(matchingDrive.Path, App.AppWindows[this.UIContext]);
+                        await DriveHelpers.EjectDeviceAsync(matchingDrive.Path, WindowManagementHelpers.GetWindowContentFromUIElement(this));
                     }
                     return true;
                 }
@@ -1181,7 +1182,7 @@ namespace Files.UserControls
                         var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
                         if (secondaryElements.Any())
                         {
-                            var openedPopups = Windows.UI.Xaml.Media.VisualTreeHelper.GetOpenPopupsForXamlRoot(ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]).XamlRoot);
+                            var openedPopups = Windows.UI.Xaml.Media.VisualTreeHelper.GetOpenPopupsForXamlRoot(this.XamlRoot);
                             var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
                             var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
                             if (itemsControl is not null)

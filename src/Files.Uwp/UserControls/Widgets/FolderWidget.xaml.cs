@@ -204,7 +204,7 @@ namespace Files.UserControls.Widgets
         private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as LibraryCardItem;
-            await NavigationHelpers.OpenPathInNewTab(item.Path);
+            await NavigationHelpers.OpenPathInNewTab(item.Path, XamlRoot.UIContext);
         }
 
         private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -212,7 +212,7 @@ namespace Files.UserControls.Widgets
             if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
             {
                 string navigationPath = (sender as Button).Tag.ToString();
-                await NavigationHelpers.OpenPathInNewTab(navigationPath);
+                await NavigationHelpers.OpenPathInNewTab(navigationPath, XamlRoot.UIContext);
             }
         }
 
@@ -255,7 +255,7 @@ namespace Files.UserControls.Widgets
             var ctrlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             if (ctrlPressed)
             {
-                await NavigationHelpers.OpenPathInNewTab(item.Path);
+                await NavigationHelpers.OpenPathInNewTab(item.Path, XamlRoot.UIContext);
                 return;
             }
 

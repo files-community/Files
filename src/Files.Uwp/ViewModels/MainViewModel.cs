@@ -14,6 +14,7 @@ using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs;
 using Files.Backend.Extensions;
 using Windows.UI.Xaml.Hosting;
+using Files.Extensions;
 
 namespace Files.ViewModels
 {
@@ -64,19 +65,9 @@ namespace Files.ViewModels
             get => tabStripSelectedIndex;
             set
             {
-                if (value >= 0)
+                if (value >= 0 && tabStripSelectedIndex != value)
                 {
-                    if (tabStripSelectedIndex != value)
-                    {
-                        SetProperty(ref tabStripSelectedIndex, value);
-                    }
-
-                    //if (value < MainPageViewModel.AppInstances.Count)
-                    //{
-                    //    Frame rootFrame = ElementCompositionPreview.GetAppWindowContent(App.AppWindows[this.UIContext]) as Frame;
-                    //    var mainView = rootFrame.Content as MainPage;
-                    //    mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
-                    //}
+                    SetProperty(ref tabStripSelectedIndex, value);
                 }
             }
         }

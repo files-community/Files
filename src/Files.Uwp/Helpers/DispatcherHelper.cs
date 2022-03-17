@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp;
+using System;
 using System.Runtime.CompilerServices;
+using Windows.System;
 using Windows.UI.Core;
 
 namespace Files.Helpers
@@ -7,16 +9,16 @@ namespace Files.Helpers
     /// <summary>
     /// This class provides static methods helper for executing code in UI thread of the main window.
     /// </summary>
-    internal static class DispatcherHelper
+    internal static class DispatcherQueueHelper
     { /// <summary>
       /// This struct represents an awaitable dispatcher.
       /// </summary>
-        public struct DispatcherPriorityAwaitable
+        public struct DispatcherQueuePriorityAwaitable
         {
-            private readonly CoreDispatcher dispatcher;
-            private readonly CoreDispatcherPriority priority;
+            private readonly DispatcherQueue dispatcher;
+            private readonly DispatcherQueuePriority priority;
 
-            internal DispatcherPriorityAwaitable(CoreDispatcher dispatcher, CoreDispatcherPriority priority)
+            internal DispatcherQueuePriorityAwaitable(DispatcherQueue dispatcher, DispatcherQueuePriority priority)
             {
                 this.dispatcher = dispatcher;
                 this.priority = priority;
@@ -26,26 +28,26 @@ namespace Files.Helpers
             /// Get awaiter of DispatcherPriorityAwaiter
             /// </summary>
             /// <returns>Awaiter of DispatcherPriorityAwaiter</returns>
-            public DispatcherPriorityAwaiter GetAwaiter()
+            public DispatcherQueuePriorityAwaiter GetAwaiter()
             {
-                return new DispatcherPriorityAwaiter(this.dispatcher, this.priority);
+                return new DispatcherQueuePriorityAwaiter(this.dispatcher, this.priority);
             }
         }
 
         /// <summary>
         /// This struct represents the awaiter of a dispatcher.
         /// </summary>
-        public struct DispatcherPriorityAwaiter : INotifyCompletion
+        public struct DispatcherQueuePriorityAwaiter : INotifyCompletion
         {
-            private readonly CoreDispatcher dispatcher;
-            private readonly CoreDispatcherPriority priority;
+            private readonly DispatcherQueue dispatcher;
+            private readonly DispatcherQueuePriority priority;
 
             /// <summary>
             /// Gets a value indicating whether task has completed
             /// </summary>
             public bool IsCompleted => false;
 
-            internal DispatcherPriorityAwaiter(CoreDispatcher dispatcher, CoreDispatcherPriority priority)
+            internal DispatcherQueuePriorityAwaiter(DispatcherQueue dispatcher, DispatcherQueuePriority priority)
             {
                 this.dispatcher = dispatcher;
                 this.priority = priority;
@@ -64,7 +66,7 @@ namespace Files.Helpers
             /// <param name="continuation">Continuation action</param>
             public async void OnCompleted(Action continuation)
             {
-                await this.dispatcher.RunAsync(this.priority, new DispatchedHandler(continuation));
+                await this.dispatcher.EnqueueAsync(continuation, this.priority);
             }
         }
 
@@ -74,9 +76,9 @@ namespace Files.Helpers
         /// <param name="dispatcher">Dispatcher of a thread to yield</param>
         /// <param name="priority">Dispatcher execution priority, default is low</param>
         /// <returns>Awaitable dispatcher task</returns>
-        public static DispatcherPriorityAwaitable YieldAsync(this CoreDispatcher dispatcher, CoreDispatcherPriority priority = CoreDispatcherPriority.Low)
+        public static DispatcherQueuePriorityAwaitable YieldAsync(this DispatcherQueue dispatcher, DispatcherQueuePriority priority = DispatcherQueuePriority.Low)
         {
-            return new DispatcherPriorityAwaitable(dispatcher, priority);
+            return new DispatcherQueuePriorityAwaitable(dispatcher, priority);
         }
     }
 }
