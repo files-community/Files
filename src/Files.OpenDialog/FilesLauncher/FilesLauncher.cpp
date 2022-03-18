@@ -28,32 +28,26 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	if (SUCCEEDED(hr))
 	{
 		TCHAR debugPath[MAX_PATH];
-		wsprintf(debugPath, L"%s\\%s", pszPath, L"open_in_folder.txt");
+		swprintf(debugPath, _countof(debugPath) - 1, L"%s\\%s", pszPath, L"open_in_folder.txt");
 		//_wfreopen_s(&_debugStream, debugPath, L"w", stdout);
 		CoTaskMemFree(pszPath);
 	}
 
-	//Sleep(10 * 1000);
+	//Sleep(10 * 1000); // Uncomment to attach debugger
 
 	int numArgs = 0;
+	bool withArgs = false;
 	LPWSTR* szArglist = CommandLineToArgvW(GetCommandLine(), &numArgs);
 	WCHAR openDirectory[MAX_PATH];
 
-	if (numArgs < 2)
+	if (numArgs > 1)
 	{
-		LocalFree(szArglist);
-		if (_debugStream)
-		{
-			fclose(_debugStream);
-		}
-		return -1;
+		swprintf(openDirectory, _countof(openDirectory) - 1, L"%s", szArglist[1]);
+		std::wcout << openDirectory << std::endl;
+		withArgs = true;
 	}
 
-	wsprintf(openDirectory, L"%s", szArglist[1]);
-
 	LocalFree(szArglist);
-
-	std::wcout << openDirectory << std::endl;
 
 	WCHAR szBuf[MAX_PATH];
 	ExpandEnvironmentStrings(L"%LOCALAPPDATA%\\Microsoft\\WindowsApps\\files.exe", szBuf, MAX_PATH - 1);
@@ -61,83 +55,122 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	if (_waccess(szBuf, 0) == -1)
 	{
 		std::cout << "Files has been uninstalled" << std::endl;
-		// TODO: run explorer and uninstall launcher
+
+		// Uninstall launcher
+		TCHAR szFile[MAX_PATH], szCmd[MAX_PATH];
+		swprintf(szCmd, _countof(szCmd) - 1, L"/c reg.exe import \"%s\"", L"%LocalAppData%\\Files\\UnsetFilesAsDefault.reg");
+		if (((INT)ShellExecute(0, L"runas", L"cmd.exe", szCmd, 0, SW_HIDE) > 32))
+		{
+			std::cout << "Launcher unset as default" << std::endl;
+			//swprintf(szCmd, _countof(szCmd) - 1, L"-command \"Start-Sleep -Seconds 5; $lfp = [System.Environment]::ExpandEnvironmentVariables('%%LocalAppData%%\\Files'); Remove-Item -Path $lfp -Recurse -Force\"");
+			//if ((INT)ShellExecute(0, 0, L"powershell.exe", szCmd, 0, SW_HIDE) > 32)
+			//{
+				//std::cout << "Launcher uninstalled" << std::endl;
+			//}
+		}
+
+		// Run explorer
 		SHELLEXECUTEINFO ShExecInfo = { 0 };
 		ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
 		ShExecInfo.lpFile = L"explorer.exe";
-		TCHAR args[1024];
-		wsprintf(args, L"\"%s\"", openDirectory);
-		ShExecInfo.lpParameters = args;
+		if (withArgs)
+		{
+			TCHAR args[1024];
+			swprintf(args, _countof(args) - 1, L"\"%s\"", openDirectory);
+			ShExecInfo.lpParameters = args;
+		}
 		ShExecInfo.nShow = SW_SHOW;
 		ShellExecuteEx(&ShExecInfo);
-		return -1;
-	}
 
-	// Register the window class.
-	const wchar_t CLASS_NAME[] = L"Files Window Class";
+		if (_debugStream)
+		{
+			fclose(_debugStream);
+		}
 
-	WNDCLASSEX wcex = { };
-	wcex.cbSize = sizeof(wcex);
-	wcex.lpfnWndProc = WindowProc;
-	wcex.cbWndExtra = sizeof(OpenInFolder*);
-	wcex.hInstance = hInstance;
-	wcex.lpszClassName = CLASS_NAME;
-	RegisterClassEx(&wcex);
-
-	OpenInFolder openInFolder;
-
-	// Create the window.
-	HWND hwnd = CreateWindowEx(
-		0,                         // Optional window styles.
-		CLASS_NAME,                // Window class
-		L"Files Launcher",         // Window text
-		0,                         // Window style
-		0, 0, 0, 0,    // Size and position
-		HWND_MESSAGE,  // Parent window (message-only window)
-		NULL,          // Menu
-		hInstance,     // Instance handle
-		&openInFolder  // Additional application data
-	);
-
-	if (hwnd == NULL)
-	{
 		return 0;
 	}
 
-	SetTimer(hwnd, ID_TIMEREXPIRED, 500, NULL);
-
-	ShowWindow(hwnd, SW_SHOWNORMAL);
-	//UpdateWindow(hwnd);
-
-	MSG msg = { };
-	while (GetMessage(&msg, NULL, 0, 0) > 0)
+	if (withArgs)
 	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-	}
+		// Register the window class.
+		const wchar_t CLASS_NAME[] = L"Files Window Class";
 
-	auto item = openInFolder.GetResult();
+		WNDCLASSEX wcex = { };
+		wcex.cbSize = sizeof(wcex);
+		wcex.lpfnWndProc = WindowProc;
+		wcex.cbWndExtra = sizeof(OpenInFolder*);
+		wcex.hInstance = hInstance;
+		wcex.lpszClassName = CLASS_NAME;
+		RegisterClassEx(&wcex);
 
-	SHELLEXECUTEINFO ShExecInfo = { 0 };
-	ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
-	ShExecInfo.lpFile = L"files.exe";
-	
-	TCHAR args[1024];
-	if (item.empty())
-	{
-		std::wcout << L"No item selected" << std::endl;
-		wsprintf(args, L"-directory \"%s\"", openDirectory);
+		OpenInFolder openInFolder;
+
+		// Create the window.
+		HWND hwnd = CreateWindowEx(
+			0,                         // Optional window styles.
+			CLASS_NAME,                // Window class
+			L"Files Launcher",         // Window text
+			0,                         // Window style
+			0, 0, 0, 0,    // Size and position
+			HWND_MESSAGE,  // Parent window (message-only window)
+			NULL,          // Menu
+			hInstance,     // Instance handle
+			&openInFolder  // Additional application data
+		);
+
+		if (hwnd == NULL)
+		{
+			if (_debugStream)
+			{
+				fclose(_debugStream);
+			}
+			return 0;
+		}
+
+		SetTimer(hwnd, ID_TIMEREXPIRED, 500, NULL);
+
+		ShowWindow(hwnd, SW_SHOWNORMAL);
+		//UpdateWindow(hwnd);
+
+		MSG msg = { };
+		while (GetMessage(&msg, NULL, 0, 0) > 0)
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+
+		auto item = openInFolder.GetResult();
+
+		SHELLEXECUTEINFO ShExecInfo = { 0 };
+		ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+		ShExecInfo.lpFile = L"files.exe";
+
+		TCHAR args[1024];
+		if (item.empty())
+		{
+			std::wcout << L"No item selected" << std::endl;
+			swprintf(args, _countof(args) - 1, L"-directory \"%s\"", openDirectory);
+		}
+		else
+		{
+			std::wcout << L"Item: " << item << std::endl;
+			swprintf(args, _countof(args) - 1, L"-select \"%s\"", item.c_str());
+		}
+
+		std::wcout << L"Invoking: " << args << std::endl;
+		ShExecInfo.lpParameters = args;
+		ShExecInfo.nShow = SW_SHOW;
+		ShellExecuteEx(&ShExecInfo);
 	}
 	else
 	{
-		std::wcout << L"Item: " << item << std::endl;		
-		wsprintf(args, L"-select \"%s\"", item.c_str());
+		SHELLEXECUTEINFO ShExecInfo = { 0 };
+		ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+		ShExecInfo.lpFile = L"files.exe";
+		std::wcout << L"Invoking: no arguments" << std::endl;
+		ShExecInfo.nShow = SW_SHOW;
+		ShellExecuteEx(&ShExecInfo);
 	}
-
-	std::wcout << L"Invoking: " << args << std::endl;
-	ShExecInfo.lpParameters = args;
-	ShExecInfo.nShow = SW_SHOW;
-	ShellExecuteEx(&ShExecInfo);
 
 	if (_debugStream)
 	{
