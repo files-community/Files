@@ -15,6 +15,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.ComponentModel;
+using System.Collections.Specialized;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.ViewManagement;
@@ -32,6 +34,8 @@ namespace Files.ViewModels
         public List<IMultitaskingControl> MultitaskingControls { get; } = new List<IMultitaskingControl>();
 
         public static ObservableCollection<TabItem> AppInstances { get; private set; } = new ObservableCollection<TabItem>();
+
+        public static event EventHandler<PropertyChangedEventArgs> AppInstancePropertyChanged;
 
         private TabItem selectedTabItem;
 
@@ -59,6 +63,22 @@ namespace Files.ViewModels
             CloseSelectedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CloseSelectedTabKeyboardAccelerator);
             AddNewInstanceAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(AddNewInstanceAccelerator);
             ReopenClosedTabAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ReopenClosedTabAccelerator);
+
+            AppInstances.CollectionChanged += AppInstances_CollectionChanged;
+        }
+
+        private void AppInstances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                Parallel.ForEach(e.NewItems.OfType<TabItem>(), (instance) =>
+                {
+                    instance.PropertyChanged += (s, e) =>
+                    {
+                        AppInstancePropertyChanged?.Invoke(s, e);
+                    };
+                });
+            }
         }
 
         private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs e)
@@ -150,16 +170,22 @@ namespace Files.ViewModels
 
         private void CloseSelectedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
+            TabItem tabItem = null;
+
             if (App.MainViewModel.TabStripSelectedIndex >= AppInstances.Count)
             {
-                TabItem tabItem = AppInstances[AppInstances.Count - 1];
-                MultitaskingControl?.CloseTab(tabItem);
+                tabItem = AppInstances[AppInstances.Count - 1];
             }
             else
             {
-                TabItem tabItem = AppInstances[App.MainViewModel.TabStripSelectedIndex];
+                tabItem = AppInstances[App.MainViewModel.TabStripSelectedIndex];
+            }
+
+            if (tabItem != null && tabItem.IsLocked != true)
+            {
                 MultitaskingControl?.CloseTab(tabItem);
             }
+
             e.Handled = true;
         }
 
@@ -445,6 +471,26 @@ namespace Files.ViewModels
         public async void AddNewTab()
         {
             await AddNewTabAsync();
+        }
+
+        public static void LockTab(object sender, RoutedEventArgs e)
+        {
+            var tabItem = ((FrameworkElement)sender).DataContext as TabItem;
+
+            if (tabItem != null)
+            {
+                tabItem.IsLocked = true;
+            }
+        }
+
+        public static void UnlockTab(object sender, RoutedEventArgs e)
+        {
+            var tabItem = ((FrameworkElement)sender).DataContext as TabItem;
+
+            if (tabItem != null)
+            {
+                tabItem.IsLocked = false;
+            }
         }
 
         public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)

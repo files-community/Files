@@ -13,5 +13,7 @@ namespace Files.UserControls.MultitaskingControl
         TabItemControl Control { get; }
 
         bool AllowStorageItemDrop { get; }
+
+        bool IsLocked { get; }
     }
 }

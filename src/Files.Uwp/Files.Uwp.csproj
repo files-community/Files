@@ -126,6 +126,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\IJson.cs" />
     <Compile Include="Controllers\SidebarPinnedController.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToSelectionMode.cs" />
     <Compile Include="Converters\Converters.cs" />
     <Compile Include="Converters\DateTimeOffsetToString.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="Converters\MultiBooleanConverter.cs" />
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
     <Compile Include="Converters\StringArrayToString.cs" />
+    <Compile Include="Converters\BooleanToVisibilityInvertConverter.cs" />
     <Compile Include="Converters\WidthToRightMargin.cs" />
     <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="Converters\VisibilityInvertConverter.cs" />

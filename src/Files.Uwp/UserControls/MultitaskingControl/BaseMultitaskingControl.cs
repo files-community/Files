@@ -138,11 +138,14 @@ namespace Files.UserControls.MultitaskingControl
             }
             else if (Items.Count > 1)
             {
-                Items.Remove(tabItem);
-                tabItem?.Unload(); // Dispose and save tab arguments
-                RecentlyClosedTabs.Add(new TabItemArguments[] {
-                    tabItem.TabItemArguments
-                });
+                if (!tabItem.IsLocked)
+                {
+                    Items.Remove(tabItem);
+                    tabItem?.Unload(); // Dispose and save tab arguments
+                    RecentlyClosedTabs.Add(new TabItemArguments[] {
+                        tabItem.TabItemArguments
+                    });
+                }
             }
         }
 

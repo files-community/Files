@@ -471,6 +471,8 @@
                 PointerPressed="ManualPathEntryItem_Click"
                 Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
                 <uc:PathBreadcrumb
+                    x:Name="PathBreadcrumb"
+                    IsEnabled="{x:Bind ViewModel.IsPathNavigatorEnabled, Mode=OneWay}"
                     VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     VerticalContentAlignment="Stretch"

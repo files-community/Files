@@ -1,5 +1,9 @@
 using Files.Helpers.XamlHelpers;
+using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -9,12 +13,23 @@ using Windows.UI.Xaml.Input;
 
 namespace Files.UserControls
 {
-    public sealed partial class NavigationToolbar : UserControl
+    public sealed partial class NavigationToolbar : UserControl, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         public NavToolbarViewModel ViewModel
         {
             get => (NavToolbarViewModel)GetValue(ViewModelProperty);
-            set => SetValue(ViewModelProperty, value);
+            set
+            {
+                SetValue(ViewModelProperty, value);
+                NotifyPropertyChanged();
+            }
         }
 
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
@@ -50,6 +65,37 @@ namespace Files.UserControls
         {
             InitializeComponent();
             Loading += NavigationToolbar_Loading;
+
+            PropertyChanged += NavigationToolbar_PropertyChanged;
+            MainPageViewModel.AppInstancePropertyChanged += MainPageViewModel_AppInstancePropertyChanged;
+        }
+
+        private void NavigationToolbar_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ViewModel))
+            {
+                var selectedTabItem = MainPageViewModel.AppInstances[MainViewModel.TabStripSelectedIndex];
+
+                UpdateNavPropertiesFromTabItem(selectedTabItem);
+                PathBreadcrumb?.UpdateLayout();
+            }
+        }
+
+        private void MainPageViewModel_AppInstancePropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            var tabItem = sender as TabItem;
+            var selectedTabItem = MainPageViewModel.AppInstances[MainViewModel.TabStripSelectedIndex];
+
+            if (tabItem != selectedTabItem) return;
+
+            UpdateNavPropertiesFromTabItem(selectedTabItem);
+        }
+
+        private void UpdateNavPropertiesFromTabItem(TabItem tabItem)
+        {
+            if (ViewModel == null || tabItem == null) return;
+
+            ViewModel.IsPathNavigatorEnabled = !tabItem.IsLocked;
         }
 
         private void NavigationToolbar_Loading(FrameworkElement sender, object args)
@@ -74,6 +120,7 @@ namespace Files.UserControls
                     return;
                 }
             }
+
             ViewModel.IsEditModeEnabled = true;
         }
 
