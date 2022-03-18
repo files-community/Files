@@ -582,18 +582,6 @@ namespace Files.ViewModels
             set => SetProperty(ref clickablePathLoaded, value);
         }
 
-        private bool isPathNavigatorEnabled = true;
-
-        public bool IsPathNavigatorEnabled
-        {
-            get => isPathNavigatorEnabled;
-            set
-            {
-                isPathNavigatorEnabled = value;
-                OnPropertyChanged();
-            }
-        }
-
         private string pathControlDisplayText;
 
         public string PathControlDisplayText
