@@ -11,7 +11,6 @@ using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -331,7 +330,7 @@ namespace Files.DataModels
                     IsDefaultLocation = true,
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"))),
                     Path = "Home".GetLocalized(),
-                    ChildItems = new ObservableCollection<INavigationControlItem>()
+                    ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                 };
                 favoriteSection ??= new LocationItem()
                 {
@@ -340,7 +339,7 @@ namespace Files.DataModels
                     SelectsOnInvoked = false,
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.Shell32.QuickAccess)),
                     Font = MainViewModel.FontName,
-                    ChildItems = new ObservableCollection<INavigationControlItem>()
+                    ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                 };
 
                 if (homeSection != null)
@@ -355,19 +354,19 @@ namespace Files.DataModels
                     SidebarControl.SideBarItems.Insert(index, favoriteSection);
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => SidebarControl.SideBarItems.EndBulkOperation());
                 }
+
+                for (int i = 0; i < FavoriteItems.Count; i++)
+                {
+                    string path = FavoriteItems[i];
+                    await AddItemToSidebarAsync(path);
+                }
+
+                await ShowHideRecycleBinItemAsync(UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar);
             }
             finally
             {
                 SidebarControl.SideBarItemsSemaphore.Release();
             }
-
-            for (int i = 0; i < FavoriteItems.Count; i++)
-            {
-                string path = FavoriteItems[i];
-                await AddItemToSidebarAsync(path);
-            }
-
-            await ShowHideRecycleBinItemAsync(UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar);
         }
 
         /// <summary>
