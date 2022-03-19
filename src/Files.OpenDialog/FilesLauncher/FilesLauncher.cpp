@@ -15,6 +15,10 @@
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
+bool OpenInExistingShellWindow(TCHAR* openDirectory);
+
+void RunFileExplorer(TCHAR* openDirectory);
+
 int WINAPI WinMain(HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
 	LPSTR     lpCmdLine,
@@ -77,17 +81,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		}
 
 		// Run explorer
-		SHELLEXECUTEINFO ShExecInfo = { 0 };
-		ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
-		ShExecInfo.lpFile = L"explorer.exe";
-		if (withArgs)
-		{
-			TCHAR args[1024];
-			swprintf(args, _countof(args) - 1, L"\"%s\"", openDirectory);
-			ShExecInfo.lpParameters = args;
-		}
-		ShExecInfo.nShow = SW_SHOW;
-		ShellExecuteEx(&ShExecInfo);
+		RunFileExplorer(withArgs ? openDirectory : NULL);
 
 		if (_debugStream)
 		{
@@ -99,6 +93,15 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	if (withArgs)
 	{
+		if (OpenInExistingShellWindow(openDirectory))
+		{
+			if (_debugStream)
+			{
+				fclose(_debugStream);
+			}
+			return 0;
+		}
+
 		// Register the window class.
 		const wchar_t CLASS_NAME[] = L"Files Window Class";
 
@@ -232,4 +235,166 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		return DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
+}
+
+size_t strifind(const std::wstring& strHaystack, const std::wstring& strNeedle)
+{
+	auto it = std::search(
+		strHaystack.begin(), strHaystack.end(),
+		strNeedle.begin(), strNeedle.end(),
+		[](wchar_t ch1, wchar_t ch2) { return std::toupper(ch1) == std::toupper(ch2); }
+	);
+	return it != strHaystack.end() ? it - strHaystack.begin() : std::wstring::npos;
+}
+
+bool comparei(std::wstring stringA, std::wstring stringB)
+{
+	transform(stringA.begin(), stringA.end(), stringA.begin(), toupper);
+	transform(stringB.begin(), stringB.end(), stringB.begin(), toupper);
+	return (stringA == stringB);
+}
+
+void RunFileExplorer(TCHAR* openDirectory)
+{
+	// Run explorer
+	SHELLEXECUTEINFO ShExecInfo = { 0 };
+	ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+	ShExecInfo.lpFile = L"explorer.exe";
+	if (openDirectory != NULL)
+	{
+		TCHAR args[1024];
+		swprintf(args, _countof(args) - 1, L"\"%s\"", openDirectory);
+		ShExecInfo.lpParameters = args;
+	}
+	ShExecInfo.nShow = SW_SHOW;
+	ShellExecuteEx(&ShExecInfo);
+}
+
+bool OpenInExistingShellWindow(TCHAR* openDirectory)
+{
+	std::wstring kvp(openDirectory);
+	bool mustOpenInExplorer = false;
+	if (strifind(kvp, L"::{") == 0 || strifind(kvp, L"shell:") == 0)
+	{
+		std::vector<std::wstring> supportedShellFolders{
+			L"::{645FF040-5081-101B-9F08-00AA002F954E}",
+			L"::{5E5F29CE-E0A8-49D3-AF32-7A7BDC173478}",
+			L"::{20D04FE0-3AEA-1069-A2D8-08002B30309D}",
+			L"::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}",
+			L"::{208D2C60-3AEA-1069-A2D7-08002B30309D}",
+			L"Shell:RecycleBinFolder", L"Shell:NetworkPlacesFolder", L"Shell:MyComputerFolder"
+		};
+
+		auto it = std::find_if(
+			supportedShellFolders.begin(), supportedShellFolders.end(),
+			[kvp](std::wstring it) { return comparei(it, kvp); }
+		);
+		mustOpenInExplorer = it == supportedShellFolders.end();
+	}
+
+	IShellItem* psi;
+	PIDLIST_ABSOLUTE controlPanelCategoryViewPidl;
+	if (!SUCCEEDED(SHCreateItemFromParsingName(L"::{26EE0668-A00A-44D7-9371-BEB064C98683}", NULL, IID_IShellItem, (void**)&psi)))
+	{
+		if (mustOpenInExplorer)
+		{
+			RunFileExplorer(openDirectory);
+		}
+		return mustOpenInExplorer;
+	}
+	if (!SUCCEEDED(SHGetIDListFromObject(psi, &controlPanelCategoryViewPidl)))
+	{
+		psi->Release();
+		if (mustOpenInExplorer)
+		{
+			RunFileExplorer(openDirectory);
+		}
+		return mustOpenInExplorer;
+	}
+	psi->Release();
+
+	PIDLIST_ABSOLUTE targetFolderPidl;
+	if (!SUCCEEDED(SHCreateItemFromParsingName(openDirectory, NULL, IID_IShellItem, (void**)&psi)))
+	{
+		if (mustOpenInExplorer)
+		{
+			RunFileExplorer(openDirectory);
+		}
+		return mustOpenInExplorer;
+	}
+	if (!SUCCEEDED(SHGetIDListFromObject(psi, &targetFolderPidl)))
+	{
+		psi->Release();
+		if (mustOpenInExplorer)
+		{
+			RunFileExplorer(openDirectory);
+		}
+		return mustOpenInExplorer;
+	}
+	psi->Release();
+
+	bool opened = false;
+	IShellWindows* shellWindows;
+	long shellWindowsCount;
+	if (SUCCEEDED(CoCreateInstance(CLSID_ShellWindows, NULL, CLSCTX_LOCAL_SERVER, IID_IShellWindows, (void**)&shellWindows)))
+	{
+		VARIANT v;
+		V_VT(&v) = VT_I4;
+		IDispatch* item;
+		for (V_I4(&v) = 0; SUCCEEDED(shellWindows->Item(v, &item)) && item != NULL; V_I4(&v)++)
+		{
+			IServiceProvider* serv;
+			if (SUCCEEDED(item->QueryInterface(IID_IServiceProvider, (void**)&serv)))
+			{
+				IShellBrowser* shellBrowser;
+				if (SUCCEEDED(serv->QueryService(SID_STopLevelBrowser, IID_IShellBrowser, (void**)&shellBrowser)))
+				{
+					IShellView* shellView;
+					if (SUCCEEDED(shellBrowser->QueryActiveShellView(&shellView)))
+					{
+						IFolderView* folderView;
+						if (SUCCEEDED(shellView->QueryInterface(IID_IFolderView, (void**)&folderView)))
+						{
+							IPersistFolder2* folder;
+							if (SUCCEEDED(folderView->GetFolder(IID_IPersistFolder2, (void**)&folder)))
+							{
+								PIDLIST_ABSOLUTE folderPidl;
+								if (SUCCEEDED(folder->GetCurFolder(&folderPidl)))
+								{
+									if (ILIsParent(folderPidl, targetFolderPidl, true) ||
+										ILIsEqual(folderPidl, controlPanelCategoryViewPidl))
+									{
+										if (SUCCEEDED(shellBrowser->BrowseObject(targetFolderPidl, SBSP_SAMEBROWSER | SBSP_ABSOLUTE)))
+										{
+											opened = true;
+											break;
+										}
+									}
+									CoTaskMemFree(folderPidl);
+								}
+								folder->Release();
+							}
+							folderView->Release();
+						}
+						shellView->Release();
+					}
+					shellBrowser->Release();
+				}
+				serv->Release();
+			}
+			item->Release();
+		}
+
+		shellWindows->Release();
+	}
+
+	CoTaskMemFree(targetFolderPidl);
+	CoTaskMemFree(controlPanelCategoryViewPidl);
+
+	if (!opened && mustOpenInExplorer)
+	{
+		RunFileExplorer(openDirectory);
+	}
+
+	return opened || mustOpenInExplorer;
 }
