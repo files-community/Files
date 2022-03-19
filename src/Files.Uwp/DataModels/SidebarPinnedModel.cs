@@ -376,11 +376,13 @@ namespace Files.DataModels
         public void RemoveStaleSidebarItems()
         {
             // Remove unpinned items from sidebar
-            for (int i = 0; i < favoriteSection.ChildItems.Count; i++)
+            // Reverse iteration to avoid skipping elements while removing
+            for (int i = favoriteSection.ChildItems.Count - 1; i >= 0; i--)
             {
-                if (favoriteSection.ChildItems[i] is LocationItem)
+                var childItem = favoriteSection.ChildItems[i];
+                if (childItem is LocationItem)
                 {
-                    var item = favoriteSection.ChildItems[i] as LocationItem;
+                    var item = childItem as LocationItem;
                     if (!item.IsDefaultLocation && !FavoriteItems.Contains(item.Path))
                     {
                         favoriteSection.ChildItems.RemoveAt(i);
