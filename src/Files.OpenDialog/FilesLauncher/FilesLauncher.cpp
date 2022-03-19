@@ -154,6 +154,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		SHELLEXECUTEINFO ShExecInfo = { 0 };
 		ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
 		ShExecInfo.lpFile = L"files.exe";
+		ShExecInfo.lpDirectory = openDirectory;
 
 		TCHAR args[1024];
 		if (item.empty())
@@ -169,7 +170,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 		std::wcout << L"Invoking: " << args << std::endl;
 		ShExecInfo.lpParameters = args;
-		ShExecInfo.nShow = SW_SHOW;
+		ShExecInfo.nShow = SW_HIDE;
 		ShellExecuteEx(&ShExecInfo);
 	}
 	else
