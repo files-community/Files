@@ -69,11 +69,11 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		if (((INT)ShellExecute(0, L"runas", L"cmd.exe", szCmd, 0, SW_HIDE) > 32))
 		{
 			std::cout << "Launcher unset as default" << std::endl;
-			//swprintf(szCmd, _countof(szCmd) - 1, L"-command \"Start-Sleep -Seconds 5; $lfp = [System.Environment]::ExpandEnvironmentVariables('%%LocalAppData%%\\Files'); Remove-Item -Path $lfp -Recurse -Force\"");
-			//if ((INT)ShellExecute(0, 0, L"powershell.exe", szCmd, 0, SW_HIDE) > 32)
-			//{
-				//std::cout << "Launcher uninstalled" << std::endl;
-			//}
+			swprintf(szCmd, _countof(szCmd) - 1, L"-command \"Start-Sleep -Seconds 5; $lfp = [System.Environment]::ExpandEnvironmentVariables('%%LocalAppData%%\\Files'); Remove-Item -Path $lfp -Recurse -Force\"");
+			if ((INT)ShellExecute(0, 0, L"powershell.exe", szCmd, 0, SW_HIDE) > 32)
+			{
+				std::cout << "Launcher uninstalled" << std::endl;
+			}
 		}
 
 		// Run explorer

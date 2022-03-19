@@ -161,12 +161,19 @@ namespace FilesFullTrust.MessageHandlers
                         }
                         
                         var dataPath = Environment.ExpandEnvironmentVariables("%LocalAppData%\\Files");
-                        if (!Win32API.RunPowershellCommand($"-command \"New-Item -Force -Path {dataPath} -ItemType Directory; Copy-Item -Filter *.* -Path '{destFolder}\\*' -Recurse -Force -Destination '{dataPath}'\"", false))
+                        if (enable)
                         {
-                            // Error copying files
-                            DetectIsSetAsDefaultFileManager();
-                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
-                            return;
+                            if (!Win32API.RunPowershellCommand($"-command \"New-Item -Force -Path {dataPath} -ItemType Directory; Copy-Item -Filter *.* -Path '{destFolder}\\*' -Recurse -Force -Destination '{dataPath}'\"", false))
+                            {
+                                // Error copying files
+                                DetectIsSetAsDefaultFileManager();
+                                await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            Win32API.RunPowershellCommand($"-command \"Remove-Item -Path '{dataPath}' -Recurse -Force\"", false);
                         }
 
                         try
@@ -181,11 +188,6 @@ namespace FilesFullTrust.MessageHandlers
                             // Canceled UAC
                             DetectIsSetAsDefaultFileManager();
                             await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
-                        }
-
-                        if (!enable)
-                        {
-                            // Win32API.RunPowershellCommand($"-command \"Remove-Item -Path '{dataPath}' -Recurse -Force\"", false);
                         }
                     }
                     break;
