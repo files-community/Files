@@ -97,11 +97,20 @@ namespace Files.DataModels
         /// <param name="item">Item to remove</param>
         public async void AddItem(string item)
         {
-            if (!string.IsNullOrEmpty(item) && !FavoriteItems.Contains(item))
+            await SidebarControl.SideBarItemsSemaphore.WaitAsync();
+
+            try
             {
-                FavoriteItems.Add(item);
-                await AddItemToSidebarAsync(item);
-                Save();
+                if (!string.IsNullOrEmpty(item) && !FavoriteItems.Contains(item))
+                {
+                    FavoriteItems.Add(item);
+                    await AddItemToSidebarAsync(item);
+                    Save();
+                }
+            }
+            finally
+            {
+                SidebarControl.SideBarItemsSemaphore.Release();
             }
         }
 
