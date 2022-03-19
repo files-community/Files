@@ -56,6 +56,13 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	{
 		std::cout << "Files has been uninstalled" << std::endl;
 
+		MessageBox(
+			NULL,
+			(LPCWSTR)L"Files has been uninstalled. Restoring File Explorer.",
+			(LPCWSTR)L"Files",
+			(UINT)(MB_OK)
+		);
+
 		// Uninstall launcher
 		TCHAR szFile[MAX_PATH], szCmd[MAX_PATH];
 		swprintf(szCmd, _countof(szCmd) - 1, L"/c reg.exe import \"%s\"", L"%LocalAppData%\\Files\\UnsetFilesAsDefault.reg");
