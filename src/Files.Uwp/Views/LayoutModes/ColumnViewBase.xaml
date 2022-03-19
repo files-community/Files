@@ -310,8 +310,10 @@
                                         Margin="0"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
+                                        Paste="RenameTextBoxItemName_Paste"
+                                        SelectionChanged="RenameTextBoxItemName_SelectionChanged"
                                         TextAlignment="Left"
-                                        TextChanged="ListViewTextBoxItemName_TextChanged"
+                                        TextChanging="RenameTextBoxItemName_TextChanging"
                                         TextWrapping="Wrap"
                                         Visibility="Collapsed" />
                                     <Grid Grid.Column="2">

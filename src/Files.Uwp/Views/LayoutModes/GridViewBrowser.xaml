@@ -197,11 +197,11 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         Background="{ThemeResource SolidBackgroundFillColorSecondary}"
+                        Paste="RenameTextBoxItemName_Paste"
+                        SelectionChanged="RenameTextBoxItemName_SelectionChanged"
                         Text="{x:Bind ItemName, Mode=OneWay}"
                         TextAlignment="Center"
                         TextChanging="RenameTextBoxItemName_TextChanging"
-                        SelectionChanged="RenameTextBoxItemName_SelectionChanged"
-                        Paste="RenameTextBoxItemName_Paste"
                         TextWrapping="Wrap" />
                 </Popup>
             </Grid>
@@ -339,10 +339,10 @@
                         x:Name="TileViewTextBoxItemName"
                         Grid.Row="0"
                         HorizontalAlignment="Left"
+                        Paste="RenameTextBoxItemName_Paste"
+                        SelectionChanged="RenameTextBoxItemName_SelectionChanged"
                         Text="{x:Bind ItemName, Mode=OneWay}"
                         TextChanging="RenameTextBoxItemName_TextChanging"
-                        SelectionChanged="RenameTextBoxItemName_SelectionChanged"
-                        Paste="RenameTextBoxItemName_Paste"
                         Visibility="Collapsed" />
                     <TextBlock
                         Grid.Row="1"
