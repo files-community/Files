@@ -1,4 +1,5 @@
-﻿using Files.Common;
+﻿using Files.Shared;
+using Files.Shared.Extensions;
 using FilesFullTrust.Helpers;
 using Newtonsoft.Json;
 using System;
@@ -14,7 +15,7 @@ using Windows.Foundation.Collections;
 namespace FilesFullTrust.MessageHandlers
 {
     [SupportedOSPlatform("Windows10.0.10240")]
-    public class ContextMenuHandler : IMessageHandler
+    public class ContextMenuHandler : Disposable, IMessageHandler
     {
         private readonly DisposableDictionary handleTable;
 
@@ -67,13 +68,13 @@ namespace FilesFullTrust.MessageHandlers
                     break;
 
                 case "GetNewContextMenuEntries":
-                    var entries = await Extensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntries(), Program.Logger);
+                    var entries = await SafetyExtensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntries(), Program.Logger);
                     await Win32API.SendMessageAsync(connection, new ValueSet() { { "Entries", JsonConvert.SerializeObject(entries) } }, message.Get("RequestID", (string)null));
                     break;
 
                 case "GetNewContextMenuEntryForType":
                     var fileExtension = (string)message["extension"];
-                    var entry = await Extensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntryForType(fileExtension), Program.Logger);
+                    var entry = await SafetyExtensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntryForType(fileExtension), Program.Logger);
                     await Win32API.SendMessageAsync(connection, new ValueSet() { { "Entry", JsonConvert.SerializeObject(entry) } }, message.Get("RequestID", (string)null));
                     break;
             }
@@ -164,9 +165,12 @@ namespace FilesFullTrust.MessageHandlers
             return filterMenuItemsImpl;
         }
 
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            handleTable?.Dispose();
+            if (disposing)
+            {
+                handleTable?.Dispose();
+            }
         }
     }
 }

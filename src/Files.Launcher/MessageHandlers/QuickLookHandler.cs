@@ -1,4 +1,5 @@
-﻿using Files.Common;
+﻿using Files.Shared;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,9 +12,9 @@ using Windows.Foundation.Collections;
 namespace FilesFullTrust.MessageHandlers
 {
     [SupportedOSPlatform("Windows10.0.10240")]
-    public class QuickLookHandler : IMessageHandler
+    public class QuickLookHandler : Disposable, IMessageHandler
     {
-        private static readonly Logger Logger = Program.Logger;
+        private static readonly ILogger Logger = Program.Logger;
 
         public void Initialize(PipeStream connection)
         {
@@ -32,12 +33,10 @@ namespace FilesFullTrust.MessageHandlers
                 case "ToggleQuickLook":
                     var path = (string)message["path"];
                     var switchPreview = (bool)message["switch"];
-                    Extensions.IgnoreExceptions(() => ToggleQuickLook(path, switchPreview), Logger);
+                    SafetyExtensions.IgnoreExceptions(() => ToggleQuickLook(path, switchPreview), Logger);
                     break;
             }
         }
-
-        public void Dispose() { }
 
         private static void ToggleQuickLook(string path, bool switchPreview)
         {

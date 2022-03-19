@@ -1,4 +1,5 @@
-﻿using Files.Common;
+﻿using Files.Shared;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +12,7 @@ using Windows.Storage;
 namespace FilesFullTrust.MessageHandlers
 {
     [SupportedOSPlatform("Windows10.0.10240")]
-    public class FileTagsHandler : IMessageHandler
+    public class FileTagsHandler : Disposable, IMessageHandler
     {
         public static string ReadFileTag(string filePath)
         {
@@ -59,7 +60,7 @@ namespace FilesFullTrust.MessageHandlers
                 return null;
             }
             ulong? frn = null;
-            Extensions.IgnoreExceptions(() =>
+            SafetyExtensions.IgnoreExceptions(() =>
             {
                 var fileID = Kernel32.GetFileInformationByHandleEx<Kernel32.FILE_ID_INFO>(hFile, Kernel32.FILE_INFO_BY_HANDLE_CLASS.FileIdInfo);
                 frn = BitConverter.ToUInt64(fileID.FileId.Identifier, 0);
@@ -93,7 +94,7 @@ namespace FilesFullTrust.MessageHandlers
                     var tag = ReadFileTag(file.FilePath);
                     if (tag != null)
                     {
-                        if (!Extensions.IgnoreExceptions(() =>
+                        if (!SafetyExtensions.IgnoreExceptions(() =>
                         {
                             var frn = GetFileFRN(file.FilePath);
                             dbInstance.UpdateTag(file.FilePath, frn, null);
@@ -123,10 +124,6 @@ namespace FilesFullTrust.MessageHandlers
         }
 
         public void Initialize(PipeStream connection)
-        {
-        }
-
-        public void Dispose()
         {
         }
     }
