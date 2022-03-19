@@ -15,9 +15,9 @@
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-bool OpenInExistingShellWindow(TCHAR* openDirectory);
+bool OpenInExistingShellWindow(const TCHAR* folderPath);
 
-void RunFileExplorer(TCHAR* openDirectory);
+void RunFileExplorer(const TCHAR* openDirectory);
 
 int WINAPI WinMain(HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
@@ -249,12 +249,12 @@ size_t strifind(const std::wstring& strHaystack, const std::wstring& strNeedle)
 
 bool comparei(std::wstring stringA, std::wstring stringB)
 {
-	transform(stringA.begin(), stringA.end(), stringA.begin(), toupper);
-	transform(stringB.begin(), stringB.end(), stringB.begin(), toupper);
+	transform(stringA.begin(), stringA.end(), stringA.begin(), std::toupper);
+	transform(stringB.begin(), stringB.end(), stringB.begin(), std::toupper);
 	return (stringA == stringB);
 }
 
-void RunFileExplorer(TCHAR* openDirectory)
+void RunFileExplorer(const TCHAR* openDirectory)
 {
 	// Run explorer
 	SHELLEXECUTEINFO ShExecInfo = { 0 };
@@ -270,24 +270,28 @@ void RunFileExplorer(TCHAR* openDirectory)
 	ShellExecuteEx(&ShExecInfo);
 }
 
-bool OpenInExistingShellWindow(TCHAR* openDirectory)
+bool OpenInExistingShellWindow(const TCHAR* folderPath)
 {
-	std::wstring kvp(openDirectory);
+	std::wstring openDirectory(folderPath);
 	bool mustOpenInExplorer = false;
-	if (strifind(kvp, L"::{") == 0 || strifind(kvp, L"shell:") == 0)
+	if (strifind(openDirectory, L"::{") == 0)
+	{
+		openDirectory = L"shell:" + openDirectory;
+	}
+	if (strifind(openDirectory, L"shell:") == 0)
 	{
 		std::vector<std::wstring> supportedShellFolders{
-			L"::{645FF040-5081-101B-9F08-00AA002F954E}",
-			L"::{5E5F29CE-E0A8-49D3-AF32-7A7BDC173478}",
-			L"::{20D04FE0-3AEA-1069-A2D8-08002B30309D}",
-			L"::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}",
-			L"::{208D2C60-3AEA-1069-A2D7-08002B30309D}",
+			L"shell:::{645FF040-5081-101B-9F08-00AA002F954E}",
+			L"shell:::{5E5F29CE-E0A8-49D3-AF32-7A7BDC173478}",
+			L"shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}",
+			L"shell:::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}",
+			L"shell:::{208D2C60-3AEA-1069-A2D7-08002B30309D}",
 			L"Shell:RecycleBinFolder", L"Shell:NetworkPlacesFolder", L"Shell:MyComputerFolder"
 		};
 
 		auto it = std::find_if(
 			supportedShellFolders.begin(), supportedShellFolders.end(),
-			[kvp](std::wstring it) { return comparei(it, kvp); }
+			[openDirectory](std::wstring it) { return comparei(it, openDirectory); }
 		);
 		mustOpenInExplorer = it == supportedShellFolders.end();
 	}
@@ -298,7 +302,7 @@ bool OpenInExistingShellWindow(TCHAR* openDirectory)
 	{
 		if (mustOpenInExplorer)
 		{
-			RunFileExplorer(openDirectory);
+			RunFileExplorer(openDirectory.c_str());
 		}
 		return mustOpenInExplorer;
 	}
@@ -307,18 +311,18 @@ bool OpenInExistingShellWindow(TCHAR* openDirectory)
 		psi->Release();
 		if (mustOpenInExplorer)
 		{
-			RunFileExplorer(openDirectory);
+			RunFileExplorer(openDirectory.c_str());
 		}
 		return mustOpenInExplorer;
 	}
 	psi->Release();
 
 	PIDLIST_ABSOLUTE targetFolderPidl;
-	if (!SUCCEEDED(SHCreateItemFromParsingName(openDirectory, NULL, IID_IShellItem, (void**)&psi)))
+	if (!SUCCEEDED(SHCreateItemFromParsingName(openDirectory.c_str(), NULL, IID_IShellItem, (void**)&psi)))
 	{
 		if (mustOpenInExplorer)
 		{
-			RunFileExplorer(openDirectory);
+			RunFileExplorer(openDirectory.c_str());
 		}
 		return mustOpenInExplorer;
 	}
@@ -327,7 +331,7 @@ bool OpenInExistingShellWindow(TCHAR* openDirectory)
 		psi->Release();
 		if (mustOpenInExplorer)
 		{
-			RunFileExplorer(openDirectory);
+			RunFileExplorer(openDirectory.c_str());
 		}
 		return mustOpenInExplorer;
 	}
@@ -393,7 +397,7 @@ bool OpenInExistingShellWindow(TCHAR* openDirectory)
 
 	if (!opened && mustOpenInExplorer)
 	{
-		RunFileExplorer(openDirectory);
+		RunFileExplorer(openDirectory.c_str());
 	}
 
 	return opened || mustOpenInExplorer;
