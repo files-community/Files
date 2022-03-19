@@ -331,8 +331,6 @@ namespace Files.Views.LayoutModes
 
         override public void StartRenameItem()
         {
-            SetView(this);
-            SetFileNameTeachingTip(FileNameTeachingTip);
             RenamingItem = SelectedItem;
             if (RenamingItem == null)
             {
@@ -346,10 +344,7 @@ namespace Files.Views.LayoutModes
                 return;
             }
             TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
-            RenamingTextBlock = textBlock;
             textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-            //TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
-            //textBox = (gridViewItem.ContentTemplateRoot as Grid).FindName("TileViewTextBoxItemName") as TextBox;
             textBox.Text = textBlock.Text;
             OldItemName = textBlock.Text;
             textBlock.Visibility = Visibility.Collapsed;
@@ -368,7 +363,16 @@ namespace Files.Views.LayoutModes
             textBox.Select(0, selectedTextLength);
             IsRenamingItem = true;
         }
-        
+
+        private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
+        {
+            ValidateItemNameInputText(textBox, args, (showError) =>
+            {
+                FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
+                FileNameTeachingTip.IsOpen = showError;
+            });
+        }
+
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Escape)
@@ -400,10 +404,6 @@ namespace Files.Views.LayoutModes
 
         private async void CommitRename(TextBox textBox)
         {
-            renameTextBoxPreviousInput = "";
-            renameTextBoxPreviousCursorPosition = 0;
-            renameTextBoxPasted = false;
-            renameTextBoxPreviousRestrictedAttempt = "";
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');
             await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);

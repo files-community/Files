@@ -14,7 +14,6 @@ using Files.Views;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -83,8 +82,6 @@ namespace Files
         public ListedItem RenamingItem { get; set; } = null;
 
         public string OldItemName { get; set; } = null;
-
-        public TextBlock RenamingTextBlock { get; set; } = null;
 
         private bool isMiddleClickToScrollEnabled = true;
 
@@ -302,42 +299,6 @@ namespace Files
         public ListedItem SelectedItem { get; private set; }
 
         private DispatcherQueueTimer dragOverTimer, tapDebounceTimer;
-
-        public string renameTextBoxPreviousInput { get; set; } = "";
-        public int renameTextBoxPreviousCursorPosition { get; set; } = 0;
-        public bool renameTextBoxPasted { get; set; } = false;
-        public string renameTextBoxPreviousRestrictedAttempt { get; set; } = "";
-
-        protected TeachingTip FileNameTeachingTip;
-
-        protected BaseLayout View;
-
-        protected void SetFileNameTeachingTip(TeachingTip fileNameTeachingTip) 
-        {
-            FileNameTeachingTip = fileNameTeachingTip;
-        }
-
-        protected void SetView(BaseLayout view)
-        {
-            View = view;
-        }
-        
-        protected void RenameTextBoxItemName_SelectionChanged(object s, RoutedEventArgs e)
-        {
-            renameTextBoxPreviousCursorPosition = ((TextBox)s).SelectionStart;
-        }
-        
-        protected void RenameTextBoxItemName_TextChanging(TextBox textBox, TextBoxTextChangingEventArgs args)
-        {
-            
-            FilesystemHelpers.RenameHelperTextChanging(FileNameTeachingTip, textBox, RenamingTextBlock, View);
-        }
-        
-        protected void RenameTextBoxItemName_Paste(object sender, TextControlPasteEventArgs e)
-        {
-            renameTextBoxPasted = true;
-        }
-
 
         public BaseLayout()
         {
@@ -1272,6 +1233,26 @@ namespace Files
         {
             preRenamingItem = null;
             tapDebounceTimer.Stop();
+        }
+
+        protected async void ValidateItemNameInputText(TextBox textBox, TextBoxBeforeTextChangingEventArgs args, Action<bool> showError)
+        {
+            if (FilesystemHelpers.ContainsRestrictedCharacters(args.NewText))
+            {
+                args.Cancel = true;
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    var oldSelection = textBox.SelectionStart + textBox.SelectionLength;
+                    var oldText = textBox.Text;
+                    textBox.Text = FilesystemHelpers.FilterRestrictedCharacters(args.NewText);
+                    textBox.SelectionStart = oldSelection + textBox.Text.Length - oldText.Length;
+                    showError?.Invoke(true);
+                });
+            }
+            else
+            {
+                showError?.Invoke(false);
+            }
         }
     }
 

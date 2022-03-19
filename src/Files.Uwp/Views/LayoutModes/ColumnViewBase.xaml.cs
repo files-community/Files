@@ -168,8 +168,6 @@ namespace Files.Views.LayoutModes
 
         override public void StartRenameItem()
         {
-            SetView(this);
-            SetFileNameTeachingTip(FileNameTeachingTip);
             RenamingItem = FileList.SelectedItem as ListedItem;
             if (RenamingItem == null)
             {
@@ -182,13 +180,11 @@ namespace Files.Views.LayoutModes
             {
                 return;
             }
-            RenamingTextBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
+            TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
             textBox = listViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
-            //textBlock = (listViewItem.ContentTemplateRoot as Border).FindDescendant("ItemName") as TextBlock;
-            //textBox = (listViewItem.ContentTemplateRoot as Border).FindDescendant("ListViewTextBoxItemName") as TextBox;
-            textBox.Text = RenamingTextBlock.Text;
-            OldItemName = RenamingTextBlock.Text;
-            RenamingTextBlock.Visibility = Visibility.Collapsed;
+            textBox.Text = textBlock.Text;
+            OldItemName = textBlock.Text;
+            textBlock.Visibility = Visibility.Collapsed;
             textBox.Visibility = Visibility.Visible;
 
             textBox.Focus(FocusState.Pointer);
@@ -202,6 +198,15 @@ namespace Files.Views.LayoutModes
             }
             textBox.Select(0, selectedTextLength);
             IsRenamingItem = true;
+        }
+
+        private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
+        {
+            ValidateItemNameInputText(textBox, args, (showError) =>
+            {
+                FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
+                FileNameTeachingTip.IsOpen = showError;
+            });
         }
 
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -235,10 +240,6 @@ namespace Files.Views.LayoutModes
 
         private async void CommitRename(TextBox textBox)
         {
-            renameTextBoxPreviousInput = "";
-            renameTextBoxPreviousCursorPosition = 0;
-            renameTextBoxPasted = false;
-            renameTextBoxPreviousRestrictedAttempt = "";
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');
             await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
@@ -256,8 +257,9 @@ namespace Files.Views.LayoutModes
                 ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
                 listViewItem?.Focus(FocusState.Programmatic);
 
+                TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
                 textBox.Visibility = Visibility.Collapsed;
-                RenamingTextBlock.Visibility = Visibility.Visible;
+                textBlock.Visibility = Visibility.Visible;
             }
 
             textBox.LostFocus -= RenameTextBox_LostFocus;

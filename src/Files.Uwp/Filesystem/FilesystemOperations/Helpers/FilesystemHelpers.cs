@@ -9,7 +9,6 @@ using Files.Backend.Services.Settings;
 using Files.ViewModels.Dialogs;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,8 +21,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Files.Shared.Extensions;
 using Files.Backend.Extensions;
 
@@ -813,6 +810,16 @@ namespace Files.Filesystem
             return itemsList;
         }
 
+        public static string FilterRestrictedCharacters(string input)
+        {
+            int invalidCharIndex;
+            while ((invalidCharIndex = input.IndexOfAny(RestrictedCharacters)) >= 0)
+            {
+                input = input.Remove(invalidCharIndex, 1);
+            }
+            return input;
+        }
+
         public static bool ContainsRestrictedCharacters(string input)
         {
             return input.IndexOfAny(RestrictedCharacters) >= 0;
@@ -827,62 +834,6 @@ namespace Files.Filesystem
             }
 
             return false;
-        }
-
-        public static string FilterRestrictedCharacters(string input)
-        {
-            string filtered = "";
-            foreach (char c in input)
-            {
-                if (!RestrictedCharacters.Contains(c))
-                {
-                    filtered = string.Concat(filtered, c);
-                }
-            }
-            return filtered;
-        }
-        
-        public static void RenameHelperTextChanging(TeachingTip FileNameTeachingTip, TextBox textBox, TextBlock textBlock, BaseLayout view)
-        {
-            if (view.renameTextBoxPreviousInput == "")
-            {
-                view.renameTextBoxPreviousInput = textBlock.Text;
-            }
-            bool hasRestrictedCharacter = ContainsRestrictedCharacters(textBox.Text);
-            if (hasRestrictedCharacter)
-            {
-                switch (view.renameTextBoxPasted, view.renameTextBoxPreviousRestrictedAttempt == textBox.Text)
-                {
-                    case (true, true):
-                        textBox.Text = textBox.Text.Remove(textBox.Text.Length - view.renameTextBoxPreviousRestrictedAttempt.Length);
-                        string filtered = FilterRestrictedCharacters(view.renameTextBoxPreviousRestrictedAttempt);
-                        textBox.Text += filtered;
-                        textBox.SelectionStart = view.renameTextBoxPreviousCursorPosition + Math.Abs(textBox.Text.Length - view.renameTextBoxPreviousInput.Length);
-                        FileNameTeachingTip.Visibility = Visibility.Collapsed;
-                        FileNameTeachingTip.IsOpen = false;
-                        break;
-                    case (true, false):
-                        FileNameTeachingTip.Visibility = Visibility.Visible;
-                        FileNameTeachingTip.IsOpen = true;
-                        view.renameTextBoxPreviousRestrictedAttempt = textBox.Text;
-                        textBox.Text = view.renameTextBoxPreviousInput;
-                        textBox.SelectionStart = view.renameTextBoxPreviousCursorPosition;
-                        break;
-                    default:
-                        FileNameTeachingTip.Visibility = Visibility.Visible;
-                        FileNameTeachingTip.IsOpen = true;
-                        textBox.Text = view.renameTextBoxPreviousInput;
-                        textBox.SelectionStart = view.renameTextBoxPreviousCursorPosition;
-                        break;
-                }
-            }
-            else
-            {
-                FileNameTeachingTip.Visibility = Visibility.Collapsed;
-                FileNameTeachingTip.IsOpen = false;
-            }
-            view.renameTextBoxPreviousInput = textBox.Text;
-            view.renameTextBoxPasted = false;
         }
 
         #endregion Public Helpers

@@ -243,9 +243,6 @@ namespace Files.Views.LayoutModes
 
         override public void StartRenameItem()
         {
-            SetView(this);
-            SetFileNameTeachingTip(FileNameTeachingTip);
-            
             RenamingItem = SelectedItem;
             if (RenamingItem == null)
             {
@@ -263,9 +260,6 @@ namespace Files.Views.LayoutModes
             {
                 Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
                 TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
-                RenamingTextBlock = textBlock;
-                //Popup popup = (gridViewItem.ContentTemplateRoot as Grid).FindName("EditPopup") as Popup;
-                //TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
                 textBox = popup.Child as TextBox;
                 textBox.Text = textBlock.Text;
                 popup.IsOpen = true;
@@ -274,10 +268,7 @@ namespace Files.Views.LayoutModes
             else
             {
                 TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
-                RenamingTextBlock = textBlock;
                 textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
-                //TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
-                //textBox = (gridViewItem.ContentTemplateRoot as Grid).FindName("TileViewTextBoxItemName") as TextBox;
                 textBox.Text = textBlock.Text;
                 OldItemName = textBlock.Text;
                 textBlock.Visibility = Visibility.Collapsed;
@@ -295,6 +286,15 @@ namespace Files.Views.LayoutModes
             }
             textBox.Select(0, selectedTextLength);
             IsRenamingItem = true;
+        }
+
+        private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
+        {
+            ValidateItemNameInputText(textBox, args, (showError) =>
+            {
+                FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
+                FileNameTeachingTip.IsOpen = showError;
+            });
         }
 
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -328,10 +328,6 @@ namespace Files.Views.LayoutModes
 
         private async void CommitRename(TextBox textBox)
         {
-            renameTextBoxPreviousInput = "";
-            renameTextBoxPreviousCursorPosition = 0;
-            renameTextBoxPasted = false;
-            renameTextBoxPreviousRestrictedAttempt = "";
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');
             await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
@@ -361,7 +357,7 @@ namespace Files.Views.LayoutModes
             textBox.KeyDown -= RenameTextBox_KeyDown;
             FileNameTeachingTip.IsOpen = false;
             IsRenamingItem = false;
-            
+
             // Re-focus selected list item
             GridViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
             gridViewItem?.Focus(FocusState.Programmatic);
