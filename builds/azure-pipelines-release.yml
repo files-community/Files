@@ -77,6 +77,8 @@ jobs:
 
 - task: NuGetCommand@2
   inputs:
+    feedsToUse: config
+    nugetConfigPath: ./nuget.config
     restoreSolution: '$(solution)'
 
   - task: DownloadSecureFile@1
@@ -173,6 +175,14 @@ jobs:
     inputs:
       packageType: sdk
       version: 6.0.100
+
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    feedsToUse: config
+    nugetConfigPath: ./nuget.config
+    restoreSolution: '$(solution)'
 
   - task: MSBuild@1
     inputs:
