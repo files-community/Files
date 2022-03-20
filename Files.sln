@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.Launcher", "src\Files.Launcher\Files.Launcher.csproj", "{533F9E86-EE0A-4FCB-B70C-F29532C1B787}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A2FF3F3B-8EBC-4108-B99D-1476B7876656} = {A2FF3F3B-8EBC-4108-B99D-1476B7876656}
+		{25FD5045-6D4C-4DD0-B3AC-613AB59CBB07} = {25FD5045-6D4C-4DD0-B3AC-613AB59CBB07}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Files.Uwp", "src\Files.Uwp\Files.Uwp.csproj", "{64C30C4E-A69A-411C-9F78-776E7AAD583C}"
