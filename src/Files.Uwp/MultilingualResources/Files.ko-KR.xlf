@@ -3434,10 +3434,6 @@ We use App Center to track which settings are being used, find bugs, and fix cra
           <source>Set as desktop background</source>
           <target state="translated">바탕화면 배경으로 설정</target>
         </trans-unit>
-        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
-          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
-          <target state="translated">이 설정을 끄지 않은 채로 Files를 제거하지 마세요. 그렇지 않으면 파일 탐색기를 열 수 없습니다.</target>
-        </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
           <target state="translated">폴더 크기 계산은 리소스를 많이 사용하므로 CPU 사용량이 증가할 수 있습니다.</target>

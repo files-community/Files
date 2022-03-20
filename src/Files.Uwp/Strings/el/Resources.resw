@@ -2573,9 +2573,6 @@
   <data name="SetAsBackground" xml:space="preserve">
     <value>Ορισμός ως φόντου επιφάνειας εργασίας</value>
   </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>Μην αφαιρέσετε το Files από την συσκευή σας χωρίς να απενεργοποιήσετε αυτή τη ρύθμιση. Εαν δεν το κάνετε δεν θα μπορέσετε να ανοίξετε την Εξερεύνηση Αρχείων.</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Ο υπολογισμός μεγέθους των φακέλων είναι υπολογιστικά απαιτητικός και μπορεί να προκαλέσει αύξηση της χρήσης του επεξεργαστή.</value>
   </data>

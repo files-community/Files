@@ -2556,9 +2556,6 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   <data name="SetAsBackground" xml:space="preserve">
     <value>Masaüstü arka planı olarak ayarla</value>
   </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>Bu seçeneği kapatmadan Dosyaları cihazınızdan kaldırmayın. Bunu yapmamak Dosya Gezgini'ni açmanızı engeller.</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Klasör boyutlarını hesaplamak için yoğun kaynak kullanılır ve CPU kullanımınızın artmasına neden olabilir.</value>
   </data>

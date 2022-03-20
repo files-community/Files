@@ -2578,9 +2578,6 @@
   <data name="SetAsBackground" xml:space="preserve">
     <value>Установить как фон</value>
   </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>Не удаляйте Files не отключив эту опцию. Если этого не сделать, вы не сможете открыть Проводник.</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Вычисление размеров папок требует ресурсы ЦП и может увеличить нагрузку.</value>
   </data>

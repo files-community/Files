@@ -3447,10 +3447,6 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
           <source>Set as desktop background</source>
           <target state="translated">Establecer como fondo de Escritorio</target>
         </trans-unit>
-        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
-          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
-          <target state="translated">No elimines Files de tu dispositivo sin desactivar antes esta opción. No hacerlo provocará que no puedas abrir el Explorador de Archivos.</target>
-        </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
           <target state="translated">Calcular el tamaño de las carpetas consume muchos recursos y podría provocar que aumente el uso de la CPU. </target>
