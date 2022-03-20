@@ -106,7 +106,7 @@ steps:
   inputs:
     OperationType: 'Start'
     AgentResolution: '1080p'
-
+ 
 - task: VSTest@2
   inputs:
     testSelector: 'testAssemblies'
