@@ -3467,10 +3467,6 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
           <source>Set as desktop background</source>
           <target state="translated">Tetapkan sebagai latar belakang desktop</target>
         </trans-unit>
-        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
-          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
-          <target state="translated">Jangan hapus File dari perangkat Anda tanpa mematikan opsi ini. Jika tidak melakukannya Anda tidak dapat membuka File Explorer(Bawaan).</target>
-        </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
           <target state="translated">Menghitung ukuran folder membutuhkan banyak sumber daya dan dapat menyebabkan penggunaan CPU Anda meningkat.</target>
@@ -3530,10 +3526,6 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
         <trans-unit id="PrepareInProgress" translate="yes" xml:space="preserve">
           <source>Preparing items</source>
           <target state="translated">Mempersiapkan Item</target>
-        </trans-unit>
-        <trans-unit id="SliderButtonSwitch" translate="yes" xml:space="preserve">
-          <source>Off</source>
-          <target state="translated">Nonaktif</target>
         </trans-unit>
       </group>
     </body>

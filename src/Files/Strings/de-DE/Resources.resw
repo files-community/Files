@@ -51,6 +51,9 @@
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Voreinstellungen</value>
   </data>
+  <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
+    <value>Weitermachen wo Sie aufgehört haben</value>
+  </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>Einen neuen Tab öffnen</value>
   </data>
@@ -87,11 +90,17 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Einfügen</value>
   </data>
+  <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
+    <value>Eigenschaften</value>
+  </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Entpacken</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
     <value>In neuem Tab öffnen</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
+    <value>In neuem Fenster öffnen</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
     <value>Als Desktophintergrund festlegen</value>
@@ -104,6 +113,9 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Umbenennen</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
+    <value>Eigenschaften</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Pfad eingeben</value>
@@ -197,6 +209,33 @@
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>ist ein Unterordner des Quellordners</value>
+  </data>
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
+    <value>Auswahl umkehren</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Öffnen</value>
+  </data>
+  <data name="PropertiesTitle" xml:space="preserve">
+    <value>Eigenschaften</value>
+  </data>
+  <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
+    <value>Eigenschaften</value>
+  </data>
+  <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
+    <value>In neuem Tab öffnen</value>
+  </data>
+  <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
+    <value>In neuem Fenster öffnen</value>
+  </data>
+  <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
+    <value>Experimentell</value>
+  </data>
+  <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
+    <value>WARNUNG: Experimentelle Funktionen!</value>
+  </data>
+  <data name="SettingsNavExperimental.Content" xml:space="preserve">
+    <value>Experimentell</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>In diesem Verzeichnis existiert bereits eine Datei oder ein Ordner mit diesem Namen.</value>
@@ -1149,6 +1188,9 @@
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Files-Dokumentation aufrufen</value>
   </data>
+  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
+    <value>Eigenschaften</value>
+  </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>Laufende Aufgaben-Flyout</value>
   </data>
@@ -2064,6 +2106,9 @@
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
     <value>Von Favoriten lösen</value>
   </data>
+  <data name="NavSettingsButton" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Updates verfügbar</value>
   </data>
@@ -2560,13 +2605,49 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
   <data name="SetAsBackground" xml:space="preserve">
     <value>Als Desktophintergrund festlegen</value>
   </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>Entferne Files nicht von deinem Gerät bevor diese Option ausgeschaltet ist, da ansonsten der Dateiexplorer nicht mehr geöffnet werden kann.</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Da das Berechnen der Ordnergrößen rechenintensiv ist kann die CPU-Auslastung erhöht werden.</value>
   </data>
   <data name="OpenIn" xml:space="preserve">
     <value>Öffnen in</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Gegen den Uhrzeigersinn drehen</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Mit dem Uhrzeigersinn drehen</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Installieren</value>
+  </data>
+  <data name="CloseTabsToTheLeft" xml:space="preserve">
+    <value>Tabs links schließen</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Tabs rechts schließen</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Andere Tabs schließen</value>
+  </data>
+  <data name="ShowDotFiles" xml:space="preserve">
+    <value>Dateien die mit einem Punkt beginnen anzeigen</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Musik</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Bilder</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videos</value>
+  </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Files aktualisieren</value>
+  </data>
+  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
+    <value>{0} Objekte werden vorbereitet</value>
+  </data>
+  <data name="PrepareInProgress" xml:space="preserve">
+    <value>Objekte werden vorbereitet</value>
   </data>
 </root>

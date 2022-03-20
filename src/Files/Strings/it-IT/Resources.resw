@@ -2603,9 +2603,6 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   <data name="SetAsBackground" xml:space="preserve">
     <value>Imposta come sfondo desktop</value>
   </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>Non disinstallare Files senza aver disabilitato questa opzione. Non farlo causa l'impossibilità di aprire Esplora Risorse.</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Calcolare la dimensione delle cartelle richiede molte risorse a aumenta il carico CPU.</value>
   </data>

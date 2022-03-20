@@ -2522,9 +2522,6 @@
   <data name="SetAsBackground" xml:space="preserve">
     <value>Задай като фон на работния плот</value>
   </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>Не премахвайте Files от устройството си, преди да изключите тази опция. Ако не го направите, това ще ви попречи да отворите File Explorer.</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Изчисляването на размерите на папките е ресурсоемко и може да доведе до увеличаване на използването на вашия процесор.</value>
   </data>

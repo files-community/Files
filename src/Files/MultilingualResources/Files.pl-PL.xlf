@@ -3458,10 +3458,6 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
           <source>Set as desktop background</source>
           <target state="translated">Ustaw jako tło pulpitu</target>
         </trans-unit>
-        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
-          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
-          <target state="translated">Nie usuwaj aplikacji Files ze swojego urządzenia bez wyłączania tej opcji. Nie zrobienie tego uniemożliwi Ci otwarcie Eksploratora plików.</target>
-        </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
           <target state="translated">Obliczanie rozmiaru folderów wymaga dużej ilości zasobów i może spowodować wzrost wykorzystania procesora.</target>

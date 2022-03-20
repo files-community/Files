@@ -3466,10 +3466,6 @@ Files 不會收集、儲存、共享或發佈任何使用者的個人資料。
           <source>Set as desktop background</source>
           <target state="translated">設定為桌面背景</target>
         </trans-unit>
-        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
-          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
-          <target state="translated">停用此選項前請勿移除Files，否則你將無法開啟檔案總管。</target>
-        </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
           <target state="translated">計算資料夾大小消耗較多資源，可能會導致CPU使用率上升。</target>

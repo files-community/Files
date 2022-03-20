@@ -3465,10 +3465,6 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
           <source>Set as desktop background</source>
           <target state="translated">Imposta come sfondo desktop</target>
         </trans-unit>
-        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
-          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
-          <target state="translated">Non disinstallare Files senza aver disabilitato questa opzione. Non farlo causa l'impossibilità di aprire Esplora Risorse.</target>
-        </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
           <target state="translated">Calcolare la dimensione delle cartelle richiede molte risorse a aumenta il carico CPU.</target>
