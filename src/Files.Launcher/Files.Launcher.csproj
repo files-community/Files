@@ -30,6 +30,17 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
+	<ProjectReference Include="..\Files.OpenDialog\CustomOpenDialog\CustomOpenDialog.vcxproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <ProjectReference Include="..\Files.OpenDialog\FilesLauncher\FilesLauncher.vcxproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <Content Include="Assets\FilesOpenDialog\FilesLauncher.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\FilesOpenDialog\SetFilesAsDefault.reg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -44,5 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="FolderNames.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\FilesOpenDialog\FilesLauncher.exe" />
   </ItemGroup>
 </Project>
