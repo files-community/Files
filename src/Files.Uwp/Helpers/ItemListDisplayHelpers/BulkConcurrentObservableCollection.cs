@@ -21,7 +21,16 @@ namespace Files.Helpers
         public BulkConcurrentObservableCollection<GroupedCollection<T>> GroupedCollection { get; private set; }
         public bool IsSorted { get; set; }
 
-        public int Count => collection.Count;
+        public int Count
+        {
+            get
+            {
+                lock (syncRoot)
+                {
+                    return collection.Count;
+                }
+            }
+        }
 
         public bool IsReadOnly => false;
 
@@ -47,11 +56,22 @@ namespace Files.Helpers
 
         public T this[int index]
         {
-            get => collection[index];
+            get
+            {
+                lock (syncRoot)
+                {
+                    return collection[index];
+                }
+            }
             set
             {
-                var item = collection[index];
-                collection[index] = value;
+                T item;
+                lock (syncRoot)
+                {
+                    item = collection[index];
+                    collection[index] = value;
+                }
+
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, value, item, index), false);
             }
         }
@@ -239,12 +259,18 @@ namespace Files.Helpers
 
         public bool Contains(T item)
         {
-            return collection.Contains(item);
+            lock (syncRoot)
+            {
+                return collection.Contains(item);
+            }
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            collection.CopyTo(array, arrayIndex);
+            lock (syncRoot)
+            {
+                collection.CopyTo(array, arrayIndex);
+            }
         }
 
         public bool Remove(T item)
@@ -269,7 +295,10 @@ namespace Files.Helpers
 
         public IEnumerator<T> GetEnumerator()
         {
-            return collection.GetEnumerator();
+            lock (syncRoot)
+            {
+                return collection.ToList().GetEnumerator();
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -279,7 +308,10 @@ namespace Files.Helpers
 
         public int IndexOf(T item)
         {
-            return collection.IndexOf(item);
+            lock (syncRoot)
+            {
+                return collection.IndexOf(item);
+            }
         }
 
         public void Insert(int index, T item)
@@ -378,7 +410,7 @@ namespace Files.Helpers
 
         public void Sort()
         {
-            lock (SyncRoot)
+            lock (syncRoot)
             {
                 collection.Sort();
             }
@@ -386,7 +418,7 @@ namespace Files.Helpers
 
         public void Sort(Comparison<T> comparison)
         {
-            lock (SyncRoot)
+            lock (syncRoot)
             {
                 collection.Sort(comparison);
             }
@@ -395,7 +427,7 @@ namespace Files.Helpers
         public void Order(Func<List<T>, IEnumerable<T>> func)
         {
             IEnumerable<T> result;
-            lock (SyncRoot)
+            lock (syncRoot)
             {
                 result = func.Invoke(collection);
             }
@@ -406,7 +438,7 @@ namespace Files.Helpers
         public void OrderOne(Func<List<T>, IEnumerable<T>> func, T item)
         {
             IList<T> result;
-            lock (SyncRoot)
+            lock (syncRoot)
             {
                 result = func.Invoke(collection).ToList();
             }
