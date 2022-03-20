@@ -64,6 +64,11 @@ steps:
     packageType: sdk
     version: 6.0.100
 
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
 
 - task: MSBuild@1
   inputs:

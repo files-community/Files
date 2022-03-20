@@ -73,6 +73,12 @@ jobs:
       packageType: sdk
       version: 6.0.100
 
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
   - task: DownloadSecureFile@1
     name: caCertificate
     displayName: 'Download CA certificate'
