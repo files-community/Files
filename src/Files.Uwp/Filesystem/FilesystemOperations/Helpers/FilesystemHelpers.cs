@@ -422,7 +422,7 @@ namespace Files.Filesystem
                     // Get the SoftwareBitmap representation of the file
                     softwareBitmap = await decoder.GetSoftwareBitmapAsync();
 
-                    await Helpers.SaveImageToFile.SaveSoftwareBitmapToFile(softwareBitmap, file, BitmapEncoder.PngEncoderId);
+                    await Helpers.BitmapHelper.SaveSoftwareBitmapToFile(softwareBitmap, file, BitmapEncoder.PngEncoderId);
                     return ReturnResult.Success;
                 }
                 catch (Exception)

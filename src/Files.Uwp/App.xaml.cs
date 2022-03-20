@@ -64,7 +64,6 @@ namespace Files
         public static LibraryManager LibraryManager { get; private set; }
         public static FileTagsManager FileTagsManager { get; private set; }
         public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
-        public static OptionalPackageManager OptionalPackageManager { get; private set; } = new OptionalPackageManager();
 
         public static ILogger Logger { get; private set; }
         private static readonly UniversalLogWriter logWriter = new UniversalLogWriter();

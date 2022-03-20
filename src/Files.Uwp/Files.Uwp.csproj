@@ -195,7 +195,6 @@
     <Compile Include="Helpers\StorageSenseHelper.cs" />
     <Compile Include="Helpers\WindowDecorationsHelper.cs" />
     <Compile Include="Helpers\UniversalLogWriter.cs" />
-    <Compile Include="Helpers\SaveImageToFile.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
     <Compile Include="Filesystem\LibraryLocationItem.cs" />
     <Compile Include="Filesystem\LibraryManager.cs" />
@@ -216,7 +215,6 @@
     <Compile Include="Helpers\Fractions.cs" />
     <Compile Include="Helpers\ItemModelListToContextFlyoutHelper.cs" />
     <Compile Include="Helpers\FilePropertiesHelpers.cs" />
-    <Compile Include="Helpers\OptionalPackageManager.cs" />
     <Compile Include="Helpers\ShellContextMenuHelper.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\SortingHelper.cs" />
     <Compile Include="Helpers\UIFilesystemHelpers.cs" />
@@ -286,7 +284,6 @@
     <Compile Include="Helpers\BitmapHelper.cs" />
     <Compile Include="Helpers\CollectionDebugView.cs" />
     <Compile Include="Helpers\DynamicDialogFactory.cs" />
-    <Compile Include="Helpers\Extension.cs" />
     <Compile Include="Helpers\FileListCache\FileListCacheController.cs" />
     <Compile Include="Helpers\FileListCache\IFileListCache.cs" />
     <Compile Include="Helpers\IntervalSampler.cs" />
@@ -333,7 +330,6 @@
       <DependentUpon>SearchBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Selection\ExtendPreviousItemSelectionStrategy.cs" />
-    <Compile Include="Helpers\GenericItemsCollection.cs" />
     <Compile Include="UserControls\Selection\IgnorePreviousItemSelectionStrategy.cs" />
     <Compile Include="UserControls\Selection\InvertPreviousItemSelectionStrategy.cs" />
     <Compile Include="UserControls\Selection\ItemSelectionStrategy.cs" />
