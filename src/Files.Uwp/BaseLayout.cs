@@ -83,8 +83,6 @@ namespace Files
 
         public string OldItemName { get; set; } = null;
 
-        public TextBlock RenamingTextBlock { get; set; } = null;
-
         private bool isMiddleClickToScrollEnabled = true;
 
         public bool IsMiddleClickToScrollEnabled
@@ -1235,6 +1233,26 @@ namespace Files
         {
             preRenamingItem = null;
             tapDebounceTimer.Stop();
+        }
+
+        protected async void ValidateItemNameInputText(TextBox textBox, TextBoxBeforeTextChangingEventArgs args, Action<bool> showError)
+        {
+            if (FilesystemHelpers.ContainsRestrictedCharacters(args.NewText))
+            {
+                args.Cancel = true;
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    var oldSelection = textBox.SelectionStart + textBox.SelectionLength;
+                    var oldText = textBox.Text;
+                    textBox.Text = FilesystemHelpers.FilterRestrictedCharacters(args.NewText);
+                    textBox.SelectionStart = oldSelection + textBox.Text.Length - oldText.Length;
+                    showError?.Invoke(true);
+                });
+            }
+            else
+            {
+                showError?.Invoke(false);
+            }
         }
     }
 

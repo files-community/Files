@@ -197,9 +197,9 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         Background="{ThemeResource SolidBackgroundFillColorSecondary}"
+                        BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
                         Text="{x:Bind ItemName, Mode=OneWay}"
                         TextAlignment="Center"
-                        TextChanged="GridViewTextBoxItemName_TextChanged"
                         TextWrapping="Wrap" />
                 </Popup>
             </Grid>
@@ -337,8 +337,8 @@
                         x:Name="TileViewTextBoxItemName"
                         Grid.Row="0"
                         HorizontalAlignment="Left"
+                        BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
                         Text="{x:Bind ItemName, Mode=OneWay}"
-                        TextChanged="GridViewTextBoxItemName_TextChanged"
                         Visibility="Collapsed" />
                     <TextBlock
                         Grid.Row="1"
