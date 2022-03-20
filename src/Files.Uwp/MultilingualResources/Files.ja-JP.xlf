@@ -3434,10 +3434,6 @@ We use App Center to track which settings are being used, find bugs, and fix cra
           <source>Set as desktop background</source>
           <target state="translated">デスクトップ背景に設定</target>
         </trans-unit>
-        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
-          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
-          <target state="translated">このオプションをオフにせずデバイスから Files を削除しないでください。このオプションをオフにしてから Files を削除しないと、ファイル エクスプローラーを開くことができなくなります。</target>
-        </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
           <target state="translated">フォルダー サイズの計算はリソースを消費するため、CPU使用率が上昇する可能性があります。</target>

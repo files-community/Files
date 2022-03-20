@@ -3436,10 +3436,6 @@ We use App Center to track which settings are being used, find bugs, and fix cra
           <source>Set as desktop background</source>
           <target state="translated">设置为桌面背景</target>
         </trans-unit>
-        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
-          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
-          <target state="translated">如果没有关闭此选项，请不要从设备中移除Files。否则您将无法打开文件管理器。</target>
-        </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
           <target state="translated">计算文件夹大小会占用大量资源，可能会导致CPU使用量增加。</target>

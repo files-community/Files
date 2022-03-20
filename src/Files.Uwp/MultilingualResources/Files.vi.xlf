@@ -3457,10 +3457,6 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
           <source>Set as desktop background</source>
           <target state="translated">Cài làm ảnh nền desktop</target>
         </trans-unit>
-        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
-          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
-          <target state="translated">Không xóa Files khỏi thiết bị của bạn khi chưa tắt tùy chọn này. Không làm như vậy sẽ ngăn bạn mở File Explorer.</target>
-        </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
           <target state="translated">Việc tính toán kích thước thư mục tốn nhiều tài nguyên và có thể khiến mức sử dụng CPU của bạn tăng lên.</target>

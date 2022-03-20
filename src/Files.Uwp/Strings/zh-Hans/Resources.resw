@@ -2583,9 +2583,6 @@
   <data name="SetAsBackground" xml:space="preserve">
     <value>设置为桌面背景</value>
   </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>如果没有关闭此选项，请不要从设备中移除Files。否则您将无法打开文件管理器。</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>计算文件夹大小会占用大量资源，可能会导致CPU使用量增加。</value>
   </data>

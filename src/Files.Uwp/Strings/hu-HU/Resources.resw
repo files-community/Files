@@ -2585,9 +2585,6 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   <data name="SetAsBackground" xml:space="preserve">
     <value>Beállítás asztali háttérképként</value>
   </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>Ha eltávolítaná a Files alkalmazást, előtte kapcsolja ki ezt a opciót. Ennek elmaradása megakadáylozza a Windows Fájlkezelő megnyitásában.</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>A mappa méretek meghatározása erőforrás-igényes és a processzorhasználat növekedésével járhat.</value>
   </data>

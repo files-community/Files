@@ -2585,9 +2585,6 @@
   <data name="SetAsBackground" xml:space="preserve">
     <value>設定為桌面背景</value>
   </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>停用此選項前請勿移除Files，否則你將無法開啟檔案總管。</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>計算資料夾大小消耗較多資源，可能會導致CPU使用率上升。</value>
   </data>
