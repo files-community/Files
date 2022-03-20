@@ -295,10 +295,7 @@ namespace Files.Helpers
 
         public IEnumerator<T> GetEnumerator()
         {
-            lock (syncRoot)
-            {
-                return collection.ToList().GetEnumerator();
-            }
+            return new BlockingListEnumerator<T>(collection, syncRoot);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
