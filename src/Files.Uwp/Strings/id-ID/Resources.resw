@@ -2584,9 +2584,6 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   <data name="SetAsBackground" xml:space="preserve">
     <value>Tetapkan sebagai latar belakang desktop</value>
   </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>Jangan hapus File dari perangkat Anda tanpa mematikan opsi ini. Jika tidak melakukannya Anda tidak dapat membuka File Explorer(Bawaan).</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Menghitung ukuran folder membutuhkan banyak sumber daya dan dapat menyebabkan penggunaan CPU Anda meningkat.</value>
   </data>

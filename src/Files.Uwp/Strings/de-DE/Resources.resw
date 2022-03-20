@@ -2584,9 +2584,6 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
   <data name="SetAsBackground" xml:space="preserve">
     <value>Als Desktophintergrund festlegen</value>
   </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>Entferne Files nicht von deinem Gerät bevor diese Option ausgeschaltet ist, da ansonsten der Dateiexplorer nicht mehr geöffnet werden kann.</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Da das Berechnen der Ordnergrößen rechenintensiv ist kann die CPU-Auslastung erhöht werden.</value>
   </data>

@@ -3444,10 +3444,6 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
           <source>Set as desktop background</source>
           <target state="translated">Als Desktophintergrund festlegen</target>
         </trans-unit>
-        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
-          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
-          <target state="translated">Entferne Files nicht von deinem Gerät bevor diese Option ausgeschaltet ist, da ansonsten der Dateiexplorer nicht mehr geöffnet werden kann.</target>
-        </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
           <target state="translated">Da das Berechnen der Ordnergrößen rechenintensiv ist kann die CPU-Auslastung erhöht werden.</target>

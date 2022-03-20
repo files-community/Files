@@ -3436,10 +3436,6 @@ We use App Center to track which settings are being used, find bugs, and fix cra
           <source>Set as desktop background</source>
           <target state="translated">Ορισμός ως φόντου επιφάνειας εργασίας</target>
         </trans-unit>
-        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
-          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
-          <target state="translated">Μην αφαιρέσετε το Files από την συσκευή σας χωρίς να απενεργοποιήσετε αυτή τη ρύθμιση. Εαν δεν το κάνετε δεν θα μπορέσετε να ανοίξετε την Εξερεύνηση Αρχείων.</target>
-        </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
           <target state="translated">Ο υπολογισμός μεγέθους των φακέλων είναι υπολογιστικά απαιτητικός και μπορεί να προκαλέσει αύξηση της χρήσης του επεξεργαστή.</target>

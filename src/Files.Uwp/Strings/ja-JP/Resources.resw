@@ -2579,9 +2579,6 @@
   <data name="SetAsBackground" xml:space="preserve">
     <value>デスクトップ背景に設定</value>
   </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>このオプションをオフにせずデバイスから Files を削除しないでください。このオプションをオフにしてから Files を削除しないと、ファイル エクスプローラーを開くことができなくなります。</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>フォルダー サイズの計算はリソースを消費するため、CPU使用率が上昇する可能性があります。</value>
   </data>

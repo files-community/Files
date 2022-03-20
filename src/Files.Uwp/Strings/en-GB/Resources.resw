@@ -2584,9 +2584,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="SetAsBackground" xml:space="preserve">
     <value>Set as desktop background</value>
   </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
   </data>

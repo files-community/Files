@@ -2579,9 +2579,6 @@
   <data name="SetAsBackground" xml:space="preserve">
     <value>바탕화면 배경으로 설정</value>
   </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>이 설정을 끄지 않은 채로 Files를 제거하지 마세요. 그렇지 않으면 파일 탐색기를 열 수 없습니다.</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>폴더 크기 계산은 리소스를 많이 사용하므로 CPU 사용량이 증가할 수 있습니다.</value>
   </data>
