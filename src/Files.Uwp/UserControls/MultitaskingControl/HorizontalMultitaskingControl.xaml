@@ -56,7 +56,7 @@
                         <MenuFlyoutItem
                             x:Uid="HorizontalMultitaskingControlPinTab"
                             Click="{x:Bind vm:MainPageViewModel.PinTab}"
-                            Text="Lock tab"
+                            Text="Pin tab"
                             Visibility="{Binding IsPinned, Converter={StaticResource BooleanToVisibilityInvertConverter}}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE72E;" />
@@ -65,7 +65,7 @@
                         <MenuFlyoutItem
                             x:Uid="HorizontalMultitaskingControlUnPinTab"
                             Click="{x:Bind vm:MainPageViewModel.UnpinTab}"
-                            Text="Unlock tab"
+                            Text="Unpin tab"
                             Visibility="{Binding IsPinned, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE785;" />
