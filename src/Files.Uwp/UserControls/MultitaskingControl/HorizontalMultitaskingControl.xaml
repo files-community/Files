@@ -59,7 +59,7 @@
                             Text="Pin tab"
                             Visibility="{Binding IsPinned, Converter={StaticResource BooleanToVisibilityInvertConverter}}">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE72E;" />
+                                <FontIcon Glyph="&#xE718;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -68,7 +68,7 @@
                             Text="Unpin tab"
                             Visibility="{Binding IsPinned, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE785;" />
+                                <FontIcon Glyph="&#xE77A;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem

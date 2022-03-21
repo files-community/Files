@@ -254,7 +254,7 @@
                                 x:Name="PinTabButton"
                                 Grid.Column="2"
                                 Margin="{ThemeResource TabViewItemHeaderCloseMargin}"
-                                Content="&#xE72E;"
+                                Content="&#xE718;"
                                 HighContrastAdjustment="None"
                                 IsTabStop="False"
                                 IsTextScaleFactorEnabled="False"
