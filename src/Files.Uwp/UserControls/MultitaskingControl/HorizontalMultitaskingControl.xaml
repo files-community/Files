@@ -54,19 +54,19 @@
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
-                            x:Uid="HorizontalMultitaskingControlLockTab"
-                            Click="{x:Bind vm:MainPageViewModel.LockTab}"
+                            x:Uid="HorizontalMultitaskingControlPinTab"
+                            Click="{x:Bind vm:MainPageViewModel.PinTab}"
                             Text="Lock tab"
-                            Visibility="{Binding IsLocked, Converter={StaticResource BooleanToVisibilityInvertConverter}}">
+                            Visibility="{Binding IsPinned, Converter={StaticResource BooleanToVisibilityInvertConverter}}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE72E;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
-                            x:Uid="HorizontalMultitaskingControlUnlockTab"
-                            Click="{x:Bind vm:MainPageViewModel.UnlockTab}"
+                            x:Uid="HorizontalMultitaskingControlUnPinTab"
+                            Click="{x:Bind vm:MainPageViewModel.UnpinTab}"
                             Text="Unlock tab"
-                            Visibility="{Binding IsLocked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            Visibility="{Binding IsPinned, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE785;" />
                             </MenuFlyoutItem.Icon>

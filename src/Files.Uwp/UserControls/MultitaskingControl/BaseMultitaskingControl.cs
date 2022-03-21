@@ -138,7 +138,7 @@ namespace Files.UserControls.MultitaskingControl
             }
             else if (Items.Count > 1)
             {
-                if (!tabItem.IsLocked)
+                if (!tabItem.IsPinned)
                 {
                     Items.Remove(tabItem);
                     tabItem?.Unload(); // Dispose and save tab arguments

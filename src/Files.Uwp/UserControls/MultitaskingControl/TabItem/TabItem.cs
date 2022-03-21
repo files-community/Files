@@ -46,12 +46,12 @@ namespace Files.UserControls.MultitaskingControl
             set => SetProperty(ref allowStorageItemDrop, value);
         }
 
-        private bool isLocked;
+        private bool isPinned;
 
-        public bool IsLocked
+        public bool IsPinned
         {
-            get => isLocked;
-            set => SetProperty(ref isLocked, value);
+            get => isPinned;
+            set => SetProperty(ref isPinned, value);
         }
 
         private TabItemArguments tabItemArguments;

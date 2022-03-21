@@ -161,7 +161,7 @@ namespace Files.ViewModels
                 tabItem = AppInstances[App.MainViewModel.TabStripSelectedIndex];
             }
 
-            if (tabItem != null && tabItem.IsLocked != true)
+            if (tabItem != null && tabItem.IsPinned != true)
             {
                 MultitaskingControl?.CloseTab(tabItem);
             }
@@ -453,23 +453,23 @@ namespace Files.ViewModels
             await AddNewTabAsync();
         }
 
-        public static void LockTab(object sender, RoutedEventArgs e)
+        public static void PinTab(object sender, RoutedEventArgs e)
         {
             var tabItem = ((FrameworkElement)sender).DataContext as TabItem;
 
             if (tabItem != null)
             {
-                tabItem.IsLocked = true;
+                tabItem.IsPinned = true;
             }
         }
 
-        public static void UnlockTab(object sender, RoutedEventArgs e)
+        public static void UnpinTab(object sender, RoutedEventArgs e)
         {
             var tabItem = ((FrameworkElement)sender).DataContext as TabItem;
 
             if (tabItem != null)
             {
-                tabItem.IsLocked = false;
+                tabItem.IsPinned = false;
             }
         }
 

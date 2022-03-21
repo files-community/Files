@@ -14,6 +14,6 @@ namespace Files.UserControls.MultitaskingControl
 
         bool AllowStorageItemDrop { get; }
 
-        bool IsLocked { get; }
+        bool IsPinned { get; }
     }
 }

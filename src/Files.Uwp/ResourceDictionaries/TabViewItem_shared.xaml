@@ -58,7 +58,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="TabViewLockTabButtonStyle" TargetType="Button">
+    <Style x:Key="TabViewPinTabButtonStyle" TargetType="Button">
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}" />
@@ -247,11 +247,11 @@
                                 HighContrastAdjustment="None"
                                 IsTabStop="False"
                                 IsTextScaleFactorEnabled="False"
-                                Visibility="{Binding IsLocked, Mode=OneWay, Converter={StaticResource BooleanToVisibilityInvertConverter}}"
+                                Visibility="{Binding IsPinned, Mode=OneWay, Converter={StaticResource BooleanToVisibilityInvertConverter}}"
                                 Style="{ThemeResource TabViewCloseButtonStyle}" />
 
                             <Button
-                                x:Name="LockTabButton"
+                                x:Name="PinTabButton"
                                 Grid.Column="2"
                                 Margin="{ThemeResource TabViewItemHeaderCloseMargin}"
                                 Content="&#xE72E;"
@@ -259,7 +259,7 @@
                                 IsTabStop="False"
                                 IsTextScaleFactorEnabled="False"
                                 Visibility="{Binding ElementName=CloseButton, Path=Visibility, Mode=OneWay, Converter={StaticResource VisibilityInvertConverter}}"
-                                Style="{ThemeResource TabViewLockTabButtonStyle}" />
+                                Style="{ThemeResource TabViewPinTabButtonStyle}" />
                         </Grid>
 
                         <VisualStateManager.VisualStateGroups>
