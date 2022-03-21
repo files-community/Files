@@ -11,6 +11,7 @@ using Windows.Storage.FileProperties;
 using Windows.UI.Core;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
+using Windows.System;
 
 namespace Files.ViewModels.Properties
 {
@@ -21,7 +22,7 @@ namespace Files.ViewModels.Properties
 
         public CancellationTokenSource TokenSource { get; set; }
 
-        public CoreDispatcher Dispatcher { get; set; }
+        public DispatcherQueue Dispatcher { get; set; }
 
         public abstract void GetBaseProperties();
 
@@ -82,12 +83,12 @@ namespace Files.ViewModels.Properties
 
                     if (size > ViewModel.ItemSizeBytes)
                     {
-                        await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                        await Dispatcher.EnqueueAsync(() =>
                         {
                             ViewModel.ItemSizeBytes = size;
                             ViewModel.ItemSize = size.ToSizeString();
                             SetItemsCountString();
-                        });
+                        }, DispatcherQueuePriority.Low);
                     }
 
                     if (token.IsCancellationRequested)

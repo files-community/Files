@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -37,22 +38,22 @@ namespace Files.ViewModels.Properties
 
             if (np.navParameter is LibraryItem library)
             {
-                BaseProperties = new LibraryProperties(ViewModel, np.tokenSource, Dispatcher, library, AppInstance);
+                BaseProperties = new LibraryProperties(ViewModel, np.tokenSource, DispatcherQueue.GetForCurrentThread(), library, AppInstance);
             }
             else if (np.navParameter is ListedItem item)
             {
                 if (item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
                 {
-                    BaseProperties = new FileProperties(ViewModel, np.tokenSource, Dispatcher, hashProgress, item, AppInstance);
+                    BaseProperties = new FileProperties(ViewModel, np.tokenSource, DispatcherQueue.GetForCurrentThread(), hashProgress, item, AppInstance);
                 }
                 else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    BaseProperties = new FolderProperties(ViewModel, np.tokenSource, Dispatcher, item, AppInstance);
+                    BaseProperties = new FolderProperties(ViewModel, np.tokenSource, DispatcherQueue.GetForCurrentThread(), item, AppInstance);
                 }
             }
             else if (np.navParameter is List<ListedItem> items)
             {
-                BaseProperties = new CombinedProperties(ViewModel, np.tokenSource, Dispatcher, items, AppInstance);
+                BaseProperties = new CombinedProperties(ViewModel, np.tokenSource, DispatcherQueue.GetForCurrentThread(), items, AppInstance);
             }
             else if (np.navParameter is DriveItem drive)
             {

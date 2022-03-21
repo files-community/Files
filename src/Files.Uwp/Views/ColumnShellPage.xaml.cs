@@ -444,7 +444,7 @@ namespace Files.Views
         private async Task<BaseLayout> GetContentOrNullAsync()
         {
             BaseLayout FrameContent = null;
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(
             () =>
             {
                 FrameContent = (ItemDisplayFrame.Content as BaseLayout);
@@ -457,7 +457,7 @@ namespace Files.Views
             if (App.DrivesManager?.ShowUserConsentOnInit ?? false)
             {
                 App.DrivesManager.ShowUserConsentOnInit = false;
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                await DispatcherQueue.GetForCurrentThread().EnqueueAsync(async () =>
                 {
                     DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
                     await dialog.ShowAsync(ContentDialogPlacement.Popup);
@@ -789,7 +789,7 @@ namespace Files.Views
 
             if (InstanceViewModel.IsPageTypeSearchResults)
             {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
                 {
                     var searchInstance = new FolderSearch
                     {
@@ -803,7 +803,7 @@ namespace Files.Views
             }
             else
             {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(() =>
                 {
                     var ContentOwnedViewModelInstance = FilesystemViewModel;
                     ContentOwnedViewModelInstance?.RefreshItems(null);

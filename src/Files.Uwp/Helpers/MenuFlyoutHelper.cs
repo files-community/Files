@@ -1,6 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
+using Windows.ApplicationModel.Core;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -95,7 +98,7 @@ namespace Files.Helpers
                 return;
             }
 
-            await menu.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await DispatcherQueue.GetForCurrentThread().EnqueueAsync(() =>
             {
                 menu.Items.Clear();
                 AddItems(menu.Items, itemSource);

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Core;
 
 namespace Files.ViewModels.Properties
@@ -18,7 +19,7 @@ namespace Files.ViewModels.Properties
         public List<ListedItem> List { get; }
 
         public CombinedProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
-            CoreDispatcher coreDispatcher, List<ListedItem> listedItems, IShellPage instance)
+            DispatcherQueue coreDispatcher, List<ListedItem> listedItems, IShellPage instance)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;

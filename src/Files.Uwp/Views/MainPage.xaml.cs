@@ -1,6 +1,5 @@
 ﻿using Files.DataModels.NavigationControlItems;
 using Files.Shared.Enums;
-using Files.EventArguments;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
@@ -24,7 +23,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using Files.Shared.EventArguments;
-using Windows.UI.Xaml.Hosting;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.UI.WindowManagement;
@@ -32,6 +30,8 @@ using Microsoft.Toolkit.Uwp.UI;
 using Windows.System;
 using SearchBox = Files.UserControls.SearchBox;
 using Files.Uwp.Helpers;
+using Files.Backend.ViewModels.Dialogs;
+using Files.Backend.Services;
 
 namespace Files.Views
 {
@@ -55,7 +55,7 @@ namespace Files.Views
         public OngoingTasksViewModel OngoingTasksViewModel => App.OngoingTasksViewModel;
 
         public ICommand ToggleFullScreenAcceleratorCommand { get; }
-
+        public ICommand OpenSettingsCommand { get; }
         private ICommand ToggleCompactOverlayCommand { get; }
         private ICommand SetCompactOverlayCommand { get; }
         private ICommand ToggleSidebarCollapsedStateCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleSidebarCollapsedState(x));
@@ -78,6 +78,7 @@ namespace Files.Views
             ToggleFullScreenAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ToggleFullScreenAccelerator);
             ToggleCompactOverlayCommand = new RelayCommand(ToggleCompactOverlay);
             SetCompactOverlayCommand = new RelayCommand<bool>(SetCompactOverlay);
+            OpenSettingsCommand = new RelayCommand(OpenSettings);
 
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
         }
@@ -116,12 +117,14 @@ namespace Files.Views
         private void VerticalTabStrip_Tapped(object sender, TappedRoutedEventArgs e)
         {
             e.Handled = true;
+            (sender as Button).Flyout.XamlRoot = this.XamlRoot;
             (sender as Button).Flyout.ShowAt(sender as Button);
         }
 
         private void VerticalTabStripInvokeButton_DragEnter(object sender, DragEventArgs e)
         {
             e.Handled = true;
+            (sender as Button).Flyout.XamlRoot = this.XamlRoot;
             (sender as Button).Flyout.ShowAt(sender as Button);
         }
 
@@ -667,6 +670,8 @@ namespace Files.Views
                     _ = VisualStateManager.GoToState(this, nameof(HorizontalTabViewCollapsed), true);
                 }
             }
+
+            LoadPaneChanged();
             RootGrid.SizeChanged -= RootGrid_SizeChanged;
             RootGrid.SizeChanged += RootGrid_SizeChanged;
         }
@@ -674,6 +679,13 @@ namespace Files.Views
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             LoadPaneChanged();
+        }
+
+        public async void OpenSettings()
+        {
+            var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+            var dialog = dialogService.GetDialog(new SettingsDialogViewModel());
+            await dialog.TryShowAsync(this.XamlRoot.UIContext);
         }
     }
 }

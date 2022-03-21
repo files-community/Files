@@ -132,7 +132,7 @@ namespace Files.Filesystem
 
         private async Task SyncSideBarItemsUI()
         {
-            await CoreApplication.GetCurrentView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
             {
                 await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try

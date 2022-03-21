@@ -40,7 +40,7 @@ namespace Files.Filesystem
                 return;
             }
 
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
             {
                 await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try
@@ -169,7 +169,7 @@ namespace Files.Filesystem
             {
                 path = library?.FullPath;
             }
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(() =>
             {
                 var changedLibrary = Libraries.FirstOrDefault(l => string.Equals(l.Path, path, StringComparison.OrdinalIgnoreCase));
                 if (changedLibrary != null)
@@ -186,7 +186,7 @@ namespace Files.Filesystem
 
         private async Task SyncLibrarySideBarItemsUI()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
             {
                 await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try

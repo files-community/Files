@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using static Files.Views.PropertiesCustomization;
 using Files.Shared.Extensions;
+using Windows.System;
 
 namespace Files.Views
 {
@@ -124,7 +125,7 @@ namespace Files.Views
                 {
                     appInstance?.FilesystemViewModel?.RefreshItems(null, async () =>
                     {
-                        await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => RestoreDefaultButton.IsEnabled = true);
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => RestoreDefaultButton.IsEnabled = true);
                     });
                 });
             }

@@ -317,10 +317,10 @@ namespace Files.ViewModels.Dialogs
                     if (iconData != null)
                     {
                         if (token.IsCancellationRequested) return;
-                        await Windows.ApplicationModel.Core.CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
+                        await Windows.ApplicationModel.Core.CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                         {
                             item.ItemIcon = await iconData.ToBitmapAsync();
-                        });
+                        }, Windows.System.DispatcherQueuePriority.Low);
                     }
                 }
                 catch { }

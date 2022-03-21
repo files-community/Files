@@ -138,14 +138,5 @@ namespace Files.ViewModels
                 FontName = new FontFamily("Segoe MDL2 Assets");
             }
         }
-
-        public readonly RelayCommand OpenSettingsCommand = new RelayCommand(OpenSettings);
-
-        public static async void OpenSettings()
-        {
-            var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-            var dialog = dialogService.GetDialog(new SettingsDialogViewModel());
-            await dialog.TryShowAsync();
-        }
     }
 }

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.System;
 using Windows.Storage;
 using Windows.UI.Core;
 
@@ -17,7 +18,7 @@ namespace Files.ViewModels.Properties
     {
         public LibraryItem Library { get; private set; }
 
-        public LibraryProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, LibraryItem item, IShellPage instance)
+        public LibraryProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, DispatcherQueue coreDispatcher, LibraryItem item, IShellPage instance)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;

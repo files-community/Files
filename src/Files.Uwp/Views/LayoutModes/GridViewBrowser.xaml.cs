@@ -330,7 +330,7 @@ namespace Files.Views.LayoutModes
         private void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             // This check allows the user to use the text box context menu without ending the rename
-            if (!(FocusManager.GetFocusedElement() is AppBarButton or Popup))
+            if (!(FocusManager.GetFocusedElement(this.XamlRoot) is AppBarButton or Popup))
             {
                 TextBox textBox = e.OriginalSource as TextBox;
                 CommitRename(textBox);
@@ -378,7 +378,7 @@ namespace Files.Views.LayoutModes
         {
             var ctrlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
+            var focusedElement = FocusManager.GetFocusedElement(this.XamlRoot) as FrameworkElement;
             var isFooterFocused = focusedElement is HyperlinkButton;
 
             if (e.Key == VirtualKey.Enter && !isFooterFocused && !e.KeyStatus.IsMenuKeyDown)
@@ -430,7 +430,7 @@ namespace Files.Views.LayoutModes
                 if (ParentShellPageInstance.CurrentPageType == typeof(GridViewBrowser) && !IsRenamingItem)
                 {
                     // Don't block the various uses of enter key (key 13)
-                    var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
+                    var focusedElement = FocusManager.GetFocusedElement(this.XamlRoot) as FrameworkElement;
                     if (args.KeyCode == 13
                         || focusedElement is Button
                         || focusedElement is TextBox

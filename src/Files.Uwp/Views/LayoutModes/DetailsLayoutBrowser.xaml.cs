@@ -404,7 +404,7 @@ namespace Files.Views.LayoutModes
         private void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             // This check allows the user to use the text box context menu without ending the rename
-            if (!(FocusManager.GetFocusedElement() is AppBarButton or Popup))
+            if (!(FocusManager.GetFocusedElement(this.XamlRoot) is AppBarButton or Popup))
             {
                 TextBox textBox = e.OriginalSource as TextBox;
                 CommitRename(textBox);
@@ -451,7 +451,7 @@ namespace Files.Views.LayoutModes
         {
             var ctrlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
+            var focusedElement = FocusManager.GetFocusedElement(this.XamlRoot) as FrameworkElement;
             var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) != null;
             var isFooterFocused = focusedElement is HyperlinkButton;
 
@@ -512,7 +512,7 @@ namespace Files.Views.LayoutModes
                 if (ParentShellPageInstance.CurrentPageType == typeof(DetailsLayoutBrowser) && !IsRenamingItem)
                 {
                     // Don't block the various uses of enter key (key 13)
-                    var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
+                    var focusedElement = FocusManager.GetFocusedElement(this.XamlRoot) as FrameworkElement;
                     var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) != null;
                     if (args.KeyCode == 13
                         || (focusedElement is Button && !isHeaderFocused) // Allow jumpstring when header is focused

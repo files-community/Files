@@ -193,7 +193,7 @@ namespace Files.Views
         private async void AppSettings_ThemeModeChanged(object sender, EventArgs e)
         {
             var selectedTheme = ThemeHelper.RootTheme;
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await DispatcherQueue.GetForCurrentThread().EnqueueAsync(() =>
             {
                 RequestedTheme = selectedTheme;
                 if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))

@@ -81,7 +81,7 @@ namespace Files.Views
 
         public bool IsMultiPaneEnabled
         {
-            get => UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled && !(this.XamlRoot.Size.Width <= 750);
+            get => UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled && !windowIsCompact;
         }
 
         private NavigationParams navParamsLeft;

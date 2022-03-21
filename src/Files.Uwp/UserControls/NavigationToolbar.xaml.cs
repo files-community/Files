@@ -96,14 +96,14 @@ namespace Files.UserControls
 
         private void VisiblePath_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (FocusManager.GetFocusedElement() is FlyoutBase ||
-                FocusManager.GetFocusedElement() is AppBarButton ||
-                FocusManager.GetFocusedElement() is Popup)
+            if (FocusManager.GetFocusedElement(this.XamlRoot) is FlyoutBase ||
+                FocusManager.GetFocusedElement(this.XamlRoot) is AppBarButton ||
+                FocusManager.GetFocusedElement(this.XamlRoot) is Popup)
             {
                 return;
             }
 
-            var element = FocusManager.GetFocusedElement();
+            var element = FocusManager.GetFocusedElement(this.XamlRoot);
             var elementAsControl = element as Control;
             if (elementAsControl == null)
             {

@@ -1,11 +1,13 @@
 ﻿using Files.Filesystem;
 using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.System;
 using Files.Backend.ViewModels.FileTags;
 
 namespace Files.UserControls
@@ -59,7 +61,7 @@ namespace Files.UserControls
             var listView = sender as ListView;
             if (e.ClickedItem == listView.SelectedItem)
             {
-                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => listView.SelectedItem = null);
+                await DispatcherQueue.GetForCurrentThread().EnqueueAsync(() => listView.SelectedItem = null);
             }
         }
 

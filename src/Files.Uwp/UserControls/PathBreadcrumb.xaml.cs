@@ -43,6 +43,7 @@ namespace Files.UserControls
         private void PathItemSeparator_Loaded(object sender, RoutedEventArgs e)
         {
             var pathSeparatorIcon = sender as FontIcon;
+            pathSeparatorIcon.ContextFlyout.XamlRoot = pathSeparatorIcon.XamlRoot;
             pathSeparatorIcon.Tapped += (s, e) => pathSeparatorIcon.ContextFlyout.ShowAt(pathSeparatorIcon);
             pathSeparatorIcon.ContextFlyout.Opened += (s, e) => { pathSeparatorIcon.Glyph = "\uE70D"; };
             pathSeparatorIcon.ContextFlyout.Closed += (s, e) => { pathSeparatorIcon.Glyph = "\uE76C"; };

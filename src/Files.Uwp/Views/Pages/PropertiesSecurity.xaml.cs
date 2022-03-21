@@ -15,6 +15,11 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using static Files.Views.PropertiesSecurityAdvanced;
+using Files.Helpers;
+using Windows.UI.WindowManagement;
+using Windows.UI.Xaml.Hosting;
+using Windows.UI.WindowManagement.Preview;
+using Windows.System;
 
 namespace Files.Views
 {
@@ -85,36 +90,72 @@ namespace Files.Views
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                if (propsView == null)
+                if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
                 {
-                    var newWindow = CoreApplication.CreateNewView();
+                    AppWindow appWindow = await AppWindow.TryCreateAsync();
 
-                    await newWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    Frame frame = new Frame();
+                    frame.Navigate(typeof(PropertiesSecurityAdvanced), new PropertiesPageNavigationArguments()
                     {
-                        Frame frame = new Frame();
-                        frame.Navigate(typeof(PropertiesSecurityAdvanced), new PropertiesPageNavigationArguments()
-                        {
-                            Item = SecurityProperties.Item
-                        }, new SuppressNavigationTransitionInfo());
-                        Window.Current.Content = frame;
-                        Window.Current.Activate();
+                        Item = SecurityProperties.Item
+                    }, new SuppressNavigationTransitionInfo());
+                    ElementCompositionPreview.SetAppWindowContent(appWindow, frame);
+                    (frame.Content as Properties).appWindow = appWindow;
 
-                        propsView = ApplicationView.GetForCurrentView();
-                        newWindow.TitleBar.ExtendViewIntoTitleBar = true;
-                        propsView.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalized(), SecurityProperties.Item.ItemName);
-                        propsView.PersistedStateId = "PropertiesSecurity";
-                        propsView.SetPreferredMinSize(new Size(400, 500));
-                        propsView.Consolidated += PropsView_Consolidated;
+                    appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                    appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalized(), SecurityProperties.Item.ItemName);
+                    appWindow.PersistedStateId = "PropertiesSecurity";
+                    WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 500));
 
-                        bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(propsView.Id);
-                        if (viewShown && propsView != null)
+                    appWindow.CloseRequested += async delegate
+                    {
+                        if (SecurityProperties != null)
                         {
-                            // Set window size again here as sometimes it's not resized in the page Loaded event
-                            propsView.TryResizeView(new Size(850, 550));
+                            await appWindow.DispatcherQueue.EnqueueAsync(() => SecurityProperties.GetFilePermissions()); // Reload permissions
                         }
-                    });
+                    };
+
+                    bool windowShown = await appWindow.TryShowAsync();
+                    if (windowShown)
+                    {
+                        // Set window size again here as sometimes it's not resized in the page Loaded event
+                        appWindow.RequestSize(new Size(850, 550));
+                    }
                 }
-                await ApplicationViewSwitcher.SwitchAsync(propsView.Id);
+                else
+                {
+                    if (propsView == null)
+                    {
+                        var newWindow = CoreApplication.CreateNewView();
+
+                        await newWindow.DispatcherQueue.EnqueueAsync(async () =>
+                        {
+                            Frame frame = new Frame();
+                            frame.Navigate(typeof(PropertiesSecurityAdvanced), new PropertiesPageNavigationArguments()
+                            {
+                                Item = SecurityProperties.Item
+                            }, new SuppressNavigationTransitionInfo());
+                            Window.Current.Content = frame;
+                            Window.Current.Activate();
+
+                            propsView = ApplicationView.GetForCurrentView();
+                            newWindow.TitleBar.ExtendViewIntoTitleBar = true;
+                            propsView.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalized(), SecurityProperties.Item.ItemName);
+                            propsView.PersistedStateId = "PropertiesSecurity";
+                            propsView.SetPreferredMinSize(new Size(400, 500));
+                            propsView.Consolidated += PropsView_Consolidated;
+
+                            bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(propsView.Id);
+                            if (viewShown && propsView != null)
+                            {
+                                // Set window size again here as sometimes it's not resized in the page Loaded event
+                                propsView.TryResizeView(new Size(850, 550));
+                            }
+                        });
+                    }
+                    await ApplicationViewSwitcher.SwitchAsync(propsView.Id);
+                }
+                
             }
             else
             {
@@ -129,7 +170,7 @@ namespace Files.Views
 
             if (SecurityProperties != null)
             {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => SecurityProperties.GetFilePermissions()); // Reload permissions
+                await DispatcherQueue.GetForCurrentThread().EnqueueAsync(() => SecurityProperties.GetFilePermissions()); // Reload permissions
             }
         }
     }

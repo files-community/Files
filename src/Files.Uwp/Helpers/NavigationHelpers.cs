@@ -22,6 +22,7 @@ using Windows.UI.Core;
 using Windows.UI;
 using Windows.UI.Xaml.Controls;
 using Files.Uwp.Helpers;
+using Windows.UI.Xaml;
 
 namespace Files.Helpers
 {
@@ -231,7 +232,7 @@ namespace Files.Helpers
             {
                 await DialogDisplayHelper.ShowDialogAsync(WindowManagementHelpers.GetWindowFromUIContext(((ModernShellPage)associatedInstance).XamlRoot.UIContext), "FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 associatedInstance.NavToolbarViewModel.CanRefresh = false;
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                 {
                     var ContentOwnedViewModelInstance = associatedInstance.FilesystemViewModel;
                     ContentOwnedViewModelInstance?.RefreshItems(previousDir);

@@ -15,6 +15,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Core;
 using Files.Uwp.Helpers;
+using Windows.System;
 
 namespace Files.ViewModels.Properties
 {
@@ -22,7 +23,7 @@ namespace Files.ViewModels.Properties
     {
         public ListedItem Item { get; }
 
-        public FolderProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ListedItem item, IShellPage instance)
+        public FolderProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, DispatcherQueue coreDispatcher, ListedItem item, IShellPage instance)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;

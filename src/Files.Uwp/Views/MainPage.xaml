@@ -351,7 +351,7 @@
                     x:Load="False"
                     Loaded="NavToolbar_Loaded"
                     OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
-                    SettingsButtonCommand="{x:Bind MainViewModel.OpenSettingsCommand}"
+                    SettingsButtonCommand="{x:Bind OpenSettingsCommand}"
                     ShowOngoingTasks="True"
                     ShowSearchBox="True"
                     ShowSettingsButton="{x:Bind IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"

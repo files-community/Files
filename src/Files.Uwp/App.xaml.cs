@@ -233,8 +233,6 @@ namespace Files
             await EnsureSettingsAndConfigurationAreBootstrapped();
             _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
-            WindowDecorationsHelper.RequestWindowDecorationsAccess();
-
             Frame rootFrame = new Frame();
             // Use the Frame to act as the navigation context and navigate to the first page
             rootFrame.NavigationFailed += OnNavigationFailed;
@@ -287,6 +285,8 @@ namespace Files
                     }
                 }
             }
+
+            WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
 
         protected override async void OnFileActivated(FileActivatedEventArgs e)
@@ -300,7 +300,6 @@ namespace Files
             await EnsureSettingsAndConfigurationAreBootstrapped();
             _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
             
-            WindowDecorationsHelper.RequestWindowDecorationsAccess();
             Frame rootFrame = new Frame();
             // Use the Frame to act as the navigation context and navigate to the first page
             rootFrame.NavigationFailed += OnNavigationFailed;
@@ -325,6 +324,8 @@ namespace Files
             Window.Current.Content = rootFrame;
             Window.Current.CoreWindow.Activated += CoreWindow_Activated;
             Window.Current.Activate();
+
+            WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
 
         public static async Task<bool> CreateNewAppWindowForPathAsync(string path)
@@ -383,7 +384,6 @@ namespace Files
             await EnsureSettingsAndConfigurationAreBootstrapped();
             _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
             
-            WindowDecorationsHelper.RequestWindowDecorationsAccess();
             Frame rootFrame = new Frame();
             // Use the Frame to act as the navigation context and navigate to the first page
             rootFrame.NavigationFailed += OnNavigationFailed;
@@ -514,6 +514,8 @@ namespace Files
             Window.Current.Content = rootFrame;
             Window.Current.CoreWindow.Activated += CoreWindow_Activated;
             Window.Current.Activate();
+
+            WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
 
         private void TryEnablePrelaunch()

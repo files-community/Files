@@ -20,6 +20,7 @@ using Windows.Security.Cryptography.Core;
 using Windows.Services.Maps;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Files.Uwp.Helpers;
@@ -32,7 +33,7 @@ namespace Files.ViewModels.Properties
 
         private IProgress<float> hashProgress;
 
-        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, IProgress<float> hashProgress, ListedItem item, IShellPage instance)
+        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, DispatcherQueue coreDispatcher, IProgress<float> hashProgress, ListedItem item, IShellPage instance)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;

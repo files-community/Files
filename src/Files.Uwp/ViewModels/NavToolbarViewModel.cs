@@ -732,7 +732,8 @@ namespace Files.ViewModels
 
         public void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
         {
-            var focusedElement = FocusManager.GetFocusedElement();
+            var focusedElement = FocusManager.GetFocusedElement((sender as UIElement).XamlRoot);
+
             if ((focusedElement is Button bttn && bttn.Name == "SearchButton") || focusedElement is FlyoutBase || focusedElement is AppBarButton)
             {
                 return;
