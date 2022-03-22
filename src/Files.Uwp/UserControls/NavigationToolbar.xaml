@@ -334,7 +334,7 @@
         x:Name="ToolbarGrid"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
-        Background="{ThemeResource ControlFillColorDefault}"
+        Background="{ThemeResource NavigationToolbarBackgroundBrush}"
         ColumnSpacing="0">
         <Grid Padding="8" ColumnSpacing="4">
             <Grid.ColumnDefinitions>

@@ -238,7 +238,7 @@
                 BorderBrush="{ThemeResource ControlStrokeColorDefault}"
                 BorderThickness="0,0,0,1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="42" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -251,13 +251,19 @@
                     x:Name="DragArea"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Height="42"
+                    Height="40"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Top"
                     Background="Transparent"
-                    BorderBrush="{ThemeResource ControlStrokeColorDefault}"
-                    BorderThickness="0,0,0,1"
-                    Loaded="DragArea_Loaded" />
+                    Loaded="DragArea_Loaded">
+                    <Rectangle
+                        x:Name="TabBorder"
+                        Grid.Column="1"
+                        Height="1"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Bottom"
+                        Fill="{ThemeResource ControlStrokeColorDefault}" />
+                </Grid>
 
                 <usercontrols:HorizontalMultitaskingControl
                     x:Name="horizontalMultitaskingControl"
@@ -274,7 +280,7 @@
                         <StackPanel
                             x:Name="ActionButtonsPanel"
                             Grid.Column="1"
-                            HorizontalAlignment="Right"
+                            HorizontalAlignment="Left"
                             VerticalAlignment="Bottom"
                             Orientation="Horizontal"
                             Spacing="4">

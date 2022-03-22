@@ -82,10 +82,9 @@
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                     </MenuFlyout>
-                </ResourceDictionary>
 
-                <ResourceDictionary Source="/ResourceDictionaries/TabView_themeresources.xaml" />
-                <ResourceDictionary Source="/ResourceDictionaries/TabViewItem_shared.xaml" />
+                    <SolidColorBrush x:Key="TabViewBorderBrush" Color="Transparent"/>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -121,13 +120,11 @@
                     <muxc:TabViewItem
                         AllowDrop="{x:Bind AllowStorageItemDrop, Mode=OneWay}"
                         ContextFlyout="{StaticResource TabFlyout}"
-                        CornerRadius="4,4,0,0"
                         DragEnter="TabViewItem_DragEnter"
                         DragLeave="TabViewItem_DragLeave"
                         Drop="TabViewItem_Drop"
                         Header="{x:Bind Header, Mode=OneWay}"
                         IconSource="{x:Bind IconSource, Mode=OneWay}"
-                        Style="{ThemeResource TabViewItemStyle}"
                         ToolTipService.ToolTip="{x:Null}" />
                 </DataTemplate>
             </muxc:TabView.TabItemTemplate>
