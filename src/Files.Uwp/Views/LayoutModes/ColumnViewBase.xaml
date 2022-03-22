@@ -310,8 +310,8 @@
                                         Margin="0"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
+                                        BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
                                         TextAlignment="Left"
-                                        TextChanged="ListViewTextBoxItemName_TextChanged"
                                         TextWrapping="Wrap"
                                         Visibility="Collapsed" />
                                     <Grid Grid.Column="2">
