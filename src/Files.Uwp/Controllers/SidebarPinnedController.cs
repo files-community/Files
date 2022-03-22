@@ -1,12 +1,15 @@
 ﻿using Files.DataModels;
 using Files.Shared.Enums;
 using Files.Filesystem;
+using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.Storage.Search;
 using Files.Shared.Extensions;
 
 namespace Files.Controllers
@@ -14,6 +17,10 @@ namespace Files.Controllers
     public class SidebarPinnedController : IJson
     {
         public SidebarPinnedModel Model { get; set; }
+
+        private StorageFileQueryResult query;
+
+        private bool suppressChangeEvent;
 
         public string JsonFileName { get; } = "PinnedItems.json";
 
@@ -28,6 +35,7 @@ namespace Files.Controllers
         public async Task InitializeAsync()
         {
             await LoadAsync();
+            await StartWatchConfigChangeAsync();
         }
 
         public async Task ReloadAsync()
@@ -99,8 +107,36 @@ namespace Files.Controllers
             await Model.AddAllItemsToSidebar();
         }
 
+        private async Task StartWatchConfigChangeAsync()
+        {
+            var queryOptions = new QueryOptions();
+            queryOptions.ApplicationSearchFilter = "System.FileName:" + JsonFileName;
+
+            var settingsFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("settings");
+            query = settingsFolder.CreateFileQueryWithOptions(queryOptions);
+            query.ContentsChanged += Query_ContentsChanged;
+            await query.GetFilesAsync();
+        }
+
+        private async void Query_ContentsChanged(IStorageQueryResultBase sender, object args)
+        {
+            if (suppressChangeEvent)
+            {
+                suppressChangeEvent = false;
+                return;
+            }
+
+            // watched file changed externally, reload the sidebar items
+            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                await ReloadAsync();
+            });
+        }
+
+
         public void SaveModel()
         {
+            suppressChangeEvent = true;
             try
             {
                 using (var file = File.CreateText(Path.Combine(folderPath, JsonFileName)))

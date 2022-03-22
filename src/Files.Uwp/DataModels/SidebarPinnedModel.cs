@@ -11,7 +11,6 @@ using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -98,11 +97,20 @@ namespace Files.DataModels
         /// <param name="item">Item to remove</param>
         public async void AddItem(string item)
         {
-            if (!string.IsNullOrEmpty(item) && !FavoriteItems.Contains(item))
+            await SidebarControl.SideBarItemsSemaphore.WaitAsync();
+
+            try
             {
-                FavoriteItems.Add(item);
-                await AddItemToSidebarAsync(item);
-                Save();
+                if (!string.IsNullOrEmpty(item) && !FavoriteItems.Contains(item))
+                {
+                    FavoriteItems.Add(item);
+                    await AddItemToSidebarAsync(item);
+                    Save();
+                }
+            }
+            finally
+            {
+                SidebarControl.SideBarItemsSemaphore.Release();
             }
         }
 
@@ -331,7 +339,7 @@ namespace Files.DataModels
                     IsDefaultLocation = true,
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"))),
                     Path = "Home".GetLocalized(),
-                    ChildItems = new ObservableCollection<INavigationControlItem>()
+                    ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                 };
                 favoriteSection ??= new LocationItem()
                 {
@@ -340,7 +348,7 @@ namespace Files.DataModels
                     SelectsOnInvoked = false,
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.Shell32.QuickAccess)),
                     Font = MainViewModel.FontName,
-                    ChildItems = new ObservableCollection<INavigationControlItem>()
+                    ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                 };
 
                 if (homeSection != null)
@@ -355,19 +363,19 @@ namespace Files.DataModels
                     SidebarControl.SideBarItems.Insert(index, favoriteSection);
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => SidebarControl.SideBarItems.EndBulkOperation());
                 }
+
+                for (int i = 0; i < FavoriteItems.Count; i++)
+                {
+                    string path = FavoriteItems[i];
+                    await AddItemToSidebarAsync(path);
+                }
+
+                await ShowHideRecycleBinItemAsync(UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar);
             }
             finally
             {
                 SidebarControl.SideBarItemsSemaphore.Release();
             }
-
-            for (int i = 0; i < FavoriteItems.Count; i++)
-            {
-                string path = FavoriteItems[i];
-                await AddItemToSidebarAsync(path);
-            }
-
-            await ShowHideRecycleBinItemAsync(UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar);
         }
 
         /// <summary>
@@ -376,11 +384,13 @@ namespace Files.DataModels
         public void RemoveStaleSidebarItems()
         {
             // Remove unpinned items from sidebar
-            for (int i = 0; i < favoriteSection.ChildItems.Count; i++)
+            // Reverse iteration to avoid skipping elements while removing
+            for (int i = favoriteSection.ChildItems.Count - 1; i >= 0; i--)
             {
-                if (favoriteSection.ChildItems[i] is LocationItem)
+                var childItem = favoriteSection.ChildItems[i];
+                if (childItem is LocationItem)
                 {
-                    var item = favoriteSection.ChildItems[i] as LocationItem;
+                    var item = childItem as LocationItem;
                     if (!item.IsDefaultLocation && !FavoriteItems.Contains(item.Path))
                     {
                         favoriteSection.ChildItems.RemoveAt(i);
