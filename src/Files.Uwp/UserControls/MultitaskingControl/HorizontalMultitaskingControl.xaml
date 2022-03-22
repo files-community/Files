@@ -83,7 +83,7 @@
                         </MenuFlyoutItem>
                     </MenuFlyout>
 
-                    <SolidColorBrush x:Key="TabViewBorderBrush" Color="Transparent"/>
+                    <SolidColorBrush x:Key="TabViewBorderBrush" Color="Transparent" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -96,7 +96,6 @@
         </Grid.ColumnDefinitions>
         <muxc:TabView
             x:Name="HorizontalTabView"
-            Margin="-4,0"
             VerticalAlignment="Stretch"
             AddTabButtonClick="TabView_AddTabButtonClick"
             AllowDropTabs="True"
