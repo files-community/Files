@@ -82,24 +82,18 @@
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                     </MenuFlyout>
-
-                    <SolidColorBrush x:Key="TabViewBorderBrush" Color="Transparent" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid HorizontalAlignment="Stretch" Background="Transparent">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
+    <Grid HorizontalAlignment="Stretch" Background="{x:Null}">
         <muxc:TabView
             x:Name="HorizontalTabView"
             VerticalAlignment="Stretch"
             AddTabButtonClick="TabView_AddTabButtonClick"
             AllowDropTabs="True"
-            Background="Transparent"
+            Background="{x:Null}"
             CanDragTabs="True"
             DragLeave="TabStrip_DragLeave"
             IsAddTabButtonVisible="False"
@@ -127,10 +121,9 @@
                         ToolTipService.ToolTip="{x:Null}" />
                 </DataTemplate>
             </muxc:TabView.TabItemTemplate>
+            <muxc:TabView.TabStripFooter>
+                <Border HorizontalAlignment="Left" Child="{x:Bind ActionsControl, Mode=OneWay}" />
+            </muxc:TabView.TabStripFooter>
         </muxc:TabView>
-        <Border
-            Grid.Column="1"
-            HorizontalAlignment="Left"
-            Child="{x:Bind ActionsControl, Mode=OneWay}" />
     </Grid>
 </local:BaseMultitaskingControl>
