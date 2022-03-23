@@ -40,7 +40,7 @@
         <ResourceDictionary>
             <mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
             <vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
-			<x:Double  x:Key="NavigationViewItemOnLeftMinHeight">32</x:Double>
+            <x:Double  x:Key="NavigationViewItemOnLeftMinHeight">32</x:Double>
 
             <DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
                 <muxc:NavigationViewItem
