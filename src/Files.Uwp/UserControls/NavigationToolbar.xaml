@@ -14,8 +14,8 @@
     xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     xmlns:uc="using:Files.UserControls"
     x:Name="NavToolbar"
-    Height="42"
-    d:DesignHeight="42"
+    Height="50"
+    d:DesignHeight="50"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -335,9 +335,8 @@
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         Background="{ThemeResource NavigationToolbarBackgroundBrush}"
-        ColumnSpacing="0"
-        CornerRadius="{StaticResource NavToolbarCornerRadius}">
-        <Grid Padding="8,0,8,8" ColumnSpacing="4">
+        ColumnSpacing="0">
+        <Grid Padding="8" ColumnSpacing="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
