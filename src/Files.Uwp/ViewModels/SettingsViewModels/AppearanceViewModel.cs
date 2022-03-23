@@ -134,6 +134,30 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
+        public bool UseCompactStyles
+        {
+            get => UserSettingsService.AppearanceSettingsService.UseCompactStyles;
+            set
+            {
+                if (value != UserSettingsService.AppearanceSettingsService.UseCompactStyles)
+                {
+                    UserSettingsService.AppearanceSettingsService.UseCompactStyles = value;
+
+                    if (UseCompactStyles)
+                    {
+                        Application.Current.Resources["ListItemHeight"] = 28;
+                    }
+                    else
+                    {
+                        Application.Current.Resources["ListItemHeight"] = 36;
+                    }
+
+                    UpdateTheme();
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public bool ShowLibrarySection
         {
             get => UserSettingsService.AppearanceSettingsService.ShowLibrarySection;
