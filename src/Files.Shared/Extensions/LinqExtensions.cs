@@ -23,6 +23,10 @@ namespace Files.Shared.Extensions
 
         public static TOut? Get<TOut, TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TOut? defaultValue = default)
         {
+            if (dictionary is null || key is null)
+            {
+                return default;
+            }
             if (!dictionary.ContainsKey(key))
             {
                 if (defaultValue is TValue value)
