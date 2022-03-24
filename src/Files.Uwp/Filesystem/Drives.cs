@@ -10,7 +10,6 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,9 +18,8 @@ using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using Windows.UI.Core;
 using DriveType = Files.DataModels.NavigationControlItems.DriveType;
-using Files.Shared;
+using Windows.ApplicationModel.Activation;
 
 namespace Files.Filesystem
 {
@@ -98,40 +96,37 @@ namespace Files.Filesystem
             }
             else
             {
-                DeviceWatcher_EnumerationCompleted(null, null);
+                DeviceWatcher_EnumerationCompleted();
             }
         }
 
-        private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
+        private void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender = null, object args = null)
         {
             System.Diagnostics.Debug.WriteLine("DeviceWatcher_EnumerationCompleted");
-            await RefreshUI();
+            RefreshUI();
             folderSizeProvider.CleanCache();
         }
 
-        private async Task RefreshUI()
+        private async void RefreshUI(CoreApplicationView view = null, IActivatedEventArgs args = null)
         {
             try
             {
-                await SyncSideBarItemsUI();
+                await UpdateAppUISurfaces();
+                CoreApplication.MainView.Activated -= RefreshUI;
             }
             catch (Exception) // UI Thread not ready yet, so we defer the previous operation until it is.
             {
                 System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
                 // Defer because UI-thread is not ready yet (and DriveItem requires it?)
+                CoreApplication.MainView.Activated -= RefreshUI;
                 CoreApplication.MainView.Activated += RefreshUI;
             }
         }
 
-        private async void RefreshUI(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
+        // TODO: Rid DrivesManager of this method
+        private async Task UpdateAppUISurfaces()
         {
-            await SyncSideBarItemsUI();
-            CoreApplication.MainView.Activated -= RefreshUI;
-        }
-
-        private async Task SyncSideBarItemsUI()
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
             {
                 await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try
@@ -154,7 +149,7 @@ namespace Files.Filesystem
                         SidebarControl.SideBarItems.EndBulkOperation();
                     }
 
-                    // Sync drives to sidebar
+                    // TODO: Move sidebar drive syncing out of DrivesManager
                     if (section != null)
                     {
                         foreach (DriveItem drive in Drives.ToList())
@@ -177,34 +172,30 @@ namespace Files.Filesystem
                     // Sync drives to drives widget
                     foreach (DriveItem drive in Drives.ToList())
                     {
-                        if (!DrivesWidget.ItemsAdded.Contains(drive))
+                        if (!DrivesWidget.ItemsAdded.Any(x => x.Item == drive))
                         {
                             if (drive.Type != DriveType.VirtualDrive)
                             {
-                                DrivesWidget.ItemsAdded.Add(drive);
+                                DrivesWidget.ItemsAdded.Add(new DriveCardItem(drive));
                             }
                         }
                     }
 
-                    foreach (DriveItem drive in DrivesWidget.ItemsAdded.ToList())
+                    foreach (DriveCardItem driveCard in DrivesWidget.ItemsAdded.ToList())
                     {
-                        if (!Drives.Contains(drive))
+                        if (!Drives.Contains(driveCard.Item))
                         {
-                            DrivesWidget.ItemsAdded.Remove(drive);
+                            DrivesWidget.ItemsAdded.Remove(driveCard);
                         }
                     }
+
+                    await WidgetsHelpers.WidgetCards.LoadCardIcons<DriveCardItem, DriveItem>(DrivesWidget.ItemsAdded);
                 }
                 finally
                 {
                     SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
-        }
-
-        private async void MainView_Activated(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
-        {
-            await SyncSideBarItemsUI();
-            CoreApplication.MainView.Activated -= MainView_Activated;
         }
 
         private async void DeviceAdded(DeviceWatcher sender, DeviceInformation args)
@@ -253,7 +244,7 @@ namespace Files.Filesystem
             }
 
             // Update the collection on the ui-thread.
-            DeviceWatcher_EnumerationCompleted(null, null);
+            DeviceWatcher_EnumerationCompleted();
         }
 
         private void DeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args)
@@ -264,7 +255,7 @@ namespace Files.Filesystem
                 drivesList.RemoveAll(x => x.DeviceID == args.Id);
             }
             // Update the collection on the ui-thread.
-            DeviceWatcher_EnumerationCompleted(null, null);
+            DeviceWatcher_EnumerationCompleted();
         }
 
         private async Task<bool> GetDrivesAsync()
@@ -467,7 +458,7 @@ namespace Files.Filesystem
                         drivesList.Add(driveItem);
                     }
 
-                    DeviceWatcher_EnumerationCompleted(null, null);
+                    DeviceWatcher_EnumerationCompleted();
                     break;
 
                 case DeviceEvent.Removed:
@@ -475,7 +466,7 @@ namespace Files.Filesystem
                     {
                         drivesList.RemoveAll(x => x.DeviceID == deviceId);
                     }
-                    DeviceWatcher_EnumerationCompleted(null, null);
+                    DeviceWatcher_EnumerationCompleted();
                     break;
 
                 case DeviceEvent.Inserted:

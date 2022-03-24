@@ -1,7 +1,12 @@
 ﻿using Files.Backend.Services.Settings;
+using Files.Filesystem;
 using Files.UserControls.Widgets;
+using Files.Uwp.UserControls.Widgets;
 using Files.ViewModels.Widgets;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Files.Helpers
 {
@@ -61,6 +66,25 @@ namespace Files.Helpers
             }
 
             return false;
+        }
+
+        public static class WidgetCards
+        {
+            /// <summary>
+            /// Loads an icon for each IWidgetCardItem included
+            /// </summary>
+            /// <typeparam name="T">The type of IWidgetCardItem in the collection</typeparam>
+            /// <typeparam name="U">The type of the INavigationControlItem backing every card item</typeparam>
+            /// <param name="cardItems">A collection of widget card items to load thumbnails for</param>
+            /// <returns></returns>
+            public static async Task LoadCardIcons<T, U>(IList<T> cardItems) 
+                where T : IWidgetCardItem<U> 
+            {
+                foreach (T cardItem in cardItems.ToList()) // ToList() is necessary
+                {
+                    await cardItem.LoadCardThumbnailAsync();
+                }
+            }
         }
     }
 }
