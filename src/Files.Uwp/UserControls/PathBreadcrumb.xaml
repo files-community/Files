@@ -157,7 +157,7 @@
                 <Setter Property="MinWidth" Value="1" />
                 <Setter Property="MinHeight" Value="32" />
                 <Setter Property="VerticalAlignment" Value="Center" />
-                <Setter Property="Padding" Value="8,0,4,0" />
+                <Setter Property="Padding" Value="15,0,8,0" />
                 <Setter Property="Margin" Value="-4,0" />
             </Style>
         </ListView.ItemContainerStyle>
