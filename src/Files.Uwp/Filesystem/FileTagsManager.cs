@@ -55,6 +55,10 @@ namespace Files.Filesystem
                         {
                             Text = "FileTags".GetLocalized(),
                             Section = SectionType.FileTag,
+                            MenuOptions = new ContextMenuOptions
+                            {
+                                ShowHideSection = true
+                            },
                             SelectsOnInvoked = false,
                             Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/FileTags.png")),
                             ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
@@ -80,7 +84,11 @@ namespace Files.Filesystem
                                 {
                                     Text = tag.TagName,
                                     Path = $"tag:{tag.TagName}",
-                                    FileTag = tag
+                                    FileTag = tag,
+                                    MenuOptions = new ContextMenuOptions
+                                    {
+                                        IsLocationItem = true
+                                    }
                                 });
                             }
                         }

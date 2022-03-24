@@ -1,17 +1,12 @@
 ﻿<UserControl
     x:Class="Files.UserControls.StatusBarControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:converters="using:Files.Converters"
-    xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Files.UserControls"
-    xmlns:local1="using:Files"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:helpers="using:Files.Helpers"
+    xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:xh="using:Files.Helpers.XamlHelpers"
     d:DesignHeight="40"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -77,10 +72,9 @@
 
         <muxc:TeachingTip
             x:Name="FullTrustStatusTeachingTip"
-            x:Uid="FullTrustStatusTeachingTip"
-            Title="Administrator"
             Grid.ColumnSpan="5"
-            Subtitle="Files is running as administrator"
+            Title="{helpers:ResourceString Name=FullTrustStatusTeachingTip/Title}"
+            Subtitle="{helpers:ResourceString Name=FullTrustStatusTeachingTip/Subtitle}"
             Target="{x:Bind FullTrustStatus}"
             Visibility="Collapsed" />
     </Grid>

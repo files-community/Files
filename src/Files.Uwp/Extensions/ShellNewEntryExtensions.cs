@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using System.Linq;
 
 namespace Files.Extensions
 {
@@ -60,18 +61,15 @@ namespace Files.Extensions
             var parentFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(filePath));
             if (parentFolder)
             {
-                return await Create(shellEntry, parentFolder, Path.GetFileName(filePath));
+                return await Create(shellEntry, parentFolder, filePath);
             }
             return new FilesystemResult<BaseStorageFile>(null, parentFolder.ErrorCode);
         }
 
-        public static async Task<FilesystemResult<BaseStorageFile>> Create(this ShellNewEntry shellEntry, BaseStorageFolder parentFolder, string fileName)
+        public static async Task<FilesystemResult<BaseStorageFile>> Create(this ShellNewEntry shellEntry, BaseStorageFolder parentFolder, string filePath)
         {
             FilesystemResult<BaseStorageFile> createdFile = null;
-            if (!fileName.EndsWith(shellEntry.Extension, StringComparison.Ordinal))
-            {
-                fileName += shellEntry.Extension;
-            }
+            var fileName = Path.GetFileName(filePath);
             if (shellEntry.Template == null)
             {
                 createdFile = await FilesystemTasks.Wrap(() => parentFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName).AsTask());

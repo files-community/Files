@@ -69,9 +69,10 @@ namespace FilesFullTrust.Helpers
         private static async Task<ShellNewEntry> ParseShellNewRegistryEntry(RegistryKey key, RegistryKey root)
         {
             var valueNames = key.GetValueNames();
-            if (!valueNames.Contains("NullFile") &&
-                !valueNames.Contains("ItemName") &&
-                !valueNames.Contains("FileName"))
+            if (!valueNames.Contains("NullFile", StringComparer.OrdinalIgnoreCase) &&
+                !valueNames.Contains("ItemName", StringComparer.OrdinalIgnoreCase) &&
+                !valueNames.Contains("FileName", StringComparer.OrdinalIgnoreCase) &&
+                !valueNames.Contains("Command", StringComparer.OrdinalIgnoreCase))
             {
                 return null;
             }

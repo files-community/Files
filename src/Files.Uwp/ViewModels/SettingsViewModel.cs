@@ -37,12 +37,6 @@ namespace Files.ViewModels
             }
 
             UpdateThemeElements = new RelayCommand(() => ThemeModeChanged?.Invoke(this, EventArgs.Empty));
-    }
-
-    public bool AreRegistrySettingsMergedToJson
-        {
-            get => Get(false);
-            set => Set(value);
         }
 
         public async Task DetectQuickLook()

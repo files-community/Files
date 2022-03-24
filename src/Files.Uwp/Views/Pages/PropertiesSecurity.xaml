@@ -7,10 +7,7 @@
     xmlns:helpers="using:Files.Helpers"
     xmlns:local="using:Files.ViewModels.Properties"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:perm="using:Files.Filesystem.Permissions"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:usercontrols="using:Files.UserControls"
     d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Loaded="Properties_Loaded"
     mc:Ignorable="d">
@@ -51,12 +48,11 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock
-                x:Uid="SecurityUsersGroupLabel"
                 Grid.Row="0"
                 Grid.Column="0"
                 Padding="8"
                 VerticalAlignment="Center"
-                Text="Group or user names" />
+                Text="{helpers:ResourceString Name=SecurityUsersGroupLabel/Text}" />
 
             <StackPanel
                 Grid.Row="0"
@@ -96,12 +92,13 @@
                 HorizontalAlignment="Stretch"
                 x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
                 ItemsSource="{x:Bind SecurityProperties.FilePermissions.RulesForUsers, Mode=OneWay}"
+                SelectedIndex="0"
                 SelectedItem="{x:Bind SecurityProperties.SelectedRuleForUser, Mode=TwoWay}"
                 SelectionMode="Single">
                 <ListView.ItemContainerStyle>
                     <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-                        <Setter Property="MinHeight" Value="40" />
-                        <Setter Property="Height" Value="40" />
+                        <Setter Property="MinHeight" Value="1" />
+                        <Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
@@ -154,7 +151,7 @@
                 Padding="8"
                 VerticalAlignment="Center"
                 TextTrimming="CharacterEllipsis">
-                <Run x:Uid="SecurityPermissionsLabel" Text="Permissions for" />
+                <Run Text="{helpers:ResourceString Name=SecurityPermissionsLabel/Text}" />
                 <Run Text="{x:Bind SecurityProperties.SelectedRuleForUser.UserGroup.DisplayName, Mode=OneWay}" />
             </TextBlock>
 
@@ -209,21 +206,19 @@
                     Text="{helpers:ResourceString Name=Allow}" />
 
                 <TextBlock
-                    x:Uid="SecurityDenyLabel"
                     Grid.Row="0"
                     Grid.Column="3"
                     Margin="0,0,0,4"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Text="Deny" />
+                    Text="{helpers:ResourceString Name=SecurityDenyLabel/Text}" />
 
                 <TextBlock
-                    x:Uid="SecurityFullControlLabel"
                     Grid.Row="1"
                     Grid.Column="0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Text="Full control" />
+                    Text="{helpers:ResourceString Name=SecurityFullControlLabel/Text}" />
 
                 <CheckBox
                     Grid.Row="1"
@@ -246,12 +241,11 @@
                     IsEnabled="{x:Bind SecurityProperties.SelectedRuleForUser.DeniesInheritedFullControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
                 <TextBlock
-                    x:Uid="SecurityModifyLabel"
                     Grid.Row="2"
                     Grid.Column="0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Text="Modify" />
+                    Text="{helpers:ResourceString Name=SecurityModifyLabel/Text}" />
 
                 <CheckBox
                     Grid.Row="2"
@@ -274,12 +268,11 @@
                     IsEnabled="{x:Bind SecurityProperties.SelectedRuleForUser.DeniesInheritedModify, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
                 <TextBlock
-                    x:Uid="SecurityReadAndExecuteLabel"
                     Grid.Row="3"
                     Grid.Column="0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Text="Read and execute" />
+                    Text="{helpers:ResourceString Name=SecurityReadAndExecuteLabel/Text}" />
 
                 <CheckBox
                     Grid.Row="3"
@@ -302,12 +295,11 @@
                     IsEnabled="{x:Bind SecurityProperties.SelectedRuleForUser.DeniesInheritedReadAndExecute, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
                 <TextBlock
-                    x:Uid="SecurityListDirectoryLabel"
                     Grid.Row="4"
                     Grid.Column="0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Text="List directory contents"
+                    Text="{helpers:ResourceString Name=SecurityListDirectoryLabel/Text}"
                     Visibility="{x:Bind SecurityProperties.IsFolder, Mode=OneWay}" />
 
                 <CheckBox
@@ -333,12 +325,11 @@
                     Visibility="{x:Bind SecurityProperties.IsFolder, Mode=OneWay}" />
 
                 <TextBlock
-                    x:Uid="SecurityReadLabel"
                     Grid.Row="5"
                     Grid.Column="0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Text="Read" />
+                    Text="{helpers:ResourceString Name=SecurityReadLabel/Text}" />
 
                 <CheckBox
                     Grid.Row="5"
@@ -390,12 +381,11 @@
 
             <TextBlock
                 x:Name="CannotReadPropsText"
-                x:Uid="SecurityCannotReadProperties"
                 Grid.Row="2"
                 Padding="8"
                 HorizontalAlignment="Left"
                 x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadFilePermissions, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                Text="You do not have permissions to view the security properties of this object. Click &quot;Advanced permissions&quot; to proceed."
+                Text="{helpers:ResourceString Name=SecurityCannotReadProperties/Text}"
                 TextWrapping="WrapWholeWords" />
         </Grid>
     </Grid>

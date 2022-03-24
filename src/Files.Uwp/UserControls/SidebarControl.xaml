@@ -40,7 +40,6 @@
         <ResourceDictionary>
             <mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
             <vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
-            <x:Double  x:Key="NavigationViewItemOnLeftMinHeight">32</x:Double>
 
             <DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
                 <muxc:NavigationViewItem
@@ -57,13 +56,16 @@
                     IsRightTapEnabled="True"
                     MenuItemsSource="{x:Bind ChildItems}"
                     PointerPressed="Sidebar_PointerPressed"
-                    RightTapped="NavigationViewLocationItem_RightTapped"
+                    RightTapped="NavigationViewItem_RightTapped"
                     SelectsOnInvoked="{x:Bind SelectsOnInvoked}"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
                     </muxc:NavigationViewItem.Icon>
+                    <muxc:NavigationViewItem.InfoBadge>
+                        <muxc:InfoBadge Style="{ThemeResource CautionIconInfoBadgeStyle}" Visibility="{x:Bind IsInvalid, Mode=OneWay}"/>
+                    </muxc:NavigationViewItem.InfoBadge>
                 </muxc:NavigationViewItem>
             </DataTemplate>
 
@@ -79,7 +81,7 @@
                     Drop="NavigationViewDriveItem_Drop"
                     IsRightTapEnabled="True"
                     PointerPressed="Sidebar_PointerPressed"
-                    RightTapped="NavigationViewDriveItem_RightTapped"
+                    RightTapped="NavigationViewItem_RightTapped"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}"
                     Visibility="{x:Bind ItemVisibility}">
@@ -97,7 +99,7 @@
                     DragEnter="NavigationViewItem_DragEnter"
                     DragLeave="NavigationViewItem_DragLeave"
                     PointerPressed="Sidebar_PointerPressed"
-                    RightTapped="NavigationViewWSLItem_RightTapped"
+                    RightTapped="NavigationViewItem_RightTapped"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
@@ -122,7 +124,7 @@
                     Drop="NavigationViewFileTag_Drop"
                     IsRightTapEnabled="True"
                     PointerPressed="Sidebar_PointerPressed"
-                    RightTapped="NavigationViewFileTagsItem_RightTapped"
+                    RightTapped="NavigationViewItem_RightTapped"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
@@ -246,8 +248,7 @@
                                     Visibility="{Binding ElementName=PaneRoot, Path=Visibility, Mode=OneWay}">
                                     <UserControl
                                         x:Name="ResizeElementControl"
-                                        x:Uid="ResizeElementKeyboardControl"
-                                        AutomationProperties.Name="Sidebar resizer"
+                                        AutomationProperties.Name="{helpers:ResourceString Name=ResizeElementControl/AutomationProperties/Name}"
                                         IsTabStop="True"
                                         KeyDown="Border_KeyDown"
                                         UseSystemFocusVisuals="True" />

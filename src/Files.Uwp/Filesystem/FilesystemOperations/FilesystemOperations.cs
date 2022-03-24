@@ -1,12 +1,10 @@
 ﻿using Files.Shared;
-using Files.Shared.Extensions;
 using Files.Shared.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,14 +12,11 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 using FileAttributes = System.IO.FileAttributes;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
-using Files.Backend.ViewModels.Dialogs;
 
 namespace Files.Filesystem
 {
@@ -54,6 +49,7 @@ namespace Files.Filesystem
         public async Task<(IStorageHistory, IStorageItem)> CreateAsync(IStorageItemWithPath source, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
             IStorageItemWithPath item = null;
+            FilesystemResult fsResult = (FilesystemResult)false;
             try
             {
                 switch (source.ItemType)
@@ -64,8 +60,8 @@ namespace Files.Filesystem
                             if (newEntryInfo == null)
                             {
                                 var fsFolderResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(source.Path));
-                                var fsResult = (FilesystemResult)false;
-                                if (fsFolderResult)
+                                fsResult = fsFolderResult;
+                                if (fsResult)
                                 {
                                     var fsCreateResult = await FilesystemTasks.Wrap(() => fsFolderResult.Result.CreateFileAsync(Path.GetFileName(source.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
                                     fsResult = fsCreateResult;
@@ -73,42 +69,20 @@ namespace Files.Filesystem
                                 }
                                 if (fsResult == FileSystemStatusCode.Unauthorized)
                                 {
-                                    (var fsAdminResult, var shellOpRes) = await PerformAdminOperation(new ValueSet()
-                                    {
-                                        { "Arguments", "FileOperation" },
-                                        { "fileop", "CreateFile" },
-                                        { "filepath", source.Path }
-                                    });
-                                    if (fsAdminResult)
-                                    {
-                                        fsResult = fsAdminResult;
-                                        item = StorageHelpers.FromPathAndType(shellOpRes.Items.SingleOrDefault()?.Destination, FilesystemItemType.File);
-                                    }
+                                    // Can't do anything, already tried with admin FTP
                                 }
                             }
                             else
                             {
                                 var fsCreateResult = await newEntryInfo.Create(source.Path, associatedInstance);
-                                if (fsCreateResult)
+                                fsResult = fsCreateResult;
+                                if (fsResult)
                                 {
                                     item = fsCreateResult.Result.FromStorageItem();
                                 }
-                                var fsResult = (FilesystemResult)fsCreateResult.ErrorCode;
                                 if (fsResult == FileSystemStatusCode.Unauthorized)
                                 {
-                                    (var fsAdminResult, var shellOpRes) = await PerformAdminOperation(new ValueSet()
-                                    {
-                                        { "Arguments", "FileOperation" },
-                                        { "fileop", "CreateFile" },
-                                        { "filepath", source.Path },
-                                        { "template", newEntryInfo.Template },
-                                        { "data", newEntryInfo.Data }
-                                    });
-                                    if (fsAdminResult && shellOpRes.Items.Count == 1)
-                                    {
-                                        fsResult = fsAdminResult;
-                                        item = StorageHelpers.FromPathAndType(shellOpRes.Items.Single().Destination, FilesystemItemType.File);
-                                    }
+                                    // Can't do anything, already tried with admin FTP
                                 }
                             }
 
@@ -118,8 +92,8 @@ namespace Files.Filesystem
                     case FilesystemItemType.Directory:
                         {
                             var fsFolderResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(source.Path));
-                            var fsResult = (FilesystemResult)false;
-                            if (fsFolderResult)
+                            fsResult = fsFolderResult;
+                            if (fsResult)
                             {
                                 var fsCreateResult = await FilesystemTasks.Wrap(() => fsFolderResult.Result.CreateFolderAsync(Path.GetFileName(source.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
                                 fsResult = fsCreateResult;
@@ -127,17 +101,7 @@ namespace Files.Filesystem
                             }
                             if (fsResult == FileSystemStatusCode.Unauthorized)
                             {
-                                (var fsAdminResult, var shellOpRes) = await PerformAdminOperation(new ValueSet()
-                                {
-                                    { "Arguments", "FileOperation" },
-                                    { "fileop", "CreateFolder" },
-                                    { "filepath", source.Path }
-                                });
-                                if (fsAdminResult && shellOpRes.Items.Count == 1)
-                                {
-                                    fsResult = fsAdminResult;
-                                    item = StorageHelpers.FromPathAndType(shellOpRes.Items.Single().Destination, FilesystemItemType.Directory);
-                                }
+                                // Can't do anything, already tried with admin FTP
                             }
                             break;
                         }
@@ -147,7 +111,7 @@ namespace Files.Filesystem
                         break;
                 }
 
-                errorCode?.Report(FileSystemStatusCode.Success);
+                errorCode?.Report(fsResult);
                 if (item != null)
                 {
                     return (new StorageHistory(FileOperationType.CreateNew, item.CreateList(), null), item.Item);
@@ -208,7 +172,7 @@ namespace Files.Filesystem
                     ContentDialog dialog = new ContentDialog()
                     {
                         Title = "ErrorDialogThisActionCannotBeDone".GetLocalized(),
-                        Content = $"{"ErrorDialogTheDestinationFolder".GetLocalized()} ({destinationName}) {"ErrorDialogIsASubfolder".GetLocalized()} (sourceName)",
+                        Content = $"{"ErrorDialogTheDestinationFolder".GetLocalized()} ({destinationName}) {"ErrorDialogIsASubfolder".GetLocalized()} ({sourceName})",
                         //PrimaryButtonText = "Skip".GetLocalized(),
                         CloseButtonText = "Cancel".GetLocalized()
                     };
@@ -258,14 +222,7 @@ namespace Files.Filesystem
                     }
                     if (fsResult == FileSystemStatusCode.Unauthorized)
                     {
-                        (fsResult, _) = await PerformAdminOperation(new ValueSet()
-                        {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "CopyItem" },
-                            { "filepath", source.Path },
-                            { "destpath", destination },
-                            { "overwrite", collision == NameCollisionOption.ReplaceExisting }
-                        });
+                        // Can't do anything, already tried with admin FTP
                     }
                     errorCode?.Report(fsResult.ErrorCode);
                     if (!fsResult)
@@ -315,14 +272,7 @@ namespace Files.Filesystem
                     }
                     if (fsResult == FileSystemStatusCode.Unauthorized)
                     {
-                        (fsResult, _) = await PerformAdminOperation(new ValueSet()
-                        {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "CopyItem" },
-                            { "filepath", source.Path },
-                            { "destpath", destination },
-                            { "overwrite", collision == NameCollisionOption.ReplaceExisting }
-                        });
+                        // Can't do anything, already tried with admin FTP
                     }
                 }
                 errorCode?.Report(fsResult.ErrorCode);
@@ -408,7 +358,7 @@ namespace Files.Filesystem
                     ContentDialog dialog = new ContentDialog()
                     {
                         Title = "ErrorDialogThisActionCannotBeDone".GetLocalized(),
-                        Content = "ErrorDialogTheDestinationFolder".GetLocalized() + " (" + destinationName + ") " + "ErrorDialogIsASubfolder".GetLocalized() + " (" + sourceName + ")",
+                        Content = $"{"ErrorDialogTheDestinationFolder".GetLocalized()} ({destinationName}) {"ErrorDialogIsASubfolder".GetLocalized()} ({sourceName})",
                         //PrimaryButtonText = "Skip".GetLocalized(),
                         CloseButtonText = "Cancel".GetLocalized()
                     };
@@ -463,14 +413,7 @@ namespace Files.Filesystem
                         }
                         if (fsResult == FileSystemStatusCode.Unauthorized || fsResult == FileSystemStatusCode.ReadOnly)
                         {
-                            (fsResult, _) = await PerformAdminOperation(new ValueSet()
-                            {
-                                { "Arguments", "FileOperation" },
-                                { "fileop", "MoveItem" },
-                                { "filepath", source.Path },
-                                { "destpath", destination },
-                                { "overwrite", collision == NameCollisionOption.ReplaceExisting }
-                            });
+                            // Can't do anything, already tried with admin FTP
                         }
                     }
                     errorCode?.Report(fsResult.ErrorCode);
@@ -508,14 +451,7 @@ namespace Files.Filesystem
                     }
                     if (fsResult == FileSystemStatusCode.Unauthorized || fsResult == FileSystemStatusCode.ReadOnly)
                     {
-                        (fsResult, _) = await PerformAdminOperation(new ValueSet()
-                        {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "MoveItem" },
-                            { "filepath", source.Path },
-                            { "destpath", destination },
-                            { "overwrite", collision == NameCollisionOption.ReplaceExisting }
-                        });
+                        // Can't do anything, already tried with admin FTP
                     }
                 }
                 errorCode?.Report(fsResult.ErrorCode);
@@ -581,23 +517,12 @@ namespace Files.Filesystem
 
             if (fsResult == FileSystemStatusCode.Unauthorized)
             {
-                // Try again with fulltrust process (non admin: for shortcuts and hidden files)
-                // not neeeded if called after trying with ShellFilesystemOperations
-                if (!fsResult)
-                {
-                    (fsResult, _) = await PerformAdminOperation(new ValueSet()
-                    {
-                        { "Arguments", "FileOperation" },
-                        { "fileop", "DeleteItem" },
-                        { "filepath", source.Path },
-                        { "permanently", permanently }
-                    });
-                }
+                // Can't do anything, already tried with admin FTP
             }
             else if (fsResult == FileSystemStatusCode.InUse)
             {
-                // TODO: retry or show dialog
-                await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), "FileInUseDeleteDialog/Text".GetLocalized());
+                // TODO: retry
+                await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FileInUseDialog());
             }
 
             if (deleteFromRecycleBin)
@@ -699,19 +624,7 @@ namespace Files.Filesystem
                     }
                     else
                     {
-                        var (fsResult, _) = await PerformAdminOperation(new ValueSet()
-                        {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "RenameItem" },
-                            { "filepath", source.Path },
-                            { "newName", newName },
-                            { "overwrite", collision == NameCollisionOption.ReplaceExisting }
-                        });
-                        if (fsResult)
-                        {
-                            errorCode?.Report(FileSystemStatusCode.Success);
-                            return new StorageHistory(FileOperationType.Rename, source, StorageHelpers.FromPathAndType(destination, source.ItemType));
-                        }
+                        // Can't do anything, already tried with admin FTP
                     }
                 }
                 else if (renamed == FileSystemStatusCode.NotAFile || renamed == FileSystemStatusCode.NotAFolder)
@@ -724,8 +637,8 @@ namespace Files.Filesystem
                 }
                 else if (renamed == FileSystemStatusCode.InUse)
                 {
-                    // TODO: proper dialog, retry
-                    await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), "");
+                    // TODO: retry
+                    await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FileInUseDialog());
                 }
                 else if (renamed == FileSystemStatusCode.NotFound)
                 {
@@ -857,14 +770,7 @@ namespace Files.Filesystem
                 }
                 if (fsResult == FileSystemStatusCode.Unauthorized || fsResult == FileSystemStatusCode.ReadOnly)
                 {
-                    (fsResult, _) = await PerformAdminOperation(new ValueSet()
-                    {
-                        { "Arguments", "FileOperation" },
-                        { "fileop", "MoveItem" },
-                        { "filepath", source.Path },
-                        { "destpath", destination },
-                        { "overwrite", false }
-                    });
+                    // Can't do anything, already tried with admin FTP
                 }
             }
 
@@ -883,7 +789,7 @@ namespace Files.Filesystem
                 {
                     await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalized(), "AccessDeniedDeleteDialog/Text".GetLocalized());
                 }
-                else if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.Unauthorized))
+                else if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.NotFound))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 }
@@ -939,31 +845,6 @@ namespace Files.Filesystem
             }
 
             return createdRoot;
-        }
-
-        private async Task<(FilesystemResult, ShellOperationResult)> PerformAdminOperation(ValueSet operation)
-        {
-            if (await DialogService.ShowDialogAsync(new ElevateConfirmDialogViewModel()) == DialogResult.Primary)
-            {
-                var connection = await AppServiceConnectionHelper.Instance;
-                if (connection != null && await connection.Elevate())
-                {
-                    // Try again with fulltrust process (admin)
-                    connection = await AppServiceConnectionHelper.Instance;
-                    if (connection != null)
-                    {
-                        operation.Add("operationID", Guid.NewGuid().ToString());
-                        operation.Add("HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64());
-                        var (status, response) = await connection.SendMessageForResponseAsync(operation);
-                        var fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
-                            && response.Get("Success", false));
-                        var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", "{\"Items\": []}"));
-                        fsResult &= (FilesystemResult)(shellOpResult?.Items != null && shellOpResult.Items.All(x => x.Succeeded));
-                        return (fsResult, shellOpResult);
-                    }
-                }
-            }
-            return ((FilesystemResult)false, null);
         }
 
         #endregion Helpers

@@ -16,11 +16,19 @@ namespace Files.Filesystem
         public LibraryLocationItem(ShellLibraryItem shellLibrary)
         {
             Section = SectionType.Library;
+            MenuOptions = new ContextMenuOptions
+            {
+                IsLocationItem = true,
+                ShowProperties = true,
+                ShowShellItems = true,
+                ShowUnpinItem = !shellLibrary.IsPinned
+            };
             Text = shellLibrary.DisplayName;
             Path = shellLibrary.FullPath;
             DefaultSaveFolder = shellLibrary.DefaultSaveFolder;
             Folders = shellLibrary.Folders == null ? null : new ReadOnlyCollection<string>(shellLibrary.Folders);
             IsDefaultLocation = shellLibrary.IsPinned;
+
         }
 
         public override bool Equals(object obj)

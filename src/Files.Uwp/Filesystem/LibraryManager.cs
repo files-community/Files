@@ -1,14 +1,13 @@
-﻿using Files.Shared;
-using Files.DataModels.NavigationControlItems;
-using Files.Extensions;
-using Files.Helpers;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
+using Files.DataModels.NavigationControlItems;
+using Files.Helpers;
+using Files.Shared;
+using Files.Shared.Extensions;
 using Files.UserControls;
 using Files.ViewModels;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
@@ -198,6 +197,11 @@ namespace Files.Filesystem
                         {
                             Text = "SidebarLibraries".GetLocalized(),
                             Section = SectionType.Library,
+                            MenuOptions = new ContextMenuOptions
+                            {
+                                IsLibrariesHeader = true,
+                                ShowHideSection = true
+                            },
                             SelectsOnInvoked = false,
                             Icon = await UIHelpers.GetIconResource(Constants.ImageRes.Libraries),
                             ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()

@@ -10,7 +10,7 @@ namespace Files.CommandLine
     {
         public static ParsedCommands ParseUntrustedCommands(string cmdLineString)
         {
-            var parsedArgs = Parse(SplitArguments(cmdLineString));
+            var parsedArgs = Parse(SplitArguments(cmdLineString, true));
             return ParseSplitArguments(parsedArgs);
         }
 
@@ -76,7 +76,7 @@ namespace Files.CommandLine
             return commands;
         }
 
-        private static string[] SplitArguments(string commandLine)
+        public static string[] SplitArguments(string commandLine, bool trimQuotes = false)
         {
             char[] commandLineCharArray = commandLine.ToCharArray();
             bool isInQuote = false;
@@ -94,7 +94,14 @@ namespace Files.CommandLine
                 }
             }
 
-            return new string(commandLineCharArray).Replace("\"", "", StringComparison.Ordinal).Split('\n');
+            if (trimQuotes)
+            {
+                return new string(commandLineCharArray).Replace("\"", "", StringComparison.Ordinal).Split('\n');
+            }
+            else
+            {
+                return new string(commandLineCharArray).Split('\n');
+            }
         }
 
         public static List<KeyValuePair<string, string>> Parse(string[] args = null)

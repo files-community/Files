@@ -55,7 +55,11 @@ namespace Files.DataModels.NavigationControlItems
             }
         }
 
+        public bool IsInvalid { get; set; } = false;
+
         public SectionType Section { get; set; }
+
+        public ContextMenuOptions MenuOptions { get; set; }
 
         public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
     }
