@@ -702,27 +702,31 @@ namespace Files.Views.LayoutModes
 
         private void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
-            if (!args.InRecycleQueue)
+            var listedItem = args.Item as ListedItem;
+            if (args.InRecycleQueue)
             {
-                InitializeDrag(args.ItemContainer);
+                UninitializeDrag(args.ItemContainer);
                 args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
-                args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
-
-                if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
+                if (listedItem is not null)
                 {
-                    args.RegisterUpdateCallback(3, async (s, c) =>
-                    {
-                        await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
-                    });
+                    ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoadingForItem(listedItem);
                 }
             }
             else
             {
-                UninitializeDrag(args.ItemContainer);
                 args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
-                if (args.Item is ListedItem item)
+                args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
+
+                if (listedItem is not null)
                 {
-                    ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoadingForItem(item);
+                    InitializeDrag(args.ItemContainer, listedItem);
+                    if (!listedItem.ItemPropertiesInitialized)
+                    {
+                        args.RegisterUpdateCallback(3, async (s, c) =>
+                        {
+                            await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
+                        });
+                    }
                 }
             }
         }

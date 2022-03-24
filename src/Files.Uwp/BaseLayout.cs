@@ -1073,21 +1073,17 @@ namespace Files
             deferral.Complete();
         }
 
-        protected void InitializeDrag(UIElement element)
+        protected void InitializeDrag(UIElement containter, ListedItem item)
         {
-            ListedItem item = GetItemFromElement(element);
-            if (item != null)
+            if (item is not null)
             {
-                element.AllowDrop = false;
-                element.DragOver -= Item_DragOver;
-                element.DragLeave -= Item_DragLeave;
-                element.Drop -= Item_Drop;
+                UninitializeDrag(containter);
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder || item.IsExecutable)
                 {
-                    element.AllowDrop = true;
-                    element.DragOver += Item_DragOver;
-                    element.DragLeave += Item_DragLeave;
-                    element.Drop += Item_Drop;
+                    containter.AllowDrop = true;
+                    containter.DragOver += Item_DragOver;
+                    containter.DragLeave += Item_DragLeave;
+                    containter.Drop += Item_Drop;
                 }
             }
         }
