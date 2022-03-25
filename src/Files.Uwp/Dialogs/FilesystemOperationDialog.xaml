@@ -1,14 +1,13 @@
 ﻿<ContentDialog
     x:Class="Files.Dialogs.FilesystemOperationDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:Files.Helpers"
-    xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:vc="using:Files.Converters"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
     Loaded="RootDialog_Loaded"
     x:Name="RootDialog"
     Title="{x:Bind ViewModel.Title, Mode=OneWay}"
@@ -36,10 +35,9 @@
                     Tag="0"
                     Text="{helpers:ResourceString Name=GenerateNewName}" />
                 <MenuFlyoutItem
-                    x:Uid="ConflictingItemsDialogOptionReplaceExisting"
                     Click="MenuFlyoutItem_Click"
                     Tag="1"
-                    Text="Replace existing" />
+                    Text="{helpers:ResourceString Name=ConflictingItemsDialogOptionReplaceExisting.Text}" />
                 <MenuFlyoutItem
                     Click="MenuFlyoutItem_Click"
                     Tag="2"
@@ -47,10 +45,9 @@
                 <MenuFlyoutSeparator x:Name="ApplyToAllSeparator" />
                 <MenuFlyoutItem
                     x:Name="ApplyToAllOption"
-                    x:Uid="ConfictingItemsDialogOptionApplyToAll"
                     Click="MenuFlyoutItem_Click"
-                    Tag="All"
-                    Text="Apply to all" />
+                    Tag="{helpers:ResourceString Name=ConfictingItemsDialogOptionApplyToAll.Tag}"
+                    Text="{helpers:ResourceString Name=ConfictingItemsDialogOptionApplyToAll.Text}" />
             </MenuFlyout>
         </ResourceDictionary>
     </ContentDialog.Resources>
@@ -60,9 +57,8 @@
             <TextBlock Text="{x:Bind ViewModel.Subtitle, Mode=OneWay}" />
             <CheckBox
                 x:Name="chkPermanentlyDelete"
-                x:Uid="DeleteItemsDialogPermanentlyDeleteCheckBox"
                 x:Load="{x:Bind ViewModel.PermanentlyDeleteLoad, Mode=OneWay}"
-                Content="Permanently delete"
+                Content="{helpers:ResourceString Name=DeleteItemsDialogPermanentlyDeleteCheckBox.Content}"
                 IsChecked="{x:Bind ViewModel.PermanentlyDelete, Mode=TwoWay}"
                 IsEnabled="False" />
 
@@ -207,9 +203,8 @@
                                         <MenuFlyout>
                                             <MenuFlyoutItem Command="{Binding GenerateNewNameCommand}" Text="{helpers:ResourceString Name=GenerateNewName}" />
                                             <MenuFlyoutItem
-                                                x:Uid="ConflictingItemsDialogItemOptionReplaceExisting"
                                                 Command="{Binding ReplaceExistingCommand}"
-                                                Text="Replace" />
+                                                Text="{helpers:ResourceString Name=ConflictingItemsDialogItemOptionReplaceExisting.Text}" />
                                             <MenuFlyoutItem Command="{Binding SkipCommand}" Text="{helpers:ResourceString Name=Skip}" />
                                         </MenuFlyout>
                                     </muxc:SplitButton.Flyout>
@@ -228,7 +223,7 @@
                                         <HyperlinkButton.Content>
                                             <StackPanel Orientation="Horizontal" Spacing="8">
                                                 <FontIcon FontSize="12" Glyph="&#xE10E;" />
-                                                <TextBlock x:Uid="ConflictingItemsDialogUndoOption" Text="Undo" />
+                                                <TextBlock Text="{helpers:ResourceString Name=ConflictingItemsDialogUndoOption.Text}" />
                                             </StackPanel>
                                         </HyperlinkButton.Content>
                                         <i:Interaction.Behaviors>

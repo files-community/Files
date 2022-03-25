@@ -1,18 +1,16 @@
 ﻿<ContentDialog
     x:Class="Files.Dialogs.DecompressArchiveDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:Files.Helpers"
-    xmlns:local="using:Files.Dialogs"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    x:Uid="DecompressArchiveDialog"
-    Title="Select a destination and extract files"
+    xmlns:helpers="using:Files.Helpers"
+    Title="{helpers:ResourceString Name=DecompressArchiveDialog.Title}"
     CornerRadius="{StaticResource OverlayCornerRadius}"
     DefaultButton="Primary"
     PrimaryButtonText="Extract"
+    SecondaryButtonText="{helpers:ResourceString Name=DecompressArchiveDialog.SecondaryButtonText}"
     RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
-    SecondaryButtonText="Cancel"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
@@ -44,9 +42,8 @@
             Content="{helpers:ResourceString Name=Browse}" />
 
         <CheckBox
-            x:Uid="DecompressArchiveDialogOpenDestinationWhenComplete"
             Grid.Row="1"
-            Content="Open destination folder when complete"
+            Content="{helpers:ResourceString Name=DecompressArchiveDialogOpenDestinationWhenComplete.Content}"
             IsChecked="{x:Bind ViewModel.OpenDestinationFolderOnCompletion, Mode=TwoWay}" />
     </Grid>
 </ContentDialog>
