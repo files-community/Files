@@ -61,7 +61,6 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
-                    x:Uid="SettingsNavMultitasking"
                     AccessKey="M"
                     AutomationProperties.AutomationId="SettingsItemMultitasking"
                     Content="{helpers:ResourceString Name=SettingsNavMultitasking.Content}"
@@ -72,7 +71,6 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
-                    x:Uid="SettingsNavExperimental"
                     AccessKey="E"
                     AutomationProperties.AutomationId="SettingsItemExperimental"
                     Content="{helpers:ResourceString Name=SettingsNavExperimental.Content}"
