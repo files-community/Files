@@ -298,8 +298,7 @@ namespace Files.DataModels
             }
             else
             {
-                Debug.WriteLine($"Pinned item was invalid and will be removed from the file lines list soon: {res.ErrorCode}");
-                RemoveItem(path);
+                Debug.WriteLine($"Pinned item was invalid but was not removed from the file lines list: {res.ErrorCode}, item: {path}");
             }
         }
 
