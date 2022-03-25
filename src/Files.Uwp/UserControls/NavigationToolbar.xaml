@@ -469,11 +469,21 @@
                 CornerRadius="{StaticResource ControlCornerRadius}"
                 PointerPressed="ManualPathEntryItem_Click"
                 Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
                 <uc:PathBreadcrumb
+                    Grid.Column="0"
                     VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
                     ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                <FontIcon
+                    Grid.Column="1"
+                    Margin="12"
+                    FontSize="16"
+                    Glyph="&#xE09D;" />
             </Grid>
 
             <uc:SearchBox
