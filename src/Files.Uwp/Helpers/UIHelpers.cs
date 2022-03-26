@@ -101,7 +101,8 @@ namespace Files.Helpers
                     Constants.ImageRes.Libraries,
                     Constants.ImageRes.ThisPC,
                     Constants.ImageRes.CloudDrives,
-                    Constants.ImageRes.Folder
+                    Constants.ImageRes.Folder,
+                    Constants.ImageRes.YellowBang
                 }, 32);
 
             const string shell32 = @"C:\Windows\System32\shell32.dll";

@@ -259,19 +259,19 @@ namespace Files.DataModels
         {
             var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
             var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
+            var lastItem = favoriteSection.ChildItems.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(CommonPaths.RecycleBinPath));
+            int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
+            var locationItem = new LocationItem
+            {
+                Font = MainViewModel.FontName,
+                Path = path,
+                Section = SectionType.Favorites,
+                IsDefaultLocation = false,
+                Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
+            };
+
             if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
             {
-                var lastItem = favoriteSection.ChildItems.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(CommonPaths.RecycleBinPath));
-                int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
-                var locationItem = new LocationItem
-                {
-                    Font = MainViewModel.FontName,
-                    Path = path,
-                    Section = SectionType.Favorites,
-                    IsDefaultLocation = false,
-                    Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
-                };
-
                 if (res)
                 {
                     var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
@@ -290,15 +290,16 @@ namespace Files.DataModels
                         locationItem.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
                     }
                 }
-
-                if (!favoriteSection.ChildItems.Any(x => x.Path == locationItem.Path))
-                {
-                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => favoriteSection.ChildItems.Insert(insertIndex, locationItem));
-                }
             }
             else
             {
+                locationItem.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.YellowBang));
                 Debug.WriteLine($"Pinned item was invalid {res.ErrorCode}, item: {path}");
+            }
+
+            if (!favoriteSection.ChildItems.Any(x => x.Path == locationItem.Path))
+            {
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => favoriteSection.ChildItems.Insert(insertIndex, locationItem));
             }
         }
 
