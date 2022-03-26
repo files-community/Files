@@ -101,9 +101,9 @@
                     AccessKey="X"
                     Command="{x:Bind ViewModel.CutCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
-                    Label="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutCut.Text}"
+                    Label="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutCut/Text}"
                     LabelPosition="Collapsed"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutCut.Text}">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutCut/Text}">
                     <AppBarButton.Content>
                         <local:ColoredIcon BaseLayerGlyph="&#xF03D;" OverlayLayerGlyph="&#xF03E;" />
                     </AppBarButton.Content>
@@ -126,9 +126,9 @@
                     AccessKey="P"
                     Command="{x:Bind ViewModel.PasteItemsFromClipboardCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.InstanceViewModel.CanPasteInPage, local1:App.MainViewModel.IsPasteEnabled), Mode=OneWay, FallbackValue=False}"
-                    Label="{helpers:ResourceString Name=NavigationToolbarPaste.Label}"
+                    Label="{helpers:ResourceString Name=NavigationToolbarPaste/Label}"
                     LabelPosition="Collapsed"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutContextFlyoutPaste.Text}">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutContextFlyoutPaste/Text}">
                     <AppBarButton.KeyboardAccelerators>
                         <KeyboardAccelerator
                             Key="V"
@@ -144,9 +144,9 @@
                     AccessKey="M"
                     Command="{x:Bind ViewModel.Rename, Mode=OneWay}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanRename, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
-                    Label="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutRename.Text}"
+                    Label="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutRename/Text}"
                     LabelPosition="Collapsed"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutRename.Text}">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutRename/Text}">
                     <AppBarButton.Content>
                         <local:ColoredIcon BaseLayerGlyph="&#xF027;" OverlayLayerGlyph="&#xF028;" />
                     </AppBarButton.Content>
@@ -158,9 +158,9 @@
                     AccessKey="H"
                     Command="{x:Bind ViewModel.Share, Mode=OneWay}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanShare, ViewModel.InstanceViewModel.CanShareInPage), Mode=OneWay, FallbackValue=False}"
-                    Label="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutShare.Text}"
+                    Label="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutShare/Text}"
                     LabelPosition="Collapsed"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutShare.Text}">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutShare/Text}">
                     <AppBarButton.Content>
                         <local:ColoredIcon BaseLayerGlyph="&#xF025;" OverlayLayerGlyph="&#xF026;" />
                     </AppBarButton.Content>
