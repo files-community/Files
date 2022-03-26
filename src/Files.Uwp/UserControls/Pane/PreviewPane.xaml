@@ -1,16 +1,17 @@
 ﻿<UserControl
-    x:Name="Root" x:Uid="SelectedFilePreviewPane"
+    x:Name="Root"
     x:Class="Files.UserControls.PreviewPane"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:properties="using:Files.ViewModels.Properties"
     xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Loading="Root_Loading" Unloaded="Root_Unloaded" SizeChanged="Root_SizeChanged"
     MinWidth="90" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-    AutomationProperties.Name="Selected file preview pane"
+    AutomationProperties.Name="{helpers:ResourceString Name=SelectedFilePreviewPane.AutomationProperties.Name}"
     d:DesignWidth="400" d:DesignHeight="300" mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -32,17 +33,17 @@
             <ColumnDefinition x:Name="PropertiesColumn" Width="3*" MinWidth="120" />
         </Grid.ColumnDefinitions>
 
-        <Grid x:Name="RootPreviewGrid" x:Uid="PreviewPaneFilePreview" Margin="5,5,5,5"
-            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutomationProperties.Name="File preview">
+        <Grid x:Name="RootPreviewGrid" Margin="5,5,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+            AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneFilePreview.AutomationProperties.Name}">
             <Grid.ContextFlyout>
                 <MenuFlyout>
-                    <ToggleMenuFlyoutItem x:Uid="PreviewPaneShowPreviewOnly" Text="Show preview only"
+                    <ToggleMenuFlyoutItem Text="{helpers:ResourceString Name=PreviewPaneShowPreviewOnly.Text}"
                         IsChecked="{x:Bind PaneSettingsService.ShowPreviewOnly, Mode=TwoWay}"
                         Command="{x:Bind ViewModel.ShowPreviewOnlyInvoked, Mode=OneWay}" />
-                    <MenuFlyoutItem x:Uid="PreviewPaneLoadCloudItemButton" HorizontalAlignment="Stretch"
-                        Text="Load full preview" Tapped="MenuFlyoutItem_Tapped"
+                    <MenuFlyoutItem HorizontalAlignment="Stretch" Tapped="MenuFlyoutItem_Tapped"
+                        Text="{helpers:ResourceString Name=PreviewPaneLoadCloudItemButton.Text}"
                         Visibility="{x:Bind ViewModel.ShowCloudItemButton, Mode=OneWay}"
-                        ToolTipService.ToolTip="Downloads the item from the cloud and loads the preview" />
+                        ToolTipService.ToolTip="{helpers:ResourceString Name=PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip}" />
                 </MenuFlyout>
             </Grid.ContextFlyout>
             <Grid.RowDefinitions>
@@ -61,8 +62,8 @@
             <TextBlock x:Name="DetailsErrorText"
                 TextWrapping="WrapWholeWords" Text="{x:Bind GetLocalized('NoItemSelected')}"
                 HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Visible" />
-            <ScrollViewer x:Name="FileDetailsScrollViewer" x:Uid="PreviewPaneFileDetails"
-                AutomationProperties.Name="File Details" Visibility="Visible">
+            <ScrollViewer x:Name="FileDetailsScrollViewer" Visibility="Visible"
+                AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneFileDetails.AutomationProperties.Name}">
                 <StackPanel Orientation="Vertical">
                     <StackPanel x:Name="DetailsListHeader" Orientation="Vertical" Margin="8,8,8,0" Spacing="5" Visibility="Collapsed">
                         <TextBlock FontSize="20" FontWeight="Bold" HorizontalTextAlignment="Center" IsTextSelectionEnabled="True"
