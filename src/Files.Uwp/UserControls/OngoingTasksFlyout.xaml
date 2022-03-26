@@ -1,13 +1,12 @@
 ﻿<UserControl
     x:Class="Files.UserControls.OngoingTasksFlyout"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:Files.Helpers"
-    xmlns:local="using:Files.UserControls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:models="using:Files.ViewModels"
+    xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="300"
     d:DesignWidth="300"
@@ -207,18 +206,17 @@
                             </StackPanel>
                             <Button
                                 x:Name="DismissBannerButton"
-                                x:Uid="OngoingTasksDismissBannerButton"
                                 Grid.Column="2"
                                 Height="32"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
                                 x:Load="{x:Bind CancelButtonVisible, Converter={StaticResource BoolNegationConverter}}"
-                                AutomationProperties.Name="Dismiss"
+                                AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasksDismissBannerButton.ToolTipService.ToolTip}"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
                                 Click="DismissBanner"
                                 DataContext="{x:Bind}"
-                                ToolTipService.ToolTip="Dismiss">
+                                ToolTipService.ToolTip="{helpers:ResourceString Name=OngoingTasksDismissBannerButton.ToolTipService.ToolTip}">
                                 <Button.Content>
                                     <FontIcon FontSize="11" Glyph="&#xE711;" />
                                 </Button.Content>

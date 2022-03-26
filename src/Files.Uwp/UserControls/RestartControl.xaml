@@ -1,11 +1,11 @@
 ﻿<UserControl
     x:Class="Files.UserControls.RestartControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:Files.Helpers"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:helpers="using:Files.Helpers"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -21,9 +21,9 @@
 
                     <TextBlock
                         x:Name="TextBlock"
-                        x:Uid="RestartNotificationText"
                         Grid.Row="0"
                         VerticalAlignment="Center"
+                        Text="{helpers:ResourceString Name=RestartNotificationText.Text}"
                         TextWrapping="WrapWholeWords" />
 
                     <StackPanel

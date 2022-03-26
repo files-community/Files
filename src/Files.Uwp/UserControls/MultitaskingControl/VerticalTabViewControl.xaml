@@ -1,11 +1,12 @@
 ﻿<local:BaseMultitaskingControl
     x:Class="Files.UserControls.MultitaskingControl.VerticalTabViewControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Files.UserControls.MultitaskingControl"
-    xmlns:local1="using:Files"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local1="using:Files"
+    xmlns:helpers="using:Files.Helpers"
+    xmlns:local="using:Files.UserControls.MultitaskingControl"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
     d:DesignHeight="400"
@@ -73,10 +74,9 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock
-            x:Uid="VerticalTabViewHeader"
             Padding="4,6"
             FontWeight="Medium"
-            Text="Open tabs" />
+            Text="{helpers:ResourceString Name=VerticalTabViewHeader.Text}" />
         <muxc:TabView
             x:Name="VerticalTabView"
             Grid.Row="1"
