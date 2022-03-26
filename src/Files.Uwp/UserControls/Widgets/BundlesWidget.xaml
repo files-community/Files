@@ -1,15 +1,14 @@
 ﻿<UserControl
     x:Class="Files.UserControls.Widgets.BundlesWidget"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:Files.Helpers"
-    xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vc="using:Files.Converters"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:vm="using:Files.ViewModels.Widgets.Bundles"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -28,7 +27,6 @@
 
             <!--  Add Bundle button  -->
             <Button
-                x:Uid="BundlesWidgetMoreOptionsButton"
                 Grid.Column="1"
                 Width="36"
                 Height="32"
@@ -37,10 +35,10 @@
                 VerticalAlignment="Top"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"
-                AutomationProperties.Name="More bundles options"
+                AutomationProperties.Name="{helpers:ResourceString Name=BundlesWidgetMoreOptionsButton.AutomationProperties.Name}"
                 Background="Transparent"
                 BorderBrush="Transparent"
-                ToolTipService.ToolTip="More options...">
+                ToolTipService.ToolTip="{helpers:ResourceString Name=BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip}">
 
                 <FontIcon
                     HorizontalAlignment="Center"
@@ -57,17 +55,15 @@
                         </MenuFlyoutItem>
                         <MenuFlyoutSeparator />
                         <MenuFlyoutItem
-                            x:Uid="BundlesWidgetOptionsFlyoutImportBundlesMenuItem"
                             Command="{x:Bind ViewModel.ImportBundlesCommand, Mode=OneWay}"
-                            Text="Import Bundles">
+                            Text="{helpers:ResourceString Name=BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE8B6;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
-                            x:Uid="BundlesWidgetOptionsFlyoutExportBundlesMenuItem"
                             Command="{x:Bind ViewModel.ExportBundlesCommand, Mode=OneWay}"
-                            Text="Export Bundles">
+                            Text="{helpers:ResourceString Name=BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xEDE1;" />
                             </MenuFlyoutItem.Icon>
@@ -186,17 +182,15 @@
                                     <Button.Flyout>
                                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
                                             <MenuFlyoutItem
-                                                x:Uid="BundleOptionsFlyoutRenameBundleMenuItem"
                                                 Command="{x:Bind RenameBundleCommand}"
-                                                Text="Rename Bundle">
+                                                Text="{helpers:ResourceString Name=BundleOptionsFlyoutRenameBundleMenuItem.Text}">
                                                 <MenuFlyoutItem.Icon>
                                                     <FontIcon Glyph="&#xE8AC;" />
                                                 </MenuFlyoutItem.Icon>
                                             </MenuFlyoutItem>
                                             <MenuFlyoutSubItem
-                                                x:Uid="BundleOptionsFlyoutAddItemMenuItem"
                                                 IsEnabled="{x:Bind IsAddItemOptionEnabled, Mode=OneWay}"
-                                                Text="Add item...">
+                                                Text="{helpers:ResourceString Name=BundleOptionsFlyoutAddItemMenuItem.Text}">
                                                 <MenuFlyoutSubItem.Icon>
                                                     <FontIcon Glyph="&#xE710;" />
                                                 </MenuFlyoutSubItem.Icon>
@@ -206,18 +200,16 @@
                                                     </MenuFlyoutItem.Icon>
                                                 </MenuFlyoutItem>
                                                 <MenuFlyoutItem
-                                                    x:Uid="BundleOptionsFlyoutAddFolderMenuItem"
                                                     Command="{x:Bind AddFolderCommand}"
-                                                    Text="Add folder">
+                                                    Text="{helpers:ResourceString Name=BundleOptionsFlyoutAddFolderMenuItem.Text}">
                                                     <MenuFlyoutItem.Icon>
                                                         <FontIcon Glyph="&#xE8B7;" />
                                                     </MenuFlyoutItem.Icon>
                                                 </MenuFlyoutItem>
                                             </MenuFlyoutSubItem>
                                             <MenuFlyoutItem
-                                                x:Uid="BundleOptionsFlyoutRemoveBundleMenuItem"
                                                 Command="{x:Bind RemoveBundleCommand}"
-                                                Text="Remove Bundle">
+                                                Text="{helpers:ResourceString Name=BundleOptionsFlyoutRemoveBundleMenuItem.Text}">
                                                 <MenuFlyoutItem.Icon>
                                                     <FontIcon Glyph="&#xE738;" />
                                                 </MenuFlyoutItem.Icon>
@@ -311,37 +303,33 @@
                                                     <MenuFlyout>
                                                         <MenuFlyoutItem
                                                             x:Name="OpenInNewTab"
-                                                            x:Uid="BundleItemFlyouOpenInNewTabMenuItem"
                                                             x:Load="{x:Bind OpenInNewTabLoad, Mode=OneWay}"
                                                             Command="{x:Bind OpenInNewTabCommand}"
-                                                            Text="Open in new tab">
+                                                            Text="{helpers:ResourceString Name=BundleItemFlyouOpenInNewTabMenuItem.Text}">
                                                             <MenuFlyoutItem.Icon>
                                                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
                                                             </MenuFlyoutItem.Icon>
                                                         </MenuFlyoutItem>
                                                         <MenuFlyoutItem
                                                             x:Name="OpenInNewPane"
-                                                            x:Uid="BundlesOpenInNewPane"
                                                             x:Load="{x:Bind OpenInNewPaneLoad, Mode=OneWay}"
                                                             Command="{x:Bind OpenInNewPaneCommand}"
-                                                            Text="Open in new Pane">
+                                                            Text="{helpers:ResourceString Name=BundlesOpenInNewPane.Text}">
                                                             <MenuFlyoutItem.Icon>
                                                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
                                                             </MenuFlyoutItem.Icon>
                                                         </MenuFlyoutItem>
                                                         <MenuFlyoutItem
-                                                            x:Uid="BundleItemFlyouOpenItemLocationMenuItem"
                                                             Command="{x:Bind OpenItemLocationCommand}"
-                                                            Text="Open item location">
+                                                            Text="{helpers:ResourceString Name=BundleItemFlyouOpenItemLocationMenuItem.Text}">
                                                             <MenuFlyoutItem.Icon>
                                                                 <FontIcon Glyph="&#xED25;" />
                                                             </MenuFlyoutItem.Icon>
                                                         </MenuFlyoutItem>
                                                         <MenuFlyoutSeparator />
                                                         <MenuFlyoutItem
-                                                            x:Uid="BundleItemFlyouRemoveFromBundleMenuItem"
                                                             Command="{x:Bind RemoveItemCommand}"
-                                                            Text="Remove from bundle">
+                                                            Text="{helpers:ResourceString Name=BundleItemFlyouRemoveFromBundleMenuItem.Text}">
                                                             <MenuFlyoutItem.Icon>
                                                                 <FontIcon Glyph="&#xE738;" />
                                                             </MenuFlyoutItem.Icon>
@@ -373,7 +361,6 @@
 
                                 <FontIcon FontSize="20" Glyph="&#xE74B;" />
                                 <TextBlock
-                                    x:Uid="BundleNoContentsTextBlock"
                                     Grid.Row="1"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Bottom"
@@ -381,7 +368,7 @@
                                     FontSize="12"
                                     FontWeight="SemiLight"
                                     Opacity=".7"
-                                    Text="Drag and drop any file or folder here to quickly access it"
+                                    Text="{helpers:ResourceString Name=BundleNoContentsTextBlock.Text}"
                                     TextAlignment="Center"
                                     TextWrapping="WrapWholeWords" />
                             </Grid>
