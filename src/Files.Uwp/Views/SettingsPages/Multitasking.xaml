@@ -33,11 +33,10 @@
             </local:SettingsBlockControl>
 
             <TextBlock
-                x:Uid="SettingsDualPane"
                 Padding="0,12,0,4"
                 FontSize="14"
                 FontWeight="Medium"
-                Text="Dual pane" />
+                Text="{helpers:ResourceString Name=SettingsDualPane.Text}" />
 
             <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsMultitaskingEnableDualPane}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>

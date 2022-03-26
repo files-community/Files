@@ -407,7 +407,6 @@
 
                 <Button
                     x:Name="Refresh"
-                    x:Uid="NavRefreshButton"
                     Width="36"
                     Height="32"
                     x:FieldModifier="public"
