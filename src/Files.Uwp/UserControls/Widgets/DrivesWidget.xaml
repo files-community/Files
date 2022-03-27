@@ -12,7 +12,8 @@
 		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition />
-				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition
+					Width="Auto" />
 			</Grid.ColumnDefinitions>
 
 			<!--  Map Drive button  -->
@@ -44,7 +45,8 @@
 							Click="MapNetworkDrive_Click"
 							Text="Map network drive">
 							<MenuFlyoutItem.Icon>
-								<FontIcon Glyph="&#xE710;" />
+								<FontIcon
+									Glyph="&#xE710;" />
 							</MenuFlyoutItem.Icon>
 						</MenuFlyoutItem>
 					</MenuFlyout>
@@ -67,7 +69,8 @@
 					Orientation="Horizontal" />
 			</muxc:ItemsRepeater.Layout>
 			<muxc:ItemsRepeater.ItemTemplate>
-				<DataTemplate x:DataType="local:DriveCardItem">
+				<DataTemplate
+					x:DataType="local:DriveCardItem">
 					<Button
 						Padding="8"
 						HorizontalAlignment="Stretch"
@@ -81,7 +84,8 @@
 						Tag="{x:Bind Item.Path}"
 						ToolTipService.ToolTip="{x:Bind Item.Text, Mode=OneWay}">
 						<Button.ContextFlyout>
-							<MenuFlyout Opening="MenuFlyout_Opening">
+							<MenuFlyout
+								Opening="MenuFlyout_Opening">
 								<MenuFlyout.Items>
 									<MenuFlyoutItem
 										x:Name="OpenInNewPane"
@@ -91,7 +95,9 @@
 										Text="Open in new pane"
 										Visibility="Collapsed">
 										<MenuFlyoutItem.Icon>
-											<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
+											<FontIcon
+												FontFamily="{StaticResource CustomGlyph}"
+												Glyph="&#xF117;" />
 										</MenuFlyoutItem.Icon>
 									</MenuFlyoutItem>
 									<MenuFlyoutItem
@@ -101,7 +107,9 @@
 										DataContext="{x:Bind Item}"
 										Text="Open in new tab">
 										<MenuFlyoutItem.Icon>
-											<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
+											<FontIcon
+												FontFamily="{StaticResource CustomGlyph}"
+												Glyph="&#xF113;" />
 										</MenuFlyoutItem.Icon>
 									</MenuFlyoutItem>
 									<MenuFlyoutItem
@@ -111,7 +119,8 @@
 										DataContext="{x:Bind Item}"
 										Text="Open in new window">
 										<MenuFlyoutItem.Icon>
-											<FontIcon Glyph="&#xE737;" />
+											<FontIcon
+												Glyph="&#xE737;" />
 										</MenuFlyoutItem.Icon>
 									</MenuFlyoutItem>
 									<MenuFlyoutItem
@@ -121,7 +130,8 @@
 										DataContext="{x:Bind Item}"
 										Text="Properties">
 										<MenuFlyoutItem.Icon>
-											<FontIcon Glyph="&#xE946;" />
+											<FontIcon
+												Glyph="&#xE946;" />
 										</MenuFlyoutItem.Icon>
 									</MenuFlyoutItem>
 									<MenuFlyoutItem
@@ -132,7 +142,8 @@
 										DataContext="{x:Bind Item}"
 										Text="Eject">
 										<MenuFlyoutItem.Icon>
-											<FontIcon Glyph="&#xF847;" />
+											<FontIcon
+												Glyph="&#xF847;" />
 										</MenuFlyoutItem.Icon>
 									</MenuFlyoutItem>
 									<MenuFlyoutItem
@@ -143,7 +154,8 @@
 										DataContext="{x:Bind Item}"
 										Text="Disconnect">
 										<MenuFlyoutItem.Icon>
-											<FontIcon Glyph="&#xF847;" />
+											<FontIcon
+												Glyph="&#xF847;" />
 										</MenuFlyoutItem.Icon>
 									</MenuFlyoutItem>
 								</MenuFlyout.Items>
@@ -154,13 +166,18 @@
 							VerticalAlignment="Stretch"
 							ColumnSpacing="8">
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="32" />
-								<ColumnDefinition Width="*" />
+								<ColumnDefinition
+									Width="32" />
+								<ColumnDefinition
+									Width="*" />
 							</Grid.ColumnDefinitions>
 							<Grid.RowDefinitions>
-								<RowDefinition Height="*" />
-								<RowDefinition Height="Auto" />
-								<RowDefinition Height="*" />
+								<RowDefinition
+									Height="*" />
+								<RowDefinition
+									Height="Auto" />
+								<RowDefinition
+									Height="*" />
 							</Grid.RowDefinitions>
 							<Image
 								Grid.RowSpan="3"
@@ -188,8 +205,10 @@
 								Grid.ColumnSpan="8"
 								VerticalAlignment="Stretch">
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition
+										Width="*" />
+									<ColumnDefinition
+										Width="Auto" />
 								</Grid.ColumnDefinitions>
 								<muxc:ProgressBar
 									Grid.Column="0"
