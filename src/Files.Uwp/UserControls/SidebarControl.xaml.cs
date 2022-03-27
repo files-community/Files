@@ -114,27 +114,27 @@ namespace Files.UserControls
 
         public readonly ICommand RestoreLibrariesCommand = new RelayCommand(LibraryHelper.ShowRestoreDefaultLibrariesDialog);
 
-        private ICommand HideSectionCommand => new RelayCommand(HideSection);
+        private ICommand HideSectionCommand { get; }
 
-        private ICommand UnpinItemCommand => new RelayCommand(UnpinItem);
+        private ICommand UnpinItemCommand { get; }
 
-        private ICommand MoveItemToTopCommand => new RelayCommand(MoveItemToTop);
+        private ICommand MoveItemToTopCommand { get; }
 
-        private ICommand MoveItemUpCommand => new RelayCommand(MoveItemUp);
+        private ICommand MoveItemUpCommand { get; }
 
-        private ICommand MoveItemDownCommand => new RelayCommand(MoveItemDown);
+        private ICommand MoveItemDownCommand { get; }
 
-        private ICommand MoveItemToBottomCommand => new RelayCommand(MoveItemToBottom);
+        private ICommand MoveItemToBottomCommand { get; }
 
-        private ICommand OpenInNewTabCommand => new RelayCommand(OpenInNewTab);
+        private ICommand OpenInNewTabCommand { get; }
 
-        private ICommand OpenInNewWindowCommand => new RelayCommand(OpenInNewWindow);
+        private ICommand OpenInNewWindowCommand { get; }
 
-        private ICommand OpenInNewPaneCommand => new RelayCommand(OpenInNewPane);
+        private ICommand OpenInNewPaneCommand { get; }
 
-        private ICommand EjectDeviceCommand => new RelayCommand(EjectDevice);
+        private ICommand EjectDeviceCommand { get; }
 
-        private ICommand OpenPropertiesCommand => new RelayCommand(OpenProperties);
+        private ICommand OpenPropertiesCommand { get; }
 
         private bool IsInPointerPressed = false;
 
@@ -147,7 +147,19 @@ namespace Files.UserControls
 
             dragOverSectionTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
             dragOverItemTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
-        }
+
+            HideSectionCommand = new RelayCommand(HideSection);
+            UnpinItemCommand = new RelayCommand(UnpinItem);
+            MoveItemToTopCommand = new RelayCommand(MoveItemToTop);
+            MoveItemUpCommand = new RelayCommand(MoveItemUp);
+            MoveItemDownCommand = new RelayCommand(MoveItemDown);
+            MoveItemToBottomCommand = new RelayCommand(MoveItemToBottom);
+            OpenInNewTabCommand  = new RelayCommand(OpenInNewTab);
+            OpenInNewWindowCommand  = new RelayCommand(OpenInNewWindow);
+            OpenInNewPaneCommand  = new RelayCommand(OpenInNewPane);
+            EjectDeviceCommand  = new RelayCommand(EjectDevice);
+            OpenPropertiesCommand  = new RelayCommand(OpenProperties);
+    }
 
         public SidebarViewModel ViewModel
         {
