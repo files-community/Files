@@ -57,7 +57,7 @@ namespace Files.Filesystem
                 {
                     IsLocationItem = true,
                     ShowEjectDevice = cloudProviderItem.IsRemovable,
-                    ShowShellItems=true,
+                    ShowShellItems = true,
                     ShowProperties = true
                 };
                 var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, 24);
