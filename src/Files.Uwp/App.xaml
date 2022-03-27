@@ -99,6 +99,8 @@
                     <CornerRadius x:Key="DetailsLayoutThumbnailCornerRadius">2</CornerRadius>
                     <!--  Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/5441  -->
                     <x:Double x:Key="MediaTransportControlsMinWidth">50</x:Double>
+					<!-- Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/6886 -->
+					<x:Boolean x:Key="ThemeShadowIsUsingDropShadows">False</x:Boolean>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
