@@ -313,17 +313,22 @@ namespace Files.Helpers
                 }
             }
 
-            // Show rename dialog
-            DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog();
-            await dialog.ShowAsync();
-
-            if (dialog.DynamicResult != DynamicDialogResult.Primary)
+            // Skip rename dialog when ShellNewEntry has a Command (e.g. ".accdb", ".gdoc")
+            string userInput = null;
+            if (itemType != AddItemDialogItemType.File || itemInfo?.Command == null)
             {
-                return null;
+                DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog();
+                await dialog.ShowAsync(); // Show rename dialog
+
+                if (dialog.DynamicResult != DynamicDialogResult.Primary)
+                {
+                    return null;
+                }
+
+                userInput = dialog.ViewModel.AdditionalData as string;
             }
 
             // Create file based on dialog result
-            string userInput = dialog.ViewModel.AdditionalData as string;
             var folderRes = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(currentPath);
             var created = new FilesystemResult<(ReturnResult, IStorageItem)>((ReturnResult.Failed, null), FileSystemStatusCode.Generic);
             if (folderRes)
