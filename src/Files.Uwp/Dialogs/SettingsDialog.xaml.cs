@@ -38,8 +38,15 @@ namespace Files.Dialogs
         {
             var content = WindowManagementHelpers.GetWindowContentFromUIContext(Context);
             RootAppElement = content as FrameworkElement;
+            this.RequestedTheme = RootAppElement.ActualTheme;
+            RootAppElement.ActualThemeChanged += RootAppElement_ActualThemeChanged;
             RootAppElement.XamlRoot.Changed += XamlRoot_Changed;
             UpdateDialogLayout();
+        }
+
+        private void RootAppElement_ActualThemeChanged(FrameworkElement sender, object args)
+        {
+            this.RequestedTheme = RootAppElement.ActualTheme;
         }
 
         private void XamlRoot_Changed(XamlRoot sender, XamlRootChangedEventArgs args)
@@ -116,7 +123,8 @@ namespace Files.Dialogs
 
         private void ContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
         {
-           RootAppElement.XamlRoot.Changed -= XamlRoot_Changed;
+            RootAppElement.ActualThemeChanged -= RootAppElement_ActualThemeChanged;
+            RootAppElement.XamlRoot.Changed -= XamlRoot_Changed;
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
