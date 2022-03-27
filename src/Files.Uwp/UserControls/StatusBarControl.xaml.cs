@@ -8,8 +8,6 @@ namespace Files.UserControls
 {
     public sealed partial class StatusBarControl : UserControl, INotifyPropertyChanged
     {
-        public SettingsViewModel AppSettings => App.AppSettings;
-
         public MainViewModel MainViewModel => App.MainViewModel;
 
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel
