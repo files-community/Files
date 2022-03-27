@@ -340,7 +340,6 @@ bool OpenInExistingShellWindow(const TCHAR* folderPath)
 
 	bool opened = false;
 	IShellWindows* shellWindows;
-	long shellWindowsCount;
 	if (SUCCEEDED(CoCreateInstance(CLSID_ShellWindows, NULL, CLSCTX_LOCAL_SERVER, IID_IShellWindows, (void**)&shellWindows)))
 	{
 		VARIANT v;

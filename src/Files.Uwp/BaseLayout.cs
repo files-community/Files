@@ -57,8 +57,6 @@ namespace Files
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
-        public SettingsViewModel AppSettings => App.AppSettings;
-
         public FolderSettingsViewModel FolderSettings => ParentShellPageInstance.InstanceViewModel.FolderSettings;
 
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
