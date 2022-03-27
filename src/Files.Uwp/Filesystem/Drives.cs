@@ -100,19 +100,12 @@ namespace Files.Filesystem
             }
         }
 
-        private void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender = null, object args = null)
+        private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender = null, object args = null)
         {
             System.Diagnostics.Debug.WriteLine("DeviceWatcher_EnumerationCompleted");
-            RefreshUI();
-            folderSizeProvider.CleanCache();
-        }
-
-        private async void RefreshUI(CoreApplicationView view = null, IActivatedEventArgs args = null)
-        {
             try
             {
-                await UpdateAppUISurfaces();
-                CoreApplication.MainView.Activated -= RefreshUI;
+                await UpdateAppUISurfacesAsync();
             }
             catch (Exception) // UI Thread not ready yet, so we defer the previous operation until it is.
             {
@@ -121,10 +114,17 @@ namespace Files.Filesystem
                 CoreApplication.MainView.Activated -= RefreshUI;
                 CoreApplication.MainView.Activated += RefreshUI;
             }
+            await folderSizeProvider.CleanCacheAsync();
+        }
+
+        private async void RefreshUI(CoreApplicationView view = null, IActivatedEventArgs args = null)
+        {
+            CoreApplication.MainView.Activated -= RefreshUI;
+            await UpdateAppUISurfacesAsync();
         }
 
         // TODO: Rid DrivesManager of this method
-        private async Task UpdateAppUISurfaces()
+        private async Task UpdateAppUISurfacesAsync()
         {
             await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
             {
