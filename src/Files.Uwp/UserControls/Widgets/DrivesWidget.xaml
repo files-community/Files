@@ -62,7 +62,7 @@
                     ItemsStretch="None"
                     MinColumnSpacing="8"
                     MinItemHeight="72"
-					MinItemWidth="240"
+                    MinItemWidth="240"
                     MinRowSpacing="8"
                     Orientation="Horizontal" />
             </muxc:ItemsRepeater.Layout>
