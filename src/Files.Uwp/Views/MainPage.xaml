@@ -477,6 +477,7 @@
                     <VisualState.Setters>
                         <Setter Target="SidebarControl.PaneDisplayMode" Value="LeftMinimal" />
                         <Setter Target="SidebarControl.IsPaneToggleButtonVisible" Value="True" />
+                        <Setter Target="horizontalMultitaskingControl.Margin" Value="48,0,0,0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
