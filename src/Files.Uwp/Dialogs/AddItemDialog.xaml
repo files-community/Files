@@ -29,7 +29,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid x:Name="SubtitleArea">
-            <TextBlock x:Name="Description" Text="{helpers:ResourceString Name=AddDialogDescription.Description}" />
+            <TextBlock x:Name="Description" Text="{helpers:ResourceString Name=AddDialogDescription.Text}" />
         </Grid>
         <Grid
             x:Name="SelectionListContent"

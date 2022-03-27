@@ -81,7 +81,8 @@
                 <TextBox
                     x:Name="ItemFileName"
                     x:Load="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}"
-                    Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}" />
+                    Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}"
+                    PlaceholderText="{helpers:ResourceString Name=PropertiesItemFileName.PlaceholderText}" />
                 <TextBlock
                     x:Name="itemFilesAndFoldersCountValueTop"
                     x:Load="{x:Bind ViewModel.FilesAndFoldersCountVisibility, Mode=OneWay}"

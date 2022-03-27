@@ -379,7 +379,7 @@
                                     Grid.Column="6"
                                     Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                     CommandParameter="OriginalPath"
-                                    Header="Original path"
+                                    Header="{helpers:ResourceString Name=originalPathColumn.Header}"
                                     Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
 
                                 <controls:GridSplitter
