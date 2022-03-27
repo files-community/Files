@@ -72,9 +72,9 @@ namespace Files.Helpers
                 }
                 else
                 {
-                    dialog.ViewModel.AdditionalData = textBox.Text;
+                    dialog.ViewModel.AdditionalData = args.NewText;
 
-                    if (!string.IsNullOrWhiteSpace(textBox.Text))
+                    if (!string.IsNullOrWhiteSpace(args.NewText))
                     {
                         dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel;
                     }
