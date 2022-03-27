@@ -130,7 +130,7 @@
     </UserControl.Resources>
     <ListView
         x:Name="PathViewInteract"
-        Padding="0,0,12,0"
+        Padding="6,0,12,0"
         VerticalAlignment="Stretch"
         HorizontalContentAlignment="Stretch"
         VerticalContentAlignment="Stretch"

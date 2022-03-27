@@ -26,8 +26,6 @@ namespace Files.UserControls.Widgets
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        public SettingsViewModel AppSettings => App.AppSettings;
-
         public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 
         public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;

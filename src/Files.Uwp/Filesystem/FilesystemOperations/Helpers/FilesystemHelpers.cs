@@ -423,7 +423,7 @@ namespace Files.Filesystem
                     // Get the SoftwareBitmap representation of the file
                     softwareBitmap = await decoder.GetSoftwareBitmapAsync();
 
-                    await Helpers.SaveImageToFile.SaveSoftwareBitmapToFile(softwareBitmap, file, BitmapEncoder.PngEncoderId);
+                    await Helpers.BitmapHelper.SaveSoftwareBitmapToFile(softwareBitmap, file, BitmapEncoder.PngEncoderId);
                     return ReturnResult.Success;
                 }
                 catch (Exception)
@@ -809,6 +809,16 @@ namespace Files.Filesystem
             }
             itemsList = itemsList.DistinctBy(x => string.IsNullOrEmpty(x.Path) ? x.Item.Name : x.Path).ToList();
             return itemsList;
+        }
+
+        public static string FilterRestrictedCharacters(string input)
+        {
+            int invalidCharIndex;
+            while ((invalidCharIndex = input.IndexOfAny(RestrictedCharacters)) >= 0)
+            {
+                input = input.Remove(invalidCharIndex, 1);
+            }
+            return input;
         }
 
         public static bool ContainsRestrictedCharacters(string input)

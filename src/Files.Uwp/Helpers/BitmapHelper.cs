@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Files.Filesystem;
+using Files.Filesystem.StorageItems;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
@@ -46,9 +48,14 @@ namespace Files.Helpers
                 return;
             }
 
-            using IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.ReadWrite);
-            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream);
+            var fileStreamRes = await FilesystemTasks.Wrap(() => file.OpenAsync(FileAccessMode.ReadWrite).AsTask());
+            using IRandomAccessStream fileStream = fileStreamRes.Result;
+            if (fileStream == null)
+            {
+                return;
+            }
 
+            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream);
             using var memStream = new InMemoryRandomAccessStream();
             BitmapEncoder encoder = await BitmapEncoder.CreateForTranscodingAsync(memStream, decoder);
 
@@ -59,7 +66,50 @@ namespace Files.Helpers
             memStream.Seek(0);
             fileStream.Seek(0);
             fileStream.Size = 0;
+
             await RandomAccessStream.CopyAsync(memStream, fileStream);
+        }
+
+        /// <summary>
+        /// This function encodes a software bitmap with the specified encoder and saves it to a file
+        /// </summary>
+        /// <param name="softwareBitmap"></param>
+        /// <param name="outputFile"></param>
+        /// <param name="encoderId">The guid of the image encoder type</param>
+        /// <returns></returns>
+        public static async Task SaveSoftwareBitmapToFile(SoftwareBitmap softwareBitmap, BaseStorageFile outputFile, Guid encoderId)
+        {
+            using IRandomAccessStream stream = await outputFile.OpenAsync(FileAccessMode.ReadWrite);
+            // Create an encoder with the desired format
+            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(encoderId, stream);
+
+            // Set the software bitmap
+            encoder.SetSoftwareBitmap(softwareBitmap);
+
+            try
+            {
+                await encoder.FlushAsync();
+            }
+            catch (Exception err)
+            {
+                const int WINCODEC_ERR_UNSUPPORTEDOPERATION = unchecked((int)0x88982F81);
+                switch (err.HResult)
+                {
+                    case WINCODEC_ERR_UNSUPPORTEDOPERATION:
+                        // If the encoder does not support writing a thumbnail, then try again
+                        // but disable thumbnail generation.
+                        encoder.IsThumbnailGenerated = false;
+                        break;
+
+                    default:
+                        throw;
+                }
+            }
+
+            if (encoder.IsThumbnailGenerated == false)
+            {
+                await encoder.FlushAsync();
+            }
         }
     }
 }

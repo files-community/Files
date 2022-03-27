@@ -8,7 +8,7 @@ namespace Files.Shared.Extensions
     [Obsolete("This class will be replaced with SafeWrapper.")]
     public static class SafetyExtensions
     {
-        public static bool IgnoreExceptions(Action action, Logger? logger = null)
+        public static bool IgnoreExceptions(Action action, ILogger? logger = null)
         {
             try
             {
@@ -22,7 +22,7 @@ namespace Files.Shared.Extensions
             }
         }
 
-        public static async Task<bool> IgnoreExceptions(Func<Task> action, Logger? logger = null)
+        public static async Task<bool> IgnoreExceptions(Func<Task> action, ILogger? logger = null)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace Files.Shared.Extensions
             }
         }
 
-        public static T? IgnoreExceptions<T>(Func<T> action, Logger? logger = null)
+        public static T? IgnoreExceptions<T>(Func<T> action, ILogger? logger = null)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace Files.Shared.Extensions
             }
         }
 
-        public static async Task<T?> IgnoreExceptions<T>(Func<Task<T>> action, Logger? logger = null)
+        public static async Task<T?> IgnoreExceptions<T>(Func<Task<T>> action, ILogger? logger = null)
         {
             try
             {

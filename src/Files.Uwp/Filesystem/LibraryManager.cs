@@ -1,14 +1,13 @@
-﻿using Files.Shared;
-using Files.DataModels.NavigationControlItems;
-using Files.Extensions;
-using Files.Helpers;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
+using Files.DataModels.NavigationControlItems;
+using Files.Helpers;
+using Files.Shared;
+using Files.Shared.Extensions;
 using Files.UserControls;
 using Files.ViewModels;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
@@ -200,7 +199,7 @@ namespace Files.Filesystem
                             Section = SectionType.Library,
                             SelectsOnInvoked = false,
                             Icon = await UIHelpers.GetIconResource(Constants.ImageRes.Libraries),
-                            ChildItems = new ObservableCollection<INavigationControlItem>()
+                            ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                         };
                         var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0); // After favorites section
                         SidebarControl.SideBarItems.BeginBulkOperation();

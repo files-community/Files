@@ -20,8 +20,6 @@ namespace Files.ViewModels
 {
     public class MainViewModel : ObservableObject
     {
-        public SettingsViewModel AppSettings => App.AppSettings;
-
         public IPaneViewModel PaneViewModel { get; } = new PaneViewModel();
 
         public MainViewModel()

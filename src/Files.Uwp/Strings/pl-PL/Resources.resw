@@ -399,21 +399,6 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Przenoszenie plików do Kosza</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Odblokuj</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Wprowadź hasło, aby odblokować dysk</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Hasło</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Sprawdź hasło i spróbuj ponownie.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>Błąd funkcji BitLocker</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Zawiera:</value>
   </data>
@@ -2590,9 +2575,6 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Ustaw jako tło pulpitu</value>
-  </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>Nie usuwaj aplikacji Files ze swojego urządzenia bez wyłączania tej opcji. Nie zrobienie tego uniemożliwi Ci otwarcie Eksploratora plików.</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Obliczanie rozmiaru folderów wymaga dużej ilości zasobów i może spowodować wzrost wykorzystania procesora.</value>
