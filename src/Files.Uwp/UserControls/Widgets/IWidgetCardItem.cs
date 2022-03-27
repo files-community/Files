@@ -5,12 +5,12 @@ namespace Files.Uwp.UserControls.Widgets
 {
     public interface IWidgetCardItem<T>
     {
-        public T Item { get; }
+        T Item { get; }
 
-        public bool HasThumbnail { get; }
+        bool HasThumbnail { get; }
 
-        public BitmapImage Thumbnail { get; }
+        BitmapImage Thumbnail { get; }
 
-        public Task LoadCardThumbnailAsync(int overrideThumbnailSize = 32);
+        Task LoadCardThumbnailAsync(int overrideThumbnailSize = 32);
     }
 }
