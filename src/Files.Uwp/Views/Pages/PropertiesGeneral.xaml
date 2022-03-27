@@ -1,14 +1,14 @@
 ﻿<local:PropertiesTab
     x:Class="Files.Views.PropertiesGeneral"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:Files.Helpers"
-    xmlns:local="using:Files.ViewModels.Properties"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:usercontrols="using:Files.UserControls"
+    xmlns:local="using:Files.ViewModels.Properties"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Loaded="Properties_Loaded"
     mc:Ignorable="d">
 
@@ -80,7 +80,6 @@
                 Spacing="8">
                 <TextBox
                     x:Name="ItemFileName"
-                    x:Uid="PropertiesItemFileName"
                     x:Load="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}"
                     Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}" />
                 <TextBlock
@@ -108,14 +107,13 @@
 
             <TextBlock
                 x:Name="FileSystem"
-                x:Uid="PropertiesDriveFileSystem"
                 Grid.Row="2"
                 Grid.Column="0"
                 Padding="4,0,0,0"
                 x:Load="{x:Bind ViewModel.DriveFileSystemVisibility, Mode=OneWay}"
                 FontWeight="SemiBold"
                 Style="{StaticResource PropertyName}"
-                Text="File system:" />
+                Text="{helpers:ResourceString Name=PropertiesDriveFileSystem.Text}" />
             <TextBlock
                 x:Name="DriveFileSystemValue"
                 Grid.Row="2"
@@ -155,12 +153,11 @@
                     </Grid.RowDefinitions>
                     <!--  Item path  -->
                     <TextBlock
-                        x:Uid="PropertiesItemPath"
                         Grid.Row="0"
                         Grid.Column="0"
                         HorizontalAlignment="Left"
                         Style="{StaticResource PropertyName}"
-                        Text="Path:"
+                        Text="{helpers:ResourceString Name=PropertiesItemPath.Text}"
                         Visibility="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}" />
                     <TextBlock
                         x:Name="itemPathValue"
@@ -173,12 +170,11 @@
 
                     <!--  Item size  -->
                     <TextBlock
-                        x:Uid="PropertiesItemSize"
                         Grid.Row="1"
                         Grid.Column="0"
                         HorizontalAlignment="Left"
                         Style="{StaticResource PropertyName}"
-                        Text="Size:"
+                        Text="{helpers:ResourceString Name=PropertiesItemSize.Text}"
                         Visibility="{x:Bind ViewModel.ItemSizeVisibility, Mode=OneWay}" />
                     <Grid
                         Grid.Row="1"
@@ -211,11 +207,10 @@
 
                     <!--  Date created  -->
                     <TextBlock
-                        x:Uid="PropertiesCreated"
                         Grid.Row="3"
                         Grid.Column="0"
                         Style="{StaticResource PropertyName}"
-                        Text="Created:"
+                        Text="{helpers:ResourceString Name=PropertiesCreated.Text}"
                         Visibility="{x:Bind ViewModel.ItemCreatedTimestampVisibiity, Mode=OneWay}" />
                     <TextBlock
                         x:Name="itemCreatedTimestampValue"
@@ -227,11 +222,10 @@
 
                     <!--  Date modified  -->
                     <TextBlock
-                        x:Uid="PropertiesModified"
                         Grid.Row="4"
                         Grid.Column="0"
                         Style="{StaticResource PropertyName}"
-                        Text="Modified:"
+                        Text="{helpers:ResourceString Name=PropertiesModified.Text}"
                         Visibility="{x:Bind ViewModel.ItemModifiedTimestampVisibility, Mode=OneWay}" />
                     <TextBlock
                         x:Name="itemModifiedTimestampValue"
@@ -353,10 +347,9 @@
                     RadiusY="2"
                     Stroke="{ThemeResource TextControlElevationBorderBrush}" />
                 <TextBlock
-                    x:Uid="PropertiesDriveUsedSpace"
                     VerticalAlignment="Center"
                     FontWeight="SemiBold"
-                    Text="Used space:" />
+                    Text="{helpers:ResourceString Name=PropertiesDriveUsedSpace.Text}" />
             </StackPanel>
             <TextBlock
                 x:Name="driveUsedSpaceValue"
@@ -398,10 +391,9 @@
                     RadiusY="2"
                     Stroke="{ThemeResource TextControlElevationBorderBrush}" />
                 <TextBlock
-                    x:Uid="PropertiesDriveFreeSpace"
                     VerticalAlignment="Center"
                     FontWeight="SemiBold"
-                    Text="Free space:" />
+                    Text="{helpers:ResourceString Name=PropertiesDriveFreeSpace.Text}" />
             </StackPanel>
             <TextBlock
                 x:Name="driveFreeSpaceValue"
@@ -429,16 +421,14 @@
             <!--  Drive capacity  -->
             <TextBlock
                 x:Name="PropertiesDriveCapacity"
-                x:Uid="PropertiesDriveCapacity"
                 Grid.Row="2"
                 Grid.Column="1"
                 Padding="28,0,0,0"
                 x:Load="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}"
                 Style="{StaticResource PropertyName}"
-                Text="Capacity:" />
+                Text="{helpers:ResourceString Name=PropertiesDriveCapacity.Text}" />
             <TextBlock
                 x:Name="DriveCapacityValue"
-                x:Uid="driveCapacityValue"
                 Grid.Row="2"
                 Grid.Column="2"
                 x:Load="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}"
@@ -509,11 +499,10 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock
-                        x:Uid="PropertiesDialogReadOnly"
                         Grid.Row="0"
                         Grid.Column="0"
                         VerticalAlignment="Center"
-                        Text="Read-only"
+                        Text="{helpers:ResourceString Name=PropertiesDialogReadOnly.Text}"
                         TextWrapping="WrapWholeWords" />
                     <CheckBox
                         Grid.Row="0"
@@ -533,11 +522,10 @@
                         Background="{ThemeResource CardStrokeColorDefaultBrush}" />
 
                     <TextBlock
-                        x:Uid="PropertiesDialogHidden"
                         Grid.Row="2"
                         Grid.Column="0"
                         VerticalAlignment="Center"
-                        Text="Hidden"
+                        Text="{helpers:ResourceString Name=PropertiesDialogHidden.Text}"
                         TextWrapping="WrapWholeWords" />
                     <CheckBox
                         Grid.Row="2"
