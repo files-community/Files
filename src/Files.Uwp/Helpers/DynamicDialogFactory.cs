@@ -56,27 +56,35 @@ namespace Files.Helpers
                 Opacity = 0.0d
             };
 
-            inputText.TextChanged += (s, e) =>
+            inputText.BeforeTextChanging += async (textBox, args) =>
             {
-                var textBox = s as TextBox;
-                dialog.ViewModel.AdditionalData = textBox.Text;
-
-                if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
+                if (FilesystemHelpers.ContainsRestrictedCharacters(args.NewText))
                 {
-                    dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Cancel;
-                    tipText.Opacity = 1.0d;
-                    return;
-                }
-                else if (!string.IsNullOrWhiteSpace(textBox.Text))
-                {
-                    dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel;
+                    args.Cancel = true;
+                    await inputText.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                    {
+                        var oldSelection = textBox.SelectionStart + textBox.SelectionLength;
+                        var oldText = textBox.Text;
+                        textBox.Text = FilesystemHelpers.FilterRestrictedCharacters(args.NewText);
+                        textBox.SelectionStart = oldSelection + textBox.Text.Length - oldText.Length;
+                        tipText.Opacity = 1.0d;
+                    });
                 }
                 else
                 {
-                    dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Cancel;
-                }
+                    dialog.ViewModel.AdditionalData = textBox.Text;
 
-                tipText.Opacity = 0.0d;
+                    if (!string.IsNullOrWhiteSpace(textBox.Text))
+                    {
+                        dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel;
+                    }
+                    else
+                    {
+                        dialog.ViewModel.DynamicButtonsEnabled = DynamicDialogButtons.Cancel;
+                    }
+
+                    tipText.Opacity = 0.0d;
+                }
             };
 
             inputText.Loaded += (s, e) =>

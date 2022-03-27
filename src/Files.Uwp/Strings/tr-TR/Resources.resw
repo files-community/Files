@@ -390,21 +390,6 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Kilidi aç</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Sürücü kilidini açmak için parolayı yazın</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Parola</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Lütfen yazdığınız parolayı denetleyip yeniden deneyin.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>BitLocker hatası</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>İçeriği:</value>
   </data>
@@ -2570,9 +2555,6 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Masaüstü arka planı olarak ayarla</value>
-  </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>Bu seçeneği kapatmadan Dosyaları cihazınızdan kaldırmayın. Bunu yapmamak Dosya Gezgini'ni açmanızı engeller.</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Klasör boyutlarını hesaplamak için yoğun kaynak kullanılır ve CPU kullanımınızın artmasına neden olabilir.</value>

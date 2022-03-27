@@ -402,21 +402,6 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Futtatás rendszergazdaként</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Feloldás</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Adja meg a jelszót a meghajtó feloldásához</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Jelszó</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Ellenőrizze a jelszót és próbálja újra.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>BitLocker hiba</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Tartalom:</value>
   </data>
@@ -2599,9 +2584,6 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Beállítás asztali háttérképként</value>
-  </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>Ha eltávolítaná a Files alkalmazást, előtte kapcsolja ki ezt a opciót. Ennek elmaradása megakadáylozza a Windows Fájlkezelő megnyitásában.</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>A mappa méretek meghatározása erőforrás-igényes és a processzorhasználat növekedésével járhat.</value>

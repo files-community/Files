@@ -32,6 +32,12 @@
             ItemContainerTransitions="{x:Null}"
             ItemsSource="{x:Bind recentItemsCollection}"
             SelectionMode="None">
+            <ListView.ItemContainerStyle>
+                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                    <Setter Property="MinHeight" Value="1" />
+                    <Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local:RecentItem">
                     <Grid

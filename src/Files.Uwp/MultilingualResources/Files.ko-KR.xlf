@@ -498,26 +498,6 @@
           <source>B</source>
           <target state="translated">B</target>
         </trans-unit>
-        <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Unlock</source>
-          <target state="translated">잠금 해제</target>
-        </trans-unit>
-        <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
-          <source>Enter password to unlock the drive</source>
-          <target state="translated">드라이브를 잠금 해제하려면 비밀번호를 입력하세요.</target>
-        </trans-unit>
-        <trans-unit id="BitlockerDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Password</source>
-          <target state="translated">비밀번호</target>
-        </trans-unit>
-        <trans-unit id="BitlockerInvalidPwDialog.Text" translate="yes" xml:space="preserve">
-          <source>Please check the password and try again.</source>
-          <target state="translated">비밀번호를 확인하고 다시 시도해 주세요.</target>
-        </trans-unit>
-        <trans-unit id="BitlockerInvalidPwDialog.Title" translate="yes" xml:space="preserve">
-          <source>BitLocker error</source>
-          <target state="translated">BitLocker 오류</target>
-        </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
           <source>Contains:</source>
           <target state="translated">내용:</target>
@@ -3453,10 +3433,6 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         <trans-unit id="SetAsBackground" translate="yes" xml:space="preserve">
           <source>Set as desktop background</source>
           <target state="translated">바탕화면 배경으로 설정</target>
-        </trans-unit>
-        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
-          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
-          <target state="translated">이 설정을 끄지 않은 채로 Files를 제거하지 마세요. 그렇지 않으면 파일 탐색기를 열 수 없습니다.</target>
         </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>

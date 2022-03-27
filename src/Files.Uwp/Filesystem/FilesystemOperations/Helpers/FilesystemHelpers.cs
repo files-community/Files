@@ -810,6 +810,16 @@ namespace Files.Filesystem
             return itemsList;
         }
 
+        public static string FilterRestrictedCharacters(string input)
+        {
+            int invalidCharIndex;
+            while ((invalidCharIndex = input.IndexOfAny(RestrictedCharacters)) >= 0)
+            {
+                input = input.Remove(invalidCharIndex, 1);
+            }
+            return input;
+        }
+
         public static bool ContainsRestrictedCharacters(string input)
         {
             return input.IndexOfAny(RestrictedCharacters) >= 0;

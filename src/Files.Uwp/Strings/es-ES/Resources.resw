@@ -390,21 +390,6 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Desbloquear</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Escriba la contraseña para desbloquear esta unidad</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Contraseña</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Clave incorrecta, revisa e inténtalo de nuevo.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>Error al intentar desbloquear</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Contiene:</value>
   </data>
@@ -2600,9 +2585,6 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Establecer como fondo de Escritorio</value>
-  </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>No elimines Files de tu dispositivo sin desactivar antes esta opción. No hacerlo provocará que no puedas abrir el Explorador de Archivos.</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Calcular el tamaño de las carpetas consume muchos recursos y podría provocar que aumente el uso de la CPU. </value>

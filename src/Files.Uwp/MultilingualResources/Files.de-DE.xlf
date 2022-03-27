@@ -523,26 +523,6 @@
           <source>Moving files to the Recycle Bin</source>
           <target state="translated">Dateien werden in den Papierkorb verschoben</target>
         </trans-unit>
-        <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Unlock</source>
-          <target state="translated">Entsperren</target>
-        </trans-unit>
-        <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
-          <source>Enter password to unlock the drive</source>
-          <target state="translated">Geben Sie das Passwort ein, um die Festplatte zu entsperren</target>
-        </trans-unit>
-        <trans-unit id="BitlockerDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Password</source>
-          <target state="translated">Passwort</target>
-        </trans-unit>
-        <trans-unit id="BitlockerInvalidPwDialog.Text" translate="yes" xml:space="preserve">
-          <source>Please check the password and try again.</source>
-          <target state="translated">Überprüfen Sie das Passwort und versuchen Sie es erneut.</target>
-        </trans-unit>
-        <trans-unit id="BitlockerInvalidPwDialog.Title" translate="yes" xml:space="preserve">
-          <source>BitLocker error</source>
-          <target state="translated">BitLocker-Fehler</target>
-        </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
           <source>Contains:</source>
           <target state="translated">Inhalt:</target>
@@ -3464,10 +3444,6 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
           <source>Set as desktop background</source>
           <target state="translated">Als Desktophintergrund festlegen</target>
         </trans-unit>
-        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
-          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
-          <target state="translated">Entferne Files nicht von deinem Gerät bevor diese Option ausgeschaltet ist, da ansonsten der Dateiexplorer nicht mehr geöffnet werden kann.</target>
-        </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
           <target state="translated">Da das Berechnen der Ordnergrößen rechenintensiv ist kann die CPU-Auslastung erhöht werden.</target>
@@ -3530,31 +3506,31 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
         </trans-unit>
         <trans-unit id="StatusCopyFailed" translate="yes" xml:space="preserve">
           <source>Copy failed</source>
-          <target state="new">Copy failed</target>
+          <target state="translated">Kopieren fehlgeschlagen</target>
         </trans-unit>
         <trans-unit id="StatusCopyFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to copy {0} items from {1} to {2}</source>
-          <target state="new">Failed to copy {0} items from {1} to {2}</target>
+          <target state="translated">Das Kopieren von {0} Objekten von {1} nach {2} ist fehlgeschlagen</target>
         </trans-unit>
         <trans-unit id="StatusCopyFailedDetails_Singular" translate="yes" xml:space="preserve">
           <source>Failed to copy {0} item from {1} to {2}</source>
-          <target state="new">Failed to copy {0} item from {1} to {2}</target>
+          <target state="translated">Das Kopieren von {0} von {1} nach {2} ist fehlgeschlagen</target>
         </trans-unit>
         <trans-unit id="StatusMoveFailed" translate="yes" xml:space="preserve">
           <source>Move failed</source>
-          <target state="new">Move failed</target>
+          <target state="translated">Verschieben fehlgeschlagen</target>
         </trans-unit>
         <trans-unit id="FileTags" translate="yes" xml:space="preserve">
           <source>Tags</source>
-          <target state="new">Tags</target>
+          <target state="translated">Tags</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileTagsSection.Title" translate="yes" xml:space="preserve">
           <source>Show Tags section</source>
-          <target state="new">Show Tags section</target>
+          <target state="translated">Tags anzeigen</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show Tags section</source>
-          <target state="new">Show Tags section</target>
+          <target state="translated">Tags anzeigen</target>
         </trans-unit>
       </group>
     </body>

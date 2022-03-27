@@ -402,21 +402,6 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Executar como administrador</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Desbloquear</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Digite a senha para desbloquear a unidade</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Senha</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Por favor, verifique a senha e tente novamente.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>Erro no BitLocker</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Contém:</value>
   </data>

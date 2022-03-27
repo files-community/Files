@@ -130,7 +130,7 @@ namespace Files.Filesystem
                             Section = SectionType.Network,
                             SelectsOnInvoked = false,
                             Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives),
-                            ChildItems = new ObservableCollection<INavigationControlItem>()
+                            ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                         };
                         var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
                                     (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +

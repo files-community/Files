@@ -197,9 +197,9 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         Background="{ThemeResource SolidBackgroundFillColorSecondary}"
+                        BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
                         Text="{x:Bind ItemName, Mode=OneWay}"
                         TextAlignment="Center"
-                        TextChanged="GridViewTextBoxItemName_TextChanged"
                         TextWrapping="Wrap" />
                 </Popup>
             </Grid>
@@ -337,8 +337,8 @@
                         x:Name="TileViewTextBoxItemName"
                         Grid.Row="0"
                         HorizontalAlignment="Left"
+                        BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
                         Text="{x:Bind ItemName, Mode=OneWay}"
-                        TextChanged="GridViewTextBoxItemName_TextChanged"
                         Visibility="Collapsed" />
                     <TextBlock
                         Grid.Row="1"
@@ -449,280 +449,282 @@
         </Style>
     </local:BaseLayout.Resources>
 
-    <Grid
-        x:Name="RootGrid"
-        Padding="0,0,0,0"
-        VerticalAlignment="Stretch"
-        ContextFlyout="{x:Bind BaseContextMenuFlyout}">
-        <Grid.KeyboardAccelerators>
-            <KeyboardAccelerator Key="{x:Bind PlusKey}" Modifiers="Control">
-                <i:Interaction.Behaviors>
-                    <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
-                    </icore:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </KeyboardAccelerator>
-            <KeyboardAccelerator Key="{x:Bind MinusKey}" Modifiers="Control">
-                <i:Interaction.Behaviors>
-                    <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}" />
-                    </icore:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </KeyboardAccelerator>
-            <KeyboardAccelerator Key="Add" Modifiers="Control">
-                <i:Interaction.Behaviors>
-                    <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
-                    </icore:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </KeyboardAccelerator>
-            <KeyboardAccelerator Key="Subtract" Modifiers="Control">
-                <i:Interaction.Behaviors>
-                    <icore:EventTriggerBehavior EventName="Invoked">
-                        <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}" />
-                    </icore:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </KeyboardAccelerator>
-        </Grid.KeyboardAccelerators>
+    <RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
+        <Grid
+            x:Name="RootGrid"
+            Padding="0,0,0,0"
+            VerticalAlignment="Stretch"
+            ContextFlyout="{x:Bind BaseContextMenuFlyout}">
+            <Grid.KeyboardAccelerators>
+                <KeyboardAccelerator Key="{x:Bind PlusKey}" Modifiers="Control">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Invoked">
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </KeyboardAccelerator>
+                <KeyboardAccelerator Key="{x:Bind MinusKey}" Modifiers="Control">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Invoked">
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}" />
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </KeyboardAccelerator>
+                <KeyboardAccelerator Key="Add" Modifiers="Control">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Invoked">
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeIncreaseCommand}" />
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </KeyboardAccelerator>
+                <KeyboardAccelerator Key="Subtract" Modifiers="Control">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Invoked">
+                            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.GridViewSizeDecreaseCommand}" />
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </KeyboardAccelerator>
+            </Grid.KeyboardAccelerators>
 
-        <uc:FolderEmptyIndicator
-            Grid.Row="3"
-            Margin="0,125,0,0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
-            Canvas.ZIndex="0"
-            EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
+            <uc:FolderEmptyIndicator
+                Grid.Row="3"
+                Margin="0,125,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Canvas.ZIndex="0"
+                EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
-        <muxc:TeachingTip
-            x:Name="FileNameTeachingTip"
-            x:Uid="FileNameTeachingTip"
-            CloseButtonContent="OK"
-            PreferredPlacement="Auto"
-            Subtitle="The file name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |"
-            Visibility="Collapsed" />
+            <muxc:TeachingTip
+                x:Name="FileNameTeachingTip"
+                x:Uid="FileNameTeachingTip"
+                CloseButtonContent="OK"
+                PreferredPlacement="Auto"
+                Subtitle="The file name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |"
+                Visibility="Collapsed" />
 
-        <SemanticZoom
-            CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
-            ViewChangeStarted="SemanticZoom_ViewChangeStarted"
-            Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
-            <SemanticZoom.ZoomedInView>
-                <controls:AdaptiveGridView
-                    x:Name="FileList"
-                    Padding="8"
-                    VerticalContentAlignment="Stretch"
-                    animations:ItemsReorderAnimation.Duration="0:0:0.350"
-                    tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
-                    x:FieldModifier="public"
-                    AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                    CanDragItems="True"
-                    ContainerContentChanging="FileList_ContainerContentChanging"
-                    DesiredWidth="{x:Bind GridViewItemMinWidth, Mode=OneWay}"
-                    DoubleTapped="FileList_DoubleTapped"
-                    DragItemsStarting="FileList_DragItemsStarting"
-                    DragOver="ItemsLayout_DragOver"
-                    Drop="ItemsLayout_Drop"
-                    IsDoubleTapEnabled="True"
-                    ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
-                    PreviewKeyDown="FileList_PreviewKeyDown"
-                    ScrollViewer.IsHorizontalScrollChainingEnabled="False"
-                    SelectionChanged="FileList_SelectionChanged"
-                    SelectionMode="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
-                    ShowsScrollingPlaceholders="True"
-                    StretchContentForSingleRow="False"
-                    Tapped="FileList_ItemTapped">
-                    <controls:AdaptiveGridView.GroupStyle>
-                        <GroupStyle>
-                            <GroupStyle.HeaderTemplate>
-                                <DataTemplate x:DataType="helpers:IGroupedCollectionHeader">
-                                    <Grid
-                                        Padding="0,0,0,4"
-                                        AutomationProperties.Name="{x:Bind Model.Text}"
-                                        ColumnSpacing="8"
-                                        RowSpacing="8">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-                                        <TextBlock
-                                            Grid.Row="0"
-                                            Grid.Column="0"
-                                            VerticalAlignment="Center"
-                                            FontSize="16"
-                                            Style="{StaticResource SubtitleTextBlockStyle}"
-                                            Text="{x:Bind Model.Text, Mode=OneWay}" />
+            <SemanticZoom
+                CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
+                ViewChangeStarted="SemanticZoom_ViewChangeStarted"
+                Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+                <SemanticZoom.ZoomedInView>
+                    <controls:AdaptiveGridView
+                        x:Name="FileList"
+                        Padding="8"
+                        VerticalContentAlignment="Stretch"
+                        animations:ItemsReorderAnimation.Duration="0:0:0.350"
+                        tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
+                        x:FieldModifier="public"
+                        AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                        CanDragItems="True"
+                        ContainerContentChanging="FileList_ContainerContentChanging"
+                        DesiredWidth="{x:Bind GridViewItemMinWidth, Mode=OneWay}"
+                        DoubleTapped="FileList_DoubleTapped"
+                        DragItemsStarting="FileList_DragItemsStarting"
+                        DragOver="ItemsLayout_DragOver"
+                        Drop="ItemsLayout_Drop"
+                        IsDoubleTapEnabled="True"
+                        ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
+                        PreviewKeyDown="FileList_PreviewKeyDown"
+                        ScrollViewer.IsHorizontalScrollChainingEnabled="False"
+                        SelectionChanged="FileList_SelectionChanged"
+                        SelectionMode="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
+                        ShowsScrollingPlaceholders="True"
+                        StretchContentForSingleRow="False"
+                        Tapped="FileList_ItemTapped">
+                        <controls:AdaptiveGridView.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate x:DataType="helpers:IGroupedCollectionHeader">
+                                        <Grid
+                                            Padding="0,0,0,4"
+                                            AutomationProperties.Name="{x:Bind Model.Text}"
+                                            ColumnSpacing="8"
+                                            RowSpacing="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                VerticalAlignment="Center"
+                                                FontSize="16"
+                                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                                Text="{x:Bind Model.Text, Mode=OneWay}" />
 
-                                        <TextBlock
-                                            Grid.Row="0"
-                                            Grid.Column="1"
-                                            VerticalAlignment="Center"
-                                            Style="{StaticResource BodyTextBlockStyle}"
-                                            Text="{x:Bind Model.CountText, Mode=OneWay}"
-                                            Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource BodyTextBlockStyle}"
+                                                Text="{x:Bind Model.CountText, Mode=OneWay}"
+                                                Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
-                                        <TextBlock
-                                            Grid.Row="0"
-                                            Grid.Column="2"
-                                            VerticalAlignment="Center"
-                                            FontSize="14"
-                                            Style="{StaticResource SubheaderTextBlockStyle}"
-                                            Text="{x:Bind Model.Subtext, Mode=OneWay}"
-                                            Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="2"
+                                                VerticalAlignment="Center"
+                                                FontSize="14"
+                                                Style="{StaticResource SubheaderTextBlockStyle}"
+                                                Text="{x:Bind Model.Subtext, Mode=OneWay}"
+                                                Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-                                        <TextBlock
-                                            Grid.Row="1"
-                                            Grid.ColumnSpan="3"
-                                            Style="{StaticResource BodyTextBlockStyle}"
-                                            Text="{x:Bind Model.CountText, Mode=OneWay}"
-                                            Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    </Grid>
-                                </DataTemplate>
-                            </GroupStyle.HeaderTemplate>
-                        </GroupStyle>
-                    </controls:AdaptiveGridView.GroupStyle>
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Grid.ColumnSpan="3"
+                                                Style="{StaticResource BodyTextBlockStyle}"
+                                                Text="{x:Bind Model.CountText, Mode=OneWay}"
+                                                Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </controls:AdaptiveGridView.GroupStyle>
 
-                    <controls:AdaptiveGridView.ItemContainerTransitions>
-                        <TransitionCollection>
-                            <AddDeleteThemeTransition />
-                        </TransitionCollection>
-                    </controls:AdaptiveGridView.ItemContainerTransitions>
+                        <controls:AdaptiveGridView.ItemContainerTransitions>
+                            <TransitionCollection>
+                                <AddDeleteThemeTransition />
+                            </TransitionCollection>
+                        </controls:AdaptiveGridView.ItemContainerTransitions>
 
-                    <controls:AdaptiveGridView.Resources>
-                        <ResourceDictionary>
-                            <ResourceDictionary.ThemeDictionaries>
-                                <ResourceDictionary x:Key="Default">
-                                    <SolidColorBrush x:Key="GridViewItemCheckBoxBrush" Color="{ThemeResource SystemChromeMediumLowColor}" />
-                                </ResourceDictionary>
-                            </ResourceDictionary.ThemeDictionaries>
-                        </ResourceDictionary>
-                    </controls:AdaptiveGridView.Resources>
-                    <controls:AdaptiveGridView.Footer>
-                        <StackPanel
-                            x:Name="SearchUnindexedItemsPanel"
-                            HorizontalAlignment="Stretch"
-                            x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}"
-                            Orientation="Vertical">
-                            <TextBlock
-                                x:Uid="SearchUnindexedItemsLabel"
-                                HorizontalTextAlignment="Center"
-                                Text="Didn't find what you're looking for?" />
-                            <HyperlinkButton
-                                x:Name="SearchUnindexedItemsButton"
-                                x:Uid="SearchUnindexedItemsButton"
-                                HorizontalAlignment="Center"
-                                Command="{x:Bind CommandsViewModel.SearchUnindexedItems}"
-                                Content="Search unindexed items." />
-                        </StackPanel>
-                    </controls:AdaptiveGridView.Footer>
-                    <controls:AdaptiveGridView.ItemContainerStyle>
-                        <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            <Setter Property="HorizontalAlignment" Value="Stretch" />
-                        </Style>
-                    </controls:AdaptiveGridView.ItemContainerStyle>
-                </controls:AdaptiveGridView>
-            </SemanticZoom.ZoomedInView>
-
-            <SemanticZoom.ZoomedOutView>
-                <ListView
-                    Padding="0,12,0,0"
-                    HorizontalAlignment="Stretch"
-                    VerticalContentAlignment="Center"
-                    ItemsSource="{x:Bind CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
-                    SelectionMode="None">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="ICollectionViewGroup">
-                            <Grid
-                                Padding="8"
-                                VerticalAlignment="Center"
-                                AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
-                                ColumnSpacing="12"
-                                RowSpacing="4">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Image
-                                    Grid.Row="0"
-                                    Grid.RowSpan="2"
-                                    Grid.Column="0"
-                                    Height="24"
+                        <controls:AdaptiveGridView.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.ThemeDictionaries>
+                                    <ResourceDictionary x:Key="Default">
+                                        <SolidColorBrush x:Key="GridViewItemCheckBoxBrush" Color="{ThemeResource SystemChromeMediumLowColor}" />
+                                    </ResourceDictionary>
+                                </ResourceDictionary.ThemeDictionaries>
+                            </ResourceDictionary>
+                        </controls:AdaptiveGridView.Resources>
+                        <controls:AdaptiveGridView.Footer>
+                            <StackPanel
+                                x:Name="SearchUnindexedItemsPanel"
+                                HorizontalAlignment="Stretch"
+                                x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}"
+                                Orientation="Vertical">
+                                <TextBlock
+                                    x:Uid="SearchUnindexedItemsLabel"
+                                    HorizontalTextAlignment="Center"
+                                    Text="Didn't find what you're looking for?" />
+                                <HyperlinkButton
+                                    x:Name="SearchUnindexedItemsButton"
+                                    x:Uid="SearchUnindexedItemsButton"
                                     HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
-                                    Stretch="Uniform" />
-                                <FontIcon
-                                    Grid.Row="0"
-                                    Grid.RowSpan="2"
-                                    Grid.Column="0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="24"
-                                    Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
+                                    Command="{x:Bind CommandsViewModel.SearchUnindexedItems}"
+                                    Content="Search unindexed items." />
+                            </StackPanel>
+                        </controls:AdaptiveGridView.Footer>
+                        <controls:AdaptiveGridView.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                            </Style>
+                        </controls:AdaptiveGridView.ItemContainerStyle>
+                    </controls:AdaptiveGridView>
+                </SemanticZoom.ZoomedInView>
 
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Grid.Column="1"
+                <SemanticZoom.ZoomedOutView>
+                    <ListView
+                        Padding="0,12,0,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalContentAlignment="Center"
+                        ItemsSource="{x:Bind CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
+                        SelectionMode="None">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="ICollectionViewGroup">
+                                <Grid
+                                    Padding="8"
                                     VerticalAlignment="Center"
-                                    FontSize="16"
-                                    Style="{StaticResource SubtitleTextBlockStyle}"
-                                    Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
+                                    AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
+                                    ColumnSpacing="12"
+                                    RowSpacing="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Image
+                                        Grid.Row="0"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="0"
+                                        Height="24"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
+                                        Stretch="Uniform" />
+                                    <FontIcon
+                                        Grid.Row="0"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="24"
+                                        Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
 
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Grid.Column="2"
-                                    VerticalAlignment="Center"
-                                    Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
-                                    Style="{StaticResource BodyTextBlockStyle}"
-                                    Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-                                    Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                        Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
 
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Grid.Column="3"
-                                    VerticalAlignment="Center"
-                                    FontSize="14"
-                                    Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
-                                    Style="{StaticResource SubheaderTextBlockStyle}"
-                                    Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
-                                    Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        VerticalAlignment="Center"
+                                        Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
+                                        Style="{StaticResource BodyTextBlockStyle}"
+                                        Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
+                                        Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
-                                <TextBlock
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    Grid.ColumnSpan="3"
-                                    Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
-                                    Style="{StaticResource BodyTextBlockStyle}"
-                                    Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-                                    Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </SemanticZoom.ZoomedOutView>
-        </SemanticZoom>
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="3"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
+                                        Style="{StaticResource SubheaderTextBlockStyle}"
+                                        Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
+                                        Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-        <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Rectangle
-                Name="SelectionRectangle"
-                Canvas.Left="0"
-                Canvas.Top="0"
-                Width="0"
-                Height="0"
-                Fill="{ThemeResource SystemAccentColor}"
-                Opacity=".5"
-                Stroke="{ThemeResource SystemAccentColorLight1}"
-                StrokeThickness="1" />
-        </Canvas>
-    </Grid>
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Grid.ColumnSpan="3"
+                                        Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
+                                        Style="{StaticResource BodyTextBlockStyle}"
+                                        Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
+                                        Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </SemanticZoom.ZoomedOutView>
+            </SemanticZoom>
+
+            <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Rectangle
+                    Name="SelectionRectangle"
+                    Canvas.Left="0"
+                    Canvas.Top="0"
+                    Width="0"
+                    Height="0"
+                    Fill="{ThemeResource SystemAccentColor}"
+                    Opacity=".5"
+                    Stroke="{ThemeResource SystemAccentColorLight1}"
+                    StrokeThickness="1" />
+            </Canvas>
+        </Grid>
+    </RefreshContainer>
 </local:BaseLayout>

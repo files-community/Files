@@ -610,26 +610,6 @@
           <source>Run as administrator</source>
           <target state="translated">Изпълни като администратор</target>
         </trans-unit>
-        <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Unlock</source>
-          <target state="translated">Отключи</target>
-        </trans-unit>
-        <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
-          <source>Enter password to unlock the drive</source>
-          <target state="translated">Въведете парола, за да отключите устройството</target>
-        </trans-unit>
-        <trans-unit id="BitlockerDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Password</source>
-          <target state="translated">Парола</target>
-        </trans-unit>
-        <trans-unit id="BitlockerInvalidPwDialog.Text" translate="yes" xml:space="preserve">
-          <source>Please check the password and try again.</source>
-          <target state="translated">Моля, проверете паролата и опитайте отново.</target>
-        </trans-unit>
-        <trans-unit id="BitlockerInvalidPwDialog.Title" translate="yes" xml:space="preserve">
-          <source>BitLocker error</source>
-          <target state="translated">BitLocker грешка</target>
-        </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
           <source>Contains:</source>
           <target state="translated">Съдържа:</target>
@@ -3462,10 +3442,6 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         <trans-unit id="SetAsBackground" translate="yes" xml:space="preserve">
           <source>Set as desktop background</source>
           <target state="translated">Задай като фон на работния плот</target>
-        </trans-unit>
-        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
-          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
-          <target state="translated">Не премахвайте Files от устройството си, преди да изключите тази опция. Ако не го направите, това ще ви попречи да отворите File Explorer.</target>
         </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
