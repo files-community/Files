@@ -293,7 +293,7 @@ namespace Files.DataModels
             }
             else
             {
-                locationItem.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.YellowBang));
+                locationItem.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.Shell32.FolderNotAccessible));
                 Debug.WriteLine($"Pinned item was invalid {res.ErrorCode}, item: {path}");
             }
 

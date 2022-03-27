@@ -101,13 +101,13 @@ namespace Files.Helpers
                     Constants.ImageRes.Libraries,
                     Constants.ImageRes.ThisPC,
                     Constants.ImageRes.CloudDrives,
-                    Constants.ImageRes.Folder,
-                    Constants.ImageRes.YellowBang
+                    Constants.ImageRes.Folder
                 }, 32);
 
             const string shell32 = @"C:\Windows\System32\shell32.dll";
             var shell32List = await UIHelpers.LoadSelectedIconsAsync(shell32, new List<int>() {
-                    Constants.Shell32.QuickAccess
+                    Constants.Shell32.QuickAccess,
+                    Constants.Shell32.FolderNotAccessible
                 }, 32);
 
             if (shell32List != null && imageResList != null)
