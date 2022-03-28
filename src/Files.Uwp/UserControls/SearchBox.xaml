@@ -1,12 +1,13 @@
 ﻿<UserControl
     x:Class="Files.UserControls.SearchBox"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:fs="using:Files.Filesystem"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:fs="using:Files.Filesystem"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -66,10 +67,9 @@
 
     <AutoSuggestBox
         x:Name="SearchRegion"
-        x:Uid="NavigationToolbarSearchRegion"
         ItemTemplate="{StaticResource SuggestionTemplate}"
         ItemsSource="{x:Bind SearchBoxViewModel.Suggestions, Mode=OneWay}"
-        PlaceholderText="Search"
+        PlaceholderText="{helpers:ResourceString Name=NavigationToolbarSearchRegion/PlaceholderText}"
         QuerySubmitted="SearchRegion_QuerySubmitted"
         Text="{x:Bind SearchBoxViewModel.Query, Mode=TwoWay}"
         TextBoxStyle="{StaticResource TextBoxStyle}"

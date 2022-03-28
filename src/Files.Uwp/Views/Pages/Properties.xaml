@@ -1,12 +1,11 @@
 ﻿<Page
     x:Class="Files.Views.Properties"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:Files.Helpers"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:settings="using:Files.UserControls.Settings"
     d:DesignHeight="700"
     d:DesignWidth="400"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="False"
@@ -182,13 +181,12 @@
             </Grid.ColumnDefinitions>
             <Button
                 x:Name="OKButton"
-                x:Uid="PropertiesDialogOKButton"
                 Grid.Column="1"
                 MinWidth="100"
                 Margin="0,0,10,0"
                 HorizontalAlignment="Right"
                 Click="OKButton_Click"
-                Content="OK"
+                Content="{helpers:ResourceString Name=PropertiesDialogOKButton/Content}"
                 Style="{StaticResource AccentButtonStyle}" />
             <Button
                 x:Name="CancelButton"
