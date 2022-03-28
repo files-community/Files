@@ -32,10 +32,10 @@
             <TextBlock
                 Padding="0,0,0,12"
                 FontStyle="Italic"
-                Text="{helpers:ResourceString Name=SettingsExperimentalDescription.Text}" />
+                Text="{helpers:ResourceString Name=SettingsExperimentalDescription/Text}" />
 
             <local:SettingsBlockControl
-                Title="{helpers:ResourceString Name=SettingsEnableFileTags.Title}"
+                Title="{helpers:ResourceString Name=SettingsEnableFileTags/Title}"
                 HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE1CB;" />
@@ -43,7 +43,7 @@
                 <ToggleSwitch IsOn="{Binding AreFileTagsEnabled, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                 <local:SettingsBlockControl.ExpandableContent>
                     <local:SettingsBlockControl
-                        Title="{helpers:ResourceString Name=SettingsEditFileTagsExpander.Title}"
+                        Title="{helpers:ResourceString Name=SettingsEditFileTagsExpander/Title}"
                         ButtonCommand="{Binding EditFileTagsCommand}"
                         IsClickable="True">
                         <local:SettingsBlockControl.Icon>

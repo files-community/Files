@@ -200,9 +200,9 @@
 
             <muxc:TeachingTip
                 x:Name="FileNameTeachingTip"
-                CloseButtonContent="{helpers:ResourceString Name=FileNameTeachingTip.CloseButtonContent}"
+                CloseButtonContent="{helpers:ResourceString Name=FileNameTeachingTip/CloseButtonContent}"
                 PreferredPlacement="Auto"
-                Subtitle="{helpers:ResourceString Name=FileNameTeachingTip.Subtitle}"
+                Subtitle="{helpers:ResourceString Name=FileNameTeachingTip/Subtitle}"
                 Visibility="Collapsed" />
 
             <SemanticZoom
@@ -253,37 +253,37 @@
                                         <ToggleMenuFlyoutItem
                                             Click="ToggleMenuFlyoutItem_Click"
                                             IsChecked="{x:Bind ColumnsViewModel.TagColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-                                            Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowFileTag.Text}"
+                                            Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowFileTag/Text}"
                                             Visibility="{x:Bind ColumnsViewModel.TagColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
                                         <ToggleMenuFlyoutItem
                                             Click="ToggleMenuFlyoutItem_Click"
                                             IsChecked="{x:Bind ColumnsViewModel.OriginalPathColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-                                            Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowOriginalPath.Text}"
+                                            Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowOriginalPath/Text}"
                                             Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
                                         <ToggleMenuFlyoutItem
                                             Click="ToggleMenuFlyoutItem_Click"
                                             IsChecked="{x:Bind ColumnsViewModel.DateDeletedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-                                            Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateDeleted.Text}"
+                                            Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateDeleted/Text}"
                                             Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
                                         <ToggleMenuFlyoutItem
                                             Click="ToggleMenuFlyoutItem_Click"
                                             IsChecked="{x:Bind ColumnsViewModel.DateModifiedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-                                            Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateModified.Text}"
+                                            Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateModified/Text}"
                                             Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
                                         <ToggleMenuFlyoutItem
                                             Click="ToggleMenuFlyoutItem_Click"
                                             IsChecked="{x:Bind ColumnsViewModel.DateCreatedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-                                            Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateCreated.Text}"
+                                            Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateCreated/Text}"
                                             Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
                                         <ToggleMenuFlyoutItem
                                             Click="ToggleMenuFlyoutItem_Click"
                                             IsChecked="{x:Bind ColumnsViewModel.ItemTypeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-                                            Text="{helpers:ResourceString Name=ToggleMenuFlyoutItem_Click.Text}"
+                                            Text="{helpers:ResourceString Name=ToggleMenuFlyoutItem_Click/Text}"
                                             Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
                                         <ToggleMenuFlyoutItem
                                             Click="ToggleMenuFlyoutItem_Click"
                                             IsChecked="{x:Bind ColumnsViewModel.SizeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-                                            Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowItemSize.Text}"
+                                            Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowItemSize/Text}"
                                             Visibility="{x:Bind ColumnsViewModel.SizeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
                                     </MenuFlyout>
                                 </Grid.ContextFlyout>
@@ -347,7 +347,7 @@
                                     Grid.Column="2"
                                     Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                     CommandParameter="Name"
-                                    Header="{helpers:ResourceString Name=nameColumn.Header}" />
+                                    Header="{helpers:ResourceString Name=nameColumn/Header}" />
 
                                 <controls:GridSplitter
                                     Grid.Column="3"
@@ -379,7 +379,7 @@
                                     Grid.Column="6"
                                     Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                     CommandParameter="OriginalPath"
-                                    Header="{helpers:ResourceString Name=originalPathColumn.Header}"
+                                    Header="{helpers:ResourceString Name=originalPathColumn/Header}"
                                     Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
 
                                 <controls:GridSplitter
@@ -447,7 +447,7 @@
                                     Grid.Column="14"
                                     Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                     CommandParameter="FileType"
-                                    Header="{helpers:ResourceString Name=typeColumn.Header}"
+                                    Header="{helpers:ResourceString Name=typeColumn/Header}"
                                     Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
 
                                 <controls:GridSplitter
@@ -483,7 +483,7 @@
                                     HorizontalContentAlignment="Left"
                                     Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                     CommandParameter="SyncStatus"
-                                    Header="{helpers:ResourceString Name=syncStatusColumn.Header}"
+                                    Header="{helpers:ResourceString Name=syncStatusColumn/Header}"
                                     Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
 
                                 <controls:GridSplitter
@@ -543,7 +543,7 @@
                                         Height="Auto"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        AutomationProperties.Name="{helpers:ResourceString Name=FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name}"
+                                        AutomationProperties.Name="{helpers:ResourceString Name=FileBrowserThumbnailIconColumnGrid/AutomationProperties/Name}"
                                         Opacity="{x:Bind Opacity, Mode=OneWay}"
                                         TabFocusNavigation="Local"
                                         Tag="ItemImage">
@@ -833,7 +833,7 @@
                                         <StackPanel
                                             Margin="0,0,0,4"
                                             VerticalAlignment="Top"
-                                            AutomationProperties.Name="{x:Bind Model.Text}"
+                                            AutomationProperties.Name="{x:Bind Model/Text}"
                                             Spacing="0">
                                             <StackPanel Orientation="Horizontal" Spacing="4">
                                                 <TextBlock
@@ -887,12 +887,12 @@
                                 Orientation="Vertical">
                                 <TextBlock
                                     HorizontalTextAlignment="Center"
-                                    Text="{helpers:ResourceString Name=SearchUnindexedItemsLabel.Text}" />
+                                    Text="{helpers:ResourceString Name=SearchUnindexedItemsLabel/Text}" />
                                 <HyperlinkButton
                                     x:Name="SearchUnindexedItemsButton"
                                     HorizontalAlignment="Center"
                                     Command="{x:Bind CommandsViewModel.SearchUnindexedItems}"
-                                    Content="{helpers:ResourceString Name=SearchUnindexedItemsButton.Content}" />
+                                    Content="{helpers:ResourceString Name=SearchUnindexedItemsButton/Content}" />
                             </StackPanel>
                         </ListView.Footer>
                     </ListView>

@@ -11,7 +11,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Loading="Root_Loading" Unloaded="Root_Unloaded" SizeChanged="Root_SizeChanged"
     MinWidth="90" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-    AutomationProperties.Name="{helpers:ResourceString Name=SelectedFilePreviewPane.AutomationProperties.Name}"
+    AutomationProperties.Name="{helpers:ResourceString Name=SelectedFilePreviewPane/AutomationProperties/Name}"
     d:DesignWidth="400" d:DesignHeight="300" mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -34,16 +34,16 @@
         </Grid.ColumnDefinitions>
 
         <Grid x:Name="RootPreviewGrid" Margin="5,5,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-            AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneFilePreview.AutomationProperties.Name}">
+            AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneFilePreview/AutomationProperties/Name}">
             <Grid.ContextFlyout>
                 <MenuFlyout>
-                    <ToggleMenuFlyoutItem Text="{helpers:ResourceString Name=PreviewPaneShowPreviewOnly.Text}"
+                    <ToggleMenuFlyoutItem Text="{helpers:ResourceString Name=PreviewPaneShowPreviewOnly/Text}"
                         IsChecked="{x:Bind PaneSettingsService.ShowPreviewOnly, Mode=TwoWay}"
                         Command="{x:Bind ViewModel.ShowPreviewOnlyInvoked, Mode=OneWay}" />
                     <MenuFlyoutItem HorizontalAlignment="Stretch" Tapped="MenuFlyoutItem_Tapped"
-                        Text="{helpers:ResourceString Name=PreviewPaneLoadCloudItemButton.Text}"
+                        Text="{helpers:ResourceString Name=PreviewPaneLoadCloudItemButton/Text}"
                         Visibility="{x:Bind ViewModel.ShowCloudItemButton, Mode=OneWay}"
-                        ToolTipService.ToolTip="{helpers:ResourceString Name=PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip}" />
+                        ToolTipService.ToolTip="{helpers:ResourceString Name=PreviewPaneLoadCloudItemButton/ToolTipService/ToolTip}" />
                 </MenuFlyout>
             </Grid.ContextFlyout>
             <Grid.RowDefinitions>
@@ -63,7 +63,7 @@
                 TextWrapping="WrapWholeWords" Text="{x:Bind GetLocalized('NoItemSelected')}"
                 HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Visible" />
             <ScrollViewer x:Name="FileDetailsScrollViewer" Visibility="Visible"
-                AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneFileDetails.AutomationProperties.Name}">
+                AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneFileDetails/AutomationProperties/Name}">
                 <StackPanel Orientation="Vertical">
                     <StackPanel x:Name="DetailsListHeader" Orientation="Vertical" Margin="8,8,8,0" Spacing="5" Visibility="Collapsed">
                         <TextBlock FontSize="20" FontWeight="Bold" HorizontalTextAlignment="Center" IsTextSelectionEnabled="True"

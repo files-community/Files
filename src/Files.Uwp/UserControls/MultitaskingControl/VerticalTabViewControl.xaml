@@ -76,7 +76,7 @@
         <TextBlock
             Padding="4,6"
             FontWeight="Medium"
-            Text="{helpers:ResourceString Name=VerticalTabViewHeader.Text}" />
+            Text="{helpers:ResourceString Name=VerticalTabViewHeader/Text}" />
         <muxc:TabView
             x:Name="VerticalTabView"
             Grid.Row="1"

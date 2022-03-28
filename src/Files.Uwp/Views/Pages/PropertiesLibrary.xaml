@@ -45,7 +45,7 @@
                 Padding="8,0,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Text="{helpers:ResourceString Name=LibraryLocations.Text}"
+                Text="{helpers:ResourceString Name=LibraryLocations/Text}"
                 TextTrimming="CharacterEllipsis" />
             <CommandBar
                 Grid.Row="0"
@@ -68,7 +68,7 @@
                     Command="{x:Bind RemoveLocationCommand}"
                     Icon="Delete"
                     IsEnabled="{x:Bind IsNotDefaultFolderSelected, Mode=OneWay}"
-                    Label="{helpers:ResourceString Name=LibraryLocationsButtonRemove.Label}" />
+                    Label="{helpers:ResourceString Name=LibraryLocationsButtonRemove/Label}" />
             </CommandBar>
 
             <MenuFlyoutSeparator
@@ -108,7 +108,7 @@
                 </ListView.ItemTemplate>
                 <ListView.Footer>
                     <TextBlock
-                        Text="{helpers:ResourceString Name=LibraryNoLocations.Text}"
+                        Text="{helpers:ResourceString Name=LibraryNoLocations/Text}"
                         TextWrapping="WrapWholeWords"
                         Visibility="{x:Bind IsLibraryEmpty, Mode=OneWay}" />
                 </ListView.Footer>

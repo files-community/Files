@@ -27,10 +27,10 @@
                 VerticalAlignment="Top"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"
-                AutomationProperties.Name="{helpers:ResourceString Name=DrivesWidgetMoreOptionsButton.AutomationProperties.Name}"
+                AutomationProperties.Name="{helpers:ResourceString Name=DrivesWidgetMoreOptionsButton/AutomationProperties/Name}"
                 Background="Transparent"
                 BorderBrush="Transparent"
-                ToolTipService.ToolTip="{helpers:ResourceString Name=DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip}">
+                ToolTipService.ToolTip="{helpers:ResourceString Name=DrivesWidgetMoreOptionsButton/ToolTipService/ToolTip}">
 
                 <FontIcon
                     HorizontalAlignment="Center"
@@ -42,7 +42,7 @@
                     <MenuFlyout>
                         <MenuFlyoutItem
                             Click="MapNetworkDrive_Click"
-                            Text="{helpers:ResourceString Name=DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text}">
+                            Text="{helpers:ResourceString Name=DrivesWidgetOptionsFlyoutMapNetDriveMenuItem/Text}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE710;" />
                             </MenuFlyoutItem.Icon>
@@ -87,7 +87,7 @@
                                         x:Name="OpenInNewPane"
                                         Click="OpenInNewPane_Click"
                                         DataContext="{x:Bind}"
-                                        Text="{helpers:ResourceString Name=SideBarOpenInNewPane.Text}"
+                                        Text="{helpers:ResourceString Name=SideBarOpenInNewPane/Text}"
                                         Visibility="Collapsed">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
@@ -97,7 +97,7 @@
                                         x:Name="OpenInNewTab"
                                         Click="OpenInNewTab_Click"
                                         DataContext="{x:Bind}"
-                                        Text="{helpers:ResourceString Name=SideBarOpenInNewTab.Text}">
+                                        Text="{helpers:ResourceString Name=SideBarOpenInNewTab/Text}">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
                                         </MenuFlyoutItem.Icon>
@@ -106,7 +106,7 @@
                                         x:Name="OpenInNewWindow"
                                         Click="OpenInNewWindow_Click"
                                         DataContext="{x:Bind}"
-                                        Text="{helpers:ResourceString Name=SideBarOpenInNewWindow.Text}">
+                                        Text="{helpers:ResourceString Name=SideBarOpenInNewWindow/Text}">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE737;" />
                                         </MenuFlyoutItem.Icon>
@@ -115,7 +115,7 @@
                                         x:Name="PropertiesItem"
                                         Click="OpenDriveProperties_Click"
                                         DataContext="{x:Bind}"
-                                        Text="{helpers:ResourceString Name=DrivesWidgetContextFlyoutPropertiesMenuItem.Text}">
+                                        Text="{helpers:ResourceString Name=DrivesWidgetContextFlyoutPropertiesMenuItem/Text}">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE946;" />
                                         </MenuFlyoutItem.Icon>
@@ -125,7 +125,7 @@
                                         x:Load="{x:Bind IsRemovable, Mode=OneWay}"
                                         Click="EjectDevice_Click"
                                         DataContext="{x:Bind}"
-                                        Text="{helpers:ResourceString Name=SideBarEjectDevice.Text}">
+                                        Text="{helpers:ResourceString Name=SideBarEjectDevice/Text}">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xF847;" />
                                         </MenuFlyoutItem.Icon>
@@ -135,7 +135,7 @@
                                         x:Load="{x:Bind IsNetwork, Mode=OneWay}"
                                         Click="DisconnectNetworkDrive_Click"
                                         DataContext="{x:Bind}"
-                                        Text="{helpers:ResourceString Name=SideBarDisconnectNetworkDrive.Text}">
+                                        Text="{helpers:ResourceString Name=SideBarDisconnectNetworkDrive/Text}">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xF847;" />
                                         </MenuFlyoutItem.Icon>
@@ -203,12 +203,12 @@
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
                                     x:Load="{x:Bind ShowStorageSense}"
-                                    AutomationProperties.Name="{helpers:ResourceString Name=DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name}"
+                                    AutomationProperties.Name="{helpers:ResourceString Name=DrivesWidgetOpenStorageSenseButton/AutomationProperties/Name}"
                                     Background="Transparent"
                                     BorderBrush="Transparent"
                                     Click="GoToStorageSense_Click"
                                     Tag="{x:Bind Path}"
-                                    ToolTipService.ToolTip="{helpers:ResourceString Name=DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip}">
+                                    ToolTipService.ToolTip="{helpers:ResourceString Name=DrivesWidgetOpenStorageSenseButton/ToolTipService/ToolTip}">
                                     <FontIcon
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"

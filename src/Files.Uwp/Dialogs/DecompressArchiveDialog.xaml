@@ -5,11 +5,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:helpers="using:Files.Helpers"
-    Title="{helpers:ResourceString Name=DecompressArchiveDialog.Title}"
+    Title="{helpers:ResourceString Name=DecompressArchiveDialog/Title}"
     CornerRadius="{StaticResource OverlayCornerRadius}"
     DefaultButton="Primary"
     PrimaryButtonText="Extract"
-    SecondaryButtonText="{helpers:ResourceString Name=DecompressArchiveDialog.SecondaryButtonText}"
+    SecondaryButtonText="{helpers:ResourceString Name=DecompressArchiveDialog/SecondaryButtonText}"
     RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
@@ -43,7 +43,7 @@
 
         <CheckBox
             Grid.Row="1"
-            Content="{helpers:ResourceString Name=DecompressArchiveDialogOpenDestinationWhenComplete.Content}"
+            Content="{helpers:ResourceString Name=DecompressArchiveDialogOpenDestinationWhenComplete/Content}"
             IsChecked="{x:Bind ViewModel.OpenDestinationFolderOnCompletion, Mode=TwoWay}" />
     </Grid>
 </ContentDialog>

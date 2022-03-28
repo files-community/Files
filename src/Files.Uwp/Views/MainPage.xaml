@@ -283,12 +283,12 @@
                                 Width="32"
                                 Height="32"
                                 Padding="8"
-                                AutomationProperties.Name="{helpers:ResourceString Name=HorizontalMultitaskingControlAddButton.AutomationProperties.Name}"
+                                AutomationProperties.Name="{helpers:ResourceString Name=HorizontalMultitaskingControlAddButton/AutomationProperties/Name}"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
                                 BorderThickness="0"
                                 Click="{x:Bind ViewModel.AddNewTab, Mode=OneWay}"
-                                ToolTipService.ToolTip="{helpers:ResourceString Name=HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip}">
+                                ToolTipService.ToolTip="{helpers:ResourceString Name=HorizontalMultitaskingControlAddButton/ToolTipService/ToolTip}">
                                 <Button.Content>
                                     <FontIcon
                                         x:Name="HorizontalMultitaskingControlAddButtonIcon"
@@ -305,7 +305,7 @@
                                 x:Load="{x:Bind IsVerticalTabFlyoutEnabled, Mode=OneWay}"
                                 AccessKey="T"
                                 AllowDrop="True"
-                                AutomationProperties.Name="{helpers:ResourceString Name=VerticalTabFlyout.AutomationProperties.Name}"
+                                AutomationProperties.Name="{helpers:ResourceString Name=VerticalTabFlyout/AutomationProperties/Name}"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
                                 BorderThickness="0"
@@ -313,7 +313,7 @@
                                 IsTapEnabled="True"
                                 Loaded="VerticalTabStripInvokeButton_Loaded"
                                 Tapped="VerticalTabStrip_Tapped"
-                                ToolTipService.ToolTip="{helpers:ResourceString Name=VerticalTabFlyout.ToolTipService.ToolTip}">
+                                ToolTipService.ToolTip="{helpers:ResourceString Name=VerticalTabFlyout/ToolTipService/ToolTip}">
                                 <Button.Content>
                                     <FontIcon
                                         x:Name="VerticalTabStripInvokeButtonIcon"

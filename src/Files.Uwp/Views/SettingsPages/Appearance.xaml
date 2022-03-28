@@ -69,11 +69,11 @@
                     Height="32"
                     Padding="8,4,8,4"
                     VerticalAlignment="Bottom"
-                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsThemesLearnMoreButton.AutomationProperties.Name}"
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsThemesLearnMoreButton/AutomationProperties/Name}"
                     Background="Transparent"
                     BorderBrush="Transparent"
                     Click="ThemesLearnMoreButton_Click"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=SettingsThemesLearnMoreButton.ToolTipService.ToolTip}">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=SettingsThemesLearnMoreButton/ToolTipService/ToolTip}">
                     <FontIcon FontSize="14" Glyph="&#xE946;" />
                 </Button>
             </local:SettingsBlockControl>
@@ -85,98 +85,98 @@
                 <local:SettingsBlockControl.ExpandableContent>
                     <StackPanel>
                         <local:SettingsBlockControl
-                            Title="{helpers:ResourceString Name=SettingsShowFavoritesSection.Title}"
+                            Title="{helpers:ResourceString Name=SettingsShowFavoritesSection/Title}"
                             HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
                                 <SymbolIcon Symbol="Favorite" />
                             </local:SettingsBlockControl.Icon>
                             <ToggleSwitch
-                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowFavoritesSectionSwitch.AutomationProperties.Name}"
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowFavoritesSectionSwitch/AutomationProperties/Name}"
                                 IsOn="{Binding ShowFavoritesSection, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
 
                         <local:SettingsBlockControl
-                            Title="{helpers:ResourceString Name=SettingsPinRecycleBin.Title}"
+                            Title="{helpers:ResourceString Name=SettingsPinRecycleBin/Title}"
                             HorizontalAlignment="Stretch"
                             IsEnabled="{Binding ShowFavoritesSection}">
                             <local:SettingsBlockControl.Icon>
                                 <SymbolIcon Symbol="Pin" />
                             </local:SettingsBlockControl.Icon>
                             <ToggleSwitch
-                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsPinRecycleBinSwitch.AutomationProperties.Name}"
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsPinRecycleBinSwitch/AutomationProperties/Name}"
                                 IsOn="{Binding PinRecycleBinToSideBar, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
 
                         <local:SettingsBlockControl
-                            Title="{helpers:ResourceString Name=SettingsShowLibrarySection.Title}"
+                            Title="{helpers:ResourceString Name=SettingsShowLibrarySection/Title}"
                             HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
                                 <SymbolIcon Symbol="Library" />
                             </local:SettingsBlockControl.Icon>
                             <ToggleSwitch
-                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowLibrarySectionSwitch.AutomationProperties.Name}"
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowLibrarySectionSwitch/AutomationProperties/Name}"
                                 IsOn="{Binding ShowLibrarySection, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
 
                         <local:SettingsBlockControl
-                            Title="{helpers:ResourceString Name=SettingsShowDrivesSection.Title}"
+                            Title="{helpers:ResourceString Name=SettingsShowDrivesSection/Title}"
                             HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xEDA2;" />
                             </local:SettingsBlockControl.Icon>
                             <ToggleSwitch
-                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowDrivesSectionSwitch.AutomationProperties.Name}"
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowDrivesSectionSwitch/AutomationProperties/Name}"
                                 IsOn="{Binding ShowDrivesSection, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
 
                         <local:SettingsBlockControl
-                            Title="{helpers:ResourceString Name=SettingsShowCloudDrivesSection.Title}"
+                            Title="{helpers:ResourceString Name=SettingsShowCloudDrivesSection/Title}"
                             HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xE753;" />
                             </local:SettingsBlockControl.Icon>
                             <ToggleSwitch
-                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name}"
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowCloudDrivesSectionSwitch/AutomationProperties/Name}"
                                 IsOn="{Binding ShowCloudDrivesSection, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
 
                         <local:SettingsBlockControl
-                            Title="{helpers:ResourceString Name=SettingsShowNetworkDrivesSection.Title}"
+                            Title="{helpers:ResourceString Name=SettingsShowNetworkDrivesSection/Title}"
                             HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xE968;" />
                             </local:SettingsBlockControl.Icon>
                             <ToggleSwitch
-                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name}"
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowNetworkDrivesSectionSwitch/AutomationProperties/Name}"
                                 IsOn="{Binding ShowNetworkDrivesSection, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
 
                         <local:SettingsBlockControl
-                            Title="{helpers:ResourceString Name=SettingsShowWslSection.Title}"
+                            Title="{helpers:ResourceString Name=SettingsShowWslSection/Title}"
                             HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xEC7A;" />
                             </local:SettingsBlockControl.Icon>
                             <ToggleSwitch
-                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowWslSectionSwitch.AutomationProperties.Name}"
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowWslSectionSwitch/AutomationProperties/Name}"
                                 IsOn="{Binding ShowWslSection, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
 
                         <local:SettingsBlockControl
-                            Title="{helpers:ResourceString Name=SettingsShowFileTagsSection.Title}"
+                            Title="{helpers:ResourceString Name=SettingsShowFileTagsSection/Title}"
                             HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xE1CB;" />
                             </local:SettingsBlockControl.Icon>
                             <ToggleSwitch
-                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowFileTagsSectionSwitch.AutomationProperties.Name}"
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowFileTagsSectionSwitch/AutomationProperties/Name}"
                                 IsEnabled="{Binding AreFileTagsEnabled}"
                                 IsOn="{Binding ShowFileTagsSection, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
@@ -199,7 +199,7 @@
                 Padding="0,12,0,4"
                 FontSize="14"
                 FontWeight="Medium"
-                Text="{helpers:ResourceString Name=SettingsContextMenu.Text}" />
+                Text="{helpers:ResourceString Name=SettingsContextMenu/Text}" />
 
             <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsContextMenuOverflow}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
@@ -219,16 +219,16 @@
             Target="{x:Bind ThemesLearnMoreButton}">
             <StackPanel Spacing="12">
                 <TextBlock TextWrapping="Wrap">
-                    <Run Text="{helpers:ResourceString Name=SettingsThemesTeachingTipHeader.Text}" />
+                    <Run Text="{helpers:ResourceString Name=SettingsThemesTeachingTipHeader/Text}" />
                     <Hyperlink NavigateUri="https://files.community/docs/configuring/custom-themes">
-                        <Run Text="{helpers:ResourceString Name=SettingsThemesTeachingTipHyperlinkText.Text}" />
+                        <Run Text="{helpers:ResourceString Name=SettingsThemesTeachingTipHyperlinkText/Text}" />
                     </Hyperlink>
                 </TextBlock>
 
                 <Button
                     x:Name="OpenThemesFolderButton"
                     Click="OpenThemesFolderButton_Click"
-                    Content="{helpers:ResourceString Name=SettingsAppearanceOpenThemesFolderButton.Content}" />
+                    Content="{helpers:ResourceString Name=SettingsAppearanceOpenThemesFolderButton/Content}" />
             </StackPanel>
         </muxc:TeachingTip>
     </Grid>

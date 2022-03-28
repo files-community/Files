@@ -33,14 +33,14 @@
             </StackPanel.ChildrenTransitions>
 
             <local:SettingsBlockControl
-                Title="{helpers:ResourceString Name=SettingsPreferencesAppLanguage.Title}"
+                Title="{helpers:ResourceString Name=SettingsPreferencesAppLanguage/Title}"
                 HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xF2B7;" />
                 </local:SettingsBlockControl.Icon>
                 <ComboBox
                     HorizontalAlignment="Left"
-                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name}"
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsPreferencesAppLanguageComboBox/AutomationProperties/Name}"
                     ItemsSource="{Binding DefaultLanguages}"
                     SelectedIndex="{Binding SelectedLanguageIndex, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
@@ -63,14 +63,14 @@
             </local:SettingsBlockControl>
 
             <local:SettingsBlockControl
-                Title="{helpers:ResourceString Name=SettingsPreferencesTerminalApplications.Title}"
+                Title="{helpers:ResourceString Name=SettingsPreferencesTerminalApplications/Title}"
                 HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE756;" />
                 </local:SettingsBlockControl.Icon>
                 <ComboBox
                     x:Name="TerminalApplicationsComboBox"
-                    AutomationProperties.Name="{helpers:ResourceString Name=TerminalApplicationsComboBox.AutomationProperties.Name}"
+                    AutomationProperties.Name="{helpers:ResourceString Name=TerminalApplicationsComboBox/AutomationProperties/Name}"
                     ItemsSource="{Binding Terminals, Mode=OneWay}"
                     SelectedItem="{Binding SelectedTerminal, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
@@ -83,7 +83,7 @@
                 </ComboBox>
                 <local:SettingsBlockControl.ExpandableContent>
                     <local:SettingsBlockControl
-                        Title="{helpers:ResourceString Name=SettingsPreferencesEditTerminalApplicationsExpander.Title}"
+                        Title="{helpers:ResourceString Name=SettingsPreferencesEditTerminalApplicationsExpander/Title}"
                         ButtonCommand="{Binding EditTerminalApplicationsCommand}"
                         IsClickable="True">
                         <local:SettingsBlockControl.Icon>
@@ -108,27 +108,27 @@
                 <local:SettingsBlockControl.ExpandableContent>
                     <StackPanel>
                         <local:SettingsBlockControl
-                            Title="{helpers:ResourceString Name=SettingsPreferencesShowConfirmDeleteDialog.Title}"
+                            Title="{helpers:ResourceString Name=SettingsPreferencesShowConfirmDeleteDialog/Title}"
                             HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xE107;" />
                             </local:SettingsBlockControl.Icon>
                             <ToggleSwitch
                                 x:Name="ShowConfirmDeleteDialogSwitch"
-                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name}"
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowConfirmDeleteDialogToggleSwitch/AutomationProperties/Name}"
                                 IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
 
                         <local:SettingsBlockControl
-                            Title="{helpers:ResourceString Name=SettingsPreferencesOpenFoldersNewTab.Title}"
+                            Title="{helpers:ResourceString Name=SettingsPreferencesOpenFoldersNewTab/Title}"
                             HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xF12B;" />
                             </local:SettingsBlockControl.Icon>
                             <ToggleSwitch
                                 x:Name="OpenFoldersNewTab"
-                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name}"
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFoldersNewTabToggleSwitch/AutomationProperties/Name}"
                                 IsOn="{Binding OpenFoldersNewTab, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
@@ -232,16 +232,16 @@
                 </local:SettingsBlockControl.Icon>
                 <ComboBox SelectedIndex="{Binding SelectedStartupSettingIndex, Mode=OneWay}">
                     <ComboBoxItem
-                        Content="{helpers:ResourceString Name=SettingsOnStartupOpenANewTab.Content}"
+                        Content="{helpers:ResourceString Name=SettingsOnStartupOpenANewTab/Content}"
                         IsSelected="{Binding OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                     <ComboBoxItem
-                        Content="{helpers:ResourceString Name=SettingsOnStartupContinueWhereYouLeftOff.Content}"
+                        Content="{helpers:ResourceString Name=SettingsOnStartupContinueWhereYouLeftOff/Content}"
                         IsSelected="{Binding ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                     <ComboBoxItem
                         x:Name="OpenSpecificPage"
-                        Content="{helpers:ResourceString Name=SettingsOnStartupOpenASpecificPage.Content}"
+                        Content="{helpers:ResourceString Name=SettingsOnStartupOpenASpecificPage/Content}"
                         IsSelected="{Binding OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </ComboBox>
                 <local:SettingsBlockControl.ExpandableContent>
@@ -260,7 +260,7 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
                                     FontSize="16"
-                                    Text="{helpers:ResourceString Name=SettingsOnStartupPages.Text}" />
+                                    Text="{helpers:ResourceString Name=SettingsOnStartupPages/Text}" />
                                 <CommandBar
                                     Grid.Column="1"
                                     Background="Transparent"

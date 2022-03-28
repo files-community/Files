@@ -211,12 +211,12 @@
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
                                 x:Load="{x:Bind CancelButtonVisible, Converter={StaticResource BoolNegationConverter}}"
-                                AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasksDismissBannerButton.ToolTipService.ToolTip}"
+                                AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasksDismissBannerButton/ToolTipService/ToolTip}"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
                                 Click="DismissBanner"
                                 DataContext="{x:Bind}"
-                                ToolTipService.ToolTip="{helpers:ResourceString Name=OngoingTasksDismissBannerButton.ToolTipService.ToolTip}">
+                                ToolTipService.ToolTip="{helpers:ResourceString Name=OngoingTasksDismissBannerButton/ToolTipService/ToolTip}">
                                 <Button.Content>
                                     <FontIcon FontSize="11" Glyph="&#xE711;" />
                                 </Button.Content>

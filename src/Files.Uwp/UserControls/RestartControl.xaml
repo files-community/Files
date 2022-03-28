@@ -23,7 +23,7 @@
                         x:Name="TextBlock"
                         Grid.Row="0"
                         VerticalAlignment="Center"
-                        Text="{helpers:ResourceString Name=RestartNotificationText.Text}"
+                        Text="{helpers:ResourceString Name=RestartNotificationText/Text}"
                         TextWrapping="WrapWholeWords" />
 
                     <StackPanel

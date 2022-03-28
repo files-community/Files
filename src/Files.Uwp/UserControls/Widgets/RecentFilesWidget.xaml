@@ -18,7 +18,7 @@
             x:Name="RecentItemDescription"
             HorizontalAlignment="Stretch"
             FontSize="14"
-            Text="{helpers:ResourceString Name=RecentItemDescription.Text}"
+            Text="{helpers:ResourceString Name=RecentItemDescription/Text}"
             TextAlignment="Center"
             TextWrapping="WrapWholeWords"
             Visibility="{x:Bind Empty.Visibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -53,21 +53,21 @@
                                 <MenuFlyoutItem
                                     x:Name="RemoveRecentItem"
                                     Click="RemoveRecentItem_Click"
-                                    Text="{helpers:ResourceString Name=RecentItemRemove.Text}">
+                                    Text="{helpers:ResourceString Name=RecentItemRemove/Text}">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE738;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutItem
                                     Click="ClearRecentItems_Click"
-                                    Text="{helpers:ResourceString Name=RecentItemClearAll.Text}">
+                                    Text="{helpers:ResourceString Name=RecentItemClearAll/Text}">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE74D;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutItem
                                     Click="OpenFileLocation_Click"
-                                    Text="{helpers:ResourceString Name=RecentItemOpenFileLocation.Text}"
+                                    Text="{helpers:ResourceString Name=RecentItemOpenFileLocation/Text}"
                                     Visibility="{x:Bind IsFile}">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xED25;" />

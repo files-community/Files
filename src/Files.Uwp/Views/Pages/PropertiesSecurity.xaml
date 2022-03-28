@@ -52,7 +52,7 @@
                 Grid.Column="0"
                 Padding="8"
                 VerticalAlignment="Center"
-                Text="{helpers:ResourceString Name=SecurityUsersGroupLabel.Text}" />
+                Text="{helpers:ResourceString Name=SecurityUsersGroupLabel/Text}" />
 
             <StackPanel
                 Grid.Row="0"
@@ -150,7 +150,7 @@
                 Padding="8"
                 VerticalAlignment="Center"
                 TextTrimming="CharacterEllipsis">
-                <Run Text="{helpers:ResourceString Name=SecurityPermissionsLabel.Text}" />
+                <Run Text="{helpers:ResourceString Name=SecurityPermissionsLabel/Text}" />
                 <Run Text="{x:Bind SecurityProperties.SelectedRuleForUser.UserGroup.DisplayName, Mode=OneWay}" />
             </TextBlock>
 
@@ -210,14 +210,14 @@
                     Margin="0,0,0,4"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Text="{helpers:ResourceString Name=SecurityDenyLabel.Text}" />
+                    Text="{helpers:ResourceString Name=SecurityDenyLabel/Text}" />
 
                 <TextBlock
                     Grid.Row="1"
                     Grid.Column="0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Text="{helpers:ResourceString Name=SecurityFullControlLabel.Text}" />
+                    Text="{helpers:ResourceString Name=SecurityFullControlLabel/Text}" />
 
                 <CheckBox
                     Grid.Row="1"
@@ -244,7 +244,7 @@
                     Grid.Column="0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Text="{helpers:ResourceString Name=SecurityModifyLabel.Text}" />
+                    Text="{helpers:ResourceString Name=SecurityModifyLabel/Text}" />
 
                 <CheckBox
                     Grid.Row="2"
@@ -271,7 +271,7 @@
                     Grid.Column="0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Text="{helpers:ResourceString Name=SecurityReadAndExecuteLabel.Text}" />
+                    Text="{helpers:ResourceString Name=SecurityReadAndExecuteLabel/Text}" />
 
                 <CheckBox
                     Grid.Row="3"
@@ -298,7 +298,7 @@
                     Grid.Column="0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Text="{helpers:ResourceString Name=SecurityListDirectoryLabel.Text}"
+                    Text="{helpers:ResourceString Name=SecurityListDirectoryLabel/Text}"
                     Visibility="{x:Bind SecurityProperties.IsFolder, Mode=OneWay}" />
 
                 <CheckBox
@@ -328,7 +328,7 @@
                     Grid.Column="0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Text="{helpers:ResourceString Name=SecurityReadLabel.Text}" />
+                    Text="{helpers:ResourceString Name=SecurityReadLabel/Text}" />
 
                 <CheckBox
                     Grid.Row="5"
@@ -384,7 +384,7 @@
                 Padding="8"
                 HorizontalAlignment="Left"
                 x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadFilePermissions, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                Text="{helpers:ResourceString Name=SecurityCannotReadProperties.Text}"
+                Text="{helpers:ResourceString Name=SecurityCannotReadProperties/Text}"
                 TextWrapping="WrapWholeWords" />
         </Grid>
     </Grid>

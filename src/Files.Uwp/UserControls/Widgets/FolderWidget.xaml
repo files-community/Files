@@ -47,7 +47,7 @@
                                         x:Load="{x:Bind HasPath}"
                                         Click="OpenInNewPane_Click"
                                         DataContext="{x:Bind}"
-                                        Text="{helpers:ResourceString Name=SideBarOpenInNewPane.Text}"
+                                        Text="{helpers:ResourceString Name=SideBarOpenInNewPane/Text}"
                                         Visibility="Collapsed">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
@@ -58,7 +58,7 @@
                                         x:Load="{x:Bind HasPath}"
                                         Click="OpenInNewTab_Click"
                                         DataContext="{x:Bind}"
-                                        Text="{helpers:ResourceString Name=SideBarOpenInNewTab.Text}">
+                                        Text="{helpers:ResourceString Name=SideBarOpenInNewTab/Text}">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
                                         </MenuFlyoutItem.Icon>
@@ -68,7 +68,7 @@
                                         x:Load="{x:Bind HasPath}"
                                         Click="OpenInNewWindow_Click"
                                         DataContext="{x:Bind}"
-                                        Text="{helpers:ResourceString Name=SideBarOpenInNewWindow.Text}">
+                                        Text="{helpers:ResourceString Name=SideBarOpenInNewWindow/Text}">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE737;" />
                                         </MenuFlyoutItem.Icon>
@@ -78,7 +78,7 @@
                                         x:Load="{x:Bind IsLibrary}"
                                         Click="OpenLibraryProperties_Click"
                                         DataContext="{x:Bind}"
-                                        Text="{helpers:ResourceString Name=BaseLayoutContextFlyoutPropertiesFolder.Text}">
+                                        Text="{helpers:ResourceString Name=BaseLayoutContextFlyoutPropertiesFolder/Text}">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE946;" />
                                         </MenuFlyoutItem.Icon>

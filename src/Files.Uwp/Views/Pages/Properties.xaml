@@ -186,7 +186,7 @@
                 Margin="0,0,10,0"
                 HorizontalAlignment="Right"
                 Click="OKButton_Click"
-                Content="{helpers:ResourceString Name=PropertiesDialogOKButton.Content}"
+                Content="{helpers:ResourceString Name=PropertiesDialogOKButton/Content}"
                 Style="{StaticResource AccentButtonStyle}" />
             <Button
                 x:Name="CancelButton"

@@ -246,7 +246,7 @@
                                     Visibility="{Binding ElementName=PaneRoot, Path=Visibility, Mode=OneWay}">
                                     <UserControl
                                         x:Name="ResizeElementControl"
-                                        AutomationProperties.Name="{helpers:ResourceString Name=ResizeElementControl.AutomationProperties.Name}"
+                                        AutomationProperties.Name="{helpers:ResourceString Name=ResizeElementControl/AutomationProperties/Name}"
                                         IsTabStop="True"
                                         KeyDown="Border_KeyDown"
                                         UseSystemFocusVisuals="True" />

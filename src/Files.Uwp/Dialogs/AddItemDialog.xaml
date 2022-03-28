@@ -8,7 +8,7 @@
     xmlns:helpers="using:Files.Helpers"
     xmlns:vc="using:Files.Uwp.ValueConverters"
     x:Name="AddDialog"
-    Title="{helpers:ResourceString Name=AddDialog.Title}"
+    Title="{helpers:ResourceString Name=AddDialog/Title}"
     Grid.RowSpan="4"
     BorderThickness="0"
     CornerRadius="{StaticResource OverlayCornerRadius}"
@@ -29,7 +29,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid x:Name="SubtitleArea">
-            <TextBlock x:Name="Description" Text="{helpers:ResourceString Name=AddDialogDescription.Text}" />
+            <TextBlock x:Name="Description" Text="{helpers:ResourceString Name=AddDialogDescription/Text}" />
         </Grid>
         <Grid
             x:Name="SelectionListContent"

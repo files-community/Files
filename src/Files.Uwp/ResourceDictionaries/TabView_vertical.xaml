@@ -88,7 +88,7 @@
                                                 Glyph="&#xE710;" />
                                             <TextBlock
                                                 VerticalAlignment="Center"
-                                                Text="{helpers:ResourceString Name=TabViewVerticalNewTab.Text}" />
+                                                Text="{helpers:ResourceString Name=TabViewVerticalNewTab/Text}" />
                                         </StackPanel>
                                     </Button.Content>
                                 </Button>

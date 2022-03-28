@@ -35,10 +35,10 @@
                 VerticalAlignment="Top"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"
-                AutomationProperties.Name="{helpers:ResourceString Name=BundlesWidgetMoreOptionsButton.AutomationProperties.Name}"
+                AutomationProperties.Name="{helpers:ResourceString Name=BundlesWidgetMoreOptionsButton/AutomationProperties/Name}"
                 Background="Transparent"
                 BorderBrush="Transparent"
-                ToolTipService.ToolTip="{helpers:ResourceString Name=BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip}">
+                ToolTipService.ToolTip="{helpers:ResourceString Name=BundlesWidgetMoreOptionsButton/ToolTipService/ToolTip}">
 
                 <FontIcon
                     HorizontalAlignment="Center"
@@ -56,14 +56,14 @@
                         <MenuFlyoutSeparator />
                         <MenuFlyoutItem
                             Command="{x:Bind ViewModel.ImportBundlesCommand, Mode=OneWay}"
-                            Text="{helpers:ResourceString Name=BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text}">
+                            Text="{helpers:ResourceString Name=BundlesWidgetOptionsFlyoutImportBundlesMenuItem/Text}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE8B6;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
                             Command="{x:Bind ViewModel.ExportBundlesCommand, Mode=OneWay}"
-                            Text="{helpers:ResourceString Name=BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text}">
+                            Text="{helpers:ResourceString Name=BundlesWidgetOptionsFlyoutExportBundlesMenuItem/Text}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xEDE1;" />
                             </MenuFlyoutItem.Icon>
@@ -183,14 +183,14 @@
                                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
                                             <MenuFlyoutItem
                                                 Command="{x:Bind RenameBundleCommand}"
-                                                Text="{helpers:ResourceString Name=BundleOptionsFlyoutRenameBundleMenuItem.Text}">
+                                                Text="{helpers:ResourceString Name=BundleOptionsFlyoutRenameBundleMenuItem/Text}">
                                                 <MenuFlyoutItem.Icon>
                                                     <FontIcon Glyph="&#xE8AC;" />
                                                 </MenuFlyoutItem.Icon>
                                             </MenuFlyoutItem>
                                             <MenuFlyoutSubItem
                                                 IsEnabled="{x:Bind IsAddItemOptionEnabled, Mode=OneWay}"
-                                                Text="{helpers:ResourceString Name=BundleOptionsFlyoutAddItemMenuItem.Text}">
+                                                Text="{helpers:ResourceString Name=BundleOptionsFlyoutAddItemMenuItem/Text}">
                                                 <MenuFlyoutSubItem.Icon>
                                                     <FontIcon Glyph="&#xE710;" />
                                                 </MenuFlyoutSubItem.Icon>
@@ -201,7 +201,7 @@
                                                 </MenuFlyoutItem>
                                                 <MenuFlyoutItem
                                                     Command="{x:Bind AddFolderCommand}"
-                                                    Text="{helpers:ResourceString Name=BundleOptionsFlyoutAddFolderMenuItem.Text}">
+                                                    Text="{helpers:ResourceString Name=BundleOptionsFlyoutAddFolderMenuItem/Text}">
                                                     <MenuFlyoutItem.Icon>
                                                         <FontIcon Glyph="&#xE8B7;" />
                                                     </MenuFlyoutItem.Icon>
@@ -209,7 +209,7 @@
                                             </MenuFlyoutSubItem>
                                             <MenuFlyoutItem
                                                 Command="{x:Bind RemoveBundleCommand}"
-                                                Text="{helpers:ResourceString Name=BundleOptionsFlyoutRemoveBundleMenuItem.Text}">
+                                                Text="{helpers:ResourceString Name=BundleOptionsFlyoutRemoveBundleMenuItem/Text}">
                                                 <MenuFlyoutItem.Icon>
                                                     <FontIcon Glyph="&#xE738;" />
                                                 </MenuFlyoutItem.Icon>
@@ -305,7 +305,7 @@
                                                             x:Name="OpenInNewTab"
                                                             x:Load="{x:Bind OpenInNewTabLoad, Mode=OneWay}"
                                                             Command="{x:Bind OpenInNewTabCommand}"
-                                                            Text="{helpers:ResourceString Name=BundleItemFlyouOpenInNewTabMenuItem.Text}">
+                                                            Text="{helpers:ResourceString Name=BundleItemFlyouOpenInNewTabMenuItem/Text}">
                                                             <MenuFlyoutItem.Icon>
                                                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
                                                             </MenuFlyoutItem.Icon>
@@ -314,14 +314,14 @@
                                                             x:Name="OpenInNewPane"
                                                             x:Load="{x:Bind OpenInNewPaneLoad, Mode=OneWay}"
                                                             Command="{x:Bind OpenInNewPaneCommand}"
-                                                            Text="{helpers:ResourceString Name=BundlesOpenInNewPane.Text}">
+                                                            Text="{helpers:ResourceString Name=BundlesOpenInNewPane/Text}">
                                                             <MenuFlyoutItem.Icon>
                                                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
                                                             </MenuFlyoutItem.Icon>
                                                         </MenuFlyoutItem>
                                                         <MenuFlyoutItem
                                                             Command="{x:Bind OpenItemLocationCommand}"
-                                                            Text="{helpers:ResourceString Name=BundleItemFlyouOpenItemLocationMenuItem.Text}">
+                                                            Text="{helpers:ResourceString Name=BundleItemFlyouOpenItemLocationMenuItem/Text}">
                                                             <MenuFlyoutItem.Icon>
                                                                 <FontIcon Glyph="&#xED25;" />
                                                             </MenuFlyoutItem.Icon>
@@ -329,7 +329,7 @@
                                                         <MenuFlyoutSeparator />
                                                         <MenuFlyoutItem
                                                             Command="{x:Bind RemoveItemCommand}"
-                                                            Text="{helpers:ResourceString Name=BundleItemFlyouRemoveFromBundleMenuItem.Text}">
+                                                            Text="{helpers:ResourceString Name=BundleItemFlyouRemoveFromBundleMenuItem/Text}">
                                                             <MenuFlyoutItem.Icon>
                                                                 <FontIcon Glyph="&#xE738;" />
                                                             </MenuFlyoutItem.Icon>
@@ -368,7 +368,7 @@
                                     FontSize="12"
                                     FontWeight="SemiLight"
                                     Opacity=".7"
-                                    Text="{helpers:ResourceString Name=BundleNoContentsTextBlock.Text}"
+                                    Text="{helpers:ResourceString Name=BundleNoContentsTextBlock/Text}"
                                     TextAlignment="Center"
                                     TextWrapping="WrapWholeWords" />
                             </Grid>

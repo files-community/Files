@@ -69,7 +69,7 @@
         x:Name="SearchRegion"
         ItemTemplate="{StaticResource SuggestionTemplate}"
         ItemsSource="{x:Bind SearchBoxViewModel.Suggestions, Mode=OneWay}"
-        PlaceholderText="{helpers:ResourceString Name=NavigationToolbarSearchRegion.PlaceholderText}"
+        PlaceholderText="{helpers:ResourceString Name=NavigationToolbarSearchRegion/PlaceholderText}"
         QuerySubmitted="SearchRegion_QuerySubmitted"
         Text="{x:Bind SearchBoxViewModel.Query, Mode=TwoWay}"
         TextBoxStyle="{StaticResource TextBoxStyle}"

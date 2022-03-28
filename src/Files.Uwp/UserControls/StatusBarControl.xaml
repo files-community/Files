@@ -73,8 +73,8 @@
         <muxc:TeachingTip
             x:Name="FullTrustStatusTeachingTip"
             Grid.ColumnSpan="5"
-            Title="{helpers:ResourceString Name=FullTrustStatusTeachingTip.Title}"
-            Subtitle="{helpers:ResourceString Name=FullTrustStatusTeachingTip.Subtitle}"
+            Title="{helpers:ResourceString Name=FullTrustStatusTeachingTip/Title}"
+            Subtitle="{helpers:ResourceString Name=FullTrustStatusTeachingTip/Subtitle}"
             Target="{x:Bind FullTrustStatus}"
             Visibility="Collapsed" />
     </Grid>

@@ -13,7 +13,7 @@
     <Grid>
         <TextBlock
             x:Name="EmptyText"
-            Text="{helpers:ResourceString Name=EmptyFolder.Text}"
+            Text="{helpers:ResourceString Name=EmptyFolder/Text}"
             TextWrapping="Wrap"
             Visibility="Collapsed" />
 

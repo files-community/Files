@@ -354,12 +354,12 @@
                     Height="32"
                     x:FieldModifier="public"
                     AccessKey="B"
-                    AutomationProperties.Name="{helpers:ResourceString Name=NavBackButton.AutomationProperties.Name}"
+                    AutomationProperties.Name="{helpers:ResourceString Name=NavBackButton/AutomationProperties/Name}"
                     Background="Transparent"
                     Command="{x:Bind ViewModel.BackClickCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=NavBackButton.ToolTipService.ToolTip}">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=NavBackButton/ToolTipService/ToolTip}">
                     <FontIcon FontSize="14" Glyph="&#xE72B;" />
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="XButton1" />
@@ -374,12 +374,12 @@
                     Height="32"
                     x:FieldModifier="public"
                     AccessKey="F"
-                    AutomationProperties.Name="{helpers:ResourceString Name=NavForwardButton.AutomationProperties.Name}"
+                    AutomationProperties.Name="{helpers:ResourceString Name=NavForwardButton/AutomationProperties/Name}"
                     Background="Transparent"
                     Command="{x:Bind ViewModel.ForwardClickCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanGoForward, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=NavForwardButton.ToolTipService.ToolTip}">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=NavForwardButton/ToolTipService/ToolTip}">
                     <FontIcon FontSize="14" Glyph="&#xE72A;" />
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="XButton2" />
@@ -393,12 +393,12 @@
                     Height="32"
                     x:FieldModifier="public"
                     AccessKey="U"
-                    AutomationProperties.Name="{helpers:ResourceString Name=NavUpButton.AutomationProperties.Name}"
+                    AutomationProperties.Name="{helpers:ResourceString Name=NavUpButton/AutomationProperties/Name}"
                     Background="Transparent"
                     Command="{x:Bind ViewModel.UpClickCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanNavigateToParent, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=NavUpButton.ToolTipService.ToolTip}">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=NavUpButton/ToolTipService/ToolTip}">
                     <FontIcon FontSize="14" Glyph="&#xE74A;" />
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="Up" Modifiers="Menu" />
@@ -411,12 +411,12 @@
                     Height="32"
                     x:FieldModifier="public"
                     AccessKey="R"
-                    AutomationProperties.Name="{helpers:ResourceString Name=NavRefreshButton.AutomationProperties.Name}"
+                    AutomationProperties.Name="{helpers:ResourceString Name=NavRefreshButton/AutomationProperties/Name}"
                     Background="Transparent"
                     Command="{x:Bind ViewModel.RefreshClickCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanRefresh, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=NavRefreshButton.ToolTipService.ToolTip}">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=NavRefreshButton/ToolTipService/ToolTip}">
                     <FontIcon FontSize="14" Glyph="&#xE72C;" />
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="F5" />
@@ -440,7 +440,7 @@
                 ItemsSource="{x:Bind ViewModel.NavigationBarSuggestions, Mode=OneWay}"
                 Loaded="VisiblePath_Loaded"
                 LostFocus="VisiblePath_LostFocus"
-                PlaceholderText="{helpers:ResourceString Name=NavigationToolbarVisiblePath.PlaceholderText}"
+                PlaceholderText="{helpers:ResourceString Name=NavigationToolbarVisiblePath/PlaceholderText}"
                 PreviewKeyDown="VisiblePath_KeyDown"
                 QuerySubmitted="VisiblePath_QuerySubmitted"
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
@@ -504,11 +504,11 @@
                     Width="36"
                     Height="33"
                     AccessKey="I"
-                    AutomationProperties.Name="{helpers:ResourceString Name=NavSearchButton.AutomationProperties.Name}"
+                    AutomationProperties.Name="{helpers:ResourceString Name=NavSearchButton/AutomationProperties/Name}"
                     Background="Transparent"
                     Click="SearchButton_Click"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=NavSearchButton.ToolTipService.ToolTip}"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=NavSearchButton/ToolTipService/ToolTip}"
                     Visibility="Collapsed">
                     <FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
                     <Button.KeyboardAccelerators>
@@ -610,8 +610,8 @@
 
             <muxc:TeachingTip
                 x:Name="OngoingTasksTeachingTip"
-                Title="{helpers:ResourceString Name=OngoingTasksTeachingTip.Title}"
-                Subtitle="{helpers:ResourceString Name=OngoingTasksTeachingTip.Subtitle}"
+                Title="{helpers:ResourceString Name=OngoingTasksTeachingTip/Title}"
+                Subtitle="{helpers:ResourceString Name=OngoingTasksTeachingTip/Subtitle}"
                 Target="{x:Bind OngoingTasks}"
                 Visibility="Collapsed" />
         </Grid>

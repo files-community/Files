@@ -22,8 +22,8 @@
                         Opening="TabItemContextMenu_Opening">
                         <MenuFlyoutItem
                             Click="{x:Bind vm:MainPageViewModel.AddNewTabAtIndex}"
-                            KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride}"
-                            Text="{helpers:ResourceString Name=HorizontalMultitaskingControlNewTab.Text}">
+                            KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=HorizontalMultitaskingControlNewTab/KeyboardAcceleratorTextOverride}"
+                            Text="{helpers:ResourceString Name=HorizontalMultitaskingControlNewTab/Text}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
                             </MenuFlyoutItem.Icon>
@@ -36,8 +36,8 @@
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
                             Click="{x:Bind vm:MainPageViewModel.DuplicateTabAtIndex}"
-                            KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=HorizontalMultitaskingControlDuplicateTab.KeyboardAcceleratorTextOverride}"
-                            Text="{helpers:ResourceString Name=HorizontalMultitaskingControlDuplicateTab.Text}">
+                            KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=HorizontalMultitaskingControlDuplicateTab/KeyboardAcceleratorTextOverride}"
+                            Text="{helpers:ResourceString Name=HorizontalMultitaskingControlDuplicateTab/Text}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11B;" />
                             </MenuFlyoutItem.Icon>
@@ -45,7 +45,7 @@
                         <MenuFlyoutItem
                             x:Name="MenuItemMoveTabToNewWindow"
                             Click="MoveTabToNewWindow"
-                            Text="{helpers:ResourceString Name=HorizontalMultitaskingControlMoveTabToNewWindow.Text}">
+                            Text="{helpers:ResourceString Name=HorizontalMultitaskingControlMoveTabToNewWindow/Text}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE8A7;" />
                             </MenuFlyoutItem.Icon>
@@ -68,8 +68,8 @@
                         <MenuFlyoutItem
                             x:Name="MenuItemReopenClosedTab"
                             Click="ReopenClosedTab"
-                            KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride}"
-                            Text="{helpers:ResourceString Name=HorizontalMultitaskingControlReopenClosedTab.Text}">
+                            KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=HorizontalMultitaskingControlReopenClosedTab/KeyboardAcceleratorTextOverride}"
+                            Text="{helpers:ResourceString Name=HorizontalMultitaskingControlReopenClosedTab/Text}">
                             <MenuFlyoutItem.KeyboardAccelerators>
                                 <KeyboardAccelerator
                                     Key="T"

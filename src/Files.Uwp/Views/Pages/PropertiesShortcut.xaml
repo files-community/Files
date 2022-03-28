@@ -45,7 +45,7 @@
                 Grid.Column="0"
                 VerticalAlignment="Center"
                 Style="{StaticResource PropertyName}"
-                Text="{helpers:ResourceString Name=PropertiesShortcutItemType.Text}"
+                Text="{helpers:ResourceString Name=PropertiesShortcutItemType/Text}"
                 Visibility="Visible" />
             <TextBlock
                 x:Name="shortcutItemTypeValue"
@@ -60,7 +60,7 @@
                 Grid.Column="0"
                 VerticalAlignment="Center"
                 Style="{StaticResource PropertyName}"
-                Text="{helpers:ResourceString Name=PropertiesShortcutItemPath.Text}"
+                Text="{helpers:ResourceString Name=PropertiesShortcutItemPath/Text}"
                 Visibility="Visible" />
             <TextBox
                 x:Name="shortcutItemPathValue"
@@ -101,7 +101,7 @@
                 VerticalAlignment="Center"
                 x:Load="{x:Bind ViewModel.ShortcutItemArgumentsVisibility, Mode=OneWay}"
                 Style="{StaticResource PropertyName}"
-                Text="{helpers:ResourceString Name=PropertiesShortcutItemArgs.Text}" />
+                Text="{helpers:ResourceString Name=PropertiesShortcutItemArgs/Text}" />
             <TextBox
                 x:Name="shortcutItemArgsValue"
                 Grid.Row="0"
@@ -117,7 +117,7 @@
                 VerticalAlignment="Center"
                 x:Load="{x:Bind ViewModel.ShortcutItemWorkingDirVisibility, Mode=OneWay}"
                 Style="{StaticResource PropertyName}"
-                Text="{helpers:ResourceString Name=AddDPropertiesShortcutItemWorkingDirialog.Text}" />
+                Text="{helpers:ResourceString Name=AddDPropertiesShortcutItemWorkingDirialog/Text}" />
             <TextBox
                 x:Name="shortcutItemWorkingDirValue"
                 Grid.Row="1"

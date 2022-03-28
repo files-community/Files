@@ -37,7 +37,7 @@
                 <MenuFlyoutItem
                     Click="MenuFlyoutItem_Click"
                     Tag="1"
-                    Text="{helpers:ResourceString Name=ConflictingItemsDialogOptionReplaceExisting.Text}" />
+                    Text="{helpers:ResourceString Name=ConflictingItemsDialogOptionReplaceExisting/Text}" />
                 <MenuFlyoutItem
                     Click="MenuFlyoutItem_Click"
                     Tag="2"
@@ -47,7 +47,7 @@
                     x:Name="ApplyToAllOption"
                     Click="MenuFlyoutItem_Click"
                     Tag="{helpers:ResourceString Name=ConfictingItemsDialogOptionApplyToAll.Tag}"
-                    Text="{helpers:ResourceString Name=ConfictingItemsDialogOptionApplyToAll.Text}" />
+                    Text="{helpers:ResourceString Name=ConfictingItemsDialogOptionApplyToAll/Text}" />
             </MenuFlyout>
         </ResourceDictionary>
     </ContentDialog.Resources>
@@ -58,7 +58,7 @@
             <CheckBox
                 x:Name="chkPermanentlyDelete"
                 x:Load="{x:Bind ViewModel.PermanentlyDeleteLoad, Mode=OneWay}"
-                Content="{helpers:ResourceString Name=DeleteItemsDialogPermanentlyDeleteCheckBox.Content}"
+                Content="{helpers:ResourceString Name=DeleteItemsDialogPermanentlyDeleteCheckBox/Content}"
                 IsChecked="{x:Bind ViewModel.PermanentlyDelete, Mode=TwoWay}"
                 IsEnabled="False" />
 
@@ -204,7 +204,7 @@
                                             <MenuFlyoutItem Command="{Binding GenerateNewNameCommand}" Text="{helpers:ResourceString Name=GenerateNewName}" />
                                             <MenuFlyoutItem
                                                 Command="{Binding ReplaceExistingCommand}"
-                                                Text="{helpers:ResourceString Name=ConflictingItemsDialogItemOptionReplaceExisting.Text}" />
+                                                Text="{helpers:ResourceString Name=ConflictingItemsDialogItemOptionReplaceExisting/Text}" />
                                             <MenuFlyoutItem Command="{Binding SkipCommand}" Text="{helpers:ResourceString Name=Skip}" />
                                         </MenuFlyout>
                                     </muxc:SplitButton.Flyout>
@@ -223,7 +223,7 @@
                                         <HyperlinkButton.Content>
                                             <StackPanel Orientation="Horizontal" Spacing="8">
                                                 <FontIcon FontSize="12" Glyph="&#xE10E;" />
-                                                <TextBlock Text="{helpers:ResourceString Name=ConflictingItemsDialogUndoOption.Text}" />
+                                                <TextBlock Text="{helpers:ResourceString Name=ConflictingItemsDialogUndoOption/Text}" />
                                             </StackPanel>
                                         </HyperlinkButton.Content>
                                         <i:Interaction.Behaviors>
