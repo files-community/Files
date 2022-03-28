@@ -247,7 +247,7 @@
                                 HighContrastAdjustment="None"
                                 IsTabStop="False"
                                 IsTextScaleFactorEnabled="False"
-                                Visibility="{Binding IsPinned, Mode=OneWay, Converter={StaticResource BooleanToVisibilityInvertConverter}}"
+                                Visibility="{Binding IsPinned, Mode=OneWay, Converter={StaticResource VisibilityInvertConverter}}"
                                 Style="{ThemeResource TabViewCloseButtonStyle}" />
 
                             <Button

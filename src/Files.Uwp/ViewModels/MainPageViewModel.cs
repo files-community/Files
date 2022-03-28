@@ -181,6 +181,15 @@ namespace Files.ViewModels
             e.Handled = true;
         }
 
+        private static async Task AddNewTabItem(TabItem tabItem, int atIndex = -1)
+        {
+            tabItem.Control.ContentChanged += Control_ContentChanged;
+            await UpdateTabInfo(tabItem, tabItem.TabItemArguments.NavigationArg);
+            var index = atIndex == -1 ? AppInstances.Count : atIndex;
+            AppInstances.Insert(index, tabItem);
+            App.MainViewModel.TabStripSelectedIndex = index;
+        }
+
         public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
         {
             if (string.IsNullOrEmpty(path))
@@ -205,11 +214,8 @@ namespace Files.ViewModels
                 InitialPageType = type,
                 NavigationArg = path
             };
-            tabItem.Control.ContentChanged += Control_ContentChanged;
-            await UpdateTabInfo(tabItem, path);
-            var index = atIndex == -1 ? AppInstances.Count : atIndex;
-            AppInstances.Insert(index, tabItem);
-            App.MainViewModel.TabStripSelectedIndex = index;
+
+            await AddNewTabItem(tabItem);
         }
 
         public async void UpdateInstanceProperties(object navigationArg)
@@ -402,11 +408,11 @@ namespace Files.ViewModels
                         {
                             if (UserSettingsService.PreferencesSettingsService.LastSessionTabList != null)
                             {
-                                foreach (string tabArgsString in UserSettingsService.PreferencesSettingsService.LastSessionTabList)
+                                foreach (string sessionString in UserSettingsService.PreferencesSettingsService.LastSessionTabList)
                                 {
-                                    var tabArgs = TabItemArguments.Deserialize(tabArgsString);
-                                    await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+                                    await AddNewTabBySessionString(sessionString);
                                 }
+
                                 var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalized() };
                                 UserSettingsService.PreferencesSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
                             }
@@ -494,11 +500,23 @@ namespace Files.ViewModels
             }
         }
 
+        public static async Task AddNewTabBySessionString(string tabPropertyString)
+        {
+            TabItem tabItem = new TabItem()
+            {
+                Header = null,
+                IconSource = null,
+                Description = null,
+            };
+
+            if (PropertySerializer<TabItem>.FromString(ref tabItem, tabPropertyString))
+            {
+                await AddNewTabItem(tabItem);
+            }
+        }
+
         public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
         {
-            Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.MainViewModel.FontName;
-
             TabItem tabItem = new TabItem()
             {
                 Header = null,
@@ -510,11 +528,8 @@ namespace Files.ViewModels
                 InitialPageType = type,
                 NavigationArg = tabViewItemArgs
             };
-            tabItem.Control.ContentChanged += Control_ContentChanged;
-            await UpdateTabInfo(tabItem, tabViewItemArgs);
-            var index = atIndex == -1 ? AppInstances.Count : atIndex;
-            AppInstances.Insert(index, tabItem);
-            App.MainViewModel.TabStripSelectedIndex = index;
+
+            await AddNewTabItem(tabItem, atIndex);
         }
 
         public static async void Control_ContentChanged(object sender, TabItemArguments e)

@@ -27,7 +27,6 @@
             <FontFamily x:Key="ColoredIconFontFamily">/Assets/Custom Glyphs/Colored-Icons.ttf#Untitled1</FontFamily>
 
             <fcvt:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-            <fcvt:BooleanToVisibilityInvertConverter x:Key="BooleanToVisibilityInvertConverter" />
             <fcvt:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
 
             <ResourceDictionary.MergedDictionaries>

@@ -583,7 +583,7 @@ namespace Files
                 {
                     if (tab != null && tab.TabItemArguments != null)
                     {
-                        return tab.TabItemArguments.Serialize();
+                        return PropertySerializer<TabItem>.ToString(tab);
                     }
                     else
                     {

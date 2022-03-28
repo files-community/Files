@@ -57,7 +57,7 @@
                             x:Uid="HorizontalMultitaskingControlPinTab"
                             Click="{x:Bind vm:MainPageViewModel.PinTab}"
                             Text="Pin tab"
-                            Visibility="{Binding IsPinned, Converter={StaticResource BooleanToVisibilityInvertConverter}}">
+                            Visibility="{Binding IsPinned, Converter={StaticResource VisibilityInvertConverter}}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE718;" />
                             </MenuFlyoutItem.Icon>
