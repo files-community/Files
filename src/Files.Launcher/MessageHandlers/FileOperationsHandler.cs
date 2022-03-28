@@ -1,5 +1,6 @@
 ﻿using Common;
-using Files.Common;
+using Files.Shared;
+using Files.Shared.Extensions;
 using FilesFullTrust.Helpers;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -147,7 +148,7 @@ namespace FilesFullTrust.MessageHandlers
 
                             var shellOperationResult = new ShellOperationResult();
 
-                            if (!Extensions.IgnoreExceptions(() =>
+                            if (!SafetyExtensions.IgnoreExceptions(() =>
                             {
                                 using var shd = new ShellFolder(Path.GetDirectoryName(filePath));
                                 op.QueueNewItemOperation(shd, Path.GetFileName(filePath),
@@ -185,7 +186,7 @@ namespace FilesFullTrust.MessageHandlers
 
                             if (dataStr != null && (shellOperationResult.Items.SingleOrDefault()?.Succeeded ?? false))
                             {
-                                Extensions.IgnoreExceptions(() =>
+                                SafetyExtensions.IgnoreExceptions(() =>
                                 {
                                     var dataBytes = Convert.FromBase64String(dataStr);
                                     using var fs = new FileStream(shellOperationResult.Items.Single().Destination, FileMode.Open);
@@ -219,10 +220,10 @@ namespace FilesFullTrust.MessageHandlers
 
                             for (var i = 0; i < fileToDeletePath.Length; i++)
                             {
-                                if (!Extensions.IgnoreExceptions(() =>
+                                if (!SafetyExtensions.IgnoreExceptions(() =>
                                 {
                                     using var shi = new ShellItem(fileToDeletePath[i]);
-                                    var file = Extensions.IgnoreExceptions(() => GetFirstFile(shi)) ?? shi;
+                                    var file = SafetyExtensions.IgnoreExceptions(() => GetFirstFile(shi)) ?? shi;
                                     op.QueueDeleteOperation(file);
                                 }))
                                 {
@@ -302,7 +303,7 @@ namespace FilesFullTrust.MessageHandlers
 
                             for (var i = 0; i < fileToDeletePath.Length; i++)
                             {
-                                if (!Extensions.IgnoreExceptions(() =>
+                                if (!SafetyExtensions.IgnoreExceptions(() =>
                                 {
                                     using var shi = new ShellItem(fileToDeletePath[i]);
                                     op.QueueDeleteOperation(shi);
@@ -384,7 +385,7 @@ namespace FilesFullTrust.MessageHandlers
                                       | ShellFileOperations.OperationFlags.NoErrorUI;
                             op.Options |= !overwriteOnRename ? ShellFileOperations.OperationFlags.RenameOnCollision : 0;
 
-                            if (!Extensions.IgnoreExceptions(() =>
+                            if (!SafetyExtensions.IgnoreExceptions(() =>
                             {
                                 using var shi = new ShellItem(fileToRenamePath);
                                 op.QueueRenameOperation(shi, newName);
@@ -456,7 +457,7 @@ namespace FilesFullTrust.MessageHandlers
 
                             for (var i = 0; i < fileToMovePath.Length; i++)
                             {
-                                if (!Extensions.IgnoreExceptions(() =>
+                                if (!SafetyExtensions.IgnoreExceptions(() =>
                                 {
                                     using ShellItem shi = new ShellItem(fileToMovePath[i]);
                                     using ShellFolder shd = new ShellFolder(Path.GetDirectoryName(moveDestination[i]));
@@ -540,7 +541,7 @@ namespace FilesFullTrust.MessageHandlers
 
                             for (var i = 0; i < fileToCopyPath.Length; i++)
                             {
-                                if (!Extensions.IgnoreExceptions(() =>
+                                if (!SafetyExtensions.IgnoreExceptions(() =>
                                 {
                                     using ShellItem shi = new ShellItem(fileToCopyPath[i]);
                                     using ShellFolder shd = new ShellFolder(Path.GetDirectoryName(copyDestination[i]));
@@ -789,7 +790,7 @@ namespace FilesFullTrust.MessageHandlers
                 case "ReadCompatOptions":
                     {
                         var filePath = (string)message["filepath"];
-                        var compatOptions = Extensions.IgnoreExceptions(() =>
+                        var compatOptions = SafetyExtensions.IgnoreExceptions(() =>
                         {
                             using var compatKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers");
                             if (compatKey == null)
@@ -870,7 +871,7 @@ namespace FilesFullTrust.MessageHandlers
                 }
                 else
                 {
-                    Extensions.IgnoreExceptions(() =>
+                    SafetyExtensions.IgnoreExceptions(() =>
                     {
                         if (operationType == "copy")
                         {
@@ -901,7 +902,7 @@ namespace FilesFullTrust.MessageHandlers
                         {
                             tags.ForEach(t =>
                             {
-                                Extensions.IgnoreExceptions(() =>
+                                SafetyExtensions.IgnoreExceptions(() =>
                                 {
                                     var subPath = t.FilePath.Replace(sourcePath, destination, StringComparison.Ordinal);
                                     dbInstance.SetTag(subPath, FileTagsHandler.GetFileFRN(subPath), t.Tag);
@@ -912,7 +913,7 @@ namespace FilesFullTrust.MessageHandlers
                         {
                             tags.ForEach(t =>
                             {
-                                Extensions.IgnoreExceptions(() =>
+                                SafetyExtensions.IgnoreExceptions(() =>
                                 {
                                     var subPath = t.FilePath.Replace(sourcePath, destination, StringComparison.Ordinal);
                                     dbInstance.UpdateTag(t.FilePath, FileTagsHandler.GetFileFRN(subPath), subPath);

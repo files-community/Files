@@ -1,4 +1,5 @@
-using Files.Common;
+using Files.Shared;
+using Files.Shared.Extensions;
 using FilesFullTrust.MessageHandlers;
 using Newtonsoft.Json;
 using System;
@@ -21,7 +22,7 @@ namespace FilesFullTrust
     [SupportedOSPlatform("Windows10.0.10240")]
     internal class Program
     {
-        public static Logger Logger { get; private set; }
+        public static ILogger Logger { get; private set; }
         private static readonly LogWriter logWriter = new LogWriter();
 
         [STAThread]
@@ -158,7 +159,7 @@ namespace FilesFullTrust
                 var arguments = (string)message["Arguments"];
                 Logger.Info($"Argument: {arguments}");
 
-                await Extensions.IgnoreExceptions(async () =>
+                await SafetyExtensions.IgnoreExceptions(async () =>
                 {
                     await Task.Run(() => ParseArgumentsAsync(message, arguments));
                 }, Logger);
