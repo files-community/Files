@@ -1,23 +1,21 @@
 ﻿<ContentDialog
     x:Class="Files.Dialogs.AddItemDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Files.Dialogs"
-    xmlns:local2="using:Files.Helpers"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vc="using:Files.Uwp.ValueConverters"
     xmlns:vm="using:Files.Backend.ViewModels.Dialogs.AddItemDialog"
+    xmlns:helpers="using:Files.Helpers"
+    xmlns:vc="using:Files.Uwp.ValueConverters"
     x:Name="AddDialog"
-    x:Uid="AddDialog"
-    Title="Create a New Item"
+    Title="{helpers:ResourceString Name=AddDialog/Title}"
     Grid.RowSpan="4"
     BorderThickness="0"
     CornerRadius="{StaticResource OverlayCornerRadius}"
     Loaded="AddItemDialog_Loaded"
     PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
-    PrimaryButtonText="{local2:ResourceString Name=Cancel}"
-    RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
+    PrimaryButtonText="{helpers:ResourceString Name=Cancel}"
+    RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
@@ -31,10 +29,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid x:Name="SubtitleArea">
-            <TextBlock
-                x:Name="Description"
-                x:Uid="AddDialogDescription"
-                Text="Choose a type for this new item below" />
+            <TextBlock x:Name="Description" Text="{helpers:ResourceString Name=AddDialogDescription/Text}" />
         </Grid>
         <Grid
             x:Name="SelectionListContent"

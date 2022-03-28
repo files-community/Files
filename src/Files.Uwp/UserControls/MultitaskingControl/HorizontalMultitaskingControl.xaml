@@ -1,14 +1,14 @@
 ﻿<local:BaseMultitaskingControl
     x:Class="Files.UserControls.MultitaskingControl.HorizontalMultitaskingControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local1="using:Files"
     xmlns:helpers="using:Files.Helpers"
     xmlns:local="using:Files.UserControls.MultitaskingControl"
-    xmlns:local1="using:Files"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:vm="using:Files.ViewModels"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -21,10 +21,9 @@
                         x:Name="TabItemContextMenu"
                         Opening="TabItemContextMenu_Opening">
                         <MenuFlyoutItem
-                            x:Uid="HorizontalMultitaskingControlNewTab"
                             Click="{x:Bind vm:MainPageViewModel.AddNewTabAtIndex}"
-                            KeyboardAcceleratorTextOverride="Ctrl+T"
-                            Text="New tab">
+                            KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=HorizontalMultitaskingControlNewTab/KeyboardAcceleratorTextOverride}"
+                            Text="{helpers:ResourceString Name=HorizontalMultitaskingControlNewTab/Text}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
                             </MenuFlyoutItem.Icon>
@@ -36,19 +35,17 @@
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
-                            x:Uid="HorizontalMultitaskingControlDuplicateTab"
                             Click="{x:Bind vm:MainPageViewModel.DuplicateTabAtIndex}"
-                            KeyboardAcceleratorTextOverride="Ctrl+Shift+K"
-                            Text="Duplicate tab">
+                            KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=HorizontalMultitaskingControlDuplicateTab/KeyboardAcceleratorTextOverride}"
+                            Text="{helpers:ResourceString Name=HorizontalMultitaskingControlDuplicateTab/Text}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11B;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
                             x:Name="MenuItemMoveTabToNewWindow"
-                            x:Uid="HorizontalMultitaskingControlMoveTabToNewWindow"
                             Click="MoveTabToNewWindow"
-                            Text="Move tab to new window">
+                            Text="{helpers:ResourceString Name=HorizontalMultitaskingControlMoveTabToNewWindow/Text}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE8A7;" />
                             </MenuFlyoutItem.Icon>
@@ -70,10 +67,9 @@
                             Text="{helpers:ResourceString Name=CloseOtherTabs}" />
                         <MenuFlyoutItem
                             x:Name="MenuItemReopenClosedTab"
-                            x:Uid="HorizontalMultitaskingControlReopenClosedTab"
                             Click="ReopenClosedTab"
-                            KeyboardAcceleratorTextOverride="Ctrl+Shift+T"
-                            Text="Reopen closed tab">
+                            KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=HorizontalMultitaskingControlReopenClosedTab/KeyboardAcceleratorTextOverride}"
+                            Text="{helpers:ResourceString Name=HorizontalMultitaskingControlReopenClosedTab/Text}">
                             <MenuFlyoutItem.KeyboardAccelerators>
                                 <KeyboardAccelerator
                                     Key="T"

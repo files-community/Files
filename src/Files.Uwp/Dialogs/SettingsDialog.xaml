@@ -1,10 +1,10 @@
 ﻿<ContentDialog
     x:Class="Files.Dialogs.SettingsDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:Files.Helpers"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Closing="ContentDialog_Closing"
     CornerRadius="{StaticResource OverlayCornerRadius}"
@@ -51,10 +51,9 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
-                    x:Uid="SettingsNavPreferences"
                     AccessKey="P"
                     AutomationProperties.AutomationId="SettingsItemPreferences"
-                    Content="Preferences"
+                    Content="{helpers:ResourceString Name=SettingsNavPreferences/Content}"
                     CornerRadius="0"
                     Tag="1">
                     <muxc:NavigationViewItem.Icon>
@@ -62,10 +61,9 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
-                    x:Uid="SettingsNavMultitasking"
                     AccessKey="M"
                     AutomationProperties.AutomationId="SettingsItemMultitasking"
-                    Content="Multitasking"
+                    Content="{helpers:ResourceString Name=SettingsNavMultitasking/Content}"
                     CornerRadius="0"
                     Tag="2">
                     <muxc:NavigationViewItem.Icon>
@@ -73,10 +71,9 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
-                    x:Uid="SettingsNavExperimental"
                     AccessKey="E"
                     AutomationProperties.AutomationId="SettingsItemExperimental"
-                    Content="Experimental"
+                    Content="{helpers:ResourceString Name=SettingsNavExperimental/Content}"
                     CornerRadius="0"
                     Tag="3">
                     <muxc:NavigationViewItem.Icon>
