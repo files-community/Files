@@ -613,7 +613,7 @@ namespace FilesFullTrust.MessageHandlers
                 case "CheckFileInUse":
                     {
                         var fileToCheckPath = ((string)message["filepath"]).Split('|');
-                        var processes = Extensions.IgnoreExceptions(() => FileUtils.WhoIsLocking(fileToCheckPath), Program.Logger);
+                        var processes = SafetyExtensions.IgnoreExceptions(() => FileUtils.WhoIsLocking(fileToCheckPath), Program.Logger);
                         if (processes != null)
                         {
                             var win32proc = processes.Select(x => new Win32Process()

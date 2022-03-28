@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Files.Common
+namespace Files.Shared
 {
     public class Win32Process
     {
