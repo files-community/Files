@@ -833,7 +833,7 @@
                                         <StackPanel
                                             Margin="0,0,0,4"
                                             VerticalAlignment="Top"
-                                            AutomationProperties.Name="{x:Bind Model/Text}"
+                                            AutomationProperties.Name="{x:Bind Model.Text}"
                                             Spacing="0">
                                             <StackPanel Orientation="Horizontal" Spacing="4">
                                                 <TextBlock

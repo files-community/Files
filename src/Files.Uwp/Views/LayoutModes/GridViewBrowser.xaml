@@ -535,7 +535,7 @@
                                     <DataTemplate x:DataType="helpers:IGroupedCollectionHeader">
                                         <Grid
                                             Padding="0,0,0,4"
-                                            AutomationProperties.Name="{x:Bind Model/Text}"
+                                            AutomationProperties.Name="{x:Bind Model.Text}"
                                             ColumnSpacing="8"
                                             RowSpacing="8">
                                             <Grid.ColumnDefinitions>
