@@ -163,7 +163,7 @@ namespace FilesFullTrust.MessageHandlers
                         var dataPath = Environment.ExpandEnvironmentVariables("%LocalAppData%\\Files");
                         if (enable)
                         {
-                            if (!Win32API.RunPowershellCommand($"-command \"New-Item -Force -Path {dataPath} -ItemType Directory; Copy-Item -Filter *.* -Path '{destFolder}\\*' -Recurse -Force -Destination '{dataPath}'\"", false))
+                            if (!Win32API.RunPowershellCommand($"-command \"New-Item -Force -Path '{dataPath}' -ItemType Directory; Copy-Item -Filter *.* -Path '{destFolder}\\*' -Recurse -Force -Destination '{dataPath}'\"", false))
                             {
                                 // Error copying files
                                 DetectIsSetAsDefaultFileManager();
