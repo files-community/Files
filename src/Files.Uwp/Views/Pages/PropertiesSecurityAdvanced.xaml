@@ -1,15 +1,15 @@
 ﻿<Page
     x:Class="Files.Views.PropertiesSecurityAdvanced"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:perm="using:Files.Filesystem.Permissions"
-    xmlns:helpers="using:Files.Helpers"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:perm="using:Files.Filesystem.Permissions"
     d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:Height="550"
     d:Width="850"
@@ -186,8 +186,8 @@
                         </i:Interaction.Behaviors>
                         <ListView.ItemContainerStyle>
                             <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-                                <Setter Property="MinHeight" Value="40" />
-                                <Setter Property="Height" Value="40" />
+                                <Setter Property="MinHeight" Value="1" />
+                                <Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
                             </Style>
                         </ListView.ItemContainerStyle>
                         <ListView.Header>
@@ -477,9 +477,7 @@
                             Command="{x:Bind ViewModel.ReplaceChildPermissionsCommand}"
                             ToolTipService.ToolTip="{helpers:ResourceString Name=SecurityAdvancedReplaceChildPermissions2/ToolTipService/ToolTip}"
                             Visibility="Collapsed">
-                            <TextBlock
-                                Text="{helpers:ResourceString Name=SecurityAdvancedReplaceChildPermissions/Text}"
-                                TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{helpers:ResourceString Name=SecurityAdvancedReplaceChildPermissions/Text}" TextTrimming="CharacterEllipsis" />
                         </Button>
                     </Grid>
                 </Grid>
