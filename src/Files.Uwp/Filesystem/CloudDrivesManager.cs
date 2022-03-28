@@ -113,7 +113,7 @@ namespace Files.Filesystem
                             Section = SectionType.CloudDrives,
                             SelectsOnInvoked = false,
                             Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png")),
-                            ChildItems = new ObservableCollection<INavigationControlItem>()
+                            ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                         };
                         var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
                                     (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +

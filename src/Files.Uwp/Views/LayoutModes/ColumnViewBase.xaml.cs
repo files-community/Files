@@ -126,25 +126,6 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private void ListViewTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var textBox = sender as TextBox;
-
-            if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
-            {
-                FileNameTeachingTip.Visibility = Visibility.Visible;
-                FileNameTeachingTip.IsOpen = true;
-            }
-            else
-            {
-                if (FileNameTeachingTip.IsOpen == true)
-                {
-                    FileNameTeachingTip.IsOpen = false;
-                    FileNameTeachingTip.Visibility = Visibility.Collapsed;
-                }
-            }
-        }
-
         public event EventHandler ItemInvoked;
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -199,13 +180,11 @@ namespace Files.Views.LayoutModes
             {
                 return;
             }
-            RenamingTextBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
+            TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
             textBox = listViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
-            //textBlock = (listViewItem.ContentTemplateRoot as Border).FindDescendant("ItemName") as TextBlock;
-            //textBox = (listViewItem.ContentTemplateRoot as Border).FindDescendant("ListViewTextBoxItemName") as TextBox;
-            textBox.Text = RenamingTextBlock.Text;
-            OldItemName = RenamingTextBlock.Text;
-            RenamingTextBlock.Visibility = Visibility.Collapsed;
+            textBox.Text = textBlock.Text;
+            OldItemName = textBlock.Text;
+            textBlock.Visibility = Visibility.Collapsed;
             textBox.Visibility = Visibility.Visible;
 
             textBox.Focus(FocusState.Pointer);
@@ -219,6 +198,15 @@ namespace Files.Views.LayoutModes
             }
             textBox.Select(0, selectedTextLength);
             IsRenamingItem = true;
+        }
+
+        private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
+        {
+            ValidateItemNameInputText(textBox, args, (showError) =>
+            {
+                FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
+                FileNameTeachingTip.IsOpen = showError;
+            });
         }
 
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -269,8 +257,9 @@ namespace Files.Views.LayoutModes
                 ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
                 listViewItem?.Focus(FocusState.Programmatic);
 
+                TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
                 textBox.Visibility = Visibility.Collapsed;
-                RenamingTextBlock.Visibility = Visibility.Visible;
+                textBlock.Visibility = Visibility.Visible;
             }
 
             textBox.LostFocus -= RenameTextBox_LostFocus;

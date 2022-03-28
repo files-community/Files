@@ -640,7 +640,7 @@
                                             MaxWidth="{Binding MaxWidthForRenameTextbox, ElementName=PageRoot, Mode=OneWay}"
                                             HorizontalAlignment="Left"
                                             VerticalAlignment="Center"
-                                            TextChanged="ListViewTextBoxItemName_TextChanged"
+                                            BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
                                             Visibility="Collapsed">
                                             <TextBox.Resources>
                                                 <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
@@ -885,7 +885,7 @@
                             <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                 <Setter Property="MinHeight" Value="1" />
-                                <Setter Property="Height" Value="36" />
+                                <Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
                             </Style>
                         </ListView.ItemContainerStyle>
                         <ListView.ItemsPanel>

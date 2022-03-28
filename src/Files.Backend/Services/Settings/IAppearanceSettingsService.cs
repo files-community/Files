@@ -62,5 +62,10 @@ namespace Files.Backend.Services.Settings
         /// Gets or sets a value indicating whether or not recycle bin should be pinned to the sidebar.
         /// </summary>
         bool PinRecycleBinToSidebar { get; set; }
+        
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to use the compact styles.
+        /// </summary>
+        bool UseCompactStyles { get; set; }
     }
 }

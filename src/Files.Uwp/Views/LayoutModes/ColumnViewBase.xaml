@@ -310,8 +310,8 @@
                                         Margin="0"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
+                                        BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
                                         TextAlignment="Left"
-                                        TextChanged="ListViewTextBoxItemName_TextChanged"
                                         TextWrapping="Wrap"
                                         Visibility="Collapsed" />
                                     <Grid Grid.Column="2">
@@ -381,8 +381,8 @@
                         <ListView.ItemContainerStyle>
                             <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                <Setter Property="Height" Value="36" />
                                 <Setter Property="MinHeight" Value="1" />
+                                <Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
                             </Style>
                         </ListView.ItemContainerStyle>
                         <ListView.ItemsPanel>

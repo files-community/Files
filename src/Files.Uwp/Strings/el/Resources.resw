@@ -459,21 +459,6 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Εκτέλεση ως διαχειριστής</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ξεκλείδωμα</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Εισάγετε τον κωδικό πρόσβασης για να ξεκλειδώσετε τη μονάδα δίσκου</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Κωδικός πρόσβασης</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Ελέγξτε τον κωδικό πρόσβασης και δοκιμάστε ξανά.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>Σφάλμα BitLocker</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Περιέχει:</value>
   </data>
@@ -2587,9 +2572,6 @@
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Ορισμός ως φόντου επιφάνειας εργασίας</value>
-  </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>Μην αφαιρέσετε το Files από την συσκευή σας χωρίς να απενεργοποιήσετε αυτή τη ρύθμιση. Εαν δεν το κάνετε δεν θα μπορέσετε να ανοίξετε την Εξερεύνηση Αρχείων.</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Ο υπολογισμός μεγέθους των φακέλων είναι υπολογιστικά απαιτητικός και μπορεί να προκαλέσει αύξηση της χρήσης του επεξεργαστή.</value>

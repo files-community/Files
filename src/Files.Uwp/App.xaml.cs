@@ -40,6 +40,7 @@ using Files.Shared;
 using Files.Shared.Extensions;
 using Files.Backend.Services;
 using Files.Uwp.ServicesImplementation;
+using Files.ViewModels.SettingsViewModels;
 
 namespace Files
 {
@@ -57,6 +58,7 @@ namespace Files
         public static JumpListManager JumpList { get; private set; }
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
         public static TerminalController TerminalController { get; private set; }
+        public static AppearanceViewModel AppearanceViewModel { get; private set; }
         public static CloudDrivesManager CloudDrivesManager { get; private set; }
         public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
         public static DrivesManager DrivesManager { get; private set; }
@@ -64,7 +66,6 @@ namespace Files
         public static LibraryManager LibraryManager { get; private set; }
         public static FileTagsManager FileTagsManager { get; private set; }
         public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
-        public static OptionalPackageManager OptionalPackageManager { get; private set; } = new OptionalPackageManager();
 
         public static ILogger Logger { get; private set; }
         private static readonly UniversalLogWriter logWriter = new UniversalLogWriter();
@@ -150,6 +151,7 @@ namespace Files
             FileTagsManager ??= new FileTagsManager();
             SidebarPinnedController ??= new SidebarPinnedController();
             TerminalController ??= new TerminalController();
+            AppearanceViewModel ??= new AppearanceViewModel();
         }
 
         private static async Task StartAppCenter()

@@ -60,8 +60,8 @@
             <AcrylicBrush
                 x:Key="NavigationToolbarBackgroundBrush"
                 BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                FallbackColor="{ThemeResource SolidBackgroundFillColorQuarternary}"
+                TintColor="{ThemeResource SolidBackgroundFillColorQuarternary}"
                 TintOpacity="0.95" />
 
             <!--  Search Inputs  -->
@@ -139,8 +139,8 @@
             <AcrylicBrush
                 x:Key="NavigationToolbarBackgroundBrush"
                 BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
-                TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
+                FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
+                TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintOpacity="0.95" />
 
             <!--  Search Inputs  -->

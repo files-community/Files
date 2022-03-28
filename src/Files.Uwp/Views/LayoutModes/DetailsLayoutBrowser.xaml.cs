@@ -89,7 +89,7 @@ namespace Files.Views.LayoutModes
         private void ItemManipulationModel_ScrollIntoViewInvoked(object sender, ListedItem e)
         {
             FileList.ScrollIntoView(e);
-            ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * 36, null, true); // Scroll to index * item height
+            ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * Convert.ToInt32(Application.Current.Resources["ListItemHeight"]), null, true); // Scroll to index * item height
         }
 
         private void ItemManipulationModel_StartRenameItemInvoked(object sender, EventArgs e)
@@ -345,8 +345,6 @@ namespace Files.Views.LayoutModes
             }
             TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
             textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-            //TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
-            //textBox = (gridViewItem.ContentTemplateRoot as Grid).FindName("TileViewTextBoxItemName") as TextBox;
             textBox.Text = textBlock.Text;
             OldItemName = textBlock.Text;
             textBlock.Visibility = Visibility.Collapsed;
@@ -366,20 +364,13 @@ namespace Files.Views.LayoutModes
             IsRenamingItem = true;
         }
 
-        private void ListViewTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
+        private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
         {
-            var textBox = sender as TextBox;
-
-            if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
+            ValidateItemNameInputText(textBox, args, (showError) =>
             {
-                FileNameTeachingTip.Visibility = Visibility.Visible;
-                FileNameTeachingTip.IsOpen = true;
-            }
-            else
-            {
-                FileNameTeachingTip.IsOpen = false;
-                FileNameTeachingTip.Visibility = Visibility.Collapsed;
-            }
+                FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
+                FileNameTeachingTip.IsOpen = showError;
+            });
         }
 
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)

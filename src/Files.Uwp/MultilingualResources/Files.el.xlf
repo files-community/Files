@@ -603,26 +603,6 @@
           <source>Run as administrator</source>
           <target state="translated">Εκτέλεση ως διαχειριστής</target>
         </trans-unit>
-        <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Unlock</source>
-          <target state="translated">Ξεκλείδωμα</target>
-        </trans-unit>
-        <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
-          <source>Enter password to unlock the drive</source>
-          <target state="translated">Εισάγετε τον κωδικό πρόσβασης για να ξεκλειδώσετε τη μονάδα δίσκου</target>
-        </trans-unit>
-        <trans-unit id="BitlockerDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Password</source>
-          <target state="translated">Κωδικός πρόσβασης</target>
-        </trans-unit>
-        <trans-unit id="BitlockerInvalidPwDialog.Text" translate="yes" xml:space="preserve">
-          <source>Please check the password and try again.</source>
-          <target state="translated">Ελέγξτε τον κωδικό πρόσβασης και δοκιμάστε ξανά.</target>
-        </trans-unit>
-        <trans-unit id="BitlockerInvalidPwDialog.Title" translate="yes" xml:space="preserve">
-          <source>BitLocker error</source>
-          <target state="translated">Σφάλμα BitLocker</target>
-        </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
           <source>Contains:</source>
           <target state="translated">Περιέχει:</target>
@@ -3455,10 +3435,6 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         <trans-unit id="SetAsBackground" translate="yes" xml:space="preserve">
           <source>Set as desktop background</source>
           <target state="translated">Ορισμός ως φόντου επιφάνειας εργασίας</target>
-        </trans-unit>
-        <trans-unit id="SetFilesAsDefaultWarning" translate="yes" xml:space="preserve">
-          <source>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</source>
-          <target state="translated">Μην αφαιρέσετε το Files από την συσκευή σας χωρίς να απενεργοποιήσετε αυτή τη ρύθμιση. Εαν δεν το κάνετε δεν θα μπορέσετε να ανοίξετε την Εξερεύνηση Αρχείων.</target>
         </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
