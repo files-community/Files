@@ -2,13 +2,17 @@
 using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 
 namespace Files.Helpers
@@ -48,33 +52,42 @@ namespace Files.Helpers
             }
         }
 
-        private async static void ApplyThemeForAllWindows()
+        private static async void ApplyThemeForAllWindows()
         {
-            if (Window.Current != null)
+            await ApplyThemeForAllWindowsAsync();
+        }
+
+        public static async Task ApplyThemeForAllWindowsAsync()
+        {
+            List<Task> tasks = new List<Task>();
+
+            tasks.Add(CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
             {
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                if (Window.Current.Content != null)
                 {
                     ApplyTheme(ApplicationView.GetForCurrentView());
-                }, Windows.System.DispatcherQueuePriority.High);
-            }
+                }
+            }));
 
             // Make sure we have a reference to our window so we dispatch a UI change
             if (App.AppWindows.Count > 0)
             {
                 foreach (AppWindow window in App.AppWindows.Values)
                 {
-                    // Dispatch on UI thread so that we have a current appbar to access and change
-                    await window.DispatcherQueue.EnqueueAsync(() =>
+                    tasks.Add(window.DispatcherQueue.EnqueueAsync(() =>
                     {
+                        // Dispatch on UI thread so that we have a current appbar to access and change
                         ApplyTheme(window);
-                    }, Windows.System.DispatcherQueuePriority.High);
+                    }));
                 }
             }
+
+            await Task.WhenAll(tasks);
         }
 
-        public static void Initialize()
+        public static async Task InitializeAsync()
         {
-            ApplyThemeForAllWindows();
+            await ApplyThemeForAllWindowsAsync();
 
             // Registering to color changes, thus we notice when user changes theme system wide
             UiSettings = new UISettings();
@@ -94,7 +107,6 @@ namespace Files.Helpers
                         ApplyTheme(window);
                     }, Windows.System.DispatcherQueuePriority.High);
                 }
-                
             }
         }
 
@@ -102,9 +114,22 @@ namespace Files.Helpers
         {
             var rootTheme = RootTheme;
 
-            if (WindowManagementHelpers.GetWindowContentFromAppWindow(window) is FrameworkElement rootElement)
+            if (ElementCompositionPreview.GetAppWindowContent(window) is Frame rootElement)
             {
                 rootElement.RequestedTheme = rootTheme;
+
+                Page rootPage = rootElement.Content as Page;
+                var micaIsSupported = ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "TryCreateBlurredWallpaperBackdropBrush");
+                if (micaIsSupported)
+                {
+                    var micaBrush = new Views.Brushes.MicaBrush(false);
+                    micaBrush.SetAppWindow(window);
+                    rootPage.Frame.Background = micaBrush;
+                }
+                else
+                {
+                    Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(rootPage, true);
+                }
             }
 
             window.TitleBar.ButtonBackgroundColor = Colors.Transparent;
@@ -127,6 +152,7 @@ namespace Files.Helpers
                     window.TitleBar.ButtonForegroundColor = Colors.White;
                     break;
             }
+
             App.AppSettings.UpdateThemeElements.Execute(null);
         }
 

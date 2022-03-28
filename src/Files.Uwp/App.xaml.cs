@@ -343,7 +343,7 @@ namespace Files
             AppWindow window = await AppWindow.TryCreateAsync();
             window.Closed += delegate
             {
-                AppWindows.Remove(window.UIContext);
+                AppWindows.Remove(rootFrame.XamlRoot.UIContext);
                 rootFrame.Content = null;
                 window = null;
             };

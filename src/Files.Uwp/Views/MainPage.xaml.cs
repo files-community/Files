@@ -613,11 +613,12 @@ namespace Files.Views
 
         private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             //Initialize the static theme helper
             //to handle theme changes without restarting the app
-            ThemeHelper.Initialize();
+            await ThemeHelper.InitializeAsync();
+
             double width = 0;
 
             if (WindowManagementHelpers.GetWindowFromUIContext(this.XamlRoot.UIContext) is Window window)

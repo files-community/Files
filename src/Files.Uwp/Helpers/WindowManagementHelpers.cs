@@ -41,7 +41,7 @@ namespace Files.Uwp.Helpers
             {
                 return App.AppWindows[context];
             }
-            else if (Window.Current.Content != null || Window.Current.Visible)
+            else if (Window.Current?.Content != null)
             {
                 return Window.Current;
             }
@@ -83,7 +83,7 @@ namespace Files.Uwp.Helpers
         [Obsolete("This method will be removed soon. Present callers should decouple their UI layer to leverage other helper methods that infer a window construct's specific instance", false)]
         public static object GetAnyWindow()
         {
-            if (Window.Current != null && Window.Current.Visible)
+            if (Window.Current?.Content != null)
             {
                 return Window.Current;
             }
@@ -107,7 +107,7 @@ namespace Files.Uwp.Helpers
         [Obsolete("This method will be removed soon. Present callers should decouple their UI layer to leverage other helper methods that infer a window construct's specific instance", false)]
         public static UIElement GetWindowContent()
         {
-            if (Window.Current?.Content != null && Window.Current.Visible)
+            if (Window.Current?.Content != null)
             {
                 return (Window.Current.Content as Frame)?.Content as UIElement;
             }
