@@ -17,6 +17,7 @@ using Files.Shared;
 using Files.Backend.ViewModels.Dialogs;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
+using Microsoft.Toolkit.Uwp;
 
 namespace Files.Filesystem
 {
@@ -157,6 +158,13 @@ namespace Files.Filesystem
                     {
                         return await CopyItemsAsync(source, destination, collisions, progress, errorCode, cancellationToken);
                     }
+                }
+                else if (copyResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
+                {
+                    // TODO: proper dialog, retry
+                    var failedSources = copyResult.Items.Where(x => HResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
+                    var lockingProcess = await WhoIsLockingAsync(failedSources.Select(x => x.HResult == HResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination));
+                    await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), lockingProcess != null ? string.Join(Environment.NewLine, lockingProcess.Select(x => $"Name: {x.Name}, PID: {x.Pid}")) : "");
                 }
                 errorCode?.Report(HResult.Convert(copyResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return null;
@@ -382,6 +390,13 @@ namespace Files.Filesystem
                         return await DeleteItemsAsync(source, progress, errorCode, permanently, cancellationToken);
                     }
                 }
+                else if (deleteResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
+                {
+                    // TODO: proper dialog, retry
+                    var failedSources = deleteResult.Items.Where(x => HResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
+                    var lockingProcess = await WhoIsLockingAsync(failedSources.Select(x => x.HResult == HResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination));
+                    await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), lockingProcess != null ? string.Join(Environment.NewLine, lockingProcess.Select(x => $"Name: {x.Name}, PID: {x.Pid}")) : "");
+                }
                 errorCode?.Report(HResult.Convert(deleteResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return null;
             }
@@ -500,6 +515,13 @@ namespace Files.Filesystem
                         return await MoveItemsAsync(source, destination, collisions, progress, errorCode, cancellationToken);
                     }
                 }
+                else if (moveResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
+                {
+                    // TODO: proper dialog, retry
+                    var failedSources = moveResult.Items.Where(x => HResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
+                    var lockingProcess = await WhoIsLockingAsync(failedSources.Select(x => x.HResult == HResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination));
+                    await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), lockingProcess != null ? string.Join(Environment.NewLine, lockingProcess.Select(x => $"Name: {x.Name}, PID: {x.Pid}")) : "");
+                }
                 errorCode?.Report(HResult.Convert(moveResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return null;
             }
@@ -556,6 +578,13 @@ namespace Files.Filesystem
                     {
                         return await RenameAsync(source, newName, collision, errorCode, cancellationToken);
                     }
+                }
+                else if (renameResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
+                {
+                    // TODO: proper dialog, retry
+                    var failedSources = renameResult.Items.Where(x => HResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
+                    var lockingProcess = await WhoIsLockingAsync(failedSources.Select(x => x.HResult == HResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination));
+                    await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), lockingProcess != null ? string.Join(Environment.NewLine, lockingProcess.Select(x => $"Name: {x.Name}, PID: {x.Pid}")) : "");
                 }
                 errorCode?.Report(HResult.Convert(renameResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return null;
@@ -645,6 +674,13 @@ namespace Files.Filesystem
                         return await RestoreItemsFromTrashAsync(source, destination, progress, errorCode, cancellationToken);
                     }
                 }
+                else if (moveResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
+                {
+                    // TODO: proper dialog, retry
+                    var failedSources = moveResult.Items.Where(x => HResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
+                    var lockingProcess = await WhoIsLockingAsync(failedSources.Select(x => x.HResult == HResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination));
+                    await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), lockingProcess != null ? string.Join(Environment.NewLine, lockingProcess.Select(x => $"Name: {x.Name}, PID: {x.Pid}")) : "");
+                }
                 errorCode?.Report(HResult.Convert(moveResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return null;
             }
@@ -692,6 +728,25 @@ namespace Files.Filesystem
                 }
             }
             return false;
+        }
+
+        private async Task<List<Win32Process>> WhoIsLockingAsync(IEnumerable<string> filesToCheck)
+        {
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
+                {
+                    { "Arguments", "FileOperation" },
+                    { "fileop", "CheckFileInUse" },
+                    { "filepath", string.Join('|', filesToCheck) }
+                });
+                if (status == AppServiceResponseStatus.Success && response.ContainsKey("Processes"))
+                {
+                    return JsonConvert.DeserializeObject<List<Win32Process>>((string)response["Processes"]);
+                }
+            }
+            return null;
         }
 
         private struct HResult

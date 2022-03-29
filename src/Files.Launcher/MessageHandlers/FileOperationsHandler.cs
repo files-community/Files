@@ -621,7 +621,7 @@ namespace FilesFullTrust.MessageHandlers
                                 Name = x.ProcessName,
                                 Pid = x.Id,
                                 FileName = x.MainModule?.FileName
-                            });
+                            }).ToList();
                             processes.ForEach(x => x.Dispose());
                             await Win32API.SendMessageAsync(connection, new ValueSet() {
                                 { "Processes", JsonConvert.SerializeObject(win32proc) }
