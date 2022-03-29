@@ -14,6 +14,9 @@ using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Files.Shared;
+using Files.Backend.ViewModels.Dialogs;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
 
 namespace Files.Filesystem
 {
@@ -26,6 +29,8 @@ namespace Files.Filesystem
         private FilesystemOperations filesystemOperations;
 
         private RecycleBinHelpers recycleBinHelpers;
+
+        private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
 
         #endregion Private Members
 
@@ -136,7 +141,7 @@ namespace Files.Filesystem
                 if (copiedSources.Any())
                 {
                     var sourceMatch = await copiedSources.Select(x => sourceRename.SingleOrDefault(s => s.Path == x.Source)).Where(x => x != null).ToListAsync();
-                    return new StorageHistory(FileOperationType.Copy, 
+                    return new StorageHistory(FileOperationType.Copy,
                         sourceMatch,
                         await copiedSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
                             .Select(item => StorageHelpers.FromPathAndType(item.rSrc.Destination, item.oSrc.ItemType)).ToListAsync());
@@ -145,20 +150,86 @@ namespace Files.Filesystem
             }
             else
             {
-                // Retry failed operations
-                var failedSources = copyResult.Items.Where(x => !x.Succeeded);
-                var copyZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
-                var sourceMatch = await failedSources.Select(x => copyZip.SingleOrDefault(s => s.src.Path == x.Source)).Where(x => x != null).ToListAsync();
-                return await filesystemOperations.CopyItemsAsync(
-                    await sourceMatch.Select(x => x.src).ToListAsync(),
-                    await sourceMatch.Select(x => x.dest).ToListAsync(),
-                    await sourceMatch.Select(x => x.coll).ToListAsync(), progress, errorCode, cancellationToken);
+                if (copyResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
+                {
+                    if (await RequestAdminOperation())
+                    {
+                        return await CopyItemsAsync(source, destination, collisions, progress, errorCode, cancellationToken);
+                    }
+                }
+                return null;
             }
         }
 
         public async Task<(IStorageHistory, IStorageItem)> CreateAsync(IStorageItemWithPath source, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            return await filesystemOperations.CreateAsync(source, errorCode, cancellationToken);
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection == null || string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(source.Path))
+            {
+                // Fallback to builtin file operations
+                return await filesystemOperations.CreateAsync(source, errorCode, cancellationToken);
+            }
+
+            var createResult = new ShellOperationResult();
+            (var status, var response) = (AppServiceResponseStatus.Failure, (Dictionary<string, object>)null);
+
+            switch (source.ItemType)
+            {
+                case FilesystemItemType.File:
+                    {
+                        var newEntryInfo = await ShellNewEntryExtensions.GetNewContextMenuEntryForType(Path.GetExtension(source.Path));
+                        (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
+                        {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "CreateFile" },
+                            { "filepath", source.Path },
+                            { "template", newEntryInfo?.Template },
+                            { "data", newEntryInfo?.Data }
+                        });
+                        break;
+                    }
+                case FilesystemItemType.Directory:
+                    {
+                        (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
+                        {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "CreateFolder" },
+                            { "filepath", source.Path }
+                        });
+                        break;
+                    }
+            }
+
+            var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
+                && response.Get("Success", false));
+            var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+            createResult.Items.AddRange(shellOpResult?.Items ?? Enumerable.Empty<ShellOperationItemResult>());
+
+            result &= (FilesystemResult)createResult.Items.All(x => x.Succeeded);
+
+            if (result)
+            {
+                errorCode?.Report(FileSystemStatusCode.Success);
+                var createdSources = createResult.Items.Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination)
+                    .Where(x => new[] { source }.Select(s => s.Path).Contains(x.Source));
+                if (createdSources.Any())
+                {
+                    var item = StorageHelpers.FromPathAndType(createdSources.Single().Destination, source.ItemType);
+                    return (new StorageHistory(FileOperationType.CreateNew, item.CreateList(), null), item.Item);
+                }
+                return (null, null);
+            }
+            else
+            {
+                if (createResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
+                {
+                    if (await RequestAdminOperation())
+                    {
+                        return await CreateAsync(source, errorCode, cancellationToken);
+                    }
+                }
+                return (null, null);
+            }
         }
 
         public async Task<IStorageHistory> CreateShortcutItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
@@ -284,11 +355,14 @@ namespace Files.Filesystem
             }
             else
             {
-                // Retry failed operations
-                var failedSources = deleteResult.Items
-                    .Where(x => !x.Succeeded && x.HResult != HResult.COPYENGINE_E_USER_CANCELLED && x.HResult != HResult.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND);
-                return await filesystemOperations.DeleteItemsAsync(
-                    await failedSources.Select(x => source.DistinctBy(x => x.Path).SingleOrDefault(s => s.Path == x.Source)).Where(x => x != null).ToListAsync(), progress, errorCode, permanently, cancellationToken);
+                if (deleteResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
+                {
+                    if (await RequestAdminOperation())
+                    {
+                        return await DeleteItemsAsync(source, progress, errorCode, permanently, cancellationToken);
+                    }
+                }
+                return null;
             }
         }
 
@@ -397,14 +471,14 @@ namespace Files.Filesystem
             }
             else
             {
-                // Retry failed operations
-                var failedSources = moveResult.Items.Where(x => !x.Succeeded);
-                var moveZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
-                var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path == x.Source)).Where(x => x != null).ToListAsync();
-                return await filesystemOperations.MoveItemsAsync(
-                    await sourceMatch.Select(x => x.src).ToListAsync(),
-                    await sourceMatch.Select(x => x.dest).ToListAsync(),
-                    await sourceMatch.Select(x => x.coll).ToListAsync(), progress, errorCode, cancellationToken);
+                if (moveResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
+                {
+                    if (await RequestAdminOperation())
+                    {
+                        return await MoveItemsAsync(source, destination, collisions, progress, errorCode, cancellationToken);
+                    }
+                }
+                return null;
             }
         }
 
@@ -453,8 +527,14 @@ namespace Files.Filesystem
             }
             else
             {
-                // Retry failed operations
-                return await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+                if (renameResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
+                {
+                    if (await RequestAdminOperation())
+                    {
+                        return await RenameAsync(source, newName, collision, errorCode, cancellationToken);
+                    }
+                }
+                return null;
             }
         }
 
@@ -515,7 +595,6 @@ namespace Files.Filesystem
             {
                 progress?.Report(100.0f);
                 errorCode?.Report(FileSystemStatusCode.Success);
-
                 var movedSources = moveResult.Items.Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
                 if (movedSources.Any())
                 {
@@ -525,7 +604,7 @@ namespace Files.Filesystem
                         .Select(src => StorageHelpers.FromPathAndType(
                             Path.Combine(Path.GetDirectoryName(src.rSrc.Source), Path.GetFileName(src.rSrc.Source).Replace("$R", "$I", StringComparison.Ordinal)),
                             src.oSrc.ItemType)).ToListAsync(), null, null, true, cancellationToken);
-                    return new StorageHistory(FileOperationType.Restore, 
+                    return new StorageHistory(FileOperationType.Restore,
                         sourceMatch,
                         await movedSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
                             .Select(item => StorageHelpers.FromPathAndType(item.rSrc.Destination, item.oSrc.ItemType)).ToListAsync());
@@ -534,13 +613,14 @@ namespace Files.Filesystem
             }
             else
             {
-                // Retry failed operations
-                var failedSources = moveResult.Items.Where(x => !x.Succeeded);
-                var moveZip = source.Zip(destination, (src, dest) => new { src, dest });
-                var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path == x.Source)).Where(x => x != null).ToListAsync();
-                return await filesystemOperations.RestoreItemsFromTrashAsync(
-                    await sourceMatch.Select(x => x.src).ToListAsync(),
-                    await sourceMatch.Select(x => x.dest).ToListAsync(), progress, errorCode, cancellationToken);
+                if (moveResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
+                {
+                    if (await RequestAdminOperation())
+                    {
+                        return await RestoreItemsFromTrashAsync(source, destination, progress, errorCode, cancellationToken);
+                    }
+                }
+                return null;
             }
         }
 
@@ -571,11 +651,101 @@ namespace Files.Filesystem
             }
         }
 
+        private async Task<bool> RequestAdminOperation()
+        {
+            if (!App.MainViewModel.IsFullTrustElevated)
+            {
+                if (await DialogService.ShowDialogAsync(new ElevateConfirmDialogViewModel()) == DialogResult.Primary)
+                {
+                    var connection = await AppServiceConnectionHelper.Instance;
+                    if (connection != null && await connection.Elevate())
+                    {
+                        connection = await AppServiceConnectionHelper.Instance;
+                        return connection != null;
+                    }
+                }
+            }
+            return false;
+        }
+
         private struct HResult
         {
+            // https://github.com/RickStrahl/DeleteFiles/blob/master/DeleteFiles/ZetaLongPaths/Native/FileOperations/Interop/CopyEngineResult.cs
+            // OK
             public const int S_OK = 0;
+            public const int COPYENGINE_S_DONT_PROCESS_CHILDREN = 2555912;
             public const int COPYENGINE_E_USER_CANCELLED = -2144927744;
+            // ACCESS DENIED
+            public const int COPYENGINE_E_ACCESS_DENIED_SRC = -2144927711;
+            public const int COPYENGINE_E_ACCESS_DENIED_DEST = -2144927710;
+            public const int COPYENGINE_E_REQUIRES_ELEVATION = -2144927742;
+            // PATH TOO LONG
+            public const int COPYENGINE_E_PATH_TOO_DEEP_SRC = -2144927715;
+            public const int COPYENGINE_E_PATH_TOO_DEEP_DEST = -2144927714;
+            public const int COPYENGINE_E_RECYCLE_PATH_TOO_LONG = -2144927688;
+            public const int COPYENGINE_E_NEWFILE_NAME_TOO_LONG = -2144927685;
+            public const int COPYENGINE_E_NEWFOLDER_NAME_TOO_LONG = -2144927684;
+            // NOT FOUND
             public const int COPYENGINE_E_RECYCLE_BIN_NOT_FOUND = -2144927686;
+            public const int COPYENGINE_E_PATH_NOT_FOUND_SRC = -2144927709;
+            public const int COPYENGINE_E_PATH_NOT_FOUND_DEST = -2144927708;
+            public const int COPYENGINE_E_NET_DISCONNECT_DEST = -2144927706;
+            public const int COPYENGINE_E_NET_DISCONNECT_SRC = -2144927707;
+            public const int COPYENGINE_E_CANT_REACH_SOURCE = -2144927691;
+            // FILE IN USE
+            public const int COPYENGINE_E_SHARING_VIOLATION_SRC = -2144927705;
+            public const int COPYENGINE_E_SHARING_VIOLATION_DEST = -2144927704;
+            // ALREADY EXISTS
+            public const int COPYENGINE_E_ALREADY_EXISTS_NORMAL = -2144927703;
+            public const int COPYENGINE_E_ALREADY_EXISTS_READONLY = -2144927702;
+            public const int COPYENGINE_E_ALREADY_EXISTS_SYSTEM = -2144927701;
+            public const int COPYENGINE_E_ALREADY_EXISTS_FOLDER = -2144927700;
+            // FILE TOO BIG
+            //public const int COPYENGINE_E_FILE_TOO_LARGE = -2144927731;
+            //public const int COPYENGINE_E_REMOVABLE_FULL = -2144927730;
+            //public const int COPYENGINE_E_DISK_FULL = -2144927694;
+            //public const int COPYENGINE_E_DISK_FULL_CLEAN = -2144927693;
+            //public const int COPYENGINE_E_RECYCLE_SIZE_TOO_BIG = -2144927689;
+            // INVALID PATH
+            public const int COPYENGINE_E_FILE_IS_FLD_DEST = -2144927732;
+            public const int COPYENGINE_E_FLD_IS_FILE_DEST = -2144927733;
+            //public const int COPYENGINE_E_INVALID_FILES_SRC = -2144927717;
+            //public const int COPYENGINE_E_INVALID_FILES_DEST = -2144927716;
+            //public const int COPYENGINE_E_SAME_FILE = -2144927741;
+            //public const int COPYENGINE_E_DEST_SAME_TREE = -2144927734;
+            //public const int COPYENGINE_E_DEST_SUBTREE = -2144927735;
+            //public const int COPYENGINE_E_DIFF_DIR = -2144927740;
+
+            public static FileSystemStatusCode Convert(int hres)
+            {
+                return hres switch
+                {
+                    HResult.S_OK => FileSystemStatusCode.Success,
+                    HResult.COPYENGINE_E_ACCESS_DENIED_SRC => FileSystemStatusCode.Unauthorized,
+                    HResult.COPYENGINE_E_ACCESS_DENIED_DEST => FileSystemStatusCode.Unauthorized,
+                    HResult.COPYENGINE_E_REQUIRES_ELEVATION => FileSystemStatusCode.Unauthorized,
+                    HResult.COPYENGINE_E_RECYCLE_PATH_TOO_LONG => FileSystemStatusCode.NameTooLong,
+                    HResult.COPYENGINE_E_NEWFILE_NAME_TOO_LONG => FileSystemStatusCode.NameTooLong,
+                    HResult.COPYENGINE_E_NEWFOLDER_NAME_TOO_LONG => FileSystemStatusCode.NameTooLong,
+                    HResult.COPYENGINE_E_PATH_TOO_DEEP_SRC => FileSystemStatusCode.NameTooLong,
+                    HResult.COPYENGINE_E_PATH_TOO_DEEP_DEST => FileSystemStatusCode.NameTooLong,
+                    HResult.COPYENGINE_E_PATH_NOT_FOUND_SRC => FileSystemStatusCode.NotFound,
+                    HResult.COPYENGINE_E_PATH_NOT_FOUND_DEST => FileSystemStatusCode.NotFound,
+                    HResult.COPYENGINE_E_NET_DISCONNECT_DEST => FileSystemStatusCode.NotFound,
+                    HResult.COPYENGINE_E_NET_DISCONNECT_SRC => FileSystemStatusCode.NotFound,
+                    HResult.COPYENGINE_E_CANT_REACH_SOURCE => FileSystemStatusCode.NotFound,
+                    HResult.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND => FileSystemStatusCode.NotFound,
+                    HResult.COPYENGINE_E_ALREADY_EXISTS_NORMAL => FileSystemStatusCode.AlreadyExists,
+                    HResult.COPYENGINE_E_ALREADY_EXISTS_READONLY => FileSystemStatusCode.AlreadyExists,
+                    HResult.COPYENGINE_E_ALREADY_EXISTS_SYSTEM => FileSystemStatusCode.AlreadyExists,
+                    HResult.COPYENGINE_E_ALREADY_EXISTS_FOLDER => FileSystemStatusCode.AlreadyExists,
+                    HResult.COPYENGINE_E_FILE_IS_FLD_DEST => FileSystemStatusCode.NotAFile,
+                    HResult.COPYENGINE_E_FLD_IS_FILE_DEST => FileSystemStatusCode.NotAFolder,
+                    HResult.COPYENGINE_E_SHARING_VIOLATION_SRC => FileSystemStatusCode.InUse,
+                    HResult.COPYENGINE_E_SHARING_VIOLATION_DEST => FileSystemStatusCode.InUse,
+                    _ => FileSystemStatusCode.Generic
+                };
+            }
         }
 
         #region IDisposable
