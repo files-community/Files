@@ -178,14 +178,31 @@ namespace Files.Filesystem
                 case FilesystemItemType.File:
                     {
                         var newEntryInfo = await ShellNewEntryExtensions.GetNewContextMenuEntryForType(Path.GetExtension(source.Path));
-                        (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
+                        if (newEntryInfo?.Command != null)
                         {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "CreateFile" },
-                            { "filepath", source.Path },
-                            { "template", newEntryInfo?.Template },
-                            { "data", newEntryInfo?.Data }
-                        });
+                            var args = CommandLine.CommandLineParser.SplitArguments(newEntryInfo.Command);
+                            if (args.Any())
+                            {
+                                (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
+                                {
+                                    { "Arguments", "LaunchApp" },
+                                    { "WorkingDirectory", PathNormalization.GetParentDir(source.Path) },
+                                    { "Application", args[0].Replace("\"", "", StringComparison.Ordinal) },
+                                    { "Parameters", string.Join(" ", args.Skip(1)).Replace("%1", source.Path) }
+                                });
+                            }
+                        }
+                        else
+                        {
+                            (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
+                            {
+                                { "Arguments", "FileOperation" },
+                                { "fileop", "CreateFile" },
+                                { "filepath", source.Path },
+                                { "template", newEntryInfo?.Template },
+                                { "data", newEntryInfo?.Data }
+                            });
+                        }
                         break;
                     }
                 case FilesystemItemType.Directory:
