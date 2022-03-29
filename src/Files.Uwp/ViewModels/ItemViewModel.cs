@@ -1297,6 +1297,7 @@ namespace Files.ViewModels
                         WatchForStorageFolderChanges(currentStorageFolder?.Folder);
                         break;
 
+                    case 2: // Do no watch for changes in Box Drive folder to avoid constant refresh (#7428)
                     case -1: // Enumeration failed
                     default:
                         break;
@@ -1581,7 +1582,7 @@ namespace Files.ViewModels
                 }
                 CurrentFolder = currentFolder;
                 await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationToken);
-                return 1;
+                return isBoxFolder ? 2 : 1; // Workaround for #7428
             }
             else
             {
