@@ -140,7 +140,8 @@ namespace Files.Filesystem
                 var copiedSources = copyResult.Items.Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
                 if (copiedSources.Any())
                 {
-                    var sourceMatch = await copiedSources.Select(x => sourceRename.SingleOrDefault(s => s.Path == x.Source)).Where(x => x != null).ToListAsync();
+                    var sourceMatch = await copiedSources.Select(x => sourceRename
+                        .SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
                     return new StorageHistory(FileOperationType.Copy,
                         sourceMatch,
                         await copiedSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
@@ -363,7 +364,8 @@ namespace Files.Filesystem
                 var recycledSources = deleteResult.Items.Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
                 if (recycledSources.Any())
                 {
-                    var sourceMatch = await recycledSources.Select(x => source.DistinctBy(x => x.Path).SingleOrDefault(s => s.Path == x.Source)).Where(x => x != null).ToListAsync();
+                    var sourceMatch = await recycledSources.Select(x => source.DistinctBy(x => x.Path)
+                        .SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
                     return new StorageHistory(FileOperationType.Recycle,
                         sourceMatch,
                         await recycledSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
@@ -480,7 +482,8 @@ namespace Files.Filesystem
                 var movedSources = moveResult.Items.Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
                 if (movedSources.Any())
                 {
-                    var sourceMatch = await movedSources.Select(x => sourceRename.SingleOrDefault(s => s.Path == x.Source)).Where(x => x != null).ToListAsync();
+                    var sourceMatch = await movedSources.Select(x => sourceRename
+                        .SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
                     return new StorageHistory(FileOperationType.Move,
                         sourceMatch,
                         await movedSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
@@ -619,7 +622,8 @@ namespace Files.Filesystem
                 var movedSources = moveResult.Items.Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
                 if (movedSources.Any())
                 {
-                    var sourceMatch = await movedSources.Select(x => source.SingleOrDefault(s => s.Path == x.Source)).Where(x => x != null).ToListAsync();
+                    var sourceMatch = await movedSources.Select(x => source
+                        .SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
                     // Recycle bin also stores a file starting with $I for each item
                     await DeleteItemsAsync(await movedSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
                         .Select(src => StorageHelpers.FromPathAndType(
