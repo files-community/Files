@@ -34,7 +34,6 @@ namespace Files.UserControls.Widgets
 
         private ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();
         private EmptyRecentsText Empty { get; set; } = new EmptyRecentsText();
-        public SettingsViewModel AppSettings => App.AppSettings;
 
         public string WidgetName => nameof(RecentFilesWidget);
 

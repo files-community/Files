@@ -6,6 +6,7 @@
 	xmlns:local="using:Files.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+	xmlns:helpers="using:Files.Helpers"
 	Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 	mc:Ignorable="d">
 	<Grid>
@@ -18,7 +19,6 @@
 
 			<!--  Map Drive button  -->
 			<Button
-				x:Uid="DrivesWidgetMoreOptionsButton"
 				Grid.Column="1"
 				Width="36"
 				Height="32"
@@ -27,10 +27,10 @@
 				VerticalAlignment="Top"
 				HorizontalContentAlignment="Center"
 				VerticalContentAlignment="Center"
-				AutomationProperties.Name="More drives options"
+				AutomationProperties.Name="{helpers:ResourceString Name=DrivesWidgetMoreOptionsButton/AutomationProperties/Name}"
 				Background="Transparent"
 				BorderBrush="Transparent"
-				ToolTipService.ToolTip="More options...">
+				ToolTipService.ToolTip="{helpers:ResourceString Name=DrivesWidgetMoreOptionsButton/ToolTipService/ToolTip}">
 
 				<FontIcon
 					HorizontalAlignment="Center"
@@ -41,9 +41,8 @@
 				<Button.Flyout>
 					<MenuFlyout>
 						<MenuFlyoutItem
-							x:Uid="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem"
 							Click="MapNetworkDrive_Click"
-							Text="Map network drive">
+							Text="{helpers:ResourceString Name=DrivesWidgetOptionsFlyoutMapNetDriveMenuItem/Text}">
 							<MenuFlyoutItem.Icon>
 								<FontIcon
 									Glyph="&#xE710;" />
@@ -89,10 +88,9 @@
 								<MenuFlyout.Items>
 									<MenuFlyoutItem
 										x:Name="OpenInNewPane"
-										x:Uid="SideBarOpenInNewPane"
 										Click="OpenInNewPane_Click"
 										DataContext="{x:Bind Item}"
-										Text="Open in new pane"
+										Text="{helpers:ResourceString Name=SideBarOpenInNewPane/Text}"
 										Visibility="Collapsed">
 										<MenuFlyoutItem.Icon>
 											<FontIcon
@@ -102,10 +100,9 @@
 									</MenuFlyoutItem>
 									<MenuFlyoutItem
 										x:Name="OpenInNewTab"
-										x:Uid="SideBarOpenInNewTab"
 										Click="OpenInNewTab_Click"
 										DataContext="{x:Bind Item}"
-										Text="Open in new tab">
+										Text="{helpers:ResourceString Name=SideBarOpenInNewTab/Text}">
 										<MenuFlyoutItem.Icon>
 											<FontIcon
 												FontFamily="{StaticResource CustomGlyph}"
@@ -114,10 +111,9 @@
 									</MenuFlyoutItem>
 									<MenuFlyoutItem
 										x:Name="OpenInNewWindow"
-										x:Uid="SideBarOpenInNewWindow"
 										Click="OpenInNewWindow_Click"
 										DataContext="{x:Bind Item}"
-										Text="Open in new window">
+										Text="{helpers:ResourceString Name=SideBarOpenInNewWindow/Text}">
 										<MenuFlyoutItem.Icon>
 											<FontIcon
 												Glyph="&#xE737;" />
@@ -125,10 +121,9 @@
 									</MenuFlyoutItem>
 									<MenuFlyoutItem
 										x:Name="PropertiesItem"
-										x:Uid="DrivesWidgetContextFlyoutPropertiesMenuItem"
 										Click="OpenDriveProperties_Click"
 										DataContext="{x:Bind Item}"
-										Text="Properties">
+										Text="{helpers:ResourceString Name=DrivesWidgetContextFlyoutPropertiesMenuItem/Text}">
 										<MenuFlyoutItem.Icon>
 											<FontIcon
 												Glyph="&#xE946;" />
@@ -136,11 +131,10 @@
 									</MenuFlyoutItem>
 									<MenuFlyoutItem
 										x:Name="EjectDevice"
-										x:Uid="SideBarEjectDevice"
 										x:Load="{x:Bind Item.IsRemovable, Mode=OneWay}"
 										Click="EjectDevice_Click"
 										DataContext="{x:Bind Item}"
-										Text="Eject">
+										Text="{helpers:ResourceString Name=SideBarEjectDevice/Text}">
 										<MenuFlyoutItem.Icon>
 											<FontIcon
 												Glyph="&#xF847;" />
@@ -148,11 +142,10 @@
 									</MenuFlyoutItem>
 									<MenuFlyoutItem
 										x:Name="DisconnectNetworkDrive"
-										x:Uid="SideBarDisconnectNetworkDrive"
 										x:Load="{x:Bind Item.IsNetwork, Mode=OneWay}"
 										Click="DisconnectNetworkDrive_Click"
 										DataContext="{x:Bind Item}"
-										Text="Disconnect">
+										Text="{helpers:ResourceString Name=SideBarDisconnectNetworkDrive/Text}">
 										<MenuFlyoutItem.Icon>
 											<FontIcon
 												Glyph="&#xF847;" />
@@ -219,7 +212,6 @@
 
 								<Button
 									x:Name="GoToStorageSense"
-									x:Uid="DrivesWidgetOpenStorageSenseButton"
 									Grid.Column="1"
 									Width="28"
 									Height="28"
@@ -228,12 +220,12 @@
 									HorizontalContentAlignment="Center"
 									VerticalContentAlignment="Center"
 									x:Load="{x:Bind Item.ShowStorageSense}"
-									AutomationProperties.Name="Open Storage Sense"
+									AutomationProperties.Name="{helpers:ResourceString Name=DrivesWidgetOpenStorageSenseButton/AutomationProperties/Name}"
 									Background="Transparent"
 									BorderBrush="Transparent"
 									Click="GoToStorageSense_Click"
 									Tag="{x:Bind Item.Path}"
-									ToolTipService.ToolTip="Open Storage Sense">
+									ToolTipService.ToolTip="{helpers:ResourceString Name=DrivesWidgetOpenStorageSenseButton/ToolTipService/ToolTip}">
 									<FontIcon
 										HorizontalAlignment="Center"
 										VerticalAlignment="Center"

@@ -1,8 +1,7 @@
-﻿using Files.Helpers;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
+using Files.Helpers;
 using Files.ViewModels;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.IO;
 using System.Linq;
@@ -132,13 +131,6 @@ namespace Files.UserControls
         // Using a DependencyProperty as the backing store for ToggleCompactOverlayCommand.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SetCompactOverlayCommandProperty =
             DependencyProperty.Register("ToggleCompactOverlayCommand", typeof(ICommand), typeof(NavigationToolbar), new PropertyMetadata(null));
-
-        /// <summary>
-        /// This function is used for getting localized strings that do not implement x:Uid
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        private string GetLocalizedString(string str) => str.GetLocalized();
 
         private void NewEmptySpace_Opening(object sender, object e)
         {

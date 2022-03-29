@@ -2750,4 +2750,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Show Tags section</value>
   </data>
+  <data name="UseCompactStyles" xml:space="preserve">
+    <value>Use compact styles in the details layout</value>
+  </data>
 </root>

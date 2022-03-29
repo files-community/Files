@@ -1,15 +1,14 @@
 <Page
     x:Class="Files.SettingsPages.About"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:Files.Helpers"
-    xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:local="using:Files.UserControls.Settings"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
+    xmlns:helpers="using:Files.Helpers"
+    xmlns:local="using:Files.UserControls.Settings"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -85,8 +84,7 @@
             </local:SettingsBlockControl>
 
             <local:SettingsBlockControl
-                x:Uid="SettingsUsefulLinks"
-                Title="Useful links"
+                Title="{helpers:ResourceString Name=SettingsUsefulLinks/Title}"
                 HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <SymbolIcon Symbol="Link" />
@@ -101,12 +99,11 @@
                         SelectionMode="None">
                         <GridViewItem
                             x:Name="FeedbackForm"
-                            x:Uid="SettingsAboutSubmitFeedbackListViewItem"
                             Width="204"
                             Padding="8,2"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
-                            AutomationProperties.Name="Send the developers an issue report with more information"
+                            AutomationProperties.Name="{helpers:ResourceString Name=SettingsAboutSubmitFeedbackListViewItem/AutomationProperties/Name}"
                             IsEnabled="True">
                             <StackPanel
                                 Padding="4"
@@ -114,15 +111,14 @@
                                 Spacing="14"
                                 Tag="Feedback">
                                 <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xED15;" />
-                                <TextBlock x:Uid="SettingsAboutSubmitFeedback" Text="Submit feedback" />
+                                <TextBlock Text="{helpers:ResourceString Name=SettingsAboutSubmitFeedback/Text}" />
                             </StackPanel>
                         </GridViewItem>
                         <GridViewItem
-                            x:Uid="SettingsAboutReleaseNotesListViewItem"
                             Padding="8,2"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
-                            AutomationProperties.Name="Find out what's new in Files"
+                            AutomationProperties.Name="{helpers:ResourceString Name=SettingsAboutReleaseNotesListViewItem/AutomationProperties/Name}"
                             IsEnabled="True">
                             <StackPanel
                                 Padding="4"
@@ -130,15 +126,14 @@
                                 Spacing="14"
                                 Tag="ReleaseNotes">
                                 <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xF000;" />
-                                <TextBlock x:Uid="SettingsAboutReleaseNotes" Text="Release notes" />
+                                <TextBlock Text="{helpers:ResourceString Name=SettingsAboutReleaseNotes/Text}" />
                             </StackPanel>
                         </GridViewItem>
                         <GridViewItem
-                            x:Uid="SettingsAboutDocumentationListViewItem"
                             Padding="8,2"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
-                            AutomationProperties.Name="Visit the Files documentation website"
+                            AutomationProperties.Name="{helpers:ResourceString Name=SettingsAboutDocumentationListViewItem/AutomationProperties/Name}"
                             IsEnabled="True">
                             <StackPanel
                                 Padding="4"
@@ -146,15 +141,14 @@
                                 Spacing="14"
                                 Tag="Documentation">
                                 <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xE736;" />
-                                <TextBlock x:Uid="SettingsAboutDocumentation" Text="Documentation" />
+                                <TextBlock Text="{helpers:ResourceString Name=SettingsAboutDocumentation/Text}" />
                             </StackPanel>
                         </GridViewItem>
                         <GridViewItem
-                            x:Uid="SettingsAboutPrivacyPolicyListViewItem"
                             Padding="8,2"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
-                            AutomationProperties.Name="View Files privacy policy"
+                            AutomationProperties.Name="{helpers:ResourceString Name=SettingsAboutPrivacyPolicyListViewItem/AutomationProperties/Name}"
                             IsEnabled="True">
                             <StackPanel
                                 Padding="4"
@@ -162,15 +156,14 @@
                                 Spacing="14"
                                 Tag="PrivacyPolicy">
                                 <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xE72E;" />
-                                <TextBlock x:Uid="SettingsAboutPrivacyPolicy" Text="Privacy policy" />
+                                <TextBlock Text="{helpers:ResourceString Name=SettingsAboutPrivacyPolicy/Text}" />
                             </StackPanel>
                         </GridViewItem>
                         <GridViewItem
-                            x:Uid="SettingsAboutContributorsListViewItem"
                             Padding="8,2"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
-                            AutomationProperties.Name="See who contributed to Files"
+                            AutomationProperties.Name="{helpers:ResourceString Name=SettingsAboutContributorsListViewItem/AutomationProperties/Name}"
                             IsEnabled="True">
                             <StackPanel
                                 Padding="4"
@@ -178,15 +171,14 @@
                                 Spacing="14"
                                 Tag="Contributors">
                                 <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xE716;" />
-                                <TextBlock x:Uid="SettingsAboutContributors" Text="Contributors" />
+                                <TextBlock Text="{helpers:ResourceString Name=SettingsAboutContributors/Text}" />
                             </StackPanel>
                         </GridViewItem>
                         <GridViewItem
-                            x:Uid="SettingsAboutSupportUsListViewItem"
                             Padding="8,2"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
-                            AutomationProperties.Name="Support us on GitHub"
+                            AutomationProperties.Name="{helpers:ResourceString Name=SettingsAboutSupportUsListViewItem/AutomationProperties/Name}"
                             IsEnabled="True">
                             <StackPanel
                                 Padding="4"
@@ -197,7 +189,7 @@
                                     FontFamily="{StaticResource CustomGlyph}"
                                     Foreground="{ThemeResource SystemAccentColor}"
                                     Glyph="&#xF119;" />
-                                <TextBlock x:Uid="SettingsAboutSupportUs" Text="Support us" />
+                                <TextBlock Text="{helpers:ResourceString Name=SettingsAboutSupportUs/Text}" />
                             </StackPanel>
                         </GridViewItem>
                         <i:Interaction.Behaviors>
@@ -210,8 +202,7 @@
             </local:SettingsBlockControl>
 
             <local:SettingsBlockControl
-                x:Uid="SettingsPrivacy"
-                Title="Privacy policy"
+                Title="{helpers:ResourceString Name=SettingsPrivacy/Title}"
                 HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xEA18;" />
@@ -220,9 +211,8 @@
                 <local:SettingsBlockControl.ExpandableContent>
                     <controls:MarkdownTextBlock
                         x:Name="PrivacyTextBlock"
-                        x:Uid="SettingsPrivacyPolicyMarkdownBlock"
-                        Margin="4"
-                        Padding="8" />
+                        Margin="4" Padding="8"
+                        Text="{helpers:ResourceString Name=SettingsPrivacyPolicyMarkdownBlock/Text}" />
                 </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
 
@@ -253,9 +243,8 @@
                             NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt" />
 
                         <HyperlinkButton
-                            x:Uid="SettingsFluentUISystemIconsLicenseButton"
-                            AutomationProperties.Name="Fluent UI System Icons"
-                            Content="Fluent UI System Icons"
+                            AutomationProperties.Name="{helpers:ResourceString Name=SettingsFluentUISystemIconsLicenseButton/AutomationProperties/Name}"
+                            Content="{helpers:ResourceString Name=SettingsFluentUISystemIconsLicenseButton/Content}"
                             NavigateUri="https://github.com/microsoft/fluentui-system-icons/blob/master/LICENSE" />
                     </StackPanel>
                 </local:SettingsBlockControl.ExpandableContent>
