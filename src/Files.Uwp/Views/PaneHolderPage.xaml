@@ -37,7 +37,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid x:Name="PaneGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition
                 x:Name="LeftColumn"
