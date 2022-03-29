@@ -227,8 +227,7 @@ namespace Files.Filesystem
             if (result)
             {
                 errorCode?.Report(FileSystemStatusCode.Success);
-                var createdSources = createResult.Items.Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination)
-                    .Where(x => new[] { source }.Select(s => s.Path).Contains(x.Source));
+                var createdSources = createResult.Items.Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
                 if (createdSources.Any())
                 {
                     var item = StorageHelpers.FromPathAndType(createdSources.Single().Destination, source.ItemType);
