@@ -1,7 +1,10 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls">
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:fcvt="using:Files.Converters">
+    <fcvt:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
+    
     <Style x:Key="TabViewCloseButtonStyle" TargetType="Button">
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -249,17 +252,6 @@
                                 IsTextScaleFactorEnabled="False"
                                 Visibility="{Binding IsPinned, Mode=OneWay, Converter={StaticResource VisibilityInvertConverter}}"
                                 Style="{ThemeResource TabViewCloseButtonStyle}" />
-
-                            <Button
-                                x:Name="PinTabButton"
-                                Grid.Column="2"
-                                Margin="{ThemeResource TabViewItemHeaderCloseMargin}"
-                                Content="&#xE718;"
-                                HighContrastAdjustment="None"
-                                IsTabStop="False"
-                                IsTextScaleFactorEnabled="False"
-                                Visibility="{Binding ElementName=CloseButton, Path=Visibility, Mode=OneWay, Converter={StaticResource VisibilityInvertConverter}}"
-                                Style="{ThemeResource TabViewPinTabButtonStyle}" />
                         </Grid>
 
                         <VisualStateManager.VisualStateGroups>

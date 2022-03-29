@@ -9,6 +9,7 @@
     xmlns:local="using:Files.UserControls.MultitaskingControl"
     xmlns:vm="using:Files.ViewModels"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:fcvt="using:Files.Converters"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -16,6 +17,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
+                    <fcvt:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
+                    <fcvt:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+                    <fcvt:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+                    
                     <MenuFlyout
                         x:Key="TabFlyout"
                         x:Name="TabItemContextMenu"
@@ -132,6 +137,7 @@
                         Drop="TabViewItem_Drop"
                         Header="{x:Bind Header, Mode=OneWay}"
                         IconSource="{x:Bind IconSource, Mode=OneWay}"
+                        IsClosable="{Binding IsPinned, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}"
                         ToolTipService.ToolTip="{x:Null}" />
                 </DataTemplate>
             </muxc:TabView.TabItemTemplate>
