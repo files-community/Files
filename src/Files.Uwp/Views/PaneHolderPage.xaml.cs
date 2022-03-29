@@ -366,6 +366,13 @@ namespace Files.Views
             Window.Current.SizeChanged -= Current_SizeChanged;
             PaneLeft?.Dispose();
             PaneRight?.Dispose();
+            PaneResizer.DoubleTapped -= PaneResizer_OnDoubleTapped;
+        }
+
+        private void PaneResizer_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            LeftColumn.Width = new GridLength(1, GridUnitType.Star);
+            RightColumn.Width = new GridLength(1, GridUnitType.Star);
         }
     }
 

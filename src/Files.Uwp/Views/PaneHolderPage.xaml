@@ -37,7 +37,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid x:Name="PaneGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition
                 x:Name="LeftColumn"
@@ -84,6 +84,7 @@
             GripperForeground="Transparent"
             IsTabStop="False"
             ManipulationCompleted="PaneResizer_ManipulationCompleted"
+            DoubleTapped="PaneResizer_OnDoubleTapped"
             ResizeBehavior="BasedOnAlignment"
             ResizeDirection="Auto"
             Style="{StaticResource DefaultGridSplitterStyle}">
