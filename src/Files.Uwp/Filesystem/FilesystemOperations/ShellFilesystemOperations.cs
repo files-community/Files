@@ -688,42 +688,42 @@ namespace Files.Filesystem
         private struct HResult
         {
             // https://github.com/RickStrahl/DeleteFiles/blob/master/DeleteFiles/ZetaLongPaths/Native/FileOperations/Interop/CopyEngineResult.cs
-            // OK
+            // Ok
             public const int S_OK = 0;
             public const int COPYENGINE_S_DONT_PROCESS_CHILDREN = 2555912;
             public const int COPYENGINE_E_USER_CANCELLED = -2144927744;
-            // ACCESS DENIED
+            // Access denied
             public const int COPYENGINE_E_ACCESS_DENIED_SRC = -2144927711;
             public const int COPYENGINE_E_ACCESS_DENIED_DEST = -2144927710;
             public const int COPYENGINE_E_REQUIRES_ELEVATION = -2144927742;
-            // PATH TOO LONG
+            // Path too long
             public const int COPYENGINE_E_PATH_TOO_DEEP_SRC = -2144927715;
             public const int COPYENGINE_E_PATH_TOO_DEEP_DEST = -2144927714;
             public const int COPYENGINE_E_RECYCLE_PATH_TOO_LONG = -2144927688;
             public const int COPYENGINE_E_NEWFILE_NAME_TOO_LONG = -2144927685;
             public const int COPYENGINE_E_NEWFOLDER_NAME_TOO_LONG = -2144927684;
-            // NOT FOUND
+            // Not found
             public const int COPYENGINE_E_RECYCLE_BIN_NOT_FOUND = -2144927686;
             public const int COPYENGINE_E_PATH_NOT_FOUND_SRC = -2144927709;
             public const int COPYENGINE_E_PATH_NOT_FOUND_DEST = -2144927708;
             public const int COPYENGINE_E_NET_DISCONNECT_DEST = -2144927706;
             public const int COPYENGINE_E_NET_DISCONNECT_SRC = -2144927707;
             public const int COPYENGINE_E_CANT_REACH_SOURCE = -2144927691;
-            // FILE IN USE
+            // File in use
             public const int COPYENGINE_E_SHARING_VIOLATION_SRC = -2144927705;
             public const int COPYENGINE_E_SHARING_VIOLATION_DEST = -2144927704;
-            // ALREADY EXISTS
+            // Already exists
             public const int COPYENGINE_E_ALREADY_EXISTS_NORMAL = -2144927703;
             public const int COPYENGINE_E_ALREADY_EXISTS_READONLY = -2144927702;
             public const int COPYENGINE_E_ALREADY_EXISTS_SYSTEM = -2144927701;
             public const int COPYENGINE_E_ALREADY_EXISTS_FOLDER = -2144927700;
-            // FILE TOO BIG
+            // File too big
             //public const int COPYENGINE_E_FILE_TOO_LARGE = -2144927731;
             //public const int COPYENGINE_E_REMOVABLE_FULL = -2144927730;
             //public const int COPYENGINE_E_DISK_FULL = -2144927694;
             //public const int COPYENGINE_E_DISK_FULL_CLEAN = -2144927693;
             //public const int COPYENGINE_E_RECYCLE_SIZE_TOO_BIG = -2144927689;
-            // INVALID PATH
+            // Invalid path
             public const int COPYENGINE_E_FILE_IS_FLD_DEST = -2144927732;
             public const int COPYENGINE_E_FLD_IS_FILE_DEST = -2144927733;
             //public const int COPYENGINE_E_INVALID_FILES_SRC = -2144927717;
