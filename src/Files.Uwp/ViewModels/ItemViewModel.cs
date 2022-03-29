@@ -1488,8 +1488,8 @@ namespace Files.ViewModels
         public async Task<int> EnumerateItemsFromStandardFolderAsync(string path, Type sourcePageType, CancellationToken cancellationToken, LibraryItem library = null)
         {
             // Flag to use FindFirstFileExFromApp or StorageFolder enumeration
-            bool enumFromStorageFolder =
-                path == App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\'); // Use storage folder for Box Drive (#4629)
+            var isBoxFolder = path.StartsWith(App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\'));
+            bool enumFromStorageFolder = isBoxFolder; // Use storage folder for Box Drive (#4629)
 
             BaseStorageFolder rootFolder = null;
 
