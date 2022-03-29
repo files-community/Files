@@ -3,98 +3,98 @@ using System.Collections.Generic;
 
 namespace Files.Filesystem.FilesystemHistory
 {
-    public class StorageHistoryWrapper : IDisposable
-    {
-        #region Private Members
+	public class StorageHistoryWrapper : IDisposable
+	{
+		#region Private Members
 
-        private List<IStorageHistory> storageHistory;
+		private List<IStorageHistory> storageHistory;
 
-        private int storageHistoryIndex;
+		private int storageHistoryIndex;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructor
+		#region Constructor
 
-        public StorageHistoryWrapper()
-        {
-            this.storageHistory = new List<IStorageHistory>();
-            this.storageHistoryIndex = -1;
-        }
+		public StorageHistoryWrapper()
+		{
+			this.storageHistory = new List<IStorageHistory>();
+			this.storageHistoryIndex = -1;
+		}
 
-        #endregion Constructor
+		#endregion Constructor
 
-        #region Helpers
+		#region Helpers
 
-        public void AddHistory(IStorageHistory history)
-        {
-            if (history != null)
-            {
-                this.storageHistoryIndex++;
-                this.storageHistory.Insert(this.storageHistoryIndex, history);
-                // If a history item is added also remove all the redo operations after it
-                for (var idx = this.storageHistory.Count - 1; idx > this.storageHistoryIndex; idx--)
-                {
-                    this.storageHistory.RemoveAt(idx);
-                }
-            }
-        }
+		public void AddHistory(IStorageHistory history)
+		{
+			if (history != null)
+			{
+				this.storageHistoryIndex++;
+				this.storageHistory.Insert(this.storageHistoryIndex, history);
+				// If a history item is added also remove all the redo operations after it
+				for (var idx = this.storageHistory.Count - 1; idx > this.storageHistoryIndex; idx--)
+				{
+					this.storageHistory.RemoveAt(idx);
+				}
+			}
+		}
 
-        public void RemoveHistory(IStorageHistory history, bool decreaseIndex)
-        {
-            if (history != null)
-            {
-                // If a history item is invalid also remove all the redo operations after it
-                for (var idx = this.storageHistory.Count - 1; idx > this.storageHistoryIndex; idx--)
-                {
-                    this.storageHistory.RemoveAt(idx);
-                }
-                if (decreaseIndex)
-                {
-                    this.storageHistoryIndex--;
-                }
-                this.storageHistory.Remove(history);
-            }
-        }
+		public void RemoveHistory(IStorageHistory history, bool decreaseIndex)
+		{
+			if (history != null)
+			{
+				// If a history item is invalid also remove all the redo operations after it
+				for (var idx = this.storageHistory.Count - 1; idx > this.storageHistoryIndex; idx--)
+				{
+					this.storageHistory.RemoveAt(idx);
+				}
+				if (decreaseIndex)
+				{
+					this.storageHistoryIndex--;
+				}
+				this.storageHistory.Remove(history);
+			}
+		}
 
-        public void ModifyCurrentHistory(IStorageHistory newHistory)
-        {
-            this.storageHistory[this.storageHistoryIndex].Modify(newHistory);
-        }
+		public void ModifyCurrentHistory(IStorageHistory newHistory)
+		{
+			this.storageHistory[this.storageHistoryIndex].Modify(newHistory);
+		}
 
-        public IStorageHistory GetCurrentHistory()
-        {
-            return this.storageHistory[this.storageHistoryIndex];
-        }
+		public IStorageHistory GetCurrentHistory()
+		{
+			return this.storageHistory[this.storageHistoryIndex];
+		}
 
-        public void IncreaseIndex()
-        {
-            this.storageHistoryIndex++;
-        }
+		public void IncreaseIndex()
+		{
+			this.storageHistoryIndex++;
+		}
 
-        public void DecreaseIndex()
-        {
-            this.storageHistoryIndex--;
-        }
+		public void DecreaseIndex()
+		{
+			this.storageHistoryIndex--;
+		}
 
-        public bool CanUndo() =>
-            this.storageHistoryIndex >= 0 && this.storageHistory.Count > 0;
+		public bool CanUndo() =>
+			this.storageHistoryIndex >= 0 && this.storageHistory.Count > 0;
 
-        public bool CanRedo() =>
-            (this.storageHistoryIndex + 1) < this.storageHistory.Count;
+		public bool CanRedo() =>
+			(this.storageHistoryIndex + 1) < this.storageHistory.Count;
 
-        #endregion Helpers
+		#endregion Helpers
 
-        #region IDisposable
+		#region IDisposable
 
-        public void Dispose()
-        {
-            if (storageHistory != null)
-            {
-                storageHistory.ForEach(item => item?.Dispose());
-                storageHistory = null;
-            }
-        }
+		public void Dispose()
+		{
+			if (storageHistory != null)
+			{
+				storageHistory.ForEach(item => item?.Dispose());
+				storageHistory = null;
+			}
+		}
 
-        #endregion IDisposable
-    }
+		#endregion IDisposable
+	}
 }

@@ -1,148 +1,147 @@
-﻿using Files.Shared.Extensions;
-using Files.Helpers;
-using Files.Backend.Services.Settings;
+﻿using System;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Windows.ApplicationModel;
+using Files.Backend.Services.Settings;
+using Files.Helpers;
+using Files.Shared.Extensions;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 
 namespace Files.ViewModels.SettingsViewModels
 {
-    public class ExperimentalViewModel : ObservableObject
-    {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+	public class ExperimentalViewModel : ObservableObject
+	{
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        public ICommand EditFileTagsCommand { get; }
+		public ICommand EditFileTagsCommand { get; }
 
-        public ICommand SetAsDefaultExplorerCommand { get; }
+		public ICommand SetAsDefaultExplorerCommand { get; }
 
-        public ICommand SetAsOpenFileDialogCommand { get; }
+		public ICommand SetAsOpenFileDialogCommand { get; }
 
-        public ExperimentalViewModel()
-        {
-            IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
-            IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
+		public ExperimentalViewModel()
+		{
+			IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
+			IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
 
-            EditFileTagsCommand = new AsyncRelayCommand(LaunchFileTagsConfigFile);
-            SetAsDefaultExplorerCommand = new AsyncRelayCommand(SetAsDefaultExplorer);
-            SetAsOpenFileDialogCommand = new AsyncRelayCommand(SetAsOpenFileDialog);
-        }
+			EditFileTagsCommand = new AsyncRelayCommand(LaunchFileTagsConfigFile);
+			SetAsDefaultExplorerCommand = new AsyncRelayCommand(SetAsDefaultExplorer);
+			SetAsOpenFileDialogCommand = new AsyncRelayCommand(SetAsOpenFileDialog);
+		}
 
-        public bool AreFileTagsEnabled
-        {
-            get => UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled)
-                {
-                    UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+		public bool AreFileTagsEnabled
+		{
+			get => UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled)
+				{
+					UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled = value;
+					OnPropertyChanged();
+				}
+			}
+		}
 
-        public bool ShowFolderSize
-        {
-            get => UserSettingsService.PreferencesSettingsService.ShowFolderSize;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.ShowFolderSize)
-                {
-                    UserSettingsService.PreferencesSettingsService.ShowFolderSize = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+		public bool ShowFolderSize
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowFolderSize;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowFolderSize)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowFolderSize = value;
+					OnPropertyChanged();
+				}
+			}
+		}
 
-        private async Task LaunchFileTagsConfigFile()
-        {
-            var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/filetags.json"));
-            if (!await Launcher.LaunchFileAsync(configFile))
-            {
-                var connection = await AppServiceConnectionHelper.Instance;
-                if (connection != null)
-                {
-                    await connection.SendMessageAsync(new ValueSet()
-                    {
-                        { "Arguments", "InvokeVerb" },
-                        { "FilePath", configFile.Path },
-                        { "Verb", "open" }
-                    });
-                }
-            }
-        }
+		private async Task LaunchFileTagsConfigFile()
+		{
+			var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/filetags.json"));
+			if (!await Launcher.LaunchFileAsync(configFile))
+			{
+				var connection = await AppServiceConnectionHelper.Instance;
+				if (connection != null)
+				{
+					await connection.SendMessageAsync(new ValueSet()
+					{
+						{ "Arguments", "InvokeVerb" },
+						{ "FilePath", configFile.Path },
+						{ "Verb", "open" }
+					});
+				}
+			}
+		}
 
-        private async Task SetAsDefaultExplorer()
-        {
-            if (IsSetAsDefaultFileManager == DetectIsSetAsDefaultFileManager())
-            {
-                return;
-            }
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var (_, _) = await connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    { "Arguments", "SetAsDefaultExplorer" },
-                    { "Value", IsSetAsDefaultFileManager }
-                });
-            }
-            IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
-            if (!IsSetAsDefaultFileManager)
-            {
-                IsSetAsOpenFileDialog = false;
-                await SetAsOpenFileDialog();
-            }
-        }
+		private async Task SetAsDefaultExplorer()
+		{
+			if (IsSetAsDefaultFileManager == DetectIsSetAsDefaultFileManager())
+			{
+				return;
+			}
+			var connection = await AppServiceConnectionHelper.Instance;
+			if (connection != null)
+			{
+				var (_, _) = await connection.SendMessageForResponseAsync(new ValueSet()
+				{
+					{ "Arguments", "SetAsDefaultExplorer" },
+					{ "Value", IsSetAsDefaultFileManager }
+				});
+			}
+			IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
+			if (!IsSetAsDefaultFileManager)
+			{
+				IsSetAsOpenFileDialog = false;
+				await SetAsOpenFileDialog();
+			}
+		}
 
-        private async Task SetAsOpenFileDialog()
-        {
-            if (IsSetAsOpenFileDialog == DetectIsSetAsOpenFileDialog())
-            {
-                return;
-            }
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var (_, _) = await connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    { "Arguments", "SetAsOpenFileDialog" },
-                    { "Value", IsSetAsOpenFileDialog }
-                });
-            }
-            IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
-        }
+		private async Task SetAsOpenFileDialog()
+		{
+			if (IsSetAsOpenFileDialog == DetectIsSetAsOpenFileDialog())
+			{
+				return;
+			}
+			var connection = await AppServiceConnectionHelper.Instance;
+			if (connection != null)
+			{
+				var (_, _) = await connection.SendMessageForResponseAsync(new ValueSet()
+				{
+					{ "Arguments", "SetAsOpenFileDialog" },
+					{ "Value", IsSetAsOpenFileDialog }
+				});
+			}
+			IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
+		}
 
-        private bool DetectIsSetAsDefaultFileManager()
-        {
-            return ApplicationData.Current.LocalSettings.Values.Get("IsSetAsDefaultFileManager", false);
-        }
+		private bool DetectIsSetAsDefaultFileManager()
+		{
+			return ApplicationData.Current.LocalSettings.Values.Get("IsSetAsDefaultFileManager", false);
+		}
 
-        private bool DetectIsSetAsOpenFileDialog()
-        {
-            return ApplicationData.Current.LocalSettings.Values.Get("IsSetAsOpenFileDialog", false);
-        }
+		private bool DetectIsSetAsOpenFileDialog()
+		{
+			return ApplicationData.Current.LocalSettings.Values.Get("IsSetAsOpenFileDialog", false);
+		}
 
-        private bool isSetAsDefaultFileManager;
+		private bool isSetAsDefaultFileManager;
 
-        public bool IsSetAsDefaultFileManager
-        {
-            get => isSetAsDefaultFileManager;
-            set => SetProperty(ref isSetAsDefaultFileManager, value);
-        }
+		public bool IsSetAsDefaultFileManager
+		{
+			get => isSetAsDefaultFileManager;
+			set => SetProperty(ref isSetAsDefaultFileManager, value);
+		}
 
-        private bool isSetAsOpenFileDialog;
+		private bool isSetAsOpenFileDialog;
 
-        public bool IsSetAsOpenFileDialog
-        {
-            get => isSetAsOpenFileDialog;
-            set => SetProperty(ref isSetAsOpenFileDialog, value);
-        }
-    }
+		public bool IsSetAsOpenFileDialog
+		{
+			get => isSetAsOpenFileDialog;
+			set => SetProperty(ref isSetAsOpenFileDialog, value);
+		}
+	}
 }

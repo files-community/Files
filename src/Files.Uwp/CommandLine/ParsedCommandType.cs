@@ -1,12 +1,12 @@
 ﻿namespace Files.CommandLine
 {
-    internal enum ParsedCommandType
-    {
-        Unknown,
-        OpenDirectory,
-        OpenPath,
-        ExplorerShellCommand,
-        OutputPath,
-        SelectItem,
-    }
+	internal enum ParsedCommandType
+	{
+		Unknown,
+		OpenDirectory,
+		OpenPath,
+		ExplorerShellCommand,
+		OutputPath,
+		SelectItem,
+	}
 }

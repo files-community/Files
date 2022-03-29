@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    public interface IMessageHandler : IDisposable
-    {
-        Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments);
+	public interface IMessageHandler : IDisposable
+	{
+		Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments);
 
-        void Initialize(PipeStream connection);
-    }
+		void Initialize(PipeStream connection);
+	}
 }

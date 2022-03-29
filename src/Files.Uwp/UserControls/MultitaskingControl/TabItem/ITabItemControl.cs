@@ -2,16 +2,16 @@
 
 namespace Files.UserControls.MultitaskingControl
 {
-    public interface ITabItemControl
-    {
-        string Header { get; }
+	public interface ITabItemControl
+	{
+		string Header { get; }
 
-        string Description { get; }
+		string Description { get; }
 
-        IconSource IconSource { get; }
+		IconSource IconSource { get; }
 
-        TabItemControl Control { get; }
+		TabItemControl Control { get; }
 
-        bool AllowStorageItemDrop { get; }
-    }
+		bool AllowStorageItemDrop { get; }
+	}
 }

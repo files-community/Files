@@ -2,6 +2,6 @@
 
 namespace System.Runtime.CompilerServices
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    internal sealed class IsExternalInit {}
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	internal sealed class IsExternalInit { }
 }

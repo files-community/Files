@@ -1,32 +1,32 @@
-﻿using Files.Filesystem;
-using System;
+﻿using System;
+using Files.Filesystem;
 
 namespace Files.DataModels.NavigationControlItems
 {
-    public class WslDistroItem : INavigationControlItem
-    {
-        public string Text { get; set; }
+	public class WslDistroItem : INavigationControlItem
+	{
+		public string Text { get; set; }
 
-        private string path;
+		private string path;
 
-        public string Path
-        {
-            get => path;
-            set
-            {
-                path = value;
-                HoverDisplayText = Path.Contains("?", StringComparison.Ordinal) ? Text : Path;
-            }
-        }
+		public string Path
+		{
+			get => path;
+			set
+			{
+				path = value;
+				HoverDisplayText = Path.Contains("?", StringComparison.Ordinal) ? Text : Path;
+			}
+		}
 
-        public string HoverDisplayText { get; private set; }
+		public string HoverDisplayText { get; private set; }
 
-        public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;
+		public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;
 
-        public Uri Logo { get; set; }
+		public Uri Logo { get; set; }
 
-        public SectionType Section { get; private set; }
+		public SectionType Section { get; private set; }
 
-        public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
-    }
+		public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
+	}
 }

@@ -1,50 +1,50 @@
-﻿using Files.Backend.Services.Settings;
+﻿using System;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
 using Files.ViewModels.Widgets;
 using Files.ViewModels.Widgets.Bundles;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
-using System;
 using Windows.UI.Xaml.Controls;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Files.UserControls.Widgets
 {
-    public sealed partial class BundlesWidget : UserControl, IWidgetItemModel, IDisposable
-    {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+	public sealed partial class BundlesWidget : UserControl, IWidgetItemModel, IDisposable
+	{
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        public BundlesViewModel ViewModel
-        {
-            get => (BundlesViewModel)DataContext;
-            private set => DataContext = value;
-        }
+		public BundlesViewModel ViewModel
+		{
+			get => (BundlesViewModel)DataContext;
+			private set => DataContext = value;
+		}
 
-        public string WidgetName => nameof(BundlesWidget);
+		public string WidgetName => nameof(BundlesWidget);
 
-        public string AutomationProperties => "BundlesWidgetAutomationProperties/Name".GetLocalized();
+		public string AutomationProperties => "BundlesWidgetAutomationProperties/Name".GetLocalized();
 
-        public string WidgetHeader => "Bundles".GetLocalized();
+		public string WidgetHeader => "Bundles".GetLocalized();
 
-        public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowBundlesWidget;
+		public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowBundlesWidget;
 
-        public BundlesWidget()
-        {
-            this.InitializeComponent();
+		public BundlesWidget()
+		{
+			this.InitializeComponent();
 
-            this.ViewModel = new BundlesViewModel();
-        }
+			this.ViewModel = new BundlesViewModel();
+		}
 
-        #region IDisposable
+		#region IDisposable
 
-        public void Dispose()
-        {
-            // We need dispose to unhook events to avoid memory leaks
-            this.ViewModel?.Dispose();
+		public void Dispose()
+		{
+			// We need dispose to unhook events to avoid memory leaks
+			this.ViewModel?.Dispose();
 
-            this.ViewModel = null;
-        }
+			this.ViewModel = null;
+		}
 
-        #endregion IDisposable
-    }
+		#endregion IDisposable
+	}
 }

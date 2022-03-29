@@ -2,7 +2,7 @@
 
 namespace Files.Backend.ViewModels.Dialogs
 {
-    public sealed class SettingsDialogViewModel : ObservableObject
-    {
-    }
+	public sealed class SettingsDialogViewModel : ObservableObject
+	{
+	}
 }

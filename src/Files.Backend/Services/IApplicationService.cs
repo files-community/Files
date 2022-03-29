@@ -2,10 +2,10 @@
 
 namespace Files.Backend.Services
 {
-    public interface IApplicationService
-    {
-        void CloseApplication();
+	public interface IApplicationService
+	{
+		void CloseApplication();
 
-        Task<bool> OpenInNewWindowAsync(string path);
-    }
+		Task<bool> OpenInNewWindowAsync(string path);
+	}
 }

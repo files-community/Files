@@ -6,14 +6,14 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls.FilePreviews
 {
-    public sealed partial class MarkdownPreview : UserControl
-    {
-        public MarkdownPreview(MarkdownPreviewViewModel model)
-        {
-            ViewModel = model;
-            InitializeComponent();
-        }
+	public sealed partial class MarkdownPreview : UserControl
+	{
+		public MarkdownPreview(MarkdownPreviewViewModel model)
+		{
+			ViewModel = model;
+			InitializeComponent();
+		}
 
-        private MarkdownPreviewViewModel ViewModel { get; set; }
-    }
+		private MarkdownPreviewViewModel ViewModel { get; set; }
+	}
 }

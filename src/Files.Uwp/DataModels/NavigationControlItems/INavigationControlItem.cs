@@ -2,38 +2,38 @@
 
 namespace Files.Filesystem
 {
-    public interface INavigationControlItem : IComparable<INavigationControlItem>
-    {
-        public string Text { get; }
+	public interface INavigationControlItem : IComparable<INavigationControlItem>
+	{
+		public string Text { get; }
 
-        public string Path { get; }
+		public string Path { get; }
 
-        public SectionType Section { get; }
+		public SectionType Section { get; }
 
-        public string HoverDisplayText { get; }
+		public string HoverDisplayText { get; }
 
-        public NavigationControlItemType ItemType { get; }
-    }
+		public NavigationControlItemType ItemType { get; }
+	}
 
-    public enum NavigationControlItemType
-    {
-        Header,
-        Drive,
-        LinuxDistro,
-        Location,
-        CloudDrive,
-        FileTag
-    }
+	public enum NavigationControlItemType
+	{
+		Header,
+		Drive,
+		LinuxDistro,
+		Location,
+		CloudDrive,
+		FileTag
+	}
 
-    public enum SectionType
-    {
-        Home,
-        Favorites,
-        Library,
-        Drives,
-        CloudDrives,
-        Network,
-        WSL,
-        FileTag
-    }
+	public enum SectionType
+	{
+		Home,
+		Favorites,
+		Library,
+		Drives,
+		CloudDrives,
+		Network,
+		WSL,
+		FileTag
+	}
 }

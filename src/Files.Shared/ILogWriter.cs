@@ -2,10 +2,10 @@
 
 namespace Files.Shared
 {
-    public interface ILogWriter
-    {
-        Task InitializeAsync(string name);
-        Task WriteLineToLogAsync(string text);
-        void WriteLineToLog(string text);
-    }
+	public interface ILogWriter
+	{
+		Task InitializeAsync(string name);
+		Task WriteLineToLogAsync(string text);
+		void WriteLineToLog(string text);
+	}
 }

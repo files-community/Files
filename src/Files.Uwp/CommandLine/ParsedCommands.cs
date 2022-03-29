@@ -2,7 +2,7 @@
 
 namespace Files.CommandLine
 {
-    internal class ParsedCommands : List<ParsedCommand>
-    {
-    }
+	internal class ParsedCommands : List<ParsedCommand>
+	{
+	}
 }

@@ -1,7 +1,7 @@
 ﻿namespace Files.Backend.Services.Settings
 {
-    public interface IBaseSettingsService
-    {
-        void ReportToAppCenter();
-    }
+	public interface IBaseSettingsService
+	{
+		void ReportToAppCenter();
+	}
 }
