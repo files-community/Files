@@ -157,6 +157,7 @@ namespace Files.Filesystem
                         return await CopyItemsAsync(source, destination, collisions, progress, errorCode, cancellationToken);
                     }
                 }
+                errorCode?.Report(HResult.Convert(copyResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return null;
             }
         }
@@ -244,6 +245,7 @@ namespace Files.Filesystem
                         return await CreateAsync(source, errorCode, cancellationToken);
                     }
                 }
+                errorCode?.Report(HResult.Convert(createResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return (null, null);
             }
         }
@@ -378,6 +380,7 @@ namespace Files.Filesystem
                         return await DeleteItemsAsync(source, progress, errorCode, permanently, cancellationToken);
                     }
                 }
+                errorCode?.Report(HResult.Convert(deleteResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return null;
             }
         }
@@ -494,6 +497,7 @@ namespace Files.Filesystem
                         return await MoveItemsAsync(source, destination, collisions, progress, errorCode, cancellationToken);
                     }
                 }
+                errorCode?.Report(HResult.Convert(moveResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return null;
             }
         }
@@ -550,6 +554,7 @@ namespace Files.Filesystem
                         return await RenameAsync(source, newName, collision, errorCode, cancellationToken);
                     }
                 }
+                errorCode?.Report(HResult.Convert(renameResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return null;
             }
         }
@@ -636,6 +641,7 @@ namespace Files.Filesystem
                         return await RestoreItemsFromTrashAsync(source, destination, progress, errorCode, cancellationToken);
                     }
                 }
+                errorCode?.Report(HResult.Convert(moveResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return null;
             }
         }
@@ -732,7 +738,7 @@ namespace Files.Filesystem
             //public const int COPYENGINE_E_DEST_SUBTREE = -2144927735;
             //public const int COPYENGINE_E_DIFF_DIR = -2144927740;
 
-            public static FileSystemStatusCode Convert(int hres)
+            public static FileSystemStatusCode Convert(int? hres)
             {
                 return hres switch
                 {
@@ -759,6 +765,7 @@ namespace Files.Filesystem
                     HResult.COPYENGINE_E_FLD_IS_FILE_DEST => FileSystemStatusCode.NotAFolder,
                     HResult.COPYENGINE_E_SHARING_VIOLATION_SRC => FileSystemStatusCode.InUse,
                     HResult.COPYENGINE_E_SHARING_VIOLATION_DEST => FileSystemStatusCode.InUse,
+                    null => FileSystemStatusCode.Generic,
                     _ => FileSystemStatusCode.Generic
                 };
             }
