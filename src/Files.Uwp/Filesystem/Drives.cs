@@ -143,7 +143,7 @@ namespace Files.Filesystem
                         {
                             Text = "Drives".GetLocalized(),
                             Section = SectionType.Drives,
-                            MenuOptions = new SidebarContextMenuOptions
+                            MenuOptions = new ContextMenuOptions
                             {
                                 ShowHideSection = true
                             },

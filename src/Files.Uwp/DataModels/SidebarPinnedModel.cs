@@ -114,7 +114,7 @@ namespace Files.DataModels
                 {
                     Text = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                     IsDefaultLocation = true,
-                    MenuOptions = new SidebarContextMenuOptions
+                    MenuOptions = new ContextMenuOptions
                     {
                         IsLocationItem = true,
                         ShowUnpinItem = true,
@@ -267,7 +267,7 @@ namespace Files.DataModels
                     Font = MainViewModel.FontName,
                     Path = path,
                     Section = SectionType.Favorites,
-                    MenuOptions = new SidebarContextMenuOptions
+                    MenuOptions = new ContextMenuOptions
                     {
                         IsLocationItem = true,
                         ShowProperties = true,
@@ -342,7 +342,7 @@ namespace Files.DataModels
                 {
                     Text = "Home".GetLocalized(),
                     Section = SectionType.Home,
-                    MenuOptions = new SidebarContextMenuOptions
+                    MenuOptions = new ContextMenuOptions
                     {
                         IsLocationItem = true
                     },
@@ -356,7 +356,7 @@ namespace Files.DataModels
                 {
                     Text = "SidebarFavorites".GetLocalized(),
                     Section = SectionType.Favorites,
-                    MenuOptions = new SidebarContextMenuOptions
+                    MenuOptions = new ContextMenuOptions
                     {
                         ShowHideSection = true
                     },

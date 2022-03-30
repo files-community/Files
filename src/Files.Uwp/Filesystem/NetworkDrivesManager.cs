@@ -47,7 +47,7 @@ namespace Files.Filesystem
                 Type = DriveType.Network,
                 ItemType = NavigationControlItemType.Drive
             };
-            networkItem.MenuOptions = new SidebarContextMenuOptions
+            networkItem.MenuOptions = new ContextMenuOptions
             {
                 IsLocationItem = true,
                 ShowShellItems = true,
@@ -88,7 +88,7 @@ namespace Files.Filesystem
                             Type = DriveType.Network,
                             ItemType = NavigationControlItemType.Drive
                         };
-                        networkItem.MenuOptions = new SidebarContextMenuOptions
+                        networkItem.MenuOptions = new ContextMenuOptions
                         {
                             IsLocationItem = true,
                             ShowEjectDevice = networkItem.IsRemovable,
@@ -143,7 +143,7 @@ namespace Files.Filesystem
                         {
                             Text = "SidebarNetworkDrives".GetLocalized(),
                             Section = SectionType.Network,
-                            MenuOptions = new SidebarContextMenuOptions
+                            MenuOptions = new ContextMenuOptions
                             {
                                 ShowHideSection = true
                             },

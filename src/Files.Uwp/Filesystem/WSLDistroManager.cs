@@ -54,7 +54,7 @@ namespace Files.Filesystem
                             {
                                 Text = "WSL".GetLocalized(),
                                 Section = SectionType.WSL,
-                                MenuOptions = new SidebarContextMenuOptions
+                                MenuOptions = new ContextMenuOptions
                                 {
                                     ShowHideSection = true
                                 },
@@ -109,7 +109,7 @@ namespace Files.Filesystem
                                         Text = folder.DisplayName,
                                         Path = folder.Path,
                                         Logo = logoURI,
-                                        MenuOptions = new SidebarContextMenuOptions
+                                        MenuOptions = new ContextMenuOptions
                                         {
                                             IsLocationItem = true
                                         }

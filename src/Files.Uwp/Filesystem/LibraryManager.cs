@@ -198,7 +198,7 @@ namespace Files.Filesystem
                         {
                             Text = "SidebarLibraries".GetLocalized(),
                             Section = SectionType.Library,
-                            MenuOptions = new SidebarContextMenuOptions
+                            MenuOptions = new ContextMenuOptions
                             {
                                 IsLibrariesHeader = true,
                                 ShowHideSection = true

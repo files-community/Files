@@ -56,7 +56,7 @@ namespace Files.DataModels.NavigationControlItems
 
         public SectionType Section { get; set; }
 
-        public SidebarContextMenuOptions MenuOptions { get; set; }
+        public ContextMenuOptions MenuOptions { get; set; }
 
         public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
     }

@@ -16,7 +16,7 @@ namespace Files.Filesystem
         public LibraryLocationItem(ShellLibraryItem shellLibrary)
         {
             Section = SectionType.Library;
-            MenuOptions = new SidebarContextMenuOptions
+            MenuOptions = new ContextMenuOptions
             {
                 IsLocationItem = true,
                 ShowProperties = true,

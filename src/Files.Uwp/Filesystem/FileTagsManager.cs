@@ -54,7 +54,7 @@ namespace Files.Filesystem
                         {
                             Text = "FileTags".GetLocalized(),
                             Section = SectionType.FileTag,
-                            MenuOptions = new SidebarContextMenuOptions
+                            MenuOptions = new ContextMenuOptions
                             {
                                 ShowHideSection = true
                             },
@@ -84,7 +84,7 @@ namespace Files.Filesystem
                                     Text = tag.TagName,
                                     Path = $"tag:{tag.TagName}",
                                     FileTag = tag,
-                                    MenuOptions = new SidebarContextMenuOptions
+                                    MenuOptions = new ContextMenuOptions
                                     {
                                         IsLocationItem = true
                                     }

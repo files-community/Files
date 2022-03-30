@@ -23,7 +23,7 @@ namespace Files.DataModels.NavigationControlItems
 
         public SectionType Section { get; set; }
 
-        public SidebarContextMenuOptions MenuOptions { get; set; }
+        public ContextMenuOptions MenuOptions { get; set; }
 
         public NavigationControlItemType ItemType => NavigationControlItemType.FileTag;
 

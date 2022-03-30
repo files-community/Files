@@ -191,7 +191,7 @@ namespace Files.UserControls
 
         private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item)
         {
-            SidebarContextMenuOptions options = item.MenuOptions;
+            ContextMenuOptions options = item.MenuOptions;
 
             bool showMoveItemUp = options.IsItemMovable? App.SidebarPinnedController.Model.IndexOfItem(item) > 1:false;
             bool showMoveItemDown = options.IsItemMovable? App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count:false;
@@ -1147,7 +1147,7 @@ namespace Files.UserControls
             return false;
         }
 
-        private async void LoadShellMenuItems(Microsoft.UI.Xaml.Controls.CommandBarFlyout itemContextMenuFlyout, SidebarContextMenuOptions options)
+        private async void LoadShellMenuItems(Microsoft.UI.Xaml.Controls.CommandBarFlyout itemContextMenuFlyout, ContextMenuOptions options)
         {
             try
             {

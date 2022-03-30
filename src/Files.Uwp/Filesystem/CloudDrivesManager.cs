@@ -53,7 +53,7 @@ namespace Files.Filesystem
                     Path = provider.SyncFolder,
                     Type = DriveType.CloudDrive
                 };
-                cloudProviderItem.MenuOptions = new SidebarContextMenuOptions
+                cloudProviderItem.MenuOptions = new ContextMenuOptions
                 {
                     IsLocationItem = true,
                     ShowEjectDevice = cloudProviderItem.IsRemovable,
@@ -117,7 +117,7 @@ namespace Files.Filesystem
                         {
                             Text = "SidebarCloudDrives".GetLocalized(),
                             Section = SectionType.CloudDrives,
-                            MenuOptions = new SidebarContextMenuOptions
+                            MenuOptions = new ContextMenuOptions
                             {
                                 ShowHideSection = true
                             },

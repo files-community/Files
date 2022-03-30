@@ -14,7 +14,7 @@ namespace Files.Filesystem
 
         public NavigationControlItemType ItemType { get; }
 
-        public SidebarContextMenuOptions MenuOptions { get; }
+        public ContextMenuOptions MenuOptions { get; }
     }
 
     public enum NavigationControlItemType
@@ -39,7 +39,7 @@ namespace Files.Filesystem
         FileTag
     }
 
-    public class SidebarContextMenuOptions
+    public class ContextMenuOptions
     {
         public bool IsLibrariesHeader { get; set; }
 
