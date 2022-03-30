@@ -272,6 +272,7 @@ namespace Files.DataModels
 
             if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
             {
+                locationItem.IsInvalid = false;
                 if (res)
                 {
                     var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
@@ -293,7 +294,8 @@ namespace Files.DataModels
             }
             else
             {
-                locationItem.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.Shell32.FolderNotAccessible));
+                locationItem.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.Folder));
+                locationItem.IsInvalid = true;
                 Debug.WriteLine($"Pinned item was invalid {res.ErrorCode}, item: {path}");
             }
 

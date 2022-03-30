@@ -50,7 +50,6 @@
         {
             // See shell32.dll for more icon indexes to add
             public const int QuickAccess = 51380;
-            public const int FolderNotAccessible = 16780;
         }
 
         public static class UI
