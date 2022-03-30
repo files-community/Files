@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Files.Backend.Services.Settings;
-using Files.Uwp.Serialization;
-using Microsoft.Toolkit.Uwp;
 using Windows.Services.Store;
 using Windows.UI.Xaml.Controls;
+using Files.Backend.Services;
+using Microsoft.Toolkit.Uwp;
 
-namespace Files.Uwp.ServicesImplementation.Settings
+namespace Files.Uwp.ServicesImplementation
 {
-    internal sealed class UpdateSettingsService : BaseObservableJsonSettings, IUpdateSettingsService
+    internal sealed class UpdateService : IUpdateService
     {
         private StoreContext _storeContext;
         private IList<StorePackageUpdate> _updatePackages;
@@ -42,7 +43,7 @@ namespace Files.Uwp.ServicesImplementation.Settings
             }
         }
 
-        public UpdateSettingsService()
+        public UpdateService()
         {
             _updatePackages = new List<StorePackageUpdate>();
         }
@@ -157,6 +158,13 @@ namespace Files.Uwp.ServicesImplementation.Settings
         private void OnUpdateCancelled()
         {
             IsUpdating = false;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
