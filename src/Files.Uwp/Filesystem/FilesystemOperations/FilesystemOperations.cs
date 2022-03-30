@@ -172,7 +172,7 @@ namespace Files.Filesystem
                     ContentDialog dialog = new ContentDialog()
                     {
                         Title = "ErrorDialogThisActionCannotBeDone".GetLocalized(),
-                        Content = $"{"ErrorDialogTheDestinationFolder".GetLocalized()} ({destinationName}) {"ErrorDialogIsASubfolder".GetLocalized()} (sourceName)",
+                        Content = $"{"ErrorDialogTheDestinationFolder".GetLocalized()} ({destinationName}) {"ErrorDialogIsASubfolder".GetLocalized()} ({sourceName})",
                         //PrimaryButtonText = "Skip".GetLocalized(),
                         CloseButtonText = "Cancel".GetLocalized()
                     };
@@ -358,7 +358,7 @@ namespace Files.Filesystem
                     ContentDialog dialog = new ContentDialog()
                     {
                         Title = "ErrorDialogThisActionCannotBeDone".GetLocalized(),
-                        Content = "ErrorDialogTheDestinationFolder".GetLocalized() + " (" + destinationName + ") " + "ErrorDialogIsASubfolder".GetLocalized() + " (" + sourceName + ")",
+                        Content = $"{"ErrorDialogTheDestinationFolder".GetLocalized()} ({destinationName}) {"ErrorDialogIsASubfolder".GetLocalized()} ({sourceName})",
                         //PrimaryButtonText = "Skip".GetLocalized(),
                         CloseButtonText = "Cancel".GetLocalized()
                     };
@@ -789,7 +789,7 @@ namespace Files.Filesystem
                 {
                     await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalized(), "AccessDeniedDeleteDialog/Text".GetLocalized());
                 }
-                else if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.Unauthorized))
+                else if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.NotFound))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 }
