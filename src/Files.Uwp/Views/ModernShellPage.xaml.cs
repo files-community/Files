@@ -640,7 +640,7 @@ namespace Files.Views
             ContentPage = await GetContentOrNullAsync();
             NavToolbarViewModel.SearchBox.Query = string.Empty;
             NavToolbarViewModel.IsSearchBoxVisible = false;
-            NavToolbarViewModel.UpdateAdditionnalActions();
+            NavToolbarViewModel.UpdateAdditionalActions();
             if (ItemDisplayFrame.CurrentSourcePageType == (typeof(DetailsLayoutBrowser))
                 || ItemDisplayFrame.CurrentSourcePageType == typeof(GridViewBrowser))
             {
@@ -738,7 +738,7 @@ namespace Files.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.V): // ctrl + v, paste
-                    if (!NavToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
+                    if (!NavToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !NavToolbarViewModel.SearchHasFocus)
                     {
                         await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this);
                     }

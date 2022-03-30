@@ -686,7 +686,7 @@ namespace Files.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.V): // ctrl + v, paste
-                    if (!NavToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
+                    if (!NavToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !NavToolbarViewModel.SearchHasFocus)
                     {
                         await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this);
                     }
