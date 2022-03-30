@@ -39,7 +39,7 @@ namespace Files.ViewModels
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        public IUpdateService UpdateSettingsService { get; } = Ioc.Default.GetService<IUpdateService>();
+        public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>();
 
         public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
