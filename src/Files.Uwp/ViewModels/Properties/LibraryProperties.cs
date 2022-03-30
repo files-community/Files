@@ -1,9 +1,9 @@
-﻿using Files.Shared.Enums;
-using Files.Extensions;
+﻿using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using Microsoft.Toolkit.Uwp;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Threading;

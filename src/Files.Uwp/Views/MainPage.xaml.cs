@@ -1,16 +1,16 @@
-﻿using Files.DataModels.NavigationControlItems;
-using Files.Shared.Enums;
-using Files.EventArguments;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
+using Files.DataModels.NavigationControlItems;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Backend.Services.Settings;
+using Files.Shared.Enums;
+using Files.Shared.EventArguments;
+using Files.Shared.Extensions;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -23,7 +23,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using Files.Shared.EventArguments;
 
 namespace Files.Views
 {

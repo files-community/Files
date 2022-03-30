@@ -1,6 +1,6 @@
-﻿using Files.UserControls.MultitaskingControl;
+﻿using Files.Shared.Extensions;
+using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Linq;

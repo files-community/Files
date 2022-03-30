@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp;
+﻿using Files.Shared.Extensions;
 using System.Globalization;
 
 namespace Files.DataModels

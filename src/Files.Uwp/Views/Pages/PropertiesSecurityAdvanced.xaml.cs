@@ -2,6 +2,7 @@
 using Files.Filesystem;
 using Files.Filesystem.Permissions;
 using Files.Helpers;
+using Files.Shared.Extensions;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
 using System;

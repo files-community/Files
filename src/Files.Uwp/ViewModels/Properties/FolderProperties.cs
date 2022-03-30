@@ -1,10 +1,11 @@
 ﻿using ByteSizeLib;
-using Files.Shared.Enums;
+using CommunityToolkit.Mvvm.Input;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using CommunityToolkit.Mvvm.Input;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.IO;

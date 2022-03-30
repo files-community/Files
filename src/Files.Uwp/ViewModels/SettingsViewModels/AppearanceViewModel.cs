@@ -1,8 +1,8 @@
-﻿using Files.Helpers;
-using Files.Backend.Services.Settings;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
+using Files.Backend.Services.Settings;
+using Files.Helpers;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

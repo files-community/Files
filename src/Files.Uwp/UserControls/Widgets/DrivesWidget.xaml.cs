@@ -1,11 +1,10 @@
-﻿using Files.DataModels.NavigationControlItems;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
+using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Backend.Services.Settings;
-using Files.ViewModels;
+using Files.Shared.Extensions;
 using Files.ViewModels.Widgets;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

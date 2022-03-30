@@ -1,5 +1,5 @@
 ﻿using ByteSizeLib;
-using Microsoft.Toolkit.Uwp;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -1,16 +1,15 @@
-﻿using Files.DataModels.NavigationControlItems;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
+using Files.DataModels.NavigationControlItems;
+using Files.Helpers;
+using Files.Shared.Extensions;
 using Files.UserControls;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Core;
-using Files.Helpers;
 
 namespace Files.Filesystem
 {

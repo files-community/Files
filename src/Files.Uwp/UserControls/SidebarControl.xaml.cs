@@ -9,7 +9,6 @@ using Files.Helpers;
 using Files.Helpers.ContextFlyouts;
 using Files.Shared.Extensions;
 using Files.ViewModels;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;

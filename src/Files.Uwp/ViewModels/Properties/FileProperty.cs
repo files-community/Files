@@ -1,13 +1,11 @@
-﻿using Files.Converters;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Files.Converters;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp;
+using Files.Shared.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;

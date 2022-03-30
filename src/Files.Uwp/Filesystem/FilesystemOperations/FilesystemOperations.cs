@@ -1,11 +1,13 @@
-﻿using Files.Shared;
-using Files.Shared.Extensions;
-using Files.Shared.Enums;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
+using Files.Backend.ViewModels.Dialogs;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using Microsoft.Toolkit.Uwp;
+using Files.Shared;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,9 +21,6 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 using FileAttributes = System.IO.FileAttributes;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services;
-using Files.Backend.ViewModels.Dialogs;
 
 namespace Files.Filesystem
 {

@@ -1,6 +1,6 @@
 ﻿using Files.Helpers;
+using Files.Shared.Extensions;
 using ICSharpCode.SharpZipLib.Zip;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;

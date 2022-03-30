@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp;
+﻿using Files.Shared.Extensions;
 using System;
 
 namespace Files.Uwp.Helpers
@@ -10,21 +10,12 @@ namespace Files.Uwp.Helpers
             get
             {
                 var localized = $"{typeof(T).Name}_{Enum.GetName(typeof(T), Value)}".GetLocalized();
-
-                if (string.IsNullOrEmpty(localized))
-                {
-                    localized = $"{Enum.GetName(typeof(T), Value)}".GetLocalized();
-                }
-
-                return localized;
+                return string.IsNullOrEmpty(localized) ? $"{Enum.GetName(typeof(T), Value)}".GetLocalized() : localized;
             }
         }
 
         public T Value { get; set; }
 
-        public LocalizedEnumHelper(T value)
-        {
-            Value = value;
-        }
+        public LocalizedEnumHelper(T value) => Value = value;
     }
 }

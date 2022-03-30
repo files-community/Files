@@ -1,7 +1,7 @@
 ﻿using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
-using Microsoft.Toolkit.Uwp;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;

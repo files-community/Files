@@ -1,6 +1,4 @@
-﻿using Files.Shared;
-using Files.Shared.Extensions;
-using Microsoft.Toolkit.Uwp;
+﻿using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using Windows.Storage;

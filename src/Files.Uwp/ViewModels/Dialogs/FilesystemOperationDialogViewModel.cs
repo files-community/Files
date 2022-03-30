@@ -1,11 +1,14 @@
-﻿using Files.DataModels;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services;
+using Files.Backend.ViewModels.Dialogs;
+using Files.DataModels;
 using Files.Dialogs;
-using Files.Shared.Enums;
 using Files.Extensions;
 using Files.Helpers;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,9 +17,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services;
-using Files.Backend.ViewModels.Dialogs;
 
 namespace Files.ViewModels.Dialogs
 {

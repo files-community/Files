@@ -1,9 +1,9 @@
-﻿using Files.Shared.Extensions;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
 using Files.Extensions;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using Files.Backend.Services.Settings;
-using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Shared.Extensions;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;

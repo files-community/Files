@@ -1,7 +1,7 @@
-using Files.Extensions;
-using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
+using Files.Backend.Services.Settings;
+using Files.Extensions;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

@@ -1,8 +1,8 @@
-using Files.Shared;
-using Files.Filesystem;
-using Files.ViewModels;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
+using Files.Filesystem;
+using Files.Shared;
+using Files.Shared.Extensions;
+using Files.ViewModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

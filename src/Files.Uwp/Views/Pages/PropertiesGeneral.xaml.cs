@@ -1,6 +1,6 @@
-using Files.Shared;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Shared;
 using Files.Shared.Enums;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;

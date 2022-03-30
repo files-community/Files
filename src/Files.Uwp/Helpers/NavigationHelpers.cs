@@ -1,12 +1,12 @@
-﻿using Files.Shared;
-using Files.Shared.Enums;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
-using Files.Backend.Services.Settings;
+using Files.Shared;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Files.ViewModels;
 using Files.Views;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

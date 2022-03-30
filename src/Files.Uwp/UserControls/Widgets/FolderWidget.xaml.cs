@@ -1,10 +1,11 @@
-﻿using Files.Filesystem;
-using Files.Helpers;
-using Files.Backend.Services.Settings;
-using Files.ViewModels.Widgets;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
+using Files.Filesystem;
+using Files.Helpers;
+using Files.Shared.Extensions;
+using Files.ViewModels.Widgets;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.ComponentModel;

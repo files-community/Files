@@ -1,19 +1,23 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.CommandLine;
 using Files.Controllers;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
-using Files.Uwp.ServicesImplementation.Settings;
+using Files.Shared;
+using Files.Shared.Extensions;
 using Files.UserControls.MultitaskingControl;
+using Files.Uwp.ServicesImplementation;
+using Files.Uwp.ServicesImplementation.Settings;
 using Files.ViewModels;
+using Files.ViewModels.SettingsViewModels;
 using Files.Views;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
@@ -36,11 +40,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using Files.Shared;
-using Files.Shared.Extensions;
-using Files.Backend.Services;
-using Files.Uwp.ServicesImplementation;
-using Files.ViewModels.SettingsViewModels;
 
 namespace Files
 {
@@ -96,7 +95,9 @@ namespace Files
 
         private IServiceProvider ConfigureServices()
         {
-            ServiceCollection services = new ServiceCollection();
+            LocalizationExtensions.Initialize((string resourceKey) => Microsoft.Toolkit.Uwp.StringExtensions.GetLocalized(resourceKey));
+
+            ServiceCollection services = new();
 
             services
                 // TODO: Loggers:
@@ -119,7 +120,6 @@ namespace Files
                 // Other services
                 .AddSingleton<IDialogService, DialogService>()
                 .AddSingleton<IImagingService, ImagingService>()
-                .AddSingleton<ILocalizationService, LocalizationService>()
 
                 // TODO(i): FileSystem operations:
                 // (IFilesystemHelpersService, IFilesystemOperationsService)

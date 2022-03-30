@@ -1,16 +1,16 @@
-using Files.Shared;
-using Files.DataModels.NavigationControlItems;
-using Files.Shared.Enums;
-using Files.Helpers;
-using Files.Backend.Services.Settings;
-using Files.UserControls;
-using Files.UserControls.Widgets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
+using Files.DataModels.NavigationControlItems;
+using Files.Helpers;
+using Files.Shared;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
+using Files.UserControls;
+using Files.UserControls.Widgets;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,7 +21,6 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Core;
 using DriveType = Files.DataModels.NavigationControlItems.DriveType;
-using Files.Shared;
 
 namespace Files.Filesystem
 {

@@ -1,19 +1,22 @@
-﻿using Files.Shared;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Enums;
+using Files.Backend.Services;
+using Files.Backend.Services.Settings;
+using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 using Files.Dialogs;
-using Files.Shared.Enums;
 using Files.EventArguments;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.Search;
 using Files.Helpers;
-using Files.Backend.Services.Settings;
+using Files.Shared;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views.LayoutModes;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,9 +37,6 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using SortDirection = Files.Shared.Enums.SortDirection;
-using Files.Backend.Enums;
-using Files.Backend.Services;
-using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 
 namespace Files.Views
 {

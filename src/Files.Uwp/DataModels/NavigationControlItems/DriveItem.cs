@@ -1,9 +1,9 @@
 ﻿using ByteSizeLib;
-using Files.Shared;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
-using CommunityToolkit.Mvvm.ComponentModel;
+using Files.Shared.Extensions;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Threading.Tasks;
@@ -12,7 +12,6 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
-using Files.Shared.Extensions;
 
 namespace Files.DataModels.NavigationControlItems
 {

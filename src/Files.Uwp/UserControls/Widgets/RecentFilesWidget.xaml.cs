@@ -1,11 +1,10 @@
-﻿using Files.Shared.Enums;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
-using Files.Backend.Services.Settings;
-using Files.ViewModels;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Files.ViewModels.Widgets;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

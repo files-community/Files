@@ -1,12 +1,13 @@
-﻿using Files.DataModels.NavigationControlItems;
-using Files.Filesystem;
-using Files.Helpers;
-using Files.Backend.Services.Settings;
-using Files.UserControls;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
+using Files.Backend.Services.Settings;
+using Files.DataModels.NavigationControlItems;
+using Files.Filesystem;
+using Files.Helpers;
+using Files.Shared.EventArguments;
+using Files.Shared.Extensions;
+using Files.UserControls;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using Windows.UI.Xaml;
-using Files.Shared.EventArguments;
 
 namespace Files.ViewModels
 {

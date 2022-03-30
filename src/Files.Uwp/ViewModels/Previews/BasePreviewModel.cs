@@ -1,10 +1,10 @@
-﻿using Files.Filesystem;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
+using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using Files.Backend.Services.Settings;
 using Files.ViewModels.Properties;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;

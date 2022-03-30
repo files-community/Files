@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
+using Files.Uwp.Serialization;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Files.Backend.Services.Settings;
-using Files.Uwp.Serialization;
-using Microsoft.Toolkit.Uwp;
 using Windows.Services.Store;
 using Windows.UI.Xaml.Controls;
 

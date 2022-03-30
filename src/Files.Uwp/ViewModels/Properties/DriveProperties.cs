@@ -2,7 +2,7 @@
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using Microsoft.Toolkit.Uwp;
+using Files.Shared.Extensions;
 using System;
 using Windows.Storage.FileProperties;
 

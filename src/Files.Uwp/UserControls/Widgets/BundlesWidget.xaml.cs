@@ -1,8 +1,8 @@
-﻿using Files.Backend.Services.Settings;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
 using Files.ViewModels.Widgets;
 using Files.ViewModels.Widgets.Bundles;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
 using System;
 using Windows.UI.Xaml.Controls;
 

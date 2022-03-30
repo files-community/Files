@@ -1,8 +1,8 @@
-﻿using Files.Shared.Enums;
-using Files.Helpers;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
+using Files.Helpers;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using System;
 using System.Windows.Input;
 using Windows.UI;

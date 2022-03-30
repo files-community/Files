@@ -1,8 +1,6 @@
-﻿using Files.Shared;
-using Files.Helpers;
+﻿using Files.Helpers;
 using Files.Shared.Extensions;
 using FluentFTP;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.IO;

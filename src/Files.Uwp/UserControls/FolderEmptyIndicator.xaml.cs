@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp;
+﻿using Files.Shared.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 

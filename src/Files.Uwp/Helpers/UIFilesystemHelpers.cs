@@ -1,12 +1,13 @@
-﻿using Files.Shared;
+﻿using Files.Backend.Enums;
 using Files.Dialogs;
-using Files.Shared.Enums;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Interacts;
+using Files.Shared;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Files.ViewModels;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Concurrent;
 using System.IO;
@@ -18,7 +19,6 @@ using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Files.Backend.Enums;
 
 namespace Files.Helpers
 {

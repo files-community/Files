@@ -1,5 +1,5 @@
 ﻿using Files.Shared.Enums;
-using Microsoft.Toolkit.Uwp;
+using Files.Shared.Extensions;
 using System;
 using System.Globalization;
 

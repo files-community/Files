@@ -1,11 +1,11 @@
-﻿using Files.Shared;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
 using Files.Extensions;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
-using Files.Backend.Services.Settings;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
+using Files.Shared;
+using Files.Shared.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

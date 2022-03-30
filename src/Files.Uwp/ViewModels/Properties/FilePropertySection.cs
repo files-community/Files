@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp;
+﻿using Files.Shared.Extensions;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
 

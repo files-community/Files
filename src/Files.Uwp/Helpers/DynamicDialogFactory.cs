@@ -1,6 +1,7 @@
 ﻿using Files.Dialogs;
-using Files.Shared.Enums;
 using Files.Filesystem;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp;
 using System;

@@ -1,15 +1,15 @@
-﻿using Files.Shared.Enums;
-using Files.Shared.Extensions;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
+using Files.Backend.ViewModels.FileTags;
 using Files.Extensions;
 using Files.Filesystem.Cloud;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using Files.Backend.Services.Settings;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Files.ViewModels.Properties;
 using FluentFTP;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -17,7 +17,6 @@ using System.Linq;
 using System.Threading;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
-using Files.Backend.ViewModels.FileTags;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 

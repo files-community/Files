@@ -1,8 +1,8 @@
-﻿using Files.DataModels.NavigationControlItems;
+﻿using CommunityToolkit.Mvvm.Input;
+using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
+using Files.Shared.Extensions;
 using Files.ViewModels.Properties;
-using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;

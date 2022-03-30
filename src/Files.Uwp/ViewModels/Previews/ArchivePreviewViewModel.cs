@@ -1,8 +1,8 @@
 ﻿using Files.Extensions;
 using Files.Filesystem;
+using Files.Shared.Extensions;
 using Files.ViewModels.Properties;
 using ICSharpCode.SharpZipLib.Zip;
-using Microsoft.Toolkit.Uwp;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;

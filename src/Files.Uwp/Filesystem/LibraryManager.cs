@@ -6,7 +6,6 @@ using Files.Shared;
 using Files.Shared.Extensions;
 using Files.UserControls;
 using Files.ViewModels;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Specialized;
 using System.IO;

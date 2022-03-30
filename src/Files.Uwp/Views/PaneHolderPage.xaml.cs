@@ -1,9 +1,10 @@
-﻿using Files.Filesystem;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
+using Files.Filesystem;
+using Files.Shared.EventArguments;
+using Files.Shared.Extensions;
 using Files.UserControls.MultitaskingControl;
 using Files.Views.LayoutModes;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -14,7 +15,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using Files.Shared.EventArguments;
 
 namespace Files.Views
 {

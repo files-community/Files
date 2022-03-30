@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Enums;
-using Files.Backend.Extensions;
 using Files.Backend.Models.Dialogs;
 using Files.Backend.Models.Imaging;
 using Files.Backend.Services;
 using Files.Shared;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -34,8 +34,8 @@ namespace Files.Backend.ViewModels.Dialogs.AddItemDialog
 
             AddItemsList.Add(new AddItemDialogListItemViewModel
             {
-                Header = "Folder".ToLocalized(),
-                SubHeader = "AddDialogListFolderSubHeader".ToLocalized(),
+                Header = "Folder".GetLocalized(),
+                SubHeader = "AddDialogListFolderSubHeader".GetLocalized(),
                 Glyph = "\xE838",
                 IsItemEnabled = true,
                 ItemResult = new AddItemDialogResultModel() { ItemType = AddItemDialogItemType.Folder }
@@ -67,8 +67,8 @@ namespace Files.Backend.ViewModels.Dialogs.AddItemDialog
 
             AddItemsList.Add(new AddItemDialogListItemViewModel
             {
-                Header = "File".ToLocalized(),
-                SubHeader = "AddDialogListFileSubHeader".ToLocalized(),
+                Header = "File".GetLocalized(),
+                SubHeader = "AddDialogListFileSubHeader".GetLocalized(),
                 Glyph = "\xE8A5",
                 IsItemEnabled = true,
                 ItemResult = new AddItemDialogResultModel()

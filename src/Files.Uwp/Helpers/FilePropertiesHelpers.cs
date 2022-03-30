@@ -1,6 +1,6 @@
 ﻿using Files.Dialogs;
+using Files.Shared.Extensions;
 using Files.Views;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

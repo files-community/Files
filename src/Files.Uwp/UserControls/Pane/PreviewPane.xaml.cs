@@ -1,8 +1,8 @@
-﻿using Files.Backend.Services.Settings;
-using Files.ViewModels;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
+using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
+using Files.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;

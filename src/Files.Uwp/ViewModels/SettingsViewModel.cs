@@ -1,10 +1,9 @@
-using Files.Shared.Extensions;
-using Files.DataModels;
-using Files.Shared.Enums;
-using Files.Helpers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
+using Files.DataModels;
+using Files.Helpers;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;

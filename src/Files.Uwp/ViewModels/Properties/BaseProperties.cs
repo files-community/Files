@@ -1,6 +1,6 @@
-﻿using Files.Shared.Enums;
-using Files.Extensions;
-using Microsoft.Toolkit.Uwp;
+﻿using Files.Extensions;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;

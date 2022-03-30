@@ -1,7 +1,7 @@
-﻿using Files.Shared.Enums;
-using Files.Extensions;
+﻿using Files.Extensions;
 using Files.Filesystem;
-using Microsoft.Toolkit.Uwp;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using System;
 using System.Linq;
 using Windows.Storage;

@@ -1,19 +1,22 @@
-using Files.Shared;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Enums;
+using Files.Backend.Services;
+using Files.Backend.Services.Settings;
+using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 using Files.Dialogs;
-using Files.Shared.Enums;
 using Files.EventArguments;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.Search;
 using Files.Helpers;
-using Files.Backend.Services.Settings;
+using Files.Shared;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views.LayoutModes;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
@@ -33,11 +36,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using Files.Interacts;
 using SortDirection = Files.Shared.Enums.SortDirection;
-using Files.Backend.Enums;
-using Files.Backend.Services;
-using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 

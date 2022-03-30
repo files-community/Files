@@ -1,6 +1,7 @@
 ﻿using Files.DataModels;
-using Files.Shared.Enums;
 using Files.Filesystem;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -10,7 +11,6 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.Search;
-using Files.Shared.Extensions;
 
 namespace Files.Controllers
 {

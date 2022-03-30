@@ -1,15 +1,15 @@
-﻿using Files.Shared.Extensions;
-using Files.Shared.Enums;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using Files.Backend.Services.Settings;
+using Files.Shared.Enums;
+using Files.Shared.EventArguments;
+using Files.Shared.Extensions;
 using Files.UserControls;
 using Files.Views;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
@@ -30,7 +30,6 @@ using Windows.UI.Xaml.Input;
 using static Files.UserControls.INavigationToolbar;
 using SearchBox = Files.UserControls.SearchBox;
 using SortDirection = Files.Shared.Enums.SortDirection;
-using Files.Shared.EventArguments;
 
 namespace Files.ViewModels
 {
