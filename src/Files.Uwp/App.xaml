@@ -27,6 +27,10 @@
 
             <!--  Default list view item height  -->
             <x:Double x:Key="ListItemHeight">36</x:Double>
+
+            <!--  Default nav menu item height  -->
+            <x:Double x:Key="NavigationViewItemOnLeftMinHeight">32</x:Double>
+
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" ControlsResourcesVersion="Version2" />
                 <ResourceDictionary>
