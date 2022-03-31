@@ -55,7 +55,7 @@ namespace Files.Views
 
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        private IUpdateSettingsService UpdateSettingsService { get; } = Ioc.Default.GetService<IUpdateSettingsService>();
+        private IUpdateService UpdateSettingsService { get; } = Ioc.Default.GetService<IUpdateService>();
 
         private bool isCurrentInstance = false;
         public bool IsCurrentInstance
