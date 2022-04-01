@@ -573,12 +573,12 @@
                     Height="32"
                     HorizontalContentAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
-                    x:Load="{x:Bind ViewModel.UpdateSettingsService.IsUpdateAvailable, Mode=OneWay}"
+                    x:Load="{x:Bind ViewModel.UpdateService.IsUpdateAvailable, Mode=OneWay}"
                     AccessKey="1"
                     AutomationProperties.Name="{helpers:ResourceString Name=UpdateFiles}"
                     Background="Transparent"
                     Command="{x:Bind ViewModel.UpdateCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind ViewModel.UpdateSettingsService.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                    IsEnabled="{x:Bind ViewModel.UpdateService.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=UpdateFiles}">
                     <FontIcon FontSize="14" Glyph="&#xE896;" />
