@@ -152,24 +152,24 @@ namespace Files.Filesystem
             }
             else
             {
-                if (copyResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
+                if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
                 {
                     if (await RequestAdminOperation())
                     {
                         return await CopyItemsAsync(source, destination, collisions, progress, errorCode, cancellationToken);
                     }
                 }
-                else if (copyResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
+                else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
                 {
                     // TODO: proper dialog, retry
-                    var failedSources = copyResult.Items.Where(x => HResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-                    var lockingProcess = await WhoIsLockingAsync(failedSources.Select(x => x.HResult == HResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination));
+                    var failedSources = copyResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
+                    var lockingProcess = await WhoIsLockingAsync(failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination));
                     await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), lockingProcess != null ? string.Join(Environment.NewLine, lockingProcess.Select(x => $"Name: {x.Name}, PID: {x.Pid}")) : "");
                 }
-                else if (copyResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
+                else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
                 {
                     // Retry with StorageFile API
-                    var failedSources = copyResult.Items.Where(x => HResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong);
+                    var failedSources = copyResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong);
                     var copyZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
                     var sourceMatch = await failedSources.Select(x => copyZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
                     return await filesystemOperations.CopyItemsAsync(
@@ -177,15 +177,15 @@ namespace Files.Filesystem
                         await sourceMatch.Select(x => x.dest).ToListAsync(),
                         await sourceMatch.Select(x => x.coll).ToListAsync(), progress, errorCode, cancellationToken);
                 }
-                else if (copyResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
+                else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 }
-                else if (copyResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
+                else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
                 }
-                errorCode?.Report(HResult.Convert(copyResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
+                errorCode?.Report(CopyEngineResult.Convert(copyResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return null;
             }
         }
@@ -266,27 +266,27 @@ namespace Files.Filesystem
             }
             else
             {
-                if (createResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
+                if (createResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
                 {
                     if (await RequestAdminOperation())
                     {
                         return await CreateAsync(source, errorCode, cancellationToken);
                     }
                 }
-                else if (createResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
+                else if (createResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
                 {
                     // Retry with StorageFile API
                     return await filesystemOperations.CreateAsync(source, errorCode, cancellationToken);
                 }
-                else if (createResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
+                else if (createResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 }
-                else if (createResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
+                else if (createResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
                 }
-                errorCode?.Report(HResult.Convert(createResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
+                errorCode?.Report(CopyEngineResult.Convert(createResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return (null, null);
             }
         }
@@ -415,32 +415,32 @@ namespace Files.Filesystem
             }
             else
             {
-                if (deleteResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
+                if (deleteResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
                 {
                     if (await RequestAdminOperation())
                     {
                         return await DeleteItemsAsync(source, progress, errorCode, permanently, cancellationToken);
                     }
                 }
-                else if (deleteResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
+                else if (deleteResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
                 {
                     // TODO: proper dialog, retry
-                    var failedSources = deleteResult.Items.Where(x => HResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-                    var lockingProcess = await WhoIsLockingAsync(failedSources.Select(x => x.HResult == HResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination));
+                    var failedSources = deleteResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
+                    var lockingProcess = await WhoIsLockingAsync(failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination));
                     await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), lockingProcess != null ? string.Join(Environment.NewLine, lockingProcess.Select(x => $"Name: {x.Name}, PID: {x.Pid}")) : "");
                 }
-                else if (deleteResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
+                else if (deleteResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
                 {
                     // Abort, path is too long for recycle bin
-                    //var failedSources = deleteResult.Items.Where(x => HResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong);
+                    //var failedSources = deleteResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong);
                     //var sourceMatch = await failedSources.Select(x => source.DistinctBy(x => x.Path).SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
                     //return await filesystemOperations.DeleteItemsAsync(sourceMatch, progress, errorCode, permanently, cancellationToken);
                 }
-                else if (deleteResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
+                else if (deleteResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 }
-                errorCode?.Report(HResult.Convert(deleteResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
+                errorCode?.Report(CopyEngineResult.Convert(deleteResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return null;
             }
         }
@@ -551,7 +551,7 @@ namespace Files.Filesystem
             }
             else
             {
-                if (moveResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
+                if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
                 {
                     if (await RequestAdminOperation())
                     {
@@ -564,17 +564,17 @@ namespace Files.Filesystem
                     var srcName = subtree.src.Path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
                     await DialogDisplayHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalized(), $"{"ErrorDialogTheDestinationFolder".GetLocalized()} ({destName}) {"ErrorDialogIsASubfolder".GetLocalized()} ({srcName})");
                 }
-                else if (moveResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
+                else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
                 {
                     // TODO: proper dialog, retry
-                    var failedSources = moveResult.Items.Where(x => HResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-                    var lockingProcess = await WhoIsLockingAsync(failedSources.Select(x => x.HResult == HResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination));
+                    var failedSources = moveResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
+                    var lockingProcess = await WhoIsLockingAsync(failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination));
                     await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), lockingProcess != null ? string.Join(Environment.NewLine, lockingProcess.Select(x => $"Name: {x.Name}, PID: {x.Pid}")) : "");
                 }
-                else if (moveResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
+                else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
                 {
                     // Retry with StorageFile API
-                    var failedSources = moveResult.Items.Where(x => HResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong);
+                    var failedSources = moveResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong);
                     var moveZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
                     var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
                     return await filesystemOperations.MoveItemsAsync(
@@ -582,15 +582,15 @@ namespace Files.Filesystem
                         await sourceMatch.Select(x => x.dest).ToListAsync(),
                         await sourceMatch.Select(x => x.coll).ToListAsync(), progress, errorCode, cancellationToken);
                 }
-                else if (moveResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
+                else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 }
-                else if (moveResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
+                else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
                 }
-                errorCode?.Report(HResult.Convert(moveResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
+                errorCode?.Report(CopyEngineResult.Convert(moveResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return null;
             }
         }
@@ -640,34 +640,34 @@ namespace Files.Filesystem
             }
             else
             {
-                if (renameResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
+                if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
                 {
                     if (await RequestAdminOperation())
                     {
                         return await RenameAsync(source, newName, collision, errorCode, cancellationToken);
                     }
                 }
-                else if (renameResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
+                else if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
                 {
                     // TODO: proper dialog, retry
-                    var failedSources = renameResult.Items.Where(x => HResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-                    var lockingProcess = await WhoIsLockingAsync(failedSources.Select(x => x.HResult == HResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination));
+                    var failedSources = renameResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
+                    var lockingProcess = await WhoIsLockingAsync(failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination));
                     await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), lockingProcess != null ? string.Join(Environment.NewLine, lockingProcess.Select(x => $"Name: {x.Name}, PID: {x.Pid}")) : "");
                 }
-                else if (renameResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
+                else if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
                 {
                     // Retry with StorageFile API
                     return await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
                 }
-                else if (renameResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
+                else if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("RenameError/ItemDeleted/Title".GetLocalized(), "RenameError/ItemDeleted/Text".GetLocalized());
                 }
-                else if (renameResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
+                else if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
                 }
-                errorCode?.Report(HResult.Convert(renameResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
+                errorCode?.Report(CopyEngineResult.Convert(renameResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return null;
             }
         }
@@ -748,39 +748,39 @@ namespace Files.Filesystem
             }
             else
             {
-                if (moveResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
+                if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
                 {
                     if (await RequestAdminOperation())
                     {
                         return await RestoreItemsFromTrashAsync(source, destination, progress, errorCode, cancellationToken);
                     }
                 }
-                else if (moveResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
+                else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
                 {
                     // TODO: proper dialog, retry
-                    var failedSources = moveResult.Items.Where(x => HResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-                    var lockingProcess = await WhoIsLockingAsync(failedSources.Select(x => x.HResult == HResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination));
+                    var failedSources = moveResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
+                    var lockingProcess = await WhoIsLockingAsync(failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination));
                     await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), lockingProcess != null ? string.Join(Environment.NewLine, lockingProcess.Select(x => $"Name: {x.Name}, PID: {x.Pid}")) : "");
                 }
-                else if (moveResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
+                else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
                 {
                     // Retry with StorageFile API
-                    var failedSources = moveResult.Items.Where(x => HResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong);
+                    var failedSources = moveResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong);
                     var moveZip = source.Zip(destination, (src, dest) => new { src, dest });
                     var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
                     return await filesystemOperations.RestoreItemsFromTrashAsync(
                         await sourceMatch.Select(x => x.src).ToListAsync(),
                         await sourceMatch.Select(x => x.dest).ToListAsync(), progress, errorCode, cancellationToken);
                 }
-                else if (moveResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
+                else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 }
-                else if (moveResult.Items.Any(x => HResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
+                else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
                 }
-                errorCode?.Report(HResult.Convert(moveResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
+                errorCode?.Report(CopyEngineResult.Convert(moveResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return null;
             }
         }
@@ -846,86 +846,6 @@ namespace Files.Filesystem
                 }
             }
             return null;
-        }
-
-        private struct HResult
-        {
-            // https://github.com/RickStrahl/DeleteFiles/blob/master/DeleteFiles/ZetaLongPaths/Native/FileOperations/Interop/CopyEngineResult.cs
-            // Ok
-            public const int S_OK = 0;
-            public const int COPYENGINE_S_DONT_PROCESS_CHILDREN = 2555912;
-            public const int COPYENGINE_E_USER_CANCELLED = -2144927744;
-            // Access denied
-            public const int COPYENGINE_E_ACCESS_DENIED_SRC = -2144927711;
-            public const int COPYENGINE_E_ACCESS_DENIED_DEST = -2144927710;
-            public const int COPYENGINE_E_REQUIRES_ELEVATION = -2144927742;
-            // Path too long
-            public const int COPYENGINE_E_PATH_TOO_DEEP_SRC = -2144927715;
-            public const int COPYENGINE_E_PATH_TOO_DEEP_DEST = -2144927714;
-            public const int COPYENGINE_E_RECYCLE_PATH_TOO_LONG = -2144927688;
-            public const int COPYENGINE_E_NEWFILE_NAME_TOO_LONG = -2144927685;
-            public const int COPYENGINE_E_NEWFOLDER_NAME_TOO_LONG = -2144927684;
-            // Not found
-            public const int COPYENGINE_E_RECYCLE_BIN_NOT_FOUND = -2144927686;
-            public const int COPYENGINE_E_PATH_NOT_FOUND_SRC = -2144927709;
-            public const int COPYENGINE_E_PATH_NOT_FOUND_DEST = -2144927708;
-            public const int COPYENGINE_E_NET_DISCONNECT_DEST = -2144927706;
-            public const int COPYENGINE_E_NET_DISCONNECT_SRC = -2144927707;
-            public const int COPYENGINE_E_CANT_REACH_SOURCE = -2144927691;
-            // File in use
-            public const int COPYENGINE_E_SHARING_VIOLATION_SRC = -2144927705;
-            public const int COPYENGINE_E_SHARING_VIOLATION_DEST = -2144927704;
-            // Already exists
-            public const int COPYENGINE_E_ALREADY_EXISTS_NORMAL = -2144927703;
-            public const int COPYENGINE_E_ALREADY_EXISTS_READONLY = -2144927702;
-            public const int COPYENGINE_E_ALREADY_EXISTS_SYSTEM = -2144927701;
-            public const int COPYENGINE_E_ALREADY_EXISTS_FOLDER = -2144927700;
-            // File too big
-            //public const int COPYENGINE_E_FILE_TOO_LARGE = -2144927731;
-            //public const int COPYENGINE_E_REMOVABLE_FULL = -2144927730;
-            //public const int COPYENGINE_E_DISK_FULL = -2144927694;
-            //public const int COPYENGINE_E_DISK_FULL_CLEAN = -2144927693;
-            //public const int COPYENGINE_E_RECYCLE_SIZE_TOO_BIG = -2144927689;
-            // Invalid path
-            public const int COPYENGINE_E_FILE_IS_FLD_DEST = -2144927732;
-            public const int COPYENGINE_E_FLD_IS_FILE_DEST = -2144927733;
-            //public const int COPYENGINE_E_INVALID_FILES_SRC = -2144927717;
-            //public const int COPYENGINE_E_INVALID_FILES_DEST = -2144927716;
-            //public const int COPYENGINE_E_SAME_FILE = -2144927741;
-            //public const int COPYENGINE_E_DEST_SAME_TREE = -2144927734;
-            //public const int COPYENGINE_E_DEST_SUBTREE = -2144927735;
-
-            public static FileSystemStatusCode Convert(int? hres)
-            {
-                return hres switch
-                {
-                    HResult.S_OK => FileSystemStatusCode.Success,
-                    HResult.COPYENGINE_E_ACCESS_DENIED_SRC => FileSystemStatusCode.Unauthorized,
-                    HResult.COPYENGINE_E_ACCESS_DENIED_DEST => FileSystemStatusCode.Unauthorized,
-                    HResult.COPYENGINE_E_REQUIRES_ELEVATION => FileSystemStatusCode.Unauthorized,
-                    HResult.COPYENGINE_E_RECYCLE_PATH_TOO_LONG => FileSystemStatusCode.NameTooLong,
-                    HResult.COPYENGINE_E_NEWFILE_NAME_TOO_LONG => FileSystemStatusCode.NameTooLong,
-                    HResult.COPYENGINE_E_NEWFOLDER_NAME_TOO_LONG => FileSystemStatusCode.NameTooLong,
-                    HResult.COPYENGINE_E_PATH_TOO_DEEP_SRC => FileSystemStatusCode.NameTooLong,
-                    HResult.COPYENGINE_E_PATH_TOO_DEEP_DEST => FileSystemStatusCode.NameTooLong,
-                    HResult.COPYENGINE_E_PATH_NOT_FOUND_SRC => FileSystemStatusCode.NotFound,
-                    HResult.COPYENGINE_E_PATH_NOT_FOUND_DEST => FileSystemStatusCode.NotFound,
-                    HResult.COPYENGINE_E_NET_DISCONNECT_DEST => FileSystemStatusCode.NotFound,
-                    HResult.COPYENGINE_E_NET_DISCONNECT_SRC => FileSystemStatusCode.NotFound,
-                    HResult.COPYENGINE_E_CANT_REACH_SOURCE => FileSystemStatusCode.NotFound,
-                    HResult.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND => FileSystemStatusCode.NotFound,
-                    HResult.COPYENGINE_E_ALREADY_EXISTS_NORMAL => FileSystemStatusCode.AlreadyExists,
-                    HResult.COPYENGINE_E_ALREADY_EXISTS_READONLY => FileSystemStatusCode.AlreadyExists,
-                    HResult.COPYENGINE_E_ALREADY_EXISTS_SYSTEM => FileSystemStatusCode.AlreadyExists,
-                    HResult.COPYENGINE_E_ALREADY_EXISTS_FOLDER => FileSystemStatusCode.AlreadyExists,
-                    HResult.COPYENGINE_E_FILE_IS_FLD_DEST => FileSystemStatusCode.NotAFile,
-                    HResult.COPYENGINE_E_FLD_IS_FILE_DEST => FileSystemStatusCode.NotAFolder,
-                    HResult.COPYENGINE_E_SHARING_VIOLATION_SRC => FileSystemStatusCode.InUse,
-                    HResult.COPYENGINE_E_SHARING_VIOLATION_DEST => FileSystemStatusCode.InUse,
-                    null => FileSystemStatusCode.Generic,
-                    _ => FileSystemStatusCode.Generic
-                };
-            }
         }
 
         #region IDisposable
