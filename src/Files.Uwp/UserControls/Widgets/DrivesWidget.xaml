@@ -71,7 +71,7 @@
 				<DataTemplate
 					x:DataType="local:DriveCardItem">
 					<Button
-						Padding="8"
+						Padding="0"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
 						HorizontalContentAlignment="Stretch"
@@ -155,6 +155,7 @@
 							</MenuFlyout>
 						</Button.ContextFlyout>
 						<Grid
+							Margin="8"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"
 							ColumnSpacing="8">
@@ -163,12 +164,14 @@
 									Width="32" />
 								<ColumnDefinition
 									Width="*" />
+								<ColumnDefinition
+									Width="Auto" />
 							</Grid.ColumnDefinitions>
 							<Grid.RowDefinitions>
 								<RowDefinition
 									Height="*" />
 								<RowDefinition
-									Height="Auto" />
+									Height="*" />
 								<RowDefinition
 									Height="*" />
 							</Grid.RowDefinitions>
@@ -185,59 +188,53 @@
 								x:Name="ItemLocationName"
 								Grid.Row="0"
 								Grid.Column="1"
-								VerticalAlignment="Stretch"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Center"
 								FontSize="14"
 								FontWeight="Medium"
 								Text="{x:Bind Item.Text, Mode=OneWay}"
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap" />
 
-							<Grid
-								Grid.Row="1"
+							<muxc:ProgressBar
 								Grid.Column="1"
-								Grid.ColumnSpan="8"
-								VerticalAlignment="Stretch">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition
-										Width="*" />
-									<ColumnDefinition
-										Width="Auto" />
-								</Grid.ColumnDefinitions>
-								<muxc:ProgressBar
-									Grid.Column="0"
-									AutomationProperties.AccessibilityView="Raw"
-									Maximum="{x:Bind Item.MaxSpace.GigaBytes, Mode=OneWay}"
-									Visibility="{x:Bind Item.ShowDriveDetails, Mode=OneWay}"
-									Value="{x:Bind Item.SpaceUsed.GigaBytes, Mode=OneWay}" />
+								Grid.Row="1"
+								VerticalAlignment="Stretch"
+								VerticalContentAlignment="Stretch"
+								AutomationProperties.AccessibilityView="Raw"
+								Maximum="{x:Bind Item.MaxSpace.GigaBytes, Mode=OneWay}"
+								Visibility="{x:Bind Item.ShowDriveDetails, Mode=OneWay}"
+								Value="{x:Bind Item.SpaceUsed.GigaBytes, Mode=OneWay}" />
 
-								<Button
-									x:Name="GoToStorageSense"
-									Grid.Column="1"
-									Width="28"
-									Height="28"
-									Margin="4,0,0,0"
-									Padding="0"
-									HorizontalContentAlignment="Center"
-									VerticalContentAlignment="Center"
-									x:Load="{x:Bind Item.ShowStorageSense}"
-									AutomationProperties.Name="{helpers:ResourceString Name=DrivesWidgetOpenStorageSenseButton/AutomationProperties/Name}"
-									Background="Transparent"
-									BorderBrush="Transparent"
-									Click="GoToStorageSense_Click"
-									Tag="{x:Bind Item.Path}"
-									ToolTipService.ToolTip="{helpers:ResourceString Name=DrivesWidgetOpenStorageSenseButton/ToolTipService/ToolTip}">
-									<FontIcon
-										HorizontalAlignment="Center"
-										VerticalAlignment="Center"
-										FontSize="14"
-										Glyph="&#xE946;" />
-								</Button>
-							</Grid>
+							<Button
+								x:Name="GoToStorageSense"
+								Grid.Column="2"
+								Grid.RowSpan="3"
+								Width="28"
+								Height="28"
+								Margin="4,0,0,0"
+								Padding="0"
+								HorizontalContentAlignment="Center"
+								VerticalContentAlignment="Center"
+								x:Load="{x:Bind Item.ShowStorageSense, Mode=OneWay}"
+								AutomationProperties.Name="{helpers:ResourceString Name=DrivesWidgetOpenStorageSenseButton/AutomationProperties/Name}"
+								Background="Transparent"
+								BorderBrush="Transparent"
+								Click="GoToStorageSense_Click"
+								Tag="{x:Bind Item.Path}"
+								ToolTipService.ToolTip="{helpers:ResourceString Name=DrivesWidgetOpenStorageSenseButton/ToolTipService/ToolTip}">
+								<FontIcon
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									FontSize="14"
+									Glyph="&#xE946;" />
+							</Button>
 
 							<TextBlock
 								Grid.Row="2"
 								Grid.Column="1"
-								VerticalAlignment="Bottom"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Center"
 								x:Phase="1"
 								FontSize="12"
 								Text="{x:Bind Item.SpaceText, Mode=OneWay}"
