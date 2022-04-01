@@ -114,12 +114,12 @@ namespace Files
                 // Settings not related to IUserSettingsService:
                 .AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
                 .AddSingleton<IBundlesSettingsService, BundlesSettingsService>()
-                .AddSingleton<IUpdateSettingsService, UpdateSettingsService>()
 
                 // Other services
                 .AddSingleton<IDialogService, DialogService>()
                 .AddSingleton<IImagingService, ImagingService>()
                 .AddSingleton<ILocalizationService, LocalizationService>()
+                .AddSingleton<IUpdateService, UpdateService>()
 
                 // TODO(i): FileSystem operations:
                 // (IFilesystemHelpersService, IFilesystemOperationsService)
@@ -201,7 +201,7 @@ namespace Files
             });
 
             // Check for required updates
-            var updateService = Ioc.Default.GetRequiredService<IUpdateSettingsService>();
+            var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
             await updateService.CheckForUpdates();
             await updateService.DownloadMandatoryUpdates();
         }

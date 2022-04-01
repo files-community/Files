@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Files.Backend.Services.Settings;
-using Files.Uwp.Serialization;
-using Microsoft.Toolkit.Uwp;
 using Windows.Services.Store;
 using Windows.UI.Xaml.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Files.Backend.Services;
+using Microsoft.Toolkit.Uwp;
 
-namespace Files.Uwp.ServicesImplementation.Settings
+namespace Files.Uwp.ServicesImplementation
 {
-    internal sealed class UpdateSettingsService : BaseObservableJsonSettings, IUpdateSettingsService
+    internal sealed class UpdateService : ObservableObject, IUpdateService
     {
         private StoreContext _storeContext;
         private IList<StorePackageUpdate> _updatePackages;
@@ -42,7 +42,7 @@ namespace Files.Uwp.ServicesImplementation.Settings
             }
         }
 
-        public UpdateSettingsService()
+        public UpdateService()
         {
             _updatePackages = new List<StorePackageUpdate>();
         }

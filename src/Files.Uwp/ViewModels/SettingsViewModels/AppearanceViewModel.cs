@@ -38,10 +38,12 @@ namespace Files.ViewModels.SettingsViewModels
             if (UseCompactStyles)
             {
                 Application.Current.Resources["ListItemHeight"] = 28;
+                Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = 24;
             }
             else
             {
                 Application.Current.Resources["ListItemHeight"] = 36;
+                Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = 32;
             }
 
             UpdateTheme();

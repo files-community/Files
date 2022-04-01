@@ -1,15 +1,15 @@
 ﻿<muxc:NavigationView
     x:Class="Files.UserControls.SidebarControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:navigationcontrolitems="using:Files.DataModels.NavigationControlItems"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Files.Helpers"
     xmlns:local="using:Files.UserControls"
-    xmlns:vc="using:Files.Uwp.ValueConverters"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:navigationcontrolitems="using:Files.DataModels.NavigationControlItems"
+    xmlns:vc="using:Files.Uwp.ValueConverters"
     HorizontalAlignment="Stretch"
     d:DesignHeight="768"
     d:DesignWidth="200"
@@ -40,7 +40,6 @@
         <ResourceDictionary>
             <mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
             <vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
-            <x:Double  x:Key="NavigationViewItemOnLeftMinHeight">32</x:Double>
 
             <DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
                 <muxc:NavigationViewItem
@@ -64,6 +63,9 @@
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
                     </muxc:NavigationViewItem.Icon>
+                    <muxc:NavigationViewItem.InfoBadge>
+                        <muxc:InfoBadge Style="{ThemeResource CautionIconInfoBadgeStyle}" Visibility="{x:Bind IsInvalid, Mode=OneWay}"/>
+                    </muxc:NavigationViewItem.InfoBadge>
                 </muxc:NavigationViewItem>
             </DataTemplate>
 
