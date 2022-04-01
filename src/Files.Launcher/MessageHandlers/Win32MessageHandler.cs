@@ -305,7 +305,8 @@ namespace FilesFullTrust.MessageHandlers
                 };
                 if (e.ChangeType == WatcherChangeTypes.Created)
                 {
-                    using var folderItem = new ShellItem(e.FullPath);
+                    using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(e.FullPath));
+                    if (folderItem == null) return;
                     var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
                     response["Item"] = JsonConvert.SerializeObject(shellFileItem);
                 }
