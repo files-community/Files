@@ -525,8 +525,6 @@ namespace Files.Interacts
                 return;
             }
 
-            itemManipulationModel.ClearSelection();
-
             if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 e.Handled = true;

@@ -217,7 +217,6 @@
                         VerticalContentAlignment="Stretch"
                         tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
                         x:FieldModifier="public"
-                        AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                         CanDragItems="True"
                         ContainerContentChanging="FileList_ContainerContentChanging"
                         DoubleTapped="FileList_DoubleTapped"
