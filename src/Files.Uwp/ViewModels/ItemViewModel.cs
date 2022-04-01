@@ -2169,7 +2169,11 @@ namespace Files.ViewModels
                 return;
             }
 
-            filesAndFolders.Add(item);
+            if (!filesAndFolders.Any(x => x.ItemPath.Equals(item.ItemPath, StringComparison.OrdinalIgnoreCase))) // Avoid adding duplicate items
+            {
+                filesAndFolders.Add(item);
+            }
+
             enumFolderSemaphore.Release();
         }
 

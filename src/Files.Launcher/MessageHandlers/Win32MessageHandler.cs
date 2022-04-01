@@ -301,7 +301,8 @@ namespace FilesFullTrust.MessageHandlers
                     { "FileSystem", Path.GetDirectoryName(e.FullPath) },
                     { "Name", e.Name },
                     { "Path", e.FullPath },
-                    { "Type", e.ChangeType.ToString() }
+                    { "Type", e.ChangeType.ToString() },
+                    { "WatcherID", sender.GetHashCode() },
                 };
                 if (e.ChangeType == WatcherChangeTypes.Created)
                 {
