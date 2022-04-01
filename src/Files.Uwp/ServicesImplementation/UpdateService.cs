@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Files.Backend.Services;
 using Microsoft.Toolkit.Uwp;
 using Windows.Services.Store;
 using Windows.UI.Xaml.Controls;

@@ -8,6 +8,7 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
@@ -1040,7 +1041,7 @@ namespace Files.ViewModels
 					var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
 					var folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
 					var currPath = await folder.Result.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
-					if (currPath.Count >= maxSuggestions)
+					if (currPath?.Count >= maxSuggestions)
 					{
 						suggestions = currPath.Select(x => new ListedItem(null)
 						{
