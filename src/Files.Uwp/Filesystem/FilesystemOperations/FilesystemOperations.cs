@@ -521,8 +521,8 @@ namespace Files.Filesystem
             }
             else if (fsResult == FileSystemStatusCode.InUse)
             {
-                // TODO: retry or show dialog
-                await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), "FileInUseDeleteDialog/Text".GetLocalized());
+                // TODO: retry
+                await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FileInUseDialog());
             }
 
             if (deleteFromRecycleBin)
@@ -637,8 +637,8 @@ namespace Files.Filesystem
                 }
                 else if (renamed == FileSystemStatusCode.InUse)
                 {
-                    // TODO: proper dialog, retry
-                    await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), "");
+                    // TODO: retry
+                    await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FileInUseDialog());
                 }
                 else if (renamed == FileSystemStatusCode.NotFound)
                 {
