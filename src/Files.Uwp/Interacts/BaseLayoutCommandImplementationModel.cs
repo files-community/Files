@@ -609,6 +609,7 @@ namespace Files.Interacts
             if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
+                itemManipulationModel.ClearSelection();
                 e.Handled = true;
             }
 
