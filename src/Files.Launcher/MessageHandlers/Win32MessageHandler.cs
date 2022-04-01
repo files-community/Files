@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
+using System.Linq;
 using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using Vanara.Windows.Shell;
@@ -20,11 +21,18 @@ namespace FilesFullTrust.MessageHandlers
     [SupportedOSPlatform("Windows10.0.10240")]
     public class Win32MessageHandler : Disposable, IMessageHandler
     {
+        private IList<FileSystemWatcher> dirWatchers;
+        private PipeStream connection;
+
         public void Initialize(PipeStream connection)
         {
+            this.connection = connection;
+
             DetectIsSetAsDefaultFileManager();
             DetectIsSetAsOpenFileDialog();
             ApplicationData.Current.LocalSettings.Values["TEMP"] = Environment.GetEnvironmentVariable("TEMP");
+
+            dirWatchers = new List<FileSystemWatcher>();
         }
 
         private static void DetectIsSetAsDefaultFileManager()
@@ -159,7 +167,7 @@ namespace FilesFullTrust.MessageHandlers
                                 return;
                             }
                         }
-                        
+
                         var dataPath = Environment.ExpandEnvironmentVariables("%LocalAppData%\\Files");
                         if (enable)
                         {
@@ -234,6 +242,90 @@ namespace FilesFullTrust.MessageHandlers
                         await Win32API.SendMessageAsync(connection, new ValueSet() { { "FileAssociation", await Win32API.GetFileAssociationAsync(filePath, true) } }, message.Get("RequestID", (string)null));
                     }
                     break;
+
+                case "WatchDirectory":
+                    var watchAction = (string)message["action"];
+                    await ParseWatchDirectoryActionAsync(connection, message, watchAction);
+                    break;
+            }
+        }
+
+        private async Task ParseWatchDirectoryActionAsync(PipeStream connection, Dictionary<string, object> message, string action)
+        {
+            switch (action)
+            {
+                case "start":
+                    {
+                        var res = new ValueSet();
+                        var folderPath = (string)message["folderPath"];
+                        if (Directory.Exists(folderPath))
+                        {
+                            var watcher = new FileSystemWatcher
+                            {
+                                Path = folderPath,
+                                Filter = "*.*",
+                                NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName
+                            };
+                            watcher.Created += DirectoryWatcher_Changed;
+                            watcher.Deleted += DirectoryWatcher_Changed;
+                            watcher.Renamed += DirectoryWatcher_Changed;
+                            watcher.EnableRaisingEvents = true;
+                            res.Add("watcherID", watcher.GetHashCode());
+                            dirWatchers.Add(watcher);
+                        }
+                        await Win32API.SendMessageAsync(connection, res, message.Get("RequestID", (string)null));
+                    }
+                    break;
+
+                case "cancel":
+                    {
+                        var watcherID = (long)message["watcherID"];
+                        var watcher = dirWatchers.SingleOrDefault(x => x.GetHashCode() == watcherID);
+                        if (watcher != null)
+                        {
+                            dirWatchers.Remove(watcher);
+                            watcher.Dispose();
+                        }
+                    }
+                    break;
+            }
+        }
+
+        private async void DirectoryWatcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine($"Directory watcher event: {e.ChangeType}, {e.FullPath}");
+            if (connection?.IsConnected ?? false)
+            {
+                var response = new ValueSet()
+                {
+                    { "FileSystem", Path.GetDirectoryName(e.FullPath) },
+                    { "Name", e.Name },
+                    { "Path", e.FullPath },
+                    { "Type", e.ChangeType.ToString() }
+                };
+                if (e.ChangeType == WatcherChangeTypes.Created)
+                {
+                    using var folderItem = new ShellItem(e.FullPath);
+                    var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
+                    response["Item"] = JsonConvert.SerializeObject(shellFileItem);
+                }
+                else if (e.ChangeType == WatcherChangeTypes.Renamed)
+                {
+                    response["OldPath"] = (e as RenamedEventArgs).OldFullPath;
+                }
+                // Send message to UWP app to refresh items
+                await Win32API.SendMessageAsync(connection, response);
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                foreach (var watcher in dirWatchers)
+                {
+                    watcher.Dispose();
+                }
             }
         }
     }
