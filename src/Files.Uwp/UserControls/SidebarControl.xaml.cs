@@ -54,41 +54,27 @@ namespace Files.UserControls
 
         public event SidebarItemDroppedEventHandler SidebarItemDropped;
 
+        private INavigationControlItem rightClickedItem;
+
+        private object dragOverSection, dragOverItem = null;
+
+        private bool isDropOnProcess = false;
+
+        /// <summary>
+        /// true if the user is currently resizing the sidebar
+        /// </summary>
+        private bool dragging;
+
+        private double originalSize = 0;
+
+        private bool lockFlag = false;
+
         /// <summary>
         /// The Model for the pinned sidebar items
         /// </summary>
         public SidebarPinnedModel SidebarPinnedModel => App.SidebarPinnedController.Model;
 
         public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(nameof(EmptyRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
-
-        public ICommand EmptyRecycleBinCommand
-        {
-            get => (ICommand)GetValue(EmptyRecycleBinCommandProperty);
-            set => SetValue(EmptyRecycleBinCommandProperty, value);
-        }
-
-        public readonly RelayCommand CreateLibraryCommand = new RelayCommand(LibraryHelper.ShowCreateNewLibraryDialog);
-
-        public readonly RelayCommand RestoreLibrariesCommand = new RelayCommand(LibraryHelper.ShowRestoreDefaultLibrariesDialog);
-
-        private bool IsInPointerPressed = false;
-
-        private DispatcherQueueTimer dragOverSectionTimer, dragOverItemTimer;
-
-        public SidebarControl()
-        {
-            this.InitializeComponent();
-            this.Loaded += SidebarNavView_Loaded;
-
-            dragOverSectionTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
-            dragOverItemTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
-        }
-
-        public SidebarViewModel ViewModel
-        {
-            get => (SidebarViewModel)GetValue(ViewModelProperty);
-            set => SetValue(ViewModelProperty, value);
-        }
 
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ViewModelProperty =
@@ -116,6 +102,69 @@ namespace Files.UserControls
             set => SetValue(TabContentProperty, value);
         }
 
+        public ICommand EmptyRecycleBinCommand
+        {
+            get => (ICommand)GetValue(EmptyRecycleBinCommandProperty);
+            set => SetValue(EmptyRecycleBinCommandProperty, value);
+        }
+
+        public readonly ICommand CreateLibraryCommand = new RelayCommand(LibraryHelper.ShowCreateNewLibraryDialog);
+
+        public readonly ICommand RestoreLibrariesCommand = new RelayCommand(LibraryHelper.ShowRestoreDefaultLibrariesDialog);
+
+        private ICommand HideSectionCommand { get; }
+
+        private ICommand UnpinItemCommand { get; }
+
+        private ICommand MoveItemToTopCommand { get; }
+
+        private ICommand MoveItemUpCommand { get; }
+
+        private ICommand MoveItemDownCommand { get; }
+
+        private ICommand MoveItemToBottomCommand { get; }
+
+        private ICommand OpenInNewTabCommand { get; }
+
+        private ICommand OpenInNewWindowCommand { get; }
+
+        private ICommand OpenInNewPaneCommand { get; }
+
+        private ICommand EjectDeviceCommand { get; }
+
+        private ICommand OpenPropertiesCommand { get; }
+
+        private bool IsInPointerPressed = false;
+
+        private DispatcherQueueTimer dragOverSectionTimer, dragOverItemTimer;
+
+        public SidebarControl()
+        {
+            this.InitializeComponent();
+            this.Loaded += SidebarNavView_Loaded;
+
+            dragOverSectionTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            dragOverItemTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+
+            HideSectionCommand = new RelayCommand(HideSection);
+            UnpinItemCommand = new RelayCommand(UnpinItem);
+            MoveItemToTopCommand = new RelayCommand(MoveItemToTop);
+            MoveItemUpCommand = new RelayCommand(MoveItemUp);
+            MoveItemDownCommand = new RelayCommand(MoveItemDown);
+            MoveItemToBottomCommand = new RelayCommand(MoveItemToBottom);
+            OpenInNewTabCommand  = new RelayCommand(OpenInNewTab);
+            OpenInNewWindowCommand  = new RelayCommand(OpenInNewWindow);
+            OpenInNewPaneCommand  = new RelayCommand(OpenInNewPane);
+            EjectDeviceCommand  = new RelayCommand(EjectDevice);
+            OpenPropertiesCommand  = new RelayCommand(OpenProperties);
+    }
+
+        public SidebarViewModel ViewModel
+        {
+            get => (SidebarViewModel)GetValue(ViewModelProperty);
+            set => SetValue(ViewModelProperty, value);
+        }
+
         private bool canOpenInNewPane;
 
         public bool CanOpenInNewPane
@@ -131,26 +180,6 @@ namespace Files.UserControls
             }
         }
 
-        public bool ShowMoveItemUp { get; set; }
-
-        public bool ShowMoveItemDown { get; set; }
-
-        public bool ShowUnpinItem { get; set; }
-
-        public bool ShowHideSection { get; set; }
-
-        public bool ShowProperties { get; set; }
-
-        public bool ShowEmptyRecycleBin { get; set; }
-
-        public bool ShowEjectDevice { get; set; }
-
-        public bool IsLocationItem { get; set; }
-
-        public bool IsLibrariesHeader { get; set; }
-
-        public INavigationControlItem RightClickedItem;
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -158,151 +187,299 @@ namespace Files.UserControls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void HideSection_Click(object sender, RoutedEventArgs e)
+        private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item)
         {
-            if ("SidebarFavorites".GetLocalized().Equals(RightClickedItem.Text))
+            ContextMenuOptions options = item.MenuOptions;
+
+            bool showMoveItemUp = options.IsItemMovable? App.SidebarPinnedController.Model.IndexOfItem(item) > 1:false;
+            bool showMoveItemDown = options.IsItemMovable? App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count:false;
+
+            return new List<ContextMenuFlyoutItemViewModel>()
             {
-                UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = false;
-                App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
-            }
-            else if ("SidebarLibraries".GetLocalized().Equals(RightClickedItem.Text))
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarCreateNewLibrary/Text".GetLocalized(),
+                    Glyph = "\uE710",
+                    Command = CreateLibraryCommand,
+                    ShowItem = options.IsLibrariesHeader
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarRestoreLibraries/Text".GetLocalized(),
+                    Glyph = "\uE10E",
+                    Command = RestoreLibrariesCommand,
+                    ShowItem = options.IsLibrariesHeader
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutContextFlyoutEmptyRecycleBin/Text".GetLocalized(),
+                    Glyph = "\uEF88",
+                    GlyphFontFamilyName = "RecycleBinIcons",
+                    Command = EmptyRecycleBinCommand,
+                    ShowItem = options.ShowEmptyRecycleBin,
+                    IsEnabled = false,
+                    ID = "EmptyRecycleBin",
+                    Tag = "EmptyRecycleBin",
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarOpenInNewPane/Text".GetLocalized(),
+                    Glyph = "\uF117",
+                    GlyphFontFamilyName = "CustomGlyph",
+                    Command = OpenInNewPaneCommand,
+                    ShowItem = options.IsLocationItem && CanOpenInNewPane
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarOpenInNewTab/Text".GetLocalized(),
+                    Glyph = "\uF113",
+                    GlyphFontFamilyName = "CustomGlyph",
+                    Command = OpenInNewTabCommand,
+                    ShowItem = options.IsLocationItem
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarOpenInNewWindow/Text".GetLocalized(),
+                    Glyph = "\uE737",
+                    Command = OpenInNewWindowCommand,
+                    ShowItem = options.IsLocationItem
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarFavoritesMoveToTop".GetLocalized(),
+                    Glyph = "\uE11C",
+                    Command = MoveItemToTopCommand,
+                    ShowItem = showMoveItemUp
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarFavoritesMoveOneUp".GetLocalized(),
+                    Glyph = "\uE70E",
+                    Command = MoveItemUpCommand,
+                    ShowItem = showMoveItemUp
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarFavoritesMoveOneDown".GetLocalized(),
+                    Glyph = "\uE70D",
+                    Command = MoveItemDownCommand,
+                    ShowItem = showMoveItemDown
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarFavoritesMoveToBottom".GetLocalized(),
+                    Glyph = "\uE118",
+                    Command = MoveItemToBottomCommand,
+                    ShowItem = showMoveItemDown
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarUnpinFromFavorites/Text".GetLocalized(),
+                    Glyph = "\uE77A",
+                    Command = UnpinItemCommand,
+                    ShowItem = options.ShowUnpinItem
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = string.Format("SideBarHideSectionFromSideBar/Text".GetLocalized(), rightClickedItem.Text),
+                    Glyph = "\uE77A",
+                    Command = HideSectionCommand,
+                    ShowItem = options.ShowHideSection
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarEjectDevice/Text".GetLocalized(),
+                    Glyph = "\uF10B",
+                    GlyphFontFamilyName = "CustomGlyph",
+                    Command = EjectDeviceCommand,
+                    ShowItem = options.ShowEjectDevice
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalized(),
+                    Glyph = "\uE946",
+                    Command = OpenPropertiesCommand,
+                    ShowItem = options.ShowProperties
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "ContextMenuMoreItemsLabel".GetLocalized(),
+                    Glyph = "\xE712",
+                    Items = new List<ContextMenuFlyoutItemViewModel>(),
+                    ID = "ItemOverflow",
+                    Tag = "ItemOverflow",
+                    IsHidden = true,
+                }
+            }.Where(x => x.ShowItem).ToList();
+        }
+
+        private void HideSection()
+        {
+            switch (rightClickedItem.Section)
             {
-                UserSettingsService.AppearanceSettingsService.ShowLibrarySection = false;
-                App.LibraryManager.UpdateLibrariesSectionVisibility();
-            }
-            else if ("SidebarCloudDrives".GetLocalized().Equals(RightClickedItem.Text))
-            {
-                UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = false;
-                App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
-            }
-            else if ("Drives".GetLocalized().Equals(RightClickedItem.Text))
-            {
-                UserSettingsService.AppearanceSettingsService.ShowDrivesSection = false;
-                App.DrivesManager.UpdateDrivesSectionVisibility();
-            }
-            else if ("SidebarNetworkDrives".GetLocalized().Equals(RightClickedItem.Text))
-            {
-                UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = false;
-                App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
-            }
-            else if ("WSL".GetLocalized().Equals(RightClickedItem.Text))
-            {
-                UserSettingsService.AppearanceSettingsService.ShowWslSection = false;
-                App.WSLDistroManager.UpdateWslSectionVisibility();
-            }
-            else if ("FileTags".GetLocalized().Equals(RightClickedItem.Text))
-            {
-                UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = false;
-                App.FileTagsManager.UpdateFileTagsSectionVisibility();
+                case SectionType.Favorites:
+                    UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = false;
+                    App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
+                    break;
+                case SectionType.Library:
+                    UserSettingsService.AppearanceSettingsService.ShowLibrarySection = false;
+                    App.LibraryManager.UpdateLibrariesSectionVisibility();
+                    break;
+                case SectionType.CloudDrives:
+                    UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = false;
+                    App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
+                    break;
+                case SectionType.Drives:
+                    UserSettingsService.AppearanceSettingsService.ShowDrivesSection = false;
+                    App.DrivesManager.UpdateDrivesSectionVisibility();
+                    break;
+                case SectionType.Network:
+                    UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = false;
+                    App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
+                    break;
+                case SectionType.WSL:
+                    UserSettingsService.AppearanceSettingsService.ShowWslSection = false;
+                    App.WSLDistroManager.UpdateWslSectionVisibility();
+                    break;
+                case SectionType.FileTag:
+                    UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = false;
+                    App.FileTagsManager.UpdateFileTagsSectionVisibility();
+                    break;
             }
         }
 
-        public void UnpinItem_Click(object sender, RoutedEventArgs e)
+        private async void OpenInNewPane()
         {
-            if (string.Equals(CommonPaths.RecycleBinPath, RightClickedItem.Path, StringComparison.OrdinalIgnoreCase))
+            if (await CheckEmptyDrive((rightClickedItem as INavigationControlItem)?.Path))
+            {
+                return;
+            }
+            SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(rightClickedItem));
+        }
+
+        private async void OpenInNewTab()
+        {
+            if (await CheckEmptyDrive(rightClickedItem.Path))
+            {
+                return;
+            }
+            await NavigationHelpers.OpenPathInNewTab(rightClickedItem.Path);
+        }
+
+        private async void OpenInNewWindow()
+        {
+            if (await CheckEmptyDrive(rightClickedItem.Path))
+            {
+                return;
+            }
+            await NavigationHelpers.OpenPathInNewWindowAsync(rightClickedItem.Path);
+        }
+
+        private void UnpinItem()
+        {
+            if (rightClickedItem.MenuOptions.ShowEmptyRecycleBin)
             {
                 UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = false;
+                _ = App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(false);
             }
-            else if (RightClickedItem.Section == SectionType.Favorites)
+            else if (rightClickedItem.Section == SectionType.Favorites)
             {
-                App.SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path);
+                App.SidebarPinnedController.Model.RemoveItem(rightClickedItem.Path);
             }
         }
 
-        public void MoveItemToTop_Click(object sender, RoutedEventArgs e)
+        private void MoveItemToTop()
         {
-            if (RightClickedItem.Section == SectionType.Favorites)
+            if (rightClickedItem.Section == SectionType.Favorites)
             {
                 bool isSelectedSidebarItem = false;
 
-                if (SelectedSidebarItem == RightClickedItem)
+                if (SelectedSidebarItem == rightClickedItem)
                 {
                     isSelectedSidebarItem = true;
                 }
 
-                int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
-                App.SidebarPinnedController.Model.MoveItem(RightClickedItem, oldIndex, 1);
+                int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
+                App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, 1);
 
                 if (isSelectedSidebarItem)
                 {
-                    SetValue(SelectedSidebarItemProperty, RightClickedItem);
+                    SetValue(SelectedSidebarItemProperty, rightClickedItem);
                 }
             }
         }
 
-        public void MoveItemUp_Click(object sender, RoutedEventArgs e)
+        private void MoveItemUp()
         {
-            if (RightClickedItem.Section == SectionType.Favorites)
+            if (rightClickedItem.Section == SectionType.Favorites)
             {
                 bool isSelectedSidebarItem = false;
 
-                if (SelectedSidebarItem == RightClickedItem)
+                if (SelectedSidebarItem == rightClickedItem)
                 {
                     isSelectedSidebarItem = true;
                 }
 
-                int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
-                App.SidebarPinnedController.Model.MoveItem(RightClickedItem, oldIndex, oldIndex - 1);
+                int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
+                App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, oldIndex - 1);
 
                 if (isSelectedSidebarItem)
                 {
-                    SetValue(SelectedSidebarItemProperty, RightClickedItem);
+                    SetValue(SelectedSidebarItemProperty, rightClickedItem);
                 }
             }
         }
 
-        public void MoveItemDown_Click(object sender, RoutedEventArgs e)
+        private void MoveItemDown()
         {
-            if (RightClickedItem.Section == SectionType.Favorites)
+            if (rightClickedItem.Section == SectionType.Favorites)
             {
                 bool isSelectedSidebarItem = false;
 
-                if (SelectedSidebarItem == RightClickedItem)
+                if (SelectedSidebarItem == rightClickedItem)
                 {
                     isSelectedSidebarItem = true;
                 }
 
-                int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
-                App.SidebarPinnedController.Model.MoveItem(RightClickedItem, oldIndex, oldIndex + 1);
+                int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
+                App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, oldIndex + 1);
 
                 if (isSelectedSidebarItem)
                 {
-                    SetValue(SelectedSidebarItemProperty, RightClickedItem);
+                    SetValue(SelectedSidebarItemProperty, rightClickedItem);
                 }
             }
         }
 
-        public void MoveItemToBottom_Click(object sender, RoutedEventArgs e)
+        private void MoveItemToBottom()
         {
-            if (RightClickedItem.Section == SectionType.Favorites)
+            if (rightClickedItem.Section == SectionType.Favorites)
             {
                 bool isSelectedSidebarItem = false;
 
-                if (SelectedSidebarItem == RightClickedItem)
+                if (SelectedSidebarItem == rightClickedItem)
                 {
                     isSelectedSidebarItem = true;
                 }
 
-                int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
-                App.SidebarPinnedController.Model.MoveItem(RightClickedItem, oldIndex, App.SidebarPinnedController.Model.FavoriteItems.Count);
+                int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
+                App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, App.SidebarPinnedController.Model.FavoriteItems.Count);
 
                 if (isSelectedSidebarItem)
                 {
-                    SetValue(SelectedSidebarItemProperty, RightClickedItem);
+                    SetValue(SelectedSidebarItemProperty, rightClickedItem);
                 }
             }
         }
 
-        public static GridLength GetSidebarCompactSize()
+        private void OpenProperties()
         {
-            if (App.Current.Resources.TryGetValue("NavigationViewCompactPaneLength", out object paneLength))
-            {
-                if (paneLength is double paneLengthDouble)
-                {
-                    return new GridLength(paneLengthDouble);
-                }
-            }
-            return new GridLength(200);
+            SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(rightClickedItem));
+        }
+
+        private async void EjectDevice()
+        {
+            await DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
         }
 
         private async void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
@@ -348,111 +525,21 @@ namespace Files.UserControls
 
         private void PaneRoot_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            var contextMenu= FlyoutBase.GetAttachedFlyout(this);
+            var contextMenu = FlyoutBase.GetAttachedFlyout(this);
             contextMenu.ShowAt(this, new FlyoutShowOptions() { Position = e.GetPosition(this) });
 
             e.Handled = true;
         }
 
-        private void NavigationViewLocationItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             var itemContextMenuFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
             var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
-            var item = sidebarItem.DataContext as LocationItem;
+            var item = sidebarItem.DataContext as INavigationControlItem;
 
-            bool drivesHeader = "Drives".GetLocalized().Equals(item.Text);
-            bool networkDrivesHeader = "SidebarNetworkDrives".GetLocalized().Equals(item.Text);
-            bool cloudDrivesHeader = "SidebarCloudDrives".GetLocalized().Equals(item.Text);
-            bool librariesHeader = "SidebarLibraries".GetLocalized().Equals(item.Text);
-            bool wslHeader = "WSL".GetLocalized().Equals(item.Text);
-            bool fileTagsHeader = "FileTags".GetLocalized().Equals(item.Text);
-            bool favoritesHeader = "SidebarFavorites".GetLocalized().Equals(item.Text);
-            bool header = drivesHeader || networkDrivesHeader || cloudDrivesHeader || librariesHeader || wslHeader || fileTagsHeader || favoritesHeader;
+            rightClickedItem = item;
 
-            if (!header)
-            {
-                bool library = item.Section == SectionType.Library;
-                bool favorite = item.Section == SectionType.Favorites;
-
-                IsLocationItem = true;
-                ShowProperties = true;
-                IsLibrariesHeader = false;
-                ShowUnpinItem = ((library || favorite) && !item.IsDefaultLocation);
-                ShowMoveItemUp = ShowUnpinItem && App.SidebarPinnedController.Model.IndexOfItem(item) > 1;
-                ShowMoveItemDown = ShowUnpinItem && App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count;
-                ShowHideSection = false;
-                ShowEjectDevice = false;
-
-                if (string.Equals(item.Path, "Home".GetLocalized(), StringComparison.OrdinalIgnoreCase))
-                {
-                    ShowProperties = false;
-                }
-
-                if (string.Equals(item.Path, CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    ShowEmptyRecycleBin = true;
-                    ShowUnpinItem = true;
-                    ShowProperties = false;
-                }
-                else
-                {
-                    ShowEmptyRecycleBin = false;
-                }
-
-                RightClickedItem = item;
-                var menuItems = GetLocationItemMenuItems();
-                var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
-
-                if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
-                {
-                    secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
-                }
-
-                secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-                itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
-
-                LoadShellMenuItems(itemContextMenuFlyout);
-            }
-            else
-            {
-                IsLocationItem = false;
-                ShowProperties = false;
-                IsLibrariesHeader = librariesHeader;
-                ShowUnpinItem = false;
-                ShowMoveItemUp = false;
-                ShowMoveItemDown = false;
-                ShowHideSection = true;
-                ShowEjectDevice = false;
-                ShowEmptyRecycleBin = false;
-
-                RightClickedItem = item;
-                var menuItems = GetLocationItemMenuItems();
-                var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
-                secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-                itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
-            }
-
-            e.Handled = true;
-        }
-
-        private void NavigationViewDriveItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            var itemContextMenuFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
-            var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
-            var item = sidebarItem.DataContext as DriveItem;
-
-            IsLocationItem = true;
-            IsLibrariesHeader = false;
-            ShowEjectDevice = item.IsRemovable;
-            ShowUnpinItem = false;
-            ShowMoveItemUp = false;
-            ShowMoveItemDown = false;
-            ShowEmptyRecycleBin = false;
-            ShowProperties = true;
-            ShowHideSection = false;
-
-            RightClickedItem = item;
-            var menuItems = GetLocationItemMenuItems();
+            var menuItems = GetLocationItemMenuItems(item);
             var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
             if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
@@ -463,77 +550,12 @@ namespace Files.UserControls
             secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
             itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
 
-            LoadShellMenuItems(itemContextMenuFlyout);
-
-            e.Handled = true;
-        }
-
-        private void NavigationViewWSLItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            var itemContextMenuFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
-            var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
-            var item = sidebarItem.DataContext as WslDistroItem;
-
-            IsLocationItem = true;
-            IsLibrariesHeader = false;
-            ShowEjectDevice = false;
-            ShowUnpinItem = false;
-            ShowMoveItemUp = false;
-            ShowMoveItemDown = false;
-            ShowEmptyRecycleBin = false;
-            ShowProperties = false;
-            ShowHideSection = false;
-
-            RightClickedItem = item;
-            var menuItems = GetLocationItemMenuItems();
-            var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
-            secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-            itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
-
-            e.Handled = true;
-        }
-
-        private void NavigationViewFileTagsItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            var itemContextMenuFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
-            var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
-            var item = sidebarItem.DataContext as FileTagItem;
-
-            IsLocationItem = true;
-            IsLibrariesHeader = false;
-            ShowEjectDevice = false;
-            ShowUnpinItem = false;
-            ShowMoveItemUp = false;
-            ShowMoveItemDown = false;
-            ShowEmptyRecycleBin = false;
-            ShowProperties = false;
-            ShowHideSection = false;
-
-            RightClickedItem = item;
-            var menuItems = GetLocationItemMenuItems();
-            var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
-            secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-            itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
-
-            e.Handled = true;
-        }
-
-        private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
-        {
-            if (await CheckEmptyDrive(RightClickedItem.Path))
+            if (item.MenuOptions.ShowShellItems)
             {
-                return;
+                LoadShellMenuItems(itemContextMenuFlyout, item.MenuOptions);
             }
-            await NavigationHelpers.OpenPathInNewTab(RightClickedItem.Path);
-        }
 
-        private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
-        {
-            if (await CheckEmptyDrive(RightClickedItem.Path))
-            {
-                return;
-            }
-            await NavigationHelpers.OpenPathInNewWindowAsync(RightClickedItem.Path);
+            e.Handled = true;
         }
 
         private void NavigationViewItem_DragStarting(UIElement sender, DragStartingEventArgs args)
@@ -547,10 +569,6 @@ namespace Files.UserControls
             var navItem = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem);
             args.Data.Properties.Add("sourceLocationItem", navItem);
         }
-
-        private object dragOverSection, dragOverItem = null;
-
-        private bool isDropOnProcess = false;
 
         private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
         {
@@ -748,8 +766,6 @@ namespace Files.UserControls
                 e.DragUIOverride.Caption = "PinToSidebarByDraggingCaptionText".GetLocalized();
             }
         }
-
-        private bool lockFlag = false;
 
         private async void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
         {
@@ -982,16 +998,6 @@ namespace Files.UserControls
             lockFlag = false;
         }
 
-        private void Properties_Click(object sender, RoutedEventArgs e)
-        {
-            SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(RightClickedItem));
-        }
-
-        private async void EjectDevice_Click(object sender, RoutedEventArgs e)
-        {
-            await DriveHelpers.EjectDeviceAsync(RightClickedItem.Path);
-        }
-
         private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
         {
             (this.FindDescendant("TabContentBorder") as Border).Child = TabContent;
@@ -1043,13 +1049,6 @@ namespace Files.UserControls
             UserSettingsService.AppearanceSettingsService.SidebarWidth = OpenPaneLength;
         }
 
-        /// <summary>
-        /// true if the user is currently resizing the sidebar
-        /// </summary>
-        private bool dragging;
-
-        private double originalSize = 0;
-
         private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
@@ -1064,6 +1063,15 @@ namespace Files.UserControls
             {
                 Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
+            }
+        }
+
+        private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
+            {
+                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
+                VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPointerOver", true);
             }
         }
 
@@ -1095,15 +1103,6 @@ namespace Files.UserControls
             }
         }
 
-        private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
-            {
-                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
-                VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPointerOver", true);
-            }
-        }
-
         private void ResizeElementBorder_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
             Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
@@ -1115,15 +1114,6 @@ namespace Files.UserControls
         private void ResizeElementBorder_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             IsPaneOpen = !IsPaneOpen;
-        }
-
-        private async void OpenInNewPane_Click(object sender, RoutedEventArgs e)
-        {
-            if (await CheckEmptyDrive((RightClickedItem as INavigationControlItem)?.Path))
-            {
-                return;
-            }
-            SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(RightClickedItem));
         }
 
         private void ResizeElementBorder_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
@@ -1155,11 +1145,11 @@ namespace Files.UserControls
             return false;
         }
 
-        private async void LoadShellMenuItems(Microsoft.UI.Xaml.Controls.CommandBarFlyout itemContextMenuFlyout)
+        private async void LoadShellMenuItems(Microsoft.UI.Xaml.Controls.CommandBarFlyout itemContextMenuFlyout, ContextMenuOptions options)
         {
             try
             {
-                if (ShowEmptyRecycleBin)
+                if (options.ShowEmptyRecycleBin)
                 {
                     var emptyRecycleBinItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "EmptyRecycleBin") as AppBarButton;
                     if (emptyRecycleBinItem is not null)
@@ -1168,11 +1158,11 @@ namespace Files.UserControls
                         emptyRecycleBinItem.IsEnabled = binHasItems;
                     }
                 }
-                if (IsLocationItem)
+                if (options.IsLocationItem)
                 {
                     var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
                     var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await AppServiceConnectionHelper.Instance, currentInstanceViewModel: null, workingDir: null,
-                        new List<ListedItem>() { new ListedItem(null) { ItemPath = RightClickedItem.Path } }, shiftPressed: shiftPressed, showOpenMenu: false);
+                        new List<ListedItem>() { new ListedItem(null) { ItemPath = rightClickedItem.Path } }, shiftPressed: shiftPressed, showOpenMenu: false);
                     if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
                     {
                         var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
@@ -1205,125 +1195,16 @@ namespace Files.UserControls
             catch { }
         }
 
-        public List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems()
+        public static GridLength GetSidebarCompactSize()
         {
-            return new List<ContextMenuFlyoutItemViewModel>()
+            if (App.Current.Resources.TryGetValue("NavigationViewCompactPaneLength", out object paneLength))
             {
-                new ContextMenuFlyoutItemViewModel()
+                if (paneLength is double paneLengthDouble)
                 {
-                    Text = "SideBarCreateNewLibrary/Text".GetLocalized(),
-                    Glyph = "\uE710",
-                    Command = CreateLibraryCommand,
-                    ShowItem = IsLibrariesHeader
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
-                    Text = "SideBarRestoreLibraries/Text".GetLocalized(),
-                    Glyph = "\uE10E",
-                    Command = RestoreLibrariesCommand,
-                    ShowItem = IsLibrariesHeader
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
-                    Text = "BaseLayoutContextFlyoutEmptyRecycleBin/Text".GetLocalized(),
-                    Glyph = "\uEF88",
-                    GlyphFontFamilyName = "RecycleBinIcons",
-                    Command = EmptyRecycleBinCommand,
-                    ShowItem = ShowEmptyRecycleBin,
-                    IsEnabled = false,
-                    ID = "EmptyRecycleBin",
-                    Tag = "EmptyRecycleBin",
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
-                    Text = "SideBarOpenInNewPane/Text".GetLocalized(),
-                    Glyph = "\uF117",
-                    GlyphFontFamilyName = "CustomGlyph",
-                    Command = new RelayCommand(() => OpenInNewPane_Click(null, null)),
-                    ShowItem = IsLocationItem && CanOpenInNewPane
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
-                    Text = "SideBarOpenInNewTab/Text".GetLocalized(),
-                    Glyph = "\uF113",
-                    GlyphFontFamilyName = "CustomGlyph",
-                    Command = new RelayCommand(() => OpenInNewTab_Click(null, null)),
-                    ShowItem = IsLocationItem
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
-                    Text = "SideBarOpenInNewWindow/Text".GetLocalized(),
-                    Glyph = "\uE737",
-                    Command = new RelayCommand(() => OpenInNewWindow_Click(null, null)),
-                    ShowItem = IsLocationItem
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
-                    Text = "SideBarFavoritesMoveToTop".GetLocalized(),
-                    Glyph = "\uE11C",
-                    Command = new RelayCommand(() => MoveItemToTop_Click(null, null)),
-                    ShowItem = ShowMoveItemUp
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
-                    Text = "SideBarFavoritesMoveOneUp".GetLocalized(),
-                    Glyph = "\uE70E",
-                    Command = new RelayCommand(() => MoveItemUp_Click(null, null)),
-                    ShowItem = ShowMoveItemUp
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
-                    Text = "SideBarFavoritesMoveOneDown".GetLocalized(),
-                    Glyph = "\uE70D",
-                    Command = new RelayCommand(() => MoveItemDown_Click(null, null)),
-                    ShowItem = ShowMoveItemDown
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
-                    Text = "SideBarFavoritesMoveToBottom".GetLocalized(),
-                    Glyph = "\uE118",
-                    Command = new RelayCommand(() => MoveItemToBottom_Click(null, null)),
-                    ShowItem = ShowMoveItemDown
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
-                    Text = "SideBarUnpinFromFavorites/Text".GetLocalized(),
-                    Glyph = "\uE77A",
-                    Command = new RelayCommand(() => UnpinItem_Click(null, null)),
-                    ShowItem = ShowUnpinItem
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
-                    Text = string.Format("SideBarHideSectionFromSideBar/Text".GetLocalized(), RightClickedItem.Text),
-                    Glyph = "\uE77A",
-                    Command = new RelayCommand(() => HideSection_Click(null, null)),
-                    ShowItem = ShowHideSection
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
-                    Text = "SideBarEjectDevice/Text".GetLocalized(),
-                    Glyph = "\uF10B",
-                    GlyphFontFamilyName = "CustomGlyph",
-                    Command = new RelayCommand(() => EjectDevice_Click(null, null)),
-                    ShowItem = ShowEjectDevice
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
-                    Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalized(),
-                    Glyph = "\uE946",
-                    Command = new RelayCommand(() => Properties_Click(null, null)),
-                    ShowItem = ShowProperties
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
-                    Text = "ContextMenuMoreItemsLabel".GetLocalized(),
-                    Glyph = "\xE712",
-                    Items = new List<ContextMenuFlyoutItemViewModel>(),
-                    ID = "ItemOverflow",
-                    Tag = "ItemOverflow",
-                    IsHidden = true,
+                    return new GridLength(paneLengthDouble);
                 }
-            }.Where(x => x.ShowItem).ToList();
+            }
+            return new GridLength(200);
         }
     }
 

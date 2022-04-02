@@ -122,6 +122,13 @@ namespace Files.DataModels
                 {
                     Text = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                     IsDefaultLocation = true,
+                    MenuOptions = new ContextMenuOptions
+                    {
+                        IsLocationItem = true,
+                        ShowUnpinItem = true,
+                        ShowShellItems = true,
+                        ShowEmptyRecycleBin = true
+                    },
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.RecycleBin)),
                     Path = CommonPaths.RecycleBinPath
                 };
@@ -266,6 +273,14 @@ namespace Files.DataModels
                 Font = MainViewModel.FontName,
                 Path = path,
                 Section = SectionType.Favorites,
+                MenuOptions = new ContextMenuOptions
+                {
+                    IsLocationItem = true,
+                    ShowProperties = true,
+                    ShowUnpinItem = true,
+                    ShowShellItems = true,
+                    IsItemMovable = true
+                },
                 IsDefaultLocation = false,
                 Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
             };
@@ -337,6 +352,10 @@ namespace Files.DataModels
                 {
                     Text = "Home".GetLocalized(),
                     Section = SectionType.Home,
+                    MenuOptions = new ContextMenuOptions
+                    {
+                        IsLocationItem = true
+                    },
                     Font = MainViewModel.FontName,
                     IsDefaultLocation = true,
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"))),
@@ -347,6 +366,10 @@ namespace Files.DataModels
                 {
                     Text = "SidebarFavorites".GetLocalized(),
                     Section = SectionType.Favorites,
+                    MenuOptions = new ContextMenuOptions
+                    {
+                        ShowHideSection = true
+                    },
                     SelectsOnInvoked = false,
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.Shell32.QuickAccess)),
                     Font = MainViewModel.FontName,

@@ -143,6 +143,10 @@ namespace Files.Filesystem
                         {
                             Text = "Drives".GetLocalized(),
                             Section = SectionType.Drives,
+                            MenuOptions = new ContextMenuOptions
+                            {
+                                ShowHideSection = true
+                            },
                             SelectsOnInvoked = false,
                             Icon = await UIHelpers.GetIconResource(Constants.ImageRes.ThisPC),
                             ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
