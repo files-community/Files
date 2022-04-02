@@ -387,15 +387,18 @@ namespace Files.DataModels
         {
             // Remove unpinned items from sidebar
             // Reverse iteration to avoid skipping elements while removing
-            for (int i = favoriteSection.ChildItems.Count - 1; i >= 0; i--)
+            if (favoriteSection != null)
             {
-                var childItem = favoriteSection.ChildItems[i];
-                if (childItem is LocationItem)
+                for (int i = favoriteSection.ChildItems.Count - 1; i >= 0; i--)
                 {
-                    var item = childItem as LocationItem;
-                    if (!item.IsDefaultLocation && !FavoriteItems.Contains(item.Path))
+                    var childItem = favoriteSection.ChildItems[i];
+                    if (childItem is LocationItem)
                     {
-                        favoriteSection.ChildItems.RemoveAt(i);
+                        var item = childItem as LocationItem;
+                        if (!item.IsDefaultLocation && !FavoriteItems.Contains(item.Path))
+                        {
+                            favoriteSection.ChildItems.RemoveAt(i);
+                        }
                     }
                 }
             }
