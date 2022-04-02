@@ -392,9 +392,8 @@ namespace Files.DataModels
                 for (int i = favoriteSection.ChildItems.Count - 1; i >= 0; i--)
                 {
                     var childItem = favoriteSection.ChildItems[i];
-                    if (childItem is LocationItem)
+                    if (childItem is LocationItem item)
                     {
-                        var item = childItem as LocationItem;
                         if (!item.IsDefaultLocation && !FavoriteItems.Contains(item.Path))
                         {
                             favoriteSection.ChildItems.RemoveAt(i);
