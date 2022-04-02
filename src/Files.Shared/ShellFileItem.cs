@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Files.Common
+namespace Files.Shared
 {
     public class ShellFileItem
     {

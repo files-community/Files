@@ -1,13 +1,11 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Files.DataModels;
-using Files.Dialogs;
 using Files.Shared.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.Interacts;
 using Files.Backend.Services.Settings;
-using Files.ViewModels;
 using Files.ViewModels.Dialogs;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
@@ -23,8 +21,8 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
-using Windows.UI.Xaml.Controls;
 using Files.Shared.Extensions;
+using Files.Backend.Extensions;
 
 namespace Files.Filesystem
 {
@@ -133,7 +131,7 @@ namespace Files.Filesystem
                     }
                 }
 
-                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                var dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
                     FilesystemOperationType.Delete,
                     false,
                     canBeSentToBin ? permanently : true,
@@ -141,9 +139,7 @@ namespace Files.Filesystem
                     incomingItems,
                     new List<FilesystemItemsOperationItemModel>()));
 
-                ContentDialogResult result = await dialog.TryShowAsync();
-
-                if (result != ContentDialogResult.Primary)
+                if (await dialog.TryShowAsync() != DialogResult.Primary)
                 {
                     return ReturnResult.Cancelled; // Return if the result isn't delete
                 }
@@ -426,7 +422,7 @@ namespace Files.Filesystem
                     // Get the SoftwareBitmap representation of the file
                     softwareBitmap = await decoder.GetSoftwareBitmapAsync();
 
-                    await Helpers.SaveImageToFile.SaveSoftwareBitmapToFile(softwareBitmap, file, BitmapEncoder.PngEncoderId);
+                    await Helpers.BitmapHelper.SaveSoftwareBitmapToFile(softwareBitmap, file, BitmapEncoder.PngEncoderId);
                     return ReturnResult.Success;
                 }
                 catch (Exception)
@@ -708,7 +704,7 @@ namespace Files.Filesystem
 
             if (mustResolveConflicts || forceDialog)
             {
-                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                var dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
                     operationType,
                     mustResolveConflicts,
                     false,
@@ -716,11 +712,11 @@ namespace Files.Filesystem
                     incomingItems,
                     conflictingItems));
 
-                ContentDialogResult result = await dialog.TryShowAsync();
+                var result = await dialog.TryShowAsync();
 
                 if (mustResolveConflicts) // If there were conflicts, result buttons are different
                 {
-                    if (result != ContentDialogResult.Primary) // Operation was cancelled
+                    if (result != DialogResult.Primary) // Operation was cancelled
                     {
                         return (new List<FileNameConflictResolveOptionType>(), true);
                     }
@@ -812,6 +808,16 @@ namespace Files.Filesystem
             }
             itemsList = itemsList.DistinctBy(x => string.IsNullOrEmpty(x.Path) ? x.Item.Name : x.Path).ToList();
             return itemsList;
+        }
+
+        public static string FilterRestrictedCharacters(string input)
+        {
+            int invalidCharIndex;
+            while ((invalidCharIndex = input.IndexOfAny(RestrictedCharacters)) >= 0)
+            {
+                input = input.Remove(invalidCharIndex, 1);
+            }
+            return input;
         }
 
         public static bool ContainsRestrictedCharacters(string input)

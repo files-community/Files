@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Core;
+using Files.Helpers;
 
 namespace Files.Filesystem
 {
@@ -60,7 +61,7 @@ namespace Files.Filesystem
                                 },
                                 SelectsOnInvoked = false,
                                 Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png")),
-                                ChildItems = new ObservableCollection<INavigationControlItem>()
+                                ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                             };
                             var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
                                         (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +

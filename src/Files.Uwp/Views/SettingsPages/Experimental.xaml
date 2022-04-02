@@ -30,14 +30,12 @@
             </StackPanel.ChildrenTransitions>
 
             <TextBlock
-                x:Uid="SettingsExperimentalDescription"
                 Padding="0,0,0,12"
                 FontStyle="Italic"
-                Text="WARNING: EXPERIMENTAL FEATURES AHEAD!" />
+                Text="{helpers:ResourceString Name=SettingsExperimentalDescription/Text}" />
 
             <local:SettingsBlockControl
-                x:Uid="SettingsEnableFileTags"
-                Title="Enable file tags"
+                Title="{helpers:ResourceString Name=SettingsEnableFileTags/Title}"
                 HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE1CB;" />
@@ -45,8 +43,7 @@
                 <ToggleSwitch IsOn="{Binding AreFileTagsEnabled, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                 <local:SettingsBlockControl.ExpandableContent>
                     <local:SettingsBlockControl
-                        x:Uid="SettingsEditFileTagsExpander"
-                        Title="Edit file tags"
+                        Title="{helpers:ResourceString Name=SettingsEditFileTagsExpander/Title}"
                         ButtonCommand="{Binding EditFileTagsCommand}"
                         IsClickable="True">
                         <local:SettingsBlockControl.Icon>
@@ -90,16 +87,14 @@
                 Padding="0,12,0,4"
                 FontSize="14"
                 FontWeight="Medium"
-                Text="{helpers:ResourceString Name=SettingsDefaultFilesManager}"
-                Visibility="{Binding IsSetAsDefaultVisible, Mode=OneWay}" />
+                Text="{helpers:ResourceString Name=SettingsDefaultFilesManager}" />
 
             <local:SettingsBlockControl
                 x:Name="SetAsDefaultSettingsBlockControl"
                 Title="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}"
                 HorizontalAlignment="Stretch"
                 Description="{helpers:ResourceString Name=SettingsSetAsDefaultFileManagerDescription}"
-                IsExpanded="True"
-                Visibility="{Binding IsSetAsDefaultVisible, Mode=OneWay}">
+                IsExpanded="True">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xEC50;" />
                 </local:SettingsBlockControl.Icon>
@@ -113,15 +108,6 @@
                         </icore:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </ToggleSwitch>
-                <local:SettingsBlockControl.ExpandableContent>
-                    <muxc:InfoBar
-                        CornerRadius="0,0,2,2"
-                        IsClosable="False"
-                        IsIconVisible="True"
-                        IsOpen="True"
-                        Message="{helpers:ResourceString Name=SetFilesAsDefaultWarning}"
-                        Severity="Warning" />
-                </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
 
             <local:SettingsBlockControl

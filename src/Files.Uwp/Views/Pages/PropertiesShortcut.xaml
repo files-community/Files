@@ -1,13 +1,12 @@
 ﻿<local:PropertiesTab
     x:Class="Files.Views.PropertiesShortcut"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:Files.Helpers"
-    xmlns:local="using:Files.ViewModels.Properties"
-    xmlns:local1="using:Files.UserControls.Settings"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:usercontrols="using:Files.UserControls"
+    xmlns:helpers="using:Files.Helpers"
+    xmlns:local1="using:Files.UserControls.Settings"
+    xmlns:local="using:Files.ViewModels.Properties"
     Loaded="Properties_Loaded"
     mc:Ignorable="d">
 
@@ -42,12 +41,11 @@
             </Grid.RowDefinitions>
 
             <TextBlock
-                x:Uid="PropertiesShortcutItemType"
                 Grid.Row="0"
                 Grid.Column="0"
                 VerticalAlignment="Center"
                 Style="{StaticResource PropertyName}"
-                Text="Shortcut type:"
+                Text="{helpers:ResourceString Name=PropertiesShortcutItemType/Text}"
                 Visibility="Visible" />
             <TextBlock
                 x:Name="shortcutItemTypeValue"
@@ -58,12 +56,11 @@
                 Visibility="Visible" />
 
             <TextBlock
-                x:Uid="PropertiesShortcutItemPath"
                 Grid.Row="1"
                 Grid.Column="0"
                 VerticalAlignment="Center"
                 Style="{StaticResource PropertyName}"
-                Text="Destination:"
+                Text="{helpers:ResourceString Name=PropertiesShortcutItemPath/Text}"
                 Visibility="Visible" />
             <TextBox
                 x:Name="shortcutItemPathValue"
@@ -99,13 +96,12 @@
             </Grid.RowDefinitions>
             <TextBlock
                 x:Name="PropertiesShortcutItemArgs"
-                x:Uid="PropertiesShortcutItemArgs"
                 Grid.Row="0"
                 Grid.Column="0"
                 VerticalAlignment="Center"
                 x:Load="{x:Bind ViewModel.ShortcutItemArgumentsVisibility, Mode=OneWay}"
                 Style="{StaticResource PropertyName}"
-                Text="Arguments:" />
+                Text="{helpers:ResourceString Name=PropertiesShortcutItemArgs/Text}" />
             <TextBox
                 x:Name="shortcutItemArgsValue"
                 Grid.Row="0"
@@ -116,13 +112,12 @@
 
             <TextBlock
                 x:Name="PropertiesShortcutItemWorkingDir"
-                x:Uid="PropertiesShortcutItemWorkingDir"
                 Grid.Row="1"
                 Grid.Column="0"
                 VerticalAlignment="Center"
                 x:Load="{x:Bind ViewModel.ShortcutItemWorkingDirVisibility, Mode=OneWay}"
                 Style="{StaticResource PropertyName}"
-                Text="Working directory:" />
+                Text="{helpers:ResourceString Name=AddDPropertiesShortcutItemWorkingDirialog/Text}" />
             <TextBox
                 x:Name="shortcutItemWorkingDirValue"
                 Grid.Row="1"

@@ -1,4 +1,4 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Files.Shared.Extensions;
 using Files.Shared.Enums;
 using Files.Extensions;
@@ -19,6 +19,9 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 using FileAttributes = System.IO.FileAttributes;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
+using Files.Backend.ViewModels.Dialogs;
 
 namespace Files.Filesystem
 {
@@ -30,13 +33,11 @@ namespace Files.Filesystem
 
     public class FilesystemOperations : IFilesystemOperations
     {
-        #region Private Members
+        private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
 
         private IShellPage associatedInstance;
 
         private RecycleBinHelpers recycleBinHelpers;
-
-        #endregion Private Members
 
         #region Constructor
 
@@ -942,9 +943,7 @@ namespace Files.Filesystem
 
         private async Task<(FilesystemResult, ShellOperationResult)> PerformAdminOperation(ValueSet operation)
         {
-            var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
-            var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
-            if (elevateConfirmResult == ContentDialogResult.Primary)
+            if (await DialogService.ShowDialogAsync(new ElevateConfirmDialogViewModel()) == DialogResult.Primary)
             {
                 var connection = await AppServiceConnectionHelper.Instance;
                 if (connection != null && await connection.Elevate())

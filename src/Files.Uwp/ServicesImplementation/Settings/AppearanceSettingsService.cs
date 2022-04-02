@@ -80,6 +80,12 @@ namespace Files.Uwp.ServicesImplementation.Settings
             set => Set(value);
         }
 
+        public bool UseCompactStyles
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
             switch (e.SettingName)
@@ -92,6 +98,7 @@ namespace Files.Uwp.ServicesImplementation.Settings
                 case nameof(ShowWslSection):
                 case nameof(ShowFileTagsSection):
                 case nameof(PinRecycleBinToSidebar):
+                case nameof(UseCompactStyles):
                     Analytics.TrackEvent($"{e.SettingName} {e.NewValue}");
                     break;
             }
@@ -109,6 +116,7 @@ namespace Files.Uwp.ServicesImplementation.Settings
             Analytics.TrackEvent($"{nameof(ShowWslSection)}, {ShowWslSection}");
             Analytics.TrackEvent($"{nameof(ShowFileTagsSection)}, {ShowFileTagsSection}");
             Analytics.TrackEvent($"{nameof(PinRecycleBinToSidebar)}, {PinRecycleBinToSidebar}");
+            Analytics.TrackEvent($"{nameof(UseCompactStyles)}, {UseCompactStyles}");
         }
     }
 }

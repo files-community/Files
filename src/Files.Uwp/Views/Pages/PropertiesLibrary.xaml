@@ -1,13 +1,12 @@
 ﻿<local:PropertiesTab
     x:Class="Files.Views.PropertiesLibrary"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:helpers="using:Files.Helpers"
     xmlns:local="using:Files.ViewModels.Properties"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Name="Page"
     d:DesignHeight="3000"
     Loaded="Properties_Loaded"
@@ -41,13 +40,12 @@
             </Grid.RowDefinitions>
 
             <TextBlock
-                x:Uid="LibraryLocations"
                 Grid.Row="0"
                 Grid.Column="0"
                 Padding="8,0,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Text="Locations:"
+                Text="{helpers:ResourceString Name=LibraryLocations/Text}"
                 TextTrimming="CharacterEllipsis" />
             <CommandBar
                 Grid.Row="0"
@@ -67,11 +65,10 @@
                     Label="{helpers:ResourceString Name=Default}"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsDefaultSavePath}" />
                 <AppBarButton
-                    x:Uid="LibraryLocationsButtonRemove"
                     Command="{x:Bind RemoveLocationCommand}"
                     Icon="Delete"
                     IsEnabled="{x:Bind IsNotDefaultFolderSelected, Mode=OneWay}"
-                    Label="Remove" />
+                    Label="{helpers:ResourceString Name=LibraryLocationsButtonRemove/Label}" />
             </CommandBar>
 
             <MenuFlyoutSeparator
@@ -111,8 +108,7 @@
                 </ListView.ItemTemplate>
                 <ListView.Footer>
                     <TextBlock
-                        x:Uid="LibraryNoLocations"
-                        Text="No locations"
+                        Text="{helpers:ResourceString Name=LibraryNoLocations/Text}"
                         TextWrapping="WrapWholeWords"
                         Visibility="{x:Bind IsLibraryEmpty, Mode=OneWay}" />
                 </ListView.Footer>

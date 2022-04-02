@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Threading.Tasks;
 
-namespace Files.Backend.Services.Settings
+namespace Files.Backend.Services
 {
-    public interface IUpdateSettingsService : IBaseSettingsService, INotifyPropertyChanged
+    public interface IUpdateService : INotifyPropertyChanged
     {
         /// <summary>
         /// Gets a value indicating whether updates are available.

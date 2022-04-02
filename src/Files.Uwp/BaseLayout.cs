@@ -1,4 +1,5 @@
-﻿using Files.Shared.Enums;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
 using Files.EventArguments;
 using Files.Extensions;
 using Files.Filesystem;
@@ -6,12 +7,12 @@ using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Helpers.ContextFlyouts;
 using Files.Interacts;
-using Files.Backend.Services.Settings;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Files.UserControls;
 using Files.ViewModels;
 using Files.ViewModels.Previews;
 using Files.Views;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -57,8 +58,6 @@ namespace Files
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
-        public SettingsViewModel AppSettings => App.AppSettings;
-
         public FolderSettingsViewModel FolderSettings => ParentShellPageInstance.InstanceViewModel.FolderSettings;
 
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
@@ -82,8 +81,6 @@ namespace Files
         public ListedItem RenamingItem { get; set; } = null;
 
         public string OldItemName { get; set; } = null;
-
-        public TextBlock RenamingTextBlock { get; set; } = null;
 
         private bool isMiddleClickToScrollEnabled = true;
 
@@ -1235,6 +1232,26 @@ namespace Files
         {
             preRenamingItem = null;
             tapDebounceTimer.Stop();
+        }
+
+        protected async void ValidateItemNameInputText(TextBox textBox, TextBoxBeforeTextChangingEventArgs args, Action<bool> showError)
+        {
+            if (FilesystemHelpers.ContainsRestrictedCharacters(args.NewText))
+            {
+                args.Cancel = true;
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    var oldSelection = textBox.SelectionStart + textBox.SelectionLength;
+                    var oldText = textBox.Text;
+                    textBox.Text = FilesystemHelpers.FilterRestrictedCharacters(args.NewText);
+                    textBox.SelectionStart = oldSelection + textBox.Text.Length - oldText.Length;
+                    showError?.Invoke(true);
+                });
+            }
+            else
+            {
+                showError?.Invoke(false);
+            }
         }
     }
 

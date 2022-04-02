@@ -14,6 +14,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
+using Files.Backend.ViewModels.Dialogs;
 
 namespace Files.ViewModels.Dialogs
 {
@@ -207,7 +210,7 @@ namespace Files.ViewModels.Dialogs
             return Items.Cast<IFilesystemOperationItemModel>().ToList();
         }
 
-        public static FilesystemOperationDialog GetDialog(FilesystemItemsOperationDataModel itemsData)
+        public static IDialog<FilesystemOperationDialogViewModel> GetDialog(FilesystemItemsOperationDataModel itemsData)
         {
             string titleText = null;
             string subtitleText = null;
@@ -299,9 +302,9 @@ namespace Files.ViewModels.Dialogs
             viewModel.Items = new ObservableCollection<FilesystemOperationItemViewModel>(itemsData.ToItems(
                 viewModel.UpdatePrimaryButtonEnabled, viewModel.OptionGenerateNewName, viewModel.OptionReplaceExisting, viewModel.OptionSkip));
             _ = LoadItemsIcon(viewModel.Items, viewModel.ClosingCts.Token);
-            FilesystemOperationDialog dialog = new FilesystemOperationDialog(viewModel);
 
-            return dialog;
+            var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+            return dialogService.GetDialog(viewModel);
         }
 
         private static async Task LoadItemsIcon(IEnumerable<FilesystemOperationItemViewModel> items, CancellationToken token)

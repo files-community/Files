@@ -1,4 +1,4 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Files.Dialogs;
 using Files.Shared.Enums;
 using Files.Extensions;
@@ -27,6 +27,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Files.Backend.Enums;
 
 namespace Files.Interacts
 {
@@ -295,12 +296,12 @@ namespace Files.Interacts
 
         public virtual void CreateNewFolder(RoutedEventArgs e)
         {
-            UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, associatedInstance);
+            UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null, associatedInstance);
         }
 
         public virtual void CreateNewFile(ShellNewEntry f)
         {
-            UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, f, associatedInstance);
+            UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, f, associatedInstance);
         }
 
         public virtual async void PasteItemsFromClipboard(RoutedEventArgs e)

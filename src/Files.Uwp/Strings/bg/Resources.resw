@@ -465,21 +465,6 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Изпълни като администратор</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Отключи</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Въведете парола, за да отключите устройството</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Парола</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Моля, проверете паролата и опитайте отново.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>BitLocker грешка</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Съдържа:</value>
   </data>
@@ -2515,9 +2500,6 @@
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Задай като фон на работния плот</value>
-  </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>Не премахвайте Files от устройството си, преди да изключите тази опция. Ако не го направите, това ще ви попречи да отворите File Explorer.</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Изчисляването на размерите на папките е ресурсоемко и може да доведе до увеличаване на използването на вашия процесор.</value>

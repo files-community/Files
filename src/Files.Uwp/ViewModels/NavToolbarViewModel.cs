@@ -27,6 +27,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Files.Backend.Services;
 using static Files.UserControls.INavigationToolbar;
 using SearchBox = Files.UserControls.SearchBox;
 using SortDirection = Files.Shared.Enums.SortDirection;
@@ -38,7 +39,7 @@ namespace Files.ViewModels
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        public IUpdateSettingsService UpdateSettingsService { get; } = Ioc.Default.GetService<IUpdateSettingsService>();
+        public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>();
 
         public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
@@ -1160,12 +1161,12 @@ namespace Files.ViewModels
         public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
         public bool CanViewProperties => SelectedItems is not null && SelectedItems.Any();
         public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
-        public bool CanExtract => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsZipFile(SelectedItems.First().FileExtension);
+        public bool CanExtract => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsZipFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
         public string ExtractToText => SelectedItems is not null && SelectedItems.Count == 1 ? string.Format("ExtractToChildFolder".GetLocalized() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalized();
-        public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension);
-        public bool IsImage => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsImageFile(SelectedItems.First().FileExtension);
-        public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension);
-        public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension));
+        public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
+        public bool IsImage => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsImageFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
+        public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
+        public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 
         public string OpenInTerminal => $"{"OpenIn".GetLocalized()} {App.TerminalController.Model.GetDefaultTerminal()?.Name}";
 

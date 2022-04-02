@@ -1,4 +1,4 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Files.Shared.Extensions;
 using Microsoft.Win32;
 using System;
@@ -69,19 +69,16 @@ namespace FilesFullTrust.Helpers
         private static async Task<ShellNewEntry> ParseShellNewRegistryEntry(RegistryKey key, RegistryKey root)
         {
             var valueNames = key.GetValueNames();
-            if (!valueNames.Contains("NullFile") &&
-                !valueNames.Contains("ItemName") &&
-                !valueNames.Contains("FileName"))
+            if (!valueNames.Contains("NullFile", StringComparer.OrdinalIgnoreCase) &&
+                !valueNames.Contains("ItemName", StringComparer.OrdinalIgnoreCase) &&
+                !valueNames.Contains("FileName", StringComparer.OrdinalIgnoreCase) &&
+                !valueNames.Contains("Command", StringComparer.OrdinalIgnoreCase))
             {
                 return null;
             }
 
             var extension = root.Name.Substring(root.Name.LastIndexOf('\\') + 1);
             var fileName = (string)key.GetValue("FileName");
-            if (!string.IsNullOrEmpty(fileName) && Path.GetExtension(fileName) != extension)
-            {
-                return null;
-            }
 
             byte[] data = null;
             var dataObj = key.GetValue("Data");
@@ -98,7 +95,7 @@ namespace FilesFullTrust.Helpers
                         break;
                 }
             }
-
+            
             var folder = await SafetyExtensions.IgnoreExceptions(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("extensions", CreationCollisionOption.OpenIfExists).AsTask());
             var sampleFile = folder != null ? await SafetyExtensions.IgnoreExceptions(() => folder.CreateFileAsync("file" + extension, CreationCollisionOption.OpenIfExists).AsTask()) : null;
 

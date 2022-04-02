@@ -63,6 +63,9 @@
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
                     </muxc:NavigationViewItem.Icon>
+                    <muxc:NavigationViewItem.InfoBadge>
+                        <muxc:InfoBadge Style="{ThemeResource CautionIconInfoBadgeStyle}" Visibility="{x:Bind IsInvalid, Mode=OneWay}"/>
+                    </muxc:NavigationViewItem.InfoBadge>
                 </muxc:NavigationViewItem>
             </DataTemplate>
 
@@ -245,8 +248,7 @@
                                     Visibility="{Binding ElementName=PaneRoot, Path=Visibility, Mode=OneWay}">
                                     <UserControl
                                         x:Name="ResizeElementControl"
-                                        x:Uid="ResizeElementKeyboardControl"
-                                        AutomationProperties.Name="Sidebar resizer"
+                                        AutomationProperties.Name="{helpers:ResourceString Name=ResizeElementControl/AutomationProperties/Name}"
                                         IsTabStop="True"
                                         KeyDown="Border_KeyDown"
                                         UseSystemFocusVisuals="True" />

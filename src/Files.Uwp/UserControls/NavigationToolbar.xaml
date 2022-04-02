@@ -1,21 +1,21 @@
 ﻿<UserControl
     x:Class="Files.UserControls.NavigationToolbar"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
-    xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
-    xmlns:converters="using:Files.Converters"
-    xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI"
-    xmlns:helpers="using:Files.Helpers"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    xmlns:converters="using:Files.Converters"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:uc="using:Files.UserControls"
+    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI"
+    xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
     x:Name="NavToolbar"
-    Height="42"
-    d:DesignHeight="42"
+    Height="50"
+    d:DesignHeight="50"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -335,9 +335,8 @@
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         Background="{ThemeResource NavigationToolbarBackgroundBrush}"
-        ColumnSpacing="0"
-        CornerRadius="{StaticResource NavToolbarCornerRadius}">
-        <Grid Padding="8,0,8,8" ColumnSpacing="4">
+        ColumnSpacing="0">
+        <Grid Padding="8" ColumnSpacing="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -351,17 +350,16 @@
                 Spacing="4">
                 <Button
                     x:Name="Back"
-                    x:Uid="NavBackButton"
                     Width="36"
                     Height="32"
                     x:FieldModifier="public"
                     AccessKey="B"
-                    AutomationProperties.Name="Navigate backwards"
+                    AutomationProperties.Name="{helpers:ResourceString Name=NavBackButton/AutomationProperties/Name}"
                     Background="Transparent"
                     Command="{x:Bind ViewModel.BackClickCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Back (Alt+Left Arrow)">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=NavBackButton/ToolTipService/ToolTip}">
                     <FontIcon FontSize="14" Glyph="&#xE72B;" />
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="XButton1" />
@@ -372,17 +370,16 @@
 
                 <Button
                     x:Name="Forward"
-                    x:Uid="NavForwardButton"
                     Width="36"
                     Height="32"
                     x:FieldModifier="public"
                     AccessKey="F"
-                    AutomationProperties.Name="Navigate forward"
+                    AutomationProperties.Name="{helpers:ResourceString Name=NavForwardButton/AutomationProperties/Name}"
                     Background="Transparent"
                     Command="{x:Bind ViewModel.ForwardClickCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanGoForward, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Forward (Alt+Right Arrow)">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=NavForwardButton/ToolTipService/ToolTip}">
                     <FontIcon FontSize="14" Glyph="&#xE72A;" />
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="XButton2" />
@@ -392,17 +389,16 @@
 
                 <Button
                     x:Name="Up"
-                    x:Uid="NavUpButton"
                     Width="36"
                     Height="32"
                     x:FieldModifier="public"
                     AccessKey="U"
-                    AutomationProperties.Name="Go up one directory"
+                    AutomationProperties.Name="{helpers:ResourceString Name=NavUpButton/AutomationProperties/Name}"
                     Background="Transparent"
                     Command="{x:Bind ViewModel.UpClickCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanNavigateToParent, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Up (Alt+Up Arrow)">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=NavUpButton/ToolTipService/ToolTip}">
                     <FontIcon FontSize="14" Glyph="&#xE74A;" />
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="Up" Modifiers="Menu" />
@@ -411,17 +407,16 @@
 
                 <Button
                     x:Name="Refresh"
-                    x:Uid="NavRefreshButton"
                     Width="36"
                     Height="32"
                     x:FieldModifier="public"
                     AccessKey="R"
-                    AutomationProperties.Name="Refresh the directory"
+                    AutomationProperties.Name="{helpers:ResourceString Name=NavRefreshButton/AutomationProperties/Name}"
                     Background="Transparent"
                     Command="{x:Bind ViewModel.RefreshClickCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanRefresh, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Refresh (F5)">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=NavRefreshButton/ToolTipService/ToolTip}">
                     <FontIcon FontSize="14" Glyph="&#xE72C;" />
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="F5" />
@@ -431,7 +426,6 @@
 
             <AutoSuggestBox
                 x:Name="VisiblePath"
-                x:Uid="NavigationToolbarVisiblePath"
                 Grid.Column="1"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
@@ -446,7 +440,7 @@
                 ItemsSource="{x:Bind ViewModel.NavigationBarSuggestions, Mode=OneWay}"
                 Loaded="VisiblePath_Loaded"
                 LostFocus="VisiblePath_LostFocus"
-                PlaceholderText="Enter a path"
+                PlaceholderText="{helpers:ResourceString Name=NavigationToolbarVisiblePath/PlaceholderText}"
                 PreviewKeyDown="VisiblePath_KeyDown"
                 QuerySubmitted="VisiblePath_QuerySubmitted"
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
@@ -470,11 +464,21 @@
                 CornerRadius="{StaticResource ControlCornerRadius}"
                 PointerPressed="ManualPathEntryItem_Click"
                 Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
                 <uc:PathBreadcrumb
+                    Grid.Column="0"
                     VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
                     ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                <FontIcon
+                    Grid.Column="1"
+                    Margin="12"
+                    FontSize="16"
+                    Glyph="&#xE09D;" />
             </Grid>
 
             <uc:SearchBox
@@ -497,15 +501,14 @@
             <StackPanel Grid.Column="3" Orientation="Horizontal">
                 <Button
                     x:Name="SearchButton"
-                    x:Uid="NavSearchButton"
                     Width="36"
                     Height="33"
                     AccessKey="I"
-                    AutomationProperties.Name="Search"
+                    AutomationProperties.Name="{helpers:ResourceString Name=NavSearchButton/AutomationProperties/Name}"
                     Background="Transparent"
                     Click="SearchButton_Click"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Search (Ctrl+F)"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=NavSearchButton/ToolTipService/ToolTip}"
                     Visibility="Collapsed">
                     <FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
                     <Button.KeyboardAccelerators>
@@ -570,12 +573,12 @@
                     Height="32"
                     HorizontalContentAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
-                    x:Load="{x:Bind ViewModel.UpdateSettingsService.IsUpdateAvailable, Mode=OneWay}"
+                    x:Load="{x:Bind ViewModel.UpdateService.IsUpdateAvailable, Mode=OneWay}"
                     AccessKey="1"
                     AutomationProperties.Name="{helpers:ResourceString Name=UpdateFiles}"
                     Background="Transparent"
                     Command="{x:Bind ViewModel.UpdateCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind ViewModel.UpdateSettingsService.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                    IsEnabled="{x:Bind ViewModel.UpdateService.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=UpdateFiles}">
                     <FontIcon FontSize="14" Glyph="&#xE896;" />
@@ -607,9 +610,8 @@
 
             <muxc:TeachingTip
                 x:Name="OngoingTasksTeachingTip"
-                x:Uid="OngoingTasksTeachingTip"
-                Title="Status Center"
-                Subtitle="Check the status of file operations here"
+                Title="{helpers:ResourceString Name=OngoingTasksTeachingTip/Title}"
+                Subtitle="{helpers:ResourceString Name=OngoingTasksTeachingTip/Subtitle}"
                 Target="{x:Bind OngoingTasks}"
                 Visibility="Collapsed" />
         </Grid>

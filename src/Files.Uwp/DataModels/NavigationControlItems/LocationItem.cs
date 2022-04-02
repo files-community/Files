@@ -1,4 +1,4 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Files.Filesystem;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
@@ -6,6 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Files.Helpers;
 
 namespace Files.DataModels.NavigationControlItems
 {
@@ -40,7 +41,7 @@ namespace Files.DataModels.NavigationControlItems
         public FontFamily Font { get; set; }
         public NavigationControlItemType ItemType => NavigationControlItemType.Location;
         public bool IsDefaultLocation { get; set; }
-        public ObservableCollection<INavigationControlItem> ChildItems { get; set; }
+        public BulkConcurrentObservableCollection<INavigationControlItem> ChildItems { get; set; }
 
         public bool SelectsOnInvoked { get; set; } = true;
 
@@ -53,6 +54,8 @@ namespace Files.DataModels.NavigationControlItems
                 OnPropertyChanged(nameof(IsExpanded));
             }
         }
+
+        public bool IsInvalid { get; set; } = false;
 
         public SectionType Section { get; set; }
 
