@@ -46,7 +46,7 @@
                 <MenuFlyoutItem
                     x:Name="ApplyToAllOption"
                     Click="MenuFlyoutItem_Click"
-                    Tag="{helpers:ResourceString Name=ConfictingItemsDialogOptionApplyToAll.Tag}"
+                    Tag="All"
                     Text="{helpers:ResourceString Name=ConfictingItemsDialogOptionApplyToAll/Text}" />
             </MenuFlyout>
         </ResourceDictionary>
@@ -202,9 +202,7 @@
                                     <muxc:SplitButton.Flyout>
                                         <MenuFlyout>
                                             <MenuFlyoutItem Command="{Binding GenerateNewNameCommand}" Text="{helpers:ResourceString Name=GenerateNewName}" />
-                                            <MenuFlyoutItem
-                                                Command="{Binding ReplaceExistingCommand}"
-                                                Text="{helpers:ResourceString Name=ConflictingItemsDialogItemOptionReplaceExisting/Text}" />
+                                            <MenuFlyoutItem Command="{Binding ReplaceExistingCommand}" Text="{helpers:ResourceString Name=ConflictingItemsDialogItemOptionReplaceExisting/Text}" />
                                             <MenuFlyoutItem Command="{Binding SkipCommand}" Text="{helpers:ResourceString Name=Skip}" />
                                         </MenuFlyout>
                                     </muxc:SplitButton.Flyout>
