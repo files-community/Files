@@ -8,7 +8,6 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
-    Loaded="RootDialog_Loaded"
     x:Name="RootDialog"
     Title="{x:Bind ViewModel.Title, Mode=OneWay}"
     Closing="RootDialog_Closing"
