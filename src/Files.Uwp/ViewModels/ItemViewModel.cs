@@ -80,6 +80,8 @@ namespace Files.ViewModels
 
         private IFileListCache fileListCache = FileListCacheController.GetInstance();
 
+        public event EventHandler ConnectionChanged;
+
         private NamedPipeAsAppServiceConnection connection;
 
         private NamedPipeAsAppServiceConnection Connection
@@ -96,6 +98,7 @@ namespace Files.ViewModels
                 {
                     connection.RequestReceived += Connection_RequestReceived;
                 }
+                ConnectionChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -1506,7 +1509,7 @@ namespace Files.ViewModels
         public async Task<int> EnumerateItemsFromStandardFolderAsync(string path, Type sourcePageType, CancellationToken cancellationToken, LibraryItem library = null)
         {
             // Flag to use FindFirstFileExFromApp or StorageFolder enumeration
-            var isBoxFolder = App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder ? 
+            var isBoxFolder = App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder ?
                 path.StartsWith(boxFolder) : false; // Use storage folder for Box Drive (#4629)
             var isNetworkFolder = System.Text.RegularExpressions.Regex.IsMatch(path, @"^\\\\(?!\?)"); // Use storage folder for network drives (*FromApp methods return access denied)
             bool enumFromStorageFolder = isBoxFolder || isNetworkFolder;
@@ -1778,6 +1781,7 @@ namespace Files.ViewModels
 
         private async void WatchForWin32FolderChanges(string folderPath)
         {
+            void RestartWatcher(object sernder, EventArgs e) => WatchForWin32FolderChanges(folderPath);
             if (Connection != null)
             {
                 var (status, response) = await Connection.SendMessageForResponseAsync(new ValueSet()
@@ -1789,8 +1793,10 @@ namespace Files.ViewModels
                 if (status == AppServiceResponseStatus.Success
                     && response.ContainsKey("watcherID"))
                 {
+                    ConnectionChanged += RestartWatcher;
                     watcherCTS.Token.Register(async () =>
                     {
+                        ConnectionChanged -= RestartWatcher;
                         if (Connection != null)
                         {
                             await Connection.SendMessageAsync(new ValueSet()
