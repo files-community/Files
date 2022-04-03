@@ -80,7 +80,7 @@ namespace FilesFullTrust.Helpers
         /// http://wyupdate.googlecode.com/svn-history/r401/trunk/frmFilesInUse.cs (no copyright in code at time of viewing)
         ///
         /// </remarks>
-        static public List<Process> WhoIsLocking(string path)
+        public static List<Process> WhoIsLocking(string[] resources)
         {
             string key = Guid.NewGuid().ToString();
             List<Process> processes = new List<Process>();
@@ -93,8 +93,6 @@ namespace FilesFullTrust.Helpers
                 const int ERROR_MORE_DATA = 234;
                 uint pnProcInfo = 0;
                 uint lpdwRebootReasons = RmRebootReasonNone;
-
-                string[] resources = new string[] { path }; // Just checking on one resource.
 
                 res = RmRegisterResources(handle, (uint)resources.Length, resources, 0, null, 0, null);
 
