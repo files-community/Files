@@ -1781,7 +1781,14 @@ namespace Files.ViewModels
 
         private async void WatchForWin32FolderChanges(string folderPath)
         {
-            void RestartWatcher(object sernder, EventArgs e) => WatchForWin32FolderChanges(folderPath);
+            void RestartWatcher(object sender, EventArgs e)
+            {
+                if (Connection != null)
+                {
+                    ConnectionChanged -= RestartWatcher;
+                    WatchForWin32FolderChanges(folderPath);
+                }
+            }
             if (Connection != null)
             {
                 var (status, response) = await Connection.SendMessageForResponseAsync(new ValueSet()
