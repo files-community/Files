@@ -3,11 +3,11 @@ using Microsoft.Toolkit.Uwp;
 
 namespace Files.Uwp.ServicesImplementation
 {
-	internal sealed class LocalizationService : ILocalizationService
-	{
-		public string LocalizeFromResourceKey(string resourceKey)
-		{
-			return resourceKey.GetLocalized();
-		}
-	}
+    internal sealed class LocalizationService : ILocalizationService
+    {
+        public string LocalizeFromResourceKey(string resourceKey)
+        {
+            return resourceKey.GetLocalized();
+        }
+    }
 }

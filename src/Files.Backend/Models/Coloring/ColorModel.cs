@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace Files.Backend.Models.Coloring
 {
-	[Serializable]
-	public abstract class ColorModel : ICustomFormattable
-	{
-		public virtual IReadOnlyCollection<string>? Formats { get; }
+    [Serializable]
+    public abstract class ColorModel : ICustomFormattable
+    {
+        public virtual IReadOnlyCollection<string>? Formats { get; }
 
-		public virtual void AppendFormat(string formatInfo) { }
-	}
+        public virtual void AppendFormat(string formatInfo) { }
+    }
 }

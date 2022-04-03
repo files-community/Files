@@ -1,23 +1,23 @@
-﻿using System;
+﻿using Files.Shared.Enums;
+using System;
 using System.Threading.Tasks;
-using Files.Shared.Enums;
 
 namespace Files.Filesystem.FilesystemHistory
 {
-	public interface IStorageHistoryOperations : IDisposable
-	{
-		/// <summary>
-		/// Redo an action with given <paramref name="history"/>
-		/// </summary>
-		/// <param name="history"></param>
-		/// <returns></returns>
-		Task<ReturnResult> Undo(IStorageHistory history);
+    public interface IStorageHistoryOperations : IDisposable
+    {
+        /// <summary>
+        /// Redo an action with given <paramref name="history"/>
+        /// </summary>
+        /// <param name="history"></param>
+        /// <returns></returns>
+        Task<ReturnResult> Undo(IStorageHistory history);
 
-		/// <summary>
-		/// Redo an action with given <paramref name="history"/>
-		/// </summary>
-		/// <param name="history"></param>
-		/// <returns></returns>
-		Task<ReturnResult> Redo(IStorageHistory history);
-	}
+        /// <summary>
+        /// Redo an action with given <paramref name="history"/>
+        /// </summary>
+        /// <param name="history"></param>
+        /// <returns></returns>
+        Task<ReturnResult> Redo(IStorageHistory history);
+    }
 }

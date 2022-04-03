@@ -1,26 +1,26 @@
-﻿using System;
-using Files.Shared.EventArguments;
+﻿using Files.Shared.EventArguments;
+using System;
 
 namespace Files.Backend.Services.Settings
 {
-	public interface IUserSettingsService : IBaseSettingsService
-	{
-		event EventHandler<SettingChangedEventArgs> OnSettingChangedEvent;
+    public interface IUserSettingsService : IBaseSettingsService
+    {
+        event EventHandler<SettingChangedEventArgs> OnSettingChangedEvent;
 
-		bool ImportSettings(object import);
+        bool ImportSettings(object import);
 
-		object ExportSettings();
+        object ExportSettings();
 
-		IPreferencesSettingsService PreferencesSettingsService { get; }
+        IPreferencesSettingsService PreferencesSettingsService { get; }
 
-		IMultitaskingSettingsService MultitaskingSettingsService { get; }
+        IMultitaskingSettingsService MultitaskingSettingsService { get; }
 
-		IWidgetsSettingsService WidgetsSettingsService { get; }
+        IWidgetsSettingsService WidgetsSettingsService { get; }
 
-		IAppearanceSettingsService AppearanceSettingsService { get; }
+        IAppearanceSettingsService AppearanceSettingsService { get; }
 
-		IPaneSettingsService PaneSettingsService { get; }
+        IPaneSettingsService PaneSettingsService { get; }
 
-		ILayoutSettingsService LayoutSettingsService { get; }
-	}
+        ILayoutSettingsService LayoutSettingsService { get; }
+    }
 }

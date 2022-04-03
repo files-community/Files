@@ -1,72 +1,72 @@
-﻿using System.Collections.Generic;
+﻿using Files.Shared.Enums;
 using Files.Extensions;
-using Files.Shared.Enums;
+using System.Collections.Generic;
 
 namespace Files.Filesystem.FilesystemHistory
 {
-	public class StorageHistory : IStorageHistory
-	{
-		#region Public Properties
+    public class StorageHistory : IStorageHistory
+    {
+        #region Public Properties
 
-		public FileOperationType OperationType { get; private set; }
+        public FileOperationType OperationType { get; private set; }
 
-		public IList<IStorageItemWithPath> Source { get; private set; }
+        public IList<IStorageItemWithPath> Source { get; private set; }
 
-		public IList<IStorageItemWithPath> Destination { get; private set; }
+        public IList<IStorageItemWithPath> Destination { get; private set; }
 
-		#endregion Public Properties
+        #endregion Public Properties
 
-		#region Constructor
+        #region Constructor
 
-		public StorageHistory(FileOperationType operationType, IList<IStorageItemWithPath> source, IList<IStorageItemWithPath> destination)
-		{
-			OperationType = operationType;
-			Source = source;
-			Destination = destination;
-		}
+        public StorageHistory(FileOperationType operationType, IList<IStorageItemWithPath> source, IList<IStorageItemWithPath> destination)
+        {
+            OperationType = operationType;
+            Source = source;
+            Destination = destination;
+        }
 
-		public StorageHistory(FileOperationType operationType, IStorageItemWithPath source, IStorageItemWithPath destination)
-		{
-			OperationType = operationType;
-			Source = source.CreateList();
-			Destination = destination.CreateList();
-		}
+        public StorageHistory(FileOperationType operationType, IStorageItemWithPath source, IStorageItemWithPath destination)
+        {
+            OperationType = operationType;
+            Source = source.CreateList();
+            Destination = destination.CreateList();
+        }
 
-		#endregion Constructor
+        #endregion Constructor
 
-		#region Modify
+        #region Modify
 
-		public void Modify(IStorageHistory newHistory)
-		{
-			OperationType = newHistory.OperationType;
-			Source = newHistory.Source;
-			Destination = newHistory.Destination;
-		}
+        public void Modify(IStorageHistory newHistory)
+        {
+            OperationType = newHistory.OperationType;
+            Source = newHistory.Source;
+            Destination = newHistory.Destination;
+        }
 
-		public void Modify(FileOperationType operationType, IList<IStorageItemWithPath> source, IList<IStorageItemWithPath> destination)
-		{
-			OperationType = operationType;
-			Source = source;
-			Destination = destination;
-		}
+        public void Modify(FileOperationType operationType, IList<IStorageItemWithPath> source, IList<IStorageItemWithPath> destination)
+        {
+            OperationType = operationType;
+            Source = source;
+            Destination = destination;
+        }
 
-		public void Modify(FileOperationType operationType, IStorageItemWithPath source, IStorageItemWithPath destination)
-		{
-			OperationType = operationType;
-			Source = source.CreateList();
-			Destination = destination.CreateList();
-		}
+        public void Modify(FileOperationType operationType, IStorageItemWithPath source, IStorageItemWithPath destination)
+        {
+            OperationType = operationType;
+            Source = source.CreateList();
+            Destination = destination.CreateList();
+        }
 
-		#endregion Modify
+        #endregion Modify
 
-		#region IDisposable
+        #region IDisposable
 
-		public void Dispose()
-		{
-			Source = null;
-			Destination = null;
-		}
+        public void Dispose()
+        {
+            Source = null;
+            Destination = null;
+        }
 
-		#endregion IDisposable
-	}
+        #endregion IDisposable
+    }
 }

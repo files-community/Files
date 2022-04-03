@@ -1,12 +1,12 @@
-﻿using System.Threading.Tasks;
-using Files.Backend.Models.Imaging;
+﻿using Files.Backend.Models.Imaging;
+using System.Threading.Tasks;
 
 #nullable enable
 
 namespace Files.Backend.Services
 {
-	public interface IImagingService
-	{
-		Task<ImageModel?> GetImageModelFromDataAsync(byte[]? rawData);
-	}
+    public interface IImagingService
+    {
+        Task<ImageModel?> GetImageModelFromDataAsync(byte[]? rawData);
+    }
 }

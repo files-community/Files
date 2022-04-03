@@ -3,14 +3,14 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Uwp.UserControls.Widgets
 {
-	public interface IWidgetCardItem<T>
-	{
-		T Item { get; }
+    public interface IWidgetCardItem<T>
+    {
+        T Item { get; }
 
-		bool HasThumbnail { get; }
+        bool HasThumbnail { get; }
 
-		BitmapImage Thumbnail { get; }
+        BitmapImage Thumbnail { get; }
 
-		Task LoadCardThumbnailAsync(int overrideThumbnailSize = 32);
-	}
+        Task LoadCardThumbnailAsync(int overrideThumbnailSize = 32);
+    }
 }

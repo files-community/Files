@@ -2,18 +2,18 @@
 
 namespace Files.Uwp.Serialization
 {
-	internal interface IJsonSettingsDatabase
-	{
-		TValue? GetValue<TValue>(string key, TValue? defaultValue = default);
+    internal interface IJsonSettingsDatabase
+    {
+        TValue? GetValue<TValue>(string key, TValue? defaultValue = default);
 
-		bool SetValue<TValue>(string key, TValue? newValue);
+        bool SetValue<TValue>(string key, TValue? newValue);
 
-		bool RemoveKey(string key);
+        bool RemoveKey(string key);
 
-		bool FlushSettings();
+        bool FlushSettings();
 
-		bool ImportSettings(object? import);
+        bool ImportSettings(object? import);
 
-		object? ExportSettings();
-	}
+        object? ExportSettings();
+    }
 }

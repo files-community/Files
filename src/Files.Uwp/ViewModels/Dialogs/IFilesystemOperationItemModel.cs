@@ -2,14 +2,14 @@
 
 namespace Files.ViewModels.Dialogs
 {
-	public interface IFilesystemOperationItemModel
-	{
-		string SourcePath { get; }
+    public interface IFilesystemOperationItemModel
+    {
+        string SourcePath { get; }
 
-		string DestinationPath { get; }
+        string DestinationPath { get; }
 
-		FileNameConflictResolveOptionType ConflictResolveOption { get; }
+        FileNameConflictResolveOptionType ConflictResolveOption { get; }
 
-		FilesystemOperationType ItemOperation { get; }
-	}
+        FilesystemOperationType ItemOperation { get; }
+    }
 }

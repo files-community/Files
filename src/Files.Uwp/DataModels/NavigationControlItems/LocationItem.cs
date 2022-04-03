@@ -1,11 +1,12 @@
-﻿using System;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Files.Shared;
 using Files.Filesystem;
-using Files.Helpers;
-using Files.Shared;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
+using System;
+using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Files.Helpers;
 
 namespace Files.DataModels.NavigationControlItems
 {

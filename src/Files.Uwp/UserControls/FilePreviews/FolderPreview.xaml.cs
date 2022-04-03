@@ -5,14 +5,14 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls.FilePreviews
 {
-	public sealed partial class FolderPreview : UserControl
-	{
-		public FolderPreviewViewModel Model { get; set; }
+    public sealed partial class FolderPreview : UserControl
+    {
+        public FolderPreviewViewModel Model { get; set; }
 
-		public FolderPreview(FolderPreviewViewModel model)
-		{
-			Model = model;
-			this.InitializeComponent();
-		}
-	}
+        public FolderPreview(FolderPreviewViewModel model)
+        {
+            Model = model;
+            this.InitializeComponent();
+        }
+    }
 }

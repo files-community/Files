@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 namespace Files.Backend.Models
 {
-	public interface ICustomFormattable
-	{
-		IReadOnlyCollection<string>? Formats { get; }
+    public interface ICustomFormattable
+    {
+        IReadOnlyCollection<string>? Formats { get;}
 
-		void AppendFormat(string formatInfo);
-	}
+        void AppendFormat(string formatInfo);
+    }
 }

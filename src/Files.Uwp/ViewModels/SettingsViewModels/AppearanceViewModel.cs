@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Files.Helpers;
+using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services.Settings;
-using Files.Helpers;
 using Microsoft.Toolkit.Uwp;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;
 

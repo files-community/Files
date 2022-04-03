@@ -1,85 +1,85 @@
-﻿using System;
+﻿using Files.Shared.Enums;
+using System;
 using System.Threading.Tasks;
-using Files.Shared.Enums;
 
 namespace Files.Filesystem.FilesystemHistory
 {
-	public class StorageHistoryHelpers : IDisposable
-	{
-		#region Private Members
+    public class StorageHistoryHelpers : IDisposable
+    {
+        #region Private Members
 
-		private IStorageHistoryOperations storageHistoryOperations;
+        private IStorageHistoryOperations storageHistoryOperations;
 
-		#endregion Private Members
+        #endregion Private Members
 
-		#region Constructor
+        #region Constructor
 
-		public StorageHistoryHelpers(IStorageHistoryOperations storageHistoryOperations)
-		{
-			this.storageHistoryOperations = storageHistoryOperations;
-		}
+        public StorageHistoryHelpers(IStorageHistoryOperations storageHistoryOperations)
+        {
+            this.storageHistoryOperations = storageHistoryOperations;
+        }
 
-		#endregion Constructor
+        #endregion Constructor
 
-		#region Undo, Redo
+        #region Undo, Redo
 
-		public async Task<ReturnResult> TryUndo()
-		{
-			if (App.HistoryWrapper.CanUndo())
-			{
-				if (!(await App.SemaphoreSlim.WaitAsync(0)))
-				{
-					return ReturnResult.InProgress;
-				}
+        public async Task<ReturnResult> TryUndo()
+        {
+            if (App.HistoryWrapper.CanUndo())
+            {
+                if (!(await App.SemaphoreSlim.WaitAsync(0)))
+                {
+                    return ReturnResult.InProgress;
+                }
 
-				try
-				{
-					return await storageHistoryOperations.Undo(App.HistoryWrapper.GetCurrentHistory());
-				}
-				finally
-				{
-					App.HistoryWrapper.DecreaseIndex();
-					App.SemaphoreSlim.Release();
-				}
-			}
+                try
+                {
+                    return await storageHistoryOperations.Undo(App.HistoryWrapper.GetCurrentHistory());
+                }
+                finally
+                {
+                    App.HistoryWrapper.DecreaseIndex();
+                    App.SemaphoreSlim.Release();
+                }
+            }
 
-			return ReturnResult.Cancelled;
-		}
+            return ReturnResult.Cancelled;
+        }
 
-		public async Task<ReturnResult> TryRedo()
-		{
-			if (App.HistoryWrapper.CanRedo())
-			{
-				if (!(await App.SemaphoreSlim.WaitAsync(0)))
-				{
-					return ReturnResult.InProgress;
-				}
+        public async Task<ReturnResult> TryRedo()
+        {
+            if (App.HistoryWrapper.CanRedo())
+            {
+                if (!(await App.SemaphoreSlim.WaitAsync(0)))
+                {
+                    return ReturnResult.InProgress;
+                }
 
-				try
-				{
-					App.HistoryWrapper.IncreaseIndex();
-					return await storageHistoryOperations.Redo(App.HistoryWrapper.GetCurrentHistory());
-				}
-				finally
-				{
-					App.SemaphoreSlim.Release();
-				}
-			}
+                try
+                {
+                    App.HistoryWrapper.IncreaseIndex();
+                    return await storageHistoryOperations.Redo(App.HistoryWrapper.GetCurrentHistory());
+                }
+                finally
+                {
+                    App.SemaphoreSlim.Release();
+                }
+            }
 
-			return ReturnResult.Cancelled;
-		}
+            return ReturnResult.Cancelled;
+        }
 
-		#endregion Undo, Redo
+        #endregion Undo, Redo
 
-		#region IDisposable
+        #region IDisposable
 
-		public void Dispose()
-		{
-			storageHistoryOperations?.Dispose();
+        public void Dispose()
+        {
+            storageHistoryOperations?.Dispose();
 
-			storageHistoryOperations = null;
-		}
+            storageHistoryOperations = null;
+        }
 
-		#endregion IDisposable
-	}
+        #endregion IDisposable
+    }
 }
