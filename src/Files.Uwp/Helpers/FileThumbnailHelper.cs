@@ -1,6 +1,7 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Files.Extensions;
 using Files.Filesystem;
+using Files.Shared.Extensions;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;

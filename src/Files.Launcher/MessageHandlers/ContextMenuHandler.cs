@@ -1,4 +1,5 @@
-﻿using Files.Common;
+﻿using Files.Shared;
+using Files.Shared.Extensions;
 using FilesFullTrust.Helpers;
 using Newtonsoft.Json;
 using System;
@@ -67,13 +68,13 @@ namespace FilesFullTrust.MessageHandlers
                     break;
 
                 case "GetNewContextMenuEntries":
-                    var entries = await Extensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntries(), Program.Logger);
+                    var entries = await SafetyExtensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntries(), Program.Logger);
                     await Win32API.SendMessageAsync(connection, new ValueSet() { { "Entries", JsonConvert.SerializeObject(entries) } }, message.Get("RequestID", (string)null));
                     break;
 
                 case "GetNewContextMenuEntryForType":
                     var fileExtension = (string)message["extension"];
-                    var entry = await Extensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntryForType(fileExtension), Program.Logger);
+                    var entry = await SafetyExtensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntryForType(fileExtension), Program.Logger);
                     await Win32API.SendMessageAsync(connection, new ValueSet() { { "Entry", JsonConvert.SerializeObject(entry) } }, message.Get("RequestID", (string)null));
                     break;
             }

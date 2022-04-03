@@ -1,7 +1,7 @@
-﻿using Files.Enums;
+﻿using Files.Shared.Enums;
 using Files.Filesystem;
-using Files.Services;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;

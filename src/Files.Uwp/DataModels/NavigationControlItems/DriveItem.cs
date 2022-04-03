@@ -1,9 +1,9 @@
 ﻿using ByteSizeLib;
-using Files.Common;
+using Files.Shared;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Threading.Tasks;
@@ -12,6 +12,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
+using Files.Shared.Extensions;
 
 namespace Files.DataModels.NavigationControlItems
 {
@@ -98,6 +99,8 @@ namespace Files.DataModels.NavigationControlItems
 
         public SectionType Section { get; set; }
 
+        public ContextMenuOptions MenuOptions { get; set; }
+
         private float percentageUsed = 0.0f;
 
         public float PercentageUsed
@@ -142,6 +145,13 @@ namespace Files.DataModels.NavigationControlItems
             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () => await item.SetBitmapImage(imageStream));
             item.Text = root.DisplayName;
             item.Type = type;
+            item.MenuOptions = new ContextMenuOptions
+            {
+                IsLocationItem = true,
+                ShowEjectDevice = item.IsRemovable,
+                ShowShellItems = true,
+                ShowProperties = true
+            };
             item.Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
             item.DeviceID = deviceId;
             item.Root = root;

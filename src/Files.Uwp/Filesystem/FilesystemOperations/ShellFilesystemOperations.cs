@@ -1,5 +1,5 @@
-﻿using Files.Common;
-using Files.Enums;
+﻿using Files.Shared.Extensions;
+using Files.Shared.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Files.Shared;
 
 namespace Files.Filesystem
 {

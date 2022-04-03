@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 using Windows.UI.Xaml;
 
@@ -109,7 +109,7 @@ namespace Files.ViewModels
             if (TotalWidth > width || TotalWidth < width)
             {
                 var proportion = width / TotalWidth;
-                SetColumnSizeProportionally(proportion);
+                //SetColumnSizeProportionally(proportion);
             }
         }
 

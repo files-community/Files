@@ -1,4 +1,5 @@
-﻿using Files.Common;
+﻿using Files.Shared;
+using Files.Shared.Extensions;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -118,7 +119,7 @@ namespace Files.Helpers
                     { "fileop", "TestRecycle" },
                     { "filepath", path }
                 });
-                var result = (status == AppServiceResponseStatus.Success && response.Get("Success", false));
+                var result = status == AppServiceResponseStatus.Success && response.Get("Success", false);
                 var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
                 result &= shellOpResult != null && shellOpResult.Items.All(x => x.Succeeded);
                 return result;

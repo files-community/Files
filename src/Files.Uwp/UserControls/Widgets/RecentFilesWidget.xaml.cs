@@ -1,10 +1,10 @@
-﻿using Files.Enums;
+﻿using Files.Shared.Enums;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.ViewModels;
 using Files.ViewModels.Widgets;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
@@ -34,7 +34,6 @@ namespace Files.UserControls.Widgets
 
         private ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();
         private EmptyRecentsText Empty { get; set; } = new EmptyRecentsText();
-        public SettingsViewModel AppSettings => App.AppSettings;
 
         public string WidgetName => nameof(RecentFilesWidget);
 

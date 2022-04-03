@@ -28,10 +28,10 @@
     <value>Dimensione</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>Creato il:</value>
+    <value>Data creazione:</value>
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
-    <value>Nome:</value>
+    <value>Nome file</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
     <value>Percorso:</value>
@@ -40,7 +40,7 @@
     <value>Dimensioni:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
-    <value>Impossibile eseguire questa operazione</value>
+    <value>Impossibile eseguire questa azione</value>
   </data>
   <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
     <value>La cartella di destinazione</value>
@@ -58,7 +58,7 @@
     <value>Deseleziona tutto</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
-    <value>Modificato il:</value>
+    <value>Ultima modifica:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Elimina tutti gli elementi</value>
@@ -70,7 +70,7 @@
     <value>Cerca</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>I file e le cartelle a cui hai avuto accesso di recente verranno visualizzati qui</value>
+    <value>I file e le cartelle che hai visualizzato di recente verranno mostrati qui</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
     <value>Apri percorso file</value>
@@ -97,7 +97,7 @@
     <value>Apri una nuova scheda</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Apri una specifica pagina/pagine</value>
+    <value>Apri una o più specifiche pagine</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferenze</value>
@@ -157,13 +157,13 @@
     <value>Proprietà</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Benvenuti in Files!</value>
+    <value>Benvenuto in Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Concedi i permessi</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Per iniziare, devi concederci l'autorizzazione per visualizzare i tuoi file. Si aprirà una pagina Impostazioni in cui puoi concederci questa autorizzazione. Dovrai riaprire l'app ad operazione completata.</value>
+    <value>Per iniziare, devi concedere l'autorizzazione per visualizzare i tuoi file. Si aprirà una pagina Impostazioni in cui puoi concedere questa autorizzazione. Sarà necessario riaprire l'app quando avrai concesso l'autorizzazione.</value>
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>Cartella di file</value>
@@ -229,16 +229,16 @@
     <value>Apri in una nuova finestra</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
-    <value>Esperimenti</value>
+    <value>Funzioni sperimentali</value>
   </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
-    <value>ATTENZIONE: CARATTERISTICHE SPERIMENTALI!</value>
+    <value>ATTENZIONE: FUNZIONI SPERIMENTALI!</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
-    <value>Esperimenti</value>
+    <value>Funzioni sperimentali</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
-    <value>Un elemento con questo nome esiste già in questa cartella.</value>
+    <value>Un elemento con lo stesso nome esiste già in questa cartella.</value>
   </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>L'elemento esiste già</value>
@@ -337,7 +337,7 @@
     <value>Apri con</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
-    <value>Il nome dell'elemento non deve contenere i seguenti caratteri: \ / : * ? "  |</value>
+    <value>Il nome dell'elemento non può contenere i seguenti caratteri: \ / : * ? "  |</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
     <value>OK</value>
@@ -361,16 +361,16 @@
     <value>Ultimo accesso:</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>Sei sicuro di voler cancellare tutti gli elementi?</value>
+    <value>Sei sicuro di voler cancellare permanentemente questi elementi?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Svuota il Cestino</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>OK</value>
+    <value>Sì</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
-    <value>byte</value>
+    <value>bytes</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
     <value>KB</value>
@@ -389,21 +389,6 @@
   </data>
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
-  </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Sblocca</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Inserisci la password per sbloccare il disco</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Controlla la password e prova di nuovo.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>Errore BitLocker</value>
   </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Contenuto:</value>
@@ -475,7 +460,7 @@
     <value>Sposta in {0}</value>
   </data>
   <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
-    <value>In nomi di origine e di destinazione coincidono.</value>
+    <value>In nomi del file di origine e di destinazione coincidono.</value>
   </data>
   <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
     <value>La cartella di destinazione è una sottocartella della cartella di origine.</value>
@@ -505,7 +490,7 @@
     <value>File</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
-    <value>Documento web</value>
+    <value>Link web</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>Generale</value>
@@ -532,7 +517,7 @@
     <value>Note di Rilascio</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
-    <value>L'elemento è non valido o non accessibile.{0}Messaggio di errore:{0}{1}</value>
+    <value>L'elemento è non valido o è inaccessibile.{0}Messaggio di errore:{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Elemento non valido</value>
@@ -586,7 +571,7 @@
     <value>Il nome dell'elemento è troppo lungo</value>
   </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
-    <value>Altre opzioni</value>
+    <value>Altro</value>
   </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitasking</value>
@@ -634,7 +619,7 @@
     <value>Aggiorna la cartella</value>
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Sali al livello superiore</value>
+    <value>Sali alla cartella superiore</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Supportaci</value>
@@ -658,10 +643,10 @@
     <value>Sposta qui</value>
   </data>
   <data name="Drives" xml:space="preserve">
-    <value>Risorse</value>
+    <value>Dischi</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
-    <value>Il dispositivo può essere rimosso senza problemi</value>
+    <value>È sicuro rimuovere il dispositivo</value>
   </data>
   <data name="EjectNotificationBody" xml:space="preserve">
     <value>Ora è sicuro rimuovere il dispositivo</value>
@@ -670,7 +655,7 @@
     <value>Si è verificato un problema nell'espellere il dispositivo</value>
   </data>
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
-    <value>Questo dispositivo è in uso. Si prega di chiudere ogni programma, finestra o scheda che potrebbe tenerlo occupato e riprovare.</value>
+    <value>Questo dispositivo è in uso. Si prega di chiudere ogni programma, finestra o scheda che potrebbe utilizzarlo e riprovare.</value>
   </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Espelli</value>
@@ -805,7 +790,7 @@
     <value>Compositore</value>
   </data>
   <data name="Conductor" xml:space="preserve">
-    <value>Conduttori</value>
+    <value>Conduttore</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
     <value>Numero disco</value>
@@ -829,16 +814,16 @@
     <value>Url autore</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
-    <value>Provider di contenuti</value>
+    <value>Distributore del contenuto</value>
   </data>
   <data name="PropertyDateReleased" xml:space="preserve">
     <value>Data Rilascio</value>
   </data>
   <data name="PropertySeriesName" xml:space="preserve">
-    <value>Serie</value>
+    <value>Nome serie</value>
   </data>
   <data name="PropertySeasonNumber" xml:space="preserve">
-    <value>Stagione</value>
+    <value>Numero stagione</value>
   </data>
   <data name="PropertyEpisodeNumber" xml:space="preserve">
     <value>Episodio</value>
@@ -850,7 +835,7 @@
     <value>Url di promozione</value>
   </data>
   <data name="PropertyProviderStyle" xml:space="preserve">
-    <value>Stile di musica</value>
+    <value>Stile</value>
   </data>
   <data name="PropertyPublisher" xml:space="preserve">
     <value>Editore</value>
@@ -2418,7 +2403,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
     <value>Personalizzazione</value>
   </data>
   <data name="RestoreDefault" xml:space="preserve">
-    <value>Ripristina prederfinita</value>
+    <value>Ripristina predefiniti</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
     <value>Compatibilità</value>
@@ -2427,7 +2412,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
     <value>Nessuno</value>
   </data>
   <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
-    <value>Al login di Windows</value>
+    <value>All'avvio di Windows</value>
   </data>
   <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
     <value>All'avvio del programma</value>
@@ -2597,11 +2582,8 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   <data name="SetAsBackground" xml:space="preserve">
     <value>Imposta come sfondo desktop</value>
   </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>Non disinstallare Files senza aver disabilitato questa opzione. Non farlo causa l'impossibilità di aprire Esplora Risorse.</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>Calcolare la dimensione delle cartelle richiede molte risorse a aumenta il carico CPU.</value>
+    <value>Calcolare la dimensione delle cartelle richiede molte risorse e potrebbe aumentare l'uso della CPU.</value>
   </data>
   <data name="OpenIn" xml:space="preserve">
     <value>Apri in</value>

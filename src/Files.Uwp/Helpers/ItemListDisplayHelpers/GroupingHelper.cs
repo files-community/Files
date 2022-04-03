@@ -1,4 +1,4 @@
-﻿using Files.Enums;
+﻿using Files.Shared.Enums;
 using Files.Extensions;
 using Files.Filesystem;
 using Microsoft.Toolkit.Uwp;

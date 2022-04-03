@@ -9,6 +9,7 @@
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:navigationcontrolitems="using:Files.DataModels.NavigationControlItems"
+    xmlns:vc="using:Files.Uwp.ValueConverters"
     HorizontalAlignment="Stretch"
     d:DesignHeight="768"
     d:DesignWidth="200"
@@ -28,11 +29,18 @@
             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.ShowCloudDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarCloudDrives}" />
             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.ShowNetworkDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarNetworkDrives}" />
             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.ShowWslSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=WSL}" />
-            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.ShowFileTagsSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=FileTags}" x:Name="SidebarContextMenuFileTagsSection" x:Load="{x:Bind ViewModel.AreFileTagsEnabled, Mode=OneWay}" />
+            <ToggleMenuFlyoutItem
+                x:Name="SidebarContextMenuFileTagsSection"
+                x:Load="{x:Bind ViewModel.AreFileTagsEnabled, Mode=OneWay}"
+                IsChecked="{x:Bind ViewModel.ShowFileTagsSection, Mode=TwoWay}"
+                Text="{helpers:ResourceString Name=FileTags}" />
         </MenuFlyout>
     </FlyoutBase.AttachedFlyout>
     <muxc:NavigationView.Resources>
         <ResourceDictionary>
+            <mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
+            <vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
+
             <DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
                 <muxc:NavigationViewItem
                     AllowDrop="True"
@@ -48,13 +56,16 @@
                     IsRightTapEnabled="True"
                     MenuItemsSource="{x:Bind ChildItems}"
                     PointerPressed="Sidebar_PointerPressed"
-                    RightTapped="NavigationViewLocationItem_RightTapped"
+                    RightTapped="NavigationViewItem_RightTapped"
                     SelectsOnInvoked="{x:Bind SelectsOnInvoked}"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
                     </muxc:NavigationViewItem.Icon>
+                    <muxc:NavigationViewItem.InfoBadge>
+                        <muxc:InfoBadge Style="{ThemeResource CautionIconInfoBadgeStyle}" Visibility="{x:Bind IsInvalid, Mode=OneWay}"/>
+                    </muxc:NavigationViewItem.InfoBadge>
                 </muxc:NavigationViewItem>
             </DataTemplate>
 
@@ -70,7 +81,7 @@
                     Drop="NavigationViewDriveItem_Drop"
                     IsRightTapEnabled="True"
                     PointerPressed="Sidebar_PointerPressed"
-                    RightTapped="NavigationViewDriveItem_RightTapped"
+                    RightTapped="NavigationViewItem_RightTapped"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}"
                     Visibility="{x:Bind ItemVisibility}">
@@ -88,7 +99,7 @@
                     DragEnter="NavigationViewItem_DragEnter"
                     DragLeave="NavigationViewItem_DragLeave"
                     PointerPressed="Sidebar_PointerPressed"
-                    RightTapped="NavigationViewWSLItem_RightTapped"
+                    RightTapped="NavigationViewItem_RightTapped"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
@@ -113,11 +124,11 @@
                     Drop="NavigationViewFileTag_Drop"
                     IsRightTapEnabled="True"
                     PointerPressed="Sidebar_PointerPressed"
-                    RightTapped="NavigationViewFileTagsItem_RightTapped"
+                    RightTapped="NavigationViewItem_RightTapped"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
-                        <PathIcon Foreground="{x:Bind FileTag.Color, Mode=OneWay}">
+                        <PathIcon Foreground="{x:Bind FileTag.ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}">
                             <PathIcon.Data>
                                 <EllipseGeometry
                                     Center="24,24"
@@ -129,7 +140,6 @@
                 </muxc:NavigationViewItem>
             </DataTemplate>
 
-            <mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
 
             <Style TargetType="SplitView">
                 <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
@@ -238,8 +248,7 @@
                                     Visibility="{Binding ElementName=PaneRoot, Path=Visibility, Mode=OneWay}">
                                     <UserControl
                                         x:Name="ResizeElementControl"
-                                        x:Uid="ResizeElementKeyboardControl"
-                                        AutomationProperties.Name="Sidebar resizer"
+                                        AutomationProperties.Name="{helpers:ResourceString Name=ResizeElementControl/AutomationProperties/Name}"
                                         IsTabStop="True"
                                         KeyDown="Border_KeyDown"
                                         UseSystemFocusVisuals="True" />

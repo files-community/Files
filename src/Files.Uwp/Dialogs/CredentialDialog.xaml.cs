@@ -1,38 +1,33 @@
-﻿using System.Threading.Tasks;
+﻿using Files.Backend.ViewModels.Dialogs;
+using Files.Backend.SecureStore;
+using Files.Shared.Enums;
+using System;
+using System.Text;
+using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
-// コンテンツ ダイアログの項目テンプレートについては、https://go.microsoft.com/fwlink/?LinkId=234238 を参照してください
+// The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Files.Dialogs
 {
-    public sealed partial class CredentialDialog : ContentDialog
+    public sealed partial class CredentialDialog : ContentDialog, IDialog<CredentialDialogViewModel>
     {
-        private readonly TaskCompletionSource<(string UserName, string Password, bool Anonymous)> _taskCompletionSource;
-        public Task<(string UserName, string Password, bool Anonymous)> Result { get; }
+        public CredentialDialogViewModel ViewModel
+        {
+            get => (CredentialDialogViewModel)DataContext;
+            set => DataContext = value;
+        }
 
         public CredentialDialog()
         {
-            _taskCompletionSource = new();
-            Result = _taskCompletionSource.Task;
             this.InitializeComponent();
         }
 
+        public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
+
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            _taskCompletionSource.SetResult((UserName.Text, Password.Password, Anonymous.IsChecked ?? false));
-        }
-
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            _taskCompletionSource.SetResult((null, null, true));
-        }
-
-        private void AskCredentialDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
-        {
-            if (args.Result == ContentDialogResult.None)
-            {
-                _taskCompletionSource.SetResult((null, null, true));
-            }
+            ViewModel.PrimaryButtonClickCommand.Execute(new DisposableArray(Encoding.UTF8.GetBytes(Password.Password)));
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Files.DataModels.NavigationControlItems;
 using Files.Helpers;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.UserControls;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -15,6 +15,7 @@ using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
+using Files.Shared;
 
 namespace Files.Filesystem
 {
@@ -22,7 +23,6 @@ namespace Files.Filesystem
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        private static readonly Logger Logger = App.Logger;
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
         public IReadOnlyList<DriveItem> Drives
@@ -45,6 +45,13 @@ namespace Files.Filesystem
                 Path = CommonPaths.NetworkFolderPath,
                 Type = DriveType.Network,
                 ItemType = NavigationControlItemType.Drive
+            };
+            networkItem.MenuOptions = new ContextMenuOptions
+            {
+                IsLocationItem = true,
+                ShowShellItems = true,
+                ShowEjectDevice = networkItem.IsRemovable,
+                ShowProperties = true
             };
             lock (drivesList)
             {
@@ -79,6 +86,13 @@ namespace Files.Filesystem
                             DeviceID = item.FilePath,
                             Type = DriveType.Network,
                             ItemType = NavigationControlItemType.Drive
+                        };
+                        networkItem.MenuOptions = new ContextMenuOptions
+                        {
+                            IsLocationItem = true,
+                            ShowEjectDevice = networkItem.IsRemovable,
+                            ShowShellItems = true,
+                            ShowProperties = true
                         };
                         lock (drivesList)
                         {
@@ -128,9 +142,13 @@ namespace Files.Filesystem
                         {
                             Text = "SidebarNetworkDrives".GetLocalized(),
                             Section = SectionType.Network,
+                            MenuOptions = new ContextMenuOptions
+                            {
+                                ShowHideSection = true
+                            },
                             SelectsOnInvoked = false,
                             Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives),
-                            ChildItems = new ObservableCollection<INavigationControlItem>()
+                            ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                         };
                         var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
                                     (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +

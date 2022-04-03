@@ -456,21 +456,6 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>ადმინისტრატორის სახელით გაშვება</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>განბლოკვა</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>შეიყვანეთ პაროლი დრაივის განსაბლოკად</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>პაროლი</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>გთხოვთ, გადაამოწმოთ პაროლი და სცადოთ ხელახლა.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>BitLocker შეცდომა</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>შეიცავს:</value>
   </data>
@@ -2243,12 +2228,6 @@
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>ფავორიტების განყოფილების ჩვენება</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>ფაილის იარლიყი</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>ფაილის იარლიყი</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>მშობელი საქაღალდის გახსნა</value>

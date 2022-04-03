@@ -1,8 +1,9 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Files.DataModels.NavigationControlItems;
 using Files.Extensions;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
+using Files.Shared.Extensions;
 using Files.UserControls;
 using Files.ViewModels;
 using Files.Views;

@@ -576,21 +576,6 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Run as administrator</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Unlock</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Enter password to unlock the drive</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Please check the password and try again.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>BitLocker error</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Contains:</value>
   </data>
@@ -2705,9 +2690,6 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="SetAsBackground" xml:space="preserve">
     <value>Set as desktop background</value>
   </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>Do not remove Files from your device without turning off this option. Not doing so will prevent you from opening File Explorer.</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
   </data>
@@ -2767,5 +2749,8 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Show Tags section</value>
+  </data>
+  <data name="UseCompactStyles" xml:space="preserve">
+    <value>Use compact styles in the details layout</value>
   </data>
 </root>

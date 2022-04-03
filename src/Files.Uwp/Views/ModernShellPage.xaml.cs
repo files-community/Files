@@ -1,18 +1,18 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Files.Dialogs;
-using Files.Enums;
+using Files.Shared.Enums;
 using Files.EventArguments;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.Search;
 using Files.Helpers;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views.LayoutModes;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -33,7 +33,10 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using SortDirection = Files.Enums.SortDirection;
+using SortDirection = Files.Shared.Enums.SortDirection;
+using Files.Backend.Enums;
+using Files.Backend.Services;
+using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 
 namespace Files.Views
 {
@@ -48,9 +51,11 @@ namespace Files.Views
         public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
         public MainViewModel MainViewModel => App.MainViewModel;
 
+        private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
+
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        private IUpdateSettingsService UpdateSettingsService { get; } = Ioc.Default.GetService<IUpdateSettingsService>();
+        private IUpdateService UpdateSettingsService { get; } = Ioc.Default.GetService<IUpdateService>();
 
         private bool isCurrentInstance = false;
         public bool IsCurrentInstance
@@ -223,8 +228,8 @@ namespace Files.Views
             NavToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalized()));
             NavToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
             NavToolbarViewModel.OpenDirectoryInDefaultTerminalCommand = new RelayCommand(async () => await NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory));
-            NavToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, x, this));
-            NavToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, this));
+            NavToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
+            NavToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null, this));
             NavToolbarViewModel.CopyCommand = new RelayCommand(async () => await UIFilesystemHelpers.CopyItem(this));
             NavToolbarViewModel.Rename = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RenameItemCommand.Execute(null));
             NavToolbarViewModel.Share = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShareItemCommand.Execute(null));
@@ -238,8 +243,8 @@ namespace Files.Views
             NavToolbarViewModel.ExtractHereCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveHereCommand.Execute(null));
             NavToolbarViewModel.ExtractToCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveToChildFolderCommand.Execute(null));
             NavToolbarViewModel.InstallInfCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallInfDriver.Execute(null));
-            NavToolbarViewModel.RotateImageLeftCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RotateImageLeftCommand.Execute(null));
-            NavToolbarViewModel.RotateImageRightCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.Execute(null));
+            NavToolbarViewModel.RotateImageLeftCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RotateImageLeftCommand.Execute(null), () => SlimContentPage?.CommandsViewModel.RotateImageLeftCommand.CanExecute(null) == true);
+            NavToolbarViewModel.RotateImageRightCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.Execute(null), () => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.CanExecute(null) == true);
             NavToolbarViewModel.InstallFontCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallFontCommand.Execute(null));
             NavToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await UpdateSettingsService.DownloadUpdates());
         }
@@ -584,7 +589,6 @@ namespace Files.Views
             FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
             FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
             FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
-            FilesystemViewModel.ListedItemAdded += FilesystemViewModel_ListedItemAdded;
             OnNavigationParamsChanged();
             this.Loaded -= Page_Loaded;
         }
@@ -596,6 +600,8 @@ namespace Files.Views
 
         private void FilesystemViewModel_OnSelectionRequestedEvent(object sender, List<ListedItem> e)
         {
+            // set focus since selection might occur before the UI finishes updating
+            ContentPage.ItemManipulationModel.FocusFileList();
             ContentPage.ItemManipulationModel.SetSelectedItems(e);
         }
 
@@ -611,18 +617,6 @@ namespace Files.Views
                 {
                     ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemsCount/Text".GetLocalized()}";
                 }
-            }
-        }
-
-        private void FilesystemViewModel_ListedItemAdded(object sender, ListedItemAddedEventArgs e)
-        {
-            ListedItem itemToSelect = e?.Item;
-            if (itemToSelect != null && ContentPage != null)
-            {
-                // set focus since selection might occur before the UI finishes updating
-                ContentPage.ItemManipulationModel.FocusFileList();
-                ContentPage.ItemManipulationModel.SetSelectedItem(itemToSelect);
-                ContentPage.ItemManipulationModel.ScrollIntoView(itemToSelect);
             }
         }
 
@@ -712,13 +706,13 @@ namespace Files.Views
                 case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
                     if (InstanceViewModel.CanCreateFileInPage)
                     {
-                        var addItemDialog = new AddItemDialog();
-                        await addItemDialog.ShowAsync();
-                        if (addItemDialog.ResultType.ItemType != AddItemType.Cancel)
+                        var addItemDialogViewModel = new AddItemDialogViewModel();
+                        await DialogService.ShowDialogAsync(addItemDialogViewModel);
+                        if (addItemDialogViewModel.ResultType.ItemType != AddItemDialogItemType.Cancel)
                         {
                             UIFilesystemHelpers.CreateFileFromDialogResultType(
-                                addItemDialog.ResultType.ItemType,
-                                addItemDialog.ResultType.ItemInfo,
+                                addItemDialogViewModel.ResultType.ItemType,
+                                addItemDialogViewModel.ResultType.ItemInfo,
                                 this);
                         }
                     }
@@ -803,9 +797,6 @@ namespace Files.Views
                 case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
                 case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
                     NavToolbarViewModel.IsEditModeEnabled = true;
-                    break;
-                case (true, false, false, true, VirtualKey.H): // ctrl + h, show/hide hidden items
-                    UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = !UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible;
                     break;
 
                 case (true, true, false, true, VirtualKey.K): // ctrl + shift + k, duplicate tab
@@ -1013,7 +1004,6 @@ namespace Files.Views
                 FilesystemViewModel.DirectoryInfoUpdated -= FilesystemViewModel_DirectoryInfoUpdated;
                 FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
                 FilesystemViewModel.OnSelectionRequestedEvent -= FilesystemViewModel_OnSelectionRequestedEvent;
-                FilesystemViewModel.ListedItemAdded -= FilesystemViewModel_ListedItemAdded;
                 FilesystemViewModel.Dispose();
             }
 

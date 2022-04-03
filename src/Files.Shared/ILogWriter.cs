@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Files.Common
+namespace Files.Shared
 {
     public interface ILogWriter
     {

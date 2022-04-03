@@ -670,7 +670,7 @@ namespace Files.Filesystem.StorageItems
 
         private static bool CheckAccess(string path)
         {
-            return Common.Extensions.IgnoreExceptions(() =>
+            return SafetyExtensions.IgnoreExceptions(() =>
             {
                 var hFile = NativeFileOperationsHelper.OpenFileForRead(path);
                 if (hFile.IsInvalid)
@@ -684,7 +684,7 @@ namespace Files.Filesystem.StorageItems
 
         private static async Task<bool> CheckAccess(IStorageFile file)
         {
-            return await Common.Extensions.IgnoreExceptions(async () =>
+            return await SafetyExtensions.IgnoreExceptions(async () =>
             {
                 using var stream = await file.OpenReadAsync();
                 return CheckAccess(stream.AsStream());
@@ -693,7 +693,7 @@ namespace Files.Filesystem.StorageItems
 
         private static bool CheckAccess(Stream stream)
         {
-            return Common.Extensions.IgnoreExceptions(() =>
+            return SafetyExtensions.IgnoreExceptions(() =>
             {
                 using (SevenZipExtractor zipFile = new SevenZipExtractor(stream))
                 {

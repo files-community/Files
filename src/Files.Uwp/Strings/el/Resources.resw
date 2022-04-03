@@ -133,7 +133,7 @@
     <value>Προτιμήσεις</value>
   </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
-    <value>ΠΡΟΕΙΔΟΠΟΊΗΣΗ: ΠΕΙΡΑΜΑΤΙΚΆ ΧΑΡΑΚΤΗΡΙΣΤΙΚΆ ΜΠΡΟΣΤΆ!</value>
+    <value>ΠΡΟΕΙΔΟΠΟΊΗΣΗ: ΑΚΟΛΟΥΘΟΎΝ ΠΕΙΡΑΜΑΤΙΚΆ ΧΑΡΑΚΤΗΡΙΣΤΙΚΆ!</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Συνεχεία από εκεί που σταματήσατε</value>
@@ -349,7 +349,7 @@
     <value>Διάταξη</value>
   </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Επιλογές επιλογής</value>
+    <value>Επιλογή</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Μόνο για ανάγνωση</value>
@@ -458,21 +458,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Εκτέλεση ως διαχειριστής</value>
-  </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ξεκλείδωμα</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Εισάγετε τον κωδικό πρόσβασης για να ξεκλειδώσετε τη μονάδα δίσκου</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Κωδικός πρόσβασης</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Ελέγξτε τον κωδικό πρόσβασης και δοκιμάστε ξανά.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>Σφάλμα BitLocker</value>
   </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Περιέχει:</value>
@@ -1021,7 +1006,7 @@
     <value>Διεύθυνση</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>Επιλογές επιλογής</value>
+    <value>Επιλογή</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Επιλέξτε</value>
@@ -1111,7 +1096,7 @@
     <value>Στείλτε στους προγραμματιστές μια αναφορά προβλήματος με περισσότερες πληροφορίες</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Υποστηρίξτε μας στο PayPal</value>
+    <value>Υποστηρίξτε μας στο GitHub</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>Απαρίθμηση και ταξινόμηση καταλόγων μαζί με αρχεία</value>
@@ -1417,7 +1402,7 @@
     <value>Προσαρμοσμένα θέματα</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
-    <value>Αριθμός αντικειμένων</value>
+    <value>Αριθμός στοιχείων</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>Η διαγραφή απέτυχε</value>
@@ -1516,7 +1501,7 @@
     <value>{0} στοιχεία θα αντιγραφούν</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Αντιγραφή αντικειμένου(ων)</value>
+    <value>Αντιγραφή στοιχείου(ων)</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
     <value>Διαγραφή στοιχείου(ων)</value>
@@ -1528,7 +1513,7 @@
     <value>{0} στοιχεία θα μετακινηθούν</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Μετακίνηση αντικειμένου(ων)</value>
+    <value>Μετακίνηση στοιχείου(ων)</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} στοιχεία θα διαγραφούν</value>
@@ -1735,10 +1720,10 @@
     <value>Η μετακίνηση του στοιχείου {0} από το {1} στο {2} ακυρώθηκε</value>
   </data>
   <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
-    <value>Η μετακίνηση {0} αντικειμένων από {1} σε {2} ακυρώθηκε μετά τη μετακίνηση {3} αντικειμένων</value>
+    <value>Η μετακίνηση {0} στοιχείων από {1} σε {2} ακυρώθηκε μετά τη μετακίνηση {3} στοιχείων</value>
   </data>
   <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
-    <value>Η μετακίνηση {0} αντικειμένων από {1} σε {2} ακυρώθηκε μετά τη μετακίνηση {3} αντικειμένου</value>
+    <value>Η μετακίνηση {0} στοιχείων από {1} σε {2} ακυρώθηκε μετά τη μετακίνηση {3} στοιχείου</value>
   </data>
   <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
     <value>Μετακίνηση στοιχείου {0} από {1} σε {2}</value>
@@ -1747,16 +1732,16 @@
     <value>Μετακίνηση {0} στοιχείων από {1} σε {2}</value>
   </data>
   <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
-    <value>Επιτυχής μετακίνηση {0} αντικειμένου από {1} σε {2}</value>
+    <value>Επιτυχής μετακίνηση {0} στοιχείου από {1} σε {2}</value>
   </data>
   <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>Επιτυχής μετακίνηση {0} αντικειμένων από {1} σε {2}</value>
+    <value>Επιτυχής μετακίνηση {0} στοιχείων από {1} σε {2}</value>
   </data>
   <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
     <value>Απέτυχε η μετακίνηση του στοιχείου {0} από το {1} στο {2}</value>
   </data>
   <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>Η μετακίνηση {0} αντικειμένων από {1} σε {2} απέτυχε</value>
+    <value>Η μετακίνηση {0} στοιχείων από {1} σε {2} απέτυχε</value>
   </data>
   <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
     <value>Η αντιγραφή του στοιχείου {0} στο {1} ακυρώθηκε</value>
@@ -1810,10 +1795,10 @@
     <value>τον Κάδο Ανακύκλωσης</value>
   </data>
   <data name="MoveInProgress" xml:space="preserve">
-    <value>Μετακίνηση αντικειμένων</value>
+    <value>Μετακίνηση στοιχείων</value>
   </data>
   <data name="CopyInProgress.Title" xml:space="preserve">
-    <value>Αντιγραφή αντικειμένων</value>
+    <value>Αντιγραφή στοιχείων</value>
   </data>
   <data name="StatusRecycleFailed" xml:space="preserve">
     <value>Η ανακύκλωση απέτυχε</value>
@@ -2104,7 +2089,7 @@
     <value>WSL</value>
   </data>
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
-    <value>Απόκρυψη {0} τμήματος</value>
+    <value>Απόκρυψη τμήματος {0}</value>
   </data>
   <data name="NavSettingsButton" xml:space="preserve">
     <value>Ρυθμίσεις</value>
@@ -2116,7 +2101,7 @@
     <value>Προσθήκη φακέλου</value>
   </data>
   <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Προσθήκη αντικειμένου...</value>
+    <value>Προσθήκη στοιχείου...</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Διαθέσιμες ενημερώσεις</value>
@@ -2216,13 +2201,7 @@
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
-*Συλλογή προσωπικών πληροφοριών*
-
-Η Files δεν συλλέγει, αποθηκεύει, μοιράζεται ή δημοσιεύει προσωπικές πληροφορίες.
-
-*Συλλογή μη προσωπικών πληροφοριών*
-
-Χρησιμοποιούμε το Κέντρο εφαρμογών για να παρακολουθούμε τη χρήση της εφαρμογής, να βρίσκουμε σφάλματα και να διορθώνουμε συντριβές. Όλες οι πληροφορίες που αποστέλλονται στο App Center είναι ανώνυμες και δεν περιέχουν δεδομένα χρήστη ή συμφραζόμενα.
+Χρησιμοποιούμε το Κέντρο Εφαρμογών για να παρακολουθούμε τη χρήση της εφαρμογής, να βρίσκουμε σφάλματα και να διορθώνουμε συντριβές. Όλες οι πληροφορίες που αποστέλλονται στο Κέντρο Εφαρμογών είναι ανώνυμες και δεν περιέχουν δεδομένα χρήστη ή συμφραζόμενα.
   </value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
@@ -2245,12 +2224,6 @@
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Εμφάνιση τμήματος αγαπημένων</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Ετικέτα αρχείου</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>Ετικέτα αρχείου</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Άνοιγμα γονικού φακέλου</value>
@@ -2301,7 +2274,7 @@
     <value>Όνομα χρήστη</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
-    <value>Δεν βρέθηκαν αντικείμενα</value>
+    <value>Δεν βρέθηκαν στοιχεία</value>
   </data>
   <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widget δέσμες</value>
@@ -2406,10 +2379,10 @@
     <value>Διαδρομή φακέλου:</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Ρυθμίσεις εξαγωγής</value>
+    <value>Εξαγωγή ρυθμίσεων</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>Ρυθμίσεις εισαγωγής</value>
+    <value>Εισαγωγή ρυθμίσεων</value>
   </data>
   <data name="ManageSettings" xml:space="preserve">
     <value>Διαχείριση ρυθμίσεων</value>
@@ -2513,6 +2486,9 @@
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Αρχεία και φάκελοι</value>
   </data>
+  <data name="OpenNewInstance" xml:space="preserve">
+    <value>Άνοιγμα νέου παραθύρου κατά το άνοιγμα καταλόγων από τη λίστα συντομεύσεων της γραμμής εργασιών</value>
+  </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Ρυθμίσεις εκκίνησης</value>
   </data>
@@ -2520,9 +2496,126 @@
     <value>Άδειες τρίτων</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Αυτή η ρύθμιση τροποποιεί αρχεία του συστήματος και μπορεί να έχει απροσδόκητες παρενέργειες στη συσκευή σας. Οι προγραμματιστές δεν λαμβάνουν καμία ευθύνη σε περίπτωση που κάποιο πρόβλημα προκύψει ως αποτέλεσμα. Αν συνεχίσετε με αυτή την επιλογή αναγνωρίζετε τους κινδύνους που ενέχει αυτή η ενέργεια. Προσέξτε πως η απεγκατάση του Files δεν θα αναιρέσει αυτές τις αλλαγές και μπορεί να σας αποτρέψει από το άνοιγμα της εξερεύνησης αρχείων, εκτός αν απενεργοποιήσετε αυτή τη ρύθμιση πριν αφαιρέσετε το Files από τη συσκευή σας.</value>
+    <value>Αυτή η ρύθμιση τροποποιεί αρχεία του συστήματος και μπορεί να έχει απροσδόκητες παρενέργειες στη συσκευή σας. Συνεχίστε με δική σας ευθύνη.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Εκκαθάριση όλων</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Στήλες</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Μεγάλα εικονίδια</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Μεσαία εικονίδια</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Μικρά εικονίδια</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Πλακίδια</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Δημιουργία βιβλιοθήκης</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>Εισάγετε το όνομα της βιβλιοθήκης</value>
+  </data>
+  <data name="ShowFolderSize" xml:space="preserve">
+    <value>Εμφάνιση μεγέθους φακέλων</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Παράλειψη</value>
+  </data>
+  <data name="SettingsOpenInLogin" xml:space="preserve">
+    <value>Άνοιγμα του Files κατά την εκκίνηση των Windows</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Χαρακτηριστικά</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Κρυφό</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>Περισσότερες λεπτομέρειες</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Μόνο για ανάγνωση</value>
+  </data>
+  <data name="CleanupDrive" xml:space="preserve">
+    <value>Εκκαθάριση των περιεχομένων του δίσκου</value>
+  </data>
+  <data name="DiskCleanup" xml:space="preserve">
+    <value>Εκκαθάριση δίσκου</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Τύπος:</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Εξαγωγή</value>
+  </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>Εξαγωγή αρχείων</value>
+  </data>
+  <data name="ExtractHere" xml:space="preserve">
+    <value>Εξαγωγή εδώ</value>
+  </data>
+  <data name="ExtractToChildFolder" xml:space="preserve">
+    <value>Αποσυμπίεση στο {0}</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Εκτέλεση script</value>
+  </data>
+  <data name="RunWithPowerShell" xml:space="preserve">
+    <value>Άνοιγμα με PowerShell</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Ορισμός ως φόντου επιφάνειας εργασίας</value>
+  </data>
+  <data name="ShowFolderSizesWarning" xml:space="preserve">
+    <value>Ο υπολογισμός μεγέθους των φακέλων είναι υπολογιστικά απαιτητικός και μπορεί να προκαλέσει αύξηση της χρήσης του επεξεργαστή.</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Άνοιγμα σε</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Περιστροφή αριστερά</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Περιστροφή δεξιά</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Εγκατάσταση</value>
+  </data>
+  <data name="CloseTabsToTheLeft" xml:space="preserve">
+    <value>Κλείσιμο καρτέλων αριστερά</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Κλείσιμο καρτέλων δεξιά</value>
+  </data>
+  <data name="ShowDotFiles" xml:space="preserve">
+    <value>Εμφάνιση dot files</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Κλείσιμο των άλλων καρτέλων</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Μουσική</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Εικόνες</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Βίντεο</value>
+  </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Ενημέρωση του Files</value>
+  </data>
+  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
+    <value>Προετοιμασία {0} στοιχείων</value>
+  </data>
+  <data name="PrepareInProgress" xml:space="preserve">
+    <value>Προετοιμασία στοιχείων</value>
   </data>
 </root>

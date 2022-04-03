@@ -1,13 +1,14 @@
-﻿using Files.Enums;
+﻿using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Files.Extensions;
 using Files.Filesystem.Cloud;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.ViewModels.Properties;
 using FluentFTP;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
@@ -16,6 +17,7 @@ using System.Linq;
 using System.Threading;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
+using Files.Backend.ViewModels.FileTags;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
@@ -124,7 +126,7 @@ namespace Files.Filesystem
             }
         }
 
-        public FileTag FileTagUI
+        public FileTagViewModel FileTagUI
         {
             get => UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled ? FileTagsSettingsService.GetTagById(FileTag) : null;
         }
@@ -203,7 +205,7 @@ namespace Files.Filesystem
 
                 if (image.PixelWidth > 0)
                 {
-                    Common.Extensions.IgnoreExceptions(() =>
+                    SafetyExtensions.IgnoreExceptions(() =>
                     {
                         LoadFileIcon = true;
                         PlaceholderDefaultIcon = null;

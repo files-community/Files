@@ -399,21 +399,6 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Переміщення файлів до Кошика</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Розблокувати</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Введіть пароль для розблокування накопичувача</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Пароль</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Перевірте пароль і повторіть спробу.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>Помилка BitLocker</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Містить:</value>
   </data>

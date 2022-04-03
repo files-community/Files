@@ -1,11 +1,11 @@
-﻿using Files.Enums;
+﻿using Files.Shared.Enums;
 using Files.Filesystem;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.UserControls.FilePreviews;
 using Files.ViewModels.Previews;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -14,6 +14,7 @@ using System.Windows.Input;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Files.Shared.EventArguments;
 
 namespace Files.ViewModels
 {
@@ -152,7 +153,7 @@ namespace Files.ViewModels
                 return null;
             }
 
-            if (item.SyncStatusUI.SyncStatus == Enums.CloudDriveSyncStatus.FileOnline && !downloadItem)
+            if (item.SyncStatusUI.SyncStatus == CloudDriveSyncStatus.FileOnline && !downloadItem)
             {
                 ShowCloudItemButton = true;
                 return null;
@@ -267,11 +268,11 @@ namespace Files.ViewModels
 
         public ICommand ShowPreviewOnlyInvoked { get; }
 
-        private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
-            if (e.settingName is nameof(IPaneSettingsService.ShowPreviewOnly))
+            if (e.SettingName == nameof(IPaneSettingsService.ShowPreviewOnly))
             {
-                // the preview will need refreshing as the file details won't be accurate
+                // The preview will need refreshing as the file details won't be accurate
                 needsRefresh = true;
             }
         }

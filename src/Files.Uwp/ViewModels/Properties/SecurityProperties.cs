@@ -1,10 +1,10 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Filesystem.Permissions;
 using Files.Helpers;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
+using Files.Shared.Extensions;
 
 namespace Files.ViewModels.Properties
 {

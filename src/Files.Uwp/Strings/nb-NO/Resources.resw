@@ -414,21 +414,6 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Kjør som administrator</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Lås opp</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Angi passord for å låse opp enheten</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Passord</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Vennligst kontroller passordet og prøv igjen.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>BitLocker-feil</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Inneholder:</value>
   </data>
@@ -2244,12 +2229,6 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Vis seksjon for favoritter</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Fil-merkelapp</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>Fil-merkelapp</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Åpne forelder-mappe</value>

@@ -1,11 +1,12 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Files.Filesystem;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Files.Helpers;
 
 namespace Files.DataModels.NavigationControlItems
 {
@@ -40,7 +41,7 @@ namespace Files.DataModels.NavigationControlItems
         public FontFamily Font { get; set; }
         public NavigationControlItemType ItemType => NavigationControlItemType.Location;
         public bool IsDefaultLocation { get; set; }
-        public ObservableCollection<INavigationControlItem> ChildItems { get; set; }
+        public BulkConcurrentObservableCollection<INavigationControlItem> ChildItems { get; set; }
 
         public bool SelectsOnInvoked { get; set; } = true;
 
@@ -54,7 +55,11 @@ namespace Files.DataModels.NavigationControlItems
             }
         }
 
+        public bool IsInvalid { get; set; } = false;
+
         public SectionType Section { get; set; }
+
+        public ContextMenuOptions MenuOptions { get; set; }
 
         public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
     }

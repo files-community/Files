@@ -390,21 +390,6 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>Б</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Разблокировать</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Введите пароль, чтобы разблокировать диск</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Введите пароль</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Пожалуйста, проверьте пароль и попробуйте снова.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>Ошибка BitLocker</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Содержит:</value>
   </data>
@@ -741,11 +726,17 @@
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
     <value>Десятичная широта</value>
   </data>
+  <data name="PropertyLatitudeRef" xml:space="preserve">
+    <value>Ссылка на широту</value>
+  </data>
   <data name="PropertyLongitude" xml:space="preserve">
     <value>Долгота</value>
   </data>
   <data name="PropertyLongitudeDecimal" xml:space="preserve">
     <value>Десятичная долгота</value>
+  </data>
+  <data name="PropertyLongitudeRef" xml:space="preserve">
+    <value>Ссылка на долготу</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
     <value>Высота</value>
@@ -819,6 +810,9 @@
   <data name="PropertyProtectionType" xml:space="preserve">
     <value>Тип защиты</value>
   </data>
+  <data name="PropertyAuthorUrl" xml:space="preserve">
+    <value>Url Автора</value>
+  </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
     <value>Дистрибьютор</value>
   </data>
@@ -837,8 +831,26 @@
   <data name="PropertyProducer" xml:space="preserve">
     <value>Продюсер</value>
   </data>
+  <data name="PropertyPromotionUrl" xml:space="preserve">
+    <value>Url Рекламы</value>
+  </data>
+  <data name="PropertyProviderStyle" xml:space="preserve">
+    <value>Стиль провайдера</value>
+  </data>
   <data name="PropertyPublisher" xml:space="preserve">
     <value>Издатель</value>
+  </data>
+  <data name="PropertyThumbnailLargePath" xml:space="preserve">
+    <value>Путь к Большой Миниатюре</value>
+  </data>
+  <data name="PropertyThumbnailLargeUri" xml:space="preserve">
+    <value>Uri Большой Миниатюре</value>
+  </data>
+  <data name="PropertyThumbnailSmallPath" xml:space="preserve">
+    <value>Путь к Маленькой Миниатюре</value>
+  </data>
+  <data name="PropertyThumbnailSmallUri" xml:space="preserve">
+    <value>Uri Маленькой Миниатюры</value>
   </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
     <value>URL Пользователя</value>
@@ -973,7 +985,7 @@
     <value>Центр операций</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>Результаты поиска в </value>
+    <value>Результаты поиска в {1} для {0}</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Результаты поиска</value>
@@ -988,7 +1000,7 @@
     <value>Отправить отчет о проблеме, чтобы предоставить разработчикам больше информации о ней</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Поддержите нас через PayPal</value>
+    <value>Поддержите нас в GitHub</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Подробно</value>
@@ -1459,7 +1471,7 @@
     <value>Есть одно конфликтующее имя файла.</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
-    <value>Создать папку из выделения</value>
+    <value>Создать папку и переместить внутрь</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Имя:</value>
@@ -1887,6 +1899,9 @@
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
     <value>Для этой папки и ее подпапок</value>
   </data>
+  <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
+    <value>Добавить данные</value>
+  </data>
   <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
     <value>Изменить разрешения</value>
   </data>
@@ -2053,13 +2068,13 @@
     <value>Скрывать защищенные системные файлы (рекомендуется)</value>
   </data>
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Открывать одним щелчком</value>
+    <value>Открывать файлы одним щелчком</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>Сортировать файлы и папки вместе</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Показывать неиндексированные элементы при поиске файлов и папок (поиск может занять больше времени)</value>
+    <value>Показывать неиндексированные элементы при поиске файлов и папок </value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
     <value>Включить индивидуальные настройки отображения для отдельных каталогов</value>
@@ -2185,14 +2200,7 @@
     <value>Fluent UI System Icons</value>
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
-    <value>
-*Сбор персональных данных*
-
-Files не собирает, хранит, распространяет или публикует какие-либо персональные данные.
-
-*Сбор не персональных данных*
-
-Мы используем App Center для того, чтобы отслеживать и исправлять ошибки. Вся информация, отправляемая в App Center является анонимной и не привязанной к какому-либо пользователю либо контекстуальным данным.
+    <value>Мы используем App Center для того, чтобы отслеживать и исправлять ошибки. Вся информация, отправляемая в App Center является анонимной и не привязанной к какому-либо пользователю либо контекстуальным данным.
   </value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
@@ -2216,13 +2224,7 @@ Files не собирает, хранит, распространяет или �
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Показать секцию Избранное</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Метка</value>
-  </data>
   <data name="Tag" xml:space="preserve">
-    <value>Метка</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
     <value>Метка</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
@@ -2251,6 +2253,9 @@ Files не собирает, хранит, распространяет или �
   </data>
   <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
     <value>Применить ко всем</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>Часть набора</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
     <value>OK</value>
@@ -2365,5 +2370,278 @@ Files не собирает, хранит, распространяет или �
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Иcпользовать Files как диалог для открытия файлов</value>
+  </data>
+  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
+    <value>Открывать папки одним кликом</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>Путь папки</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>Экспорт Настроек</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>Импорт Настроек</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>Менеджер Настроек</value>
+  </data>
+  <data name="SettingsImportErrorDescription" xml:space="preserve">
+    <value>Невозможно импортировать настройки. Файлы настроек некорректны</value>
+  </data>
+  <data name="SettingsImportErrorTitle" xml:space="preserve">
+    <value>Ошибка при импорте настроек</value>
+  </data>
+  <data name="ChooseCustomIcon" xml:space="preserve">
+    <value>Выбрать иконку для папки</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Персонализация</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>Сбросить до заводских</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>Совместимость</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Никак</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
+    <value>При входе в Windows</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
+    <value>При запуске программы</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>Система</value>
+  </data>
+  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
+    <value>Система (продвинутый)</value>
+  </data>
+  <data name="Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
+    <value>Windows Vista SP1</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP2" xml:space="preserve">
+    <value>Windows Vista SP2</value>
+  </data>
+  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
+    <value>16-Бит Цвета (65536)</value>
+  </data>
+  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
+    <value>8-Бит Цвета (256)</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Режим совместимости</value>
+  </data>
+  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+    <value>Отключить оптимизацию полного экрана</value>
+  </data>
+  <data name="ExecuteAt640X480" xml:space="preserve">
+    <value>Запускать в разрешении 640 x 480</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Параметры</value>
+  </data>
+  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
+    <value>Переопределить поведение масштабирования с высоким разрешением</value>
+  </data>
+  <data name="ReducedColorMode" xml:space="preserve">
+    <value>Режим пониженных цветов</value>
+  </data>
+  <data name="RegisterForRestart" xml:space="preserve">
+    <value>Зарегистрироваться для перезапуска</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>Запустить от имени администратора</value>
+  </data>
+  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+    <value>Запустить средство устранения неполадок совместимости</value>
+  </data>
+  <data name="UseMainMonitorDPISettings" xml:space="preserve">
+    <value>Использовать настройки DPI главного монитора</value>
+  </data>
+  <data name="SettingsDefaultFilesManager" xml:space="preserve">
+    <value>Менеджер файлов по умолчанию</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
+    <value>Установить Files как файловый менеджер по умолчанию</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Очистить Корзину</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Боковая панель</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Файлы и папки</value>
+  </data>
+  <data name="OpenNewInstance" xml:space="preserve">
+    <value>Открывать новый экземпляр при открытии папок из выскакивающего меню в панели задач</value>
+  </data>
+  <data name="StartupSettings" xml:space="preserve">
+    <value>Настройки запуска</value>
+  </data>
+  <data name="ThirdPartyLicenses" xml:space="preserve">
+    <value>Лицензии третьих лиц</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
+    <value>Этот параметр изменяет реестр Windows и может иметь неожиданные побочные эффекты на вашем устройстве. Продолжайте на свой страх и риск.</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Очистить все</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Столбцы</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Большие Иконки</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Средние Иконки</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Маленькие Иконки</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Плитки</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Создать Библиотеку</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>Введите название Библиотеки</value>
+  </data>
+  <data name="ShowFolderSize" xml:space="preserve">
+    <value>Показать размер папки</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Пропустить</value>
+  </data>
+  <data name="SettingsOpenInLogin" xml:space="preserve">
+    <value>Добавить Files в автозагрузку Windows</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Аттрибуты</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Скрыто</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>Больше информации</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Только для чтения</value>
+  </data>
+  <data name="CleanupDrive" xml:space="preserve">
+    <value>Очистить содержимое вашего диска</value>
+  </data>
+  <data name="DiskCleanup" xml:space="preserve">
+    <value>Очистка диска</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Тип:</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Байты</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Извлечь</value>
+  </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>Извлечь файлы</value>
+  </data>
+  <data name="ExtractHere" xml:space="preserve">
+    <value>Извлечь здесь</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="ExtractToChildFolder" xml:space="preserve">
+    <value>Извлечь в {0}</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Запустить скрипт</value>
+  </data>
+  <data name="RunWithPowerShell" xml:space="preserve">
+    <value>Запустить в PowerShell</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Установить как фон</value>
+  </data>
+  <data name="ShowFolderSizesWarning" xml:space="preserve">
+    <value>Вычисление размеров папок требует ресурсы ЦП и может увеличить нагрузку.</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Открыть в</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Повернуть влево</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Повернуть вправо</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Установить</value>
+  </data>
+  <data name="CloseTabsToTheLeft" xml:space="preserve">
+    <value>Закрыть все вкладки слева</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Закрыть вкладки справа</value>
+  </data>
+  <data name="ShowDotFiles" xml:space="preserve">
+    <value>Показать расширения имен файлов</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Закрыть другие вкладки</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Музыка</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Фотографии</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Видео</value>
+  </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Обновить Files</value>
+  </data>
+  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
+    <value>Подготовка {0} предметов</value>
+  </data>
+  <data name="PrepareInProgress" xml:space="preserve">
+    <value>Подготовка предметов</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Копирование не удалось</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
+    <value>Не удалось скопировать {0} предметов из {1} в {2}</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
+    <value>Не удалось скопировать {0} предмет из {1} в {2}</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Перемещение не удалось</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Метки</value>
+  </data>
+  <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
+    <value>Показать Секцию Меток</value>
+  </data>
+  <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Показывать Секцию Меток</value>
   </data>
 </root>

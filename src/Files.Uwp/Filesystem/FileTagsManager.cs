@@ -1,7 +1,7 @@
 ﻿using Files.DataModels.NavigationControlItems;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.UserControls;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
+using Files.Helpers;
 
 namespace Files.Filesystem
 {
@@ -54,9 +55,13 @@ namespace Files.Filesystem
                         {
                             Text = "FileTags".GetLocalized(),
                             Section = SectionType.FileTag,
+                            MenuOptions = new ContextMenuOptions
+                            {
+                                ShowHideSection = true
+                            },
                             SelectsOnInvoked = false,
                             Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/FileTags.png")),
-                            ChildItems = new ObservableCollection<INavigationControlItem>()
+                            ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                         };
                         var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
                                     (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
@@ -79,7 +84,11 @@ namespace Files.Filesystem
                                 {
                                     Text = tag.TagName,
                                     Path = $"tag:{tag.TagName}",
-                                    FileTag = tag
+                                    FileTag = tag,
+                                    MenuOptions = new ContextMenuOptions
+                                    {
+                                        IsLocationItem = true
+                                    }
                                 });
                             }
                         }

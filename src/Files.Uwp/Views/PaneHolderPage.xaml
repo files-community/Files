@@ -84,6 +84,7 @@
             GripperForeground="Transparent"
             IsTabStop="False"
             ManipulationCompleted="PaneResizer_ManipulationCompleted"
+            DoubleTapped="PaneResizer_OnDoubleTapped"
             ResizeBehavior="BasedOnAlignment"
             ResizeDirection="Auto"
             Style="{StaticResource DefaultGridSplitterStyle}">

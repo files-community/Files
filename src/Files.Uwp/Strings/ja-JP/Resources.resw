@@ -148,7 +148,7 @@
     <value>プロパティ</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
-    <value>抽出</value>
+    <value>展開</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>開く</value>
@@ -265,7 +265,7 @@
     <value>ファイルを削除できませんでした</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
-    <value>ドライブを挿入してください</value>
+    <value>このファイルが入ったドライブを挿入してください</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
     <value>ドライブが取り外されました</value>
@@ -283,7 +283,7 @@
     <value>アクセスしようとしているフォルダーは移動または削除された可能性があります。</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>このフォルダーを削除しますか?</value>
+    <value>このフォルダーを削除しましたか?</value>
   </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
     <value>削除しようとしているファイルは他のプログラムによって使用されています。</value>
@@ -398,21 +398,6 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>ごみ箱に移動</value>
-  </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>ロック解除</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>パスワードを入力してドライブのロックを解除します</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>パスワード</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>パスワードを確認して、再試行してください。</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>BitLocker のエラーが発生しました</value>
   </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>内容:</value>
@@ -1000,7 +985,7 @@
     <value>ステータス センター</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>次の検索結果を表示:</value>
+    <value>{0} の {1} からの検索結果を表示:</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>検索結果</value>
@@ -1687,10 +1672,10 @@
     <value>ごみ箱</value>
   </data>
   <data name="MoveInProgress" xml:space="preserve">
-    <value>ファイル移動中</value>
+    <value>ファイルの移動中</value>
   </data>
   <data name="CopyInProgress.Title" xml:space="preserve">
-    <value>ファイルコピー中</value>
+    <value>ファイルのコピー中</value>
   </data>
   <data name="StatusRecycleFailed" xml:space="preserve">
     <value>ごみ箱から元に戻す操作に失敗しました</value>
@@ -1996,28 +1981,28 @@
     <value>ファイルのバージョン</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>クラウドからアイテムをダウンロードし、プレビューを表示</value>
+    <value>クラウドからファイルをダウンロードし、プレビューを表示</value>
   </data>
   <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>宛先を選択してファイルを抽出</value>
+    <value>宛先を選択してファイルを展開</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>完了したら宛先フォルダーを開きます</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
-    <value>ファイルを抽出</value>
+    <value>ファイルを展開</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
-    <value>ここで抽出</value>
+    <value>ここに展開</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
-    <value>抽出...</value>
+    <value>展開...</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
-    <value>{0} への抽出</value>
+    <value>{0} へ展開</value>
   </data>
   <data name="DetailsArchiveItemCount" xml:space="preserve">
-    <value>{0} アイテム ({1} ファイル、{2} フォルダー)</value>
+    <value>{0} 項目 ({1} ファイル、{2} フォルダー)</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>圧縮前のサイズ</value>
@@ -2110,7 +2095,7 @@
     <value>設定</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
-    <value>更新プログラムが利用可能です。</value>
+    <value>更新プログラムが利用可能</value>
   </data>
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>更新プログラムをインストールする準備ができました</value>
@@ -2128,7 +2113,7 @@
     <value>フォルダーの追加</value>
   </data>
   <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>アイテムの追加</value>
+    <value>ファイルの追加</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>ホーム</value>
@@ -2182,13 +2167,13 @@
     <value>ターミナル アプリケーション</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
-    <value>アーカイブの抽出が正常に完了しました。</value>
+    <value>アーカイブの展開が正常に完了しました。</value>
   </data>
   <data name="ExtractingArchiveText" xml:space="preserve">
     <value>アーカイブの展開中</value>
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
-    <value>抽出完了!</value>
+    <value>展開完了!</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
@@ -2216,12 +2201,7 @@
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
-*個人情報の収集*
-Filesは、個人情報を収集、保存、共有、または公開することはありません。
-
-*非個人情報の収集*
-
-App Center を使用して、アプリの使用状況を追跡し、バグを見つけ、クラッシュを修正します。App Center に送信されるすべての情報は匿名であり、ユーザーまたはコンテキスト データは含まれていません。
+私達はApp Center を使用して、設定の使用状況を追跡し、バグを見つけ、クラッシュを修正します。App Center に送信されるすべての情報は匿名であり、ユーザーまたはコンテキスト データは含まれていません。
 </value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
@@ -2244,12 +2224,6 @@ App Center を使用して、アプリの使用状況を追跡し、バグを見
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>お気に入りセクションを表示</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>ファイル タグ</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>ファイル タグ</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>親フォルダーを開く</value>
@@ -2522,7 +2496,7 @@ App Center を使用して、アプリの使用状況を追跡し、バグを見
     <value>サード パーティ ライセンス</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>この設定はシステムファイルを変更し、デバイスに予期しない副作用をもたらす可能性があります。問題が発生しても開発者は責任を負いません。それでもこの設定を利用する場合、利用者がリスクを許容することを意味します。Filesをアンインストールしてもこれらの変更は元に戻らないため、デバイスから Files を削除する前にこの設定をオフにしない限り、ファイル エクスプローラーを開くことができない場合があることに注意してください。</value>
+    <value>この設定はシステムのレジストリを変更し、デバイスに思わぬ結果をもたらす可能性があります。問題が発生しても開発者は責任を負いません。</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>すべてクリア</value>
@@ -2582,19 +2556,19 @@ App Center を使用して、アプリの使用状況を追跡し、バグを見
     <value>バイト</value>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>抽出</value>
+    <value>展開</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>ファイルを抽出</value>
+    <value>ファイルを展開</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>ここに抽出</value>
+    <value>ここに展開</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
   </data>
   <data name="ExtractToChildFolder" xml:space="preserve">
-    <value>{0}へ抽出</value>
+    <value>{0}へ展開</value>
   </data>
   <data name="RunScript" xml:space="preserve">
     <value>スクリプトを実行</value>
@@ -2604,9 +2578,6 @@ App Center を使用して、アプリの使用状況を追跡し、バグを見
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>デスクトップ背景に設定</value>
-  </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>このオプションをオフにせずデバイスから Files を削除しないでください。このオプションをオフにしてから Files を削除しないと、ファイル エクスプローラーを開くことができなくなります。</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>フォルダー サイズの計算はリソースを消費するため、CPU使用率が上昇する可能性があります。</value>
@@ -2628,5 +2599,29 @@ App Center を使用して、アプリの使用状況を追跡し、バグを見
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
     <value>これより右のタブを閉じる</value>
+  </data>
+  <data name="ShowDotFiles" xml:space="preserve">
+    <value>ドットファイルを表示する</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>他のタブを閉じる</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>ミュージック</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>ピクチャ</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>ビデオ</value>
+  </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Files をアップデート</value>
+  </data>
+  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
+    <value>{0} ファイルを準備中</value>
+  </data>
+  <data name="PrepareInProgress" xml:space="preserve">
+    <value>ファイルを準備中</value>
   </data>
 </root>

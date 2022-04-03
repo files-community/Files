@@ -1,6 +1,6 @@
-﻿using Files.Enums;
-using Files.Services;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+﻿using Files.Shared.Enums;
+using Files.Backend.Services.Settings;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using System.ComponentModel;
 using Windows.UI.Xaml.Controls;
 

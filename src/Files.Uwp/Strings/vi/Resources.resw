@@ -459,21 +459,6 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Chạy với quyền người quản trị</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Mở khóa</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Nhập vào mật khẩu để mở khóa của ổ lưu trữ.</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Mật khẩu</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Làm ơn kiểm tra mật khẩu và thử lần nữa.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>Sự lỗi về Bitlocker</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Chứa:</value>
   </data>
@@ -2242,12 +2227,6 @@ Files không thu thập, lưu trữ, chia sẻ hoặc xuất bản bất kỳ th
 Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụng ứng dụng, tìm lỗi và khắc phục sự cố. Tất cả thông tin được gửi đến Trung tâm ứng dụng là ẩn danh và không có bất kỳ dữ liệu người dùng hoặc ngữ cảnh nào.
   </value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Thẻ tệp</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>Thẻ tệp</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Mở thư mục chính</value>
   </data>
@@ -2604,9 +2583,6 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Cài làm ảnh nền desktop</value>
-  </data>
-  <data name="SetFilesAsDefaultWarning" xml:space="preserve">
-    <value>Không xóa Files khỏi thiết bị của bạn khi chưa tắt tùy chọn này. Không làm như vậy sẽ ngăn bạn mở File Explorer.</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Việc tính toán kích thước thư mục tốn nhiều tài nguyên và có thể khiến mức sử dụng CPU của bạn tăng lên.</value>

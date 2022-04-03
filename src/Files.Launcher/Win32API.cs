@@ -1,4 +1,5 @@
-using Files.Common;
+using Files.Shared;
+using Files.Shared.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -450,7 +451,7 @@ namespace FilesFullTrust
 
         public static async Task SendMessageAsync(PipeStream pipe, ValueSet valueSet, string requestID = null)
         {
-            await Extensions.IgnoreExceptions(async () =>
+            await SafetyExtensions.IgnoreExceptions(async () =>
             {
                 var message = new Dictionary<string, object>(valueSet)
                 {
@@ -611,7 +612,7 @@ namespace FilesFullTrust
                         {
                             var pUnk = Marshal.GetObjectForIUnknown(ppv);
                             var shellBrowser = (Shell32.IShellBrowser)pUnk;
-                            using var targetFolder = Extensions.IgnoreExceptions(() => new Vanara.Windows.Shell.ShellItem(folderPath));
+                            using var targetFolder = SafetyExtensions.IgnoreExceptions(() => new Vanara.Windows.Shell.ShellItem(folderPath));
                             if (targetFolder != null)
                             {
                                 if (shellBrowser.QueryActiveShellView(out var shellView).Succeeded)

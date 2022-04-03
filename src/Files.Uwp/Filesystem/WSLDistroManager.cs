@@ -1,7 +1,7 @@
 ﻿using Files.DataModels.NavigationControlItems;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.UserControls;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Core;
+using Files.Helpers;
 
 namespace Files.Filesystem
 {
@@ -54,9 +55,13 @@ namespace Files.Filesystem
                             {
                                 Text = "WSL".GetLocalized(),
                                 Section = SectionType.WSL,
+                                MenuOptions = new ContextMenuOptions
+                                {
+                                    ShowHideSection = true
+                                },
                                 SelectsOnInvoked = false,
                                 Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png")),
-                                ChildItems = new ObservableCollection<INavigationControlItem>()
+                                ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                             };
                             var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
                                         (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
@@ -104,7 +109,11 @@ namespace Files.Filesystem
                                     {
                                         Text = folder.DisplayName,
                                         Path = folder.Path,
-                                        Logo = logoURI
+                                        Logo = logoURI,
+                                        MenuOptions = new ContextMenuOptions
+                                        {
+                                            IsLocationItem = true
+                                        }
                                     });
                                 }
                             }

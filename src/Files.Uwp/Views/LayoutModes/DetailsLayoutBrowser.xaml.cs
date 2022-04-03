@@ -1,4 +1,4 @@
-using Files.Enums;
+using Files.Shared.Enums;
 using Files.EventArguments;
 using Files.Filesystem;
 using Files.Helpers;
@@ -7,7 +7,7 @@ using Files.Interacts;
 using Files.UserControls;
 using Files.UserControls.Selection;
 using Files.ViewModels;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
@@ -23,7 +23,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-using SortDirection = Files.Enums.SortDirection;
+using SortDirection = Files.Shared.Enums.SortDirection;
 
 namespace Files.Views.LayoutModes
 {
@@ -89,7 +89,7 @@ namespace Files.Views.LayoutModes
         private void ItemManipulationModel_ScrollIntoViewInvoked(object sender, ListedItem e)
         {
             FileList.ScrollIntoView(e);
-            ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * 36, null, true); // Scroll to index * item height
+            ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * Convert.ToInt32(Application.Current.Resources["ListItemHeight"]), null, true); // Scroll to index * item height
         }
 
         private void ItemManipulationModel_StartRenameItemInvoked(object sender, EventArgs e)
@@ -345,8 +345,6 @@ namespace Files.Views.LayoutModes
             }
             TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
             textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-            //TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
-            //textBox = (gridViewItem.ContentTemplateRoot as Grid).FindName("TileViewTextBoxItemName") as TextBox;
             textBox.Text = textBlock.Text;
             OldItemName = textBlock.Text;
             textBlock.Visibility = Visibility.Collapsed;
@@ -366,20 +364,13 @@ namespace Files.Views.LayoutModes
             IsRenamingItem = true;
         }
 
-        private void ListViewTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
+        private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
         {
-            var textBox = sender as TextBox;
-
-            if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
+            ValidateItemNameInputText(textBox, args, (showError) =>
             {
-                FileNameTeachingTip.Visibility = Visibility.Visible;
-                FileNameTeachingTip.IsOpen = true;
-            }
-            else
-            {
-                FileNameTeachingTip.IsOpen = false;
-                FileNameTeachingTip.Visibility = Visibility.Collapsed;
-            }
+                FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
+                FileNameTeachingTip.IsOpen = showError;
+            });
         }
 
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -805,6 +796,11 @@ namespace Files.Views.LayoutModes
         private void FileList_Loaded(object sender, RoutedEventArgs e)
         {
             ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
+        }
+
+        private void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args)
+        {
+            ParentShellPageInstance.FilesystemViewModel.RefreshItems(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, SetSelectedItemsOnNavigation);
         }
     }
 }

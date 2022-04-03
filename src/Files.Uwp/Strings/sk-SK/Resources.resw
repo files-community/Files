@@ -414,21 +414,6 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Spustiť ako správca</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Odomknúť</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Zadajte heslo k odomknutiu disku</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Heslo</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Zlé heslo, skúste prosím ešte raz</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>Chyba Bitlockeru</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Obsahuje:</value>
   </data>
@@ -2245,12 +2230,6 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Zobraziť sekciu obľúbených</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Značka súboru</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>Značka súboru</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Otvoriť nadradený priečinok</value>

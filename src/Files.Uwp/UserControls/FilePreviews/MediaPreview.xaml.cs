@@ -1,6 +1,6 @@
-﻿using Files.Services;
+﻿using Files.Backend.Services.Settings;
 using Files.ViewModels.Previews;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Windows.Media.Playback;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

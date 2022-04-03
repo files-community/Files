@@ -1,17 +1,16 @@
-﻿using Files.Common;
+﻿using Files.Shared.Extensions;
 using Files.Controllers;
 using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.UserControls;
 using Files.ViewModels;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -98,11 +97,20 @@ namespace Files.DataModels
         /// <param name="item">Item to remove</param>
         public async void AddItem(string item)
         {
-            if (!string.IsNullOrEmpty(item) && !FavoriteItems.Contains(item))
+            await SidebarControl.SideBarItemsSemaphore.WaitAsync();
+
+            try
             {
-                FavoriteItems.Add(item);
-                await AddItemToSidebarAsync(item);
-                Save();
+                if (!string.IsNullOrEmpty(item) && !FavoriteItems.Contains(item))
+                {
+                    FavoriteItems.Add(item);
+                    await AddItemToSidebarAsync(item);
+                    Save();
+                }
+            }
+            finally
+            {
+                SidebarControl.SideBarItemsSemaphore.Release();
             }
         }
 
@@ -114,6 +122,13 @@ namespace Files.DataModels
                 {
                     Text = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                     IsDefaultLocation = true,
+                    MenuOptions = new ContextMenuOptions
+                    {
+                        IsLocationItem = true,
+                        ShowUnpinItem = true,
+                        ShowShellItems = true,
+                        ShowEmptyRecycleBin = true
+                    },
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.RecycleBin)),
                     Path = CommonPaths.RecycleBinPath
                 };
@@ -251,19 +266,28 @@ namespace Files.DataModels
         {
             var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
             var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
+            var lastItem = favoriteSection.ChildItems.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(CommonPaths.RecycleBinPath));
+            int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
+            var locationItem = new LocationItem
+            {
+                Font = MainViewModel.FontName,
+                Path = path,
+                Section = SectionType.Favorites,
+                MenuOptions = new ContextMenuOptions
+                {
+                    IsLocationItem = true,
+                    ShowProperties = true,
+                    ShowUnpinItem = true,
+                    ShowShellItems = true,
+                    IsItemMovable = true
+                },
+                IsDefaultLocation = false,
+                Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
+            };
+
             if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
             {
-                var lastItem = favoriteSection.ChildItems.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(CommonPaths.RecycleBinPath));
-                int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
-                var locationItem = new LocationItem
-                {
-                    Font = MainViewModel.FontName,
-                    Path = path,
-                    Section = SectionType.Favorites,
-                    IsDefaultLocation = false,
-                    Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
-                };
-
+                locationItem.IsInvalid = false;
                 if (res)
                 {
                     var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
@@ -282,16 +306,17 @@ namespace Files.DataModels
                         locationItem.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
                     }
                 }
-
-                if (!favoriteSection.ChildItems.Any(x => x.Path == locationItem.Path))
-                {
-                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => favoriteSection.ChildItems.Insert(insertIndex, locationItem));
-                }
             }
             else
             {
-                Debug.WriteLine($"Pinned item was invalid and will be removed from the file lines list soon: {res.ErrorCode}");
-                RemoveItem(path);
+                locationItem.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.Folder));
+                locationItem.IsInvalid = true;
+                Debug.WriteLine($"Pinned item was invalid {res.ErrorCode}, item: {path}");
+            }
+
+            if (!favoriteSection.ChildItems.Any(x => x.Path == locationItem.Path))
+            {
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => favoriteSection.ChildItems.Insert(insertIndex, locationItem));
             }
         }
 
@@ -327,20 +352,28 @@ namespace Files.DataModels
                 {
                     Text = "Home".GetLocalized(),
                     Section = SectionType.Home,
+                    MenuOptions = new ContextMenuOptions
+                    {
+                        IsLocationItem = true
+                    },
                     Font = MainViewModel.FontName,
                     IsDefaultLocation = true,
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"))),
                     Path = "Home".GetLocalized(),
-                    ChildItems = new ObservableCollection<INavigationControlItem>()
+                    ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                 };
                 favoriteSection ??= new LocationItem()
                 {
                     Text = "SidebarFavorites".GetLocalized(),
                     Section = SectionType.Favorites,
+                    MenuOptions = new ContextMenuOptions
+                    {
+                        ShowHideSection = true
+                    },
                     SelectsOnInvoked = false,
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.Shell32.QuickAccess)),
                     Font = MainViewModel.FontName,
-                    ChildItems = new ObservableCollection<INavigationControlItem>()
+                    ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                 };
 
                 if (homeSection != null)
@@ -355,19 +388,19 @@ namespace Files.DataModels
                     SidebarControl.SideBarItems.Insert(index, favoriteSection);
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => SidebarControl.SideBarItems.EndBulkOperation());
                 }
+
+                for (int i = 0; i < FavoriteItems.Count; i++)
+                {
+                    string path = FavoriteItems[i];
+                    await AddItemToSidebarAsync(path);
+                }
+
+                await ShowHideRecycleBinItemAsync(UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar);
             }
             finally
             {
                 SidebarControl.SideBarItemsSemaphore.Release();
             }
-
-            for (int i = 0; i < FavoriteItems.Count; i++)
-            {
-                string path = FavoriteItems[i];
-                await AddItemToSidebarAsync(path);
-            }
-
-            await ShowHideRecycleBinItemAsync(UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar);
         }
 
         /// <summary>
@@ -376,14 +409,18 @@ namespace Files.DataModels
         public void RemoveStaleSidebarItems()
         {
             // Remove unpinned items from sidebar
-            for (int i = 0; i < favoriteSection.ChildItems.Count; i++)
+            // Reverse iteration to avoid skipping elements while removing
+            if (favoriteSection != null)
             {
-                if (favoriteSection.ChildItems[i] is LocationItem)
+                for (int i = favoriteSection.ChildItems.Count - 1; i >= 0; i--)
                 {
-                    var item = favoriteSection.ChildItems[i] as LocationItem;
-                    if (!item.IsDefaultLocation && !FavoriteItems.Contains(item.Path))
+                    var childItem = favoriteSection.ChildItems[i];
+                    if (childItem is LocationItem item)
                     {
-                        favoriteSection.ChildItems.RemoveAt(i);
+                        if (!item.IsDefaultLocation && !FavoriteItems.Contains(item.Path))
+                        {
+                            favoriteSection.ChildItems.RemoveAt(i);
+                        }
                     }
                 }
             }

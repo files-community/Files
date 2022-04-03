@@ -1,4 +1,4 @@
-﻿using Files.Enums;
+﻿using Files.Shared.Enums;
 using System;
 using Windows.Storage;
 using Windows.UI.Xaml.Data;

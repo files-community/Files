@@ -390,21 +390,6 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Kilidi aç</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Sürücü kilidini açmak için parolayı yazın</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Parola</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Lütfen yazdığınız parolayı denetleyip yeniden deneyin.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>BitLocker hatası</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>İçeriği:</value>
   </data>
@@ -2244,12 +2229,6 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Kenar çubuğunda Favoriler bölümünü göster</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Dosya etiketi</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>Dosya etiketi</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Ana klasörü aç</value>
   </data>
@@ -2300,5 +2279,326 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Hiç bir öğe bulunamadı</value>
+  </data>
+  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Paket Widget'ı</value>
+  </data>
+  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Diskler/Sürücüler Widget'ı</value>
+  </data>
+  <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Kütüphaneler Widget'ı</value>
+  </data>
+  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Son Dosyalar Widget'ı</value>
+  </data>
+  <data name="OpenLogLocation" xml:space="preserve">
+    <value>Kayıt konumunu aç</value>
+  </data>
+  <data name="LinkToFolderCaptionText" xml:space="preserve">
+    <value>Şuraya Link Oluştur {0}</value>
+  </data>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>Dosya eklentilerini göster</value>
+  </data>
+  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Gizli dosyaları göster</value>
+  </data>
+  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
+    <value>Dosya eklentilerini göster</value>
+  </data>
+  <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
+    <value>Gizli dosyaları göster</value>
+  </data>
+  <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Sık kullanılanlar bölümünü göster</value>
+  </data>
+  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Geri Dönüşüm Kutusu'nu sık kullanılanlara sabitle</value>
+  </data>
+  <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Bulut sürücüleri bölümünü göster</value>
+  </data>
+  <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Diskler/Sürücüler bölümünü göster</value>
+  </data>
+  <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Kitaplık bölümünü göster</value>
+  </data>
+  <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Ağ bölümünü göster</value>
+  </data>
+  <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>WSL Bölümünü göster</value>
+  </data>
+  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Dosyaları yeni sekmede göster</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Dil</value>
+  </data>
+  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Dosya veya klasörleri silerken onay iletişim kutusunu gösterme</value>
+  </data>
+  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Terminal uygulaması</value>
+  </data>
+  <data name="OngoingTasks" xml:space="preserve">
+    <value>Devam Eden Görevler</value>
+  </data>
+  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
+    <value>Tüm önizlemeyi yükle</value>
+  </data>
+  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
+    <value>Sadece önizlemeyi göster</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
+    <value>Birini yukarı taşı</value>
+  </data>
+  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
+    <value>Dibe taşı</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
+    <value>Yukarıya Taşı</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
+    <value>Sütun oluşturulma tarihi</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
+    <value>Öğe Sütun Boyutu</value>
+  </data>
+  <data name="SettingsSetAsOpenDialog" xml:space="preserve">
+    <value>Dosyaları Dosya Aç İletişim Kutusu Olarak Kullan</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Etiket</value>
+  </data>
+  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
+    <value>Tek bir tıklama ile klasörleri açma</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>Klasör yolu</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>Ayarları Dışa Aktar</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>Ayarları İçe Aktar</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>Ayarları Yönet</value>
+  </data>
+  <data name="SettingsImportErrorDescription" xml:space="preserve">
+    <value>Ayarları içe aktarılamadı. Ayarlar dosyası bozuk.</value>
+  </data>
+  <data name="SettingsImportErrorTitle" xml:space="preserve">
+    <value>Ayarları içe aktarırken hata oluştu</value>
+  </data>
+  <data name="ChooseCustomIcon" xml:space="preserve">
+    <value>Özel bir klasör simgesi seçin</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Kişiselleştirme</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>Varsayılana sıfırla</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>Uyumluluk</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Hiçbiri</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
+    <value>Windows'da oturum açıldığında</value>
+  </data>
+  <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
+    <value>Program başlatıldığında</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>Sistem</value>
+  </data>
+  <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
+    <value>Sistem (gelişmiş)</value>
+  </data>
+  <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
+    <value>16 Bit Renkler (65536)</value>
+  </data>
+  <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
+    <value>8 Bit Renkler (256)</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Uyumluluk modu</value>
+  </data>
+  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+    <value>Tam ekran iyileştirmelerini kapat</value>
+  </data>
+  <data name="ExecuteAt640X480" xml:space="preserve">
+    <value>640 x 480 ekran çözünürlüğünde çalıştır</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Seçenekler</value>
+  </data>
+  <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
+    <value>Yüksek DPI ölçekleme davranışını geçersiz kılma</value>
+  </data>
+  <data name="ReducedColorMode" xml:space="preserve">
+    <value>Azaltılmış renk modu</value>
+  </data>
+  <data name="RegisterForRestart" xml:space="preserve">
+    <value>Yeniden başlatmak için kaydolun</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>Yönetici olarak çalıştır</value>
+  </data>
+  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+    <value>Uyumluluk sorun gidericisi'ni çalıştır</value>
+  </data>
+  <data name="UseMainMonitorDPISettings" xml:space="preserve">
+    <value>Ana monitörün DPI ayarlarını kullan</value>
+  </data>
+  <data name="SettingsDefaultFilesManager" xml:space="preserve">
+    <value>Varsayılan dosya yöneticisi</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
+    <value>Varsayılan dosya yöneticisi olarak ayarla</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Geri Dönüşüm Kutusunu Boşalt</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Kenar</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Dosyalar  ve klasörler</value>
+  </data>
+  <data name="OpenNewInstance" xml:space="preserve">
+    <value>Görev çubuğu atlama listesinden dizinleri açarken yeni örnek aç</value>
+  </data>
+  <data name="StartupSettings" xml:space="preserve">
+    <value>Başlatma seçenekleri</value>
+  </data>
+  <data name="ThirdPartyLicenses" xml:space="preserve">
+    <value>Üçüncü parti yazılım</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
+    <value>Bu seçenek sistem kayıt defterini değiştirir ve aygıtınızda beklenmeyen yan etkilere neden olabilir. Kendi sorumluluğunuzda devam edin.</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Hepsini sil</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Sütunlar</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Büyük ikonlar</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Orta boyutlu ikonlar</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Küçük ikonlar</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Sıralar</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Kütüphane oluştur</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>Kütüphane ismi girin</value>
+  </data>
+  <data name="ShowFolderSize" xml:space="preserve">
+    <value>Dosya boyutunu göster</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Atla</value>
+  </data>
+  <data name="SettingsOpenInLogin" xml:space="preserve">
+    <value>Windows başlatıldığında dosyaları aç</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Öznitelikler</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Gizli</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>Daha fazla bilgi</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Salt okunur</value>
+  </data>
+  <data name="CleanupDrive" xml:space="preserve">
+    <value>Sürücü içeriğini temizle</value>
+  </data>
+  <data name="DiskCleanup" xml:space="preserve">
+    <value>Disk temizleme</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Ayıkla</value>
+  </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>Dosyaları ayıkla</value>
+  </data>
+  <data name="ExtractHere" xml:space="preserve">
+    <value>Buraya ayıkla</value>
+  </data>
+  <data name="ExtractToChildFolder" xml:space="preserve">
+    <value>Şuraya ayıkla {0}</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Komut dosyasını çalıştır</value>
+  </data>
+  <data name="RunWithPowerShell" xml:space="preserve">
+    <value>PowerShell'le Çalıştır</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Masaüstü arka planı olarak ayarla</value>
+  </data>
+  <data name="ShowFolderSizesWarning" xml:space="preserve">
+    <value>Klasör boyutlarını hesaplamak için yoğun kaynak kullanılır ve CPU kullanımınızın artmasına neden olabilir.</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Şununla Aç </value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Sola Döndür</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Sağa Döndür</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Yükle</value>
+  </data>
+  <data name="CloseTabsToTheLeft" xml:space="preserve">
+    <value>Soldaki sekmeleri kapat</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Sağdaki sekmeleri kapat</value>
+  </data>
+  <data name="ShowDotFiles" xml:space="preserve">
+    <value>dot Dosyalarını Göster</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Diğer Sekmeleri Kapat</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Müzik</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Resimler</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videolar</value>
+  </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Dosyaları Güncelle</value>
+  </data>
+  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
+    <value>{0} Tane Dosya Hazırlanıyor</value>
+  </data>
+  <data name="PrepareInProgress" xml:space="preserve">
+    <value>Dosyalar Hazırlanıyor</value>
   </data>
 </root>

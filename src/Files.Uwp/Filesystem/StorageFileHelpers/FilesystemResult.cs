@@ -1,4 +1,4 @@
-﻿using Files.Enums;
+﻿using Files.Shared.Enums;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -60,13 +60,13 @@ namespace Files.Filesystem
             {
                 return FileSystemStatusCode.NotFound;
             }
-            else if (ex is IOException || ex is FileLoadException)
-            {
-                return FileSystemStatusCode.InUse;
-            }
             else if (ex is PathTooLongException)
             {
                 return FileSystemStatusCode.NameTooLong;
+            }
+            else if (ex is IOException || ex is FileLoadException)
+            {
+                return FileSystemStatusCode.InUse;
             }
             else if (ex is ArgumentException) // Item was invalid
             {

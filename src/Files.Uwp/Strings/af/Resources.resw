@@ -465,21 +465,6 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Laat loop as administrateur</value>
   </data>
-  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ontsluit</value>
-  </data>
-  <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Tik wagwoord in om die aandrywer te ontsluit</value>
-  </data>
-  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Wagwoord</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
-    <value>Kontroleer asseblief die wagwoord en probeer weer.</value>
-  </data>
-  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>BitLocker fout</value>
-  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Bevat:</value>
   </data>
@@ -2246,12 +2231,6 @@ Files versamel, stoor, deel of publiseer geen persoonlike inligting nie.
 *Nie-persoonlike inligting versameling*
 
 Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongelukke op te los. Alle inligting wat aan App Center gestuur word, is anoniem en vry van enige gebruiker of kontekstuele data.</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>Lêermerker</value>
-  </data>
-  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>Lêermerker</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Maak oueromslag oop</value>

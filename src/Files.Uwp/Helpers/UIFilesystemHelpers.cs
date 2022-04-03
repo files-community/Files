@@ -1,6 +1,6 @@
-﻿using Files.Common;
+﻿using Files.Shared;
 using Files.Dialogs;
-using Files.Enums;
+using Files.Shared.Enums;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
@@ -18,6 +18,7 @@ using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Files.Backend.Enums;
 
 namespace Files.Helpers
 {
@@ -292,12 +293,12 @@ namespace Files.Helpers
             return false;
         }
 
-        public static async void CreateFileFromDialogResultType(AddItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
+        public static async void CreateFileFromDialogResultType(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
         {
             _ = await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
         }
 
-        public static async Task<IStorageItem> CreateFileFromDialogResultTypeForResult(AddItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
+        public static async Task<IStorageItem> CreateFileFromDialogResultTypeForResult(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
         {
             string currentPath = null;
             if (associatedInstance.SlimContentPage != null)
@@ -312,24 +313,29 @@ namespace Files.Helpers
                 }
             }
 
-            // Show rename dialog
-            DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog();
-            await dialog.ShowAsync();
-
-            if (dialog.DynamicResult != DynamicDialogResult.Primary)
+            // Skip rename dialog when ShellNewEntry has a Command (e.g. ".accdb", ".gdoc")
+            string userInput = null;
+            if (itemType != AddItemDialogItemType.File || itemInfo?.Command == null)
             {
-                return null;
+                DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog();
+                await dialog.ShowAsync(); // Show rename dialog
+
+                if (dialog.DynamicResult != DynamicDialogResult.Primary)
+                {
+                    return null;
+                }
+
+                userInput = dialog.ViewModel.AdditionalData as string;
             }
 
             // Create file based on dialog result
-            string userInput = dialog.ViewModel.AdditionalData as string;
             var folderRes = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(currentPath);
             var created = new FilesystemResult<(ReturnResult, IStorageItem)>((ReturnResult.Failed, null), FileSystemStatusCode.Generic);
             if (folderRes)
             {
                 switch (itemType)
                 {
-                    case AddItemType.Folder:
+                    case AddItemDialogItemType.Folder:
                         userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalized();
                         created = await FilesystemTasks.Wrap(async () =>
                         {
@@ -339,7 +345,7 @@ namespace Files.Helpers
                         });
                         break;
 
-                    case AddItemType.File:
+                    case AddItemDialogItemType.File:
                         userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? "NewFile".GetLocalized();
                         created = await FilesystemTasks.Wrap(async () =>
                         {
@@ -364,7 +370,7 @@ namespace Files.Helpers
             try
             {
                 await CopyItem(associatedInstance);
-                var folder = await CreateFileFromDialogResultTypeForResult(AddItemType.Folder, null, associatedInstance);
+                var folder = await CreateFileFromDialogResultTypeForResult(AddItemDialogItemType.Folder, null, associatedInstance);
                 if (folder == null)
                 {
                     return;

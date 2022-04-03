@@ -1,10 +1,10 @@
-using Files.Common;
+using Files.Shared;
 using Files.DataModels.NavigationControlItems;
 using Files.Filesystem.Cloud;
 using Files.Helpers;
-using Files.Services;
+using Files.Backend.Services.Settings;
 using Files.UserControls;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -20,7 +20,7 @@ namespace Files.Filesystem
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        private static readonly Logger Logger = App.Logger;
+        private static readonly ILogger Logger = App.Logger;
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
         public IReadOnlyList<DriveItem> Drives
@@ -51,9 +51,15 @@ namespace Files.Filesystem
                 {
                     Text = provider.Name,
                     Path = provider.SyncFolder,
-                    Type = DriveType.CloudDrive,
+                    Type = DriveType.CloudDrive
                 };
-
+                cloudProviderItem.MenuOptions = new ContextMenuOptions
+                {
+                    IsLocationItem = true,
+                    ShowEjectDevice = cloudProviderItem.IsRemovable,
+                    ShowShellItems = true,
+                    ShowProperties = true
+                };
                 var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, 24);
                 if (iconData != null)
                 {
@@ -111,9 +117,13 @@ namespace Files.Filesystem
                         {
                             Text = "SidebarCloudDrives".GetLocalized(),
                             Section = SectionType.CloudDrives,
+                            MenuOptions = new ContextMenuOptions
+                            {
+                                ShowHideSection = true
+                            },
                             SelectsOnInvoked = false,
                             Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png")),
-                            ChildItems = new ObservableCollection<INavigationControlItem>()
+                            ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                         };
                         var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
                                     (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +

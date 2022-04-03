@@ -1,6 +1,6 @@
 ﻿using Files.ViewModels;
 using Files.Views;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;

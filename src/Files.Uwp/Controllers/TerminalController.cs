@@ -1,8 +1,8 @@
 ﻿using Files.DataModels;
-using Files.Enums;
-using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
