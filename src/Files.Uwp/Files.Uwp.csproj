@@ -349,6 +349,7 @@
     <Compile Include="UserControls\Widgets\BundlesWidget.xaml.cs">
       <DependentUpon>BundlesWidget.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Widgets\IWidgetCardItem.cs" />
     <Compile Include="UserControls\Widgets\WidgetsListControl.xaml.cs">
       <DependentUpon>WidgetsListControl.xaml</DependentUpon>
     </Compile>

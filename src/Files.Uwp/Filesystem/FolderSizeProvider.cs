@@ -18,7 +18,7 @@ namespace Files.Filesystem
     {
         public event EventHandler<FolderSizeChangedEventArgs> FolderSizeChanged;
 
-        void CleanCache();
+        Task CleanCacheAsync();
         void UpdateFolder(ListedItem folder, CancellationToken cancellationToken);
     }
 
@@ -45,7 +45,7 @@ namespace Files.Filesystem
             preferencesSettingsService.PropertyChanged += PreferencesSettingsService_PropertyChanged;
         }
 
-        public async void CleanCache()
+        public async Task CleanCacheAsync()
         {
             if (!showFolderSize)
             {
