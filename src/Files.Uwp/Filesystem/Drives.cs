@@ -21,13 +21,12 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Core;
 using DriveType = Files.DataModels.NavigationControlItems.DriveType;
-using Files.Shared;
 
 namespace Files.Filesystem
 {
     public class DrivesManager : ObservableObject
     {
-        private static readonly IFolderSizeProvider folderSizeProvider = Ioc.Default.GetService<IFolderSizeProvider>();
+        private IFolderSizeProvider FolderSizeProvider { get; } = Ioc.Default.GetService<IFolderSizeProvider>();
 
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
@@ -106,7 +105,7 @@ namespace Files.Filesystem
         {
             System.Diagnostics.Debug.WriteLine("DeviceWatcher_EnumerationCompleted");
             await RefreshUI();
-            folderSizeProvider.CleanCache();
+            FolderSizeProvider.CleanCache();
         }
 
         private async Task RefreshUI()
@@ -250,7 +249,7 @@ namespace Files.Filesystem
                 {
                     return;
                 }
-            
+
                 Logger.Info($"Drive added: {driveItem.Path}, {driveItem.Type}");
 
                 drivesList.Add(driveItem);
