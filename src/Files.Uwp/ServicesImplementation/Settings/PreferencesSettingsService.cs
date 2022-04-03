@@ -146,7 +146,7 @@ namespace Files.Uwp.ServicesImplementation.Settings
             set => Set(value);
         }
 
-        protected override void RaiseOnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
             switch (e.SettingName)
             {

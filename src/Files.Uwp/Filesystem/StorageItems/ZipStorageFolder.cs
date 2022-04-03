@@ -1,8 +1,6 @@
-﻿using Files.Common;
+﻿using Files.Shared.Extensions;
 using Files.Extensions;
 using Files.Helpers;
-using Files.Services;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using SevenZip;
 using System;
@@ -17,6 +15,8 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
+using Files.Backend.Services.Settings;
+using CommunityToolkit.Mvvm.DependencyInjection;
 
 namespace Files.Filesystem.StorageItems
 {

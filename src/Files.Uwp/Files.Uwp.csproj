@@ -1595,7 +1595,7 @@
       <Name>Files.Backend</Name>
     </ProjectReference>
     <ProjectReference Include="..\SevenZip\SevenZip.csproj">
-      <Project>{26adb683-0a36-4639-ad67-202a3693d03c}</Project>
+      <Project>{26ADB683-0A36-4639-AD67-202A3693D03C}</Project>
       <Name>SevenZip</Name>
     </ProjectReference>
   </ItemGroup>

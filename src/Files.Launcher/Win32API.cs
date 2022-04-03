@@ -168,7 +168,7 @@ namespace FilesFullTrust
 
             if (!onlyGetOverlay)
             {
-                using var shellItem = Extensions.IgnoreExceptions(() => new Vanara.Windows.Shell.ShellItem(path), Program.Logger);
+                using var shellItem = SafetyExtensions.IgnoreExceptions(() => new Vanara.Windows.Shell.ShellItem(path), Program.Logger);
                 if (shellItem != null && shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
                 {
                     var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
