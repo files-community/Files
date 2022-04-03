@@ -1,4 +1,5 @@
-using Files.Common;
+using Files.Shared;
+using Files.Shared.Extensions;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -16,10 +17,10 @@ namespace FilesFullTrust.Helpers
         {
             var tasks = new Task<List<CloudProvider>>[]
             {
-                Extensions.IgnoreExceptions(DetectOneDrive, Program.Logger),
-                Extensions.IgnoreExceptions(DetectSharepoint, Program.Logger),
-                Extensions.IgnoreExceptions(DetectGenericCloudDrive, Program.Logger),
-                Extensions.IgnoreExceptions(DetectYandexDisk, Program.Logger),
+                SafetyExtensions.IgnoreExceptions(DetectOneDrive, Program.Logger),
+                SafetyExtensions.IgnoreExceptions(DetectSharepoint, Program.Logger),
+                SafetyExtensions.IgnoreExceptions(DetectGenericCloudDrive, Program.Logger),
+                SafetyExtensions.IgnoreExceptions(DetectYandexDisk, Program.Logger),
             };
 
             await Task.WhenAll(tasks);
@@ -50,7 +51,7 @@ namespace FilesFullTrust.Helpers
             using var clsidKey = Registry.ClassesRoot.OpenSubKey(@"CLSID");
             foreach (var subKeyName in clsidKey.GetSubKeyNames())
             {
-                using var subKey = Extensions.IgnoreExceptions(() => clsidKey.OpenSubKey(subKeyName));
+                using var subKey = SafetyExtensions.IgnoreExceptions(() => clsidKey.OpenSubKey(subKeyName));
                 if (subKey != null && (int?)subKey.GetValue("System.IsPinnedToNameSpaceTree") == 1)
                 {
                     using var namespaceKey = Registry.CurrentUser.OpenSubKey($@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{subKeyName}");

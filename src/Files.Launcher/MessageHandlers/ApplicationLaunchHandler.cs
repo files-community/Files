@@ -1,4 +1,4 @@
-﻿using Files.Common;
+﻿using Files.Shared.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;

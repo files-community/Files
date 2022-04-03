@@ -1,4 +1,5 @@
-﻿using Files.Common;
+﻿using Files.Shared;
+using Files.Shared.Extensions;
 using FilesFullTrust.Helpers;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -30,7 +31,7 @@ namespace FilesFullTrust.MessageHandlers
         {
             using var subkey = Registry.ClassesRoot.OpenSubKey(@"Folder\shell\open\command");
             var command = (string)subkey?.GetValue(string.Empty);
-            ApplicationData.Current.LocalSettings.Values["IsSetAsDefaultFileManager"] = !string.IsNullOrEmpty(command) && command.Contains("files.exe");
+            ApplicationData.Current.LocalSettings.Values["IsSetAsDefaultFileManager"] = !string.IsNullOrEmpty(command) && command.Contains("FilesLauncher.exe");
         }
 
         private static void DetectIsSetAsOpenFileDialog()
@@ -153,13 +154,29 @@ namespace FilesFullTrust.MessageHandlers
                         Directory.CreateDirectory(destFolder);
                         foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.Launcher", "Assets", "FilesOpenDialog")))
                         {
-                            if (!Extensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), Program.Logger))
+                            if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), Program.Logger))
                             {
                                 // Error copying files
                                 DetectIsSetAsDefaultFileManager();
                                 await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
                                 return;
                             }
+                        }
+                        
+                        var dataPath = Environment.ExpandEnvironmentVariables("%LocalAppData%\\Files");
+                        if (enable)
+                        {
+                            if (!Win32API.RunPowershellCommand($"-command \"New-Item -Force -Path '{dataPath}' -ItemType Directory; Copy-Item -Filter *.* -Path '{destFolder}\\*' -Recurse -Force -Destination '{dataPath}'\"", false))
+                            {
+                                // Error copying files
+                                DetectIsSetAsDefaultFileManager();
+                                await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            Win32API.RunPowershellCommand($"-command \"Remove-Item -Path '{dataPath}' -Recurse -Force\"", false);
                         }
 
                         try
@@ -185,7 +202,7 @@ namespace FilesFullTrust.MessageHandlers
                         Directory.CreateDirectory(destFolder);
                         foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.Launcher", "Assets", "FilesOpenDialog")))
                         {
-                            if (!Extensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), Program.Logger))
+                            if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), Program.Logger))
                             {
                                 // Error copying files
                                 DetectIsSetAsOpenFileDialog();
