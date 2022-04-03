@@ -124,7 +124,7 @@
       <OutputFile>$(OutDir)CustomSaveDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y $(ProjectDir)$(OutDir)*.dll $(SolutionDir)src\Files.Launcher\Assets\FilesOpenDialog</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.Launcher\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -161,7 +161,7 @@
       <OutputFile>$(OutDir)CustomSaveDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y $(ProjectDir)$(OutDir)*.dll $(SolutionDir)src\Files.Launcher\Assets\FilesOpenDialog</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.Launcher\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -200,7 +200,7 @@
       <OutputFile>$(OutDir)CustomSaveDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y $(ProjectDir)$(OutDir)*.dll $(SolutionDir)src\Files.Launcher\Assets\FilesOpenDialog</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.Launcher\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -238,7 +238,7 @@
       <OutputFile>$(OutDir)CustomSaveDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y $(ProjectDir)$(OutDir)*.dll $(SolutionDir)src\Files.Launcher\Assets\FilesOpenDialog</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.Launcher\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
