@@ -137,7 +137,7 @@
                                         DataContext="{x:Bind}"
                                         Text="{helpers:ResourceString Name=SideBarDisconnectNetworkDrive/Text}">
                                         <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xF847;" />
+                                            <FontIcon Glyph="&#xE8CD;" />
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
                                 </MenuFlyout.Items>
