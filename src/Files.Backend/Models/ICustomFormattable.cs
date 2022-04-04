@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Files.Backend.Models
 {
@@ -8,6 +6,6 @@ namespace Files.Backend.Models
     {
         IReadOnlyCollection<string>? Formats { get;}
 
-        void AppendFormat(string formatInfo);
+        bool AppendFormat(string formatInfo);
     }
 }
