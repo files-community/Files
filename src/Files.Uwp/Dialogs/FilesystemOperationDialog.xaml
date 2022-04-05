@@ -8,7 +8,6 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
-    Loaded="RootDialog_Loaded"
     x:Name="RootDialog"
     Title="{x:Bind ViewModel.Title, Mode=OneWay}"
     Closing="RootDialog_Closing"
@@ -46,7 +45,7 @@
                 <MenuFlyoutItem
                     x:Name="ApplyToAllOption"
                     Click="MenuFlyoutItem_Click"
-                    Tag="{helpers:ResourceString Name=ConfictingItemsDialogOptionApplyToAll.Tag}"
+                    Tag="All"
                     Text="{helpers:ResourceString Name=ConfictingItemsDialogOptionApplyToAll/Text}" />
             </MenuFlyout>
         </ResourceDictionary>
@@ -202,9 +201,7 @@
                                     <muxc:SplitButton.Flyout>
                                         <MenuFlyout>
                                             <MenuFlyoutItem Command="{Binding GenerateNewNameCommand}" Text="{helpers:ResourceString Name=GenerateNewName}" />
-                                            <MenuFlyoutItem
-                                                Command="{Binding ReplaceExistingCommand}"
-                                                Text="{helpers:ResourceString Name=ConflictingItemsDialogItemOptionReplaceExisting/Text}" />
+                                            <MenuFlyoutItem Command="{Binding ReplaceExistingCommand}" Text="{helpers:ResourceString Name=ConflictingItemsDialogItemOptionReplaceExisting/Text}" />
                                             <MenuFlyoutItem Command="{Binding SkipCommand}" Text="{helpers:ResourceString Name=Skip}" />
                                         </MenuFlyout>
                                     </muxc:SplitButton.Flyout>

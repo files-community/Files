@@ -18,7 +18,15 @@ namespace Files.Dialogs
         public FilesystemOperationDialogViewModel ViewModel
         {
             get => (FilesystemOperationDialogViewModel)DataContext;
-            set => DataContext = value;
+            set
+            {
+                if (value != null)
+                {
+                    value.View = this;
+                    value.LoadedCommand.Execute(null);
+                }
+                DataContext = value;
+            }
         }
 
         public IList<object> SelectedItems => DetailsGrid.SelectedItems;
@@ -112,12 +120,6 @@ namespace Files.Dialogs
         private void RootDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
         {
             ViewModel.ClosingCommand.Execute(null);
-        }
-
-        private void RootDialog_Loaded(object sender, RoutedEventArgs e)
-        {
-            ViewModel.View = this;
-            ViewModel.LoadedCommand.Execute(null);
         }
     }
 

@@ -44,6 +44,13 @@ namespace Files.Filesystem
                 Type = DriveType.Network,
                 ItemType = NavigationControlItemType.Drive
             };
+            networkItem.MenuOptions = new ContextMenuOptions
+            {
+                IsLocationItem = true,
+                ShowShellItems = true,
+                ShowEjectDevice = networkItem.IsRemovable,
+                ShowProperties = true
+            };
             lock (drivesList)
             {
                 drivesList.Add(networkItem);
@@ -77,6 +84,13 @@ namespace Files.Filesystem
                             DeviceID = item.FilePath,
                             Type = DriveType.Network,
                             ItemType = NavigationControlItemType.Drive
+                        };
+                        networkItem.MenuOptions = new ContextMenuOptions
+                        {
+                            IsLocationItem = true,
+                            ShowEjectDevice = networkItem.IsRemovable,
+                            ShowShellItems = true,
+                            ShowProperties = true
                         };
                         lock (drivesList)
                         {
@@ -126,6 +140,10 @@ namespace Files.Filesystem
                         {
                             Text = "SidebarNetworkDrives".GetLocalized(),
                             Section = SectionType.Network,
+                            MenuOptions = new ContextMenuOptions
+                            {
+                                ShowHideSection = true
+                            },
                             SelectsOnInvoked = false,
                             Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives),
                             ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()

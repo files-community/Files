@@ -249,7 +249,7 @@
     <Compile Include="ServicesImplementation\Settings\PaneSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\UserSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\WidgetsSettingsService.cs" />
-    <Compile Include="ServicesImplementation\Settings\UpdateSettingsService.cs" />
+    <Compile Include="ServicesImplementation\UpdateService.cs" />
     <Compile Include="UserControls\ColoredIcon.xaml.cs">
       <DependentUpon>ColoredIcon.xaml</DependentUpon>
     </Compile>
@@ -348,6 +348,7 @@
     <Compile Include="UserControls\Widgets\BundlesWidget.xaml.cs">
       <DependentUpon>BundlesWidget.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Widgets\IWidgetCardItem.cs" />
     <Compile Include="UserControls\Widgets\WidgetsListControl.xaml.cs">
       <DependentUpon>WidgetsListControl.xaml</DependentUpon>
     </Compile>

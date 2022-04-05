@@ -63,6 +63,7 @@ namespace Files.Helpers
                     AppWindow appWindow = await AppWindow.TryCreateAsync();
 
                     Frame frame = new Frame();
+                    frame.RequestedTheme = ThemeHelper.RootTheme;
                     frame.Navigate(typeof(Properties), new PropertiesPageNavigationArguments()
                     {
                         Item = item,
@@ -91,6 +92,7 @@ namespace Files.Helpers
                     await newWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
                         Frame frame = new Frame();
+                        frame.RequestedTheme = ThemeHelper.RootTheme;
                         frame.Navigate(typeof(Properties), new PropertiesPageNavigationArguments()
                         {
                             Item = item,
