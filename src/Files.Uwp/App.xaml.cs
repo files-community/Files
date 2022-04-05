@@ -41,6 +41,8 @@ using Files.Shared.Extensions;
 using Files.Backend.Services;
 using Files.Uwp.ServicesImplementation;
 using Files.ViewModels.SettingsViewModels;
+using Files.Backend.Services.Graph;
+using Files.Uwp.ServicesImplementation.Graph;
 
 namespace Files
 {
@@ -125,6 +127,10 @@ namespace Files
                 // (IFilesystemHelpersService, IFilesystemOperationsService)
                 // (IStorageEnumerator, IFallbackStorageEnumerator)
                 .AddSingleton<IFolderSizeProvider, FolderSizeProvider>()
+
+                // Microsoft Graph Service(s)
+                .AddSingleton<IGraphRecentFilesService, GraphRecentFilesService>()
+
 
                 ; // End of service configuration
 
