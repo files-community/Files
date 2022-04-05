@@ -1,27 +1,26 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
 using Files.DataModels.NavigationControlItems;
-using Files.Filesystem;
-using Files.DataModels.NavigationControlItems;
 using Files.Helpers;
 using Files.Shared.Extensions;
+using Files.Uwp.UserControls.Widgets;
 using Files.ViewModels.Widgets;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.ApplicationModel.Core;
-using Files.Uwp.UserControls.Widgets;
 
 namespace Files.UserControls.Widgets
 {

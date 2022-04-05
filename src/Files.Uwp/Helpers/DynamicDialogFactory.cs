@@ -1,17 +1,15 @@
 ﻿using Files.Dialogs;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Files.Filesystem;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Files.Helpers
 {
@@ -136,7 +134,7 @@ namespace Files.Helpers
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
                 TitleText = "FileInUseDialog/Title".GetLocalized(),
-                SubtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalized() : 
+                SubtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalized() :
                     string.Format("FileInUseByDialog/Text".GetLocalized(), string.Join(", ", lockingProcess.Select(x => $"{x.Name}.exe (pid: {x.Pid})"))),
                 PrimaryButtonText = "OK",
                 DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary

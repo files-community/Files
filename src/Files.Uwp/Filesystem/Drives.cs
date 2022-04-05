@@ -14,13 +14,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using DriveType = Files.DataModels.NavigationControlItems.DriveType;
-using Windows.ApplicationModel.Activation;
 
 namespace Files.Filesystem
 {
