@@ -72,6 +72,12 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
             return Items.Cast<IFileSystemDialogConflictItemViewModel>();
         }
 
+        public void CancelCts()
+        {
+            _dialogClosingCts.Cancel();
+            _dialogClosingCts.Dispose();
+        }
+
         private void PrimaryButtonClick()
         {
             if (!FileSystemDialogMode.IsInDeleteMode)

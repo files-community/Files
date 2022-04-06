@@ -14,10 +14,10 @@
     CornerRadius="{StaticResource OverlayCornerRadius}"
     DefaultButton="Primary"
     IsPrimaryButtonEnabled="{x:Bind ViewModel.PrimaryButtonEnabled, Mode=OneWay}"
-    PrimaryButtonCommand="{x:Bind ViewModel.PrimaryButtonCommand, Mode=OneWay}"
+    PrimaryButtonCommand="{x:Bind ViewModel.PrimaryButtonClickCommand, Mode=OneWay}"
     PrimaryButtonText="{x:Bind ViewModel.PrimaryButtonText, Mode=OneWay}"
     RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
-    SecondaryButtonCommand="{x:Bind ViewModel.SecondaryButtonCommand, Mode=OneWay}"
+    SecondaryButtonCommand="{x:Bind ViewModel.SecondaryButtonClickCommand, Mode=OneWay}"
     SecondaryButtonText="{x:Bind ViewModel.SecondaryButtonText, Mode=OneWay}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
@@ -53,12 +53,12 @@
 
     <Grid Width="452">
         <StackPanel Spacing="12">
-            <TextBlock Text="{x:Bind ViewModel.Subtitle, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind ViewModel.Description, Mode=OneWay}" />
             <CheckBox
                 x:Name="chkPermanentlyDelete"
-                x:Load="{x:Bind ViewModel.PermanentlyDeleteLoad, Mode=OneWay}"
+                x:Load="{x:Bind ViewModel.FileSystemDialogMode.IsInDeleteMode, Mode=OneWay}"
                 Content="{helpers:ResourceString Name=DeleteItemsDialogPermanentlyDeleteCheckBox/Content}"
-                IsChecked="{x:Bind ViewModel.PermanentlyDelete, Mode=TwoWay}"
+                IsChecked="{x:Bind ViewModel.DeletePermanently, Mode=TwoWay}"
                 IsEnabled="False" />
 
             <Grid>
@@ -69,7 +69,7 @@
                     IsEnabled="False"
                     IsItemClickEnabled="False"
                     ItemsSource="{x:Bind ViewModel.Items}"
-                    SelectionMode="{x:Bind ViewModel.ItemsSelectionMode, Mode=OneWay}">
+                    SelectionMode="{x:Bind ItemSelectionMode, Mode=OneWay}">
 
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
