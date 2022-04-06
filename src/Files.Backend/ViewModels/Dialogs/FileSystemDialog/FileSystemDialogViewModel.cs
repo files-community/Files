@@ -1,7 +1,14 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Extensions;
+using Files.Backend.Services;
 using Files.Shared.Enums;
+using Files.Shared.Extensions;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 {
@@ -34,14 +41,35 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
             set => SetProperty(ref _IsDeletePermanentlyEnabled, value);
         }
 
-        public FileSystemDialogViewModel(FileSystemDialogMode fileSystemDialogMode)
+        internal FileSystemDialogViewModel(FileSystemDialogMode fileSystemDialogMode, IEnumerable<BaseFileSystemDialogItemViewModel> items)
         {
             this.FileSystemDialogMode = fileSystemDialogMode;
             _dialogClosingCts = new();
-            Items = new();
+            Items = new(items);
 
             PrimaryButtonClickCommand = new RelayCommand(PrimaryButtonClick);
             SecondaryButtonClickCommand = new RelayCommand(SecondaryButtonClick);
+        }
+
+        public void ApplyConflictOptionToAll(FileNameConflictResolveOptionType e)
+        {
+            if (!FileSystemDialogMode.IsInDeleteMode)
+            {
+                foreach (var item in Items)
+                {
+                    if (item is FileSystemDialogConflictItemViewModel conflictItem && !conflictItem.IsActionTaken)
+                    {
+                        conflictItem.TakeAction(e);
+                    }
+                }
+
+                PrimaryButtonEnabled = true;
+            }
+        }
+
+        public IEnumerable<IFileSystemDialogConflictItemViewModel> GetItemsResult()
+        {
+            return Items.Cast<IFileSystemDialogConflictItemViewModel>();
         }
 
         private void PrimaryButtonClick()
@@ -67,20 +95,111 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
             }
         }
 
-        public void ApplyConflictOptionToAll(FileNameConflictResolveOptionType e)
+        public static FileSystemDialogViewModel GetDialogViewModel(FileSystemDialogMode dialogMode, (bool deletePermanently, bool IsDeletePermanentlyEnabled) deleteOption, FilesystemOperationType operationType, List<BaseFileSystemDialogItemViewModel> nonConflictingItems, List<BaseFileSystemDialogItemViewModel> conflictingItems)
         {
-            if (!FileSystemDialogMode.IsInDeleteMode)
+            string titleText = string.Empty;
+            string descriptionText = string.Empty;
+            string primaryButtonText = string.Empty;
+            string secondaryButtonText = string.Empty;
+            bool isInDeleteMode = false;
+
+            if (dialogMode.ConflictsExist)
             {
-                foreach (var item in Items)
+                // Subtitle text
+                if (conflictingItems.Count > 1)
                 {
-                    if (item is FileSystemDialogConflictItemViewModel conflictItem && !conflictItem.IsActionTaken)
+                    if (nonConflictingItems.Count > 0)
                     {
-                        conflictItem.TakeAction(e);
+                        // There are {0} conflicting file names, and {1} outgoing item(s)
+                        descriptionText = string.Format("ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts".ToLocalized(), conflictingItems.Count, nonConflictingItems.Count);
+                    }
+                    else
+                    {
+                        // There are {0} conflicting file names
+                        descriptionText = string.Format("ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts".ToLocalized(), conflictingItems.Count);
+                    }
+                }
+                else
+                {
+                    if (nonConflictingItems.Count > 0)
+                    {
+                        // There is one conflicting file name, and {0} outgoing item(s)
+                        descriptionText = string.Format("ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts".ToLocalized(), nonConflictingItems.Count);
+                    }
+                    else
+                    {
+                        // There is one conflicting file name
+                        descriptionText = string.Format("ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts".ToLocalized(), conflictingItems.Count);
                     }
                 }
 
-                PrimaryButtonEnabled = true;
+                titleText = "ConflictingItemsDialogTitle".ToLocalized();
+                primaryButtonText = "ConflictingItemsDialogPrimaryButtonText".ToLocalized();
+                secondaryButtonText = "Cancel".ToLocalized();
             }
+            else
+            {
+                switch (operationType)
+                {
+                    case FilesystemOperationType.Copy:
+                        {
+                            titleText = "CopyItemsDialogTitle".ToLocalized();
+                            descriptionText = nonConflictingItems.Count + conflictingItems.Count == 1 ? "CopyItemsDialogSubtitleSingle".ToLocalized() : string.Format("CopyItemsDialogSubtitleMultiple".ToLocalized(), nonConflictingItems.Count + conflictingItems.Count);
+                            primaryButtonText = "Copy".ToLocalized();
+                            secondaryButtonText = "Cancel".ToLocalized();
+                            break;
+                        }
+
+                    case FilesystemOperationType.Move:
+                        {
+                            titleText = "MoveItemsDialogTitle".ToLocalized();
+                            descriptionText = nonConflictingItems.Count + conflictingItems.Count == 1 ? "MoveItemsDialogSubtitleSingle".ToLocalized() : string.Format("MoveItemsDialogSubtitleMultiple".ToLocalized(), nonConflictingItems.Count + conflictingItems.Count);
+                            primaryButtonText = "MoveItemsDialogPrimaryButtonText".ToLocalized();
+                            secondaryButtonText = "Cancel".ToLocalized();
+                            break;
+                        }
+
+                    case FilesystemOperationType.Delete:
+                        {
+                            titleText = "DeleteItemsDialogTitle".ToLocalized();
+                            descriptionText = nonConflictingItems.Count + conflictingItems.Count == 1 ? "DeleteItemsDialogSubtitleSingle".ToLocalized() : string.Format("DeleteItemsDialogSubtitleMultiple".ToLocalized(), nonConflictingItems.Count);
+                            primaryButtonText = "Delete".ToLocalized();
+                            secondaryButtonText = "Cancel".ToLocalized();
+                            isInDeleteMode = true;
+                            break;
+                        }
+                }
+            }
+
+            var viewModel = new FileSystemDialogViewModel(new() { IsInDeleteMode = isInDeleteMode, ConflictsExist = !conflictingItems.IsEmpty() }, conflictingItems.Concat(nonConflictingItems))
+            {
+                Title = titleText,
+                Description = descriptionText,
+                PrimaryButtonText = primaryButtonText,
+                SecondaryButtonText = secondaryButtonText,
+                DeletePermanently = deleteOption.deletePermanently,
+                IsDeletePermanentlyEnabled = deleteOption.IsDeletePermanentlyEnabled
+            };
+
+            _ = LoadItemsIcon(viewModel.Items, viewModel._dialogClosingCts.Token);
+
+            return viewModel;
+        }
+
+        private static async Task LoadItemsIcon(IEnumerable<BaseFileSystemDialogItemViewModel> items, CancellationToken token)
+        {
+            var imagingService = Ioc.Default.GetRequiredService<IImagingService>();
+
+            await items.ParallelForEach(async (item) =>
+            {
+                try
+                {
+                    if (token.IsCancellationRequested) return;
+
+                    item.ItemIcon = await imagingService.GetImageModelFromPathAsync(item.SourcePath!, 64u);
+                }
+                catch { }
+            }, 10, token);
         }
     }
 

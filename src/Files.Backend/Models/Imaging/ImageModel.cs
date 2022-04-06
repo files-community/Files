@@ -8,6 +8,6 @@ namespace Files.Backend.Models.Imaging
 
         public virtual bool AppendFormat(string formatInfo) => false;
 
-        public abstract TImage? GetImage<TImage>();
+        public abstract TImage? GetImage<TImage>() where TImage : class;
     }
 }

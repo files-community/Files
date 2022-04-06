@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 {
-    public sealed class FileSystemDialogConflictItemViewModel : BaseFileSystemDialogItemViewModel
+    public sealed class FileSystemDialogConflictItemViewModel : BaseFileSystemDialogItemViewModel, IFileSystemDialogConflictItemViewModel
     {
         private string? _DestinationDisplayName;
         public string? DestinationDisplayName
@@ -66,7 +66,7 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 
         public ICommand SkipCommand { get; }
 
-        internal FileSystemDialogConflictItemViewModel()
+        public FileSystemDialogConflictItemViewModel()
         {
             GenerateNewNameCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.GenerateNewName));
             ReplaceExistingCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.ReplaceExisting));

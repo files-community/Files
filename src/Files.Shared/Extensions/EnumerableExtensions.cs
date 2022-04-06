@@ -5,9 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
-namespace Files.Extensions
+namespace Files.Shared.Extensions
 {
-    internal static class EnumerableExtensions
+    public static class EnumerableExtensions
     {
         /// <summary>
         /// Creates <see cref="List{T}"/> and returns <see cref="IEnumerable{T}"/> with provided <paramref name="item"/>
@@ -15,11 +15,11 @@ namespace Files.Extensions
         /// <typeparam name="T">The item type</typeparam>
         /// <param name="item">The item</param>
         /// <returns><see cref="IEnumerable{T}"/> with <paramref name="item"/></returns>
-        internal static IEnumerable<T> CreateEnumerable<T>(this T item) =>
+        public static IEnumerable<T> CreateEnumerable<T>(this T item) =>
             new[] { item };
 
-        internal static List<T> CreateList<T>(this T item) =>
-            new List<T>() { item };
+        public static List<T> CreateList<T>(this T item) =>
+            new() { item };
 
         public static IList<T> AddIfNotPresent<T>(this IList<T> list, T element)
         {
@@ -50,22 +50,28 @@ namespace Files.Extensions
         /// <param name="cts">Cancellation token, stops all remaining operations</param>
         /// <param name="scheduler">Task scheduler on which to execute `body`</param>
         /// <returns></returns>
-        public static async Task ParallelForEach<T>(this IEnumerable<T> source, Func<T, Task> body, int maxDegreeOfParallelism = DataflowBlockOptions.Unbounded, CancellationToken cts = default, TaskScheduler scheduler = null)
+        public static async Task ParallelForEach<T>(this IEnumerable<T> source, Func<T, Task> body, int maxDegreeOfParallelism = DataflowBlockOptions.Unbounded, CancellationToken cts = default, TaskScheduler? scheduler = null)
         {
             var options = new ExecutionDataflowBlockOptions
             {
                 MaxDegreeOfParallelism = maxDegreeOfParallelism,
                 CancellationToken = cts
             };
+
             if (scheduler != null)
+            {
                 options.TaskScheduler = scheduler;
+            }
 
             var block = new ActionBlock<T>(body, options);
 
             foreach (var item in source)
+            {
                 block.Post(item);
+            }
 
             block.Complete();
+
             await block.Completion;
         }
 
