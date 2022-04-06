@@ -1,4 +1,5 @@
 ﻿using Files.Backend.Models.Imaging;
+using Files.Uwp.Imaging;
 using System;
 using System.Linq;
 using Windows.UI.Xaml.Data;
@@ -16,7 +17,7 @@ namespace Files.Uwp.ValueConverters
             {
                 if (bitmapImageModel.Formats.Contains(Backend.Constants.KnownImageFormats.BITMAP_IMAGE_FORMAT))
                 {
-                    return bitmapImageModel.GetImage() as BitmapImage;
+                    return bitmapImageModel.GetImage<BitmapImage>();
                 }
             }
 
