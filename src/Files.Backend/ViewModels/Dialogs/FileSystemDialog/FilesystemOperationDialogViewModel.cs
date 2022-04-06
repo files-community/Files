@@ -317,6 +317,7 @@ namespace Files.ViewModels.Dialogs
                     if (iconData != null)
                     {
                         if (token.IsCancellationRequested) return;
+
                         await Windows.ApplicationModel.Core.CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
                         {
                             item.ItemIcon = await iconData.ToBitmapAsync();

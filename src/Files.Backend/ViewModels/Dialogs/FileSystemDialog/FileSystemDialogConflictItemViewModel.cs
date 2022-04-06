@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using CommunityToolkit.Mvvm.Input;
+using Files.Shared.Enums;
+using System.IO;
+using System.Windows.Input;
 
 namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 {
@@ -15,7 +18,13 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
         public string? DestinationPath
         {
             get => _DestinationPath;
-            set => SetProperty(ref _DestinationPath, value);
+            set
+            {
+                if (SetProperty(ref _DestinationPath, value))
+                {
+                    OnPropertyChanged(nameof(DestinationDirectoryDisplayName));
+                }
+            }
         }
 
         public override string? SourcePath
@@ -47,6 +56,27 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
         {
             get => _IsActionTaken;
             set => SetProperty(ref _IsActionTaken, value);
+        }
+
+        public FileNameConflictResolveOptionType ConflictResolveOption { get; set; }
+
+        public ICommand GenerateNewNameCommand { get; }
+
+        public ICommand ReplaceExistingCommand { get; }
+
+        public ICommand SkipCommand { get; }
+
+        internal FileSystemDialogConflictItemViewModel()
+        {
+            GenerateNewNameCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.GenerateNewName));
+            ReplaceExistingCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.ReplaceExisting));
+            SkipCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.Skip));
+        }
+
+        public void TakeAction(FileNameConflictResolveOptionType conflictResolveOption)
+        {
+            IsActionTaken = true;
+            ConflictResolveOption = conflictResolveOption;
         }
     }
 }

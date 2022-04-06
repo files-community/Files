@@ -11,18 +11,13 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 
         public ObservableCollection<BaseFileSystemDialogItemViewModel> Items { get; }
 
+        public FileSystemDialogMode FileSystemDialogMode { get; }
+
         private string? _Description;
         public string? Description
         {
             get => _Description;
             set => SetProperty(ref _Description, value);
-        }
-
-        private bool _DeletePermanentlyVisible;
-        public bool DeletePermanentlyVisible
-        {
-            get => _DeletePermanentlyVisible;
-            set => SetProperty(ref _DeletePermanentlyVisible, value);
         }
 
         private bool _DeletePermanently;
@@ -39,31 +34,60 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
             set => SetProperty(ref _IsDeletePermanentlyEnabled, value);
         }
 
-        public FileSystemDialogViewModel()
+        public FileSystemDialogViewModel(FileSystemDialogMode fileSystemDialogMode)
         {
+            this.FileSystemDialogMode = fileSystemDialogMode;
             _dialogClosingCts = new();
             Items = new();
 
             PrimaryButtonClickCommand = new RelayCommand(PrimaryButtonClick);
+            SecondaryButtonClickCommand = new RelayCommand(SecondaryButtonClick);
         }
 
         private void PrimaryButtonClick()
         {
-            if (!DeletePermanentlyVisible)
+            if (!FileSystemDialogMode.IsInDeleteMode)
             {
+                ApplyConflictOptionToAll(FileNameConflictResolveOptionType.GenerateNewName);
+            }
+        }
 
+        private void SecondaryButtonClick()
+        {
+            if (FileSystemDialogMode.ConflictsExist)
+            {
+                foreach (var item in Items)
+                {
+                    // Don't do anything, skip
+                    if (item is FileSystemDialogConflictItemViewModel conflictItem)
+                    {
+                        conflictItem.ConflictResolveOption = FileNameConflictResolveOptionType.Skip;
+                    }
+                }
             }
         }
 
         public void ApplyConflictOptionToAll(FileNameConflictResolveOptionType e)
         {
-            foreach (var item in Items)
+            if (!FileSystemDialogMode.IsInDeleteMode)
             {
-                if (item is FileSystemDialogConflictItemViewModel conflictItem && !conflictItem.IsActionTaken)
+                foreach (var item in Items)
                 {
-                    conflictItem.TakeAction(e);
+                    if (item is FileSystemDialogConflictItemViewModel conflictItem && !conflictItem.IsActionTaken)
+                    {
+                        conflictItem.TakeAction(e);
+                    }
                 }
+
+                PrimaryButtonEnabled = true;
             }
         }
+    }
+
+    public sealed class FileSystemDialogMode
+    {
+        public bool IsInDeleteMode { get; init; }
+
+        public bool ConflictsExist { get; init; }
     }
 }

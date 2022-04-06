@@ -4,7 +4,7 @@ using System.Windows.Input;
 namespace Files.Backend.ViewModels.Dialogs
 {
     /// <summary>
-    /// Acts as the base dialog view model containing reusable,
+    /// Serves as the base dialog view model containing reusable,
     /// and optional boilerplate code for every dialog.
     /// </summary>
     public abstract class BaseDialogViewModel : ObservableObject
@@ -44,8 +44,17 @@ namespace Files.Backend.ViewModels.Dialogs
             set => SetProperty(ref _SecondaryButtonText, value);
         }
 
+        private string? _CloseButtonText;
+        public string? CloseButtonText
+        {
+            get => _CloseButtonText;
+            set => SetProperty(ref _CloseButtonText, value);
+        }
+
         public ICommand? PrimaryButtonClickCommand { get; protected init; }
 
         public ICommand? SecondaryButtonClickCommand { get; protected init; }
+
+        public ICommand? CloseButtonClickCommand { get; protected init; }
     }
 }
