@@ -15,6 +15,7 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
                 if (SetProperty(ref _SourcePath, value))
                 {
                     OnPropertyChanged(nameof(SourceDirectoryDisplayName));
+                    DisplayName = Path.GetFileName(value);
                 }
             }
         }

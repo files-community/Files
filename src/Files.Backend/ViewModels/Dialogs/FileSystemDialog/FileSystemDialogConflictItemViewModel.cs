@@ -32,14 +32,17 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
             get => Path.GetFileName(Path.GetDirectoryName(DestinationPath));
         }
 
-        private bool _IsActionTaken;
-        public bool IsActionTaken
+        public bool IsDefault
         {
-            get => _IsActionTaken;
-            set => SetProperty(ref _IsActionTaken, value);
+            get => ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName; // Default value
         }
 
-        public FileNameConflictResolveOptionType ConflictResolveOption { get; set; }
+        private FileNameConflictResolveOptionType _ConflictResolveOption;
+        public FileNameConflictResolveOptionType ConflictResolveOption
+        {
+            get => _ConflictResolveOption;
+            set => SetProperty(ref _ConflictResolveOption, value);
+        }
 
         public ICommand GenerateNewNameCommand { get; }
 
@@ -56,7 +59,6 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 
         public void TakeAction(FileNameConflictResolveOptionType conflictResolveOption)
         {
-            IsActionTaken = true;
             ConflictResolveOption = conflictResolveOption;
         }
     }

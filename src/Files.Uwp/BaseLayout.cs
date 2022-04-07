@@ -859,7 +859,7 @@ namespace Files
 
             try
             {
-                await e.Items.OfType<ListedItem>().ParallelForEach(async item =>
+                await e.Items.OfType<ListedItem>().ParallelForEachAsync(async item =>
                 {
                     if (banner != null)
                     {

@@ -47,7 +47,7 @@ namespace Files.Helpers
 
                 try
                 {
-                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEach(async listedItem =>
+                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
                     {
                         if (banner != null)
                         {
@@ -166,7 +166,7 @@ namespace Files.Helpers
 
                 try
                 {
-                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEach(async listedItem =>
+                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
                     {
                         if (banner != null)
                         {
