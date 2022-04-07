@@ -264,7 +264,7 @@
   <data name="Application" xml:space="preserve">
     <value>应用</value>
   </data>
-  <data name="SystemTimeStyle" xml:space="preserve">
+  <data name="SystemTimeStye" xml:space="preserve">
     <value>系统</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
