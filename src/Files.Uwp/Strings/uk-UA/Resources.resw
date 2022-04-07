@@ -174,7 +174,7 @@
   <data name="Application" xml:space="preserve">
     <value>За замовчуванням</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
+  <data name="SystemTimeStyle" xml:space="preserve">
     <value>Системний</value>
   </data>
   <data name="NewFolder" xml:space="preserve">

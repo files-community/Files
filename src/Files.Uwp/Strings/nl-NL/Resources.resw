@@ -174,7 +174,7 @@
   <data name="Application" xml:space="preserve">
     <value>Toepassing</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
+  <data name="SystemTimeStyle" xml:space="preserve">
     <value>Systeem</value>
   </data>
   <data name="NewFolder" xml:space="preserve">

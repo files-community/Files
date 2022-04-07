@@ -1,13 +1,13 @@
-﻿using Files.Shared.Extensions;
-using Files.Controllers;
-using Files.DataModels;
-using Files.Shared.Enums;
-using Files.Filesystem;
-using Files.Helpers;
-using Files.Backend.Services.Settings;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
+using Files.Controllers;
+using Files.DataModels;
+using Files.Filesystem;
+using Files.Helpers;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -56,7 +56,8 @@ namespace Files.ViewModels.SettingsViewModels
             DateFormats = new List<string>
             {
                 "Application".GetLocalized(),
-                "SystemTimeStye".GetLocalized()
+                "SystemTimeStyle".GetLocalized(),
+                "Universal".GetLocalized(),
             };
 
             EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
@@ -532,7 +533,7 @@ namespace Files.ViewModels.SettingsViewModels
                 }
             }
         }
-        
+
         public bool ShowDotFiles
         {
             get => UserSettingsService.PreferencesSettingsService.ShowDotFiles;

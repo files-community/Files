@@ -210,7 +210,7 @@
   <data name="Application" xml:space="preserve">
     <value>एप्लिकेसन्</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
+  <data name="SystemTimeStyle" xml:space="preserve">
     <value>सिस्टम</value>
   </data>
   <data name="NewFolder" xml:space="preserve">

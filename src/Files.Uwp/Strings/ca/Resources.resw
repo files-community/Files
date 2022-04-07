@@ -243,7 +243,7 @@
   <data name="Application" xml:space="preserve">
     <value>Aplicació</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
+  <data name="SystemTimeStyle" xml:space="preserve">
     <value>Sistema</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
