@@ -50,7 +50,7 @@ namespace Files.Shared.Extensions
         /// <param name="cts">Cancellation token, stops all remaining operations</param>
         /// <param name="scheduler">Task scheduler on which to execute `body`</param>
         /// <returns></returns>
-        public static async Task ParallelForEach<T>(this IEnumerable<T> source, Func<T, Task> body, int maxDegreeOfParallelism = DataflowBlockOptions.Unbounded, CancellationToken cts = default, TaskScheduler? scheduler = null)
+        public static async Task ParallelForEachAsync<T>(this IEnumerable<T> source, Func<T, Task> body, int maxDegreeOfParallelism = DataflowBlockOptions.Unbounded, CancellationToken cts = default, TaskScheduler? scheduler = null)
         {
             var options = new ExecutionDataflowBlockOptions
             {

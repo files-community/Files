@@ -98,7 +98,7 @@ namespace Files.Dialogs
                 }
             }
 
-            if (DetailsGrid.Items.Count > 1 && DetailsGrid.SelectedItems.Count == 1 && DetailsGrid.SelectedItems.Any(x => (x as FileSystemDialogConflictItemViewModel).IsActionTaken))
+            if (DetailsGrid.Items.Count > 1 && DetailsGrid.SelectedItems.Count == 1 && !DetailsGrid.SelectedItems.Any(x => (x as FileSystemDialogConflictItemViewModel).IsDefault))
             {
                 ApplyToAllOption.Visibility = Visibility.Visible;
                 ApplyToAllSeparator.Visibility = Visibility.Visible;

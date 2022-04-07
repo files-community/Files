@@ -48,7 +48,6 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
             _dialogClosingCts = new();
             Items = new(items);
 
-            PrimaryButtonClickCommand = new RelayCommand(PrimaryButtonClick);
             SecondaryButtonClickCommand = new RelayCommand(SecondaryButtonClick);
         }
 
@@ -58,7 +57,7 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
             {
                 foreach (var item in Items)
                 {
-                    if (item is FileSystemDialogConflictItemViewModel conflictItem && !conflictItem.IsActionTaken)
+                    if (item is FileSystemDialogConflictItemViewModel conflictItem)
                     {
                         conflictItem.TakeAction(e);
                     }
@@ -77,14 +76,6 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
         {
             _dialogClosingCts.Cancel();
             _dialogClosingCts.Dispose();
-        }
-
-        private void PrimaryButtonClick()
-        {
-            if (!FileSystemDialogMode.IsInDeleteMode)
-            {
-                ApplyConflictOptionToAll(FileNameConflictResolveOptionType.GenerateNewName);
-            }
         }
 
         private void SecondaryButtonClick()
@@ -198,7 +189,7 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
             var imagingService = Ioc.Default.GetRequiredService<IImagingService>();
             var threadingService = Ioc.Default.GetRequiredService<IThreadingService>();
 
-            await items.ParallelForEach(async (item) =>
+            await items.ParallelForEachAsync(async (item) =>
             {
                 try
                 {
@@ -209,7 +200,7 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
                         item.ItemIcon = await imagingService.GetImageModelFromPathAsync(item.SourcePath!, 64u);
                     });
                 }
-                catch (Exception ex) { }
+                catch { }
             }, 10, token);
         }
     }

@@ -17,7 +17,6 @@
     CornerRadius="{StaticResource OverlayCornerRadius}"
     DefaultButton="Primary"
     IsPrimaryButtonEnabled="{x:Bind ViewModel.PrimaryButtonEnabled, Mode=OneWay}"
-    PrimaryButtonCommand="{x:Bind ViewModel.PrimaryButtonClickCommand, Mode=OneWay}"
     PrimaryButtonText="{x:Bind ViewModel.PrimaryButtonText, Mode=OneWay}"
     RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
     SecondaryButtonCommand="{x:Bind ViewModel.SecondaryButtonClickCommand, Mode=OneWay}"
@@ -52,19 +51,63 @@
         </MenuFlyout>
 
         <vc:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
+        <vc:GenericEnumConverter x:Key="GenericEnumConverter" />
 
         <DataTemplate x:Key="ConflictItemDataTemplate" x:DataType="vm:FileSystemDialogConflictItemViewModel">
             <Grid ColumnSpacing="12">
                 <Grid.ColumnDefinitions>
                     <!--  Icon  -->
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
                     <!--  Content  -->
                     <ColumnDefinition />
                     <!--  Options  -->
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
+                <!--  Icon  -->
+                <Image
+                    Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Source="{x:Bind ItemIcon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
 
+                <!--  Content  -->
+                <StackPanel
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Spacing="4">
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <TextBlock Text="{x:Bind DisplayName, Mode=OneWay}" />
+                        <FontIcon FontSize="14" Glyph="&#xE72A;" />
+                        <TextBlock Text="{x:Bind DestinationDisplayName, Mode=OneWay}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <TextBlock
+                            Foreground="{ThemeResource SystemAccentColor}"
+                            Text="{x:Bind SourceDirectoryDisplayName}"
+                            ToolTipService.ToolTip="{x:Bind SourcePath}" />
+                        <FontIcon
+                            FontSize="14"
+                            Foreground="{ThemeResource SystemAccentColor}"
+                            Glyph="&#xE72A;" />
+                        <TextBlock
+                            Foreground="{ThemeResource SystemAccentColor}"
+                            Text="{x:Bind DestinationDirectoryDisplayName}"
+                            ToolTipService.ToolTip="{x:Bind DestinationPath, Mode=OneWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!--  Options  -->
+                <ComboBox
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    SelectedIndex="{x:Bind ConflictResolveOption, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}}">
+                    <ComboBox.Items>
+                        <ComboBoxItem Content="{helpers:ResourceString Name=GenerateNewName}" />
+                        <ComboBoxItem Content="{helpers:ResourceString Name=ConflictingItemsDialogItemOptionReplaceExisting/Text}" />
+                        <ComboBoxItem Content="{helpers:ResourceString Name=Skip}" />
+                    </ComboBox.Items>
+                </ComboBox>
             </Grid>
         </DataTemplate>
 
@@ -85,7 +128,10 @@
                     Source="{x:Bind ItemIcon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
 
                 <!--  Content  -->
-                <StackPanel Grid.Column="1" Spacing="4">
+                <StackPanel
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Spacing="4">
                     <TextBlock Text="{x:Bind DisplayName}" />
                     <TextBlock
                         Opacity="0.8"
