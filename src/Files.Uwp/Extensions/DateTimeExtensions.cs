@@ -26,7 +26,7 @@ namespace Files.Extensions
             {
                 return d.ToLocalTime().ToString(returnFormat) + " " + d.ToLocalTime().ToString("t");
             }
-            else if (elapsed.TotalDays >= 7 || returnFormat == "g")
+            else if (elapsed.TotalDays >= 7 || returnFormat is not "D")
             {
                 return d.ToLocalTime().ToString(returnFormat);
             }
@@ -141,12 +141,13 @@ namespace Files.Extensions
             var settings = ApplicationData.Current.LocalSettings;
             var timeStyle = Enum.Parse<TimeStyle>(settings.Values[Constants.LocalSettings.DateTimeFormat].ToString());
 
-            return timeStyle switch
-            {
-                TimeStyle.System => "g",
-                TimeStyle.Universal => "yyyy-MM-dd",
-                _ => "D",
-            };
+            return GetDateFormat(timeStyle);
         }
+        public static string GetDateFormat(this TimeStyle timeStyle) => timeStyle switch
+        {
+            TimeStyle.System => "g",
+            TimeStyle.Universal => "yyyy-MM-dd",
+            _ => "D",
+        };
     }
 }
