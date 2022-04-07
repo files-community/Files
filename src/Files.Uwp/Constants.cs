@@ -24,6 +24,11 @@
             public const string MyComputerPath = @"Shell:MyComputerFolder";
         }
 
+        public static class KnownImageFormats
+        {
+            public const string BITMAP_IMAGE_FORMAT = "bitmapimage";
+        }
+
         public static class ImageRes
         {
             // See imageres.dll for more icon indexes to add

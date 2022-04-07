@@ -1,6 +1,6 @@
 ﻿using Files.Shared.Enums;
 using Files.Helpers;
-using Files.Extensions;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

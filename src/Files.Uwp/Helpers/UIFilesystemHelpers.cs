@@ -1,7 +1,7 @@
 ﻿using Files.Shared;
 using Files.Dialogs;
 using Files.Shared.Enums;
-using Files.Extensions;
+using Files.Shared.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Interacts;
