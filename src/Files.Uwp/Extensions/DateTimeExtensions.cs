@@ -22,7 +22,7 @@ namespace Files.Extensions
             {
                 return d.ToLocalTime().ToString(returnFormat) + " " + d.ToLocalTime().ToString("t") + " (" + GetFriendlyDateFromFormat(d, returnFormat) + ")";
             }
-            else if (isDetailed && returnFormat != "g")
+            else if (isDetailed && returnFormat is "D")
             {
                 return d.ToLocalTime().ToString(returnFormat) + " " + d.ToLocalTime().ToString("t");
             }
@@ -146,7 +146,7 @@ namespace Files.Extensions
         public static string GetDateFormat(this TimeStyle timeStyle) => timeStyle switch
         {
             TimeStyle.System => "g",
-            TimeStyle.Universal => "yyyy-MM-dd",
+            TimeStyle.Universal => "yyyy-MM-dd HH:mm:ss",
             _ => "D",
         };
     }

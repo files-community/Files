@@ -55,8 +55,8 @@ namespace Files.ViewModels.SettingsViewModels
             DefaultLanguages = App.AppSettings.DefaultLanguages;
             Terminals = App.TerminalController.Model.Terminals;
 
-            DateTimeOffset sampleDate1 = DateTime.Today;
-            DateTimeOffset sampleDate2 = new DateTime(sampleDate1.Year - 5, 12, 31);
+            DateTimeOffset sampleDate1 = DateTime.Now;
+            DateTimeOffset sampleDate2 = new DateTime(sampleDate1.Year - 5, 12, 31, 14, 30, 0);
             DateFormats = new List<DateFormatItem>
             {
                 new DateFormatItem{
@@ -337,6 +337,7 @@ namespace Files.ViewModels.SettingsViewModels
 
         public string DateFormatSample
             => string.Format("DateFormatSample".GetLocalized(), DateFormats[SelectedDateFormatIndex].Sample1, DateFormats[SelectedDateFormatIndex].Sample2);
+
         public List<DateFormatItem> DateFormats { get; set; }
 
         public int SelectedDateFormatIndex
