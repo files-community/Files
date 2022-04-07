@@ -27,25 +27,6 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
             }
         }
 
-        public override string? SourcePath
-        {
-            get => base.SourcePath;
-            set
-            {
-                if (base.SourcePath != value)
-                {
-                    base.SourcePath = value;
-
-                    OnPropertyChanged(nameof(SourceDirectoryDisplayName));
-                }
-            }
-        }
-
-        public string? SourceDirectoryDisplayName
-        {
-            get => !string.IsNullOrEmpty(DestinationPath) ? Path.GetFileName(Path.GetDirectoryName(SourcePath)) : Path.GetDirectoryName(SourcePath);
-        }
-
         public string DestinationDirectoryDisplayName
         {
             get => Path.GetFileName(Path.GetDirectoryName(DestinationPath));

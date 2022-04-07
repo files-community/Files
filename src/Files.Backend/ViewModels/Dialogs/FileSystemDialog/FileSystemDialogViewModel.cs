@@ -4,6 +4,7 @@ using Files.Backend.Extensions;
 using Files.Backend.Services;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -195,6 +196,7 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
         private static async Task LoadItemsIcon(IEnumerable<BaseFileSystemDialogItemViewModel> items, CancellationToken token)
         {
             var imagingService = Ioc.Default.GetRequiredService<IImagingService>();
+            var threadingService = Ioc.Default.GetRequiredService<IThreadingService>();
 
             await items.ParallelForEach(async (item) =>
             {
@@ -202,9 +204,12 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
                 {
                     if (token.IsCancellationRequested) return;
 
-                    item.ItemIcon = await imagingService.GetImageModelFromPathAsync(item.SourcePath!, 64u);
+                    await threadingService.ExecuteOnUiThreadAsync(async () =>
+                    {
+                        item.ItemIcon = await imagingService.GetImageModelFromPathAsync(item.SourcePath!, 64u);
+                    });
                 }
-                catch { }
+                catch (Exception ex) { }
             }, 10, token);
         }
     }

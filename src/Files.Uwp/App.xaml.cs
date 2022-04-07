@@ -118,6 +118,7 @@ namespace Files
                 // Other services
                 .AddSingleton<IDialogService, DialogService>()
                 .AddSingleton<IImagingService, ImagingService>()
+                .AddSingleton<IThreadingService, ThreadingService>()
                 .AddSingleton<ILocalizationService, LocalizationService>()
                 .AddSingleton<IUpdateService, UpdateService>()
 

@@ -2,6 +2,7 @@
 using Files.Backend.Services;
 using Files.Helpers;
 using Files.Uwp.Imaging;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -23,10 +24,7 @@ namespace Files.Uwp.ServicesImplementation
 
             if (await FileThumbnailHelper.LoadIconFromPathAsync(filePath, thumbnailSize, ThumbnailMode.ListView) is byte[] imageBuffer)
             {
-                await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
-                {
-                    imageModel = await GetImageModelFromDataAsync(imageBuffer);
-                });
+                imageModel = await GetImageModelFromDataAsync(imageBuffer);
             }
 
             return imageModel;
