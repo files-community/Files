@@ -682,7 +682,7 @@ namespace Files.Filesystem
             foreach (var item in source.Zip(destination, (src, dest, index) => new { src, dest, index }))
             {
                 var itemPathOrName = string.IsNullOrEmpty(item.src.Path) ? item.src.Item.Name : item.src.Path;
-                incomingItems.Add(new FileSystemDialogConflictItemViewModel() { SourcePath = itemPathOrName, DestinationPath = item.dest });
+                incomingItems.Add(new FileSystemDialogConflictItemViewModel() { SourcePath = itemPathOrName, DestinationPath = item.dest, DestinationDisplayName = Path.GetFileName(item.dest) });
                 if (collisions.ContainsKey(incomingItems.ElementAt(item.index).SourcePath))
                 {
                     // Something strange happened, log
