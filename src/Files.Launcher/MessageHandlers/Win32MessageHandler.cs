@@ -10,7 +10,9 @@ using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.Versioning;
+using System.Threading;
 using System.Threading.Tasks;
+using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel;
 using Windows.Foundation.Collections;
@@ -306,9 +308,8 @@ namespace FilesFullTrust.MessageHandlers
                 };
                 if (e.ChangeType == WatcherChangeTypes.Created)
                 {
-                    using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(e.FullPath));
-                    if (folderItem == null) return;
-                    var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
+                    var shellFileItem = await GetShellFileItemOnComplete(e.FullPath);
+                    if (shellFileItem == null) return;
                     response["Item"] = JsonConvert.SerializeObject(shellFileItem);
                 }
                 else if (e.ChangeType == WatcherChangeTypes.Renamed)
@@ -317,6 +318,26 @@ namespace FilesFullTrust.MessageHandlers
                 }
                 // Send message to UWP app to refresh items
                 await Win32API.SendMessageAsync(connection, response);
+            }
+        }
+
+        private async Task<ShellFileItem> GetShellFileItemOnComplete(string fullPath)
+        {
+            while (true)
+            {
+                using var hFile = Kernel32.CreateFile(fullPath, Kernel32.FileAccess.GENERIC_READ, FileShare.Read, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
+                if (!hFile.IsInvalid)
+                {
+                    using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(fullPath));
+                    if (folderItem == null) return null;
+                    return ShellFolderExtensions.GetShellFileItem(folderItem);
+                }
+                var lastError = System.Runtime.InteropServices.Marshal.GetLastWin32Error();
+                if (lastError != Win32Error.ERROR_SHARING_VIOLATION && lastError != Win32Error.ERROR_LOCK_VIOLATION)
+                {
+                    return null;
+                }
+                await Task.Delay(200);
             }
         }
 
