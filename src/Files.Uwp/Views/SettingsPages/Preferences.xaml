@@ -64,9 +64,9 @@
                         <DataTemplate x:DataType="settingsviewmodels:DateFormatItem">
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{x:Bind Label}" />
-                                <TextBlock Margin="16,0,0,0" FontWeight="Light" FontSize="12"
+                                <TextBlock Margin="8,0,0,0" FontWeight="Light" FontSize="12"
                                     Text="{x:Bind Sample1}" Visibility="{Binding IsDropDownOpen, ElementName=DateFormatChooser}" />
-                                <TextBlock Margin="16,0,0,0" FontWeight="Light" FontSize="12"
+                                <TextBlock Margin="8,0,0,0" FontWeight="Light" FontSize="12"
                                     Text="{x:Bind Sample2}" Visibility="{Binding IsDropDownOpen, ElementName=DateFormatChooser}" />
                             </StackPanel>
                         </DataTemplate>
