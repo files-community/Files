@@ -556,6 +556,10 @@ namespace Files.Views.LayoutModes
             {
                 NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
             }
+            else
+            {
+                ParentShellPageInstance.Up_Click();
+            }
             ResetRenameDoubleClick();
         }
 
