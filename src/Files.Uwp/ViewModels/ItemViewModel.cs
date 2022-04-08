@@ -80,6 +80,8 @@ namespace Files.ViewModels
 
         private IFileListCache fileListCache = FileListCacheController.GetInstance();
 
+        public event EventHandler ConnectionChanged;
+
         private NamedPipeAsAppServiceConnection connection;
 
         private NamedPipeAsAppServiceConnection Connection
@@ -96,6 +98,7 @@ namespace Files.ViewModels
                 {
                     connection.RequestReceived += Connection_RequestReceived;
                 }
+                ConnectionChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -428,6 +431,20 @@ namespace Files.ViewModels
                                 await AddFileOrFolderAsync(newListedItem);
                                 await OrderFilesAndFoldersAsync();
                                 await ApplySingleFileChangeAsync(newListedItem);
+                            }
+                            break;
+
+                        case "Renamed":
+                            var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals((string)message["OldPath"], StringComparison.OrdinalIgnoreCase));
+                            if (matchingItem != null)
+                            {
+                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                                {
+                                    matchingItem.ItemPath = itemPath;
+                                    matchingItem.ItemNameRaw = (string)message["Name"];
+                                });
+                                await OrderFilesAndFoldersAsync();
+                                await ApplySingleFileChangeAsync(matchingItem);
                             }
                             break;
 
@@ -1287,7 +1304,6 @@ namespace Files.ViewModels
                         currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
                         var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
                         PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown });
-
                         WatchForDirectoryChanges(path, syncStatus);
                         break;
 
@@ -1297,7 +1313,11 @@ namespace Files.ViewModels
                         WatchForStorageFolderChanges(currentStorageFolder?.Folder);
                         break;
 
-                    case 2: // Do no watch for changes in Box Drive folder to avoid constant refresh (#7428)
+                    case 2: // Watch for changes using FTP in Box Drive folder (#7428) and network drives (#5869)
+                        PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
+                        WatchForWin32FolderChanges(path);
+                        break;
+
                     case -1: // Enumeration failed
                     default:
                         break;
@@ -1489,9 +1509,10 @@ namespace Files.ViewModels
         public async Task<int> EnumerateItemsFromStandardFolderAsync(string path, Type sourcePageType, CancellationToken cancellationToken, LibraryItem library = null)
         {
             // Flag to use FindFirstFileExFromApp or StorageFolder enumeration
-            var isBoxFolder = App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder ? 
-                path.StartsWith(boxFolder) : false;
-            bool enumFromStorageFolder = isBoxFolder; // Use storage folder for Box Drive (#4629)
+            var isBoxFolder = App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder ?
+                path.StartsWith(boxFolder) : false; // Use storage folder for Box Drive (#4629)
+            var isNetworkFolder = System.Text.RegularExpressions.Regex.IsMatch(path, @"^\\\\(?!\?)"); // Use storage folder for network drives (*FromApp methods return access denied)
+            bool enumFromStorageFolder = isBoxFolder || isNetworkFolder;
 
             BaseStorageFolder rootFolder = null;
 
@@ -1582,7 +1603,7 @@ namespace Files.ViewModels
                 }
                 CurrentFolder = currentFolder;
                 await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationToken);
-                return isBoxFolder ? 2 : 1; // Workaround for #7428
+                return isBoxFolder || isNetworkFolder ? 2 : 1; // Workaround for #7428
             }
             else
             {
@@ -1756,6 +1777,45 @@ namespace Files.ViewModels
                     });
                 }
             });
+        }
+
+        private async void WatchForWin32FolderChanges(string folderPath)
+        {
+            void RestartWatcher(object sender, EventArgs e)
+            {
+                if (Connection != null)
+                {
+                    ConnectionChanged -= RestartWatcher;
+                    WatchForWin32FolderChanges(folderPath);
+                }
+            }
+            if (Connection != null)
+            {
+                var (status, response) = await Connection.SendMessageForResponseAsync(new ValueSet()
+                {
+                    { "Arguments", "WatchDirectory" },
+                    { "action", "start" },
+                    { "folderPath", folderPath }
+                });
+                if (status == AppServiceResponseStatus.Success
+                    && response.ContainsKey("watcherID"))
+                {
+                    ConnectionChanged += RestartWatcher;
+                    watcherCTS.Token.Register(async () =>
+                    {
+                        ConnectionChanged -= RestartWatcher;
+                        if (Connection != null)
+                        {
+                            await Connection.SendMessageAsync(new ValueSet()
+                            {
+                                { "Arguments", "WatchDirectory" },
+                                { "action", "cancel" },
+                                { "watcherID", (long)response["watcherID"] }
+                            });
+                        }
+                    });
+                }
+            }
         }
 
         private async void ItemQueryResult_ContentsChanged(IStorageQueryResultBase sender, object args)
@@ -2122,7 +2182,11 @@ namespace Files.ViewModels
                 return;
             }
 
-            filesAndFolders.Add(item);
+            if (!filesAndFolders.Any(x => x.ItemPath.Equals(item.ItemPath, StringComparison.OrdinalIgnoreCase))) // Avoid adding duplicate items
+            {
+                filesAndFolders.Add(item);
+            }
+
             enumFolderSemaphore.Release();
         }
 
