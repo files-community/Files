@@ -51,15 +51,27 @@
                 </ComboBox>
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=DateFormat}" HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=DateFormat}" Description="{Binding DateFormatSample}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xEC92;" />
                 </local:SettingsBlockControl.Icon>
                 <ComboBox
-                    x:Name="DateFormatChooser"
+                    x:Name="DateFormatChooser" Grid.Column="1"
                     AutomationProperties.Name="{helpers:ResourceString Name=DateFormat}"
                     ItemsSource="{Binding DateFormats}"
-                    SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}" />
+                    SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="settingsviewmodels:DateFormatItem">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{x:Bind Label}" />
+                                <TextBlock FontWeight="Light" FontSize="12"
+                                    Text="{x:Bind Sample1}" Visibility="{Binding IsDropDownOpen, ElementName=DateFormatChooser}" />
+                                <TextBlock FontWeight="Light" FontSize="12"
+                                    Text="{x:Bind Sample2}" Visibility="{Binding IsDropDownOpen, ElementName=DateFormatChooser}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </local:SettingsBlockControl>
 
             <local:SettingsBlockControl
