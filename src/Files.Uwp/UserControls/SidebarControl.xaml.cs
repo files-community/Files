@@ -1209,7 +1209,7 @@ namespace Files.UserControls
 
         private async void NavigationView_Expanding(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemExpandingEventArgs args)
         {
-            if (args.ExpandingItem is LocationItem loc)
+            if (args.ExpandingItem is LocationItem loc && loc.ChildItems != null)
             {
                 await Task.Delay(50); // Wait a little so IsPaneOpen tells the truth when in minimal mode
                 if (sender.IsPaneOpen) // Don't store expanded state if sidebar pane is closed
@@ -1221,7 +1221,7 @@ namespace Files.UserControls
 
         private async void NavigationView_Collapsed(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemCollapsedEventArgs args)
         {
-            if (args.CollapsedItem is LocationItem loc)
+            if (args.CollapsedItem is LocationItem loc && loc.ChildItems != null)
             {
                 await Task.Delay(50); // Wait a little so IsPaneOpen tells the truth when in minimal mode
                 if (sender.IsPaneOpen) // Don't store expanded state if sidebar pane is closed
@@ -1234,17 +1234,7 @@ namespace Files.UserControls
         private void NavigationView_PaneOpened(Microsoft.UI.Xaml.Controls.NavigationView sender, object args)
         {
             // Restore expanded state when pane is opened
-            foreach (var loc in SideBarItems.OfType<LocationItem>())
-            {
-                loc.IsExpanded = App.AppSettings.Get(loc.Text == "SidebarFavorites".GetLocalized(), $"section:{loc.Text.Replace('\\', '_')}");
-            }
-        }
-
-        private void NavigationViewItem_Loaded(object sender, RoutedEventArgs e)
-        {
-            // Restore expanded state when section is loaded
-            var context = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext;
-            if (context is LocationItem loc)
+            foreach (var loc in SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems != null))
             {
                 loc.IsExpanded = App.AppSettings.Get(loc.Text == "SidebarFavorites".GetLocalized(), $"section:{loc.Text.Replace('\\', '_')}");
             }
@@ -1253,9 +1243,18 @@ namespace Files.UserControls
         private void NavigationView_PaneClosed(Microsoft.UI.Xaml.Controls.NavigationView sender, object args)
         {
             // Collapse all sections but do not store the state when pane is closed
-            foreach (var loc in SideBarItems.OfType<LocationItem>())
+            foreach (var loc in SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems != null))
             {
                 loc.IsExpanded = false;
+            }
+        }
+
+        private void NavigationViewItem_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            // Restore expanded state when section is loaded
+            if (args.NewValue is LocationItem loc && loc.ChildItems != null)
+            {
+                loc.IsExpanded = App.AppSettings.Get(loc.Text == "SidebarFavorites".GetLocalized(), $"section:{loc.Text.Replace('\\', '_')}");
             }
         }
 
