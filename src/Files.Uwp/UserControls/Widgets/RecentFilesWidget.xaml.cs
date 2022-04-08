@@ -17,6 +17,8 @@ using Windows.Storage.AccessCache;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
+using Files.ViewModels.Widgets.RecentFiles;
+using System.Linq;
 
 namespace Files.UserControls.Widgets
 {
@@ -32,9 +34,6 @@ namespace Files.UserControls.Widgets
 
         public event RecentFileInvokedEventHandler RecentFileInvoked;
 
-        private ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();
-        private EmptyRecentsText Empty { get; set; } = new EmptyRecentsText();
-
         public string WidgetName => nameof(RecentFilesWidget);
 
         public string AutomationProperties => "RecentFilesWidgetAutomationProperties/Name".GetLocalized();
@@ -43,136 +42,41 @@ namespace Files.UserControls.Widgets
 
         public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowRecentFilesWidget;
 
+        public RecentFilesWidgetViewModel ViewModel;
+
         public RecentFilesWidget()
         {
             InitializeComponent();
+            ViewModel = new RecentFilesWidgetViewModel();
+            DataContext = ViewModel;
+            this.Loaded += RecentFilesWidget_Loaded;
+        }
 
-            recentItemsCollection.Clear();
-
-            PopulateRecentsList();
+        private async void RecentFilesWidget_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.Loaded -= RecentFilesWidget_Loaded;
+            await ViewModel.PopulateRecentsList();
         }
 
         private void OpenFileLocation_Click(object sender, RoutedEventArgs e)
         {
             var flyoutItem = sender as MenuFlyoutItem;
-            var clickedOnItem = flyoutItem.DataContext as RecentItem;
-            if (clickedOnItem.IsFile)
+            var clickedOnItem = flyoutItem.DataContext as ListedItem;
+            if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.File)
             {
-                var filePath = clickedOnItem.RecentPath;
-                var folderPath = filePath.Substring(0, filePath.Length - clickedOnItem.Name.Length);
+                var filePath = clickedOnItem.ItemPath;
+                var folderPath = filePath.Substring(0, filePath.Length - clickedOnItem.ItemName.Length);
                 RecentFilesOpenLocationInvoked?.Invoke(this, new PathNavigationEventArgs()
                 {
                     ItemPath = folderPath,
-                    ItemName = clickedOnItem.Name
-                });
-            }
-        }
-
-        private async void PopulateRecentsList()
-        {
-            Empty.Visibility = Visibility.Collapsed;
-
-            try
-            {
-                var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
-
-                foreach (AccessListEntry entry in mostRecentlyUsed.Entries)
-                {
-                    string mruToken = entry.Token;
-                    var added = await FilesystemTasks.Wrap(async () =>
-                    {
-                        IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
-                        await AddItemToRecentListAsync(item, entry);
-                    });
-                    if (added == FileSystemStatusCode.Unauthorized)
-                    {
-                        // Skip item until consent is provided
-                    }
-                    // Exceptions include but are not limited to:
-                    // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
-                    // 0x8007016A -> The cloud file provider is not running
-                    // 0x8000000A -> The data necessary to complete this operation is not yet available
-                    // 0x80004005 -> Unspecified error
-                    // 0x80270301 -> ?
-                    else if (!added)
-                    {
-                        await FilesystemTasks.Wrap(() =>
-                        {
-                            mostRecentlyUsed.Remove(mruToken);
-                            return Task.CompletedTask;
-                        });
-                        System.Diagnostics.Debug.WriteLine(added.ErrorCode);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                App.Logger.Info(ex, "Could not fetch recent items");
-            }
-
-            if (recentItemsCollection.Count == 0)
-            {
-                Empty.Visibility = Visibility.Visible;
-            }
-        }
-
-        private async Task AddItemToRecentListAsync(IStorageItem item, AccessListEntry entry)
-        {
-            BitmapImage ItemImage;
-            string ItemPath;
-            string ItemName;
-            StorageItemTypes ItemType;
-            bool ItemFolderImgVis;
-            bool ItemEmptyImgVis;
-            bool ItemFileIconVis;
-            if (item.IsOfType(StorageItemTypes.File))
-            {
-                // Try to read the file to check if still exists
-                // This is only needed to remove files opened from a disconnected android/MTP phone
-                if (string.IsNullOrEmpty(item.Path)) // This indicates that the file was open from an MTP device
-                {
-                    using (var inputStream = await item.AsBaseStorageFile().OpenReadAsync())
-                    using (var classicStream = inputStream.AsStreamForRead())
-                    using (var streamReader = new StreamReader(classicStream))
-                    {
-                        // NB: this might trigger the download of the file from OneDrive
-                        streamReader.Peek();
-                    }
-                }
-
-                ItemName = item.Name;
-                ItemPath = string.IsNullOrEmpty(item.Path) ? entry.Metadata : item.Path;
-                ItemType = StorageItemTypes.File;
-                ItemImage = new BitmapImage();
-                BaseStorageFile file = item.AsBaseStorageFile();
-                using var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
-                if (thumbnail == null)
-                {
-                    ItemEmptyImgVis = true;
-                }
-                else
-                {
-                    await ItemImage.SetSourceAsync(thumbnail);
-                    ItemEmptyImgVis = false;
-                }
-                ItemFolderImgVis = false;
-                ItemFileIconVis = true;
-                recentItemsCollection.Add(new RecentItem()
-                {
-                    RecentPath = ItemPath,
-                    Name = ItemName,
-                    Type = ItemType,
-                    FolderImg = ItemFolderImgVis,
-                    EmptyImgVis = ItemEmptyImgVis,
-                    FileImg = ItemImage,
-                    FileIconVis = ItemFileIconVis
+                    ItemName = clickedOnItem.ItemName
                 });
             }
         }
 
         private void RecentsView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var path = (e.ClickedItem as RecentItem).RecentPath;
+            var path = (e.ClickedItem as ListedItem).ItemPath;
             RecentFileInvoked?.Invoke(this, new PathNavigationEventArgs()
             {
                 ItemPath = path
@@ -187,10 +91,10 @@ namespace Files.UserControls.Widgets
             {
                 // Grab it's datacontext ViewModel and remove it from the list.
 
-                if (fe.DataContext is RecentItem vm)
+                if (fe.DataContext is ListedItem vm)
                 {
                     // Remove it from the visible collection
-                    recentItemsCollection.Remove(vm);
+                    ViewModel.Items.Remove(vm);
 
                     // Now clear it from the recent list cache permanently.
                     // No token stored in the viewmodel, so need to find it the old fashioned way.
@@ -199,13 +103,11 @@ namespace Files.UserControls.Widgets
                     foreach (var element in mru.Entries)
                     {
                         var f = await mru.GetItemAsync(element.Token);
-                        if (f.Path == vm.RecentPath || element.Metadata == vm.RecentPath)
+                        if (f.Path == vm.ItemPath || element.Metadata == vm.ItemPath)
                         {
                             mru.Remove(element.Token);
-                            if (recentItemsCollection.Count == 0)
-                            {
-                                Empty.Visibility = Visibility.Visible;
-                            }
+                            ViewModel.IsRecentsListEmpty = !ViewModel.Items.Any();
+
                             break;
                         }
                     }
@@ -215,11 +117,11 @@ namespace Files.UserControls.Widgets
 
         private void ClearRecentItems_Click(object sender, RoutedEventArgs e)
         {
-            recentItemsCollection.Clear();
+            ViewModel.Items.Clear();
             RecentsView.ItemsSource = null;
             var mru = StorageApplicationPermissions.MostRecentlyUsedList;
             mru.Clear();
-            Empty.Visibility = Visibility.Visible;
+            ViewModel.IsRecentsListEmpty = !ViewModel.Items.Any();
         }
 
         public void Dispose()
@@ -227,43 +129,15 @@ namespace Files.UserControls.Widgets
         }
     }
 
-    public class RecentItem
-    {
-        public BitmapImage FileImg { get; set; }
-        public string RecentPath { get; set; }
-        public string Name { get; set; }
-        public bool IsFile { get => Type == StorageItemTypes.File; }
-        public StorageItemTypes Type { get; set; }
-        public bool FolderImg { get; set; }
-        public bool EmptyImgVis { get; set; }
-        public bool FileIconVis { get; set; }
-    }
-
-    public class EmptyRecentsText : INotifyPropertyChanged
-    {
-        private Visibility visibility;
-
-        public Visibility Visibility
-        {
-            get
-            {
-                return visibility;
-            }
-            set
-            {
-                if (value != visibility)
-                {
-                    visibility = value;
-                    NotifyPropertyChanged(nameof(Visibility));
-                }
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
+    //public class RecentItem
+    //{
+    //    public BitmapImage FileImg { get; set; }
+    //    public string RecentPath { get; set; }
+    //    public string Name { get; set; }
+    //    public bool IsFile { get => Type == StorageItemTypes.File; }
+    //    public StorageItemTypes Type { get; set; }
+    //    public bool FolderImg { get; set; }
+    //    public bool EmptyImgVis { get; set; }
+    //    public bool FileIconVis { get; set; }
+    //}
 }

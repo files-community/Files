@@ -6,7 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:helpers="using:Files.Helpers"
     xmlns:local="using:Files.UserControls.Widgets"
-    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+	xmlns:filesystem="using:Files.Filesystem"
+	Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     mc:Ignorable="d">
 
     <StackPanel
@@ -21,7 +22,7 @@
             Text="{helpers:ResourceString Name=RecentItemDescription/Text}"
             TextAlignment="Center"
             TextWrapping="WrapWholeWords"
-            Visibility="{x:Bind Empty.Visibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            Visibility="{x:Bind ViewModel.IsRecentsListEmpty, Mode=OneWay}" />
         <ListView
             x:Name="RecentsView"
             HorizontalAlignment="Stretch"
@@ -30,7 +31,7 @@
             IsRightTapEnabled="True"
             ItemClick="RecentsView_ItemClick"
             ItemContainerTransitions="{x:Null}"
-            ItemsSource="{x:Bind recentItemsCollection}"
+            ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
             SelectionMode="None">
             <ListView.ItemContainerStyle>
                 <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
@@ -39,15 +40,15 @@
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="local:RecentItem">
+                <DataTemplate x:DataType="filesystem:ListedItem">
                     <Grid
                         Padding="2.5"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        AutomationProperties.Name="{x:Bind Name}"
+                        AutomationProperties.Name="{x:Bind ItemName}"
                         Background="Transparent"
                         ColumnSpacing="14"
-                        ToolTipService.ToolTip="{x:Bind RecentPath}">
+                        ToolTipService.ToolTip="{x:Bind ItemPath}">
                         <Grid.ContextFlyout>
                             <MenuFlyout>
                                 <MenuFlyoutItem
@@ -67,8 +68,7 @@
                                 </MenuFlyoutItem>
                                 <MenuFlyoutItem
                                     Click="OpenFileLocation_Click"
-                                    Text="{helpers:ResourceString Name=RecentItemOpenFileLocation/Text}"
-                                    Visibility="{x:Bind IsFile}">
+                                    Text="{helpers:ResourceString Name=RecentItemOpenFileLocation/Text}">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xED25;" />
                                     </MenuFlyoutItem.Icon>
@@ -81,21 +81,11 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <FontIcon
-                            x:Name="RecentFolderImg"
-                            Grid.Column="0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            x:Load="{x:Bind FolderImg}"
-                            x:Phase="1"
-                            FontSize="24"
-                            Foreground="#ffe793"
-                            Glyph="&#xE8B7;" />
-                        <FontIcon
                             x:Name="EmptyImg"
                             Grid.Column="0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            x:Load="{x:Bind EmptyImgVis}"
+                            x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
                             x:Phase="1"
                             FontSize="24"
                             Glyph="&#xE7C3;" />
@@ -106,15 +96,15 @@
                             Height="24"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            x:Load="{x:Bind FileIconVis}"
+                            x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                             x:Phase="1"
-                            Source="{x:Bind FileImg}"
+                            Source="{x:Bind FileImage, Mode=OneWay}"
                             Stretch="UniformToFill" />
 
                         <TextBlock
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            Text="{x:Bind Name}"
+                            Text="{x:Bind ItemName}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap" />
 
@@ -122,7 +112,7 @@
                             Grid.Column="2"
                             VerticalAlignment="Center"
                             FontSize="12"
-                            Text="{x:Bind RecentPath}"
+                            Text="{x:Bind ItemPath}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap" />
                     </Grid>

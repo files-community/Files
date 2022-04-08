@@ -15,14 +15,14 @@ namespace Files.Helpers
             return option switch
             {
                 GroupOption.Name => x => new string(x.ItemName.Take(1).ToArray()).ToUpperInvariant(),
-                GroupOption.Size => x => x.PrimaryItemAttribute != StorageItemTypes.Folder ? GetGroupSizeKey(x.FileSizeBytes) : x.FileSizeDisplay,
-                GroupOption.DateCreated => x => x.ItemDateCreatedReal.GetUserSettingsFriendlyTimeSpan().text,
-                GroupOption.DateModified => x => x.ItemDateModifiedReal.GetUserSettingsFriendlyTimeSpan().text,
+                GroupOption.Size => x => x.PrimaryItemAttribute != StorageItemTypes.Folder ? GetGroupSizeKey(x.FileSizeBytes.Value) : x.FileSizeDisplay,
+                GroupOption.DateCreated => x => x.ItemDateCreatedReal.Value.GetUserSettingsFriendlyTimeSpan().text,
+                GroupOption.DateModified => x => x.ItemDateModifiedReal.Value.GetUserSettingsFriendlyTimeSpan().text,
                 GroupOption.FileType => x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsShortcutItem ? x.ItemType : x.FileExtension?.ToLowerInvariant() ?? " ",
                 GroupOption.SyncStatus => x => x.SyncStatusString,
                 GroupOption.FileTag => x => x.FileTag,
                 GroupOption.OriginalFolder => x => (x as RecycleBinItem)?.ItemOriginalFolder,
-                GroupOption.DateDeleted => x => (x as RecycleBinItem)?.ItemDateDeletedReal.GetUserSettingsFriendlyTimeSpan().text,
+                GroupOption.DateDeleted => x => (x as RecycleBinItem)?.ItemDateDeletedReal.Value.GetUserSettingsFriendlyTimeSpan().text,
                 GroupOption.FolderPath => x => PathNormalization.GetParentDir(x.ItemPath.TrimPath()),
                 _ => null,
             };
@@ -59,7 +59,7 @@ namespace Files.Helpers
                     var first = x.First();
                     if (first.PrimaryItemAttribute != StorageItemTypes.Folder)
                     {
-                        var vals = GetGroupSizeInfo(first.FileSizeBytes);
+                        var vals = GetGroupSizeInfo(first.FileSizeBytes.Value);
                         //x.Model.Text = vals.text;
                         x.Model.Subtext = vals.range;
                         x.Model.Text = vals.range;
@@ -68,14 +68,14 @@ namespace Files.Helpers
                 }, null),
                 GroupOption.DateCreated => (x =>
                 {
-                    var vals = x.First().ItemDateCreatedReal.GetUserSettingsFriendlyTimeSpan();
+                    var vals = x.First().ItemDateCreatedReal.Value.GetUserSettingsFriendlyTimeSpan();
                     x.Model.Subtext = vals.range;
                     x.Model.Icon = vals.glyph;
                     x.Model.SortIndexOverride = vals.index;
                 }, null),
                 GroupOption.DateModified => (x =>
                     {
-                        var vals = x.First().ItemDateModifiedReal.GetUserSettingsFriendlyTimeSpan();
+                        var vals = x.First().ItemDateModifiedReal.Value.GetUserSettingsFriendlyTimeSpan();
                         x.Model.Subtext = vals.range;
                         x.Model.Icon = vals.glyph;
                         x.Model.SortIndexOverride = vals.index;
@@ -99,7 +99,7 @@ namespace Files.Helpers
 
                 GroupOption.DateDeleted => (x =>
                     {
-                        var vals = (x.First() as RecycleBinItem)?.ItemDateDeletedReal.GetUserSettingsFriendlyTimeSpan() ?? null;
+                        var vals = (x.First() as RecycleBinItem)?.ItemDateDeletedReal.Value.GetUserSettingsFriendlyTimeSpan() ?? null;
                         x.Model.Subtext = vals?.range;
                         x.Model.Icon = vals?.glyph;
                         x.Model.SortIndexOverride = vals?.index ?? 0;

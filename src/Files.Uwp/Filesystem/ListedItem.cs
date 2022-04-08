@@ -304,7 +304,7 @@ namespace Files.Filesystem
 
         public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? "ItemSizeNotCalculated".GetLocalized() : FileSize;
 
-        public long FileSizeBytes { get; set; }
+        public long? FileSizeBytes { get; set; }
 
         public string ItemDateModified { get; private set; }
 
@@ -312,8 +312,8 @@ namespace Files.Filesystem
 
         public string ItemDateAccessed { get; private set; }
 
-        private DateTimeOffset itemDateModifiedReal;
-        public DateTimeOffset ItemDateModifiedReal
+        private DateTimeOffset? itemDateModifiedReal;
+        public DateTimeOffset? ItemDateModifiedReal
         {
             get => itemDateModifiedReal;
             set
@@ -324,8 +324,8 @@ namespace Files.Filesystem
             }
         }
 
-        private DateTimeOffset itemDateCreatedReal;
-        public DateTimeOffset ItemDateCreatedReal
+        private DateTimeOffset? itemDateCreatedReal;
+        public DateTimeOffset? ItemDateCreatedReal
         {
             get => itemDateCreatedReal;
             set
@@ -336,8 +336,8 @@ namespace Files.Filesystem
             }
         }
 
-        private DateTimeOffset itemDateAccessedReal;
-        public DateTimeOffset ItemDateAccessedReal
+        private DateTimeOffset? itemDateAccessedReal;
+        public DateTimeOffset? ItemDateAccessedReal
         {
             get => itemDateAccessedReal;
             set
@@ -456,7 +456,7 @@ namespace Files.Filesystem
 
         public string ItemDateDeleted { get; private set; }
 
-        public DateTimeOffset ItemDateDeletedReal
+        public DateTimeOffset? ItemDateDeletedReal
         {
             get => itemDateDeletedReal;
             set
@@ -466,7 +466,7 @@ namespace Files.Filesystem
             }
         }
 
-        private DateTimeOffset itemDateDeletedReal;
+        private DateTimeOffset? itemDateDeletedReal;
 
         // For recycle bin elements (path + name)
         public string ItemOriginalPath { get; set; }

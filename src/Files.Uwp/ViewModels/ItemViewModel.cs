@@ -1278,7 +1278,7 @@ namespace Files.ViewModels
             }
             else
             {
-                var enumerated = await EnumerateItemsFromStandardFolderAsync(path, folderSettings.GetLayoutType(path, false), addFilesCTS.Token, library);
+                var enumerated = await EnumerateItemsFromStandardFolderAsync(path, folderSettings.GetLayoutType(path, false), addFilesCTS, library);
                 IsLoadingItems = false; // Hide progressbar after enumeration
                 switch (enumerated)
                 {
@@ -1486,10 +1486,10 @@ namespace Files.ViewModels
             }
         }
 
-        public async Task<int> EnumerateItemsFromStandardFolderAsync(string path, Type sourcePageType, CancellationToken cancellationToken, LibraryItem library = null)
+        public async Task<int> EnumerateItemsFromStandardFolderAsync(string path, Type sourcePageType, CancellationTokenSource cancellationTokenSource, LibraryItem library = null)
         {
             // Flag to use FindFirstFileExFromApp or StorageFolder enumeration
-            var isBoxFolder = App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder ? 
+            var isBoxFolder = App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder ?
                 path.StartsWith(boxFolder) : false;
             bool enumFromStorageFolder = isBoxFolder; // Use storage folder for Box Drive (#4629)
 
@@ -1581,7 +1581,7 @@ namespace Files.ViewModels
                     currentFolder.ItemDateCreatedReal = rootFolder.DateCreated;
                 }
                 CurrentFolder = currentFolder;
-                await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationToken);
+                await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationTokenSource);
                 return isBoxFolder ? 2 : 1; // Workaround for #7428
             }
             else
@@ -1640,14 +1640,14 @@ namespace Files.ViewModels
                 }
                 else if (hFile.ToInt64() == -1)
                 {
-                    await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationToken);
+                    await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationTokenSource);
                     return 1;
                 }
                 else
                 {
                     await Task.Run(async () =>
                     {
-                        List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, returnformat, hFile, findData, Connection, cancellationToken, -1, intermediateAction: async (intermediateList) =>
+                        List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, returnformat, hFile, findData, Connection, cancellationTokenSource.Token, -1, intermediateAction: async (intermediateList) =>
                         {
                             filesAndFolders.AddRange(intermediateList);
                             await OrderFilesAndFoldersAsync();
@@ -1664,7 +1664,7 @@ namespace Files.ViewModels
             }
         }
 
-        private async Task EnumFromStorageFolderAsync(string path, ListedItem currentFolder, BaseStorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, Type sourcePageType, CancellationToken cancellationToken)
+        private async Task EnumFromStorageFolderAsync(string path, ListedItem currentFolder, BaseStorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, Type sourcePageType, CancellationTokenSource cancellationTokenSource)
         {
             if (rootFolder == null)
             {
@@ -1684,7 +1684,7 @@ namespace Files.ViewModels
                     currentStorageFolder,
                     returnformat,
                     sourcePageType,
-                    cancellationToken,
+                    cancellationTokenSource,
                     -1,
                     async (intermediateList) =>
                 {

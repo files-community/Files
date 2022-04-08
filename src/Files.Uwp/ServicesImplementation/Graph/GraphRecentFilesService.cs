@@ -14,7 +14,10 @@ namespace Files.Uwp.ServicesImplementation.Graph
     {
         public async Task<IDriveRecentCollectionPage> GetRecentDriveItemsAsync()
         {
-            ProviderManager.Instance.GlobalProvider = new WindowsProvider(new string[] { "User.Read" });
+            ProviderManager.Instance.GlobalProvider = new WindowsProvider(new string[] { "User.Read", "Files.Read.All" }, autoSignIn: false);
+
+            await ProviderManager.Instance.GlobalProvider.SignInAsync();
+
             IProvider provider = ProviderManager.Instance.GlobalProvider;
             if (provider?.State == ProviderState.SignedIn)
             {

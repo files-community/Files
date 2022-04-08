@@ -38,7 +38,7 @@ namespace Files.ViewModels.Properties
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
 
             // Cannot get date and owner in MTP devices
-            ViewModel.ItemAccessedTimestamp = ((DateTimeOffset)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now)).GetFriendlyDateFromFormat(returnformat);
+            ViewModel.ItemAccessedTimestamp = ((DateTimeOffset?)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now)).GetFriendlyDateFromFormat(returnformat);
         }
 
         public async Task<long> CalculateFolderSizeAsync(string path, CancellationToken token)

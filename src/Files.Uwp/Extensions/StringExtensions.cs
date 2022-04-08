@@ -92,6 +92,14 @@ namespace Files.Extensions
         }
 
         public static string ToSizeString(this long size) => ByteSize.FromBytes(size).ToSizeString();
+        public static string ToSizeString(this long? size)
+        {
+            if (!size.HasValue)
+            {
+                return null;
+            }
+            return ByteSize.FromBytes(size.Value).ToSizeString();
+        }
         public static string ToSizeString(this ulong size) => ByteSize.FromBytes(size).ToSizeString();
         public static string ToSizeString(this ByteSize size) => size.ToBinaryString().ConvertSizeAbbreviation();
 

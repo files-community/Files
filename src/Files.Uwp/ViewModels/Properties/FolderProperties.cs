@@ -88,7 +88,7 @@ namespace Files.ViewModels.Properties
             if (Item.IsShortcutItem)
             {
                 ViewModel.ItemSizeVisibility = true;
-                ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
+                ViewModel.ItemSize = Item.FileSizeBytes.Value.ToLongSizeString();
                 ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
                 ViewModel.ItemAccessedTimestamp = Item.ItemDateAccessed;
                 if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))

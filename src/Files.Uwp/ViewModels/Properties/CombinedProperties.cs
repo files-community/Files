@@ -65,8 +65,8 @@ namespace Files.ViewModels.Properties
             ViewModel.FilesCount += List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).ToList().Count;
             ViewModel.FoldersCount += List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder).ToList().Count;
 
-            long totalSize = 0;
-            long filesSize = List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).Sum(x => x.FileSizeBytes);
+            long? totalSize = 0;
+            long? filesSize = List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).Sum(x => x.FileSizeBytes);
             long foldersSize = 0;
 
             ViewModel.ItemSizeProgressVisibility = true;
@@ -92,7 +92,7 @@ namespace Files.ViewModels.Properties
             ViewModel.ItemSizeProgressVisibility = false;
 
             totalSize = filesSize + foldersSize;
-            ViewModel.ItemSize = totalSize.ToLongSizeString();
+            ViewModel.ItemSize = totalSize.Value.ToLongSizeString();
             SetItemsCountString();
         }
 

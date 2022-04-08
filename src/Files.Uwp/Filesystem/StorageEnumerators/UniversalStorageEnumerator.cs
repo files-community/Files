@@ -1,6 +1,7 @@
 ﻿using Files.Extensions;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
+using Files.Uwp.Helpers.ListedItems;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,7 +21,7 @@ namespace Files.Filesystem.StorageEnumerators
             StorageFolderWithPath currentStorageFolder,
             string returnformat,
             Type sourcePageType,
-            CancellationToken cancellationToken,
+            CancellationTokenSource cancellationTokenSource,
             int countLimit,
             Func<List<ListedItem>, Task> intermediateAction,
             Dictionary<string, BitmapImage> defaultIconPairs = null
@@ -69,19 +70,12 @@ namespace Files.Filesystem.StorageEnumerators
                 {
                     if (item.IsOfType(StorageItemTypes.Folder))
                     {
-                        var folder = await AddFolderAsync(item.AsBaseStorageFolder(), currentStorageFolder, returnformat, cancellationToken);
-                        if (folder != null)
-                        {
-                            if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
-                            {
-                                folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
-                            }
-                            tempList.Add(folder);
-                        }
+                        var folder = await ListedItemHelpers.AddFolderAsync(item.AsBaseStorageFolder(), currentStorageFolder, returnformat, cancellationTokenSource);
+
                     }
                     else
                     {
-                        var fileEntry = await AddFileAsync(item.AsBaseStorageFile(), currentStorageFolder, returnformat, cancellationToken);
+                        var fileEntry = await ListedItemHelpers.AddFileAsync(item.AsBaseStorageFile(), currentStorageFolder, returnformat, cancellationTokenSource);
                         if (fileEntry != null)
                         {
                             if (defaultIconPairs != null)
@@ -98,7 +92,7 @@ namespace Files.Filesystem.StorageEnumerators
                             tempList.Add(fileEntry);
                         }
                     }
-                    if (cancellationToken.IsCancellationRequested)
+                    if (cancellationTokenSource.Token.IsCancellationRequested)
                     {
                         break;
                     }
@@ -149,90 +143,6 @@ namespace Files.Filesystem.StorageEnumerators
                 tempList.Add(item);
             }
             return tempList;
-        }
-
-        private static async Task<ListedItem> AddFolderAsync(BaseStorageFolder folder, StorageFolderWithPath currentStorageFolder, string dateReturnFormat, CancellationToken cancellationToken)
-        {
-            var basicProperties = await folder.GetBasicPropertiesAsync();
-            if (!cancellationToken.IsCancellationRequested)
-            {
-                return new ListedItem(folder.FolderRelativeId, dateReturnFormat)
-                {
-                    PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemNameRaw = folder.DisplayName,
-                    ItemDateModifiedReal = basicProperties.DateModified,
-                    ItemDateCreatedReal = folder.DateCreated,
-                    ItemType = folder.DisplayType,
-                    IsHiddenItem = false,
-                    Opacity = 1,
-                    FileImage = null,
-                    LoadFileIcon = false,
-                    ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
-                    FileSize = null,
-                    FileSizeBytes = 0
-                };
-            }
-            return null;
-        }
-
-        private static async Task<ListedItem> AddFileAsync(
-            BaseStorageFile file,
-            StorageFolderWithPath currentStorageFolder,
-            string dateReturnFormat,
-            CancellationToken cancellationToken
-        )
-        {
-            var basicProperties = await file.GetBasicPropertiesAsync();
-            // Display name does not include extension
-            var itemName = file.Name;
-            var itemModifiedDate = basicProperties.DateModified;
-            var itemCreatedDate = file.DateCreated;
-            var itemPath = string.IsNullOrEmpty(file.Path) ? PathNormalization.Combine(currentStorageFolder.Path, file.Name) : file.Path;
-            var itemSize = basicProperties.Size.ToSizeString();
-            var itemSizeBytes = basicProperties.Size;
-            var itemType = file.DisplayType;
-            var itemFileExtension = file.FileType;
-            var itemThumbnailImgVis = false;
-
-            if (cancellationToken.IsCancellationRequested)
-            {
-                return null;
-            }
-
-            if (file.Name.EndsWith(".lnk", StringComparison.Ordinal) || file.Name.EndsWith(".url", StringComparison.Ordinal))
-            {
-                // This shouldn't happen, StorageFile api does not support shortcuts
-                Debug.WriteLine("Something strange: StorageFile api returned a shortcut");
-            }
-            // TODO: is this needed to be handled here?
-            else if (App.LibraryManager.TryGetLibrary(file.Path, out LibraryLocationItem library))
-            {
-                return new LibraryItem(library)
-                {
-                    ItemDateModifiedReal = itemModifiedDate,
-                    ItemDateCreatedReal = itemCreatedDate,
-                };
-            }
-            else
-            {
-                return new ListedItem(file.FolderRelativeId, dateReturnFormat)
-                {
-                    PrimaryItemAttribute = StorageItemTypes.File,
-                    FileExtension = itemFileExtension,
-                    IsHiddenItem = false,
-                    Opacity = 1,
-                    FileImage = null,
-                    LoadFileIcon = itemThumbnailImgVis,
-                    ItemNameRaw = itemName,
-                    ItemDateModifiedReal = itemModifiedDate,
-                    ItemDateCreatedReal = itemCreatedDate,
-                    ItemType = itemType,
-                    ItemPath = itemPath,
-                    FileSize = itemSize,
-                    FileSizeBytes = (long)itemSizeBytes,
-                };
-            }
-            return null;
         }
     }
 }

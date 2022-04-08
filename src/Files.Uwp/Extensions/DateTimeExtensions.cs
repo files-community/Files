@@ -7,25 +7,37 @@ namespace Files.Extensions
 {
     public static class DateTimeExtensions
     {
-        public static string GetFriendlyDateFromFormat(this DateTimeOffset d, string returnFormat, bool isDetailed = false)
+        public static string GetFriendlyDateFromFormat(this DateTimeOffset? d, string returnFormat, bool isDetailed = false)
         {
-            var elapsed = DateTimeOffset.Now - d;
+            if (!d.HasValue)
+            {
+                return null;
+            }
 
-            if (d.Year == 1601 || d.Year == 9999)
+            DateTimeOffset dateTimeOffset = d.Value;
+
+            return GetFriendlyDateFromFormat(dateTimeOffset, returnFormat, isDetailed);
+        }
+
+        public static string GetFriendlyDateFromFormat(this DateTimeOffset dateTimeOffset, string returnFormat, bool isDetailed = false)
+        {
+            var elapsed = DateTimeOffset.Now - dateTimeOffset;
+
+            if (dateTimeOffset.Year == 1601 || dateTimeOffset.Year == 9999)
             {
                 return " ";
             }
             else if (isDetailed && returnFormat != "g" && elapsed.TotalDays < 7)
             {
-                return d.ToLocalTime().ToString(returnFormat) + " " + d.ToLocalTime().ToString("t") + " (" + GetFriendlyDateFromFormat(d, returnFormat) + ")";
+                return dateTimeOffset.ToLocalTime().ToString(returnFormat) + " " + dateTimeOffset.ToLocalTime().ToString("t") + " (" + GetFriendlyDateFromFormat(dateTimeOffset, returnFormat) + ")";
             }
             else if (isDetailed && returnFormat != "g")
             {
-                return d.ToLocalTime().ToString(returnFormat) + " " + d.ToLocalTime().ToString("t");
+                return dateTimeOffset.ToLocalTime().ToString(returnFormat) + " " + dateTimeOffset.ToLocalTime().ToString("t");
             }
             else if (elapsed.TotalDays >= 7 || returnFormat == "g")
             {
-                return d.ToLocalTime().ToString(returnFormat);
+                return dateTimeOffset.ToLocalTime().ToString(returnFormat);
             }
             else if (elapsed.TotalDays >= 2)
             {

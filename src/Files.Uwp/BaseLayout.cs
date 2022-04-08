@@ -657,8 +657,8 @@ namespace Files
                 bool isSizeKnown = !items.Any(item => string.IsNullOrEmpty(item.FileSize));
                 if (isSizeKnown)
                 {
-                    long size = items.Sum(item => item.FileSizeBytes);
-                    SelectedItemsPropertiesViewModel.ItemSizeBytes = size;
+                    long? size = items.Sum(item => item.FileSizeBytes);
+                    SelectedItemsPropertiesViewModel.ItemSizeBytes = size.Value;
                     SelectedItemsPropertiesViewModel.ItemSize = size.ToSizeString();
                 }
                 else

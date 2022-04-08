@@ -18,7 +18,7 @@ namespace Files.Filesystem.StorageItems
     {
         public FtpStorageFile(FtpItem ftpItem)
         {
-            DateCreated = ftpItem.ItemDateCreatedReal;
+            DateCreated = ftpItem.ItemDateCreatedReal.Value;
             Name = ftpItem.ItemNameRaw;
             Path = ftpItem.ItemPath;
             FtpPath = FtpHelpers.GetFtpPath(ftpItem.ItemPath);
@@ -343,8 +343,8 @@ namespace Files.Filesystem.StorageItems
         {
             public FtpFileBasicProperties(FtpItem item)
             {
-                DateModified = item.ItemDateModifiedReal;
-                ItemDate = item.ItemDateCreatedReal;
+                DateModified = item.ItemDateModifiedReal.Value;
+                ItemDate = item.ItemDateCreatedReal.Value;
                 Size = (ulong)item.FileSizeBytes;
             }
 
