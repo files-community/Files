@@ -1486,7 +1486,7 @@
       <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="CommunityToolkit.Mvvm">
-      <Version>8.0.0-preview2</Version>
+      <Version>8.0.0-preview3</Version>
     </PackageReference>
     <PackageReference Include="FluentFTP">
       <Version>36.1.0</Version>
