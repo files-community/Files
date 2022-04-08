@@ -308,7 +308,7 @@ namespace FilesFullTrust.MessageHandlers
                 };
                 if (e.ChangeType == WatcherChangeTypes.Created)
                 {
-                    var shellFileItem = await GetShellFileItemOnComplete(e.FullPath);
+                    var shellFileItem = await GetShellFileItemAsync(e.FullPath);
                     if (shellFileItem == null) return;
                     response["Item"] = JsonConvert.SerializeObject(shellFileItem);
                 }
@@ -321,7 +321,7 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        private async Task<ShellFileItem> GetShellFileItemOnComplete(string fullPath)
+        private async Task<ShellFileItem> GetShellFileItemAsync(string fullPath)
         {
             while (true)
             {
