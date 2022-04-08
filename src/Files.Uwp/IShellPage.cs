@@ -27,6 +27,8 @@ namespace Files
 
         void Refresh_Click();
 
+        void Up_Click();
+
         void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null);
 
         void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null);
