@@ -152,12 +152,12 @@ namespace Files.UserControls
             MoveItemUpCommand = new RelayCommand(MoveItemUp);
             MoveItemDownCommand = new RelayCommand(MoveItemDown);
             MoveItemToBottomCommand = new RelayCommand(MoveItemToBottom);
-            OpenInNewTabCommand  = new RelayCommand(OpenInNewTab);
-            OpenInNewWindowCommand  = new RelayCommand(OpenInNewWindow);
-            OpenInNewPaneCommand  = new RelayCommand(OpenInNewPane);
-            EjectDeviceCommand  = new RelayCommand(EjectDevice);
-            OpenPropertiesCommand  = new RelayCommand(OpenProperties);
-    }
+            OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
+            OpenInNewWindowCommand = new RelayCommand(OpenInNewWindow);
+            OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
+            EjectDeviceCommand = new RelayCommand(EjectDevice);
+            OpenPropertiesCommand = new RelayCommand(OpenProperties);
+        }
 
         public SidebarViewModel ViewModel
         {
@@ -191,8 +191,8 @@ namespace Files.UserControls
         {
             ContextMenuOptions options = item.MenuOptions;
 
-            bool showMoveItemUp = options.IsItemMovable? App.SidebarPinnedController.Model.IndexOfItem(item) > 1:false;
-            bool showMoveItemDown = options.IsItemMovable? App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count:false;
+            bool showMoveItemUp = options.IsItemMovable ? App.SidebarPinnedController.Model.IndexOfItem(item) > 1 : false;
+            bool showMoveItemDown = options.IsItemMovable ? App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count : false;
 
             return new List<ContextMenuFlyoutItemViewModel>()
             {
@@ -1001,8 +1001,6 @@ namespace Files.UserControls
         private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
         {
             (this.FindDescendant("TabContentBorder") as Border).Child = TabContent;
-
-            DisplayModeChanged += SidebarControl_DisplayModeChanged;
         }
 
         private void SidebarControl_DisplayModeChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewDisplayModeChangedEventArgs args)
@@ -1206,6 +1204,62 @@ namespace Files.UserControls
             }
             return new GridLength(200);
         }
+
+        #region Sidebar sections expanded state management
+
+        private async void NavigationView_Expanding(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemExpandingEventArgs args)
+        {
+            if (args.ExpandingItem is LocationItem loc)
+            {
+                await Task.Delay(50); // Wait a little so IsPaneOpen tells the truth when in minimal mode
+                if (sender.IsPaneOpen) // Don't store expanded state if sidebar pane is closed
+                {
+                    App.AppSettings.Set(true, $"section:{loc.Text.Replace('\\', '_')}");
+                }
+            }
+        }
+
+        private async void NavigationView_Collapsed(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemCollapsedEventArgs args)
+        {
+            if (args.CollapsedItem is LocationItem loc)
+            {
+                await Task.Delay(50); // Wait a little so IsPaneOpen tells the truth when in minimal mode
+                if (sender.IsPaneOpen) // Don't store expanded state if sidebar pane is closed
+                {
+                    App.AppSettings.Set(false, $"section:{loc.Text.Replace('\\', '_')}");
+                }
+            }
+        }
+
+        private void NavigationView_PaneOpened(Microsoft.UI.Xaml.Controls.NavigationView sender, object args)
+        {
+            // Restore expanded state when pane is opened
+            foreach (var loc in SideBarItems.OfType<LocationItem>())
+            {
+                loc.IsExpanded = App.AppSettings.Get(loc.Text == "SidebarFavorites".GetLocalized(), $"section:{loc.Text.Replace('\\', '_')}");
+            }
+        }
+
+        private void NavigationViewItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Restore expanded state when section is loaded
+            var context = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext;
+            if (context is LocationItem loc)
+            {
+                loc.IsExpanded = App.AppSettings.Get(loc.Text == "SidebarFavorites".GetLocalized(), $"section:{loc.Text.Replace('\\', '_')}");
+            }
+        }
+
+        private void NavigationView_PaneClosed(Microsoft.UI.Xaml.Controls.NavigationView sender, object args)
+        {
+            // Collapse all sections but do not store the state when pane is closed
+            foreach (var loc in SideBarItems.OfType<LocationItem>())
+            {
+                loc.IsExpanded = false;
+            }
+        }
+
+        #endregion
     }
 
     public class SidebarItemDroppedEventArgs : EventArgs
