@@ -55,6 +55,10 @@ namespace Files.Filesystem
                             {
                                 Text = "WSL".GetLocalized(),
                                 Section = SectionType.WSL,
+                                MenuOptions = new ContextMenuOptions
+                                {
+                                    ShowHideSection = true
+                                },
                                 SelectsOnInvoked = false,
                                 Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png")),
                                 ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
@@ -105,7 +109,11 @@ namespace Files.Filesystem
                                     {
                                         Text = folder.DisplayName,
                                         Path = folder.Path,
-                                        Logo = logoURI
+                                        Logo = logoURI,
+                                        MenuOptions = new ContextMenuOptions
+                                        {
+                                            IsLocationItem = true
+                                        }
                                     });
                                 }
                             }

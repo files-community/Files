@@ -1,4 +1,4 @@
-﻿using Files.Extensions;
+﻿using Files.Shared.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Backend.Services.Settings;

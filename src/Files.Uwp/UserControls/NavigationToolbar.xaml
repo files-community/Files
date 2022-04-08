@@ -490,6 +490,7 @@
                 VerticalAlignment="Center"
                 Canvas.ZIndex="100"
                 CornerRadius="{StaticResource ControlCornerRadius}"
+                GotFocus="SearchRegion_OnGotFocus"
                 LostFocus="SearchRegion_LostFocus"
                 SearchBoxViewModel="{x:Bind ViewModel.SearchBoxViewModel, Mode=OneWay}"
                 Visibility="{x:Bind converters:MultiBooleanConverter.OrConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">

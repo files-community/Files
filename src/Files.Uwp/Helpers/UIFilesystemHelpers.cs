@@ -1,7 +1,7 @@
 ﻿using Files.Shared;
 using Files.Dialogs;
 using Files.Shared.Enums;
-using Files.Extensions;
+using Files.Shared.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Interacts;
@@ -47,7 +47,7 @@ namespace Files.Helpers
 
                 try
                 {
-                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEach(async listedItem =>
+                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
                     {
                         if (banner != null)
                         {
@@ -166,7 +166,7 @@ namespace Files.Helpers
 
                 try
                 {
-                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEach(async listedItem =>
+                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
                     {
                         if (banner != null)
                         {

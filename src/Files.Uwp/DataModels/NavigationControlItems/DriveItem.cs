@@ -99,6 +99,8 @@ namespace Files.DataModels.NavigationControlItems
 
         public SectionType Section { get; set; }
 
+        public ContextMenuOptions MenuOptions { get; set; }
+
         private float percentageUsed = 0.0f;
 
         public float PercentageUsed
@@ -143,6 +145,13 @@ namespace Files.DataModels.NavigationControlItems
             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () => await item.SetBitmapImage(imageStream));
             item.Text = root.DisplayName;
             item.Type = type;
+            item.MenuOptions = new ContextMenuOptions
+            {
+                IsLocationItem = true,
+                ShowEjectDevice = item.IsRemovable,
+                ShowShellItems = true,
+                ShowProperties = true
+            };
             item.Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
             item.DeviceID = deviceId;
             item.Root = root;

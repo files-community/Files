@@ -23,6 +23,8 @@ using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Files.Shared.Extensions;
 using Files.Backend.Extensions;
+using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
+using Files.Backend.Services;
 
 namespace Files.Filesystem
 {
@@ -115,7 +117,7 @@ namespace Files.Filesystem
 
             if (((!permanently && !canBeSentToBin) || UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog) && showDialog) // Check if the setting to show a confirmation dialog is on
             {
-                List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
+                var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
 
                 foreach (var src in source)
                 {
@@ -123,29 +125,29 @@ namespace Files.Filesystem
                     {
                         var binItems = associatedInstance.FilesystemViewModel.FilesAndFolders;
                         var matchingItem = binItems.FirstOrDefault(x => x.ItemPath == src.Path); // Get original file name
-                        incomingItems.Add(new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, src.Path, null, matchingItem?.ItemName));
+                        incomingItems.Add(new FileSystemDialogDefaultItemViewModel() { SourcePath = src.Path, DisplayName = matchingItem?.ItemName });
                     }
                     else
                     {
-                        incomingItems.Add(new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, src.Path, null));
+                        incomingItems.Add(new FileSystemDialogDefaultItemViewModel() { SourcePath = src.Path });
                     }
                 }
 
-                var dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                var dialogViewModel = FileSystemDialogViewModel.GetDialogViewModel(new() { IsInDeleteMode = true },
+                    (canBeSentToBin ? permanently : true, canBeSentToBin),
                     FilesystemOperationType.Delete,
-                    false,
-                    canBeSentToBin ? permanently : true,
-                    canBeSentToBin,
                     incomingItems,
-                    new List<FilesystemItemsOperationItemModel>()));
+                    new());
 
-                if (await dialog.TryShowAsync() != DialogResult.Primary)
+                var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+
+                if (await dialogService.ShowDialogAsync(dialogViewModel) != DialogResult.Primary)
                 {
                     return ReturnResult.Cancelled; // Return if the result isn't delete
                 }
 
                 // Delete selected items if the result is Yes
-                permanently = dialog.ViewModel.PermanentlyDelete;
+                permanently = dialogViewModel.DeletePermanently;
             }
 
             // post the status banner
@@ -652,8 +654,8 @@ namespace Files.Filesystem
                 return ReturnResult.BadArgumentException;
             }
 
-            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(packageView);
-            var source = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
+            var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(packageView);
+            var source = await FilesystemHelpers.GetDraggedStorageItems(packageView);
 
             if (handledByFtp)
             {
@@ -673,15 +675,14 @@ namespace Files.Filesystem
 
         private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation)> GetCollision(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
         {
-            List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
-            List<FilesystemItemsOperationItemModel> conflictingItems = new List<FilesystemItemsOperationItemModel>();
-
-            Dictionary<string, FileNameConflictResolveOptionType> collisions = new Dictionary<string, FileNameConflictResolveOptionType>();
+            var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
+            var conflictingItems = new List<BaseFileSystemDialogItemViewModel>();
+            var collisions = new Dictionary<string, FileNameConflictResolveOptionType>();
 
             foreach (var item in source.Zip(destination, (src, dest, index) => new { src, dest, index }))
             {
                 var itemPathOrName = string.IsNullOrEmpty(item.src.Path) ? item.src.Item.Name : item.src.Path;
-                incomingItems.Add(new FilesystemItemsOperationItemModel(operationType, itemPathOrName, item.dest));
+                incomingItems.Add(new FileSystemDialogConflictItemViewModel() { SourcePath = itemPathOrName, DestinationPath = item.dest, DestinationDisplayName = Path.GetFileName(item.dest) });
                 if (collisions.ContainsKey(incomingItems.ElementAt(item.index).SourcePath))
                 {
                     // Something strange happened, log
@@ -700,31 +701,28 @@ namespace Files.Filesystem
                 }
             }
 
-            bool mustResolveConflicts = conflictingItems.Count > 0;
-
+            var mustResolveConflicts = !conflictingItems.IsEmpty();
             if (mustResolveConflicts || forceDialog)
             {
-                var dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+
+                var dialogViewModel = FileSystemDialogViewModel.GetDialogViewModel(new() { ConflictsExist = mustResolveConflicts },
+                    (false, false),
                     operationType,
-                    mustResolveConflicts,
-                    false,
-                    false,
-                    incomingItems,
-                    conflictingItems));
+                    incomingItems.Except(conflictingItems).ToList(), // TODO: Could be optimized
+                    conflictingItems);
 
-                var result = await dialog.TryShowAsync();
-
+                var result = await dialogService.ShowDialogAsync(dialogViewModel);
                 if (mustResolveConflicts) // If there were conflicts, result buttons are different
                 {
                     if (result != DialogResult.Primary) // Operation was cancelled
                     {
-                        return (new List<FileNameConflictResolveOptionType>(), true);
+                        return (new(), true);
                     }
                 }
 
                 collisions.Clear();
-                List<IFilesystemOperationItemModel> itemsResult = dialog.ViewModel.GetResult();
-                foreach (var item in itemsResult)
+                foreach (var item in dialogViewModel.GetItemsResult())
                 {
                     collisions.AddIfNotPresent(item.SourcePath, item.ConflictResolveOption);
                 }

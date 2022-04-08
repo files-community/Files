@@ -610,6 +610,31 @@ namespace FilesFullTrust.MessageHandlers
                     }
                     break;
 
+                case "CheckFileInUse":
+                    {
+                        var fileToCheckPath = ((string)message["filepath"]).Split('|');
+                        var processes = SafetyExtensions.IgnoreExceptions(() => FileUtils.WhoIsLocking(fileToCheckPath), Program.Logger);
+                        if (processes != null)
+                        {
+                            var win32proc = processes.Select(x => new Win32Process()
+                            {
+                                Name = x.ProcessName,
+                                Pid = x.Id,
+                                FileName = x.MainModule?.FileName
+                            }).ToList();
+                            processes.ForEach(x => x.Dispose());
+                            await Win32API.SendMessageAsync(connection, new ValueSet() {
+                                { "Processes", JsonConvert.SerializeObject(win32proc) }
+                            }, message.Get("RequestID", (string)null));
+                        }
+                        else
+                        {
+                            await Win32API.SendMessageAsync(connection, new ValueSet(), 
+                                message.Get("RequestID", (string)null));
+                        }
+                    }
+                    break;
+
                 case "ParseLink":
                     try
                     {

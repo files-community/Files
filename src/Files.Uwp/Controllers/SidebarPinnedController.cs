@@ -133,7 +133,6 @@ namespace Files.Controllers
             });
         }
 
-
         public void SaveModel()
         {
             suppressChangeEvent = true;
