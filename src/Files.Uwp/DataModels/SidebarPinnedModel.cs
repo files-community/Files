@@ -359,8 +359,7 @@ namespace Files.DataModels
                     Font = MainViewModel.FontName,
                     IsDefaultLocation = true,
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"))),
-                    Path = "Home".GetLocalized(),
-                    ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+                    Path = "Home".GetLocalized()
                 };
                 favoriteSection ??= new LocationItem()
                 {
