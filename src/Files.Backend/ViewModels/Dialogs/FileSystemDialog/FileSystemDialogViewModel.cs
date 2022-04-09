@@ -109,12 +109,12 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
                     if (nonConflictingItems.Count > 0)
                     {
                         // There are {0} conflicting file names, and {1} outgoing item(s)
-                        descriptionText = string.Format("ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts".ToLocalized(), conflictingItems.Count, nonConflictingItems.Count);
+                        descriptionText = string.Format("ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts".GetLocalized(), conflictingItems.Count, nonConflictingItems.Count);
                     }
                     else
                     {
                         // There are {0} conflicting file names
-                        descriptionText = string.Format("ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts".ToLocalized(), conflictingItems.Count);
+                        descriptionText = string.Format("ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts".GetLocalized(), conflictingItems.Count);
                     }
                 }
                 else
@@ -122,18 +122,18 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
                     if (nonConflictingItems.Count > 0)
                     {
                         // There is one conflicting file name, and {0} outgoing item(s)
-                        descriptionText = string.Format("ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts".ToLocalized(), nonConflictingItems.Count);
+                        descriptionText = string.Format("ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts".GetLocalized(), nonConflictingItems.Count);
                     }
                     else
                     {
                         // There is one conflicting file name
-                        descriptionText = string.Format("ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts".ToLocalized(), conflictingItems.Count);
+                        descriptionText = string.Format("ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts".GetLocalized(), conflictingItems.Count);
                     }
                 }
 
-                titleText = "ConflictingItemsDialogTitle".ToLocalized();
-                primaryButtonText = "ConflictingItemsDialogPrimaryButtonText".ToLocalized();
-                secondaryButtonText = "Cancel".ToLocalized();
+                titleText = "ConflictingItemsDialogTitle".GetLocalized();
+                primaryButtonText = "ConflictingItemsDialogPrimaryButtonText".GetLocalized();
+                secondaryButtonText = "Cancel".GetLocalized();
             }
             else
             {
@@ -141,28 +141,28 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
                 {
                     case FilesystemOperationType.Copy:
                         {
-                            titleText = "CopyItemsDialogTitle".ToLocalized();
-                            descriptionText = nonConflictingItems.Count + conflictingItems.Count == 1 ? "CopyItemsDialogSubtitleSingle".ToLocalized() : string.Format("CopyItemsDialogSubtitleMultiple".ToLocalized(), nonConflictingItems.Count + conflictingItems.Count);
-                            primaryButtonText = "Copy".ToLocalized();
-                            secondaryButtonText = "Cancel".ToLocalized();
+                            titleText = "CopyItemsDialogTitle".GetLocalized();
+                            descriptionText = nonConflictingItems.Count + conflictingItems.Count == 1 ? "CopyItemsDialogSubtitleSingle".GetLocalized() : string.Format("CopyItemsDialogSubtitleMultiple".GetLocalized(), nonConflictingItems.Count + conflictingItems.Count);
+                            primaryButtonText = "Copy".GetLocalized();
+                            secondaryButtonText = "Cancel".GetLocalized();
                             break;
                         }
 
                     case FilesystemOperationType.Move:
                         {
-                            titleText = "MoveItemsDialogTitle".ToLocalized();
-                            descriptionText = nonConflictingItems.Count + conflictingItems.Count == 1 ? "MoveItemsDialogSubtitleSingle".ToLocalized() : string.Format("MoveItemsDialogSubtitleMultiple".ToLocalized(), nonConflictingItems.Count + conflictingItems.Count);
-                            primaryButtonText = "MoveItemsDialogPrimaryButtonText".ToLocalized();
-                            secondaryButtonText = "Cancel".ToLocalized();
+                            titleText = "MoveItemsDialogTitle".GetLocalized();
+                            descriptionText = nonConflictingItems.Count + conflictingItems.Count == 1 ? "MoveItemsDialogSubtitleSingle".GetLocalized() : string.Format("MoveItemsDialogSubtitleMultiple".GetLocalized(), nonConflictingItems.Count + conflictingItems.Count);
+                            primaryButtonText = "MoveItemsDialogPrimaryButtonText".GetLocalized();
+                            secondaryButtonText = "Cancel".GetLocalized();
                             break;
                         }
 
                     case FilesystemOperationType.Delete:
                         {
-                            titleText = "DeleteItemsDialogTitle".ToLocalized();
-                            descriptionText = nonConflictingItems.Count + conflictingItems.Count == 1 ? "DeleteItemsDialogSubtitleSingle".ToLocalized() : string.Format("DeleteItemsDialogSubtitleMultiple".ToLocalized(), nonConflictingItems.Count);
-                            primaryButtonText = "Delete".ToLocalized();
-                            secondaryButtonText = "Cancel".ToLocalized();
+                            titleText = "DeleteItemsDialogTitle".GetLocalized();
+                            descriptionText = nonConflictingItems.Count + conflictingItems.Count == 1 ? "DeleteItemsDialogSubtitleSingle".GetLocalized() : string.Format("DeleteItemsDialogSubtitleMultiple".GetLocalized(), nonConflictingItems.Count);
+                            primaryButtonText = "Delete".GetLocalized();
+                            secondaryButtonText = "Cancel".GetLocalized();
                             isInDeleteMode = true;
                             break;
                         }
