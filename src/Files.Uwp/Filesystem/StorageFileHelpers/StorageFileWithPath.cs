@@ -12,7 +12,7 @@ namespace Files.Filesystem
         IStorageItem IStorageItemWithPath.Item => Item;
         public BaseStorageFile Item { get; }
 
-        public FilesystemItemType ItemType => FilesystemItemType.Directory;
+        public FilesystemItemType ItemType => FilesystemItemType.File;
 
         public StorageFileWithPath(BaseStorageFile file)
             : this(file, file.Path) {}
