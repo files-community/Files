@@ -10,6 +10,10 @@ using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Files.ViewModels.Properties;
 using FluentFTP;
+using Files.Shared.Extensions;
+using Files.ViewModels.Properties;
+using FluentFTP;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -362,16 +366,7 @@ namespace Files.Filesystem
         public ListedItem(string folderRelativeId, string dateReturnFormat = null)
         {
             FolderRelativeId = folderRelativeId;
-            if (dateReturnFormat != null)
-            {
-                DateReturnFormat = dateReturnFormat;
-            }
-            else
-            {
-                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-                string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-                DateReturnFormat = returnformat;
-            }
+            DateReturnFormat = dateReturnFormat ?? DateTimeExtensions.GetDateFormat();
         }
 
         // Parameterless constructor for JsonConvert

@@ -13,7 +13,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
-using Windows.Storage;
 using Windows.UI.Core;
 
 namespace Files.ViewModels.Properties
@@ -114,8 +113,7 @@ namespace Files.ViewModels.Properties
 
             if (storageFolder != null)
             {
-                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-                string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+                string returnformat = DateTimeExtensions.GetDateFormat();
                 ViewModel.ItemCreatedTimestamp = storageFolder.DateCreated.GetFriendlyDateFromFormat(returnformat);
                 if (storageFolder.Properties != null)
                 {

@@ -794,9 +794,12 @@ namespace Files.Views
                     }
                     break;
 
-                case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
-                case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
-                    NavToolbarViewModel.IsEditModeEnabled = true;
+                case (false, false, true, _, VirtualKey.D): // alt + d, select address bar (english)
+                case (true, false, false, _, VirtualKey.L): // ctrl + l, select address bar
+                    if (tabInstance || CurrentPageType == typeof(WidgetsPage))
+                    {
+                        NavToolbarViewModel.IsEditModeEnabled = true;
+                    }
                     break;
 
                 case (true, true, false, true, VirtualKey.K): // ctrl + shift + k, duplicate tab
