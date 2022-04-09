@@ -2757,6 +2757,6 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>ex: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
-    <value>Show the thumbnails for media files</value>
+    <value>Show thumbnails for media files</value>
   </data>
 </root>
