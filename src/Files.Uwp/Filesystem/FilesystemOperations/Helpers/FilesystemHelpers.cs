@@ -1,15 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Extensions;
+using Files.Backend.Services;
 using Files.Backend.Services.Settings;
-using Files.DataModels;
-using Files.Extensions;
+using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.Interacts;
 using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
-using Files.ViewModels.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,10 +20,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
-using Files.Shared.Extensions;
-using Files.Backend.Extensions;
-using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
-using Files.Backend.Services;
 
 namespace Files.Filesystem
 {

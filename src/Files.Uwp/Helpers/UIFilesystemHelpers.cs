@@ -1,8 +1,5 @@
 ﻿using Files.Backend.Enums;
 using Files.Dialogs;
-using Files.Extensions;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Interacts;
