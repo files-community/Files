@@ -1,14 +1,16 @@
-﻿using Files.Shared.Extensions;
-using Files.Shared.Enums;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services;
+using Files.Backend.Services.Settings;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using Files.Backend.Services.Settings;
+using Files.Shared.Enums;
+using Files.Shared.EventArguments;
+using Files.Shared.Extensions;
 using Files.UserControls;
 using Files.Views;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -27,11 +29,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
-using Files.Backend.Services;
 using static Files.UserControls.INavigationToolbar;
 using SearchBox = Files.UserControls.SearchBox;
 using SortDirection = Files.Shared.Enums.SortDirection;
-using Files.Shared.EventArguments;
 
 namespace Files.ViewModels
 {
@@ -1055,7 +1055,7 @@ namespace Files.ViewModels
                         suggestions = currPath.Select(x => new ListedItem(null)
                         {
                             ItemPath = x.Path,
-                            ItemNameRaw = x.Folder.DisplayName
+                            ItemNameRaw = x.Item.DisplayName
                         }).ToList();
                     }
                     else if (currPath.Any())
@@ -1064,12 +1064,12 @@ namespace Files.ViewModels
                         suggestions = currPath.Select(x => new ListedItem(null)
                         {
                             ItemPath = x.Path,
-                            ItemNameRaw = x.Folder.DisplayName
+                            ItemNameRaw = x.Item.DisplayName
                         }).Concat(
                             subPath.Select(x => new ListedItem(null)
                             {
                                 ItemPath = x.Path,
-                                ItemNameRaw = PathNormalization.Combine(currPath.First().Folder.DisplayName, x.Folder.DisplayName)
+                                ItemNameRaw = PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
                             })).ToList();
                     }
                     else

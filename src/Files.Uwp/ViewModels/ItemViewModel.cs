@@ -1309,7 +1309,7 @@ namespace Files.ViewModels
                     case 1: // Enumerated with StorageFolder
                         PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
                         currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
-                        WatchForStorageFolderChanges(currentStorageFolder?.Folder);
+                        WatchForStorageFolderChanges(currentStorageFolder?.Item);
                         break;
 
                     case 2: // Watch for changes using FTP in Box Drive folder (#7428) and network drives (#5869)
@@ -1527,7 +1527,7 @@ namespace Files.ViewModels
                     return -1;
                 }
                 currentStorageFolder = res.Result;
-                rootFolder = currentStorageFolder.Folder;
+                rootFolder = currentStorageFolder.Item;
                 enumFromStorageFolder = true;
             }
             else
@@ -1536,7 +1536,7 @@ namespace Files.ViewModels
                 if (res)
                 {
                     currentStorageFolder = res.Result;
-                    rootFolder = currentStorageFolder.Folder;
+                    rootFolder = currentStorageFolder.Item;
                 }
                 else if (res == FileSystemStatusCode.Unauthorized)
                 {
