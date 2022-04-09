@@ -69,6 +69,7 @@ namespace Files.ViewModels
         private SettingsViewModel AppSettings => App.AppSettings;
         private FolderSettingsViewModel folderSettings = null;
         private bool shouldDisplayFileExtensions = false;
+        private bool shouldDisplayThumbnails = false;
         public ListedItem CurrentFolder { get; private set; }
         public CollectionViewSource viewSource;
         private CancellationTokenSource addFilesCTS, semaphoreCTS, loadPropsCTS, watcherCTS;
@@ -365,6 +366,7 @@ namespace Files.ViewModels
             operationEvent = new AsyncManualResetEvent();
             enumFolderSemaphore = new SemaphoreSlim(1, 1);
             shouldDisplayFileExtensions = UserSettingsService.PreferencesSettingsService.ShowFileExtensions;
+            shouldDisplayThumbnails = UserSettingsService.PreferencesSettingsService.ShowThumbnails;
 
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
             FileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingImportedEvent;
@@ -387,6 +389,7 @@ namespace Files.ViewModels
             switch (e.SettingName)
             {
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFileExtensions):
+                case nameof(UserSettingsService.PreferencesSettingsService.ShowThumbnails):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden):
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowDotFiles):
@@ -394,6 +397,7 @@ namespace Files.ViewModels
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFolderSize):
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                     {
+                        shouldDisplayThumbnails = UserSettingsService.PreferencesSettingsService.ShowThumbnails;
                         if (WorkingDirectory != "Home".GetLocalized())
                         {
                             RefreshItems(null);
@@ -847,7 +851,7 @@ namespace Files.ViewModels
             var wasIconLoaded = false;
             if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
             {
-                if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
+                if (shouldDisplayThumbnails && !item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
                 {
                     var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
                     if (matchingStorageFile != null)
