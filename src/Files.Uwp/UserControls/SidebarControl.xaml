@@ -14,7 +14,12 @@
     d:DesignHeight="768"
     d:DesignWidth="200"
     IsBackButtonVisible="Collapsed"
+    PaneOpened="NavigationView_PaneOpened"
+    PaneClosed="NavigationView_PaneClosed"
     IsSettingsVisible="False"
+    Expanding="NavigationView_Expanding"
+    Collapsed="NavigationView_Collapsed"
+    DisplayModeChanged="SidebarControl_DisplayModeChanged"
     IsTitleBarAutoPaddingEnabled="False"
     ItemInvoked="Sidebar_ItemInvoked"
     MenuItemsSource="{x:Bind local:SidebarControl.SideBarItems, Mode=OneWay}"
@@ -53,6 +58,7 @@
                     DragStarting="NavigationViewItem_DragStarting"
                     Drop="NavigationViewLocationItem_Drop"
                     IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
+                    DataContextChanged="NavigationViewItem_DataContextChanged"
                     IsRightTapEnabled="True"
                     MenuItemsSource="{x:Bind ChildItems}"
                     PointerPressed="Sidebar_PointerPressed"
@@ -64,7 +70,7 @@
                         <muxc:ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
                     </muxc:NavigationViewItem.Icon>
                     <muxc:NavigationViewItem.InfoBadge>
-                        <muxc:InfoBadge Style="{ThemeResource CautionIconInfoBadgeStyle}" Visibility="{x:Bind IsInvalid, Mode=OneWay}"/>
+                        <muxc:InfoBadge Style="{ThemeResource CautionIconInfoBadgeStyle}" Visibility="{x:Bind IsInvalid, Mode=OneWay}" />
                     </muxc:NavigationViewItem.InfoBadge>
                 </muxc:NavigationViewItem>
             </DataTemplate>

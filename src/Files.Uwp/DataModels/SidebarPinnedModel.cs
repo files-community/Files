@@ -324,7 +324,7 @@ namespace Files.DataModels
         /// Adds the item to sidebar asynchronous.
         /// </summary>
         /// <param name="section">The section.</param>
-        private void AddItemToSidebarAsync(LocationItem section)
+        private void AddLocationItemToSidebar(LocationItem section)
         {
             var lastItem = favoriteSection.ChildItems.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(CommonPaths.RecycleBinPath));
             int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
@@ -359,8 +359,7 @@ namespace Files.DataModels
                     Font = MainViewModel.FontName,
                     IsDefaultLocation = true,
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"))),
-                    Path = "Home".GetLocalized(),
-                    ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+                    Path = "Home".GetLocalized()
                 };
                 favoriteSection ??= new LocationItem()
                 {
@@ -378,7 +377,7 @@ namespace Files.DataModels
 
                 if (homeSection != null)
                 {
-                    AddItemToSidebarAsync(homeSection);
+                    AddLocationItemToSidebar(homeSection);
                 }
 
                 if (!SidebarControl.SideBarItems.Any(x => x.Text == "SidebarFavorites".GetLocalized()))
