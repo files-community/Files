@@ -1,11 +1,11 @@
-﻿using Files.Shared;
-using Files.Shared.Enums;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
-using Files.Backend.Services.Settings;
+using Files.Shared;
+using Files.Shared.Enums;
 using Files.ViewModels;
 using Files.Views;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -342,10 +342,10 @@ namespace Files.Helpers
                     .OnSuccess(async (childFolder) =>
                     {
                         // Add location to MRU List
-                        if (childFolder.Folder is SystemStorageFolder)
+                        if (childFolder.Item is SystemStorageFolder)
                         {
                             var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
-                            mostRecentlyUsed.Add(await childFolder.Folder.ToStorageFolderAsync(), childFolder.Path);
+                            mostRecentlyUsed.Add(await childFolder.Item.ToStorageFolderAsync(), childFolder.Path);
                         }
                     });
                 if (!opened)
@@ -392,10 +392,10 @@ namespace Files.Helpers
                         if (childFile != null)
                         {
                             // Add location to MRU List
-                            if (childFile.File is SystemStorageFile)
+                            if (childFile.Item is SystemStorageFile)
                             {
                                 var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
-                                mostRecentlyUsed.Add(await childFile.File.ToStorageFileAsync(), childFile.Path);
+                                mostRecentlyUsed.Add(await childFile.Item.ToStorageFileAsync(), childFile.Path);
                             }
                         }
                     }
@@ -413,10 +413,10 @@ namespace Files.Helpers
                     .OnSuccess(async childFile =>
                     {
                         // Add location to MRU List
-                        if (childFile.File is SystemStorageFile)
+                        if (childFile.Item is SystemStorageFile)
                         {
                             var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
-                            mostRecentlyUsed.Add(await childFile.File.ToStorageFileAsync(), childFile.Path);
+                            mostRecentlyUsed.Add(await childFile.Item.ToStorageFileAsync(), childFile.Path);
                         }
 
                         if (openViaApplicationPicker)
@@ -425,7 +425,7 @@ namespace Files.Helpers
                             {
                                 DisplayApplicationPicker = true
                             };
-                            if (!await Launcher.LaunchFileAsync(childFile.File, options))
+                            if (!await Launcher.LaunchFileAsync(childFile.Item, options))
                             {
                                 var connection = await AppServiceConnectionHelper.Instance;
                                 if (connection != null)
@@ -512,7 +512,7 @@ namespace Files.Helpers
                                 }
 
                                 // Now launch file with options.
-                                launchSuccess = await Launcher.LaunchFileAsync(await childFile.File.ToStorageFileAsync(), options);
+                                launchSuccess = await Launcher.LaunchFileAsync(await childFile.Item.ToStorageFileAsync(), options);
                             }
 
                             if (!launchSuccess)
