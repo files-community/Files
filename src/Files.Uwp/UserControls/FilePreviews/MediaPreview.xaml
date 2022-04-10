@@ -11,9 +11,9 @@
     mc:Ignorable="d">
     <UserControl.KeyboardAccelerators>
         <KeyboardAccelerator
-            Key="P"
+            Key="Space"
             Invoked="TogglePlaybackAcceleratorInvoked"
-            Modifiers="Control,Menu" />
+            Modifiers="Control" />
     </UserControl.KeyboardAccelerators>
     <Grid CornerRadius="{StaticResource ControlCornerRadius}">
         <MediaPlayerElement

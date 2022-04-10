@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.ViewModels.Properties;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Media.Core;
@@ -9,6 +10,8 @@ namespace Files.ViewModels.Previews
 {
     public class MediaPreviewViewModel : BasePreviewModel
     {
+        public event EventHandler TogglePlaybackRequested;
+
         private MediaSource source;
 
         public MediaPreviewViewModel(ListedItem item) : base(item)
@@ -38,6 +41,10 @@ namespace Files.ViewModels.Previews
         {
             Source = null;
             base.PreviewControlBase_Unloaded(sender, e);
+        }
+
+        public void TogglePlayback() {
+            TogglePlaybackRequested?.Invoke(this, null);
         }
     }
 }
