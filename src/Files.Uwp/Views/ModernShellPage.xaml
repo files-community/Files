@@ -79,11 +79,6 @@
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="None" />
         <KeyboardAccelerator
-            Key="Space"
-            Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-            Modifiers="None" />
-        <KeyboardAccelerator
             Key="R"
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"

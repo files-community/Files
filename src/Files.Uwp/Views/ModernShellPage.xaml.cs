@@ -194,27 +194,40 @@ namespace Files.Views
             PreviewKeyDown += ModernShellPage_PreviewKeyDown;
         }
 
-        private async void ModernShellPage_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        /**
+         * Some keys are overriden by control built-in defaults (e.g. 'Space').
+         * They must be handled here since they're not propagated to KeyboardAccelerator.
+         */
+        private async void ModernShellPage_PreviewKeyDown(object sender, KeyRoutedEventArgs args)
         {
-            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var alt = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
+            var shift = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) || CurrentPageType == typeof(GridViewBrowser);
 
-            if (tabInstance && e.Key == (VirtualKey)192 && ctrlPressed) // VirtualKey for ` (accent key)
-            {
-                string path;
-                // Check if there is a folder selected, if not use the current directory.
-                if (SlimContentPage?.SelectedItem is not null &&
-                    SlimContentPage?.SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-                {
-                    path = SlimContentPage.SelectedItem.ItemPath;
-                }
-                else
-                {
-                    path = FilesystemViewModel.WorkingDirectory;
-                }
+            switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key) {
+                case (true, false, false, true, (VirtualKey) 192): // ctrl + ` (accent key), open terminal
+                    // Check if there is a folder selected, if not use the current directory.
+                    string path = FilesystemViewModel.WorkingDirectory;
+                    if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder) 
+                    {
+                        path = SlimContentPage.SelectedItem.ItemPath;
+                    }
+                    await NavigationHelpers.OpenDirectoryInTerminal(path);
+                    args.Handled = true;
+                    break;
 
-                await NavigationHelpers.OpenDirectoryInTerminal(path);
-                e.Handled = true;
+                case (false, false, false, true, VirtualKey.Space): // space, quick look
+                    // handled in `CurrentPageType`::FileList_PreviewKeyDown
+                    break;
+
+                case (true, false, false, true, VirtualKey.Space): // ctrl + space, toggle media playback
+                    if (App.PreviewPaneViewModel.PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
+                    {
+                        mediaPreviewContent.ViewModel.TogglePlayback();
+                        args.Handled = true;
+                    }
+                    break;
             }
         }
 
@@ -773,17 +786,7 @@ namespace Files.Views
 
                     break;
 
-                case (false, false, false, true, VirtualKey.Space): // space, quick look
-                    if (!NavToolbarViewModel.IsEditModeEnabled && !NavToolbarViewModel.IsSearchBoxVisible)
-                    {
-                        if (MainViewModel.IsQuickLookEnabled)
-                        {
-                            await QuickLookHelpers.ToggleQuickLook(this);
-                        }
-                    }
-                    break;
-
-                case (true, false, false, true, VirtualKey.P):
+                case (true, false, false, true, VirtualKey.P): // ctrl + p, toggle preview pane
                     App.PaneViewModel.IsPreviewSelected = !App.PaneViewModel.IsPreviewSelected;
                     break;
 
