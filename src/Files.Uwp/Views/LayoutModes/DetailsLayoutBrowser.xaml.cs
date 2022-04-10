@@ -29,6 +29,12 @@ namespace Files.Views.LayoutModes
 {
     public sealed partial class DetailsLayoutBrowser : BaseLayout
     {
+        private uint currentIconSize;
+
+        protected override uint IconSize => currentIconSize;
+
+        protected override ItemsControl ItemsControl => FileList;
+
         private ColumnsViewModel columnsViewModel = new ColumnsViewModel();
 
         public ColumnsViewModel ColumnsViewModel
@@ -519,36 +525,8 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        protected override ListedItem GetItemFromElement(object element)
-        {
-            if (element is ListViewItem item)
-            {
-                return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (FileList.ItemFromContainer(item) as ListedItem);
-            }
-            return null;
-        }
-
-        private void FileListGridItem_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.KeyModifiers == VirtualKeyModifiers.Control)
-            {
-                if ((sender as SelectorItem).IsSelected)
-                {
-                    (sender as SelectorItem).IsSelected = false;
-                    // Prevent issues arising caused by the default handlers attempting to select the item that has just been deselected by ctrl + click
-                    e.Handled = true;
-                }
-            }
-            else if (e.GetCurrentPoint(sender as UIElement).Properties.IsLeftButtonPressed)
-            {
-                if (!(sender as SelectorItem).IsSelected)
-                {
-                    (sender as SelectorItem).IsSelected = true;
-                }
-            }
-        }
-
-        private uint currentIconSize;
+        protected override bool CanGetItemFromElement(object element)
+            => element is ListViewItem;
 
         private void FolderSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
         {
@@ -702,37 +680,6 @@ namespace Files.Views.LayoutModes
         private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
             ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel = ColumnsViewModel;
-        }
-
-        private void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
-        {
-            var listedItem = args.Item as ListedItem;
-            if (args.InRecycleQueue)
-            {
-                UninitializeDrag(args.ItemContainer);
-                args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
-                if (listedItem is not null)
-                {
-                    ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoadingForItem(listedItem);
-                }
-            }
-            else
-            {
-                args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
-                args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
-
-                if (listedItem is not null)
-                {
-                    InitializeDrag(args.ItemContainer, listedItem);
-                    if (!listedItem.ItemPropertiesInitialized)
-                    {
-                        args.RegisterUpdateCallback(3, async (s, c) =>
-                        {
-                            await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
-                        });
-                    }
-                }
-            }
         }
 
         private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
