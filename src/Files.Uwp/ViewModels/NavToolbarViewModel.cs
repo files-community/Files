@@ -27,6 +27,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Files.Backend.Services;
 using static Files.UserControls.INavigationToolbar;
 using SearchBox = Files.UserControls.SearchBox;
 using SortDirection = Files.Shared.Enums.SortDirection;
@@ -38,7 +39,7 @@ namespace Files.ViewModels
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        public IUpdateSettingsService UpdateSettingsService { get; } = Ioc.Default.GetService<IUpdateSettingsService>();
+        public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>();
 
         public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
@@ -685,7 +686,7 @@ namespace Files.ViewModels
             }
         }
 
-        public void UpdateAdditionnalActions()
+        public void UpdateAdditionalActions()
         {
             OnPropertyChanged(nameof(HasAdditionalAction));
             OnPropertyChanged(nameof(CanEmptyRecycleBin));
@@ -759,6 +760,13 @@ namespace Files.ViewModels
             IsSearchBoxVisible = false;
         }
 
+        public bool SearchHasFocus { get; private set; }
+
+        public void SearchRegion_GotFocus(object sender, RoutedEventArgs e)
+        {
+            SearchHasFocus = true;
+        }
+
         public void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
         {
             var focusedElement = FocusManager.GetFocusedElement();
@@ -767,6 +775,7 @@ namespace Files.ViewModels
                 return;
             }
 
+            SearchHasFocus = false;
             CloseSearchBox();
         }
 
@@ -1033,13 +1042,14 @@ namespace Files.ViewModels
         {
             if (!string.IsNullOrWhiteSpace(sender.Text) && shellpage.FilesystemViewModel != null)
             {
-                try
+                if (!await SafetyExtensions.IgnoreExceptions(async () =>
                 {
                     IList<ListedItem> suggestions = null;
                     var expandedPath = StorageFileExtensions.GetPathWithoutEnvironmentVariable(sender.Text);
                     var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
-                    var folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
-                    var currPath = await folder.Result.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
+                    StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+                    if (folder == null) return false;
+                    var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
                     if (currPath.Count >= maxSuggestions)
                     {
                         suggestions = currPath.Select(x => new ListedItem(null)
@@ -1103,8 +1113,8 @@ namespace Files.ViewModels
                             NavigationBarSuggestions.Insert(suggestions.IndexOf(s), s);
                         }
                     }
-                }
-                catch
+                    return true;
+                }))
                 {
                     NavigationBarSuggestions.Clear();
                     NavigationBarSuggestions.Add(new ListedItem(null)

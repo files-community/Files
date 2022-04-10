@@ -1,9 +1,9 @@
-using Files.Shared.Extensions;
-using Files.DataModels;
-using Files.Shared.Enums;
-using Files.Helpers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Files.DataModels;
+using Files.Helpers;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
@@ -37,12 +37,6 @@ namespace Files.ViewModels
             }
 
             UpdateThemeElements = new RelayCommand(() => ThemeModeChanged?.Invoke(this, EventArgs.Empty));
-    }
-
-    public bool AreRegistrySettingsMergedToJson
-        {
-            get => Get(false);
-            set => Set(value);
         }
 
         public async Task DetectQuickLook()
@@ -81,6 +75,10 @@ namespace Files.ViewModels
                 {
                     DisplayedTimeStyle = TimeStyle.System;
                 }
+                else if (localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString() == "Universal")
+                {
+                    DisplayedTimeStyle = TimeStyle.Universal;
+                }
             }
             else
             {
@@ -96,14 +94,12 @@ namespace Files.ViewModels
             set
             {
                 SetProperty(ref displayedTimeStyle, value);
-                if (value.Equals(TimeStyle.Application))
+                localSettings.Values[Constants.LocalSettings.DateTimeFormat] = value switch
                 {
-                    localSettings.Values[Constants.LocalSettings.DateTimeFormat] = "Application";
-                }
-                else if (value.Equals(TimeStyle.System))
-                {
-                    localSettings.Values[Constants.LocalSettings.DateTimeFormat] = "System";
-                }
+                    TimeStyle.System => "System",
+                    TimeStyle.Universal => "Universal",
+                    _ => "Application",
+                };
             }
         }
 

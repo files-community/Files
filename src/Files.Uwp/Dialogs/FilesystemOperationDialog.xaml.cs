@@ -1,9 +1,8 @@
 ﻿using Files.Backend.ViewModels.Dialogs;
+using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
 using Files.Shared.Enums;
-using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
@@ -13,15 +12,26 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files.Dialogs
 {
-    public sealed partial class FilesystemOperationDialog : ContentDialog, IDialog<FilesystemOperationDialogViewModel>, IFilesystemOperationDialogView
+    public sealed partial class FilesystemOperationDialog : ContentDialog, IDialog<FileSystemDialogViewModel>
     {
-        public FilesystemOperationDialogViewModel ViewModel
+        public FileSystemDialogViewModel ViewModel
         {
-            get => (FilesystemOperationDialogViewModel)DataContext;
-            set => DataContext = value;
+            get => (FileSystemDialogViewModel)DataContext;
+            set
+            {
+                if (value != null)
+                {
+                    value.PrimaryButtonEnabled = true;
+                }
+
+                DataContext = value;
+            }
         }
 
-        public IList<object> SelectedItems => DetailsGrid.SelectedItems;
+        public ListViewSelectionMode ItemSelectionMode
+        {
+            get => ViewModel.FileSystemDialogMode.ConflictsExist ? ListViewSelectionMode.Extended : ListViewSelectionMode.None;
+        }
 
         public FilesystemOperationDialog()
         {
@@ -45,42 +55,42 @@ namespace Files.Dialogs
             (sender as Button).GotFocus -= PrimaryButton_GotFocus;
             if (chkPermanentlyDelete != null)
             {
-                chkPermanentlyDelete.IsEnabled = ViewModel.PermanentlyDeleteEnabled;
+                chkPermanentlyDelete.IsEnabled = ViewModel.IsDeletePermanentlyEnabled;
             }
             DetailsGrid.IsEnabled = true;
         }
 
-        private void MenuFlyoutItem_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
             var t = (sender as MenuFlyoutItem).Tag as string;
             if (t == "All")
             {
-                var i = DetailsGrid.SelectedItems.FirstOrDefault() as FilesystemOperationItemViewModel;
-                if (i is not null)
+                if (DetailsGrid.SelectedItems.FirstOrDefault() is FileSystemDialogConflictItemViewModel conflictItem)
                 {
-                    ViewModel.ApplyConflictOptionToAll(i.ConflictResolveOption);
+                    ViewModel.ApplyConflictOptionToAll(conflictItem.ConflictResolveOption);
                 }
+
                 return;
             }
 
             var op = (FileNameConflictResolveOptionType)int.Parse(t);
             foreach (var item in DetailsGrid.SelectedItems)
             {
-                if (item is FilesystemOperationItemViewModel model)
+                if (item is FileSystemDialogConflictItemViewModel conflictItem)
                 {
-                    model.TakeAction(op);
+                    conflictItem.TakeAction(op);
                 }
             }
         }
 
         private void MenuFlyout_Opening(object sender, object e)
         {
-            if (!ViewModel.MustResolveConflicts)
+            if (!ViewModel.FileSystemDialogMode.ConflictsExist)
             {
                 return;
             }
 
-            if (((sender as MenuFlyout)?.Target as ListViewItem)?.Content is FilesystemOperationItemViewModel li)
+            if (((sender as MenuFlyout)?.Target as ListViewItem)?.Content is BaseFileSystemDialogItemViewModel li)
             {
                 if (!DetailsGrid.SelectedItems.Contains(li))
                 {
@@ -88,22 +98,22 @@ namespace Files.Dialogs
                 }
             }
 
-            if (DetailsGrid.Items.Count > 1 && DetailsGrid.SelectedItems.Count == 1 && DetailsGrid.SelectedItems.Any(x => (x as FilesystemOperationItemViewModel).ActionTaken))
+            if (DetailsGrid.Items.Count > 1 && DetailsGrid.SelectedItems.Count == 1 && !DetailsGrid.SelectedItems.Any(x => (x as FileSystemDialogConflictItemViewModel).IsDefault))
             {
-                ApplyToAllOption.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                ApplyToAllSeparator.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                ApplyToAllOption.Visibility = Visibility.Visible;
+                ApplyToAllSeparator.Visibility = Visibility.Visible;
             }
             else
             {
-                ApplyToAllOption.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                ApplyToAllSeparator.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                ApplyToAllOption.Visibility = Visibility.Collapsed;
+                ApplyToAllSeparator.Visibility = Visibility.Collapsed;
             }
         }
 
-        private void Grid_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
             // if there are conflicts to be resolved, apply the conflict context flyout
-            if (ViewModel.MustResolveConflicts)
+            if (ViewModel.FileSystemDialogMode.ConflictsExist)
             {
                 (sender as Grid).FindAscendant<ListViewItem>().ContextFlyout = ItemContextFlyout;
             }
@@ -111,18 +121,7 @@ namespace Files.Dialogs
 
         private void RootDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
         {
-            ViewModel.ClosingCommand.Execute(null);
+            ViewModel.CancelCts();
         }
-
-        private void RootDialog_Loaded(object sender, RoutedEventArgs e)
-        {
-            ViewModel.View = this;
-            ViewModel.LoadedCommand.Execute(null);
-        }
-    }
-
-    public interface IFilesystemOperationDialogView
-    {
-        IList<object> SelectedItems { get; }
     }
 }

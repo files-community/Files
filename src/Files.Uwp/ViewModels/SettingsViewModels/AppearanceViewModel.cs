@@ -26,6 +26,27 @@ namespace Files.ViewModels.SettingsViewModels
                 "LightTheme".GetLocalized(),
                 "DarkTheme".GetLocalized()
             };
+
+            SetCompactStyles();
+        }
+
+        /// <summary>
+        /// Forces the application to use the correct styles if compact mode is turned on
+        /// </summary>
+        private void SetCompactStyles()
+        {
+            if (UseCompactStyles)
+            {
+                Application.Current.Resources["ListItemHeight"] = 28;
+                Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = 24;
+            }
+            else
+            {
+                Application.Current.Resources["ListItemHeight"] = 36;
+                Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = 32;
+            }
+
+            UpdateTheme();
         }
 
         public List<string> Themes { get; set; }
@@ -129,6 +150,23 @@ namespace Files.ViewModels.SettingsViewModels
                 {
                     UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = value;
                     _ = App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(value);
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool UseCompactStyles
+        {
+            get => UserSettingsService.AppearanceSettingsService.UseCompactStyles;
+            set
+            {
+                if (value != UserSettingsService.AppearanceSettingsService.UseCompactStyles)
+                {
+                    UserSettingsService.AppearanceSettingsService.UseCompactStyles = value;
+                    
+                    //Apply the correct styles
+                    SetCompactStyles();
+
                     OnPropertyChanged();
                 }
             }

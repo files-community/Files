@@ -45,17 +45,18 @@ namespace Files.DataModels.NavigationControlItems
 
         public bool SelectsOnInvoked { get; set; } = true;
 
+        private bool isExpanded;
         public bool IsExpanded
         {
-            get => App.AppSettings.Get(Text == "SidebarFavorites".GetLocalized(), $"section:{Text.Replace('\\', '_')}");
-            set
-            {
-                App.AppSettings.Set(value, $"section:{Text.Replace('\\', '_')}");
-                OnPropertyChanged(nameof(IsExpanded));
-            }
+            get => isExpanded;
+            set => SetProperty(ref isExpanded, value);
         }
 
+        public bool IsInvalid { get; set; } = false;
+
         public SectionType Section { get; set; }
+
+        public ContextMenuOptions MenuOptions { get; set; }
 
         public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
     }

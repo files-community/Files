@@ -79,6 +79,6 @@ namespace Files.ViewModels.Previews
             {Languages.Aspx,  new List<string> {".aspx"} },
         };
 
-        private static ILanguage GetCodeLanguage(string ext) => languageExtensions.FirstOrDefault(x => x.Value.Contains(ext)).Key;
+        private static ILanguage GetCodeLanguage(string ext) => languageExtensions.FirstOrDefault(x => x.Value.Contains(ext, StringComparer.OrdinalIgnoreCase)).Key;
     }
 }

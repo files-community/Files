@@ -89,7 +89,7 @@ namespace Files.Views.LayoutModes
         private void ItemManipulationModel_ScrollIntoViewInvoked(object sender, ListedItem e)
         {
             FileList.ScrollIntoView(e);
-            ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * 36, null, true); // Scroll to index * item height
+            ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * Convert.ToInt32(Application.Current.Resources["ListItemHeight"]), null, true); // Scroll to index * item height
         }
 
         private void ItemManipulationModel_StartRenameItemInvoked(object sender, EventArgs e)
@@ -624,6 +624,10 @@ namespace Files.Views.LayoutModes
                  || (!UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)))
             {
                 NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+            }
+            else
+            {
+                ParentShellPageInstance.Up_Click();
             }
             ResetRenameDoubleClick();
         }
