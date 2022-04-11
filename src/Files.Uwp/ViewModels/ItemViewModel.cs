@@ -1513,7 +1513,8 @@ namespace Files.Uwp.ViewModels
             // Flag to use FindFirstFileExFromApp or StorageFolder enumeration
             var isBoxFolder = App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder ?
                 path.StartsWith(boxFolder) : false; // Use storage folder for Box Drive (#4629)
-            var isNetworkFolder = System.Text.RegularExpressions.Regex.IsMatch(path, @"^\\\\(?!\?)"); // Use storage folder for network drives (*FromApp methods return access denied)
+            var isNetworkFolder = App.DrivesManager.Drives.Any(x => x.Path == Path.GetPathRoot(path) && x.Type == DataModels.NavigationControlItems.DriveType.Network)
+                || System.Text.RegularExpressions.Regex.IsMatch(path, @"^\\\\(?!\?)"); // Use storage folder for network drives (*FromApp methods return access denied)
             bool enumFromStorageFolder = isBoxFolder || isNetworkFolder;
 
             BaseStorageFolder rootFolder = null;
