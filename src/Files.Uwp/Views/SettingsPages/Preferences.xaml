@@ -185,6 +185,16 @@
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
 
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowThumbnails}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE91B;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowThumbnails}"
+                                IsOn="{Binding ShowThumbnails, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+
                         <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFilesWithOneClick}" HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xE8B0;" />

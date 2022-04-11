@@ -580,6 +580,19 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
+        public bool ShowThumbnails
+        {
+            get => UserSettingsService.PreferencesSettingsService.ShowThumbnails;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.ShowThumbnails)
+                {
+                    UserSettingsService.PreferencesSettingsService.ShowThumbnails = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public bool OpenFilesWithOneClick
         {
             get => UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick;

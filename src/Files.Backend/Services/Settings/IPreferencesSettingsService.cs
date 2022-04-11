@@ -21,6 +21,11 @@ namespace Files.Backend.Services.Settings
         bool ShowFileExtensions { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether or not media thumbnails should be visible.
+        /// </summary>
+        bool ShowThumbnails { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether or not hidden items should be visible.
         /// </summary>
         bool AreHiddenItemsVisible { get; set; }
