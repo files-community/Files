@@ -1,7 +1,7 @@
 ﻿using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
-using Files.Uwp.Helpers.ListedItem;
+using Files.Uwp.Helpers.ListedItems;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

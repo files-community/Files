@@ -17,7 +17,7 @@ using Windows.Storage.AccessCache;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
-using Files.ViewModels.Widgets.RecentFiles;
+using Files.Uwp.ViewModels.Widgets.RecentFiles;
 using System.Linq;
 
 namespace Files.Uwp.UserControls.Widgets

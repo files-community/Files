@@ -2,8 +2,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Graph;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
 using Files.Shared.Enums;
 using Files.Uwp.Helpers.ListedItems;
 using Microsoft.Graph;
@@ -18,7 +18,7 @@ using Windows.Storage;
 using Windows.Storage.AccessCache;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.ViewModels.Widgets.RecentFiles
+namespace Files.Uwp.ViewModels.Widgets.RecentFiles
 {
     public class RecentFilesWidgetViewModel : ObservableObject, IDisposable
     {

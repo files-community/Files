@@ -8,6 +8,9 @@ namespace Files.Uwp.Extensions
 {
     public static class DateTimeExtensions
     {
+        public static string GetFriendlyDateFromFormat(this DateTimeOffset d, bool isDetailed = false)
+            => GetFriendlyDateFromFormat(d, GetDateFormat(), isDetailed);
+
         public static string GetFriendlyDateFromFormat(this DateTimeOffset? d, string returnFormat, bool isDetailed = false)
         {
             if (!d.HasValue)
