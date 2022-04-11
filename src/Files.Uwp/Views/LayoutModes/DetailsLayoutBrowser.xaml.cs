@@ -1,12 +1,12 @@
 using Files.Shared.Enums;
-using Files.EventArguments;
-using Files.Filesystem;
-using Files.Helpers;
-using Files.Helpers.XamlHelpers;
-using Files.Interacts;
-using Files.UserControls;
-using Files.UserControls.Selection;
-using Files.ViewModels;
+using Files.Uwp.EventArguments;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
+using Files.Uwp.Helpers.XamlHelpers;
+using Files.Uwp.Interacts;
+using Files.Uwp.UserControls;
+using Files.Uwp.UserControls.Selection;
+using Files.Uwp.ViewModels;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -25,10 +25,16 @@ using Windows.UI.Xaml.Navigation;
 
 using SortDirection = Files.Shared.Enums.SortDirection;
 
-namespace Files.Views.LayoutModes
+namespace Files.Uwp.Views.LayoutModes
 {
     public sealed partial class DetailsLayoutBrowser : BaseLayout
     {
+        private uint currentIconSize;
+
+        protected override uint IconSize => currentIconSize;
+
+        protected override ItemsControl ItemsControl => FileList;
+
         private ColumnsViewModel columnsViewModel = new ColumnsViewModel();
 
         public ColumnsViewModel ColumnsViewModel
@@ -519,36 +525,8 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        protected override ListedItem GetItemFromElement(object element)
-        {
-            if (element is ListViewItem item)
-            {
-                return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (FileList.ItemFromContainer(item) as ListedItem);
-            }
-            return null;
-        }
-
-        private void FileListGridItem_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.KeyModifiers == VirtualKeyModifiers.Control)
-            {
-                if ((sender as SelectorItem).IsSelected)
-                {
-                    (sender as SelectorItem).IsSelected = false;
-                    // Prevent issues arising caused by the default handlers attempting to select the item that has just been deselected by ctrl + click
-                    e.Handled = true;
-                }
-            }
-            else if (e.GetCurrentPoint(sender as UIElement).Properties.IsLeftButtonPressed)
-            {
-                if (!(sender as SelectorItem).IsSelected)
-                {
-                    (sender as SelectorItem).IsSelected = true;
-                }
-            }
-        }
-
-        private uint currentIconSize;
+        protected override bool CanGetItemFromElement(object element)
+            => element is ListViewItem;
 
         private void FolderSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
         {
@@ -702,33 +680,6 @@ namespace Files.Views.LayoutModes
         private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
             ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel = ColumnsViewModel;
-        }
-
-        private void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
-        {
-            if (!args.InRecycleQueue)
-            {
-                InitializeDrag(args.ItemContainer);
-                args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
-                args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
-
-                if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
-                {
-                    args.RegisterUpdateCallback(3, async (s, c) =>
-                    {
-                        await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
-                    });
-                }
-            }
-            else
-            {
-                UninitializeDrag(args.ItemContainer);
-                args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
-                if (args.Item is ListedItem item)
-                {
-                    ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoadingForItem(item);
-                }
-            }
         }
 
         private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)

@@ -1,4 +1,4 @@
-﻿using Files.Filesystem;
+﻿using Files.Uwp.Filesystem;
 using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using System;
@@ -8,7 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Files.Backend.ViewModels.FileTags;
 
-namespace Files.UserControls
+namespace Files.Uwp.UserControls
 {
     public sealed partial class MenuFlyoutItemFileTag : UserControl
     {

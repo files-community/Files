@@ -1,7 +1,7 @@
 ﻿using Microsoft.Toolkit.Uwp;
 using System.Globalization;
 
-namespace Files.DataModels
+namespace Files.Uwp.DataModels
 {
     public class DefaultLanguageModel
     {

@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
-namespace Files.Behaviors
+namespace Files.Uwp.Behaviors
 {
     /// <summary>
     /// Performs an animation on a ListView or GridView Header to make it sticky using composition.

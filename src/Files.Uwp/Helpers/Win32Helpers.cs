@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class Win32Helpers
     {

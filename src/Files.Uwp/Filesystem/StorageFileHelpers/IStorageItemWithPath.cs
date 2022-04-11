@@ -1,6 +1,6 @@
 ﻿using Windows.Storage;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public interface IStorageItemWithPath
     {

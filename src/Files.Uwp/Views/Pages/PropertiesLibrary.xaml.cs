@@ -1,7 +1,7 @@
 ﻿using Files.Shared.Enums;
-using Files.Filesystem;
-using Files.Helpers;
-using Files.ViewModels.Properties;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
+using Files.Uwp.ViewModels.Properties;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
@@ -13,7 +13,7 @@ using System.Windows.Input;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 
-namespace Files.Views
+namespace Files.Uwp.Views
 {
     public sealed partial class PropertiesLibrary : PropertiesTab, INotifyPropertyChanged
     {

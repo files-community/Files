@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="Files.Views.ColumnShellPage"
+    x:Class="Files.Uwp.Views.ColumnShellPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -77,11 +77,6 @@
             Modifiers="Control" />
         <KeyboardAccelerator
             Key="Delete"
-            Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-            Modifiers="None" />
-        <KeyboardAccelerator
-            Key="Space"
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="None" />

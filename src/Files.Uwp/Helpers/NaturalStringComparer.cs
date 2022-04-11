@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     internal static class SafeNativeMethods
     {

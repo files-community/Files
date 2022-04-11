@@ -1,8 +1,8 @@
-﻿using Files.DataModels.NavigationControlItems;
-using Files.Filesystem;
-using Files.Helpers;
+﻿using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.UserControls;
+using Files.Uwp.UserControls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
@@ -16,7 +16,7 @@ using System.Windows.Input;
 using Windows.UI.Xaml;
 using Files.Shared.EventArguments;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
     public class SidebarViewModel : ObservableObject, IDisposable
     {

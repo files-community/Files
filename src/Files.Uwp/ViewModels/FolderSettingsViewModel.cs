@@ -1,8 +1,8 @@
 ﻿using Files.Shared.Enums;
-using Files.EventArguments;
-using Files.Helpers;
+using Files.Uwp.EventArguments;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.Views.LayoutModes;
+using Files.Uwp.Views.LayoutModes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
@@ -11,9 +11,9 @@ using System;
 using System.Linq;
 using System.Windows.Input;
 using Windows.Storage;
-using static Files.ViewModels.FolderLayoutInformation;
+using static Files.Uwp.ViewModels.FolderLayoutInformation;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
     public class FolderSettingsViewModel : ObservableObject
     {

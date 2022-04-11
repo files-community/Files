@@ -1,8 +1,8 @@
 ﻿using ByteSizeLib;
 using Files.Shared;
-using Files.Extensions;
-using Files.Filesystem;
-using Files.Helpers;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -14,7 +14,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 using Files.Shared.Extensions;
 
-namespace Files.DataModels.NavigationControlItems
+namespace Files.Uwp.DataModels.NavigationControlItems
 {
     public class DriveItem : ObservableObject, INavigationControlItem
     {

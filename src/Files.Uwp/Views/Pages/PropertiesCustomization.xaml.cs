@@ -1,11 +1,11 @@
-﻿using Files.Filesystem;
-using Files.ViewModels.Properties;
+﻿using Files.Uwp.Filesystem;
+using Files.Uwp.ViewModels.Properties;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 
-namespace Files.Views
+namespace Files.Uwp.Views
 {
     public sealed partial class PropertiesCustomization : PropertiesTab
     {

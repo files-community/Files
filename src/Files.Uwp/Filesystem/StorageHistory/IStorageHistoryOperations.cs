@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Files.Filesystem.FilesystemHistory
+namespace Files.Uwp.Filesystem.FilesystemHistory
 {
     public interface IStorageHistoryOperations : IDisposable
     {

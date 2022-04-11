@@ -1,11 +1,11 @@
-﻿using Files.DataModels.NavigationControlItems;
-using Files.Extensions;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+﻿using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using Files.Shared.Extensions;
-using Files.UserControls;
-using Files.ViewModels;
-using Files.Views;
+using Files.Uwp.UserControls;
+using Files.Uwp.ViewModels;
+using Files.Uwp.Views;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public static class StorageFileExtensions
     {

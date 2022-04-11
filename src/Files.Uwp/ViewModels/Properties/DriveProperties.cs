@@ -1,12 +1,12 @@
-﻿using Files.DataModels.NavigationControlItems;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+﻿using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
 using Windows.Storage.FileProperties;
 
-namespace Files.ViewModels.Properties
+namespace Files.Uwp.ViewModels.Properties
 {
     internal class DriveProperties : BaseProperties
     {

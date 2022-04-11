@@ -1,13 +1,13 @@
 ﻿using Files.Shared;
-using Files.Dialogs;
+using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
-using Files.Extensions;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
-using Files.ViewModels;
-using Files.ViewModels.Dialogs;
-using Files.Views;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
+using Files.Uwp.ViewModels;
+using Files.Uwp.ViewModels.Dialogs;
+using Files.Uwp.Views;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -29,7 +29,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Files.Backend.Enums;
 
-namespace Files.Interacts
+namespace Files.Uwp.Interacts
 {
     /// <summary>
     /// This class provides default implementation for BaseLayout commands.

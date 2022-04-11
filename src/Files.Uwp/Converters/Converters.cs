@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Data;
 
 #nullable enable
 
-namespace Files.Converters
+namespace Files.Uwp.Converters
 {
     /// <summary>
     /// The generic base implementation of a value converter.

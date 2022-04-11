@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace Files.UserControls.Selection
+namespace Files.Uwp.UserControls.Selection
 {
     internal class InvertPreviousItemSelectionStrategy : ItemSelectionStrategy
     {

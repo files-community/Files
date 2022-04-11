@@ -1,6 +1,6 @@
 ﻿using Files.Backend.Models.Imaging;
 using Files.Backend.Services;
-using Files.Helpers;
+using Files.Uwp.Helpers;
 using Files.Uwp.Imaging;
 using Microsoft.Toolkit.Uwp;
 using System;

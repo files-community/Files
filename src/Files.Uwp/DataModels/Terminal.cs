@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Files.DataModels
+namespace Files.Uwp.DataModels
 {
     public class Terminal
     {

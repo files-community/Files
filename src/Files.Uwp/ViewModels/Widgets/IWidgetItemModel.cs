@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Files.ViewModels.Widgets
+namespace Files.Uwp.ViewModels.Widgets
 {
     public interface IWidgetItemModel : IDisposable
     {

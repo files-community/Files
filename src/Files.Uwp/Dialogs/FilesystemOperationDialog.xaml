@@ -1,9 +1,9 @@
 ﻿<ContentDialog
-    x:Class="Files.Dialogs.FilesystemOperationDialog"
+    x:Class="Files.Uwp.Dialogs.FilesystemOperationDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:Files.Helpers"
+    xmlns:helpers="using:Files.Uwp.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"

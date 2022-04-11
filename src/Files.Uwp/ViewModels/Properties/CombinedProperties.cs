@@ -1,6 +1,6 @@
-﻿using Files.Extensions;
-using Files.Filesystem;
-using Files.Helpers;
+﻿using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Core;
 
-namespace Files.ViewModels.Properties
+namespace Files.Uwp.ViewModels.Properties
 {
     internal class CombinedProperties : BaseProperties
     {

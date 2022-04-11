@@ -8,7 +8,7 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public class ExternalResourcesHelper
     {

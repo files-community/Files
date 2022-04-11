@@ -1,6 +1,6 @@
-﻿using Files.CommandLine;
+﻿using Files.Uwp.CommandLine;
 using Files.Shared;
-using Files.Helpers;
+using Files.Uwp.Helpers;
 using Files.Shared.Extensions;
 using System;
 using System.Linq;
@@ -10,7 +10,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using Windows.UI.Xaml;
 
-namespace Files
+namespace Files.Uwp
 {
     internal class Program
     {

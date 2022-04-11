@@ -1,11 +1,11 @@
-﻿using Files.Dialogs;
-using Files.Helpers.XamlHelpers;
-using Files.UserControls.Settings;
+﻿using Files.Uwp.Dialogs;
+using Files.Uwp.Helpers.XamlHelpers;
+using Files.Uwp.UserControls.Settings;
 using Microsoft.Toolkit.Uwp.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.SettingsPages
+namespace Files.Uwp.SettingsPages
 {
     public sealed partial class Appearance : Page
     {

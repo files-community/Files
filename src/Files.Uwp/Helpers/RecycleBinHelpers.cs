@@ -12,7 +12,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public class RecycleBinHelpers
     {

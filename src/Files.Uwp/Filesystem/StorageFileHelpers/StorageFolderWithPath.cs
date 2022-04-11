@@ -1,8 +1,8 @@
-﻿using Files.Filesystem.StorageItems;
+﻿using Files.Uwp.Filesystem.StorageItems;
 using Windows.Storage;
 using IO = System.IO;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public class StorageFolderWithPath : IStorageItemWithPath
     {
