@@ -1,5 +1,5 @@
 ﻿using Files.Backend.Services.Settings;
-using Files.ViewModels.Previews;
+using Files.Uwp.ViewModels.Previews;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Windows.Media.Playback;
 using Windows.UI.Xaml;
@@ -9,7 +9,7 @@ using System;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Files.UserControls.FilePreviews
+namespace Files.Uwp.UserControls.FilePreviews
 {
     public sealed partial class MediaPreview : UserControl
     {

@@ -1,4 +1,4 @@
-﻿using Files.Helpers;
+﻿using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;
 
-namespace Files.ViewModels.SettingsViewModels
+namespace Files.Uwp.ViewModels.SettingsViewModels
 {
     public class AppearanceViewModel : ObservableObject
     {

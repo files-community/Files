@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using System;
 using System.ComponentModel;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
     public interface IPaneViewModel : INotifyPropertyChanged, IDisposable
     {

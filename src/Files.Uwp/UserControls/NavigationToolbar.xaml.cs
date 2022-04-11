@@ -1,5 +1,5 @@
-using Files.Helpers.XamlHelpers;
-using Files.ViewModels;
+using Files.Uwp.Helpers.XamlHelpers;
+using Files.Uwp.ViewModels;
 using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 
-namespace Files.UserControls
+namespace Files.Uwp.UserControls
 {
     public sealed partial class NavigationToolbar : UserControl
     {

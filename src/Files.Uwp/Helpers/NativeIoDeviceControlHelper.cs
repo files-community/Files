@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public class NativeIoDeviceControlHelper
     {

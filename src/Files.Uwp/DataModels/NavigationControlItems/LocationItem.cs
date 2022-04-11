@@ -1,14 +1,14 @@
 ﻿using Files.Shared;
-using Files.Filesystem;
+using Files.Uwp.Filesystem;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Files.Helpers;
+using Files.Uwp.Helpers;
 
-namespace Files.DataModels.NavigationControlItems
+namespace Files.Uwp.DataModels.NavigationControlItems
 {
     public class LocationItem : ObservableObject, INavigationControlItem
     {

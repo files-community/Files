@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml.Media;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public class GroupedCollection<T> : BulkConcurrentObservableCollection<T>, IGroupedCollectionHeader
     {

@@ -4,7 +4,7 @@ using System;
 using System.Globalization;
 using Windows.Storage;
 
-namespace Files.Extensions
+namespace Files.Uwp.Extensions
 {
     public static class DateTimeExtensions
     {

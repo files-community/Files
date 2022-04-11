@@ -1,11 +1,11 @@
 ﻿using Common;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using System;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public class FileTagsHelper
     {

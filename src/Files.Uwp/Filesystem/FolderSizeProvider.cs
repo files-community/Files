@@ -1,4 +1,4 @@
-using Files.Extensions;
+using Files.Uwp.Extensions;
 using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
@@ -10,9 +10,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using static Files.Helpers.NativeFindStorageItemHelper;
+using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public interface IFolderSizeProvider
     {

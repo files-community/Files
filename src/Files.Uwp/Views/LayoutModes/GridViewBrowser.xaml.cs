@@ -1,10 +1,10 @@
 ﻿using Files.Shared.Enums;
-using Files.EventArguments;
-using Files.Filesystem;
-using Files.Helpers;
-using Files.Helpers.XamlHelpers;
-using Files.Interacts;
-using Files.UserControls.Selection;
+using Files.Uwp.EventArguments;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
+using Files.Uwp.Helpers.XamlHelpers;
+using Files.Uwp.Interacts;
+using Files.Uwp.UserControls.Selection;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace Files.Views.LayoutModes
+namespace Files.Uwp.Views.LayoutModes
 {
     public sealed partial class GridViewBrowser : BaseLayout
     {

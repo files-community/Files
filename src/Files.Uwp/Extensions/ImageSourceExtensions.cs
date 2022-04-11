@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage.Streams;
 
-namespace Files.Extensions
+namespace Files.Uwp.Extensions
 {
     internal static class ImageSourceExtensions
     {

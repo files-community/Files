@@ -1,4 +1,4 @@
-﻿using Files.Helpers;
+﻿using Files.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +10,7 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 
-namespace Files.Filesystem.StorageItems
+namespace Files.Uwp.Filesystem.StorageItems
 {
     public sealed class SystemStorageFile : BaseStorageFile
     {

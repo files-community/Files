@@ -1,8 +1,8 @@
-﻿using Files.DataModels.NavigationControlItems;
-using Files.Helpers;
+﻿using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.ViewModels;
-using Files.ViewModels.Widgets;
+using Files.Uwp.ViewModels;
+using Files.Uwp.ViewModels.Widgets;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -22,7 +22,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.Core;
 using Files.Uwp.UserControls.Widgets;
 
-namespace Files.UserControls.Widgets
+namespace Files.Uwp.UserControls.Widgets
 {
     public class DriveCardItem : ObservableObject, IWidgetCardItem<DriveItem>
     {

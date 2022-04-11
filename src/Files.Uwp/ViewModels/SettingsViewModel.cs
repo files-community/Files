@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Files.DataModels;
-using Files.Helpers;
+using Files.Uwp.DataModels;
+using Files.Uwp.Helpers;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Microsoft.Toolkit.Uwp;
@@ -17,7 +17,7 @@ using Windows.Foundation.Collections;
 using Windows.Globalization;
 using Windows.Storage;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
     [Obsolete("Do not use this class as Settings store anymore, settings have been merged to IUserSettingsService.")]
     public class SettingsViewModel : ObservableObject

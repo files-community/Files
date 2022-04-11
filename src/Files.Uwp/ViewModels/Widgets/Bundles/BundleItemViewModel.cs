@@ -1,8 +1,8 @@
 ﻿using Files.Shared.Extensions;
-using Files.Filesystem;
-using Files.Helpers;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.Views;
+using Files.Uwp.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
@@ -14,7 +14,7 @@ using Windows.Storage.FileProperties;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.ViewModels.Widgets.Bundles
+namespace Files.Uwp.ViewModels.Widgets.Bundles
 {
     public class BundleItemViewModel : ObservableObject, IDisposable
     {

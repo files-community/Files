@@ -3,7 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Files.ViewModels.Widgets
+namespace Files.Uwp.ViewModels.Widgets
 {
     public class WidgetsListControlViewModel : ObservableObject, IDisposable
     {

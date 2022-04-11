@@ -1,5 +1,5 @@
-﻿using Files.Extensions;
-using Files.Helpers;
+﻿using Files.Uwp.Extensions;
+using Files.Uwp.Helpers;
 using Files.Shared.Extensions;
 using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Toolkit.Uwp;
@@ -16,7 +16,7 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 
-namespace Files.Filesystem.StorageItems
+namespace Files.Uwp.Filesystem.StorageItems
 {
     public sealed class ZipStorageFolder : BaseStorageFolder
     {

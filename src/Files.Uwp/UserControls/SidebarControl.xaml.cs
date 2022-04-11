@@ -1,14 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.Backend.Services.Settings;
-using Files.DataModels;
-using Files.DataModels.NavigationControlItems;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
-using Files.Helpers.ContextFlyouts;
+using Files.Uwp.DataModels;
+using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
+using Files.Uwp.Helpers.ContextFlyouts;
 using Files.Shared.Extensions;
-using Files.ViewModels;
+using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -28,7 +28,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 
-namespace Files.UserControls
+namespace Files.Uwp.UserControls
 {
     public sealed partial class SidebarControl : Microsoft.UI.Xaml.Controls.NavigationView, INotifyPropertyChanged
     {

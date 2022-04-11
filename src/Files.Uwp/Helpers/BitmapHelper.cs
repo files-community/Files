@@ -1,5 +1,5 @@
-﻿using Files.Filesystem;
-using Files.Filesystem.StorageItems;
+﻿using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -8,7 +8,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     internal static class BitmapHelper
     {

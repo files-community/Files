@@ -1,4 +1,4 @@
-﻿using Files.Extensions;
+﻿using Files.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -7,10 +7,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage.FileProperties;
 using Windows.UI.Core;
-using static Files.Helpers.NativeFindStorageItemHelper;
+using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.ViewModels.Properties
+namespace Files.Uwp.ViewModels.Properties
 {
     public abstract class BaseProperties
     {

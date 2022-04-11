@@ -1,14 +1,14 @@
 ﻿using Files.Backend.Services.Settings;
-using Files.Filesystem;
-using Files.UserControls.Widgets;
+using Files.Uwp.Filesystem;
 using Files.Uwp.UserControls.Widgets;
-using Files.ViewModels.Widgets;
+using Files.Uwp.UserControls.Widgets;
+using Files.Uwp.ViewModels.Widgets;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class WidgetsHelpers
     {

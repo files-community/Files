@@ -1,6 +1,6 @@
-﻿using Files.Converters;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+﻿using Files.Uwp.Converters;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
@@ -13,7 +13,7 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace Files.ViewModels.Properties
+namespace Files.Uwp.ViewModels.Properties
 {
     /// <summary>
     /// This class is represents a system file property from the Windows.Storage API

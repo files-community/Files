@@ -1,5 +1,5 @@
-﻿using Files.Helpers;
-using Files.ViewModels;
+﻿using Files.Uwp.Helpers;
+using Files.Uwp.ViewModels;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.UserControls.MultitaskingControl
+namespace Files.Uwp.UserControls.MultitaskingControl
 {
     public class BaseMultitaskingControl : UserControl, IMultitaskingControl, INotifyPropertyChanged
     {

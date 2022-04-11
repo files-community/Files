@@ -1,10 +1,10 @@
 ﻿using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
-using Files.Extensions;
-using Files.Filesystem.FilesystemHistory;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem.FilesystemHistory;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ using FileAttributes = System.IO.FileAttributes;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public enum ImpossibleActionResponseTypes
     {

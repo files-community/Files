@@ -1,18 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
-using Files.EventArguments;
-using Files.Extensions;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
-using Files.Helpers.ContextFlyouts;
-using Files.Interacts;
+using Files.Uwp.EventArguments;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
+using Files.Uwp.Helpers.ContextFlyouts;
+using Files.Uwp.Interacts;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
-using Files.UserControls;
-using Files.ViewModels;
-using Files.ViewModels.Previews;
-using Files.Views;
+using Files.Uwp.UserControls;
+using Files.Uwp.ViewModels;
+using Files.Uwp.ViewModels.Previews;
+using Files.Uwp.Views;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -37,9 +37,9 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using static Files.Helpers.PathNormalization;
+using static Files.Uwp.Helpers.PathNormalization;
 
-namespace Files
+namespace Files.Uwp
 {
     /// <summary>
     /// The base class which every layout page must derive from

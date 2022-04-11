@@ -1,10 +1,10 @@
-﻿using Files.Dialogs;
+﻿using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
-using Files.EventArguments.Bundles;
-using Files.Filesystem;
-using Files.Helpers;
+using Files.Uwp.EventArguments.Bundles;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.ViewModels.Dialogs;
+using Files.Uwp.ViewModels.Dialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
@@ -23,7 +23,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
-namespace Files.ViewModels.Widgets.Bundles
+namespace Files.Uwp.ViewModels.Widgets.Bundles
 {
     /// <summary>
     /// Bundles list View Model

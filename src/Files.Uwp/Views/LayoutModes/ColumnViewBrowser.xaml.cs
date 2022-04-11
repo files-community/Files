@@ -1,9 +1,9 @@
-﻿using Files.Extensions;
-using Files.Filesystem;
-using Files.Helpers;
-using Files.Interacts;
+﻿using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
+using Files.Uwp.Interacts;
 using Files.Shared.Extensions;
-using Files.UserControls;
+using Files.Uwp.UserControls;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
@@ -12,7 +12,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace Files.Views.LayoutModes
+namespace Files.Uwp.Views.LayoutModes
 {
     public sealed partial class ColumnViewBrowser : BaseLayout
     {

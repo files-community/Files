@@ -1,6 +1,6 @@
-﻿using static Files.Helpers.NativeFindStorageItemHelper;
+﻿using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
 
-namespace Files.Extensions
+namespace Files.Uwp.Extensions
 {
     public static class Win32FindDataExtensions
     {

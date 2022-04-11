@@ -5,7 +5,7 @@ using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 
-namespace Files.Interacts
+namespace Files.Uwp.Interacts
 {
     public class BaseLayoutCommandsViewModel : IDisposable
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public interface INavigationControlItem : IComparable<INavigationControlItem>
     {

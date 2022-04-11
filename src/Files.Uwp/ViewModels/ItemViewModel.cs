@@ -3,20 +3,20 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.Dialogs;
-using Files.Extensions;
-using Files.Filesystem;
-using Files.Filesystem.Cloud;
-using Files.Filesystem.Search;
-using Files.Filesystem.StorageEnumerators;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
-using Files.Helpers.FileListCache;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.Cloud;
+using Files.Uwp.Filesystem.Search;
+using Files.Uwp.Filesystem.StorageEnumerators;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
+using Files.Uwp.Helpers.FileListCache;
 using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
-using Files.UserControls;
-using Files.ViewModels.Previews;
+using Files.Uwp.UserControls;
+using Files.Uwp.ViewModels.Previews;
 using FluentFTP;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
@@ -42,11 +42,11 @@ using Windows.Storage.Search;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using static Files.Helpers.NativeDirectoryChangesHelper;
-using static Files.Helpers.NativeFindStorageItemHelper;
+using static Files.Uwp.Helpers.NativeDirectoryChangesHelper;
+using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
     public class ItemViewModel : ObservableObject, IDisposable
     {

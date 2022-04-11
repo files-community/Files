@@ -4,7 +4,7 @@ using System.Reflection;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
-namespace Files.Helpers.XamlHelpers
+namespace Files.Uwp.Helpers.XamlHelpers
 {
     public static class DependencyObjectHelpers
     {

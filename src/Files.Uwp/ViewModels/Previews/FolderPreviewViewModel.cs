@@ -1,17 +1,17 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
-using Files.Extensions;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
-using Files.ViewModels.Properties;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
+using Files.Uwp.ViewModels.Properties;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.ViewModels.Previews
+namespace Files.Uwp.ViewModels.Previews
 {
     public class FolderPreviewViewModel
     {

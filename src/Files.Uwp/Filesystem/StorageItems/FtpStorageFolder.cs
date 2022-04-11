@@ -1,5 +1,5 @@
 ﻿using Files.Shared;
-using Files.Helpers;
+using Files.Uwp.Helpers;
 using Files.Shared.Extensions;
 using FluentFTP;
 using Microsoft.Toolkit.Uwp;
@@ -14,7 +14,7 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 
-namespace Files.Filesystem.StorageItems
+namespace Files.Uwp.Filesystem.StorageItems
 {
     public sealed class FtpStorageFolder : BaseStorageFolder
     {
