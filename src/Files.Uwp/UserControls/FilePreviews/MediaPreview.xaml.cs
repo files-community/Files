@@ -39,9 +39,9 @@ namespace Files.UserControls.FilePreviews
             }
         }
 
-        private void TogglePlaybackRequestInvoked(object sender, EventArgs e) 
+        private void TogglePlaybackRequestInvoked(object sender, EventArgs e)
         {
-            if (PlayerContext.MediaPlayer.PlaybackSession.PlaybackState is not MediaPlaybackState.Playing) 
+            if (PlayerContext.MediaPlayer.PlaybackSession.PlaybackState is not MediaPlaybackState.Playing)
             {
                 PlayerContext.MediaPlayer.Play();
             }

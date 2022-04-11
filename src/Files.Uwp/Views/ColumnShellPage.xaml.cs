@@ -213,12 +213,12 @@ namespace Files.Views
                               CurrentPageType == typeof(ColumnViewBrowser) ||
                               CurrentPageType == typeof(ColumnViewBase);
 
-            switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key) 
+            switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
             {
                 case (true, false, false, true, (VirtualKey) 192): // ctrl + ` (accent key), open terminal
                     // Check if there is a folder selected, if not use the current directory.
                     string path = FilesystemViewModel.WorkingDirectory;
-                    if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder) 
+                    if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
                         path = SlimContentPage.SelectedItem.ItemPath;
                     }

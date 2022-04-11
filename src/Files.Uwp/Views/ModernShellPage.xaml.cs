@@ -203,14 +203,14 @@ namespace Files.Views
             var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shift = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var alt = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
-            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) || 
+            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
                               CurrentPageType == typeof(GridViewBrowser);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key) {
                 case (true, false, false, true, (VirtualKey) 192): // ctrl + ` (accent key), open terminal
                     // Check if there is a folder selected, if not use the current directory.
                     string path = FilesystemViewModel.WorkingDirectory;
-                    if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder) 
+                    if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
                         path = SlimContentPage.SelectedItem.ItemPath;
                     }
