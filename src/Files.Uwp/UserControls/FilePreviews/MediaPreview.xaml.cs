@@ -45,7 +45,7 @@ namespace Files.UserControls.FilePreviews
             {
                 PlayerContext.MediaPlayer.Play();
             }
-            else 
+            else
             {
                 PlayerContext.MediaPlayer.Pause();
             }
