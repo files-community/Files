@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Files.Filesystem.FilesystemHistory
+namespace Files.Uwp.Filesystem.FilesystemHistory
 {
     public class StorageHistoryWrapper : IDisposable
     {

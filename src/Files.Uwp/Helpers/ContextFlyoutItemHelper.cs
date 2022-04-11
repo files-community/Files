@@ -1,10 +1,10 @@
 ﻿using Files.Shared;
 using Files.Shared.Enums;
-using Files.Extensions;
-using Files.Filesystem;
-using Files.Interacts;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Interacts;
 using Files.Backend.Services.Settings;
-using Files.ViewModels;
+using Files.Uwp.ViewModels;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
@@ -19,7 +19,7 @@ using Windows.System;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class ContextFlyoutItemHelper
     {

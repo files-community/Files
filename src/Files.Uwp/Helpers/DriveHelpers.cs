@@ -1,11 +1,11 @@
-﻿using Files.Interacts;
+﻿using Files.Uwp.Interacts;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI.Notifications;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class DriveHelpers
     {

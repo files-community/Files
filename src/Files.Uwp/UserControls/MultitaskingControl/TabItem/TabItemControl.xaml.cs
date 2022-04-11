@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.UserControls.MultitaskingControl
+namespace Files.Uwp.UserControls.MultitaskingControl
 {
     public sealed partial class TabItemControl : UserControl, ITabItemContainer, IDisposable
     {

@@ -1,6 +1,6 @@
-﻿using Files.DataModels.NavigationControlItems;
-using Files.Filesystem;
-using Files.ViewModels.Properties;
+﻿using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Filesystem;
+using Files.Uwp.ViewModels.Properties;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -14,9 +14,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using static Files.Views.PropertiesSecurityAdvanced;
+using static Files.Uwp.Views.PropertiesSecurityAdvanced;
 
-namespace Files.Views
+namespace Files.Uwp.Views
 {
     public sealed partial class PropertiesSecurity : PropertiesTab
     {

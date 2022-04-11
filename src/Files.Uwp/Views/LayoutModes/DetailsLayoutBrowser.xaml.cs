@@ -1,12 +1,12 @@
 using Files.Shared.Enums;
-using Files.EventArguments;
-using Files.Filesystem;
-using Files.Helpers;
-using Files.Helpers.XamlHelpers;
-using Files.Interacts;
-using Files.UserControls;
-using Files.UserControls.Selection;
-using Files.ViewModels;
+using Files.Uwp.EventArguments;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
+using Files.Uwp.Helpers.XamlHelpers;
+using Files.Uwp.Interacts;
+using Files.Uwp.UserControls;
+using Files.Uwp.UserControls.Selection;
+using Files.Uwp.ViewModels;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -25,7 +25,7 @@ using Windows.UI.Xaml.Navigation;
 
 using SortDirection = Files.Shared.Enums.SortDirection;
 
-namespace Files.Views.LayoutModes
+namespace Files.Uwp.Views.LayoutModes
 {
     public sealed partial class DetailsLayoutBrowser : BaseLayout
     {

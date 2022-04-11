@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Files.CommandLine
+namespace Files.Uwp.CommandLine
 {
     internal class ParsedCommands : List<ParsedCommand>
     {

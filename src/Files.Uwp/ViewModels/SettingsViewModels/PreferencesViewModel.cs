@@ -2,11 +2,11 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.Backend.Services.Settings;
-using Files.Controllers;
-using Files.DataModels;
-using Files.Extensions;
-using Files.Filesystem;
-using Files.Helpers;
+using Files.Uwp.Controllers;
+using Files.Uwp.DataModels;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Microsoft.Toolkit.Uwp;
@@ -23,9 +23,9 @@ using Windows.Storage;
 using Windows.Storage.AccessCache;
 using Windows.Storage.Pickers;
 using Windows.System;
-using static Files.Helpers.MenuFlyoutHelper;
+using static Files.Uwp.Helpers.MenuFlyoutHelper;
 
-namespace Files.ViewModels.SettingsViewModels
+namespace Files.Uwp.ViewModels.SettingsViewModels
 {
     public class PreferencesViewModel : ObservableObject, IDisposable
     {

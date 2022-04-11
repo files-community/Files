@@ -1,6 +1,6 @@
-﻿using Files.Filesystem;
+﻿using Files.Uwp.Filesystem;
 
-namespace Files.ViewModels.Previews
+namespace Files.Uwp.ViewModels.Previews
 {
     public class BasicPreviewViewModel : BasePreviewModel
     {

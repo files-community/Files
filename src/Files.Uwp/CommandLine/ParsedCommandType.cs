@@ -1,4 +1,4 @@
-﻿namespace Files.CommandLine
+﻿namespace Files.Uwp.CommandLine
 {
     internal enum ParsedCommandType
     {

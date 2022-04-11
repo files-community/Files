@@ -1,16 +1,16 @@
 ﻿using Files.Shared;
-using Files.Dialogs;
+using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
-using Files.EventArguments;
-using Files.Filesystem;
-using Files.Filesystem.FilesystemHistory;
-using Files.Filesystem.Search;
-using Files.Helpers;
+using Files.Uwp.EventArguments;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.FilesystemHistory;
+using Files.Uwp.Filesystem.Search;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.UserControls;
-using Files.UserControls.MultitaskingControl;
-using Files.ViewModels;
-using Files.Views.LayoutModes;
+using Files.Uwp.UserControls;
+using Files.Uwp.UserControls.MultitaskingControl;
+using Files.Uwp.ViewModels;
+using Files.Uwp.Views.LayoutModes;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
@@ -38,7 +38,7 @@ using Files.Backend.Enums;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 
-namespace Files.Views
+namespace Files.Uwp.Views
 {
     public sealed partial class ModernShellPage : Page, IShellPage, INotifyPropertyChanged
     {

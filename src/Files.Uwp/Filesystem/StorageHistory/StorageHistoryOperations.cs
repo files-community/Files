@@ -1,5 +1,5 @@
 ﻿using Files.Shared.Enums;
-using Files.Helpers;
+using Files.Uwp.Helpers;
 using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Files.Filesystem.FilesystemHistory
+namespace Files.Uwp.Filesystem.FilesystemHistory
 {
     public class StorageHistoryOperations : IStorageHistoryOperations
     {

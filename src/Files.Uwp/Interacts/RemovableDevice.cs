@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using static Files.Helpers.NativeIoDeviceControlHelper;
+using static Files.Uwp.Helpers.NativeIoDeviceControlHelper;
 
-namespace Files.Interacts
+namespace Files.Uwp.Interacts
 {
     public class RemovableDevice
     {

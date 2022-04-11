@@ -1,7 +1,7 @@
 ﻿using Files.Shared.Extensions;
-using Files.Extensions;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
@@ -16,10 +16,10 @@ using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using static Files.Helpers.NativeFindStorageItemHelper;
+using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.Filesystem.Search
+namespace Files.Uwp.Filesystem.Search
 {
     public class FolderSearch
     {

@@ -1,10 +1,10 @@
-﻿using Files.Filesystem;
-using Files.Interacts;
-using Files.ViewModels;
+﻿using Files.Uwp.Filesystem;
+using Files.Uwp.Interacts;
+using Files.Uwp.ViewModels;
 using System;
 using System.Collections.Generic;
 
-namespace Files
+namespace Files.Uwp
 {
     public interface IBaseLayout : IDisposable
     {

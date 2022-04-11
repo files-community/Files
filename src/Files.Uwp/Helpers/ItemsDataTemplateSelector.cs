@@ -1,9 +1,9 @@
-﻿using Files.Views;
+﻿using Files.Uwp.Views;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public class ItemsDataTemplateSelector : DataTemplateSelector
     {

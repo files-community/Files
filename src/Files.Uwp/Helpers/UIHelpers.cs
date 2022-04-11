@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class UIHelpers
     {

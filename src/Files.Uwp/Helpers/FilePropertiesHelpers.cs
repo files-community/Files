@@ -1,5 +1,5 @@
-﻿using Files.Dialogs;
-using Files.Views;
+﻿using Files.Uwp.Dialogs;
+using Files.Uwp.Views;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Linq;
@@ -15,9 +15,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media.Animation;
-using static Files.Views.Properties;
+using static Files.Uwp.Views.Properties;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class FilePropertiesHelpers
     {

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 
-namespace Files.Interacts
+namespace Files.Uwp.Interacts
 {
     public interface IBaseLayoutCommandImplementationModel : IDisposable
     {

@@ -1,9 +1,9 @@
 ﻿using ByteSizeLib;
 using CommunityToolkit.Mvvm.Input;
-using Files.Extensions;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.IO;
@@ -13,7 +13,7 @@ using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
 
-namespace Files.ViewModels.Properties
+namespace Files.Uwp.ViewModels.Properties
 {
     internal class FolderProperties : BaseProperties
     {

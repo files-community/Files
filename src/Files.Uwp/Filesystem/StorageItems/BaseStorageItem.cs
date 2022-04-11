@@ -12,7 +12,7 @@ using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using Windows.Storage.Streams;
 
-namespace Files.Filesystem.StorageItems
+namespace Files.Uwp.Filesystem.StorageItems
 {
     public interface IBaseStorageFolder : IStorageFolder, IStorageItem, IStorageFolderQueryOperations, IStorageItemProperties, IStorageItemProperties2, IStorageItem2, IStorageFolder2, IStorageItemPropertiesWithProvider
     {

@@ -1,8 +1,8 @@
-﻿using Files.Helpers;
+﻿using Files.Uwp.Helpers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.UserControls
+namespace Files.Uwp.UserControls
 {
     public class ImageFromBytes : DependencyObject
     {

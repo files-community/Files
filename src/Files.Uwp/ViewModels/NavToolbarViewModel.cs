@@ -3,14 +3,14 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using Files.Shared.Enums;
 using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
-using Files.UserControls;
-using Files.Views;
+using Files.Uwp.UserControls;
+using Files.Uwp.Views;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -29,11 +29,11 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
-using static Files.UserControls.INavigationToolbar;
-using SearchBox = Files.UserControls.SearchBox;
+using static Files.Uwp.UserControls.INavigationToolbar;
+using SearchBox = Files.Uwp.UserControls.SearchBox;
 using SortDirection = Files.Shared.Enums.SortDirection;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
     public class NavToolbarViewModel : ObservableObject, INavigationToolbar, IDisposable
     {
