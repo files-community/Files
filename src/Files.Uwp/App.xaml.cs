@@ -43,6 +43,8 @@ using Files.Uwp.ServicesImplementation;
 using Files.ViewModels.SettingsViewModels;
 using Files.Backend.Services.Graph;
 using Files.Uwp.ServicesImplementation.Graph;
+using CommunityToolkit.Authentication;
+using CommunityToolkit.Graph.Extensions;
 
 namespace Files
 {
@@ -68,6 +70,7 @@ namespace Files
         public static LibraryManager LibraryManager { get; private set; }
         public static FileTagsManager FileTagsManager { get; private set; }
         public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
+        public static IProvider GraphAuthenticationProvider { get; private set; }
 
         public static ILogger Logger { get; private set; }
         private static readonly UniversalLogWriter logWriter = new UniversalLogWriter();
@@ -94,6 +97,7 @@ namespace Files
 
             this.Services = ConfigureServices();
             Ioc.Default.ConfigureServices(Services);
+
         }
 
         private IServiceProvider ConfigureServices()
@@ -217,6 +221,23 @@ namespace Files
             DrivesManager?.ResumeDeviceWatcher();
         }
 
+        private async void AuthenticateWithIdentityPlatform()
+        {
+            string[] scopes = new string[] { "User.Read", "Files.Read.All" };
+
+            ProviderManager.Instance.GlobalProvider = new WindowsProvider(scopes);
+
+            GraphAuthenticationProvider = ProviderManager.Instance.GlobalProvider;
+            if (GraphAuthenticationProvider?.State != ProviderState.SignedIn)
+            {
+                string clientId = "397e1025-a0ef-47cd-8228-8fafe58682f7";
+
+                ProviderManager.Instance.GlobalProvider = new MsalProvider(clientId, scopes, autoSignIn: false);
+                await ProviderManager.Instance.GlobalProvider.SignInAsync();
+                GraphAuthenticationProvider = ProviderManager.Instance.GlobalProvider;
+            }
+        }
+
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
@@ -236,6 +257,8 @@ namespace Files
             _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
             var rootFrame = EnsureWindowIsInitialized();
+
+            AuthenticateWithIdentityPlatform();
 
             if (e.PrelaunchActivated == false)
             {

@@ -1487,6 +1487,9 @@
     <PackageReference Include="ByteSize">
       <Version>2.1.1</Version>
     </PackageReference>
+    <PackageReference Include="CommunityToolkit.Authentication.Msal">
+      <Version>7.1.1</Version>
+    </PackageReference>
     <PackageReference Include="CommunityToolkit.Authentication.Uwp">
       <Version>7.1.1</Version>
     </PackageReference>

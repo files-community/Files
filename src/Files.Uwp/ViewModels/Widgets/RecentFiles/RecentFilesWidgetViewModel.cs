@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Authentication;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Graph;
 using Files.Filesystem;
@@ -45,10 +46,14 @@ namespace Files.ViewModels.Widgets.RecentFiles
 
             try
             {
-                var recentGraphItemsPage = await recentFilesService.GetRecentDriveItemsAsync();
-                foreach (DriveItem recentItem in recentGraphItemsPage.Take(6))
+                if (ProviderManager.Instance.State != ProviderState.SignedIn)
                 {
-                    AddGraphItemToRecentList(recentItem);
+                    ProviderManager.Instance.ProviderStateChanged -= Instance_ProviderStateChanged;
+                    ProviderManager.Instance.ProviderStateChanged += Instance_ProviderStateChanged;
+                }
+                else
+                {
+                    await GetRecentFilesFromCloud();
                 }
 
                 var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
@@ -90,6 +95,24 @@ namespace Files.ViewModels.Widgets.RecentFiles
             if (!Items.Any())
             {
                 IsRecentsListEmpty = true;
+            }
+        }
+
+        private async void Instance_ProviderStateChanged(object sender, ProviderStateChangedEventArgs e)
+        {
+            if (e.NewState == ProviderState.SignedIn)
+            {
+                ProviderManager.Instance.ProviderStateChanged -= Instance_ProviderStateChanged;
+                await GetRecentFilesFromCloud();
+            }
+        }
+
+        private async Task GetRecentFilesFromCloud()
+        {
+            var recentGraphItemsPage = await recentFilesService.GetRecentDriveItemsAsync();
+            foreach (DriveItem recentItem in recentGraphItemsPage.Take(6))
+            {
+                AddGraphItemToRecentList(recentItem);
             }
         }
 

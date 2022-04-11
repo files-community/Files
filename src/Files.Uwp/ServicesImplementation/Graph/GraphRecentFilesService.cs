@@ -2,10 +2,6 @@
 using CommunityToolkit.Graph.Extensions;
 using Files.Backend.Services.Graph;
 using Microsoft.Graph;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Files.Uwp.ServicesImplementation.Graph
@@ -14,19 +10,14 @@ namespace Files.Uwp.ServicesImplementation.Graph
     {
         public async Task<IDriveRecentCollectionPage> GetRecentDriveItemsAsync()
         {
-            ProviderManager.Instance.GlobalProvider = new WindowsProvider(new string[] { "User.Read", "Files.Read.All" }, autoSignIn: false);
-
-            await ProviderManager.Instance.GlobalProvider.SignInAsync();
-
-            IProvider provider = ProviderManager.Instance.GlobalProvider;
-            if (provider?.State == ProviderState.SignedIn)
+            if (App.GraphAuthenticationProvider is IProvider provider && provider.State == ProviderState.SignedIn)
             {
                 var graphClient = provider.GetClient();
 
                 return await graphClient.Me.Drive
-                    .Recent()
-                    .Request()
-                    .GetAsync();
+                .Recent()
+                .Request()
+                .GetAsync();
             }
             else
             {
