@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace Files.Converters
+namespace Files.Uwp.Converters
 {
     internal class WidthToRightMargin : IValueConverter
     {

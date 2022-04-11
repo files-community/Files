@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Files.DataModels
+namespace Files.Uwp.DataModels
 {
     public class TerminalFileModel
     {

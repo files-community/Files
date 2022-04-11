@@ -1,5 +1,5 @@
 ﻿using Files.Shared.Enums;
-using Files.Helpers.XamlHelpers;
+using Files.Uwp.Helpers.XamlHelpers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -10,7 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
-namespace Files.ViewModels.Dialogs
+namespace Files.Uwp.ViewModels.Dialogs
 {
     public class DynamicDialogViewModel : ObservableObject, IDisposable
     {

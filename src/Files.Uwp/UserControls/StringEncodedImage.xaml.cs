@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Files.UserControls
+namespace Files.Uwp.UserControls
 {
     /// <summary>
     /// This control allows preview extensions to send images in their xaml in the form of a base64 string

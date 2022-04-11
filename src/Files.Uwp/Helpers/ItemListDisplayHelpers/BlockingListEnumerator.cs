@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public class BlockingListEnumerator<T> : IEnumerator<T>
     {

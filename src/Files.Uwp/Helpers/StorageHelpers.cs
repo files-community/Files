@@ -1,6 +1,6 @@
 using Files.Shared.Enums;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     /// <summary>
     /// <see cref="IStorageItem"/> related Helpers

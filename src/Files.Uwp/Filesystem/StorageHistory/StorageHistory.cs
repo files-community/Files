@@ -1,8 +1,8 @@
 ﻿using Files.Shared.Enums;
-using Files.Extensions;
+using Files.Shared.Extensions;
 using System.Collections.Generic;
 
-namespace Files.Filesystem.FilesystemHistory
+namespace Files.Uwp.Filesystem.FilesystemHistory
 {
     public class StorageHistory : IStorageHistory
     {

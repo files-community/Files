@@ -1,10 +1,10 @@
-﻿using Files.EventArguments;
-using Files.Filesystem;
-using Files.Helpers;
-using Files.Helpers.XamlHelpers;
-using Files.Interacts;
+﻿using Files.Uwp.EventArguments;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
+using Files.Uwp.Helpers.XamlHelpers;
+using Files.Uwp.Interacts;
 using Files.Shared.Enums;
-using Files.UserControls.Selection;
+using Files.Uwp.UserControls.Selection;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
@@ -17,11 +17,16 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using static Files.Constants;
 
-namespace Files.Views.LayoutModes
+namespace Files.Uwp.Views.LayoutModes
 {
     public sealed partial class ColumnViewBase : BaseLayout
     {
+        protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
+
+        protected override ItemsControl ItemsControl => FileList;
+
         public ColumnViewBase() : base()
         {
             this.InitializeComponent();
@@ -273,14 +278,8 @@ namespace Files.Views.LayoutModes
             // throw new NotImplementedException();
         }
 
-        protected override ListedItem GetItemFromElement(object element)
-        {
-            if (element is ListViewItem item)
-            {
-                return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (FileList.ItemFromContainer(item) as ListedItem);
-            }
-            return null;
-        }
+        protected override bool CanGetItemFromElement(object element)
+            => element is ListViewItem;
 
         #region IDisposable
 
@@ -455,7 +454,10 @@ namespace Files.Views.LayoutModes
             {
                 NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
             }
-
+            else
+            {
+                ParentShellPageInstance.Up_Click();
+            }
             ResetRenameDoubleClick();
         }
 
@@ -536,26 +538,6 @@ namespace Files.Views.LayoutModes
             ItemManipulationModel.SetSelectedItem(FileList.ItemFromContainer(parentContainer) as ListedItem);
         }
 
-        private void FileListListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.KeyModifiers == VirtualKeyModifiers.Control)
-            {
-                if ((sender as SelectorItem).IsSelected)
-                {
-                    (sender as SelectorItem).IsSelected = false;
-                    // Prevent issues arising caused by the default handlers attempting to select the item that has just been deselected by ctrl + click
-                    e.Handled = true;
-                }
-            }
-            else if (e.GetCurrentPoint(sender as UIElement).Properties.IsLeftButtonPressed)
-            {
-                if (!(sender as SelectorItem).IsSelected)
-                {
-                    (sender as SelectorItem).IsSelected = true;
-                }
-            }
-        }
-
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
             var itemContainer = (sender as Grid)?.FindAscendant<ListViewItem>();
@@ -565,33 +547,6 @@ namespace Files.Views.LayoutModes
             }
 
             itemContainer.ContextFlyout = ItemContextMenuFlyout;
-        }
-
-        private void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
-        {
-            if (!args.InRecycleQueue)
-            {
-                InitializeDrag(args.ItemContainer);
-                args.ItemContainer.PointerPressed -= FileListListItem_PointerPressed;
-                args.ItemContainer.PointerPressed += FileListListItem_PointerPressed;
-
-                if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
-                {
-                    args.RegisterUpdateCallback(3, async (s, c) =>
-                    {
-                        await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, 24);
-                    });
-                }
-            }
-            else
-            {
-                UninitializeDrag(args.ItemContainer);
-                args.ItemContainer.PointerPressed -= FileListListItem_PointerPressed;
-                if (args.Item is ListedItem item)
-                {
-                    ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoadingForItem(item);
-                }
-            }
         }
 
         protected override void BaseFolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)

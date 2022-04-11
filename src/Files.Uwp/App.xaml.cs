@@ -1,13 +1,13 @@
 using Files.Backend.Services.Settings;
-using Files.CommandLine;
-using Files.Controllers;
-using Files.Filesystem;
-using Files.Filesystem.FilesystemHistory;
-using Files.Helpers;
+using Files.Uwp.CommandLine;
+using Files.Uwp.Controllers;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.FilesystemHistory;
+using Files.Uwp.Helpers;
 using Files.Uwp.ServicesImplementation.Settings;
-using Files.UserControls.MultitaskingControl;
-using Files.ViewModels;
-using Files.Views;
+using Files.Uwp.UserControls.MultitaskingControl;
+using Files.Uwp.ViewModels;
+using Files.Uwp.Views;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -40,13 +40,13 @@ using Files.Shared;
 using Files.Shared.Extensions;
 using Files.Backend.Services;
 using Files.Uwp.ServicesImplementation;
-using Files.ViewModels.SettingsViewModels;
+using Files.Uwp.ViewModels.SettingsViewModels;
 using Files.Backend.Services.Graph;
 using Files.Uwp.ServicesImplementation.Graph;
 using CommunityToolkit.Authentication;
 using CommunityToolkit.Graph.Extensions;
 
-namespace Files
+namespace Files.Uwp
 {
     sealed partial class App : Application
     {
@@ -124,6 +124,7 @@ namespace Files
                 // Other services
                 .AddSingleton<IDialogService, DialogService>()
                 .AddSingleton<IImagingService, ImagingService>()
+                .AddSingleton<IThreadingService, ThreadingService>()
                 .AddSingleton<ILocalizationService, LocalizationService>()
                 .AddSingleton<IUpdateService, UpdateService>()
 

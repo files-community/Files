@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable enable
-
 namespace Files.Backend.Models.Coloring
 {
     [Serializable]
@@ -10,6 +8,6 @@ namespace Files.Backend.Models.Coloring
     {
         public virtual IReadOnlyCollection<string>? Formats { get; }
 
-        public virtual void AppendFormat(string formatInfo) { }
+        public virtual bool AppendFormat(string formatInfo) => false;
     }
 }

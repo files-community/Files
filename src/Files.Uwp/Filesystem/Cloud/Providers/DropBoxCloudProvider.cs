@@ -6,7 +6,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Files.Filesystem.Cloud.Providers
+namespace Files.Uwp.Filesystem.Cloud.Providers
 {
     public class DropBoxCloudProvider : ICloudProviderDetector
     {

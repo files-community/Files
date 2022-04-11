@@ -1,37 +1,22 @@
-﻿using Files.Filesystem.StorageItems;
+﻿using Files.Uwp.Filesystem.StorageItems;
 using Windows.Storage;
+using IO = System.IO;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public class StorageFolderWithPath : IStorageItemWithPath
     {
-        public BaseStorageFolder Folder
-        {
-            get
-            {
-                return (BaseStorageFolder)Item;
-            }
-            set
-            {
-                Item = value;
-            }
-        }
+        public string Path { get; }
+        public string Name => Item?.Name ?? IO.Path.GetFileName(Path);
 
-        public string Path { get; set; }
-        public string Name => Item?.Name ?? System.IO.Path.GetFileName(Path);
-        public IStorageItem Item { get; set; }
+        IStorageItem IStorageItemWithPath.Item => Item;
+        public BaseStorageFolder Item { get; }
+
         public FilesystemItemType ItemType => FilesystemItemType.Directory;
 
         public StorageFolderWithPath(BaseStorageFolder folder)
-        {
-            Folder = folder;
-            Path = folder.Path;
-        }
-
+            : this(folder, folder.Path) {}
         public StorageFolderWithPath(BaseStorageFolder folder, string path)
-        {
-            Folder = folder;
-            Path = path;
-        }
+            => (Item, Path) = (folder, path);
     }
 }

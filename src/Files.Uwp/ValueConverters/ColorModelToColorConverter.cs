@@ -1,5 +1,5 @@
 ﻿using Files.Backend.Models.Coloring;
-using Files.Helpers;
+using Files.Uwp.Helpers;
 using System;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;

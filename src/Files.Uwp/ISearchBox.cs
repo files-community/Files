@@ -1,10 +1,10 @@
-﻿using Files.Filesystem;
+﻿using Files.Uwp.Filesystem;
 using System;
 using System.Collections.Generic;
 using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
 
-namespace Files
+namespace Files.Uwp
 {
     public interface ISearchBox
     {

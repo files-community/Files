@@ -3,7 +3,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 
-namespace Files.Extensions
+namespace Files.Uwp.Extensions
 {
     public static class KeyboardAcceleratorExtensions
     {

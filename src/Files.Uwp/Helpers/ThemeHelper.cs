@@ -1,11 +1,11 @@
-﻿using Files.Extensions;
+﻿using Files.Uwp.Extensions;
 using System;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     /// <summary>
     /// Class providing functionality around switching and restoring theme settings

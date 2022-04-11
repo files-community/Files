@@ -1,7 +1,7 @@
-﻿using Files.Extensions;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
-using Files.Uwp.Helpers.ListedItems;
+﻿using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
+using Files.Uwp.Helpers.ListedItem;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.Filesystem.StorageEnumerators
+namespace Files.Uwp.Filesystem.StorageEnumerators
 {
     public static class UniversalStorageEnumerator
     {

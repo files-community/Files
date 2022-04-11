@@ -1,6 +1,6 @@
-﻿using Files.DataModels.NavigationControlItems;
+﻿using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Backend.Services.Settings;
-using Files.UserControls;
+using Files.Uwp.UserControls;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Core;
-using Files.Helpers;
+using Files.Uwp.Helpers;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public class WSLDistroManager
     {

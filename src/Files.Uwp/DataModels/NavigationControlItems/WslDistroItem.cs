@@ -1,7 +1,7 @@
-﻿using Files.Filesystem;
+﻿using Files.Uwp.Filesystem;
 using System;
 
-namespace Files.DataModels.NavigationControlItems
+namespace Files.Uwp.DataModels.NavigationControlItems
 {
     public class WslDistroItem : INavigationControlItem
     {

@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Files.Backend.Models.Imaging
 {
@@ -8,6 +6,8 @@ namespace Files.Backend.Models.Imaging
     {
         public virtual IReadOnlyCollection<string>? Formats { get; }
 
-        public virtual void AppendFormat(string formatInfo) { }
+        public virtual bool AppendFormat(string formatInfo) => false;
+
+        public abstract TImage? GetImage<TImage>() where TImage : class;
     }
 }

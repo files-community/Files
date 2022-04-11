@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Xaml.Markup;
 
-namespace Files.Helpers.XamlHelpers
+namespace Files.Uwp.Helpers.XamlHelpers
 {
     public class SystemTypeToXaml : MarkupExtension
     {

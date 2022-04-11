@@ -1,18 +1,16 @@
-﻿using Files.Shared.Enums;
-using Files.Extensions;
+﻿using Files.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Core;
-using static Files.Helpers.NativeFindStorageItemHelper;
+using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.ViewModels.Properties
+namespace Files.Uwp.ViewModels.Properties
 {
     public abstract class BaseProperties
     {
@@ -34,8 +32,7 @@ namespace Files.ViewModels.Properties
             propertiesName.Add(dateAccessedProperty);
             IDictionary<string, object> extraProperties = await properties.RetrievePropertiesAsync(propertiesName);
 
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+            string returnformat = DateTimeExtensions.GetDateFormat();
 
             // Cannot get date and owner in MTP devices
             ViewModel.ItemAccessedTimestamp = ((DateTimeOffset?)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now)).GetFriendlyDateFromFormat(returnformat);

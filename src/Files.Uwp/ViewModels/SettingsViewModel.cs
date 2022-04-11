@@ -1,9 +1,9 @@
-using Files.Shared.Extensions;
-using Files.DataModels;
-using Files.Shared.Enums;
-using Files.Helpers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Files.Uwp.DataModels;
+using Files.Uwp.Helpers;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
@@ -17,7 +17,7 @@ using Windows.Foundation.Collections;
 using Windows.Globalization;
 using Windows.Storage;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
     [Obsolete("Do not use this class as Settings store anymore, settings have been merged to IUserSettingsService.")]
     public class SettingsViewModel : ObservableObject
@@ -75,6 +75,10 @@ namespace Files.ViewModels
                 {
                     DisplayedTimeStyle = TimeStyle.System;
                 }
+                else if (localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString() == "Universal")
+                {
+                    DisplayedTimeStyle = TimeStyle.Universal;
+                }
             }
             else
             {
@@ -90,14 +94,12 @@ namespace Files.ViewModels
             set
             {
                 SetProperty(ref displayedTimeStyle, value);
-                if (value.Equals(TimeStyle.Application))
+                localSettings.Values[Constants.LocalSettings.DateTimeFormat] = value switch
                 {
-                    localSettings.Values[Constants.LocalSettings.DateTimeFormat] = "Application";
-                }
-                else if (value.Equals(TimeStyle.System))
-                {
-                    localSettings.Values[Constants.LocalSettings.DateTimeFormat] = "System";
-                }
+                    TimeStyle.System => "System",
+                    TimeStyle.Universal => "Universal",
+                    _ => "Application",
+                };
             }
         }
 

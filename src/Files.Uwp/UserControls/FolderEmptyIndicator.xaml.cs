@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Controls;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Files.UserControls
+namespace Files.Uwp.UserControls
 {
     public sealed partial class FolderEmptyIndicator : UserControl
     {

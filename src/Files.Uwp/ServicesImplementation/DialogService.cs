@@ -6,9 +6,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
-using Files.ViewModels.Dialogs;
-using Files.Dialogs;
+using Files.Uwp.ViewModels.Dialogs;
+using Files.Uwp.Dialogs;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
+using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
 
 namespace Files.Uwp.ServicesImplementation
 {
@@ -23,7 +24,7 @@ namespace Files.Uwp.ServicesImplementation
                 { typeof(AddItemDialogViewModel), () => new AddItemDialog() },
                 { typeof(CredentialDialogViewModel), () => new CredentialDialog() },
                 { typeof(ElevateConfirmDialogViewModel), () => new ElevateConfirmDialog() },
-                { typeof(FilesystemOperationDialogViewModel), () => new FilesystemOperationDialog() },
+                { typeof(FileSystemDialogViewModel), () => new FilesystemOperationDialog() },
                 { typeof(DecompressArchiveDialogViewModel), () => new DecompressArchiveDialog() },
                 { typeof(SettingsDialogViewModel), () => new SettingsDialog() }
             };

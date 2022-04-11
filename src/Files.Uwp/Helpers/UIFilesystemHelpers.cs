@@ -1,11 +1,11 @@
 ﻿using Files.Shared;
-using Files.Dialogs;
+using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
-using Files.Extensions;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Interacts;
-using Files.ViewModels;
+using Files.Shared.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Interacts;
+using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Concurrent;
@@ -20,7 +20,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Files.Backend.Enums;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class UIFilesystemHelpers
     {
@@ -47,7 +47,7 @@ namespace Files.Helpers
 
                 try
                 {
-                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEach(async listedItem =>
+                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
                     {
                         if (banner != null)
                         {
@@ -166,7 +166,7 @@ namespace Files.Helpers
 
                 try
                 {
-                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEach(async listedItem =>
+                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
                     {
                         if (banner != null)
                         {

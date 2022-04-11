@@ -1,22 +1,23 @@
-using Files.Shared;
-using Files.Dialogs;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
-using Files.Shared.EventArguments;
-using Files.Extensions;
-using Files.Filesystem;
-using Files.Filesystem.Cloud;
-using Files.Filesystem.Search;
-using Files.Filesystem.StorageEnumerators;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
-using Files.Helpers.FileListCache;
-using Files.Backend.Services.Settings;
-using Files.UserControls;
-using Files.ViewModels.Previews;
-using FluentFTP;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
+using Files.Backend.Services.Settings;
+using Files.Backend.ViewModels.Dialogs;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.Cloud;
+using Files.Uwp.Filesystem.Search;
+using Files.Uwp.Filesystem.StorageEnumerators;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
+using Files.Uwp.Helpers.FileListCache;
+using Files.Shared;
+using Files.Shared.Enums;
+using Files.Shared.EventArguments;
+using Files.Shared.Extensions;
+using Files.Uwp.UserControls;
+using Files.Uwp.ViewModels.Previews;
+using FluentFTP;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -28,6 +29,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
@@ -40,14 +42,11 @@ using Windows.Storage.Search;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using static Files.Helpers.NativeDirectoryChangesHelper;
-using static Files.Helpers.NativeFindStorageItemHelper;
+using static Files.Uwp.Helpers.NativeDirectoryChangesHelper;
+using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
-using Files.Backend.Services;
-using Files.Backend.ViewModels.Dialogs;
-using System.Text;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
     public class ItemViewModel : ObservableObject, IDisposable
     {
@@ -70,6 +69,7 @@ namespace Files.ViewModels
         private SettingsViewModel AppSettings => App.AppSettings;
         private FolderSettingsViewModel folderSettings = null;
         private bool shouldDisplayFileExtensions = false;
+        private bool shouldDisplayThumbnails = false;
         public ListedItem CurrentFolder { get; private set; }
         public CollectionViewSource viewSource;
         private CancellationTokenSource addFilesCTS, semaphoreCTS, loadPropsCTS, watcherCTS;
@@ -79,6 +79,8 @@ namespace Files.ViewModels
         public event EventHandler<List<ListedItem>> OnSelectionRequestedEvent;
 
         private IFileListCache fileListCache = FileListCacheController.GetInstance();
+
+        public event EventHandler ConnectionChanged;
 
         private NamedPipeAsAppServiceConnection connection;
 
@@ -96,6 +98,7 @@ namespace Files.ViewModels
                 {
                     connection.RequestReceived += Connection_RequestReceived;
                 }
+                ConnectionChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -363,6 +366,7 @@ namespace Files.ViewModels
             operationEvent = new AsyncManualResetEvent();
             enumFolderSemaphore = new SemaphoreSlim(1, 1);
             shouldDisplayFileExtensions = UserSettingsService.PreferencesSettingsService.ShowFileExtensions;
+            shouldDisplayThumbnails = UserSettingsService.PreferencesSettingsService.ShowThumbnails;
 
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
             FileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingImportedEvent;
@@ -385,6 +389,7 @@ namespace Files.ViewModels
             switch (e.SettingName)
             {
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFileExtensions):
+                case nameof(UserSettingsService.PreferencesSettingsService.ShowThumbnails):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden):
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowDotFiles):
@@ -392,6 +397,7 @@ namespace Files.ViewModels
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFolderSize):
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                     {
+                        shouldDisplayThumbnails = UserSettingsService.PreferencesSettingsService.ShowThumbnails;
                         if (WorkingDirectory != "Home".GetLocalized())
                         {
                             RefreshItems(null);
@@ -428,6 +434,20 @@ namespace Files.ViewModels
                                 await AddFileOrFolderAsync(newListedItem);
                                 await OrderFilesAndFoldersAsync();
                                 await ApplySingleFileChangeAsync(newListedItem);
+                            }
+                            break;
+
+                        case "Renamed":
+                            var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals((string)message["OldPath"], StringComparison.OrdinalIgnoreCase));
+                            if (matchingItem != null)
+                            {
+                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                                {
+                                    matchingItem.ItemPath = itemPath;
+                                    matchingItem.ItemNameRaw = (string)message["Name"];
+                                });
+                                await OrderFilesAndFoldersAsync();
+                                await ApplySingleFileChangeAsync(matchingItem);
                             }
                             break;
 
@@ -831,7 +851,7 @@ namespace Files.ViewModels
             var wasIconLoaded = false;
             if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
             {
-                if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
+                if (shouldDisplayThumbnails && !item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
                 {
                     var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
                     if (matchingStorageFile != null)
@@ -1287,17 +1307,20 @@ namespace Files.ViewModels
                         currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
                         var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
                         PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown });
-
                         WatchForDirectoryChanges(path, syncStatus);
                         break;
 
                     case 1: // Enumerated with StorageFolder
                         PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
                         currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
-                        WatchForStorageFolderChanges(currentStorageFolder?.Folder);
+                        WatchForStorageFolderChanges(currentStorageFolder?.Item);
                         break;
 
-                    case 2: // Do no watch for changes in Box Drive folder to avoid constant refresh (#7428)
+                    case 2: // Watch for changes using FTP in Box Drive folder (#7428) and network drives (#5869)
+                        PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
+                        WatchForWin32FolderChanges(path);
+                        break;
+
                     case -1: // Enumeration failed
                     default:
                         break;
@@ -1349,8 +1372,7 @@ namespace Files.ViewModels
 
         public async Task EnumerateItemsFromSpecialFolderAsync(string path)
         {
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+            string returnformat = DateTimeExtensions.GetDateFormat();
             bool isFtp = FtpHelpers.IsFtpPath(path);
 
             CurrentFolder = new ListedItem(null, returnformat)
@@ -1490,8 +1512,10 @@ namespace Files.ViewModels
         {
             // Flag to use FindFirstFileExFromApp or StorageFolder enumeration
             var isBoxFolder = App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder ?
-                path.StartsWith(boxFolder) : false;
-            bool enumFromStorageFolder = isBoxFolder; // Use storage folder for Box Drive (#4629)
+                path.StartsWith(boxFolder) : false; // Use storage folder for Box Drive (#4629)
+            var isNetworkFolder = App.DrivesManager.Drives.Any(x => x.Path == Path.GetPathRoot(path) && x.Type == DataModels.NavigationControlItems.DriveType.Network)
+                || System.Text.RegularExpressions.Regex.IsMatch(path, @"^\\\\(?!\?)"); // Use storage folder for network drives (*FromApp methods return access denied)
+            bool enumFromStorageFolder = isBoxFolder || isNetworkFolder;
 
             BaseStorageFolder rootFolder = null;
 
@@ -1508,7 +1532,7 @@ namespace Files.ViewModels
                     return -1;
                 }
                 currentStorageFolder = res.Result;
-                rootFolder = currentStorageFolder.Folder;
+                rootFolder = currentStorageFolder.Item;
                 enumFromStorageFolder = true;
             }
             else
@@ -1517,7 +1541,7 @@ namespace Files.ViewModels
                 if (res)
                 {
                     currentStorageFolder = res.Result;
-                    rootFolder = currentStorageFolder.Folder;
+                    rootFolder = currentStorageFolder.Item;
                 }
                 else if (res == FileSystemStatusCode.Unauthorized)
                 {
@@ -1541,8 +1565,7 @@ namespace Files.ViewModels
                 }
             }
 
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+            string returnformat = DateTimeExtensions.GetDateFormat();
 
             if (Path.IsPathRooted(path) && Path.GetPathRoot(path) == path)
             {
@@ -1582,7 +1605,7 @@ namespace Files.ViewModels
                 }
                 CurrentFolder = currentFolder;
                 await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationTokenSource);
-                return isBoxFolder ? 2 : 1; // Workaround for #7428
+                return isBoxFolder || isNetworkFolder ? 2 : 1; // Workaround for #7428
             }
             else
             {
@@ -1674,8 +1697,7 @@ namespace Files.ViewModels
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+            string returnformat = DateTimeExtensions.GetDateFormat();
 
             await Task.Run(async () =>
             {
@@ -1756,6 +1778,45 @@ namespace Files.ViewModels
                     });
                 }
             });
+        }
+
+        private async void WatchForWin32FolderChanges(string folderPath)
+        {
+            void RestartWatcher(object sender, EventArgs e)
+            {
+                if (Connection != null)
+                {
+                    ConnectionChanged -= RestartWatcher;
+                    WatchForWin32FolderChanges(folderPath);
+                }
+            }
+            if (Connection != null)
+            {
+                var (status, response) = await Connection.SendMessageForResponseAsync(new ValueSet()
+                {
+                    { "Arguments", "WatchDirectory" },
+                    { "action", "start" },
+                    { "folderPath", folderPath }
+                });
+                if (status == AppServiceResponseStatus.Success
+                    && response.ContainsKey("watcherID"))
+                {
+                    ConnectionChanged += RestartWatcher;
+                    watcherCTS.Token.Register(async () =>
+                    {
+                        ConnectionChanged -= RestartWatcher;
+                        if (Connection != null)
+                        {
+                            await Connection.SendMessageAsync(new ValueSet()
+                            {
+                                { "Arguments", "WatchDirectory" },
+                                { "action", "cancel" },
+                                { "watcherID", (long)response["watcherID"] }
+                            });
+                        }
+                    });
+                }
+            }
         }
 
         private async void ItemQueryResult_ContentsChanged(IStorageQueryResultBase sender, object args)
@@ -1892,8 +1953,7 @@ namespace Files.ViewModels
 
         private async Task ProcessOperationQueue(CancellationToken cancellationToken, bool hasSyncStatus)
         {
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+            string returnformat = DateTimeExtensions.GetDateFormat();
 
             const uint FILE_ACTION_ADDED = 0x00000001;
             const uint FILE_ACTION_REMOVED = 0x00000002;
@@ -2034,11 +2094,7 @@ namespace Files.ViewModels
 
         public ListedItem AddFileOrFolderFromShellFile(ShellFileItem item, string dateReturnFormat = null)
         {
-            if (dateReturnFormat == null)
-            {
-                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-                dateReturnFormat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-            }
+            dateReturnFormat ??= DateTimeExtensions.GetDateFormat();
 
             if (item.IsFolder)
             {
@@ -2122,7 +2178,11 @@ namespace Files.ViewModels
                 return;
             }
 
-            filesAndFolders.Add(item);
+            if (!filesAndFolders.Any(x => x.ItemPath.Equals(item.ItemPath, StringComparison.OrdinalIgnoreCase))) // Avoid adding duplicate items
+            {
+                filesAndFolders.Add(item);
+            }
+
             enumFolderSemaphore.Release();
         }
 

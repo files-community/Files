@@ -1,11 +1,11 @@
-﻿using Files.Filesystem;
-using Files.UserControls.MultitaskingControl;
-using Files.ViewModels;
-using Files.Views;
+﻿using Files.Uwp.Filesystem;
+using Files.Uwp.UserControls.MultitaskingControl;
+using Files.Uwp.ViewModels;
+using Files.Uwp.Views;
 using System;
 using System.ComponentModel;
 
-namespace Files
+namespace Files.Uwp
 {
     public interface IShellPage : ITabItemContent, IMultiPaneInfo, IDisposable
     {
@@ -26,6 +26,8 @@ namespace Files
         bool CanNavigateForward { get; }
 
         void Refresh_Click();
+
+        void Up_Click();
 
         void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null);
 

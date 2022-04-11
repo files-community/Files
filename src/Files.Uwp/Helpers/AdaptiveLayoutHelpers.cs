@@ -1,12 +1,12 @@
 ﻿using Files.Backend.Services.Settings;
-using Files.ViewModels;
-using Files.ViewModels.Previews;
+using Files.Uwp.ViewModels;
+using Files.Uwp.ViewModels.Previews;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using System;
 using System.Linq;
 using Windows.Storage;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class AdaptiveLayoutHelpers
     {

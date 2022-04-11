@@ -1,9 +1,9 @@
-﻿using Files.Extensions;
-using Files.Filesystem;
-using Files.Helpers;
-using Files.Interacts;
+﻿using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
+using Files.Uwp.Interacts;
 using Files.Shared.Extensions;
-using Files.UserControls;
+using Files.Uwp.UserControls;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
@@ -11,11 +11,14 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using static Files.Constants;
 
-namespace Files.Views.LayoutModes
+namespace Files.Uwp.Views.LayoutModes
 {
     public sealed partial class ColumnViewBrowser : BaseLayout
     {
+        protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
+        protected override ItemsControl ItemsControl => ColumnHost;
 
         public ColumnViewBrowser() : base()
         {
@@ -30,10 +33,8 @@ namespace Files.Views.LayoutModes
         {
         }
 
-        protected override ListedItem GetItemFromElement(object element)
-        {
-            return null;
-        }
+        protected override bool CanGetItemFromElement(object element)
+            => false;
 
         private void ColumnViewBase_ItemInvoked(object sender, EventArgs e)
         {

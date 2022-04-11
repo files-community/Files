@@ -142,7 +142,6 @@
     <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="Converters\VisibilityInvertConverter.cs" />
     <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
-    <Compile Include="DataModels\FilesystemItemsOperationDataModel.cs" />
     <Compile Include="DataModels\NavigationControlItems\FileTagItem.cs" />
     <Compile Include="DataModels\NavigationControlItems\WslDistroItem.cs" />
     <Compile Include="Extensions\ShellNewEntryExtensions.cs" />
@@ -226,6 +225,7 @@
     <Compile Include="Helpers\WidgetsHelpers.cs" />
     <Compile Include="Helpers\Win32Helpers.cs" />
     <Compile Include="Helpers\ZipHelpers.cs" />
+    <Compile Include="Imaging\BitmapImageModel.cs" />
     <Compile Include="Interacts\ItemManipulationModel.cs" />
     <Compile Include="ISearchBox.cs" />
     <Compile Include="IsExternalInit.cs" />
@@ -252,7 +252,10 @@
     <Compile Include="ServicesImplementation\Settings\PaneSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\UserSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\WidgetsSettingsService.cs" />
+    <Compile Include="ServicesImplementation\ThreadingService.cs" />
     <Compile Include="ServicesImplementation\UpdateService.cs" />
+    <Compile Include="TemplateSelectors\BaseTemplateSelector.cs" />
+    <Compile Include="TemplateSelectors\FileSystemDialogItemSelector.cs" />
     <Compile Include="UserControls\ColoredIcon.xaml.cs">
       <DependentUpon>ColoredIcon.xaml</DependentUpon>
     </Compile>
@@ -351,10 +354,12 @@
     <Compile Include="UserControls\Widgets\BundlesWidget.xaml.cs">
       <DependentUpon>BundlesWidget.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Widgets\IWidgetCardItem.cs" />
     <Compile Include="UserControls\Widgets\WidgetsListControl.xaml.cs">
       <DependentUpon>WidgetsListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValueConverters\ColorModelToColorConverter.cs" />
+    <Compile Include="ValueConverters\GenericEnumConverter.cs" />
     <Compile Include="ValueConverters\ImageModelToImageConverter.cs" />
     <Compile Include="ViewModels\Dialogs\DecompressArchiveDialogViewModel.cs" />
     <Compile Include="ViewModels\NavToolbarViewModel.cs" />
@@ -372,9 +377,6 @@
     <Compile Include="ViewModels\Widgets\Bundles\BundleItemViewModel.cs" />
     <Compile Include="ViewModels\Widgets\Bundles\BundlesViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\DynamicDialogViewModel.cs" />
-    <Compile Include="ViewModels\Dialogs\FilesystemOperationDialogViewModel.cs" />
-    <Compile Include="ViewModels\Dialogs\FilesystemOperationItemViewModel.cs" />
-    <Compile Include="ViewModels\Dialogs\IFilesystemOperationItemModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\ContextMenuFlyoutItemViewModel.cs" />
@@ -397,7 +399,6 @@
     <Compile Include="UserControls\FilePreviews\ImagePreview.xaml.cs">
       <DependentUpon>ImagePreview.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Filesystem\Cloud\CloudDriveSyncStatusUI.cs" />
     <Compile Include="Filesystem\Cloud\Providers\AppleCloudProvider.cs" />
     <Compile Include="Filesystem\Cloud\Providers\BoxCloudProvider.cs" />
@@ -1497,7 +1498,7 @@
       <Version>7.1.1</Version>
     </PackageReference>
     <PackageReference Include="CommunityToolkit.Mvvm">
-      <Version>8.0.0-preview2</Version>
+      <Version>8.0.0-preview3</Version>
     </PackageReference>
     <PackageReference Include="FluentFTP">
       <Version>36.1.0</Version>

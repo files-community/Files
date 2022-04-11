@@ -1,8 +1,8 @@
-﻿using Files.Dialogs;
+﻿using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
-using Files.Filesystem;
-using Files.ViewModels.Dialogs;
+using Files.Uwp.Filesystem;
+using Files.Uwp.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp;
 using System;
 using Windows.ApplicationModel.Core;
@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Controls;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class DynamicDialogFactory
     {

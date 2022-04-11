@@ -1,14 +1,16 @@
-﻿using Files.Shared.Extensions;
-using Files.Shared.Enums;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
-using Files.Backend.Services.Settings;
-using Files.UserControls;
-using Files.Views;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services;
+using Files.Backend.Services.Settings;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
+using Files.Shared.Enums;
+using Files.Shared.EventArguments;
+using Files.Shared.Extensions;
+using Files.Uwp.UserControls;
+using Files.Uwp.Views;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -27,13 +29,11 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
-using Files.Backend.Services;
-using static Files.UserControls.INavigationToolbar;
-using SearchBox = Files.UserControls.SearchBox;
+using static Files.Uwp.UserControls.INavigationToolbar;
+using SearchBox = Files.Uwp.UserControls.SearchBox;
 using SortDirection = Files.Shared.Enums.SortDirection;
-using Files.Shared.EventArguments;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
     public class NavToolbarViewModel : ObservableObject, INavigationToolbar, IDisposable
     {
@@ -686,7 +686,7 @@ namespace Files.ViewModels
             }
         }
 
-        public void UpdateAdditionnalActions()
+        public void UpdateAdditionalActions()
         {
             OnPropertyChanged(nameof(HasAdditionalAction));
             OnPropertyChanged(nameof(CanEmptyRecycleBin));
@@ -760,6 +760,13 @@ namespace Files.ViewModels
             IsSearchBoxVisible = false;
         }
 
+        public bool SearchHasFocus { get; private set; }
+
+        public void SearchRegion_GotFocus(object sender, RoutedEventArgs e)
+        {
+            SearchHasFocus = true;
+        }
+
         public void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
         {
             var focusedElement = FocusManager.GetFocusedElement();
@@ -768,6 +775,7 @@ namespace Files.ViewModels
                 return;
             }
 
+            SearchHasFocus = false;
             CloseSearchBox();
         }
 
@@ -1034,19 +1042,20 @@ namespace Files.ViewModels
         {
             if (!string.IsNullOrWhiteSpace(sender.Text) && shellpage.FilesystemViewModel != null)
             {
-                try
+                if (!await SafetyExtensions.IgnoreExceptions(async () =>
                 {
                     IList<ListedItem> suggestions = null;
                     var expandedPath = StorageFileExtensions.GetPathWithoutEnvironmentVariable(sender.Text);
                     var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
-                    var folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
-                    var currPath = await folder.Result.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
+                    StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+                    if (folder == null) return false;
+                    var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
                     if (currPath.Count >= maxSuggestions)
                     {
                         suggestions = currPath.Select(x => new ListedItem(null)
                         {
                             ItemPath = x.Path,
-                            ItemNameRaw = x.Folder.DisplayName
+                            ItemNameRaw = x.Item.DisplayName
                         }).ToList();
                     }
                     else if (currPath.Any())
@@ -1055,12 +1064,12 @@ namespace Files.ViewModels
                         suggestions = currPath.Select(x => new ListedItem(null)
                         {
                             ItemPath = x.Path,
-                            ItemNameRaw = x.Folder.DisplayName
+                            ItemNameRaw = x.Item.DisplayName
                         }).Concat(
                             subPath.Select(x => new ListedItem(null)
                             {
                                 ItemPath = x.Path,
-                                ItemNameRaw = PathNormalization.Combine(currPath.First().Folder.DisplayName, x.Folder.DisplayName)
+                                ItemNameRaw = PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
                             })).ToList();
                     }
                     else
@@ -1104,8 +1113,8 @@ namespace Files.ViewModels
                             NavigationBarSuggestions.Insert(suggestions.IndexOf(s), s);
                         }
                     }
-                }
-                catch
+                    return true;
+                }))
                 {
                     NavigationBarSuggestions.Clear();
                     NavigationBarSuggestions.Add(new ListedItem(null)

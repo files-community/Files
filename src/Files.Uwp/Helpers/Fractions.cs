@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     /// <summary>
     /// Some simple helper methods to convert doubles to fractions

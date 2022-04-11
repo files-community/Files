@@ -2,8 +2,9 @@
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Globalization;
+using Windows.Storage;
 
-namespace Files.Extensions
+namespace Files.Uwp.Extensions
 {
     public static class DateTimeExtensions
     {
@@ -31,11 +32,11 @@ namespace Files.Extensions
             {
                 return dateTimeOffset.ToLocalTime().ToString(returnFormat) + " " + dateTimeOffset.ToLocalTime().ToString("t") + " (" + GetFriendlyDateFromFormat(dateTimeOffset, returnFormat) + ")";
             }
-            else if (isDetailed && returnFormat != "g")
+            else if (isDetailed && returnFormat is "D")
             {
                 return dateTimeOffset.ToLocalTime().ToString(returnFormat) + " " + dateTimeOffset.ToLocalTime().ToString("t");
             }
-            else if (elapsed.TotalDays >= 7 || returnFormat == "g")
+            else if (elapsed.TotalDays >= 7 || returnFormat is not "D")
             {
                 return dateTimeOffset.ToLocalTime().ToString(returnFormat);
             }
@@ -126,7 +127,7 @@ namespace Files.Extensions
         public static (string text, string range, string glyph, int index) GetUserSettingsFriendlyTimeSpan(this DateTimeOffset dt)
         {
             var result = dt.GetFriendlyTimeSpan();
-            if (App.AppSettings.DisplayedTimeStyle == TimeStyle.Application)
+            if (App.AppSettings.DisplayedTimeStyle is TimeStyle.Application)
             {
                 return result;
             }
@@ -142,14 +143,21 @@ namespace Files.Extensions
             return calendar.GetWeekOfYear(t.DateTime, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
         }
 
-        public static string ToUserDateString(this DateTimeOffset t)
-        {
-            return t.Date.ToShortDateString();
-        }
+        public static string ToUserDateString(this DateTime t) => t.ToShortDateString();
+        public static string ToUserDateString(this DateTimeOffset t) => t.Date.ToShortDateString();
 
-        public static string ToUserDateString(this DateTime t)
+        public static string GetDateFormat()
         {
-            return t.ToShortDateString();
+            var settings = ApplicationData.Current.LocalSettings;
+            var timeStyle = Enum.Parse<TimeStyle>(settings.Values[Constants.LocalSettings.DateTimeFormat].ToString());
+
+            return GetDateFormat(timeStyle);
         }
+        public static string GetDateFormat(this TimeStyle timeStyle) => timeStyle switch
+        {
+            TimeStyle.System => "g",
+            TimeStyle.Universal => "yyyy-MM-dd HH:mm:ss",
+            _ => "D",
+        };
     }
 }

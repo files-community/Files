@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Files.Filesystem.Permissions
+namespace Files.Uwp.Filesystem.Permissions
 {
     public class RulesForUser : ObservableObject
     {

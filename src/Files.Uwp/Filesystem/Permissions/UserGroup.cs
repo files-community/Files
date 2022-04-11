@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Files.Filesystem.Permissions
+namespace Files.Uwp.Filesystem.Permissions
 {
     public class UserGroup : ObservableObject
     {

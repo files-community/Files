@@ -1,9 +1,8 @@
-﻿using Files.DataModels.NavigationControlItems;
-using Files.Filesystem;
-using Files.Helpers;
+﻿using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.ViewModels;
-using Files.ViewModels.Widgets;
+using Files.Uwp.ViewModels;
+using Files.Uwp.ViewModels.Widgets;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -18,9 +17,44 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.ApplicationModel.Core;
+using Files.Uwp.UserControls.Widgets;
 
-namespace Files.UserControls.Widgets
+namespace Files.Uwp.UserControls.Widgets
 {
+    public class DriveCardItem : ObservableObject, IWidgetCardItem<DriveItem>
+    {
+        private BitmapImage thumbnail;
+        private byte[] thumbnailData;
+
+        public DriveItem Item { get; private set; }
+        public bool HasThumbnail => thumbnail != null && thumbnailData != null;
+        public BitmapImage Thumbnail
+        {
+            get => thumbnail;
+            set => SetProperty(ref thumbnail, value);
+        }
+
+        public DriveCardItem(DriveItem item)
+        {
+            this.Item = item;
+        }
+
+        public async Task LoadCardThumbnailAsync(int overrideThumbnailSize = 32)
+        {
+            if (thumbnailData == null || thumbnailData.Length == 0)
+            {
+                thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(overrideThumbnailSize), Windows.Storage.FileProperties.ThumbnailMode.ListView);
+                if (thumbnailData != null && thumbnailData.Length > 0)
+                {
+                    Thumbnail = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(overrideThumbnailSize));
+                }
+            }
+        }
+    }
+
     public sealed partial class DrivesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
@@ -35,7 +69,7 @@ namespace Files.UserControls.Widgets
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public static ObservableCollection<INavigationControlItem> ItemsAdded = new ObservableCollection<INavigationControlItem>();
+        public static ObservableCollection<DriveCardItem> ItemsAdded = new ObservableCollection<DriveCardItem>();
 
         private IShellPage associatedInstance;
 
@@ -222,6 +256,7 @@ namespace Files.UserControls.Widgets
 
         public void Dispose()
         {
+
         }
     }
 }

@@ -1,13 +1,13 @@
 ﻿using ColorCode;
-using Files.Filesystem;
-using Files.ViewModels.Properties;
+using Files.Uwp.Filesystem;
+using Files.Uwp.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Files.ViewModels.Previews
+namespace Files.Uwp.ViewModels.Previews
 {
     public class CodePreviewViewModel : BasePreviewModel
     {

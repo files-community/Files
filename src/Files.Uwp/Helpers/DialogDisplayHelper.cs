@@ -1,12 +1,12 @@
-﻿using Files.Dialogs;
+﻿using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
-using Files.ViewModels.Dialogs;
+using Files.Uwp.ViewModels.Dialogs;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     internal class DialogDisplayHelper
     {

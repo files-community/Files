@@ -1,8 +1,8 @@
-﻿using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+﻿using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.ViewModels.Properties;
+using Files.Uwp.ViewModels.Properties;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
@@ -16,7 +16,7 @@ using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.ViewModels.Previews
+namespace Files.Uwp.ViewModels.Previews
 {
     public abstract class BasePreviewModel : ObservableObject
     {

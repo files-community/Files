@@ -1,9 +1,9 @@
 ﻿using Files.Shared.Enums;
-using Files.ViewModels;
+using Files.Uwp.ViewModels;
 using System;
 using Windows.UI.Xaml.Data;
 
-namespace Files.Converters
+namespace Files.Uwp.Converters
 {
     public class LayoutModeToBoolConverter : IValueConverter
     {

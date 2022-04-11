@@ -1,11 +1,11 @@
 ﻿<UserControl
-    x:Class="Files.UserControls.Widgets.FolderWidget"
+    x:Class="Files.Uwp.UserControls.Widgets.FolderWidget"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Uwp.Helpers"
+    xmlns:local="using:Files.Uwp.UserControls.Widgets"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:helpers="using:Files.Helpers"
-    xmlns:local="using:Files.UserControls.Widgets"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     mc:Ignorable="d">
@@ -14,21 +14,21 @@
             x:Name="CardsList"
             Grid.Row="0"
             HorizontalAlignment="Stretch"
-            ItemsSource="{x:Bind ItemsAdded}">
+            ItemsSource="{x:Bind ItemsAdded, Mode=OneWay}">
             <muxc:ItemsRepeater.Layout>
                 <muxc:UniformGridLayout
                     ItemsStretch="Fill"
                     MaximumRowsOrColumns="6"
                     MinColumnSpacing="8"
-                    MinItemHeight="88"
+                    MinItemHeight="72"
                     MinItemWidth="100"
                     MinRowSpacing="8"
                     Orientation="Horizontal" />
             </muxc:ItemsRepeater.Layout>
             <muxc:ItemsRepeater.ItemTemplate>
-                <DataTemplate x:DataType="local:LibraryCardItem">
+                <DataTemplate x:DataType="local:FolderCardItem">
                     <Button
-                        Padding="0"
+                        Padding="8"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
@@ -88,20 +88,21 @@
                         </Button.ContextFlyout>
 
                         <Grid
-                            Margin="8,12"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
-                            RowSpacing="2">
+                            RowSpacing="0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Image
                                 Grid.Row="0"
-                                Height="40"
+                                Width="32"
+                                Height="32"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Source="{x:Bind Icon, Mode=OneWay}" />
+                                Source="{x:Bind Thumbnail, Mode=OneWay}"
+                                Stretch="Uniform" />
                             <TextBlock
                                 x:Name="ItemLocationName"
                                 Grid.Row="1"

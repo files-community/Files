@@ -1,6 +1,6 @@
-﻿using Files.DataModels;
+﻿using Files.Uwp.DataModels;
 using Files.Shared.Enums;
-using Files.Filesystem;
+using Files.Uwp.Filesystem;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -12,7 +12,7 @@ using Windows.Storage;
 using Windows.Storage.Search;
 using Files.Shared.Extensions;
 
-namespace Files.Controllers
+namespace Files.Uwp.Controllers
 {
     public class SidebarPinnedController : IJson
     {

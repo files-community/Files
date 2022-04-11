@@ -1,7 +1,7 @@
 ﻿using Files.Shared.Enums;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
     public class CurrentInstanceViewModel : ObservableObject
     {

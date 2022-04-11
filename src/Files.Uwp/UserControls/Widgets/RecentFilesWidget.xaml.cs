@@ -1,9 +1,9 @@
 ﻿using Files.Shared.Enums;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
 using Files.Backend.Services.Settings;
-using Files.ViewModels;
-using Files.ViewModels.Widgets;
+using Files.Uwp.ViewModels;
+using Files.Uwp.ViewModels.Widgets;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -20,7 +20,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Files.ViewModels.Widgets.RecentFiles;
 using System.Linq;
 
-namespace Files.UserControls.Widgets
+namespace Files.Uwp.UserControls.Widgets
 {
     public sealed partial class RecentFilesWidget : UserControl, IWidgetItemModel
     {

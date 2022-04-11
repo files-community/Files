@@ -1,7 +1,7 @@
 ﻿using Files.Shared;
 using Files.Shared.Extensions;
-using Files.Filesystem;
-using Files.Helpers;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Files.Uwp.Helpers;
 
-namespace Files.ViewModels.Properties
+namespace Files.Uwp.ViewModels.Properties
 {
     public class CompatibilityProperties : ObservableObject
     {
