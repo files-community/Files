@@ -654,8 +654,8 @@ namespace Files.Interacts
 
                     CancellationTokenSource extractCancellation = new();
                     PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
-                        string.Empty,
-                        $"{"ExtractingArchiveText".GetLocalized()} \"{archive.Name}\"",
+                        archive.Name.Length >= 30 ? archive.Name + "\n" : archive.Name,
+                        "ExtractingArchiveText".GetLocalized(),
                         0,
                         ReturnResult.InProgress,
                         FileOperationType.Extract,
@@ -709,8 +709,8 @@ namespace Files.Interacts
             {
                 CancellationTokenSource extractCancellation = new();
                 PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
-                    string.Empty,
-                    $"{"ExtractingArchiveText".GetLocalized()} \"{archive.Name}\"",
+                    archive.Name.Length >= 30 ? archive.Name + "\n" : archive.Name,
+                    "ExtractingArchiveText".GetLocalized(),
                     0,
                     ReturnResult.InProgress,
                     FileOperationType.Extract,
@@ -757,8 +757,8 @@ namespace Files.Interacts
             {
                 CancellationTokenSource extractCancellation = new();
                 PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
-                    string.Empty,
-                    $"{"ExtractingArchiveText".GetLocalized()} \"{archive.Name}\"",
+                    archive.Name.Length >= 30 ? archive.Name + "\n" : archive.Name,
+                    "ExtractingArchiveText".GetLocalized(),
                     0,
                     ReturnResult.InProgress,
                     FileOperationType.Extract,
