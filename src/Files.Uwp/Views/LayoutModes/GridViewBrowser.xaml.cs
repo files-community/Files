@@ -23,6 +23,11 @@ namespace Files.Uwp.Views.LayoutModes
 {
     public sealed partial class GridViewBrowser : BaseLayout
     {
+        private uint currentIconSize;
+
+        protected override uint IconSize => currentIconSize;
+        protected override ItemsControl ItemsControl => FileList;
+
         /// <summary>
         /// The minimum item width for items. Used in the StretchedGridViewItems behavior.
         /// </summary>
@@ -434,36 +439,8 @@ namespace Files.Uwp.Views.LayoutModes
             }
         }
 
-        protected override ListedItem GetItemFromElement(object element)
-        {
-            if (element is GridViewItem item)
-            {
-                return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (FileList.ItemFromContainer(item) as ListedItem);
-            }
-            return null;
-        }
-
-        private void FileListGridItem_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.KeyModifiers == VirtualKeyModifiers.Control)
-            {
-                if ((sender as SelectorItem).IsSelected)
-                {
-                    (sender as SelectorItem).IsSelected = false;
-                    // Prevent issues arising caused by the default handlers attempting to select the item that has just been deselected by ctrl + click
-                    e.Handled = true;
-                }
-            }
-            else if (e.GetCurrentPoint(sender as UIElement).Properties.IsLeftButtonPressed)
-            {
-                if (!(sender as SelectorItem).IsSelected)
-                {
-                    (sender as SelectorItem).IsSelected = true;
-                }
-            }
-        }
-
-        private uint currentIconSize;
+        protected override bool CanGetItemFromElement(object element)
+            => element is GridViewItem;
 
         private void FolderSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
         {
@@ -583,33 +560,6 @@ namespace Files.Uwp.Views.LayoutModes
                 item = VisualTreeHelper.GetParent(item);
             var itemContainer = item as GridViewItem;
             itemContainer.ContextFlyout = ItemContextMenuFlyout;
-        }
-
-        private void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
-        {
-            if (!args.InRecycleQueue)
-            {
-                InitializeDrag(args.ItemContainer);
-                args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
-                args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
-
-                if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
-                {
-                    args.RegisterUpdateCallback(3, async (s, c) =>
-                    {
-                        await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
-                    });
-                }
-            }
-            else
-            {
-                UninitializeDrag(args.ItemContainer);
-                args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
-                if (args.Item is ListedItem item)
-                {
-                    ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoadingForItem(item);
-                }
-            }
         }
 
         private void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args)

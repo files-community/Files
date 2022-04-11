@@ -11,11 +11,14 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using static Files.Constants;
 
 namespace Files.Uwp.Views.LayoutModes
 {
     public sealed partial class ColumnViewBrowser : BaseLayout
     {
+        protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
+        protected override ItemsControl ItemsControl => ColumnHost;
 
         public ColumnViewBrowser() : base()
         {
@@ -30,10 +33,8 @@ namespace Files.Uwp.Views.LayoutModes
         {
         }
 
-        protected override ListedItem GetItemFromElement(object element)
-        {
-            return null;
-        }
+        protected override bool CanGetItemFromElement(object element)
+            => false;
 
         private void ColumnViewBase_ItemInvoked(object sender, EventArgs e)
         {

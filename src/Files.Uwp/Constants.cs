@@ -100,6 +100,8 @@
             public static class ColumnViewBrowser
             {
                 public const int ColumnViewSize = 32;
+
+                public const int ColumnViewSizeSmall = 24;
             }
         }
 
