@@ -11,7 +11,7 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using static Files.Constants;
+using static Files.Uwp.Constants;
 
 namespace Files.Uwp.Views.LayoutModes
 {
