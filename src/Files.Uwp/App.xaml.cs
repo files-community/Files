@@ -333,6 +333,7 @@ namespace Files.Uwp
             Window.Current.CoreWindow.Activated += CoreWindow_Activated;
 
             WindowDecorationsHelper.RequestWindowDecorationsAccess();
+            await AuthenticateWithIdentityPlatformAsync();
         }
 
         private Frame EnsureWindowIsInitialized()
@@ -524,6 +525,7 @@ namespace Files.Uwp
             Window.Current.CoreWindow.Activated += CoreWindow_Activated;
 
             WindowDecorationsHelper.RequestWindowDecorationsAccess();
+            await AuthenticateWithIdentityPlatformAsync();
         }
 
         private void TryEnablePrelaunch()
