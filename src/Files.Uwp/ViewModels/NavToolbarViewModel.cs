@@ -553,7 +553,7 @@ namespace Files.Uwp.ViewModels
                 {
                     EditModeEnabled?.Invoke(this, EventArgs.Empty);
 
-                    var visiblePath = NavToolbar.FindDescendant<AutoSuggestBox>(x => x.Name == "VisiblePath");
+                    var visiblePath = AddressToolbar.FindDescendant<AutoSuggestBox>(x => x.Name == "VisiblePath");
                     visiblePath?.Focus(FocusState.Programmatic);
                     visiblePath?.FindDescendant<TextBox>()?.SelectAll();
 
@@ -634,7 +634,7 @@ namespace Files.Uwp.ViewModels
         {
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
             {
-                Windows.UI.Input.PointerPoint ptrPt = e.GetCurrentPoint(NavToolbar);
+                Windows.UI.Input.PointerPoint ptrPt = e.GetCurrentPoint(AddressToolbar);
                 if (ptrPt.Properties.IsMiddleButtonPressed)
                 {
                     pointerRoutedEventArgs = e;
@@ -680,7 +680,7 @@ namespace Files.Uwp.ViewModels
 
                 // Given that binding and layouting might take a few cycles, when calling UpdateLayout
                 // we can guarantee that the focus call will be able to find an open ASB
-                var searchbox = NavToolbar.FindDescendant("SearchRegion") as SearchBox;
+                var searchbox = AddressToolbar.FindDescendant("SearchRegion") as SearchBox;
                 searchbox?.UpdateLayout();
                 searchbox?.Focus(FocusState.Programmatic);
             }
@@ -692,7 +692,7 @@ namespace Files.Uwp.ViewModels
             OnPropertyChanged(nameof(CanEmptyRecycleBin));
         }
 
-        private AddressToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<AddressToolbar>();
+        private AddressToolbar AddressToolbar => (Window.Current.Content as Frame).FindDescendant<AddressToolbar>();
 
         #region WidgetsPage Widgets
 
