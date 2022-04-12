@@ -11,15 +11,15 @@ namespace Files.Uwp.UserControls
 {
     public sealed partial class AddressToolbar : UserControl
     {
-        public NavToolbarViewModel ViewModel
+        public ToolbarViewModel ViewModel
         {
-            get => (NavToolbarViewModel)GetValue(ViewModelProperty);
+            get => (ToolbarViewModel)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register(nameof(ViewModel), typeof(NavToolbarViewModel), typeof(AddressToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(AddressToolbar), new PropertyMetadata(null));
 
         public ISearchBox SearchBox => ViewModel.SearchBox;
 

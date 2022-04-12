@@ -28,15 +28,15 @@ namespace Files.Uwp.UserControls
 
         public MainViewModel MainViewModel => App.MainViewModel;
 
-        public NavToolbarViewModel ViewModel
+        public ToolbarViewModel ViewModel
         {
-            get => (NavToolbarViewModel)GetValue(ViewModelProperty);
+            get => (ToolbarViewModel)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register(nameof(ViewModel), typeof(NavToolbarViewModel), typeof(InnerNavigationToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(InnerNavigationToolbar), new PropertyMetadata(null));
 
         private async void NavToolbarEnterCompactOverlay_Click(object sender, RoutedEventArgs e)
         {

@@ -360,7 +360,7 @@
     <Compile Include="ValueConverters\GenericEnumConverter.cs" />
     <Compile Include="ValueConverters\ImageModelToImageConverter.cs" />
     <Compile Include="ViewModels\Dialogs\DecompressArchiveDialogViewModel.cs" />
-    <Compile Include="ViewModels\NavToolbarViewModel.cs" />
+    <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="ViewModels\PaneViewModel.cs" />
     <Compile Include="ViewModels\Previews\ArchivePreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />

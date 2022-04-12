@@ -35,7 +35,7 @@ using SortDirection = Files.Shared.Enums.SortDirection;
 
 namespace Files.Uwp.ViewModels
 {
-    public class NavToolbarViewModel : ObservableObject, INavigationToolbar, IDisposable
+    public class ToolbarViewModel : ObservableObject, INavigationToolbar, IDisposable
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
@@ -329,7 +329,7 @@ namespace Files.Uwp.ViewModels
 
         private PointerRoutedEventArgs pointerRoutedEventArgs;
 
-        public NavToolbarViewModel()
+        public ToolbarViewModel()
         {
             BackClickCommand = new RelayCommand<RoutedEventArgs>(e => BackRequested?.Invoke(this, EventArgs.Empty));
             ForwardClickCommand = new RelayCommand<RoutedEventArgs>(e => ForwardRequested?.Invoke(this, EventArgs.Empty));

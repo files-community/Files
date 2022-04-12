@@ -292,7 +292,7 @@ namespace Files.Uwp
                     item.PropertyChanged += SelectedItem_PropertyChanged;
                 }
 
-                ParentShellPageInstance.NavToolbarViewModel.SelectedItems = value;
+                ParentShellPageInstance.ToolbarViewModel.SelectedItems = value;
             }
         }
 
@@ -437,11 +437,11 @@ namespace Files.Uwp
             FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
             ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
             FolderSettings.SetLayoutInformation();
-            ParentShellPageInstance.NavToolbarViewModel.UpdateSortAndGroupOptions();
+            ParentShellPageInstance.ToolbarViewModel.UpdateSortAndGroupOptions();
 
             if (!navigationArguments.IsSearchResultPage)
             {
-                ParentShellPageInstance.NavToolbarViewModel.CanRefresh = true;
+                ParentShellPageInstance.ToolbarViewModel.CanRefresh = true;
                 string previousDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
                 await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.NavPathParam);
 
@@ -450,11 +450,11 @@ namespace Files.Uwp
                 string pathRoot = GetPathRoot(workingDir);
                 if (string.IsNullOrEmpty(pathRoot) || workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal)) // Can't go up from recycle bin
                 {
-                    ParentShellPageInstance.NavToolbarViewModel.CanNavigateToParent = false;
+                    ParentShellPageInstance.ToolbarViewModel.CanNavigateToParent = false;
                 }
                 else
                 {
-                    ParentShellPageInstance.NavToolbarViewModel.CanNavigateToParent = true;
+                    ParentShellPageInstance.ToolbarViewModel.CanNavigateToParent = true;
                 }
 
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
@@ -463,22 +463,22 @@ namespace Files.Uwp
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = LibraryHelper.IsLibraryPath(workingDir);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
-                ParentShellPageInstance.NavToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam;
+                ParentShellPageInstance.ToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam;
                 if (!navigationArguments.IsLayoutSwitch || previousDir != workingDir)
                 {
                     ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir, SetSelectedItemsOnNavigation);
                 }
                 else
                 {
-                    ParentShellPageInstance.NavToolbarViewModel.CanGoForward = false;
+                    ParentShellPageInstance.ToolbarViewModel.CanGoForward = false;
                 }
             }
             else
             {
-                ParentShellPageInstance.NavToolbarViewModel.CanRefresh = true;
-                ParentShellPageInstance.NavToolbarViewModel.CanGoForward = false;
-                ParentShellPageInstance.NavToolbarViewModel.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
-                ParentShellPageInstance.NavToolbarViewModel.CanNavigateToParent = false;
+                ParentShellPageInstance.ToolbarViewModel.CanRefresh = true;
+                ParentShellPageInstance.ToolbarViewModel.CanGoForward = false;
+                ParentShellPageInstance.ToolbarViewModel.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
+                ParentShellPageInstance.ToolbarViewModel.CanNavigateToParent = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
@@ -1272,7 +1272,7 @@ namespace Files.Uwp
 
         private void View_VectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs @event)
         {
-            ParentShellPageInstance.NavToolbarViewModel.HasItem = CollectionViewSource.View.Any();
+            ParentShellPageInstance.ToolbarViewModel.HasItem = CollectionViewSource.View.Any();
         }
 
         virtual public void StartRenameItem() { }

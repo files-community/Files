@@ -390,7 +390,7 @@ namespace Files.Uwp.Views.LayoutModes
             }
             else if (e.Key == VirtualKey.Space)
             {
-                if (!IsRenamingItem && !isFooterFocused && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+                if (!IsRenamingItem && !isFooterFocused && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
                 {
                     e.Handled = true;
                     await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
