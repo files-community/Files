@@ -14,7 +14,7 @@ namespace Files.Uwp.Helpers
         /// <param name="requestedSize">Desired size of icon</param>
         /// <param name="persistenceOptions">Optionally choose not to persist icon-backing item in LocalCache</param>
         /// <param name="fileExtension">The file type (extension) of the generic icon to retrieve. Leave empty if a directory icon is desired</param>
-        /// <returns></returns>
+        /// <returns>A non-thumbnail icon representing the provided item type</returns>
         public static async Task<StorageItemThumbnail> GetIconForItemType(uint requestedSize, IconPersistenceOptions persistenceOptions = IconPersistenceOptions.Persist, string fileExtension = null)
         {
             if (string.IsNullOrEmpty(fileExtension))
@@ -24,6 +24,11 @@ namespace Files.Uwp.Helpers
             }
             else
             {
+                if (!fileExtension.StartsWith('.'))
+                {
+                    fileExtension = "." + fileExtension;
+                }
+
                 StorageFile emptyFile = await ApplicationData.Current.LocalCacheFolder.CreateFileAsync(string.Join(Constants.Filesystem.CachedEmptyItemName, fileExtension), CreationCollisionOption.OpenIfExists);
                 var icon = await emptyFile.GetThumbnailAsync(ThumbnailMode.ListView, requestedSize, ThumbnailOptions.UseCurrentScale);
 

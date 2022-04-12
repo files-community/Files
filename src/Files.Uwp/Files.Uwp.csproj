@@ -240,6 +240,7 @@
     <Compile Include="Serialization\ISettingsSerializer.cs" />
     <Compile Include="Serialization\ISettingsSharingContext.cs" />
     <Compile Include="ServicesImplementation\DialogService.cs" />
+    <Compile Include="ServicesImplementation\Graph\GraphFileThumbnailService.cs" />
     <Compile Include="ServicesImplementation\Graph\GraphRecentFilesService.cs" />
     <Compile Include="ServicesImplementation\ImagingService.cs" />
     <Compile Include="ServicesImplementation\LocalizationService.cs" />

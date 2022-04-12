@@ -8,15 +8,15 @@ using Files.Shared.Enums;
 using Files.Uwp.Helpers.ListedItems;
 using Microsoft.Graph;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.AccessCache;
 using Windows.UI.Xaml.Media.Imaging;
+using Files.Uwp.Helpers;
+using System.Collections.Generic;
 
 namespace Files.Uwp.ViewModels.Widgets.RecentFiles
 {
@@ -53,39 +53,10 @@ namespace Files.Uwp.ViewModels.Widgets.RecentFiles
                 }
                 else
                 {
-                    await GetRecentFilesFromCloud();
+                    await GetRecentFilesFromCloudAsync();
                 }
 
-                var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
-
-                foreach (AccessListEntry entry in mostRecentlyUsed.Entries)
-                {
-                    string mruToken = entry.Token;
-                    var added = await FilesystemTasks.Wrap(async () =>
-                    {
-                        IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
-                        await AddItemToRecentListAsync(item, entry);
-                    });
-                    if (added == FileSystemStatusCode.Unauthorized)
-                    {
-                        // Skip item until consent is provided
-                    }
-                    // Exceptions include but are not limited to:
-                    // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
-                    // 0x8007016A -> The cloud file provider is not running
-                    // 0x8000000A -> The data necessary to complete this operation is not yet available
-                    // 0x80004005 -> Unspecified error
-                    // 0x80270301 -> ?
-                    else if (!added)
-                    {
-                        await FilesystemTasks.Wrap(() =>
-                        {
-                            mostRecentlyUsed.Remove(mruToken);
-                            return Task.CompletedTask;
-                        });
-                        System.Diagnostics.Debug.WriteLine(added.ErrorCode);
-                    }
-                }
+                await GetRecentLocalItemsAsync();
             }
             catch (Exception ex)
             {
@@ -103,24 +74,70 @@ namespace Files.Uwp.ViewModels.Widgets.RecentFiles
             if (e.NewState == ProviderState.SignedIn)
             {
                 ProviderManager.Instance.ProviderStateChanged -= Instance_ProviderStateChanged;
-                await GetRecentFilesFromCloud();
+                await GetRecentFilesFromCloudAsync();
+                SortRecentItems();
             }
         }
 
-        private async Task GetRecentFilesFromCloud()
+        private async Task GetRecentLocalItemsAsync()
+        {
+            var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
+
+            foreach (AccessListEntry entry in mostRecentlyUsed.Entries)
+            {
+                string mruToken = entry.Token;
+                var added = await FilesystemTasks.Wrap(async () =>
+                {
+                    IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
+                    await AddItemToRecentListAsync(item, entry);
+                });
+                if (added == FileSystemStatusCode.Unauthorized)
+                {
+                    // Skip item until consent is provided
+                }
+                // Exceptions include but are not limited to:
+                // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
+                // 0x8007016A -> The cloud file provider is not running
+                // 0x8000000A -> The data necessary to complete this operation is not yet available
+                // 0x80004005 -> Unspecified error
+                // 0x80270301 -> ?
+                else if (!added)
+                {
+                    await FilesystemTasks.Wrap(() =>
+                    {
+                        mostRecentlyUsed.Remove(mruToken);
+                        return Task.CompletedTask;
+                    });
+                    System.Diagnostics.Debug.WriteLine(added.ErrorCode);
+                }
+            }
+        }
+
+        private async Task GetRecentFilesFromCloudAsync()
         {
             var recentGraphItemsPage = await recentFilesService.GetRecentDriveItemsAsync();
             foreach (DriveItem recentItem in recentGraphItemsPage.Take(6))
             {
-                AddGraphItemToRecentList(recentItem);
+                await AddGraphItemToRecentListAsync(recentItem);
+            }
+
+            if (!Items.Any())
+            {
+                IsRecentsListEmpty = true;
             }
         }
 
-        private void AddGraphItemToRecentList(DriveItem recentGraphItem)
+        private async Task AddGraphItemToRecentListAsync(DriveItem recentGraphItem)
         {
-            var thumbnail = new BitmapImage(new Uri(recentGraphItem.Thumbnails.First().Small.Url));
-            thumbnail.DecodePixelHeight = 96;
-            thumbnail.DecodePixelWidth = 96;
+            BitmapImage thumbnail = null;
+            if (recentGraphItem.Name.Split('.') is string[] segments && segments.Length > 1 && !string.IsNullOrWhiteSpace(segments.LastOrDefault()))
+            {
+                using (var icon = await StorageItemIconHelpers.GetIconForItemType(24, IconPersistenceOptions.Persist, segments.LastOrDefault()))
+                {
+                    thumbnail = new BitmapImage();
+                    await thumbnail.SetSourceAsync(icon);
+                }
+            }
 
             Items.Add(new ListedItem()
             {
@@ -129,8 +146,23 @@ namespace Files.Uwp.ViewModels.Widgets.RecentFiles
                 ItemDateModifiedReal = recentGraphItem.LastModifiedDateTime,
                 ItemDateCreatedReal = recentGraphItem.CreatedDateTime,
                 FileSizeBytes = recentGraphItem.Size,
-                FileImage = thumbnail
+                FileImage = thumbnail,
+                IsCloudGraphItem = true
             });
+        }
+
+        private void SortRecentItems()
+        {
+            List<ListedItem> sortedItems = new List<ListedItem>();
+            sortedItems.AddRange(Items.Where(x => x.IsCloudGraphItem));
+            sortedItems.AddRange(Items.Where(x => !x.IsCloudGraphItem));
+
+            Items.Clear();
+
+            foreach (ListedItem li in sortedItems)
+            {
+                Items.Add(li);
+            }
         }
 
         private async Task AddItemToRecentListAsync(IStorageItem item, AccessListEntry entry)
@@ -172,7 +204,8 @@ namespace Files.Uwp.ViewModels.Widgets.RecentFiles
 
         public void Dispose()
         {
-
+            ProviderManager.Instance.ProviderStateChanged -= Instance_ProviderStateChanged;
+            Items.Clear();
         }
     }
 }

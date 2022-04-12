@@ -135,9 +135,10 @@ namespace Files.Uwp
 
                 // Microsoft Graph Service(s)
                 .AddSingleton<IGraphRecentFilesService, GraphRecentFilesService>()
+                .AddSingleton<IGraphFileThumbnailService, GraphFileThumbnailService>()
 
 
-                ; // End of service configuration
+            ; // End of service configuration
 
 
             return services.BuildServiceProvider();
@@ -222,21 +223,22 @@ namespace Files.Uwp
             DrivesManager?.ResumeDeviceWatcher();
         }
 
-        private async void AuthenticateWithIdentityPlatform()
+        private async Task AuthenticateWithIdentityPlatformAsync()
         {
             string[] scopes = new string[] { "User.Read", "Files.Read.All" };
 
-            ProviderManager.Instance.GlobalProvider = new WindowsProvider(scopes);
+            ProviderManager.Instance.GlobalProvider = new WindowsProvider(scopes, autoSignIn: false);
 
             GraphAuthenticationProvider = ProviderManager.Instance.GlobalProvider;
-            if (GraphAuthenticationProvider?.State != ProviderState.SignedIn)
-            {
-                string clientId = "397e1025-a0ef-47cd-8228-8fafe58682f7";
+            await GraphAuthenticationProvider.SignInAsync();
+            //if (GraphAuthenticationProvider?.State != ProviderState.SignedIn)
+            //{
+            //    string clientId = "397e1025-a0ef-47cd-8228-8fafe58682f7";
 
-                ProviderManager.Instance.GlobalProvider = new MsalProvider(clientId, scopes, autoSignIn: false);
-                await ProviderManager.Instance.GlobalProvider.SignInAsync();
-                GraphAuthenticationProvider = ProviderManager.Instance.GlobalProvider;
-            }
+            //    ProviderManager.Instance.GlobalProvider = new MsalProvider(clientId, scopes, autoSignIn: false);
+            //    await ProviderManager.Instance.GlobalProvider.SignInAsync();
+            //    GraphAuthenticationProvider = ProviderManager.Instance.GlobalProvider;
+            //}
         }
 
         /// <summary>
@@ -258,8 +260,6 @@ namespace Files.Uwp
             _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
             var rootFrame = EnsureWindowIsInitialized();
-
-            AuthenticateWithIdentityPlatform();
 
             if (e.PrelaunchActivated == false)
             {
@@ -306,6 +306,7 @@ namespace Files.Uwp
             }
 
             WindowDecorationsHelper.RequestWindowDecorationsAccess();
+            await AuthenticateWithIdentityPlatformAsync();
         }
 
         protected override async void OnFileActivated(FileActivatedEventArgs e)
