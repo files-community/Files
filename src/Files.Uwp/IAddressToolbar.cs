@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files.Uwp.UserControls
 {
-    public interface INavigationToolbar
+    public interface IAddressToolbar
     {
         public bool IsSearchBoxVisible { get; set; }
         public bool IsEditModeEnabled { get; set; }

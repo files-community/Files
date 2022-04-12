@@ -29,13 +29,13 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
-using static Files.Uwp.UserControls.INavigationToolbar;
+using static Files.Uwp.UserControls.IAddressToolbar;
 using SearchBox = Files.Uwp.UserControls.SearchBox;
 using SortDirection = Files.Shared.Enums.SortDirection;
 
 namespace Files.Uwp.ViewModels
 {
-    public class ToolbarViewModel : ObservableObject, INavigationToolbar, IDisposable
+    public class ToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
@@ -475,7 +475,7 @@ namespace Files.Uwp.ViewModels
             {
                 dragOverPath = pathBoxItem.Path;
                 dragOverTimer.Stop();
-                if (dragOverPath != (this as INavigationToolbar).PathComponents.LastOrDefault()?.Path)
+                if (dragOverPath != (this as IAddressToolbar).PathComponents.LastOrDefault()?.Path)
                 {
                     dragOverTimer.Debounce(() =>
                     {
@@ -627,7 +627,7 @@ namespace Files.Uwp.ViewModels
         {
             PathBoxQuerySubmitted?.Invoke(this, new ToolbarQuerySubmittedEventArgs() { QueryText = args.QueryText });
 
-            (this as INavigationToolbar).IsEditModeEnabled = false;
+            (this as IAddressToolbar).IsEditModeEnabled = false;
         }
 
         public void PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e)
