@@ -9,7 +9,7 @@ using Windows.UI.Xaml.Input;
 
 namespace Files.Uwp.UserControls
 {
-    public sealed partial class NavigationToolbar : UserControl
+    public sealed partial class AddressToolbar : UserControl
     {
         public NavToolbarViewModel ViewModel
         {
@@ -19,7 +19,7 @@ namespace Files.Uwp.UserControls
 
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register(nameof(ViewModel), typeof(NavToolbarViewModel), typeof(NavigationToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ViewModel), typeof(NavToolbarViewModel), typeof(AddressToolbar), new PropertyMetadata(null));
 
         public ISearchBox SearchBox => ViewModel.SearchBox;
 
@@ -28,7 +28,7 @@ namespace Files.Uwp.UserControls
         public static readonly DependencyProperty CanPasteInPageProperty = DependencyProperty.Register(
           "CanPasteInPage",
           typeof(bool),
-          typeof(NavigationToolbar),
+          typeof(AddressToolbar),
           new PropertyMetadata(null)
         );
 
@@ -46,7 +46,7 @@ namespace Files.Uwp.UserControls
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        public NavigationToolbar()
+        public AddressToolbar()
         {
             InitializeComponent();
             Loading += NavigationToolbar_Loading;
@@ -135,9 +135,9 @@ namespace Files.Uwp.UserControls
 
         // Using a DependencyProperty as the backing store for CollapseSearchBox.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowSearchBoxProperty =
-            DependencyProperty.Register(nameof(ShowSearchBox), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ShowSearchBox), typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
 
-        public static readonly DependencyProperty SettingsButtonCommandProperty = DependencyProperty.Register(nameof(SettingsButtonCommand), typeof(ICommand), typeof(NavigationToolbar), new PropertyMetadata(null));
+        public static readonly DependencyProperty SettingsButtonCommandProperty = DependencyProperty.Register(nameof(SettingsButtonCommand), typeof(ICommand), typeof(AddressToolbar), new PropertyMetadata(null));
 
         public ICommand SettingsButtonCommand
         {
@@ -170,7 +170,7 @@ namespace Files.Uwp.UserControls
 
         // Using a DependencyProperty as the backing store for ShowOngoingTasks.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowOngoingTasksProperty =
-            DependencyProperty.Register(nameof(ShowOngoingTasks), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ShowOngoingTasks), typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
 
         public bool ShowSettingsButton
         {
@@ -180,6 +180,6 @@ namespace Files.Uwp.UserControls
 
         // Using a DependencyProperty as the backing store for ShowSettingsButton.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowSettingsButtonProperty =
-            DependencyProperty.Register(nameof(ShowSettingsButton), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ShowSettingsButton), typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
     }
 }

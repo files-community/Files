@@ -455,8 +455,8 @@
     <Compile Include="UserControls\MenuFlyoutItemWithImage.xaml.cs">
       <DependentUpon>MenuFlyoutItemWithImage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\NavigationToolbar.xaml.cs">
-      <DependentUpon>NavigationToolbar.xaml</DependentUpon>
+    <Compile Include="UserControls\AddressToolbar.xaml.cs">
+      <DependentUpon>AddressToolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MultitaskingControl\BaseMultitaskingControl.cs" />
     <Compile Include="UserControls\MultitaskingControl\HorizontalMultitaskingControl.xaml.cs">
@@ -1300,7 +1300,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\NavigationToolbar.xaml">
+    <Page Include="UserControls\AddressToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

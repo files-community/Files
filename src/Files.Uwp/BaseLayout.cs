@@ -98,7 +98,7 @@ namespace Files.Uwp
             }
         }
 
-        protected NavigationToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<NavigationToolbar>();
+        protected AddressToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<AddressToolbar>();
 
         private CollectionViewSource collectionViewSource = new CollectionViewSource()
         {

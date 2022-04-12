@@ -90,7 +90,7 @@ namespace Files.Uwp.UserControls
 
         // Using a DependencyProperty as the backing store for ShowPreviewPaneButton.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowPreviewPaneButtonProperty =
-            DependencyProperty.Register("ShowPreviewPaneButton", typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register("ShowPreviewPaneButton", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
 
         public bool ShowMultiPaneControls
         {
@@ -100,7 +100,7 @@ namespace Files.Uwp.UserControls
 
         // Using a DependencyProperty as the backing store for ShowMultiPaneControls.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowMultiPaneControlsProperty =
-            DependencyProperty.Register(nameof(ShowMultiPaneControls), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ShowMultiPaneControls), typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
 
         public bool IsMultiPaneActive
         {
@@ -110,7 +110,7 @@ namespace Files.Uwp.UserControls
 
         // Using a DependencyProperty as the backing store for IsMultiPaneActive.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsMultiPaneActiveProperty =
-            DependencyProperty.Register("IsMultiPaneActive", typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(false));
+            DependencyProperty.Register("IsMultiPaneActive", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(false));
 
         public bool IsCompactOverlay
         {
@@ -120,7 +120,7 @@ namespace Files.Uwp.UserControls
 
         // Using a DependencyProperty as the backing store for IsCompactOverlay.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsCompactOverlayProperty =
-            DependencyProperty.Register("IsCompactOverlay", typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register("IsCompactOverlay", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
 
         public ICommand SetCompactOverlayCommand
         {
@@ -130,7 +130,7 @@ namespace Files.Uwp.UserControls
 
         // Using a DependencyProperty as the backing store for ToggleCompactOverlayCommand.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SetCompactOverlayCommandProperty =
-            DependencyProperty.Register("ToggleCompactOverlayCommand", typeof(ICommand), typeof(NavigationToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register("ToggleCompactOverlayCommand", typeof(ICommand), typeof(AddressToolbar), new PropertyMetadata(null));
 
         private void NewEmptySpace_Opening(object sender, object e)
         {

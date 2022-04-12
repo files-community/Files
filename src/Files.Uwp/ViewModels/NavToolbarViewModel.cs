@@ -692,7 +692,7 @@ namespace Files.Uwp.ViewModels
             OnPropertyChanged(nameof(CanEmptyRecycleBin));
         }
 
-        private NavigationToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<NavigationToolbar>();
+        private AddressToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<AddressToolbar>();
 
         #region WidgetsPage Widgets
 
