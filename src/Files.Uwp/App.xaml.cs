@@ -231,14 +231,6 @@ namespace Files.Uwp
 
             GraphAuthenticationProvider = ProviderManager.Instance.GlobalProvider;
             await GraphAuthenticationProvider.SignInAsync();
-            //if (GraphAuthenticationProvider?.State != ProviderState.SignedIn)
-            //{
-            //    string clientId = "397e1025-a0ef-47cd-8228-8fafe58682f7";
-
-            //    ProviderManager.Instance.GlobalProvider = new MsalProvider(clientId, scopes, autoSignIn: false);
-            //    await ProviderManager.Instance.GlobalProvider.SignInAsync();
-            //    GraphAuthenticationProvider = ProviderManager.Instance.GlobalProvider;
-            //}
         }
 
         /// <summary>
