@@ -5,7 +5,7 @@ namespace Files.Uwp.ServicesImplementation
 {
     public class ShortcutKeyService : ObservableObject, IShortcutKeyService
     {
-        private bool _canInvokeShortcutKeys;
+        private bool _canInvokeShortcutKeys = true;
 
         public bool CanInvokeShortcutKeys
         {
