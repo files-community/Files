@@ -632,6 +632,12 @@ namespace Files.Uwp.Views
                               CurrentPageType == typeof(ColumnViewBrowser) ||
                               CurrentPageType == typeof(ColumnViewBase);
 
+            var shortcutKeyService = Ioc.Default.GetService<IShortcutKeyService>();
+            if (!shortcutKeyService!.CanInvokeShortcutKeys)
+            {
+                return;
+            }
+
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
                 case (true, false, false, true, VirtualKey.E): // ctrl + e, extract

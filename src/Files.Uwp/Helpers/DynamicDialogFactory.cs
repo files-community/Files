@@ -10,6 +10,8 @@ using Windows.System;
 using Windows.UI.Xaml.Controls;
 using System.Collections.Generic;
 using System.Linq;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
 
 namespace Files.Uwp.Helpers
 {
@@ -58,6 +60,10 @@ namespace Files.Uwp.Helpers
                 TextWrapping = Windows.UI.Xaml.TextWrapping.Wrap,
                 Opacity = 0.0d
             };
+
+            var shortcutKeyService = Ioc.Default.GetService<IShortcutKeyService>();
+            inputText.GotFocus += (textBox, args) => shortcutKeyService!.CanInvokeShortcutKeys = false;
+            inputText.LostFocus += (textBox, args) => shortcutKeyService!.CanInvokeShortcutKeys = true;
 
             inputText.BeforeTextChanging += async (textBox, args) =>
             {
