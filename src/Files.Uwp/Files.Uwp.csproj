@@ -174,7 +174,6 @@
     <Compile Include="Filesystem\Permissions\RulesForUser.cs" />
     <Compile Include="Filesystem\Permissions\UserGroup.cs" />
     <Compile Include="Filesystem\StorageItems\BaseQueryResults.cs" />
-    <Compile Include="Filesystem\StorageItems\BaseStorageItem.cs" />
     <Compile Include="Filesystem\StorageItems\FtpStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\FtpStorageFolder.cs" />
     <Compile Include="Filesystem\StorageItems\StreamWithContentType.cs" />
@@ -182,6 +181,13 @@
     <Compile Include="Filesystem\StorageItems\SystemStorageFolder.cs" />
     <Compile Include="Filesystem\StorageItems\ZipStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\ZipStorageFolder.cs" />
+    <Compile Include="Filesystem\StorageItem\BaseBasicProperties.cs" />
+    <Compile Include="Filesystem\StorageItem\BaseBasicStorageItemExtraProperties.cs" />
+    <Compile Include="Filesystem\StorageItem\BaseStorageFile.cs" />
+    <Compile Include="Filesystem\StorageItem\BaseStorageFolder.cs" />
+    <Compile Include="Filesystem\StorageItem\BaseStorageItemExtraProperties.cs" />
+    <Compile Include="Filesystem\StorageItem\IBaseStorageFile.cs" />
+    <Compile Include="Filesystem\StorageItem\IBaseStorageFolder.cs" />
     <Compile Include="Helpers\ColorHelpers.cs" />
     <Compile Include="Helpers\CommonPaths.cs" />
     <Compile Include="Helpers\FileExtensionHelpers.cs" />
