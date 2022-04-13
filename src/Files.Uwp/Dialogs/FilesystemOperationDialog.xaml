@@ -52,6 +52,7 @@
 
         <vc:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
         <vc:GenericEnumConverter x:Key="GenericEnumConverter" />
+        <vc:BoolInvertConverter x:Key="BoolInvertConverter" />
 
         <DataTemplate x:Key="ConflictItemDataTemplate" x:DataType="vm:FileSystemDialogConflictItemViewModel">
             <Grid ColumnSpacing="12">
@@ -101,7 +102,7 @@
                 <ComboBox
                     Grid.Column="2"
                     VerticalAlignment="Center"
-                    SelectedIndex="{x:Bind ConflictResolveOption, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}}">
+                    SelectedIndex="{x:Bind ConflictResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}}">
                     <ComboBox.Items>
                         <ComboBoxItem Content="{helpers:ResourceString Name=GenerateNewName}" />
                         <ComboBoxItem Content="{helpers:ResourceString Name=ConflictingItemsDialogItemOptionReplaceExisting/Text}" />
@@ -144,6 +145,32 @@
 
     <Grid Width="452">
         <StackPanel Spacing="12">
+            <Grid x:Name="ApplyToAll" x:Load="{x:Bind ViewModel.FileSystemDialogMode.IsInDeleteMode, Converter={StaticResource BoolInvertConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Text="Apply this action to all conflicting items" />
+
+                <ComboBox
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    SelectedIndex="{x:Bind ViewModel.AggregatedResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='4-0,0-1,1-2,2-3'}">
+                    <ComboBox.Items>
+                        <ComboBoxItem Content="Custom" />
+                        <ComboBoxItem Content="Generate new name" />
+                        <ComboBoxItem Content="Replace existing" />
+                        <ComboBoxItem Content="Skip" />
+                    </ComboBox.Items>
+                </ComboBox>
+            </Grid>
+
             <TextBlock Text="{x:Bind ViewModel.Description, Mode=OneWay}" />
             <CheckBox
                 x:Name="chkPermanentlyDelete"
@@ -157,7 +184,6 @@
                     x:Name="DetailsGrid"
                     Grid.Row="1"
                     MaxHeight="200"
-                    IsEnabled="False"
                     IsItemClickEnabled="False"
                     ItemsSource="{x:Bind ViewModel.Items}"
                     SelectionMode="{x:Bind ItemSelectionMode, Mode=OneWay}">
