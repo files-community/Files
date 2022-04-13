@@ -41,6 +41,8 @@ namespace Files.Uwp.ViewModels
 
         public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>();
 
+        public IShortcutKeyService ShortcutKeyService { get; } = Ioc.Default.GetService<IShortcutKeyService>();
+
         public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
         public delegate void ToolbarFlyoutOpenedEventHandler(object sender, ToolbarFlyoutOpenedEventArgs e);
@@ -764,6 +766,7 @@ namespace Files.Uwp.ViewModels
 
         public void SearchRegion_GotFocus(object sender, RoutedEventArgs e)
         {
+            ShortcutKeyService.CanInvokeShortcutKeys = false;
             SearchHasFocus = true;
         }
 
@@ -775,6 +778,7 @@ namespace Files.Uwp.ViewModels
                 return;
             }
 
+            ShortcutKeyService.CanInvokeShortcutKeys = true;
             SearchHasFocus = false;
             CloseSearchBox();
         }

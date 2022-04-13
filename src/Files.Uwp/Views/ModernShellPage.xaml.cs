@@ -57,6 +57,8 @@ namespace Files.Uwp.Views
 
         private IUpdateService UpdateSettingsService { get; } = Ioc.Default.GetService<IUpdateService>();
 
+        private IShortcutKeyService ShortcutKeyService { get; } = Ioc.Default.GetRequiredService<IShortcutKeyService>();
+
         private bool isCurrentInstance = false;
         public bool IsCurrentInstance
         {
@@ -158,6 +160,8 @@ namespace Files.Uwp.Views
             NavToolbarViewModel.InstanceViewModel = InstanceViewModel;
             InitToolbarCommands();
 
+            InitShortcutKeys();
+
             DisplayFilesystemConsentDialog();
 
             var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
@@ -206,30 +210,8 @@ namespace Files.Uwp.Views
             var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
                               CurrentPageType == typeof(GridViewBrowser);
 
-            switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key) {
-                case (true, false, false, true, (VirtualKey) 192): // ctrl + ` (accent key), open terminal
-                    // Check if there is a folder selected, if not use the current directory.
-                    string path = FilesystemViewModel.WorkingDirectory;
-                    if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
-                    {
-                        path = SlimContentPage.SelectedItem.ItemPath;
-                    }
-                    await NavigationHelpers.OpenDirectoryInTerminal(path);
-                    args.Handled = true;
-                    break;
-
-                case (false, false, false, true, VirtualKey.Space): // space, quick look
-                    // handled in `CurrentPageType`::FileList_PreviewKeyDown
-                    break;
-
-                case (true, false, false, true, VirtualKey.Space): // ctrl + space, toggle media playback
-                    if (App.PreviewPaneViewModel.PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
-                    {
-                        mediaPreviewContent.ViewModel.TogglePlayback();
-                        args.Handled = true;
-                    }
-                    break;
-            }
+            await ShortcutKeyService.Invoke(ctrl, shift, alt, tabInstance, (int)args.Key, out var handled);
+            args.Handled = handled;
         }
 
         private void InitToolbarCommands()
@@ -669,195 +651,262 @@ namespace Files.Uwp.Views
             };
         }
 
-        private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        private void InitShortcutKeys()
         {
-            args.Handled = true;
-            var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
-            var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
-            var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
-            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) || 
-                              CurrentPageType == typeof(GridViewBrowser);
-
-            var shortcutKeyService = Ioc.Default.GetService<IShortcutKeyService>();
-            if (!shortcutKeyService!.CanInvokeShortcutKeys)
+            // ctrl + shift + n, new item
+            ShortcutKeyService.Add(true, true, false, true, (int)VirtualKey.N, true, async () =>
             {
-                return;
-            }
+                if (InstanceViewModel.CanCreateFileInPage)
+                {
+                    var addItemDialogViewModel = new AddItemDialogViewModel();
+                    await DialogService.ShowDialogAsync(addItemDialogViewModel);
+                    if (addItemDialogViewModel.ResultType.ItemType != AddItemDialogItemType.Cancel)
+                    {
+                        UIFilesystemHelpers.CreateFileFromDialogResultType(
+                            addItemDialogViewModel.ResultType.ItemType,
+                            addItemDialogViewModel.ResultType.ItemInfo,
+                            this);
+                    }
+                }
+            });
 
-            switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
+            // ctrl + e, extract
+            ShortcutKeyService.Add(true, false, false, true, (int)VirtualKey.E, false, () =>
             {
-                case (true, false, false, true, VirtualKey.E): // ctrl + e, extract
-                    {
-                        if (NavToolbarViewModel.CanExtract)
-                        {
-                            NavToolbarViewModel.ExtractCommand.Execute(null);
-                        }
-                        break;
-                    }
+                if (NavToolbarViewModel.CanExtract)
+                {
+                    NavToolbarViewModel.ExtractCommand.Execute(null);
+                }
+                return Task.CompletedTask;
+            });
 
-                case (true, false, false, true, VirtualKey.Z): // ctrl + z, undo
-                    if (!InstanceViewModel.IsPageTypeSearchResults)
-                    {
-                        await storageHistoryHelpers.TryUndo();
-                    }
-                    break;
-
-                case (true, false, false, true, VirtualKey.Y): // ctrl + y, redo
-                    if (!InstanceViewModel.IsPageTypeSearchResults)
-                    {
-                        await storageHistoryHelpers.TryRedo();
-                    }
-                    break;
-
-                case (true, true, false, true, VirtualKey.C):
-                    {
-                        SlimContentPage?.CommandsViewModel.CopyPathOfSelectedItemCommand.Execute(null);
-                        break;
-                    }
-
-                case (false, false, false, _, VirtualKey.F3): //f3
-                case (true, false, false, _, VirtualKey.F): // ctrl + f
-                    if (tabInstance || CurrentPageType == typeof(WidgetsPage))
-                    {
-                        NavToolbarViewModel.SwitchSearchBoxVisibility();
-                    }
-                    break;
-
-                case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
-                    if (InstanceViewModel.CanCreateFileInPage)
-                    {
-                        var addItemDialogViewModel = new AddItemDialogViewModel();
-                        await DialogService.ShowDialogAsync(addItemDialogViewModel);
-                        if (addItemDialogViewModel.ResultType.ItemType != AddItemDialogItemType.Cancel)
-                        {
-                            UIFilesystemHelpers.CreateFileFromDialogResultType(
-                                addItemDialogViewModel.ResultType.ItemType,
-                                addItemDialogViewModel.ResultType.ItemInfo,
-                                this);
-                        }
-                    }
-                    break;
-
-                case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
-                    if (ContentPage.IsItemSelected && !NavToolbarViewModel.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
-                    {
-                        var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
-                            item.ItemPath,
-                            item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-                        await FilesystemHelpers.DeleteItemsAsync(items, true, true, true);
-                    }
-
-                    break;
-
-                case (true, false, false, true, VirtualKey.C): // ctrl + c, copy
-                    if (!NavToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
-                    {
-                        await UIFilesystemHelpers.CopyItem(this);
-                    }
-
-                    break;
-
-                case (true, false, false, true, VirtualKey.V): // ctrl + v, paste
-                    if (!NavToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !NavToolbarViewModel.SearchHasFocus)
-                    {
-                        await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this);
-                    }
-
-                    break;
-
-                case (true, false, false, true, VirtualKey.X): // ctrl + x, cut
-                    if (!NavToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
-                    {
-                        UIFilesystemHelpers.CutItem(this);
-                    }
-
-                    break;
-
-                case (true, false, false, true, VirtualKey.A): // ctrl + a, select all
-                    if (!NavToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
-                    {
-                        this.SlimContentPage.ItemManipulationModel.SelectAllItems();
-                    }
-
-                    break;
-
-                case (true, false, false, true, VirtualKey.D): // ctrl + d, delete item
-                case (false, false, false, true, VirtualKey.Delete): // delete, delete item
-                    if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
-                    {
-                        var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
-                            item.ItemPath,
-                            item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-                        await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
-                    }
-
-                    break;
-
-                case (true, false, false, true, VirtualKey.P): // ctrl + p, toggle preview pane
-                    App.PaneViewModel.IsPreviewSelected = !App.PaneViewModel.IsPreviewSelected;
-                    break;
-
-                case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
-                    if (NavToolbarViewModel.CanRefresh)
-                    {
-                        Refresh_Click();
-                    }
-                    break;
-
-                case (false, false, true, _, VirtualKey.D): // alt + d, select address bar (english)
-                case (true, false, false, _, VirtualKey.L): // ctrl + l, select address bar
-                    if (tabInstance || CurrentPageType == typeof(WidgetsPage))
-                    {
-                        NavToolbarViewModel.IsEditModeEnabled = true;
-                    }
-                    break;
-
-                case (true, true, false, true, VirtualKey.K): // ctrl + shift + k, duplicate tab
-                    await NavigationHelpers.OpenPathInNewTab(this.FilesystemViewModel.WorkingDirectory);
-                    break;
-
-                case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
-                    await Launcher.LaunchUriAsync(new Uri(@"https://files.community/docs"));
-                    break;
-
-                case (true, true, false, _, VirtualKey.Number1): // ctrl+shift+1, details view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView(true);
-                    break;
-
-                case (true, true, false, _, VirtualKey.Number2): // ctrl+shift+2, tiles view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeTiles(true);
-                    break;
-
-                case (true, true, false, _, VirtualKey.Number3): // ctrl+shift+3, grid small view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall(true);
-                    break;
-
-                case (true, true, false, _, VirtualKey.Number4): // ctrl+shift+4, grid medium view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium(true);
-                    break;
-
-                case (true, true, false, _, VirtualKey.Number5): // ctrl+shift+5, grid large view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge(true);
-                    break;
-
-                case (true, true, false, _, VirtualKey.Number6): // ctrl+shift+6, column view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView(true);
-                    break;
-            }
-
-            switch (args.KeyboardAccelerator.Key)
+            // ctrl + z, undo
+            ShortcutKeyService.Add(true, false, false, true, (int)VirtualKey.Z, false, async () =>
             {
-                case VirtualKey.F2: //F2, rename
-                    if (CurrentPageType == typeof(DetailsLayoutBrowser)
-                        || CurrentPageType == typeof(GridViewBrowser))
-                    {
-                        if (ContentPage.IsItemSelected)
-                        {
-                            ContentPage.ItemManipulationModel.StartRenameItem();
-                        }
-                    }
-                    break;
-            }
+                if (!InstanceViewModel.IsPageTypeSearchResults)
+                {
+                    await storageHistoryHelpers.TryUndo();
+                }
+            });
+
+            // ctrl + y, redo
+            ShortcutKeyService.Add(true, false, false, true, (int)VirtualKey.Y, false, async () =>
+            {
+                if (!InstanceViewModel.IsPageTypeSearchResults)
+                {
+                    await storageHistoryHelpers.TryRedo();
+                }
+            });
+
+            ShortcutKeyService.Add(true, true, false, true, (int)VirtualKey.C, false, () =>
+            {
+                SlimContentPage?.CommandsViewModel.CopyPathOfSelectedItemCommand.Execute(null);
+                return Task.CompletedTask;
+            });
+
+            Action switchSearch = () => { NavToolbarViewModel.SwitchSearchBoxVisibility(); };
+            ShortcutKeyService.Add(false, false, false, false, (int)VirtualKey.F3, false, () =>
+            {
+                switchSearch.Invoke();
+                return Task.CompletedTask;
+            });
+            ShortcutKeyService.Add(true, false, false, false, (int)VirtualKey.F, false, () =>
+            {
+                switchSearch.Invoke();
+                return Task.CompletedTask;
+            });
+
+            // shift + delete, PermanentDelete
+            ShortcutKeyService.Add(false, true, false, true, (int)VirtualKey.Delete, false, async () =>
+            {
+                if (ContentPage.IsItemSelected && !NavToolbarViewModel.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
+                {
+                    var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
+                        item.ItemPath,
+                        item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+                    await FilesystemHelpers.DeleteItemsAsync(items, true, true, true);
+                }
+            });
+
+            //F2, rename
+            ShortcutKeyService.Add(false, false, false, true, (int)VirtualKey.F2, false, () =>
+            {
+                if (ContentPage.IsItemSelected)
+                {
+                    ContentPage.ItemManipulationModel.StartRenameItem();
+                }
+                return Task.CompletedTask;
+            });
+
+            // ctrl + c, copy
+            ShortcutKeyService.Add(true, false, false, true, (int)VirtualKey.C, false, async () =>
+            {
+                if (!NavToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
+                {
+                    await UIFilesystemHelpers.CopyItem(this);
+                }
+            });
+
+            // ctrl + v, paste
+            ShortcutKeyService.Add(true, false, false, true, (int)VirtualKey.V, false, async () =>
+            {
+                if (!NavToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !NavToolbarViewModel.SearchHasFocus)
+                {
+                    await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this);
+                }
+            });
+
+            // ctrl + x, cut
+            ShortcutKeyService.Add(true, false, false, true, (int)VirtualKey.X, false, () =>
+            {
+                if (!NavToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
+                {
+                    UIFilesystemHelpers.CutItem(this);
+                }
+                return Task.CompletedTask;
+            });
+
+            // ctrl + a, select all
+            ShortcutKeyService.Add(true, false, false, true, (int)VirtualKey.A, false, () =>
+            {
+                if (!NavToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
+                {
+                    this.SlimContentPage.ItemManipulationModel.SelectAllItems();
+                }
+                return Task.CompletedTask;
+            });
+
+            // ctrl + d, delete item
+            // delete, delete item
+            ShortcutKeyService.Add(new []
+            {
+                new Tuple<bool, bool, bool, bool, int, bool>(true, false, false, true, (int)VirtualKey.D, false),
+                new Tuple<bool, bool, bool, bool, int, bool>(false, false, false, true, (int)VirtualKey.Delete, false)
+            }, async () =>
+            {
+                if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
+                {
+                    var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
+                        item.ItemPath,
+                        item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+                    await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
+                }
+            });
+
+            // ctrl + p, toggle preview pane
+            ShortcutKeyService.Add(true, false, false, true, (int)VirtualKey.P, false, () =>
+            {
+                App.PaneViewModel.IsPreviewSelected = !App.PaneViewModel.IsPreviewSelected;
+                return Task.CompletedTask;
+            });
+
+            // ctrl + r, refresh
+            ShortcutKeyService.Add(true, false, false, true, (int)VirtualKey.R, false, () =>
+            {
+                if (NavToolbarViewModel.CanRefresh)
+                {
+                    Refresh_Click();
+                }
+                return Task.CompletedTask;
+            });
+
+            // alt + d, select address bar (english)
+            // ctrl + l, select address bar
+            ShortcutKeyService.Add(new []
+            {
+                new Tuple<bool, bool, bool, bool, int, bool>(false, false, true, true, (int)VirtualKey.D, false),
+                new Tuple<bool, bool, bool, bool, int, bool>(true, false, false, true, (int)VirtualKey.L, false)
+            }, () =>
+            {
+                if (CurrentPageType == typeof(WidgetsPage))
+                {
+                    NavToolbarViewModel.IsEditModeEnabled = true;
+                }
+                return Task.CompletedTask;
+            });
+
+            // ctrl + shift + k, duplicate tab
+            ShortcutKeyService.Add(true, true, false, true, (int)VirtualKey.K, false, async () =>
+            {
+                await NavigationHelpers.OpenPathInNewTab(this.FilesystemViewModel.WorkingDirectory);
+            });
+
+            // F1, open Files wiki
+            ShortcutKeyService.Add(false, false, false, false, (int)VirtualKey.F1, false, async () =>
+            {
+                await Launcher.LaunchUriAsync(new Uri(@"https://files.community/docs"));
+            });
+
+            // ctrl+shift+1, details view
+            ShortcutKeyService.Add(true, true, false, false, (int)VirtualKey.Number1, false, () =>
+            {
+                InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView(true);
+                return Task.CompletedTask;
+            });
+
+            // ctrl+shift+2, tiles view
+            ShortcutKeyService.Add(true, true, false, false, (int)VirtualKey.Number2, false, () =>
+            {
+                InstanceViewModel.FolderSettings.ToggleLayoutModeTiles(true);
+                return Task.CompletedTask;
+            });
+
+            // ctrl+shift+3, grid small view
+            ShortcutKeyService.Add(true, true, false, false, (int)VirtualKey.Number3, false, () =>
+            {
+                InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall(true);
+                return Task.CompletedTask;
+            });
+
+            // ctrl+shift+4, grid medium view
+            ShortcutKeyService.Add(true, true, false, false, (int)VirtualKey.Number4, false, () =>
+            {
+                InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium(true);
+                return Task.CompletedTask;
+            });
+
+            // ctrl+shift+5, grid large view
+            ShortcutKeyService.Add(true, true, false, false, (int)VirtualKey.Number5, false, () =>
+            {
+                InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge(true);
+                return Task.CompletedTask;
+            });
+
+            // ctrl+shift+6, column view
+            ShortcutKeyService.Add(true, true, false, false, (int)VirtualKey.Number6, false, () =>
+            {
+                InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView(true);
+                return Task.CompletedTask;
+            });
+
+            // ctrl + ` (accent key), open terminal
+            ShortcutKeyService.Add(true, false, false, true, 192, false, async () =>
+            {
+                // Check if there is a folder selected, if not use the current directory.
+                string path = FilesystemViewModel.WorkingDirectory;
+                if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    path = SlimContentPage.SelectedItem.ItemPath;
+                }
+                await NavigationHelpers.OpenDirectoryInTerminal(path);
+            });
+
+            // space, quick look
+            // handled in `CurrentPageType`::FileList_PreviewKeyDown
+
+            // ctrl + space, toggle media playback
+            ShortcutKeyService.Add(true, false, false, true, (int)VirtualKey.Space, false, () =>
+            {
+                if (App.PreviewPaneViewModel.PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
+                {
+                    mediaPreviewContent.ViewModel.TogglePlayback();
+                }
+                return Task.CompletedTask;
+            });
+        }
+
+        private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
         }
 
         public async void Refresh_Click()
