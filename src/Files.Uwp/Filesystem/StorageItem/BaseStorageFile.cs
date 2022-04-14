@@ -14,21 +14,20 @@ namespace Files.Uwp.Filesystem.StorageItems
         public abstract string Path { get; }
         public abstract string Name { get; }
         public abstract string DisplayName { get; }
-
-        public bool IsAvailable => true;
-        public StorageProvider Provider => null;
-
         public abstract string ContentType { get; }
         public abstract string FileType { get; }
         public abstract string DisplayType { get; }
+
+        public bool IsAvailable => true;
+        public StorageProvider Provider => null;
 
         public abstract DateTimeOffset DateCreated { get; }
         public abstract FileAttributes Attributes { get; }
         public abstract string FolderRelativeId { get; }
 
+        public abstract IStorageItemExtraProperties Properties { get; }
         StorageItemContentProperties IStorageItemProperties.Properties
             => this is SystemStorageFile file ? file.File.Properties : null;
-        public abstract IStorageItemExtraProperties Properties { get; }
 
         public static implicit operator BaseStorageFile(StorageFile value)
             => value is not null ? new SystemStorageFile(value) : null;
@@ -38,13 +37,13 @@ namespace Files.Uwp.Filesystem.StorageItems
         public abstract bool IsEqual(IStorageItem item);
         public abstract bool IsOfType(StorageItemTypes type);
 
+        public abstract IAsyncOperation<BaseStorageFolder> GetParentAsync();
         IAsyncOperation<StorageFolder> IStorageItem2.GetParentAsync()
             => AsyncInfo.Run(async (cancellationToken) => await (await GetParentAsync()).ToStorageFolderAsync());
-        public abstract IAsyncOperation<BaseStorageFolder> GetParentAsync();
 
+        public abstract IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync();
         IAsyncOperation<BasicProperties> IStorageItem.GetBasicPropertiesAsync()
             => AsyncInfo.Run(async (cancellationToken) => await (await ToStorageFileAsync()).GetBasicPropertiesAsync());
-        public abstract IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync();
 
         public abstract IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode);
         public abstract IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options);
@@ -53,17 +52,17 @@ namespace Files.Uwp.Filesystem.StorageItems
         public abstract IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync();
         public abstract IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync(StorageOpenOptions options);
 
+        public abstract IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder);
         IAsyncOperation<StorageFile> IStorageFile.CopyAsync(IStorageFolder destinationFolder)
             => AsyncInfo.Run(async (cancellationToken) => await (await CopyAsync(destinationFolder)).ToStorageFileAsync());
-        public abstract IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder);
 
+        public abstract IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName);
         IAsyncOperation<StorageFile> IStorageFile.CopyAsync(IStorageFolder destinationFolder, string desiredNewName)
             => AsyncInfo.Run(async (cancellationToken) => await (await CopyAsync(destinationFolder, desiredNewName)).ToStorageFileAsync());
-        public abstract IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName);
 
+        public abstract IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option);
         IAsyncOperation<StorageFile> IStorageFile.CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
             => AsyncInfo.Run(async (cancellationToken) => await (await CopyAsync(destinationFolder, desiredNewName, option)).ToStorageFileAsync());
-        public abstract IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option);
 
         public abstract IAsyncAction MoveAsync(IStorageFolder destinationFolder);
         public abstract IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName);

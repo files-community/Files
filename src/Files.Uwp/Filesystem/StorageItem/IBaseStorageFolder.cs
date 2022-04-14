@@ -11,6 +11,8 @@ namespace Files.Uwp.Filesystem.StorageItems
     {
         new IStorageItemExtraProperties Properties { get; }
 
+        IAsyncOperation<StorageFolder> ToStorageFolderAsync();
+
         new IAsyncOperation<BaseStorageFolder> GetParentAsync();
         new IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync();
 
@@ -35,7 +37,5 @@ namespace Files.Uwp.Filesystem.StorageItems
         new BaseStorageItemQueryResult CreateItemQueryWithOptions(QueryOptions queryOptions);
         new BaseStorageFileQueryResult CreateFileQueryWithOptions(QueryOptions queryOptions);
         new BaseStorageFolderQueryResult CreateFolderQueryWithOptions(QueryOptions queryOptions);
-
-        IAsyncOperation<StorageFolder> ToStorageFolderAsync();
     }
 }
