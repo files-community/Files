@@ -356,7 +356,6 @@
     <Compile Include="UserControls\Widgets\WidgetsListControl.xaml.cs">
       <DependentUpon>WidgetsListControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ValueConverters\BoolInvertConverter.cs" />
     <Compile Include="ValueConverters\ColorModelToColorConverter.cs" />
     <Compile Include="ValueConverters\GenericEnumConverter.cs" />
     <Compile Include="ValueConverters\ImageModelToImageConverter.cs" />
