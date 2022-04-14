@@ -78,7 +78,7 @@ namespace Files.Uwp.Dialogs
             {
                 if (item is FileSystemDialogConflictItemViewModel conflictItem)
                 {
-                    conflictItem.TakeAction(op);
+                    conflictItem.ConflictResolveOption = op;
                 }
             }
         }

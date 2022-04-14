@@ -75,7 +75,7 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
                 {
                     if (item is FileSystemDialogConflictItemViewModel conflictItem)
                     {
-                        conflictItem.TakeAction(e);
+                        conflictItem.ConflictResolveOption = e;
                     }
                 }
 
@@ -90,7 +90,16 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 
         public void Receive(FileSystemDialogOptionChangedMessage message)
         {
-            AggregatedResolveOption = FileNameConflictResolveOptionType.None;
+            if (Items.Count == 1)
+            {
+                AggregatedResolveOption = message.Value.ConflictResolveOption;
+            }
+            else
+            {
+                // If all items have the same resolve option -- set the aggregated option to that choice
+                var first = (Items.First() as FileSystemDialogConflictItemViewModel)!.ConflictResolveOption;
+                AggregatedResolveOption = Items.All(x => (x as FileSystemDialogConflictItemViewModel)!.ConflictResolveOption == first) ? first : FileNameConflictResolveOptionType.None;
+            }
         }
 
         public void CancelCts()
@@ -101,17 +110,7 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 
         private void SecondaryButtonClick()
         {
-            if (FileSystemDialogMode.ConflictsExist)
-            {
-                foreach (var item in Items)
-                {
-                    // Don't do anything, skip
-                    if (item is FileSystemDialogConflictItemViewModel conflictItem)
-                    {
-                        conflictItem.ConflictResolveOption = FileNameConflictResolveOptionType.Skip;
-                    }
-                }
-            }
+            ApplyConflictOptionToAll(FileNameConflictResolveOptionType.Skip);
         }
 
         // TODO: Make the IMessenger internal

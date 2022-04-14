@@ -9,6 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:ts="using:Files.Uwp.TemplateSelectors"
+    xmlns:tvc="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:vc="using:Files.Uwp.ValueConverters"
     xmlns:vm="using:Files.Backend.ViewModels.Dialogs.FileSystemDialog"
     x:Name="RootDialog"
@@ -52,7 +53,7 @@
 
         <vc:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
         <vc:GenericEnumConverter x:Key="GenericEnumConverter" />
-        <vc:BoolInvertConverter x:Key="BoolInvertConverter" />
+        <tvc:BoolNegationConverter x:Key="BoolNegationConverter" />
 
         <DataTemplate x:Key="ConflictItemDataTemplate" x:DataType="vm:FileSystemDialogConflictItemViewModel">
             <Grid ColumnSpacing="12">
@@ -145,7 +146,7 @@
 
     <Grid Width="452">
         <StackPanel Spacing="12">
-            <Grid x:Name="ApplyToAll" x:Load="{x:Bind ViewModel.FileSystemDialogMode.IsInDeleteMode, Converter={StaticResource BoolInvertConverter}}">
+            <Grid x:Name="ApplyToAll" x:Load="{x:Bind ViewModel.FileSystemDialogMode.IsInDeleteMode, Converter={StaticResource BoolNegationConverter}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />

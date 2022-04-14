@@ -43,32 +43,18 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
         public FileNameConflictResolveOptionType ConflictResolveOption
         {
             get => _ConflictResolveOption;
-            set => SetProperty(ref _ConflictResolveOption, value);
+            set
+            {
+                if (SetProperty(ref _ConflictResolveOption, value))
+                {
+                    Messenger.Send(new FileSystemDialogOptionChangedMessage(this));
+                }
+            }
         }
-
-        public ICommand GenerateNewNameCommand { get; }
-
-        public ICommand ReplaceExistingCommand { get; }
-
-        public ICommand SkipCommand { get; }
 
         public FileSystemDialogConflictItemViewModel(IMessenger messenger)
             : base(messenger)
         {
-            GenerateNewNameCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.GenerateNewName));
-            ReplaceExistingCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.ReplaceExisting));
-            SkipCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.Skip));
-        }
-
-        public void TakeAction(FileNameConflictResolveOptionType conflictResolveOption)
-        {
-            ConflictResolveOption = conflictResolveOption;
-        }
-
-        private void TakeActionAndNotify(FileNameConflictResolveOptionType conflictResolveOption)
-        {
-            TakeAction(conflictResolveOption);
-            Messenger.Send(new FileSystemDialogOptionChangedMessage(this));
         }
     }
 }
