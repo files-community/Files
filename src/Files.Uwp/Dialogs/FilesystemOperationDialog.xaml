@@ -11,6 +11,7 @@
     xmlns:ts="using:Files.Uwp.TemplateSelectors"
     xmlns:tvc="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:vc="using:Files.Uwp.ValueConverters"
+    xmlns:vc2="using:Files.Uwp.Converters"
     xmlns:vm="using:Files.Backend.ViewModels.Dialogs.FileSystemDialog"
     x:Name="RootDialog"
     Title="{x:Bind ViewModel.Title, Mode=OneWay}"
@@ -53,6 +54,7 @@
 
         <vc:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
         <vc:GenericEnumConverter x:Key="GenericEnumConverter" />
+        <vc2:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
         <tvc:BoolNegationConverter x:Key="BoolNegationConverter" />
 
         <DataTemplate x:Key="ConflictItemDataTemplate" x:DataType="vm:FileSystemDialogConflictItemViewModel">
@@ -74,30 +76,44 @@
                     Source="{x:Bind ItemIcon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
 
                 <!--  Content  -->
-                <StackPanel
-                    Grid.Column="1"
-                    VerticalAlignment="Center"
-                    Spacing="4">
-                    <StackPanel Orientation="Horizontal" Spacing="16">
-                        <TextBlock Text="{x:Bind DisplayName, Mode=OneWay}" />
-                        <FontIcon FontSize="14" Glyph="&#xE72A;" />
-                        <TextBlock Text="{x:Bind DestinationDisplayName, Mode=OneWay}" />
+                <Grid Grid.Column="1">
+                    <!--  Names  -->
+                    <StackPanel
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Spacing="4"
+                        Tapped="NameStackPanel_Tapped"
+                        Visibility="{x:Bind IsTextBoxVisible, Mode=OneWay, Converter={StaticResource VisibilityInvertConverter}}">
+                        <StackPanel Orientation="Horizontal" Spacing="16">
+                            <TextBlock Text="{x:Bind DisplayName, Mode=OneWay}" />
+                            <FontIcon FontSize="14" Glyph="&#xE72A;" />
+                            <TextBlock Text="{x:Bind DestinationDisplayName, Mode=OneWay}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="16">
+                            <TextBlock
+                                Foreground="{ThemeResource SystemAccentColor}"
+                                Text="{x:Bind SourceDirectoryDisplayName}"
+                                ToolTipService.ToolTip="{x:Bind SourcePath}" />
+                            <FontIcon
+                                FontSize="14"
+                                Foreground="{ThemeResource SystemAccentColor}"
+                                Glyph="&#xE72A;" />
+                            <TextBlock
+                                Foreground="{ThemeResource SystemAccentColor}"
+                                Text="{x:Bind DestinationDirectoryDisplayName}"
+                                ToolTipService.ToolTip="{x:Bind DestinationPath, Mode=OneWay}" />
+                        </StackPanel>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Spacing="16">
-                        <TextBlock
-                            Foreground="{ThemeResource SystemAccentColor}"
-                            Text="{x:Bind SourceDirectoryDisplayName}"
-                            ToolTipService.ToolTip="{x:Bind SourcePath}" />
-                        <FontIcon
-                            FontSize="14"
-                            Foreground="{ThemeResource SystemAccentColor}"
-                            Glyph="&#xE72A;" />
-                        <TextBlock
-                            Foreground="{ThemeResource SystemAccentColor}"
-                            Text="{x:Bind DestinationDirectoryDisplayName}"
-                            ToolTipService.ToolTip="{x:Bind DestinationPath, Mode=OneWay}" />
-                    </StackPanel>
-                </StackPanel>
+
+                    <!--  Name edit box  -->
+                    <TextBox
+                        x:Name="NameEdit"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        x:Load="{x:Bind IsTextBoxVisible, Mode=OneWay}"
+                        LostFocus="NameEdit_LostFocus"
+                        Text="{x:Bind DestinationDisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
 
                 <!--  Options  -->
                 <ComboBox

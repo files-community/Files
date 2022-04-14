@@ -123,5 +123,21 @@ namespace Files.Uwp.Dialogs
         {
             ViewModel.CancelCts();
         }
+
+        private void NameStackPanel_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            if ((sender as FrameworkElement)?.DataContext is FileSystemDialogConflictItemViewModel conflictItem)
+            {
+                conflictItem.IsTextBoxVisible = conflictItem.ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName;
+            }
+        }
+
+        private void NameEdit_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if ((sender as FrameworkElement)?.DataContext is FileSystemDialogConflictItemViewModel conflictItem)
+            {
+                conflictItem.IsTextBoxVisible = false;
+            }
+        }
     }
 }

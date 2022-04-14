@@ -1,9 +1,7 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.Messaging;
 using Files.Backend.Messages;
 using Files.Shared.Enums;
 using System.IO;
-using System.Windows.Input;
 
 namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 {
@@ -27,6 +25,13 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
                     OnPropertyChanged(nameof(DestinationDirectoryDisplayName));
                 }
             }
+        }
+
+        private bool _IsTextBoxVisible;
+        public bool IsTextBoxVisible
+        {
+            get => _IsTextBoxVisible;
+            set => SetProperty(ref _IsTextBoxVisible, value);
         }
 
         public string DestinationDirectoryDisplayName
