@@ -104,22 +104,5 @@ namespace Files.Uwp.Helpers
             }
             App.AppSettings.UpdateThemeElements.Execute(null);
         }
-
-        /// <summary>
-        /// Forces the application to use the correct resource styles
-        /// </summary>
-        public static void UpdateTheme()
-        {
-            // Get the index of the current theme
-            var selTheme = RootTheme;
-
-            // Toggle between the themes to force the controls to use the new resource styles
-            RootTheme = ElementTheme.Default;
-            RootTheme = ElementTheme.Light;
-            RootTheme = ElementTheme.Dark;
-
-            // Restore the theme to the correct theme
-            RootTheme = selTheme;
-        }
     }
 }

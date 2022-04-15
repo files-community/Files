@@ -46,7 +46,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
             if (updateTheme)
             {
-                ThemeHelper.UpdateTheme();
+                UpdateTheme();
             }
         }
 
@@ -101,11 +101,28 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                             .ContinueWith(t =>
                             {
                                 App.AppSettings.SelectedTheme = selectedTheme;
-                                ThemeHelper.UpdateTheme(); // Force the application to use the correct resource file
+                                UpdateTheme(); // Force the application to use the correct resource file
                             }, TaskScheduler.FromCurrentSynchronizationContext());
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Forces the application to use the correct resource styles
+        /// </summary>
+        private void UpdateTheme()
+        {
+            // Get the index of the current theme
+            var selTheme = SelectedThemeIndex;
+
+            // Toggle between the themes to force the controls to use the new resource styles
+            SelectedThemeIndex = 0;
+            SelectedThemeIndex = 1;
+            SelectedThemeIndex = 2;
+
+            // Restore the theme to the correct theme
+            SelectedThemeIndex = selTheme;
         }
 
         public bool ShowFavoritesSection
