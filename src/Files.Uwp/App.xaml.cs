@@ -138,6 +138,7 @@ namespace Files.Uwp
 
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
             await ExternalResourcesHelper.LoadSelectedTheme();
+            new AppearanceViewModel().SetCompactStyles(updateTheme: false);
 
             JumpList ??= new JumpListManager();
             MainViewModel ??= new MainViewModel();

@@ -28,6 +28,28 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             };
         }
 
+        /// <summary>
+        /// Forces the application to use the correct styles if compact mode is turned on
+        /// </summary>
+        public void SetCompactStyles(bool updateTheme)
+        {
+            if (UseCompactStyles)
+            {
+                Application.Current.Resources["ListItemHeight"] = 28;
+                Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = 24;
+            }
+            else
+            {
+                Application.Current.Resources["ListItemHeight"] = 36;
+                Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = 32;
+            }
+
+            if (updateTheme)
+            {
+                ThemeHelper.UpdateTheme();
+            }
+        }
+
         public List<string> Themes { get; set; }
         public List<AppTheme> CustomThemes => App.ExternalResourcesHelper.Themes;
 
@@ -123,8 +145,8 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 {
                     UserSettingsService.AppearanceSettingsService.UseCompactStyles = value;
 
-                    //Apply the correct styles
-                    ThemeHelper.SetCompactStyles(value, updateTheme: true);
+                    // Apply the correct styles
+                    SetCompactStyles(updateTheme: true);
 
                     OnPropertyChanged();
                 }

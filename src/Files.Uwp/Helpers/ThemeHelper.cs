@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services.Settings;
-using Files.Uwp.Extensions;
+﻿using Files.Uwp.Extensions;
 using System;
 using Windows.Storage;
 using Windows.UI;
@@ -54,10 +52,7 @@ namespace Files.Uwp.Helpers
             // Set TitleBar background color
             titleBar = ApplicationView.GetForCurrentView().TitleBar;
 
-            var userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-            SetCompactStyles(userSettingsService.AppearanceSettingsService.UseCompactStyles, updateTheme: false);
-
-            //Apply the desired theme based on what is set in the application settings
+            // Apply the desired theme based on what is set in the application settings
             ApplyTheme();
 
             // Registering to color changes, thus we notice when user changes theme system wide
@@ -108,28 +103,6 @@ namespace Files.Uwp.Helpers
                     break;
             }
             App.AppSettings.UpdateThemeElements.Execute(null);
-        }
-
-        /// <summary>
-        /// Forces the application to use the correct styles if compact mode is turned on
-        /// </summary>
-        public static void SetCompactStyles(bool useCompactStyles, bool updateTheme)
-        {
-            if (useCompactStyles)
-            {
-                Application.Current.Resources["ListItemHeight"] = 28;
-                Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = 24;
-            }
-            else
-            {
-                Application.Current.Resources["ListItemHeight"] = 36;
-                Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = 32;
-            }
-
-            if (updateTheme)
-            {
-                UpdateTheme();
-            }
         }
 
         /// <summary>
