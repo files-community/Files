@@ -26,27 +26,6 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 "LightTheme".GetLocalized(),
                 "DarkTheme".GetLocalized()
             };
-
-            SetCompactStyles();
-        }
-
-        /// <summary>
-        /// Forces the application to use the correct styles if compact mode is turned on
-        /// </summary>
-        private void SetCompactStyles()
-        {
-            if (UseCompactStyles)
-            {
-                Application.Current.Resources["ListItemHeight"] = 28;
-                Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = 24;
-            }
-            else
-            {
-                Application.Current.Resources["ListItemHeight"] = 36;
-                Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = 32;
-            }
-
-            UpdateTheme();
         }
 
         public List<string> Themes { get; set; }
@@ -96,35 +75,15 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                     if (selectedTheme != null)
                     {
                         // Remove the old resource file and load the new file
-                        App.ExternalResourcesHelper.UpdateTheme(App.AppSettings.SelectedTheme, selectedTheme);
-
-                        App.AppSettings.SelectedTheme = selectedTheme;
-
-                        // Force the application to use the correct resource file
-                        UpdateTheme();
+                        App.ExternalResourcesHelper.UpdateTheme(App.AppSettings.SelectedTheme, selectedTheme)
+                            .ContinueWith(t =>
+                            {
+                                App.AppSettings.SelectedTheme = selectedTheme;
+                                ThemeHelper.UpdateTheme(); // Force the application to use the correct resource file
+                            }, TaskScheduler.FromCurrentSynchronizationContext());
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Forces the application to use the correct resource styles
-        /// </summary>
-        private async void UpdateTheme()
-        {
-            // Allow time to remove the old theme
-            await Task.Delay(250);
-
-            // Get the index of the current theme
-            var selTheme = SelectedThemeIndex;
-
-            // Toggle between the themes to force the controls to use the new resource styles
-            SelectedThemeIndex = 0;
-            SelectedThemeIndex = 1;
-            SelectedThemeIndex = 2;
-
-            // Restore the theme to the correct theme
-            SelectedThemeIndex = selTheme;
         }
 
         public bool ShowFavoritesSection
@@ -163,9 +122,9 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.UseCompactStyles)
                 {
                     UserSettingsService.AppearanceSettingsService.UseCompactStyles = value;
-                    
+
                     //Apply the correct styles
-                    SetCompactStyles();
+                    ThemeHelper.SetCompactStyles(value, updateTheme: true);
 
                     OnPropertyChanged();
                 }

@@ -1,4 +1,6 @@
-﻿using Files.Uwp.Extensions;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
+using Files.Uwp.Extensions;
 using System;
 using Windows.Storage;
 using Windows.UI;
@@ -52,6 +54,9 @@ namespace Files.Uwp.Helpers
             // Set TitleBar background color
             titleBar = ApplicationView.GetForCurrentView().TitleBar;
 
+            var userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            SetCompactStyles(userSettingsService.AppearanceSettingsService.UseCompactStyles, updateTheme: false);
+
             //Apply the desired theme based on what is set in the application settings
             ApplyTheme();
 
@@ -103,6 +108,45 @@ namespace Files.Uwp.Helpers
                     break;
             }
             App.AppSettings.UpdateThemeElements.Execute(null);
+        }
+
+        /// <summary>
+        /// Forces the application to use the correct styles if compact mode is turned on
+        /// </summary>
+        public static void SetCompactStyles(bool useCompactStyles, bool updateTheme)
+        {
+            if (useCompactStyles)
+            {
+                Application.Current.Resources["ListItemHeight"] = 28;
+                Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = 24;
+            }
+            else
+            {
+                Application.Current.Resources["ListItemHeight"] = 36;
+                Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = 32;
+            }
+
+            if (updateTheme)
+            {
+                UpdateTheme();
+            }
+        }
+
+        /// <summary>
+        /// Forces the application to use the correct resource styles
+        /// </summary>
+        public static void UpdateTheme()
+        {
+            // Get the index of the current theme
+            var selTheme = RootTheme;
+
+            // Toggle between the themes to force the controls to use the new resource styles
+            RootTheme = ElementTheme.Default;
+            RootTheme = ElementTheme.Light;
+            RootTheme = ElementTheme.Dark;
+
+            // Restore the theme to the correct theme
+            RootTheme = selTheme;
         }
     }
 }

@@ -58,7 +58,6 @@ namespace Files.Uwp
         public static JumpListManager JumpList { get; private set; }
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
         public static TerminalController TerminalController { get; private set; }
-        public static AppearanceViewModel AppearanceViewModel { get; private set; }
         public static CloudDrivesManager CloudDrivesManager { get; private set; }
         public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
         public static DrivesManager DrivesManager { get; private set; }
@@ -152,7 +151,6 @@ namespace Files.Uwp
             FileTagsManager ??= new FileTagsManager();
             SidebarPinnedController ??= new SidebarPinnedController();
             TerminalController ??= new TerminalController();
-            AppearanceViewModel ??= new AppearanceViewModel();
         }
 
         private static async Task StartAppCenter()
