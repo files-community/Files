@@ -52,7 +52,7 @@ namespace Files.Uwp.Helpers
             // Set TitleBar background color
             titleBar = ApplicationView.GetForCurrentView().TitleBar;
 
-            //Apply the desired theme based on what is set in the application settings
+            // Apply the desired theme based on what is set in the application settings
             ApplyTheme();
 
             // Registering to color changes, thus we notice when user changes theme system wide

@@ -107,7 +107,7 @@ namespace Files.Uwp.Helpers
             return xaml;
         }
 
-        public async void UpdateTheme(AppTheme OldTheme, AppTheme NewTheme)
+        public async Task UpdateTheme(AppTheme OldTheme, AppTheme NewTheme)
         {
             if (OldTheme.Path != null)
             {
