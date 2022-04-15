@@ -8,6 +8,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
@@ -620,7 +621,8 @@ namespace FilesFullTrust.MessageHandlers
                             {
                                 Name = x.ProcessName,
                                 Pid = x.Id,
-                                FileName = x.MainModule?.FileName
+                                FileName = x.MainModule?.FileName,
+                                AppName = SafetyExtensions.IgnoreExceptions(() => x.MainModule?.FileVersionInfo?.FileDescription)
                             }).ToList();
                             processes.ForEach(x => x.Dispose());
                             await Win32API.SendMessageAsync(connection, new ValueSet() {

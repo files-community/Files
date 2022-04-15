@@ -10,6 +10,10 @@ using Windows.System;
 using Windows.UI.Xaml.Controls;
 using System.Collections.Generic;
 using System.Linq;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
+using Files.Uwp.Imaging;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Uwp.Helpers
 {
@@ -134,11 +138,87 @@ namespace Files.Uwp.Helpers
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
                 TitleText = "FileInUseDialog/Title".GetLocalized(),
-                SubtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalized() : 
-                    string.Format("FileInUseByDialog/Text".GetLocalized(), string.Join(", ", lockingProcess.Select(x => $"{x.Name}.exe (pid: {x.Pid})"))),
+                SubtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalized() :
+                    string.Format("FileInUseByDialog/Text".GetLocalized(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})"))),
                 PrimaryButtonText = "OK",
-                DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary
+                DynamicButtons = DynamicDialogButtons.Primary
             });
+            return dialog;
+        }
+
+        public static DynamicDialog GetFor_FileInUseDialogWithDetails(IEnumerable<string> filePath, List<Shared.Win32Process> lockingProcess = null)
+        {
+            var listView = new ListView() { SelectionMode = ListViewSelectionMode.None };
+
+            DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
+            {
+                TitleText = "FileInUseDialog/Title".GetLocalized(),
+                SubtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalized() :
+                    string.Format("FileInUseByDialog/Text".GetLocalized(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})"))),
+                DisplayControl = new Grid()
+                {
+                    MinWidth = 300d,
+                    Children =
+                    {
+                        listView
+                    }
+                },
+                DisplayControlOnLoaded = (vm, e) =>
+                {
+                    var imagingService = Ioc.Default.GetRequiredService<IImagingService>();
+                    filePath.ForEach(async (item) =>
+                    {
+                        await SafetyExtensions.IgnoreExceptions(async () =>
+                        {
+                            var imageModel = await imagingService.GetImageModelFromPathAsync(item, 48u);
+                            var image = (imageModel as BitmapImageModel)?.GetImage<BitmapImage>();
+
+                            var contentGrid = new Grid() { ColumnSpacing = 12 };
+                            contentGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = Windows.UI.Xaml.GridLength.Auto });
+                            contentGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new Windows.UI.Xaml.GridLength(1, Windows.UI.Xaml.GridUnitType.Star) });
+
+                            var icon = new Image()
+                            {
+                                Source = image,
+                                HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Left,
+                                VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center
+                            };
+                            Grid.SetColumn(icon, 0);
+                            contentGrid.Children.Add(icon);
+
+                            var content = new StackPanel()
+                            {
+                                VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center,
+                                Children =
+                                {
+                                    new TextBlock()
+                                    {
+                                        Text = System.IO.Path.GetFileName(item),
+                                    },
+                                    new TextBlock()
+                                    {
+                                        Text = System.IO.Path.GetDirectoryName(item),
+                                        TextTrimming = Windows.UI.Xaml.TextTrimming.CharacterEllipsis,
+                                        FontSize = 12,
+                                        Opacity = 0.6
+                                    }
+                                }
+                            };
+                            Grid.SetColumn(content, 1);
+                            contentGrid.Children.Add(content);
+
+                            listView.Items.Add(contentGrid);
+                        });
+                    });
+                },
+                PrimaryButtonAction = (vm, e) =>
+                {
+                    vm.HideDialog(); // Rename successful
+                },
+                PrimaryButtonText = "OK",
+                DynamicButtons = DynamicDialogButtons.Primary
+            });
+
             return dialog;
         }
     }

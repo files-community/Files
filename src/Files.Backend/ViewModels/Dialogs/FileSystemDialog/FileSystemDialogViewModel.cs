@@ -75,7 +75,6 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
         public void CancelCts()
         {
             _dialogClosingCts.Cancel();
-            _dialogClosingCts.Dispose();
         }
 
         private void SecondaryButtonClick()
