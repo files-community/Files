@@ -681,7 +681,7 @@ namespace Files.Uwp.Filesystem
                     switch (await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FileInUseDialogWithDetails(filePath, lockingProcess)))
                     {
                         case DynamicDialogResult.Primary:
-                            return await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+                            return await RenameAsync(source, newName, collision, errorCode, cancellationToken);
                     }
                 }
                 else if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
