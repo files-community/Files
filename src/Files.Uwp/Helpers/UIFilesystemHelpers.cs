@@ -59,8 +59,8 @@ namespace Files.Uwp.Helpers
                         {
                             _ = CoreApplication.MainView.DispatcherQueue.TryEnqueue(Windows.System.DispatcherQueuePriority.Low, () =>
                            {
-                                // Dim opacities accordingly
-                                listedItem.Opacity = Constants.UI.DimItemOpacity;
+                               // Dim opacities accordingly
+                               listedItem.Opacity = Constants.UI.DimItemOpacity;
                            });
                         }
                         if (listedItem is FtpItem ftpItem)
@@ -345,6 +345,11 @@ namespace Files.Uwp.Helpers
                         StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput + itemInfo?.Extension), FilesystemItemType.File),
                         true);
                     break;
+            }
+
+            if (created.Status == ReturnResult.AccessUnauthorized)
+            {
+                await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
             }
 
             return created.Item;
