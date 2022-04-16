@@ -329,53 +329,40 @@ namespace Files.Uwp.Helpers
             }
 
             // Create file based on dialog result
-            var folderRes = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(currentPath);
-            var created = new FilesystemResult<(ReturnResult, IStorageItem)>((ReturnResult.Failed, null), FileSystemStatusCode.Generic);
-            if (folderRes)
+            (ReturnResult Status, IStorageItem Item) created = (ReturnResult.Failed, null);
+            switch (itemType)
             {
-                switch (itemType)
-                {
-                    case AddItemDialogItemType.Folder:
-                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalized();
-                        created = await FilesystemTasks.Wrap(async () =>
-                        {
-                            return await associatedInstance.FilesystemHelpers.CreateAsync(
-                                StorageHelpers.FromPathAndType(PathNormalization.Combine(folderRes.Result.Path, userInput), FilesystemItemType.Directory),
-                                true);
-                        });
-                        break;
+                case AddItemDialogItemType.Folder:
+                    userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalized();
+                    created = await associatedInstance.FilesystemHelpers.CreateAsync(
+                        StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput), FilesystemItemType.Directory),
+                        true);
+                    break;
 
-                    case AddItemDialogItemType.File:
-                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? "NewFile".GetLocalized();
-                        created = await FilesystemTasks.Wrap(async () =>
-                        {
-                            return await associatedInstance.FilesystemHelpers.CreateAsync(
-                                StorageHelpers.FromPathAndType(PathNormalization.Combine(folderRes.Result.Path, userInput + itemInfo?.Extension), FilesystemItemType.File),
-                                true);
-                        });
-                        break;
-                }
+                case AddItemDialogItemType.File:
+                    userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? "NewFile".GetLocalized();
+                    created = await associatedInstance.FilesystemHelpers.CreateAsync(
+                        StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput + itemInfo?.Extension), FilesystemItemType.File),
+                        true);
+                    break;
             }
 
-            if (created == FileSystemStatusCode.Unauthorized)
-            {
-                await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
-            }
-
-            return created.Result.Item2;
+            return created.Item;
         }
 
         public static async Task CreateFolderWithSelectionAsync(IShellPage associatedInstance)
         {
             try
             {
-                await CopyItem(associatedInstance);
+                var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
+                    item.ItemPath,
+                    item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
                 var folder = await CreateFileFromDialogResultTypeForResult(AddItemDialogItemType.Folder, null, associatedInstance);
                 if (folder == null)
                 {
                     return;
                 }
-                await associatedInstance.FilesystemHelpers.MoveItemsFromClipboard(Clipboard.GetContent(), folder.Path, false, true);
+                await associatedInstance.FilesystemHelpers.MoveItemsAsync(items, items.Select(x => PathNormalization.Combine(folder.Path, x.Name)), false, true);
             }
             catch (Exception ex)
             {
