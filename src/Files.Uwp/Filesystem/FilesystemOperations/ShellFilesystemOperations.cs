@@ -427,7 +427,7 @@ namespace Files.Uwp.Filesystem
                 {
                     // TODO: proper dialog, retry
                     var failedSources = deleteResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-                    var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination);
+                    var filePath = failedSources.Select(x => x.Source); // When deleting only source can be in use but shell returns COPYENGINE_E_SHARING_VIOLATION_DEST for folders
                     var lockingProcess = await WhoIsLockingAsync(filePath);
                     await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FileInUseDialogWithDetails(filePath, lockingProcess));
                 }

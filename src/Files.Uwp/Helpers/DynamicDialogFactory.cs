@@ -213,7 +213,7 @@ namespace Files.Uwp.Helpers
                 },
                 PrimaryButtonAction = (vm, e) =>
                 {
-                    vm.HideDialog(); // Rename successful
+                    vm.HideDialog();
                 },
                 PrimaryButtonText = "OK",
                 DynamicButtons = DynamicDialogButtons.Primary
