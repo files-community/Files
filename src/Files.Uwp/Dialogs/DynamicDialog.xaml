@@ -10,7 +10,6 @@
     Title="{Binding TitleText, Mode=OneWay}"
     CloseButtonClick="ContentDialog_CloseButtonClick"
     CloseButtonText="{Binding CloseButtonText, Mode=OneWay}"
-    Closing="RootDialog_Closing"
     CornerRadius="{StaticResource OverlayCornerRadius}"
     DefaultButton="Primary"
     IsPrimaryButtonEnabled="{Binding IsPrimaryButtonEnabled, Mode=OneWay}"

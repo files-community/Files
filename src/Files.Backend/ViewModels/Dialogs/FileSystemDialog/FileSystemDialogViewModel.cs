@@ -183,6 +183,23 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
             return viewModel;
         }
 
+        public static FileSystemDialogViewModel GetDialogViewModel(List<BaseFileSystemDialogItemViewModel> nonConflictingItems, string titleText, string descriptionText, string primaryButtonText, string secondaryButtonText)
+        {
+            var viewModel = new FileSystemDialogViewModel(new() { IsInDeleteMode = false, ConflictsExist = false }, nonConflictingItems)
+            {
+                Title = titleText,
+                Description = descriptionText,
+                PrimaryButtonText = primaryButtonText,
+                SecondaryButtonText = secondaryButtonText,
+                DeletePermanently = false,
+                IsDeletePermanentlyEnabled = false
+            };
+
+            _ = LoadItemsIcon(viewModel.Items, viewModel._dialogClosingCts.Token);
+
+            return viewModel;
+        }
+
         private static async Task LoadItemsIcon(IEnumerable<BaseFileSystemDialogItemViewModel> items, CancellationToken token)
         {
             var imagingService = Ioc.Default.GetRequiredService<IImagingService>();
