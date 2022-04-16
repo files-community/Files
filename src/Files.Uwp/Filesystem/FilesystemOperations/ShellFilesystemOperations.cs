@@ -875,14 +875,17 @@ namespace Files.Uwp.Filesystem
         private async Task<DialogResult> GetFileListDialog(IEnumerable<string> source, string titleText, string descriptionText = null, string primaryButtonText = null, string secondaryButtonText = null)
         {
             var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
-
+            List<ShellFileItem> binItems = null;
             foreach (var src in source)
             {
                 if (recycleBinHelpers.IsPathUnderRecycleBin(src))
                 {
-                    var binItems = associatedInstance.FilesystemViewModel.FilesAndFolders;
-                    var matchingItem = binItems.FirstOrDefault(x => x.ItemPath == src); // Get original file name
-                    incomingItems.Add(new FileSystemDialogDefaultItemViewModel() { SourcePath = src, DisplayName = matchingItem?.ItemName });
+                    binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+                    if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
+                    {
+                        var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == src); // Get original file name
+                        incomingItems.Add(new FileSystemDialogDefaultItemViewModel() { SourcePath = src, DisplayName = matchingItem?.FileName });
+                    }
                 }
                 else
                 {
