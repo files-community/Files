@@ -14,6 +14,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 using Files.Uwp.Imaging;
 using Windows.UI.Xaml.Media.Imaging;
+using System.Threading;
 
 namespace Files.Uwp.Helpers
 {
@@ -25,7 +26,7 @@ namespace Files.Uwp.Helpers
             {
                 TitleText = "PropertySaveErrorDialog/Title".GetLocalized(),
                 SubtitleText = "PropertySaveErrorMessage/Text".GetLocalized(), // We can use subtitle here as our content
-                PrimaryButtonText = "PropertySaveErrorDialog/PrimaryButtonText".GetLocalized(),
+                PrimaryButtonText = "Retry".GetLocalized(),
                 SecondaryButtonText = "PropertySaveErrorDialog/SecondaryButtonText".GetLocalized(),
                 CloseButtonText = "Cancel".GetLocalized(),
                 DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary | DynamicDialogButtons.Cancel
@@ -149,6 +150,7 @@ namespace Files.Uwp.Helpers
         public static DynamicDialog GetFor_FileInUseDialogWithDetails(IEnumerable<string> filePath, List<Shared.Win32Process> lockingProcess = null)
         {
             var listView = new ListView() { SelectionMode = ListViewSelectionMode.None };
+            var dialogClosingCts = new CancellationTokenSource();
 
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
@@ -168,6 +170,7 @@ namespace Files.Uwp.Helpers
                     var imagingService = Ioc.Default.GetRequiredService<IImagingService>();
                     filePath.ForEach(async (item) =>
                     {
+                        if (dialogClosingCts.IsCancellationRequested) return;
                         await SafetyExtensions.IgnoreExceptions(async () =>
                         {
                             var imageModel = await imagingService.GetImageModelFromPathAsync(item, 48u);
@@ -215,8 +218,13 @@ namespace Files.Uwp.Helpers
                 {
                     vm.HideDialog();
                 },
-                PrimaryButtonText = "OK",
-                DynamicButtons = DynamicDialogButtons.Primary
+                DialogClosingAction = (vm, e) =>
+                {
+                    dialogClosingCts.Cancel();
+                },
+                PrimaryButtonText = "Retry".GetLocalized(),
+                CloseButtonText = "Cancel".GetLocalized(),
+                DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
             });
 
             return dialog;

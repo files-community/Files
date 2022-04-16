@@ -385,6 +385,23 @@ namespace Files.Uwp.ViewModels.Dialogs
             }
         }
 
+        private Action<DynamicDialogViewModel, ContentDialogClosingEventArgs> dialogClosingAction;
+
+        public Action<DynamicDialogViewModel, ContentDialogClosingEventArgs> DialogClosingAction
+        {
+            get => dialogClosingAction;
+            set
+            {
+                if (SetProperty(ref dialogClosingAction, value))
+                {
+                    DialogClosingCommand = new RelayCommand<ContentDialogClosingEventArgs>((e) =>
+                    {
+                        DialogClosingAction(this, e);
+                    });
+                }
+            }
+        }
+
         #endregion Actions
 
         #region Commands
@@ -399,6 +416,8 @@ namespace Files.Uwp.ViewModels.Dialogs
 
         public ICommand DisplayControlOnLoadedCommand { get; private set; }
 
+        public ICommand DialogClosingCommand { get; private set; }
+
         #endregion Commands
 
         #region Constructor
@@ -411,6 +430,7 @@ namespace Files.Uwp.ViewModels.Dialogs
             PrimaryButtonAction = (vm, e) => HideDialog();
             SecondaryButtonAction = (vm, e) => HideDialog();
             CloseButtonAction = (vm, e) => HideDialog();
+            DialogClosingAction = (vm, e) => { }; // No action
             KeyDownAction = (vm, e) =>
             {
                 if (e.Key == VirtualKey.Escape)

@@ -57,5 +57,10 @@ namespace Files.Uwp.Dialogs
         {
             ViewModel.KeyDownCommand.Execute(e);
         }
+
+        private void RootDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
+        {
+            ViewModel.DialogClosingCommand.Execute(args);
+        }
     }
 }
