@@ -12,7 +12,7 @@ namespace Files.Uwp.Helpers
                     return ReturnResult.Success;
 
                 case FileSystemStatusCode.Generic:
-                    return ReturnResult.Failed;
+                    return ReturnResult.InProgress | ReturnResult.Cancelled;
 
                 case FileSystemStatusCode.Unauthorized:
                     return ReturnResult.AccessUnauthorized;
@@ -24,16 +24,16 @@ namespace Files.Uwp.Helpers
                     return ReturnResult.AccessUnauthorized;
 
                 case FileSystemStatusCode.NameTooLong:
-                    return ReturnResult.Failed;
+                    return ReturnResult.UnknownException;
 
                 case FileSystemStatusCode.AlreadyExists:
-                    return ReturnResult.Failed;
+                    return ReturnResult.Failed | ReturnResult.UnknownException;
 
                 case FileSystemStatusCode.NotAFolder:
-                    return ReturnResult.BadArgumentException;
+                    return ReturnResult.BadArgumentException | ReturnResult.IntegrityCheckFailed;
 
                 case FileSystemStatusCode.NotAFile:
-                    return ReturnResult.BadArgumentException;
+                    return ReturnResult.BadArgumentException | ReturnResult.IntegrityCheckFailed;
 
                 case FileSystemStatusCode.InProgress:
                     return ReturnResult.InProgress;

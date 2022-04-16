@@ -183,12 +183,12 @@ namespace Files.Uwp.Filesystem
                     if (result == ContentDialogResult.Primary)
                     {
                         progress?.Report(100.0f);
-                        errorCode?.Report(FileSystemStatusCode.Success);
+                        errorCode?.Report(FileSystemStatusCode.InProgress | FileSystemStatusCode.Success);
                     }
                     else
                     {
                         progress?.Report(100.0f);
-                        errorCode?.Report(FileSystemStatusCode.Generic);
+                        errorCode?.Report(FileSystemStatusCode.InProgress | FileSystemStatusCode.Generic);
                     }
                     return null;
                 }
@@ -369,12 +369,12 @@ namespace Files.Uwp.Filesystem
                     if (result == ContentDialogResult.Primary)
                     {
                         progress?.Report(100.0f);
-                        errorCode?.Report(FileSystemStatusCode.Success);
+                        errorCode?.Report(FileSystemStatusCode.InProgress | FileSystemStatusCode.Success);
                     }
                     else
                     {
                         progress?.Report(100.0f);
-                        errorCode?.Report(FileSystemStatusCode.Generic);
+                        errorCode?.Report(FileSystemStatusCode.InProgress | FileSystemStatusCode.Generic);
                     }
                     return null;
                 }

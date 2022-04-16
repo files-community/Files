@@ -158,10 +158,6 @@ namespace Files.Uwp.Filesystem
                     {
                         return await CopyItemsAsync(source, destination, collisions, progress, errorCode, cancellationToken);
                     }
-                    else if (App.MainViewModel.IsFullTrustElevated) // App elevated but still gettting AccessDenied
-                    {
-                        await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalized(), "AccessDeniedDialog/Text".GetLocalized());
-                    }
                 }
                 else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
                 {
@@ -276,10 +272,6 @@ namespace Files.Uwp.Filesystem
                     if (await RequestAdminOperation())
                     {
                         return await CreateAsync(source, errorCode, cancellationToken);
-                    }
-                    else if (App.MainViewModel.IsFullTrustElevated) // App elevated but still gettting AccessDenied
-                    {
-                        await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
                     }
                 }
                 else if (createResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
@@ -430,10 +422,6 @@ namespace Files.Uwp.Filesystem
                     {
                         return await DeleteItemsAsync(source, progress, errorCode, permanently, cancellationToken);
                     }
-                    else if (App.MainViewModel.IsFullTrustElevated) // App elevated but still gettting AccessDenied
-                    {
-                        await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalized(), "AccessDeniedDeleteDialog/Text".GetLocalized());
-                    }
                 }
                 else if (deleteResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
                 {
@@ -570,10 +558,6 @@ namespace Files.Uwp.Filesystem
                     {
                         return await MoveItemsAsync(source, destination, collisions, progress, errorCode, cancellationToken);
                     }
-                    else if (App.MainViewModel.IsFullTrustElevated) // App elevated but still gettting AccessDenied
-                    {
-                        await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalized(), "AccessDeniedDialog/Text".GetLocalized());
-                    }
                 }
                 else if (source.Zip(destination, (src, dest) => (src, dest)).FirstOrDefault(x => x.src.ItemType == FilesystemItemType.Directory && PathNormalization.GetParentDir(x.dest).IsSubPathOf(x.src.Path)) is (IStorageItemWithPath, string) subtree)
                 {
@@ -662,10 +646,6 @@ namespace Files.Uwp.Filesystem
                     if (await RequestAdminOperation())
                     {
                         return await RenameAsync(source, newName, collision, errorCode, cancellationToken);
-                    }
-                    else if (App.MainViewModel.IsFullTrustElevated) // App elevated but still gettting AccessDenied
-                    {
-                        await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalized(), "AccessDeniedDialog/Text".GetLocalized());
                     }
                 }
                 else if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
@@ -774,10 +754,6 @@ namespace Files.Uwp.Filesystem
                     if (await RequestAdminOperation())
                     {
                         return await RestoreItemsFromTrashAsync(source, destination, progress, errorCode, cancellationToken);
-                    }
-                    else if (App.MainViewModel.IsFullTrustElevated) // App elevated but still gettting AccessDenied
-                    {
-                        await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalized(), "");
                     }
                 }
                 else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
