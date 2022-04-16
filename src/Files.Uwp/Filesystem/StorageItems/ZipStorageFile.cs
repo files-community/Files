@@ -51,10 +51,12 @@ namespace Files.Uwp.Filesystem.StorageItems
             Path = path;
             this.containerPath = containerPath;
         }
+        public ZipStorageFile(string path, string containerPath, BaseStorageFile backingFile) : this(path, containerPath)
+            => this.backingFile = backingFile;
         public ZipStorageFile(string path, string containerPath, ZipEntry entry) : this(path, containerPath)
-        {
-            DateCreated = entry.DateTime;
-        }
+            => DateCreated = entry.DateTime;
+        public ZipStorageFile(string path, string containerPath, ZipEntry entry, BaseStorageFile backingFile) : this(path, containerPath, entry)
+            => this.backingFile = backingFile;
 
         public override IAsyncOperation<StorageFile> ToStorageFileAsync()
             => StorageFile.CreateStreamedFileAsync(Name, ZipDataStreamingHandler(Path), null);

@@ -16,29 +16,26 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using IO = System.IO;
+using Storage = Windows.Storage;
 
 namespace Files.Uwp.Filesystem.StorageItems
 {
     public sealed class ZipStorageFolder : BaseStorageFolder
     {
         private static bool? isDefaultZipApp;
-
         private Encoding encoding;
-
-        private string containerPath;
+        private readonly string containerPath;
         private BaseStorageFile backingFile;
 
         public override string Path { get; }
         public override string Name { get; }
-
-        public override DateTimeOffset DateCreated { get; }
-
         public override string DisplayName => Name;
         public override string DisplayType => "FileFolderListItem".GetLocalized();
         public override string FolderRelativeId => $"0\\{Name}";
 
+        public override DateTimeOffset DateCreated { get; }
+        public override Storage.FileAttributes Attributes => Storage.FileAttributes.Directory;
         public override IStorageItemExtraProperties Properties => new BaseBasicStorageItemExtraProperties(this);
-
 
         static ZipStorageFolder()
         {
@@ -84,9 +81,29 @@ namespace Files.Uwp.Filesystem.StorageItems
             return false;
         }
 
+        public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)
+        {
+            return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
+            {
+                var marker = path.IndexOf(".zip", StringComparison.OrdinalIgnoreCase);
+                if (marker is not -1)
+                {
+                    var containerPath = path.Substring(0, marker + ".zip".Length);
+                    if (await CheckDefaultZipApp(path) && CheckAccess(containerPath))
+                    {
+                        return new ZipStorageFolder(path, containerPath);
+                    }
+                }
+                return null;
+            });
+        }
+
+        public static IAsyncOperation<BaseStorageFolder> FromStorageFileAsync(BaseStorageFile file)
+            => AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) => await CheckAccess(file) ? new ZipStorageFolder(file) : null);
+
         public static async Task<bool> CheckDefaultZipApp(string filePath)
         {
-            Func<Task<bool>> queryFileAssoc = async () =>
+            async Task<bool> queryFileAssoc()
             {
                 var assoc = await NativeWinApiHelper.GetFileAssociationAsync(filePath);
                 if (assoc is not null)
@@ -96,13 +113,13 @@ namespace Files.Uwp.Filesystem.StorageItems
                             , StringComparison.OrdinalIgnoreCase);
                 }
                 return true;
-            };
+            }
             return isDefaultZipApp ?? await queryFileAssoc();
         }
 
         public static string DecodeEntryName(ZipEntry entry, Encoding encoding)
         {
-            if (encoding == null || entry.IsUnicodeText)
+            if (encoding is null || entry.IsUnicodeText)
             {
                 return entry.Name;
             }
@@ -144,6 +161,43 @@ namespace Files.Uwp.Filesystem.StorageItems
             return Encoding.UTF8;
         }
 
+        public override IAsyncOperation<StorageFolder> ToStorageFolderAsync() => throw new NotSupportedException();
+
+        public override bool IsEqual(IStorageItem item) => item?.Path == Path;
+        public override bool IsOfType(StorageItemTypes type) => type == StorageItemTypes.Folder;
+
+        public override IAsyncOperation<IndexedState> GetIndexedStateAsync() => Task.FromResult(IndexedState.NotIndexed).AsAsyncOperation();
+
+        public override IAsyncOperation<BaseStorageFolder> GetParentAsync() => throw new NotSupportedException();
+
+        private async Task<BaseBasicProperties> GetBasicProperties()
+        {
+            using ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.Read);
+            if (zipFile is null)
+            {
+                return new BaseBasicProperties();
+            }
+
+            zipFile.IsStreamOwner = true;
+            var znt = new ZipNameTransform(containerPath);
+            var entry = zipFile.GetEntry(znt.TransformFile(Path));
+
+            return entry is null
+                ? new BaseBasicProperties()
+                : new ZipFolderBasicProperties(entry);
+        }
+        public override IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync()
+        {
+            return AsyncInfo.Run(async (cancellationToken) =>
+            {
+                if (Path == containerPath)
+                {
+                    var zipFile = new SystemStorageFile(await StorageFile.GetFileFromPathAsync(Path));
+                    return await zipFile.GetBasicPropertiesAsync();
+                }
+                return await GetBasicProperties();
+            });
+        }
 
         public override IAsyncOperation<IStorageItem> GetItemAsync(string name)
         {
@@ -173,7 +227,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                     };
                 }
 
-                return new ZipStorageFile(wnt.TransformFile(DecodeEntryName(entry, encoding)), containerPath, entry) { BackingFile = BackingFile };
+                return new ZipStorageFile(wnt.TransformFile(DecodeEntryName(entry, encoding)), containerPath, entry, backingFile);
             });
         }
 
@@ -217,7 +271,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                 zipFile.CommitUpdate();
 
                 var wnt = new WindowsNameTransform(containerPath);
-                return new ZipStorageFile(wnt.TransformFile(zipDesiredName), containerPath) { backingFile = backingFile };
+                return new ZipStorageFile(wnt.TransformFile(zipDesiredName), containerPath, backingFile);
             });
         }
 
@@ -277,7 +331,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                 }
                 zipFile.IsStreamOwner = true;
                 encoding ??= DetectFileEncoding(zipFile);
-                var wnt = new WindowsNameTransform(ContainerPath, true); // Check with Path.GetFullPath
+                var wnt = new WindowsNameTransform(containerPath, true); // Check with Path.GetFullPath
                 var items = new List<IStorageItem>();
                 foreach (var entry in zipFile.OfType<ZipEntry>()) // Returns all items recursively
                 {
@@ -292,16 +346,16 @@ namespace Files.Uwp.Filesystem.StorageItems
                                 var itemPath = System.IO.Path.Combine(Path, split[0]);
                                 if (!items.Any(x => x.Path == itemPath))
                                 {
-                                    items.Add(new ZipStorageFolder(itemPath, ContainerPath, entry)
+                                    items.Add(new ZipStorageFolder(itemPath, containerPath, entry)
                                     {
                                         encoding = encoding,
-                                        BackingFile = BackingFile
+                                        backingFile = backingFile
                                     });
                                 }
                             }
                             else
                             {
-                                items.Add(new ZipStorageFile(winPath, ContainerPath, entry) { BackingFile = BackingFile });
+                                items.Add(new ZipStorageFile(winPath, containerPath, entry, backingFile));
                             }
                         }
                     }
@@ -310,80 +364,35 @@ namespace Files.Uwp.Filesystem.StorageItems
             });
         }
 
-        public override IAsyncAction RenameAsync(string desiredName)
-            => throw new NotSupportedException();
-        public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option)
-            => throw new NotSupportedException();
+        public override IAsyncAction RenameAsync(string desiredName) => throw new NotSupportedException();
+        public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option) => throw new NotSupportedException();
 
-        public override IAsyncAction DeleteAsync()
-            => throw new NotSupportedException();
-        public override IAsyncAction DeleteAsync(StorageDeleteOption option)
-            => throw new NotSupportedException();
-
-        public override IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync()
-        {
-            return AsyncInfo.Run<BaseBasicProperties>(async (cancellationToken) =>
-            {
-                if (Path == ContainerPath)
-                {
-                    var zipFile = new SystemStorageFile(await StorageFile.GetFileFromPathAsync(Path));
-                    return await zipFile.GetBasicPropertiesAsync();
-                }
-                return await GetBasicProperties();
-            });
-        }
-
-        public override bool IsOfType(StorageItemTypes type) => type == StorageItemTypes.Folder;
-
-        public override Windows.Storage.FileAttributes Attributes => Windows.Storage.FileAttributes.Directory;
+        public override IAsyncAction DeleteAsync() => throw new NotSupportedException();
+        public override IAsyncAction DeleteAsync(StorageDeleteOption option) => throw new NotSupportedException();
 
 
-        public override IAsyncOperation<IndexedState> GetIndexedStateAsync()
-        {
-            return Task.FromResult(IndexedState.NotIndexed).AsAsyncOperation();
-        }
 
-        public override StorageFileQueryResult CreateFileQuery() => throw new NotSupportedException();
 
-        public override StorageFileQueryResult CreateFileQuery(CommonFileQuery query) => throw new NotSupportedException();
-
-        public override BaseStorageFileQueryResult CreateFileQueryWithOptions(QueryOptions queryOptions)
-        {
-            return new BaseStorageFileQueryResult(this, queryOptions);
-        }
-
-        public override StorageFolderQueryResult CreateFolderQuery() => throw new NotSupportedException();
-
-        public override StorageFolderQueryResult CreateFolderQuery(CommonFolderQuery query) => throw new NotSupportedException();
-
-        public override BaseStorageFolderQueryResult CreateFolderQueryWithOptions(QueryOptions queryOptions)
-        {
-            return new BaseStorageFolderQueryResult(this, queryOptions);
-        }
 
         public override StorageItemQueryResult CreateItemQuery() => throw new NotSupportedException();
+        public override BaseStorageItemQueryResult CreateItemQueryWithOptions(QueryOptions queryOptions) => new(this, queryOptions);
 
-        public override BaseStorageItemQueryResult CreateItemQueryWithOptions(QueryOptions queryOptions)
-        {
-            return new BaseStorageItemQueryResult(this, queryOptions);
-        }
+        public override StorageFileQueryResult CreateFileQuery() => throw new NotSupportedException();
+        public override StorageFileQueryResult CreateFileQuery(CommonFileQuery query) => throw new NotSupportedException();
+        public override BaseStorageFileQueryResult CreateFileQueryWithOptions(QueryOptions queryOptions) => new(this, queryOptions);
+
+        public override StorageFolderQueryResult CreateFolderQuery() => throw new NotSupportedException();
+        public override StorageFolderQueryResult CreateFolderQuery(CommonFolderQuery query) => throw new NotSupportedException();
+        public override BaseStorageFolderQueryResult CreateFolderQueryWithOptions(QueryOptions queryOptions) => new(this, queryOptions);
+
 
         public override IAsyncOperation<IReadOnlyList<BaseStorageFile>> GetFilesAsync(CommonFileQuery query, uint startIndex, uint maxItemsToRetrieve)
-        {
-            return AsyncInfo.Run<IReadOnlyList<BaseStorageFile>>(async (cancellationToken) =>
-            {
-                var items = await GetFilesAsync();
-                return items.Skip((int)startIndex).Take((int)maxItemsToRetrieve).ToList();
-            });
-        }
+            => AsyncInfo.Run<IReadOnlyList<BaseStorageFile>>(async (cancellationToken)
+                => (await GetFilesAsync()).Skip((int)startIndex).Take((int)maxItemsToRetrieve).ToList()
+            );
 
         public override IAsyncOperation<IReadOnlyList<BaseStorageFile>> GetFilesAsync(CommonFileQuery query)
-        {
-            return AsyncInfo.Run<IReadOnlyList<BaseStorageFile>>(async (cancellationToken) =>
-            {
-                return await GetFilesAsync();
-            });
-        }
+            => AsyncInfo.Run(async (cancellationToken) => await GetFilesAsync());
 
         public override IAsyncOperation<IReadOnlyList<BaseStorageFolder>> GetFoldersAsync(CommonFolderQuery query, uint startIndex, uint maxItemsToRetrieve)
         {
@@ -412,58 +421,47 @@ namespace Files.Uwp.Filesystem.StorageItems
         }
 
         public override bool AreQueryOptionsSupported(QueryOptions queryOptions) => false;
-
-        public override bool IsCommonFolderQuerySupported(CommonFolderQuery query) => false;
-
         public override bool IsCommonFileQuerySupported(CommonFileQuery query) => false;
+        public override bool IsCommonFolderQuerySupported(CommonFolderQuery query) => false;
 
         public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
         {
-            return AsyncInfo.Run<StorageItemThumbnail>(async (cancellationToken) =>
+            return AsyncInfo.Run(async (cancellationToken) =>
             {
-                if (Path == ContainerPath)
+                if (Path != containerPath)
                 {
-                    var zipFile = await StorageFile.GetFileFromPathAsync(Path);
-                    return await zipFile.GetThumbnailAsync(mode);
+                    return null;
                 }
-                return null;
+                var zipFile = await StorageFile.GetFileFromPathAsync(Path);
+                return await zipFile.GetThumbnailAsync(mode);
             });
         }
-
         public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize)
         {
-            return AsyncInfo.Run<StorageItemThumbnail>(async (cancellationToken) =>
+            return AsyncInfo.Run(async (cancellationToken) =>
             {
-                if (Path == ContainerPath)
+                if (Path != containerPath)
                 {
-                    var zipFile = await StorageFile.GetFileFromPathAsync(Path);
-                    return await zipFile.GetThumbnailAsync(mode, requestedSize);
+                    return null;
                 }
-                return null;
+                var zipFile = await StorageFile.GetFileFromPathAsync(Path);
+                return await zipFile.GetThumbnailAsync(mode, requestedSize);
             });
         }
-
         public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
         {
-            return AsyncInfo.Run<StorageItemThumbnail>(async (cancellationToken) =>
+            return AsyncInfo.Run(async (cancellationToken) =>
             {
-                if (Path == ContainerPath)
+                if (Path != containerPath)
                 {
-                    var zipFile = await StorageFile.GetFileFromPathAsync(Path);
-                    return await zipFile.GetThumbnailAsync(mode, requestedSize, options);
+                    return null;
                 }
-                return null;
+                var zipFile = await StorageFile.GetFileFromPathAsync(Path);
+                return await zipFile.GetThumbnailAsync(mode, requestedSize, options);
             });
         }
 
-        public override IAsyncOperation<StorageFolder> ToStorageFolderAsync() => throw new NotSupportedException();
 
-        public override IAsyncOperation<BaseStorageFolder> GetParentAsync()
-        {
-            throw new NotSupportedException();
-        }
-
-        public override bool IsEqual(IStorageItem item) => item?.Path == Path;
 
         public override IAsyncOperation<IStorageItem> TryGetItemAsync(string name)
         {
@@ -480,38 +478,7 @@ namespace Files.Uwp.Filesystem.StorageItems
             });
         }
 
-        public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)
-        {
-            return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
-            {
-                var marker = path.IndexOf(".zip", StringComparison.OrdinalIgnoreCase);
-                if (marker != -1)
-                {
-                    var containerPath = path.Substring(0, marker + ".zip".Length);
-                    if (!await CheckDefaultZipApp(path))
-                    {
-                        return null;
-                    }
-                    if (CheckAccess(containerPath))
-                    {
-                        return new ZipStorageFolder(path, containerPath);
-                    }
-                }
-                return null;
-            });
-        }
 
-        public static IAsyncOperation<BaseStorageFolder> FromStorageFileAsync(BaseStorageFile file)
-        {
-            return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
-            {
-                if (await CheckAccess(file))
-                {
-                    return new ZipStorageFolder(file);
-                }
-                return null;
-            });
-        }
 
         private static bool CheckAccess(string path)
         {
@@ -546,22 +513,6 @@ namespace Files.Uwp.Filesystem.StorageItems
             });
         }
 
-        private async Task<BaseBasicProperties> GetBasicProperties()
-        {
-            using ZipFile zipFile = await OpenZipFileAsync(FileAccessMode.Read);
-            if (zipFile is null)
-            {
-                return new BaseBasicProperties();
-            }
-
-            zipFile.IsStreamOwner = true;
-            var znt = new ZipNameTransform(containerPath);
-            var entry = zipFile.GetEntry(znt.TransformFile(Path));
-
-            return entry is null
-                ? new BaseBasicProperties()
-                : new ZipFolderBasicProperties(entry);
-        }
 
         private IAsyncOperation<ZipFile> OpenZipFileAsync(FileAccessMode accessMode)
         {
