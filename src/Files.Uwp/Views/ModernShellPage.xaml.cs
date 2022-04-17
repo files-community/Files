@@ -1,16 +1,16 @@
 ﻿using Files.Shared;
-using Files.Dialogs;
+using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
-using Files.EventArguments;
-using Files.Filesystem;
-using Files.Filesystem.FilesystemHistory;
-using Files.Filesystem.Search;
-using Files.Helpers;
+using Files.Uwp.EventArguments;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.FilesystemHistory;
+using Files.Uwp.Filesystem.Search;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.UserControls;
-using Files.UserControls.MultitaskingControl;
-using Files.ViewModels;
-using Files.Views.LayoutModes;
+using Files.Uwp.UserControls;
+using Files.Uwp.UserControls.MultitaskingControl;
+using Files.Uwp.ViewModels;
+using Files.Uwp.Views.LayoutModes;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
@@ -38,7 +38,7 @@ using Files.Backend.Enums;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 
-namespace Files.Views
+namespace Files.Uwp.Views
 {
     public sealed partial class ModernShellPage : Page, IShellPage, INotifyPropertyChanged
     {
@@ -55,7 +55,7 @@ namespace Files.Views
 
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        private IUpdateSettingsService UpdateSettingsService { get; } = Ioc.Default.GetService<IUpdateSettingsService>();
+        private IUpdateService UpdateSettingsService { get; } = Ioc.Default.GetService<IUpdateService>();
 
         private bool isCurrentInstance = false;
         public bool IsCurrentInstance
@@ -194,27 +194,41 @@ namespace Files.Views
             PreviewKeyDown += ModernShellPage_PreviewKeyDown;
         }
 
-        private async void ModernShellPage_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        /**
+         * Some keys are overriden by control built-in defaults (e.g. 'Space').
+         * They must be handled here since they're not propagated to KeyboardAccelerator.
+         */
+        private async void ModernShellPage_PreviewKeyDown(object sender, KeyRoutedEventArgs args)
         {
-            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) || CurrentPageType == typeof(GridViewBrowser);
+            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shift = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var alt = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
+            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
+                              CurrentPageType == typeof(GridViewBrowser);
 
-            if (tabInstance && e.Key == (VirtualKey)192 && ctrlPressed) // VirtualKey for ` (accent key)
-            {
-                string path;
-                // Check if there is a folder selected, if not use the current directory.
-                if (SlimContentPage?.SelectedItem is not null &&
-                    SlimContentPage?.SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-                {
-                    path = SlimContentPage.SelectedItem.ItemPath;
-                }
-                else
-                {
-                    path = FilesystemViewModel.WorkingDirectory;
-                }
+            switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key) {
+                case (true, false, false, true, (VirtualKey) 192): // ctrl + ` (accent key), open terminal
+                    // Check if there is a folder selected, if not use the current directory.
+                    string path = FilesystemViewModel.WorkingDirectory;
+                    if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
+                    {
+                        path = SlimContentPage.SelectedItem.ItemPath;
+                    }
+                    await NavigationHelpers.OpenDirectoryInTerminal(path);
+                    args.Handled = true;
+                    break;
 
-                await NavigationHelpers.OpenDirectoryInTerminal(path);
-                e.Handled = true;
+                case (false, false, false, true, VirtualKey.Space): // space, quick look
+                    // handled in `CurrentPageType`::FileList_PreviewKeyDown
+                    break;
+
+                case (true, false, false, true, VirtualKey.Space): // ctrl + space, toggle media playback
+                    if (App.PreviewPaneViewModel.PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
+                    {
+                        mediaPreviewContent.ViewModel.TogglePlayback();
+                        args.Handled = true;
+                    }
+                    break;
             }
         }
 
@@ -640,7 +654,7 @@ namespace Files.Views
             ContentPage = await GetContentOrNullAsync();
             NavToolbarViewModel.SearchBox.Query = string.Empty;
             NavToolbarViewModel.IsSearchBoxVisible = false;
-            NavToolbarViewModel.UpdateAdditionnalActions();
+            NavToolbarViewModel.UpdateAdditionalActions();
             if (ItemDisplayFrame.CurrentSourcePageType == (typeof(DetailsLayoutBrowser))
                 || ItemDisplayFrame.CurrentSourcePageType == typeof(GridViewBrowser))
             {
@@ -659,10 +673,10 @@ namespace Files.Views
         {
             args.Handled = true;
             var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
-            var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
             var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
-            var tabInstance = CurrentPageType == (typeof(DetailsLayoutBrowser))
-                || CurrentPageType == typeof(GridViewBrowser);
+            var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
+            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) || 
+                              CurrentPageType == typeof(GridViewBrowser);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
@@ -738,7 +752,7 @@ namespace Files.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.V): // ctrl + v, paste
-                    if (!NavToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
+                    if (!NavToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !NavToolbarViewModel.SearchHasFocus)
                     {
                         await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this);
                     }
@@ -773,17 +787,7 @@ namespace Files.Views
 
                     break;
 
-                case (false, false, false, true, VirtualKey.Space): // space, quick look
-                    if (!NavToolbarViewModel.IsEditModeEnabled && !NavToolbarViewModel.IsSearchBoxVisible)
-                    {
-                        if (MainViewModel.IsQuickLookEnabled)
-                        {
-                            await QuickLookHelpers.ToggleQuickLook(this);
-                        }
-                    }
-                    break;
-
-                case (true, false, false, true, VirtualKey.P):
+                case (true, false, false, true, VirtualKey.P): // ctrl + p, toggle preview pane
                     App.PaneViewModel.IsPreviewSelected = !App.PaneViewModel.IsPreviewSelected;
                     break;
 
@@ -794,9 +798,12 @@ namespace Files.Views
                     }
                     break;
 
-                case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
-                case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
-                    NavToolbarViewModel.IsEditModeEnabled = true;
+                case (false, false, true, _, VirtualKey.D): // alt + d, select address bar (english)
+                case (true, false, false, _, VirtualKey.L): // ctrl + l, select address bar
+                    if (tabInstance || CurrentPageType == typeof(WidgetsPage))
+                    {
+                        NavToolbarViewModel.IsEditModeEnabled = true;
+                    }
                     break;
 
                 case (true, true, false, true, VirtualKey.K): // ctrl + shift + k, duplicate tab

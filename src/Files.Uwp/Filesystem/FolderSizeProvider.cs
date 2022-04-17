@@ -1,4 +1,4 @@
-using Files.Extensions;
+using Files.Uwp.Extensions;
 using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
@@ -10,16 +10,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
-using static Files.Helpers.NativeFindStorageItemHelper;
+using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public interface IFolderSizeProvider
     {
         public event EventHandler<FolderSizeChangedEventArgs> FolderSizeChanged;
 
-        void CleanCache();
+        Task CleanCacheAsync();
         void UpdateFolder(ListedItem folder, CancellationToken cancellationToken);
     }
 
@@ -34,8 +33,6 @@ namespace Files.Filesystem
     {
         private readonly IPreferencesSettingsService preferencesSettingsService = Ioc.Default.GetService<IPreferencesSettingsService>();
 
-        private readonly CoreDispatcher dispatcher = CoreApplication.MainView.CoreWindow.Dispatcher;
-
         private readonly IDictionary<string, long> cacheSizes = new Dictionary<string, long>();
 
         public event EventHandler<FolderSizeChangedEventArgs> FolderSizeChanged;
@@ -48,7 +45,7 @@ namespace Files.Filesystem
             preferencesSettingsService.PropertyChanged += PreferencesSettingsService_PropertyChanged;
         }
 
-        public async void CleanCache()
+        public async Task CleanCacheAsync()
         {
             if (!showFolderSize)
             {
@@ -57,14 +54,14 @@ namespace Files.Filesystem
 
             var drives = DriveInfo.GetDrives().Select(drive => drive.Name).ToArray();
 
-            await dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
             {
                 var oldPaths = cacheSizes.Keys.Where(path => !drives.Any(drive => path.StartsWith(drive))).ToList();
                 foreach (var oldPath in oldPaths)
                 {
                     cacheSizes.Remove(oldPath);
                 }
-            });
+            }, Windows.System.DispatcherQueuePriority.Low);
         }
 
         public async void UpdateFolder(ListedItem folder, CancellationToken cancellationToken)
@@ -76,7 +73,7 @@ namespace Files.Filesystem
 
             if (folder.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && folder.ContainsFilesOrFolders)
             {
-                await dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                 {
                     if (cacheSizes.ContainsKey(folder.ItemPath))
                     {
@@ -90,17 +87,17 @@ namespace Files.Filesystem
                         folder.FileSize = "ItemSizeNotCalculated".GetLocalized();
                         RaiseSizeChanged(folder);
                     }
-                });
+                }, Windows.System.DispatcherQueuePriority.Low);
 
                 long size = await Calculate(folder.ItemPath);
 
-                await dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                 {
                     cacheSizes[folder.ItemPath] = size;
                     folder.FileSizeBytes = size;
                     folder.FileSize = size.ToSizeString();
                     RaiseSizeChanged(folder);
-                });
+                }, Windows.System.DispatcherQueuePriority.Low);
             }
 
             async Task<long> Calculate(string folderPath, int level = 0)
@@ -135,7 +132,7 @@ namespace Files.Filesystem
 
                         if (level <= 3)
                         {
-                            await dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                             {
                                 cacheSizes[localPath] = localSize;
 
@@ -145,7 +142,7 @@ namespace Files.Filesystem
                                     folder.FileSize = size.ToSizeString();
                                     RaiseSizeChanged(folder);
                                 };
-                            });
+                            }, Windows.System.DispatcherQueuePriority.Low);
                         }
 
                         if (cancellationToken.IsCancellationRequested)

@@ -1,7 +1,7 @@
-﻿using Files.Filesystem;
-using Files.Helpers;
+﻿using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.ViewModels.Widgets;
+using Files.Uwp.ViewModels.Widgets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
@@ -20,8 +20,10 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
+using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.UserControls.Widgets;
 
-namespace Files.UserControls.Widgets
+namespace Files.Uwp.UserControls.Widgets
 {
     public class LibraryCardEventArgs : EventArgs
     {
@@ -33,40 +35,65 @@ namespace Files.UserControls.Widgets
         public string Path { get; set; }
     }
 
-    public class LibraryCardItem : ObservableObject
+    public class FolderCardItem : ObservableObject, IWidgetCardItem<LocationItem>
     {
+        private BitmapImage thumbnail;
+        private byte[] thumbnailData;
+
         public string AutomationProperties { get; set; }
         public bool HasPath => !string.IsNullOrEmpty(Path);
-
-        private BitmapImage icon;
-
-        public BitmapImage Icon
+        public bool HasThumbnail => thumbnail != null && thumbnailData != null;
+        public BitmapImage Thumbnail
         {
-            get => icon;
-            set => SetProperty(ref icon, value);
+            get => thumbnail;
+            set => SetProperty(ref thumbnail, value);
         }
-
-        public byte[] IconData { get; set; }
-        public bool IsLibrary => Library != null;
-        public bool IsUserCreatedLibrary => Library != null && !LibraryHelper.IsDefaultLibrary(Library.Path);
-        public LibraryLocationItem Library { get; set; }
+        public bool IsLibrary => Item is LibraryLocationItem;
+        public bool IsUserCreatedLibrary => IsLibrary && !LibraryHelper.IsDefaultLibrary(Item.Path);
+        public LocationItem Item { get; private set; }
         public string Path { get; set; }
         public ICommand SelectCommand { get; set; }
         public string Text { get; set; }
+
+        public FolderCardItem(LocationItem item = null, string text = null) : this(text)
+        {
+            this.Item = item;
+        }
+
+        public FolderCardItem(string text)
+        {
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                this.Text = text;
+                AutomationProperties = Text;
+            }
+        }
+
+        public async Task LoadCardThumbnailAsync(int overrideThumbnailSize = 32)
+        {
+            if (thumbnailData == null || thumbnailData.Length == 0)
+            {
+                thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(overrideThumbnailSize), Windows.Storage.FileProperties.ThumbnailMode.ListView);
+                if (thumbnailData != null && thumbnailData.Length > 0)
+                {
+                    Thumbnail = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(overrideThumbnailSize));
+                }
+            }
+        }
     }
 
     public sealed partial class FolderWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        public BulkConcurrentObservableCollection<LibraryCardItem> ItemsAdded = new BulkConcurrentObservableCollection<LibraryCardItem>();
+        public BulkConcurrentObservableCollection<FolderCardItem> ItemsAdded = new BulkConcurrentObservableCollection<FolderCardItem>();
         private bool showMultiPaneControls;
 
         public FolderWidget()
         {
             InitializeComponent();
 
-            LibraryCardCommand = new AsyncRelayCommand<LibraryCardItem>(OpenLibraryCard);
+            LibraryCardCommand = new AsyncRelayCommand<FolderCardItem>(OpenLibraryCard);
 
             Loaded += FolderWidget_Loaded;
             Unloaded += FolderWidget_Unloaded;
@@ -120,57 +147,43 @@ namespace Files.UserControls.Widgets
 
         public string WidgetHeader => "Folders".GetLocalized();
 
-        public void Dispose()
-        {
-        }
-
-        private async Task GetItemsAddedIcon()
-        {
-            foreach (var item in ItemsAdded.ToList()) // ToList() is necessary
-            {
-                item.SelectCommand = LibraryCardCommand;
-                item.AutomationProperties = item.Text;
-                await this.LoadLibraryIcon(item);
-            }
-        }
-
         private async void FolderWidget_Loaded(object sender, RoutedEventArgs e)
         {
             Loaded -= FolderWidget_Loaded;
 
             ItemsAdded.BeginBulkOperation();
-            ItemsAdded.Add(new LibraryCardItem
+            ItemsAdded.Add(new FolderCardItem("Desktop".GetLocalized())
             {
-                Text = "Desktop".GetLocalized(),
-                Path = UserDataPaths.GetDefault().Desktop
+                Path = UserDataPaths.GetDefault().Desktop,
+                SelectCommand = LibraryCardCommand
             });
-            ItemsAdded.Add(new LibraryCardItem
+            ItemsAdded.Add(new FolderCardItem("Documents".GetLocalized())
             {
-                Text = "Documents".GetLocalized(),
                 Path = UserDataPaths.GetDefault().Documents,
+                SelectCommand = LibraryCardCommand
             });
-            ItemsAdded.Add(new LibraryCardItem
+            ItemsAdded.Add(new FolderCardItem("Downloads".GetLocalized())
             {
-                Text = "Downloads".GetLocalized(),
                 Path = UserDataPaths.GetDefault().Downloads,
+                SelectCommand = LibraryCardCommand
             });
-            ItemsAdded.Add(new LibraryCardItem
+            ItemsAdded.Add(new FolderCardItem("Music".GetLocalized())
             {
-                Text = "Music".GetLocalized(),
                 Path = UserDataPaths.GetDefault().Music,
+                SelectCommand = LibraryCardCommand
             });
-            ItemsAdded.Add(new LibraryCardItem
+            ItemsAdded.Add(new FolderCardItem("Pictures".GetLocalized())
             {
-                Text = "Pictures".GetLocalized(),
                 Path = UserDataPaths.GetDefault().Pictures,
+                SelectCommand = LibraryCardCommand
             });
-            ItemsAdded.Add(new LibraryCardItem
+            ItemsAdded.Add(new FolderCardItem("Videos".GetLocalized())
             {
-                Text = "Videos".GetLocalized(),
                 Path = UserDataPaths.GetDefault().Videos,
+                SelectCommand = LibraryCardCommand
             });
 
-            await GetItemsAddedIcon();
+            await WidgetsHelpers.WidgetCards.LoadCardIcons<FolderCardItem, LocationItem>(ItemsAdded);
 
             ItemsAdded.EndBulkOperation();
         }
@@ -197,13 +210,13 @@ namespace Files.UserControls.Widgets
 
         private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
         {
-            var item = ((MenuFlyoutItem)sender).DataContext as LibraryCardItem;
+            var item = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
             LibraryCardNewPaneInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
         }
 
         private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
-            var item = ((MenuFlyoutItem)sender).DataContext as LibraryCardItem;
+            var item = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
             await NavigationHelpers.OpenPathInNewTab(item.Path);
         }
 
@@ -218,35 +231,26 @@ namespace Files.UserControls.Widgets
 
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
         {
-            var item = ((MenuFlyoutItem)sender).DataContext as LibraryCardItem;
+            var item = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
             await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
         }
 
         private void OpenLibraryProperties_Click(object sender, RoutedEventArgs e)
         {
-            var item = (sender as MenuFlyoutItem).DataContext as LibraryCardItem;
+            var item = (sender as MenuFlyoutItem).DataContext as FolderCardItem;
             if (item.IsLibrary)
             {
-                LibraryCardPropertiesInvoked?.Invoke(this, new LibraryCardEventArgs { Library = item.Library });
+                LibraryCardPropertiesInvoked?.Invoke(this, new LibraryCardEventArgs { Library = item.Item as LibraryLocationItem });
             }
         }
 
-        private async Task LoadLibraryIcon(LibraryCardItem item)
-        {
-            item.IconData = await FileThumbnailHelper.LoadIconFromPathAsync(item.Path, 48u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
-            if (item.IconData != null)
-            {
-                item.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => item.IconData.ToBitmapAsync());
-            }
-        }
-
-        private async Task OpenLibraryCard(LibraryCardItem item)
+        private async Task OpenLibraryCard(FolderCardItem item)
         {
             if (string.IsNullOrEmpty(item.Path))
             {
                 return;
             }
-            if (item.IsLibrary && item.Library.IsEmpty)
+            if (item.Item is LibraryLocationItem lli && lli.IsEmpty)
             {
                 // TODO: show message?
                 return;
@@ -260,6 +264,11 @@ namespace Files.UserControls.Widgets
             }
 
             LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
+        }
+
+        public void Dispose()
+        {
+
         }
     }
 }

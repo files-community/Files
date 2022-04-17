@@ -1,12 +1,12 @@
-﻿using Files.Filesystem;
-using Files.UserControls.FilePreviews;
-using Files.ViewModels.Properties;
+﻿using Files.Uwp.Filesystem;
+using Files.Uwp.UserControls.FilePreviews;
+using Files.Uwp.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace Files.ViewModels.Previews
+namespace Files.Uwp.ViewModels.Previews
 {
     public class TextPreviewViewModel : BasePreviewModel
     {

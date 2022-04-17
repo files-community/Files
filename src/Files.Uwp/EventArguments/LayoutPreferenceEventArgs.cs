@@ -1,6 +1,6 @@
-﻿using static Files.ViewModels.FolderSettingsViewModel;
+﻿using static Files.Uwp.ViewModels.FolderSettingsViewModel;
 
-namespace Files.EventArguments
+namespace Files.Uwp.EventArguments
 {
     public class LayoutPreferenceEventArgs
     {

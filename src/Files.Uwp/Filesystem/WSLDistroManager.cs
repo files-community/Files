@@ -1,6 +1,6 @@
-﻿using Files.DataModels.NavigationControlItems;
+﻿using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Backend.Services.Settings;
-using Files.UserControls;
+using Files.Uwp.UserControls;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Core;
-using Files.Helpers;
+using Files.Uwp.Helpers;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public class WSLDistroManager
     {
@@ -55,6 +55,10 @@ namespace Files.Filesystem
                             {
                                 Text = "WSL".GetLocalized(),
                                 Section = SectionType.WSL,
+                                MenuOptions = new ContextMenuOptions
+                                {
+                                    ShowHideSection = true
+                                },
                                 SelectsOnInvoked = false,
                                 Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png")),
                                 ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
@@ -105,7 +109,11 @@ namespace Files.Filesystem
                                     {
                                         Text = folder.DisplayName,
                                         Path = folder.Path,
-                                        Logo = logoURI
+                                        Logo = logoURI,
+                                        MenuOptions = new ContextMenuOptions
+                                        {
+                                            IsLocationItem = true
+                                        }
                                     });
                                 }
                             }

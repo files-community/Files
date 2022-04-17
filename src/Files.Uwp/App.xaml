@@ -1,8 +1,8 @@
 <Application
-    x:Class="Files.App"
+    x:Class="Files.Uwp.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:fsvm="using:Files.ViewModels">
+    xmlns:fsvm="using:Files.Uwp.ViewModels">
 
     <Application.Resources>
         <ResourceDictionary>
@@ -27,6 +27,9 @@
 
             <!--  Default list view item height  -->
             <x:Double x:Key="ListItemHeight">36</x:Double>
+
+            <!--  Default nav menu item height  -->
+            <x:Double x:Key="NavigationViewItemOnLeftMinHeight">32</x:Double>
 
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" ControlsResourcesVersion="Version2" />

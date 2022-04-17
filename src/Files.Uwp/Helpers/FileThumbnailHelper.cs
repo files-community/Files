@@ -1,6 +1,6 @@
 ﻿using Files.Shared;
-using Files.Extensions;
-using Files.Filesystem;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
 using Files.Shared.Extensions;
 using System;
 using System.Threading.Tasks;
@@ -9,7 +9,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class FileThumbnailHelper
     {

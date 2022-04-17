@@ -1,7 +1,7 @@
 ﻿using Files.Backend.ViewModels.FileTags;
-using Files.Filesystem;
+using Files.Uwp.Filesystem;
 
-namespace Files.DataModels.NavigationControlItems
+namespace Files.Uwp.DataModels.NavigationControlItems
 {
     public class FileTagItem : INavigationControlItem
     {
@@ -22,6 +22,8 @@ namespace Files.DataModels.NavigationControlItems
         public string HoverDisplayText { get; private set; }
 
         public SectionType Section { get; set; }
+
+        public ContextMenuOptions MenuOptions { get; set; }
 
         public NavigationControlItemType ItemType => NavigationControlItemType.FileTag;
 

@@ -1,9 +1,9 @@
 using Files.Shared;
-using Files.DataModels.NavigationControlItems;
-using Files.Filesystem.Cloud;
-using Files.Helpers;
+using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Filesystem.Cloud;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.UserControls;
+using Files.Uwp.UserControls;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public class CloudDrivesManager
     {
@@ -51,9 +51,15 @@ namespace Files.Filesystem
                 {
                     Text = provider.Name,
                     Path = provider.SyncFolder,
-                    Type = DriveType.CloudDrive,
+                    Type = DriveType.CloudDrive
                 };
-
+                cloudProviderItem.MenuOptions = new ContextMenuOptions
+                {
+                    IsLocationItem = true,
+                    ShowEjectDevice = cloudProviderItem.IsRemovable,
+                    ShowShellItems = true,
+                    ShowProperties = true
+                };
                 var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, 24);
                 if (iconData != null)
                 {
@@ -111,6 +117,10 @@ namespace Files.Filesystem
                         {
                             Text = "SidebarCloudDrives".GetLocalized(),
                             Section = SectionType.CloudDrives,
+                            MenuOptions = new ContextMenuOptions
+                            {
+                                ShowHideSection = true
+                            },
                             SelectsOnInvoked = false,
                             Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png")),
                             ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()

@@ -1,8 +1,8 @@
-﻿using Files.Filesystem;
+﻿using Files.Uwp.Filesystem;
 using System;
 using System.Collections.Generic;
 
-namespace Files.Interacts
+namespace Files.Uwp.Interacts
 {
     public class ItemManipulationModel
     {

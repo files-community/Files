@@ -1,5 +1,5 @@
-﻿using Files.UserControls;
-using Files.ViewModels;
+﻿using Files.Uwp.UserControls;
+using Files.Uwp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
-namespace Files.Helpers.ContextFlyouts
+namespace Files.Uwp.Helpers.ContextFlyouts
 {
     public static class ItemModelListToContextFlyoutHelper
     {

@@ -1,5 +1,5 @@
-﻿using Files.Helpers;
-using Files.ViewModels;
+﻿using Files.Uwp.Helpers;
+using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -10,7 +10,7 @@ using Windows.UI.Xaml;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Files.UserControls.MultitaskingControl
+namespace Files.Uwp.UserControls.MultitaskingControl
 {
     public sealed partial class HorizontalMultitaskingControl : BaseMultitaskingControl
     {

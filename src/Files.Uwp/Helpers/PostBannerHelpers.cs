@@ -1,12 +1,12 @@
 ﻿using Files.Shared.Enums;
-using Files.Filesystem;
-using Files.ViewModels;
+using Files.Uwp.Filesystem;
+using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class PostBannerHelpers
     {

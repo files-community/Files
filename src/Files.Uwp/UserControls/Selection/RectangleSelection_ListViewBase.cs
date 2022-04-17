@@ -1,4 +1,4 @@
-﻿using Files.Helpers.XamlHelpers;
+﻿using Files.Uwp.Helpers.XamlHelpers;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Shapes;
 
-namespace Files.UserControls.Selection
+namespace Files.Uwp.UserControls.Selection
 {
     public class RectangleSelection_ListViewBase : RectangleSelection
     {

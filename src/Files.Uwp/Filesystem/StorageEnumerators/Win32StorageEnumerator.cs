@@ -1,8 +1,8 @@
 ﻿using Files.Shared;
-using Files.Extensions;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
-using Files.Helpers.FileListCache;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
+using Files.Uwp.Helpers.FileListCache;
 using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
@@ -17,10 +17,10 @@ using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
-using static Files.Helpers.NativeFindStorageItemHelper;
+using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.Filesystem.StorageEnumerators
+namespace Files.Uwp.Filesystem.StorageEnumerators
 {
     public static class Win32StorageEnumerator
     {

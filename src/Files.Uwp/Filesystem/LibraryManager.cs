@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
-using Files.DataModels.NavigationControlItems;
-using Files.Helpers;
+using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Helpers;
 using Files.Shared;
 using Files.Shared.Extensions;
-using Files.UserControls;
-using Files.ViewModels;
+using Files.Uwp.UserControls;
+using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Specialized;
@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public class LibraryManager : IDisposable
     {
@@ -197,6 +197,11 @@ namespace Files.Filesystem
                         {
                             Text = "SidebarLibraries".GetLocalized(),
                             Section = SectionType.Library,
+                            MenuOptions = new ContextMenuOptions
+                            {
+                                IsLibrariesHeader = true,
+                                ShowHideSection = true
+                            },
                             SelectsOnInvoked = false,
                             Icon = await UIHelpers.GetIconResource(Constants.ImageRes.Libraries),
                             ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()

@@ -1,6 +1,6 @@
-﻿using Files.DataModels;
-using Files.Filesystem;
-using Files.Helpers;
+﻿using Files.Uwp.DataModels;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Newtonsoft.Json;
@@ -13,7 +13,7 @@ using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.Search;
 
-namespace Files.Controllers
+namespace Files.Uwp.Controllers
 {
     public class TerminalController : IJson
     {

@@ -1,5 +1,5 @@
 ﻿using Files.Backend.Services.Settings;
-using Files.ViewModels;
+using Files.Uwp.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
@@ -7,7 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
-namespace Files.UserControls
+namespace Files.Uwp.UserControls
 {
     public sealed partial class PreviewPane : UserControl, IPane
     {

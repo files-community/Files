@@ -1,5 +1,5 @@
 ﻿using Files.Shared;
-using Files.Helpers;
+using Files.Uwp.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 
-namespace Files.Filesystem.Cloud.Providers
+namespace Files.Uwp.Filesystem.Cloud.Providers
 {
     public class GenericCloudProvider : ICloudProviderDetector
     {

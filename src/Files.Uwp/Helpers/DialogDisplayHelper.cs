@@ -1,12 +1,12 @@
-﻿using Files.Dialogs;
+﻿using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
-using Files.ViewModels.Dialogs;
+using Files.Uwp.ViewModels.Dialogs;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     internal class DialogDisplayHelper
     {
@@ -31,31 +31,33 @@ namespace Files.Helpers
         /// </param>
         public static async Task<bool> ShowDialogAsync(string title, string message, string primaryText = "OK", string secondaryText = null)
         {
-            bool result = false;
+            DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
+            {
+                TitleText = title,
+                SubtitleText = message, // We can use subtitle here as our actual message and skip DisplayControl
+                PrimaryButtonText = primaryText,
+                SecondaryButtonText = secondaryText,
+                DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary
+            });
 
+            return await ShowDialogAsync(dialog) == DynamicDialogResult.Primary;
+        }
+
+        public static async Task<DynamicDialogResult> ShowDialogAsync(DynamicDialog dialog)
+        {
             try
             {
                 if (Window.Current.Content is Frame rootFrame)
                 {
-                    DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
-                    {
-                        TitleText = title,
-                        SubtitleText = message, // We can use subtitle here as our actual message and skip DisplayControl
-                        PrimaryButtonText = primaryText,
-                        SecondaryButtonText = secondaryText,
-                        DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary
-                    });
-
                     await dialog.ShowAsync();
-
-                    result = dialog.DynamicResult == DynamicDialogResult.Primary;
+                    return dialog.DynamicResult;
                 }
             }
             catch (Exception)
             {
             }
 
-            return result;
+            return DynamicDialogResult.Cancel;
         }
     }
 }

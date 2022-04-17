@@ -1,9 +1,9 @@
 ﻿using Files.Shared;
-using Files.DataModels.NavigationControlItems;
+using Files.Uwp.DataModels.NavigationControlItems;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public class LibraryLocationItem : LocationItem
     {
@@ -16,11 +16,19 @@ namespace Files.Filesystem
         public LibraryLocationItem(ShellLibraryItem shellLibrary)
         {
             Section = SectionType.Library;
+            MenuOptions = new ContextMenuOptions
+            {
+                IsLocationItem = true,
+                ShowProperties = true,
+                ShowShellItems = true,
+                ShowUnpinItem = !shellLibrary.IsPinned
+            };
             Text = shellLibrary.DisplayName;
             Path = shellLibrary.FullPath;
             DefaultSaveFolder = shellLibrary.DefaultSaveFolder;
             Folders = shellLibrary.Folders == null ? null : new ReadOnlyCollection<string>(shellLibrary.Folders);
             IsDefaultLocation = shellLibrary.IsPinned;
+
         }
 
         public override bool Equals(object obj)

@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Xaml.Controls;
 
-namespace Files.Views
+namespace Files.Uwp.Views
 {
     public class ColumnParam : NavigationArguments
     {

@@ -4,7 +4,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.UserControls
+namespace Files.Uwp.UserControls
 {
     public sealed partial class RestartControl : UserControl
     {

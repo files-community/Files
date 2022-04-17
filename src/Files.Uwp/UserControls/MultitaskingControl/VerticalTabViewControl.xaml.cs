@@ -1,5 +1,5 @@
-﻿using Files.Helpers;
-using Files.ViewModels;
+﻿using Files.Uwp.Helpers;
+using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -7,7 +7,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml;
 
-namespace Files.UserControls.MultitaskingControl
+namespace Files.Uwp.UserControls.MultitaskingControl
 {
     public sealed partial class VerticalTabViewControl : BaseMultitaskingControl
     {

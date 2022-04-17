@@ -1,6 +1,6 @@
-﻿using Files.DataModels.NavigationControlItems;
+﻿using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Backend.Services.Settings;
-using Files.UserControls;
+using Files.Uwp.UserControls;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -11,9 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
-using Files.Helpers;
+using Files.Uwp.Helpers;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public class FileTagsManager
     {
@@ -55,6 +55,10 @@ namespace Files.Filesystem
                         {
                             Text = "FileTags".GetLocalized(),
                             Section = SectionType.FileTag,
+                            MenuOptions = new ContextMenuOptions
+                            {
+                                ShowHideSection = true
+                            },
                             SelectsOnInvoked = false,
                             Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/FileTags.png")),
                             ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
@@ -80,7 +84,11 @@ namespace Files.Filesystem
                                 {
                                     Text = tag.TagName,
                                     Path = $"tag:{tag.TagName}",
-                                    FileTag = tag
+                                    FileTag = tag,
+                                    MenuOptions = new ContextMenuOptions
+                                    {
+                                        IsLocationItem = true
+                                    }
                                 });
                             }
                         }

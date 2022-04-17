@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public class AsyncManualResetEvent
     {

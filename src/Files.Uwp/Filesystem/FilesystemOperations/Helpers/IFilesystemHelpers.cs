@@ -1,12 +1,12 @@
 ﻿using Files.Shared.Enums;
-using Files.Filesystem.FilesystemHistory;
+using Files.Uwp.Filesystem.FilesystemHistory;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public interface IFilesystemHelpers : IDisposable
     {

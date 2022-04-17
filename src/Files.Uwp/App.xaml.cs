@@ -1,13 +1,13 @@
 using Files.Backend.Services.Settings;
-using Files.CommandLine;
-using Files.Controllers;
-using Files.Filesystem;
-using Files.Filesystem.FilesystemHistory;
-using Files.Helpers;
+using Files.Uwp.CommandLine;
+using Files.Uwp.Controllers;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.FilesystemHistory;
+using Files.Uwp.Helpers;
 using Files.Uwp.ServicesImplementation.Settings;
-using Files.UserControls.MultitaskingControl;
-using Files.ViewModels;
-using Files.Views;
+using Files.Uwp.UserControls.MultitaskingControl;
+using Files.Uwp.ViewModels;
+using Files.Uwp.Views;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -40,9 +40,9 @@ using Files.Shared;
 using Files.Shared.Extensions;
 using Files.Backend.Services;
 using Files.Uwp.ServicesImplementation;
-using Files.ViewModels.SettingsViewModels;
+using Files.Uwp.ViewModels.SettingsViewModels;
 
-namespace Files
+namespace Files.Uwp
 {
     sealed partial class App : Application
     {
@@ -58,7 +58,6 @@ namespace Files
         public static JumpListManager JumpList { get; private set; }
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
         public static TerminalController TerminalController { get; private set; }
-        public static AppearanceViewModel AppearanceViewModel { get; private set; }
         public static CloudDrivesManager CloudDrivesManager { get; private set; }
         public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
         public static DrivesManager DrivesManager { get; private set; }
@@ -114,12 +113,13 @@ namespace Files
                 // Settings not related to IUserSettingsService:
                 .AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
                 .AddSingleton<IBundlesSettingsService, BundlesSettingsService>()
-                .AddSingleton<IUpdateSettingsService, UpdateSettingsService>()
 
                 // Other services
                 .AddSingleton<IDialogService, DialogService>()
                 .AddSingleton<IImagingService, ImagingService>()
+                .AddSingleton<IThreadingService, ThreadingService>()
                 .AddSingleton<ILocalizationService, LocalizationService>()
+                .AddSingleton<IUpdateService, UpdateService>()
 
                 // TODO(i): FileSystem operations:
                 // (IFilesystemHelpersService, IFilesystemOperationsService)
@@ -138,6 +138,7 @@ namespace Files
 
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
             await ExternalResourcesHelper.LoadSelectedTheme();
+            new AppearanceViewModel().SetCompactStyles(updateTheme: false);
 
             JumpList ??= new JumpListManager();
             MainViewModel ??= new MainViewModel();
@@ -151,7 +152,6 @@ namespace Files
             FileTagsManager ??= new FileTagsManager();
             SidebarPinnedController ??= new SidebarPinnedController();
             TerminalController ??= new TerminalController();
-            AppearanceViewModel ??= new AppearanceViewModel();
         }
 
         private static async Task StartAppCenter()
@@ -201,7 +201,7 @@ namespace Files
             });
 
             // Check for required updates
-            var updateService = Ioc.Default.GetRequiredService<IUpdateSettingsService>();
+            var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
             await updateService.CheckForUpdates();
             await updateService.DownloadMandatoryUpdates();
         }

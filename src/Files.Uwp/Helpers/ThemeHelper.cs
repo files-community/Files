@@ -1,11 +1,11 @@
-﻿using Files.Extensions;
+﻿using Files.Uwp.Extensions;
 using System;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     /// <summary>
     /// Class providing functionality around switching and restoring theme settings
@@ -52,7 +52,7 @@ namespace Files.Helpers
             // Set TitleBar background color
             titleBar = ApplicationView.GetForCurrentView().TitleBar;
 
-            //Apply the desired theme based on what is set in the application settings
+            // Apply the desired theme based on what is set in the application settings
             ApplyTheme();
 
             // Registering to color changes, thus we notice when user changes theme system wide

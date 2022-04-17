@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class PathNormalization
     {

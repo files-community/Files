@@ -1,5 +1,5 @@
 ﻿using Files.Shared;
-using Files.Helpers;
+using Files.Uwp.Helpers;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
@@ -14,10 +14,10 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using static Files.Views.PropertiesCustomization;
+using static Files.Uwp.Views.PropertiesCustomization;
 using Files.Shared.Extensions;
 
-namespace Files.Views
+namespace Files.Uwp.Views
 {
     public sealed partial class CustomFolderIcons : Page
     {

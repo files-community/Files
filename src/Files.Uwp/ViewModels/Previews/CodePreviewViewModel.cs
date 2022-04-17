@@ -1,13 +1,13 @@
 ﻿using ColorCode;
-using Files.Filesystem;
-using Files.ViewModels.Properties;
+using Files.Uwp.Filesystem;
+using Files.Uwp.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Files.ViewModels.Previews
+namespace Files.Uwp.ViewModels.Previews
 {
     public class CodePreviewViewModel : BasePreviewModel
     {
@@ -79,6 +79,6 @@ namespace Files.ViewModels.Previews
             {Languages.Aspx,  new List<string> {".aspx"} },
         };
 
-        private static ILanguage GetCodeLanguage(string ext) => languageExtensions.FirstOrDefault(x => x.Value.Contains(ext)).Key;
+        private static ILanguage GetCodeLanguage(string ext) => languageExtensions.FirstOrDefault(x => x.Value.Contains(ext, StringComparer.OrdinalIgnoreCase)).Key;
     }
 }

@@ -1,7 +1,7 @@
-﻿using Files.Filesystem;
+﻿using Files.Uwp.Filesystem;
 using System.Collections.Generic;
 
-namespace Files.EventArguments.Bundles
+namespace Files.Uwp.EventArguments.Bundles
 {
     public class BundlesOpenPathEventArgs
     {

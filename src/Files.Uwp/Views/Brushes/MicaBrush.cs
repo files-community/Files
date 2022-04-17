@@ -18,7 +18,7 @@ using Microsoft.Graphics.Canvas.Effects;
 
 using GuidAttribute = System.Runtime.InteropServices.GuidAttribute;
 
-namespace Files.Views.Brushes
+namespace Files.Uwp.Views.Brushes
 {
     public class MicaBrush : XamlCompositionBrushBase
     {

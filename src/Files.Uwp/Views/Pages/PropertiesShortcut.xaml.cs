@@ -1,8 +1,8 @@
-﻿using Files.Filesystem;
-using Files.ViewModels.Properties;
+﻿using Files.Uwp.Filesystem;
+using Files.Uwp.ViewModels.Properties;
 using System.Threading.Tasks;
 
-namespace Files.Views
+namespace Files.Uwp.Views
 {
     public sealed partial class PropertiesShortcut : PropertiesTab
     {

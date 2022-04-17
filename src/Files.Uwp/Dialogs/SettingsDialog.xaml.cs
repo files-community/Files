@@ -1,14 +1,14 @@
 ﻿using Files.Backend.ViewModels.Dialogs;
-using Files.SettingsPages;
+using Files.Uwp.SettingsPages;
 using Files.Shared.Enums;
-using Files.ViewModels;
+using Files.Uwp.ViewModels;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.Dialogs
+namespace Files.Uwp.Dialogs
 {
     public sealed partial class SettingsDialog : ContentDialog, IDialog<SettingsDialogViewModel>
     {

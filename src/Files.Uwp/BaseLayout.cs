@@ -1,18 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
-using Files.EventArguments;
-using Files.Extensions;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
-using Files.Helpers.ContextFlyouts;
-using Files.Interacts;
+using Files.Uwp.EventArguments;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
+using Files.Uwp.Helpers.ContextFlyouts;
+using Files.Uwp.Interacts;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
-using Files.UserControls;
-using Files.ViewModels;
-using Files.ViewModels.Previews;
-using Files.Views;
+using Files.Uwp.UserControls;
+using Files.Uwp.ViewModels;
+using Files.Uwp.ViewModels.Previews;
+using Files.Uwp.Views;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -34,12 +34,13 @@ using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using static Files.Helpers.PathNormalization;
+using static Files.Uwp.Helpers.PathNormalization;
 
-namespace Files
+namespace Files.Uwp
 {
     /// <summary>
     /// The base class which every layout page must derive from
@@ -299,6 +300,10 @@ namespace Files
 
         private DispatcherQueueTimer dragOverTimer, tapDebounceTimer;
 
+        protected abstract uint IconSize { get; }
+
+        protected abstract ItemsControl ItemsControl { get; }
+
         public BaseLayout()
         {
             ItemManipulationModel = new ItemManipulationModel();
@@ -371,7 +376,18 @@ namespace Files
             }
         }
 
-        protected abstract ListedItem GetItemFromElement(object element);
+        protected ListedItem GetItemFromElement(object element) 
+        {
+            var item = element as ContentControl;
+            if (item == null || !CanGetItemFromElement(element))
+            {
+                return null;
+            }
+
+            return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (ItemsControl.ItemFromContainer(item) as ListedItem);
+        }
+
+        protected abstract bool CanGetItemFromElement(object element);
 
         protected virtual void BaseFolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
         {
@@ -859,7 +875,7 @@ namespace Files
 
             try
             {
-                await e.Items.OfType<ListedItem>().ParallelForEach(async item =>
+                await e.Items.OfType<ListedItem>().ParallelForEachAsync(async item =>
                 {
                     if (banner != null)
                     {
@@ -1072,22 +1088,84 @@ namespace Files
             deferral.Complete();
         }
 
-        protected void InitializeDrag(UIElement element)
+        protected void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
-            ListedItem item = GetItemFromElement(element);
-            if (item != null)
+            RefreshContainer(args.ItemContainer, args.InRecycleQueue);
+            RefreshItem(args.ItemContainer, args.Item, args.InRecycleQueue, args);
+        }
+
+        private void RefreshContainer(SelectorItem container, bool inRecycleQueue)
+        {
+            container.PointerPressed -= FileListItem_PointerPressed;
+            if (inRecycleQueue)
             {
-                element.AllowDrop = false;
-                element.DragOver -= Item_DragOver;
-                element.DragLeave -= Item_DragLeave;
-                element.Drop -= Item_Drop;
-                if (item.PrimaryItemAttribute == StorageItemTypes.Folder || item.IsExecutable)
+                UninitializeDrag(container);
+            }
+            else
+            {
+                container.PointerPressed += FileListItem_PointerPressed;
+            }
+        }
+
+        private void RefreshItem(SelectorItem container, object item, bool inRecycleQueue, ContainerContentChangingEventArgs args)
+        {
+            if (item is not ListedItem listedItem)
+            {
+                return;
+            }
+
+            if (inRecycleQueue)
+            {
+                ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoadingForItem(listedItem);
+            }
+            else
+            {
+                InitializeDrag(container, listedItem);
+
+                if (!listedItem.ItemPropertiesInitialized)
                 {
-                    element.AllowDrop = true;
-                    element.DragOver += Item_DragOver;
-                    element.DragLeave += Item_DragLeave;
-                    element.Drop += Item_Drop;
+                    uint callbackPhase = 3;
+                    args.RegisterUpdateCallback(callbackPhase, async (s, c) =>
+                    {
+                        await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, IconSize);
+                    });
                 }
+            }
+        }
+
+        protected static void FileListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (sender is not SelectorItem selectorItem)
+            {
+                return;
+            }
+
+            if (selectorItem.IsSelected && e.KeyModifiers == VirtualKeyModifiers.Control)
+            {
+                selectorItem.IsSelected = false;
+                // Prevent issues arising caused by the default handlers attempting to select the item that has just been deselected by ctrl + click
+                e.Handled = true;
+            }
+            else if (!selectorItem.IsSelected && e.GetCurrentPoint(selectorItem).Properties.IsLeftButtonPressed)
+            {
+                selectorItem.IsSelected = true;
+            }
+        }
+
+        protected void InitializeDrag(UIElement containter, ListedItem item)
+        {
+            if (item is null)
+            {
+                return;
+            }
+
+            UninitializeDrag(containter);
+            if (item.PrimaryItemAttribute == StorageItemTypes.Folder || item.IsExecutable)
+            {
+                containter.AllowDrop = true;
+                containter.DragOver += Item_DragOver;
+                containter.DragLeave += Item_DragLeave;
+                containter.Drop += Item_Drop;
             }
         }
 

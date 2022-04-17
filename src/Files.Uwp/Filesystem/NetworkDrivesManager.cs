@@ -1,8 +1,8 @@
 ﻿using Files.Shared;
-using Files.DataModels.NavigationControlItems;
-using Files.Helpers;
+using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.UserControls;
+using Files.Uwp.UserControls;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
@@ -17,7 +17,7 @@ using Windows.Foundation.Collections;
 using Windows.UI.Core;
 using Files.Shared;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public class NetworkDrivesManager
     {
@@ -45,6 +45,13 @@ namespace Files.Filesystem
                 Path = CommonPaths.NetworkFolderPath,
                 Type = DriveType.Network,
                 ItemType = NavigationControlItemType.Drive
+            };
+            networkItem.MenuOptions = new ContextMenuOptions
+            {
+                IsLocationItem = true,
+                ShowShellItems = true,
+                ShowEjectDevice = networkItem.IsRemovable,
+                ShowProperties = true
             };
             lock (drivesList)
             {
@@ -79,6 +86,13 @@ namespace Files.Filesystem
                             DeviceID = item.FilePath,
                             Type = DriveType.Network,
                             ItemType = NavigationControlItemType.Drive
+                        };
+                        networkItem.MenuOptions = new ContextMenuOptions
+                        {
+                            IsLocationItem = true,
+                            ShowEjectDevice = networkItem.IsRemovable,
+                            ShowShellItems = true,
+                            ShowProperties = true
                         };
                         lock (drivesList)
                         {
@@ -128,6 +142,10 @@ namespace Files.Filesystem
                         {
                             Text = "SidebarNetworkDrives".GetLocalized(),
                             Section = SectionType.Network,
+                            MenuOptions = new ContextMenuOptions
+                            {
+                                ShowHideSection = true
+                            },
                             SelectsOnInvoked = false,
                             Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives),
                             ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()

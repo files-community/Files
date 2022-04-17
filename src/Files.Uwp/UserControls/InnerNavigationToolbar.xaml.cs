@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
-using Files.Helpers;
-using Files.ViewModels;
+using Files.Uwp.Helpers;
+using Files.Uwp.ViewModels;
 using System;
 using System.IO;
 using System.Linq;
@@ -14,7 +14,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Files.UserControls
+namespace Files.Uwp.UserControls
 {
     public sealed partial class InnerNavigationToolbar : UserControl
     {

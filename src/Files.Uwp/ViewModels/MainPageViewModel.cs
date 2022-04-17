@@ -1,10 +1,10 @@
 ﻿using Files.Shared.Extensions;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.UserControls.MultitaskingControl;
-using Files.Views;
+using Files.Uwp.UserControls.MultitaskingControl;
+using Files.Uwp.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
@@ -26,7 +26,7 @@ using System.Diagnostics;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
     public class MainPageViewModel : ObservableObject
     {

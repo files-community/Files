@@ -1,16 +1,15 @@
 using Files.Shared;
-using Files.DataModels.NavigationControlItems;
+using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Shared.Enums;
-using Files.Helpers;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.UserControls;
-using Files.UserControls.Widgets;
+using Files.Uwp.UserControls;
+using Files.Uwp.UserControls.Widgets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,15 +18,14 @@ using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using Windows.UI.Core;
-using DriveType = Files.DataModels.NavigationControlItems.DriveType;
-using Files.Shared;
+using DriveType = Files.Uwp.DataModels.NavigationControlItems.DriveType;
+using Windows.ApplicationModel.Activation;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public class DrivesManager : ObservableObject
     {
-        private static readonly IFolderSizeProvider folderSizeProvider = Ioc.Default.GetService<IFolderSizeProvider>();
+        private IFolderSizeProvider FolderSizeProvider { get; } = Ioc.Default.GetService<IFolderSizeProvider>();
 
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
@@ -98,40 +96,37 @@ namespace Files.Filesystem
             }
             else
             {
-                DeviceWatcher_EnumerationCompleted(null, null);
+                DeviceWatcher_EnumerationCompleted();
             }
         }
 
-        private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
+        private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender = null, object args = null)
         {
             System.Diagnostics.Debug.WriteLine("DeviceWatcher_EnumerationCompleted");
-            await RefreshUI();
-            folderSizeProvider.CleanCache();
-        }
-
-        private async Task RefreshUI()
-        {
             try
             {
-                await SyncSideBarItemsUI();
+                await UpdateAppUISurfacesAsync();
             }
             catch (Exception) // UI Thread not ready yet, so we defer the previous operation until it is.
             {
                 System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
                 // Defer because UI-thread is not ready yet (and DriveItem requires it?)
+                CoreApplication.MainView.Activated -= RefreshUI;
                 CoreApplication.MainView.Activated += RefreshUI;
             }
+            await FolderSizeProvider.CleanCacheAsync();
         }
 
-        private async void RefreshUI(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
+        private async void RefreshUI(CoreApplicationView view = null, IActivatedEventArgs args = null)
         {
-            await SyncSideBarItemsUI();
             CoreApplication.MainView.Activated -= RefreshUI;
+            await UpdateAppUISurfacesAsync();
         }
 
-        private async Task SyncSideBarItemsUI()
+        // TODO: Rid DrivesManager of this method
+        private async Task UpdateAppUISurfacesAsync()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
             {
                 await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try
@@ -143,6 +138,10 @@ namespace Files.Filesystem
                         {
                             Text = "Drives".GetLocalized(),
                             Section = SectionType.Drives,
+                            MenuOptions = new ContextMenuOptions
+                            {
+                                ShowHideSection = true
+                            },
                             SelectsOnInvoked = false,
                             Icon = await UIHelpers.GetIconResource(Constants.ImageRes.ThisPC),
                             ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
@@ -154,7 +153,7 @@ namespace Files.Filesystem
                         SidebarControl.SideBarItems.EndBulkOperation();
                     }
 
-                    // Sync drives to sidebar
+                    // TODO: Move sidebar drive syncing out of DrivesManager
                     if (section != null)
                     {
                         foreach (DriveItem drive in Drives.ToList())
@@ -177,34 +176,30 @@ namespace Files.Filesystem
                     // Sync drives to drives widget
                     foreach (DriveItem drive in Drives.ToList())
                     {
-                        if (!DrivesWidget.ItemsAdded.Contains(drive))
+                        if (!DrivesWidget.ItemsAdded.Any(x => x.Item == drive))
                         {
                             if (drive.Type != DriveType.VirtualDrive)
                             {
-                                DrivesWidget.ItemsAdded.Add(drive);
+                                DrivesWidget.ItemsAdded.Add(new DriveCardItem(drive));
                             }
                         }
                     }
 
-                    foreach (DriveItem drive in DrivesWidget.ItemsAdded.ToList())
+                    foreach (DriveCardItem driveCard in DrivesWidget.ItemsAdded.ToList())
                     {
-                        if (!Drives.Contains(drive))
+                        if (!Drives.Contains(driveCard.Item))
                         {
-                            DrivesWidget.ItemsAdded.Remove(drive);
+                            DrivesWidget.ItemsAdded.Remove(driveCard);
                         }
                     }
+
+                    await WidgetsHelpers.WidgetCards.LoadCardIcons<DriveCardItem, DriveItem>(DrivesWidget.ItemsAdded);
                 }
                 finally
                 {
                     SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
-        }
-
-        private async void MainView_Activated(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
-        {
-            await SyncSideBarItemsUI();
-            CoreApplication.MainView.Activated -= MainView_Activated;
         }
 
         private async void DeviceAdded(DeviceWatcher sender, DeviceInformation args)
@@ -246,14 +241,14 @@ namespace Files.Filesystem
                 {
                     return;
                 }
-            
+
                 Logger.Info($"Drive added: {driveItem.Path}, {driveItem.Type}");
 
                 drivesList.Add(driveItem);
             }
 
             // Update the collection on the ui-thread.
-            DeviceWatcher_EnumerationCompleted(null, null);
+            DeviceWatcher_EnumerationCompleted();
         }
 
         private void DeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args)
@@ -264,7 +259,7 @@ namespace Files.Filesystem
                 drivesList.RemoveAll(x => x.DeviceID == args.Id);
             }
             // Update the collection on the ui-thread.
-            DeviceWatcher_EnumerationCompleted(null, null);
+            DeviceWatcher_EnumerationCompleted();
         }
 
         private async Task<bool> GetDrivesAsync()
@@ -467,7 +462,7 @@ namespace Files.Filesystem
                         drivesList.Add(driveItem);
                     }
 
-                    DeviceWatcher_EnumerationCompleted(null, null);
+                    DeviceWatcher_EnumerationCompleted();
                     break;
 
                 case DeviceEvent.Removed:
@@ -475,7 +470,7 @@ namespace Files.Filesystem
                     {
                         drivesList.RemoveAll(x => x.DeviceID == deviceId);
                     }
-                    DeviceWatcher_EnumerationCompleted(null, null);
+                    DeviceWatcher_EnumerationCompleted();
                     break;
 
                 case DeviceEvent.Inserted:

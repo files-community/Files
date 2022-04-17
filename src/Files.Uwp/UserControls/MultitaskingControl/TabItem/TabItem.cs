@@ -11,7 +11,7 @@ using System.Linq;
 using System.Reflection;
 using System.Diagnostics;
 
-namespace Files.UserControls.MultitaskingControl
+namespace Files.Uwp.UserControls.MultitaskingControl
 {
     public class TabItem : ObservableObject, ITabItem, ITabItemControl, IDisposable
     {

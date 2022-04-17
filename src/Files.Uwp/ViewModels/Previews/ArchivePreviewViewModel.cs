@@ -1,13 +1,13 @@
-﻿using Files.Extensions;
-using Files.Filesystem;
-using Files.ViewModels.Properties;
+﻿using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.ViewModels.Properties;
 using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Toolkit.Uwp;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Files.ViewModels.Previews
+namespace Files.Uwp.ViewModels.Previews
 {
     public class ArchivePreviewViewModel : BasePreviewModel
     {

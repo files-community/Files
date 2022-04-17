@@ -1,7 +1,7 @@
 ﻿using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml.Markup;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     [MarkupExtensionReturnType(ReturnType = typeof(string))]
     public sealed class ResourceString : MarkupExtension

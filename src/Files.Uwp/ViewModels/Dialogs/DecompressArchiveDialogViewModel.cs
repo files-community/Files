@@ -7,7 +7,7 @@ using System.Windows.Input;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 
-namespace Files.ViewModels.Dialogs
+namespace Files.Uwp.ViewModels.Dialogs
 {
     public class DecompressArchiveDialogViewModel : ObservableObject
     {

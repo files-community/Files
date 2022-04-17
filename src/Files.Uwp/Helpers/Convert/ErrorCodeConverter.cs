@@ -1,6 +1,6 @@
 ﻿using Files.Shared.Enums;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class ErrorCodeConverter
     {

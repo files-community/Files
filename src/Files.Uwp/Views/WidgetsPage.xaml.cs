@@ -1,11 +1,11 @@
-﻿using Files.DataModels.NavigationControlItems;
-using Files.Dialogs;
-using Files.Filesystem;
-using Files.Helpers;
+﻿using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Dialogs;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.UserControls.Widgets;
-using Files.ViewModels;
-using Files.ViewModels.Pages;
+using Files.Uwp.UserControls.Widgets;
+using Files.Uwp.ViewModels;
+using Files.Uwp.ViewModels.Pages;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace Files.Views
+namespace Files.Uwp.Views
 {
     public sealed partial class WidgetsPage : Page, IDisposable
     {
