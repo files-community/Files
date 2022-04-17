@@ -21,6 +21,10 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using System.Threading;
+using System.Diagnostics;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 
 namespace Files.ViewModels
 {
@@ -161,9 +165,9 @@ namespace Files.ViewModels
                 tabItem = AppInstances[App.MainViewModel.TabStripSelectedIndex];
             }
 
-            if (tabItem != null && tabItem.IsPinned != true)
+            if (tabItem != null)
             {
-                MultitaskingControl?.CloseTab(tabItem);
+                MultitaskingControl?.CloseTab(tabItem, true);
             }
 
             e.Handled = true;
@@ -183,11 +187,24 @@ namespace Files.ViewModels
 
         private static async Task AddNewTabItem(TabItem tabItem, int atIndex = -1)
         {
+            tabItem.PropertyChanged += (tabItemSender, tabItemEventArgs) =>
+            {
+                TabItem_PropertyChanged(tabItemSender, tabItemEventArgs, tabItem);
+            };
+
             tabItem.Control.ContentChanged += Control_ContentChanged;
             await UpdateTabInfo(tabItem, tabItem.TabItemArguments.NavigationArg);
             var index = atIndex == -1 ? AppInstances.Count : atIndex;
             AppInstances.Insert(index, tabItem);
             App.MainViewModel.TabStripSelectedIndex = index;
+        }
+
+        private static void TabItem_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e, TabItem target)
+        {
+            if (e.PropertyName == nameof(target.IsPinned))
+            {
+                RearrangeTabs();
+            }
         }
 
         public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
@@ -205,14 +222,11 @@ namespace Files.ViewModels
 
             TabItem tabItem = new TabItem()
             {
-                Header = null,
-                IconSource = null,
-                Description = null
-            };
-            tabItem.Control.NavigationArguments = new TabItemArguments()
-            {
-                InitialPageType = type,
-                NavigationArg = path
+                TabItemArguments = new TabItemArguments()
+                {
+                    InitialPageType = type,
+                    NavigationArg = path
+                }
             };
 
             await AddNewTabItem(tabItem);
@@ -410,7 +424,7 @@ namespace Files.ViewModels
                             {
                                 foreach (string sessionString in UserSettingsService.PreferencesSettingsService.LastSessionTabList)
                                 {
-                                    await AddNewTabBySessionString(sessionString);
+                                    await AddNewTabByParam(sessionString);
                                 }
 
                                 var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalized() };
@@ -500,18 +514,13 @@ namespace Files.ViewModels
             }
         }
 
-        public static async Task AddNewTabBySessionString(string tabPropertyString)
+        public static async Task AddNewTabByParam(string serializedTabString, int atIndex = -1)
         {
-            TabItem tabItem = new TabItem()
-            {
-                Header = null,
-                IconSource = null,
-                Description = null,
-            };
+            TabItem tabItem = new TabItem();
 
-            if (PropertySerializer<TabItem>.FromString(ref tabItem, tabPropertyString))
+            if (SelectiveSerialization.FromString(ref tabItem, serializedTabString))
             {
-                await AddNewTabItem(tabItem);
+                await AddNewTabItem(tabItem, atIndex);
             }
         }
 
@@ -519,14 +528,11 @@ namespace Files.ViewModels
         {
             TabItem tabItem = new TabItem()
             {
-                Header = null,
-                IconSource = null,
-                Description = null
-            };
-            tabItem.Control.NavigationArguments = new TabItemArguments()
-            {
-                InitialPageType = type,
-                NavigationArg = tabViewItemArgs
+                TabItemArguments = new TabItemArguments()
+                {
+                    InitialPageType = type,
+                    NavigationArg = tabViewItemArgs
+                }
             };
 
             await AddNewTabItem(tabItem, atIndex);
@@ -540,6 +546,42 @@ namespace Files.ViewModels
                 return;
             }
             await UpdateTabInfo(matchingTabItem, e.NavigationArg);
+        }
+
+        public static int GetLastPinnedTabIndex()
+        {
+            var index = -1;
+
+            AppInstances.ForEach(instance =>
+            {
+                if (instance.IsPinned)
+                {
+                    index++;
+                }
+            });
+
+            return index;
+        }
+
+        public static void RearrangeTabs()
+        {
+            var nextPinnedTabIndex = 0;
+            var instanceCount = AppInstances.Count;
+
+            for (var tabIndex = 0; tabIndex < instanceCount; tabIndex++)
+            {
+                if (AppInstances[tabIndex].IsPinned)
+                {
+                    if (tabIndex != 0)
+                    {
+                        AppInstances.Move(tabIndex, nextPinnedTabIndex++);
+                    }
+                    else
+                    {
+                        nextPinnedTabIndex++;
+                    }
+                }
+            }
         }
     }
 }

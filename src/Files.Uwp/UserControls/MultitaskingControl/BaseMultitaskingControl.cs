@@ -1,5 +1,6 @@
 ﻿using Files.Helpers;
 using Files.ViewModels;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -17,6 +20,8 @@ namespace Files.UserControls.MultitaskingControl
         private static bool isRestoringClosedTab = false; // Avoid reopening two tabs
 
         protected ITabItemContent CurrentSelectedAppInstance;
+
+        protected TabView TabView;
 
         public const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
 
@@ -78,7 +83,7 @@ namespace Files.UserControls.MultitaskingControl
 
         protected void TabStrip_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
         {
-            CloseTab(args.Item as TabItem);
+            CloseTab(args.Item as TabItem, true);
         }
 
         protected async void TabView_AddTabButtonClick(TabView sender, object args)
@@ -130,7 +135,7 @@ namespace Files.UserControls.MultitaskingControl
             await MultitaskingTabsHelpers.MoveTabToNewWindow(((FrameworkElement)sender).DataContext as TabItem, this);
         }
 
-        public void CloseTab(TabItem tabItem)
+        public void CloseTab(TabItem tabItem, bool cancelOperationOnPinnedTabs = false)
         {
             if (Items.Count == 1)
             {
@@ -138,7 +143,8 @@ namespace Files.UserControls.MultitaskingControl
             }
             else if (Items.Count > 1)
             {
-                if (!tabItem.IsPinned)
+                if (!tabItem.IsPinned ||
+                    (tabItem.IsPinned && !cancelOperationOnPinnedTabs))
                 {
                     Items.Remove(tabItem);
                     tabItem?.Unload(); // Dispose and save tab arguments
@@ -169,6 +175,132 @@ namespace Files.UserControls.MultitaskingControl
             else
             {
                 VisualStateManager.GoToState(tabItem, "NotLoading", false);
+            }
+        }
+
+        protected void TabStrip_TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)
+        {
+            var tabItem = args.Item as TabItem;
+            if (tabItem != null)
+            {
+                var tabData = SelectiveSerialization.ToString(tabItem);
+                args.Data.Properties.Add(TabPathIdentifier, tabData);
+            }
+
+            args.Data.RequestedOperation = DataPackageOperation.Move;
+        }
+
+        protected void TabStrip_TabStripDragOver(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Properties.ContainsKey(TabPathIdentifier))
+            {
+                TabView.CanReorderTabs = true;
+                e.AcceptedOperation = DataPackageOperation.Move;
+                e.DragUIOverride.Caption = "TabStripDragAndDropUIOverrideCaption".GetLocalized();
+                e.DragUIOverride.IsCaptionVisible = true;
+                e.DragUIOverride.IsGlyphVisible = false;
+            }
+            else
+            {
+                TabView.CanReorderTabs = false;
+            }
+        }
+
+        protected void TabStrip_DragLeave(object sender, DragEventArgs e)
+        {
+            TabView.CanReorderTabs = true;
+        }
+
+        protected async void TabStrip_TabStripDrop(object sender, DragEventArgs e)
+        {
+            TabView.CanReorderTabs = true;
+            if (!(sender is TabView tabStrip))
+            {
+                return;
+            }
+
+            if (!e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) || !(tabViewItemPathObj is string tabItemString))
+            {
+                return;
+            }
+
+            var droppingTabIndex = tabStrip.TabItems.Count;
+
+            for (int i = 0; i < tabStrip.TabItems.Count; i++)
+            {
+                var item = tabStrip.ContainerFromIndex(i) as TabViewItem;
+
+                if (e.GetPosition(item).Y - item.ActualHeight < 0)
+                {
+                    droppingTabIndex = i;
+                    break;
+                }
+            }
+
+            var droppingTabItem = new TabItem(false);
+            SelectiveSerialization.FromString(ref droppingTabItem, tabItemString);
+
+            var lastPinnedTabIndex = MainPageViewModel.GetLastPinnedTabIndex();
+            if (lastPinnedTabIndex != -1)
+            {
+                if (droppingTabItem.IsPinned)
+                {
+                    if (droppingTabIndex > lastPinnedTabIndex + 1)
+                    {
+                        droppingTabIndex = lastPinnedTabIndex + 1;
+                    }
+                }
+                else
+                {
+                    if (droppingTabIndex <= lastPinnedTabIndex)
+                    {
+                        droppingTabIndex = lastPinnedTabIndex + 1;
+                    }
+                }
+            }
+
+            ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
+            await MainPageViewModel.AddNewTabByParam(tabItemString, droppingTabIndex);
+        }
+
+        protected void TabStrip_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)
+        {
+            if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier) &&
+                (bool)ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier])
+            {
+                CloseTab(args.Item as TabItem);
+            }
+            else
+            {
+                TabView.SelectedItem = args.Tab;
+                MainPageViewModel.RearrangeTabs();
+            }
+
+            if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier))
+            {
+                ApplicationData.Current.LocalSettings.Values.Remove(TabDropHandledIdentifier);
+            }
+        }
+
+        protected async void TabStrip_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
+        {
+            if (sender.TabItems.Count == 1)
+            {
+                return;
+            }
+
+            var indexOfTabViewItem = sender.TabItems.IndexOf(args.Item);
+            var tabViewItemArgs = (args.Item as TabItem).TabItemArguments;
+            var selectedTabViewItemIndex = sender.SelectedIndex;
+            Items.Remove(args.Item as TabItem);
+            if (!await NavigationHelpers.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
+            {
+                Items.Insert(indexOfTabViewItem, args.Item as TabItem);
+                sender.SelectedIndex = selectedTabViewItemIndex;
+            }
+            else
+            {
+                (args.Item as TabItem)?.Unload(); // Dispose tab arguments
             }
         }
     }

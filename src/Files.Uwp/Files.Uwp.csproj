@@ -188,11 +188,13 @@
     <Compile Include="Helpers\CommonPaths.cs" />
     <Compile Include="Helpers\FileExtensionHelpers.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\BlockingListEnumerator.cs" />
+    <Compile Include="Helpers\Serialization\KnownTypeSerialization.cs" />
     <Compile Include="Helpers\LocalizedEnumHelper.cs" />
     <Compile Include="Helpers\ResourceHelpers.cs" />
     <Compile Include="Helpers\FtpHelpers.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupedCollection.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupingHelper.cs" />
+    <Compile Include="Helpers\Serialization\SelectiveSerialization.cs" />
     <Compile Include="Helpers\StorageItemIconHelpers.cs" />
     <Compile Include="Helpers\StorageSenseHelper.cs" />
     <Compile Include="Helpers\WindowDecorationsHelper.cs" />

@@ -1,5 +1,6 @@
 ﻿using Files.ViewModels;
 using Files.Views;
+using Files.Helpers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json;
@@ -50,7 +51,7 @@ namespace Files.UserControls.MultitaskingControl
 
         private bool isPinned = false;
 
-        [SerializableProperty]
+        [SelectiveSerializationProperty]
         public bool IsPinned
         {
             get => isPinned;
@@ -59,7 +60,7 @@ namespace Files.UserControls.MultitaskingControl
 
         private TabItemArguments tabItemArguments;
 
-        [SerializableProperty(typeof(PaneNavigationArguments))]
+        [SelectiveSerializationProperty(typeof(PaneNavigationArguments))]
         public TabItemArguments TabItemArguments
         {
             get => Control?.NavigationArguments ?? tabItemArguments;
@@ -74,15 +75,22 @@ namespace Files.UserControls.MultitaskingControl
             }
         }
 
-        public TabItem()
+        public TabItem(bool initializetTabControl = true)
         {
-            Control = new TabItemControl();
+            if (initializetTabControl)
+            {
+                Control = new TabItemControl();
+            }
         }
 
         public void Unload()
         {
-            Control.ContentChanged -= MainPageViewModel.Control_ContentChanged;
-            tabItemArguments = Control?.NavigationArguments;
+            if (Control != null)
+            {
+                Control.ContentChanged -= MainPageViewModel.Control_ContentChanged;
+                tabItemArguments = Control?.NavigationArguments;
+            }
+
             Dispose();
         }
 
@@ -97,201 +105,24 @@ namespace Files.UserControls.MultitaskingControl
         #endregion IDisposable
     }
 
-    public class KnownTypeSerialization
-    {
-        private KnownTypesBinder knownTypesBinder = null;
-
-        public KnownTypeSerialization()
-        {
-            knownTypesBinder = new KnownTypesBinder
-            {
-                KnownTypes = new List<Type>() { }
-            };
-        }
-
-        public string Serialize<T>(T target) => JsonConvert.SerializeObject(target, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto,
-            SerializationBinder = knownTypesBinder
-        });
-
-        public T Deserialize<T>(string obj) => JsonConvert.DeserializeObject<T>(obj, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto,
-            SerializationBinder = knownTypesBinder
-        });
-
-        public KnownTypeSerialization SetKnownTypes(Type[] types)
-        {
-            knownTypesBinder = new KnownTypesBinder
-            {
-                KnownTypes = types
-            };
-
-            return this;
-        }
-
-        public KnownTypeSerialization SetKnownType(Type type)
-        {
-            knownTypesBinder = new KnownTypesBinder
-            {
-                KnownTypes = new List<Type>() { type }
-            };
-
-            return this;
-        }
-    }
-
     public class TabItemArguments
     {
         public Type InitialPageType { get; set; }
         public object NavigationArg { get; set; }
 
-        private static Type[] serializationKnownTypes = new Type[]
+        private static KnownTypeSerialization serializer = new KnownTypeSerialization(new Type[]
         {
             typeof(PaneNavigationArguments)
-        };
+        });
 
         public string Serialize()
         {
-            return new KnownTypeSerialization().SetKnownTypes(serializationKnownTypes)
-                                               .Serialize(this);
+            return serializer.Serialize(this);
         }
 
         public static TabItemArguments Deserialize(string obj)
         {
-            return new KnownTypeSerialization().SetKnownTypes(serializationKnownTypes)
-                                               .Deserialize<TabItemArguments>(obj);
-        }
-    }
-
-    public class PropertySerializer<T>
-    {
-        private struct SerializablePropertyData
-        {
-            public string Name { get; set; }
-            public object Value { get; set; }
-        }
-
-        private struct SerializationData
-        {
-            public SerializablePropertyData[] Properties { get; set; }
-            public Type[] KnownTypes { get; set; }
-        }
-
-        private static SerializationData ExtractSerializationData(T target)
-        {
-            List<SerializablePropertyData> serializableData = new List<SerializablePropertyData>();
-            List<Type> knownTypes = new List<Type>();
-
-            var properties = target.GetType().GetProperties();
-            foreach (var property in properties)
-            {
-                var serializablePropertyAttributes = property.GetCustomAttributes<SerializableProperty>();
-
-                if (serializablePropertyAttributes.Count() > 0)
-                {
-                    knownTypes.Add(property.PropertyType);
-
-                    foreach(var attribute in serializablePropertyAttributes)
-                    {
-                        knownTypes.AddRange(attribute.KnownTypes);
-                    }
-
-                    serializableData.Add(new SerializablePropertyData()
-                    {
-                        Name = property.Name,
-                        Value = property.GetValue(target)
-                    });
-                }
-            }
-
-            return new SerializationData()
-            {
-                Properties = serializableData.ToArray(),
-                KnownTypes = knownTypes.ToArray()
-            };
-        }
-
-        public static string ToString(T target)
-        {
-            var serializationData = ExtractSerializationData(target);
-
-            return new KnownTypeSerialization().SetKnownTypes(serializationData.KnownTypes)
-                                               .Serialize(serializationData.Properties);
-        }
-
-        public static bool FromString(ref T target, string targetString)
-        {
-            bool isSuccess = false;
-
-            try
-            {
-                var serializationData = ExtractSerializationData(target);
-
-                var deseriaizedProperties = new KnownTypeSerialization().SetKnownTypes(serializationData.KnownTypes)
-                                                                        .Deserialize<SerializablePropertyData[]>(targetString);
-
-                foreach (var deserializedProperty in deseriaizedProperties)
-                {
-                    if (serializationData.Properties.Any(w => w.Name == deserializedProperty.Name))
-                    {
-                        target.GetType().GetProperty(deserializedProperty.Name).SetValue(target, deserializedProperty.Value);
-                    }
-                }
-
-                isSuccess = true;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-
-            return isSuccess;
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    public class SerializableProperty : Attribute
-    {
-        public List<Type> KnownTypes { get; } = new List<Type>();
-
-        public SerializableProperty(Type[] knownTypes)
-        {
-            KnownTypes.AddRange(knownTypes);
-        }
-
-        public SerializableProperty(Type knownType)
-        {
-            KnownTypes.Add(knownType);
-        }
-
-        public SerializableProperty()
-        {
-
-        }
-    }
-
-    public class KnownTypesBinder : ISerializationBinder
-    {
-        public IList<Type> KnownTypes { get; set; }
-
-        public Type BindToType(string assemblyName, string typeName)
-        {
-            if (!KnownTypes.Any(x => x.Name == typeName))
-            {
-                throw new ArgumentException();
-            }
-            else
-            {
-                return KnownTypes.SingleOrDefault(t => t.Name == typeName);
-            }
-        }
-
-        public void BindToName(Type serializedType, out string assemblyName, out string typeName)
-        {
-            assemblyName = null;
-            typeName = serializedType.Name;
+            return serializer.Deserialize<TabItemArguments>(obj);
         }
     }
 }

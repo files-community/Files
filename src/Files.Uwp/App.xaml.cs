@@ -585,7 +585,7 @@ namespace Files
                 {
                     if (tab != null && tab.TabItemArguments != null)
                     {
-                        return PropertySerializer<TabItem>.ToString(tab);
+                        return SelectiveSerialization.ToString(tab);
                     }
                     else
                     {
