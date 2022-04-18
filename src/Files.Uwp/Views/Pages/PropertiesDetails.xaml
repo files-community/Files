@@ -89,7 +89,8 @@
                 <Button
                     x:Name="ClearPropertiesButton"
                     Margin="0,4,0,0"
-                    HorizontalAlignment="Stretch">
+                    HorizontalAlignment="Stretch"
+                    Content="{helpers:ResourceString Name=ClearPropertiesButton/Content}">
                     <Button.Flyout>
                         <Flyout x:Name="ClearPropertiesFlyout">
                             <StackPanel Orientation="Vertical" Spacing="4">
