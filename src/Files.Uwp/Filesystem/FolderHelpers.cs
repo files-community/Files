@@ -1,11 +1,11 @@
-﻿using Files.Filesystem.StorageItems;
+﻿using Files.Uwp.Filesystem.StorageItems;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using static Files.Helpers.NativeFindStorageItemHelper;
+using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public static class FolderHelpers
     {

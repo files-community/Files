@@ -1,10 +1,10 @@
-﻿using Files.Helpers;
+﻿using Files.Uwp.Helpers;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.UserControls.Settings
+namespace Files.Uwp.UserControls.Settings
 {
     public sealed partial class ThemeSampleDisplayControl : UserControl
     {

@@ -1,8 +1,8 @@
 ﻿using Files.Shared.Enums;
-using Files.Filesystem;
+using Files.Uwp.Filesystem;
 using Files.Backend.Services.Settings;
-using Files.UserControls.FilePreviews;
-using Files.ViewModels.Previews;
+using Files.Uwp.UserControls.FilePreviews;
+using Files.Uwp.ViewModels.Previews;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
@@ -16,7 +16,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Files.Shared.EventArguments;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
     public class PreviewPaneViewModel : ObservableObject, IDisposable
     {

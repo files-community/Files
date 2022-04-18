@@ -1,11 +1,11 @@
 ﻿using Files.Shared.Enums;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
 using System;
 using Windows.Storage;
 using Windows.System.UserProfile;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class WallpaperHelpers
     {

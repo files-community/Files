@@ -1,10 +1,10 @@
 ﻿using Files.Shared;
-using Files.Filesystem.Cloud.Providers;
+using Files.Uwp.Filesystem.Cloud.Providers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Files.Filesystem.Cloud
+namespace Files.Uwp.Filesystem.Cloud
 {
     public class CloudProviderController
     {

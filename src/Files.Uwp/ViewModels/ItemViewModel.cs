@@ -3,20 +3,20 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.Dialogs;
-using Files.Extensions;
-using Files.Filesystem;
-using Files.Filesystem.Cloud;
-using Files.Filesystem.Search;
-using Files.Filesystem.StorageEnumerators;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
-using Files.Helpers.FileListCache;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.Cloud;
+using Files.Uwp.Filesystem.Search;
+using Files.Uwp.Filesystem.StorageEnumerators;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
+using Files.Uwp.Helpers.FileListCache;
 using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
-using Files.UserControls;
-using Files.ViewModels.Previews;
+using Files.Uwp.UserControls;
+using Files.Uwp.ViewModels.Previews;
 using FluentFTP;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
@@ -42,11 +42,11 @@ using Windows.Storage.Search;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using static Files.Helpers.NativeDirectoryChangesHelper;
-using static Files.Helpers.NativeFindStorageItemHelper;
+using static Files.Uwp.Helpers.NativeDirectoryChangesHelper;
+using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
     public class ItemViewModel : ObservableObject, IDisposable
     {
@@ -69,6 +69,7 @@ namespace Files.ViewModels
         private SettingsViewModel AppSettings => App.AppSettings;
         private FolderSettingsViewModel folderSettings = null;
         private bool shouldDisplayFileExtensions = false;
+        private bool shouldDisplayThumbnails = false;
         public ListedItem CurrentFolder { get; private set; }
         public CollectionViewSource viewSource;
         private CancellationTokenSource addFilesCTS, semaphoreCTS, loadPropsCTS, watcherCTS;
@@ -365,6 +366,7 @@ namespace Files.ViewModels
             operationEvent = new AsyncManualResetEvent();
             enumFolderSemaphore = new SemaphoreSlim(1, 1);
             shouldDisplayFileExtensions = UserSettingsService.PreferencesSettingsService.ShowFileExtensions;
+            shouldDisplayThumbnails = UserSettingsService.PreferencesSettingsService.ShowThumbnails;
 
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
             FileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingImportedEvent;
@@ -387,6 +389,7 @@ namespace Files.ViewModels
             switch (e.SettingName)
             {
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFileExtensions):
+                case nameof(UserSettingsService.PreferencesSettingsService.ShowThumbnails):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden):
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowDotFiles):
@@ -394,6 +397,7 @@ namespace Files.ViewModels
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFolderSize):
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                     {
+                        shouldDisplayThumbnails = UserSettingsService.PreferencesSettingsService.ShowThumbnails;
                         if (WorkingDirectory != "Home".GetLocalized())
                         {
                             RefreshItems(null);
@@ -847,7 +851,7 @@ namespace Files.ViewModels
             var wasIconLoaded = false;
             if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
             {
-                if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
+                if (shouldDisplayThumbnails && !item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
                 {
                     var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
                     if (matchingStorageFile != null)
@@ -1509,7 +1513,8 @@ namespace Files.ViewModels
             // Flag to use FindFirstFileExFromApp or StorageFolder enumeration
             var isBoxFolder = App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder ?
                 path.StartsWith(boxFolder) : false; // Use storage folder for Box Drive (#4629)
-            var isNetworkFolder = System.Text.RegularExpressions.Regex.IsMatch(path, @"^\\\\(?!\?)"); // Use storage folder for network drives (*FromApp methods return access denied)
+            var isNetworkFolder = App.DrivesManager.Drives.Any(x => x.Path == Path.GetPathRoot(path) && x.Type == DataModels.NavigationControlItems.DriveType.Network)
+                || System.Text.RegularExpressions.Regex.IsMatch(path, @"^\\\\(?!\?)"); // Use storage folder for network drives (*FromApp methods return access denied)
             bool enumFromStorageFolder = isBoxFolder || isNetworkFolder;
 
             BaseStorageFolder rootFolder = null;

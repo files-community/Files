@@ -1,11 +1,11 @@
 ﻿using Files.Shared.Extensions;
-using Files.Controllers;
-using Files.DataModels.NavigationControlItems;
-using Files.Filesystem;
-using Files.Helpers;
+using Files.Uwp.Controllers;
+using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.UserControls;
-using Files.ViewModels;
+using Files.Uwp.UserControls;
+using Files.Uwp.ViewModels;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
@@ -19,7 +19,7 @@ using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.DataModels
+namespace Files.Uwp.DataModels
 {
     public class SidebarPinnedModel
     {

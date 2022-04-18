@@ -1,8 +1,8 @@
 ﻿using Files.Shared;
-using Files.Dialogs;
+using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
-using Files.Filesystem;
-using Files.ViewModels.Dialogs;
+using Files.Uwp.Filesystem;
+using Files.Uwp.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -16,7 +16,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     /// <summary>
     /// Helper class for listing and managing Shell libraries.

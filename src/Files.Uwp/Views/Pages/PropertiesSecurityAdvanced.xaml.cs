@@ -1,8 +1,8 @@
-﻿using Files.DataModels.NavigationControlItems;
-using Files.Filesystem;
-using Files.Filesystem.Permissions;
-using Files.Helpers;
-using Files.ViewModels.Properties;
+﻿using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.Permissions;
+using Files.Uwp.Helpers;
+using Files.Uwp.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Linq;
@@ -21,7 +21,7 @@ using Windows.UI.Xaml.Navigation;
 
 // Il modello di elemento Pagina vuota è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace Files.Views
+namespace Files.Uwp.Views
 {
     /// <summary>
     /// Pagina vuota che può essere usata autonomamente oppure per l'esplorazione all'interno di un frame.

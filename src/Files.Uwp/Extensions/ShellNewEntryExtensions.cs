@@ -1,7 +1,7 @@
 ﻿using Files.Shared;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using System.Linq;
 
-namespace Files.Extensions
+namespace Files.Uwp.Extensions
 {
     public static class ShellNewEntryExtensions
     {

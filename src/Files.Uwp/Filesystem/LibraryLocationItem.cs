@@ -1,9 +1,9 @@
 ﻿using Files.Shared;
-using Files.DataModels.NavigationControlItems;
+using Files.Uwp.DataModels.NavigationControlItems;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public class LibraryLocationItem : LocationItem
     {

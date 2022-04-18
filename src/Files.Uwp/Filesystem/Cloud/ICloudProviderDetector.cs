@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Files.Filesystem.Cloud
+namespace Files.Uwp.Filesystem.Cloud
 {
     public interface ICloudProviderDetector
     {

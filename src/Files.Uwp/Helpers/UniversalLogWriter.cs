@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using static Files.Helpers.NativeFileOperationsHelper;
+using static Files.Uwp.Helpers.NativeFileOperationsHelper;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     /// <summary>
     /// UWP Implementation of ILogger

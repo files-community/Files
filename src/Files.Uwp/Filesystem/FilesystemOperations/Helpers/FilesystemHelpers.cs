@@ -1,12 +1,12 @@
 ﻿using Files.Shared;
-using Files.DataModels;
+using Files.Uwp.DataModels;
 using Files.Shared.Enums;
-using Files.Extensions;
-using Files.Filesystem.FilesystemHistory;
-using Files.Helpers;
-using Files.Interacts;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem.FilesystemHistory;
+using Files.Uwp.Helpers;
+using Files.Uwp.Interacts;
 using Files.Backend.Services.Settings;
-using Files.ViewModels.Dialogs;
+using Files.Uwp.ViewModels.Dialogs;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -26,7 +26,7 @@ using Files.Backend.Extensions;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
 using Files.Backend.Services;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public class FilesystemHelpers : IFilesystemHelpers
     {

@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Helpers.FileListCache
+namespace Files.Uwp.Helpers.FileListCache
 {
     internal interface IFileListCache
     {

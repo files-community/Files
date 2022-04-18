@@ -1,9 +1,9 @@
-﻿using Files.DataModels.NavigationControlItems;
-using Files.Filesystem;
-using Files.Helpers;
-using Files.Helpers.XamlHelpers;
-using Files.ViewModels;
-using Files.ViewModels.Properties;
+﻿using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
+using Files.Uwp.Helpers.XamlHelpers;
+using Files.Uwp.ViewModels;
+using Files.Uwp.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Threading;
@@ -23,7 +23,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
-namespace Files.Views
+namespace Files.Uwp.Views
 {
     public sealed partial class Properties : Page
     {

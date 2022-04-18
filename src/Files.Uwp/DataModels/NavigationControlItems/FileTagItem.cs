@@ -1,7 +1,7 @@
 ﻿using Files.Backend.ViewModels.FileTags;
-using Files.Filesystem;
+using Files.Uwp.Filesystem;
 
-namespace Files.DataModels.NavigationControlItems
+namespace Files.Uwp.DataModels.NavigationControlItems
 {
     public class FileTagItem : INavigationControlItem
     {

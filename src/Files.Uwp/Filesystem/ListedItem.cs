@@ -2,12 +2,12 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
-using Files.Extensions;
-using Files.Filesystem.Cloud;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem.Cloud;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using Files.Shared.Extensions;
-using Files.ViewModels.Properties;
+using Files.Uwp.ViewModels.Properties;
 using FluentFTP;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -20,7 +20,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public class ListedItem : ObservableObject, IGroupableItem
     {

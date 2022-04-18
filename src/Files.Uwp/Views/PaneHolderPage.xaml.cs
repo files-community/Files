@@ -1,7 +1,7 @@
-﻿using Files.Filesystem;
+﻿using Files.Uwp.Filesystem;
 using Files.Backend.Services.Settings;
-using Files.UserControls.MultitaskingControl;
-using Files.Views.LayoutModes;
+using Files.Uwp.UserControls.MultitaskingControl;
+using Files.Uwp.Views.LayoutModes;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using Files.Shared.EventArguments;
 
-namespace Files.Views
+namespace Files.Uwp.Views
 {
     public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent
     {

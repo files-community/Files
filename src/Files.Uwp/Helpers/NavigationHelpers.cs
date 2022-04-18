@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
 using Files.Shared;
 using Files.Shared.Enums;
-using Files.ViewModels;
-using Files.Views;
+using Files.Uwp.ViewModels;
+using Files.Uwp.Views;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -20,7 +20,7 @@ using Windows.Storage.Search;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class NavigationHelpers
     {

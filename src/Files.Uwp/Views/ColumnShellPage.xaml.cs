@@ -1,16 +1,16 @@
 using Files.Shared;
-using Files.Dialogs;
+using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
-using Files.EventArguments;
-using Files.Filesystem;
-using Files.Filesystem.FilesystemHistory;
-using Files.Filesystem.Search;
-using Files.Helpers;
+using Files.Uwp.EventArguments;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.FilesystemHistory;
+using Files.Uwp.Filesystem.Search;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.UserControls;
-using Files.UserControls.MultitaskingControl;
-using Files.ViewModels;
-using Files.Views.LayoutModes;
+using Files.Uwp.UserControls;
+using Files.Uwp.UserControls.MultitaskingControl;
+using Files.Uwp.ViewModels;
+using Files.Uwp.Views.LayoutModes;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
@@ -33,7 +33,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using Files.Interacts;
+using Files.Uwp.Interacts;
 using SortDirection = Files.Shared.Enums.SortDirection;
 using Files.Backend.Enums;
 using Files.Backend.Services;
@@ -41,7 +41,7 @@ using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace Files.Views
+namespace Files.Uwp.Views
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -199,27 +199,44 @@ namespace Files.Views
             PreviewKeyDown += ColumnShellPage_PreviewKeyDown;
         }
 
-        private async void ColumnShellPage_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        /**
+         * Some keys are overriden by control built-in defaults (e.g. 'Space').
+         * They must be handled here since they're not propagated to KeyboardAccelerator.
+         */
+        private async void ColumnShellPage_PreviewKeyDown(object sender, KeyRoutedEventArgs args)
         {
-            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) || CurrentPageType == typeof(GridViewBrowser);
+            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shift = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var alt = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
+            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
+                              CurrentPageType == typeof(GridViewBrowser) ||
+                              CurrentPageType == typeof(ColumnViewBrowser) ||
+                              CurrentPageType == typeof(ColumnViewBase);
 
-            if (tabInstance && e.Key == (VirtualKey)192 && ctrlPressed) // VirtualKey for ` (accent key)
+            switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
             {
-                string path;
-                // Check if there is a folder selected, if not use the current directory.
-                if (SlimContentPage?.SelectedItem is not null &&
-                    SlimContentPage?.SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-                {
-                    path = SlimContentPage.SelectedItem.ItemPath;
-                }
-                else
-                {
-                    path = FilesystemViewModel.WorkingDirectory;
-                }
+                case (true, false, false, true, (VirtualKey) 192): // ctrl + ` (accent key), open terminal
+                    // Check if there is a folder selected, if not use the current directory.
+                    string path = FilesystemViewModel.WorkingDirectory;
+                    if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
+                    {
+                        path = SlimContentPage.SelectedItem.ItemPath;
+                    }
+                    await NavigationHelpers.OpenDirectoryInTerminal(path);
+                    args.Handled = true;
+                    break;
 
-                await NavigationHelpers.OpenDirectoryInTerminal(path);
-                e.Handled = true;
+                case (false, false, false, true, VirtualKey.Space): // space, quick look
+                    // handled in `CurrentPageType`::FileList_PreviewKeyDown
+                    break;
+
+                case (true, false, false, true, VirtualKey.Space): // ctrl + space, toggle media playback
+                    if (App.PreviewPaneViewModel.PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
+                    {
+                        mediaPreviewContent.ViewModel.TogglePlayback();
+                        args.Handled = true;
+                    }
+                    break;
             }
         }
 
@@ -608,12 +625,12 @@ namespace Files.Views
         {
             args.Handled = true;
             var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
-            var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
             var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
-            var tabInstance = CurrentPageType == (typeof(DetailsLayoutBrowser))
-                || CurrentPageType == typeof(GridViewBrowser)
-                || CurrentPageType == typeof(ColumnViewBrowser)
-                || CurrentPageType == typeof(ColumnViewBase);
+            var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
+            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
+                              CurrentPageType == typeof(GridViewBrowser) ||
+                              CurrentPageType == typeof(ColumnViewBrowser) ||
+                              CurrentPageType == typeof(ColumnViewBase);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
@@ -721,14 +738,7 @@ namespace Files.Views
 
                     break;
 
-                case (false, false, false, true, VirtualKey.Space): // space, quick look
-                    if (!NavToolbarViewModel.IsEditModeEnabled && !NavToolbarViewModel.IsSearchBoxVisible)
-                    {
-                        await QuickLookHelpers.ToggleQuickLook(this);
-                    }
-                    break;
-
-                case (true, false, false, true, VirtualKey.P):
+                case (true, false, false, true, VirtualKey.P): // ctrl + p, toggle preview pane
                     App.PaneViewModel.IsPreviewSelected = !App.PaneViewModel.IsPreviewSelected;
                     break;
 

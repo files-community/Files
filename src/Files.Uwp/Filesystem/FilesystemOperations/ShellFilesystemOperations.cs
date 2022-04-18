@@ -1,8 +1,8 @@
 ﻿using Files.Shared.Extensions;
 using Files.Shared.Enums;
-using Files.Extensions;
-using Files.Filesystem.FilesystemHistory;
-using Files.Helpers;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem.FilesystemHistory;
+using Files.Uwp.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 using Microsoft.Toolkit.Uwp;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public class ShellFilesystemOperations : IFilesystemOperations
     {

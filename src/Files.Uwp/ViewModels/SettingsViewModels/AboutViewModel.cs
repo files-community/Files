@@ -1,7 +1,7 @@
 ﻿using Files.Backend.Services.Settings;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using Files.Shared.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
@@ -19,7 +19,7 @@ using Windows.Storage.Pickers;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.ViewModels.SettingsViewModels
+namespace Files.Uwp.ViewModels.SettingsViewModels
 {
     public class AboutViewModel : ObservableObject
     {

@@ -1,8 +1,8 @@
 ﻿using Files.Shared;
-using Files.DataModels.NavigationControlItems;
-using Files.Helpers;
+using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.UserControls;
+using Files.Uwp.UserControls;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
@@ -17,7 +17,7 @@ using Windows.Foundation.Collections;
 using Windows.UI.Core;
 using Files.Shared;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public class NetworkDrivesManager
     {

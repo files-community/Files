@@ -2753,7 +2753,10 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="Universal" xml:space="preserve">
     <value>Universal</value>
   </data>
-    <data name="DateFormatSample" xml:space="preserve">
+  <data name="DateFormatSample" xml:space="preserve">
     <value>ex: {0}, {1}</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Show thumbnails</value>
   </data>
 </root>

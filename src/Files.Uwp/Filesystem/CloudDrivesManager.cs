@@ -1,9 +1,9 @@
 using Files.Shared;
-using Files.DataModels.NavigationControlItems;
-using Files.Filesystem.Cloud;
-using Files.Helpers;
+using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Filesystem.Cloud;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.UserControls;
+using Files.Uwp.UserControls;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public class CloudDrivesManager
     {

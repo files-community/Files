@@ -1,8 +1,8 @@
 ﻿using Files.Shared;
-using Files.DataModels.NavigationControlItems;
-using Files.Filesystem;
-using Files.Filesystem.Permissions;
-using Files.Helpers;
+using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.Permissions;
+using Files.Uwp.Helpers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Files.Shared.Extensions;
 
-namespace Files.ViewModels.Properties
+namespace Files.Uwp.ViewModels.Properties
 {
     public class SecurityProperties : ObservableObject
     {

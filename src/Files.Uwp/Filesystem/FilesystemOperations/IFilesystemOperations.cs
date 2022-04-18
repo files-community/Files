@@ -1,12 +1,12 @@
 ﻿using Files.Shared.Enums;
-using Files.Filesystem.FilesystemHistory;
+using Files.Uwp.Filesystem.FilesystemHistory;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     /// <summary>
     /// This interface provides Files filesystem operations
