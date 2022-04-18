@@ -1005,7 +1005,6 @@ namespace Files.Uwp
                 {
                     e.Handled = true;
 
-                    var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
                     var draggedItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
                     if (draggedItems.IsEmpty())
@@ -1017,12 +1016,6 @@ namespace Files.Uwp
                         if (draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                         {
                             e.AcceptedOperation = DataPackageOperation.None;
-                        }
-                        else if (handledByFtp)
-                        {
-                            e.DragUIOverride.IsCaptionVisible = true;
-                            e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
-                            e.AcceptedOperation = DataPackageOperation.Copy;
                         }
                         else
                         {

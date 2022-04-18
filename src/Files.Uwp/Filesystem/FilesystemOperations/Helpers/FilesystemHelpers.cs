@@ -271,12 +271,8 @@ namespace Files.Uwp.Filesystem
                     // Open with piggybacks off of the link operation, since there isn't one for it
                     if (isTargetExecutable)
                     {
-                        var handledByFtp = await CheckDragNeedsFulltrust(packageView);
-                        if (!handledByFtp)
-                        {
-                            var items = await GetDraggedStorageItems(packageView);
-                            NavigationHelpers.OpenItemsWithExecutable(associatedInstance, items, destination);
-                        }
+                        var items = await GetDraggedStorageItems(packageView);
+                        NavigationHelpers.OpenItemsWithExecutable(associatedInstance, items, destination);
                         return ReturnResult.Success;
                     }
                     else
@@ -361,22 +357,7 @@ namespace Files.Uwp.Filesystem
 
         public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
-            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(packageView);
             var source = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
-
-            if (handledByFtp)
-            {
-                var connection = await ServiceConnection;
-                if (connection != null)
-                {
-                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet() {
-                        { "Arguments", "FileOperation" },
-                        { "fileop", "DragDrop" },
-                        { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
-                    return (status == AppServiceResponseStatus.Success && response.Get("Success", false)) ? ReturnResult.Success : ReturnResult.Failed;
-                }
-                return ReturnResult.Failed;
-            }
 
             if (!source.IsEmpty())
             {
@@ -512,14 +493,7 @@ namespace Files.Uwp.Filesystem
                 return ReturnResult.BadArgumentException;
             }
 
-            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(packageView);
             var source = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
-
-            if (handledByFtp)
-            {
-                // Not supported
-                return ReturnResult.Failed;
-            }
 
             ReturnResult returnStatus = ReturnResult.InProgress;
 
@@ -615,14 +589,7 @@ namespace Files.Uwp.Filesystem
                 return ReturnResult.BadArgumentException;
             }
 
-            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(packageView);
             var source = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
-
-            if (handledByFtp)
-            {
-                // Not supported
-                return ReturnResult.Failed;
-            }
 
             var returnCode = FileSystemStatusCode.InProgress;
             var errorCode = new Progress<FileSystemStatusCode>();
@@ -654,14 +621,7 @@ namespace Files.Uwp.Filesystem
                 return ReturnResult.BadArgumentException;
             }
 
-            var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(packageView);
             var source = await FilesystemHelpers.GetDraggedStorageItems(packageView);
-
-            if (handledByFtp)
-            {
-                // Not supported
-                return ReturnResult.Failed;
-            }
 
             ReturnResult returnStatus = ReturnResult.InProgress;
 
@@ -753,28 +713,6 @@ namespace Files.Uwp.Filesystem
         public static bool HasDraggedStorageItems(DataPackageView packageView)
         {
             return packageView != null && (packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out var data)));
-        }
-
-        public static async Task<bool> CheckDragNeedsFulltrust(DataPackageView packageView)
-        {
-            if (packageView.Contains(StandardDataFormats.StorageItems))
-            {
-                try
-                {
-                    _ = await packageView.GetStorageItemsAsync();
-                    return false;
-                }
-                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
-                {
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    App.Logger.Warn(ex, ex.Message);
-                    return false;
-                }
-            }
-            return false;
         }
 
         public static async Task<IEnumerable<IStorageItemWithPath>> GetDraggedStorageItems(DataPackageView packageView)
