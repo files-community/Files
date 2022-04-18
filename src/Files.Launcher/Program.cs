@@ -159,10 +159,16 @@ namespace FilesFullTrust
                 var arguments = (string)message["Arguments"];
                 Logger.Info($"Argument: {arguments}");
 
+                Stopwatch sw = new();
+                sw.Start();
+
                 await SafetyExtensions.IgnoreExceptions(async () =>
                 {
                     await Task.Run(() => ParseArgumentsAsync(message, arguments));
                 }, Logger);
+
+                sw.Stop();
+                Logger.Info($"Done: {arguments} in {sw.Elapsed.TotalSeconds}");
             }
         }
 
