@@ -32,6 +32,8 @@ namespace FilesFullTrust
             await logWriter.InitializeAsync("debug_fulltrust.log");
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
 
+            Logger.Info($"Launched");
+
             if (HandleCommandLineArgs())
             {
                 // Handles OpenShellCommandInExplorer
@@ -62,12 +64,16 @@ namespace FilesFullTrust
                 // Initialize message handlers
                 messageHandlers.ForEach(mh => mh.Initialize(connection));
 
+                Logger.Info($"Initialized");
+
                 // Initialize device watcher
                 deviceWatcher = new DeviceWatcher(connection);
                 deviceWatcher.Start();
 
                 // Update tags db
                 messageHandlers.OfType<FileTagsHandler>().Single().UpdateTagsDb();
+
+                Logger.Info($"Ready");
 
                 // Wait until the connection gets closed
                 appServiceExit.WaitOne();
@@ -123,6 +129,7 @@ namespace FilesFullTrust
         {
             try
             {
+                Logger.Info($"BeginRead");
                 using var memoryStream = new MemoryStream();
                 var buffer = new byte[connection.InBufferSize];
                 while (connection.IsConnected)
