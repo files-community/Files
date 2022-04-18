@@ -34,10 +34,6 @@ namespace Files.Uwp.UserControls
     {
         public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        public static SemaphoreSlim SideBarItemsSemaphore = new SemaphoreSlim(1, 1);
-
-        public static BulkConcurrentObservableCollection<INavigationControlItem> SideBarItems { get; private set; } = new BulkConcurrentObservableCollection<INavigationControlItem>();
-
         public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
 
         public event SidebarItemInvokedEventHandler SidebarItemInvoked;
@@ -319,31 +315,31 @@ namespace Files.Uwp.UserControls
             {
                 case SectionType.Favorites:
                     UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = false;
-                    App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
+                    //App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
                     break;
                 case SectionType.Library:
                     UserSettingsService.AppearanceSettingsService.ShowLibrarySection = false;
-                    App.LibraryManager.UpdateLibrariesSectionVisibility();
+                    //App.LibraryManager.UpdateLibrariesSectionVisibility();
                     break;
                 case SectionType.CloudDrives:
                     UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = false;
-                    App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
+                    //App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
                     break;
                 case SectionType.Drives:
                     UserSettingsService.AppearanceSettingsService.ShowDrivesSection = false;
-                    App.DrivesManager.UpdateDrivesSectionVisibility();
+                    //App.DrivesManager.UpdateDrivesSectionVisibility();
                     break;
                 case SectionType.Network:
                     UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = false;
-                    App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
+                    //App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
                     break;
                 case SectionType.WSL:
                     UserSettingsService.AppearanceSettingsService.ShowWslSection = false;
-                    App.WSLDistroManager.UpdateWslSectionVisibility();
+                    //App.WSLDistroManager.UpdateWslSectionVisibility();
                     break;
                 case SectionType.FileTag:
                     UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = false;
-                    App.FileTagsManager.UpdateFileTagsSectionVisibility();
+                    //App.FileTagsManager.UpdateFileTagsSectionVisibility();
                     break;
             }
         }
@@ -1234,7 +1230,7 @@ namespace Files.Uwp.UserControls
         private void NavigationView_PaneOpened(Microsoft.UI.Xaml.Controls.NavigationView sender, object args)
         {
             // Restore expanded state when pane is opened
-            foreach (var loc in SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems != null))
+            foreach (var loc in ViewModel.SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems != null))
             {
                 loc.IsExpanded = App.AppSettings.Get(loc.Text == "SidebarFavorites".GetLocalized(), $"section:{loc.Text.Replace('\\', '_')}");
             }
@@ -1243,7 +1239,7 @@ namespace Files.Uwp.UserControls
         private void NavigationView_PaneClosed(Microsoft.UI.Xaml.Controls.NavigationView sender, object args)
         {
             // Collapse all sections but do not store the state when pane is closed
-            foreach (var loc in SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems != null))
+            foreach (var loc in ViewModel.SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems != null))
             {
                 loc.IsExpanded = false;
             }
@@ -1328,9 +1324,6 @@ namespace Files.Uwp.UserControls
 
                     case NavigationControlItemType.FileTag:
                         return FileTagNavItemTemplate;
-
-                    case NavigationControlItemType.Header:
-                        return HeaderNavItemTemplate;
                 }
             }
             return null;

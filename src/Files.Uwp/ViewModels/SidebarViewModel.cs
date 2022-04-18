@@ -15,6 +15,9 @@ using System.Linq;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Files.Shared.EventArguments;
+using System.Collections.Specialized;
+using Windows.System;
+using System.Threading.Tasks;
 
 namespace Files.Uwp.ViewModels
 {
@@ -32,6 +35,10 @@ namespace Files.Uwp.ViewModels
         }
 
         public IFilesystemHelpers FilesystemHelpers => PaneHolder?.FilesystemHelpers;
+
+        private DispatcherQueue dispatcherQueue;
+
+        public BulkConcurrentObservableCollection<INavigationControlItem> SideBarItems { get; init; }
 
         public static readonly GridLength CompactSidebarWidth = SidebarControl.GetSidebarCompactSize();
 
@@ -64,9 +71,9 @@ namespace Files.Uwp.ViewModels
             var value = arg;
 
             INavigationControlItem item = null;
-            List<INavigationControlItem> sidebarItems = UserControls.SidebarControl.SideBarItems
+            List<INavigationControlItem> sidebarItems = SideBarItems
                 .Where(x => !string.IsNullOrWhiteSpace(x.Path))
-                .Concat(UserControls.SidebarControl.SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => (x as LocationItem).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
+                .Concat(SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => (x as LocationItem).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
                 .ToList();
 
             if (string.IsNullOrEmpty(value))
@@ -123,7 +130,7 @@ namespace Files.Uwp.ViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = value;
-                    App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
+                    //App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
                 }
             }
         }
@@ -136,7 +143,7 @@ namespace Files.Uwp.ViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowLibrarySection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowLibrarySection = value;
-                    App.LibraryManager.UpdateLibrariesSectionVisibility();
+                    //App.LibraryManager.UpdateLibrariesSectionVisibility();
                 }
             }
         }
@@ -149,7 +156,7 @@ namespace Files.Uwp.ViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowDrivesSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowDrivesSection = value;
-                    App.DrivesManager.UpdateDrivesSectionVisibility();
+                    //App.DrivesManager.UpdateDrivesSectionVisibility();
                 }
             }
         }
@@ -162,7 +169,7 @@ namespace Files.Uwp.ViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = value;
-                    App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
+                    //App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
                 }
             }
         }
@@ -175,7 +182,7 @@ namespace Files.Uwp.ViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = value;
-                    App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
+                    //App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
                 }
             }
         }
@@ -188,7 +195,7 @@ namespace Files.Uwp.ViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowWslSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowWslSection = value;
-                    App.WSLDistroManager.UpdateWslSectionVisibility();
+                    //App.WSLDistroManager.UpdateWslSectionVisibility();
                 }
             }
         }
@@ -201,12 +208,12 @@ namespace Files.Uwp.ViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowFileTagsSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = value;
-                    App.FileTagsManager.UpdateFileTagsSectionVisibility();
+                    //App.FileTagsManager.UpdateFileTagsSectionVisibility();
                 }
             }
         }
 
-        public bool AreFileTagsEnabled 
+        public bool AreFileTagsEnabled
         {
             get => UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled;
         }
@@ -221,8 +228,272 @@ namespace Files.Uwp.ViewModels
 
         public SidebarViewModel()
         {
+            dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+
+            SideBarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
             EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(EmptyRecycleBin);
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+
+            Manager_DataChanged(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            Manager_DataChanged(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            Manager_DataChanged(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            Manager_DataChanged(SectionType.CloudDrives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            Manager_DataChanged(SectionType.Network, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            Manager_DataChanged(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            Manager_DataChanged(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+
+            App.SidebarPinnedController.DataChanged += Manager_DataChanged;
+            App.LibraryManager.DataChanged += Manager_DataChanged;
+            App.DrivesManager.DataChanged += Manager_DataChanged;
+            App.CloudDrivesManager.DataChanged += Manager_DataChanged;
+            App.NetworkDrivesManager.DataChanged += Manager_DataChanged;
+            App.WSLDistroManager.DataChanged += Manager_DataChanged;
+            App.FileTagsManager.DataChanged += Manager_DataChanged;
+        }
+
+        private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            await dispatcherQueue.EnqueueAsync(async () =>
+            {
+                var section = await GetOrCreateSection((SectionType)sender);
+                IReadOnlyList<INavigationControlItem> list = (SectionType)sender switch
+                {
+                    SectionType.Favorites => App.SidebarPinnedController.Model.Favorites,
+                    SectionType.CloudDrives => App.CloudDrivesManager.Drives,
+                    SectionType.Drives => App.DrivesManager.Drives,
+                    SectionType.Network => App.NetworkDrivesManager.Drives,
+                    SectionType.WSL => App.WSLDistroManager.Distros,
+                    SectionType.Library => App.LibraryManager.Libraries,
+                    SectionType.FileTag => App.FileTagsManager.FileTags,
+                    _ => null
+                };
+                await SyncSidebarItems(section, list);
+            });
+        }
+
+        private async Task SyncSidebarItems(LocationItem section, IReadOnlyList<INavigationControlItem> elements)
+        {
+            if (section != null)
+            {
+                foreach (INavigationControlItem elem in elements)
+                {
+                    if (!section.ChildItems.Contains(elem))
+                    {
+                        if (elem is LibraryLocationItem lib)
+                        {
+                            lib.Font = App.MainViewModel.FontName;
+                            section.ChildItems.Add(elem);
+                            if (await lib.CheckDefaultSaveFolderAccess())
+                            {
+                                await lib.LoadLibraryIcon();
+                            }
+                        }
+                        else if (elem is DriveItem drive)
+                        {
+                            section.ChildItems.Add(drive);
+                            await drive.LoadDriveIcon();
+                        }
+                        else
+                        {
+                            section.ChildItems.Add(elem);
+                        }
+                    }
+                }
+
+                foreach (INavigationControlItem elem in section.ChildItems.ToList())
+                {
+                    if (!elements.Contains(elem))
+                    {
+                        section.ChildItems.Remove(elem);
+                    }
+                }
+            }
+        }
+
+        private async Task<LocationItem> GetOrCreateSection(SectionType sectionType)
+        {
+            switch (sectionType)
+            {
+                case SectionType.Favorites:
+                    {
+                        var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarFavorites".GetLocalized()) as LocationItem;
+                        if (UserSettingsService.AppearanceSettingsService.ShowFavoritesSection && section == null)
+                        {
+                            section = new LocationItem()
+                            {
+                                Text = "SidebarFavorites".GetLocalized(),
+                                Section = SectionType.Favorites,
+                                MenuOptions = new ContextMenuOptions
+                                {
+                                    ShowHideSection = true
+                                },
+                                SelectsOnInvoked = false,
+                                Font = App.MainViewModel.FontName,
+                                ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+                            };
+                            var index = 0; // First section
+                            SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
+                            section.Icon = await UIHelpers.GetIconResource(Constants.Shell32.QuickAccess); // After insert
+                        }
+                        return section;
+                    }
+
+                case SectionType.Library:
+                    {
+                        var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarLibraries".GetLocalized()) as LocationItem;
+                        if (UserSettingsService.AppearanceSettingsService.ShowLibrarySection && section == null)
+                        {
+                            section = new LocationItem
+                            {
+                                Text = "SidebarLibraries".GetLocalized(),
+                                Section = SectionType.Library,
+                                MenuOptions = new ContextMenuOptions
+                                {
+                                    IsLibrariesHeader = true,
+                                    ShowHideSection = true
+                                },
+                                SelectsOnInvoked = false,
+                                ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+                            };
+                            var index = (SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0); // After favorites section
+                            SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
+                            section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.Libraries); // After insert
+                        }
+                        return section;
+                    }
+
+                case SectionType.Drives:
+                    {
+                        var section = SideBarItems.FirstOrDefault(x => x.Text == "Drives".GetLocalized()) as LocationItem;
+                        if (UserSettingsService.AppearanceSettingsService.ShowDrivesSection && section == null)
+                        {
+                            section = new LocationItem()
+                            {
+                                Text = "Drives".GetLocalized(),
+                                Section = SectionType.Drives,
+                                MenuOptions = new ContextMenuOptions
+                                {
+                                    ShowHideSection = true
+                                },
+                                SelectsOnInvoked = false,
+                                ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+                            };
+                            var index = (SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
+                                        (SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0); // After libraries section
+                            SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
+                            section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.ThisPC); // After insert
+                        }
+                        return section;
+                    }
+
+                case SectionType.CloudDrives:
+                    {
+                        var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarCloudDrives".GetLocalized()) as LocationItem;
+                        if (UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection && section == null && App.CloudDrivesManager.Drives.Any())
+                        {
+                            section = new LocationItem()
+                            {
+                                Text = "SidebarCloudDrives".GetLocalized(),
+                                Section = SectionType.CloudDrives,
+                                MenuOptions = new ContextMenuOptions
+                                {
+                                    ShowHideSection = true
+                                },
+                                SelectsOnInvoked = false,
+                                Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png")),
+                                ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+                            };
+                            var index = (SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
+                                        (SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
+                                        (SideBarItems.Any(item => item.Section == SectionType.Drives) ? 1 : 0); // After drives section
+                            SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
+                        }
+                        return section;
+                    }
+
+                case SectionType.Network:
+                    {
+                        var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarNetworkDrives".GetLocalized()) as LocationItem;
+                        if (UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection && section == null)
+                        {
+                            section = new LocationItem()
+                            {
+                                Text = "SidebarNetworkDrives".GetLocalized(),
+                                Section = SectionType.Network,
+                                MenuOptions = new ContextMenuOptions
+                                {
+                                    ShowHideSection = true
+                                },
+                                SelectsOnInvoked = false,
+                                ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+                            };
+                            var index = (SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
+                                        (SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
+                                        (SideBarItems.Any(item => item.Section == SectionType.Drives) ? 1 : 0) +
+                                        (SideBarItems.Any(item => item.Section == SectionType.CloudDrives) ? 1 : 0); // After cloud section
+                            SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
+                            section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives); // After insert
+                        }
+                        return section;
+                    }
+
+                case SectionType.WSL:
+                    {
+                        var section = SideBarItems.FirstOrDefault(x => x.Text == "WSL".GetLocalized()) as LocationItem;
+                        if (UserSettingsService.AppearanceSettingsService.ShowWslSection && section == null && App.WSLDistroManager.Distros.Any())
+                        {
+                            section = new LocationItem()
+                            {
+                                Text = "WSL".GetLocalized(),
+                                Section = SectionType.WSL,
+                                MenuOptions = new ContextMenuOptions
+                                {
+                                    ShowHideSection = true
+                                },
+                                SelectsOnInvoked = false,
+                                Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png")),
+                                ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+                            };
+                            var index = (SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
+                                        (SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
+                                        (SideBarItems.Any(item => item.Section == SectionType.Drives) ? 1 : 0) +
+                                        (SideBarItems.Any(item => item.Section == SectionType.CloudDrives) ? 1 : 0) +
+                                        (SideBarItems.Any(item => item.Section == SectionType.Network) ? 1 : 0); // After network section
+                            SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
+                        }
+                        return section;
+                    }
+
+                case SectionType.FileTag:
+                    {
+                        var section = SideBarItems.FirstOrDefault(x => x.Text == "FileTags".GetLocalized()) as LocationItem;
+                        if (UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled && UserSettingsService.AppearanceSettingsService.ShowFileTagsSection && section == null)
+                        {
+                            section = new LocationItem()
+                            {
+                                Text = "FileTags".GetLocalized(),
+                                Section = SectionType.FileTag,
+                                MenuOptions = new ContextMenuOptions
+                                {
+                                    ShowHideSection = true
+                                },
+                                SelectsOnInvoked = false,
+                                Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/FileTags.png")),
+                                ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+                            };
+                            var index = (SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
+                                        (SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
+                                        (SideBarItems.Any(item => item.Section == SectionType.Drives) ? 1 : 0) +
+                                        (SideBarItems.Any(item => item.Section == SectionType.CloudDrives) ? 1 : 0) +
+                                        (SideBarItems.Any(item => item.Section == SectionType.Network) ? 1 : 0) +
+                                        (SideBarItems.Any(item => item.Section == SectionType.WSL) ? 1 : 0); // After wsl section
+                            SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
+                        }
+                        return section;
+                    }
+                default:
+                    return null;
+            }
         }
 
         public async void EmptyRecycleBin(RoutedEventArgs e)
@@ -270,6 +541,14 @@ namespace Files.Uwp.ViewModels
         public void Dispose()
         {
             UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+
+            App.SidebarPinnedController.DataChanged -= Manager_DataChanged;
+            App.LibraryManager.DataChanged -= Manager_DataChanged;
+            App.DrivesManager.DataChanged -= Manager_DataChanged;
+            App.CloudDrivesManager.DataChanged -= Manager_DataChanged;
+            App.NetworkDrivesManager.DataChanged -= Manager_DataChanged;
+            App.WSLDistroManager.DataChanged -= Manager_DataChanged;
+            App.FileTagsManager.DataChanged -= Manager_DataChanged;
         }
 
         public void SidebarControl_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)

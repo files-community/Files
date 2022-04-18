@@ -21,6 +21,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.Core;
 using Files.Uwp.UserControls.Widgets;
+using System.Collections.Specialized;
 
 namespace Files.Uwp.UserControls.Widgets
 {
@@ -97,6 +98,37 @@ namespace Files.Uwp.UserControls.Widgets
         public DrivesWidget()
         {
             InitializeComponent();
+
+            Manager_DataChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+
+            App.DrivesManager.DataChanged += Manager_DataChanged;
+        }
+
+        private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                foreach (DriveItem drive in App.DrivesManager.Drives.ToList())
+                {
+                    if (!ItemsAdded.Any(x => x.Item == drive))
+                    {
+                        if (drive.Type != DriveType.VirtualDrive)
+                        {
+                            var cardItem = new DriveCardItem(drive);
+                            ItemsAdded.Add(cardItem);
+                            await cardItem.LoadCardThumbnailAsync(); // After add
+                        }
+                    }
+                }
+
+                foreach (DriveCardItem driveCard in ItemsAdded.ToList())
+                {
+                    if (!App.DrivesManager.Drives.Contains(driveCard.Item))
+                    {
+                        ItemsAdded.Remove(driveCard);
+                    }
+                }
+            });
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
