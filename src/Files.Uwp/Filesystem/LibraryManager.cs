@@ -2,7 +2,6 @@
 using Files.Backend.Services.Settings;
 using Files.Uwp.Helpers;
 using Files.Shared;
-using Files.Shared.Extensions;
 using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -39,8 +38,6 @@ namespace Files.Uwp.Filesystem
         {
         }
 
-        private static bool IsLibraryOnSidebar(LibraryLocationItem item) => item != null && !item.IsEmpty && item.IsDefaultLocation;
-
         public void Dispose()
         {
         }
@@ -73,8 +70,8 @@ namespace Files.Uwp.Filesystem
             // library is null in case it was deleted
             if (library != null && !Libraries.Any(x => x.Path == library.FullPath))
             {
-                var index = librariesList.AddSorted(new LibraryLocationItem(library));
-                DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, library, index));
+                librariesList.Add(new LibraryLocationItem(library));
+                DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, library));
             }
             return Task.CompletedTask;
         }
@@ -99,8 +96,8 @@ namespace Files.Uwp.Filesystem
             var newLib = await LibraryHelper.CreateLibrary(name);
             if (newLib != null)
             {
-                var index = librariesList.AddSorted(newLib);
-                DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newLib, index));
+                librariesList.Add(newLib);
+                DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newLib));
                 return true;
             }
             return false;
@@ -115,7 +112,7 @@ namespace Files.Uwp.Filesystem
                 if (libItem != null)
                 {
                     librariesList[librariesList.IndexOf(libItem)] = newLib;
-                    DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newLib));
+                    DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newLib, libItem));
                 }
                 return newLib;
             }

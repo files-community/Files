@@ -3,7 +3,6 @@ using Files.Uwp.Filesystem;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Files.Uwp.Helpers;
@@ -20,7 +19,7 @@ namespace Files.Uwp.DataModels.NavigationControlItems
             set => SetProperty(ref icon, value);
         }
 
-        public Uri IconSource { get; set; }
+        //public Uri IconSource { get; set; }
         public byte[] IconData { get; set; }
 
         public string Text { get; set; }

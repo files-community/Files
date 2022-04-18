@@ -15,6 +15,7 @@ using System.Linq;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Files.Shared.EventArguments;
+using Files.Shared.Extensions;
 using System.Collections.Specialized;
 using Windows.System;
 using System.Threading.Tasks;
@@ -267,45 +268,89 @@ namespace Files.Uwp.ViewModels
                     SectionType.FileTag => App.FileTagsManager.FileTags,
                     _ => null
                 };
-                await SyncSidebarItems(section, list);
+                await SyncSidebarItems(section, list, e);
             });
         }
 
-        private async Task SyncSidebarItems(LocationItem section, IReadOnlyList<INavigationControlItem> elements)
+        private async Task SyncSidebarItems(LocationItem section, IReadOnlyList<INavigationControlItem> elements, NotifyCollectionChangedEventArgs e)
         {
-            if (section != null)
+            if (section == null)
             {
-                foreach (INavigationControlItem elem in elements)
-                {
-                    if (!section.ChildItems.Contains(elem))
+                return;
+            }
+
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
                     {
-                        if (elem is LibraryLocationItem lib)
+                        for (int i = 0; i < e.NewItems.Count; i++)
                         {
-                            lib.Font = App.MainViewModel.FontName;
-                            section.ChildItems.Add(elem);
-                            if (await lib.CheckDefaultSaveFolderAccess())
+                            await AddElementToSection((INavigationControlItem)e.NewItems[i], section, e.NewStartingIndex < 0 ? -1 : i + e.NewStartingIndex);
+                        }
+                        break;
+                    }
+                case NotifyCollectionChangedAction.Move:
+                case NotifyCollectionChangedAction.Remove:
+                case NotifyCollectionChangedAction.Replace:
+                    {
+                        foreach (INavigationControlItem elem in e.OldItems)
+                        {
+                            section.ChildItems.Remove(elem);
+                        }
+                        if (e.Action != NotifyCollectionChangedAction.Remove)
+                        {
+                            goto case NotifyCollectionChangedAction.Add;
+                        }
+                        break;
+                    }
+                case NotifyCollectionChangedAction.Reset:
+                    {
+                        foreach (INavigationControlItem elem in elements)
+                        {
+                            await AddElementToSection(elem, section);
+                        }
+
+                        foreach (INavigationControlItem elem in section.ChildItems.ToList())
+                        {
+                            if (!elements.Contains(elem))
                             {
-                                await lib.LoadLibraryIcon();
+                                section.ChildItems.Remove(elem);
                             }
                         }
-                        else if (elem is DriveItem drive)
-                        {
-                            section.ChildItems.Add(drive);
-                            await drive.LoadDriveIcon();
-                        }
-                        else
-                        {
-                            section.ChildItems.Add(elem);
-                        }
+                        break;
+                    }
+            }
+        }
+
+        private bool IsLibraryOnSidebar(LibraryLocationItem item) => item != null && !item.IsEmpty && item.IsDefaultLocation;
+
+        private async Task AddElementToSection(INavigationControlItem elem, LocationItem section, int index = -1)
+        {
+            if (elem is LibraryLocationItem lib)
+            {
+                if (IsLibraryOnSidebar(lib) && await lib.CheckDefaultSaveFolderAccess())
+                {
+                    if (!section.ChildItems.Any(x => x.Path == lib.Path))
+                    {
+                        lib.Font = App.MainViewModel.FontName;
+                        section.ChildItems.AddSorted(elem);
+                        await lib.LoadLibraryIcon();
                     }
                 }
-
-                foreach (INavigationControlItem elem in section.ChildItems.ToList())
+            }
+            else if (elem is DriveItem drive)
+            {
+                if (!section.ChildItems.Any(x => x.Path == drive.Path))
                 {
-                    if (!elements.Contains(elem))
-                    {
-                        section.ChildItems.Remove(elem);
-                    }
+                    section.ChildItems.Insert(index < 0 ? section.ChildItems.Count : Math.Min(index, section.ChildItems.Count), drive);
+                    await drive.LoadDriveIcon();
+                }
+            }
+            else
+            {
+                if (!section.ChildItems.Any(x => x.Path == elem.Path))
+                {
+                    section.ChildItems.Insert(index < 0 ? section.ChildItems.Count : Math.Min(index, section.ChildItems.Count), elem);
                 }
             }
         }
