@@ -35,6 +35,7 @@ namespace Files.Uwp.DataModels
 
         private readonly List<INavigationControlItem> favoriteList = new List<INavigationControlItem>();
 
+        [JsonIgnore]
         public IReadOnlyList<INavigationControlItem> Favorites
         {
             get
