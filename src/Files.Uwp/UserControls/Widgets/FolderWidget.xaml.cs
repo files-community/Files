@@ -12,7 +12,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -135,11 +134,10 @@ namespace Files.Uwp.UserControls.Widgets
 
         public string WidgetHeader => "Folders".GetLocalized();
 
-        private async void FolderWidget_Loaded(object sender, RoutedEventArgs e)
+        private void FolderWidget_Loaded(object sender, RoutedEventArgs e)
         {
             Loaded -= FolderWidget_Loaded;
 
-            ItemsAdded.BeginBulkOperation();
             ItemsAdded.Add(new FolderCardItem("Desktop".GetLocalized())
             {
                 Path = UserDataPaths.GetDefault().Desktop,
@@ -170,10 +168,6 @@ namespace Files.Uwp.UserControls.Widgets
                 Path = UserDataPaths.GetDefault().Videos,
                 SelectCommand = LibraryCardCommand
             });
-
-            await WidgetsHelpers.WidgetCards.LoadCardIcons<FolderCardItem, LocationItem>(ItemsAdded);
-
-            ItemsAdded.EndBulkOperation();
         }
 
         private void FolderWidget_Unloaded(object sender, RoutedEventArgs e)
