@@ -260,7 +260,8 @@ namespace Files.Uwp.Filesystem
                 if (createdSources.Any())
                 {
                     var item = StorageHelpers.FromPathAndType(createdSources.Single().Destination, source.ItemType);
-                    return (new StorageHistory(FileOperationType.CreateNew, item.CreateList(), null), item.Item);
+                    var storageItem = await item.ToStorageItem(associatedInstance);
+                    return (new StorageHistory(FileOperationType.CreateNew, item.CreateList(), null), storageItem);
                 }
                 return (null, null);
             }
