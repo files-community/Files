@@ -549,6 +549,7 @@ namespace Files.Uwp.ViewModels
                     SectionType.Favorites => App.SidebarPinnedController.Model.AddAllItemsToSidebar,
                     _ => () => Task.CompletedTask
                 };
+                Manager_DataChanged(sectionType, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
                 await action();
             }
             else
