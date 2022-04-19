@@ -118,6 +118,7 @@ namespace Files.Uwp.ViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.IsSidebarOpen)
                 {
                     UserSettingsService.AppearanceSettingsService.IsSidebarOpen = value;
+                    OnPropertyChanged();
                 }
             }
         }
