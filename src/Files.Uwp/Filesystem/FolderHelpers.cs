@@ -50,34 +50,5 @@ namespace Files.Uwp.Filesystem
             FindClose(hFile);
             return result;
         }
-
-        /// <summary>
-        /// This function is used to get the list of items contained in a folder (shallow).
-        /// </summary>
-        /// <param name="targetPath">The path to the target folder</param>
-        /// <param name="includeFolders">False to return files only. True to return folders as well.</param>
-        /// <returns>The list of the relative file and folder names</returns>
-        public static IEnumerable<string> GetFolderItems(string targetPath, bool includeFolders)
-        {
-            IntPtr hFile = FindFirstFileExFromApp($"{targetPath}{Path.DirectorySeparatorChar}*.*", FINDEX_INFO_LEVELS.FindExInfoBasic,
-                out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, FIND_FIRST_EX_LARGE_FETCH);
-            if (hFile.ToInt64() == -1)
-            {
-                throw new UnauthorizedAccessException($"Could not access folder.");
-            }
-            else
-            {
-                do
-                {
-                    bool isDirectory = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory;
-                    if (!isDirectory ||
-                        (includeFolders && findData.cFileName is not "." and not ".."))
-                    {
-                        yield return findData.cFileName;
-                    }
-                } while (FindNextFile(hFile, out findData));
-                FindClose(hFile);
-            }
-        }
     }
 }
