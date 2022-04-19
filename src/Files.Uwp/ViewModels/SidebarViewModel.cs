@@ -351,6 +351,7 @@ namespace Files.Uwp.ViewModels
 
         private async Task<LocationItem> GetOrCreateSection(SectionType sectionType)
         {
+            var sectionOrder = new[] { SectionType.Favorites, SectionType.Library, SectionType.Drives, SectionType.CloudDrives, SectionType.Network, SectionType.WSL, SectionType.FileTag };
             switch (sectionType)
             {
                 case SectionType.Favorites:
@@ -370,7 +371,7 @@ namespace Files.Uwp.ViewModels
                                 Font = App.MainViewModel.FontName,
                                 ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                             };
-                            var index = 0; // First section
+                            var index = sectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
                             SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
                             section.Icon = await UIHelpers.GetIconResource(Constants.Shell32.QuickAccess); // After insert
                         }
@@ -394,7 +395,7 @@ namespace Files.Uwp.ViewModels
                                 SelectsOnInvoked = false,
                                 ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                             };
-                            var index = (SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0); // After favorites section
+                            var index = sectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
                             SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
                             section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.Libraries); // After insert
                         }
@@ -417,8 +418,7 @@ namespace Files.Uwp.ViewModels
                                 SelectsOnInvoked = false,
                                 ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                             };
-                            var index = (SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
-                                        (SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0); // After libraries section
+                            var index = sectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
                             SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
                             section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.ThisPC); // After insert
                         }
@@ -442,9 +442,7 @@ namespace Files.Uwp.ViewModels
                                 Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png")),
                                 ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                             };
-                            var index = (SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
-                                        (SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
-                                        (SideBarItems.Any(item => item.Section == SectionType.Drives) ? 1 : 0); // After drives section
+                            var index = sectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
                             SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
                         }
                         return section;
@@ -466,10 +464,7 @@ namespace Files.Uwp.ViewModels
                                 SelectsOnInvoked = false,
                                 ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                             };
-                            var index = (SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
-                                        (SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
-                                        (SideBarItems.Any(item => item.Section == SectionType.Drives) ? 1 : 0) +
-                                        (SideBarItems.Any(item => item.Section == SectionType.CloudDrives) ? 1 : 0); // After cloud section
+                            var index = sectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
                             SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
                             section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives); // After insert
                         }
@@ -493,11 +488,7 @@ namespace Files.Uwp.ViewModels
                                 Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png")),
                                 ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                             };
-                            var index = (SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
-                                        (SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
-                                        (SideBarItems.Any(item => item.Section == SectionType.Drives) ? 1 : 0) +
-                                        (SideBarItems.Any(item => item.Section == SectionType.CloudDrives) ? 1 : 0) +
-                                        (SideBarItems.Any(item => item.Section == SectionType.Network) ? 1 : 0); // After network section
+                            var index = sectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
                             SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
                         }
                         return section;
@@ -520,12 +511,7 @@ namespace Files.Uwp.ViewModels
                                 Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/FileTags.png")),
                                 ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                             };
-                            var index = (SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
-                                        (SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
-                                        (SideBarItems.Any(item => item.Section == SectionType.Drives) ? 1 : 0) +
-                                        (SideBarItems.Any(item => item.Section == SectionType.CloudDrives) ? 1 : 0) +
-                                        (SideBarItems.Any(item => item.Section == SectionType.Network) ? 1 : 0) +
-                                        (SideBarItems.Any(item => item.Section == SectionType.WSL) ? 1 : 0); // After wsl section
+                            var index = sectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
                             SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
                         }
                         return section;
