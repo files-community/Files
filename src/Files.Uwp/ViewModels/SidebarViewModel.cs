@@ -285,7 +285,8 @@ namespace Files.Uwp.ViewModels
                     {
                         for (int i = 0; i < e.NewItems.Count; i++)
                         {
-                            await AddElementToSection((INavigationControlItem)e.NewItems[i], section, e.NewStartingIndex < 0 ? -1 : i + e.NewStartingIndex);
+                            var index = e.NewStartingIndex < 0 ? -1 : i + e.NewStartingIndex;
+                            await AddElementToSection((INavigationControlItem)e.NewItems[i], section, index);
                         }
                         break;
                     }
@@ -295,7 +296,8 @@ namespace Files.Uwp.ViewModels
                     {
                         foreach (INavigationControlItem elem in e.OldItems)
                         {
-                            section.ChildItems.Remove(elem);
+                            var match = section.ChildItems.FirstOrDefault(x => x.Path == elem.Path);
+                            section.ChildItems.Remove(match);
                         }
                         if (e.Action != NotifyCollectionChangedAction.Remove)
                         {
@@ -309,10 +311,9 @@ namespace Files.Uwp.ViewModels
                         {
                             await AddElementToSection(elem, section);
                         }
-
                         foreach (INavigationControlItem elem in section.ChildItems.ToList())
                         {
-                            if (!elements.Contains(elem))
+                            if (!elements.Any(x => x.Path == elem.Path))
                             {
                                 section.ChildItems.Remove(elem);
                             }
