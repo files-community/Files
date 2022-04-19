@@ -178,9 +178,9 @@ namespace Files.Uwp.Interacts
             await UIFilesystemHelpers.CopyItem(associatedInstance);
         }
 
-        public virtual void CutItem(RoutedEventArgs e)
+        public virtual async void CutItem(RoutedEventArgs e)
         {
-            UIFilesystemHelpers.CutItem(associatedInstance);
+            await UIFilesystemHelpers.CutItem(associatedInstance);
         }
 
         public virtual async void RestoreItem(RoutedEventArgs e)

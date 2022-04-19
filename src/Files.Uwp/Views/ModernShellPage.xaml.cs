@@ -762,7 +762,7 @@ namespace Files.Uwp.Views
                 case (true, false, false, true, VirtualKey.X): // ctrl + x, cut
                     if (!NavToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
                     {
-                        UIFilesystemHelpers.CutItem(this);
+                        await UIFilesystemHelpers.CutItem(this);
                     }
 
                     break;
