@@ -315,31 +315,24 @@ namespace Files.Uwp.UserControls
             {
                 case SectionType.Favorites:
                     UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = false;
-                    //App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
                     break;
                 case SectionType.Library:
                     UserSettingsService.AppearanceSettingsService.ShowLibrarySection = false;
-                    //App.LibraryManager.UpdateLibrariesSectionVisibility();
                     break;
                 case SectionType.CloudDrives:
                     UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = false;
-                    //App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
                     break;
                 case SectionType.Drives:
                     UserSettingsService.AppearanceSettingsService.ShowDrivesSection = false;
-                    //App.DrivesManager.UpdateDrivesSectionVisibility();
                     break;
                 case SectionType.Network:
                     UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = false;
-                    //App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
                     break;
                 case SectionType.WSL:
                     UserSettingsService.AppearanceSettingsService.ShowWslSection = false;
-                    //App.WSLDistroManager.UpdateWslSectionVisibility();
                     break;
                 case SectionType.FileTag:
                     UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = false;
-                    //App.FileTagsManager.UpdateFileTagsSectionVisibility();
                     break;
             }
         }

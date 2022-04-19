@@ -118,7 +118,6 @@ namespace Files.Uwp.ViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.IsSidebarOpen)
                 {
                     UserSettingsService.AppearanceSettingsService.IsSidebarOpen = value;
-                    OnPropertyChanged();
                 }
             }
         }
@@ -131,7 +130,6 @@ namespace Files.Uwp.ViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = value;
-                    //App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
                 }
             }
         }
@@ -144,7 +142,6 @@ namespace Files.Uwp.ViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowLibrarySection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowLibrarySection = value;
-                    //App.LibraryManager.UpdateLibrariesSectionVisibility();
                 }
             }
         }
@@ -157,7 +154,6 @@ namespace Files.Uwp.ViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowDrivesSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowDrivesSection = value;
-                    //App.DrivesManager.UpdateDrivesSectionVisibility();
                 }
             }
         }
@@ -170,7 +166,6 @@ namespace Files.Uwp.ViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = value;
-                    //App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
                 }
             }
         }
@@ -183,7 +178,6 @@ namespace Files.Uwp.ViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = value;
-                    //App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
                 }
             }
         }
@@ -196,7 +190,6 @@ namespace Files.Uwp.ViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowWslSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowWslSection = value;
-                    //App.WSLDistroManager.UpdateWslSectionVisibility();
                 }
             }
         }
@@ -209,7 +202,6 @@ namespace Files.Uwp.ViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowFileTagsSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = value;
-                    //App.FileTagsManager.UpdateFileTagsSectionVisibility();
                 }
             }
         }
@@ -542,6 +534,29 @@ namespace Files.Uwp.ViewModels
             }
         }
 
+        public async void UpdateSectionVisibility(SectionType sectionType, bool show)
+        {
+            if (show)
+            {
+                Func<Task> action = sectionType switch
+                {
+                    SectionType.CloudDrives => App.CloudDrivesManager.EnumerateDrivesAsync,
+                    SectionType.Drives => App.DrivesManager.EnumerateDrivesAsync,
+                    SectionType.Network => App.NetworkDrivesManager.EnumerateDrivesAsync,
+                    SectionType.WSL => App.WSLDistroManager.EnumerateDrivesAsync,
+                    SectionType.FileTag => App.FileTagsManager.EnumerateFileTagsAsync,
+                    SectionType.Library => App.LibraryManager.EnumerateLibrariesAsync,
+                    SectionType.Favorites => App.SidebarPinnedController.Model.AddAllItemsToSidebar,
+                    _ => () => Task.CompletedTask
+                };
+                await action();
+            }
+            else
+            {
+                SideBarItems.Remove(SideBarItems.FirstOrDefault(x => x.Section == sectionType));
+            }
+        }
+
         public async void EmptyRecycleBin(RoutedEventArgs e)
         {
             await RecycleBinHelpers.S_EmptyRecycleBin();
@@ -558,24 +573,31 @@ namespace Files.Uwp.ViewModels
                     }
                     break;
                 case nameof(UserSettingsService.AppearanceSettingsService.ShowFavoritesSection):
+                    UpdateSectionVisibility(SectionType.Favorites, ShowFavoritesSection);
                     OnPropertyChanged(nameof(ShowFavoritesSection));
                     break;
                 case nameof(UserSettingsService.AppearanceSettingsService.ShowLibrarySection):
+                    UpdateSectionVisibility(SectionType.Library, ShowLibrarySection);
                     OnPropertyChanged(nameof(ShowLibrarySection));
                     break;
                 case nameof(UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection):
+                    UpdateSectionVisibility(SectionType.CloudDrives, ShowCloudDrivesSection);
                     OnPropertyChanged(nameof(ShowCloudDrivesSection));
                     break;
                 case nameof(UserSettingsService.AppearanceSettingsService.ShowDrivesSection):
+                    UpdateSectionVisibility(SectionType.Drives, ShowDrivesSection);
                     OnPropertyChanged(nameof(ShowDrivesSection));
                     break;
                 case nameof(UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection):
+                    UpdateSectionVisibility(SectionType.Network, ShowNetworkDrivesSection);
                     OnPropertyChanged(nameof(ShowNetworkDrivesSection));
                     break;
                 case nameof(UserSettingsService.AppearanceSettingsService.ShowWslSection):
+                    UpdateSectionVisibility(SectionType.WSL, ShowWslSection);
                     OnPropertyChanged(nameof(ShowWslSection));
                     break;
                 case nameof(UserSettingsService.AppearanceSettingsService.ShowFileTagsSection):
+                    UpdateSectionVisibility(SectionType.FileTag, ShowFileTagsSection);
                     OnPropertyChanged(nameof(ShowFileTagsSection));
                     break;
                 case nameof(UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled):

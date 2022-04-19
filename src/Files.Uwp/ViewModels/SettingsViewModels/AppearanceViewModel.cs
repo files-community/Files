@@ -133,7 +133,6 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = value;
-                    //App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
                     OnPropertyChanged();
                 }
             }
@@ -178,7 +177,6 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowLibrarySection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowLibrarySection = value;
-                    //App.LibraryManager.UpdateLibrariesSectionVisibility();
                     OnPropertyChanged();
                 }
             }
@@ -192,7 +190,6 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowDrivesSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowDrivesSection = value;
-                    //App.DrivesManager.UpdateDrivesSectionVisibility();
                     OnPropertyChanged();
                 }
             }
@@ -206,7 +203,6 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = value;
-                    //App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
                     OnPropertyChanged();
                 }
             }
@@ -220,7 +216,6 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = value;
-                    //App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
                     OnPropertyChanged();
                 }
             }
@@ -234,7 +229,6 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowWslSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowWslSection = value;
-                    //App.WSLDistroManager.UpdateWslSectionVisibility();
                     OnPropertyChanged();
                 }
             }
@@ -250,7 +244,6 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowFileTagsSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = value;
-                    //App.FileTagsManager.UpdateFileTagsSectionVisibility();
                     OnPropertyChanged();
                 }
             }
