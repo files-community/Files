@@ -100,7 +100,12 @@ namespace Files.Uwp.Filesystem
                                 drivesList.Add(networkItem);
                             }
                         }
-                        DataChanged?.Invoke(SectionType.Network, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, networkItem));
+                    }
+                    foreach (var drive in Drives
+                        .OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalized(), StringComparison.OrdinalIgnoreCase))
+                        .ThenBy(o => o.Text))
+                    {
+                        DataChanged?.Invoke(SectionType.Network, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, drive));
                     }
                 }
             }
