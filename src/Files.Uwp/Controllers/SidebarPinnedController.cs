@@ -129,11 +129,8 @@ namespace Files.Uwp.Controllers
                 return;
             }
 
-            // watched file changed externally, reload the sidebar items
-            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-            {
-                await ReloadAsync();
-            });
+            // Watched file changed externally, reload the sidebar items
+            await ReloadAsync();
         }
 
         public void SaveModel()

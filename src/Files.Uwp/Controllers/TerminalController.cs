@@ -43,10 +43,7 @@ namespace Files.Uwp.Controllers
             await LoadAsync();
             await GetInstalledTerminalsAsync();
             await StartWatchConfigChangeAsync();
-            CoreApplication.MainView.DispatcherQueue.TryEnqueue(() =>
-            {
-                ModelChanged?.Invoke(this);
-            });
+            ModelChanged?.Invoke(this);
         }
 
         private async Task LoadAsync()
@@ -128,10 +125,7 @@ namespace Files.Uwp.Controllers
 
                 await LoadAsync();
                 await GetInstalledTerminalsAsync();
-                CoreApplication.MainView.DispatcherQueue.TryEnqueue(() =>
-                {
-                    ModelChanged?.Invoke(this);
-                });
+                ModelChanged?.Invoke(this);
             }
             catch
             {
