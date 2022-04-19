@@ -24,17 +24,8 @@ namespace Files.Uwp.Helpers
 {
     public static class UIFilesystemHelpers
     {
-        public static async Task CutItem(IShellPage associatedInstance)
+        public static async void CutItem(IShellPage associatedInstance)
         {
-            // Only allow move operation when fulltrust process is running
-            // Moving using Storage API is not robust, copy instead
-            var canMoveSafely = await AppServiceConnectionHelper.Instance != null;
-            if (!canMoveSafely)
-            {
-                await CopyItem(associatedInstance);
-                return;
-            }
-
             DataPackage dataPackage = new DataPackage()
             {
                 RequestedOperation = DataPackageOperation.Move
