@@ -31,14 +31,8 @@ namespace Files.Uwp.Filesystem.FilesystemHistory
         /// </summary>
         IList<IStorageItemWithPath> Destination { get; }
 
-        #region Modify
-
         void Modify(IStorageHistory newHistory);
-
-        void Modify(FileOperationType operationType, IList<IStorageItemWithPath> source, IList<IStorageItemWithPath> destination);
-
         void Modify(FileOperationType operationType, IStorageItemWithPath source, IStorageItemWithPath destination);
-
-        #endregion Modify
+        void Modify(FileOperationType operationType, IList<IStorageItemWithPath> source, IList<IStorageItemWithPath> destination);
     }
 }
