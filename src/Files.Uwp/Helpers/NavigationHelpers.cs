@@ -226,7 +226,7 @@ namespace Files.Uwp.Helpers
             {
                 await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 associatedInstance.NavToolbarViewModel.CanRefresh = false;
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await DispatcherQueue.GetForCurrentThread().EnqueueAsync(() =>
                 {
                     var ContentOwnedViewModelInstance = associatedInstance.FilesystemViewModel;
                     ContentOwnedViewModelInstance?.RefreshItems(previousDir);

@@ -19,6 +19,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Files.Backend.Enums;
+using Windows.System;
 
 namespace Files.Uwp.Helpers
 {
@@ -57,7 +58,7 @@ namespace Files.Uwp.Helpers
                         // FTP don't support cut, fallback to copy
                         if (listedItem is not FtpItem)
                         {
-                            _ = CoreApplication.MainView.DispatcherQueue.TryEnqueue(Windows.System.DispatcherQueuePriority.Low, () =>
+                            _ = DispatcherQueue.GetForCurrentThread().TryEnqueue(Windows.System.DispatcherQueuePriority.Low, () =>
                            {
                                 // Dim opacities accordingly
                                 listedItem.Opacity = Constants.UI.DimItemOpacity;
