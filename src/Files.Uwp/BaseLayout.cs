@@ -884,13 +884,9 @@ namespace Files.Uwp
 
                     if (item is FtpItem ftpItem)
                     {
-                        if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                        if (item.PrimaryItemAttribute is StorageItemTypes.File or StorageItemTypes.Folder)
                         {
-                            selectedStorageItems.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
-                        }
-                        else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                        {
-                            selectedStorageItems.Add(new FtpStorageFolder(ftpItem));
+                            selectedStorageItems.Add(await ftpItem.ToStorageItem());
                         }
                     }
                     else if (item.PrimaryItemAttribute == StorageItemTypes.File || item is ZipItem)
