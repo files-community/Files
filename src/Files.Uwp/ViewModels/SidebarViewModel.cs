@@ -250,7 +250,7 @@ namespace Files.Uwp.ViewModels
             await dispatcherQueue.EnqueueAsync(async () =>
             {
                 var section = await GetOrCreateSection((SectionType)sender);
-                IReadOnlyList<INavigationControlItem> list = (SectionType)sender switch
+                Func<IReadOnlyList<INavigationControlItem>> getElements = () => (SectionType)sender switch
                 {
                     SectionType.Favorites => App.SidebarPinnedController.Model.Favorites,
                     SectionType.CloudDrives => App.CloudDrivesManager.Drives,
@@ -261,11 +261,11 @@ namespace Files.Uwp.ViewModels
                     SectionType.FileTag => App.FileTagsManager.FileTags,
                     _ => null
                 };
-                await SyncSidebarItems(section, list, e);
+                await SyncSidebarItems(section, getElements, e);
             });
         }
 
-        private async Task SyncSidebarItems(LocationItem section, IReadOnlyList<INavigationControlItem> elements, NotifyCollectionChangedEventArgs e)
+        private async Task SyncSidebarItems(LocationItem section, Func<IReadOnlyList<INavigationControlItem>> getElements, NotifyCollectionChangedEventArgs e)
         {
             if (section == null)
             {
@@ -300,13 +300,13 @@ namespace Files.Uwp.ViewModels
                     }
                 case NotifyCollectionChangedAction.Reset:
                     {
-                        foreach (INavigationControlItem elem in elements)
+                        foreach (INavigationControlItem elem in getElements())
                         {
                             await AddElementToSection(elem, section);
                         }
                         foreach (INavigationControlItem elem in section.ChildItems.ToList())
                         {
-                            if (!elements.Any(x => x.Path == elem.Path))
+                            if (!getElements().Any(x => x.Path == elem.Path))
                             {
                                 section.ChildItems.Remove(elem);
                             }
