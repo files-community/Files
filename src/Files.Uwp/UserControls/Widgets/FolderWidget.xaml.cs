@@ -19,9 +19,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Imaging;
 using Files.Uwp.DataModels.NavigationControlItems;
-using Files.Uwp.UserControls.Widgets;
 
 namespace Files.Uwp.UserControls.Widgets
 {
@@ -37,17 +35,11 @@ namespace Files.Uwp.UserControls.Widgets
 
     public class FolderCardItem : ObservableObject, IWidgetCardItem<LocationItem>
     {
-        private BitmapImage thumbnail;
-        private byte[] thumbnailData;
+        public byte[] ThumbnailData;
 
         public string AutomationProperties { get; set; }
         public bool HasPath => !string.IsNullOrEmpty(Path);
-        public bool HasThumbnail => thumbnail != null && thumbnailData != null;
-        public BitmapImage Thumbnail
-        {
-            get => thumbnail;
-            set => SetProperty(ref thumbnail, value);
-        }
+        public bool HasThumbnail => ThumbnailData != null;
         public bool IsLibrary => Item is LibraryLocationItem;
         public bool IsUserCreatedLibrary => IsLibrary && !LibraryHelper.IsDefaultLibrary(Item.Path);
         public LocationItem Item { get; private set; }
@@ -71,13 +63,9 @@ namespace Files.Uwp.UserControls.Widgets
 
         public async Task LoadCardThumbnailAsync(int overrideThumbnailSize = 32)
         {
-            if (thumbnailData == null || thumbnailData.Length == 0)
+            if (ThumbnailData == null || ThumbnailData.Length == 0)
             {
-                thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(overrideThumbnailSize), Windows.Storage.FileProperties.ThumbnailMode.ListView);
-                if (thumbnailData != null && thumbnailData.Length > 0)
-                {
-                    Thumbnail = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(overrideThumbnailSize));
-                }
+                ThumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(overrideThumbnailSize), Windows.Storage.FileProperties.ThumbnailMode.ListView);
             }
         }
     }
@@ -264,6 +252,15 @@ namespace Files.Uwp.UserControls.Widgets
             }
 
             LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
+        }
+
+        private async void Image_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            if (args.NewValue is FolderCardItem item)
+            {
+                await item.LoadCardThumbnailAsync();
+                (sender as Image).Source = await item.ThumbnailData.ToBitmapAsync();
+            }
         }
 
         public void Dispose()

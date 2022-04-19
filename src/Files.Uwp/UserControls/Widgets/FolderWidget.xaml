@@ -101,7 +101,8 @@
                                 Height="32"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Source="{x:Bind Thumbnail, Mode=OneWay}"
+                                DataContext="{x:Bind}"
+                                DataContextChanged="Image_DataContextChanged"
                                 Stretch="Uniform" />
                             <TextBlock
                                 x:Name="ItemLocationName"

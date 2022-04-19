@@ -1,7 +1,6 @@
 ﻿using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.Uwp.ViewModels;
 using Files.Uwp.ViewModels.Widgets;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
@@ -18,26 +17,17 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.ApplicationModel.Core;
-using Files.Uwp.UserControls.Widgets;
 using System.Collections.Specialized;
 
 namespace Files.Uwp.UserControls.Widgets
 {
     public class DriveCardItem : ObservableObject, IWidgetCardItem<DriveItem>
     {
-        private BitmapImage thumbnail;
-        private byte[] thumbnailData;
+        public byte[] ThumbnailData { get; set; }
 
         public DriveItem Item { get; private set; }
-        public bool HasThumbnail => thumbnail != null && thumbnailData != null;
-        public BitmapImage Thumbnail
-        {
-            get => thumbnail;
-            set => SetProperty(ref thumbnail, value);
-        }
-
+        public bool HasThumbnail => ThumbnailData != null;
+        
         public DriveCardItem(DriveItem item)
         {
             this.Item = item;
@@ -45,13 +35,9 @@ namespace Files.Uwp.UserControls.Widgets
 
         public async Task LoadCardThumbnailAsync(int overrideThumbnailSize = 32)
         {
-            if (thumbnailData == null || thumbnailData.Length == 0)
+            if (ThumbnailData == null || ThumbnailData.Length == 0)
             {
-                thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(overrideThumbnailSize), Windows.Storage.FileProperties.ThumbnailMode.ListView);
-                if (thumbnailData != null && thumbnailData.Length > 0)
-                {
-                    Thumbnail = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(overrideThumbnailSize));
-                }
+                ThumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(overrideThumbnailSize), Windows.Storage.FileProperties.ThumbnailMode.ListView);
             }
         }
     }
@@ -106,7 +92,7 @@ namespace Files.Uwp.UserControls.Widgets
 
         private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 foreach (DriveItem drive in App.DrivesManager.Drives.ToList())
                 {
@@ -116,7 +102,6 @@ namespace Files.Uwp.UserControls.Widgets
                         {
                             var cardItem = new DriveCardItem(drive);
                             ItemsAdded.Add(cardItem);
-                            await cardItem.LoadCardThumbnailAsync(); // After add
                         }
                     }
                 }
@@ -284,6 +269,15 @@ namespace Files.Uwp.UserControls.Widgets
                 }
             }
             return false;
+        }
+
+        private async void Image_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            if (args.NewValue is DriveCardItem item)
+            {
+                await item.LoadCardThumbnailAsync();
+                (sender as Image).Source = await item.ThumbnailData.ToBitmapAsync();
+            }
         }
 
         public void Dispose()

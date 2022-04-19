@@ -1,7 +1,6 @@
 ﻿using Files.Backend.Services.Settings;
 using Files.Uwp.Filesystem;
 using Files.Uwp.UserControls.Widgets;
-using Files.Uwp.UserControls.Widgets;
 using Files.Uwp.ViewModels.Widgets;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
