@@ -6,26 +6,17 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Imaging;
 using Files.Shared.Extensions;
 
 namespace Files.Uwp.DataModels.NavigationControlItems
 {
     public class DriveItem : ObservableObject, INavigationControlItem
     {
-        private BitmapImage icon;
-        public BitmapImage Icon
-        {
-            get => icon;
-            set => SetProperty(ref icon, value);
-        }
-
         //public Uri IconSource { get; set; }
         public byte[] IconData { get; set; }
+        public Func<Task<byte[]>> GetIconData { get; set; }
 
         private string path;
 
@@ -43,7 +34,7 @@ namespace Files.Uwp.DataModels.NavigationControlItems
         public string DeviceID { get; set; }
         public StorageFolder Root { get; set; }
         public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
-        public Visibility ItemVisibility { get; set; } = Visibility.Visible;
+        public bool IsItemVisible { get; set; } = true;
 
         public bool IsRemovable => Type == DriveType.Removable || Type == DriveType.CDRom;
         public bool IsNetwork => Type == DriveType.Network;
@@ -70,9 +61,9 @@ namespace Files.Uwp.DataModels.NavigationControlItems
             set => SetProperty(ref spaceUsed, value);
         }
 
-        public Visibility ShowDriveDetails
+        public bool ShowDriveDetails
         {
-            get => MaxSpace.Bytes > 0d ? Visibility.Visible : Visibility.Collapsed;
+            get => MaxSpace.Bytes > 0d;
         }
 
         private DriveType type;
@@ -141,6 +132,7 @@ namespace Files.Uwp.DataModels.NavigationControlItems
         public DriveItem()
         {
             ItemType = NavigationControlItemType.CloudDrive;
+            GetIconData = LoadDriveIconData;
         }
 
         public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, DriveType type, IRandomAccessStream imageStream = null)
@@ -164,8 +156,6 @@ namespace Files.Uwp.DataModels.NavigationControlItems
             item.Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
             item.DeviceID = deviceId;
             item.Root = root;
-
-            _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => item.UpdatePropertiesAsync());
 
             return item;
         }
@@ -229,21 +219,19 @@ namespace Files.Uwp.DataModels.NavigationControlItems
             return result;
         }
 
-        public async Task LoadDriveIcon()
+        private async Task<byte[]> LoadDriveIconData()
         {
-            if (IconData == null)
+            byte[] iconData = null;
+            if (!string.IsNullOrEmpty(DeviceID))
             {
-                if (!string.IsNullOrEmpty(DeviceID))
-                {
-                    IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
-                }
-                if (IconData == null)
-                {
-                    var resource = await UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder);
-                    IconData = resource?.IconDataBytes;
-                }
+                iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
             }
-            Icon = await IconData.ToBitmapAsync();
+            if (iconData == null)
+            {
+                var resource = await UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder);
+                iconData = resource?.IconDataBytes;
+            }
+            return iconData;
         }
     }
 

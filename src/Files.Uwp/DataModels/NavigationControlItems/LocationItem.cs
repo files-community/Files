@@ -4,23 +4,16 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Files.Uwp.Helpers;
+using System.Threading.Tasks;
 
 namespace Files.Uwp.DataModels.NavigationControlItems
 {
     public class LocationItem : ObservableObject, INavigationControlItem
     {
-        public BitmapImage icon;
-
-        public BitmapImage Icon
-        {
-            get => icon;
-            set => SetProperty(ref icon, value);
-        }
-
-        //public Uri IconSource { get; set; }
+        public Uri IconSource { get; set; }
         public byte[] IconData { get; set; }
+        public Func<Task<byte[]>> GetIconData { get; set; } = () => Task.FromResult<byte[]>(null);
 
         public string Text { get; set; }
 

@@ -4,12 +4,10 @@ using Files.Uwp.Filesystem.Cloud;
 using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using System.Collections.Specialized;
 
 namespace Files.Uwp.Filesystem
@@ -64,10 +62,6 @@ namespace Files.Uwp.Filesystem
                 if (iconData != null)
                 {
                     cloudProviderItem.IconData = iconData;
-                    await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
-                    {
-                        cloudProviderItem.Icon = await iconData.ToBitmapAsync();
-                    });
                 }
 
                 lock (drivesList)

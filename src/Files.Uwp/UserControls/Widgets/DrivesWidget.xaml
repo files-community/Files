@@ -7,8 +7,14 @@
     xmlns:local="using:Files.Uwp.UserControls.Widgets"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -183,7 +189,7 @@
                                 VerticalContentAlignment="Stretch"
                                 AutomationProperties.AccessibilityView="Raw"
                                 Maximum="{x:Bind Item.MaxSpace.GigaBytes, Mode=OneWay}"
-                                Visibility="{x:Bind Item.ShowDriveDetails, Mode=OneWay}"
+                                Visibility="{x:Bind Item.ShowDriveDetails, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
                                 Value="{x:Bind Item.SpaceUsed.GigaBytes, Mode=OneWay}" />
 
                             <Button
@@ -221,7 +227,7 @@
                                 TextTrimming="CharacterEllipsis"
                                 TextWrapping="NoWrap"
                                 ToolTipService.ToolTip="{x:Bind Item.SpaceText, Mode=OneWay}"
-                                Visibility="{x:Bind Item.ShowDriveDetails, Mode=OneWay}" />
+                                Visibility="{x:Bind Item.ShowDriveDetails, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         </Grid>
                     </Button>
                 </DataTemplate>

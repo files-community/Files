@@ -66,9 +66,6 @@
                     SelectsOnInvoked="{x:Bind SelectsOnInvoked}"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
-                    <muxc:NavigationViewItem.Icon>
-                        <muxc:ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
-                    </muxc:NavigationViewItem.Icon>
                     <muxc:NavigationViewItem.InfoBadge>
                         <muxc:InfoBadge Style="{ThemeResource CautionIconInfoBadgeStyle}" Visibility="{x:Bind IsInvalid, Mode=OneWay}" />
                     </muxc:NavigationViewItem.InfoBadge>
@@ -85,16 +82,13 @@
                     DragLeave="NavigationViewItem_DragLeave"
                     DragOver="NavigationViewDriveItem_DragOver"
                     Drop="NavigationViewDriveItem_Drop"
+                    DataContextChanged="NavigationViewItem_DataContextChanged"
                     IsRightTapEnabled="True"
                     PointerPressed="Sidebar_PointerPressed"
                     RightTapped="NavigationViewItem_RightTapped"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}"
-                    Visibility="{x:Bind ItemVisibility}">
-                    <muxc:NavigationViewItem.Icon>
-                        <muxc:ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
+                    Visibility="{x:Bind IsItemVisible}" />
             </DataTemplate>
 
             <DataTemplate x:Key="LinuxNavItem" x:DataType="navigationcontrolitems:WslDistroItem">

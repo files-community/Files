@@ -29,6 +29,7 @@ namespace Files.Uwp.Filesystem
             DefaultSaveFolder = shellLibrary.DefaultSaveFolder;
             Folders = shellLibrary.Folders == null ? null : new ReadOnlyCollection<string>(shellLibrary.Folders);
             IsDefaultLocation = shellLibrary.IsPinned;
+            GetIconData = LoadLibraryIconData;
         }
 
         public override bool Equals(object obj)
@@ -57,13 +58,9 @@ namespace Files.Uwp.Filesystem
             return res;
         }
 
-        public async Task LoadLibraryIcon()
+        public async Task<byte[]> LoadLibraryIconData()
         {
-            IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Path, 24u);
-            if (IconData != null)
-            {
-                Icon = await IconData.ToBitmapAsync();
-            }
+            return await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Path, 24u);
         }
     }
 }

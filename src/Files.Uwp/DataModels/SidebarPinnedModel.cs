@@ -14,9 +14,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Storage;
-using Windows.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
 
 namespace Files.Uwp.DataModels
@@ -105,7 +103,7 @@ namespace Files.Uwp.DataModels
                         ShowShellItems = true,
                         ShowEmptyRecycleBin = true
                     },
-                    Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.RecycleBin)),
+                    GetIconData = async () => (await UIHelpers.GetIconResourceInfo(Constants.ImageRes.RecycleBin))?.IconDataBytes,
                     Path = CommonPaths.RecycleBinPath
                 };
                 // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
@@ -262,28 +260,27 @@ namespace Files.Uwp.DataModels
             if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
             {
                 locationItem.IsInvalid = false;
-                if (res)
+                locationItem.GetIconData = async () =>
                 {
-                    var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
+                    byte[] iconData = null;
+                    if (res)
+                    {
+                        iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
+                        if (iconData == null)
+                        {
+                            iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
+                        }
+                    }
                     if (iconData == null)
                     {
-                        iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
+                        iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 24u);
                     }
-                    locationItem.IconData = iconData;
-                    locationItem.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
-                }
-                if (locationItem.IconData == null)
-                {
-                    locationItem.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 24u);
-                    if (locationItem.IconData != null)
-                    {
-                        locationItem.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
-                    }
-                }
+                    return iconData;
+                };
             }
             else
             {
-                locationItem.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.Folder));
+                locationItem.GetIconData = async () => (await UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder))?.IconDataBytes;
                 locationItem.IsInvalid = true;
                 Debug.WriteLine($"Pinned item was invalid {res.ErrorCode}, item: {path}");
             }
@@ -331,7 +328,7 @@ namespace Files.Uwp.DataModels
                 },
                 Font = MainViewModel.FontName,
                 IsDefaultLocation = true,
-                Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"))),
+                IconSource = new Uri("ms-appx:///Assets/FluentIcons/Home.png"),
                 Path = "Home".GetLocalized()
             };
             AddLocationItemToSidebar(homeSection);

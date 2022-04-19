@@ -1238,12 +1238,44 @@ namespace Files.Uwp.UserControls
             }
         }
 
-        private void NavigationViewItem_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        private async void NavigationViewItem_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
-            // Restore expanded state when section is loaded
-            if (args.NewValue is LocationItem loc && loc.ChildItems != null)
+            var elem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
+
+            if (args.NewValue is LocationItem loc)
             {
-                loc.IsExpanded = App.AppSettings.Get(loc.Text == "SidebarFavorites".GetLocalized(), $"section:{loc.Text.Replace('\\', '_')}");
+                if (loc.ChildItems != null)
+                {
+                    // Restore expanded state when section is loaded
+                    loc.IsExpanded = App.AppSettings.Get(loc.Text == "SidebarFavorites".GetLocalized(), $"section:{loc.Text.Replace('\\', '_')}");
+                }
+                if (loc.IconSource != null)
+                {
+                    elem.Icon = new Microsoft.UI.Xaml.Controls.ImageIcon()
+                    {
+                        Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage() { UriSource = loc.IconSource }
+                    };
+                }
+                else
+                {
+                    if (loc.IconData == null && loc.GetIconData != null)
+                    {
+                        loc.IconData = await loc.GetIconData();
+                    }
+                    elem.Icon = new Microsoft.UI.Xaml.Controls.ImageIcon()
+                    {
+                        Source = await loc.IconData.ToBitmapAsync()
+                    };
+                }
+            }
+            else if (args.NewValue is DriveItem drive)
+            {
+                await drive.UpdatePropertiesAsync();
+                if (drive.IconData == null && drive.GetIconData != null)
+                {
+                    drive.IconData = await drive.GetIconData();
+                }
+                elem.Icon = new Microsoft.UI.Xaml.Controls.ImageIcon() { Source = await drive.IconData.ToBitmapAsync() };
             }
         }
 
