@@ -92,13 +92,14 @@ namespace Files.Uwp.UserControls.Widgets
 
         private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 foreach (DriveItem drive in App.DrivesManager.Drives.ToList())
                 {
-                    if (!ItemsAdded.Any(x => x.Item == drive))
+                    if (drive.Type != DriveType.VirtualDrive)
                     {
-                        if (drive.Type != DriveType.VirtualDrive)
+                        await drive.UpdatePropertiesAsync();
+                        if (!ItemsAdded.Any(x => x.Item == drive))
                         {
                             var cardItem = new DriveCardItem(drive);
                             ItemsAdded.Add(cardItem);

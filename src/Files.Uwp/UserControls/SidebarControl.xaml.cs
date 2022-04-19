@@ -1270,7 +1270,6 @@ namespace Files.Uwp.UserControls
             }
             else if (args.NewValue is DriveItem drive)
             {
-                await drive.UpdatePropertiesAsync();
                 if (drive.IconData == null && drive.GetIconData != null)
                 {
                     drive.IconData = await drive.GetIconData();
