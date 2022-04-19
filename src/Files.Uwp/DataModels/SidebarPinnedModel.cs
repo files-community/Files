@@ -350,7 +350,7 @@ namespace Files.Uwp.DataModels
         /// </summary>
         public void RemoveStaleSidebarItems()
         {
-            // Remove unpinned items from sidebar
+            // Remove unpinned items from favoriteList
             // Reverse iteration to avoid skipping elements while removing
             for (int i = favoriteList.Count - 1; i >= 0; i--)
             {
@@ -364,6 +364,9 @@ namespace Files.Uwp.DataModels
                     }
                 }
             }
+
+            // Remove unpinned items from sidebar
+            controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
     }
 }
