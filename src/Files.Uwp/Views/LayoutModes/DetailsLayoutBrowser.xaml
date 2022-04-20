@@ -56,8 +56,8 @@
                 BasedOn="{StaticResource DefaultGridSplitterStyle}"
                 TargetType="controls:GridSplitter">
                 <Setter Property="Background" Value="Transparent" />
-                <Setter Property="Width" Value="8" />
                 <Setter Property="Margin" Value="0,4" />
+                <Setter Property="Width" Value="12" />
                 <Setter Property="Opacity" Value="0.8" />
             </Style>
 
