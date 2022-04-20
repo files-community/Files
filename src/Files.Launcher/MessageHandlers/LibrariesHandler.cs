@@ -81,7 +81,7 @@ namespace FilesFullTrust.MessageHandlers
                 }
                 if (!changeType.HasFlag(WatcherChangeTypes.Deleted))
                 {
-                    var library = new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(newPath), true);
+                    var library = SafetyExtensions.IgnoreExceptions(() => new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(newPath), true));
                     if (library == null)
                     {
                         Program.Logger.Warn($"Failed to open library after {changeType}: {newPath}");
