@@ -32,6 +32,7 @@ namespace Files.Uwp.Filesystem
 
         public static void WriteFileTag(string filePath, string tag)
         {
+            var dateOk = NativeFileOperationsHelper.GetDateModifiedTime(filePath, out var dateModified); // Backup date modified
             var isReadOnly = NativeFileOperationsHelper.HasFileAttribute(filePath, System.IO.FileAttributes.ReadOnly);
             if (isReadOnly) // Unset read-only attribute (#7534)
             {
@@ -48,6 +49,10 @@ namespace Files.Uwp.Filesystem
             if (isReadOnly) // Restore read-only attribute (#7534)
             {
                 NativeFileOperationsHelper.SetFileAttribute(filePath, System.IO.FileAttributes.ReadOnly);
+            }
+            if (dateOk)
+            {
+                NativeFileOperationsHelper.SetDateModifiedTime(filePath, dateModified); // Restore date modified
             }
         }
 

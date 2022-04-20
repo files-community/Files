@@ -1,5 +1,4 @@
-﻿using Files.Shared;
-using Files.Shared.Extensions;
+﻿using Files.Shared.Extensions;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.IO;
@@ -46,6 +45,7 @@ namespace Files.Uwp.Helpers
         public const uint GENERIC_READ = 0x80000000;
         public const uint GENERIC_WRITE = 0x40000000;
         public const uint FILE_APPEND_DATA = 0x0004;
+        public const uint FILE_WRITE_ATTRIBUTES = 0x100;
 
         public const uint FILE_SHARE_READ = 0x00000001;
         public const uint FILE_SHARE_WRITE = 0x00000002;
@@ -241,6 +241,24 @@ namespace Files.Uwp.Helpers
             public FILETIME ftLastWriteTime;
             public uint nFileSizeHigh;
             public uint nFileSizeLow;
+        }
+
+        [DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
+        public static extern bool GetFileTime([In] IntPtr hFile, out FILETIME lpCreationTime, out FILETIME lpLastAccessTime, out FILETIME lpLastWriteTime);
+
+        [DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
+        public static extern bool SetFileTime([In] IntPtr hFile, in FILETIME lpCreationTime, in FILETIME lpLastAccessTime, in FILETIME lpLastWriteTime);
+
+        public static bool GetDateModifiedTime(string filePath, out FILETIME dateModified)
+        {
+            using var hFile = new SafeFileHandle(CreateFileFromApp(filePath, GENERIC_READ, FILE_SHARE_READ, IntPtr.Zero, OPEN_EXISTING, (uint)File_Attributes.BackupSemantics, IntPtr.Zero), true);
+            return GetFileTime(hFile.DangerousGetHandle(), out _, out _, out dateModified);
+        }
+
+        public static bool SetDateModifiedTime(string filePath, FILETIME dateModified)
+        {
+            using var hFile = new SafeFileHandle(CreateFileFromApp(filePath, FILE_WRITE_ATTRIBUTES, 0, IntPtr.Zero, OPEN_EXISTING, (uint)File_Attributes.BackupSemantics, IntPtr.Zero), true);
+            return SetFileTime(hFile.DangerousGetHandle(), new(), new(), dateModified);
         }
 
         public static bool HasFileAttribute(string lpFileName, FileAttributes dwAttrs)
