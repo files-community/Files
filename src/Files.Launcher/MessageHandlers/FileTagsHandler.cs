@@ -33,7 +33,7 @@ namespace FilesFullTrust.MessageHandlers
 
         public static bool WriteFileTag(string filePath, string tag)
         {
-            var dateOk = GetDateModifiedTime(filePath, out var dateModified); // Backup date modified
+            var dateOk = GetFileDateModified(filePath, out var dateModified); // Backup date modified
             bool result = false;
             if (tag == null)
             {
@@ -52,7 +52,7 @@ namespace FilesFullTrust.MessageHandlers
             }
             if (dateOk)
             {
-                SetDateModifiedTime(filePath, dateModified); // Restore date modified
+                SetFileDateModified(filePath, dateModified); // Restore date modified
             }
             return result;
         }
@@ -119,13 +119,13 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        private static bool GetDateModifiedTime(string filePath, out FILETIME dateModified)
+        private static bool GetFileDateModified(string filePath, out FILETIME dateModified)
         {
             using var hFile = Kernel32.CreateFile(filePath, Kernel32.FileAccess.GENERIC_READ, FileShare.Read, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
             return Kernel32.GetFileTime(hFile, out _, out _, out dateModified);
         }
 
-        private static bool SetDateModifiedTime(string filePath, FILETIME dateModified)
+        private static bool SetFileDateModified(string filePath, FILETIME dateModified)
         {
             using var hFile = Kernel32.CreateFile(filePath, Kernel32.FileAccess.FILE_WRITE_ATTRIBUTES, FileShare.None, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
             return Kernel32.SetFileTime(hFile, new(), new(), dateModified);
