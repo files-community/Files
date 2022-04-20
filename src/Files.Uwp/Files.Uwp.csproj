@@ -366,7 +366,7 @@
     <Compile Include="ValueConverters\GenericEnumConverter.cs" />
     <Compile Include="ValueConverters\ImageModelToImageConverter.cs" />
     <Compile Include="ViewModels\Dialogs\DecompressArchiveDialogViewModel.cs" />
-    <Compile Include="ViewModels\NavToolbarViewModel.cs" />
+    <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="ViewModels\PaneViewModel.cs" />
     <Compile Include="ViewModels\Previews\ArchivePreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
@@ -451,7 +451,7 @@
     <Compile Include="Extensions\Win32FindDataExtensions.cs" />
     <Compile Include="Interacts\RemovableDevice.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="INavigationToolbar.cs" />
+    <Compile Include="IAddressToolbar.cs" />
     <Compile Include="UserControls\FileIcon.xaml.cs">
       <DependentUpon>FileIcon.xaml</DependentUpon>
     </Compile>
@@ -461,8 +461,8 @@
     <Compile Include="UserControls\MenuFlyoutItemWithImage.xaml.cs">
       <DependentUpon>MenuFlyoutItemWithImage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\NavigationToolbar.xaml.cs">
-      <DependentUpon>NavigationToolbar.xaml</DependentUpon>
+    <Compile Include="UserControls\AddressToolbar.xaml.cs">
+      <DependentUpon>AddressToolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MultitaskingControl\BaseMultitaskingControl.cs" />
     <Compile Include="UserControls\MultitaskingControl\HorizontalMultitaskingControl.xaml.cs">
@@ -1306,7 +1306,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\NavigationToolbar.xaml">
+    <Page Include="UserControls\AddressToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
