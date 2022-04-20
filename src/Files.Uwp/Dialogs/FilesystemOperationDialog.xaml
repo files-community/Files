@@ -112,7 +112,7 @@
                         VerticalAlignment="Center"
                         x:Load="{x:Bind IsTextBoxVisible, Mode=OneWay}"
                         LostFocus="NameEdit_LostFocus"
-                        Text="{x:Bind DestinationDisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{x:Bind CustomName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
 
                 <!--  Options  -->
