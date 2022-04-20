@@ -287,7 +287,7 @@ namespace Files.Uwp.Helpers
 
             if (renamed == ReturnResult.Success)
             {
-                associatedInstance.NavToolbarViewModel.CanGoForward = false;
+                associatedInstance.ToolbarViewModel.CanGoForward = false;
                 return true;
             }
             return false;

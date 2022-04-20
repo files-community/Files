@@ -9,15 +9,15 @@ namespace Files.Uwp.UserControls
 {
     public sealed partial class PathBreadcrumb : UserControl
     {
-        public NavToolbarViewModel ViewModel
+        public ToolbarViewModel ViewModel
         {
-            get => (NavToolbarViewModel)GetValue(ViewModelProperty);
+            get => (ToolbarViewModel)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register(nameof(ViewModel), typeof(NavToolbarViewModel), typeof(PathBreadcrumb), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(PathBreadcrumb), new PropertyMetadata(null));
 
         public PathBreadcrumb()
         {
