@@ -19,7 +19,7 @@ namespace Files.Uwp
 
         IFilesystemHelpers FilesystemHelpers { get; }
 
-        NavToolbarViewModel NavToolbarViewModel { get; }
+        ToolbarViewModel ToolbarViewModel { get; }
 
         bool CanNavigateBackward { get; }
 

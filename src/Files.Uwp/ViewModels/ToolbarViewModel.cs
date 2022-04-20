@@ -29,13 +29,13 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
-using static Files.Uwp.UserControls.INavigationToolbar;
+using static Files.Uwp.UserControls.IAddressToolbar;
 using SearchBox = Files.Uwp.UserControls.SearchBox;
 using SortDirection = Files.Shared.Enums.SortDirection;
 
 namespace Files.Uwp.ViewModels
 {
-    public class NavToolbarViewModel : ObservableObject, INavigationToolbar, IDisposable
+    public class ToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
@@ -329,7 +329,7 @@ namespace Files.Uwp.ViewModels
 
         private PointerRoutedEventArgs pointerRoutedEventArgs;
 
-        public NavToolbarViewModel()
+        public ToolbarViewModel()
         {
             BackClickCommand = new RelayCommand<RoutedEventArgs>(e => BackRequested?.Invoke(this, EventArgs.Empty));
             ForwardClickCommand = new RelayCommand<RoutedEventArgs>(e => ForwardRequested?.Invoke(this, EventArgs.Empty));
@@ -475,7 +475,7 @@ namespace Files.Uwp.ViewModels
             {
                 dragOverPath = pathBoxItem.Path;
                 dragOverTimer.Stop();
-                if (dragOverPath != (this as INavigationToolbar).PathComponents.LastOrDefault()?.Path)
+                if (dragOverPath != (this as IAddressToolbar).PathComponents.LastOrDefault()?.Path)
                 {
                     dragOverTimer.Debounce(() =>
                     {
@@ -553,7 +553,7 @@ namespace Files.Uwp.ViewModels
                 {
                     EditModeEnabled?.Invoke(this, EventArgs.Empty);
 
-                    var visiblePath = NavToolbar.FindDescendant<AutoSuggestBox>(x => x.Name == "VisiblePath");
+                    var visiblePath = AddressToolbar.FindDescendant<AutoSuggestBox>(x => x.Name == "VisiblePath");
                     visiblePath?.Focus(FocusState.Programmatic);
                     visiblePath?.FindDescendant<TextBox>()?.SelectAll();
 
@@ -627,14 +627,14 @@ namespace Files.Uwp.ViewModels
         {
             PathBoxQuerySubmitted?.Invoke(this, new ToolbarQuerySubmittedEventArgs() { QueryText = args.QueryText });
 
-            (this as INavigationToolbar).IsEditModeEnabled = false;
+            (this as IAddressToolbar).IsEditModeEnabled = false;
         }
 
         public void PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
             {
-                Windows.UI.Input.PointerPoint ptrPt = e.GetCurrentPoint(NavToolbar);
+                Windows.UI.Input.PointerPoint ptrPt = e.GetCurrentPoint(AddressToolbar);
                 if (ptrPt.Properties.IsMiddleButtonPressed)
                 {
                     pointerRoutedEventArgs = e;
@@ -680,7 +680,7 @@ namespace Files.Uwp.ViewModels
 
                 // Given that binding and layouting might take a few cycles, when calling UpdateLayout
                 // we can guarantee that the focus call will be able to find an open ASB
-                var searchbox = NavToolbar.FindDescendant("SearchRegion") as SearchBox;
+                var searchbox = AddressToolbar.FindDescendant("SearchRegion") as SearchBox;
                 searchbox?.UpdateLayout();
                 searchbox?.Focus(FocusState.Programmatic);
             }
@@ -692,7 +692,7 @@ namespace Files.Uwp.ViewModels
             OnPropertyChanged(nameof(CanEmptyRecycleBin));
         }
 
-        private NavigationToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<NavigationToolbar>();
+        private AddressToolbar AddressToolbar => (Window.Current.Content as Frame).FindDescendant<AddressToolbar>();
 
         #region WidgetsPage Widgets
 
