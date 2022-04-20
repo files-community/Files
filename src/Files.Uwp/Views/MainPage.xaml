@@ -346,7 +346,7 @@
                         BorderBrush="{ThemeResource CardStrokeColorDefault}"
                         BorderThickness="0,0,0,1" />
 
-                    <controls:NavigationToolbar
+                    <controls:AddressToolbar
                         x:Name="NavToolbar"
                         Grid.Row="1"
                         Grid.Column="0"

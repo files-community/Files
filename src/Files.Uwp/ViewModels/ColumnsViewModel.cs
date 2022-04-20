@@ -207,7 +207,7 @@ namespace Files.Uwp.ViewModels
         [JsonIgnore]
         public bool IsResizeable { get; set; } = true;
 
-        private GridLength userLength = new GridLength(208, GridUnitType.Pixel);
+        private GridLength userLength = new GridLength(200, GridUnitType.Pixel);
 
         public GridLength UserLength
         {
