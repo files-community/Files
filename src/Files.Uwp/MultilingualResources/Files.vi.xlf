@@ -36,7 +36,7 @@
         </trans-unit>
         <trans-unit id="Browse" translate="yes" xml:space="preserve">
           <source>Browse</source>
-          <target state="translated">Duyệt tìm</target>
+          <target state="translated">Duyệt</target>
         </trans-unit>
         <trans-unit id="nameColumn.Header" translate="yes" xml:space="preserve">
           <source>Name</source>
@@ -52,7 +52,7 @@
         </trans-unit>
         <trans-unit id="PropertiesCreated.Text" translate="yes" xml:space="preserve">
           <source>Created:</source>
-          <target state="translated">Đã tạo:</target>
+          <target state="translated">Ngày tạo:</target>
         </trans-unit>
         <trans-unit id="PropertiesItemFileName.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Item Name</source>
@@ -68,7 +68,7 @@
         </trans-unit>
         <trans-unit id="ErrorDialogThisActionCannotBeDone" translate="yes" xml:space="preserve">
           <source>This action cannot be done</source>
-          <target state="translated">Không thể làm hoạt động này</target>
+          <target state="translated">Hành động này không thể hoàn thành</target>
         </trans-unit>
         <trans-unit id="ErrorDialogTheDestinationFolder" translate="yes" xml:space="preserve">
           <source>The destination folder</source>
@@ -76,7 +76,7 @@
         </trans-unit>
         <trans-unit id="ErrorDialogIsASubfolder" translate="yes" xml:space="preserve">
           <source>is a subfolder of the source folder</source>
-          <target state="translated">là một thư mục con của thư mục nguồn</target>
+          <target state="translated">là một thư mục con của thư mục gốc</target>
         </trans-unit>
         <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
@@ -84,7 +84,7 @@
         </trans-unit>
         <trans-unit id="NavToolbarInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
-          <target state="translated">Đảo Lựa chọn</target>
+          <target state="translated">Đảo ngược lựa chọn</target>
         </trans-unit>
         <trans-unit id="NavToolbarClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
@@ -92,19 +92,19 @@
         </trans-unit>
         <trans-unit id="PropertiesModified.Text" translate="yes" xml:space="preserve">
           <source>Modified:</source>
-          <target state="translated">Đã sửa:</target>
+          <target state="translated">Đã chỉnh sửa:</target>
         </trans-unit>
         <trans-unit id="Accessed" translate="yes" xml:space="preserve">
           <source>Accessed:</source>
-          <target state="translated">Đã truy nhập:</target>
+          <target state="translated">Đã truy cập:</target>
         </trans-unit>
         <trans-unit id="RecentItemClearAll.Text" translate="yes" xml:space="preserve">
           <source>Clear all items</source>
-          <target state="translated">Bỏ hết mục</target>
+          <target state="translated">Bỏ hết tất cả các mục</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarVisiblePath.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter a path</source>
-          <target state="translated">Nhập vào một đường</target>
+          <target state="translated">Nhập vào một đường dẫn</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarSearchRegion.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Search</source>
@@ -112,7 +112,7 @@
         </trans-unit>
         <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
           <source>Files you've previously accessed will show up here</source>
-          <target state="translated">Tệp tin bạn đã truy cập trước sẽ nổi lên ở đây</target>
+          <target state="translated">Tệp tin bạn đã truy cập trước đó sẽ xuất hiện ở đây</target>
         </trans-unit>
         <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
@@ -152,15 +152,15 @@
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
-          <target state="translated">Hiển thị tệp và thư mục đang giấu</target>
+          <target state="translated">Hiển thị tệp và thư mục đang ẩn</target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
-          <target state="translated">Thực nghiệm</target>
+          <target state="translated">Thử nghiệm</target>
         </trans-unit>
         <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
           <source>Experimental</source>
-          <target state="translated">Thực nghiệm</target>
+          <target state="translated">Thử nghiệm</target>
         </trans-unit>
         <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
           <source>Preferences</source>
@@ -168,11 +168,11 @@
         </trans-unit>
         <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
           <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
-          <target state="translated">CẢNH BÁO: TÍNH NĂNG THỬ NGHIỆM PHÍA TRƯỚC!</target>
+          <target state="translated">CẢNH BÁO: TÍNH NĂNG THỬ NGHIỆM CÓ THỂ KHIẾN CHO FILES NGỪNG HOẠT ĐỘNG!</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupContinueWhereYouLeftOff.Content" translate="yes" xml:space="preserve">
           <source>Continue where you left off</source>
-          <target state="translated">Tiếp tục ở nơi bạn đã khỏi ngừng</target>
+          <target state="translated">Tiếp tục ở nơi bạn đã dừng lại</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenANewTab.Content" translate="yes" xml:space="preserve">
           <source>Open a new tab</source>
@@ -180,7 +180,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
           <source>Open a specific page or pages</source>
-          <target state="translated">Mở một trang cụ thể hoặc những trang</target>
+          <target state="translated">Mở một trang cụ thể</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTitle.Text" translate="yes" xml:space="preserve">
           <source>Preferences</source>
@@ -188,19 +188,19 @@
         </trans-unit>
         <trans-unit id="Desktop" translate="yes" xml:space="preserve">
           <source>Desktop</source>
-          <target state="translated">Màn hình nền</target>
+          <target state="translated">Desktop</target>
         </trans-unit>
         <trans-unit id="Documents" translate="yes" xml:space="preserve">
           <source>Documents</source>
-          <target state="translated">Tài liệu</target>
+          <target state="translated">Documents</target>
         </trans-unit>
         <trans-unit id="Downloads" translate="yes" xml:space="preserve">
           <source>Downloads</source>
-          <target state="translated">Tải xuống</target>
+          <target state="translated">Download</target>
         </trans-unit>
         <trans-unit id="SideBarUnpinFromFavorites.Text" translate="yes" xml:space="preserve">
           <source>Unpin from Favorites</source>
-          <target state="translated">Huỷ ghim vào Ưa thích</target>
+          <target state="translated">Bỏ ghim vào mục ưa thích</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
           <source>Sort by</source>
@@ -208,7 +208,7 @@
         </trans-unit>
         <trans-unit id="Name" translate="yes" xml:space="preserve">
           <source>Name</source>
-          <target state="translated">Name</target>
+          <target state="translated">Tên</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByType.Text" translate="yes" xml:space="preserve">
           <source>Type</source>
@@ -228,7 +228,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNew.Label" translate="yes" xml:space="preserve">
           <source>New</source>
-          <target state="translated">Mới</target>
+          <target state="translated">Thêm</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNewFile.Text" translate="yes" xml:space="preserve">
           <source>File</source>
@@ -244,7 +244,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutExtract.Text" translate="yes" xml:space="preserve">
           <source>Extract</source>
-          <target state="translated">Trích xuất</target>
+          <target state="translated">Giải nén</target>
         </trans-unit>
         <trans-unit id="Open" translate="yes" xml:space="preserve">
           <source>Open</source>
@@ -260,7 +260,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" translate="yes" xml:space="preserve">
           <source>Set as desktop background</source>
-          <target state="translated">Đặt như nền bàn làm việc</target>
+          <target state="translated">Đặt làm hình nền</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutShare.Text" translate="yes" xml:space="preserve">
           <source>Share</source>
@@ -276,7 +276,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutPinToFavorites.Text" translate="yes" xml:space="preserve">
           <source>Pin to Favorites</source>
-          <target state="translated">Gắn vào Ưa thích</target>
+          <target state="translated">Ghim vào Ưa thích</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutProperties.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
@@ -284,7 +284,7 @@
         </trans-unit>
         <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
           <source>Welcome to Files!</source>
-          <target state="needs-review-translation">Chào mừng đến Files!</target>
+          <target state="needs-review-translation">Chào mừng bạn đến với Files!</target>
         </trans-unit>
         <trans-unit id="WelcomeDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Grant Permission</source>
@@ -292,7 +292,7 @@
         </trans-unit>
         <trans-unit id="WelcomeDialogTextBlock.Text" translate="yes" xml:space="preserve">
           <source>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </source>
-          <target state="translated">Để bắt đầu, bạn sẽ cần cho chúng tôi quyền phép để hiển thị những tệp của bạn. Điều này sẽ mở một trang Cài đặt mà bạn có thể cho quyền phép này đến chúng tôi. Bạn sẽ cần khởi động lại ứng dụng khi bạn làm bước này xong. </target>
+          <target state="translated">Để bắt đầu, bạn sẽ cần phải cấp quyền để hiển thị những tệp của bạn. Điều này sẽ mở một trang Cài đặt mà bạn có thể cấp quyền này cho chúng tôi. Bạn sẽ cần khởi động lại ứng dụng khi bạn làm xong bước này. </target>
         </trans-unit>
         <trans-unit id="FileFolderListItem" translate="yes" xml:space="preserve">
           <source>File folder</source>
@@ -304,11 +304,11 @@
         </trans-unit>
         <trans-unit id="RenameDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter an item name</source>
-          <target state="translated">Nhập vào một tên của mục</target>
+          <target state="translated">Nhập tên của mục</target>
         </trans-unit>
         <trans-unit id="RenameDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter an item name</source>
-          <target state="translated">Nhập vào một tên của mục</target>
+          <target state="translated">Nhập tên của mục</target>
         </trans-unit>
         <trans-unit id="RenameDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Set Name</source>
@@ -344,7 +344,7 @@
         </trans-unit>
         <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Back (Alt+Left Arrow)</source>
-          <target state="translated">Lùi (Alt+Mũi tên Trái)</target>
+          <target state="translated">Quay lại (Alt + Mũi tên Trái)</target>
         </trans-unit>
         <trans-unit id="NavForwardButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Forward (Alt+Right Arrow)</source>
@@ -352,15 +352,15 @@
         </trans-unit>
         <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Up (Alt+Up Arrow)</source>
-          <target state="translated">Tên (Alt+Mũi tên trên)</target>
+          <target state="translated">Tên (Alt+Mũi tên lên)</target>
         </trans-unit>
         <trans-unit id="NavRefreshButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Refresh (F5)</source>
-          <target state="translated">Làm mới (F5)</target>
+          <target state="translated">Làm mới trang (F5)</target>
         </trans-unit>
         <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Search (Ctrl+F)</source>
-          <target state="translated">Tìm kiếm (Ctrl +F)</target>
+          <target state="translated">Tìm kiếm (Ctrl+F)</target>
         </trans-unit>
         <trans-unit id="PropertiesTitle" translate="yes" xml:space="preserve">
           <source>Properties</source>
@@ -372,19 +372,19 @@
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogContent" translate="yes" xml:space="preserve">
           <source>An item with this name already exists in this directory.</source>
-          <target state="needs-review-translation">Có một mục với tên này trong danh mục này rồi.</target>
+          <target state="needs-review-translation">Có một tệp hoặc thư mục đã tồn tại với tên trên.</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Replace existing item</source>
-          <target state="translated">Thay thế mục hiện hữu</target>
+          <target state="translated">Thay thế tệp hoặc thư mục </target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogTitle" translate="yes" xml:space="preserve">
           <source>Item already exists</source>
-          <target state="translated">Mục đã hiện hữu rồi</target>
+          <target state="translated">Mục này đã tồn tại</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" translate="yes" xml:space="preserve">
           <source>Set as lockscreen background</source>
-          <target state="needs-review-translation">Đặt nền màn hình khóa</target>
+          <target state="needs-review-translation">Đặt làm nền màn hình khóa</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLargeIcons.Text" translate="yes" xml:space="preserve">
           <source>Large Icons</source>
@@ -407,31 +407,31 @@
         </trans-unit>
         <trans-unit id="AccessDeniedDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>We weren't able to delete this item</source>
-          <target state="translated">Chúng tôi đã không xóa bỏ mục này được.</target>
+          <target state="translated">Không thể xóa bỏ tệp hoặc thư mục này.</target>
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Text" translate="yes" xml:space="preserve">
           <source>Please insert the necessary drive to access this item.</source>
-          <target state="translated">Làm ơn chèn ổ lưu trữ yêu cầu để truy cập mục này.</target>
+          <target state="translated">Hãy thêm ổ lưu trữ để có thể truy cập vào mục này.</target>
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Title" translate="yes" xml:space="preserve">
           <source>Drive Unplugged</source>
-          <target state="translated">Ổ lưu trữ đã bị rút ra</target>
+          <target state="translated">Ổ lưu trữ đã bị tháo ra</target>
         </trans-unit>
         <trans-unit id="FileNotFoundDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to access may have been moved or deleted.</source>
-          <target state="translated">Tệp bằng đang cố gắng để truy cập có thể đã bị di chuyển hoặc xóa bỏ.</target>
+          <target state="translated">Tệp bằng đang cố gắng truy cập có thể đã bị di chuyển hoặc xóa bỏ.</target>
         </trans-unit>
         <trans-unit id="FileNotFoundDialog.Title" translate="yes" xml:space="preserve">
           <source>File Not Found</source>
-          <target state="translated" state-qualifier="tm-suggestion">Không thấy tệp</target>
+          <target state="translated" state-qualifier="tm-suggestion">Không tìm thấy tệp</target>
         </trans-unit>
         <trans-unit id="FileNotFoundPreviewDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to preview may have been moved or deleted.</source>
-          <target state="translated">Tệp bạn đang cố gắng để xem trước có thể đã bị di chuyển hoặc xóa bỏ.</target>
+          <target state="translated">Tệp bạn đang cố gắng xem trước có thể đã bị di chuyển hoặc xóa bỏ.</target>
         </trans-unit>
         <trans-unit id="FolderNotFoundDialog.Text" translate="yes" xml:space="preserve">
           <source>The folder you are attempting to access may have been moved or deleted.</source>
-          <target state="translated">Thư mục bằng đang cố gắng để truy cập có thể đã bị di chuyển hoặc xóa bỏ.</target>
+          <target state="translated">Thư mục bạn đang cố gắng truy cập có thể đã bị di chuyển hoặc xóa bỏ.</target>
         </trans-unit>
         <trans-unit id="FolderNotFoundDialog.Title" translate="yes" xml:space="preserve">
           <source>Did you delete this folder?</source>
@@ -439,11 +439,11 @@
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you're trying to delete is currently being used by an another application.</source>
-          <target state="translated">Tệp bạn đang cố gắng để xóa bỏ đang có ứng dụng khác sử dụng.</target>
+          <target state="translated">Tệp bạn đang cố gắng xóa đang có ứng dụng khác sử dụng.</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>File is in use</source>
-          <target state="translated">Tệp đang sử dụng</target>
+          <target state="translated">Tệp đang được sử dụng</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Try again</source>
@@ -511,7 +511,7 @@
         </trans-unit>
         <trans-unit id="ErrorDialogUnsupportedOperation" translate="yes" xml:space="preserve">
           <source>The requested operation is not supported</source>
-          <target state="translated">Hoạt động đã yêu cầu không hỗ trợ</target>
+          <target state="translated">Yêu cầu của bạn không được hỗ trợ</target>
         </trans-unit>
         <trans-unit id="DriveFreeSpaceAndCapacity" translate="yes" xml:space="preserve">
           <source>{0} free of {1}</source>
@@ -523,7 +523,7 @@
         </trans-unit>
         <trans-unit id="FileNameTeachingTip.Subtitle" translate="yes" xml:space="preserve">
           <source>The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
-          <target state="needs-review-translation">Tên mục không được có những ký tự trong danh sách sau: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
+          <target state="needs-review-translation">Tên mục không được có những ký tự sau đây: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
         </trans-unit>
         <trans-unit id="FileNameTeachingTip.CloseButtonContent" translate="yes" xml:space="preserve">
           <source>OK</source>
@@ -531,7 +531,7 @@
         </trans-unit>
         <trans-unit id="RenameDialogSymbolsTip.Text" translate="yes" xml:space="preserve">
           <source>The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
-          <target state="translated">Tên mục không được có những ký tự trong danh sách sau: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
+          <target state="translated">Tên mục không được có những ký tự sau đây: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
         </trans-unit>
         <trans-unit id="ItemSelected.Text" translate="yes" xml:space="preserve">
           <source>item selected</source>
@@ -567,7 +567,7 @@
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to permanently delete all these items?</source>
-          <target state="translated">Chắc chắn bạn muốn xóa bỏ những mục này vĩnh viễn không?</target>
+          <target state="translated">Bạn có chắc chắn muốn xóa vĩnh viễn không?</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogTitle" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
@@ -603,7 +603,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
-          <target state="translated">Chạy với quyền người quản trị</target>
+          <target state="translated">Chạy với quyền quản trị viên</target>
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
           <source>Contains:</source>
@@ -619,7 +619,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser.Text" translate="yes" xml:space="preserve">
           <source>Run as another user</source>
-          <target state="translated">Chạy như là người dùng khác</target>
+          <target state="translated">Chạy với quyền của người dùng</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveItemTypesEquals" translate="yes" xml:space="preserve">
           <source>All type of {0}</source>
@@ -635,11 +635,11 @@
         </trans-unit>
         <trans-unit id="PropertiesDriveUsedSpace.Text" translate="yes" xml:space="preserve">
           <source>Used space:</source>
-          <target state="translated">Không gian đã dùng:</target>
+          <target state="translated">Dung lượng đã dùng:</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveFreeSpace.Text" translate="yes" xml:space="preserve">
           <source>Free space:</source>
-          <target state="translated">Không gian Trống:</target>
+          <target state="translated">Dung lượng Trống:</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveCapacity.Text" translate="yes" xml:space="preserve">
           <source>Capacity:</source>
@@ -647,7 +647,7 @@
         </trans-unit>
         <trans-unit id="PropertiesDriveFileSystem.Text" translate="yes" xml:space="preserve">
           <source>File system:</source>
-          <target state="translated">Hệ thống tệp:</target>
+          <target state="translated">Tệp Hệ thống:</target>
         </trans-unit>
         <trans-unit id="JumpListRecentGroupHeader" translate="yes" xml:space="preserve">
           <source>Recent</source>
@@ -655,7 +655,7 @@
         </trans-unit>
         <trans-unit id="TabStripDragAndDropUIOverrideCaption" translate="yes" xml:space="preserve">
           <source>Move tab here</source>
-          <target state="translated">Di chuyển tab đây</target>
+          <target state="translated">Di chuyển tab tới đây</target>
         </trans-unit>
         <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
           <source>Status</source>
@@ -679,7 +679,7 @@
         </trans-unit>
         <trans-unit id="SubDirectoryAccessDenied" translate="yes" xml:space="preserve">
           <source>Can't access any items to display</source>
-          <target state="translated">Không được truy cập mục nào để hiển thị</target>
+          <target state="translated">Không thể truy cập vào bất kỳ mục nào</target>
         </trans-unit>
         <trans-unit id="MoveToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Move to {0}</source>
@@ -687,7 +687,7 @@
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFile" translate="yes" xml:space="preserve">
           <source>The source and destination file names are the same.</source>
-          <target state="translated">Tệp nguồn và tệp nơi đến cùng nhau.</target>
+          <target state="translated">Tệp gốc và tệp nơi đến cùng nhau.</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFolder" translate="yes" xml:space="preserve">
           <source>The destination folder is the same as the source folder.</source>
@@ -1361,7 +1361,7 @@
         </trans-unit>
         <trans-unit id="Drives" translate="yes" xml:space="preserve">
           <source>Drives</source>
-          <target state="translated">Ổ đĩa:</target>
+          <target state="translated">Ổ đĩa</target>
         </trans-unit>
         <trans-unit id="PinToSidebarByDraggingCaptionText" translate="yes" xml:space="preserve">
           <source>Move here</source>
