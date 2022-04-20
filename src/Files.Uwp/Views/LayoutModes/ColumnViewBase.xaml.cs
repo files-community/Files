@@ -378,7 +378,7 @@ namespace Files.Uwp.Views.LayoutModes
             }
             else if (e.Key == VirtualKey.Space)
             {
-                if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+                if (!IsRenamingItem && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
                 {
                     e.Handled = true;
                     await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
@@ -405,7 +405,7 @@ namespace Files.Uwp.Views.LayoutModes
             }
             else if (e.Key == VirtualKey.Left) // Left arrow: select parent folder (previous column)
             {
-                if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+                if (!IsRenamingItem && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
                 {
                     if ((ParentShellPageInstance as ColumnShellPage).ColumnParams.Column > 0)
                     {
@@ -416,7 +416,7 @@ namespace Files.Uwp.Views.LayoutModes
             }
             else if (e.Key == VirtualKey.Right) // Right arrow: switch focus to next column
             {
-                if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+                if (!IsRenamingItem && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
                 {
                     FocusManager.TryMoveFocus(FocusNavigationDirection.Next);
                     e.Handled = true;

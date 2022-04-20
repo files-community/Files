@@ -225,7 +225,7 @@ namespace Files.Uwp.Helpers
             if (opened.ErrorCode == FileSystemStatusCode.NotFound && !openSilent)
             {
                 await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
-                associatedInstance.NavToolbarViewModel.CanRefresh = false;
+                associatedInstance.ToolbarViewModel.CanRefresh = false;
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     var ContentOwnedViewModelInstance = associatedInstance.FilesystemViewModel;
@@ -250,7 +250,7 @@ namespace Files.Uwp.Helpers
                 }
                 else
                 {
-                    associatedInstance.NavToolbarViewModel.PathControlDisplayText = path;
+                    associatedInstance.ToolbarViewModel.PathControlDisplayText = path;
                     associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                     {
                         NavPathParam = path,
@@ -270,7 +270,7 @@ namespace Files.Uwp.Helpers
                     }
                     else
                     {
-                        associatedInstance.NavToolbarViewModel.PathControlDisplayText = library.Text;
+                        associatedInstance.ToolbarViewModel.PathControlDisplayText = library.Text;
                         associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                         {
                             NavPathParam = path,
@@ -306,7 +306,7 @@ namespace Files.Uwp.Helpers
                     }
                     else
                     {
-                        associatedInstance.NavToolbarViewModel.PathControlDisplayText = shortcutInfo.TargetPath;
+                        associatedInstance.ToolbarViewModel.PathControlDisplayText = shortcutInfo.TargetPath;
                         associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(shortcutInfo.TargetPath), new NavigationArguments()
                         {
                             NavPathParam = shortcutInfo.TargetPath,
@@ -326,7 +326,7 @@ namespace Files.Uwp.Helpers
                 }
                 else
                 {
-                    associatedInstance.NavToolbarViewModel.PathControlDisplayText = path;
+                    associatedInstance.ToolbarViewModel.PathControlDisplayText = path;
                     associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                     {
                         NavPathParam = path,
@@ -360,7 +360,7 @@ namespace Files.Uwp.Helpers
                     }
                     else
                     {
-                        associatedInstance.NavToolbarViewModel.PathControlDisplayText = path;
+                        associatedInstance.ToolbarViewModel.PathControlDisplayText = path;
                         associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                         {
                             NavPathParam = path,

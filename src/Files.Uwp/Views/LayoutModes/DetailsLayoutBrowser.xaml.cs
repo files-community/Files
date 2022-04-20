@@ -467,7 +467,7 @@ namespace Files.Uwp.Views.LayoutModes
             }
             else if (e.Key == VirtualKey.Space)
             {
-                if (!IsRenamingItem && !isHeaderFocused && !isFooterFocused && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+                if (!IsRenamingItem && !isHeaderFocused && !isFooterFocused && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
                 {
                     e.Handled = true;
                     await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
@@ -485,7 +485,7 @@ namespace Files.Uwp.Views.LayoutModes
             }
             else if (e.Key == VirtualKey.Down)
             {
-                if (!IsRenamingItem && isHeaderFocused && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+                if (!IsRenamingItem && isHeaderFocused && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
                 {
                     var selectIndex = FileList.SelectedIndex < 0 ? 0 : FileList.SelectedIndex;
                     if (FileList.ContainerFromIndex(selectIndex) is ListViewItem item)
