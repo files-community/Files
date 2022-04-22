@@ -2,11 +2,11 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
+using Files.Shared.Extensions;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem.Cloud;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
-using Files.Shared.Extensions;
 using Files.Uwp.ViewModels.Properties;
 using FluentFTP;
 using Microsoft.Toolkit.Uwp;
@@ -15,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -494,6 +495,13 @@ namespace Files.Uwp.Filesystem
             Opacity = 1;
             IsHiddenItem = false;
         }
+
+        public async Task<IStorageItem> ToStorageItem() => PrimaryItemAttribute switch
+        {
+            StorageItemTypes.File => await new FtpStorageFile(ItemPath, ItemNameRaw, ItemDateCreatedReal).ToStorageFileAsync(),
+            StorageItemTypes.Folder => new FtpStorageFolder(ItemPath, ItemNameRaw, ItemDateCreatedReal),
+            _ => throw new InvalidDataException(),
+        };
     }
 
     public class ShortcutItem : ListedItem
