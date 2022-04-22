@@ -474,6 +474,9 @@
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
     <value>{0:#,##0} lêers, {1:#,##0} omslae van {2:#,##0} plekke</value>
   </data>
+  <data name="PropertiesFilesHasMultipleValues" xml:space="preserve">
+    <value>Het veelvuldige waardes</value>
+  </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Hardloop as 'n ander gebruiker</value>
   </data>

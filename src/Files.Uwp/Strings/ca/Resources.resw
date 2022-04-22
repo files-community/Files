@@ -429,6 +429,9 @@
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
     <value>{0:#,##0} arxius, {1:#,##0} carpetes de {2:#,##0} ubicacions</value>
   </data>
+  <data name="PropertiesFilesHasMultipleValues" xml:space="preserve">
+    <value>Té diversos valors</value>
+  </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Executa com a un/a altre/a usuari/a</value>
   </data>

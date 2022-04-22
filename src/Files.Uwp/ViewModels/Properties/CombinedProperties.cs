@@ -1,13 +1,18 @@
 ﻿using Files.Extensions;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Devices.Geolocation;
+using Windows.Services.Maps;
 using Windows.Storage;
 using Windows.UI.Core;
 
@@ -94,6 +99,224 @@ namespace Files.ViewModels.Properties
             totalSize = filesSize + foldersSize;
             ViewModel.ItemSize = totalSize.ToLongSizeString();
             SetItemsCountString();
+        }
+
+        public async void GetSystemFileProperties()
+        {
+            List<BaseStorageFile> files = new();
+            foreach (ListedItem Item in List)
+            {
+                BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
+                if (file == null)
+                {
+                    // Could not access file, can't show any other property
+                    continue;
+                }
+                files.Add(file);
+            }
+
+            List<List<FileProperty>> listAll = new();
+            foreach (BaseStorageFile file in files)
+            {
+                var listItem = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
+                listAll.Add(listItem);
+            }
+
+            List<List<FileProperty>> precombinded = new();
+            foreach (List<FileProperty> list in listAll)
+            {
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (precombinded.ElementAtOrDefault(i) == null)
+                    {
+                        List<FileProperty> tempList = new();
+                        tempList.Add(list[i]);
+                        precombinded.Add(tempList);
+                    }
+                    else 
+                    {
+                        precombinded[i].Add(list[i]);
+                    }
+                }
+            }
+
+            List<FileProperty> finalProperties = new();
+            foreach(List<FileProperty> list in precombinded)
+            {
+                if (list.First().Property == "System.ItemTypeText")
+                {
+                    if (!list.All(x => x.Value.Equals(list.First().Value)))
+                    {
+                        list.First().Value = string.Join("; ", list.Select(x => x.Value).Distinct().ToList());
+                        finalProperties.Add(list.First());
+                    }
+                    else
+                    {
+                        finalProperties.Add(list.First());
+                    }
+                }
+                else if (list.First().Property == "System.Media.Duration")
+                {
+                    if (!list.All(x => x.Value == null))
+                    {
+                        list.First().Value = list.Select(x => x.Value).ToList().Sum(str => Convert.ToInt64(str));
+                        finalProperties.Add(list.First());
+                    }
+                }
+                else if (list.First().Property == "System.FilePlaceholderStatus")
+                {
+                    finalProperties.Add(list.First());
+                }
+                else if (list.All(x => x.Value == null))
+                {
+                    finalProperties.Add(list.First());
+                }
+                else if (list.Where(x => x.Value != null).Count() == 1)
+                {
+                    var result = list.Where(x => x.Value != null);
+                    if (result.Any() && result.Count() == 1)
+                    {
+                        finalProperties.Add(result.First());
+                    }
+                }
+                else if (!list.All(x => x.Value.Equals(list.First().Value)))
+                {
+                    list.First().Value = "PropertiesFilesHasMultipleValues".GetLocalized();
+                    finalProperties.Add(list.First());
+                }
+                else
+                {
+                    finalProperties.Add(list.First());
+                }
+                // System.ItemPathDisplay
+            }
+
+            var query = finalProperties
+                .Where(fileProp => !(fileProp.Value == null && fileProp.IsReadOnly))
+                .GroupBy(fileProp => fileProp.SectionResource)
+                .Select(group => new FilePropertySection(group) { Key = group.Key })
+                .Where(section => !section.All(fileProp => fileProp.Value == null))
+                .OrderBy(group => group.Priority);
+            ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
+            ViewModel.FileProperties = new ObservableCollection<FileProperty>(finalProperties.Where(i => i.Value != null));
+        }
+
+        public static async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
+        {
+            if (!Lat.HasValue || !Lon.HasValue)
+            {
+                return null;
+            }
+
+            JObject obj;
+            try
+            {
+                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/BingMapsKey.txt"));
+                var lines = await FileIO.ReadTextAsync(file);
+                obj = JObject.Parse(lines);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+            MapService.ServiceToken = (string)obj.SelectToken("key");
+
+            BasicGeoposition location = new BasicGeoposition();
+            location.Latitude = Lat.Value;
+            location.Longitude = Lon.Value;
+            Geopoint pointToReverseGeocode = new Geopoint(location);
+
+            // Reverse geocode the specified geographic location.
+
+            var result = await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
+            return result?.Locations?.FirstOrDefault()?.DisplayName;
+        }
+
+        public async Task SyncPropertyChangesAsync()
+        {
+            foreach (ListedItem Item in List)
+            {
+                BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
+                if (file == null)
+                {
+                    // Could not access file, can't save properties
+                    return;
+                }
+
+                var failedProperties = "";
+                foreach (var group in ViewModel.PropertySections)
+                {
+                    foreach (FileProperty prop in group)
+                    {
+                        if (!prop.IsReadOnly && prop.Modified)
+                        {
+                            var newDict = new Dictionary<string, object>();
+                            newDict.Add(prop.Property, prop.Value);
+
+                            try
+                            {
+                                if (file.Properties != null)
+                                {
+                                    await file.Properties.SavePropertiesAsync(newDict);
+                                }
+                            }
+                            catch
+                            {
+                                failedProperties += $"{prop.Name}\n";
+                            }
+                        }
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(failedProperties))
+                {
+                    throw new Exception($"The following properties failed to save: {failedProperties}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// This function goes through ever read-write property saved, then syncs it
+        /// </summary>
+        /// <returns></returns>
+        public async Task ClearPropertiesAsync()
+        {
+            foreach (ListedItem Item in List)
+            {
+                var failedProperties = new List<string>();
+                BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
+                if (file == null)
+                {
+                    return;
+                }
+
+                foreach (var group in ViewModel.PropertySections)
+                {
+                    foreach (FileProperty prop in group)
+                    {
+                        if (!prop.IsReadOnly)
+                        {
+                            var newDict = new Dictionary<string, object>();
+                            newDict.Add(prop.Property, null);
+
+                            try
+                            {
+                                if (file.Properties != null)
+                                {
+                                    await file.Properties.SavePropertiesAsync(newDict);
+                                }
+                            }
+                            catch
+                            {
+                                failedProperties.Add(prop.Name);
+                            }
+                        }
+                    }
+                }
+
+                GetSystemFileProperties();
+            }
         }
 
         private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

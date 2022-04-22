@@ -1311,6 +1311,9 @@
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
     <value>يوجد {0:#,##0} ملف، {1:#,##0} مجلد من {2:#,##0} موقعاً</value>
   </data>
+  <data name="PropertiesFilesHasMultipleValues" xml:space="preserve">
+    <value>له قيم متعددة</value>
+  </data>
   <data name="ItemTypeLibrary" xml:space="preserve">
     <value>مكتبة</value>
   </data>

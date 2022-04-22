@@ -474,6 +474,9 @@
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
     <value>{0:#,##0} файла, {1:#,##0} папки от {2:#,##0} местоположения</value>
   </data>
+  <data name="PropertiesFilesHasMultipleValues" xml:space="preserve">
+    <value>Има множество стойности</value>
+  </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Изпълни като друг потребител</value>
   </data>

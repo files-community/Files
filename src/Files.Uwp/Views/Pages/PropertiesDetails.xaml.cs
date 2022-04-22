@@ -27,6 +27,13 @@ namespace Files.Views
                 stopwatch.Stop();
                 Debug.WriteLine(string.Format("System file properties were obtained in {0} milliseconds", stopwatch.ElapsedMilliseconds));
             }
+            if (BaseProperties is CombinedProperties combinedProps)
+            {
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                combinedProps.GetSystemFileProperties();
+                stopwatch.Stop();
+                Debug.WriteLine(string.Format("System file properties were obtained in {0} milliseconds", stopwatch.ElapsedMilliseconds));
+            }
         }
 
         public override async Task<bool> SaveChangesAsync(ListedItem item)
@@ -39,6 +46,10 @@ namespace Files.Views
                     if (BaseProperties is FileProperties fileProps)
                     {
                         await fileProps.SyncPropertyChangesAsync();
+                    }
+                    else if (BaseProperties is CombinedProperties combinedProps)
+                    {
+                        await combinedProps.SyncPropertyChangesAsync();
                     }
                     return true;
                 }
