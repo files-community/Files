@@ -1,5 +1,5 @@
-﻿using Files.ViewModels;
-using Files.Views;
+﻿using Files.Uwp.ViewModels;
+using Files.Uwp.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json;
@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Files.UserControls.MultitaskingControl
+namespace Files.Uwp.UserControls.MultitaskingControl
 {
     public class TabItem : ObservableObject, ITabItem, ITabItemControl, IDisposable
     {

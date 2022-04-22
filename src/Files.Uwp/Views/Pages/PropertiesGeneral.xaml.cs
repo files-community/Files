@@ -1,15 +1,15 @@
 using Files.Shared;
-using Files.Filesystem;
-using Files.Helpers;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using Files.Shared.Enums;
-using Files.ViewModels.Properties;
+using Files.Uwp.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 
-namespace Files.Views
+namespace Files.Uwp.Views
 {
     public sealed partial class PropertiesGeneral : PropertiesTab
     {

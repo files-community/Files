@@ -1,12 +1,12 @@
 ﻿using Files.Shared.Enums;
-using Files.Extensions;
-using Files.Filesystem;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Linq;
 using Windows.Storage;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class GroupingHelper
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public static class FtpManager
     {

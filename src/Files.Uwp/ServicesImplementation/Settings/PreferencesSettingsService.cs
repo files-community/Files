@@ -32,6 +32,12 @@ namespace Files.Uwp.ServicesImplementation.Settings
             set => Set(value);
         }
 
+        public bool ShowThumbnails
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
         public bool AreHiddenItemsVisible
         {
             get => Get(false);
@@ -43,7 +49,7 @@ namespace Files.Uwp.ServicesImplementation.Settings
             get => Get(true);
             set => Set(value);
         }
-        
+
         public bool ShowDotFiles
         {
             get => Get(true);

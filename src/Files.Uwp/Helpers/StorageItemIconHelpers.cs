@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class StorageItemIconHelpers
     {

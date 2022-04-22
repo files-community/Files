@@ -1,13 +1,14 @@
-﻿using Files.Shared.Extensions;
-using Files.Controllers;
-using Files.DataModels;
-using Files.Shared.Enums;
-using Files.Filesystem;
-using Files.Helpers;
-using Files.Backend.Services.Settings;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
+using Files.Uwp.Controllers;
+using Files.Uwp.DataModels;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,9 @@ using Windows.Storage;
 using Windows.Storage.AccessCache;
 using Windows.Storage.Pickers;
 using Windows.System;
-using static Files.Helpers.MenuFlyoutHelper;
+using static Files.Uwp.Helpers.MenuFlyoutHelper;
 
-namespace Files.ViewModels.SettingsViewModels
+namespace Files.Uwp.ViewModels.SettingsViewModels
 {
     public class PreferencesViewModel : ObservableObject, IDisposable
     {
@@ -53,10 +54,26 @@ namespace Files.ViewModels.SettingsViewModels
 
             DefaultLanguages = App.AppSettings.DefaultLanguages;
             Terminals = App.TerminalController.Model.Terminals;
-            DateFormats = new List<string>
+
+            DateTimeOffset sampleDate1 = DateTime.Now;
+            DateTimeOffset sampleDate2 = new DateTime(sampleDate1.Year - 5, 12, 31, 14, 30, 0);
+            DateFormats = new List<DateFormatItem>
             {
-                "Application".GetLocalized(),
-                "SystemTimeStye".GetLocalized()
+                new DateFormatItem{
+                    Label = "Application".GetLocalized(),
+                    Sample1 = sampleDate1.GetFriendlyDateFromFormat(TimeStyle.Application.GetDateFormat()),
+                    Sample2 = sampleDate2.GetFriendlyDateFromFormat(TimeStyle.Application.GetDateFormat()),
+                },
+                new DateFormatItem{
+                    Label = "SystemTimeStyle".GetLocalized(),
+                    Sample1 = sampleDate1.GetFriendlyDateFromFormat(TimeStyle.System.GetDateFormat()),
+                    Sample2 = sampleDate2.GetFriendlyDateFromFormat(TimeStyle.System.GetDateFormat()),
+                },
+                new DateFormatItem{
+                    Label = "Universal".GetLocalized(),
+                    Sample1 = sampleDate1.GetFriendlyDateFromFormat(TimeStyle.Universal.GetDateFormat()),
+                    Sample2 = sampleDate2.GetFriendlyDateFromFormat(TimeStyle.Universal.GetDateFormat()),
+                },
             };
 
             EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
@@ -318,7 +335,10 @@ namespace Files.ViewModels.SettingsViewModels
             SelectedTerminal = controller.Model.GetDefaultTerminal();
         }
 
-        public List<string> DateFormats { get; set; }
+        public string DateFormatSample
+            => string.Format("DateFormatSample".GetLocalized(), DateFormats[SelectedDateFormatIndex].Sample1, DateFormats[SelectedDateFormatIndex].Sample2);
+
+        public List<DateFormatItem> DateFormats { get; set; }
 
         public int SelectedDateFormatIndex
         {
@@ -330,6 +350,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref selectedDateFormatIndex, value))
                 {
+                    OnPropertyChanged(nameof(DateFormatSample));
                     App.AppSettings.DisplayedTimeStyle = (TimeStyle)value;
                 }
             }
@@ -532,7 +553,7 @@ namespace Files.ViewModels.SettingsViewModels
                 }
             }
         }
-        
+
         public bool ShowDotFiles
         {
             get => UserSettingsService.PreferencesSettingsService.ShowDotFiles;
@@ -554,6 +575,19 @@ namespace Files.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
                 {
                     UserSettingsService.PreferencesSettingsService.ShowFileExtensions = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool ShowThumbnails
+        {
+            get => UserSettingsService.PreferencesSettingsService.ShowThumbnails;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.ShowThumbnails)
+                {
+                    UserSettingsService.PreferencesSettingsService.ShowThumbnails = value;
                     OnPropertyChanged();
                 }
             }
@@ -638,5 +672,12 @@ namespace Files.ViewModels.SettingsViewModels
         {
             Dispose();
         }
+    }
+
+    public class DateFormatItem
+    {
+        public string Label { get; set; }
+        public string Sample1 { get; set; }
+        public string Sample2 { get; set; }
     }
 }

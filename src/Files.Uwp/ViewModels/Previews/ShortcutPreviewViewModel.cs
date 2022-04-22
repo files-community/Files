@@ -1,11 +1,11 @@
-﻿using Files.Filesystem;
-using Files.Helpers;
-using Files.ViewModels.Properties;
+﻿using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
+using Files.Uwp.ViewModels.Properties;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Files.ViewModels.Previews
+namespace Files.Uwp.ViewModels.Previews
 {
     internal class ShortcutPreviewViewModel : BasePreviewModel
     {

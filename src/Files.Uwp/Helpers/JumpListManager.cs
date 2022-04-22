@@ -1,5 +1,5 @@
 using Files.Shared;
-using Files.Filesystem;
+using Files.Uwp.Filesystem;
 using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.StartScreen;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public sealed class JumpListManager
     {

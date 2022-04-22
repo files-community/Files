@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Files.UserControls.Selection
+namespace Files.Uwp.UserControls.Selection
 {
     public abstract class ItemSelectionStrategy
     {

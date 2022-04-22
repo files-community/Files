@@ -1,13 +1,13 @@
 ﻿<local:PropertiesTab
-    x:Class="Files.Views.PropertiesSecurity"
+    x:Class="Files.Uwp.Views.PropertiesSecurity"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:Files.Helpers"
-    xmlns:local="using:Files.ViewModels.Properties"
+    xmlns:helpers="using:Files.Uwp.Helpers"
+    xmlns:local="using:Files.Uwp.ViewModels.Properties"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:perm="using:Files.Filesystem.Permissions"
+    xmlns:perm="using:Files.Uwp.Filesystem.Permissions"
     d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Loaded="Properties_Loaded"
     mc:Ignorable="d">

@@ -1,12 +1,12 @@
-using Files.Extensions;
-using Files.ViewModels.Properties;
+using Files.Uwp.Extensions;
+using Files.Uwp.ViewModels.Properties;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
     public class SelectedItemsPropertiesViewModel : ObservableObject
     {

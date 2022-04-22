@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 
-namespace Files.Filesystem.Cloud
+namespace Files.Uwp.Filesystem.Cloud
 {
     public class CloudDriveSyncStatusUI : ObservableObject
     {

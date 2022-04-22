@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public enum FilesystemItemType : byte
     {

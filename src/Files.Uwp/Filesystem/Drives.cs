@@ -1,10 +1,10 @@
 using Files.Shared;
-using Files.DataModels.NavigationControlItems;
+using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Shared.Enums;
-using Files.Helpers;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.UserControls;
-using Files.UserControls.Widgets;
+using Files.Uwp.UserControls;
+using Files.Uwp.UserControls.Widgets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
@@ -18,10 +18,10 @@ using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using DriveType = Files.DataModels.NavigationControlItems.DriveType;
+using DriveType = Files.Uwp.DataModels.NavigationControlItems.DriveType;
 using Windows.ApplicationModel.Activation;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public class DrivesManager : ObservableObject
     {

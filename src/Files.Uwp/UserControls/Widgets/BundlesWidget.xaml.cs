@@ -1,6 +1,6 @@
 ﻿using Files.Backend.Services.Settings;
-using Files.ViewModels.Widgets;
-using Files.ViewModels.Widgets.Bundles;
+using Files.Uwp.ViewModels.Widgets;
+using Files.Uwp.ViewModels.Widgets.Bundles;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Files.UserControls.Widgets
+namespace Files.Uwp.UserControls.Widgets
 {
     public sealed partial class BundlesWidget : UserControl, IWidgetItemModel, IDisposable
     {

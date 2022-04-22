@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-namespace Files.CommandLine
+namespace Files.Uwp.CommandLine
 {
     internal class CommandLineParser
     {

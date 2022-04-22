@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     internal class IntervalSampler
     {

@@ -1,10 +1,10 @@
-﻿using Files.ViewModels;
+﻿using Files.Uwp.ViewModels;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.UserControls
+namespace Files.Uwp.UserControls
 {
     public sealed partial class StatusBarControl : UserControl, INotifyPropertyChanged
     {

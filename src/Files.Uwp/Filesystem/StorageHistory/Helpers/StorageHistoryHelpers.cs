@@ -2,39 +2,26 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Files.Filesystem.FilesystemHistory
+namespace Files.Uwp.Filesystem.FilesystemHistory
 {
     public class StorageHistoryHelpers : IDisposable
     {
-        #region Private Members
-
-        private IStorageHistoryOperations storageHistoryOperations;
-
-        #endregion Private Members
-
-        #region Constructor
+        private IStorageHistoryOperations operations;
 
         public StorageHistoryHelpers(IStorageHistoryOperations storageHistoryOperations)
-        {
-            this.storageHistoryOperations = storageHistoryOperations;
-        }
-
-        #endregion Constructor
-
-        #region Undo, Redo
+            => operations = storageHistoryOperations;
 
         public async Task<ReturnResult> TryUndo()
         {
             if (App.HistoryWrapper.CanUndo())
             {
-                if (!(await App.SemaphoreSlim.WaitAsync(0)))
+                if (!await App.SemaphoreSlim.WaitAsync(0))
                 {
                     return ReturnResult.InProgress;
                 }
-
                 try
                 {
-                    return await storageHistoryOperations.Undo(App.HistoryWrapper.GetCurrentHistory());
+                    return await operations.Undo(App.HistoryWrapper.GetCurrentHistory());
                 }
                 finally
                 {
@@ -50,15 +37,14 @@ namespace Files.Filesystem.FilesystemHistory
         {
             if (App.HistoryWrapper.CanRedo())
             {
-                if (!(await App.SemaphoreSlim.WaitAsync(0)))
+                if (!await App.SemaphoreSlim.WaitAsync(0))
                 {
                     return ReturnResult.InProgress;
                 }
-
                 try
                 {
                     App.HistoryWrapper.IncreaseIndex();
-                    return await storageHistoryOperations.Redo(App.HistoryWrapper.GetCurrentHistory());
+                    return await operations.Redo(App.HistoryWrapper.GetCurrentHistory());
                 }
                 finally
                 {
@@ -69,17 +55,10 @@ namespace Files.Filesystem.FilesystemHistory
             return ReturnResult.Cancelled;
         }
 
-        #endregion Undo, Redo
-
-        #region IDisposable
-
         public void Dispose()
         {
-            storageHistoryOperations?.Dispose();
-
-            storageHistoryOperations = null;
+            operations?.Dispose();
+            operations = null;
         }
-
-        #endregion IDisposable
     }
 }

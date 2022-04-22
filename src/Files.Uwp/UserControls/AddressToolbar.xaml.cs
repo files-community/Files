@@ -1,5 +1,5 @@
-using Files.Helpers.XamlHelpers;
-using Files.ViewModels;
+using Files.Uwp.Helpers.XamlHelpers;
+using Files.Uwp.ViewModels;
 using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -7,19 +7,19 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 
-namespace Files.UserControls
+namespace Files.Uwp.UserControls
 {
-    public sealed partial class NavigationToolbar : UserControl
+    public sealed partial class AddressToolbar : UserControl
     {
-        public NavToolbarViewModel ViewModel
+        public ToolbarViewModel ViewModel
         {
-            get => (NavToolbarViewModel)GetValue(ViewModelProperty);
+            get => (ToolbarViewModel)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register(nameof(ViewModel), typeof(NavToolbarViewModel), typeof(NavigationToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(AddressToolbar), new PropertyMetadata(null));
 
         public ISearchBox SearchBox => ViewModel.SearchBox;
 
@@ -28,7 +28,7 @@ namespace Files.UserControls
         public static readonly DependencyProperty CanPasteInPageProperty = DependencyProperty.Register(
           "CanPasteInPage",
           typeof(bool),
-          typeof(NavigationToolbar),
+          typeof(AddressToolbar),
           new PropertyMetadata(null)
         );
 
@@ -46,7 +46,7 @@ namespace Files.UserControls
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        public NavigationToolbar()
+        public AddressToolbar()
         {
             InitializeComponent();
             Loading += NavigationToolbar_Loading;
@@ -135,9 +135,9 @@ namespace Files.UserControls
 
         // Using a DependencyProperty as the backing store for CollapseSearchBox.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowSearchBoxProperty =
-            DependencyProperty.Register(nameof(ShowSearchBox), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ShowSearchBox), typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
 
-        public static readonly DependencyProperty SettingsButtonCommandProperty = DependencyProperty.Register(nameof(SettingsButtonCommand), typeof(ICommand), typeof(NavigationToolbar), new PropertyMetadata(null));
+        public static readonly DependencyProperty SettingsButtonCommandProperty = DependencyProperty.Register(nameof(SettingsButtonCommand), typeof(ICommand), typeof(AddressToolbar), new PropertyMetadata(null));
 
         public ICommand SettingsButtonCommand
         {
@@ -170,7 +170,7 @@ namespace Files.UserControls
 
         // Using a DependencyProperty as the backing store for ShowOngoingTasks.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowOngoingTasksProperty =
-            DependencyProperty.Register(nameof(ShowOngoingTasks), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ShowOngoingTasks), typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
 
         public bool ShowSettingsButton
         {
@@ -180,6 +180,6 @@ namespace Files.UserControls
 
         // Using a DependencyProperty as the backing store for ShowSettingsButton.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowSettingsButtonProperty =
-            DependencyProperty.Register(nameof(ShowSettingsButton), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ShowSettingsButton), typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
     }
 }

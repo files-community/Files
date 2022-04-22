@@ -1,13 +1,13 @@
-﻿using Files.DataModels.NavigationControlItems;
+﻿using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Shared.Enums;
-using Files.EventArguments;
-using Files.Extensions;
-using Files.Filesystem;
-using Files.Helpers;
+using Files.Uwp.EventArguments;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.UserControls;
-using Files.UserControls.MultitaskingControl;
-using Files.ViewModels;
+using Files.Uwp.UserControls;
+using Files.Uwp.UserControls.MultitaskingControl;
+using Files.Uwp.ViewModels;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
@@ -25,7 +25,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using Files.Shared.EventArguments;
 
-namespace Files.Views
+namespace Files.Uwp.Views
 {
     /// <summary>
     /// The root page of Files
@@ -192,12 +192,12 @@ namespace Files.Views
         {
             if (NavToolbar != null)
             {
-                NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.NavToolbarViewModel;
+                NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
             }
 
             if (InnerNavigationToolbar != null)
             {
-                InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.NavToolbarViewModel;
+                InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
                 InnerNavigationToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneEnabled ?? false;
                 InnerNavigationToolbar.IsMultiPaneActive = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
             }

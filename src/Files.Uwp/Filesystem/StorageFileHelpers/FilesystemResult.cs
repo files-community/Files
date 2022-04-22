@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public static class FilesystemErrorCodeExtensions
     {

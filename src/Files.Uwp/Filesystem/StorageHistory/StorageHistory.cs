@@ -1,72 +1,28 @@
 ﻿using Files.Shared.Enums;
-using Files.Extensions;
+using Files.Shared.Extensions;
 using System.Collections.Generic;
 
-namespace Files.Filesystem.FilesystemHistory
+namespace Files.Uwp.Filesystem.FilesystemHistory
 {
     public class StorageHistory : IStorageHistory
     {
-        #region Public Properties
-
         public FileOperationType OperationType { get; private set; }
 
         public IList<IStorageItemWithPath> Source { get; private set; }
-
         public IList<IStorageItemWithPath> Destination { get; private set; }
 
-        #endregion Public Properties
-
-        #region Constructor
-
-        public StorageHistory(FileOperationType operationType, IList<IStorageItemWithPath> source, IList<IStorageItemWithPath> destination)
-        {
-            OperationType = operationType;
-            Source = source;
-            Destination = destination;
-        }
-
         public StorageHistory(FileOperationType operationType, IStorageItemWithPath source, IStorageItemWithPath destination)
-        {
-            OperationType = operationType;
-            Source = source.CreateList();
-            Destination = destination.CreateList();
-        }
-
-        #endregion Constructor
-
-        #region Modify
+            => (OperationType, Source, Destination) = (operationType, source.CreateList(), destination.CreateList());
+        public StorageHistory(FileOperationType operationType, IList<IStorageItemWithPath> source, IList<IStorageItemWithPath> destination)
+            => (OperationType, Source, Destination) = (operationType, source, destination);
 
         public void Modify(IStorageHistory newHistory)
-        {
-            OperationType = newHistory.OperationType;
-            Source = newHistory.Source;
-            Destination = newHistory.Destination;
-        }
-
-        public void Modify(FileOperationType operationType, IList<IStorageItemWithPath> source, IList<IStorageItemWithPath> destination)
-        {
-            OperationType = operationType;
-            Source = source;
-            Destination = destination;
-        }
-
+            => (OperationType, Source, Destination) = (newHistory.OperationType, newHistory.Source, newHistory.Destination);
         public void Modify(FileOperationType operationType, IStorageItemWithPath source, IStorageItemWithPath destination)
-        {
-            OperationType = operationType;
-            Source = source.CreateList();
-            Destination = destination.CreateList();
-        }
+            => (OperationType, Source, Destination) = (operationType, source.CreateList(), destination.CreateList());
+        public void Modify(FileOperationType operationType, IList<IStorageItemWithPath> source, IList<IStorageItemWithPath> destination)
+            => (OperationType, Source, Destination) = (operationType, source, destination);
 
-        #endregion Modify
-
-        #region IDisposable
-
-        public void Dispose()
-        {
-            Source = null;
-            Destination = null;
-        }
-
-        #endregion IDisposable
+        public void Dispose() => (Source, Destination) = (null, null);
     }
 }

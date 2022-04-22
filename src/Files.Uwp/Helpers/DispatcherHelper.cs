@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using Windows.UI.Core;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     /// <summary>
     /// This class provides static methods helper for executing code in UI thread of the main window.

@@ -1,13 +1,13 @@
-﻿using Files.Helpers;
-using Files.Views;
+﻿using Files.Uwp.Helpers;
+using Files.Uwp.Views;
 using System;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.UserControls
+namespace Files.Uwp.UserControls
 {
-    public interface INavigationToolbar
+    public interface IAddressToolbar
     {
         public bool IsSearchBoxVisible { get; set; }
         public bool IsEditModeEnabled { get; set; }

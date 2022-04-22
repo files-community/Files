@@ -1,14 +1,16 @@
-﻿using Files.Shared.Extensions;
-using Files.Shared.Enums;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
-using Files.Backend.Services.Settings;
-using Files.UserControls;
-using Files.Views;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services;
+using Files.Backend.Services.Settings;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
+using Files.Shared.Enums;
+using Files.Shared.EventArguments;
+using Files.Shared.Extensions;
+using Files.Uwp.UserControls;
+using Files.Uwp.Views;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -27,15 +29,13 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
-using Files.Backend.Services;
-using static Files.UserControls.INavigationToolbar;
-using SearchBox = Files.UserControls.SearchBox;
+using static Files.Uwp.UserControls.IAddressToolbar;
+using SearchBox = Files.Uwp.UserControls.SearchBox;
 using SortDirection = Files.Shared.Enums.SortDirection;
-using Files.Shared.EventArguments;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
-    public class NavToolbarViewModel : ObservableObject, INavigationToolbar, IDisposable
+    public class ToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
@@ -329,7 +329,7 @@ namespace Files.ViewModels
 
         private PointerRoutedEventArgs pointerRoutedEventArgs;
 
-        public NavToolbarViewModel()
+        public ToolbarViewModel()
         {
             BackClickCommand = new RelayCommand<RoutedEventArgs>(e => BackRequested?.Invoke(this, EventArgs.Empty));
             ForwardClickCommand = new RelayCommand<RoutedEventArgs>(e => ForwardRequested?.Invoke(this, EventArgs.Empty));
@@ -475,7 +475,7 @@ namespace Files.ViewModels
             {
                 dragOverPath = pathBoxItem.Path;
                 dragOverTimer.Stop();
-                if (dragOverPath != (this as INavigationToolbar).PathComponents.LastOrDefault()?.Path)
+                if (dragOverPath != (this as IAddressToolbar).PathComponents.LastOrDefault()?.Path)
                 {
                     dragOverTimer.Debounce(() =>
                     {
@@ -553,7 +553,7 @@ namespace Files.ViewModels
                 {
                     EditModeEnabled?.Invoke(this, EventArgs.Empty);
 
-                    var visiblePath = NavToolbar.FindDescendant<AutoSuggestBox>(x => x.Name == "VisiblePath");
+                    var visiblePath = AddressToolbar.FindDescendant<AutoSuggestBox>(x => x.Name == "VisiblePath");
                     visiblePath?.Focus(FocusState.Programmatic);
                     visiblePath?.FindDescendant<TextBox>()?.SelectAll();
 
@@ -627,14 +627,14 @@ namespace Files.ViewModels
         {
             PathBoxQuerySubmitted?.Invoke(this, new ToolbarQuerySubmittedEventArgs() { QueryText = args.QueryText });
 
-            (this as INavigationToolbar).IsEditModeEnabled = false;
+            (this as IAddressToolbar).IsEditModeEnabled = false;
         }
 
         public void PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
             {
-                Windows.UI.Input.PointerPoint ptrPt = e.GetCurrentPoint(NavToolbar);
+                Windows.UI.Input.PointerPoint ptrPt = e.GetCurrentPoint(AddressToolbar);
                 if (ptrPt.Properties.IsMiddleButtonPressed)
                 {
                     pointerRoutedEventArgs = e;
@@ -680,7 +680,7 @@ namespace Files.ViewModels
 
                 // Given that binding and layouting might take a few cycles, when calling UpdateLayout
                 // we can guarantee that the focus call will be able to find an open ASB
-                var searchbox = NavToolbar.FindDescendant("SearchRegion") as SearchBox;
+                var searchbox = AddressToolbar.FindDescendant("SearchRegion") as SearchBox;
                 searchbox?.UpdateLayout();
                 searchbox?.Focus(FocusState.Programmatic);
             }
@@ -692,7 +692,7 @@ namespace Files.ViewModels
             OnPropertyChanged(nameof(CanEmptyRecycleBin));
         }
 
-        private NavigationToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<NavigationToolbar>();
+        private AddressToolbar AddressToolbar => (Window.Current.Content as Frame).FindDescendant<AddressToolbar>();
 
         #region WidgetsPage Widgets
 
@@ -1042,19 +1042,20 @@ namespace Files.ViewModels
         {
             if (!string.IsNullOrWhiteSpace(sender.Text) && shellpage.FilesystemViewModel != null)
             {
-                try
+                if (!await SafetyExtensions.IgnoreExceptions(async () =>
                 {
                     IList<ListedItem> suggestions = null;
                     var expandedPath = StorageFileExtensions.GetPathWithoutEnvironmentVariable(sender.Text);
                     var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
-                    var folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
-                    var currPath = await folder.Result.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
+                    StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+                    if (folder == null) return false;
+                    var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
                     if (currPath.Count >= maxSuggestions)
                     {
                         suggestions = currPath.Select(x => new ListedItem(null)
                         {
                             ItemPath = x.Path,
-                            ItemNameRaw = x.Folder.DisplayName
+                            ItemNameRaw = x.Item.DisplayName
                         }).ToList();
                     }
                     else if (currPath.Any())
@@ -1063,12 +1064,12 @@ namespace Files.ViewModels
                         suggestions = currPath.Select(x => new ListedItem(null)
                         {
                             ItemPath = x.Path,
-                            ItemNameRaw = x.Folder.DisplayName
+                            ItemNameRaw = x.Item.DisplayName
                         }).Concat(
                             subPath.Select(x => new ListedItem(null)
                             {
                                 ItemPath = x.Path,
-                                ItemNameRaw = PathNormalization.Combine(currPath.First().Folder.DisplayName, x.Folder.DisplayName)
+                                ItemNameRaw = PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
                             })).ToList();
                     }
                     else
@@ -1112,8 +1113,8 @@ namespace Files.ViewModels
                             NavigationBarSuggestions.Insert(suggestions.IndexOf(s), s);
                         }
                     }
-                }
-                catch
+                    return true;
+                }))
                 {
                     NavigationBarSuggestions.Clear();
                     NavigationBarSuggestions.Add(new ListedItem(null)

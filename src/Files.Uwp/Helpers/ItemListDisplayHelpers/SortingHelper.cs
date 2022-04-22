@@ -1,5 +1,5 @@
 ﻿using Files.Shared.Enums;
-using Files.Filesystem;
+using Files.Uwp.Filesystem;
 using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using System;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.Storage;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class SortingHelper
     {

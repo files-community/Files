@@ -369,7 +369,7 @@
   <data name="Application" xml:space="preserve">
     <value>Application</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
+  <data name="SystemTimeStyle" xml:space="preserve">
     <value>System</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
@@ -2752,5 +2752,17 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
     <value>Use compact styles in the details layout</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Universal</value>
+  </data>
+  <data name="DateFormatSample" xml:space="preserve">
+    <value>ex: {0}, {1}</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Show thumbnails</value>
+  </data>
+  <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
+    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
   </data>
 </root>

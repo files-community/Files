@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
 
-namespace Files.Converters
+namespace Files.Uwp.Converters
 {
     internal class DoubleToString : IValueConverter
     {

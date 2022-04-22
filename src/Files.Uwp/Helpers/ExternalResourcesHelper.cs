@@ -8,7 +8,7 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public class ExternalResourcesHelper
     {
@@ -107,7 +107,7 @@ namespace Files.Helpers
             return xaml;
         }
 
-        public async void UpdateTheme(AppTheme OldTheme, AppTheme NewTheme)
+        public async Task UpdateTheme(AppTheme OldTheme, AppTheme NewTheme)
         {
             if (OldTheme.Path != null)
             {

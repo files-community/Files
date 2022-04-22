@@ -1,13 +1,13 @@
-﻿using Files.Dialogs;
+﻿using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
-using Files.Filesystem;
-using Files.Helpers;
-using Files.ViewModels.Properties;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
+using Files.Uwp.ViewModels.Properties;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
-namespace Files.Views
+namespace Files.Uwp.Views
 {
     public sealed partial class PropertiesDetails : PropertiesTab
     {

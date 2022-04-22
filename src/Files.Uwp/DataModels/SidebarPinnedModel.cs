@@ -1,11 +1,11 @@
 ﻿using Files.Shared.Extensions;
-using Files.Controllers;
-using Files.DataModels.NavigationControlItems;
-using Files.Filesystem;
-using Files.Helpers;
+using Files.Uwp.Controllers;
+using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.UserControls;
-using Files.ViewModels;
+using Files.Uwp.UserControls;
+using Files.Uwp.ViewModels;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
@@ -19,7 +19,7 @@ using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.DataModels
+namespace Files.Uwp.DataModels
 {
     public class SidebarPinnedModel
     {
@@ -324,7 +324,7 @@ namespace Files.DataModels
         /// Adds the item to sidebar asynchronous.
         /// </summary>
         /// <param name="section">The section.</param>
-        private void AddItemToSidebarAsync(LocationItem section)
+        private void AddLocationItemToSidebar(LocationItem section)
         {
             var lastItem = favoriteSection.ChildItems.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(CommonPaths.RecycleBinPath));
             int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
@@ -359,8 +359,7 @@ namespace Files.DataModels
                     Font = MainViewModel.FontName,
                     IsDefaultLocation = true,
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"))),
-                    Path = "Home".GetLocalized(),
-                    ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+                    Path = "Home".GetLocalized()
                 };
                 favoriteSection ??= new LocationItem()
                 {
@@ -378,7 +377,7 @@ namespace Files.DataModels
 
                 if (homeSection != null)
                 {
-                    AddItemToSidebarAsync(homeSection);
+                    AddLocationItemToSidebar(homeSection);
                 }
 
                 if (!SidebarControl.SideBarItems.Any(x => x.Text == "SidebarFavorites".GetLocalized()))

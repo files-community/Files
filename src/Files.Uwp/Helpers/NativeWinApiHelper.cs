@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public class NativeWinApiHelper
     {

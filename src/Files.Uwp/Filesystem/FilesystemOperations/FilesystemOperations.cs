@@ -1,9 +1,10 @@
 ﻿using Files.Shared;
 using Files.Shared.Enums;
-using Files.Extensions;
-using Files.Filesystem.FilesystemHistory;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+using Files.Shared.Extensions;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem.FilesystemHistory;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ using FileAttributes = System.IO.FileAttributes;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public enum ImpossibleActionResponseTypes
     {
@@ -391,7 +392,13 @@ namespace Files.Filesystem
 
                         if (fsResult)
                         {
-                            var fsResultMove = await FilesystemTasks.Wrap(() => MoveDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert(), true));
+                            // Moving folders using Storage API can result in data loss, copy instead
+                            //var fsResultMove = await FilesystemTasks.Wrap(() => MoveDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert(), true));
+                            var fsResultMove = new FilesystemResult<BaseStorageFolder>(null, FileSystemStatusCode.Generic);
+                            if (await DialogDisplayHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalized(), "ErrorDialogUnsupportedMoveOperation".GetLocalized(), "OK", "Cancel".GetLocalized()))
+                            {
+                                fsResultMove = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
+                            }
 
                             if (fsResultMove == FileSystemStatusCode.AlreadyExists)
                             {
@@ -748,8 +755,12 @@ namespace Files.Filesystem
 
                     if (fsResult)
                     {
-                        fsResult = await FilesystemTasks.Wrap(() => MoveDirectoryAsync(sourceFolder.Result, destinationFolder.Result, Path.GetFileName(destination),
-                            CreationCollisionOption.FailIfExists, true));
+                        // Moving folders using Storage API can result in data loss, copy instead
+                        //fsResult = await FilesystemTasks.Wrap(() => MoveDirectoryAsync(sourceFolder.Result, destinationFolder.Result, Path.GetFileName(destination), CreationCollisionOption.FailIfExists, true));
+                        if (await DialogDisplayHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalized(), "ErrorDialogUnsupportedMoveOperation".GetLocalized(), "OK", "Cancel".GetLocalized()))
+                        {
+                            fsResult = await FilesystemTasks.Wrap(() => CloneDirectoryAsync(sourceFolder.Result, destinationFolder.Result, Path.GetFileName(destination), CreationCollisionOption.FailIfExists));
+                        }
                         // TODO: we could use here FilesystemHelpers with registerHistory false?
                     }
                     errorCode?.Report(fsResult);
@@ -824,6 +835,7 @@ namespace Files.Filesystem
             return createdRoot;
         }
 
+        [Obsolete("Moving folders using Storage API can result in data loss. For example hidden folders will not be moved but the parent folder will be deleted at the end. If this happens on a drive without recycle bin StorageDeleteOption.Default results in a permanent delete.")]
         private static async Task<BaseStorageFolder> MoveDirectoryAsync(BaseStorageFolder sourceFolder, BaseStorageFolder destinationDirectory, string sourceRootName, CreationCollisionOption collision = CreationCollisionOption.FailIfExists, bool deleteSource = false)
         {
             BaseStorageFolder createdRoot = await destinationDirectory.CreateFolderAsync(sourceRootName, collision);

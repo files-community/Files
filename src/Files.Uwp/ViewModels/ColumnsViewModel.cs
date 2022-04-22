@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Windows.UI.Xaml;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
     public class ColumnsViewModel : ObservableObject
     {

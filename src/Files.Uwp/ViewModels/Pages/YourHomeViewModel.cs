@@ -1,14 +1,14 @@
-﻿using Files.EventArguments.Bundles;
-using Files.Helpers;
-using Files.ViewModels.Widgets;
-using Files.ViewModels.Widgets.Bundles;
+﻿using Files.Uwp.EventArguments.Bundles;
+using Files.Uwp.Helpers;
+using Files.Uwp.ViewModels.Widgets;
+using Files.Uwp.ViewModels.Widgets.Bundles;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 
-namespace Files.ViewModels.Pages
+namespace Files.Uwp.ViewModels.Pages
 {
     public class YourHomeViewModel : ObservableObject, IDisposable
     {

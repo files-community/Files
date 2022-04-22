@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using Windows.Storage;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class CommonPaths
     {

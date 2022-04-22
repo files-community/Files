@@ -1,7 +1,7 @@
-﻿using Files.Filesystem;
+﻿using Files.Uwp.Filesystem;
 using System.Collections.Generic;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class SidebarHelpers
     {

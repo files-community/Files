@@ -1,11 +1,11 @@
 ﻿using Common;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using System;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public class FileTagsHelper
     {
@@ -32,6 +32,7 @@ namespace Files.Filesystem
 
         public static void WriteFileTag(string filePath, string tag)
         {
+            var dateOk = NativeFileOperationsHelper.GetFileDateModified(filePath, out var dateModified); // Backup date modified
             var isReadOnly = NativeFileOperationsHelper.HasFileAttribute(filePath, System.IO.FileAttributes.ReadOnly);
             if (isReadOnly) // Unset read-only attribute (#7534)
             {
@@ -48,6 +49,10 @@ namespace Files.Filesystem
             if (isReadOnly) // Restore read-only attribute (#7534)
             {
                 NativeFileOperationsHelper.SetFileAttribute(filePath, System.IO.FileAttributes.ReadOnly);
+            }
+            if (dateOk)
+            {
+                NativeFileOperationsHelper.SetFileDateModified(filePath, dateModified); // Restore date modified
             }
         }
 
