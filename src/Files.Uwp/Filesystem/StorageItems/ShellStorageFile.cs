@@ -56,13 +56,25 @@ namespace Files.Uwp.Filesystem.StorageItems
 
         public override IAsyncOperation<StorageFile> ToStorageFileAsync() => throw new NotSupportedException();
 
+        public static ShellStorageFile FromShellItem(ShellFileItem item)
+        {
+            if (item.RecyclePath != item.FilePath)
+            {
+                return new BinStorageFile(item);
+            }
+            return new ShellStorageFile(item);
+        }
+
         public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
         {
             return AsyncInfo.Run<BaseStorageFile>(async (cancellationToken) =>
             {
-                if (await GetFile(path) is ShellFileItem file)
+                if (ShellStorageFolder.IsShellPath(path))
                 {
-                    return new ShellStorageFile(file);
+                    if (await GetFile(path) is ShellFileItem file)
+                    {
+                        return FromShellItem(file);
+                    }
                 }
                 return null;
             });

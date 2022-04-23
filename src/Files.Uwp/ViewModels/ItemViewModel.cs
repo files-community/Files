@@ -2059,11 +2059,11 @@ namespace Files.Uwp.ViewModels
 
             if (item.IsFolder)
             {
-                return await UniversalStorageEnumerator.AddFolderAsync(new ShellStorageFolder(item), currentStorageFolder, dateReturnFormat, addFilesCTS.Token);
+                return await UniversalStorageEnumerator.AddFolderAsync(ShellStorageFolder.FromShellItem(item), currentStorageFolder, dateReturnFormat, addFilesCTS.Token);
             }
             else
             {
-                return await UniversalStorageEnumerator.AddFileAsync(new ShellStorageFile(item), currentStorageFolder, dateReturnFormat, addFilesCTS.Token);
+                return await UniversalStorageEnumerator.AddFileAsync(ShellStorageFile.FromShellItem(item), currentStorageFolder, dateReturnFormat, addFilesCTS.Token);
             }
         }
 

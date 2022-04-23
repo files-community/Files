@@ -111,6 +111,15 @@ namespace Files.Uwp.Filesystem.StorageItems
             return path is not null && path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || path.StartsWith("::{", StringComparison.OrdinalIgnoreCase);
         }
 
+        public static ShellStorageFolder FromShellItem(ShellFileItem item)
+        {
+            if (item.RecyclePath != item.FilePath)
+            {
+                return new BinStorageFolder(item);
+            }
+            return new ShellStorageFolder(item);
+        }
+
         public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)
         {
             return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
@@ -120,11 +129,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                     var res = await GetFolderAndItems(path, false);
                     if (res.Folder != null)
                     {
-                        if (path.StartsWith(Constants.CommonPaths.RecycleBinPath))
-                        {
-                            return new BinStorageFolder(res.Folder);
-                        }
-                        return new ShellStorageFolder(res.Folder);
+                        return FromShellItem(res.Folder);
                     }
                 }
                 return null;
