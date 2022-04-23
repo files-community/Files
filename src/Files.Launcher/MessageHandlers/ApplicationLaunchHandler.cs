@@ -134,7 +134,7 @@ namespace FilesFullTrust.MessageHandlers
                 {
                     try
                     {
-                        return await Win32API.StartSTATask(() =>
+                        var opened = await Win32API.StartSTATask(() =>
                         {
                             var split = application.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => GetMtpPath(x));
                             if (split.Count() == 1)
@@ -161,6 +161,24 @@ namespace FilesFullTrust.MessageHandlers
                             }
                             return true;
                         });
+                        if (!opened)
+                        {
+                            if (application.StartsWith(@"\\?\", StringComparison.Ordinal))
+                            {
+                                opened = await Win32API.StartSTATask(() =>
+                                {
+                                    var pidl = application.Replace(@"\\?\", "", StringComparison.Ordinal)
+                                        .Split('\\', StringSplitOptions.RemoveEmptyEntries)
+                                        .Select(x => new Shell32.PIDL(Convert.FromBase64String(x)))
+                                        .Aggregate((x, y) => Shell32.PIDL.Combine(x, y));
+                                    using var si = new ShellItem(pidl);
+                                    using var cMenu = ContextMenu.GetContextMenuForFiles(new[] { si }, Shell32.CMF.CMF_DEFAULTONLY);
+                                    cMenu?.InvokeVerb(Shell32.CMDSTR_OPEN);
+                                    return true;
+                                });
+                            }
+                        }
+                        return opened;
                     }
                     catch (Win32Exception)
                     {

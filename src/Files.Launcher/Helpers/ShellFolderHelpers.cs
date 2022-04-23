@@ -40,7 +40,8 @@ namespace FilesFullTrust.Helpers
             {
                 return new ShellFileItem(isFolder, folderItem.FileSystemPath, Path.GetFileName(folderItem.Name), folderItem.Name, DateTime.Now, DateTime.Now, DateTime.Now, null, 0, null);
             }
-            var parsingPath = folderItem.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing);
+            //var parsingPath = folderItem.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing);
+            var parsingPath = $@"\\?\{string.Join("\\", folderItem.PIDL.Select(x => x.GetBytes()).Select(x => Convert.ToBase64String(x, 0, x.Length)))}";
             parsingPath ??= folderItem.FileSystemPath; // True path on disk
             folderItem.Properties.TryGetValue<string>(
                 Ole32.PROPERTYKEY.System.ItemNameDisplay, out var fileName);

@@ -58,7 +58,10 @@ namespace Files.Uwp.Filesystem.StorageItems
 
         public static bool IsShellPath(string path)
         {
-            return path is not null && path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || path.StartsWith("::{", StringComparison.Ordinal);
+            return path is not null && 
+                path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || 
+                path.StartsWith("::{", StringComparison.Ordinal) ||
+                path.StartsWith(@"\\?\", StringComparison.Ordinal);
         }
 
         public static ShellStorageFolder FromShellItem(ShellFileItem item)

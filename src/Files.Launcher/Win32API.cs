@@ -168,7 +168,22 @@ namespace FilesFullTrust
 
             if (!onlyGetOverlay)
             {
-                using var shellItem = new Vanara.Windows.Shell.ShellItem(path);
+                Vanara.Windows.Shell.ShellItem GetShellItem()
+                {
+                    if (path.StartsWith(@"\\?\", StringComparison.Ordinal))
+                    {
+                        var pidl = path.Replace(@"\\?\", "", StringComparison.Ordinal)
+                            .Split('\\', StringSplitOptions.RemoveEmptyEntries)
+                            .Select(x => new Shell32.PIDL(Convert.FromBase64String(x)))
+                            .Aggregate((x, y) => Shell32.PIDL.Combine(x, y));
+                        return new(pidl);
+                    }
+                    else
+                    {
+                        return new(path);
+                    }
+                }
+                using var shellItem = GetShellItem();
                 if (shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
                 {
                     var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
@@ -190,12 +205,32 @@ namespace FilesFullTrust
             if (getOverlay)
             {
                 var shfi = new Shell32.SHFILEINFO();
-                var ret = Shell32.SHGetFileInfo(
-                    path,
-                    0,
-                    ref shfi,
-                    Shell32.SHFILEINFO.Size,
-                    Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION);
+                IntPtr SHGetFileInfo()
+                {
+                    if (path.StartsWith(@"\\?\", StringComparison.Ordinal))
+                    {
+                        var pidl = path.Replace(@"\\?\", "", StringComparison.Ordinal)
+                            .Split('\\', StringSplitOptions.RemoveEmptyEntries)
+                            .Select(x => new Shell32.PIDL(Convert.FromBase64String(x)))
+                            .Aggregate((x, y) => Shell32.PIDL.Combine(x, y));
+                        return Shell32.SHGetFileInfo(
+                            pidl,
+                            0,
+                            ref shfi,
+                            Shell32.SHFILEINFO.Size,
+                            Shell32.SHGFI.SHGFI_PIDL | Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION);
+                    }
+                    else
+                    {
+                        return Shell32.SHGetFileInfo(
+                            path,
+                            0,
+                            ref shfi,
+                            Shell32.SHFILEINFO.Size,
+                            Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION);
+                    }
+                }
+                var ret = SHGetFileInfo();
                 if (ret == IntPtr.Zero)
                 {
                     return (iconStr, null);

@@ -93,7 +93,23 @@ namespace FilesFullTrust
             {
                 foreach (var fp in filePathList.Where(x => !string.IsNullOrEmpty(x)))
                 {
-                    shellItems.Add(new ShellItem(fp));
+                    ShellItem GetShellItem()
+                    {
+                        if (fp.StartsWith(@"\\?\", StringComparison.Ordinal))
+                        {
+                            var pidl = fp.Replace(@"\\?\", "", StringComparison.Ordinal)
+                                .Split('\\', StringSplitOptions.RemoveEmptyEntries)
+                                .Select(x => new Shell32.PIDL(Convert.FromBase64String(x)))
+                                .Aggregate((x, y) => Shell32.PIDL.Combine(x, y));
+                            return new ShellItem(pidl);
+                        }
+                        else
+                        {
+                            return new ShellItem(fp);
+                        }
+                    }
+
+                    shellItems.Add(GetShellItem());
                 }
 
                 return GetContextMenuForFiles(shellItems.ToArray(), flags, itemFilter);
@@ -112,7 +128,7 @@ namespace FilesFullTrust
             }
         }
 
-        private static ContextMenu GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, Func<string, bool> itemFilter = null)
+        public static ContextMenu GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, Func<string, bool> itemFilter = null)
         {
             if (shellItems == null || !shellItems.Any())
             {
