@@ -28,56 +28,6 @@ namespace Files.Uwp.Filesystem.StorageItems
             OriginalPath = item.FilePath;
             DateDeleted = item.RecycleDate;
         }
-
-        public override IAsyncOperation<IStorageItem> GetItemAsync(string name)
-        {
-            return AsyncInfo.Run<IStorageItem>(async (cancellationToken) =>
-            {
-                var res = await GetFolderAndItems(Path, true);
-                if (res.Items is null)
-                {
-                    return null;
-                }
-
-                var entry = res.Items.FirstOrDefault(x => x.FileName != null && x.FileName.Equals(name, StringComparison.OrdinalIgnoreCase));
-                if (entry is null)
-                {
-                    return null;
-                }
-
-                if (entry.IsFolder)
-                {
-                    return new BinStorageFolder(entry);
-                }
-
-                return new BinStorageFile(entry);
-            });
-        }
-        public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync()
-        {
-            return AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken) =>
-            {
-                var res = await GetFolderAndItems(Path, true);
-                if (res.Items is null)
-                {
-                    return null;
-                }
-
-                var items = new List<IStorageItem>();
-                foreach (var entry in res.Items)
-                {
-                    if (entry.IsFolder)
-                    {
-                        items.Add(new BinStorageFolder(entry));
-                    }
-                    else
-                    {
-                        items.Add(new BinStorageFile(entry));
-                    }
-                }
-                return items;
-            });
-        }
     }
 
     public interface IBinStorageItem : IStorageItem
@@ -184,7 +134,7 @@ namespace Files.Uwp.Filesystem.StorageItems
         {
             return AsyncInfo.Run<IStorageItem>(async (cancellationToken) =>
             {
-            var res = await GetFolderAndItems(Path, true);
+                var res = await GetFolderAndItems(Path, true);
                 if (res.Items is null)
                 {
                     return null;
@@ -198,10 +148,10 @@ namespace Files.Uwp.Filesystem.StorageItems
 
                 if (entry.IsFolder)
                 {
-                    return new ShellStorageFolder(entry);
+                    return ShellStorageFolder.FromShellItem(entry);
                 }
 
-                return new ShellStorageFile(entry);
+                return ShellStorageFile.FromShellItem(entry);
             });
         }
         public override IAsyncOperation<IStorageItem> TryGetItemAsync(string name)
@@ -233,11 +183,11 @@ namespace Files.Uwp.Filesystem.StorageItems
                 {
                     if (entry.IsFolder)
                     {
-                        items.Add(new ShellStorageFolder(entry));
+                        items.Add(ShellStorageFolder.FromShellItem(entry));
                     }
                     else
                     {
-                        items.Add(new ShellStorageFile(entry));
+                        items.Add(ShellStorageFile.FromShellItem(entry));
                     }
                 }
                 return items;
