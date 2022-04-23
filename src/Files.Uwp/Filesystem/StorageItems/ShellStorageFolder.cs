@@ -288,15 +288,15 @@ namespace Files.Uwp.Filesystem.StorageItems
         public override bool IsCommonFolderQuerySupported(CommonFolderQuery query) => false;
 
         public override StorageItemQueryResult CreateItemQuery() => throw new NotSupportedException();
-        public override BaseStorageItemQueryResult CreateItemQueryWithOptions(QueryOptions queryOptions) => throw new NotSupportedException();
+        public override BaseStorageItemQueryResult CreateItemQueryWithOptions(QueryOptions queryOptions) => new(this, queryOptions);
 
         public override StorageFileQueryResult CreateFileQuery() => throw new NotSupportedException();
         public override StorageFileQueryResult CreateFileQuery(CommonFileQuery query) => throw new NotSupportedException();
-        public override BaseStorageFileQueryResult CreateFileQueryWithOptions(QueryOptions queryOptions) => throw new NotSupportedException();
+        public override BaseStorageFileQueryResult CreateFileQueryWithOptions(QueryOptions queryOptions) => new(this, queryOptions);
 
         public override StorageFolderQueryResult CreateFolderQuery() => throw new NotSupportedException();
         public override StorageFolderQueryResult CreateFolderQuery(CommonFolderQuery query) => throw new NotSupportedException();
-        public override BaseStorageFolderQueryResult CreateFolderQueryWithOptions(QueryOptions queryOptions) => throw new NotSupportedException();
+        public override BaseStorageFolderQueryResult CreateFolderQueryWithOptions(QueryOptions queryOptions) => new(this, queryOptions);
 
         public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
             => Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
