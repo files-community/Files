@@ -151,7 +151,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
             return tempList;
         }
 
-        private static async Task<ListedItem> AddFolderAsync(BaseStorageFolder folder, StorageFolderWithPath currentStorageFolder, string dateReturnFormat, CancellationToken cancellationToken)
+        public static async Task<ListedItem> AddFolderAsync(BaseStorageFolder folder, StorageFolderWithPath currentStorageFolder, string dateReturnFormat, CancellationToken cancellationToken)
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
             if (!cancellationToken.IsCancellationRequested)
@@ -198,7 +198,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
             return null;
         }
 
-        private static async Task<ListedItem> AddFileAsync(
+        public static async Task<ListedItem> AddFileAsync(
             BaseStorageFile file,
             StorageFolderWithPath currentStorageFolder,
             string dateReturnFormat,

@@ -428,7 +428,7 @@ namespace Files.Uwp.ViewModels
                     switch (changeType)
                     {
                         case "Created":
-                            var newListedItem = AddFileOrFolderFromShellFile(newItem);
+                            var newListedItem = await AddFileOrFolderFromShellFile(newItem);
                             if (newListedItem != null)
                             {
                                 await AddFileOrFolderAsync(newListedItem);
@@ -2053,73 +2053,17 @@ namespace Files.Uwp.ViewModels
             Debug.WriteLine("aProcessQueueAction done: {0}", rand);
         }
 
-        public ListedItem AddFileOrFolderFromShellFile(ShellFileItem item, string dateReturnFormat = null)
+        public async Task<ListedItem> AddFileOrFolderFromShellFile(ShellFileItem item, string dateReturnFormat = null)
         {
             dateReturnFormat ??= DateTimeExtensions.GetDateFormat();
 
             if (item.IsFolder)
             {
-                // Folder
-                var binItem = new RecycleBinItem(null, dateReturnFormat)
-                {
-                    PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemNameRaw = item.FileName,
-                    ItemDateModifiedReal = item.ModifiedDate,
-                    ItemDateCreatedReal = item.CreatedDate,
-                    ItemDateDeletedReal = item.RecycleDate,
-                    ItemType = item.FileType,
-                    IsHiddenItem = false,
-                    Opacity = 1,
-                    FileImage = null,
-                    LoadFileIcon = false,
-                    ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
-                    ItemOriginalPath = item.FilePath,
-                    FileSize = null,
-                    FileSizeBytes = 0,
-                    //FolderTooltipText = tooltipString,
-                };
-                if (DefaultIcons.ContainsKey(string.Empty))
-                {
-                    binItem.SetDefaultIcon(DefaultIcons[string.Empty]);
-                }
-                return binItem;
+                return await UniversalStorageEnumerator.AddFolderAsync(new ShellStorageFolder(item), currentStorageFolder, dateReturnFormat, addFilesCTS.Token);
             }
             else
             {
-                // File
-                string itemName = item.FileName;
-                string itemFileExtension = null;
-                if (item.FileName.Contains('.'))
-                {
-                    itemFileExtension = Path.GetExtension(item.FileName);
-                }
-                var binItem = new RecycleBinItem(null, dateReturnFormat)
-                {
-                    PrimaryItemAttribute = StorageItemTypes.File,
-                    FileExtension = itemFileExtension,
-                    FileImage = null,
-                    LoadFileIcon = false,
-                    IsHiddenItem = false,
-                    Opacity = 1,
-                    ItemNameRaw = itemName,
-                    ItemDateModifiedReal = item.ModifiedDate,
-                    ItemDateCreatedReal = item.CreatedDate,
-                    ItemDateDeletedReal = item.RecycleDate,
-                    ItemType = item.FileType,
-                    ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
-                    ItemOriginalPath = item.FilePath,
-                    FileSize = item.FileSize,
-                    FileSizeBytes = (long)item.FileSizeBytes
-                };
-                if (!string.IsNullOrEmpty(binItem?.FileExtension))
-                {
-                    var lowercaseExt = binItem.FileExtension.ToLowerInvariant();
-                    if (DefaultIcons.ContainsKey(lowercaseExt))
-                    {
-                        binItem.SetDefaultIcon(DefaultIcons[lowercaseExt]);
-                    }
-                }
-                return binItem;
+                return await UniversalStorageEnumerator.AddFileAsync(new ShellStorageFile(item), currentStorageFolder, dateReturnFormat, addFilesCTS.Token);
             }
         }
 
