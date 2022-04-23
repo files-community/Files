@@ -173,7 +173,7 @@ namespace FilesFullTrust.MessageHandlers
                                         .Aggregate((x, y) => Shell32.PIDL.Combine(x, y));
                                     using var si = new ShellItem(pidl);
                                     using var cMenu = ContextMenu.GetContextMenuForFiles(new[] { si }, Shell32.CMF.CMF_DEFAULTONLY);
-                                    cMenu?.InvokeVerb(Shell32.CMDSTR_OPEN);
+                                    cMenu?.InvokeItem(cMenu?.Items.FirstOrDefault().ID ?? -1);
                                     return true;
                                 });
                             }
