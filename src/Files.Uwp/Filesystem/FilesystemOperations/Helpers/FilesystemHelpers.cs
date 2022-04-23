@@ -327,7 +327,7 @@ namespace Files.Uwp.Filesystem
 
             var token = banner.CancellationToken;
             
-            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source, destination, showDialog);
+            var (collisions, cancelOperation, itemsResult) = await GetCollision(FilesystemOperationType.Copy, source, destination, showDialog);
 
             if (cancelOperation)
             {
@@ -343,6 +343,19 @@ namespace Files.Uwp.Filesystem
             IStorageHistory history = await filesystemOperations.CopyItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.Progress, banner.ErrorCode, token);
             ((IProgress<float>)banner.Progress).Report(100.0f);
             await Task.Yield();
+
+            foreach (var item in history.Source.Zip(history.Destination, (k, v) => new { Key = k, Value = v }).ToDictionary(k => k.Key, v => v.Value))
+            {
+                foreach (var item2 in itemsResult)
+                {
+                    if (!string.IsNullOrEmpty(item2.CustomName) && item2.SourcePath == item.Key.Path)
+                    {
+                        var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ErrorCode, token);
+                        
+                        history.Destination[history.Source.IndexOf(item.Key)] = renameHistory.Destination[0];
+                    }
+                }
+            }
 
             if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
             {
@@ -470,7 +483,7 @@ namespace Files.Uwp.Filesystem
 
             var token = banner.CancellationToken;
 
-            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Move, source, destination, showDialog);
+            var (collisions, cancelOperation, itemsResult) = await GetCollision(FilesystemOperationType.Move, source, destination, showDialog);
 
             if (cancelOperation)
             {
@@ -486,6 +499,19 @@ namespace Files.Uwp.Filesystem
             IStorageHistory history = await filesystemOperations.MoveItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.Progress, banner.ErrorCode, token);
             ((IProgress<float>)banner.Progress).Report(100.0f);
             await Task.Yield();
+
+            foreach (var item in history.Source.Zip(history.Destination, (k, v) => new { Key = k, Value = v }).ToDictionary(k => k.Key, v => v.Value))
+            {
+                foreach (var item2 in itemsResult)
+                {
+                    if (!string.IsNullOrEmpty(item2.CustomName) && item2.SourcePath == item.Key.Path)
+                    {
+                        var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ErrorCode, token);
+                        
+                        history.Destination[history.Source.IndexOf(item.Key)] = renameHistory.Destination[0];
+                    }
+                }
+            }
 
             if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
             {
@@ -677,7 +703,7 @@ namespace Files.Uwp.Filesystem
 
         #endregion IFilesystemHelpers
 
-        private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation)> GetCollision(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
+        private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation, IEnumerable<IFileSystemDialogConflictItemViewModel>)> GetCollision(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
         {
             var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
             var conflictingItems = new List<BaseFileSystemDialogItemViewModel>();
@@ -707,6 +733,8 @@ namespace Files.Uwp.Filesystem
                 }
             }
 
+            IEnumerable<IFileSystemDialogConflictItemViewModel>? itemsResult = null;
+
             var mustResolveConflicts = !conflictingItems.IsEmpty();
             if (mustResolveConflicts || forceDialog)
             {
@@ -721,16 +749,17 @@ namespace Files.Uwp.Filesystem
                     conflictingItems);
 
                 var result = await dialogService.ShowDialogAsync(dialogViewModel);
+                itemsResult = dialogViewModel.GetItemsResult();
                 if (mustResolveConflicts) // If there were conflicts, result buttons are different
                 {
                     if (result != DialogResult.Primary) // Operation was cancelled
                     {
-                        return (new(), true);
+                        return (new(), true, itemsResult);
                     }
                 }
 
                 collisions.Clear();
-                foreach (var item in dialogViewModel.GetItemsResult())
+                foreach (var item in itemsResult)
                 {
                     collisions.AddIfNotPresent(item.SourcePath, item.ConflictResolveOption);
                 }
@@ -753,7 +782,7 @@ namespace Files.Uwp.Filesystem
                 }
             }
 
-            return (newCollisions, false);
+            return (newCollisions, false, itemsResult ?? new List<IFileSystemDialogConflictItemViewModel>());
         }
 
         #region Public Helpers

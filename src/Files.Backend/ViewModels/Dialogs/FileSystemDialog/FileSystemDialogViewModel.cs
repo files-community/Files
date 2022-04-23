@@ -67,6 +67,11 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
             messenger.Register<FileSystemDialogOptionChangedMessage>(this);
         }
 
+        public bool IsNameAvailableForItem(BaseFileSystemDialogItemViewModel item, string name)
+        {
+            return Items.Where(x => !x.SourcePath!.Equals(item.SourcePath)).Cast<FileSystemDialogConflictItemViewModel>().All(x => x.DestinationDisplayName != name);
+        }
+
         public void ApplyConflictOptionToAll(FileNameConflictResolveOptionType e)
         {
             if (!FileSystemDialogMode.IsInDeleteMode && e != FileNameConflictResolveOptionType.None)

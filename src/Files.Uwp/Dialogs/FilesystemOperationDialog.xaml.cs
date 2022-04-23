@@ -136,7 +136,14 @@ namespace Files.Uwp.Dialogs
         {
             if ((sender as FrameworkElement)?.DataContext is FileSystemDialogConflictItemViewModel conflictItem)
             {
-                conflictItem.IsTextBoxVisible = false;
+                if (ViewModel.IsNameAvailableForItem(conflictItem, conflictItem.CustomName))
+                {
+                    conflictItem.IsTextBoxVisible = false;
+                }
+                else
+                {
+                    ViewModel.PrimaryButtonEnabled = false;
+                }
             }
         }
     }
