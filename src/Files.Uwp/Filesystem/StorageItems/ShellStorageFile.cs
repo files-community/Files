@@ -103,11 +103,41 @@ namespace Files.Uwp.Filesystem.StorageItems
         public override IAsyncAction DeleteAsync(StorageDeleteOption option) => throw new NotSupportedException();
 
         public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
-            => Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
+        {
+            return AsyncInfo.Run(async (cancellationToken) =>
+            {
+                if (ShellStorageFolder.IsShellPath(Path))
+                {
+                    return null;
+                }
+                var zipFile = await StorageFile.GetFileFromPathAsync(Path);
+                return await zipFile.GetThumbnailAsync(mode);
+            });
+        }
         public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize)
-            => Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
+        {
+            return AsyncInfo.Run(async (cancellationToken) =>
+            {
+                if (ShellStorageFolder.IsShellPath(Path))
+                {
+                    return null;
+                }
+                var zipFile = await StorageFile.GetFileFromPathAsync(Path);
+                return await zipFile.GetThumbnailAsync(mode, requestedSize);
+            });
+        }
         public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
-            => Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
+        {
+            return AsyncInfo.Run(async (cancellationToken) =>
+            {
+                if (ShellStorageFolder.IsShellPath(Path))
+                {
+                    return null;
+                }
+                var zipFile = await StorageFile.GetFileFromPathAsync(Path);
+                return await zipFile.GetThumbnailAsync(mode, requestedSize, options);
+            });
+        }
 
         public override IAsyncAction MoveAndReplaceAsync(IStorageFile fileToReplace) => throw new NotSupportedException();
         public override IAsyncAction MoveAsync(IStorageFolder destinationFolder) => throw new NotSupportedException();

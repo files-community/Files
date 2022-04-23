@@ -299,11 +299,41 @@ namespace Files.Uwp.Filesystem.StorageItems
         public override BaseStorageFolderQueryResult CreateFolderQueryWithOptions(QueryOptions queryOptions) => new(this, queryOptions);
 
         public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
-            => Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
+        {
+            return AsyncInfo.Run(async (cancellationToken) =>
+            {
+                if (IsShellPath(Path))
+                {
+                    return null;
+                }
+                var zipFolder = await StorageFolder.GetFolderFromPathAsync(Path);
+                return await zipFolder.GetThumbnailAsync(mode);
+            });
+        }
         public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize)
-            => Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
+        {
+            return AsyncInfo.Run(async (cancellationToken) =>
+            {
+                if (IsShellPath(Path))
+                {
+                    return null;
+                }
+                var zipFolder = await StorageFolder.GetFolderFromPathAsync(Path);
+                return await zipFolder.GetThumbnailAsync(mode, requestedSize);
+            });
+        }
         public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
-            => Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
+        {
+            return AsyncInfo.Run(async (cancellationToken) =>
+            {
+                if (IsShellPath(Path))
+                {
+                    return null;
+                }
+                var zipFolder = await StorageFolder.GetFolderFromPathAsync(Path);
+                return await zipFolder.GetThumbnailAsync(mode, requestedSize, options);
+            });
+        }
 
         private class ShellFolderBasicProperties : BaseBasicProperties
         {
