@@ -3534,6 +3534,10 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
           <source>Retry</source>
           <target state="translated">Riprova</target>
         </trans-unit>
+        <trans-unit id="ErrorDialogUnsupportedMoveOperation" translate="yes" xml:space="preserve">
+          <source>Move operation is not supported in this context. Do you want to copy the items instead?</source>
+          <target state="translated">L'operazione di spostamento non è supportata in questo contesto. Vuoi copiare gli elementi?</target>
+        </trans-unit>
       </group>
     </body>
   </file>

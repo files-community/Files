@@ -220,16 +220,16 @@ namespace Files.Uwp.Views
             AppInstance.InstanceViewModel.IsPageTypeFtp = false;
             AppInstance.InstanceViewModel.IsPageTypeZipFolder = false;
             AppInstance.InstanceViewModel.IsPageTypeLibrary = false;
-            AppInstance.NavToolbarViewModel.CanRefresh = false;
-            AppInstance.NavToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
-            AppInstance.NavToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
-            AppInstance.NavToolbarViewModel.CanNavigateToParent = false;
+            AppInstance.ToolbarViewModel.CanRefresh = false;
+            AppInstance.ToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
+            AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
+            AppInstance.ToolbarViewModel.CanNavigateToParent = false;
 
             // Set path of working directory empty
             await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home".GetLocalized());
 
             // Clear the path UI and replace with Favorites
-            AppInstance.NavToolbarViewModel.PathComponents.Clear();
+            AppInstance.ToolbarViewModel.PathComponents.Clear();
             string componentLabel = parameters.NavPathParam;
             string tag = parameters.NavPathParam;
             PathBoxItem item = new PathBoxItem()
@@ -237,7 +237,7 @@ namespace Files.Uwp.Views
                 Title = componentLabel,
                 Path = tag,
             };
-            AppInstance.NavToolbarViewModel.PathComponents.Add(item);
+            AppInstance.ToolbarViewModel.PathComponents.Add(item);
         }
 
         #region IDisposable

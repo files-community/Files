@@ -278,7 +278,7 @@
                                         <ToggleMenuFlyoutItem
                                             Click="ToggleMenuFlyoutItem_Click"
                                             IsChecked="{x:Bind ColumnsViewModel.ItemTypeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-                                            Text="{helpers:ResourceString Name=ToggleMenuFlyoutItem_Click/Text}"
+                                            Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowItemType/Text}"
                                             Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
                                         <ToggleMenuFlyoutItem
                                             Click="ToggleMenuFlyoutItem_Click"
@@ -885,9 +885,7 @@
                                 HorizontalAlignment="Stretch"
                                 x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}"
                                 Orientation="Vertical">
-                                <TextBlock
-                                    HorizontalTextAlignment="Center"
-                                    Text="{helpers:ResourceString Name=SearchUnindexedItemsLabel/Text}" />
+                                <TextBlock HorizontalTextAlignment="Center" Text="{helpers:ResourceString Name=SearchUnindexedItemsLabel/Text}" />
                                 <HyperlinkButton
                                     x:Name="SearchUnindexedItemsButton"
                                     HorizontalAlignment="Center"

@@ -174,7 +174,6 @@
     <Compile Include="Filesystem\Permissions\RulesForUser.cs" />
     <Compile Include="Filesystem\Permissions\UserGroup.cs" />
     <Compile Include="Filesystem\StorageItems\BaseQueryResults.cs" />
-    <Compile Include="Filesystem\StorageItems\BaseStorageItem.cs" />
     <Compile Include="Filesystem\StorageItems\FtpStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\FtpStorageFolder.cs" />
     <Compile Include="Filesystem\StorageItems\StreamWithContentType.cs" />
@@ -182,6 +181,13 @@
     <Compile Include="Filesystem\StorageItems\SystemStorageFolder.cs" />
     <Compile Include="Filesystem\StorageItems\ZipStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\ZipStorageFolder.cs" />
+    <Compile Include="Filesystem\BaseStorage\BaseBasicProperties.cs" />
+    <Compile Include="Filesystem\BaseStorage\BaseBasicStorageItemExtraProperties.cs" />
+    <Compile Include="Filesystem\BaseStorage\BaseStorageFile.cs" />
+    <Compile Include="Filesystem\BaseStorage\BaseStorageFolder.cs" />
+    <Compile Include="Filesystem\BaseStorage\BaseStorageItemExtraProperties.cs" />
+    <Compile Include="Filesystem\BaseStorage\IBaseStorageFile.cs" />
+    <Compile Include="Filesystem\BaseStorage\IBaseStorageFolder.cs" />
     <Compile Include="Helpers\ColorHelpers.cs" />
     <Compile Include="Helpers\CommonPaths.cs" />
     <Compile Include="Helpers\FileExtensionHelpers.cs" />
@@ -360,7 +366,7 @@
     <Compile Include="ValueConverters\GenericEnumConverter.cs" />
     <Compile Include="ValueConverters\ImageModelToImageConverter.cs" />
     <Compile Include="ViewModels\Dialogs\DecompressArchiveDialogViewModel.cs" />
-    <Compile Include="ViewModels\NavToolbarViewModel.cs" />
+    <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="ViewModels\PaneViewModel.cs" />
     <Compile Include="ViewModels\Previews\ArchivePreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
@@ -445,7 +451,7 @@
     <Compile Include="Extensions\Win32FindDataExtensions.cs" />
     <Compile Include="Interacts\RemovableDevice.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="INavigationToolbar.cs" />
+    <Compile Include="IAddressToolbar.cs" />
     <Compile Include="UserControls\FileIcon.xaml.cs">
       <DependentUpon>FileIcon.xaml</DependentUpon>
     </Compile>
@@ -455,8 +461,8 @@
     <Compile Include="UserControls\MenuFlyoutItemWithImage.xaml.cs">
       <DependentUpon>MenuFlyoutItemWithImage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\NavigationToolbar.xaml.cs">
-      <DependentUpon>NavigationToolbar.xaml</DependentUpon>
+    <Compile Include="UserControls\AddressToolbar.xaml.cs">
+      <DependentUpon>AddressToolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MultitaskingControl\BaseMultitaskingControl.cs" />
     <Compile Include="UserControls\MultitaskingControl\HorizontalMultitaskingControl.xaml.cs">
@@ -1300,7 +1306,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\NavigationToolbar.xaml">
+    <Page Include="UserControls\AddressToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
