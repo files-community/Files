@@ -128,7 +128,7 @@ namespace Files.Uwp.Filesystem
                 }
             }
 
-            if (parentFolder != null && !Path.IsPathRooted(value))
+            if (parentFolder != null && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value))
             {
                 // Relative path
                 var fullPath = Path.GetFullPath(Path.Combine(parentFolder.Path, value));
@@ -184,7 +184,7 @@ namespace Files.Uwp.Filesystem
                 }
             }
 
-            if (parentFolder != null && !Path.IsPathRooted(value))
+            if (parentFolder != null && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value))
             {
                 // Relative path
                 var fullPath = Path.GetFullPath(Path.Combine(parentFolder.Path, value));

@@ -48,7 +48,7 @@ namespace Files.Uwp.CommandLine
                         //case "-Cmdless":
                         try
                         {
-                            if (kvp.Value.StartsWith("::{", StringComparison.Ordinal) || kvp.Value.StartsWith("shell:", StringComparison.Ordinal))
+                            if (kvp.Value.StartsWith("::{", StringComparison.Ordinal) || kvp.Value.StartsWith("shell:", StringComparison.OrdinalIgnoreCase))
                             {
                                 command.Type = ParsedCommandType.ExplorerShellCommand;
                             }

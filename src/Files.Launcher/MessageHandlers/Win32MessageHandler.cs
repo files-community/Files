@@ -109,6 +109,10 @@ namespace FilesFullTrust.MessageHandlers
 
                 case "ShellFolder":
                     var folderPath = (string)message["folder"];
+                    if (folderPath.StartsWith("::{", StringComparison.Ordinal))
+                    {
+                        folderPath = $"shell:{folderPath}";
+                    }
                     var sfAction = (string)message["action"];
                     var sfResponseEnum = new ValueSet();
                     var (folder, folderContentsList) = await Win32API.StartSTATask(() =>
