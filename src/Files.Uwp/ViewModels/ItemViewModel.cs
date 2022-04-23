@@ -1287,17 +1287,15 @@ namespace Files.Uwp.ViewModels
 
             await GetDefaultItemIcons(folderSettings.GetIconSize());
 
-            var isRecycleBin = path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
-            if (isRecycleBin ||
-                path.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.Ordinal) ||
-                FtpHelpers.IsFtpPath(path))
+            if (FtpHelpers.IsFtpPath(path))
             {
                 // Recycle bin and network are enumerated by the fulltrust process
-                PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false, IsTypeRecycleBin = isRecycleBin });
+                PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
                 await EnumerateItemsFromSpecialFolderAsync(path);
             }
             else
             {
+                var isRecycleBin = path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
                 var enumerated = await EnumerateItemsFromStandardFolderAsync(path, folderSettings.GetLayoutType(path, false), addFilesCTS.Token, library);
                 IsLoadingItems = false; // Hide progressbar after enumeration
                 switch (enumerated)
@@ -1311,7 +1309,7 @@ namespace Files.Uwp.ViewModels
                         break;
 
                     case 1: // Enumerated with StorageFolder
-                        PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
+                        PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false, IsTypeRecycleBin = isRecycleBin });
                         currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
                         WatchForStorageFolderChanges(currentStorageFolder?.Item);
                         break;
@@ -1391,44 +1389,7 @@ namespace Files.Uwp.ViewModels
                 FileSizeBytes = 0
             };
 
-            if (Connection != null && !isFtp)
-            {
-                await Task.Run(async () =>
-                {
-                    var sampler = new IntervalSampler(500);
-                    var value = new ValueSet();
-                    value.Add("Arguments", "ShellFolder");
-                    value.Add("action", "Enumerate");
-                    value.Add("folder", path);
-                    // Send request to fulltrust process to enumerate recyclebin items
-                    var (status, response) = await Connection.SendMessageForResponseAsync(value);
-                    // If the request was canceled return now
-                    if (addFilesCTS.IsCancellationRequested)
-                    {
-                        return;
-                    }
-                    if (status == AppServiceResponseStatus.Success
-                        && response.ContainsKey("Enumerate"))
-                    {
-                        var folderContentsList = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response["Enumerate"]);
-                        for (int count = 0; count < folderContentsList.Count; count++)
-                        {
-                            var item = folderContentsList[count];
-                            var listedItem = AddFileOrFolderFromShellFile(item, returnformat);
-                            if (listedItem != null)
-                            {
-                                filesAndFolders.Add(listedItem);
-                            }
-                            if (count == folderContentsList.Count - 1 || sampler.CheckNow())
-                            {
-                                await OrderFilesAndFoldersAsync();
-                                await ApplyFilesAndFoldersChangesAsync();
-                            }
-                        }
-                    }
-                });
-            }
-            else if (isFtp)
+            if (isFtp)
             {
                 if (!FtpHelpers.VerifyFtpPath(path))
                 {

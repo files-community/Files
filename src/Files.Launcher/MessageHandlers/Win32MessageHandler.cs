@@ -94,41 +94,60 @@ namespace FilesFullTrust.MessageHandlers
                     }, message.Get("RequestID", (string)null));
                     break;
 
+                case "ShellItem":
+                    var itemPath = (string)message["item"];
+                    var siAction = (string)message["action"];
+                    var siResponseEnum = new ValueSet();
+                    var item = await Win32API.StartSTATask(() =>
+                    {
+                        using var shellItem = new ShellItem(itemPath);
+                        return ShellFolderExtensions.GetShellFileItem(shellItem);
+                    });
+                    siResponseEnum.Add("Item", JsonConvert.SerializeObject(item));
+                    await Win32API.SendMessageAsync(connection, siResponseEnum, message.Get("RequestID", (string)null));
+                    break;
+
                 case "ShellFolder":
-                    // Enumerate shell folder contents and send response to UWP
                     var folderPath = (string)message["folder"];
-                    var responseEnum = new ValueSet();
-                    var folderContentsList = await Win32API.StartSTATask(() =>
+                    var sfAction = (string)message["action"];
+                    var sfResponseEnum = new ValueSet();
+                    var (folder, folderContentsList) = await Win32API.StartSTATask(() =>
                     {
                         var flc = new List<ShellFileItem>();
+                        var folder = (ShellFileItem)null;
                         try
                         {
                             using var shellFolder = new ShellFolder(folderPath);
+                            folder = ShellFolderExtensions.GetShellFileItem(shellFolder);
 
-                            foreach (var folderItem in shellFolder)
+                            if (sfAction == "Enumerate")
                             {
-                                try
+                                foreach (var folderItem in shellFolder)
                                 {
-                                    var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
-                                    flc.Add(shellFileItem);
-                                }
-                                catch (FileNotFoundException)
-                                {
-                                    // Happens if files are being deleted
-                                }
-                                finally
-                                {
-                                    folderItem.Dispose();
+                                    try
+                                    {
+                                        var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
+                                        flc.Add(shellFileItem);
+                                    }
+                                    catch (FileNotFoundException)
+                                    {
+                                        // Happens if files are being deleted
+                                    }
+                                    finally
+                                    {
+                                        folderItem.Dispose();
+                                    }
                                 }
                             }
                         }
                         catch
                         {
                         }
-                        return flc;
+                        return (folder, flc);
                     });
-                    responseEnum.Add("Enumerate", JsonConvert.SerializeObject(folderContentsList));
-                    await Win32API.SendMessageAsync(connection, responseEnum, message.Get("RequestID", (string)null));
+                    sfResponseEnum.Add("Folder", JsonConvert.SerializeObject(folder));
+                    sfResponseEnum.Add("Enumerate", JsonConvert.SerializeObject(folderContentsList));
+                    await Win32API.SendMessageAsync(connection, sfResponseEnum, message.Get("RequestID", (string)null));
                     break;
 
                 case "GetFolderIconsFromDLL":
