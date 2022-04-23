@@ -400,16 +400,34 @@ namespace Files.Uwp.Filesystem.Search
             {
                 var folder = item.AsBaseStorageFolder();
                 var props = await folder.GetBasicPropertiesAsync();
-                listedItem = new ListedItem(null)
+                if (folder is BinStorageFolder binFolder)
                 {
-                    PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemNameRaw = folder.DisplayName,
-                    ItemPath = folder.Path,
-                    ItemDateModifiedReal = props.DateModified,
-                    ItemDateCreatedReal = folder.DateCreated,
-                    NeedsPlaceholderGlyph = false,
-                    Opacity = 1
-                };
+                    listedItem = new RecycleBinItem(null)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.Folder,
+                        ItemNameRaw = folder.DisplayName,
+                        ItemPath = folder.Path,
+                        ItemDateModifiedReal = props.DateModified,
+                        ItemDateCreatedReal = folder.DateCreated,
+                        NeedsPlaceholderGlyph = false,
+                        Opacity = 1,
+                        ItemDateDeletedReal = binFolder.DateDeleted,
+                        ItemOriginalPath = binFolder.OriginalPath
+                    };
+                }
+                else
+                {
+                    listedItem = new ListedItem(null)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.Folder,
+                        ItemNameRaw = folder.DisplayName,
+                        ItemPath = folder.Path,
+                        ItemDateModifiedReal = props.DateModified,
+                        ItemDateCreatedReal = folder.DateCreated,
+                        NeedsPlaceholderGlyph = false,
+                        Opacity = 1
+                    };
+                }
             }
             else if (item.IsOfType(StorageItemTypes.File))
             {
@@ -425,21 +443,44 @@ namespace Files.Uwp.Filesystem.Search
 
                 var itemSize = props.Size.ToSizeString();
 
-                listedItem = new ListedItem(null)
+                if (file is BinStorageFile binFile)
                 {
-                    PrimaryItemAttribute = StorageItemTypes.File,
-                    ItemNameRaw = file.Name,
-                    ItemPath = file.Path,
-                    LoadFileIcon = false,
-                    FileExtension = itemFileExtension,
-                    FileSizeBytes = (long)props.Size,
-                    FileSize = itemSize,
-                    ItemDateModifiedReal = props.DateModified,
-                    ItemDateCreatedReal = file.DateCreated,
-                    ItemType = itemType,
-                    NeedsPlaceholderGlyph = false,
-                    Opacity = 1
-                };
+                    listedItem = new RecycleBinItem(null)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.File,
+                        ItemNameRaw = file.Name,
+                        ItemPath = file.Path,
+                        LoadFileIcon = false,
+                        FileExtension = itemFileExtension,
+                        FileSizeBytes = (long)props.Size,
+                        FileSize = itemSize,
+                        ItemDateModifiedReal = props.DateModified,
+                        ItemDateCreatedReal = file.DateCreated,
+                        ItemType = itemType,
+                        NeedsPlaceholderGlyph = false,
+                        Opacity = 1,
+                        ItemDateDeletedReal = binFile.DateDeleted,
+                        ItemOriginalPath = binFile.OriginalPath
+                    };
+                }
+                else
+                {
+                    listedItem = new ListedItem(null)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.File,
+                        ItemNameRaw = file.Name,
+                        ItemPath = file.Path,
+                        LoadFileIcon = false,
+                        FileExtension = itemFileExtension,
+                        FileSizeBytes = (long)props.Size,
+                        FileSize = itemSize,
+                        ItemDateModifiedReal = props.DateModified,
+                        ItemDateCreatedReal = file.DateCreated,
+                        ItemType = itemType,
+                        NeedsPlaceholderGlyph = false,
+                        Opacity = 1
+                    };
+                }
             }
             if (listedItem != null && MaxItemCount > 0) // Only load icon for searchbox suggestions
             {
