@@ -89,7 +89,7 @@ namespace Files.Uwp.Filesystem.StorageItems
             });
         }
 
-        protected static async Task<(ShellFileItem Folder, List<ShellFileItem> Items)> GetFolderAndItems(string path, bool enumerate)
+        protected static async Task<(ShellFileItem Folder, List<ShellFileItem> Items)> GetFolderAndItems(string path, bool enumerate, int startIndex = 0, int maxItemsToRetrieve = int.MaxValue)
         {
             if (await AppServiceConnectionHelper.Instance is NamedPipeAsAppServiceConnection connection)
             {
@@ -97,6 +97,8 @@ namespace Files.Uwp.Filesystem.StorageItems
                 {
                     { "Arguments", "ShellFolder" },
                     { "action", enumerate ? "Enumerate" : "Query" },
+                    { "from", startIndex },
+                    { "count", maxItemsToRetrieve },
                     { "folder", path }
                 };
                 var (status, response) = await connection.SendMessageForResponseAsync(value);
@@ -172,10 +174,14 @@ namespace Files.Uwp.Filesystem.StorageItems
             });
         }
         public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync()
+            => AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken)
+                => (await GetItemsAsync(0, int.MaxValue)).ToList()
+            );
+        public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve)
         {
             return AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken) =>
             {
-                var res = await GetFolderAndItems(Path, true);
+                var res = await GetFolderAndItems(Path, true, (int)startIndex, (int)maxItemsToRetrieve);
                 if (res.Items is null)
                 {
                     return null;
@@ -196,10 +202,6 @@ namespace Files.Uwp.Filesystem.StorageItems
                 return items;
             });
         }
-        public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve)
-            => AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken)
-                => (await GetItemsAsync()).Skip((int)startIndex).Take((int)maxItemsToRetrieve).ToList()
-            );
 
         public override IAsyncOperation<BaseStorageFile> GetFileAsync(string name)
             => AsyncInfo.Run<BaseStorageFile>(async (cancellationToken) => await GetItemAsync(name) as ShellStorageFile);

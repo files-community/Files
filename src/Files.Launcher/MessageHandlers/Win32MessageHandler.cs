@@ -130,6 +130,8 @@ namespace FilesFullTrust.MessageHandlers
                         folderPath = $"shell:{folderPath}";
                     }
                     var sfAction = (string)message["action"];
+                    var fromIndex = (int)message.Get("from", 0L);
+                    var maxItems = (int)message.Get("count", (long)int.MaxValue);
                     var sfResponseEnum = new ValueSet();
                     var (folder, folderContentsList) = await Win32API.StartSTATask(() =>
                     {
@@ -158,7 +160,7 @@ namespace FilesFullTrust.MessageHandlers
 
                             if (sfAction == "Enumerate")
                             {
-                                foreach (var folderItem in shellFolder)
+                                foreach (var folderItem in shellFolder.Skip(fromIndex).Take(maxItems))
                                 {
                                     try
                                     {
