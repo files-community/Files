@@ -81,5 +81,15 @@ namespace Files.Uwp.Serialization.Implementation
 
             return false;
         }
+
+        public override bool ImportSettings(object? import)
+        {
+            if (base.ImportSettings(import))
+            {
+                _settingsCache = GetFreshSettings();
+                return true;
+            }
+            return false;
+        }
     }
 }

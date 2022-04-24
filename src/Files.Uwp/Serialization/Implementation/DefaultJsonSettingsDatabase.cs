@@ -82,7 +82,7 @@ namespace Files.Uwp.Serialization.Implementation
             return true;
         }
 
-        public bool ImportSettings(object? import)
+        public virtual bool ImportSettings(object? import)
         {
             try
             {

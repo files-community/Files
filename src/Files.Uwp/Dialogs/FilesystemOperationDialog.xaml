@@ -144,7 +144,7 @@
 
     <Grid Width="452">
         <StackPanel Spacing="12">
-            <TextBlock Text="{x:Bind ViewModel.Description, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind ViewModel.Description, Mode=OneWay}" TextWrapping="WrapWholeWords" />
             <CheckBox
                 x:Name="chkPermanentlyDelete"
                 x:Load="{x:Bind ViewModel.FileSystemDialogMode.IsInDeleteMode, Mode=OneWay}"
