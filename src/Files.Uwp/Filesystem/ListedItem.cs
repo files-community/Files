@@ -96,19 +96,6 @@ namespace Files.Uwp.Filesystem
             set => SetProperty(ref loadCustomIcon, value);
         }
 
-        // Note: Never attempt to call this from a secondary window or another thread, create a new instance from CustomIconSource instead
-        // TODO: eventually we should remove this b/c it's not thread safe
-        private BitmapImage customIcon;
-        public BitmapImage CustomIcon
-        {
-            get => customIcon;
-            set
-            {
-                LoadCustomIcon = true;
-                SetProperty(ref customIcon, value);
-            }
-        }
-
         public ulong? FileFRN { get; set; }
 
         private string fileTag;
@@ -572,7 +559,7 @@ namespace Files.Uwp.Filesystem
             PrimaryItemAttribute = StorageItemTypes.Folder;
             ItemType = "ItemTypeLibrary".GetLocalized();
             LoadCustomIcon = true;
-            CustomIcon = lib.Icon;
+            //CustomIcon = lib.Icon;
             //CustomIconSource = lib.IconSource;
             LoadFileIcon = true;
 
