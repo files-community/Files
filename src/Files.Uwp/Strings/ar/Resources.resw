@@ -213,9 +213,6 @@
   <data name="Application" xml:space="preserve">
     <value>التطبيق</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>النظام</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>مجلد جديد</value>
   </data>
@@ -290,18 +287,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>هل قمت بحذف هذا الملف؟</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>الملف الذي تحاول حذفه يتم حاليا استخذامه عبر برنامج اخر</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>الملف قيد الاستخدام</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>حاول مرة أخرى</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>موافق</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>للقراءة فقط</value>
@@ -650,9 +635,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>خطأ</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>إعادة المحاولة</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>إغلاق على أي حال</value>

@@ -189,9 +189,6 @@
   <data name="Application" xml:space="preserve">
     <value>Applicazione</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>Sistema</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Nuova cartella</value>
   </data>
@@ -283,19 +280,7 @@
     <value>La cartella a cui stai tentando di accedere potrebbe essere stata spostata o eliminata.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>Vuoi eliminare questa cartella?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>Il file che stai tentando di eliminare è attualmente utilizzato da un'altra applicazione.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>File in uso</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Riprova</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>OK</value>
+    <value>Hai eliminato questa cartella?</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Svuota il cestino</value>
@@ -953,9 +938,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Errore</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Riprova</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Chiudi comunque</value>
@@ -2644,5 +2626,35 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostra sezione Etichette</value>
+  </data>
+  <data name="UseCompactStyles" xml:space="preserve">
+    <value>Usa stile compatto per la visualizzazione Dettagli</value>
+  </data>
+  <data name="FileInUseByDialog.Text" xml:space="preserve">
+    <value>Il file a cui stai tentando di accedere è attualmente utilizzato da {0}</value>
+  </data>
+  <data name="FileInUseDialog.Text" xml:space="preserve">
+    <value>Il file a cui stai tentando di accedere è attualmente utilizzato da un'altra applicazione.</value>
+  </data>
+  <data name="FileInUseDialog.Title" xml:space="preserve">
+    <value>Il file è in uso</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Sistema</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Universale</value>
+  </data>
+  <data name="DateFormatSample" xml:space="preserve">
+    <value>eg: {0}, {1}</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Mostra anteprime</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Riprova</value>
+  </data>
+  <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
+    <value>L'operazione di spostamento non è supportata in questo contesto. Vuoi copiare gli elementi?</value>
   </data>
 </root>

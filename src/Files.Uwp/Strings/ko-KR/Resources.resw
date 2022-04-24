@@ -174,9 +174,6 @@
   <data name="Application" xml:space="preserve">
     <value>응용 프로그램</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>시스템</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>새 폴더</value>
   </data>
@@ -275,18 +272,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>폴더를 삭제하셨나요?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>파일이 다른 프로그램에서 사용되고 있어 삭제할 수 없습니다.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>파일이 사용 중</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>다시 시도</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>확인</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>휴지통 비우기</value>
@@ -656,9 +641,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>오류</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>다시 시도</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>무시하고 닫기</value>
