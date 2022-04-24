@@ -21,7 +21,7 @@ namespace Files.Uwp.Helpers
             {
                 TitleText = "PropertySaveErrorDialog/Title".GetLocalized(),
                 SubtitleText = "PropertySaveErrorMessage/Text".GetLocalized(), // We can use subtitle here as our content
-                PrimaryButtonText = "PropertySaveErrorDialog/PrimaryButtonText".GetLocalized(),
+                PrimaryButtonText = "Retry".GetLocalized(),
                 SecondaryButtonText = "PropertySaveErrorDialog/SecondaryButtonText".GetLocalized(),
                 CloseButtonText = "Cancel".GetLocalized(),
                 DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary | DynamicDialogButtons.Cancel
@@ -134,10 +134,10 @@ namespace Files.Uwp.Helpers
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
                 TitleText = "FileInUseDialog/Title".GetLocalized(),
-                SubtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalized() : 
-                    string.Format("FileInUseByDialog/Text".GetLocalized(), string.Join(", ", lockingProcess.Select(x => $"{x.Name}.exe (pid: {x.Pid})"))),
+                SubtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalized() :
+                    string.Format("FileInUseByDialog/Text".GetLocalized(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})"))),
                 PrimaryButtonText = "OK",
-                DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary
+                DynamicButtons = DynamicDialogButtons.Primary
             });
             return dialog;
         }

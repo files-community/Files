@@ -118,14 +118,17 @@ namespace Files.Uwp.Filesystem
             if (((!permanently && !canBeSentToBin) || UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog) && showDialog) // Check if the setting to show a confirmation dialog is on
             {
                 var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
-
+                List<ShellFileItem> binItems = null;
                 foreach (var src in source)
                 {
                     if (recycleBinHelpers.IsPathUnderRecycleBin(src.Path))
                     {
-                        var binItems = associatedInstance.FilesystemViewModel.FilesAndFolders;
-                        var matchingItem = binItems.FirstOrDefault(x => x.ItemPath == src.Path); // Get original file name
-                        incomingItems.Add(new FileSystemDialogDefaultItemViewModel() { SourcePath = src.Path, DisplayName = matchingItem?.ItemName });
+                        binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+                        if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
+                        {
+                            var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == src.Path); // Get original file name
+                            incomingItems.Add(new FileSystemDialogDefaultItemViewModel() { SourcePath = src.Path, DisplayName = matchingItem?.FileName ?? src.Name });
+                        }
                     }
                     else
                     {
