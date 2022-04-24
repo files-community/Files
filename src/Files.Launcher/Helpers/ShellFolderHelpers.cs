@@ -42,7 +42,7 @@ namespace FilesFullTrust.Helpers
             }
             var parsingPath = folderItem.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing);
             parsingPath ??= folderItem.FileSystemPath; // True path on disk
-            if (parsingPath == null || !parsingPath.Contains("\\"))
+            if (parsingPath == null || !Path.IsPathRooted(parsingPath))
             {
                 // Use PIDL as path
                 parsingPath = $@"\\?\{string.Join("\\", folderItem.PIDL.Select(x => x.GetBytes()).Select(x => Convert.ToBase64String(x, 0, x.Length)))}";
