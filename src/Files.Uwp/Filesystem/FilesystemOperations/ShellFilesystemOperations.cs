@@ -18,6 +18,7 @@ using Files.Backend.ViewModels.Dialogs;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 using Microsoft.Toolkit.Uwp;
+using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
 
 namespace Files.Uwp.Filesystem
 {
@@ -161,10 +162,19 @@ namespace Files.Uwp.Filesystem
                 }
                 else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
                 {
-                    // TODO: proper dialog, retry
                     var failedSources = copyResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-                    var lockingProcess = await WhoIsLockingAsync(failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination));
-                    await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FileInUseDialog(lockingProcess));
+                    var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination);
+                    var lockingProcess = await WhoIsLockingAsync(filePath);
+                    switch (await GetFileInUseDialog(filePath, lockingProcess))
+                    {
+                        case DialogResult.Primary:
+                            var copyZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
+                            var sourceMatch = await failedSources.Select(x => copyZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
+                            return await CopyItemsAsync(
+                                await sourceMatch.Select(x => x.src).ToListAsync(),
+                                await sourceMatch.Select(x => x.dest).ToListAsync(),
+                                await sourceMatch.Select(x => x.coll).ToListAsync(), progress, errorCode, cancellationToken);
+                    }
                 }
                 else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
                 {
@@ -425,10 +435,14 @@ namespace Files.Uwp.Filesystem
                 }
                 else if (deleteResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
                 {
-                    // TODO: proper dialog, retry
                     var failedSources = deleteResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-                    var lockingProcess = await WhoIsLockingAsync(failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination));
-                    await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FileInUseDialog(lockingProcess));
+                    var filePath = failedSources.Select(x => x.Source); // When deleting only source can be in use but shell returns COPYENGINE_E_SHARING_VIOLATION_DEST for folders
+                    var lockingProcess = await WhoIsLockingAsync(filePath);
+                    switch (await GetFileInUseDialog(filePath, lockingProcess))
+                    {
+                        case DialogResult.Primary:
+                            return await DeleteItemsAsync(await failedSources.Select(x => source.DistinctBy(x => x.Path).SingleOrDefault(s => s.Path == x.Source)).Where(x => x != null).ToListAsync(), progress, errorCode, permanently, cancellationToken);
+                    }
                 }
                 else if (deleteResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
                 {
@@ -567,10 +581,19 @@ namespace Files.Uwp.Filesystem
                 }
                 else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
                 {
-                    // TODO: proper dialog, retry
                     var failedSources = moveResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-                    var lockingProcess = await WhoIsLockingAsync(failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination));
-                    await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FileInUseDialog(lockingProcess));
+                    var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination);
+                    var lockingProcess = await WhoIsLockingAsync(filePath);
+                    switch (await GetFileInUseDialog(filePath, lockingProcess))
+                    {
+                        case DialogResult.Primary:
+                            var moveZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
+                            var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
+                            return await MoveItemsAsync(
+                                await sourceMatch.Select(x => x.src).ToListAsync(),
+                                await sourceMatch.Select(x => x.dest).ToListAsync(),
+                                await sourceMatch.Select(x => x.coll).ToListAsync(), progress, errorCode, cancellationToken);
+                    }
                 }
                 else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
                 {
@@ -650,10 +673,14 @@ namespace Files.Uwp.Filesystem
                 }
                 else if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
                 {
-                    // TODO: proper dialog, retry
                     var failedSources = renameResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-                    var lockingProcess = await WhoIsLockingAsync(failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination));
-                    await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FileInUseDialog(lockingProcess));
+                    var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination);
+                    var lockingProcess = await WhoIsLockingAsync(filePath);
+                    switch (await GetFileInUseDialog(filePath, lockingProcess))
+                    {
+                        case DialogResult.Primary:
+                            return await RenameAsync(source, newName, collision, errorCode, cancellationToken);
+                    }
                 }
                 else if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
                 {
@@ -758,10 +785,18 @@ namespace Files.Uwp.Filesystem
                 }
                 else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
                 {
-                    // TODO: proper dialog, retry
                     var failedSources = moveResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-                    var lockingProcess = await WhoIsLockingAsync(failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination));
-                    await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FileInUseDialog(lockingProcess));
+                    var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination);
+                    var lockingProcess = await WhoIsLockingAsync(filePath);
+                    switch (await GetFileInUseDialog(filePath, lockingProcess))
+                    {
+                        case DialogResult.Primary:
+                            var moveZip = source.Zip(destination, (src, dest) => new { src, dest });
+                            var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
+                            return await RestoreItemsFromTrashAsync(
+                                await sourceMatch.Select(x => x.src).ToListAsync(),
+                                await sourceMatch.Select(x => x.dest).ToListAsync(), progress, errorCode, cancellationToken);
+                    }
                 }
                 else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
                 {
@@ -828,6 +863,43 @@ namespace Files.Uwp.Filesystem
                 }
             }
             return false;
+        }
+
+        private Task<DialogResult> GetFileInUseDialog(IEnumerable<string> source, List<Win32Process> lockingProcess = null)
+        {
+            var titleText = "FileInUseDialog/Title".GetLocalized();
+            var subtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalized() :
+                string.Format("FileInUseByDialog/Text".GetLocalized(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})")));
+            return GetFileListDialog(source, titleText, subtitleText, "Retry".GetLocalized(), "Cancel".GetLocalized());
+        }
+
+        private async Task<DialogResult> GetFileListDialog(IEnumerable<string> source, string titleText, string descriptionText = null, string primaryButtonText = null, string secondaryButtonText = null)
+        {
+            var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
+            List<ShellFileItem> binItems = null;
+            foreach (var src in source)
+            {
+                if (recycleBinHelpers.IsPathUnderRecycleBin(src))
+                {
+                    binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+                    if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
+                    {
+                        var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == src); // Get original file name
+                        incomingItems.Add(new FileSystemDialogDefaultItemViewModel() { SourcePath = src, DisplayName = matchingItem?.FileName });
+                    }
+                }
+                else
+                {
+                    incomingItems.Add(new FileSystemDialogDefaultItemViewModel() { SourcePath = src });
+                }
+            }
+
+            var dialogViewModel = FileSystemDialogViewModel.GetDialogViewModel(
+                incomingItems, titleText, descriptionText, primaryButtonText, secondaryButtonText);
+
+            var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+
+            return await dialogService.ShowDialogAsync(dialogViewModel);
         }
 
         private async Task<List<Win32Process>> WhoIsLockingAsync(IEnumerable<string> filesToCheck)

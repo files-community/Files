@@ -25,21 +25,21 @@ namespace Files.Shared.Extensions
         {
             if (dictionary is null || key is null)
             {
-                return default;
+                return defaultValue;
             }
             if (!dictionary.ContainsKey(key))
             {
                 if (defaultValue is TValue value)
+                {
                     dictionary.Add(key, value);
-                else
-                    dictionary.Remove(key);
+                }
                 return defaultValue;
             }
             if (dictionary[key] is TOut o)
             {
                 return o;
             }
-            return default;
+            return defaultValue;
         }
 
         public static async Task<IEnumerable<T>> WhereAsync<T>(this IEnumerable<T> source, Func<T, Task<bool>> predicate)
