@@ -252,9 +252,6 @@
   <data name="Application" xml:space="preserve">
     <value>Εφαρμογή</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>Σύστημα</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Νέος φάκελος</value>
   </data>
@@ -332,18 +329,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Διαγράψατε αυτόν τον φάκελο;</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>Το αρχείο που προσπαθείτε να διαγράψετε χρησιμοποιείται επί του παρόντος από μια άλλη εφαρμογή.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>Το αρχείο είναι σε χρήση</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Δοκιμάστε ξανά</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Εντάξει</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Διάταξη</value>
@@ -716,9 +701,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Σφάλμα</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Επανάληψη</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Κλείσιμο ούτως ή άλλως</value>

@@ -213,9 +213,6 @@
   <data name="Application" xml:space="preserve">
     <value>Applikasjon</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>System</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Ny mappe</value>
   </data>
@@ -293,18 +290,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Har du slettet denne mappen?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>Filen du forsøker å slette er i bruk av en annen applikasjon.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>Filen er i bruk</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Prøv igjen</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Skrivebeskyttet</value>
@@ -653,9 +638,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Feil</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Prøv igjen</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Lukk likevel</value>

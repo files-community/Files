@@ -1,19 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
-using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Helpers;
 using Files.Shared;
-using Files.Shared.Extensions;
-using Files.Uwp.UserControls;
 using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace Files.Uwp.Filesystem
 {
@@ -23,210 +19,61 @@ namespace Files.Uwp.Filesystem
 
         public MainViewModel MainViewModel => App.MainViewModel;
 
-        private LocationItem librarySection;
+        private readonly List<LibraryLocationItem> librariesList = new List<LibraryLocationItem>();
 
-        public BulkConcurrentObservableCollection<LibraryLocationItem> Libraries { get; } = new BulkConcurrentObservableCollection<LibraryLocationItem>();
+        public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
+
+        public IReadOnlyList<LibraryLocationItem> Libraries
+        {
+            get
+            {
+                lock (librariesList)
+                {
+                    return librariesList.ToList().AsReadOnly();
+                }
+            }
+        }
 
         public LibraryManager()
         {
-            Libraries.CollectionChanged += Libraries_CollectionChanged;
-        }
-
-        private async void Libraries_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (!UserSettingsService.AppearanceSettingsService.ShowLibrarySection)
-            {
-                return;
-            }
-
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
-                try
-                {
-                    switch (e.Action)
-                    {
-                        case NotifyCollectionChangedAction.Replace:
-                        case NotifyCollectionChangedAction.Remove:
-                            foreach (var lib in e.OldItems.Cast<LibraryLocationItem>())
-                            {
-                                librarySection.ChildItems.Remove(lib);
-                            }
-                            if (e.Action == NotifyCollectionChangedAction.Replace)
-                            {
-                                goto case NotifyCollectionChangedAction.Add;
-                            }
-                            break;
-
-                        case NotifyCollectionChangedAction.Reset:
-                            foreach (var lib in Libraries.Where(IsLibraryOnSidebar))
-                            {
-                                if (!librarySection.ChildItems.Any(x => x.Path == lib.Path))
-                                {
-                                    if (await lib.CheckDefaultSaveFolderAccess())
-                                    {
-                                        lib.Font = MainViewModel.FontName;
-                                        librarySection.ChildItems.AddSorted(lib);
-                                        this.LoadLibraryIcon(lib);
-                                    }
-                                }
-                            }
-                            foreach (var lib in librarySection.ChildItems.ToList())
-                            {
-                                if (!Libraries.Any(x => x.Path == lib.Path))
-                                {
-                                    librarySection.ChildItems.Remove(lib);
-                                }
-                            }
-                            break;
-
-                        case NotifyCollectionChangedAction.Add:
-                            foreach (var lib in e.NewItems.Cast<LibraryLocationItem>().Where(IsLibraryOnSidebar))
-                            {
-                                if (await lib.CheckDefaultSaveFolderAccess())
-                                {
-                                    lib.Font = MainViewModel.FontName;
-                                    librarySection.ChildItems.AddSorted(lib);
-                                    this.LoadLibraryIcon(lib);
-                                }
-                            }
-                            break;
-                    }
-                }
-                finally
-                {
-                    SidebarControl.SideBarItemsSemaphore.Release();
-                }
-            });
-        }
-
-        private static bool IsLibraryOnSidebar(LibraryLocationItem item) => item != null && !item.IsEmpty && item.IsDefaultLocation;
-
-        private async void LoadLibraryIcon(LibraryLocationItem lib)
-        {
-            lib.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(lib.Path, 24u);
-            if (lib.IconData != null)
-            {
-                lib.Icon = await lib.IconData.ToBitmapAsync();
-            }
         }
 
         public void Dispose()
         {
-            Libraries.CollectionChanged -= Libraries_CollectionChanged;
         }
 
         public async Task EnumerateLibrariesAsync()
         {
-            try
+            librariesList.Clear();
+            var libs = await LibraryHelper.ListUserLibraries();
+            if (libs != null)
             {
-                await SyncLibrarySideBarItemsUI();
+                libs.Sort();
+                librariesList.AddRange(libs);
             }
-            catch (Exception) // UI Thread not ready yet, so we defer the pervious operation until it is.
-            {
-                System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
-                // Defer because UI-thread is not ready yet (and DriveItem requires it?)
-                CoreApplication.MainView.Activated += EnumerateLibrariesAsync;
-            }
+            DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
-        private void RemoveLibrariesSideBarSection()
-        {
-            try
-            {
-                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarLibraries".GetLocalized()) select n).FirstOrDefault();
-                if (!UserSettingsService.AppearanceSettingsService.ShowLibrarySection && item != null)
-                {
-                    SidebarControl.SideBarItems.Remove(item);
-                }
-            }
-            catch (Exception) { }
-        }
-
-        public async void UpdateLibrariesSectionVisibility()
-        {
-            if (UserSettingsService.AppearanceSettingsService.ShowLibrarySection)
-            {
-                await EnumerateLibrariesAsync();
-            }
-            else
-            {
-                RemoveLibrariesSideBarSection();
-            }
-        }
-
-        private async void EnumerateLibrariesAsync(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
-        {
-            await SyncLibrarySideBarItemsUI();
-            CoreApplication.MainView.Activated -= EnumerateLibrariesAsync;
-        }
-
-        public async Task HandleWin32LibraryEvent(ShellLibraryItem library, string oldPath)
+        public Task HandleWin32LibraryEvent(ShellLibraryItem library, string oldPath)
         {
             string path = oldPath;
             if (string.IsNullOrEmpty(oldPath))
             {
                 path = library?.FullPath;
             }
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            var changedLibrary = Libraries.FirstOrDefault(l => string.Equals(l.Path, path, StringComparison.OrdinalIgnoreCase));
+            if (changedLibrary != null)
             {
-                var changedLibrary = Libraries.FirstOrDefault(l => string.Equals(l.Path, path, StringComparison.OrdinalIgnoreCase));
-                if (changedLibrary != null)
-                {
-                    Libraries.Remove(changedLibrary);
-                }
-                // library is null in case it was deleted
-                if (library != null && !Libraries.Any(x => x.Path == library.FullPath))
-                {
-                    Libraries.AddSorted(new LibraryLocationItem(library));
-                }
-            });
-        }
-
-        private async Task SyncLibrarySideBarItemsUI()
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                librariesList.Remove(changedLibrary);
+                DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedLibrary));
+            }
+            // library is null in case it was deleted
+            if (library != null && !Libraries.Any(x => x.Path == library.FullPath))
             {
-                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
-                try
-                {
-                    var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarLibraries".GetLocalized()) as LocationItem;
-                    if (UserSettingsService.AppearanceSettingsService.ShowLibrarySection && section == null)
-                    {
-                        librarySection = new LocationItem
-                        {
-                            Text = "SidebarLibraries".GetLocalized(),
-                            Section = SectionType.Library,
-                            MenuOptions = new ContextMenuOptions
-                            {
-                                IsLibrariesHeader = true,
-                                ShowHideSection = true
-                            },
-                            SelectsOnInvoked = false,
-                            Icon = await UIHelpers.GetIconResource(Constants.ImageRes.Libraries),
-                            ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
-                        };
-                        var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0); // After favorites section
-                        SidebarControl.SideBarItems.BeginBulkOperation();
-                        SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), librarySection);
-                        SidebarControl.SideBarItems.EndBulkOperation();
-                    }
-                }
-                finally
-                {
-                    SidebarControl.SideBarItemsSemaphore.Release();
-                }
-
-                Libraries.BeginBulkOperation();
-                Libraries.Clear();
-                var libs = await LibraryHelper.ListUserLibraries();
-                if (libs != null)
-                {
-                    libs.Sort();
-                    Libraries.AddRange(libs);
-                }
-                Libraries.EndBulkOperation();
-            });
+                librariesList.Add(new LibraryLocationItem(library));
+                DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, library));
+            }
+            return Task.CompletedTask;
         }
 
         public bool TryGetLibrary(string path, out LibraryLocationItem library)
@@ -249,7 +96,8 @@ namespace Files.Uwp.Filesystem
             var newLib = await LibraryHelper.CreateLibrary(name);
             if (newLib != null)
             {
-                Libraries.AddSorted(newLib);
+                librariesList.Add(newLib);
+                DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newLib));
                 return true;
             }
             return false;
@@ -263,7 +111,8 @@ namespace Files.Uwp.Filesystem
                 var libItem = Libraries.FirstOrDefault(l => string.Equals(l.Path, libraryPath, StringComparison.OrdinalIgnoreCase));
                 if (libItem != null)
                 {
-                    Libraries[Libraries.IndexOf(libItem)] = newLib;
+                    librariesList[librariesList.IndexOf(libItem)] = newLib;
+                    DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newLib, libItem));
                 }
                 return newLib;
             }

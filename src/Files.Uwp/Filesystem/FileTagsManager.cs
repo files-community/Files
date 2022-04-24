@@ -1,17 +1,11 @@
 ﻿using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Backend.Services.Settings;
-using Files.Uwp.UserControls;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
-using Files.Uwp.Helpers;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace Files.Uwp.Filesystem
 {
@@ -21,114 +15,55 @@ namespace Files.Uwp.Filesystem
 
         private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
 
-        public async Task EnumerateFileTagsAsync()
+        private readonly List<FileTagItem> fileTagList = new List<FileTagItem>();
+
+        public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
+
+        public IReadOnlyList<FileTagItem> FileTags
         {
+            get
+            {
+                lock (fileTagList)
+                {
+                    return fileTagList.ToList().AsReadOnly();
+                }
+            }
+        }
+
+        public Task EnumerateFileTagsAsync()
+        {
+            if (!UserSettingsService.AppearanceSettingsService.ShowFileTagsSection)
+            {
+                return Task.CompletedTask;
+            }
+
             try
             {
-                await SyncSideBarItemsUI();
-            }
-            catch (Exception) // UI Thread not ready yet, so we defer the pervious operation until it is.
-            {
-                System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
-                // Defer because UI-thread is not ready yet
-                CoreApplication.MainView.Activated += EnumerateFileTagsAsync;
-            }
-        }
-
-        private async void EnumerateFileTagsAsync(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
-        {
-            await SyncSideBarItemsUI();
-            CoreApplication.MainView.Activated -= EnumerateFileTagsAsync;
-        }
-
-        private async Task SyncSideBarItemsUI()
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
-                try
+                foreach (var tag in FileTagsSettingsService.FileTagList)
                 {
-                    var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "FileTags".GetLocalized()) as LocationItem;
-                    if (UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled && UserSettingsService.AppearanceSettingsService.ShowFileTagsSection && section == null)
+                    if (!fileTagList.Any(x => x.Path == $"tag:{tag.TagName}"))
                     {
-                        section = new LocationItem()
+                        var tagItem = new FileTagItem()
                         {
-                            Text = "FileTags".GetLocalized(),
-                            Section = SectionType.FileTag,
+                            Text = tag.TagName,
+                            Path = $"tag:{tag.TagName}",
+                            FileTag = tag,
                             MenuOptions = new ContextMenuOptions
                             {
-                                ShowHideSection = true
-                            },
-                            SelectsOnInvoked = false,
-                            Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/FileTags.png")),
-                            ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
-                        };
-                        var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
-                                    (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
-                                    (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Drives) ? 1 : 0) +
-                                    (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.CloudDrives) ? 1 : 0) +
-                                    (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Network) ? 1 : 0) +
-                                    (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.WSL) ? 1 : 0); // After wsl section
-                        SidebarControl.SideBarItems.BeginBulkOperation();
-                        SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), section);
-                        SidebarControl.SideBarItems.EndBulkOperation();
-                    }
-
-                    if (section != null)
-                    {
-                        foreach (var tag in FileTagsSettingsService.FileTagList)
-                        {
-                            if (!section.ChildItems.Any(x => x.Path == $"tag:{tag.TagName}"))
-                            {
-                                section.ChildItems.Add(new FileTagItem()
-                                {
-                                    Text = tag.TagName,
-                                    Path = $"tag:{tag.TagName}",
-                                    FileTag = tag,
-                                    MenuOptions = new ContextMenuOptions
-                                    {
-                                        IsLocationItem = true
-                                    }
-                                });
+                                IsLocationItem = true
                             }
-                        }
+                        };
+                        fileTagList.Add(tagItem);
+                        DataChanged?.Invoke(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, tagItem));
                     }
                 }
-                catch (Exception ex)
-                {
-                    App.Logger.Warn(ex, "Error loading tags section.");
-                }
-                finally
-                {
-                    SidebarControl.SideBarItemsSemaphore.Release();
-                }
-            });
-        }
+            }
+            catch (Exception ex)
+            {
+                App.Logger.Warn(ex, "Error loading tags section.");
+            }
 
-        private void RemoveFileTagsSideBarSection()
-        {
-            try
-            {
-                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("FileTags".GetLocalized()) select n).FirstOrDefault();
-                if (!UserSettingsService.AppearanceSettingsService.ShowFileTagsSection && item != null)
-                {
-                    SidebarControl.SideBarItems.Remove(item);
-                }
-            }
-            catch (Exception)
-            { }
-        }
-
-        public async void UpdateFileTagsSectionVisibility()
-        {
-            if (UserSettingsService.AppearanceSettingsService.ShowFileTagsSection)
-            {
-                await EnumerateFileTagsAsync();
-            }
-            else
-            {
-                RemoveFileTagsSideBarSection();
-            }
+            return Task.CompletedTask;
         }
     }
 }

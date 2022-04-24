@@ -174,9 +174,6 @@
   <data name="Application" xml:space="preserve">
     <value>За замовчуванням</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>Системний</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Нова папка</value>
   </data>
@@ -284,18 +281,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Ви видалили цю папку?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>Файл, який ви намагаєтесь видалити, зараз використовується іншою програмою.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>Файл використовується</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Повторити</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Очистити кошик</value>
@@ -908,9 +893,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Помилка</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Повторити</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Закрити</value>

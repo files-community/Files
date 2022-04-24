@@ -258,9 +258,6 @@
   <data name="Application" xml:space="preserve">
     <value>Toepassing</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>Stelsel</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Nuwe Omslag</value>
   </data>
@@ -338,18 +335,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Het jy hierdie omslag geskrap?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>Die lêer wat jy probeer skrap word tans deur 'n ander toepassing gebruik.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>Lêer is in gebruik</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Probeer weer</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Uitleg</value>
@@ -731,9 +716,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Fout</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Probeer weer</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Sluit in elk geval</value>
