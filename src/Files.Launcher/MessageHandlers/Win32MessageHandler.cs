@@ -100,23 +100,7 @@ namespace FilesFullTrust.MessageHandlers
                     var siResponseEnum = new ValueSet();
                     var item = await Win32API.StartSTATask(() =>
                     {
-                        ShellItem GetShellItem()
-                        {
-                            if (itemPath.StartsWith(@"\\?\", StringComparison.Ordinal))
-                            {
-                                var pidl = itemPath.Replace(@"\\?\", "", StringComparison.Ordinal)
-                                    .Split('\\', StringSplitOptions.RemoveEmptyEntries)
-                                    .Select(x => new Shell32.PIDL(Convert.FromBase64String(x)))
-                                    .Aggregate((x, y) => Shell32.PIDL.Combine(x, y));
-                                return new ShellItem(pidl);
-                            }
-                            else
-                            {
-                                return new ShellItem(itemPath);
-                            }
-                        }
-
-                        using var shellItem = GetShellItem();
+                        using var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl(itemPath);
                         return ShellFolderExtensions.GetShellFileItem(shellItem);
                     });
                     siResponseEnum.Add("Item", JsonConvert.SerializeObject(item));
@@ -139,23 +123,7 @@ namespace FilesFullTrust.MessageHandlers
                         var folder = (ShellFileItem)null;
                         try
                         {
-                            ShellFolder GetShellFolder()
-                            {
-                                if (folderPath.StartsWith(@"\\?\", StringComparison.Ordinal))
-                                {
-                                    var pidl = folderPath.Replace(@"\\?\", "", StringComparison.Ordinal)
-                                        .Split('\\', StringSplitOptions.RemoveEmptyEntries)
-                                        .Select(x => new Shell32.PIDL(Convert.FromBase64String(x)))
-                                        .Aggregate((x, y) => Shell32.PIDL.Combine(x, y));
-                                    return new ShellFolder(pidl);
-                                }
-                                else
-                                {
-                                    return new ShellFolder(folderPath);
-                                }
-                            }
-
-                            using var shellFolder = GetShellFolder();
+                            using var shellFolder = ShellFolderExtensions.GetShellItemFromPathOrPidl(folderPath) as ShellFolder;
                             folder = ShellFolderExtensions.GetShellFileItem(shellFolder);
 
                             if (sfAction == "Enumerate")

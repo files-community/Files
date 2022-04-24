@@ -1,4 +1,5 @@
 ﻿using Files.Shared;
+using FilesFullTrust.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -93,23 +94,7 @@ namespace FilesFullTrust
             {
                 foreach (var fp in filePathList.Where(x => !string.IsNullOrEmpty(x)))
                 {
-                    ShellItem GetShellItem()
-                    {
-                        if (fp.StartsWith(@"\\?\", StringComparison.Ordinal))
-                        {
-                            var pidl = fp.Replace(@"\\?\", "", StringComparison.Ordinal)
-                                .Split('\\', StringSplitOptions.RemoveEmptyEntries)
-                                .Select(x => new Shell32.PIDL(Convert.FromBase64String(x)))
-                                .Aggregate((x, y) => Shell32.PIDL.Combine(x, y));
-                            return new ShellItem(pidl);
-                        }
-                        else
-                        {
-                            return new ShellItem(fp);
-                        }
-                    }
-
-                    shellItems.Add(GetShellItem());
+                    shellItems.Add(ShellFolderExtensions.GetShellItemFromPathOrPidl(fp));
                 }
 
                 return GetContextMenuForFiles(shellItems.ToArray(), flags, itemFilter);

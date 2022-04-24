@@ -1,4 +1,5 @@
 ﻿using Files.Shared.Extensions;
+using FilesFullTrust.Helpers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -167,11 +168,7 @@ namespace FilesFullTrust.MessageHandlers
                             {
                                 opened = await Win32API.StartSTATask(() =>
                                 {
-                                    var pidl = application.Replace(@"\\?\", "", StringComparison.Ordinal)
-                                        .Split('\\', StringSplitOptions.RemoveEmptyEntries)
-                                        .Select(x => new Shell32.PIDL(Convert.FromBase64String(x)))
-                                        .Aggregate((x, y) => Shell32.PIDL.Combine(x, y));
-                                    using var si = new ShellItem(pidl);
+                                    using var si = ShellFolderExtensions.GetShellItemFromPathOrPidl(application);
                                     using var cMenu = ContextMenu.GetContextMenuForFiles(new[] { si }, Shell32.CMF.CMF_DEFAULTONLY);
                                     cMenu?.InvokeItem(cMenu?.Items.FirstOrDefault().ID ?? -1);
                                     return true;
