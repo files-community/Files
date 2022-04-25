@@ -63,15 +63,16 @@
                     <!--  Icon  -->
                     <ColumnDefinition Width="Auto" />
                     <!--  Content  -->
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="*" />
                     <!--  Options  -->
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" MaxWidth="100" />
                 </Grid.ColumnDefinitions>
 
                 <!--  Icon  -->
                 <Image
                     Grid.Column="0"
-                    HorizontalAlignment="Left"
+                    Width="48"
+                    Height="48"
                     VerticalAlignment="Center"
                     Source="{x:Bind ItemIcon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
 
@@ -84,21 +85,29 @@
                         Spacing="4"
                         Tapped="NameStackPanel_Tapped"
                         Visibility="{x:Bind IsTextBoxVisible, Mode=OneWay, Converter={StaticResource VisibilityInvertConverter}}">
-                        <StackPanel Orientation="Horizontal" Spacing="16">
-                            <TextBlock Text="{x:Bind DisplayName, Mode=OneWay}" />
-                            <FontIcon FontSize="14" Glyph="&#xE72A;" />
-                            <TextBlock Text="{x:Bind DestinationDisplayName, Mode=OneWay}" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Spacing="16">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
                             <TextBlock
+                                FontSize="14"
+                                Text="{x:Bind DisplayName, Mode=OneWay}"
+                                ToolTipService.ToolTip="{x:Bind DisplayName, Mode=OneWay}" />
+                            <FontIcon FontSize="10" Glyph="&#xE72A;" />
+                            <TextBlock
+                                FontSize="14"
+                                Text="{x:Bind DestinationDisplayName, Mode=OneWay}"
+                                ToolTipService.ToolTip="{x:Bind DestinationDisplayName, Mode=OneWay}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <TextBlock
+                                FontSize="14"
                                 Foreground="{ThemeResource SystemAccentColor}"
                                 Text="{x:Bind SourceDirectoryDisplayName}"
                                 ToolTipService.ToolTip="{x:Bind SourcePath}" />
                             <FontIcon
-                                FontSize="14"
+                                FontSize="10"
                                 Foreground="{ThemeResource SystemAccentColor}"
                                 Glyph="&#xE72A;" />
                             <TextBlock
+                                FontSize="14"
                                 Foreground="{ThemeResource SystemAccentColor}"
                                 Text="{x:Bind DestinationDirectoryDisplayName}"
                                 ToolTipService.ToolTip="{x:Bind DestinationPath, Mode=OneWay}" />
@@ -214,6 +223,13 @@
                             <ItemsStackPanel HorizontalAlignment="Stretch" Orientation="Vertical" />
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
+
+                    <ListView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="Padding" Value="0,8" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
                 </ListView>
             </Grid>
         </StackPanel>
