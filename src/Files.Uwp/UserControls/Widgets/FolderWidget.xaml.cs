@@ -12,7 +12,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -21,7 +20,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Files.Uwp.DataModels.NavigationControlItems;
-using Files.Uwp.UserControls.Widgets;
 
 namespace Files.Uwp.UserControls.Widgets
 {
@@ -76,7 +74,7 @@ namespace Files.Uwp.UserControls.Widgets
                 thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(overrideThumbnailSize), Windows.Storage.FileProperties.ThumbnailMode.ListView);
                 if (thumbnailData != null && thumbnailData.Length > 0)
                 {
-                    Thumbnail = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(overrideThumbnailSize));
+                    Thumbnail = await thumbnailData.ToBitmapAsync(overrideThumbnailSize);
                 }
             }
         }
@@ -183,7 +181,10 @@ namespace Files.Uwp.UserControls.Widgets
                 SelectCommand = LibraryCardCommand
             });
 
-            await WidgetsHelpers.WidgetCards.LoadCardIcons<FolderCardItem, LocationItem>(ItemsAdded);
+            foreach (var cardItem in ItemsAdded.ToList()) // ToList() is necessary
+            {
+                await cardItem.LoadCardThumbnailAsync();
+            }
 
             ItemsAdded.EndBulkOperation();
         }

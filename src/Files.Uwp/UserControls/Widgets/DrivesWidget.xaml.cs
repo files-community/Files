@@ -19,8 +19,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.ApplicationModel.Core;
-using Files.Uwp.UserControls.Widgets;
 using System.Collections.Specialized;
 
 namespace Files.Uwp.UserControls.Widgets
@@ -50,7 +48,7 @@ namespace Files.Uwp.UserControls.Widgets
                 thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(overrideThumbnailSize), Windows.Storage.FileProperties.ThumbnailMode.ListView);
                 if (thumbnailData != null && thumbnailData.Length > 0)
                 {
-                    Thumbnail = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(overrideThumbnailSize));
+                    Thumbnail = await thumbnailData.ToBitmapAsync(overrideThumbnailSize);
                 }
             }
         }

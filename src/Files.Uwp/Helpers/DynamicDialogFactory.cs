@@ -5,7 +5,6 @@ using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp;
 using System;
-using Windows.ApplicationModel.Core;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 using System.Collections.Generic;
