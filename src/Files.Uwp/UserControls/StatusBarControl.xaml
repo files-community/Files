@@ -24,7 +24,8 @@
         Height="32"
         Padding="8,0"
         HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch">
+        VerticalAlignment="Stretch"
+        ColumnSpacing="12">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
@@ -37,14 +38,12 @@
             x:Name="DirectoryItemCount"
             Grid.Column="0"
             VerticalAlignment="Center"
-            Margin="0,0,12,0"
             x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
             Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
         <TextBlock
             x:Name="SelectedItemsCountString"
             Grid.Column="1"
             VerticalAlignment="Center"
-            Margin="0,0,12,0"
             x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
             Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCountString, Mode=OneWay}"
             Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
@@ -52,7 +51,6 @@
             x:Name="ItemSize"
             Grid.Column="2"
             VerticalAlignment="Center"
-            Margin="0,0,12,0"
             x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
             Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}"
             Visibility="{x:Bind SelectedItemsPropertiesViewModel.ItemSizeVisibility, Mode=OneWay}" />
