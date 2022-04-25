@@ -1238,15 +1238,6 @@ namespace Files.Uwp.UserControls
             }
         }
 
-        private void NavigationViewItem_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
-        {
-            // Restore expanded state when section is loaded
-            if (args.NewValue is LocationItem loc && loc.ChildItems != null)
-            {
-                loc.IsExpanded = App.AppSettings.Get(loc.Text == "SidebarFavorites".GetLocalized(), $"section:{loc.Text.Replace('\\', '_')}");
-            }
-        }
-
         #endregion
     }
 

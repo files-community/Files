@@ -58,7 +58,6 @@
                     DragStarting="NavigationViewItem_DragStarting"
                     Drop="NavigationViewLocationItem_Drop"
                     IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
-                    DataContextChanged="NavigationViewItem_DataContextChanged"
                     IsRightTapEnabled="True"
                     MenuItemsSource="{x:Bind ChildItems}"
                     PointerPressed="Sidebar_PointerPressed"
