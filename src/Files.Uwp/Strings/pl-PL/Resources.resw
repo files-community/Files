@@ -174,9 +174,6 @@
   <data name="Application" xml:space="preserve">
     <value>Aplikacja</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>Systemowy</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Nowy folder</value>
   </data>
@@ -284,18 +281,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Czy usunąłeś ten folder?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>Plik, który próbujesz usunąć, jest obecnie używany przez inną aplikację.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>Plik jest w użyciu</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Spróbuj ponownie</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Opróżnij kosz</value>
@@ -953,9 +938,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Błąd</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ponów</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Zamknij mimo to</value>

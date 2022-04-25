@@ -19,7 +19,6 @@ namespace Files.Uwp.Filesystem
 
     public enum NavigationControlItemType
     {
-        Header,
         Drive,
         LinuxDistro,
         Location,

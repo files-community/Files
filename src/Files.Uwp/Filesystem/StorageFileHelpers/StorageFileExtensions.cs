@@ -308,7 +308,7 @@ namespace Files.Uwp.Filesystem
             }
             else if (component.Contains(":", StringComparison.Ordinal))
             {
-                var drives = SidebarControl.SideBarItems.Where(x => (x as LocationItem)?.ChildItems is not null).SelectMany(x => (x as LocationItem).ChildItems);
+                var drives = App.DrivesManager.Drives.Concat(App.NetworkDrivesManager.Drives).Concat(App.CloudDrivesManager.Drives);
                 var drive = drives.FirstOrDefault(y => y.ItemType is NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase));
                 return new PathBoxItem()
                 {

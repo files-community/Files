@@ -1,5 +1,4 @@
 ﻿using ByteSizeLib;
-using Files.Shared;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
@@ -18,8 +17,14 @@ namespace Files.Uwp.DataModels.NavigationControlItems
 {
     public class DriveItem : ObservableObject, INavigationControlItem
     {
-        public BitmapImage Icon { get; set; }
-        public Uri IconSource { get; set; }
+        private BitmapImage icon;
+        public BitmapImage Icon
+        {
+            get => icon;
+            set => SetProperty(ref icon, value);
+        }
+
+        //public Uri IconSource { get; set; }
         public byte[] IconData { get; set; }
 
         private string path;
@@ -142,7 +147,11 @@ namespace Files.Uwp.DataModels.NavigationControlItems
         {
             var item = new DriveItem();
 
-            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () => await item.SetBitmapImage(imageStream));
+            if (imageStream != null)
+            {
+                item.IconData = await imageStream.ToByteArrayAsync();
+            }
+
             item.Text = root.DisplayName;
             item.Type = type;
             item.MenuOptions = new ContextMenuOptions
@@ -155,18 +164,10 @@ namespace Files.Uwp.DataModels.NavigationControlItems
             item.Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
             item.DeviceID = deviceId;
             item.Root = root;
+
             _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => item.UpdatePropertiesAsync());
 
             return item;
-        }
-
-        public async Task SetBitmapImage(IRandomAccessStream imageStream)
-        {
-            if (imageStream != null)
-            {
-                IconData = await imageStream.ToByteArrayAsync();
-                Icon = await IconData.ToBitmapAsync();
-            }
         }
 
         public async Task UpdateLabelAsync()
@@ -226,6 +227,23 @@ namespace Files.Uwp.DataModels.NavigationControlItems
                 return Text.CompareTo(other.Text);
             }
             return result;
+        }
+
+        public async Task LoadDriveIcon()
+        {
+            if (IconData == null)
+            {
+                if (!string.IsNullOrEmpty(DeviceID))
+                {
+                    IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
+                }
+                if (IconData == null)
+                {
+                    var resource = await UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder);
+                    IconData = resource?.IconDataBytes;
+                }
+            }
+            Icon = await IconData.ToBitmapAsync();
         }
     }
 

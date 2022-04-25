@@ -25,7 +25,7 @@ namespace Files.Uwp.DataModels.NavigationControlItems
 
         public Uri Logo { get; set; }
 
-        public SectionType Section { get; private set; }
+        public SectionType Section { get; set; }
 
         public ContextMenuOptions MenuOptions { get; set; }
 

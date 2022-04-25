@@ -11,12 +11,15 @@ using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Files.Shared.Extensions;
+using System.Collections.Specialized;
 
 namespace Files.Uwp.Controllers
 {
     public class SidebarPinnedController : IJson
     {
         public SidebarPinnedModel Model { get; set; }
+
+        public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
         private StorageFileQueryResult query;
 
