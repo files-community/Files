@@ -92,7 +92,8 @@ namespace Files.Uwp.Helpers
             inputText.Loaded += (s, e) =>
             {
                 // dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
-                _ = DispatcherQueue.GetForCurrentThread().EnqueueAsync(() => inputText.Focus(Windows.UI.Xaml.FocusState.Programmatic));
+                _ = inputText.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, 
+                    () => inputText.Focus(Windows.UI.Xaml.FocusState.Programmatic));
             };
 
             dialog = new DynamicDialog(new DynamicDialogViewModel()

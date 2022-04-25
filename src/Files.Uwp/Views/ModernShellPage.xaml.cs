@@ -323,8 +323,7 @@ namespace Files.Uwp.Views
                         Query = sender.Query,
                         Folder = FilesystemViewModel.WorkingDirectory,
                         MaxItemCount = 10,
-                        SearchUnindexedItems = UserSettingsService.PreferencesSettingsService.SearchUnindexedItems,
-                        DispatcherQueue = DispatcherQueue.GetForCurrentThread()
+                        SearchUnindexedItems = UserSettingsService.PreferencesSettingsService.SearchUnindexedItems
                     };
                     sender.SetSuggestions(await search.SearchAsync());
                 }

@@ -32,6 +32,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using Files.Uwp.Interacts;
 using SortDirection = Files.Shared.Enums.SortDirection;
 using Files.Backend.Enums;
 using Files.Backend.Services;
@@ -325,8 +326,7 @@ namespace Files.Uwp.Views
                         Query = sender.Query,
                         Folder = FilesystemViewModel.WorkingDirectory,
                         MaxItemCount = 10,
-                        SearchUnindexedItems = UserSettingsService.PreferencesSettingsService.SearchUnindexedItems,
-                        DispatcherQueue = DispatcherQueue.GetForCurrentThread()
+                        SearchUnindexedItems = UserSettingsService.PreferencesSettingsService.SearchUnindexedItems
                     };
                     sender.SetSuggestions(await search.SearchAsync());
                 }

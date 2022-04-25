@@ -12,10 +12,10 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using Windows.System;
 using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
@@ -39,8 +39,6 @@ namespace Files.Uwp.Filesystem.Search
         private uint UsedMaxItemCount => MaxItemCount > 0 ? MaxItemCount : uint.MaxValue;
 
         public EventHandler SearchTick;
-
-        public DispatcherQueue DispatcherQueue { get; init; }
 
         private bool IsAQSQuery => Query is not null && (Query.StartsWith('$') || Query.Contains(":", StringComparison.Ordinal));
 
@@ -378,18 +376,17 @@ namespace Files.Uwp.Filesystem.Search
                     };
                 }
             }
-            if (listedItem != null && DispatcherQueue != null) // Only load icon for searchbox suggestions
+            if (listedItem != null && MaxItemCount > 0) // Only load icon for searchbox suggestions
             {
                 _ = FileThumbnailHelper.LoadIconFromPathAsync(listedItem.ItemPath, ThumbnailSize, ThumbnailMode.ListView)
                     .ContinueWith((t) =>
                     {
                         if (t.IsCompletedSuccessfully && t.Result != null)
                         {
-                            _ = SafetyExtensions.IgnoreExceptions(
-                                () => DispatcherQueue.EnqueueAsync(async () =>
+                            _ = FilesystemTasks.Wrap(() => CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                             {
                                 listedItem.FileImage = await t.Result.ToBitmapAsync();
-                            }, DispatcherQueuePriority.Low));
+                            }, Windows.System.DispatcherQueuePriority.Low));
                         }
                     });
             }
