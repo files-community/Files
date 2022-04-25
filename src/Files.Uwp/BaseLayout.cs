@@ -213,11 +213,6 @@ namespace Files.Uwp
             }
             internal set
             {
-                foreach (var item in selectedItems)
-                {
-                    item.PropertyChanged -= SelectedItem_PropertyChanged;
-                }
-
                 //if (!(value?.All(x => selectedItems?.Contains(x) ?? false) ?? value == selectedItems)) // check if the new list is different then the old one
                 if (value != selectedItems) // check if the new list is different then the old one
                 {
@@ -253,12 +248,14 @@ namespace Files.Uwp
                         SelectedItem = null;
                         SelectedItemsPropertiesViewModel.IsItemSelected = false;
                         ResetRenameDoubleClick();
+                        UpdateSelectionSize();
                     }
                     else
                     {
                         IsItemSelected = true;
                         SelectedItem = selectedItems.First();
                         SelectedItemsPropertiesViewModel.IsItemSelected = true;
+                        UpdateSelectionSize();
 
                         if (SelectedItems.Count >= 1)
                         {
@@ -268,7 +265,6 @@ namespace Files.Uwp
                         if (SelectedItems.Count == 1)
                         {
                             SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemSelected/Text".GetLocalized()}";
-                            SelectedItemsPropertiesViewModel.ItemSize = SelectedItem.FileSize;
                             DispatcherQueue.GetForCurrentThread().EnqueueAsync(async () =>
                             {
                                 await Task.Delay(50); // Tapped event must be executed first
@@ -279,17 +275,11 @@ namespace Files.Uwp
                         {
                             SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemsSelected/Text".GetLocalized()}";
                             ResetRenameDoubleClick();
-                            UpdateSelectionSize();
                         }
                     }
 
                     NotifyPropertyChanged(nameof(SelectedItems));
                     //ItemManipulationModel.SetDragModeForItems();
-                }
-
-                foreach (var item in selectedItems)
-                {
-                    item.PropertyChanged += SelectedItem_PropertyChanged;
                 }
 
                 ParentShellPageInstance.ToolbarViewModel.SelectedItems = value;
@@ -552,20 +542,35 @@ namespace Files.Uwp
             await ParentShellPageInstance.FilesystemViewModel.ReloadItemGroupHeaderImagesAsync();
         }
 
-        private void FolderSizeProvider_FolderSizeChanged(object sender, FolderSizeChangedEventArgs e)
+        private async void FolderSizeProvider_FolderSizeChanged(object sender, FolderSizeChangedEventArgs e)
         {
-            if (e.Folder is null)
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
-                SelectedItemsPropertiesViewModel.ItemSizeBytes = 0;
-                SelectedItemsPropertiesViewModel.ItemSize = string.Empty;
-                SelectedItemsPropertiesViewModel.ItemSizeVisibility = false;
-            }
-
-            var items = (selectedItems?.Any() ?? false) ? selectedItems : GetAllItems();
-            if (items.Contains(e.Folder))
-            {
-                UpdateSelectionSize();
-            }
+                if (e.Folder is null)
+                {
+                    SelectedItemsPropertiesViewModel.ItemSizeBytes = 0;
+                    SelectedItemsPropertiesViewModel.ItemSize = string.Empty;
+                    SelectedItemsPropertiesViewModel.ItemSizeVisibility = false;
+                }
+                else
+                {
+                    var matchingItem = GetAllItems().FirstOrDefault(x => x.ItemPath == e.Folder);
+                    if (matchingItem != null)
+                    {
+                        if (e.Size < 0)
+                        {
+                            matchingItem.FileSizeBytes = 0;
+                            matchingItem.FileSize = "ItemSizeNotCalculated".GetLocalized();
+                        }
+                        else if (!e.Intermediate || e.Size > matchingItem.FileSizeBytes)
+                        {
+                            matchingItem.FileSizeBytes = e.Size;
+                            matchingItem.FileSize = e.Size.ToSizeString();
+                        }
+                        UpdateSelectionSize();
+                    }
+                }
+            });
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -577,11 +582,6 @@ namespace Files.Uwp
             FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
             ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
             BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
-
-            foreach (var item in selectedItems)
-            {
-                item.PropertyChanged -= SelectedItem_PropertyChanged;
-            }
 
             var parameter = e.Parameter as NavigationArguments;
             if (!parameter.IsLayoutSwitch)
@@ -654,14 +654,6 @@ namespace Files.Uwp
             catch (Exception error)
             {
                 Debug.WriteLine(error);
-            }
-        }
-
-        private void SelectedItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(ListedItem.FileSize))
-            {
-                UpdateSelectionSize();
             }
         }
 

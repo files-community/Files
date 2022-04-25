@@ -24,8 +24,6 @@ namespace Files.Uwp.Filesystem
     {
         private IFolderSizeProvider FolderSizeProvider { get; } = Ioc.Default.GetService<IFolderSizeProvider>();
 
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
-
         private static readonly ILogger Logger = App.Logger;
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
