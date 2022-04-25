@@ -476,17 +476,19 @@ namespace Files.Uwp
             else
             {
                 ParentShellPageInstance.ToolbarViewModel.CanRefresh = true;
+                await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.SearchPathParam);
+
                 ParentShellPageInstance.ToolbarViewModel.CanGoForward = false;
                 ParentShellPageInstance.ToolbarViewModel.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
                 ParentShellPageInstance.ToolbarViewModel.CanNavigateToParent = false;
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = false;
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = false;
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = false;
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
 
-                await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.SearchPathParam);
+                var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory ?? string.Empty;
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\", StringComparison.Ordinal);
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = LibraryHelper.IsLibraryPath(workingDir);
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
 
                 if (!navigationArguments.IsLayoutSwitch)
                 {
@@ -637,18 +639,14 @@ namespace Files.Uwp
                 secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
                 secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
 
-                if (!InstanceViewModel.IsPageTypeSearchResults)
+                if (!InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder)
                 {
                     var shellMenuItems = await ContextFlyoutItemHelper.GetBaseContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false);
                     if (shellContextMenuItemCancellationToken.IsCancellationRequested)
                     {
                         return;
                     }
-
-                    if (!InstanceViewModel.IsPageTypeZipFolder)
-                    {
-                        AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
-                    }
+                    AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
                 }
             }
             catch (Exception error)
@@ -708,19 +706,18 @@ namespace Files.Uwp
             secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
             secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
 
-            if (UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled && !InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeRecycleBin && !InstanceViewModel.IsPageTypeFtp && !InstanceViewModel.IsPageTypeZipFolder)
+            if (UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled && InstanceViewModel.CanTagFilesInPage)
             {
                 AddFileTagsItemToMenu(ItemContextMenuFlyout);
             }
 
-            var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, shiftPressed: shiftPressed, showOpenMenu: false);
-            if (shellContextMenuItemCancellationToken.IsCancellationRequested)
-            {
-                return;
-            }
-
             if (!InstanceViewModel.IsPageTypeZipFolder)
             {
+                var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, shiftPressed: shiftPressed, showOpenMenu: false);
+                if (shellContextMenuItemCancellationToken.IsCancellationRequested)
+                {
+                    return;
+                }
                 AddShellItemsToMenu(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
             }
         }

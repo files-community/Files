@@ -1,10 +1,7 @@
 using Files.Shared;
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Shared.Enums;
-using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.Uwp.UserControls;
-using Files.Uwp.UserControls.Widgets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
@@ -19,7 +16,7 @@ using Windows.Devices.Portable;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using DriveType = Files.Uwp.DataModels.NavigationControlItems.DriveType;
-using Windows.ApplicationModel.Activation;
+using System.Collections.Specialized;
 
 namespace Files.Uwp.Filesystem
 {
@@ -31,6 +28,8 @@ namespace Files.Uwp.Filesystem
 
         private static readonly ILogger Logger = App.Logger;
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
+
+        public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
         public IReadOnlyList<DriveItem> Drives
         {
@@ -103,103 +102,7 @@ namespace Files.Uwp.Filesystem
         private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender = null, object args = null)
         {
             System.Diagnostics.Debug.WriteLine("DeviceWatcher_EnumerationCompleted");
-            try
-            {
-                await UpdateAppUISurfacesAsync();
-            }
-            catch (Exception) // UI Thread not ready yet, so we defer the previous operation until it is.
-            {
-                System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
-                // Defer because UI-thread is not ready yet (and DriveItem requires it?)
-                CoreApplication.MainView.Activated -= RefreshUI;
-                CoreApplication.MainView.Activated += RefreshUI;
-            }
             await FolderSizeProvider.CleanCacheAsync();
-        }
-
-        private async void RefreshUI(CoreApplicationView view = null, IActivatedEventArgs args = null)
-        {
-            CoreApplication.MainView.Activated -= RefreshUI;
-            await UpdateAppUISurfacesAsync();
-        }
-
-        // TODO: Rid DrivesManager of this method
-        private async Task UpdateAppUISurfacesAsync()
-        {
-            await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
-            {
-                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
-                try
-                {
-                    var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "Drives".GetLocalized()) as LocationItem;
-                    if (UserSettingsService.AppearanceSettingsService.ShowDrivesSection && section == null)
-                    {
-                        section = new LocationItem()
-                        {
-                            Text = "Drives".GetLocalized(),
-                            Section = SectionType.Drives,
-                            MenuOptions = new ContextMenuOptions
-                            {
-                                ShowHideSection = true
-                            },
-                            SelectsOnInvoked = false,
-                            Icon = await UIHelpers.GetIconResource(Constants.ImageRes.ThisPC),
-                            ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
-                        };
-                        var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
-                                    (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0); // After libraries section
-                        SidebarControl.SideBarItems.BeginBulkOperation();
-                        SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), section);
-                        SidebarControl.SideBarItems.EndBulkOperation();
-                    }
-
-                    // TODO: Move sidebar drive syncing out of DrivesManager
-                    if (section != null)
-                    {
-                        foreach (DriveItem drive in Drives.ToList())
-                        {
-                            if (!section.ChildItems.Contains(drive))
-                            {
-                                section.ChildItems.Add(drive);
-                            }
-                        }
-
-                        foreach (DriveItem drive in section.ChildItems.ToList())
-                        {
-                            if (!Drives.Contains(drive))
-                            {
-                                section.ChildItems.Remove(drive);
-                            }
-                        }
-                    }
-
-                    // Sync drives to drives widget
-                    foreach (DriveItem drive in Drives.ToList())
-                    {
-                        if (!DrivesWidget.ItemsAdded.Any(x => x.Item == drive))
-                        {
-                            if (drive.Type != DriveType.VirtualDrive)
-                            {
-                                DrivesWidget.ItemsAdded.Add(new DriveCardItem(drive));
-                            }
-                        }
-                    }
-
-                    foreach (DriveCardItem driveCard in DrivesWidget.ItemsAdded.ToList())
-                    {
-                        if (!Drives.Contains(driveCard.Item))
-                        {
-                            DrivesWidget.ItemsAdded.Remove(driveCard);
-                        }
-                    }
-
-                    await WidgetsHelpers.WidgetCards.LoadCardIcons<DriveCardItem, DriveItem>(DrivesWidget.ItemsAdded);
-                }
-                finally
-                {
-                    SidebarControl.SideBarItemsSemaphore.Release();
-                }
-            });
         }
 
         private async void DeviceAdded(DeviceWatcher sender, DeviceInformation args)
@@ -247,6 +150,8 @@ namespace Files.Uwp.Filesystem
                 drivesList.Add(driveItem);
             }
 
+            DataChanged?.Invoke(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, driveItem));
+
             // Update the collection on the ui-thread.
             DeviceWatcher_EnumerationCompleted();
         }
@@ -258,6 +163,9 @@ namespace Files.Uwp.Filesystem
             {
                 drivesList.RemoveAll(x => x.DeviceID == args.Id);
             }
+            
+            DataChanged?.Invoke(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+
             // Update the collection on the ui-thread.
             DeviceWatcher_EnumerationCompleted();
         }
@@ -299,35 +207,11 @@ namespace Files.Uwp.Filesystem
                     Logger.Info($"Drive added: {driveItem.Path}, {driveItem.Type}");
                     drivesList.Add(driveItem);
                 }
+
+                DataChanged?.Invoke(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, driveItem));
             }
 
             return unauthorizedAccessDetected;
-        }
-
-        private void RemoveDrivesSideBarSection()
-        {
-            try
-            {
-                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("Drives".GetLocalized()) select n).FirstOrDefault();
-                if (!UserSettingsService.AppearanceSettingsService.ShowDrivesSection && item != null)
-                {
-                    SidebarControl.SideBarItems.Remove(item);
-                }
-            }
-            catch (Exception)
-            { }
-        }
-
-        public async void UpdateDrivesSectionVisibility()
-        {
-            if (UserSettingsService.AppearanceSettingsService.ShowDrivesSection)
-            {
-                await EnumerateDrivesAsync();
-            }
-            else
-            {
-                RemoveDrivesSideBarSection();
-            }
         }
 
         private DriveType GetDriveType(DriveInfo drive)
@@ -462,6 +346,8 @@ namespace Files.Uwp.Filesystem
                         drivesList.Add(driveItem);
                     }
 
+                    DataChanged?.Invoke(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, driveItem));
+
                     DeviceWatcher_EnumerationCompleted();
                     break;
 
@@ -470,6 +356,7 @@ namespace Files.Uwp.Filesystem
                     {
                         drivesList.RemoveAll(x => x.DeviceID == deviceId);
                     }
+                    DataChanged?.Invoke(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
                     DeviceWatcher_EnumerationCompleted();
                     break;
 

@@ -197,7 +197,8 @@
                 </ComboBox>
             </Grid>
 
-            <TextBlock Text="{x:Bind ViewModel.Description, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind ViewModel.Description, Mode=OneWay}" TextWrapping="WrapWholeWords" />
+
             <CheckBox
                 x:Name="chkPermanentlyDelete"
                 x:Load="{x:Bind ViewModel.FileSystemDialogMode.IsInDeleteMode, Mode=OneWay}"

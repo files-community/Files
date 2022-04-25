@@ -620,7 +620,8 @@ namespace FilesFullTrust.MessageHandlers
                             {
                                 Name = x.ProcessName,
                                 Pid = x.Id,
-                                FileName = x.MainModule?.FileName
+                                FileName = x.MainModule?.FileName,
+                                AppName = SafetyExtensions.IgnoreExceptions(() => x.MainModule?.FileVersionInfo?.FileDescription)
                             }).ToList();
                             processes.ForEach(x => x.Dispose());
                             await Win32API.SendMessageAsync(connection, new ValueSet() {
