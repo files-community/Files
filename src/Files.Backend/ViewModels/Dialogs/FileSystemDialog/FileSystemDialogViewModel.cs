@@ -75,7 +75,6 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
         public void CancelCts()
         {
             _dialogClosingCts.Cancel();
-            _dialogClosingCts.Dispose();
         }
 
         private void SecondaryButtonClick()
@@ -177,6 +176,23 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
                 SecondaryButtonText = secondaryButtonText,
                 DeletePermanently = deleteOption.deletePermanently,
                 IsDeletePermanentlyEnabled = deleteOption.IsDeletePermanentlyEnabled
+            };
+
+            _ = LoadItemsIcon(viewModel.Items, viewModel._dialogClosingCts.Token);
+
+            return viewModel;
+        }
+
+        public static FileSystemDialogViewModel GetDialogViewModel(List<BaseFileSystemDialogItemViewModel> nonConflictingItems, string titleText, string descriptionText, string primaryButtonText, string secondaryButtonText)
+        {
+            var viewModel = new FileSystemDialogViewModel(new() { IsInDeleteMode = false, ConflictsExist = false }, nonConflictingItems)
+            {
+                Title = titleText,
+                Description = descriptionText,
+                PrimaryButtonText = primaryButtonText,
+                SecondaryButtonText = secondaryButtonText,
+                DeletePermanently = false,
+                IsDeletePermanentlyEnabled = false
             };
 
             _ = LoadItemsIcon(viewModel.Items, viewModel._dialogClosingCts.Token);

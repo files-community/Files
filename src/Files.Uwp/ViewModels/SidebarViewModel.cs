@@ -264,6 +264,9 @@ namespace Files.Uwp.ViewModels
                 case nameof(UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled):
                     OnPropertyChanged(nameof(AreFileTagsEnabled));
                     break;
+                case nameof(UserSettingsService.AppearanceSettingsService.UseCompactStyles):
+                    new SettingsViewModels.AppearanceViewModel().SetCompactStyles(true);
+                    break;
             }
         }
 

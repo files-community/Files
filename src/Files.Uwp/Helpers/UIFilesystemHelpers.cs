@@ -65,13 +65,9 @@ namespace Files.Uwp.Helpers
                         }
                         if (listedItem is FtpItem ftpItem)
                         {
-                            if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                            if (ftpItem.PrimaryItemAttribute is StorageItemTypes.File or StorageItemTypes.Folder)
                             {
-                                items.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
-                            }
-                            else if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-                            {
-                                items.Add(new FtpStorageFolder(ftpItem));
+                                items.Add(await ftpItem.ToStorageItem());
                             }
                         }
                         else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)
@@ -175,13 +171,9 @@ namespace Files.Uwp.Helpers
 
                         if (listedItem is FtpItem ftpItem)
                         {
-                            if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                            if (ftpItem.PrimaryItemAttribute is StorageItemTypes.File or StorageItemTypes.Folder)
                             {
-                                items.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
-                            }
-                            else if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-                            {
-                                items.Add(new FtpStorageFolder(ftpItem));
+                                items.Add(await ftpItem.ToStorageItem());
                             }
                         }
                         else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)

@@ -5,96 +5,51 @@ namespace Files.Uwp.Filesystem.FilesystemHistory
 {
     public class StorageHistoryWrapper : IDisposable
     {
-        #region Private Members
+        private int index = -1;
 
-        private List<IStorageHistory> storageHistory;
+        private List<IStorageHistory> histories = new();
 
-        private int storageHistoryIndex;
+        public bool CanRedo() => index + 1 < histories.Count;
+        public bool CanUndo() => index >= 0 && histories.Count > 0;
 
-        #endregion Private Members
-
-        #region Constructor
-
-        public StorageHistoryWrapper()
-        {
-            this.storageHistory = new List<IStorageHistory>();
-            this.storageHistoryIndex = -1;
-        }
-
-        #endregion Constructor
-
-        #region Helpers
+        public IStorageHistory GetCurrentHistory() => histories[index];
 
         public void AddHistory(IStorageHistory history)
         {
-            if (history != null)
+            if (history is not null)
             {
-                this.storageHistoryIndex++;
-                this.storageHistory.Insert(this.storageHistoryIndex, history);
-                // If a history item is added also remove all the redo operations after it
-                for (var idx = this.storageHistory.Count - 1; idx > this.storageHistoryIndex; idx--)
-                {
-                    this.storageHistory.RemoveAt(idx);
-                }
+                ++index;
+                histories.Insert(index, history);
+                histories.RemoveRange(index + 1, histories.Count - index - 1);
             }
         }
 
-        public void RemoveHistory(IStorageHistory history, bool decreaseIndex)
+        public void RemoveHistory(IStorageHistory history, bool decreaseIndex = true)
         {
-            if (history != null)
+            if (history is not null)
             {
-                // If a history item is invalid also remove all the redo operations after it
-                for (var idx = this.storageHistory.Count - 1; idx > this.storageHistoryIndex; idx--)
-                {
-                    this.storageHistory.RemoveAt(idx);
-                }
+                histories.RemoveRange(index + 1, histories.Count - index - 1);
                 if (decreaseIndex)
                 {
-                    this.storageHistoryIndex--;
+                    --index;
                 }
-                this.storageHistory.Remove(history);
+                histories.Remove(history);
             }
         }
 
         public void ModifyCurrentHistory(IStorageHistory newHistory)
-        {
-            this.storageHistory[this.storageHistoryIndex].Modify(newHistory);
-        }
+            => histories[index].Modify(newHistory);
 
-        public IStorageHistory GetCurrentHistory()
-        {
-            return this.storageHistory[this.storageHistoryIndex];
-        }
-
-        public void IncreaseIndex()
-        {
-            this.storageHistoryIndex++;
-        }
-
-        public void DecreaseIndex()
-        {
-            this.storageHistoryIndex--;
-        }
-
-        public bool CanUndo() =>
-            this.storageHistoryIndex >= 0 && this.storageHistory.Count > 0;
-
-        public bool CanRedo() =>
-            (this.storageHistoryIndex + 1) < this.storageHistory.Count;
-
-        #endregion Helpers
-
-        #region IDisposable
+        public void DecreaseIndex() => --index;
+        public void IncreaseIndex() => ++index;
 
         public void Dispose()
         {
-            if (storageHistory != null)
+            if (histories is not null)
             {
-                storageHistory.ForEach(item => item?.Dispose());
-                storageHistory = null;
+                histories.ForEach(item => item?.Dispose());
+                histories = null;
             }
         }
-
-        #endregion IDisposable
     }
 }
