@@ -554,21 +554,7 @@ namespace Files.Uwp
                 }
                 else
                 {
-                    var matchingItem = GetAllItems().FirstOrDefault(x => x.ItemPath == e.Folder);
-                    if (matchingItem != null)
-                    {
-                        if (e.Size < 0)
-                        {
-                            matchingItem.FileSizeBytes = 0;
-                            matchingItem.FileSize = "ItemSizeNotCalculated".GetLocalized();
-                        }
-                        else if (!e.Intermediate || e.Size > matchingItem.FileSizeBytes)
-                        {
-                            matchingItem.FileSizeBytes = e.Size;
-                            matchingItem.FileSize = e.Size.ToSizeString();
-                        }
-                        UpdateSelectionSize();
-                    }
+                    UpdateSelectionSize();
                 }
             });
         }
