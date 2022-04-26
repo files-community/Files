@@ -1,18 +1,15 @@
-﻿using Files.Shared.Extensions;
+﻿using Files.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
-using System.Runtime.InteropServices.ComTypes;
-using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Storage;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    [SupportedOSPlatform("Windows10.0.10240")]
-    public class FileTagsHandler : Disposable, IMessageHandler
+    public class FileTagsHandler : IMessageHandler
     {
         public static string ReadFileTag(string filePath)
         {
@@ -33,11 +30,9 @@ namespace FilesFullTrust.MessageHandlers
 
         public static bool WriteFileTag(string filePath, string tag)
         {
-            var dateOk = GetFileDateModified(filePath, out var dateModified); // Backup date modified
-            bool result = false;
             if (tag == null)
             {
-                result = Kernel32.DeleteFile($"{filePath}:files");
+                return Kernel32.DeleteFile($"{filePath}:files");
             }
             else
             {
@@ -48,13 +43,8 @@ namespace FilesFullTrust.MessageHandlers
                     return false;
                 }
                 byte[] buff = System.Text.Encoding.UTF8.GetBytes(tag);
-                result = Kernel32.WriteFile(hStream, buff, (uint)buff.Length, out var written, IntPtr.Zero);
+                return Kernel32.WriteFile(hStream, buff, (uint)buff.Length, out var written, IntPtr.Zero);
             }
-            if (dateOk)
-            {
-                SetFileDateModified(filePath, dateModified); // Restore date modified
-            }
-            return result;
         }
 
         public static ulong? GetFileFRN(string filePath)
@@ -67,7 +57,7 @@ namespace FilesFullTrust.MessageHandlers
                 return null;
             }
             ulong? frn = null;
-            SafetyExtensions.IgnoreExceptions(() =>
+            Extensions.IgnoreExceptions(() =>
             {
                 var fileID = Kernel32.GetFileInformationByHandleEx<Kernel32.FILE_ID_INFO>(hFile, Kernel32.FILE_INFO_BY_HANDLE_CLASS.FileIdInfo);
                 frn = BitConverter.ToUInt64(fileID.FileId.Identifier, 0);
@@ -101,7 +91,7 @@ namespace FilesFullTrust.MessageHandlers
                     var tag = ReadFileTag(file.FilePath);
                     if (tag != null)
                     {
-                        if (!SafetyExtensions.IgnoreExceptions(() =>
+                        if (!Extensions.IgnoreExceptions(() =>
                         {
                             var frn = GetFileFRN(file.FilePath);
                             dbInstance.UpdateTag(file.FilePath, frn, null);
@@ -119,18 +109,6 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        private static bool GetFileDateModified(string filePath, out FILETIME dateModified)
-        {
-            using var hFile = Kernel32.CreateFile(filePath, Kernel32.FileAccess.GENERIC_READ, FileShare.Read, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
-            return Kernel32.GetFileTime(hFile, out _, out _, out dateModified);
-        }
-
-        private static bool SetFileDateModified(string filePath, FILETIME dateModified)
-        {
-            using var hFile = Kernel32.CreateFile(filePath, Kernel32.FileAccess.FILE_WRITE_ATTRIBUTES, FileShare.None, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
-            return Kernel32.SetFileTime(hFile, new(), new(), dateModified);
-        }
-
         public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
         {
             switch (arguments)
@@ -143,6 +121,10 @@ namespace FilesFullTrust.MessageHandlers
         }
 
         public void Initialize(PipeStream connection)
+        {
+        }
+
+        public void Dispose()
         {
         }
     }

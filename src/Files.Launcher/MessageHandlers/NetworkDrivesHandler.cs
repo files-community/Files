@@ -1,10 +1,8 @@
-﻿using Files.Shared;
-using Files.Shared.Extensions;
+﻿using Files.Common;
 using FilesFullTrust.Helpers;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO.Pipes;
-using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -12,8 +10,7 @@ using Windows.Foundation.Collections;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    [SupportedOSPlatform("Windows10.0.10240")]
-    public class NetworkDrivesHandler : Disposable, IMessageHandler
+    public class NetworkDrivesHandler : IMessageHandler
     {
         public void Initialize(PipeStream connection)
         {
@@ -66,10 +63,8 @@ namespace FilesFullTrust.MessageHandlers
                         }
                         return locations;
                     });
-                    var response = new ValueSet
-                    {
-                        { "NetworkLocations", JsonConvert.SerializeObject(networkLocations) }
-                    };
+                    var response = new ValueSet();
+                    response.Add("NetworkLocations", JsonConvert.SerializeObject(networkLocations));
                     await Win32API.SendMessageAsync(connection, response, message.Get("RequestID", (string)null));
                     break;
 
@@ -83,6 +78,10 @@ namespace FilesFullTrust.MessageHandlers
                     _ = NetworkDrivesAPI.DisconnectNetworkDrive(drivePath);
                     break;
             }
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Files.Shared;
-using Files.Shared.Extensions;
+﻿using Files.Common;
 using FilesFullTrust.Helpers;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -8,11 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
-using System.Linq;
-using System.Runtime.Versioning;
-using System.Threading;
 using System.Threading.Tasks;
-using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel;
 using Windows.Foundation.Collections;
@@ -20,31 +15,23 @@ using Windows.Storage;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    [SupportedOSPlatform("Windows10.0.10240")]
-    public class Win32MessageHandler : Disposable, IMessageHandler
+    public class Win32MessageHandler : IMessageHandler
     {
-        private IList<FileSystemWatcher> dirWatchers;
-        private PipeStream connection;
-
         public void Initialize(PipeStream connection)
         {
-            this.connection = connection;
-
             DetectIsSetAsDefaultFileManager();
             DetectIsSetAsOpenFileDialog();
             ApplicationData.Current.LocalSettings.Values["TEMP"] = Environment.GetEnvironmentVariable("TEMP");
-
-            dirWatchers = new List<FileSystemWatcher>();
         }
 
-        private static void DetectIsSetAsDefaultFileManager()
+        private void DetectIsSetAsDefaultFileManager()
         {
             using var subkey = Registry.ClassesRoot.OpenSubKey(@"Folder\shell\open\command");
             var command = (string)subkey?.GetValue(string.Empty);
-            ApplicationData.Current.LocalSettings.Values["IsSetAsDefaultFileManager"] = !string.IsNullOrEmpty(command) && command.Contains("FilesLauncher.exe");
+            ApplicationData.Current.LocalSettings.Values["IsSetAsDefaultFileManager"] = !string.IsNullOrEmpty(command) && command.Contains("files.exe");
         }
 
-        private static void DetectIsSetAsOpenFileDialog()
+        private void DetectIsSetAsOpenFileDialog()
         {
             using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\CLSID\{DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7}");
             ApplicationData.Current.LocalSettings.Values["IsSetAsOpenFileDialog"] = subkey?.GetValue(string.Empty) as string == "FilesOpenDialog class";
@@ -76,11 +63,11 @@ namespace FilesFullTrust.MessageHandlers
                     var fileIconPath = (string)message["filePath"];
                     var thumbnailSize = (int)(long)message["thumbnailSize"];
                     var isOverlayOnly = (bool)message["isOverlayOnly"];
-                    var (icon, overlay) = await Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize, true, isOverlayOnly));
+                    var iconOverlay = await Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize, true, isOverlayOnly));
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
-                        { "Icon", icon },
-                        { "Overlay", overlay }
+                        { "Icon", iconOverlay.icon },
+                        { "Overlay", iconOverlay.overlay }
                     }, message.Get("RequestID", (string)null));
                     break;
 
@@ -103,22 +90,23 @@ namespace FilesFullTrust.MessageHandlers
                         var flc = new List<ShellFileItem>();
                         try
                         {
-                            using var shellFolder = new ShellFolder(folderPath);
-
-                            foreach (var folderItem in shellFolder)
+                            using (var shellFolder = new ShellFolder(folderPath))
                             {
-                                try
+                                foreach (var folderItem in shellFolder)
                                 {
-                                    var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
-                                    flc.Add(shellFileItem);
-                                }
-                                catch (FileNotFoundException)
-                                {
-                                    // Happens if files are being deleted
-                                }
-                                finally
-                                {
-                                    folderItem.Dispose();
+                                    try
+                                    {
+                                        var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
+                                        flc.Add(shellFileItem);
+                                    }
+                                    catch (FileNotFoundException)
+                                    {
+                                        // Happens if files are being deleted
+                                    }
+                                    finally
+                                    {
+                                        folderItem.Dispose();
+                                    }
                                 }
                             }
                         }
@@ -161,29 +149,13 @@ namespace FilesFullTrust.MessageHandlers
                         Directory.CreateDirectory(destFolder);
                         foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.Launcher", "Assets", "FilesOpenDialog")))
                         {
-                            if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), Program.Logger))
+                            if (!Extensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), Program.Logger))
                             {
                                 // Error copying files
                                 DetectIsSetAsDefaultFileManager();
                                 await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
                                 return;
                             }
-                        }
-
-                        var dataPath = Environment.ExpandEnvironmentVariables("%LocalAppData%\\Files");
-                        if (enable)
-                        {
-                            if (!Win32API.RunPowershellCommand($"-command \"New-Item -Force -Path '{dataPath}' -ItemType Directory; Copy-Item -Filter *.* -Path '{destFolder}\\*' -Recurse -Force -Destination '{dataPath}'\"", false))
-                            {
-                                // Error copying files
-                                DetectIsSetAsDefaultFileManager();
-                                await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
-                                return;
-                            }
-                        }
-                        else
-                        {
-                            Win32API.RunPowershellCommand($"-command \"Remove-Item -Path '{dataPath}' -Recurse -Force\"", false);
                         }
 
                         try
@@ -209,7 +181,7 @@ namespace FilesFullTrust.MessageHandlers
                         Directory.CreateDirectory(destFolder);
                         foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.Launcher", "Assets", "FilesOpenDialog")))
                         {
-                            if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), Program.Logger))
+                            if (!Extensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), Program.Logger))
                             {
                                 // Error copying files
                                 DetectIsSetAsOpenFileDialog();
@@ -244,112 +216,11 @@ namespace FilesFullTrust.MessageHandlers
                         await Win32API.SendMessageAsync(connection, new ValueSet() { { "FileAssociation", await Win32API.GetFileAssociationAsync(filePath, true) } }, message.Get("RequestID", (string)null));
                     }
                     break;
-
-                case "WatchDirectory":
-                    var watchAction = (string)message["action"];
-                    await ParseWatchDirectoryActionAsync(connection, message, watchAction);
-                    break;
             }
         }
 
-        private async Task ParseWatchDirectoryActionAsync(PipeStream connection, Dictionary<string, object> message, string action)
+        public void Dispose()
         {
-            switch (action)
-            {
-                case "start":
-                    {
-                        var res = new ValueSet();
-                        var folderPath = (string)message["folderPath"];
-                        if (Directory.Exists(folderPath))
-                        {
-                            var watcher = new FileSystemWatcher
-                            {
-                                Path = folderPath,
-                                Filter = "*.*",
-                                NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName
-                            };
-                            watcher.Created += DirectoryWatcher_Changed;
-                            watcher.Deleted += DirectoryWatcher_Changed;
-                            watcher.Renamed += DirectoryWatcher_Changed;
-                            watcher.EnableRaisingEvents = true;
-                            res.Add("watcherID", watcher.GetHashCode());
-                            dirWatchers.Add(watcher);
-                        }
-                        await Win32API.SendMessageAsync(connection, res, message.Get("RequestID", (string)null));
-                    }
-                    break;
-
-                case "cancel":
-                    {
-                        var watcherID = (long)message["watcherID"];
-                        var watcher = dirWatchers.SingleOrDefault(x => x.GetHashCode() == watcherID);
-                        if (watcher != null)
-                        {
-                            dirWatchers.Remove(watcher);
-                            watcher.Dispose();
-                        }
-                    }
-                    break;
-            }
-        }
-
-        private async void DirectoryWatcher_Changed(object sender, FileSystemEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine($"Directory watcher event: {e.ChangeType}, {e.FullPath}");
-            if (connection?.IsConnected ?? false)
-            {
-                var response = new ValueSet()
-                {
-                    { "FileSystem", Path.GetDirectoryName(e.FullPath) },
-                    { "Name", e.Name },
-                    { "Path", e.FullPath },
-                    { "Type", e.ChangeType.ToString() },
-                    { "WatcherID", sender.GetHashCode() },
-                };
-                if (e.ChangeType == WatcherChangeTypes.Created)
-                {
-                    var shellFileItem = await GetShellFileItemAsync(e.FullPath);
-                    if (shellFileItem == null) return;
-                    response["Item"] = JsonConvert.SerializeObject(shellFileItem);
-                }
-                else if (e.ChangeType == WatcherChangeTypes.Renamed)
-                {
-                    response["OldPath"] = (e as RenamedEventArgs).OldFullPath;
-                }
-                // Send message to UWP app to refresh items
-                await Win32API.SendMessageAsync(connection, response);
-            }
-        }
-
-        private async Task<ShellFileItem> GetShellFileItemAsync(string fullPath)
-        {
-            while (true)
-            {
-                using var hFile = Kernel32.CreateFile(fullPath, Kernel32.FileAccess.GENERIC_READ, FileShare.Read, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
-                if (!hFile.IsInvalid)
-                {
-                    using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(fullPath));
-                    if (folderItem == null) return null;
-                    return ShellFolderExtensions.GetShellFileItem(folderItem);
-                }
-                var lastError = System.Runtime.InteropServices.Marshal.GetLastWin32Error();
-                if (lastError != Win32Error.ERROR_SHARING_VIOLATION && lastError != Win32Error.ERROR_LOCK_VIOLATION)
-                {
-                    return null;
-                }
-                await Task.Delay(200);
-            }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                foreach (var watcher in dirWatchers)
-                {
-                    watcher.Dispose();
-                }
-            }
         }
     }
 }

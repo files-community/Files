@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="Current" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup Condition="'$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '17.0'">
-    <VisualStudioVersion>17.0</VisualStudioVersion>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0'">
+    <VisualStudioVersion>15.0</VisualStudioVersion>
   </PropertyGroup>
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x86">
@@ -20,6 +20,14 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|arm64">
       <Configuration>Debug</Configuration>
       <Platform>arm64</Platform>
@@ -35,7 +43,7 @@
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
     <ProjectGuid>3b15596c-3db9-4b58-b4c8-442d06a8c130</ProjectGuid>
-    <TargetPlatformVersion>10.0.22000.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
@@ -43,14 +51,14 @@
     <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
-    <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64|arm|arm64</AppxBundlePlatforms>
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-    <AppxDefaultResourceQualifiers>Language=en-US;af;ar;bg;ca;da;da-DK;de-DE;el;en-GB;es-ES;es-419;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;id-ID;it-IT;ja-JP;ka;ko-KR;lv-LV;nb-NO;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ru-RU;sk-SK;sv-SE;ta;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
+    <AppxDefaultResourceQualifiers>Language=en-US;af;ar;ca;da;da-DK;de-DE;el;en-GB;es-ES;es-419;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;id-ID;it-IT;ja-JP;ka;ko-KR;lv-LV;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ru-RU;sv-SE;cs-CZ;ta;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
     <UapAppxPackageBuildMode>StoreUpload</UapAppxPackageBuildMode>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <EntryPointProjectUniqueName>..\Files.Uwp\Files.Uwp.csproj</EntryPointProjectUniqueName>
+    <EntryPointProjectUniqueName>..\Files\Files.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <AppxBundle>Always</AppxBundle>
@@ -59,6 +67,12 @@
     <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <AppxBundle>Always</AppxBundle>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <AppxBundle>Always</AppxBundle>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">
@@ -76,7 +90,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Files.Uwp\Files.Uwp.csproj" />
+    <ProjectReference Include="..\Files\Files.csproj" />
     <ProjectReference Include="..\Files.Launcher\Files.Launcher.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -462,7 +476,6 @@
     <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-400.png" />
-    <Content Include="Package.appinstaller" />
   </ItemGroup>
   <ItemGroup>
     <None Include="nupkgs\microsoft.management.infrastructure.runtime.win.2.0.1.nupkg" />

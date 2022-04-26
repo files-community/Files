@@ -1,5 +1,4 @@
-﻿using Files.Shared;
-using Files.Shared.Extensions;
+﻿using Files.Common;
 using FilesFullTrust.Helpers;
 using Newtonsoft.Json;
 using System;
@@ -7,17 +6,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
-using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Foundation.Collections;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    [SupportedOSPlatform("Windows10.0.10240")]
-    public class ContextMenuHandler : Disposable, IMessageHandler
+    public class ContextMenuHandler : IMessageHandler
     {
-        private readonly DisposableDictionary handleTable;
+        private DisposableDictionary handleTable;
 
         public ContextMenuHandler()
         {
@@ -68,13 +65,13 @@ namespace FilesFullTrust.MessageHandlers
                     break;
 
                 case "GetNewContextMenuEntries":
-                    var entries = await SafetyExtensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntries(), Program.Logger);
+                    var entries = await Extensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntries(), Program.Logger);
                     await Win32API.SendMessageAsync(connection, new ValueSet() { { "Entries", JsonConvert.SerializeObject(entries) } }, message.Get("RequestID", (string)null));
                     break;
 
                 case "GetNewContextMenuEntryForType":
                     var fileExtension = (string)message["extension"];
-                    var entry = await SafetyExtensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntryForType(fileExtension), Program.Logger);
+                    var entry = await Extensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntryForType(fileExtension), Program.Logger);
                     await Win32API.SendMessageAsync(connection, new ValueSet() { { "Entry", JsonConvert.SerializeObject(entry) } }, message.Get("RequestID", (string)null));
                     break;
             }
@@ -154,23 +151,23 @@ namespace FilesFullTrust.MessageHandlers
                 "cut", "copy", "paste", "delete", "properties", "link",
                 "Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
                 "eject", "rename", "explore", "openinfiles", "extract",
-                "copyaspath", "undelete", "empty", "Open in Windows Terminal",
+                "copyaspath", "undelete", "empty",
                 Win32API.ExtractStringFromDLL("shell32.dll", 30312), // SendTo menu
                 Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
             };
 
-            bool filterMenuItemsImpl(string menuItem) => !string.IsNullOrEmpty(menuItem)
-                && (knownItems.Contains(menuItem) || (!showOpenMenu && menuItem.Equals("open", StringComparison.OrdinalIgnoreCase)));
+            bool filterMenuItemsImpl(string menuItem)
+            {
+                return string.IsNullOrEmpty(menuItem) ? false : knownItems.Contains(menuItem)
+                    || (!showOpenMenu && menuItem.Equals("open", StringComparison.OrdinalIgnoreCase));
+            }
 
             return filterMenuItemsImpl;
         }
 
-        protected override void Dispose(bool disposing)
+        public void Dispose()
         {
-            if (disposing)
-            {
-                handleTable?.Dispose();
-            }
+            handleTable?.Dispose();
         }
     }
 }

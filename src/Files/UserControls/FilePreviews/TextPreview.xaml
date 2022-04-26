@@ -1,0 +1,20 @@
+﻿<UserControl
+    x:Class="Files.UserControls.FilePreviews.TextPreview"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files.UserControls.FilePreviews"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <ScrollViewer>
+            <RichTextBlock IsTextSelectionEnabled="True">
+                <Paragraph>
+                    <Run Text="{x:Bind ViewModel.TextValue, Mode=OneWay}" />
+                </Paragraph>
+            </RichTextBlock>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

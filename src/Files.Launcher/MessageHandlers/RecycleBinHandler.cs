@@ -1,4 +1,4 @@
-﻿using Files.Shared.Extensions;
+﻿using Files.Common;
 using FilesFullTrust.Helpers;
 using Newtonsoft.Json;
 using System;
@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
 using System.Runtime.InteropServices;
-using System.Runtime.Versioning;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
@@ -16,8 +15,7 @@ using Windows.Storage;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    [SupportedOSPlatform("Windows10.0.10240")]
-    public class RecycleBinHandler : Disposable, IMessageHandler
+    public class RecycleBinHandler : IMessageHandler
     {
         private IList<FileSystemWatcher> binWatchers;
         private PipeStream connection;
@@ -126,8 +124,7 @@ namespace FilesFullTrust.MessageHandlers
                 };
                 if (e.ChangeType == WatcherChangeTypes.Created)
                 {
-                    using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(e.FullPath));
-                    if (folderItem == null) return;
+                    using var folderItem = new ShellItem(e.FullPath);
                     var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
                     response["Item"] = JsonConvert.SerializeObject(shellFileItem);
                 }
@@ -136,14 +133,11 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        protected override void Dispose(bool disposing)
+        public void Dispose()
         {
-            if (disposing)
+            foreach (var watcher in binWatchers)
             {
-                foreach (var watcher in binWatchers)
-                {
-                    watcher.Dispose();
-                }
+                watcher.Dispose();
             }
         }
     }

@@ -6,7 +6,6 @@
 # Custom files
 CustomOpenDialog*.dll
 CustomSaveDialog*.dll
-FilesLauncher.exe
 
 # User-specific files
 *.suo

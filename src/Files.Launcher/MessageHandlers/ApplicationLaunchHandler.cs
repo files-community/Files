@@ -1,4 +1,5 @@
-﻿using Files.Shared.Extensions;
+﻿using Files.Common;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,23 +8,20 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
-using System.Runtime.Versioning;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
-using Windows.Foundation.Collections;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    [SupportedOSPlatform("Windows10.0.10240")]
-    public class ApplicationLaunchHandler : Disposable, IMessageHandler
+    public class ApplicationLaunchHandler : IMessageHandler
     {
         public void Initialize(PipeStream connection)
         {
         }
 
-        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
         {
             switch (arguments)
             {
@@ -40,11 +38,12 @@ namespace FilesFullTrust.MessageHandlers
                     if (message.ContainsKey("Application"))
                     {
                         var application = (string)message["Application"];
-                        var success = await HandleApplicationLaunch(application, message);
-                        await Win32API.SendMessageAsync(connection, new ValueSet()
-                        {
-                            { "Success", success }
-                        }, message.Get("RequestID", (string)null));
+                        HandleApplicationLaunch(application, message);
+                    }
+                    else if (message.ContainsKey("ApplicationList"))
+                    {
+                        var applicationList = JsonConvert.DeserializeObject<IEnumerable<string>>((string)message["ApplicationList"]);
+                        HandleApplicationsLaunch(applicationList, message);
                     }
                     break;
 
@@ -54,13 +53,22 @@ namespace FilesFullTrust.MessageHandlers
                         var afPath = Path.Combine(Path.GetTempPath(), "CompatibilityTroubleshooterAnswerFile.xml");
                         File.WriteAllText(afPath, string.Format("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Answers Version=\"1.0\"><Interaction ID=\"IT_LaunchMethod\"><Value>CompatTab</Value></Interaction><Interaction ID=\"IT_BrowseForFile\"><Value>{0}</Value></Interaction></Answers>", filePath));
                         message["Parameters"] = $"/id PCWDiagnostic /af \"{afPath}\"";
-                        await HandleApplicationLaunch("msdt.exe", message);
+                        HandleApplicationLaunch("msdt.exe", message);
                     }
                     break;
             }
+            return Task.CompletedTask;
         }
 
-        private async Task<bool> HandleApplicationLaunch(string application, Dictionary<string, object> message)
+        private void HandleApplicationsLaunch(IEnumerable<string> applications, Dictionary<string, object> message)
+        {
+            foreach (var application in applications)
+            {
+                HandleApplicationLaunch(application, message);
+            }
+        }
+
+        private async void HandleApplicationLaunch(string application, Dictionary<string, object> message)
         {
             var arguments = message.Get("Parameters", "");
             var workingDirectory = message.Get("WorkingDirectory", "");
@@ -69,7 +77,8 @@ namespace FilesFullTrust.MessageHandlers
             if (new[] { ".vhd", ".vhdx" }.Contains(Path.GetExtension(application).ToLowerInvariant()))
             {
                 // Use powershell to mount vhds as this requires admin rights
-                return Win32API.MountVhdDisk(application);
+                Win32API.MountVhdDisk(application);
+                return;
             }
 
             try
@@ -114,7 +123,6 @@ namespace FilesFullTrust.MessageHandlers
                 process.StartInfo.WorkingDirectory = workingDirectory;
                 process.Start();
                 Win32API.BringToForeground(currentWindows);
-                return true;
             }
             catch (Win32Exception)
             {
@@ -128,13 +136,12 @@ namespace FilesFullTrust.MessageHandlers
                 {
                     process.Start();
                     Win32API.BringToForeground(currentWindows);
-                    return true;
                 }
                 catch (Win32Exception)
                 {
                     try
                     {
-                        return await Win32API.StartSTATask(() =>
+                        await Win32API.StartSTATask(() =>
                         {
                             var split = application.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => GetMtpPath(x));
                             if (split.Count() == 1)
@@ -165,19 +172,16 @@ namespace FilesFullTrust.MessageHandlers
                     catch (Win32Exception)
                     {
                         // Cannot open file (e.g DLL)
-                        return false;
                     }
                     catch (ArgumentException)
                     {
                         // Cannot open file (e.g DLL)
-                        return false;
                     }
                 }
             }
             catch (InvalidOperationException)
             {
                 // Invalid file path
-                return false;
             }
         }
 
@@ -192,6 +196,10 @@ namespace FilesFullTrust.MessageHandlers
                 return deviceId != null ? Path.Combine(deviceId, itemPath) : executable;
             }
             return executable;
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

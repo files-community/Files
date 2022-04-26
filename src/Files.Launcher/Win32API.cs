@@ -1,5 +1,4 @@
-using Files.Shared;
-using Files.Shared.Extensions;
+using Files.Common;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,6 @@ using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Runtime.Versioning;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -23,7 +21,6 @@ using Windows.System;
 
 namespace FilesFullTrust
 {
-    [SupportedOSPlatform("Windows10.0.10240")]
     internal class Win32API
     {
         public static Task<T> StartSTATask<T>(Func<T> func)
@@ -94,7 +91,7 @@ namespace FilesFullTrust
                 var uwpApps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
                 if (uwpApps.Any())
                 {
-                    return uwpApps[0].PackageFamilyName;
+                    return uwpApps.First().PackageFamilyName;
                 }
                 return null;
             }
@@ -125,7 +122,7 @@ namespace FilesFullTrust
         {
             var lib = Kernel32.LoadLibrary(file);
             StringBuilder result = new StringBuilder(2048);
-            _ = User32.LoadString(lib, number, result, result.Capacity);
+            User32.LoadString(lib, number, result, result.Capacity);
             Kernel32.FreeLibrary(lib);
             return result.ToString();
         }
@@ -160,7 +157,7 @@ namespace FilesFullTrust
             }
         }
 
-        private static readonly object lockObject = new object();
+        private static object lockObject = new object();
 
         public static (string icon, string overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool getOverlay = true, bool onlyGetOverlay = false)
         {
@@ -217,11 +214,12 @@ namespace FilesFullTrust
                         using var hOverlay = imageList.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
                         if (!hOverlay.IsNull && !hOverlay.IsInvalid)
                         {
-                            using var icon = hOverlay.ToIcon();
-                            using var image = icon.ToBitmap();
-
-                            byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                            overlayStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                            using (var icon = hOverlay.ToIcon())
+                            using (var image = icon.ToBitmap())
+                            {
+                                byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                                overlayStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                            }
                         }
                     }
 
@@ -270,8 +268,9 @@ namespace FilesFullTrust
 
             foreach (int index in indexes)
             {
-                // This is merely to pass into the function and is unneeded otherwise
-                if (Shell32.SHDefExtractIcon(file, -1 * index, 0, out User32.SafeHICON icon, out User32.SafeHICON hIcon2, Convert.ToUInt32(iconSize)) == HRESULT.S_OK)
+                User32.SafeHICON icon;
+                User32.SafeHICON hIcon2;    // This is merely to pass into the function and is unneeded otherwise
+                if (Shell32.SHDefExtractIcon(file, -1 * index, 0, out icon, out hIcon2, Convert.ToUInt32(iconSize)) == HRESULT.S_OK)
                 {
                     using var image = icon.ToBitmap();
                     byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
@@ -297,23 +296,25 @@ namespace FilesFullTrust
             int maxIndex = count - 1;
             if (maxIndex == 0)
             {
-                using var icon = Shell32.ExtractIcon(currentProc.Handle, file, 0);
-                using var image = icon.ToBitmap();
-
-                byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
-                iconsList.Add(new IconFileInfo(icoStr, 0));
+                using (var icon = Shell32.ExtractIcon(currentProc.Handle, file, 0))
+                {
+                    using var image = icon.ToBitmap();
+                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                    var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                    iconsList.Add(new IconFileInfo(icoStr, 0));
+                }
             }
             else if (maxIndex > 0)
             {
                 for (int i = 0; i <= maxIndex; i++)
                 {
-                    using var icon = Shell32.ExtractIcon(currentProc.Handle, file, i);
-                    using var image = icon.ToBitmap();
-
-                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                    var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
-                    iconsList.Add(new IconFileInfo(icoStr, i));
+                    using (var icon = Shell32.ExtractIcon(currentProc.Handle, file, i))
+                    {
+                        using var image = icon.ToBitmap();
+                        byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                        var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                        iconsList.Add(new IconFileInfo(icoStr, i));
+                    }
                 }
             }
             else
@@ -353,10 +354,10 @@ namespace FilesFullTrust
             RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"kernel32.dll\\\", SetLastError = false)]public static extern bool SetVolumeLabel(string lpRootPathName, string lpVolumeName);'; $SetVolumeLabel = Add-Type -MemberDefinition $Signature -Name \"Win32SetVolumeLabel\" -Namespace Win32Functions -PassThru; $SetVolumeLabel::SetVolumeLabel('{driveName}', '{newLabel}')\"", true);
         }
 
-        public static bool MountVhdDisk(string vhdPath)
+        public static void MountVhdDisk(string vhdPath)
         {
             // mounting requires elevation
-            return RunPowershellCommand($"-command \"Mount-DiskImage -ImagePath '{vhdPath}'\"", true);
+            RunPowershellCommand($"-command \"Mount-DiskImage -ImagePath '{vhdPath}'\"", true);
         }
 
         public static Bitmap GetBitmapFromHBitmap(HBITMAP hBitmap)
@@ -427,14 +428,12 @@ namespace FilesFullTrust
 
         public static async Task SendMessageAsync(PipeStream pipe, ValueSet valueSet, string requestID = null)
         {
-            await SafetyExtensions.IgnoreExceptions(async () =>
+            await Extensions.IgnoreExceptions(async () =>
             {
-                var message = new Dictionary<string, object>(valueSet)
-                {
-                    { "RequestID", requestID }
-                };
+                var message = new Dictionary<string, object>(valueSet);
+                message.Add("RequestID", requestID);
                 var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
-                await pipe.WriteAsync(serialized);
+                await pipe.WriteAsync(serialized, 0, serialized.Length);
             });
         }
 
@@ -508,7 +507,7 @@ namespace FilesFullTrust
                 {
                     if (countMatch != null)
                     {
-                        uniquePath = Path.Combine(directory, $"{nameWithoutExt[..countMatch.Index]}({count}){extension}");
+                        uniquePath = Path.Combine(directory, $"{nameWithoutExt.Substring(0, countMatch.Index)}({count}){extension}");
                     }
                     else
                     {
@@ -526,7 +525,7 @@ namespace FilesFullTrust
                 {
                     if (countMatch != null)
                     {
-                        uniquePath = Path.Combine(directory, $"{Name[..countMatch.Index]}({Count})");
+                        uniquePath = Path.Combine(directory, $"{Name.Substring(0, countMatch.Index)}({Count})");
                     }
                     else
                     {
@@ -588,7 +587,7 @@ namespace FilesFullTrust
                         {
                             var pUnk = Marshal.GetObjectForIUnknown(ppv);
                             var shellBrowser = (Shell32.IShellBrowser)pUnk;
-                            using var targetFolder = SafetyExtensions.IgnoreExceptions(() => new Vanara.Windows.Shell.ShellItem(folderPath));
+                            using var targetFolder = Extensions.IgnoreExceptions(() => new Vanara.Windows.Shell.ShellItem(folderPath));
                             if (targetFolder != null)
                             {
                                 if (shellBrowser.QueryActiveShellView(out var shellView).Succeeded)
@@ -638,32 +637,8 @@ namespace FilesFullTrust
         }
 
         // Get information from recycle bin.
-        [DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Unicode)]
+        [DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Auto)]
         public static extern int SHQueryRecycleBin(string pszRootPath,
             ref SHQUERYRBINFO pSHQueryRBInfo);
-
-        public static bool InfDefaultInstall(string filePath)
-        {
-            try
-            {
-                using Process process = new Process();
-                process.StartInfo.FileName = "InfDefaultInstall.exe";
-                process.StartInfo.Verb = "runas";
-                process.StartInfo.UseShellExecute = true;
-                process.StartInfo.CreateNoWindow = true;
-                process.StartInfo.Arguments = $"{filePath}";
-                process.Start();
-                if (process.WaitForExit(30 * 1000))
-                {
-                    return process.ExitCode == 0;
-                }
-                return false;
-            }
-            catch (Win32Exception)
-            {
-                // If user cancels UAC
-                return false;
-            }
-        }
     }
 }

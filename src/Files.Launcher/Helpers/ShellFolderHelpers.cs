@@ -1,5 +1,4 @@
-﻿using Files.Shared;
-using Files.Shared.Extensions;
+﻿using Files.Common;
 using System;
 using System.IO;
 using System.Linq;
@@ -23,7 +22,7 @@ namespace FilesFullTrust.Helpers
             var folders = library.Folders;
             if (folders.Count > 0)
             {
-                libraryItem.DefaultSaveFolder = SafetyExtensions.IgnoreExceptions(() => library.DefaultSaveFolder.FileSystemPath);
+                libraryItem.DefaultSaveFolder = Extensions.IgnoreExceptions(() => library.DefaultSaveFolder.FileSystemPath);
                 libraryItem.Folders = folders.Select(f => f.FileSystemPath).ToArray();
             }
             return libraryItem;
@@ -45,8 +44,7 @@ namespace FilesFullTrust.Helpers
             folderItem.Properties.TryGetValue<string>(
                 Ole32.PROPERTYKEY.System.ItemNameDisplay, out var fileName);
             fileName ??= Path.GetFileName(folderItem.Name); // Original file name
-            string filePath = string.IsNullOrEmpty(Path.GetDirectoryName(parsingPath)) ? // Null if root
-                parsingPath : Path.Combine(Path.GetDirectoryName(parsingPath), folderItem.Name); // In recycle bin "Name" contains original file path + name
+            string filePath = Path.Combine(Path.GetDirectoryName(parsingPath), folderItem.Name); // In recycle bin "Name" contains original file path + name
             if (!isFolder && !string.IsNullOrEmpty(parsingPath) && Path.GetExtension(parsingPath) is string realExtension && !string.IsNullOrEmpty(realExtension))
             {
                 if (!string.IsNullOrEmpty(fileName) && !fileName.EndsWith(realExtension, StringComparison.OrdinalIgnoreCase))
