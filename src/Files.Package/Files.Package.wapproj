@@ -77,7 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Files.Uwp\Files.Uwp.csproj" />
-    <ProjectReference Include="..\Files.Launcher\Files.Launcher.csproj" />
+    <ProjectReference Include="..\FilesFullTrust\FilesFullTrust.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\AppTilesDev\BadgeLogo.scale-100.png" />
