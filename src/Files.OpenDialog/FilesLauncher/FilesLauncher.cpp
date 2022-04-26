@@ -172,7 +172,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 		std::wstring uriWithArgs = L"files-uwp:?cmd=" + str2wstr(wstring_to_utf8_hex(args));
 
-		std::wcout << L"Invoking: " << args << std::endl;
+		std::wcout << L"Invoking: " << args << L" = " << uriWithArgs << std::endl;
 
 		SHELLEXECUTEINFO ShExecInfo = { 0 };
 		ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
