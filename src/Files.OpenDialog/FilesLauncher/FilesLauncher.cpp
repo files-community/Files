@@ -290,10 +290,13 @@ std::string wstring_to_utf8_hex(const std::wstring& input)
 {
 	std::string output;
 	int cbNeeded = WideCharToMultiByte(CP_UTF8, 0, input.c_str(), -1, NULL, 0, NULL, NULL);
-	if (cbNeeded > 0) {
+	if (cbNeeded > 0)
+	{
 		char* utf8 = new char[cbNeeded];
-		if (WideCharToMultiByte(CP_UTF8, 0, input.c_str(), -1, utf8, cbNeeded, NULL, NULL) != 0) {
-			for (char* p = utf8; *p; *p++) {
+		if (WideCharToMultiByte(CP_UTF8, 0, input.c_str(), -1, utf8, cbNeeded, NULL, NULL) != 0)
+		{
+			for (char* p = utf8; *p; p++)
+			{
 				char onehex[5];
 				sprintf_s(onehex, sizeof(onehex), "%%%02.2X", (unsigned char)*p);
 				output.append(onehex);
