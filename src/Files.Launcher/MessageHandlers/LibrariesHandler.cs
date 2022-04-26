@@ -1,4 +1,5 @@
-﻿using Files.Common;
+﻿using Files.Shared;
+using Files.Shared.Extensions;
 using FilesFullTrust.Helpers;
 using Newtonsoft.Json;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -13,7 +15,8 @@ using Windows.Foundation.Collections;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    public class LibrariesHandler : IMessageHandler
+    [SupportedOSPlatform("Windows10.0.10240")]
+    public class LibrariesHandler : Disposable, IMessageHandler
     {
         private PipeStream connection;
 
@@ -78,7 +81,7 @@ namespace FilesFullTrust.MessageHandlers
                 }
                 if (!changeType.HasFlag(WatcherChangeTypes.Deleted))
                 {
-                    var library = new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(newPath), true);
+                    var library = SafetyExtensions.IgnoreExceptions(() => new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(newPath), true));
                     if (library == null)
                     {
                         Program.Logger.Warn($"Failed to open library after {changeType}: {newPath}");
@@ -213,9 +216,12 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            librariesWatcher?.Dispose();
+            if (disposing)
+            {
+                librariesWatcher?.Dispose();
+            }
         }
     }
 }

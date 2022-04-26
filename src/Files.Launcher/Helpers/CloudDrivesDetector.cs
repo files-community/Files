@@ -1,23 +1,26 @@
-using Files.Common;
+using Files.Shared;
+using Files.Shared.Extensions;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 
 namespace FilesFullTrust.Helpers
 {
+    [SupportedOSPlatform("Windows10.0.10240")]
     public class CloudDrivesDetector
     {
         public static async Task<List<CloudProvider>> DetectCloudDrives()
         {
             var tasks = new Task<List<CloudProvider>>[]
             {
-                Extensions.IgnoreExceptions(DetectOneDrive, Program.Logger),
-                Extensions.IgnoreExceptions(DetectSharepoint, Program.Logger),
-                Extensions.IgnoreExceptions(DetectGenericCloudDrive, Program.Logger),
-                Extensions.IgnoreExceptions(DetectYandexDisk, Program.Logger),
+                SafetyExtensions.IgnoreExceptions(DetectOneDrive, Program.Logger),
+                SafetyExtensions.IgnoreExceptions(DetectSharepoint, Program.Logger),
+                SafetyExtensions.IgnoreExceptions(DetectGenericCloudDrive, Program.Logger),
+                SafetyExtensions.IgnoreExceptions(DetectYandexDisk, Program.Logger),
             };
 
             await Task.WhenAll(tasks);
@@ -48,7 +51,7 @@ namespace FilesFullTrust.Helpers
             using var clsidKey = Registry.ClassesRoot.OpenSubKey(@"CLSID");
             foreach (var subKeyName in clsidKey.GetSubKeyNames())
             {
-                using var subKey = Extensions.IgnoreExceptions(() => clsidKey.OpenSubKey(subKeyName));
+                using var subKey = SafetyExtensions.IgnoreExceptions(() => clsidKey.OpenSubKey(subKeyName));
                 if (subKey != null && (int?)subKey.GetValue("System.IsPinnedToNameSpaceTree") == 1)
                 {
                     using var namespaceKey = Registry.CurrentUser.OpenSubKey($@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{subKeyName}");
@@ -56,6 +59,13 @@ namespace FilesFullTrust.Helpers
                     if (driveType == null)
                     {
                         continue;
+                    }
+
+                    //Nextcloud specific
+                    var appName = (string)namespaceKey?.GetValue("ApplicationName");
+                    if (!string.IsNullOrEmpty(appName) && appName == "Nextcloud")
+                    {
+                        driveType = appName;
                     }
 
                     using var bagKey = subKey.OpenSubKey(@"Instance\InitPropertyBag");
@@ -86,7 +96,7 @@ namespace FilesFullTrust.Helpers
                         {
                             CloudProviders.Mega => $"MEGA ({Path.GetFileName(syncedFolder.TrimEnd('\\'))})",
                             CloudProviders.AmazonDrive => $"Amazon Drive",
-                            CloudProviders.Nextcloud => $"Nextcloud",
+                            CloudProviders.Nextcloud => $"{ (!string.IsNullOrEmpty((string)namespaceKey?.GetValue("")) ? (string)namespaceKey?.GetValue(""):"Nextcloud")}",
                             CloudProviders.Jottacloud => $"Jottacloud",
                             _ => null
                         },

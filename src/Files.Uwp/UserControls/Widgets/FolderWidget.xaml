@@ -1,0 +1,122 @@
+﻿<UserControl
+    x:Class="Files.Uwp.UserControls.Widgets.FolderWidget"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Uwp.Helpers"
+    xmlns:local="using:Files.Uwp.UserControls.Widgets"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+    mc:Ignorable="d">
+    <Grid>
+        <muxc:ItemsRepeater
+            x:Name="CardsList"
+            Grid.Row="0"
+            HorizontalAlignment="Stretch"
+            ItemsSource="{x:Bind ItemsAdded, Mode=OneWay}">
+            <muxc:ItemsRepeater.Layout>
+                <muxc:UniformGridLayout
+                    ItemsStretch="Fill"
+                    MaximumRowsOrColumns="6"
+                    MinColumnSpacing="8"
+                    MinItemHeight="72"
+                    MinItemWidth="100"
+                    MinRowSpacing="8"
+                    Orientation="Horizontal" />
+            </muxc:ItemsRepeater.Layout>
+            <muxc:ItemsRepeater.ItemTemplate>
+                <DataTemplate x:DataType="local:FolderCardItem">
+                    <Button
+                        Padding="8"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        AutomationProperties.Name="{x:Bind AutomationProperties}"
+                        Command="{x:Bind SelectCommand}"
+                        CommandParameter="{x:Bind}"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        PointerPressed="Button_PointerPressed"
+                        Tag="{x:Bind Path}">
+                        <Button.ContextFlyout>
+                            <MenuFlyout Opening="MenuFlyout_Opening">
+                                <MenuFlyout.Items>
+                                    <MenuFlyoutItem
+                                        x:Name="OpenInNewPane"
+                                        x:Load="{x:Bind HasPath}"
+                                        Click="OpenInNewPane_Click"
+                                        DataContext="{x:Bind}"
+                                        Text="{helpers:ResourceString Name=SideBarOpenInNewPane/Text}"
+                                        Visibility="Collapsed">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem
+                                        x:Name="OpenInNewTab"
+                                        x:Load="{x:Bind HasPath}"
+                                        Click="OpenInNewTab_Click"
+                                        DataContext="{x:Bind}"
+                                        Text="{helpers:ResourceString Name=SideBarOpenInNewTab/Text}">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem
+                                        x:Name="OpenInNewWindow"
+                                        x:Load="{x:Bind HasPath}"
+                                        Click="OpenInNewWindow_Click"
+                                        DataContext="{x:Bind}"
+                                        Text="{helpers:ResourceString Name=SideBarOpenInNewWindow/Text}">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE737;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem
+                                        x:Name="Properties"
+                                        x:Load="{x:Bind IsLibrary}"
+                                        Click="OpenLibraryProperties_Click"
+                                        DataContext="{x:Bind}"
+                                        Text="{helpers:ResourceString Name=BaseLayoutContextFlyoutPropertiesFolder/Text}">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE946;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                </MenuFlyout.Items>
+                            </MenuFlyout>
+                        </Button.ContextFlyout>
+
+                        <Grid
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            RowSpacing="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Image
+                                Grid.Row="0"
+                                Width="32"
+                                Height="32"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Source="{x:Bind Thumbnail, Mode=OneWay}"
+                                Stretch="Uniform" />
+                            <TextBlock
+                                x:Name="ItemLocationName"
+                                Grid.Row="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Bind Text}"
+                                TextTrimming="WordEllipsis"
+                                TextWrapping="NoWrap" />
+                        </Grid>
+                    </Button>
+                </DataTemplate>
+            </muxc:ItemsRepeater.ItemTemplate>
+        </muxc:ItemsRepeater>
+    </Grid>
+</UserControl>
