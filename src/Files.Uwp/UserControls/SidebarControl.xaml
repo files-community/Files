@@ -49,7 +49,7 @@
             <DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
                 <muxc:NavigationViewItem
                     AllowDrop="True"
-                    AutomationProperties.AutomationID="{x:Bind Text}"
+                    AutomationProperties.AutomationId="{x:Bind Text}"
                     CanDrag="False"
                     Content="{x:Bind Text}"
                     DataContext="{x:Bind}"
@@ -79,7 +79,7 @@
                 <muxc:NavigationViewItem
                     Padding="0"
                     AllowDrop="True"
-                    AutomationProperties.AutomationID="{x:Bind Text}"
+                    AutomationProperties.AutomationId="{x:Bind Text}"
                     Content="{x:Bind Text, Mode=OneWay}"
                     DataContext="{x:Bind}"
                     DragEnter="NavigationViewItem_DragEnter"
@@ -101,7 +101,7 @@
             <DataTemplate x:Key="LinuxNavItem" x:DataType="navigationcontrolitems:WslDistroItem">
                 <muxc:NavigationViewItem
                     Padding="0"
-                    AutomationProperties.AutomationID="{x:Bind Text}"
+                    AutomationProperties.AutomationId="{x:Bind Text}"
                     Content="{x:Bind Text}"
                     DataContext="{x:Bind}"
                     DragEnter="NavigationViewItem_DragEnter"
