@@ -1,0 +1,484 @@
+﻿<UserControl
+    x:Class="Files.Uwp.UserControls.Widgets.BundlesWidget"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:helpers="using:Files.Uwp.Helpers"
+    xmlns:vm="using:Files.Uwp.ViewModels.Widgets.Bundles"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <!--  Converters  -->
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid Canvas.ZIndex="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <!--  Add Bundle button  -->
+            <Button
+                Grid.Column="1"
+                Width="36"
+                Height="32"
+                Padding="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                AutomationProperties.Name="{helpers:ResourceString Name=BundlesWidgetMoreOptionsButton/AutomationProperties/Name}"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                ToolTipService.ToolTip="{helpers:ResourceString Name=BundlesWidgetMoreOptionsButton/ToolTipService/ToolTip}">
+
+                <FontIcon
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="14"
+                    Glyph="&#xe712;" />
+
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.OpenAddBundleDialogCommand, Mode=OneWay}" Text="{helpers:ResourceString Name=CreateBundle}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE710;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem
+                            Command="{x:Bind ViewModel.ImportBundlesCommand, Mode=OneWay}"
+                            Text="{helpers:ResourceString Name=BundlesWidgetOptionsFlyoutImportBundlesMenuItem/Text}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8B6;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            Command="{x:Bind ViewModel.ExportBundlesCommand, Mode=OneWay}"
+                            Text="{helpers:ResourceString Name=BundlesWidgetOptionsFlyoutExportBundlesMenuItem/Text}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xEDE1;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+        </Grid>
+
+        <!--  Collection of bundles  -->
+        <GridView
+            x:Name="BundlesGridView"
+            HorizontalAlignment="Stretch"
+            x:Load="{x:Bind ViewModel.NoBundlesAddItemLoad, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+            AllowDrop="True"
+            CanReorderItems="True"
+            ItemsSource="{x:Bind ViewModel.Items}"
+            ReorderMode="Enabled"
+            SelectionMode="None">
+
+            <!--  Remove Reveal Highlight Effect  -->
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <!--  Spacing  -->
+                    <Setter Property="Margin" Value="0,0,8,8" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="GridViewItem">
+                                <ListViewItemPresenter
+                                    x:Name="Root"
+                                    RevealBackground="{ThemeResource GridViewItemRevealBackground}"
+                                    RevealBorderBrush="{ThemeResource GridViewItemRevealBorderBrush}"
+                                    RevealBorderThickness="0" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </GridView.ItemContainerStyle>
+
+            <!--  Container  -->
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="vm:BundleContainerViewModel">
+                    <Grid
+                        Width="280"
+                        Height="256"
+                        AllowDrop="True"
+                        Background="{ThemeResource ControlFillColorDefaultBrush}"
+                        ColumnSpacing="8"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+                        <i:Interaction.Behaviors>
+                            <!--  No need to specify CommandParameter - `e` is passed by default  -->
+                            <icore:EventTriggerBehavior EventName="DragOver">
+                                <icore:InvokeCommandAction Command="{x:Bind DragOverCommand}" />
+                            </icore:EventTriggerBehavior>
+                            <!--  No need to specify CommandParameter - `e` is passed by default  -->
+                            <icore:EventTriggerBehavior EventName="Drop">
+                                <icore:InvokeCommandAction Command="{x:Bind DropCommand}" />
+                            </icore:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+
+                        <!--  Contents of a Bundle  -->
+                        <Grid
+                            Padding="8"
+                            HorizontalAlignment="Stretch"
+                            AllowDrop="True"
+                            RowSpacing="8">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Grid
+                                Grid.Row="0"
+                                HorizontalAlignment="Stretch"
+                                ColumnSpacing="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Column="0" ColumnSpacing="4">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!--  Bundle Name  -->
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        Margin="4,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontFamily="Segoe UI"
+                                        FontWeight="SemiBold"
+                                        Opacity="0.9"
+                                        Text="{x:Bind BundleName, Mode=OneWay}"
+                                        TextTrimming="CharacterEllipsis" />
+                                </Grid>
+
+                                <!--  Bundle Options  -->
+                                <Button
+                                    Grid.Column="1"
+                                    Width="36"
+                                    Height="32"
+                                    Padding="0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent">
+                                    <FontIcon FontSize="14" Glyph="&#xe712;" />
+                                    <Button.Flyout>
+                                        <MenuFlyout Placement="BottomEdgeAlignedLeft">
+                                            <MenuFlyoutItem
+                                                Command="{x:Bind RenameBundleCommand}"
+                                                Text="{helpers:ResourceString Name=BundleOptionsFlyoutRenameBundleMenuItem/Text}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon Glyph="&#xE8AC;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutSubItem
+                                                IsEnabled="{x:Bind IsAddItemOptionEnabled, Mode=OneWay}"
+                                                Text="{helpers:ResourceString Name=BundleOptionsFlyoutAddItemMenuItem/Text}">
+                                                <MenuFlyoutSubItem.Icon>
+                                                    <FontIcon Glyph="&#xE710;" />
+                                                </MenuFlyoutSubItem.Icon>
+                                                <MenuFlyoutItem Command="{x:Bind AddFileCommand}" Text="{helpers:ResourceString Name=AddFile}">
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon Glyph="&#xE7C3;" />
+                                                    </MenuFlyoutItem.Icon>
+                                                </MenuFlyoutItem>
+                                                <MenuFlyoutItem
+                                                    Command="{x:Bind AddFolderCommand}"
+                                                    Text="{helpers:ResourceString Name=BundleOptionsFlyoutAddFolderMenuItem/Text}">
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon Glyph="&#xE8B7;" />
+                                                    </MenuFlyoutItem.Icon>
+                                                </MenuFlyoutItem>
+                                            </MenuFlyoutSubItem>
+                                            <MenuFlyoutItem
+                                                Command="{x:Bind RemoveBundleCommand}"
+                                                Text="{helpers:ResourceString Name=BundleOptionsFlyoutRemoveBundleMenuItem/Text}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon Glyph="&#xE738;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </Button.Flyout>
+                                </Button>
+                            </Grid>
+
+                            <!--  List of Bundle Items  -->
+                            <GridView
+                                Grid.Row="1"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                AllowDrop="True"
+                                CanDragItems="True"
+                                CanReorderItems="True"
+                                IsItemClickEnabled="True"
+                                ItemsSource="{x:Bind Contents}"
+                                ReorderMode="Enabled"
+                                SelectionMode="None">
+
+                                <i:Interaction.Behaviors>
+                                    <!--  No need to specify CommandParameter - `e` is passed by default  -->
+                                    <icore:EventTriggerBehavior EventName="DragItemsStarting">
+                                        <icore:InvokeCommandAction Command="{x:Bind DragItemsStartingCommand}" />
+                                    </icore:EventTriggerBehavior>
+                                    <!--  No need to specify CommandParameter - `e` is passed by default  -->
+                                    <icore:EventTriggerBehavior EventName="ItemClick">
+                                        <icore:InvokeCommandAction Command="{x:Bind OpenItemCommand}" />
+                                    </icore:EventTriggerBehavior>
+                                </i:Interaction.Behaviors>
+
+                                <!--  Remove Reveal Highlight Effect  -->
+                                <GridView.ItemContainerStyle>
+                                    <Style TargetType="GridViewItem">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="GridViewItem">
+                                                    <ListViewItemPresenter
+                                                        x:Name="Root"
+                                                        RevealBackground="{ThemeResource GridViewItemRevealBackground}"
+                                                        RevealBorderBrush="{ThemeResource GridViewItemRevealBorderBrush}"
+                                                        RevealBorderThickness="0" />
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GridView.ItemContainerStyle>
+
+                                <GridView.ItemTemplate>
+                                    <!--  Bundle Item design  -->
+                                    <DataTemplate x:DataType="vm:BundleItemViewModel">
+                                        <Grid>
+                                            <Border
+                                                Width="119"
+                                                Height="36"
+                                                Margin="2,0,2,0"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                Background="Transparent"
+                                                BorderThickness="1">
+
+                                                <Grid ColumnSpacing="4">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <!--  Icon  -->
+                                                    <Image
+                                                        Grid.Column="0"
+                                                        Width="20"
+                                                        Height="20"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        Source="{x:Bind Icon, Mode=OneWay}" />
+
+                                                    <!--  Bundle Item name  -->
+                                                    <TextBlock
+                                                        Grid.Column="1"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        FontSize="12"
+                                                        MaxLines="1"
+                                                        Text="{x:Bind Name, Mode=OneWay}"
+                                                        TextTrimming="CharacterEllipsis" />
+                                                </Grid>
+
+                                                <Border.ContextFlyout>
+                                                    <MenuFlyout>
+                                                        <MenuFlyoutItem
+                                                            x:Name="OpenInNewTab"
+                                                            x:Load="{x:Bind OpenInNewTabLoad, Mode=OneWay}"
+                                                            Command="{x:Bind OpenInNewTabCommand}"
+                                                            Text="{helpers:ResourceString Name=BundleItemFlyouOpenInNewTabMenuItem/Text}">
+                                                            <MenuFlyoutItem.Icon>
+                                                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
+                                                            </MenuFlyoutItem.Icon>
+                                                        </MenuFlyoutItem>
+                                                        <MenuFlyoutItem
+                                                            x:Name="OpenInNewPane"
+                                                            x:Load="{x:Bind OpenInNewPaneLoad, Mode=OneWay}"
+                                                            Command="{x:Bind OpenInNewPaneCommand}"
+                                                            Text="{helpers:ResourceString Name=BundlesOpenInNewPane/Text}">
+                                                            <MenuFlyoutItem.Icon>
+                                                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
+                                                            </MenuFlyoutItem.Icon>
+                                                        </MenuFlyoutItem>
+                                                        <MenuFlyoutItem
+                                                            Command="{x:Bind OpenItemLocationCommand}"
+                                                            Text="{helpers:ResourceString Name=BundleItemFlyouOpenItemLocationMenuItem/Text}">
+                                                            <MenuFlyoutItem.Icon>
+                                                                <FontIcon Glyph="&#xED25;" />
+                                                            </MenuFlyoutItem.Icon>
+                                                        </MenuFlyoutItem>
+                                                        <MenuFlyoutSeparator />
+                                                        <MenuFlyoutItem
+                                                            Command="{x:Bind RemoveItemCommand}"
+                                                            Text="{helpers:ResourceString Name=BundleItemFlyouRemoveFromBundleMenuItem/Text}">
+                                                            <MenuFlyoutItem.Icon>
+                                                                <FontIcon Glyph="&#xE738;" />
+                                                            </MenuFlyoutItem.Icon>
+                                                        </MenuFlyoutItem>
+                                                    </MenuFlyout>
+                                                </Border.ContextFlyout>
+
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip Content="{x:Bind Path, Mode=OneWay}" />
+                                                </ToolTipService.ToolTip>
+                                            </Border>
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+
+                            <!--  No Bundle contents text info  -->
+                            <Grid
+                                x:Name="NoContentsInformation"
+                                Grid.Row="2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                x:Load="{x:Bind NoBundleContentsTextLoad, Mode=OneWay}"
+                                RowSpacing="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <FontIcon FontSize="20" Glyph="&#xE74B;" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    FontFamily="Segoe UI"
+                                    FontSize="12"
+                                    FontWeight="SemiLight"
+                                    Opacity=".7"
+                                    Text="{helpers:ResourceString Name=BundleNoContentsTextBlock/Text}"
+                                    TextAlignment="Center"
+                                    TextWrapping="WrapWholeWords" />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+
+        <!--  No Bundles Info  -->
+        <Grid
+            x:Name="NoBundlesInfoGrid"
+            Width="280"
+            Height="256"
+            HorizontalAlignment="Left"
+            x:Load="{x:Bind ViewModel.NoBundlesAddItemLoad, Mode=OneWay}"
+            Background="{ThemeResource ControlFillColorDefaultBrush}"
+            CornerRadius="{StaticResource ControlCornerRadius}">
+
+            <!--  heh xD  -->
+            <Button
+                Width="48"
+                Height="48"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                AutomationProperties.Name="{helpers:ResourceString Name=CreateBundle}"
+                CornerRadius="25"
+                ToolTipService.ToolTip="{helpers:ResourceString Name=CreateBundle}">
+                <FontIcon
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="18"
+                    Glyph="&#xE710;" />
+
+                <!--  Same as the top one  -->
+                <Button.Flyout>
+                    <Flyout Placement="Bottom">
+                        <Border MinWidth="270">
+                            <Grid Padding="8,4,8,4" RowSpacing="8">
+                                <Grid.RowDefinitions>
+                                    <!--  Header  -->
+                                    <RowDefinition />
+                                    <!--  Input TextBox  -->
+                                    <RowDefinition />
+                                    <!--  Confirm Button  -->
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <!--  Line separator grid  -->
+                                <Grid
+                                    Grid.Row="0"
+                                    BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}"
+                                    BorderThickness="0,0,0,.5">
+                                    <!--  Header  -->
+                                    <TextBlock
+                                        Margin="0,0,0,4"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontFamily="Segoe UI"
+                                        FontSize="14"
+                                        FontWeight="Medium"
+                                        Text="{helpers:ResourceString Name=CreateBundle}" />
+                                </Grid>
+
+                                <!--  Input TextBox  -->
+                                <TextBox
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    PlaceholderText="{helpers:ResourceString Name=EnterBundleName}"
+                                    Text="{x:Bind ViewModel.BundleNameTextInput, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                    <i:Interaction.Behaviors>
+                                        <!--  No need to specify CommandParameter - `e` is passed by default  -->
+                                        <icore:EventTriggerBehavior EventName="KeyDown">
+                                            <icore:InvokeCommandAction Command="{x:Bind ViewModel.InputTextKeyDownCommand}" />
+                                        </icore:EventTriggerBehavior>
+                                    </i:Interaction.Behaviors>
+                                </TextBox>
+
+                                <Grid Grid.Row="2" ColumnSpacing="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!--  Warning Error text  -->
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontFamily="Segoe UI"
+                                        FontSize="12"
+                                        Text="{x:Bind ViewModel.AddBundleErrorText, Mode=OneWay}"
+                                        TextWrapping="Wrap" />
+
+                                    <!--  Confirmation Button  -->
+                                    <Button
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Command="{x:Bind ViewModel.AddBundleCommand}"
+                                        Content="{helpers:ResourceString Name=Confirm}" />
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </Grid>
+    </Grid>
+</UserControl>
