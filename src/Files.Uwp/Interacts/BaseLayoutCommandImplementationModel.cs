@@ -1,7 +1,7 @@
-﻿using Files.Shared;
-using Files.Uwp.Dialogs;
+﻿using Files.Backend.Enums;
+using Files.Shared;
 using Files.Shared.Enums;
-using Files.Uwp.Extensions;
+using Files.Uwp.Dialogs;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
@@ -27,7 +27,6 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Files.Backend.Enums;
 
 namespace Files.Uwp.Interacts
 {

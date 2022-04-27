@@ -1,13 +1,13 @@
-﻿using Files.Shared;
-using Files.Uwp.DataModels;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
+using Files.Backend.Services.Settings;
+using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
+using Files.Shared;
 using Files.Shared.Enums;
-using Files.Uwp.Extensions;
+using Files.Shared.Extensions;
 using Files.Uwp.Filesystem.FilesystemHistory;
 using Files.Uwp.Helpers;
 using Files.Uwp.Interacts;
-using Files.Backend.Services.Settings;
-using Files.Uwp.ViewModels.Dialogs;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -21,10 +21,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
-using Files.Shared.Extensions;
-using Files.Backend.Extensions;
-using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
-using Files.Backend.Services;
 
 namespace Files.Uwp.Filesystem
 {
