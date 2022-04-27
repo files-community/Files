@@ -39,6 +39,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using static Files.Uwp.Helpers.PathNormalization;
+using System.Collections.Specialized;
+using System.Runtime.InteropServices;
+using Windows.Storage.FileProperties;
 
 namespace Files.Uwp
 {
@@ -376,7 +379,7 @@ namespace Files.Uwp
             }
         }
 
-        protected ListedItem GetItemFromElement(object element) 
+        protected ListedItem GetItemFromElement(object element)
         {
             var item = element as ContentControl;
             if (item == null || !CanGetItemFromElement(element))
@@ -858,95 +861,21 @@ namespace Files.Uwp
 
         protected async void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
-            ConcurrentBag<IStorageItem> selectedStorageItems = new ConcurrentBag<IStorageItem>();
-
+            // Only support IStorageItem capable paths
             e.Items.OfType<ListedItem>().ForEach(item => SelectedItems.Add(item));
-
-            var itemsCount = e.Items.Count;
-            PostedStatusBanner banner = itemsCount > 50 ? App.OngoingTasksViewModel.PostOperationBanner(
-                string.Empty,
-                string.Format("StatusPreparingItemsDetails_Plural".GetLocalized(), itemsCount),
-                0,
-                ReturnResult.InProgress,
-                FileOperationType.Prepare, new CancellationTokenSource()) : null;
 
             try
             {
-                await e.Items.OfType<ListedItem>().ParallelForEachAsync(async item =>
-                {
-                    if (banner != null)
-                    {
-                        ((IProgress<float>)banner.Progress).Report(selectedStorageItems.Count / (float)itemsCount * 100);
-                    }
-
-                    if (item is FtpItem ftpItem)
-                    {
-                        if (item.PrimaryItemAttribute is StorageItemTypes.File or StorageItemTypes.Folder)
-                        {
-                            selectedStorageItems.Add(await ftpItem.ToStorageItem());
-                        }
-                    }
-                    else if (item.PrimaryItemAttribute == StorageItemTypes.File || item is ZipItem)
-                    {
-                        var result = await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
-                            .OnSuccess(t => selectedStorageItems.Add(t));
-                        if (!result)
-                        {
-                            throw new IOException($"Failed to process {item.ItemPath}.", (int)result.ErrorCode);
-                        }
-                    }
-                    else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                    {
-                        var result = await ParentShellPageInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
-                            .OnSuccess(t => selectedStorageItems.Add(t));
-                        if (!result)
-                        {
-                            throw new IOException($"Failed to process {item.ItemPath}.", (int)result.ErrorCode);
-                        }
-                    }
-                }, 10, banner?.CancellationToken ?? default);
+                // Get the log file to use its properties. For some reason the drag and drop operation
+                // requires a BasicProperties object even though does not seem to be used.
+                // We supply it regardless for every VirtualStorageItem because it is checked for
+                var fakeFilePropsItem = await StorageFile.GetFileFromPathAsync(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log"));
+                var props = await fakeFilePropsItem.GetBasicPropertiesAsync();
+                var itemList = e.Items.OfType<ListedItem>().Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcutItem)).Select(x => new VirtualStorageItem(x, props));
+                e.Data.SetStorageItems(itemList, false);
+                //e.Data.RequestedOperation = DataPackageOperation.Move;
             }
-            catch (Exception ex)
-            {
-                if (ex.HResult == (int)FileSystemStatusCode.Unauthorized)
-                {
-                    var itemList = e.Items.OfType<ListedItem>().Select(x => StorageHelpers.FromPathAndType(
-                        x.ItemPath, x.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-                    e.Data.Properties["FileDrop"] = itemList.ToList();
-                }
-                else
-                {
-                    e.Cancel = true;
-                }
-                banner?.Remove();
-                return;
-            }
-
-            banner?.Remove();
-
-            var onlyStandard = selectedStorageItems.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);
-            if (onlyStandard)
-            {
-                selectedStorageItems = new ConcurrentBag<IStorageItem>(await selectedStorageItems.ToStandardStorageItemsAsync());
-            }
-            if (selectedStorageItems.Count == 1)
-            {
-                if (selectedStorageItems.Single() is IStorageFile file)
-                {
-                    var itemExtension = Path.GetExtension(file.Name);
-                    if (ImagePreviewViewModel.Extensions.Any((ext) => ext.Equals(itemExtension, StringComparison.OrdinalIgnoreCase)))
-                    {
-                        var streamRef = Windows.Storage.Streams.RandomAccessStreamReference.CreateFromFile(file);
-                        e.Data.SetBitmap(streamRef);
-                    }
-                }
-                e.Data.SetStorageItems(selectedStorageItems, false);
-            }
-            else if (selectedStorageItems.Count > 1)
-            {
-                e.Data.SetStorageItems(selectedStorageItems, false);
-            }
-            else
+            catch (Exception)
             {
                 e.Cancel = true;
             }
