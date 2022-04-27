@@ -5,7 +5,6 @@ using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp;
 using System;
-using Windows.ApplicationModel.Core;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 using System.Collections.Generic;
@@ -93,7 +92,8 @@ namespace Files.Uwp.Helpers
             inputText.Loaded += (s, e) =>
             {
                 // dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
-                _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => inputText.Focus(Windows.UI.Xaml.FocusState.Programmatic));
+                _ = inputText.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, 
+                    () => inputText.Focus(Windows.UI.Xaml.FocusState.Programmatic));
             };
 
             dialog = new DynamicDialog(new DynamicDialogViewModel()
