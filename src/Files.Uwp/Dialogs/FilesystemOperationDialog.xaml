@@ -27,8 +27,8 @@
     mc:Ignorable="d">
 
     <ContentDialog.Resources>
-        <x:Double x:Key="ContentDialogMaxWidth">1200</x:Double>
-        <x:Double x:Key="ContentDialogWidth">1200</x:Double>
+        <x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
+
         <MenuFlyout
             x:Name="ItemContextFlyout"
             Opening="MenuFlyout_Opening"
