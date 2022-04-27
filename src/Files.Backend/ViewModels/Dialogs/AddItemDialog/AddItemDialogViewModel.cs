@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Enums;
-using Files.Backend.Extensions;
 using Files.Backend.Models.Dialogs;
 using Files.Backend.Models.Imaging;
 using Files.Backend.Services;
 using Files.Shared;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
