@@ -370,7 +370,7 @@ namespace Files.Uwp
                 return;
             }
 
-            foreach (var item in items.ToList()) // ToList() is necessary
+            foreach (var item in items)
             {
                 if (item != null)
                 {
