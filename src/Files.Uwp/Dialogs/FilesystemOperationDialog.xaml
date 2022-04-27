@@ -27,7 +27,8 @@
     mc:Ignorable="d">
 
     <ContentDialog.Resources>
-        <x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
+        <x:Double x:Key="ContentDialogMaxWidth">1200</x:Double>
+        <x:Double x:Key="ContentDialogWidth">1200</x:Double>
         <MenuFlyout
             x:Name="ItemContextFlyout"
             Opening="MenuFlyout_Opening"
@@ -80,12 +81,11 @@
                 <Grid Grid.Column="1">
                     <!--  Names  -->
                     <StackPanel
-                        Grid.Column="1"
                         VerticalAlignment="Center"
                         Spacing="4"
                         Tapped="NameStackPanel_Tapped"
                         Visibility="{x:Bind IsTextBoxVisible, Mode=OneWay, Converter={StaticResource VisibilityInvertConverter}}">
-                        <StackPanel Orientation="Horizontal" Spacing="12">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
                             <TextBlock
                                 FontSize="14"
                                 Text="{x:Bind DisplayName, Mode=OneWay}"
@@ -94,11 +94,12 @@
                             <TextBlock
                                 FontSize="14"
                                 Text="{x:Bind DestinationDisplayName, Mode=OneWay}"
+                                TextTrimming="CharacterEllipsis"
                                 ToolTipService.ToolTip="{x:Bind DestinationDisplayName, Mode=OneWay}" />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Spacing="12">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
                             <TextBlock
-                                FontSize="14"
+                                FontSize="13"
                                 Foreground="{ThemeResource SystemAccentColor}"
                                 Text="{x:Bind SourceDirectoryDisplayName}"
                                 ToolTipService.ToolTip="{x:Bind SourcePath}" />
@@ -107,7 +108,7 @@
                                 Foreground="{ThemeResource SystemAccentColor}"
                                 Glyph="&#xE72A;" />
                             <TextBlock
-                                FontSize="14"
+                                FontSize="13"
                                 Foreground="{ThemeResource SystemAccentColor}"
                                 Text="{x:Bind DestinationDirectoryDisplayName}"
                                 ToolTipService.ToolTip="{x:Bind DestinationPath, Mode=OneWay}" />
@@ -169,7 +170,7 @@
         </DataTemplate>
     </ContentDialog.Resources>
 
-    <Grid Width="452">
+    <Grid Width="552">
         <StackPanel Spacing="12">
             <Grid x:Name="ApplyToAll" x:Load="{x:Bind ViewModel.FileSystemDialogMode.IsInDeleteMode, Converter={StaticResource BoolNegationConverter}}">
                 <Grid.ColumnDefinitions>
@@ -206,33 +207,30 @@
                 IsChecked="{x:Bind ViewModel.DeletePermanently, Mode=TwoWay}"
                 IsEnabled="False" />
 
-            <Grid>
-                <ListView
-                    x:Name="DetailsGrid"
-                    Grid.Row="1"
-                    MaxHeight="200"
-                    IsItemClickEnabled="False"
-                    ItemsSource="{x:Bind ViewModel.Items}"
-                    SelectionMode="{x:Bind ItemSelectionMode, Mode=OneWay}">
+            <ListView
+                x:Name="DetailsGrid"
+                MaxHeight="200"
+                IsItemClickEnabled="False"
+                ItemsSource="{x:Bind ViewModel.Items}"
+                SelectionMode="None">
 
-                    <ListView.ItemTemplateSelector>
-                        <ts:FileSystemDialogItemSelector ConflictItemDataTemplate="{StaticResource ConflictItemDataTemplate}" DefaultItemDataTemplate="{StaticResource DefaultItemDataTemplate}" />
-                    </ListView.ItemTemplateSelector>
+                <ListView.ItemTemplateSelector>
+                    <ts:FileSystemDialogItemSelector ConflictItemDataTemplate="{StaticResource ConflictItemDataTemplate}" DefaultItemDataTemplate="{StaticResource DefaultItemDataTemplate}" />
+                </ListView.ItemTemplateSelector>
 
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <ItemsStackPanel HorizontalAlignment="Stretch" Orientation="Vertical" />
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel HorizontalAlignment="Stretch" Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
 
-                    <ListView.ItemContainerStyle>
-                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            <Setter Property="Padding" Value="0,8" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                </ListView>
-            </Grid>
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Padding" Value="0,8" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
         </StackPanel>
     </Grid>
 </ContentDialog>

@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using System;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Files.Backend.Extensions;
@@ -8,6 +9,7 @@ using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +19,8 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
     public sealed class FileSystemDialogViewModel : BaseDialogViewModel, IRecipient<FileSystemDialogOptionChangedMessage>
     {
         private readonly CancellationTokenSource _dialogClosingCts;
+
+        private readonly IMessenger _messenger;
 
         public ObservableCollection<BaseFileSystemDialogItemViewModel> Items { get; }
 
@@ -56,15 +60,19 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
             set => SetProperty(ref _IsDeletePermanentlyEnabled, value);
         }
 
-        internal FileSystemDialogViewModel(IMessenger messenger, FileSystemDialogMode fileSystemDialogMode, IEnumerable<BaseFileSystemDialogItemViewModel> items)
+        private FileSystemDialogViewModel(FileSystemDialogMode fileSystemDialogMode, IEnumerable<BaseFileSystemDialogItemViewModel> items)
         {
             this.FileSystemDialogMode = fileSystemDialogMode;
-            _dialogClosingCts = new();
-            Items = new(items);
+            this._dialogClosingCts = new();
+            this._messenger = new WeakReferenceMessenger();
+            this._messenger.Register<FileSystemDialogOptionChangedMessage>(this);
+            foreach (var item in items)
+            {
+                item.Messenger = _messenger;
+            }
+            this.Items = new(items);
 
             SecondaryButtonClickCommand = new RelayCommand(SecondaryButtonClick);
-
-            messenger.Register<FileSystemDialogOptionChangedMessage>(this);
         }
 
         public bool IsNameAvailableForItem(BaseFileSystemDialogItemViewModel item, string name)
@@ -117,14 +125,13 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
             ApplyConflictOptionToAll(FileNameConflictResolveOptionType.Skip);
         }
 
-        // TODO: Make the IMessenger internal
-        public static FileSystemDialogViewModel GetDialogViewModel(IMessenger messenger, FileSystemDialogMode dialogMode, (bool deletePermanently, bool IsDeletePermanentlyEnabled) deleteOption, FilesystemOperationType operationType, List<BaseFileSystemDialogItemViewModel> nonConflictingItems, List<BaseFileSystemDialogItemViewModel> conflictingItems)
+        public static FileSystemDialogViewModel GetDialogViewModel(FileSystemDialogMode dialogMode, (bool deletePermanently, bool IsDeletePermanentlyEnabled) deleteOption, FilesystemOperationType operationType, List<BaseFileSystemDialogItemViewModel> nonConflictingItems, List<BaseFileSystemDialogItemViewModel> conflictingItems)
         {
-            string titleText = string.Empty;
-            string descriptionText = string.Empty;
-            string primaryButtonText = string.Empty;
-            string secondaryButtonText = string.Empty;
-            bool isInDeleteMode = false;
+            var titleText = string.Empty;
+            var descriptionText = string.Empty;
+            var primaryButtonText = string.Empty;
+            var secondaryButtonText = string.Empty;
+            var isInDeleteMode = false;
 
             if (dialogMode.ConflictsExist)
             {
@@ -194,7 +201,7 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
                 }
             }
 
-            var viewModel = new FileSystemDialogViewModel(messenger, new() { IsInDeleteMode = isInDeleteMode, ConflictsExist = !conflictingItems.IsEmpty() }, conflictingItems.Concat(nonConflictingItems))
+            var viewModel = new FileSystemDialogViewModel(new() { IsInDeleteMode = isInDeleteMode, ConflictsExist = !conflictingItems.IsEmpty() }, conflictingItems.Concat(nonConflictingItems))
             {
                 Title = titleText,
                 Description = descriptionText,
@@ -242,7 +249,10 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
                         item.ItemIcon = await imagingService.GetImageModelFromPathAsync(item.SourcePath!, 64u);
                     });
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    _ = ex;
+                }
             }, 10, token);
         }
     }

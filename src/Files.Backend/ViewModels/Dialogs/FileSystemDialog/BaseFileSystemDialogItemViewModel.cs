@@ -7,7 +7,7 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 {
     public abstract class BaseFileSystemDialogItemViewModel : ObservableObject
     {
-        protected IMessenger Messenger { get; }
+        public IMessenger? Messenger { get; set; }
 
         private string? _SourcePath;
         public virtual string? SourcePath
@@ -40,11 +40,6 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
         public virtual string? SourceDirectoryDisplayName
         {
             get => Path.GetFileName(Path.GetDirectoryName(SourcePath));
-        }
-
-        public BaseFileSystemDialogItemViewModel(IMessenger messenger)
-        {
-            this.Messenger = messenger;
         }
     }
 }

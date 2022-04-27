@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Files.Uwp.Helpers.XamlHelpers;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -26,11 +27,6 @@ namespace Files.Uwp.Dialogs
 
                 DataContext = value;
             }
-        }
-
-        public ListViewSelectionMode ItemSelectionMode
-        {
-            get => ViewModel.FileSystemDialogMode.ConflictsExist ? ListViewSelectionMode.Extended : ListViewSelectionMode.None;
         }
 
         public FilesystemOperationDialog()
@@ -110,15 +106,6 @@ namespace Files.Uwp.Dialogs
             }
         }
 
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
-        {
-            // if there are conflicts to be resolved, apply the conflict context flyout
-            if (ViewModel.FileSystemDialogMode.ConflictsExist)
-            {
-                (sender as Grid).FindAscendant<ListViewItem>().ContextFlyout = ItemContextFlyout;
-            }
-        }
-
         private void RootDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
         {
             ViewModel.CancelCts();
@@ -126,9 +113,13 @@ namespace Files.Uwp.Dialogs
 
         private void NameStackPanel_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            if ((sender as FrameworkElement)?.DataContext is FileSystemDialogConflictItemViewModel conflictItem)
+            if (sender is FrameworkElement element
+                && element.DataContext is FileSystemDialogConflictItemViewModel conflictItem)
             {
                 conflictItem.IsTextBoxVisible = conflictItem.ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName;
+
+                var textBox = DependencyObjectHelpers.FindChild<TextBox>(element);
+                textBox?.Focus(FocusState.Programmatic);
             }
         }
 
@@ -136,7 +127,7 @@ namespace Files.Uwp.Dialogs
         {
             if ((sender as FrameworkElement)?.DataContext is FileSystemDialogConflictItemViewModel conflictItem)
             {
-                if (ViewModel.IsNameAvailableForItem(conflictItem, conflictItem.CustomName))
+                if (ViewModel.IsNameAvailableForItem(conflictItem, conflictItem.CustomName!))
                 {
                     conflictItem.IsTextBoxVisible = false;
                 }

@@ -118,7 +118,6 @@ namespace Files.Uwp.Filesystem
 
             if (((!permanently && !canBeSentToBin) || UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog) && showDialog) // Check if the setting to show a confirmation dialog is on
             {
-                var messenger = new WeakReferenceMessenger();
                 var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
                 List<ShellFileItem> binItems = null;
                 foreach (var src in source)
@@ -129,17 +128,16 @@ namespace Files.Uwp.Filesystem
                         if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
                         {
                             var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == src.Path); // Get original file name
-                            incomingItems.Add(new FileSystemDialogDefaultItemViewModel(messenger) { SourcePath = src.Path, DisplayName = matchingItem?.FileName ?? src.Name });
+                            incomingItems.Add(new FileSystemDialogDefaultItemViewModel() { SourcePath = src.Path, DisplayName = matchingItem?.FileName ?? src.Name });
                         }
                     }
                     else
                     {
-                        incomingItems.Add(new FileSystemDialogDefaultItemViewModel(messenger) { SourcePath = src.Path });
+                        incomingItems.Add(new FileSystemDialogDefaultItemViewModel() { SourcePath = src.Path });
                     }
                 }
 
                 var dialogViewModel = FileSystemDialogViewModel.GetDialogViewModel(
-                    messenger,
                     new() { IsInDeleteMode = true },
                     (canBeSentToBin ? permanently : true, canBeSentToBin),
                     FilesystemOperationType.Delete,
@@ -712,12 +710,10 @@ namespace Files.Uwp.Filesystem
             var conflictingItems = new List<BaseFileSystemDialogItemViewModel>();
             var collisions = new Dictionary<string, FileNameConflictResolveOptionType>();
 
-            var messenger = new WeakReferenceMessenger();
-
             foreach (var item in source.Zip(destination, (src, dest, index) => new { src, dest, index }))
             {
                 var itemPathOrName = string.IsNullOrEmpty(item.src.Path) ? item.src.Item.Name : item.src.Path;
-                incomingItems.Add(new FileSystemDialogConflictItemViewModel(messenger) { SourcePath = itemPathOrName, DestinationPath = item.dest, DestinationDisplayName = Path.GetFileName(item.dest) });
+                incomingItems.Add(new FileSystemDialogConflictItemViewModel() { SourcePath = itemPathOrName, DestinationPath = item.dest, DestinationDisplayName = Path.GetFileName(item.dest) });
                 if (collisions.ContainsKey(incomingItems.ElementAt(item.index).SourcePath))
                 {
                     // Something strange happened, log
@@ -744,7 +740,6 @@ namespace Files.Uwp.Filesystem
                 var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
                 var dialogViewModel = FileSystemDialogViewModel.GetDialogViewModel(
-                    messenger,
                     new() { ConflictsExist = mustResolveConflicts },
                     (false, false),
                     operationType,

@@ -72,14 +72,9 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
             {
                 if (SetProperty(ref _ConflictResolveOption, value))
                 {
-                    Messenger.Send(new FileSystemDialogOptionChangedMessage(this));
+                    Messenger?.Send(new FileSystemDialogOptionChangedMessage(this));
                 }
             }
-        }
-
-        public FileSystemDialogConflictItemViewModel(IMessenger messenger)
-            : base(messenger)
-        {
         }
     }
 }
