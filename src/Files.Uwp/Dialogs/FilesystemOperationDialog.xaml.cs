@@ -5,10 +5,10 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using Files.Uwp.Helpers.XamlHelpers;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -147,6 +147,14 @@ namespace Files.Uwp.Dialogs
         private void NameEdit_Loaded(object sender, RoutedEventArgs e)
         {
             (sender as TextBox)?.Focus(FocusState.Programmatic);
+        }
+
+        private void FilesystemOperationDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
+        {
+            if (ViewModel.FileSystemDialogMode.IsInDeleteMode)
+            {
+                Description.Foreground = (SolidColorBrush)App.Current.Resources["TextControlForeground"];
+            }
         }
     }
 }

@@ -9,7 +9,6 @@ using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -259,8 +258,14 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 
     public sealed class FileSystemDialogMode
     {
+        /// <summary>
+        /// Determines whether to show delete options for the dialog.
+        /// </summary>
         public bool IsInDeleteMode { get; init; }
 
+        /// <summary>
+        /// Determines whether conflicts are visible
+        /// </summary>
         public bool ConflictsExist { get; init; }
     }
 }

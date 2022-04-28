@@ -4,8 +4,6 @@ using System;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
-#nullable enable
-
 namespace Files.Uwp.ValueConverters
 {
     public sealed class ColorModelToColorConverter : IValueConverter
@@ -14,7 +12,12 @@ namespace Files.Uwp.ValueConverters
         {
             if (value is SolidBrushColorModel solidBrushModel)
             {
-                return new SolidColorBrush(ColorHelpers.FromHex(solidBrushModel.ColorHex));
+                if (solidBrushModel.IsFromResource)
+                {
+                    return App.Current.Resources[solidBrushModel.ColorCode];
+                }
+
+                return new SolidColorBrush(ColorHelpers.FromHex(solidBrushModel.ColorCode));
             }
             else
             {

@@ -1,14 +1,24 @@
-﻿#nullable enable
-
-namespace Files.Backend.Models.Coloring
+﻿namespace Files.Backend.Models.Coloring
 {
     public sealed class SolidBrushColorModel : ColorModel
     {
-        public string? ColorHex { get; }
+        public string? ColorCode { get; }
 
-        public SolidBrushColorModel(string colorHex)
+        public bool IsFromResource { get; private set; }
+
+        public SolidBrushColorModel(string colorCode)
         {
-            this.ColorHex = colorHex;
+            this.ColorCode = colorCode;
+        }
+
+        public static SolidBrushColorModel FromResource(string resource)
+        {
+            var brush = new SolidBrushColorModel(resource)
+            {
+                IsFromResource = true
+            };
+
+            return brush;
         }
     }
 }

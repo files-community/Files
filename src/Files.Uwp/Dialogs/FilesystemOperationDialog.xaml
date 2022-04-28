@@ -19,6 +19,7 @@
     CornerRadius="{StaticResource OverlayCornerRadius}"
     DefaultButton="Primary"
     IsPrimaryButtonEnabled="{x:Bind ViewModel.PrimaryButtonEnabled, Mode=OneWay}"
+    Opened="FilesystemOperationDialog_Opened"
     PrimaryButtonText="{x:Bind ViewModel.PrimaryButtonText, Mode=OneWay}"
     RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
     SecondaryButtonCommand="{x:Bind ViewModel.SecondaryButtonClickCommand, Mode=OneWay}"
@@ -54,6 +55,7 @@
         </MenuFlyout>
 
         <vc:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
+        <vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
         <vc:GenericEnumConverter x:Key="GenericEnumConverter" />
         <vc2:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
         <tvc:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -119,9 +121,9 @@
                     <TextBox
                         x:Name="NameEdit"
                         HorizontalAlignment="Stretch"
-                        Loaded="NameEdit_Loaded"
                         VerticalAlignment="Center"
                         x:Load="{x:Bind IsTextBoxVisible, Mode=OneWay}"
+                        Loaded="NameEdit_Loaded"
                         LostFocus="NameEdit_LostFocus"
                         Text="{x:Bind CustomName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
@@ -205,7 +207,11 @@
                 </ComboBox>
             </Grid>
 
-            <TextBlock Text="{x:Bind ViewModel.Description, Mode=OneWay}" TextWrapping="WrapWholeWords" />
+            <TextBlock
+                x:Name="Description"
+                Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                Text="{x:Bind ViewModel.Description, Mode=OneWay}"
+                TextWrapping="WrapWholeWords" />
 
             <CheckBox
                 x:Name="chkPermanentlyDelete"
