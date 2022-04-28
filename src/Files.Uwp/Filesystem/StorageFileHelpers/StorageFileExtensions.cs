@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
+using System.Collections.Specialized;
 
 namespace Files.Uwp.Filesystem
 {
@@ -373,6 +374,60 @@ namespace Files.Uwp.Filesystem
                 }
             }
             return newItems;
+        }
+
+        public static async Task<IList<IStorageItem>> ToStandardStorageItemsAsync(this IEnumerable<string> paths)
+        {
+            List<IStorageItem> items = new List<IStorageItem>();
+            foreach (string s in paths)
+            {
+                IStorageItem item = null;
+                try
+                {
+                    item = await StorageFile.GetFileFromPathAsync(s);
+                }
+                catch (Exception)
+                {
+                    try
+                    {
+                        item = await StorageFolder.GetFolderFromPathAsync(s);
+                    }
+                    catch (Exception)
+                    { }
+                }
+
+                if (item is not null)
+                    items.Add(item);
+            }
+
+            return items;
+        }
+
+        public static async Task<IList<IStorageItem>> ToStandardStorageItemsAsync(this StringCollection paths)
+        {
+            List<IStorageItem> items = new List<IStorageItem>();
+            foreach (string s in paths)
+            {
+                IStorageItem item = null;
+                try
+                {
+                    item = await StorageFile.GetFileFromPathAsync(s);
+                }
+                catch (Exception)
+                {
+                    try
+                    {
+                        item = await StorageFolder.GetFolderFromPathAsync(s);
+                    }
+                    catch (Exception)
+                    { }
+                }
+
+                if (item is not null)
+                    items.Add(item);
+            }
+
+            return items;
         }
     }
 }

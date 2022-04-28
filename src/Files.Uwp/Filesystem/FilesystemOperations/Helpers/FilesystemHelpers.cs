@@ -25,6 +25,9 @@ using Files.Shared.Extensions;
 using Files.Backend.Extensions;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
 using Files.Backend.Services;
+using Newtonsoft.Json;
+using Files.Uwp.Filesystem.StorageItems;
+using System.Collections.Specialized;
 
 namespace Files.Uwp.Filesystem
 {
@@ -208,7 +211,7 @@ namespace Files.Uwp.Filesystem
 
         public async Task<ReturnResult> RestoreItemsFromTrashAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
         {
-            return await RestoreItemsFromTrashAsync(source.Select((item) => item.FromStorageItem()), destination, registerHistory); 
+            return await RestoreItemsFromTrashAsync(source.Select((item) => item.FromStorageItem()), destination, registerHistory);
         }
 
         public async Task<ReturnResult> RestoreItemFromTrashAsync(IStorageItemWithPath source, string destination, bool registerHistory)
@@ -325,7 +328,7 @@ namespace Files.Uwp.Filesystem
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
             var token = banner.CancellationToken;
-            
+
             var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source, destination, showDialog);
 
             if (cancelOperation)
@@ -780,34 +783,26 @@ namespace Files.Uwp.Filesystem
             return false;
         }
 
-        public static async Task<IEnumerable<IStorageItemWithPath>> GetDraggedStorageItems(DataPackageView packageView)
+        public static async Task<IEnumerable<IStorageItem>> GetDraggedStorageItems(DataPackageView packageView)
         {
-            var itemsList = new List<IStorageItemWithPath>();
-            if (packageView.Contains(StandardDataFormats.StorageItems))
+            IList<IStorageItem> itemsList = new List<IStorageItem>();
+
+            // Use fulltrust process to inspect FileDropList
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
             {
-                try
+                var statusAndResult = await connection.SendMessageForResponseAsync(new ValueSet()
+                            {
+                                { "Arguments", "FileOperation" },
+                                { "fileop", "ClipboardResult" }
+                            });
+
+                if (statusAndResult.Status == AppServiceResponseStatus.Success && statusAndResult.Data["Result"] is string s)
                 {
-                    var source = await packageView.GetStorageItemsAsync();
-                    itemsList.AddRange(source.Select(x => x.FromStorageItem()));
-                }
-                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
-                {
-                    return itemsList;
-                }
-                catch (Exception ex)
-                {
-                    App.Logger.Warn(ex, ex.Message);
-                    return itemsList;
+                    var paths = JsonConvert.DeserializeObject<StringCollection>(s);
+                    itemsList = await paths.ToStandardStorageItemsAsync();
                 }
             }
-            if (packageView.Properties.TryGetValue("FileDrop", out var data))
-            {
-                if (data is List<IStorageItemWithPath> source)
-                {
-                    itemsList.AddRange(source);
-                }
-            }
-            itemsList = itemsList.DistinctBy(x => string.IsNullOrEmpty(x.Path) ? x.Item.Name : x.Path).ToList();
             return itemsList;
         }
 

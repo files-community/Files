@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.IO.Pipes;
@@ -88,6 +89,27 @@ namespace FilesFullTrust.MessageHandlers
                         System.Windows.Forms.Clipboard.SetDataObject(data, true);
                         return true;
                     });
+                    break;
+                case "ClipboardResult":
+                    StringCollection pathsResult = await Win32API.StartSTATask<StringCollection>(() =>
+                    {
+                        if (System.Windows.Forms.Clipboard.ContainsFileDropList())
+                        {
+                            return System.Windows.Forms.Clipboard.GetFileDropList();
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    });
+                    if (pathsResult is not null)
+                    {
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", pathsResult is not null }, { "Result", JsonConvert.SerializeObject(pathsResult) } }, message.Get("RequestID", (string)null));
+                    }
+                    else
+                    {
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", pathsResult is not null }, { "Result", null } }, message.Get("RequestID", (string)null));
+                    }
                     break;
 
                 case "DragDrop":
@@ -630,7 +652,7 @@ namespace FilesFullTrust.MessageHandlers
                         }
                         else
                         {
-                            await Win32API.SendMessageAsync(connection, new ValueSet(), 
+                            await Win32API.SendMessageAsync(connection, new ValueSet(),
                                 message.Get("RequestID", (string)null));
                         }
                     }
