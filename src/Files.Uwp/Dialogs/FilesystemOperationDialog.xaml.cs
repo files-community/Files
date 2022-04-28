@@ -178,7 +178,7 @@ namespace Files.Uwp.Dialogs
         {
             if (ViewModel.FileSystemDialogMode.IsInDeleteMode)
             {
-                Description.Foreground = (SolidColorBrush)App.Current.Resources["TextControlForeground"];
+                DescriptionText.Foreground = App.Current.Resources["TextControlForeground"] as SolidColorBrush;
             }
 
             UpdateDialogLayout();

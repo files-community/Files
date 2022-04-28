@@ -178,7 +178,7 @@
     </ContentDialog.Resources>
 
     <Grid x:Name="ContainerGrid">
-        <StackPanel Spacing="12">
+        <StackPanel Spacing="16">
             <Grid x:Name="ApplyToAll" x:Load="{x:Bind ViewModel.FileSystemDialogMode.IsInDeleteMode, Converter={StaticResource BoolNegationConverter}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -208,10 +208,18 @@
             </Grid>
 
             <TextBlock
-                x:Name="Description"
+                x:Name="DescriptionText"
                 Foreground="{ThemeResource SystemFillColorCautionBrush}"
                 Text="{x:Bind ViewModel.Description, Mode=OneWay}"
                 TextWrapping="WrapWholeWords" />
+
+            <Border
+                x:Name="SeparatorLine"
+                Height="1"
+                HorizontalAlignment="Stretch"
+                Visibility="{x:Bind ViewModel.FileSystemDialogMode.ConflictsExist}"
+                Background="{ThemeResource SystemBaseLowColor}"
+                Opacity="0.8" />
 
             <CheckBox
                 x:Name="chkPermanentlyDelete"
