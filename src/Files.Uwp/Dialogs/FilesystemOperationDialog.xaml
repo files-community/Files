@@ -119,6 +119,7 @@
                     <TextBox
                         x:Name="NameEdit"
                         HorizontalAlignment="Stretch"
+                        Loaded="NameEdit_Loaded"
                         VerticalAlignment="Center"
                         x:Load="{x:Bind IsTextBoxVisible, Mode=OneWay}"
                         LostFocus="NameEdit_LostFocus"

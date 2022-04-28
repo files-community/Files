@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Files.Uwp.Helpers.XamlHelpers;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -118,9 +119,6 @@ namespace Files.Uwp.Dialogs
             {
                 conflictItem.IsTextBoxVisible = conflictItem.ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName;
                 conflictItem.CustomName = conflictItem.DestinationDisplayName;
-
-                var textBox = DependencyObjectHelpers.FindChild<TextBox>(element);
-                textBox?.Focus(FocusState.Programmatic);
             }
         }
 
@@ -139,9 +137,16 @@ namespace Files.Uwp.Dialogs
 
                 if (conflictItem.CustomName.Equals(conflictItem.DisplayName))
                 {
+                    var savedName = conflictItem.DestinationDisplayName;
                     conflictItem.CustomName = string.Empty;
+                    conflictItem.DestinationDisplayName = savedName;
                 }
             }
+        }
+
+        private void NameEdit_Loaded(object sender, RoutedEventArgs e)
+        {
+            (sender as TextBox)?.Focus(FocusState.Programmatic);
         }
     }
 }
