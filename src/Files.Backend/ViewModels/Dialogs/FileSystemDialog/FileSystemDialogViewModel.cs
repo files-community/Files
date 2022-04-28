@@ -77,8 +77,7 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 
         public bool IsNameAvailableForItem(BaseFileSystemDialogItemViewModel item, string name)
         {
-            var nameDifferent = !name.Equals(item.DisplayName);
-            return nameDifferent && Items.Where(x => !x.SourcePath!.Equals(item.SourcePath)).Cast<FileSystemDialogConflictItemViewModel>().All(x => x.DestinationDisplayName != name);
+            return Items.Where(x => !x.SourcePath!.Equals(item.SourcePath)).Cast<FileSystemDialogConflictItemViewModel>().All(x => x.DestinationDisplayName != name);
         }
 
         public void ApplyConflictOptionToAll(FileNameConflictResolveOptionType e)
