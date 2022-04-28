@@ -37,7 +37,6 @@ namespace Files.Uwp.Dialogs
             this.InitializeComponent();
 
             Window.Current.SizeChanged += Current_SizeChanged;
-            UpdateDialogLayout();
         }
 
         public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
@@ -181,6 +180,8 @@ namespace Files.Uwp.Dialogs
             {
                 Description.Foreground = (SolidColorBrush)App.Current.Resources["TextControlForeground"];
             }
+
+            UpdateDialogLayout();
         }
     }
 }

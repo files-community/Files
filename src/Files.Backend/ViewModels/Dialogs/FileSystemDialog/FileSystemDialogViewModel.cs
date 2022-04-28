@@ -264,7 +264,7 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
         public bool IsInDeleteMode { get; init; }
 
         /// <summary>
-        /// Determines whether conflicts are visible
+        /// Determines whether conflicts are visible.
         /// </summary>
         public bool ConflictsExist { get; init; }
     }
