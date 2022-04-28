@@ -136,6 +136,11 @@ namespace Files.Uwp.Dialogs
                 {
                     ViewModel.PrimaryButtonEnabled = false;
                 }
+
+                if (conflictItem.CustomName.Equals(conflictItem.DisplayName))
+                {
+                    conflictItem.CustomName = string.Empty;
+                }
             }
         }
     }
