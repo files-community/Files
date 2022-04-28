@@ -177,7 +177,7 @@
         </DataTemplate>
     </ContentDialog.Resources>
 
-    <Grid HorizontalAlignment="Stretch">
+    <Grid x:Name="ContainerGrid">
         <StackPanel Spacing="12">
             <Grid x:Name="ApplyToAll" x:Load="{x:Bind ViewModel.FileSystemDialogMode.IsInDeleteMode, Converter={StaticResource BoolNegationConverter}}">
                 <Grid.ColumnDefinitions>

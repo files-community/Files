@@ -9,6 +9,8 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Files.Uwp.Helpers.XamlHelpers;
+using Windows.UI.Core;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -33,9 +35,32 @@ namespace Files.Uwp.Dialogs
         public FilesystemOperationDialog()
         {
             this.InitializeComponent();
+
+            Window.Current.SizeChanged += Current_SizeChanged;
+            UpdateDialogLayout();
         }
 
         public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
+
+        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        {
+            UpdateDialogLayout();
+        }
+
+        private void UpdateDialogLayout()
+        {
+            if (ViewModel.FileSystemDialogMode.ConflictsExist)
+            {
+                if (Window.Current.Bounds.Width <= 700)
+                {
+                    ContainerGrid.Width = Window.Current.Bounds.Width - 50;
+                }
+                else
+                {
+                    ContainerGrid.Width = 650;
+                }
+            }
+        }
 
         protected override void OnApplyTemplate()
         {
@@ -109,6 +134,7 @@ namespace Files.Uwp.Dialogs
 
         private void RootDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
         {
+            Window.Current.SizeChanged -= Current_SizeChanged;
             ViewModel.CancelCts();
         }
 
