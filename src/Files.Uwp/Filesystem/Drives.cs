@@ -338,12 +338,7 @@ namespace Files.Uwp.Filesystem
             return unauthorizedAccessDetected;
         }
 
-        private static async Task<StorageItemThumbnail> GetThumbnailAsync(StorageFolder folder)
-            => (StorageItemThumbnail)await FilesystemTasks.Wrap(()
-                => folder.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask()
-            );
-
-        private DriveType GetDriveType(DriveInfo drive)
+        private static DriveType GetDriveType(DriveInfo drive)
         {
             if (drive.DriveType is IO.DriveType.Unknown)
             {
@@ -365,5 +360,10 @@ namespace Files.Uwp.Filesystem
                 _ => DriveType.Unknown,
             };
         }
+
+        private static async Task<StorageItemThumbnail> GetThumbnailAsync(StorageFolder folder)
+            => (StorageItemThumbnail)await FilesystemTasks.Wrap(()
+                => folder.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask()
+            );
     }
 }
