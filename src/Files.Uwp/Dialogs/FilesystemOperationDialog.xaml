@@ -134,7 +134,7 @@
                     Width="200"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    SelectedIndex="{x:Bind ConflictResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}}">
+                    SelectedIndex="{x:Bind ConflictResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='4-0'}">
                     <ComboBox.Items>
                         <ComboBoxItem Content="{helpers:ResourceString Name=GenerateNewName}" />
                         <ComboBoxItem Content="{helpers:ResourceString Name=ConflictingItemsDialogItemOptionReplaceExisting/Text}" />
