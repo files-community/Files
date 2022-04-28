@@ -62,11 +62,11 @@
             <Grid ColumnSpacing="12">
                 <Grid.ColumnDefinitions>
                     <!--  Icon  -->
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="48" />
                     <!--  Content  -->
                     <ColumnDefinition Width="*" />
                     <!--  Options  -->
-                    <ColumnDefinition Width="Auto" MaxWidth="100" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <!--  Icon  -->
@@ -129,6 +129,8 @@
                 <!--  Options  -->
                 <ComboBox
                     Grid.Column="2"
+                    Width="200"
+                    HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     SelectedIndex="{x:Bind ConflictResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}}">
                     <ComboBox.Items>
@@ -152,6 +154,8 @@
                 <!--  Icon  -->
                 <Image
                     Grid.Column="0"
+                    Width="48"
+                    Height="48"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Source="{x:Bind ItemIcon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
@@ -171,7 +175,7 @@
         </DataTemplate>
     </ContentDialog.Resources>
 
-    <Grid Width="552">
+    <Grid HorizontalAlignment="Stretch">
         <StackPanel Spacing="12">
             <Grid x:Name="ApplyToAll" x:Load="{x:Bind ViewModel.FileSystemDialogMode.IsInDeleteMode, Converter={StaticResource BoolNegationConverter}}">
                 <Grid.ColumnDefinitions>
@@ -183,10 +187,12 @@
                     Grid.Column="0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Text="Apply this action to all conflicting items" />
+                    Text="Apply this action to all conflicting items"
+                    TextWrapping="Wrap" />
 
                 <ComboBox
                     Grid.Column="1"
+                    Width="200"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     SelectedIndex="{x:Bind ViewModel.AggregatedResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='4-0,0-1,1-2,2-3'}">
