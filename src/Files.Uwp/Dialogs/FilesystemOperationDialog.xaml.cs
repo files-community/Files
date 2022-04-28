@@ -117,6 +117,7 @@ namespace Files.Uwp.Dialogs
                 && element.DataContext is FileSystemDialogConflictItemViewModel conflictItem)
             {
                 conflictItem.IsTextBoxVisible = conflictItem.ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName;
+                conflictItem.CustomName = conflictItem.DestinationDisplayName;
 
                 var textBox = DependencyObjectHelpers.FindChild<TextBox>(element);
                 textBox?.Focus(FocusState.Programmatic);

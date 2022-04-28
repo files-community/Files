@@ -11,13 +11,7 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
         public string? DestinationDisplayName
         {
             get => _DestinationDisplayName;
-            set
-            {
-                if (SetProperty(ref _DestinationDisplayName, value))
-                {
-                    _CustomName = value;
-                }
-            }
+            set => SetProperty(ref _DestinationDisplayName, value);
         }
 
         private string? _CustomName;
