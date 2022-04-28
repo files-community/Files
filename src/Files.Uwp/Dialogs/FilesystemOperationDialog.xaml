@@ -170,7 +170,7 @@
                     <TextBlock Text="{x:Bind DisplayName}" />
                     <TextBlock
                         Opacity="0.8"
-                        Text="{x:Bind SourceDirectoryDisplayName}"
+                        Text="{x:Bind SourcePath}"
                         ToolTipService.ToolTip="{x:Bind SourcePath}" />
                 </StackPanel>
             </Grid>
@@ -217,9 +217,9 @@
                 x:Name="SeparatorLine"
                 Height="1"
                 HorizontalAlignment="Stretch"
-                Visibility="{x:Bind ViewModel.FileSystemDialogMode.ConflictsExist}"
                 Background="{ThemeResource SystemBaseLowColor}"
-                Opacity="0.8" />
+                Opacity="0.8"
+                Visibility="{x:Bind ViewModel.FileSystemDialogMode.ConflictsExist}" />
 
             <CheckBox
                 x:Name="chkPermanentlyDelete"
