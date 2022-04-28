@@ -1,17 +1,18 @@
-﻿using Files.Shared;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Helpers;
+using Files.Backend.Services.Settings;
+using Files.Shared;
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Helpers;
-using Files.Backend.Services.Settings;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
-using System.Collections.Specialized;
 
 namespace Files.Uwp.Filesystem
 {

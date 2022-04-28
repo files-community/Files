@@ -1,5 +1,6 @@
 ﻿using ByteSizeLib;
 using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Helpers;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;

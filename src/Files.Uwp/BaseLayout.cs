@@ -1,5 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Files.Uwp.EventArguments;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
@@ -7,8 +10,6 @@ using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using Files.Uwp.Helpers.ContextFlyouts;
 using Files.Uwp.Interacts;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Files.Uwp.UserControls;
 using Files.Uwp.ViewModels;
 using Files.Uwp.ViewModels.Previews;

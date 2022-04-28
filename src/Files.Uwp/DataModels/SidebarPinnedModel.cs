@@ -1,15 +1,17 @@
-﻿using Files.Shared.Extensions;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Helpers;
+using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
 using Files.Uwp.Controllers;
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
-using Files.Backend.Services.Settings;
 using Files.Uwp.ViewModels;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -17,7 +19,6 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
-using System.Collections.Specialized;
 
 namespace Files.Uwp.DataModels
 {
