@@ -347,12 +347,6 @@ namespace Files.Uwp.ViewModels
                     section.ChildItems.Insert(index < 0 ? section.ChildItems.Count : Math.Min(index, section.ChildItems.Count), elem);
                 }
             }
-
-            if (IsSidebarOpen)
-            {
-                // Restore expanded state when section has items
-                section.IsExpanded = App.AppSettings.Get(section.Text == "SidebarFavorites".GetLocalized(), $"section:{section.Text.Replace('\\', '_')}");
-            }
         }
 
         private async Task<LocationItem> GetOrCreateSection(SectionType sectionType)

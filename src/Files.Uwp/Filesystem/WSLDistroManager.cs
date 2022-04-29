@@ -67,26 +67,21 @@ namespace Files.Uwp.Filesystem
                         logoURI = new Uri("ms-appx:///Assets/WSL/genericpng.png");
                     }
 
-                    var distro = new WslDistroItem()
+                    if (!distroList.Any(x => x.Path == folder.Path))
                     {
-                        Text = folder.DisplayName,
-                        Path = folder.Path,
-                        Logo = logoURI,
-                        MenuOptions = new ContextMenuOptions
+                        var distro = new WslDistroItem()
                         {
-                            IsLocationItem = true
-                        }
-                    };
-
-                    lock (distroList)
-                    {
-                        if (distroList.Any(x => x.Path == folder.Path))
-                        {
-                            continue;
-                        }
+                            Text = folder.DisplayName,
+                            Path = folder.Path,
+                            Logo = logoURI,
+                            MenuOptions = new ContextMenuOptions
+                            {
+                                IsLocationItem = true
+                            }
+                        };
                         distroList.Add(distro);
+                        DataChanged?.Invoke(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, distro));
                     }
-                    DataChanged?.Invoke(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, distro));
                 }
             }
             catch (Exception)

@@ -108,7 +108,7 @@ namespace Files.Uwp.UserControls.Widgets
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                foreach (DriveItem drive in App.DrivesManager.Drives)
+                foreach (DriveItem drive in App.DrivesManager.Drives.ToList())
                 {
                     if (!ItemsAdded.Any(x => x.Item == drive))
                     {

@@ -95,11 +95,10 @@ namespace Files.Uwp.Filesystem
                         };
                         lock (drivesList)
                         {
-                            if (drivesList.Any(x => x.Path == networkItem.Path))
+                            if (!drivesList.Any(x => x.Path == networkItem.Path))
                             {
-                                continue;
+                                drivesList.Add(networkItem);
                             }
-                            drivesList.Add(networkItem);
                         }
                     }
                     foreach (var drive in Drives

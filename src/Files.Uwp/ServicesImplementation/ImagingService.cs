@@ -2,8 +2,12 @@
 using Files.Backend.Services;
 using Files.Uwp.Helpers;
 using Files.Uwp.Imaging;
+using Microsoft.Toolkit.Uwp;
+using System;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Storage.FileProperties;
+using Windows.UI.Core;
 
 namespace Files.Uwp.ServicesImplementation
 {

@@ -13,10 +13,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.System;
+using Windows.UI.Core;
 
 namespace Files.Uwp.Helpers
 {
@@ -224,7 +226,11 @@ namespace Files.Uwp.Helpers
             {
                 await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 associatedInstance.ToolbarViewModel.CanRefresh = false;
-                associatedInstance.FilesystemViewModel?.RefreshItems(previousDir);
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    var ContentOwnedViewModelInstance = associatedInstance.FilesystemViewModel;
+                    ContentOwnedViewModelInstance?.RefreshItems(previousDir);
+                });
             }
 
             return opened;

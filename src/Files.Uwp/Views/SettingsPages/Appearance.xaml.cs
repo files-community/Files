@@ -31,11 +31,11 @@ namespace Files.Uwp.SettingsPages
             ThemesTeachingTip.IsOpen = true;
         }
 
-        private async void OpenThemesFolderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void OpenThemesFolderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             ThemesTeachingTip.IsOpen = false;
             this.FindAscendant<SettingsDialog>()?.Hide();
-            await ViewModel.OpenThemesFolder();
+            ViewModel.OpenThemesFolder();
         }
 
         private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

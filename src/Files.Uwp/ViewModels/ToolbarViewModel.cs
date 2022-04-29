@@ -336,9 +336,7 @@ namespace Files.Uwp.ViewModels
             UpClickCommand = new RelayCommand<RoutedEventArgs>(e => UpRequested?.Invoke(this, EventArgs.Empty));
             RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
 
-            dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-            dragOverTimer = dispatcherQueue.CreateTimer();
-
+            dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
             SearchBox.Escaped += SearchRegion_Escaped;
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
             App.TerminalController.ModelChanged += OnTerminalsChanged;
@@ -358,7 +356,6 @@ namespace Files.Uwp.ViewModels
             }
         }
 
-        private DispatcherQueue dispatcherQueue;
         private DispatcherQueueTimer dragOverTimer;
 
         private ISearchBox searchBox = new SearchBoxViewModel();
@@ -1184,7 +1181,7 @@ namespace Files.Uwp.ViewModels
 
         private void OnTerminalsChanged(object _)
         {
-            dispatcherQueue.EnqueueAsync(() => OnPropertyChanged(nameof(OpenInTerminal)));
+            OnPropertyChanged(nameof(OpenInTerminal));
         }
 
         public void Dispose()

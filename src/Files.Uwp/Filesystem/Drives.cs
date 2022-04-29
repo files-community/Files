@@ -175,7 +175,7 @@ namespace Files.Uwp.Filesystem
             // Flag set if any drive throws UnauthorizedAccessException
             bool unauthorizedAccessDetected = false;
 
-            var drives = DriveInfo.GetDrives();
+            var drives = DriveInfo.GetDrives().ToList();
 
             foreach (var drive in drives)
             {

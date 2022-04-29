@@ -72,11 +72,10 @@ namespace Files.Uwp.Filesystem
 
                 lock (drivesList)
                 {
-                    if (drivesList.Any(x => x.Path == cloudProviderItem.Path))
+                    if (!drivesList.Any(x => x.Path == cloudProviderItem.Path))
                     {
-                        continue;
+                        drivesList.Add(cloudProviderItem);
                     }
-                    drivesList.Add(cloudProviderItem);
                 }
 
                 DataChanged?.Invoke(SectionType.CloudDrives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, cloudProviderItem));

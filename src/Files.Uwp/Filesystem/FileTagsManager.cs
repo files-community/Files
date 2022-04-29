@@ -41,26 +41,21 @@ namespace Files.Uwp.Filesystem
             {
                 foreach (var tag in FileTagsSettingsService.FileTagList)
                 {
-                    var tagItem = new FileTagItem()
+                    if (!fileTagList.Any(x => x.Path == $"tag:{tag.TagName}"))
                     {
-                        Text = tag.TagName,
-                        Path = $"tag:{tag.TagName}",
-                        FileTag = tag,
-                        MenuOptions = new ContextMenuOptions
+                        var tagItem = new FileTagItem()
                         {
-                            IsLocationItem = true
-                        }
-                    };
-
-                    lock (fileTagList)
-                    {
-                        if (fileTagList.Any(x => x.Path == $"tag:{tag.TagName}"))
-                        {
-                            continue;
-                        }
+                            Text = tag.TagName,
+                            Path = $"tag:{tag.TagName}",
+                            FileTag = tag,
+                            MenuOptions = new ContextMenuOptions
+                            {
+                                IsLocationItem = true
+                            }
+                        };
                         fileTagList.Add(tagItem);
+                        DataChanged?.Invoke(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, tagItem));
                     }
-                    DataChanged?.Invoke(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, tagItem));
                 }
             }
             catch (Exception ex)
