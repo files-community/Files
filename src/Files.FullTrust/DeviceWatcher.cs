@@ -1,5 +1,5 @@
 ﻿using Files.Shared;
-using FilesFullTrust.MMI;
+using Files.FullTrust.MMI;
 using Microsoft.Management.Infrastructure;
 using System;
 using System.IO.Pipes;
