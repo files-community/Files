@@ -179,6 +179,7 @@
     <Compile Include="Filesystem\StorageItems\StreamWithContentType.cs" />
     <Compile Include="Filesystem\StorageItems\SystemStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\SystemStorageFolder.cs" />
+    <Compile Include="Filesystem\StorageItems\VirtualStorageItem.cs" />
     <Compile Include="Filesystem\StorageItems\ZipStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\ZipStorageFolder.cs" />
     <Compile Include="Filesystem\BaseStorage\BaseBasicProperties.cs" />
