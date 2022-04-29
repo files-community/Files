@@ -19,6 +19,11 @@ bool OpenInExistingShellWindow(const TCHAR* folderPath);
 
 void RunFileExplorer(const TCHAR* openDirectory);
 
+size_t strifind(const std::wstring& strHaystack, const std::wstring& strNeedle);
+bool comparei(std::wstring stringA, std::wstring stringB);
+std::string wstring_to_utf8_hex(const std::wstring& input);
+std::wstring str2wstr(const std::string& str);
+
 int WINAPI WinMain(HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
 	LPSTR     lpCmdLine,
@@ -68,13 +73,13 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		);
 
 		// Uninstall launcher
-		TCHAR szFile[MAX_PATH], szCmd[MAX_PATH];
+		TCHAR szCmd[MAX_PATH];
 		swprintf(szCmd, _countof(szCmd) - 1, L"/c reg.exe import \"%s\"", L"%LocalAppData%\\Files\\UnsetFilesAsDefault.reg");
-		if (((INT)ShellExecute(0, L"runas", L"cmd.exe", szCmd, 0, SW_HIDE) > 32))
+		if (((int)ShellExecute(0, L"runas", L"cmd.exe", szCmd, 0, SW_HIDE) > 32))
 		{
 			std::cout << "Launcher unset as default" << std::endl;
 			swprintf(szCmd, _countof(szCmd) - 1, L"-command \"Start-Sleep -Seconds 5; $lfp = [System.Environment]::ExpandEnvironmentVariables('%%LocalAppData%%\\Files'); Remove-Item -Path $lfp -Recurse -Force\"");
-			if ((INT)ShellExecute(0, 0, L"powershell.exe", szCmd, 0, SW_HIDE) > 32)
+			if ((int)ShellExecute(0, 0, L"powershell.exe", szCmd, 0, SW_HIDE) > 32)
 			{
 				std::cout << "Launcher uninstalled" << std::endl;
 			}
@@ -151,36 +156,62 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 		auto item = openInFolder.GetResult();
 
-		SHELLEXECUTEINFO ShExecInfo = { 0 };
-		ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
-		ShExecInfo.lpFile = L"files.exe";
-		ShExecInfo.lpDirectory = openDirectory;
-
 		TCHAR args[1024];
 		if (item.empty())
 		{
 			std::wcout << L"No item selected" << std::endl;
-			swprintf(args, _countof(args) - 1, L"-directory \"%s\"", openDirectory);
+			//swprintf(args, _countof(args) - 1, L"-directory \"%s\"", openDirectory);
+			swprintf(args, _countof(args) - 1, L"\"%s\" -directory \"%s\"", szBuf, openDirectory);
 		}
 		else
 		{
 			std::wcout << L"Item: " << item << std::endl;
-			swprintf(args, _countof(args) - 1, L"-select \"%s\"", item.c_str());
+			//swprintf(args, _countof(args) - 1, L"-select \"%s\"", item.c_str());
+			swprintf(args, _countof(args) - 1, L"\"%s\" -select \"%s\"", szBuf, item.c_str());
 		}
 
-		std::wcout << L"Invoking: " << args << std::endl;
-		ShExecInfo.lpParameters = args;
-		ShExecInfo.nShow = SW_HIDE;
-		ShellExecuteEx(&ShExecInfo);
+		std::wstring uriWithArgs = L"files-uwp:?cmd=" + str2wstr(wstring_to_utf8_hex(args));
+
+		std::wcout << L"Invoking: " << args << L" = " << uriWithArgs << std::endl;
+
+		SHELLEXECUTEINFO ShExecInfo = { 0 };
+		ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+		ShExecInfo.fMask = SEE_MASK_NOASYNC | SEE_MASK_FLAG_NO_UI;
+		ShExecInfo.lpFile = uriWithArgs.c_str();
+		ShExecInfo.lpDirectory = openDirectory;
+		ShExecInfo.nShow = SW_SHOW;
+		
+		if (!ShellExecuteEx(&ShExecInfo))
+		{
+			std::wcout << L"Protocol error: " << GetLastError() << std::endl;
+			//ShExecInfo.lpFile = L"files.exe";
+			//ShExecInfo.lpParameters = args;
+			//if (!ShellExecuteEx(&ShExecInfo))
+			//{
+				//std::wcout << L"Command line error: " << GetLastError() << std::endl;
+			//}
+		}
 	}
 	else
 	{
+		std::wcout << L"Invoking: no arguments" << std::endl;
+
 		SHELLEXECUTEINFO ShExecInfo = { 0 };
 		ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
-		ShExecInfo.lpFile = L"files.exe";
-		std::wcout << L"Invoking: no arguments" << std::endl;
+		ShExecInfo.fMask = SEE_MASK_NOASYNC | SEE_MASK_FLAG_NO_UI;
+		ShExecInfo.lpFile = L"files-uwp:?cmd=";
+		ShExecInfo.lpDirectory = openDirectory;
 		ShExecInfo.nShow = SW_SHOW;
-		ShellExecuteEx(&ShExecInfo);
+
+		if (!ShellExecuteEx(&ShExecInfo))
+		{
+			std::wcout << L"Protocol error: " << GetLastError() << std::endl;
+			//ShExecInfo.lpFile = L"files.exe";
+			//if (!ShellExecuteEx(&ShExecInfo))
+			//{
+				//std::wcout << L"Command line error: " << GetLastError() << std::endl;
+			//}
+		}
 	}
 
 	if (_debugStream)
@@ -253,6 +284,39 @@ bool comparei(std::wstring stringA, std::wstring stringB)
 	transform(stringA.begin(), stringA.end(), stringA.begin(), std::toupper);
 	transform(stringB.begin(), stringB.end(), stringB.begin(), std::toupper);
 	return (stringA == stringB);
+}
+
+std::string wstring_to_utf8_hex(const std::wstring& input)
+{
+	std::string output;
+	int cbNeeded = WideCharToMultiByte(CP_UTF8, 0, input.c_str(), -1, NULL, 0, NULL, NULL);
+	if (cbNeeded > 0)
+	{
+		char* utf8 = new char[cbNeeded];
+		if (WideCharToMultiByte(CP_UTF8, 0, input.c_str(), -1, utf8, cbNeeded, NULL, NULL) != 0)
+		{
+			for (char* p = utf8; *p; p++)
+			{
+				char onehex[5];
+				sprintf_s(onehex, sizeof(onehex), "%%%02.2X", (unsigned char)*p);
+				output.append(onehex);
+			}
+		}
+		delete[] utf8;
+	}
+	return output;
+}
+
+std::wstring str2wstr(const std::string& str)
+{
+	int cbNeeded = MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), NULL, 0);
+	if (cbNeeded > 0)
+	{
+		std::wstring wstrTo(cbNeeded, 0);
+		MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), &wstrTo[0], cbNeeded);
+		return wstrTo;
+	}
+	return L"";
 }
 
 void RunFileExplorer(const TCHAR* openDirectory)

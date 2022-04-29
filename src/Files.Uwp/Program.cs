@@ -103,6 +103,21 @@ namespace Files.Uwp
                         }
                     }
                 }
+                else if (activatedArgs is ProtocolActivatedEventArgs protocolArgs)
+                {
+                    var parsedArgs = protocolArgs.Uri.Query.TrimStart('?').Split('=');
+                    if (parsedArgs.Length == 2 && parsedArgs[0] == "cmd") // Treat as command line launch
+                    {
+                        var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+                        var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
+                        if (!instance.IsCurrentInstance)
+                        {
+                            instance.RedirectActivationTo();
+                            await TerminateUwpAppInstance(proc.Id);
+                            return;
+                        }
+                    }
+                }
                 else if (activatedArgs is FileActivatedEventArgs)
                 {
                     var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
