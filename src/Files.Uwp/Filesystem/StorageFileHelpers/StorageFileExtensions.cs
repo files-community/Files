@@ -382,18 +382,36 @@ namespace Files.Uwp.Filesystem
             foreach (string s in paths)
             {
                 IStorageItem item = null;
-                try
+
+                var marker = s.IndexOf(".zip", StringComparison.OrdinalIgnoreCase);
+                if (marker is not -1)
                 {
-                    item = await StorageFile.GetFileFromPathAsync(s);
-                }
-                catch (Exception)
-                {
-                    try
+                    var containerPath = s.Substring(0, marker + ".zip".Length);
+                    if (s != containerPath)
                     {
-                        item = await StorageFolder.GetFolderFromPathAsync(s);
+                        bool isFile = Path.HasExtension(s);
+                        if (isFile)
+                        {
+                            item = await ZipStorageFile.FromPathAsync(s);
+                        }
+                        else
+                        {
+                            item = await ZipStorageFolder.FromPathAsync(s);
+                        }
+
+                        if (item is null)
+                        {
+                            item = await ItemFromPath(s);
+                        }
                     }
-                    catch (Exception)
-                    { }
+                    else
+                    {
+                        item = await ItemFromPath(s);
+                    }
+                }
+                else
+                {
+                    item = await ItemFromPath(s);
                 }
 
                 if (item is not null)
@@ -409,18 +427,36 @@ namespace Files.Uwp.Filesystem
             foreach (string s in paths)
             {
                 IStorageItem item = null;
-                try
+
+                var marker = s.IndexOf(".zip", StringComparison.OrdinalIgnoreCase);
+                if (marker is not -1)
                 {
-                    item = await StorageFile.GetFileFromPathAsync(s);
-                }
-                catch (Exception)
-                {
-                    try
+                    var containerPath = s.Substring(0, marker + ".zip".Length);
+                    if (s != containerPath)
                     {
-                        item = await StorageFolder.GetFolderFromPathAsync(s);
+                        bool isFile = Path.HasExtension(s);
+                        if (isFile)
+                        {
+                            item = await ZipStorageFile.FromPathAsync(s);
+                        }
+                        else
+                        {
+                            item = await ZipStorageFolder.FromPathAsync(s);
+                        }
+
+                        if (item is null)
+                        {
+                            item = await ItemFromPath(s);
+                        }
                     }
-                    catch (Exception)
-                    { }
+                    else
+                    {
+                        item = await ItemFromPath(s);
+                    }
+                }
+                else
+                {
+                    item = await ItemFromPath(s);
                 }
 
                 if (item is not null)
@@ -428,6 +464,27 @@ namespace Files.Uwp.Filesystem
             }
 
             return items;
+        }
+
+        private static async Task<IStorageItem> ItemFromPath(string s)
+        {
+            IStorageItem item = null;
+
+            try
+            {
+                item = await StorageFile.GetFileFromPathAsync(s);
+            }
+            catch (Exception)
+            {
+                try
+                {
+                    item = await StorageFolder.GetFolderFromPathAsync(s);
+                }
+                catch (Exception)
+                { }
+            }
+
+            return item;
         }
     }
 }
