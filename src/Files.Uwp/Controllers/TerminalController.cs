@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.Search;
 
@@ -43,10 +42,7 @@ namespace Files.Uwp.Controllers
             await LoadAsync();
             await GetInstalledTerminalsAsync();
             await StartWatchConfigChangeAsync();
-            CoreApplication.MainView.DispatcherQueue.TryEnqueue(() =>
-            {
-                ModelChanged?.Invoke(this);
-            });
+            ModelChanged?.Invoke(this);
         }
 
         private async Task LoadAsync()
@@ -128,10 +124,7 @@ namespace Files.Uwp.Controllers
 
                 await LoadAsync();
                 await GetInstalledTerminalsAsync();
-                CoreApplication.MainView.DispatcherQueue.TryEnqueue(() =>
-                {
-                    ModelChanged?.Invoke(this);
-                });
+                ModelChanged?.Invoke(this);
             }
             catch
             {

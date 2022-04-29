@@ -22,7 +22,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System;
@@ -459,10 +458,10 @@ namespace Files.Uwp.Views
         private async Task<BaseLayout> GetContentOrNullAsync()
         {
             BaseLayout FrameContent = null;
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             () =>
             {
-                FrameContent = (ItemDisplayFrame.Content as BaseLayout);
+                FrameContent = ItemDisplayFrame.Content as BaseLayout;
             });
             return FrameContent;
         }
@@ -786,25 +785,19 @@ namespace Files.Uwp.Views
 
             if (InstanceViewModel.IsPageTypeSearchResults)
             {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                var searchInstance = new FolderSearch
                 {
-                    var searchInstance = new FolderSearch
-                    {
-                        Query = InstanceViewModel.CurrentSearchQuery,
-                        Folder = FilesystemViewModel.WorkingDirectory,
-                        ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
-                        SearchUnindexedItems = InstanceViewModel.SearchedUnindexedItems
-                    };
-                    await FilesystemViewModel.SearchAsync(searchInstance);
-                });
+                    Query = InstanceViewModel.CurrentSearchQuery,
+                    Folder = FilesystemViewModel.WorkingDirectory,
+                    ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
+                    SearchUnindexedItems = InstanceViewModel.SearchedUnindexedItems
+                };
+                await FilesystemViewModel.SearchAsync(searchInstance);
             }
             else
             {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    var ContentOwnedViewModelInstance = FilesystemViewModel;
-                    ContentOwnedViewModelInstance?.RefreshItems(null);
-                });
+                var ContentOwnedViewModelInstance = FilesystemViewModel;
+                ContentOwnedViewModelInstance?.RefreshItems(null);
             }
         }
 
