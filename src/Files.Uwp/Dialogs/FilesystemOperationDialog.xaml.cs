@@ -140,7 +140,8 @@ namespace Files.Uwp.Dialogs
         private void NameStackPanel_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             if (sender is FrameworkElement element
-                && element.DataContext is FileSystemDialogConflictItemViewModel conflictItem)
+                && element.DataContext is FileSystemDialogConflictItemViewModel conflictItem
+                && conflictItem.ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName)
             {
                 conflictItem.IsTextBoxVisible = conflictItem.ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName;
                 conflictItem.CustomName = conflictItem.DestinationDisplayName;

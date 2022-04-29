@@ -84,6 +84,7 @@
                     <!--  Names  -->
                     <StackPanel
                         VerticalAlignment="Center"
+                        Background="Transparent"
                         Spacing="4"
                         Tapped="NameStackPanel_Tapped"
                         Visibility="{x:Bind IsTextBoxVisible, Mode=OneWay, Converter={StaticResource VisibilityInvertConverter}}">
