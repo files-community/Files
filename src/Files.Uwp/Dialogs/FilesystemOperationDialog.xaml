@@ -11,7 +11,8 @@
     xmlns:ts="using:Files.Uwp.TemplateSelectors"
     xmlns:tvc="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:vc="using:Files.Uwp.ValueConverters"
-    xmlns:vc2="using:Files.Uwp.Converters"
+    xmlns:vc2="using:Files.Uwp.ValueConverters.EnumConverters"
+    xmlns:vc3="using:Files.Uwp.Converters"
     xmlns:vm="using:Files.Backend.ViewModels.Dialogs.FileSystemDialog"
     x:Name="RootDialog"
     Title="{x:Bind ViewModel.Title, Mode=OneWay}"
@@ -57,7 +58,8 @@
         <vc:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
         <vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
         <vc:GenericEnumConverter x:Key="GenericEnumConverter" />
-        <vc2:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
+        <vc2:ConflictResolveOptionToIndexConverter x:Key="ConflictResolveOptionToIndexConverter" />
+        <vc3:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
         <tvc:BoolNegationConverter x:Key="BoolNegationConverter" />
 
         <DataTemplate x:Key="ConflictItemDataTemplate" x:DataType="vm:FileSystemDialogConflictItemViewModel">
@@ -136,8 +138,8 @@
                     Width="200"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    SelectedIndex="{x:Bind ConflictResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='4-0'}"
-                    Visibility="{x:Bind IsConflict, Mode=OneWay}">
+                    x:Load="{x:Bind IsConflict, Mode=OneWay}"
+                    SelectedIndex="{x:Bind ConflictResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource ConflictResolveOptionToIndexConverter}}">
                     <ComboBox.Items>
                         <ComboBoxItem Content="{helpers:ResourceString Name=GenerateNewName}" />
                         <ComboBoxItem Content="{helpers:ResourceString Name=ConflictingItemsDialogItemOptionReplaceExisting/Text}" />
