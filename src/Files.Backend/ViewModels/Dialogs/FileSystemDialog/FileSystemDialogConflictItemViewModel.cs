@@ -57,6 +57,11 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
         {
             get => ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName; // Default value
         }
+        
+        public bool IsConflict
+        {
+            get => ConflictResolveOption != FileNameConflictResolveOptionType.None;
+        }
 
         private FileNameConflictResolveOptionType _ConflictResolveOption;
         public FileNameConflictResolveOptionType ConflictResolveOption

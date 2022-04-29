@@ -1,13 +1,11 @@
 ﻿using Files.Uwp.DataModels;
 using Files.Shared.Enums;
 using Files.Uwp.Filesystem;
-using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Files.Shared.Extensions;
@@ -129,11 +127,8 @@ namespace Files.Uwp.Controllers
                 return;
             }
 
-            // watched file changed externally, reload the sidebar items
-            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-            {
-                await ReloadAsync();
-            });
+            // Watched file changed externally, reload the sidebar items
+            await ReloadAsync();
         }
 
         public void SaveModel()
