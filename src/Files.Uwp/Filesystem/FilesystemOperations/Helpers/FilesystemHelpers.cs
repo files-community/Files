@@ -369,6 +369,7 @@ namespace Files.Uwp.Filesystem
 
             if (handledByFtp)
             {
+                App.Logger.Info("Copying using FTP");
                 var connection = await ServiceConnection;
                 if (connection != null)
                 {
@@ -762,14 +763,15 @@ namespace Files.Uwp.Filesystem
         {
             if (packageView.Contains(StandardDataFormats.StorageItems))
             {
-                return true;
                 try
                 {
                     _ = await packageView.GetStorageItemsAsync();
+                    App.Logger.Info("Needs fulltrust: no");
                     return false;
                 }
                 catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
                 {
+                    App.Logger.Info("Needs fulltrust: yes");
                     return true;
                 }
                 catch (Exception ex)

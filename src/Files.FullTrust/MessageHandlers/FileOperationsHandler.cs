@@ -91,6 +91,7 @@ namespace Files.FullTrust.MessageHandlers
                     break;
 
                 case "DragDrop":
+                    Program.Logger.Info("Drag drop");
                     var dropPath = (string)message["droppath"];
                     var result = await Win32API.StartSTATask(() =>
                     {
@@ -100,6 +101,7 @@ namespace Files.FullTrust.MessageHandlers
                         {
                             try
                             {
+                                Program.Logger.Info($"Drag drop: {package.Name}");
                                 if (package.ItemType == RemoteDataObject.StorageType.File)
                                 {
                                     string directoryPath = Path.GetDirectoryName(dropPath);
