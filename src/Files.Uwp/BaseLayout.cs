@@ -844,9 +844,8 @@ namespace Files.Uwp
             try
             {
                 // Only support IStorageItem capable paths
-                var itemList = e.Items.OfType<ListedItem>().Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcutItem)).Select(x => new VirtualStorageItem(x));
+                var itemList = e.Items.OfType<ListedItem>().Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcutItem)).Select(x => VirtualStorageItem.FromListedItem(x));
                 e.Data.SetStorageItems(itemList, false);
-                //e.Data.RequestedOperation = DataPackageOperation.Move;
             }
             catch (Exception)
             {
