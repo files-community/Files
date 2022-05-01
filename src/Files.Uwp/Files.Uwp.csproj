@@ -247,8 +247,8 @@
     <Compile Include="ServicesImplementation\DateTimeFormatter\AbstractDateTimeFormatter.cs" />
     <Compile Include="ServicesImplementation\DateTimeFormatter\ApplicationDateTimeFormatter.cs" />
     <Compile Include="ServicesImplementation\DateTimeFormatter\DateTimeFormatterFactory.cs" />
-    <Compile Include="ServicesImplementation\DateTimeFormatter\FormatDateTimeFormatter.cs" />
-    <Compile Include="ServicesImplementation\DateTimeFormatter\TimeSpanLabel.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\UniversalDateTimeFormatter.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\SystemDateTimeFormatter.cs" />
     <Compile Include="ServicesImplementation\DateTimeFormatter\UserDateTimeFormatter.cs" />
     <Compile Include="ServicesImplementation\DialogService.cs" />
     <Compile Include="ServicesImplementation\ImagingService.cs" />

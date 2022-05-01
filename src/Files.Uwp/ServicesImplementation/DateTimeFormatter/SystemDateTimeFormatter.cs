@@ -1,15 +1,12 @@
 ﻿using Files.Shared.Services.DateTimeFormatter;
+using Microsoft.Toolkit.Uwp;
 using System;
 
 namespace Files.Uwp.ServicesImplementation.DateTimeFormatter
 {
-    internal class FormatDateTimeFormatter : AbstractDateTimeFormatter
+    internal class SystemDateTimeFormatter : AbstractDateTimeFormatter
     {
-        private readonly string format;
-
-        public override string Name { get; }
-
-        public FormatDateTimeFormatter(string name, string format) => (Name, this.format) = (name, format);
+        public override string Name => "SystemTimeStyle".GetLocalized();
 
         public override string ToShortLabel(DateTimeOffset offset)
         {
@@ -17,7 +14,7 @@ namespace Files.Uwp.ServicesImplementation.DateTimeFormatter
             {
                 return " ";
             }
-            return offset.ToLocalTime().ToString(format);
+            return offset.ToLocalTime().ToString("g");
         }
 
         public override ITimeSpanLabel ToTimeSpanLabel(DateTimeOffset offset)
@@ -25,5 +22,7 @@ namespace Files.Uwp.ServicesImplementation.DateTimeFormatter
             var label = base.ToTimeSpanLabel(offset);
             return new TimeSpanLabel(label.Range, label.Range, label.Glyph, label.Index);
         }
+
+        protected override string ToRangeLabel(DateTime range) => range.ToShortDateString();
     }
 }

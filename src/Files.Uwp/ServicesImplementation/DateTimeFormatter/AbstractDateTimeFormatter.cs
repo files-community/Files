@@ -26,44 +26,67 @@ namespace Files.Uwp.ServicesImplementation.DateTimeFormatter
 
             if (t.Date == t2.Date)
             {
-                return new TimeSpanLabel("Today".GetLocalized(), today, "\ue184", 0);
+                return new TimeSpanLabel("Today".GetLocalized(), ToRangeLabel(today), "\ue184", 0);
             }
             if (y.Date == t2.Date)
             {
-                return new TimeSpanLabel("ItemTimeText_Yesterday".GetLocalized(), today.Subtract(TimeSpan.FromDays(1)), "\ue161", 1);
+                return new TimeSpanLabel("ItemTimeText_Yesterday".GetLocalized(), ToRangeLabel(today.Subtract(TimeSpan.FromDays(1))), "\ue161", 1);
             }
             if (w.Year == t2.Year && GetWeekOfYear(w) == GetWeekOfYear(t2))
             {
                 if (diff.Days < 7)
                 {
-                    return new TimeSpanLabel("ItemTimeText_ThisWeek".GetLocalized(), t.Subtract(TimeSpan.FromDays((int)t.DayOfWeek)).DateTime, "\uE162", 2);
+                    return new TimeSpanLabel("ItemTimeText_ThisWeek".GetLocalized(),
+                        ToRangeLabel(t.Subtract(TimeSpan.FromDays((int)t.DayOfWeek)).DateTime), "\uE162", 2);
                 }
                 if (diff.Days < 14)
                 {
-                    return new TimeSpanLabel("ItemTimeText_LastWeek".GetLocalized(), t.Subtract(TimeSpan.FromDays((int)t.DayOfWeek + 7)).DateTime, "\uE162", 3);
+                    return new TimeSpanLabel("ItemTimeText_LastWeek".GetLocalized(),
+                        ToRangeLabel(t.Subtract(TimeSpan.FromDays((int)t.DayOfWeek + 7)).DateTime), "\uE162", 3);
                 }
             }
             if (t.Year == t2.Year && t.Month == t2.Month)
             {
-                return new TimeSpanLabel("ItemTimeText_ThisMonth".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.Day - 1)).DateTime, "\ue163", 4);
+                return new TimeSpanLabel("ItemTimeText_ThisMonth".GetLocalized(), ToRangeLabel(t.Subtract(TimeSpan.FromDays(t.Day - 1)).DateTime), "\ue163", 4);
             }
             if (t.AddMonths(-1).Year == t2.Year && t.AddMonths(-1).Month == t2.Month)
             {
                 return new TimeSpanLabel("ItemTimeText_LastMonth".GetLocalized(),
-                    t.Subtract(TimeSpan.FromDays(t.Day - 1 + calendar.GetDaysInMonth(t.AddMonths(-1).Year, t.AddMonths(-1).Month))).DateTime, "\ue163", 5);
+                    ToRangeLabel(t.Subtract(TimeSpan.FromDays(t.Day - 1 + calendar.GetDaysInMonth(t.AddMonths(-1).Year, t.AddMonths(-1).Month))).DateTime), "\ue163", 5);
             }
             if (t.Year == t2.Year)
             {
-                return new TimeSpanLabel("ItemTimeText_ThisYear".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.DayOfYear - 1)).DateTime, "\ue163", 5);
+                return new TimeSpanLabel("ItemTimeText_ThisYear".GetLocalized(), ToRangeLabel(t.Subtract(TimeSpan.FromDays(t.DayOfYear - 1)).DateTime), "\ue163", 5);
             }
             return new TimeSpanLabel("ItemTimeText_Older".GetLocalized(),
-                string.Format("ItemTimeText_Before".GetLocalized(), today.Subtract(TimeSpan.FromDays(today.DayOfYear - 1))), "\uEC92", 6);
+                string.Format("ItemTimeText_Before".GetLocalized(), ToRangeLabel(today.Subtract(TimeSpan.FromDays(today.DayOfYear - 1)))), "\uEC92", 6);
         }
+
+        protected virtual string ToRangeLabel(DateTime range) => range.ToShortDateString();
 
         private int GetWeekOfYear(DateTimeOffset t)
         {
             // Should we use the system setting for the first day of week in the future?
-            return calendar.GetWeekOfYear(t.DateTime, CalendarWeekRule.FirstDay, System.DayOfWeek.Sunday);
+            return calendar.GetWeekOfYear(t.DateTime, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
+        }
+
+        internal class TimeSpanLabel : ITimeSpanLabel
+        {
+            public string Text { get; }
+            public string Range { get; }
+            public string Glyph { get; }
+            public int Index { get; }
+
+            public TimeSpanLabel(string text, string range, string glyph, int index)
+                => (Text, Range, Glyph, Index) = (text, range, glyph, index);
+
+            public void Deconstruct(out string text, out string range, out string glyph, out int index)
+            {
+                text = Text;
+                range = Range;
+                glyph = Glyph;
+                index = Index;
+            }
         }
     }
 }

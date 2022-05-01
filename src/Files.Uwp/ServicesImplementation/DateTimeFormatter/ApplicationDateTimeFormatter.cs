@@ -5,9 +5,7 @@ namespace Files.Uwp.ServicesImplementation.DateTimeFormatter
 {
     internal class ApplicationDateTimeFormatter : AbstractDateTimeFormatter
     {
-        public override string Name { get; }
-
-        public ApplicationDateTimeFormatter(string name) => Name = name;
+        public override string Name => "Application".GetLocalized();
 
         public override string ToShortLabel(DateTimeOffset offset)
         {
