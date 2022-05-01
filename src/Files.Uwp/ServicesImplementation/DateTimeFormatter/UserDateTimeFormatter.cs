@@ -1,4 +1,5 @@
-﻿using Files.Shared.Enums;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Shared.Enums;
 using Files.Shared.Services.DateTimeFormatter;
 using System;
 using Windows.Storage;
@@ -7,7 +8,7 @@ namespace Files.Uwp.ServicesImplementation.DateTimeFormatter
 {
     internal class UserDateTimeFormatter : IDateTimeFormatter
     {
-        private readonly IDateTimeFormatterFactory factory = new DateTimeFormatterFactory();
+        private readonly IDateTimeFormatterFactory factory = Ioc.Default.GetService<IDateTimeFormatterFactory>();
         private readonly ApplicationDataContainer settings = ApplicationData.Current.LocalSettings;
 
         private TimeStyle timeStyle = TimeStyle.Application;
