@@ -231,7 +231,7 @@
                 x:Load="{x:Bind ViewModel.FileSystemDialogMode.IsInDeleteMode, Mode=OneWay}"
                 Content="{helpers:ResourceString Name=DeleteItemsDialogPermanentlyDeleteCheckBox/Content}"
                 IsChecked="{x:Bind ViewModel.DeletePermanently, Mode=TwoWay}"
-                IsEnabled="False" />
+                IsEnabled="{x:Bind ViewModel.IsDeletePermanentlyEnabled, Mode=OneWay}" />
 
             <ListView
                 x:Name="DetailsGrid"
