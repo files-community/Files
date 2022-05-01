@@ -64,7 +64,7 @@ namespace Files.Uwp.Interacts
             PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.PointerWheelChanged);
             GridViewSizeDecreaseCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CommandsModel.GridViewSizeDecrease);
             GridViewSizeIncreaseCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CommandsModel.GridViewSizeIncrease);
-            DragOverCommand = new RelayCommand<DragEventArgs>(CommandsModel.DragOver);
+            DragOverCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.DragOver);
             DropCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.Drop);
             RefreshCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RefreshItems);
             SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(CommandsModel.SearchUnindexedItems);
