@@ -715,7 +715,7 @@ namespace Files.Uwp.Filesystem
 
         public static bool HasDraggedStorageItems(DataPackageView packageView)
         {
-            return packageView != null && (packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out var data)));
+            return packageView != null && packageView.Contains(StandardDataFormats.StorageItems);
         }
 
         public static async Task<IEnumerable<IStorageItemWithPath>> GetDraggedStorageItems(DataPackageView packageView)
@@ -736,13 +736,6 @@ namespace Files.Uwp.Filesystem
                 {
                     App.Logger.Warn(ex, ex.Message);
                     return itemsList;
-                }
-            }
-            if (packageView.Properties.TryGetValue("FileDrop", out var data))
-            {
-                if (data is List<IStorageItemWithPath> source)
-                {
-                    itemsList.AddRange(source);
                 }
             }
             itemsList = itemsList.DistinctBy(x => string.IsNullOrEmpty(x.Path) ? x.Item.Name : x.Path).ToList();
