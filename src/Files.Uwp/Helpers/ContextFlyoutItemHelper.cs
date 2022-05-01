@@ -1004,6 +1004,7 @@ namespace Files.Uwp.Helpers
                 {
                     ItemType = ItemType.Separator,
                     Tag = "OverflowSeparator",
+                    ShowInSearchPage = true,
                     IsHidden = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -1013,6 +1014,7 @@ namespace Files.Uwp.Helpers
                     Items = new List<ContextMenuFlyoutItemViewModel>(),
                     ID = "ItemOverflow",
                     Tag = "ItemOverflow",
+                    ShowInSearchPage = true,
                     IsHidden = true,
                 },
             };

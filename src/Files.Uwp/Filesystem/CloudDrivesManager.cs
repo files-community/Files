@@ -3,16 +3,14 @@ using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Filesystem.Cloud;
 using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.Uwp.UserControls;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
+using System.Collections.Specialized;
 
 namespace Files.Uwp.Filesystem
 {
@@ -22,6 +20,8 @@ namespace Files.Uwp.Filesystem
 
         private static readonly ILogger Logger = App.Logger;
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
+
+        public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
         public IReadOnlyList<DriveItem> Drives
         {
@@ -72,108 +72,14 @@ namespace Files.Uwp.Filesystem
 
                 lock (drivesList)
                 {
-                    if (!drivesList.Any(x => x.Path == cloudProviderItem.Path))
+                    if (drivesList.Any(x => x.Path == cloudProviderItem.Path))
                     {
-                        drivesList.Add(cloudProviderItem);
+                        continue;
                     }
+                    drivesList.Add(cloudProviderItem);
                 }
-            }
 
-            await RefreshUI();
-        }
-
-        private async Task RefreshUI()
-        {
-            try
-            {
-                await SyncSideBarItemsUI();
-            }
-            catch (Exception ex) // UI Thread not ready yet, so we defer the previous operation until it is.
-            {
-                Logger.Warn(ex, "UI thread not ready yet");
-                System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
-                // Defer because UI-thread is not ready yet (and DriveItem requires it?)
-                CoreApplication.MainView.Activated += RefreshUI;
-            }
-        }
-
-        private async void RefreshUI(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
-        {
-            CoreApplication.MainView.Activated -= RefreshUI;
-            await SyncSideBarItemsUI();
-        }
-
-        private async Task SyncSideBarItemsUI()
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
-                try
-                {
-                    var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarCloudDrives".GetLocalized()) as LocationItem;
-                    if (UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection && section == null && Drives.Any())
-                    {
-                        section = new LocationItem()
-                        {
-                            Text = "SidebarCloudDrives".GetLocalized(),
-                            Section = SectionType.CloudDrives,
-                            MenuOptions = new ContextMenuOptions
-                            {
-                                ShowHideSection = true
-                            },
-                            SelectsOnInvoked = false,
-                            Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png")),
-                            ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
-                        };
-                        var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
-                                    (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
-                                    (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Drives) ? 1 : 0); // After drives section
-                        SidebarControl.SideBarItems.BeginBulkOperation();
-                        SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), section);
-                        SidebarControl.SideBarItems.EndBulkOperation();
-                    }
-
-                    if (section != null)
-                    {
-                        foreach (DriveItem drive in Drives.ToList())
-                        {
-                            if (!section.ChildItems.Contains(drive))
-                            {
-                                section.ChildItems.Add(drive);
-                            }
-                        }
-                    }
-                }
-                finally
-                {
-                    SidebarControl.SideBarItemsSemaphore.Release();
-                }
-            });
-        }
-
-        private void RemoveCloudDrivesSideBarSection()
-        {
-            try
-            {
-                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarCloudDrives".GetLocalized()) select n).FirstOrDefault();
-                if (!UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection && item != null)
-                {
-                    SidebarControl.SideBarItems.Remove(item);
-                }
-            }
-            catch (Exception)
-            { }
-        }
-
-        public async void UpdateCloudDrivesSectionVisibility()
-        {
-            if (UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection)
-            {
-                await EnumerateDrivesAsync();
-            }
-            else
-            {
-                RemoveCloudDrivesSideBarSection();
+                DataChanged?.Invoke(SectionType.CloudDrives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, cloudProviderItem));
             }
         }
     }

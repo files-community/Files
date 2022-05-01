@@ -242,10 +242,6 @@
           <source>Application</source>
           <target state="translated">Applicazione</target>
         </trans-unit>
-        <trans-unit id="SystemTimeStye" translate="yes" xml:space="preserve">
-          <source>System</source>
-          <target state="translated">Sistema</target>
-        </trans-unit>
         <trans-unit id="NewFolder" translate="yes" xml:space="preserve">
           <source>New Folder</source>
           <target state="translated">Nuova cartella</target>
@@ -1245,10 +1241,6 @@
         <trans-unit id="PropertySaveErrorDialog.Title" translate="yes" xml:space="preserve">
           <source>Error</source>
           <target state="translated">Errore</target>
-        </trans-unit>
-        <trans-unit id="PropertySaveErrorDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Retry</source>
-          <target state="translated">Riprova</target>
         </trans-unit>
         <trans-unit id="PropertySaveErrorDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Close anyway</source>
@@ -3521,6 +3513,30 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
         <trans-unit id="FileInUseDialog.Title" translate="yes" xml:space="preserve">
           <source>File is in use</source>
           <target state="translated">Il file è in uso</target>
+        </trans-unit>
+        <trans-unit id="SystemTimeStyle" translate="yes" xml:space="preserve">
+          <source>System</source>
+          <target state="translated">Sistema</target>
+        </trans-unit>
+        <trans-unit id="Universal" translate="yes" xml:space="preserve">
+          <source>Universal</source>
+          <target state="translated">Universale</target>
+        </trans-unit>
+        <trans-unit id="DateFormatSample" translate="yes" xml:space="preserve">
+          <source>ex: {0}, {1}</source>
+          <target state="translated">eg: {0}, {1}</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowThumbnails" translate="yes" xml:space="preserve">
+          <source>Show thumbnails</source>
+          <target state="translated">Mostra anteprime</target>
+        </trans-unit>
+        <trans-unit id="Retry" translate="yes" xml:space="preserve">
+          <source>Retry</source>
+          <target state="translated">Riprova</target>
+        </trans-unit>
+        <trans-unit id="ErrorDialogUnsupportedMoveOperation" translate="yes" xml:space="preserve">
+          <source>Move operation is not supported in this context. Do you want to copy the items instead?</source>
+          <target state="translated">L'operazione di spostamento non è supportata in questo contesto. Vuoi copiare gli elementi?</target>
         </trans-unit>
       </group>
     </body>

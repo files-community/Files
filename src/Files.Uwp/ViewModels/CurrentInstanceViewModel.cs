@@ -39,6 +39,7 @@ namespace Files.Uwp.ViewModels
                 OnPropertyChanged(nameof(CanCopyPathInPage));
                 OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
                 OnPropertyChanged(nameof(CanShareInPage));
+                OnPropertyChanged(nameof(CanTagFilesInPage));
             }
         }
 
@@ -84,6 +85,7 @@ namespace Files.Uwp.ViewModels
                 OnPropertyChanged(nameof(CanCopyPathInPage));
                 OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
                 OnPropertyChanged(nameof(CanShareInPage));
+                OnPropertyChanged(nameof(CanTagFilesInPage));
             }
         }
 
@@ -102,6 +104,7 @@ namespace Files.Uwp.ViewModels
                 OnPropertyChanged(nameof(CanCopyPathInPage));
                 OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
                 OnPropertyChanged(nameof(CanShareInPage));
+                OnPropertyChanged(nameof(CanTagFilesInPage));
             }
         }
 
@@ -120,6 +123,7 @@ namespace Files.Uwp.ViewModels
                 OnPropertyChanged(nameof(CanCopyPathInPage));
                 OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
                 OnPropertyChanged(nameof(CanShareInPage));
+                OnPropertyChanged(nameof(CanTagFilesInPage));
             }
         }
 
@@ -138,6 +142,7 @@ namespace Files.Uwp.ViewModels
                 OnPropertyChanged(nameof(CanCopyPathInPage));
                 OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
                 OnPropertyChanged(nameof(CanShareInPage));
+                OnPropertyChanged(nameof(CanTagFilesInPage));
             }
         }
 
@@ -156,6 +161,7 @@ namespace Files.Uwp.ViewModels
                 OnPropertyChanged(nameof(CanCopyPathInPage));
                 OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
                 OnPropertyChanged(nameof(CanShareInPage));
+                OnPropertyChanged(nameof(CanTagFilesInPage));
             }
         }
 
@@ -174,6 +180,7 @@ namespace Files.Uwp.ViewModels
                 OnPropertyChanged(nameof(CanCopyPathInPage));
                 OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
                 OnPropertyChanged(nameof(CanShareInPage));
+                OnPropertyChanged(nameof(CanTagFilesInPage));
             }
         }
 
@@ -192,6 +199,7 @@ namespace Files.Uwp.ViewModels
                 OnPropertyChanged(nameof(CanCopyPathInPage));
                 OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
                 OnPropertyChanged(nameof(CanShareInPage));
+                OnPropertyChanged(nameof(CanTagFilesInPage));
             }
         }
 
@@ -223,6 +231,11 @@ namespace Files.Uwp.ViewModels
         public bool CanShareInPage
         {
             get => !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeFtp && !isPageTypeZipFolder;
+        }
+
+        public bool CanTagFilesInPage
+        {
+            get => !isPageTypeRecycleBin && !isPageTypeFtp && !isPageTypeZipFolder;
         }
     }
 }

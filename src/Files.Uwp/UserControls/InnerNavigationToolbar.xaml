@@ -774,7 +774,7 @@
                 IsEnabled="{x:Bind ShowPreviewPaneButton, Mode=OneWay}"
                 Label="{helpers:ResourceString Name=PreviewPaneToggle/Label}"
                 LabelPosition="Collapsed"
-                ToolTipService.ToolTip="{helpers:ResourceString Name=PreviewPaneToggle/AutomationProperties/Name}"
+                ToolTipService.ToolTip="{helpers:ResourceString Name=PreviewPaneToggle/ToolTipService/ToolTip}"
                 Visibility="{x:Bind ShowPreviewPaneButton, Mode=OneWay}">
                 <AppBarToggleButton.Content>
                     <local:ColoredIcon BaseLayerGlyph="&#xF03b;" OverlayLayerGlyph="&#xF03c;" />

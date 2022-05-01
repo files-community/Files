@@ -258,9 +258,6 @@
   <data name="Application" xml:space="preserve">
     <value>Приложение</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>Система</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Нова папка</value>
   </data>
@@ -338,18 +335,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Изтрихте ли тази папка?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>Файлът, който се опитвате да изтриете, в момента се използва от друго приложение.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>Файлът се използва</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Опитай отново</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Добре</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Оформление</value>
@@ -725,9 +710,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Грешка</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Опитай отново</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Затвори въпреки това</value>
