@@ -90,47 +90,6 @@ namespace Files.FullTrust.MessageHandlers
                     });
                     break;
 
-                case "DragDrop":
-                    var dropPath = (string)message["droppath"];
-                    var result = await Win32API.StartSTATask(() =>
-                    {
-                        var rdo = new RemoteDataObject(System.Windows.Forms.Clipboard.GetDataObject());
-
-                        foreach (RemoteDataObject.DataPackage package in rdo.GetRemoteData())
-                        {
-                            try
-                            {
-                                if (package.ItemType == RemoteDataObject.StorageType.File)
-                                {
-                                    string directoryPath = Path.GetDirectoryName(dropPath);
-                                    if (!Directory.Exists(directoryPath))
-                                    {
-                                        Directory.CreateDirectory(directoryPath);
-                                    }
-
-                                    string uniqueName = Win32API.GenerateUniquePath(Path.Combine(dropPath, package.Name));
-                                    using FileStream stream = new FileStream(uniqueName, FileMode.CreateNew);
-                                    package.ContentStream.CopyTo(stream);
-                                }
-                                else
-                                {
-                                    string directoryPath = Path.Combine(dropPath, package.Name);
-                                    if (!Directory.Exists(directoryPath))
-                                    {
-                                        Directory.CreateDirectory(directoryPath);
-                                    }
-                                }
-                            }
-                            finally
-                            {
-                                package.Dispose();
-                            }
-                        }
-                        return true;
-                    });
-                    await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result } }, message.Get("RequestID", (string)null));
-                    break;
-
                 case "CreateFile":
                 case "CreateFolder":
                     {

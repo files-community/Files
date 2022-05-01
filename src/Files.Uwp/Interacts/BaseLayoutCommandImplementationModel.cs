@@ -531,8 +531,7 @@ namespace Files.Uwp.Interacts
             {
                 e.Handled = true;
 
-                var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-                var draggedItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+                var (dataNotAvailable, draggedItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
                 var pwd = associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath();
                 var folderName = (Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd) ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
@@ -542,7 +541,7 @@ namespace Files.Uwp.Interacts
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
-                else if (handledByFtp)
+                else if (dataNotAvailable)
                 {
                     if (pwd.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
                     {

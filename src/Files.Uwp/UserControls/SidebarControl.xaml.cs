@@ -634,8 +634,7 @@ namespace Files.Uwp.UserControls
                 e.Handled = true;
                 isDropOnProcess = true;
 
-                var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-                var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+                var (dataNotAvailable, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
                 if (string.IsNullOrEmpty(locationItem.Path) && SectionType.Favorites.Equals(locationItem.Section) && storageItems.Any())
                 {
@@ -667,7 +666,7 @@ namespace Files.Uwp.UserControls
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
-                else if (handledByFtp)
+                else if (dataNotAvailable)
                 {
                     if (locationItem.Path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
                     {
@@ -781,7 +780,7 @@ namespace Files.Uwp.UserControls
 
                 if (string.IsNullOrEmpty(locationItem.Path) && SectionType.Favorites.Equals(locationItem.Section) && isDropOnProcess) // Pin to Favorites section
                 {
-                    var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+                    var (_, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
                     foreach (var item in storageItems)
                     {
                         if (item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
@@ -829,15 +828,14 @@ namespace Files.Uwp.UserControls
             var deferral = e.GetDeferral();
             e.Handled = true;
 
-            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-            var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+            var (dataNotAvailable, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
             if ("DriveCapacityUnknown".GetLocalized().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
                 (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(driveItem.Path)))
             {
                 e.AcceptedOperation = DataPackageOperation.None;
             }
-            else if (handledByFtp)
+            else if (dataNotAvailable)
             {
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), driveItem.Text);
@@ -926,10 +924,9 @@ namespace Files.Uwp.UserControls
             var deferral = e.GetDeferral();
             e.Handled = true;
 
-            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-            var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+            var (dataNotAvailable, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-            if (handledByFtp)
+            if (dataNotAvailable)
             {
                 e.AcceptedOperation = DataPackageOperation.None;
             }
@@ -967,10 +964,9 @@ namespace Files.Uwp.UserControls
 
             var deferral = e.GetDeferral();
 
-            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-            var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+            var (dataNotAvailable, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-            if (handledByFtp)
+            if (dataNotAvailable)
             {
                 return;
             }

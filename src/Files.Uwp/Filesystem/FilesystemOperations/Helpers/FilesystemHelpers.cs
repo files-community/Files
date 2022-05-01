@@ -274,10 +274,9 @@ namespace Files.Uwp.Filesystem
                     // Open with piggybacks off of the link operation, since there isn't one for it
                     if (isTargetExecutable)
                     {
-                        var handledByFtp = await CheckDragNeedsFulltrust(packageView);
-                        if (!handledByFtp)
+                        var (dataNotAvailable, items) = await GetDraggedStorageItems(packageView);
+                        if (!dataNotAvailable)
                         {
-                            var items = await GetDraggedStorageItems(packageView);
                             NavigationHelpers.OpenItemsWithExecutable(associatedInstance, items, destination);
                         }
                         return ReturnResult.Success;
@@ -364,22 +363,7 @@ namespace Files.Uwp.Filesystem
 
         public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
-            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(packageView);
-            var source = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
-
-            if (handledByFtp)
-            {
-                var connection = await ServiceConnection;
-                if (connection != null)
-                {
-                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet() {
-                        { "Arguments", "FileOperation" },
-                        { "fileop", "DragDrop" },
-                        { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
-                    return (status == AppServiceResponseStatus.Success && response.Get("Success", false)) ? ReturnResult.Success : ReturnResult.Failed;
-                }
-                return ReturnResult.Failed;
-            }
+            var (_, source) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
 
             if (!source.IsEmpty())
             {
@@ -515,10 +499,9 @@ namespace Files.Uwp.Filesystem
                 return ReturnResult.BadArgumentException;
             }
 
-            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(packageView);
-            var source = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
+            var (dataNotAvailable, source) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
 
-            if (handledByFtp)
+            if (dataNotAvailable)
             {
                 // Not supported
                 return ReturnResult.Failed;
@@ -618,10 +601,9 @@ namespace Files.Uwp.Filesystem
                 return ReturnResult.BadArgumentException;
             }
 
-            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(packageView);
-            var source = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
+            var (dataNotAvailable, source) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
 
-            if (handledByFtp)
+            if (dataNotAvailable)
             {
                 // Not supported
                 return ReturnResult.Failed;
@@ -657,10 +639,9 @@ namespace Files.Uwp.Filesystem
                 return ReturnResult.BadArgumentException;
             }
 
-            var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(packageView);
-            var source = await FilesystemHelpers.GetDraggedStorageItems(packageView);
+            var (dataNotAvailable, source) = await FilesystemHelpers.GetDraggedStorageItems(packageView);
 
-            if (handledByFtp)
+            if (dataNotAvailable)
             {
                 // Not supported
                 return ReturnResult.Failed;
@@ -758,29 +739,7 @@ namespace Files.Uwp.Filesystem
             return packageView != null && (packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out var data)));
         }
 
-        public static async Task<bool> CheckDragNeedsFulltrust(DataPackageView packageView)
-        {
-            if (packageView.Contains(StandardDataFormats.StorageItems))
-            {
-                try
-                {
-                    _ = await packageView.GetStorageItemsAsync();
-                    return false;
-                }
-                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
-                {
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    App.Logger.Warn(ex, ex.Message);
-                    return false;
-                }
-            }
-            return false;
-        }
-
-        public static async Task<IEnumerable<IStorageItemWithPath>> GetDraggedStorageItems(DataPackageView packageView)
+        public static async Task<(bool dataNotAvailable, IEnumerable<IStorageItemWithPath> items)> GetDraggedStorageItems(DataPackageView packageView)
         {
             var itemsList = new List<IStorageItemWithPath>();
             if (packageView.Contains(StandardDataFormats.StorageItems))
@@ -792,12 +751,12 @@ namespace Files.Uwp.Filesystem
                 }
                 catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
                 {
-                    return itemsList;
+                    return (true, itemsList);
                 }
                 catch (Exception ex)
                 {
                     App.Logger.Warn(ex, ex.Message);
-                    return itemsList;
+                    return (false, itemsList);
                 }
             }
             if (packageView.Properties.TryGetValue("FileDrop", out var data))
@@ -808,7 +767,7 @@ namespace Files.Uwp.Filesystem
                 }
             }
             itemsList = itemsList.DistinctBy(x => string.IsNullOrEmpty(x.Path) ? x.Item.Name : x.Path).ToList();
-            return itemsList;
+            return (false, itemsList);
         }
 
         public static string FilterRestrictedCharacters(string input)
