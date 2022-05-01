@@ -905,13 +905,13 @@ namespace Files.Uwp
                 {
                     e.Handled = true;
 
-                    var (dataNotAvailable, draggedItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+                    var (handledByFtp, draggedItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
                     if (draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                     {
                         e.AcceptedOperation = DataPackageOperation.None;
                     }
-                    else if (dataNotAvailable)
+                    else if (handledByFtp)
                     {
                         e.DragUIOverride.IsCaptionVisible = true;
                         e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);

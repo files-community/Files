@@ -509,9 +509,9 @@ namespace Files.Uwp.ViewModels
             e.Handled = true;
             var deferral = e.GetDeferral();
 
-            var (dataNotAvailable, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+            var (handledByFtp, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-            if (dataNotAvailable)
+            if (handledByFtp)
             {
                 e.AcceptedOperation = DataPackageOperation.None;
                 deferral.Complete();

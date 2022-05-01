@@ -208,7 +208,7 @@ namespace Files.Uwp.Filesystem
 
         public async Task<ReturnResult> RestoreItemsFromTrashAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
         {
-            return await RestoreItemsFromTrashAsync(source.Select((item) => item.FromStorageItem()), destination, registerHistory); 
+            return await RestoreItemsFromTrashAsync(source.Select((item) => item.FromStorageItem()), destination, registerHistory);
         }
 
         public async Task<ReturnResult> RestoreItemFromTrashAsync(IStorageItemWithPath source, string destination, bool registerHistory)
@@ -274,8 +274,8 @@ namespace Files.Uwp.Filesystem
                     // Open with piggybacks off of the link operation, since there isn't one for it
                     if (isTargetExecutable)
                     {
-                        var (dataNotAvailable, items) = await GetDraggedStorageItems(packageView);
-                        if (!dataNotAvailable)
+                        var (handledByFtp, items) = await GetDraggedStorageItems(packageView);
+                        if (!handledByFtp)
                         {
                             NavigationHelpers.OpenItemsWithExecutable(associatedInstance, items, destination);
                         }
@@ -324,7 +324,7 @@ namespace Files.Uwp.Filesystem
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
             var token = banner.CancellationToken;
-            
+
             var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source, destination, showDialog);
 
             if (cancelOperation)
@@ -363,7 +363,21 @@ namespace Files.Uwp.Filesystem
 
         public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
-            var (_, source) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
+            var (handledByFtp, source) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
+
+            if (handledByFtp)
+            {
+                var connection = await ServiceConnection;
+                if (connection != null)
+                {
+                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet() {
+                        { "Arguments", "FileOperation" },
+                        { "fileop", "DragDrop" },
+                        { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
+                    return (status == AppServiceResponseStatus.Success && response.Get("Success", false)) ? ReturnResult.Success : ReturnResult.Failed;
+                }
+                return ReturnResult.Failed;
+            }
 
             if (!source.IsEmpty())
             {
@@ -499,9 +513,9 @@ namespace Files.Uwp.Filesystem
                 return ReturnResult.BadArgumentException;
             }
 
-            var (dataNotAvailable, source) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
+            var (handledByFtp, source) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
 
-            if (dataNotAvailable)
+            if (handledByFtp)
             {
                 // Not supported
                 return ReturnResult.Failed;
@@ -601,9 +615,9 @@ namespace Files.Uwp.Filesystem
                 return ReturnResult.BadArgumentException;
             }
 
-            var (dataNotAvailable, source) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
+            var (handledByFtp, source) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
 
-            if (dataNotAvailable)
+            if (handledByFtp)
             {
                 // Not supported
                 return ReturnResult.Failed;
@@ -639,9 +653,9 @@ namespace Files.Uwp.Filesystem
                 return ReturnResult.BadArgumentException;
             }
 
-            var (dataNotAvailable, source) = await FilesystemHelpers.GetDraggedStorageItems(packageView);
+            var (handledByFtp, source) = await FilesystemHelpers.GetDraggedStorageItems(packageView);
 
-            if (dataNotAvailable)
+            if (handledByFtp)
             {
                 // Not supported
                 return ReturnResult.Failed;
@@ -739,7 +753,7 @@ namespace Files.Uwp.Filesystem
             return packageView != null && (packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out var data)));
         }
 
-        public static async Task<(bool dataNotAvailable, IEnumerable<IStorageItemWithPath> items)> GetDraggedStorageItems(DataPackageView packageView)
+        public static async Task<(bool handledByFtp, IEnumerable<IStorageItemWithPath> items)> GetDraggedStorageItems(DataPackageView packageView)
         {
             var itemsList = new List<IStorageItemWithPath>();
             if (packageView.Contains(StandardDataFormats.StorageItems))
