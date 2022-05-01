@@ -762,6 +762,7 @@ namespace Files.Uwp.Filesystem
         {
             if (packageView.Contains(StandardDataFormats.StorageItems))
             {
+                return true;
                 try
                 {
                     _ = await packageView.GetStorageItemsAsync();
