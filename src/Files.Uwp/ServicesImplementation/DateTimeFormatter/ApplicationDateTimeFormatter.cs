@@ -56,11 +56,12 @@ namespace Files.Uwp.ServicesImplementation.DateTimeFormatter
             {
                 return " ";
             }
+            var localTime = offset.ToLocalTime();
             if (elapsed.TotalDays < 7)
             {
-                return offset.ToLocalTime().ToString("D t") + " (" + ToShortLabel(offset) + ")";
+                return $"{localTime:D} {localTime:t} ({ToShortLabel(offset)})";
             }
-            return offset.ToLocalTime().ToString("D t");
+            return $"{localTime:D} {localTime:t}";
         }
     }
 }
