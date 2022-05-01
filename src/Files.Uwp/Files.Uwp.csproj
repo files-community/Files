@@ -245,6 +245,12 @@
     <Compile Include="Serialization\Implementation\DefaultSettingsSerializer.cs" />
     <Compile Include="Serialization\ISettingsSerializer.cs" />
     <Compile Include="Serialization\ISettingsSharingContext.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\AbstractDateTimeFormatter.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\ApplicationDateTimeFormatter.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\DateTimeFormatterFactory.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\FormatDateTimeFormatter.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\TimeSpanLabel.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\UserDateTimeFormatter.cs" />
     <Compile Include="ServicesImplementation\DialogService.cs" />
     <Compile Include="ServicesImplementation\ImagingService.cs" />
     <Compile Include="ServicesImplementation\LocalizationService.cs" />
