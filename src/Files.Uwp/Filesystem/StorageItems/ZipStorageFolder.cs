@@ -65,7 +65,7 @@ namespace Files.Uwp.Filesystem.StorageItems
             this.backingFile = backingFile;
         }
 
-        public static bool IsZipPath(string path)
+        public static bool IsZipPath(string path, bool includeRoot = false)
         {
             var marker = path.IndexOf(".zip", StringComparison.OrdinalIgnoreCase);
             if (marker is -1)
@@ -73,7 +73,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                 return false;
             }
             marker += ".zip".Length;
-            return marker < path.Length && path[marker] is '\\';
+            return (marker == path.Length && includeRoot) || (marker < path.Length && path[marker] is '\\');
         }
 
         public static async Task<bool> CheckDefaultZipApp(string filePath)
