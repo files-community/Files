@@ -582,7 +582,7 @@ namespace Files.Uwp.Interacts
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Move;
                     }
-                    else if (draggedItems.Any(x => x is ZipStorageFile || x is ZipStorageFolder)
+                    else if (draggedItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
                         || ZipStorageFolder.IsZipPath(pwd))
                     {
                         e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);

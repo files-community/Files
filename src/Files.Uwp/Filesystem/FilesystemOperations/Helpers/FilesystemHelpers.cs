@@ -783,24 +783,31 @@ namespace Files.Uwp.Filesystem
             return false;
         }
 
-        public static async Task<IEnumerable<IStorageItem>> GetDraggedStorageItems(DataPackageView packageView)
+        public static async Task<IEnumerable<IStorageItemWithPath>> GetDraggedStorageItems(DataPackageView packageView)
         {
-            IList<IStorageItem> itemsList = new List<IStorageItem>();
+            var itemsList = new List<IStorageItemWithPath>();
 
             // Use fulltrust process to inspect FileDropList
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection != null)
             {
-                var statusAndResult = await connection.SendMessageForResponseAsync(new ValueSet()
-                            {
-                                { "Arguments", "FileOperation" },
-                                { "fileop", "ClipboardResult" }
-                            });
-
-                if (statusAndResult.Status == AppServiceResponseStatus.Success && statusAndResult.Data["Result"] is string s)
+                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
                 {
-                    var paths = JsonConvert.DeserializeObject<StringCollection>(s);
-                    itemsList = await paths.ToStandardStorageItemsAsync();
+                    { "Arguments", "FileOperation" },
+                    { "fileop", "ClipboardResult" }
+                });
+
+                if (status == AppServiceResponseStatus.Success && response["Result"] is string s)
+                {
+                    var pathList = JsonConvert.DeserializeObject<StringCollection>(s);
+                    foreach (var path in pathList)
+                    {
+                        if (NativeFileOperationsHelper.GetFileAttributesExFromApp(path, NativeFileOperationsHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out NativeFileOperationsHelper.WIN32_FILE_ATTRIBUTE_DATA itemAttributes))
+                        {
+                            var isDirectory = itemAttributes.dwFileAttributes.HasFlag(System.IO.FileAttributes.Directory);
+                            itemsList.Add(StorageHelpers.FromPathAndType(path, isDirectory ? FilesystemItemType.Directory : FilesystemItemType.File));
+                        }
+                    }
                 }
             }
             return itemsList;

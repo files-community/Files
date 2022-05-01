@@ -643,7 +643,7 @@ namespace Files.Uwp.UserControls
 
                     foreach (var item in storageItems)
                     {
-                        if (item.IsOfType(Windows.Storage.StorageItemTypes.Folder) && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
+                        if (item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
                         {
                             haveFoldersToPin = true;
                             break;
@@ -707,7 +707,7 @@ namespace Files.Uwp.UserControls
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Move;
                     }
-                    else if (storageItems.Any(x => x is ZipStorageFile || x is ZipStorageFolder)
+                    else if (storageItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
                         || ZipStorageFolder.IsZipPath(locationItem.Path))
                     {
                         e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
@@ -784,7 +784,7 @@ namespace Files.Uwp.UserControls
                     var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
                     foreach (var item in storageItems)
                     {
-                        if (item.IsOfType(Windows.Storage.StorageItemTypes.Folder) && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
+                        if (item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
                         {
                             SidebarPinnedModel.AddItem(item.Path);
                         }
@@ -978,7 +978,7 @@ namespace Files.Uwp.UserControls
             foreach (var item in storageItems.Where(x => !string.IsNullOrEmpty(x.Path)))
             {
                 var listedItem = new ListedItem(null) { ItemPath = item.Path };
-                listedItem.FileFRN = await FileTagsHelper.GetFileFRN(item);
+                listedItem.FileFRN = await FileTagsHelper.GetFileFRN(item.Item);
                 listedItem.FileTag = fileTagItem.FileTag.Uid;
             }
 

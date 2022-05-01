@@ -314,7 +314,7 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
                 {
                     var items = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-                    if (await AddItemsFromPath(items.ToDictionary((item) => item.Path, (item) => item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File)))
+                    if (await AddItemsFromPath(items.ToDictionary((item) => item.Path, (item) => item.ItemType)))
                     {
                         itemsAdded = true;
                     }

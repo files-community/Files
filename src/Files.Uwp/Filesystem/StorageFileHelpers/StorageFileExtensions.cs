@@ -13,7 +13,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
-using System.Collections.Specialized;
 
 namespace Files.Uwp.Filesystem
 {
@@ -374,117 +373,6 @@ namespace Files.Uwp.Filesystem
                 }
             }
             return newItems;
-        }
-
-        public static async Task<IList<IStorageItem>> ToStandardStorageItemsAsync(this IEnumerable<string> paths)
-        {
-            List<IStorageItem> items = new List<IStorageItem>();
-            foreach (string s in paths)
-            {
-                IStorageItem item = null;
-
-                var marker = s.IndexOf(".zip", StringComparison.OrdinalIgnoreCase);
-                if (marker is not -1)
-                {
-                    var containerPath = s.Substring(0, marker + ".zip".Length);
-                    if (s != containerPath)
-                    {
-                        bool isFile = Path.HasExtension(s);
-                        if (isFile)
-                        {
-                            item = await ZipStorageFile.FromPathAsync(s);
-                        }
-                        else
-                        {
-                            item = await ZipStorageFolder.FromPathAsync(s);
-                        }
-
-                        if (item is null)
-                        {
-                            item = await ItemFromPath(s);
-                        }
-                    }
-                    else
-                    {
-                        item = await ItemFromPath(s);
-                    }
-                }
-                else
-                {
-                    item = await ItemFromPath(s);
-                }
-
-                if (item is not null)
-                    items.Add(item);
-            }
-
-            return items;
-        }
-
-        public static async Task<IList<IStorageItem>> ToStandardStorageItemsAsync(this StringCollection paths)
-        {
-            List<IStorageItem> items = new List<IStorageItem>();
-            foreach (string s in paths)
-            {
-                IStorageItem item = null;
-
-                var marker = s.IndexOf(".zip", StringComparison.OrdinalIgnoreCase);
-                if (marker is not -1)
-                {
-                    var containerPath = s.Substring(0, marker + ".zip".Length);
-                    if (s != containerPath)
-                    {
-                        bool isFile = Path.HasExtension(s);
-                        if (isFile)
-                        {
-                            item = await ZipStorageFile.FromPathAsync(s);
-                        }
-                        else
-                        {
-                            item = await ZipStorageFolder.FromPathAsync(s);
-                        }
-
-                        if (item is null)
-                        {
-                            item = await ItemFromPath(s);
-                        }
-                    }
-                    else
-                    {
-                        item = await ItemFromPath(s);
-                    }
-                }
-                else
-                {
-                    item = await ItemFromPath(s);
-                }
-
-                if (item is not null)
-                    items.Add(item);
-            }
-
-            return items;
-        }
-
-        private static async Task<IStorageItem> ItemFromPath(string s)
-        {
-            IStorageItem item = null;
-
-            try
-            {
-                item = await StorageFile.GetFileFromPathAsync(s);
-            }
-            catch (Exception)
-            {
-                try
-                {
-                    item = await StorageFolder.GetFolderFromPathAsync(s);
-                }
-                catch (Exception)
-                { }
-            }
-
-            return item;
         }
     }
 }

@@ -90,6 +90,7 @@ namespace FilesFullTrust.MessageHandlers
                         return true;
                     });
                     break;
+
                 case "ClipboardResult":
                     StringCollection pathsResult = await Win32API.StartSTATask<StringCollection>(() =>
                     {
