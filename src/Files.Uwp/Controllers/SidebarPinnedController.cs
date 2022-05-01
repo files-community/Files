@@ -23,6 +23,8 @@ namespace Files.Uwp.Controllers
 
         private bool suppressChangeEvent;
 
+        private string configContent;
+
         public string JsonFileName { get; } = "PinnedItems.json";
 
         private string folderPath => Path.Combine(ApplicationData.Current.LocalFolder.Path, "settings");
@@ -90,7 +92,8 @@ namespace Files.Uwp.Controllers
 
             try
             {
-                Model = JsonConvert.DeserializeObject<SidebarPinnedModel>(await FileIO.ReadTextAsync(JsonFile.Result));
+                configContent = await FileIO.ReadTextAsync(JsonFile.Result);
+                Model = JsonConvert.DeserializeObject<SidebarPinnedModel>(configContent);
                 if (Model == null)
                 {
                     throw new ArgumentException($"{JsonFileName} is empty, regenerating...");
@@ -127,8 +130,27 @@ namespace Files.Uwp.Controllers
                 return;
             }
 
-            // Watched file changed externally, reload the sidebar items
-            await ReloadAsync();
+            try
+            {
+                var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json"));
+                var content = await FileIO.ReadTextAsync(configFile);
+
+                if (configContent != content)
+                {
+                    configContent = content;
+                }
+                else
+                {
+                    return;
+                }
+
+                // Watched file changed externally, reload the sidebar items
+                await ReloadAsync();
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         public void SaveModel()
