@@ -2765,4 +2765,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="HiddenFilesAndFolders" xml:space="preserve">
     <value>Hidden files and folders</value>
   </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
 </root>

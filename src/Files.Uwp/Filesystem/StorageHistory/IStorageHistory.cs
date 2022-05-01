@@ -1,10 +1,9 @@
 ﻿using Files.Shared.Enums;
-using System;
 using System.Collections.Generic;
 
 namespace Files.Uwp.Filesystem.FilesystemHistory
 {
-    public interface IStorageHistory : IDisposable
+    public interface IStorageHistory
     {
         /// <summary>
         /// Type of operation that took place

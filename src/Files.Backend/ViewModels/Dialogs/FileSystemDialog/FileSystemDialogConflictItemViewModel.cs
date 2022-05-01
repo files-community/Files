@@ -1,7 +1,7 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Files.Backend.Messages;
 using Files.Shared.Enums;
 using System.IO;
-using System.Windows.Input;
 
 namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 {
@@ -12,6 +12,20 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
         {
             get => _DestinationDisplayName;
             set => SetProperty(ref _DestinationDisplayName, value);
+        }
+
+        private string? _CustomName;
+        public string? CustomName
+        {
+            get => _CustomName;
+            set
+            {
+                if (SetProperty(ref _CustomName, value))
+                {
+                    DestinationDisplayName = value;
+                    _DestinationPath = Path.Combine(Path.GetDirectoryName(DestinationPath), value);
+                }
+            }
         }
 
         private string? _DestinationPath;
@@ -27,6 +41,13 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
             }
         }
 
+        private bool _IsTextBoxVisible;
+        public bool IsTextBoxVisible
+        {
+            get => _IsTextBoxVisible;
+            set => SetProperty(ref _IsTextBoxVisible, value);
+        }
+
         public string DestinationDirectoryDisplayName
         {
             get => Path.GetFileName(Path.GetDirectoryName(DestinationPath));
@@ -36,30 +57,23 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
         {
             get => ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName; // Default value
         }
+        
+        public bool IsConflict
+        {
+            get => ConflictResolveOption != FileNameConflictResolveOptionType.None;
+        }
 
         private FileNameConflictResolveOptionType _ConflictResolveOption;
         public FileNameConflictResolveOptionType ConflictResolveOption
         {
             get => _ConflictResolveOption;
-            set => SetProperty(ref _ConflictResolveOption, value);
-        }
-
-        public ICommand GenerateNewNameCommand { get; }
-
-        public ICommand ReplaceExistingCommand { get; }
-
-        public ICommand SkipCommand { get; }
-
-        public FileSystemDialogConflictItemViewModel()
-        {
-            GenerateNewNameCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.GenerateNewName));
-            ReplaceExistingCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.ReplaceExisting));
-            SkipCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.Skip));
-        }
-
-        public void TakeAction(FileNameConflictResolveOptionType conflictResolveOption)
-        {
-            ConflictResolveOption = conflictResolveOption;
+            set
+            {
+                if (SetProperty(ref _ConflictResolveOption, value))
+                {
+                    Messenger?.Send(new FileSystemDialogOptionChangedMessage(this));
+                }
+            }
         }
     }
 }

@@ -45,11 +45,7 @@ namespace Files.Uwp.Filesystem.FilesystemHistory
 
         public void Dispose()
         {
-            if (histories is not null)
-            {
-                histories.ForEach(item => item?.Dispose());
-                histories = null;
-            }
+            histories = null;
         }
     }
 }
