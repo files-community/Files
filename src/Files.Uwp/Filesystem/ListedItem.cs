@@ -362,7 +362,6 @@ namespace Files.Uwp.Filesystem
         /// Initializes a new instance of the <see cref="ListedItem" /> class, optionally with an explicitly-specified dateReturnFormat.
         /// </summary>
         /// <param name="folderRelativeId"></param>
-        /// <param name="dateReturnFormat">Specify a date return format to reduce redundant checks of this setting.</param>
         public ListedItem(string folderRelativeId) => FolderRelativeId = folderRelativeId;
 
         // Parameterless constructor for JsonConvert
