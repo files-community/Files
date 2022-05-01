@@ -10,7 +10,7 @@ namespace Files.Uwp.ServicesImplementation.DateTimeFormatter
 
         public override string ToShortLabel(DateTimeOffset offset)
         {
-            if (offset.Year <= 1601 || offset.Year >= 9999)
+            if (offset.Year is <= 1601 or >= 9999)
             {
                 return " ";
             }
