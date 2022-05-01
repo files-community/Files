@@ -204,10 +204,10 @@
                     VerticalAlignment="Center"
                     SelectedIndex="{x:Bind ViewModel.AggregatedResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='4-0,0-1,1-2,2-3'}">
                     <ComboBox.Items>
-                        <ComboBoxItem Content="Custom" />
-                        <ComboBoxItem Content="Generate new name" />
-                        <ComboBoxItem Content="Replace existing" />
-                        <ComboBoxItem Content="Skip" />
+                        <ComboBoxItem Content="{helpers:ResourceString Name=Custom}" />
+                        <ComboBoxItem Content="{helpers:ResourceString Name=GenerateNewName}" />
+                        <ComboBoxItem Content="{helpers:ResourceString Name=ConflictingItemsDialogOptionReplaceExisting/Text}" />
+                        <ComboBoxItem Content="{helpers:ResourceString Name=Skip}" />
                     </ComboBox.Items>
                 </ComboBox>
             </Grid>
