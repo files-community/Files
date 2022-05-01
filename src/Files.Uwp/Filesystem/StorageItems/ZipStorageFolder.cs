@@ -65,7 +65,7 @@ namespace Files.Uwp.Filesystem.StorageItems
             this.backingFile = backingFile;
         }
 
-        public static bool IsZipPath(string path, bool includeRoot = false)
+        public static bool IsZipPath(string path, bool includeRoot = true)
         {
             var marker = path.IndexOf(".zip", StringComparison.OrdinalIgnoreCase);
             if (marker is -1)
