@@ -73,7 +73,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                 return false;
             }
             marker += ".zip".Length;
-            return marker == path.Length || path[marker] is '\\';
+            return marker < path.Length && path[marker] is '\\';
         }
 
         public static async Task<bool> CheckDefaultZipApp(string filePath)
