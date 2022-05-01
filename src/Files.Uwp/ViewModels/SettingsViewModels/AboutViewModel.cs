@@ -29,6 +29,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
         public ICommand OpenLogLocationCommand { get; }
         public ICommand CopyVersionInfoCommand { get; }
+        public ICommand SupportUsCommand { get; }
 
         public ICommand ExportSettingsCommand { get; }
         public ICommand ImportSettingsCommand { get; }
@@ -39,6 +40,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
         {
             OpenLogLocationCommand = new AsyncRelayCommand(OpenLogLocation);
             CopyVersionInfoCommand = new RelayCommand(CopyVersionInfo);
+            SupportUsCommand = new RelayCommand(SupportUs);
 
             ExportSettingsCommand = new AsyncRelayCommand(ExportSettings);
             ImportSettingsCommand = new AsyncRelayCommand(ImportSettings);
@@ -151,6 +153,11 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 Clipboard.SetContent(dataPackage);
             });
         }
+        
+        public async void SupportUs()
+        {
+            await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl));
+        }
 
         public static async Task OpenLogLocation() => await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
 
@@ -175,7 +182,6 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 "Feedback" => Constants.GitHub.FeedbackUrl,
                 "PrivacyPolicy" => Constants.GitHub.PrivacyPolicyUrl,
                 "ReleaseNotes" => Constants.GitHub.ReleaseNotesUrl,
-                "SupportUs" => Constants.GitHub.SupportUsUrl,
                 _ => null,
             };
             if (uri is not null)
