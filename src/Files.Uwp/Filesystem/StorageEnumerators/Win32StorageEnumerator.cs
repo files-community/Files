@@ -96,7 +96,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
 
                                 if (showFolderSize)
                                 {
-                                    folderSizeProvider.UpdateFolder(folder, cancellationToken);
+                                    _ = folderSizeProvider.UpdateFolderAsync(folder.ItemPath, cancellationToken);
                                 }
                             }
                         }

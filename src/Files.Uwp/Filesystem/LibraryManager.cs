@@ -44,12 +44,18 @@ namespace Files.Uwp.Filesystem
 
         public async Task EnumerateLibrariesAsync()
         {
-            librariesList.Clear();
+            lock (librariesList)
+            {
+                librariesList.Clear();
+            }
             var libs = await LibraryHelper.ListUserLibraries();
             if (libs != null)
             {
                 libs.Sort();
-                librariesList.AddRange(libs);
+                lock (librariesList)
+                {
+                    librariesList.AddRange(libs);
+                }
             }
             DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
@@ -64,13 +70,19 @@ namespace Files.Uwp.Filesystem
             var changedLibrary = Libraries.FirstOrDefault(l => string.Equals(l.Path, path, StringComparison.OrdinalIgnoreCase));
             if (changedLibrary != null)
             {
-                librariesList.Remove(changedLibrary);
+                lock (librariesList)
+                {
+                    librariesList.Remove(changedLibrary);
+                }
                 DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedLibrary));
             }
             // library is null in case it was deleted
             if (library != null && !Libraries.Any(x => x.Path == library.FullPath))
             {
-                librariesList.Add(new LibraryLocationItem(library));
+                lock (librariesList)
+                {
+                    librariesList.Add(new LibraryLocationItem(library));
+                }
                 DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, library));
             }
             return Task.CompletedTask;
@@ -96,7 +108,10 @@ namespace Files.Uwp.Filesystem
             var newLib = await LibraryHelper.CreateLibrary(name);
             if (newLib != null)
             {
-                librariesList.Add(newLib);
+                lock (librariesList)
+                {
+                    librariesList.Add(newLib);
+                }
                 DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newLib));
                 return true;
             }
@@ -111,7 +126,10 @@ namespace Files.Uwp.Filesystem
                 var libItem = Libraries.FirstOrDefault(l => string.Equals(l.Path, libraryPath, StringComparison.OrdinalIgnoreCase));
                 if (libItem != null)
                 {
-                    librariesList[librariesList.IndexOf(libItem)] = newLib;
+                    lock (librariesList)
+                    {
+                        librariesList[librariesList.IndexOf(libItem)] = newLib;
+                    }
                     DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newLib, libItem));
                 }
                 return newLib;
