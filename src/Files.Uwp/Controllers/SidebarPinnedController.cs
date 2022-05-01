@@ -132,7 +132,7 @@ namespace Files.Uwp.Controllers
 
             try
             {
-                var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json"));
+                var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/PinnedItems.json"));
                 var content = await FileIO.ReadTextAsync(configFile);
 
                 if (configContent != content)
