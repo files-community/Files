@@ -82,7 +82,7 @@ namespace Files.Uwp.Interacts
 
         void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e);
 
-        void DragOver(DragEventArgs e);
+        Task DragOver(DragEventArgs e);
 
         Task Drop(DragEventArgs e);
 

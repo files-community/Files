@@ -514,12 +514,12 @@ namespace Files.Uwp.Interacts
             }
         }
 
-        public virtual void DragOver(DragEventArgs e)
+        public virtual Task DragOver(DragEventArgs e)
         {
             if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults)
             {
                 e.AcceptedOperation = DataPackageOperation.None;
-                return;
+                return Task.CompletedTask;
             }
 
             itemManipulationModel.ClearSelection();
@@ -564,6 +564,7 @@ namespace Files.Uwp.Interacts
                     e.AcceptedOperation = DataPackageOperation.Copy;
                 }
             }
+            return Task.CompletedTask;
         }
 
         public virtual async Task Drop(DragEventArgs e)
