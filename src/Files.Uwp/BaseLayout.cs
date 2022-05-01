@@ -837,21 +837,15 @@ namespace Files.Uwp
             }
         }
 
-        protected async void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+        protected void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
-            // Only support IStorageItem capable paths
             e.Items.OfType<ListedItem>().ForEach(item => SelectedItems.Add(item));
 
             try
             {
-                // Get the log file to use its properties. For some reason the drag and drop operation
-                // requires a BasicProperties object even though does not seem to be used.
-                // We supply it regardless for every VirtualStorageItem because it is checked for
-                var fakeFilePropsItem = await StorageFile.GetFileFromPathAsync(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log"));
-                var props = await fakeFilePropsItem.GetBasicPropertiesAsync();
-                var itemList = e.Items.OfType<ListedItem>().Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcutItem)).Select(x => new VirtualStorageItem(x, props));
+                // Only support IStorageItem capable paths
+                var itemList = e.Items.OfType<ListedItem>().Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcutItem)).Select(x => VirtualStorageItem.FromListedItem(x));
                 e.Data.SetStorageItems(itemList, false);
-                //e.Data.RequestedOperation = DataPackageOperation.Move;
             }
             catch (Exception)
             {
