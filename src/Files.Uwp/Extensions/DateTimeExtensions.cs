@@ -122,7 +122,7 @@ namespace Files.Uwp.Extensions
                 return result;
             }
 
-            return (result.range, result.range, result.glyph, result.index);
+            return (result.text, result.text, result.glyph, result.index);
         }
 
         private static Calendar calendar = new CultureInfo(CultureInfo.CurrentUICulture.Name).Calendar;
