@@ -837,21 +837,15 @@ namespace Files.Uwp
             }
         }
 
-        protected async void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+        protected void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
-            // Only support IStorageItem capable paths
             e.Items.OfType<ListedItem>().ForEach(item => SelectedItems.Add(item));
 
             try
             {
-                // Get the log file to use its properties. For some reason the drag and drop operation
-                // requires a BasicProperties object even though does not seem to be used.
-                // We supply it regardless for every VirtualStorageItem because it is checked for
-                var fakeFilePropsItem = await StorageFile.GetFileFromPathAsync(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log"));
-                var props = await fakeFilePropsItem.GetBasicPropertiesAsync();
-                var itemList = e.Items.OfType<ListedItem>().Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcutItem)).Select(x => new VirtualStorageItem(x, props));
+                // Only support IStorageItem capable paths
+                var itemList = e.Items.OfType<ListedItem>().Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcutItem)).Select(x => VirtualStorageItem.FromListedItem(x));
                 e.Data.SetStorageItems(itemList, false);
-                //e.Data.RequestedOperation = DataPackageOperation.Move;
             }
             catch (Exception)
             {
@@ -908,61 +902,58 @@ namespace Files.Uwp
                     var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
                     var draggedItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-                    if (draggedItems.IsEmpty())
+                    if (draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+                    {
+                        e.AcceptedOperation = DataPackageOperation.None;
+                    }
+                    else if (handledByFtp)
+                    {
+                        e.DragUIOverride.IsCaptionVisible = true;
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
+                        e.AcceptedOperation = DataPackageOperation.Copy;
+                    }
+                    else if (!draggedItems.Any())
                     {
                         e.AcceptedOperation = DataPackageOperation.None;
                     }
                     else
                     {
-                        if (draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+                        e.DragUIOverride.IsCaptionVisible = true;
+                        if (item.IsExecutable)
                         {
-                            e.AcceptedOperation = DataPackageOperation.None;
+                            e.DragUIOverride.Caption = $"{"OpenItemsWithCaptionText".GetLocalized()} {item.ItemName}";
+                            e.AcceptedOperation = DataPackageOperation.Link;
+                        } // Items from the same drive as this folder are dragged into this folder, so we move the items instead of copy
+                        else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
+                        {
+                            e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.AcceptedOperation = DataPackageOperation.Link;
                         }
-                        else if (handledByFtp)
+                        else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
                         {
-                            e.DragUIOverride.IsCaptionVisible = true;
                             e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
                             e.AcceptedOperation = DataPackageOperation.Copy;
                         }
+                        else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
+                        {
+                            e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.AcceptedOperation = DataPackageOperation.Move;
+                        }
+                        else if (draggedItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
+                            || ZipStorageFolder.IsZipPath(item.ItemPath))
+                        {
+                            e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.AcceptedOperation = DataPackageOperation.Copy;
+                        }
+                        else if (draggedItems.AreItemsInSameDrive(item.ItemPath))
+                        {
+                            e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.AcceptedOperation = DataPackageOperation.Move;
+                        }
                         else
                         {
-                            e.DragUIOverride.IsCaptionVisible = true;
-                            if (item.IsExecutable)
-                            {
-                                e.DragUIOverride.Caption = $"{"OpenItemsWithCaptionText".GetLocalized()} {item.ItemName}";
-                                e.AcceptedOperation = DataPackageOperation.Link;
-                            } // Items from the same drive as this folder are dragged into this folder, so we move the items instead of copy
-                            else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
-                            {
-                                e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), item.ItemName);
-                                e.AcceptedOperation = DataPackageOperation.Link;
-                            }
-                            else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
-                            {
-                                e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
-                                e.AcceptedOperation = DataPackageOperation.Copy;
-                            }
-                            else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
-                            {
-                                e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), item.ItemName);
-                                e.AcceptedOperation = DataPackageOperation.Move;
-                            }
-                            else if (draggedItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
-                                || ZipStorageFolder.IsZipPath(item.ItemPath))
-                            {
-                                e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
-                                e.AcceptedOperation = DataPackageOperation.Copy;
-                            }
-                            else if (draggedItems.AreItemsInSameDrive(item.ItemPath))
-                            {
-                                e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), item.ItemName);
-                                e.AcceptedOperation = DataPackageOperation.Move;
-                            }
-                            else
-                            {
-                                e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
-                                e.AcceptedOperation = DataPackageOperation.Copy;
-                            }
+                            e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.AcceptedOperation = DataPackageOperation.Copy;
                         }
                     }
                 }

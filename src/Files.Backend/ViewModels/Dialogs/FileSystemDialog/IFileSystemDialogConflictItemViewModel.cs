@@ -8,6 +8,8 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 
         string? DestinationPath { get; }
 
+        string? CustomName { get; }
+
         FileNameConflictResolveOptionType ConflictResolveOption { get; }
     }
 }
