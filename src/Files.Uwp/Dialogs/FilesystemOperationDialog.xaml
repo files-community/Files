@@ -184,7 +184,7 @@
 
     <Grid x:Name="ContainerGrid">
         <StackPanel Spacing="16">
-            <Grid x:Name="ApplyToAll" x:Load="{x:Bind ViewModel.FileSystemDialogMode.IsInDeleteMode, Converter={StaticResource BoolNegationConverter}}">
+            <Grid x:Name="ApplyToAll" x:Load="{x:Bind ViewModel.FileSystemDialogMode.ConflictsExist}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />

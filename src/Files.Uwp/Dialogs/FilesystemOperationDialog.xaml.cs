@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Files.Uwp.Helpers.XamlHelpers;
 using Windows.UI.Core;
+using Files.Uwp.Filesystem;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -152,6 +153,8 @@ namespace Files.Uwp.Dialogs
         {
             if ((sender as FrameworkElement)?.DataContext is FileSystemDialogConflictItemViewModel conflictItem)
             {
+                conflictItem.CustomName = FilesystemHelpers.FilterRestrictedCharacters(conflictItem.CustomName);
+
                 if (ViewModel.IsNameAvailableForItem(conflictItem, conflictItem.CustomName!))
                 {
                     conflictItem.IsTextBoxVisible = false;
