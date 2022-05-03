@@ -1520,8 +1520,7 @@
         </trans-unit>
         <trans-unit id="SidebarNetworkDrives" translate="yes" xml:space="preserve">
           <source>Network Drives</source>
-          <target state="needs-review-translation">Tīkla diski</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Tīkla Diski</target>
         </trans-unit>
         <trans-unit id="Network" translate="yes" xml:space="preserve">
           <source>Network</source>
@@ -2903,15 +2902,9 @@
           <source>
 We use App Center to track which settings are being used, find bugs, and fix crashes. Information sent to App Center is anonymous and free of any user or contextual data.
   </source>
-          <target state="needs-review-translation">
-*Personīgas informācijas glabāšana* 
-Files nevāc, nesaglabā, nekoplieto un nepublicē jebkādu personīgu informāciju.
-
-*Nepersonīgas informācijas glabāšana*
-
+          <target state="translated">
 Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un novērstu kļūdas. Visa informācija, kas sūtīta App Center, ir anonīma un nesatur personīgus datus.
   </target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionName.Text" translate="yes" xml:space="preserve">
           <source>Name</source>
@@ -2951,18 +2944,15 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowFileTag.Text" translate="yes" xml:space="preserve">
           <source>Tag</source>
-          <target state="needs-review-translation">Faila birka</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Birka</target>
         </trans-unit>
         <trans-unit id="SettingsEditFileTagsExpander.Title" translate="yes" xml:space="preserve">
           <source>Edit tags</source>
-          <target state="needs-review-translation">Rediģēt failu birkas</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Rediģēt birkas</target>
         </trans-unit>
         <trans-unit id="SettingsEnableFileTags.Title" translate="yes" xml:space="preserve">
           <source>Enable tags</source>
-          <target state="needs-review-translation">Iespējot failu birkas</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Iespējot birkas</target>
         </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
@@ -3306,8 +3296,7 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
           <source>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</source>
-          <target state="needs-review-translation">Šis iestatījums modificē sistēmas failus un var radīt nevēlamus blakusefektus. Lietotnes izstrādātāji neuzņemas atbildību par iespējamām kļūdām. Iespējojot šo opciju, Jūs apstiprinat, ka zināt iespējamos riskus. Ņemiet vērā, ka atinstalējot Files šīs izmaiņas netiks atgrieztas uz sākotnējām, un tas var neļaut Jums atvērt failu pārlūku, kamēr neesat izslēguši šo opciju lietotnē Files pirms tās atinstalēšanas.</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Šis iestatījums modificē sistēmas reģistru un var ierīcei radīt nevēlamus blakusefektus. Turpinot, uzņemieties atbildību par riskiem!</target>
         </trans-unit>
         <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
           <source>Clear all</source>
@@ -3387,163 +3376,163 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
         </trans-unit>
         <trans-unit id="Extract" translate="yes" xml:space="preserve">
           <source>Extract</source>
-          <target state="new">Extract</target>
+          <target state="translated">Izvērst</target>
         </trans-unit>
         <trans-unit id="ExtractFiles" translate="yes" xml:space="preserve">
           <source>Extract files</source>
-          <target state="new">Extract files</target>
+          <target state="translated">Izvērst failus</target>
         </trans-unit>
         <trans-unit id="ExtractHere" translate="yes" xml:space="preserve">
           <source>Extract here</source>
-          <target state="new">Extract here</target>
+          <target state="translated">Izvērst šeit</target>
         </trans-unit>
-        <trans-unit id="ExtractKeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+        <trans-unit id="ExtractKeyboardAcceleratorTextOverride" translate="no" xml:space="preserve">
           <source>Ctrl+E</source>
-          <target state="new">Ctrl+E</target>
+          <target state="final">Ctrl+E</target>
         </trans-unit>
         <trans-unit id="ExtractToChildFolder" translate="yes" xml:space="preserve">
           <source>Extract to {0}</source>
-          <target state="new">Extract to {0}</target>
+          <target state="translated">Izvērst uz {0}</target>
         </trans-unit>
         <trans-unit id="RunScript" translate="yes" xml:space="preserve">
           <source>Run script</source>
-          <target state="new">Run script</target>
+          <target state="translated">Palaist skriptu</target>
         </trans-unit>
         <trans-unit id="RunWithPowerShell" translate="yes" xml:space="preserve">
           <source>Run with PowerShell</source>
-          <target state="new">Run with PowerShell</target>
+          <target state="translated">Palaist ar PowerShell</target>
         </trans-unit>
         <trans-unit id="SetAsBackground" translate="yes" xml:space="preserve">
           <source>Set as desktop background</source>
-          <target state="new">Set as desktop background</target>
+          <target state="translated">Iestatīt kā darbvirsmas fonu</target>
         </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
-          <target state="new">Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</target>
+          <target state="translated">Mapju izmēru aprēķināšana ir resursintensīva un var palielināt procesora lietojumu.</target>
         </trans-unit>
         <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
           <source>Open in</source>
-          <target state="new">Open in</target>
+          <target state="translated">Atvērt</target>
         </trans-unit>
         <trans-unit id="RotateLeft" translate="yes" xml:space="preserve">
           <source>Rotate left</source>
-          <target state="new">Rotate left</target>
+          <target state="translated">Pagriezt pa kreisi</target>
         </trans-unit>
         <trans-unit id="RotateRight" translate="yes" xml:space="preserve">
           <source>Rotate right</source>
-          <target state="new">Rotate right</target>
+          <target state="translated">Pagriezt pa labi</target>
         </trans-unit>
         <trans-unit id="Install" translate="yes" xml:space="preserve">
           <source>Install</source>
-          <target state="new">Install</target>
+          <target state="translated">Instalēt</target>
         </trans-unit>
         <trans-unit id="CloseTabsToTheLeft" translate="yes" xml:space="preserve">
           <source>Close tabs to the left</source>
-          <target state="new">Close tabs to the left</target>
+          <target state="translated">Aizvērt cilnes pa kreisi</target>
         </trans-unit>
         <trans-unit id="CloseTabsToTheRight" translate="yes" xml:space="preserve">
           <source>Close tabs to the right</source>
-          <target state="new">Close tabs to the right</target>
+          <target state="translated">Aizvērt cilnes pa labi</target>
         </trans-unit>
         <trans-unit id="ShowDotFiles" translate="yes" xml:space="preserve">
           <source>Show dot files</source>
-          <target state="new">Show dot files</target>
+          <target state="translated">Rādīt punktu failus</target>
         </trans-unit>
         <trans-unit id="CloseOtherTabs" translate="yes" xml:space="preserve">
           <source>Close other tabs</source>
-          <target state="new">Close other tabs</target>
+          <target state="translated">Aizvērt pārējās cilnes</target>
         </trans-unit>
         <trans-unit id="Music" translate="yes" xml:space="preserve">
           <source>Music</source>
-          <target state="new">Music</target>
+          <target state="translated">Mūzika</target>
         </trans-unit>
         <trans-unit id="Pictures" translate="yes" xml:space="preserve">
           <source>Pictures</source>
-          <target state="new">Pictures</target>
+          <target state="translated">Attēli</target>
         </trans-unit>
         <trans-unit id="Videos" translate="yes" xml:space="preserve">
           <source>Videos</source>
-          <target state="new">Videos</target>
+          <target state="translated">Video</target>
         </trans-unit>
         <trans-unit id="UpdateFiles" translate="yes" xml:space="preserve">
           <source>Update Files</source>
-          <target state="new">Update Files</target>
+          <target state="translated">Atjaunināt Files</target>
         </trans-unit>
         <trans-unit id="StatusPreparingItemsDetails_Plural" translate="yes" xml:space="preserve">
           <source>Preparing {0} items</source>
-          <target state="new">Preparing {0} items</target>
+          <target state="translated">Sagatavo {0} vienumus</target>
         </trans-unit>
         <trans-unit id="PrepareInProgress" translate="yes" xml:space="preserve">
           <source>Preparing items</source>
-          <target state="new">Preparing items</target>
+          <target state="translated">Sagatavo vienumus</target>
         </trans-unit>
         <trans-unit id="StatusCopyFailed" translate="yes" xml:space="preserve">
           <source>Copy failed</source>
-          <target state="new">Copy failed</target>
+          <target state="translated">Kopēšana neizdevās</target>
         </trans-unit>
         <trans-unit id="StatusCopyFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to copy {0} items from {1} to {2}</source>
-          <target state="new">Failed to copy {0} items from {1} to {2}</target>
+          <target state="translated">Neizdevās kopēt {0} vienumus no {1} uz {2}</target>
         </trans-unit>
         <trans-unit id="StatusCopyFailedDetails_Singular" translate="yes" xml:space="preserve">
           <source>Failed to copy {0} item from {1} to {2}</source>
-          <target state="new">Failed to copy {0} item from {1} to {2}</target>
+          <target state="translated">Neizdevās kopēt {0} vienumu no {1} uz {2}</target>
         </trans-unit>
         <trans-unit id="StatusMoveFailed" translate="yes" xml:space="preserve">
           <source>Move failed</source>
-          <target state="new">Move failed</target>
+          <target state="translated">Pārvietošana neizdevās</target>
         </trans-unit>
         <trans-unit id="FileTags" translate="yes" xml:space="preserve">
           <source>Tags</source>
-          <target state="new">Tags</target>
+          <target state="translated">Birkas</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileTagsSection.Title" translate="yes" xml:space="preserve">
           <source>Show Tags section</source>
-          <target state="new">Show Tags section</target>
+          <target state="translated">Rādīt Birku sadaļu</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show Tags section</source>
-          <target state="new">Show Tags section</target>
+          <target state="translated">Rādīt Birku sadaļu</target>
         </trans-unit>
         <trans-unit id="SystemTimeStyle" translate="yes" xml:space="preserve">
           <source>System</source>
-          <target state="new">System</target>
+          <target state="translated">Sistēma</target>
         </trans-unit>
         <trans-unit id="FileInUseByDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to access is currently being used by {0}</source>
-          <target state="new">The file you are attempting to access is currently being used by {0}</target>
+          <target state="translated">Failu, kuram vēlaties piekļūt, pašlaik izmanto {0}</target>
         </trans-unit>
         <trans-unit id="FileInUseDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to access is currently being used by an another application</source>
-          <target state="new">The file you are attempting to access is currently being used by an another application</target>
+          <target state="translated">Failu, kuram vēlaties piekļūt, jau izmanto cita lietotne</target>
         </trans-unit>
         <trans-unit id="FileInUseDialog.Title" translate="yes" xml:space="preserve">
           <source>File is in use</source>
-          <target state="new">File is in use</target>
+          <target state="translated">Fails jau tiek lietots</target>
         </trans-unit>
         <trans-unit id="UseCompactStyles" translate="yes" xml:space="preserve">
           <source>Use compact styles in the details layout</source>
-          <target state="new">Use compact styles in the details layout</target>
+          <target state="translated">Detaļu izkārtojumā izmantot kompaktos stilus</target>
         </trans-unit>
         <trans-unit id="Universal" translate="yes" xml:space="preserve">
           <source>Universal</source>
-          <target state="new">Universal</target>
+          <target state="translated">Universāls</target>
         </trans-unit>
         <trans-unit id="DateFormatSample" translate="yes" xml:space="preserve">
           <source>ex: {0}, {1}</source>
-          <target state="new">ex: {0}, {1}</target>
+          <target state="translated">piem: {0}, {1}</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowThumbnails" translate="yes" xml:space="preserve">
           <source>Show thumbnails</source>
-          <target state="new">Show thumbnails</target>
+          <target state="translated">Rādīt sīktēlus</target>
         </trans-unit>
         <trans-unit id="Retry" translate="yes" xml:space="preserve">
           <source>Retry</source>
-          <target state="new">Retry</target>
+          <target state="translated">Mēģināt vēlreiz</target>
         </trans-unit>
         <trans-unit id="ErrorDialogUnsupportedMoveOperation" translate="yes" xml:space="preserve">
           <source>Move operation is not supported in this context. Do you want to copy the items instead?</source>
-          <target state="new">Move operation is not supported in this context. Do you want to copy the items instead?</target>
+          <target state="translated">Šajā kontekstā pārvietošana netiek atbalstīta. Vai tā vietā vēlaties vienumus kopēt?</target>
         </trans-unit>
       </group>
     </body>

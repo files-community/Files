@@ -117,6 +117,7 @@ namespace Files.Uwp
                 .AddSingleton<IBundlesSettingsService, BundlesSettingsService>()
 
                 // Other services
+                .AddSingleton(Logger)
                 .AddSingleton<IDialogService, DialogService>()
                 .AddSingleton<IImagingService, ImagingService>()
                 .AddSingleton<IThreadingService, ThreadingService>()

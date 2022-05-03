@@ -72,9 +72,8 @@ namespace Files.Uwp.Controllers
 
             try
             {
-                var content = await FileIO.ReadTextAsync(JsonFile.Result);
-                configContent = content;
-                Model = JsonConvert.DeserializeObject<TerminalFileModel>(content);
+                configContent = await FileIO.ReadTextAsync(JsonFile.Result);
+                Model = JsonConvert.DeserializeObject<TerminalFileModel>(configContent);
                 if (Model == null)
                 {
                     throw new ArgumentException($"{JsonFileName} is empty, regenerating...");
@@ -93,9 +92,11 @@ namespace Files.Uwp.Controllers
 
         private async Task StartWatchConfigChangeAsync()
         {
-            var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json"));
-            var folder = await configFile.GetParentAsync();
-            query = folder.CreateFileQuery();
+            var queryOptions = new QueryOptions();
+            queryOptions.ApplicationSearchFilter = "System.FileName:" + JsonFileName;
+
+            var settingsFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("settings");
+            query = settingsFolder.CreateFileQueryWithOptions(queryOptions);
             query.ContentsChanged += Query_ContentsChanged;
             await query.GetFilesAsync();
         }
