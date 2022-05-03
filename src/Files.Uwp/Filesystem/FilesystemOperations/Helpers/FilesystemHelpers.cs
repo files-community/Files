@@ -25,6 +25,7 @@ using Files.Shared.Extensions;
 using Files.Backend.Extensions;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
 using Files.Backend.Services;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace Files.Uwp.Filesystem
 {
@@ -136,7 +137,8 @@ namespace Files.Uwp.Filesystem
                     }
                 }
 
-                var dialogViewModel = FileSystemDialogViewModel.GetDialogViewModel(new() { IsInDeleteMode = true },
+                var dialogViewModel = FileSystemDialogViewModel.GetDialogViewModel(
+                    new() { IsInDeleteMode = true },
                     (canBeSentToBin ? permanently : true, canBeSentToBin),
                     FilesystemOperationType.Delete,
                     incomingItems,
@@ -326,7 +328,7 @@ namespace Files.Uwp.Filesystem
 
             var token = banner.CancellationToken;
             
-            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source, destination, showDialog);
+            var (collisions, cancelOperation, itemsResult) = await GetCollision(FilesystemOperationType.Copy, source, destination, showDialog);
 
             if (cancelOperation)
             {
@@ -342,6 +344,19 @@ namespace Files.Uwp.Filesystem
             IStorageHistory history = await filesystemOperations.CopyItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.Progress, banner.ErrorCode, token);
             ((IProgress<float>)banner.Progress).Report(100.0f);
             await Task.Yield();
+
+            foreach (var item in history.Source.Zip(history.Destination, (k, v) => new { Key = k, Value = v }).ToDictionary(k => k.Key, v => v.Value))
+            {
+                foreach (var item2 in itemsResult)
+                {
+                    if (!string.IsNullOrEmpty(item2.CustomName) && item2.SourcePath == item.Key.Path)
+                    {
+                        var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ErrorCode, token);
+                        
+                        history.Destination[history.Source.IndexOf(item.Key)] = renameHistory.Destination[0];
+                    }
+                }
+            }
 
             if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
             {
@@ -469,7 +484,7 @@ namespace Files.Uwp.Filesystem
 
             var token = banner.CancellationToken;
 
-            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Move, source, destination, showDialog);
+            var (collisions, cancelOperation, itemsResult) = await GetCollision(FilesystemOperationType.Move, source, destination, showDialog);
 
             if (cancelOperation)
             {
@@ -485,6 +500,19 @@ namespace Files.Uwp.Filesystem
             IStorageHistory history = await filesystemOperations.MoveItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.Progress, banner.ErrorCode, token);
             ((IProgress<float>)banner.Progress).Report(100.0f);
             await Task.Yield();
+
+            foreach (var item in history.Source.Zip(history.Destination, (k, v) => new { Key = k, Value = v }).ToDictionary(k => k.Key, v => v.Value))
+            {
+                foreach (var item2 in itemsResult)
+                {
+                    if (!string.IsNullOrEmpty(item2.CustomName) && item2.SourcePath == item.Key.Path)
+                    {
+                        var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ErrorCode, token);
+                        
+                        history.Destination[history.Source.IndexOf(item.Key)] = renameHistory.Destination[0];
+                    }
+                }
+            }
 
             if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
             {
@@ -676,7 +704,7 @@ namespace Files.Uwp.Filesystem
 
         #endregion IFilesystemHelpers
 
-        private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation)> GetCollision(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
+        private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation, IEnumerable<IFileSystemDialogConflictItemViewModel>)> GetCollision(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
         {
             var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
             var conflictingItems = new List<BaseFileSystemDialogItemViewModel>();
@@ -685,7 +713,7 @@ namespace Files.Uwp.Filesystem
             foreach (var item in source.Zip(destination, (src, dest, index) => new { src, dest, index }))
             {
                 var itemPathOrName = string.IsNullOrEmpty(item.src.Path) ? item.src.Item.Name : item.src.Path;
-                incomingItems.Add(new FileSystemDialogConflictItemViewModel() { SourcePath = itemPathOrName, DestinationPath = item.dest, DestinationDisplayName = Path.GetFileName(item.dest) });
+                incomingItems.Add(new FileSystemDialogConflictItemViewModel() { ConflictResolveOption = FileNameConflictResolveOptionType.None, SourcePath = itemPathOrName, DestinationPath = item.dest, DestinationDisplayName = Path.GetFileName(item.dest) });
                 if (collisions.ContainsKey(incomingItems.ElementAt(item.index).SourcePath))
                 {
                     // Something strange happened, log
@@ -699,33 +727,38 @@ namespace Files.Uwp.Filesystem
                 {
                     if (StorageHelpers.Exists(item.dest)) // Same item names in both directories
                     {
+                        (incomingItems[item.index] as FileSystemDialogConflictItemViewModel)!.ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName;
                         conflictingItems.Add(incomingItems.ElementAt(item.index));
                     }
                 }
             }
+
+            IEnumerable<IFileSystemDialogConflictItemViewModel>? itemsResult = null;
 
             var mustResolveConflicts = !conflictingItems.IsEmpty();
             if (mustResolveConflicts || forceDialog)
             {
                 var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
-                var dialogViewModel = FileSystemDialogViewModel.GetDialogViewModel(new() { ConflictsExist = mustResolveConflicts },
+                var dialogViewModel = FileSystemDialogViewModel.GetDialogViewModel(
+                    new() { ConflictsExist = mustResolveConflicts },
                     (false, false),
                     operationType,
                     incomingItems.Except(conflictingItems).ToList(), // TODO: Could be optimized
                     conflictingItems);
 
                 var result = await dialogService.ShowDialogAsync(dialogViewModel);
+                itemsResult = dialogViewModel.GetItemsResult();
                 if (mustResolveConflicts) // If there were conflicts, result buttons are different
                 {
                     if (result != DialogResult.Primary) // Operation was cancelled
                     {
-                        return (new(), true);
+                        return (new(), true, itemsResult);
                     }
                 }
 
                 collisions.Clear();
-                foreach (var item in dialogViewModel.GetItemsResult())
+                foreach (var item in itemsResult)
                 {
                     collisions.AddIfNotPresent(item.SourcePath, item.ConflictResolveOption);
                 }
@@ -748,7 +781,7 @@ namespace Files.Uwp.Filesystem
                 }
             }
 
-            return (newCollisions, false);
+            return (newCollisions, false, itemsResult ?? new List<IFileSystemDialogConflictItemViewModel>());
         }
 
         #region Public Helpers

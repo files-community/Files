@@ -1,14 +1,14 @@
 <Page
     x:Class="Files.Uwp.SettingsPages.About"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:helpers="using:Files.Uwp.Helpers"
-    xmlns:local="using:Files.Uwp.UserControls.Settings"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Uwp.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:local="using:Files.Uwp.UserControls.Settings"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -43,6 +43,21 @@
                     Content="{helpers:ResourceString Name=Copy}" />
             </local:SettingsBlockControl>
 
+            <local:SettingsBlockControl
+                Title="{helpers:ResourceString Name=SettingsAboutSupportUs/Text}"
+                ButtonCommand="{x:Bind ViewModel.SupportUsCommand}"
+                IsClickable="True">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF119;" />
+                </local:SettingsBlockControl.Icon>
+
+                <FontIcon
+                    FontSize="14"
+                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                    Glyph="&#xE2B4;" />
+            </local:SettingsBlockControl>
+
+            <!--  Manage Settings  -->
             <local:SettingsBlockControl Title="{helpers:ResourceString Name=ManageSettings}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE713;" />
@@ -83,9 +98,7 @@
                 </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl
-                Title="{helpers:ResourceString Name=SettingsUsefulLinks/Title}"
-                HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsUsefulLinks/Title}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <SymbolIcon Symbol="Link" />
                 </local:SettingsBlockControl.Icon>
@@ -174,24 +187,6 @@
                                 <TextBlock Text="{helpers:ResourceString Name=SettingsAboutContributors/Text}" />
                             </StackPanel>
                         </GridViewItem>
-                        <GridViewItem
-                            Padding="8,2"
-                            HorizontalAlignment="Stretch"
-                            HorizontalContentAlignment="Stretch"
-                            AutomationProperties.Name="{helpers:ResourceString Name=SettingsAboutSupportUsListViewItem/AutomationProperties/Name}"
-                            IsEnabled="True">
-                            <StackPanel
-                                Padding="4"
-                                Orientation="Horizontal"
-                                Spacing="14"
-                                Tag="SupportUs">
-                                <FontIcon
-                                    FontFamily="{StaticResource CustomGlyph}"
-                                    Foreground="{ThemeResource SystemAccentColor}"
-                                    Glyph="&#xF119;" />
-                                <TextBlock Text="{helpers:ResourceString Name=SettingsAboutSupportUs/Text}" />
-                            </StackPanel>
-                        </GridViewItem>
                         <i:Interaction.Behaviors>
                             <ic:EventTriggerBehavior EventName="ItemClick">
                                 <ic:InvokeCommandAction Command="{x:Bind ViewModel.ClickAboutFeedbackItemCommand}" />
@@ -201,9 +196,7 @@
                 </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl
-                Title="{helpers:ResourceString Name=SettingsPrivacy/Title}"
-                HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsPrivacy/Title}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xEA18;" />
                 </local:SettingsBlockControl.Icon>
@@ -211,7 +204,8 @@
                 <local:SettingsBlockControl.ExpandableContent>
                     <controls:MarkdownTextBlock
                         x:Name="PrivacyTextBlock"
-                        Margin="4" Padding="8"
+                        Margin="4"
+                        Padding="8"
                         Text="{helpers:ResourceString Name=SettingsPrivacyPolicyMarkdownBlock/Text}" />
                 </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>

@@ -136,7 +136,7 @@
       <OutputFile>$(OutDir)FilesLauncher$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.Launcher\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.FullTrust\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -158,7 +158,7 @@
       <OutputFile>$(OutDir)FilesLauncher$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.Launcher\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.FullTrust\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -176,7 +176,7 @@
       <OutputFile>$(OutDir)FilesLauncher$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.Launcher\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.FullTrust\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">
@@ -194,7 +194,7 @@
       <OutputFile>$(OutDir)FilesLauncher$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.Launcher\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.FullTrust\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -216,7 +216,7 @@
       <OutputFile>$(OutDir)FilesLauncher$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.Launcher\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.FullTrust\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">
@@ -238,7 +238,7 @@
       <OutputFile>$(OutDir)FilesLauncher$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.Launcher\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.FullTrust\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

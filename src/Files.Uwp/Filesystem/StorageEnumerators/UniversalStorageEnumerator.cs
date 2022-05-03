@@ -1,4 +1,6 @@
-﻿using Files.Uwp.Extensions;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
+using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using System;
@@ -30,6 +32,9 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
             var tempList = new List<ListedItem>();
             uint count = 0;
             var firstRound = true;
+
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+
             while (true)
             {
                 IReadOnlyList<IStorageItem> items;
@@ -67,35 +72,39 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                 }
                 foreach (var item in items)
                 {
-                    if (item.IsOfType(StorageItemTypes.Folder))
+                    var startWithDot = item.Name.StartsWith(".");
+                    if (!startWithDot || userSettingsService.PreferencesSettingsService.ShowDotFiles)
                     {
-                        var folder = await AddFolderAsync(item.AsBaseStorageFolder(), currentStorageFolder, returnformat, cancellationToken);
-                        if (folder != null)
+                        if (item.IsOfType(StorageItemTypes.Folder))
                         {
-                            if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
+                            var folder = await AddFolderAsync(item.AsBaseStorageFolder(), currentStorageFolder, returnformat, cancellationToken);
+                            if (folder != null)
                             {
-                                folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
-                            }
-                            tempList.Add(folder);
-                        }
-                    }
-                    else
-                    {
-                        var fileEntry = await AddFileAsync(item.AsBaseStorageFile(), currentStorageFolder, returnformat, cancellationToken);
-                        if (fileEntry != null)
-                        {
-                            if (defaultIconPairs != null)
-                            {
-                                if (!string.IsNullOrEmpty(fileEntry.FileExtension))
+                                if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
                                 {
-                                    var lowercaseExtension = fileEntry.FileExtension.ToLowerInvariant();
-                                    if (defaultIconPairs.ContainsKey(lowercaseExtension))
+                                    folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
+                                }
+                                tempList.Add(folder);
+                            }
+                        }
+                        else
+                        {
+                            var fileEntry = await AddFileAsync(item.AsBaseStorageFile(), currentStorageFolder, returnformat, cancellationToken);
+                            if (fileEntry != null)
+                            {
+                                if (defaultIconPairs != null)
+                                {
+                                    if (!string.IsNullOrEmpty(fileEntry.FileExtension))
                                     {
-                                        fileEntry.SetDefaultIcon(defaultIconPairs[lowercaseExtension]);
+                                        var lowercaseExtension = fileEntry.FileExtension.ToLowerInvariant();
+                                        if (defaultIconPairs.ContainsKey(lowercaseExtension))
+                                        {
+                                            fileEntry.SetDefaultIcon(defaultIconPairs[lowercaseExtension]);
+                                        }
                                     }
                                 }
+                                tempList.Add(fileEntry);
                             }
-                            tempList.Add(fileEntry);
                         }
                     }
                     if (cancellationToken.IsCancellationRequested)

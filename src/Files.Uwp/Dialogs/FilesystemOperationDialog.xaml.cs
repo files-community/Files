@@ -5,8 +5,13 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+using Files.Uwp.Helpers.XamlHelpers;
+using Windows.UI.Core;
+using Files.Uwp.Filesystem;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -28,17 +33,34 @@ namespace Files.Uwp.Dialogs
             }
         }
 
-        public ListViewSelectionMode ItemSelectionMode
-        {
-            get => ViewModel.FileSystemDialogMode.ConflictsExist ? ListViewSelectionMode.Extended : ListViewSelectionMode.None;
-        }
-
         public FilesystemOperationDialog()
         {
             this.InitializeComponent();
+
+            Window.Current.SizeChanged += Current_SizeChanged;
         }
 
         public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
+
+        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        {
+            UpdateDialogLayout();
+        }
+
+        private void UpdateDialogLayout()
+        {
+            if (ViewModel.FileSystemDialogMode.ConflictsExist)
+            {
+                if (Window.Current.Bounds.Width <= 700)
+                {
+                    ContainerGrid.Width = Window.Current.Bounds.Width - 50;
+                }
+                else
+                {
+                    ContainerGrid.Width = 650;
+                }
+            }
+        }
 
         protected override void OnApplyTemplate()
         {
@@ -78,7 +100,7 @@ namespace Files.Uwp.Dialogs
             {
                 if (item is FileSystemDialogConflictItemViewModel conflictItem)
                 {
-                    conflictItem.TakeAction(op);
+                    conflictItem.ConflictResolveOption = op;
                 }
             }
         }
@@ -110,18 +132,60 @@ namespace Files.Uwp.Dialogs
             }
         }
 
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        private void RootDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
         {
-            // if there are conflicts to be resolved, apply the conflict context flyout
-            if (ViewModel.FileSystemDialogMode.ConflictsExist)
+            Window.Current.SizeChanged -= Current_SizeChanged;
+            ViewModel.CancelCts();
+        }
+
+        private void NameStackPanel_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            if (sender is FrameworkElement element
+                && element.DataContext is FileSystemDialogConflictItemViewModel conflictItem
+                && conflictItem.ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName)
             {
-                (sender as Grid).FindAscendant<ListViewItem>().ContextFlyout = ItemContextFlyout;
+                conflictItem.IsTextBoxVisible = conflictItem.ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName;
+                conflictItem.CustomName = conflictItem.DestinationDisplayName;
             }
         }
 
-        private void RootDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
+        private void NameEdit_LostFocus(object sender, RoutedEventArgs e)
         {
-            ViewModel.CancelCts();
+            if ((sender as FrameworkElement)?.DataContext is FileSystemDialogConflictItemViewModel conflictItem)
+            {
+                conflictItem.CustomName = FilesystemHelpers.FilterRestrictedCharacters(conflictItem.CustomName);
+
+                if (ViewModel.IsNameAvailableForItem(conflictItem, conflictItem.CustomName!))
+                {
+                    conflictItem.IsTextBoxVisible = false;
+                }
+                else
+                {
+                    ViewModel.PrimaryButtonEnabled = false;
+                }
+
+                if (conflictItem.CustomName.Equals(conflictItem.DisplayName))
+                {
+                    var savedName = conflictItem.DestinationDisplayName;
+                    conflictItem.CustomName = string.Empty;
+                    conflictItem.DestinationDisplayName = savedName;
+                }
+            }
+        }
+
+        private void NameEdit_Loaded(object sender, RoutedEventArgs e)
+        {
+            (sender as TextBox)?.Focus(FocusState.Programmatic);
+        }
+
+        private void FilesystemOperationDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
+        {
+            if (ViewModel.FileSystemDialogMode.IsInDeleteMode)
+            {
+                DescriptionText.Foreground = App.Current.Resources["TextControlForeground"] as SolidColorBrush;
+            }
+
+            UpdateDialogLayout();
         }
     }
 }
