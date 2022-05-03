@@ -1,18 +1,23 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
 using Files.Backend.Services.Settings;
+using Files.Shared;
+using Files.Shared.Extensions;
 using Files.Uwp.CommandLine;
 using Files.Uwp.Controllers;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.FilesystemHistory;
 using Files.Uwp.Helpers;
+using Files.Uwp.ServicesImplementation;
 using Files.Uwp.ServicesImplementation.Settings;
 using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.ViewModels;
+using Files.Uwp.ViewModels.SettingsViewModels;
 using Files.Uwp.Views;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -36,11 +41,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using Files.Shared;
-using Files.Shared.Extensions;
-using Files.Backend.Services;
-using Files.Uwp.ServicesImplementation;
-using Files.Uwp.ViewModels.SettingsViewModels;
 
 namespace Files.Uwp
 {
@@ -115,6 +115,7 @@ namespace Files.Uwp
                 .AddSingleton<IBundlesSettingsService, BundlesSettingsService>()
 
                 // Other services
+                .AddSingleton(Logger)
                 .AddSingleton<IDialogService, DialogService>()
                 .AddSingleton<IImagingService, ImagingService>()
                 .AddSingleton<IThreadingService, ThreadingService>()
