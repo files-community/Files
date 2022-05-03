@@ -14,55 +14,27 @@ namespace Files.Uwp.ServicesImplementation.DateTimeFormatter
         public abstract string ToShortLabel(DateTimeOffset offset);
         public virtual string ToLongLabel(DateTimeOffset offset) => ToShortLabel(offset);
 
-        public virtual ITimeSpanLabel ToTimeSpanLabel(DateTimeOffset offset)
+        public ITimeSpanLabel ToTimeSpanLabel(DateTimeOffset offset)
         {
-            var t = DateTimeOffset.Now;
-            var t2 = offset.ToLocalTime();
-            var today = DateTime.Today;
+            var now = DateTimeOffset.Now;
+            var time = offset.ToLocalTime();
 
-            var diff = t - offset;
-            var y = t.AddDays(-1);
-            var w = t.AddDays(diff.Days * -1);
+            var diff = now - offset;
+            var y = now.AddDays(-1);
+            var w = now.AddDays(diff.Days * -1);
 
-            if (t.Date == t2.Date)
+            return 0 switch
             {
-                return new TimeSpanLabel("Today".GetLocalized(), ToRangeLabel(today), "\ue184", 0);
-            }
-            if (y.Date == t2.Date)
-            {
-                return new TimeSpanLabel("ItemTimeText_Yesterday".GetLocalized(), ToRangeLabel(today.Subtract(TimeSpan.FromDays(1))), "\ue161", 1);
-            }
-            if (w.Year == t2.Year && GetWeekOfYear(w) == GetWeekOfYear(t2))
-            {
-                if (diff.Days < 7)
-                {
-                    return new TimeSpanLabel("ItemTimeText_ThisWeek".GetLocalized(),
-                        ToRangeLabel(t.Subtract(TimeSpan.FromDays((int)t.DayOfWeek)).DateTime), "\uE162", 2);
-                }
-                if (diff.Days < 14)
-                {
-                    return new TimeSpanLabel("ItemTimeText_LastWeek".GetLocalized(),
-                        ToRangeLabel(t.Subtract(TimeSpan.FromDays((int)t.DayOfWeek + 7)).DateTime), "\uE162", 3);
-                }
-            }
-            if (t.Year == t2.Year && t.Month == t2.Month)
-            {
-                return new TimeSpanLabel("ItemTimeText_ThisMonth".GetLocalized(), ToRangeLabel(t.Subtract(TimeSpan.FromDays(t.Day - 1)).DateTime), "\ue163", 4);
-            }
-            if (t.AddMonths(-1).Year == t2.Year && t.AddMonths(-1).Month == t2.Month)
-            {
-                return new TimeSpanLabel("ItemTimeText_LastMonth".GetLocalized(),
-                    ToRangeLabel(t.Subtract(TimeSpan.FromDays(t.Day - 1 + calendar.GetDaysInMonth(t.AddMonths(-1).Year, t.AddMonths(-1).Month))).DateTime), "\ue163", 5);
-            }
-            if (t.Year == t2.Year)
-            {
-                return new TimeSpanLabel("ItemTimeText_ThisYear".GetLocalized(), ToRangeLabel(t.Subtract(TimeSpan.FromDays(t.DayOfYear - 1)).DateTime), "\ue163", 5);
-            }
-            return new TimeSpanLabel("ItemTimeText_Older".GetLocalized(),
-                string.Format("ItemTimeText_Before".GetLocalized(), ToRangeLabel(today.Subtract(TimeSpan.FromDays(today.DayOfYear - 1)))), "\uEC92", 6);
+                _ when now.Date == time.Date => new Label("Today", "\ue184", 0),
+                _ when y.Date == time.Date => new Label("ItemTimeText_Yesterday", "\ue161", 1),
+                _ when diff.Days < 7 && w.Year == time.Year && GetWeekOfYear(w) == GetWeekOfYear(time) => new Label("ItemTimeText_ThisWeek", "\uE162", 2),
+                _ when diff.Days < 14 && w.Year == time.Year && GetWeekOfYear(w) == GetWeekOfYear(time) => new Label("ItemTimeText_LastWeek", "\uE162", 3),
+                _ when now.Year == time.Year && now.Month == time.Month => new Label("ItemTimeText_ThisMonth", "\ue163", 4),
+                _ when now.AddMonths(-1).Year == time.Year && now.AddMonths(-1).Month == time.Month => new Label("ItemTimeText_LastMonth", "\ue163", 5),
+                _ when now.Year == time.Year => new Label("ItemTimeText_ThisYear", "\ue163", 5),
+                _ => new Label("ItemTimeText_Older", "\uEC92", 6),
+            };
         }
-
-        protected virtual string ToRangeLabel(DateTime range) => range.ToShortDateString();
 
         private int GetWeekOfYear(DateTimeOffset t)
         {
@@ -70,23 +42,14 @@ namespace Files.Uwp.ServicesImplementation.DateTimeFormatter
             return calendar.GetWeekOfYear(t.DateTime, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
         }
 
-        internal class TimeSpanLabel : ITimeSpanLabel
+        internal class Label : ITimeSpanLabel
         {
             public string Text { get; }
-            public string Range { get; }
             public string Glyph { get; }
             public int Index { get; }
 
-            public TimeSpanLabel(string text, string range, string glyph, int index)
-                => (Text, Range, Glyph, Index) = (text, range, glyph, index);
-
-            public void Deconstruct(out string text, out string range, out string glyph, out int index)
-            {
-                text = Text;
-                range = Range;
-                glyph = Glyph;
-                index = Index;
-            }
+            public Label(string textKey, string glyph, int index)
+                => (Text, Glyph, Index) = (textKey.GetLocalized(), glyph, index);
         }
     }
 }

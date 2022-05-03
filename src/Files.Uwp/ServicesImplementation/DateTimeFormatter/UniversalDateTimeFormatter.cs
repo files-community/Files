@@ -1,5 +1,4 @@
-﻿using Files.Shared.Services.DateTimeFormatter;
-using Microsoft.Toolkit.Uwp;
+﻿using Microsoft.Toolkit.Uwp;
 using System;
 
 namespace Files.Uwp.ServicesImplementation.DateTimeFormatter
@@ -16,13 +15,5 @@ namespace Files.Uwp.ServicesImplementation.DateTimeFormatter
             }
             return offset.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss");
         }
-
-        public override ITimeSpanLabel ToTimeSpanLabel(DateTimeOffset offset)
-        {
-            var label = base.ToTimeSpanLabel(offset);
-            return new TimeSpanLabel(label.Range, label.Range, label.Glyph, label.Index);
-        }
-
-        protected override string ToRangeLabel(DateTime range) => range.ToString("yyyy-MM-dd");
     }
 }

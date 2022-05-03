@@ -50,7 +50,7 @@ namespace Files.Uwp.ServicesImplementation.DateTimeFormatter
         {
             var elapsed = DateTimeOffset.Now - offset;
 
-            if (offset.Year <= 1601 || offset.Year >= 9999)
+            if (offset.Year is <= 1601 or >= 9999)
             {
                 return " ";
             }

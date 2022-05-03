@@ -73,14 +73,14 @@ namespace Files.Uwp.Helpers
                 GroupOption.DateCreated => (x =>
                 {
                     var vals = dateTimeFormatter.ToTimeSpanLabel(x.First().ItemDateCreatedReal);
-                    x.Model.Subtext = vals.Range;
+                    x.Model.Subtext = vals.Text;
                     x.Model.Icon = vals.Glyph;
                     x.Model.SortIndexOverride = vals.Index;
                 }, null),
                 GroupOption.DateModified => (x =>
                     {
                         var vals = dateTimeFormatter.ToTimeSpanLabel(x.First().ItemDateModifiedReal);
-                        x.Model.Subtext = vals.Range;
+                        x.Model.Subtext = vals.Text;
                         x.Model.Icon = vals.Glyph;
                         x.Model.SortIndexOverride = vals.Index;
                     }, null),
@@ -104,7 +104,7 @@ namespace Files.Uwp.Helpers
                 GroupOption.DateDeleted => (x =>
                     {
                         var vals = dateTimeFormatter.ToTimeSpanLabel((x.First() as RecycleBinItem)?.ItemDateDeletedReal ?? DateTimeOffset.Now);
-                        x.Model.Subtext = vals?.Range;
+                        x.Model.Subtext = vals?.Text;
                         x.Model.Icon = vals?.Glyph;
                         x.Model.SortIndexOverride = vals?.Index ?? 0;
                     }, null),
