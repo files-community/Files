@@ -5,6 +5,6 @@
         GenerateNewName = 0,
         ReplaceExisting = 1,
         Skip = 2,
-        NotAConflict = 4
+        None = 4
     }
 }

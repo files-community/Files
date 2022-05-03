@@ -1,48 +1,47 @@
-﻿using Files.Shared;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
+using Files.Shared;
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Helpers;
-using Files.Backend.Services.Settings;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
-using System.Collections.Specialized;
 
 namespace Files.Uwp.Filesystem
 {
     public class NetworkDrivesManager
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
-
-        private readonly List<DriveItem> drivesList = new List<DriveItem>();
+        private readonly IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 
         public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
+        private readonly List<DriveItem> drives = new();
         public IReadOnlyList<DriveItem> Drives
         {
             get
             {
-                lock (drivesList)
+                lock (drives)
                 {
-                    return drivesList.ToList().AsReadOnly();
+                    return drives.ToList().AsReadOnly();
                 }
             }
         }
 
         public NetworkDrivesManager()
         {
-            var networkItem = new DriveItem()
+            var networkItem = new DriveItem
             {
                 DeviceID = "network-folder",
                 Text = "Network".GetLocalized(),
                 Path = CommonPaths.NetworkFolderPath,
                 Type = DriveType.Network,
-                ItemType = NavigationControlItemType.Drive
+                ItemType = NavigationControlItemType.Drive,
             };
             networkItem.MenuOptions = new ContextMenuOptions
             {
@@ -51,59 +50,64 @@ namespace Files.Uwp.Filesystem
                 ShowEjectDevice = networkItem.IsRemovable,
                 ShowProperties = true
             };
-            lock (drivesList)
+
+            lock (drives)
             {
-                drivesList.Add(networkItem);
+                drives.Add(networkItem);
             }
             DataChanged?.Invoke(SectionType.Network, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, networkItem));
         }
 
         public async Task EnumerateDrivesAsync()
         {
-            if (!UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
+            if (!userSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
             {
                 return;
             }
 
             var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
+            if (connection is not null)
             {
-                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
+                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet
                 {
                     { "Arguments", "NetworkDriveOperation" },
-                    { "netdriveop", "GetNetworkLocations" }
+                    { "netdriveop", "GetNetworkLocations" },
                 });
-                if (status == AppServiceResponseStatus.Success && response.ContainsKey("NetworkLocations"))
+                if (status is AppServiceResponseStatus.Success && response.ContainsKey("NetworkLocations"))
                 {
                     var items = JsonConvert.DeserializeObject<List<ShellLinkItem>>((string)response["NetworkLocations"]);
                     foreach (var item in items ?? new())
                     {
-                        var networkItem = new DriveItem()
+                        var networkItem = new DriveItem
                         {
                             Text = System.IO.Path.GetFileNameWithoutExtension(item.FileName),
                             Path = item.TargetPath,
                             DeviceID = item.FilePath,
                             Type = DriveType.Network,
-                            ItemType = NavigationControlItemType.Drive
+                            ItemType = NavigationControlItemType.Drive,
                         };
                         networkItem.MenuOptions = new ContextMenuOptions
                         {
                             IsLocationItem = true,
                             ShowEjectDevice = networkItem.IsRemovable,
                             ShowShellItems = true,
-                            ShowProperties = true
+                            ShowProperties = true,
                         };
-                        lock (drivesList)
+
+                        lock (drives)
                         {
-                            if (!drivesList.Any(x => x.Path == networkItem.Path))
+                            if (drives.Any(x => x.Path == networkItem.Path))
                             {
-                                drivesList.Add(networkItem);
+                                continue;
                             }
+                            drives.Add(networkItem);
                         }
                     }
-                    foreach (var drive in Drives
+
+                    var orderedDrives = Drives
                         .OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalized(), StringComparison.OrdinalIgnoreCase))
-                        .ThenBy(o => o.Text))
+                        .ThenBy(o => o.Text);
+                    foreach (var drive in orderedDrives)
                     {
                         DataChanged?.Invoke(SectionType.Network, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, drive));
                     }

@@ -180,6 +180,7 @@
     <Compile Include="Filesystem\StorageItems\StreamWithContentType.cs" />
     <Compile Include="Filesystem\StorageItems\SystemStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\SystemStorageFolder.cs" />
+    <Compile Include="Filesystem\StorageItems\VirtualStorageItem.cs" />
     <Compile Include="Filesystem\StorageItems\ZipStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\ZipStorageFolder.cs" />
     <Compile Include="Filesystem\BaseStorage\BaseBasicProperties.cs" />
@@ -364,6 +365,7 @@
       <DependentUpon>WidgetsListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValueConverters\ColorModelToColorConverter.cs" />
+    <Compile Include="ValueConverters\EnumConverters\ConflictResolveOptionToIndexConverter.cs" />
     <Compile Include="ValueConverters\GenericEnumConverter.cs" />
     <Compile Include="ValueConverters\ImageModelToImageConverter.cs" />
     <Compile Include="ViewModels\Dialogs\DecompressArchiveDialogViewModel.cs" />
@@ -1502,10 +1504,10 @@
       <Version>2.5.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
-      <Version>4.5.0</Version>
+      <Version>4.5.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Crashes">
-      <Version>4.5.0</Version>
+      <Version>4.5.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Data.Sqlite.Core">
       <Version>6.0.4</Version>

@@ -1,13 +1,11 @@
 ﻿using Files.Uwp.DataModels;
 using Files.Shared.Enums;
 using Files.Uwp.Filesystem;
-using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Files.Shared.Extensions;
@@ -24,6 +22,8 @@ namespace Files.Uwp.Controllers
         private StorageFileQueryResult query;
 
         private bool suppressChangeEvent;
+
+        private string configContent;
 
         public string JsonFileName { get; } = "PinnedItems.json";
 
@@ -92,7 +92,8 @@ namespace Files.Uwp.Controllers
 
             try
             {
-                Model = JsonConvert.DeserializeObject<SidebarPinnedModel>(await FileIO.ReadTextAsync(JsonFile.Result));
+                configContent = await FileIO.ReadTextAsync(JsonFile.Result);
+                Model = JsonConvert.DeserializeObject<SidebarPinnedModel>(configContent);
                 if (Model == null)
                 {
                     throw new ArgumentException($"{JsonFileName} is empty, regenerating...");
@@ -129,11 +130,27 @@ namespace Files.Uwp.Controllers
                 return;
             }
 
-            // watched file changed externally, reload the sidebar items
-            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+            try
             {
+                var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/PinnedItems.json"));
+                var content = await FileIO.ReadTextAsync(configFile);
+
+                if (configContent != content)
+                {
+                    configContent = content;
+                }
+                else
+                {
+                    return;
+                }
+
+                // Watched file changed externally, reload the sidebar items
                 await ReloadAsync();
-            });
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         public void SaveModel()

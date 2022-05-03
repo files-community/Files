@@ -1,55 +1,45 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services.Settings;
+﻿using Files.Shared;
 using Files.Uwp.Helpers;
-using Files.Shared;
-using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 
 namespace Files.Uwp.Filesystem
 {
     public class LibraryManager : IDisposable
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
-
-        public MainViewModel MainViewModel => App.MainViewModel;
-
-        private readonly List<LibraryLocationItem> librariesList = new List<LibraryLocationItem>();
-
         public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
+        private readonly List<LibraryLocationItem> libraries = new();
         public IReadOnlyList<LibraryLocationItem> Libraries
         {
             get
             {
-                lock (librariesList)
+                lock (libraries)
                 {
-                    return librariesList.ToList().AsReadOnly();
+                    return libraries.ToList().AsReadOnly();
                 }
             }
         }
 
-        public LibraryManager()
-        {
-        }
-
-        public void Dispose()
-        {
-        }
-
         public async Task EnumerateLibrariesAsync()
         {
-            librariesList.Clear();
+            lock (libraries)
+            {
+                libraries.Clear();
+            }
             var libs = await LibraryHelper.ListUserLibraries();
-            if (libs != null)
+            if (libs is not null)
             {
                 libs.Sort();
-                librariesList.AddRange(libs);
+                lock (libraries)
+                {
+                    libraries.AddRange(libs);
+                }
             }
             DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
@@ -62,15 +52,21 @@ namespace Files.Uwp.Filesystem
                 path = library?.FullPath;
             }
             var changedLibrary = Libraries.FirstOrDefault(l => string.Equals(l.Path, path, StringComparison.OrdinalIgnoreCase));
-            if (changedLibrary != null)
+            if (changedLibrary is not null)
             {
-                librariesList.Remove(changedLibrary);
+                lock (libraries)
+                {
+                    libraries.Remove(changedLibrary);
+                }
                 DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedLibrary));
             }
             // library is null in case it was deleted
-            if (library != null && !Libraries.Any(x => x.Path == library.FullPath))
+            if (library is not null && !Libraries.Any(x => x.Path == library.FullPath))
             {
-                librariesList.Add(new LibraryLocationItem(library));
+                lock (libraries)
+                {
+                    libraries.Add(new LibraryLocationItem(library));
+                }
                 DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, library));
             }
             return Task.CompletedTask;
@@ -84,7 +80,7 @@ namespace Files.Uwp.Filesystem
                 return false;
             }
             library = Libraries.FirstOrDefault(l => string.Equals(path, l.Path, StringComparison.OrdinalIgnoreCase));
-            return library != null;
+            return library is not null;
         }
 
         public async Task<bool> CreateNewLibrary(string name)
@@ -94,9 +90,12 @@ namespace Files.Uwp.Filesystem
                 return false;
             }
             var newLib = await LibraryHelper.CreateLibrary(name);
-            if (newLib != null)
+            if (newLib is not null)
             {
-                librariesList.Add(newLib);
+                lock (libraries)
+                {
+                    libraries.Add(newLib);
+                }
                 DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newLib));
                 return true;
             }
@@ -106,12 +105,15 @@ namespace Files.Uwp.Filesystem
         public async Task<LibraryLocationItem> UpdateLibrary(string libraryPath, string defaultSaveFolder = null, string[] folders = null, bool? isPinned = null)
         {
             var newLib = await LibraryHelper.UpdateLibrary(libraryPath, defaultSaveFolder, folders, isPinned);
-            if (newLib != null)
+            if (newLib is not null)
             {
                 var libItem = Libraries.FirstOrDefault(l => string.Equals(l.Path, libraryPath, StringComparison.OrdinalIgnoreCase));
-                if (libItem != null)
+                if (libItem is not null)
                 {
-                    librariesList[librariesList.IndexOf(libItem)] = newLib;
+                    lock (libraries)
+                    {
+                        libraries[libraries.IndexOf(libItem)] = newLib;
+                    }
                     DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newLib, libItem));
                 }
                 return newLib;
@@ -133,14 +135,14 @@ namespace Files.Uwp.Filesystem
             {
                 return (false, "ErrorNameInputRestricted".GetLocalized());
             }
-            if (Libraries.Any((item) => string.Equals(name, item.Text, StringComparison.OrdinalIgnoreCase) || string.Equals(name, Path.GetFileNameWithoutExtension(item.Path), StringComparison.OrdinalIgnoreCase)))
+            if (Libraries.Any((item) => string.Equals(name, item.Text, StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(name, Path.GetFileNameWithoutExtension(item.Path), StringComparison.OrdinalIgnoreCase)))
             {
                 return (false, "CreateLibraryErrorAlreadyExists".GetLocalized());
             }
-            else
-            {
-                return (true, string.Empty);
-            }
+            return (true, string.Empty);
         }
+
+        public void Dispose() {}
     }
 }

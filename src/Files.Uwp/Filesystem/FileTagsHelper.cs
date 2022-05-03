@@ -4,41 +4,29 @@ using Files.Uwp.Helpers;
 using System;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.FileProperties;
+using IO = System.IO;
 
 namespace Files.Uwp.Filesystem
 {
-    public class FileTagsHelper
+    public static class FileTagsHelper
     {
-        public static string FileTagsDbPath => System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
+        public static string FileTagsDbPath => IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
 
-        private static FileTagsDb _DbInstance;
+        private static readonly Lazy<FileTagsDb> dbInstance = new(() => new FileTagsDb(FileTagsDbPath, true));
+        public static FileTagsDb DbInstance => dbInstance.Value;
 
-        public static FileTagsDb DbInstance
-        {
-            get
-            {
-                if (_DbInstance == null)
-                {
-                    _DbInstance = new FileTagsDb(FileTagsDbPath, true);
-                }
-                return _DbInstance;
-            }
-        }
-
-        public static string ReadFileTag(string filePath)
-        {
-            return NativeFileOperationsHelper.ReadStringFromFile($"{filePath}:files");
-        }
+        public static string ReadFileTag(string filePath) => NativeFileOperationsHelper.ReadStringFromFile($"{filePath}:files");
 
         public static void WriteFileTag(string filePath, string tag)
         {
-            var dateOk = NativeFileOperationsHelper.GetFileDateModified(filePath, out var dateModified); // Backup date modified
-            var isReadOnly = NativeFileOperationsHelper.HasFileAttribute(filePath, System.IO.FileAttributes.ReadOnly);
+            var isDateOk = NativeFileOperationsHelper.GetFileDateModified(filePath, out var dateModified); // Backup date modified
+            var isReadOnly = NativeFileOperationsHelper.HasFileAttribute(filePath, IO.FileAttributes.ReadOnly);
             if (isReadOnly) // Unset read-only attribute (#7534)
             {
-                NativeFileOperationsHelper.UnsetFileAttribute(filePath, System.IO.FileAttributes.ReadOnly);
+                NativeFileOperationsHelper.UnsetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
             }
-            if (tag == null)
+            if (tag is null)
             {
                 NativeFileOperationsHelper.DeleteFileFromApp($"{filePath}:files");
             }
@@ -48,9 +36,9 @@ namespace Files.Uwp.Filesystem
             }
             if (isReadOnly) // Restore read-only attribute (#7534)
             {
-                NativeFileOperationsHelper.SetFileAttribute(filePath, System.IO.FileAttributes.ReadOnly);
+                NativeFileOperationsHelper.SetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
             }
-            if (dateOk)
+            if (isDateOk)
             {
                 NativeFileOperationsHelper.SetFileDateModified(filePath, dateModified); // Restore date modified
             }
@@ -58,21 +46,18 @@ namespace Files.Uwp.Filesystem
 
         public static async Task<ulong?> GetFileFRN(IStorageItem item)
         {
-            if (item is BaseStorageFolder folderItem && folderItem.Properties != null)
+            return item switch
             {
-                var extraProperties = await folderItem.Properties.RetrievePropertiesAsync(new string[] { "System.FileFRN" });
-                return (ulong?)extraProperties["System.FileFRN"];
-            }
-            else if (item is BaseStorageFile fileItem && fileItem.Properties != null)
-            {
-                var extraProperties = await fileItem.Properties.RetrievePropertiesAsync(new string[] { "System.FileFRN" });
-                return (ulong?)extraProperties["System.FileFRN"];
-            }
-            return null;
-        }
+                BaseStorageFolder { Properties: not null } folder => await GetFileFRN(folder.Properties),
+                BaseStorageFile { Properties: not null } file => await GetFileFRN(file.Properties),
+                _ => null,
+            };
 
-        private FileTagsHelper()
-        {
+            static async Task<ulong?> GetFileFRN(IStorageItemExtraProperties properties)
+            {
+                var extra = await properties.RetrievePropertiesAsync(new string[] { "System.FileFRN" });
+                return (ulong?)extra["System.FileFRN"];
+            }
         }
     }
 }

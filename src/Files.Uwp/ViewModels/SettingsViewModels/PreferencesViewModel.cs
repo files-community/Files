@@ -76,6 +76,8 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 },
             };
 
+            dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+
             EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
             OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);
             App.TerminalController.ModelChanged += ReloadTerminals;
@@ -331,14 +333,19 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
         private void ReloadTerminals(TerminalController controller)
         {
-            Terminals = controller.Model.Terminals;
-            SelectedTerminal = controller.Model.GetDefaultTerminal();
+            dispatcherQueue.EnqueueAsync(() =>
+            {
+                Terminals = controller.Model.Terminals;
+                SelectedTerminal = controller.Model.GetDefaultTerminal();
+            });
         }
 
         public string DateFormatSample
             => string.Format("DateFormatSample".GetLocalized(), DateFormats[SelectedDateFormatIndex].Sample1, DateFormats[SelectedDateFormatIndex].Sample2);
 
         public List<DateFormatItem> DateFormats { get; set; }
+
+        private DispatcherQueue dispatcherQueue;
 
         public int SelectedDateFormatIndex
         {
