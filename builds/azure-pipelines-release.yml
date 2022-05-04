@@ -4,6 +4,29 @@ pr: none
 pool:
   vmImage: 'windows-latest'
 
+parameters:
+  - name: releaseBranch
+    displayName: Release Branch
+    type: string
+    default: 'preview'
+    values:
+    - 'stable'
+    - 'preview'
+  - name: packageIdentityName
+    displayName: Package Identity Name
+    type: string
+    default: 'FilesPreview'
+    values:
+    - 'FilesPreview'
+    - 'Files'
+  - name: packageDisplayName
+    displayName: Package Display Name
+    type: string
+    default: 'Files (Preview)'
+    values:
+    - 'Files (Preview)'
+    - 'Files'
+
 variables:
 - group: BuildPipelineVariables
 - name: solution
@@ -25,15 +48,15 @@ jobs:
       targetType: 'inline'
       script: |
         [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest
-        $xmlDoc.Package.Identity.Name="Files"
+        $xmlDoc.Package.Identity.Name="${{parameters.packageIdentityName}}"
         $xmlDoc.Package.Identity.Publisher="Files"
-        $xmlDoc.Package.Properties.DisplayName="Files"
-        $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
+        $xmlDoc.Package.Properties.DisplayName="${{parameters.packageDisplayName}}"
+        $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="${{parameters.packageDisplayName}}"
         $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest')
       failOnStderr: true
 
   - task: PowerShell@2
-    displayName: 'Use Release Logo'
+    displayName: 'Use Correct Logo'
     inputs:
       targetType: 'inline'
       script: |
@@ -116,7 +139,7 @@ jobs:
       Destination: 'AzureBlob'
       storage: 'filescommunity'
       ContainerName: 'files'
-      BlobPrefix: 'preview'
+      BlobPrefix: '${{parameters.releaseBranch}}'
 
 ### Store release ###
 - job: StoreRelease
