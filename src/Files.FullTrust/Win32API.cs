@@ -1,6 +1,6 @@
 using Files.Shared;
 using Files.Shared.Extensions;
-using FilesFullTrust.Helpers;
+using Files.FullTrust.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

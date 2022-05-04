@@ -1,5 +1,5 @@
 ﻿using Files.Shared.Extensions;
-using FilesFullTrust.Helpers;
+using Files.FullTrust.Helpers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
