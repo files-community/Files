@@ -164,7 +164,7 @@ namespace Files.FullTrust.MessageHandlers
                         });
                         if (!opened)
                         {
-                            if (application.StartsWith(@"\\?\", StringComparison.Ordinal))
+                            if (application.StartsWith(@"\\SHELL\", StringComparison.Ordinal))
                             {
                                 opened = await Win32API.StartSTATask(() =>
                                 {

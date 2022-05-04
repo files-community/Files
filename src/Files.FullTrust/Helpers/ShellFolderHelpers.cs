@@ -45,7 +45,7 @@ namespace Files.FullTrust.Helpers
             if (parsingPath == null || !Path.IsPathRooted(parsingPath))
             {
                 // Use PIDL as path
-                parsingPath = $@"\\?\{string.Join("\\", folderItem.PIDL.Select(x => x.GetBytes()).Select(x => Convert.ToBase64String(x, 0, x.Length)))}";
+                parsingPath = $@"\\SHELL\{string.Join("\\", folderItem.PIDL.Select(x => x.GetBytes()).Select(x => Convert.ToBase64String(x, 0, x.Length)))}";
             }
             folderItem.Properties.TryGetValue<string>(
                 Ole32.PROPERTYKEY.System.ItemNameDisplay, out var fileName);
@@ -111,9 +111,9 @@ namespace Files.FullTrust.Helpers
 
         public static bool GetStringAsPidl(string pathOrPidl, out Shell32.PIDL pidl)
         {
-            if (pathOrPidl.StartsWith(@"\\?\", StringComparison.Ordinal))
+            if (pathOrPidl.StartsWith(@"\\SHELL\", StringComparison.Ordinal))
             {
-                pidl = pathOrPidl.Replace(@"\\?\", "", StringComparison.Ordinal)
+                pidl = pathOrPidl.Replace(@"\\SHELL\", "", StringComparison.Ordinal)
                     .Split('\\', StringSplitOptions.RemoveEmptyEntries)
                     .Select(x => new Shell32.PIDL(Convert.FromBase64String(x)))
                     .Aggregate((x, y) => Shell32.PIDL.Combine(x, y));
