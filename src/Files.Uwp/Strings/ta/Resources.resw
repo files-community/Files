@@ -207,9 +207,6 @@
   <data name="Application" xml:space="preserve">
     <value>பயன்பாடு</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>முறைமை</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>புதியக் கோப்புறை</value>
   </data>
@@ -284,18 +281,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>நீங்கள் இந்தக் கோப்புறையை நீக்கீவிட்டீர்களா?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>நீங்கள் நீக்க முயற்சிக்கும் கோப்பானது தற்போது பயன்பாட்டில் உள்ளது.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>கோப்புப் பயன்பாட்டில் உள்ளது</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>மீண்டும் முயலவும்</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>சரி</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>மறுசுழற்சிக் கூடையைக் காலியாக்கு</value>
@@ -790,9 +775,6 @@
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>பிழை</value>
   </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>மறுமுயற்சி</value>
-  </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>எப்படியாயினும் மூடு</value>
   </data>
@@ -837,9 +819,6 @@
   </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>தேதி நீக்கப்பட்டது</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>Rename "{0}"</value>
   </data>
   <data name="Confirm" xml:space="preserve">
     <value>உறுதிசெய்</value>

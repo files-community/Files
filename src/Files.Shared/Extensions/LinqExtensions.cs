@@ -25,21 +25,21 @@ namespace Files.Shared.Extensions
         {
             if (dictionary is null || key is null)
             {
-                return default;
+                return defaultValue;
             }
             if (!dictionary.ContainsKey(key))
             {
                 if (defaultValue is TValue value)
+                {
                     dictionary.Add(key, value);
-                else
-                    dictionary.Remove(key);
+                }
                 return defaultValue;
             }
             if (dictionary[key] is TOut o)
             {
                 return o;
             }
-            return default;
+            return defaultValue;
         }
 
         public static async Task<IEnumerable<T>> WhereAsync<T>(this IEnumerable<T> source, Func<T, Task<bool>> predicate)
@@ -78,17 +78,17 @@ namespace Files.Shared.Extensions
                 action(value);
         }
 
-        public static IList<T> AddSorted<T>(this IList<T> list, T item) where T : IComparable<T>
+        public static int AddSorted<T>(this IList<T> list, T item) where T : IComparable<T>
         {
             if (!list.Any() || list.Last().CompareTo(item) <= 0)
             {
                 list.Add(item);
-                return list;
+                return list.Count;
             }
             if (list[0].CompareTo(item) >= 0)
             {
                 list.Insert(0, item);
-                return list;
+                return 0;
             }
             int index = list.ToList().BinarySearch(item);
             if (index < 0)
@@ -96,7 +96,7 @@ namespace Files.Shared.Extensions
                 index = ~index;
             }
             list.Insert(index, item);
-            return list;
+            return index;
         }
 
         /// <summary>

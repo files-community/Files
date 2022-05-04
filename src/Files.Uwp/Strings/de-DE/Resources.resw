@@ -174,9 +174,6 @@
   <data name="Application" xml:space="preserve">
     <value>Anwendung</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>System</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Neuer Ordner</value>
   </data>
@@ -284,18 +281,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Haben Sie diesen Ordner gelöscht?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>Die Datei, die Sie löschen möchten, wird gerade von einer anderen Anwendung verwendet.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>Datei wird bereits verwendet</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Erneut versuchen</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Papierkorb leeren</value>
@@ -953,9 +938,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Fehler</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Wiederholen</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Trotzdem schließen</value>
@@ -2628,5 +2610,26 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
   </data>
   <data name="PrepareInProgress" xml:space="preserve">
     <value>Objekte werden vorbereitet</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Kopieren fehlgeschlagen</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
+    <value>Das Kopieren von {0} Objekten von {1} nach {2} ist fehlgeschlagen</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
+    <value>Das Kopieren von {0} von {1} nach {2} ist fehlgeschlagen</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Verschieben fehlgeschlagen</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
+    <value>Tags anzeigen</value>
+  </data>
+  <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Tags anzeigen</value>
   </data>
 </root>

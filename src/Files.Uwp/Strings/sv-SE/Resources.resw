@@ -216,9 +216,6 @@
   <data name="Application" xml:space="preserve">
     <value>App</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>System</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Ny mapp</value>
   </data>
@@ -296,18 +293,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Tog du bort den här mappen?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>Filen som du försöker ta bort används av ett annat program.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>Filen används</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Försök igen</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Skrivskyddad</value>
@@ -656,9 +641,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Fel</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Försök igen</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Stäng ändå</value>

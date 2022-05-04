@@ -24,9 +24,9 @@ namespace Files.Uwp.ViewModels.Properties
         {
             if (Drive != null)
             {
-                ViewModel.CustomIconSource = Drive.IconSource;
+                ViewModel.CustomIconSource = null; //Drive.IconSource;
                 ViewModel.IconData = Drive.IconData;
-                ViewModel.LoadCustomIcon = Drive.IconSource != null && Drive.IconData == null;
+                ViewModel.LoadCustomIcon = false; //Drive.IconSource != null && Drive.IconData == null;
                 ViewModel.LoadFileIcon = Drive.IconData != null;
                 ViewModel.ItemName = Drive.Text;
                 ViewModel.OriginalItemName = Drive.Text;

@@ -210,9 +210,6 @@
   <data name="Application" xml:space="preserve">
     <value>एप्लिकेसन्</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>सिस्टम</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>नया फ़ोल्डर</value>
   </data>
@@ -287,18 +284,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>क्या आपने इस फ़ोल्डर को हटा दिया?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>आप जिस फ़ाइल को हटाने की कोशिश कर रहे हैं, वह वर्तमान में किसी अन्य एप्लिकेशन द्वारा इस्तेमाल की जा रही है।</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>फ़ाइल उपयोग में है</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>फिर कोशिश करें</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>ठीक है</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>रीसायकल बिन खाली करें</value>
@@ -752,9 +737,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>त्रुटि</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>पुनः प्रयास करें</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>फिर भी बंद करें</value>

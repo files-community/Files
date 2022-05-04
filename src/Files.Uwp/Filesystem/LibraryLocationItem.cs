@@ -1,5 +1,6 @@
 ﻿using Files.Shared;
 using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Helpers;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ namespace Files.Uwp.Filesystem
 
         public ReadOnlyCollection<string> Folders { get; }
 
-        public bool IsEmpty => DefaultSaveFolder == null || Folders == null || Folders.Count == 0;
+        public bool IsEmpty => DefaultSaveFolder is null || Folders is null || Folders.Count is 0;
 
         public LibraryLocationItem(ShellLibraryItem shellLibrary)
         {
@@ -21,26 +22,16 @@ namespace Files.Uwp.Filesystem
                 IsLocationItem = true,
                 ShowProperties = true,
                 ShowShellItems = true,
-                ShowUnpinItem = !shellLibrary.IsPinned
+                ShowUnpinItem = !shellLibrary.IsPinned,
             };
             Text = shellLibrary.DisplayName;
             Path = shellLibrary.FullPath;
             DefaultSaveFolder = shellLibrary.DefaultSaveFolder;
-            Folders = shellLibrary.Folders == null ? null : new ReadOnlyCollection<string>(shellLibrary.Folders);
+            Folders = shellLibrary.Folders is null ? null : new ReadOnlyCollection<string>(shellLibrary.Folders);
             IsDefaultLocation = shellLibrary.IsPinned;
-
         }
 
-        public override bool Equals(object obj)
-        {
-            if (obj == null || GetType() != obj.GetType())
-            {
-                return false;
-            }
-            return obj is LibraryLocationItem other && string.Equals(Path, other.Path, System.StringComparison.OrdinalIgnoreCase);
-        }
 
-        public override int GetHashCode() => Path.GetHashCode(System.StringComparison.OrdinalIgnoreCase);
 
         public async Task<bool> CheckDefaultSaveFolderAccess()
         {
@@ -56,5 +47,19 @@ namespace Files.Uwp.Filesystem
             }
             return res;
         }
+
+        public async Task LoadLibraryIcon()
+        {
+            IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Path, 24u);
+            if (IconData != null)
+            {
+                Icon = await IconData.ToBitmapAsync();
+            }
+        }
+
+        public override int GetHashCode() => Path.GetHashCode(System.StringComparison.OrdinalIgnoreCase);
+
+        public override bool Equals(object obj)
+            => obj is LibraryLocationItem other && GetType() == obj.GetType() && string.Equals(Path, other.Path, System.StringComparison.OrdinalIgnoreCase);
     }
 }

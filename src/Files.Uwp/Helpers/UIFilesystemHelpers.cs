@@ -14,11 +14,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Files.Backend.Enums;
+using Windows.System;
 
 namespace Files.Uwp.Helpers
 {
@@ -47,6 +47,7 @@ namespace Files.Uwp.Helpers
 
                 try
                 {
+                    var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
                     await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
                     {
                         if (banner != null)
@@ -57,21 +58,17 @@ namespace Files.Uwp.Helpers
                         // FTP don't support cut, fallback to copy
                         if (listedItem is not FtpItem)
                         {
-                            _ = CoreApplication.MainView.DispatcherQueue.TryEnqueue(Windows.System.DispatcherQueuePriority.Low, () =>
-                           {
-                               // Dim opacities accordingly
-                               listedItem.Opacity = Constants.UI.DimItemOpacity;
-                           });
+                            _ = dispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () =>
+                            {
+                                // Dim opacities accordingly
+                                listedItem.Opacity = Constants.UI.DimItemOpacity;
+                            });
                         }
                         if (listedItem is FtpItem ftpItem)
                         {
-                            if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                            if (ftpItem.PrimaryItemAttribute is StorageItemTypes.File or StorageItemTypes.Folder)
                             {
-                                items.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
-                            }
-                            else if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-                            {
-                                items.Add(new FtpStorageFolder(ftpItem));
+                                items.Add(await ftpItem.ToStorageItem());
                             }
                         }
                         else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)
@@ -175,13 +172,9 @@ namespace Files.Uwp.Helpers
 
                         if (listedItem is FtpItem ftpItem)
                         {
-                            if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                            if (ftpItem.PrimaryItemAttribute is StorageItemTypes.File or StorageItemTypes.Folder)
                             {
-                                items.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
-                            }
-                            else if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-                            {
-                                items.Add(new FtpStorageFolder(ftpItem));
+                                items.Add(await ftpItem.ToStorageItem());
                             }
                         }
                         else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)

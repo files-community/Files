@@ -183,9 +183,6 @@
   <data name="Application" xml:space="preserve">
     <value>Application</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>Système</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Nouveau dossier</value>
   </data>
@@ -284,18 +281,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Avez-vous supprimé ce dossier ?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>Le fichier que vous essayez de supprimer est actuellement utilisé par une autre application.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>Le fichier en cours d'utilisation</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Réessayer</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Vider la Corbeille</value>
@@ -950,9 +935,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Erreur</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Réessayer</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Fermer quand même</value>
@@ -2457,6 +2439,9 @@
   <data name="ReducedColorMode" xml:space="preserve">
     <value>Mode couleurs réduites</value>
   </data>
+  <data name="RegisterForRestart" xml:space="preserve">
+    <value>Programmer un redémarrage</value>
+  </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Exécuter en tant qu'administrateur</value>
   </data>
@@ -2639,5 +2624,29 @@
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Afficher la section Étiquettes</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Système</value>
+  </data>
+  <data name="FileInUseByDialog.Text" xml:space="preserve">
+    <value>Le fichier auquel vous tentez d'accéder est actuellement utilisé par {0}.</value>
+  </data>
+  <data name="FileInUseDialog.Text" xml:space="preserve">
+    <value>Le fichier auquel vous tentez d'accéder est actuellement utilisé par une autre application.</value>
+  </data>
+  <data name="FileInUseDialog.Title" xml:space="preserve">
+    <value>Le fichier est en cours d'utilisation</value>
+  </data>
+  <data name="UseCompactStyles" xml:space="preserve">
+    <value>Utiliser le style compact dans la vue Détails</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Universel</value>
+  </data>
+  <data name="DateFormatSample" xml:space="preserve">
+    <value>ex: {0}, {1}</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Afficher les vignettes</value>
   </data>
 </root>

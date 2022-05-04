@@ -9,7 +9,7 @@
     CornerRadius="{StaticResource OverlayCornerRadius}"
     DefaultButton="Primary"
     PrimaryButtonText="Extract"
-    SecondaryButtonText="{helpers:ResourceString Name=DecompressArchiveDialog/SecondaryButtonText}"
+    SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
     RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">

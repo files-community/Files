@@ -1,160 +1,98 @@
-﻿using Files.Uwp.DataModels.NavigationControlItems;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
-using Files.Uwp.UserControls;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.DataModels.NavigationControlItems;
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Storage;
-using Windows.UI.Core;
-using Files.Uwp.Helpers;
 
 namespace Files.Uwp.Filesystem
 {
     public class WSLDistroManager
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private readonly IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+
+        public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
+
+        private readonly List<WslDistroItem> distros = new();
+        public IReadOnlyList<WslDistroItem> Distros
+        {
+            get
+            {
+                lock (distros)
+                {
+                    return distros.ToList().AsReadOnly();
+                }
+            }
+        }
 
         public async Task EnumerateDrivesAsync()
         {
+            if (!userSettingsService.AppearanceSettingsService.ShowWslSection)
+            {
+                return;
+            }
+
             try
             {
-                await SyncSideBarItemsUI();
-            }
-            catch (Exception) // UI Thread not ready yet, so we defer the pervious operation until it is.
-            {
-                System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
-                // Defer because UI-thread is not ready yet (and DriveItem requires it?)
-                CoreApplication.MainView.Activated += EnumerateDrivesAsync;
-            }
-        }
-
-        private async void EnumerateDrivesAsync(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
-        {
-            await SyncSideBarItemsUI();
-            CoreApplication.MainView.Activated -= EnumerateDrivesAsync;
-        }
-
-        private async Task SyncSideBarItemsUI()
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
-                try
+                var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");
+                foreach (StorageFolder folder in await distroFolder.GetFoldersAsync())
                 {
-                    var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");
-                    if ((await distroFolder.GetFoldersAsync()).Count != 0)
+                    Uri logoURI = GetLogoUri(folder.DisplayName);
+
+                    var distro = new WslDistroItem
                     {
-                        var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "WSL".GetLocalized()) as LocationItem;
-                        if (UserSettingsService.AppearanceSettingsService.ShowWslSection && section == null)
-                        {
-                            section = new LocationItem()
-                            {
-                                Text = "WSL".GetLocalized(),
-                                Section = SectionType.WSL,
-                                MenuOptions = new ContextMenuOptions
-                                {
-                                    ShowHideSection = true
-                                },
-                                SelectsOnInvoked = false,
-                                Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png")),
-                                ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
-                            };
-                            var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
-                                        (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
-                                        (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Drives) ? 1 : 0) +
-                                        (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.CloudDrives) ? 1 : 0) +
-                                        (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Network) ? 1 : 0); // After network section
-                            SidebarControl.SideBarItems.BeginBulkOperation();
-                            SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), section);
-                            SidebarControl.SideBarItems.EndBulkOperation();
-                        }
+                        Text = folder.DisplayName,
+                        Path = folder.Path,
+                        Logo = logoURI,
+                        MenuOptions = new ContextMenuOptions{ IsLocationItem = true },
+                    };
 
-                        if (section != null)
+                    lock (distros)
+                    {
+                        if (distros.Any(x => x.Path == folder.Path))
                         {
-                            foreach (StorageFolder folder in await distroFolder.GetFoldersAsync())
-                            {
-                                Uri logoURI = null;
-                                if (folder.DisplayName.Contains("ubuntu", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    logoURI = new Uri("ms-appx:///Assets/WSL/ubuntupng.png");
-                                }
-                                else if (folder.DisplayName.Contains("kali", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    logoURI = new Uri("ms-appx:///Assets/WSL/kalipng.png");
-                                }
-                                else if (folder.DisplayName.Contains("debian", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    logoURI = new Uri("ms-appx:///Assets/WSL/debianpng.png");
-                                }
-                                else if (folder.DisplayName.Contains("opensuse", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    logoURI = new Uri("ms-appx:///Assets/WSL/opensusepng.png");
-                                }
-                                else if (folder.DisplayName.Contains("alpine", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    logoURI = new Uri("ms-appx:///Assets/WSL/alpinepng.png");
-                                }
-                                else
-                                {
-                                    logoURI = new Uri("ms-appx:///Assets/WSL/genericpng.png");
-                                }
-
-                                if (!section.ChildItems.Any(x => x.Path == folder.Path))
-                                {
-                                    section.ChildItems.Add(new WslDistroItem()
-                                    {
-                                        Text = folder.DisplayName,
-                                        Path = folder.Path,
-                                        Logo = logoURI,
-                                        MenuOptions = new ContextMenuOptions
-                                        {
-                                            IsLocationItem = true
-                                        }
-                                    });
-                                }
-                            }
+                            continue;
                         }
+                        distros.Add(distro);
                     }
-                }
-                catch (Exception)
-                {
-                    // WSL Not Supported/Enabled
-                }
-                finally
-                {
-                    SidebarControl.SideBarItemsSemaphore.Release();
-                }
-            });
-        }
-
-        private void RemoveWslSideBarSection()
-        {
-            try
-            {
-                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("WSL".GetLocalized()) select n).FirstOrDefault();
-                if (!UserSettingsService.AppearanceSettingsService.ShowWslSection && item != null)
-                {
-                    SidebarControl.SideBarItems.Remove(item);
+                    DataChanged?.Invoke(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, distro));
                 }
             }
             catch (Exception)
-            { }
+            {
+                // WSL Not Supported/Enabled
+            }
         }
 
-        public async void UpdateWslSectionVisibility()
+        private static Uri GetLogoUri(string displayName)
         {
-            if (UserSettingsService.AppearanceSettingsService.ShowWslSection)
+            if (Contains(displayName, "ubuntu"))
             {
-                await EnumerateDrivesAsync();
+                return new Uri("ms-appx:///Assets/WSL/ubuntupng.png");
             }
-            else
+            if (Contains(displayName, "kali"))
             {
-                RemoveWslSideBarSection();
+                return new Uri("ms-appx:///Assets/WSL/kalipng.png");
             }
+            if (Contains(displayName, "debian"))
+            {
+                return new Uri("ms-appx:///Assets/WSL/debianpng.png");
+            }
+            if (Contains(displayName, "opensuse"))
+            {
+                return new Uri("ms-appx:///Assets/WSL/opensusepng.png");
+            }
+            if (Contains(displayName, "alpine"))
+            {
+                return new Uri("ms-appx:///Assets/WSL/alpinepng.png");
+            }
+            return new Uri("ms-appx:///Assets/WSL/genericpng.png");
+
+            static bool Contains(string displayName, string distroName)
+                => displayName.Contains(distroName, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

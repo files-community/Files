@@ -156,7 +156,12 @@ namespace Files.Uwp.Filesystem.Search
 
                     try
                     {
-                        results.Add(await GetListedItemAsync(item));
+                        var startWithDot = item.Name.StartsWith(".");
+                        bool shouldBeListed = !startWithDot || UserSettingsService.PreferencesSettingsService.ShowDotFiles;
+                        if (shouldBeListed)
+                        {
+                            results.Add(await GetListedItemAsync(item));
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -231,7 +236,12 @@ namespace Files.Uwp.Filesystem.Search
                     {
                         IStorageItem item = (BaseStorageFile)await GetStorageFileAsync(match.FilePath);
                         item ??= (BaseStorageFolder)await GetStorageFolderAsync(match.FilePath);
-                        results.Add(await GetListedItemAsync(item));
+                        var startWithDot = item.Name.StartsWith(".");
+                        bool shouldBeListed = !startWithDot || UserSettingsService.PreferencesSettingsService.ShowDotFiles;
+                        if (shouldBeListed)
+                        {
+                            results.Add(await GetListedItemAsync(item));
+                        }
                     }
                     catch (Exception ex)
                     {

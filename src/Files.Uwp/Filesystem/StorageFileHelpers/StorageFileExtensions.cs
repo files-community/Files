@@ -33,7 +33,7 @@ namespace Files.Uwp.Filesystem
             }
             else if (component.Contains(":", StringComparison.Ordinal))
             {
-                var allDrives = SidebarControl.SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => (x as LocationItem).ChildItems);
+                var allDrives = App.DrivesManager.Drives.Concat(App.NetworkDrivesManager.Drives).Concat(App.CloudDrivesManager.Drives);
                 return new PathBoxItem()
                 {
                     Title = allDrives.FirstOrDefault(y => y.ItemType == NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase)) != null ?

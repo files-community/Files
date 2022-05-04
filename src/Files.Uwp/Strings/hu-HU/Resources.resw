@@ -210,9 +210,6 @@
   <data name="Application" xml:space="preserve">
     <value>Alkalmazás</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>Rendszer</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Új mappa</value>
   </data>
@@ -287,18 +284,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Ön törölte ezt a mappát?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>A törölni kívánt fájl jelenleg használatban van.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>A fájl használatban van</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Újra</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Lomtár ürítése</value>
@@ -953,9 +938,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Hiba</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Újra</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Bezárás mindenképpen</value>

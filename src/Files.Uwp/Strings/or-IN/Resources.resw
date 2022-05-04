@@ -210,9 +210,6 @@
   <data name="Application" xml:space="preserve">
     <value>ଆପ୍ଲିକେସନ</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>ସିଷ୍ଟମ୍</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>ନୂତନ ଫୋଲ୍ଡର</value>
   </data>
@@ -287,18 +284,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>ଆପଣ ଏହି ଫୋଲ୍ଡରକୁ ଡିଲିଟ୍ କରିଛନ୍ତି କି?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>ଆପଣ ବିଲୋପ କରିବାକୁ ଚେଷ୍ଟା କରୁଥିବା ଫାଇଲ୍ ବର୍ତ୍ତମାନ ଅନ୍ୟ ଏକ ଆପ୍ଲିକେସନ ଦ୍ୱାରା ବ୍ୟବହୃତ ହେଉଛି |</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>ଫାଇଲ୍ ବ୍ୟବହାରରେ ଅଛି</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>ପୁଣିଥରେ ଚେଷ୍ଟା କରନ୍ତୁ</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>ଠିକ୍ ଅଛି</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>ରିସାଇକ୍ଲବିନ୍ ଖାଲି କର</value>
@@ -719,9 +704,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>ତ୍ରୁଟି</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>ପୁନଃଚେଷ୍ଟା</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>ଯେକୌଣସିଭାବରେ ବନ୍ଦ କରିବା</value>
