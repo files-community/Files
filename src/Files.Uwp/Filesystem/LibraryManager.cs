@@ -26,7 +26,7 @@ namespace Files.Uwp.Filesystem
             }
         }
 
-        public async Task EnumerateLibrariesAsync()
+        public async Task UpdateLibrariesAsync()
         {
             lock (libraries)
             {
