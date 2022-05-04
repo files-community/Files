@@ -250,6 +250,10 @@
                                 PointerPressed="Grid_PointerPressed">
                                 <Grid.ContextFlyout>
                                     <MenuFlyout>
+                                        <MenuFlyoutItem
+                                            Click="SizeAllColumnsToFit_Click"
+                                            Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_SizeAllColumnsToFit/Text}" />
+                                        <MenuFlyoutSeparator />
                                         <ToggleMenuFlyoutItem
                                             Click="ToggleMenuFlyoutItem_Click"
                                             IsChecked="{x:Bind ColumnsViewModel.TagColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"

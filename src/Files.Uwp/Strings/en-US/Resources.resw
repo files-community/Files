@@ -2768,4 +2768,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="Custom" xml:space="preserve">
     <value>Custom</value>
   </data>
+  <data name="DetailsViewHeaderFlyout_SizeAllColumnsToFit.Text" xml:space="preserve">
+    <value>Size All Columns to Fit</value>
+  </data>
 </root>
