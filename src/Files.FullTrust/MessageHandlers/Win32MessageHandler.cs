@@ -159,7 +159,7 @@ namespace Files.FullTrust.MessageHandlers
                         var enable = (bool)message["Value"];
                         var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
                         Directory.CreateDirectory(destFolder);
-                        foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.Launcher", "Assets", "FilesOpenDialog")))
+                        foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.FullTrust", "Assets", "FilesOpenDialog")))
                         {
                             if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), Program.Logger))
                             {
@@ -207,7 +207,7 @@ namespace Files.FullTrust.MessageHandlers
                         var enable = (bool)message["Value"];
                         var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
                         Directory.CreateDirectory(destFolder);
-                        foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.Launcher", "Assets", "FilesOpenDialog")))
+                        foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.FullTrust", "Assets", "FilesOpenDialog")))
                         {
                             if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), Program.Logger))
                             {
