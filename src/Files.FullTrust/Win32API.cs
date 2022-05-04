@@ -597,8 +597,8 @@ namespace Files.FullTrust
                                     var folderPidl = new Shell32.PIDL(IntPtr.Zero);
                                     if (folder.GetCurFolder(ref folderPidl).Succeeded)
                                     {
-                                        if (Shell32.ILIsParent(folderPidl.DangerousGetHandle(), targetFolder.PIDL.DangerousGetHandle(), true) ||
-                                            Shell32.ILIsEqual(folderPidl.DangerousGetHandle(), controlPanelCategoryView.PIDL.DangerousGetHandle()))
+                                        if (folderPidl.IsParentOf(targetFolder.PIDL.DangerousGetHandle(), true) ||
+                                            folderPidl.Equals(controlPanelCategoryView.PIDL))
                                         {
                                             if (shellBrowser.BrowseObject(targetFolder.PIDL.DangerousGetHandle(), Shell32.SBSP.SBSP_SAMEBROWSER | Shell32.SBSP.SBSP_ABSOLUTE).Succeeded)
                                             {

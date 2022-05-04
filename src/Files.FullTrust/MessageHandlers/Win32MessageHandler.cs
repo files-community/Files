@@ -10,7 +10,6 @@ using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.Versioning;
-using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -25,6 +24,14 @@ namespace Files.FullTrust.MessageHandlers
     {
         private IList<FileSystemWatcher> dirWatchers;
         private PipeStream connection;
+        private ShellFolder controlPanel, controlPanelCategoryView;
+
+        public Win32MessageHandler()
+        {
+            dirWatchers = new List<FileSystemWatcher>();
+            controlPanel = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_ControlPanelFolder);
+            controlPanelCategoryView = new ShellFolder("::{26EE0668-A00A-44D7-9371-BEB064C98683}");
+        }
 
         public void Initialize(PipeStream connection)
         {
@@ -33,8 +40,6 @@ namespace Files.FullTrust.MessageHandlers
             DetectIsSetAsDefaultFileManager();
             DetectIsSetAsOpenFileDialog();
             ApplicationData.Current.LocalSettings.Values["TEMP"] = Environment.GetEnvironmentVariable("TEMP");
-
-            dirWatchers = new List<FileSystemWatcher>();
         }
 
         private static void DetectIsSetAsDefaultFileManager()
@@ -125,7 +130,13 @@ namespace Files.FullTrust.MessageHandlers
                         {
                             using var shellFolder = ShellFolderExtensions.GetShellItemFromPathOrPidl(folderPath) as ShellFolder;
                             folder = ShellFolderExtensions.GetShellFileItem(shellFolder);
-
+                            if ((controlPanel.PIDL.IsParentOf(shellFolder.PIDL, false) || controlPanelCategoryView.PIDL.IsParentOf(shellFolder.PIDL, false)) 
+                                && !shellFolder.Any())
+                            {
+                                // Return null to force open unsupported items in explorer
+                                // Only if inside control panel and folder appears empty
+                                return (null, flc);
+                            }
                             if (sfAction == "Enumerate")
                             {
                                 foreach (var folderItem in shellFolder.Skip(fromIndex).Take(maxItems))
@@ -374,6 +385,8 @@ namespace Files.FullTrust.MessageHandlers
                 {
                     watcher.Dispose();
                 }
+                controlPanel.Dispose();
+                controlPanelCategoryView.Dispose();
             }
         }
     }

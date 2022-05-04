@@ -363,6 +363,10 @@ namespace Files.Uwp.Helpers
                         });
                     }
                 }
+                else
+                {
+                    await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance);
+                }
             }
             return opened;
         }
