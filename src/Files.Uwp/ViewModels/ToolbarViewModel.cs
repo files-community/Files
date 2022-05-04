@@ -1129,7 +1129,7 @@ namespace Files.Uwp.ViewModels
             }
         }
 
-        private bool hasItem = true;
+        private bool hasItem = false;
         public bool HasItem
         {
             get => hasItem;
