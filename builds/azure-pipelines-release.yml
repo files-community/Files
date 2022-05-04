@@ -10,8 +10,8 @@ parameters:
     type: string
     default: 'preview'
     values:
-    - 'stable'
     - 'preview'
+    - 'stable'
   - name: packageIdentityName
     displayName: Package Identity Name
     type: string
