@@ -363,6 +363,10 @@ namespace Files.Uwp.Helpers
                         });
                     }
                 }
+                else
+                {
+                    await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance);
+                }
             }
             return opened;
         }
@@ -506,7 +510,11 @@ namespace Files.Uwp.Helpers
                                 }
 
                                 // Now launch file with options.
-                                launchSuccess = await Launcher.LaunchFileAsync(await childFile.Item.ToStorageFileAsync(), options);
+                                var storageItem = (StorageFile)await FilesystemTasks.Wrap(() => childFile.Item.ToStorageFileAsync().AsTask());
+                                if (storageItem != null)
+                                {
+                                    launchSuccess = await Launcher.LaunchFileAsync(storageItem, options);
+                                }
                             }
 
                             if (!launchSuccess)

@@ -441,7 +441,7 @@ namespace Files.Uwp.Filesystem
 
     public class RecycleBinItem : ListedItem
     {
-        public RecycleBinItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
+        public RecycleBinItem(string folderRelativeId, string returnFormat = null) : base(folderRelativeId, returnFormat)
         {
         }
 
@@ -506,7 +506,7 @@ namespace Files.Uwp.Filesystem
 
     public class ShortcutItem : ListedItem
     {
-        public ShortcutItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
+        public ShortcutItem(string folderRelativeId, string returnFormat = null) : base(folderRelativeId, returnFormat)
         {
         }
 
@@ -541,7 +541,7 @@ namespace Files.Uwp.Filesystem
 
     public class ZipItem : ListedItem
     {
-        public ZipItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
+        public ZipItem(string folderRelativeId, string returnFormat = null) : base(folderRelativeId, returnFormat)
         {
         }
 

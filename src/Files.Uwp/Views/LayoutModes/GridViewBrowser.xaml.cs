@@ -295,11 +295,14 @@ namespace Files.Uwp.Views.LayoutModes
 
         private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
         {
-            ValidateItemNameInputText(textBox, args, (showError) =>
+            if (IsRenamingItem)
             {
-                FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
-                FileNameTeachingTip.IsOpen = showError;
-            });
+                ValidateItemNameInputText(textBox, args, (showError) =>
+                {
+                    FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
+                    FileNameTeachingTip.IsOpen = showError;
+                });
+            }
         }
 
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)

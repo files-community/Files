@@ -454,7 +454,7 @@ namespace Files.Uwp.ViewModels
                     switch (changeType)
                     {
                         case "Created":
-                            var newListedItem = AddFileOrFolderFromShellFile(newItem);
+                            var newListedItem = await AddFileOrFolderFromShellFile(newItem);
                             if (newListedItem != null)
                             {
                                 await AddFileOrFolderAsync(newListedItem);
@@ -1314,17 +1314,15 @@ namespace Files.Uwp.ViewModels
 
             await GetDefaultItemIcons(folderSettings.GetIconSize());
 
-            var isRecycleBin = path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
-            if (isRecycleBin ||
-                path.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.Ordinal) ||
-                FtpHelpers.IsFtpPath(path))
+            if (FtpHelpers.IsFtpPath(path))
             {
                 // Recycle bin and network are enumerated by the fulltrust process
-                PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false, IsTypeRecycleBin = isRecycleBin });
+                PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
                 await EnumerateItemsFromSpecialFolderAsync(path);
             }
             else
             {
+                var isRecycleBin = path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
                 var enumerated = await EnumerateItemsFromStandardFolderAsync(path, folderSettings.GetLayoutType(path, false), addFilesCTS.Token, library);
                 IsLoadingItems = false; // Hide progressbar after enumeration
                 switch (enumerated)
@@ -1338,7 +1336,7 @@ namespace Files.Uwp.ViewModels
                         break;
 
                     case 1: // Enumerated with StorageFolder
-                        PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
+                        PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false, IsTypeRecycleBin = isRecycleBin });
                         currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
                         WatchForStorageFolderChanges(currentStorageFolder?.Item);
                         break;
@@ -1418,44 +1416,7 @@ namespace Files.Uwp.ViewModels
                 FileSizeBytes = 0
             };
 
-            if (Connection != null && !isFtp)
-            {
-                await Task.Run(async () =>
-                {
-                    var sampler = new IntervalSampler(500);
-                    var value = new ValueSet();
-                    value.Add("Arguments", "ShellFolder");
-                    value.Add("action", "Enumerate");
-                    value.Add("folder", path);
-                    // Send request to fulltrust process to enumerate recyclebin items
-                    var (status, response) = await Connection.SendMessageForResponseAsync(value);
-                    // If the request was canceled return now
-                    if (addFilesCTS.IsCancellationRequested)
-                    {
-                        return;
-                    }
-                    if (status == AppServiceResponseStatus.Success
-                        && response.ContainsKey("Enumerate"))
-                    {
-                        var folderContentsList = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response["Enumerate"]);
-                        for (int count = 0; count < folderContentsList.Count; count++)
-                        {
-                            var item = folderContentsList[count];
-                            var listedItem = AddFileOrFolderFromShellFile(item, returnformat);
-                            if (listedItem != null)
-                            {
-                                filesAndFolders.Add(listedItem);
-                            }
-                            if (count == folderContentsList.Count - 1 || sampler.CheckNow())
-                            {
-                                await OrderFilesAndFoldersAsync();
-                                await ApplyFilesAndFoldersChangesAsync();
-                            }
-                        }
-                    }
-                });
-            }
-            else if (isFtp)
+            if (isFtp)
             {
                 if (!FtpHelpers.VerifyFtpPath(path))
                 {
@@ -2119,73 +2080,17 @@ namespace Files.Uwp.ViewModels
             Debug.WriteLine("aProcessQueueAction done: {0}", rand);
         }
 
-        public ListedItem AddFileOrFolderFromShellFile(ShellFileItem item, string dateReturnFormat = null)
+        public async Task<ListedItem> AddFileOrFolderFromShellFile(ShellFileItem item, string dateReturnFormat = null)
         {
             dateReturnFormat ??= DateTimeExtensions.GetDateFormat();
 
             if (item.IsFolder)
             {
-                // Folder
-                var binItem = new RecycleBinItem(null, dateReturnFormat)
-                {
-                    PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemNameRaw = item.FileName,
-                    ItemDateModifiedReal = item.ModifiedDate,
-                    ItemDateCreatedReal = item.CreatedDate,
-                    ItemDateDeletedReal = item.RecycleDate,
-                    ItemType = item.FileType,
-                    IsHiddenItem = false,
-                    Opacity = 1,
-                    FileImage = null,
-                    LoadFileIcon = false,
-                    ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
-                    ItemOriginalPath = item.FilePath,
-                    FileSize = null,
-                    FileSizeBytes = 0,
-                    //FolderTooltipText = tooltipString,
-                };
-                if (DefaultIcons.ContainsKey(string.Empty))
-                {
-                    binItem.SetDefaultIcon(DefaultIcons[string.Empty]);
-                }
-                return binItem;
+                return await UniversalStorageEnumerator.AddFolderAsync(ShellStorageFolder.FromShellItem(item), currentStorageFolder, dateReturnFormat, addFilesCTS.Token);
             }
             else
             {
-                // File
-                string itemName = item.FileName;
-                string itemFileExtension = null;
-                if (item.FileName.Contains('.'))
-                {
-                    itemFileExtension = Path.GetExtension(item.FileName);
-                }
-                var binItem = new RecycleBinItem(null, dateReturnFormat)
-                {
-                    PrimaryItemAttribute = StorageItemTypes.File,
-                    FileExtension = itemFileExtension,
-                    FileImage = null,
-                    LoadFileIcon = false,
-                    IsHiddenItem = false,
-                    Opacity = 1,
-                    ItemNameRaw = itemName,
-                    ItemDateModifiedReal = item.ModifiedDate,
-                    ItemDateCreatedReal = item.CreatedDate,
-                    ItemDateDeletedReal = item.RecycleDate,
-                    ItemType = item.FileType,
-                    ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
-                    ItemOriginalPath = item.FilePath,
-                    FileSize = item.FileSize,
-                    FileSizeBytes = (long)item.FileSizeBytes
-                };
-                if (!string.IsNullOrEmpty(binItem?.FileExtension))
-                {
-                    var lowercaseExt = binItem.FileExtension.ToLowerInvariant();
-                    if (DefaultIcons.ContainsKey(lowercaseExt))
-                    {
-                        binItem.SetDefaultIcon(DefaultIcons[lowercaseExt]);
-                    }
-                }
-                return binItem;
+                return await UniversalStorageEnumerator.AddFileAsync(ShellStorageFile.FromShellItem(item), currentStorageFolder, dateReturnFormat, addFilesCTS.Token);
             }
         }
 

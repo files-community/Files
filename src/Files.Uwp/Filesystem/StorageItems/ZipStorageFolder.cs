@@ -112,7 +112,6 @@ namespace Files.Uwp.Filesystem.StorageItems
         public static IAsyncOperation<BaseStorageFolder> FromStorageFileAsync(BaseStorageFile file)
             => AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) => await CheckAccess(file) ? new ZipStorageFolder(file) : null);
 
-
         public static string DecodeEntryName(ZipEntry entry, Encoding encoding)
         {
             if (encoding is null || entry.IsUnicodeText)
