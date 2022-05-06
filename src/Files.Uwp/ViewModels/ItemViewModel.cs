@@ -216,6 +216,13 @@ namespace Files.Uwp.ViewModels
             await ApplyFilesAndFoldersChangesAsync();
         }
 
+        public async void UpdateSortDirectoriesAlongsideFiles()
+        {
+            OnPropertyChanged(nameof(AreDirectoriesSortedAlongsideFiles));
+            await OrderFilesAndFoldersAsync();
+            await ApplyFilesAndFoldersChangesAsync();
+        }
+
         public bool IsSortedByName
         {
             get => folderSettings.DirectorySortOption == SortOption.Name;
@@ -352,6 +359,16 @@ namespace Files.Uwp.ViewModels
                 folderSettings.DirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
                 OnPropertyChanged(nameof(IsSortedAscending));
                 OnPropertyChanged(nameof(IsSortedDescending));
+            }
+        }
+
+        public bool AreDirectoriesSortedAlongsideFiles
+        {
+            get => !IsSortedAscending;
+            set
+            {
+                folderSettings.SortDirectoriesAlongsideFiles = value;
+                OnPropertyChanged(nameof(AreDirectoriesSortedAlongsideFiles));
             }
         }
 
@@ -559,7 +576,7 @@ namespace Files.Uwp.ViewModels
                     var group = FilesAndFolders.GroupedCollection?.FirstOrDefault(x => x.Model.Key == key);
                     if (group != null)
                     {
-                        group.OrderOne(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection), item);
+                        group.OrderOne(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles), item);
                     }
                 }
                 UpdateEmptyTextType();
@@ -721,7 +738,7 @@ namespace Files.Uwp.ViewModels
                     return;
                 }
 
-                filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection).ToList();
+                filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles).ToList();
             }
 
             if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
@@ -749,7 +766,7 @@ namespace Files.Uwp.ViewModels
                     return;
                 }
 
-                gp.Order(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection));
+                gp.Order(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles));
             }
             if (!FilesAndFolders.GroupedCollection.IsSorted)
             {

@@ -626,19 +626,6 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             }
         }
 
-        public bool ListAndSortDirectoriesAlongsideFiles
-        {
-            get => UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles)
-                {
-                    UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         public bool SearchUnindexedItems
         {
             get => UserSettingsService.PreferencesSettingsService.SearchUnindexedItems;

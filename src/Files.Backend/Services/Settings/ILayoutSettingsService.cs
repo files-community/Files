@@ -38,6 +38,8 @@ namespace Files.Backend.Services.Settings
 
         SortOption DefaultDirectorySortOption { get; set; }
 
+        bool DefaultSortDirectoriesAlongsideFiles { get; set; }
+
         GroupOption DefaultDirectoryGroupOption { get; set; }
     }
 }
