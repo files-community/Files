@@ -1,4 +1,5 @@
 ﻿using Files.Shared;
+using Files.FullTrust.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -93,7 +94,7 @@ namespace Files.FullTrust
             {
                 foreach (var fp in filePathList.Where(x => !string.IsNullOrEmpty(x)))
                 {
-                    shellItems.Add(new ShellItem(fp));
+                    shellItems.Add(ShellFolderExtensions.GetShellItemFromPathOrPidl(fp));
                 }
 
                 return GetContextMenuForFiles(shellItems.ToArray(), flags, itemFilter);
@@ -112,7 +113,7 @@ namespace Files.FullTrust
             }
         }
 
-        private static ContextMenu GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, Func<string, bool> itemFilter = null)
+        public static ContextMenu GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, Func<string, bool> itemFilter = null)
         {
             if (shellItems == null || !shellItems.Any())
             {

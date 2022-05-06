@@ -1,5 +1,6 @@
 using Files.Shared;
 using Files.Shared.Extensions;
+using Files.FullTrust.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -168,7 +169,7 @@ namespace Files.FullTrust
 
             if (!onlyGetOverlay)
             {
-                using var shellItem = new Vanara.Windows.Shell.ShellItem(path);
+                using var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl(path);
                 if (shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
                 {
                     var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
@@ -190,12 +191,10 @@ namespace Files.FullTrust
             if (getOverlay)
             {
                 var shfi = new Shell32.SHFILEINFO();
-                var ret = Shell32.SHGetFileInfo(
-                    path,
-                    0,
-                    ref shfi,
-                    Shell32.SHFILEINFO.Size,
-                    Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION);
+                var flags = Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION;
+                var ret = ShellFolderExtensions.GetStringAsPidl(path, out var pidl) ? 
+                    Shell32.SHGetFileInfo(pidl, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_PIDL | flags) :
+                    Shell32.SHGetFileInfo(path, 0, ref shfi, Shell32.SHFILEINFO.Size, flags);
                 if (ret == IntPtr.Zero)
                 {
                     return (iconStr, null);
@@ -598,8 +597,8 @@ namespace Files.FullTrust
                                     var folderPidl = new Shell32.PIDL(IntPtr.Zero);
                                     if (folder.GetCurFolder(ref folderPidl).Succeeded)
                                     {
-                                        if (Shell32.ILIsParent(folderPidl.DangerousGetHandle(), targetFolder.PIDL.DangerousGetHandle(), true) ||
-                                            Shell32.ILIsEqual(folderPidl.DangerousGetHandle(), controlPanelCategoryView.PIDL.DangerousGetHandle()))
+                                        if (folderPidl.IsParentOf(targetFolder.PIDL.DangerousGetHandle(), true) ||
+                                            folderPidl.Equals(controlPanelCategoryView.PIDL))
                                         {
                                             if (shellBrowser.BrowseObject(targetFolder.PIDL.DangerousGetHandle(), Shell32.SBSP.SBSP_SAMEBROWSER | Shell32.SBSP.SBSP_ABSOLUTE).Succeeded)
                                             {

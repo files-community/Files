@@ -1,13 +1,13 @@
-﻿using Files.Shared;
-using Files.Uwp.DataModels;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
+using Files.Backend.Services.Settings;
+using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
+using Files.Shared;
 using Files.Shared.Enums;
-using Files.Uwp.Extensions;
+using Files.Shared.Extensions;
 using Files.Uwp.Filesystem.FilesystemHistory;
 using Files.Uwp.Helpers;
 using Files.Uwp.Interacts;
-using Files.Backend.Services.Settings;
-using Files.Uwp.ViewModels.Dialogs;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -21,11 +21,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
-using Files.Shared.Extensions;
-using Files.Backend.Extensions;
-using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
-using Files.Backend.Services;
-using CommunityToolkit.Mvvm.Messaging;
 
 namespace Files.Uwp.Filesystem
 {
@@ -210,7 +205,7 @@ namespace Files.Uwp.Filesystem
 
         public async Task<ReturnResult> RestoreItemsFromTrashAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
         {
-            return await RestoreItemsFromTrashAsync(source.Select((item) => item.FromStorageItem()), destination, registerHistory); 
+            return await RestoreItemsFromTrashAsync(source.Select((item) => item.FromStorageItem()), destination, registerHistory);
         }
 
         public async Task<ReturnResult> RestoreItemFromTrashAsync(IStorageItemWithPath source, string destination, bool registerHistory)
@@ -261,6 +256,7 @@ namespace Files.Uwp.Filesystem
                 }
                 if (destination.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
                 {
+                    showDialog |= UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog;
                     return await RecycleItemsFromClipboard(packageView, destination, showDialog, registerHistory);
                 }
                 else if (operation.HasFlag(DataPackageOperation.Copy))
@@ -327,7 +323,7 @@ namespace Files.Uwp.Filesystem
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
             var token = banner.CancellationToken;
-            
+
             var (collisions, cancelOperation, itemsResult) = await GetCollision(FilesystemOperationType.Copy, source, destination, showDialog);
 
             if (cancelOperation)
@@ -352,7 +348,7 @@ namespace Files.Uwp.Filesystem
                     if (!string.IsNullOrEmpty(item2.CustomName) && item2.SourcePath == item.Key.Path)
                     {
                         var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ErrorCode, token);
-                        
+
                         history.Destination[history.Source.IndexOf(item.Key)] = renameHistory.Destination[0];
                     }
                 }
@@ -508,7 +504,7 @@ namespace Files.Uwp.Filesystem
                     if (!string.IsNullOrEmpty(item2.CustomName) && item2.SourcePath == item.Key.Path)
                     {
                         var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ErrorCode, token);
-                        
+
                         history.Destination[history.Source.IndexOf(item.Key)] = renameHistory.Destination[0];
                     }
                 }
