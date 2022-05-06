@@ -10,9 +10,14 @@
     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     mc:Ignorable="d">
     <Grid>
-        <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid Grid.Column="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
@@ -56,7 +61,7 @@
             ItemsSource="{x:Bind local:DrivesWidget.ItemsAdded, Mode=OneWay}">
             <muxc:ItemsRepeater.Layout>
                 <muxc:UniformGridLayout
-                    ItemsStretch="None"
+                    ItemsStretch="Fill"
                     MinColumnSpacing="8"
                     MinItemHeight="72"
                     MinItemWidth="240"
