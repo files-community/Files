@@ -20,7 +20,6 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
         public static async Task<List<ListedItem>> ListEntries(
             BaseStorageFolder rootFolder,
             StorageFolderWithPath currentStorageFolder,
-            string returnformat,
             Type sourcePageType,
             CancellationToken cancellationToken,
             int countLimit,
@@ -77,7 +76,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                     {
                         if (item.IsOfType(StorageItemTypes.Folder))
                         {
-                            var folder = await AddFolderAsync(item.AsBaseStorageFolder(), currentStorageFolder, returnformat, cancellationToken);
+                            var folder = await AddFolderAsync(item.AsBaseStorageFolder(), currentStorageFolder, cancellationToken);
                             if (folder != null)
                             {
                                 if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
@@ -89,7 +88,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                         }
                         else
                         {
-                            var fileEntry = await AddFileAsync(item.AsBaseStorageFile(), currentStorageFolder, returnformat, cancellationToken);
+                            var fileEntry = await AddFileAsync(item.AsBaseStorageFile(), currentStorageFolder, cancellationToken);
                             if (fileEntry != null)
                             {
                                 if (defaultIconPairs != null)
@@ -160,14 +159,14 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
             return tempList;
         }
 
-        public static async Task<ListedItem> AddFolderAsync(BaseStorageFolder folder, StorageFolderWithPath currentStorageFolder, string dateReturnFormat, CancellationToken cancellationToken)
+        public static async Task<ListedItem> AddFolderAsync(BaseStorageFolder folder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
             if (!cancellationToken.IsCancellationRequested)
             {
                 if (folder is BinStorageFolder binFolder)
                 {
-                    return new RecycleBinItem(folder.FolderRelativeId, dateReturnFormat)
+                    return new RecycleBinItem(folder.FolderRelativeId)
                     {
                         PrimaryItemAttribute = StorageItemTypes.Folder,
                         ItemNameRaw = folder.DisplayName,
@@ -187,7 +186,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                 }
                 else
                 {
-                    return new ListedItem(folder.FolderRelativeId, dateReturnFormat)
+                    return new ListedItem(folder.FolderRelativeId)
                     {
                         PrimaryItemAttribute = StorageItemTypes.Folder,
                         ItemNameRaw = folder.DisplayName,
@@ -210,7 +209,6 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
         public static async Task<ListedItem> AddFileAsync(
             BaseStorageFile file,
             StorageFolderWithPath currentStorageFolder,
-            string dateReturnFormat,
             CancellationToken cancellationToken
         )
         {
@@ -249,7 +247,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
             {
                 if (file is BinStorageFile binFile)
                 {
-                    return new RecycleBinItem(file.FolderRelativeId, dateReturnFormat)
+                    return new RecycleBinItem(file.FolderRelativeId)
                     {
                         PrimaryItemAttribute = StorageItemTypes.File,
                         FileExtension = itemFileExtension,
@@ -270,7 +268,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                 }
                 else
                 {
-                    return new ListedItem(file.FolderRelativeId, dateReturnFormat)
+                    return new ListedItem(file.FolderRelativeId)
                     {
                         PrimaryItemAttribute = StorageItemTypes.File,
                         FileExtension = itemFileExtension,

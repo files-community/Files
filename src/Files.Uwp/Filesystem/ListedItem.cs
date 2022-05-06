@@ -359,7 +359,7 @@ namespace Files.Uwp.Filesystem
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ListedItem" /> class, optionally with an explicitly-specified dateReturnFormat.
+        /// Initializes a new instance of the <see cref="ListedItem" /> class.
         /// </summary>
         /// <param name="folderRelativeId"></param>
         public ListedItem(string folderRelativeId) => FolderRelativeId = folderRelativeId;
