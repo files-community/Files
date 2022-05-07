@@ -62,7 +62,7 @@ namespace Files.Uwp.Filesystem
             if (devicePath.StartsWith(@"\\?\", StringComparison.Ordinal)) // USB device
             {
                 // Check among already discovered drives
-                StorageFolder matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x =>
+                StorageFolder matchingDrive = App.DrivesManager?.Drives.FirstOrDefault(x =>
                     Helpers.PathNormalization.NormalizePath(x.Path) == Helpers.PathNormalization.NormalizePath(rootPath))?.Root;
                 if (matchingDrive is null)
                 {

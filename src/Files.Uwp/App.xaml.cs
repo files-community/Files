@@ -392,7 +392,7 @@ namespace Files.Uwp
                                 var ppm = CommandLineParser.ParseUntrustedCommands(unescapedValue);
                                 if (ppm.IsEmpty())
                                 {
-                                    ppm = new ParsedCommands() { new ParsedCommand() { Type = ParsedCommandType.Unknown, Payload = "." } };
+                                    ppm = new ParsedCommands() { new ParsedCommand() { Type = ParsedCommandType.Unknown, Args = new() { "." } } };
                                 }
                                 await InitializeFromCmdLineArgs(rootFrame, ppm);
                                 break;

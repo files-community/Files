@@ -9,6 +9,8 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using Windows.UI.Xaml;
+using Files.Uwp.ServicesImplementation.Settings;
+using Files.Uwp.Filesystem;
 
 namespace Files.Uwp
 {
@@ -83,6 +85,21 @@ namespace Files.Uwp
                                         await OpenShellCommandInExplorerAsync(command.Payload, proc.Id);
                                         return; // Exit
                                     }
+                                    break;
+                                case ParsedCommandType.TagFiles:
+                                    var tagService = new FileTagsSettingsService();
+                                    var tag = tagService.GetTagsByName(command.Payload).FirstOrDefault();
+                                    foreach (var file in command.Args.Skip(1))
+                                    {
+                                        var fileFRN = await FilesystemTasks.Wrap(() => StorageHelpers.ToStorageItem<IStorageItem>(file))
+                                            .OnSuccess(item => FileTagsHelper.GetFileFRN(item));
+                                        if (fileFRN is not null)
+                                        {
+                                            FileTagsHelper.DbInstance.SetTag(file, fileFRN, tag?.Uid);
+                                            FileTagsHelper.WriteFileTag(file, tag?.Uid);
+                                        }
+                                    }
+                                    await TerminateUwpAppInstance(proc.Id);
                                     break;
                                 default:
                                     break;
