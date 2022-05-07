@@ -3496,43 +3496,43 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
         </trans-unit>
         <trans-unit id="SystemTimeStyle" translate="yes" xml:space="preserve">
           <source>System</source>
-          <target state="new">System</target>
+          <target state="translated">Sistema</target>
         </trans-unit>
         <trans-unit id="FileInUseByDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to access is currently being used by {0}</source>
-          <target state="new">The file you are attempting to access is currently being used by {0}</target>
+          <target state="translated">O ficheiro que está a tentar aceder está atualmente a ser utilizado por {0}</target>
         </trans-unit>
         <trans-unit id="FileInUseDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to access is currently being used by an another application</source>
-          <target state="new">The file you are attempting to access is currently being used by an another application</target>
+          <target state="translated">O ficheiro que está a tentar aceder está atualmente a ser utilizado por uma outra aplicação</target>
         </trans-unit>
         <trans-unit id="FileInUseDialog.Title" translate="yes" xml:space="preserve">
           <source>File is in use</source>
-          <target state="new">File is in use</target>
+          <target state="translated">Ficheiro está em uso</target>
         </trans-unit>
         <trans-unit id="UseCompactStyles" translate="yes" xml:space="preserve">
           <source>Use compact styles in the details layout</source>
-          <target state="new">Use compact styles in the details layout</target>
+          <target state="translated">Utilizar estilos compacto no layout detalhes</target>
         </trans-unit>
         <trans-unit id="Universal" translate="yes" xml:space="preserve">
           <source>Universal</source>
-          <target state="new">Universal</target>
+          <target state="translated">Universal</target>
         </trans-unit>
         <trans-unit id="DateFormatSample" translate="yes" xml:space="preserve">
           <source>ex: {0}, {1}</source>
-          <target state="new">ex: {0}, {1}</target>
+          <target state="translated">ex: {0}, {1}</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowThumbnails" translate="yes" xml:space="preserve">
           <source>Show thumbnails</source>
-          <target state="new">Show thumbnails</target>
+          <target state="translated">Mostrar miniaturas</target>
         </trans-unit>
         <trans-unit id="Retry" translate="yes" xml:space="preserve">
           <source>Retry</source>
-          <target state="new">Retry</target>
+          <target state="translated">Tentar novamente</target>
         </trans-unit>
         <trans-unit id="ErrorDialogUnsupportedMoveOperation" translate="yes" xml:space="preserve">
           <source>Move operation is not supported in this context. Do you want to copy the items instead?</source>
-          <target state="new">Move operation is not supported in this context. Do you want to copy the items instead?</target>
+          <target state="translated">A operação mover não é suportada neste contexto. Quer antes copiar os itens?</target>
         </trans-unit>
       </group>
     </body>
