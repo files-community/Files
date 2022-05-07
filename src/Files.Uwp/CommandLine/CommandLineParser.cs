@@ -32,24 +32,24 @@ namespace Files.Uwp.CommandLine
 
                 switch (kvp.Key)
                 {
-                    case string s when "-Directory".Equals(s, StringComparison.OrdinalIgnoreCase):
+                    case string s when "Directory".Equals(s, StringComparison.OrdinalIgnoreCase):
                         command.Type = ParsedCommandType.OpenDirectory;
                         break;
 
-                    case string s when "-OutputPath".Equals(s, StringComparison.OrdinalIgnoreCase):
+                    case string s when "OutputPath".Equals(s, StringComparison.OrdinalIgnoreCase):
                         command.Type = ParsedCommandType.OutputPath;
                         break;
 
-                    case string s when "-Select".Equals(s, StringComparison.OrdinalIgnoreCase):
+                    case string s when "Select".Equals(s, StringComparison.OrdinalIgnoreCase):
                         command.Type = ParsedCommandType.SelectItem;
                         break;
 
-                    case string s when "-Tag".Equals(s, StringComparison.OrdinalIgnoreCase):
+                    case string s when "Tag".Equals(s, StringComparison.OrdinalIgnoreCase):
                         command.Type = ParsedCommandType.TagFiles;
                         break;
 
                     default:
-                        //case "-Cmdless":
+                        //case "Cmdless":
                         try
                         {
                             if (kvp.Value[0].StartsWith("::{", StringComparison.Ordinal) || kvp.Value[0].StartsWith("shell:", StringComparison.OrdinalIgnoreCase))
@@ -144,7 +144,7 @@ namespace Files.Uwp.CommandLine
 
             if (parsedArgs.Count == 0 && args.Length >= 2)
             {
-                parsedArgs.Add(new KeyValuePair<string, string[]>("-Cmdless", new[] { string.Join(" ", args.Skip(1)).TrimStart() }));
+                parsedArgs.Add(new KeyValuePair<string, string[]>("Cmdless", new[] { string.Join(" ", args.Skip(1)).TrimStart() }));
             }
 
             return parsedArgs;
@@ -167,7 +167,7 @@ namespace Files.Uwp.CommandLine
                 }
                 else
                 {
-                    key = args[index];
+                    key = args[index].Substring(1);
                 }
 
                 int argIndex = 1 + index;
