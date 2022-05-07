@@ -68,7 +68,6 @@ namespace Files.Uwp.ViewModels
         // only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
         public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
         private string folderTypeTextLocalized = "FileFolderListItem".GetLocalized();
-        private SettingsViewModel AppSettings => App.AppSettings;
         private FolderSettingsViewModel folderSettings = null;
         private bool shouldDisplayFileExtensions = false;
         private bool shouldDisplayThumbnails = false;
@@ -111,8 +110,7 @@ namespace Files.Uwp.ViewModels
             get; private set;
         }
 
-        private StorageFolderWithPath currentStorageFolder;
-        private StorageFolderWithPath workingRoot;
+        private StorageFolderWithPath currentStorageFolder, workingRoot;
 
         public delegate void WorkingDirectoryModifiedEventHandler(object sender, WorkingDirectoryModifiedEventArgs e);
 
@@ -2343,6 +2341,8 @@ namespace Files.Uwp.ViewModels
             FolderSizeProvider.FolderSizeChanged -= FolderSizeProvider_FolderSizeChanged;
             AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
             DefaultIcons.Clear();
+            enumFolderSemaphore.Dispose();
+            fileListLock.Dispose();
         }
     }
 
