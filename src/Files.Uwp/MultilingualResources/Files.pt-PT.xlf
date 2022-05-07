@@ -3332,7 +3332,7 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
         </trans-unit>
         <trans-unit id="ShowFolderSize" translate="yes" xml:space="preserve">
           <source>Show folder size</source>
-          <target state="translated">Mostrar tamanho da paasta</target>
+          <target state="translated">Mostrar tamanho da pasta</target>
         </trans-unit>
         <trans-unit id="Skip" translate="yes" xml:space="preserve">
           <source>Skip</source>
