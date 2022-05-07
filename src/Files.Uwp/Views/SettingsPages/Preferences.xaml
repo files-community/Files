@@ -195,6 +195,16 @@
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
 
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE174;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}"
+                                IsOn="{Binding ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+
                         <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsEnableLayoutPreferencesPerFolder}" HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xE8B7;" />
