@@ -51,6 +51,7 @@ namespace Files.Uwp.ViewModels
     public class ItemViewModel : ObservableObject, IDisposable
     {
         private readonly SemaphoreSlim enumFolderSemaphore;
+        private readonly ReaderWriterLockSlim fileListLock;
         private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
         private readonly ConcurrentDictionary<string, bool> itemLoadQueue;
         private readonly AsyncManualResetEvent operationEvent;
@@ -368,6 +369,7 @@ namespace Files.Uwp.ViewModels
             watcherCTS = new CancellationTokenSource();
             operationEvent = new AsyncManualResetEvent();
             enumFolderSemaphore = new SemaphoreSlim(1, 1);
+            fileListLock = new ReaderWriterLockSlim();
             shouldDisplayFileExtensions = UserSettingsService.PreferencesSettingsService.ShowFileExtensions;
             shouldDisplayThumbnails = UserSettingsService.PreferencesSettingsService.ShowThumbnails;
             dispatcherQueue = DispatcherQueue.GetForCurrentThread();
@@ -380,7 +382,7 @@ namespace Files.Uwp.ViewModels
 
         private async void FolderSizeProvider_FolderSizeChanged(object sender, FolderSizeChangedEventArgs e)
         {
-            var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath == e.Folder);
+            var matchingItem = fileListLock.WithReadLock(() => filesAndFolders.FirstOrDefault(x => x.ItemPath == e.Folder));
             if (matchingItem != null)
             {
                 await dispatcherQueue.EnqueueAsync(() =>
@@ -464,7 +466,7 @@ namespace Files.Uwp.ViewModels
                             break;
 
                         case "Renamed":
-                            var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals((string)message["OldPath"], StringComparison.OrdinalIgnoreCase));
+                            var matchingItem = fileListLock.WithReadLock(() => filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals((string)message["OldPath"], StringComparison.OrdinalIgnoreCase)));
                             if (matchingItem != null)
                             {
                                 await dispatcherQueue.EnqueueAsync(() =>
@@ -481,10 +483,10 @@ namespace Files.Uwp.ViewModels
                             // get the item that immediately follows matching item to be removed
                             // if the matching item is the last item, try to get the previous item; otherwise, null
                             // case must be ignored since $Recycle.Bin != $RECYCLE.BIN
-                            var nextOfMatchingItem = filesAndFolders
+                            var nextOfMatchingItem = fileListLock.WithReadLock(() => filesAndFolders
                                 .SkipWhile((x) => !x.ItemPath.Equals(itemPath, StringComparison.OrdinalIgnoreCase)).Skip(1)
                                 .DefaultIfEmpty(filesAndFolders.TakeWhile((x) => !x.ItemPath.Equals(itemPath, StringComparison.OrdinalIgnoreCase)).LastOrDefault())
-                                .FirstOrDefault();
+                                .FirstOrDefault());
                             var removedItem = await RemoveFileOrFolderAsync(itemPath);
                             if (removedItem != null)
                             {
@@ -527,7 +529,8 @@ namespace Files.Uwp.ViewModels
                 addFilesCTS.Cancel();
             }
             CancelExtendedPropertiesLoading();
-            filesAndFolders.Clear();
+            using (var _ = fileListLock.ObtainWriteLock())
+                filesAndFolders.Clear();
             FilesAndFolders.Clear();
             CancelSearch();
         }
@@ -545,7 +548,7 @@ namespace Files.Uwp.ViewModels
 
         public async Task ApplySingleFileChangeAsync(ListedItem item)
         {
-            var newIndex = filesAndFolders.IndexOf(item);
+            var newIndex = fileListLock.WithReadLock(() => filesAndFolders.IndexOf(item));
             await dispatcherQueue.EnqueueAsync(() =>
             {
                 FilesAndFolders.Remove(item);
@@ -677,12 +680,12 @@ namespace Files.Uwp.ViewModels
 
                 if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
                 {
-                    await Task.Run(ApplyChanges);
+                    await Task.Run(() => fileListLock.WithReadLock(ApplyChanges));
                     UpdateUI();
                 }
                 else
                 {
-                    ApplyChanges();
+                    fileListLock.WithReadLock(ApplyChanges);
                     await dispatcherQueue.EnqueueAsync(UpdateUI);
                 }
             }
@@ -721,7 +724,8 @@ namespace Files.Uwp.ViewModels
                     return;
                 }
 
-                filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection).ToList();
+                using (var _ = fileListLock.ObtainWriteLock())
+                    filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection).ToList();
             }
 
             if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
@@ -1249,7 +1253,8 @@ namespace Files.Uwp.ViewModels
 
                 IsLoadingItems = true;
 
-                filesAndFolders.Clear();
+                using (var _ = fileListLock.ObtainWriteLock())
+                    filesAndFolders.Clear();
                 FilesAndFolders.Clear();
 
                 ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
@@ -1283,6 +1288,7 @@ namespace Files.Uwp.ViewModels
                 if (App.PaneViewModel.IsPreviewSelected)
                 {
                     // Find and select README file
+                    using var rlock = fileListLock.ObtainReadLock();
                     foreach (var item in filesAndFolders)
                     {
                         if (item.PrimaryItemAttribute == StorageItemTypes.File && item.ItemName.Contains("readme", StringComparison.OrdinalIgnoreCase))
@@ -1473,19 +1479,11 @@ namespace Files.Uwp.ViewModels
                         }
                         FtpManager.Credentials[client.Host] = client.Credentials;
 
-                        var sampler = new IntervalSampler(500);
                         var list = await client.GetListingAsync(FtpHelpers.GetFtpPath(path));
-
-                        for (var i = 0; i < list.Length; i++)
-                        {
-                            filesAndFolders.Add(new FtpItem(list[i], path, returnformat));
-
-                            if (i == list.Length - 1 || sampler.CheckNow())
-                            {
-                                await OrderFilesAndFoldersAsync();
-                                await ApplyFilesAndFoldersChangesAsync();
-                            }
-                        }
+                        using (var _ = fileListLock.ObtainWriteLock())
+                            filesAndFolders.AddRange(list.Select(x => new FtpItem(x, path, returnformat)));
+                        await OrderFilesAndFoldersAsync();
+                        await ApplyFilesAndFoldersChangesAsync();
                     }
                     catch
                     {
@@ -1660,12 +1658,14 @@ namespace Files.Uwp.ViewModels
                     {
                         List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, returnformat, hFile, findData, Connection, cancellationToken, -1, intermediateAction: async (intermediateList) =>
                         {
-                            filesAndFolders.AddRange(intermediateList);
+                            using (var _ = fileListLock.ObtainWriteLock())
+                                filesAndFolders.AddRange(intermediateList);
                             await OrderFilesAndFoldersAsync();
                             await ApplyFilesAndFoldersChangesAsync();
                         }, defaultIconPairs: DefaultIcons);
 
-                        filesAndFolders.AddRange(fileList);
+                        using (var _ = fileListLock.ObtainWriteLock())
+                            filesAndFolders.AddRange(fileList);
                         await OrderFilesAndFoldersAsync();
                         await ApplyFilesAndFoldersChangesAsync();
                     });
@@ -1697,12 +1697,14 @@ namespace Files.Uwp.ViewModels
                     cancellationToken,
                     -1,
                     async (intermediateList) =>
-                {
-                    filesAndFolders.AddRange(intermediateList);
-                    await OrderFilesAndFoldersAsync();
-                    await ApplyFilesAndFoldersChangesAsync();
-                }, defaultIconPairs: DefaultIcons);
-                filesAndFolders.AddRange(finalList);
+                    {
+                        using (var _ = fileListLock.ObtainWriteLock())
+                            filesAndFolders.AddRange(intermediateList);
+                        await OrderFilesAndFoldersAsync();
+                        await ApplyFilesAndFoldersChangesAsync();
+                    }, defaultIconPairs: DefaultIcons);
+                using (var _ = fileListLock.ObtainWriteLock())
+                    filesAndFolders.AddRange(finalList);
                 await OrderFilesAndFoldersAsync();
                 await ApplyFilesAndFoldersChangesAsync();
             });
@@ -1996,10 +1998,10 @@ namespace Files.Uwp.ViewModels
                                     case FILE_ACTION_REMOVED:
                                         // get the item that immediately follows matching item to be removed
                                         // if the matching item is the last item, try to get the previous item; otherwise, null
-                                        nextOfLastItemRemoved = filesAndFolders
+                                        nextOfLastItemRemoved = fileListLock.WithReadLock(() => filesAndFolders
                                             .SkipWhile(x => !x.ItemPath.Equals(operation.FileName)).Skip(1)
                                             .DefaultIfEmpty(filesAndFolders.TakeWhile(x => !x.ItemPath.Equals(operation.FileName)).LastOrDefault())
-                                            .FirstOrDefault();
+                                            .FirstOrDefault());
                                         await RemoveFileOrFolderAsync(operation.FileName);
                                         anyEdits = true;
                                         break;
@@ -2041,7 +2043,6 @@ namespace Files.Uwp.ViewModels
 
                         await UpdateFilesOrFoldersAsync(itemsToUpdate, hasSyncStatus);
                     }
-
 
                     if (updateQueue.Count > 0)
                     {
@@ -2110,8 +2111,10 @@ namespace Files.Uwp.ViewModels
                 return;
             }
 
+            using var urlock = fileListLock.ObtainUpgradeableReadLock();
             if (!filesAndFolders.Any(x => x.ItemPath.Equals(item.ItemPath, StringComparison.OrdinalIgnoreCase))) // Avoid adding duplicate items
             {
+                using var wlock = fileListLock.ObtainWriteLock();
                 filesAndFolders.Add(item);
             }
 
@@ -2157,6 +2160,7 @@ namespace Files.Uwp.ViewModels
             }
 
             await AddFileOrFolderAsync(listedItem);
+
             return listedItem;
         }
 
@@ -2210,7 +2214,7 @@ namespace Files.Uwp.ViewModels
 
             try
             {
-                var matchingItems = filesAndFolders.Where(x => paths.Any(p => p.Equals(x.ItemPath, StringComparison.OrdinalIgnoreCase)));
+                var matchingItems = fileListLock.WithReadLock(() => filesAndFolders.Where(x => paths.Any(p => p.Equals(x.ItemPath, StringComparison.OrdinalIgnoreCase))));
                 var results = await Task.WhenAll(matchingItems.Select(x => GetFileOrFolderUpdateInfoAsync(x, hasSyncStatus)));
 
                 await dispatcherQueue.EnqueueAsync(() =>
@@ -2256,10 +2260,11 @@ namespace Files.Uwp.ViewModels
 
             try
             {
+                using var urlock = fileListLock.ObtainUpgradeableReadLock();
                 var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals(path, StringComparison.OrdinalIgnoreCase));
-
                 if (matchingItem != null)
                 {
+                    using var wlock = fileListLock.ObtainWriteLock();
                     filesAndFolders.Remove(matchingItem);
                     return matchingItem;
                 }
@@ -2273,10 +2278,13 @@ namespace Files.Uwp.ViewModels
 
         public async Task AddSearchResultsToCollection(ObservableCollection<ListedItem> searchItems, string currentSearchPath)
         {
-            filesAndFolders.Clear();
-            foreach (ListedItem li in searchItems)
+            using (var _ = fileListLock.ObtainWriteLock())
             {
-                filesAndFolders.Add(li);
+                filesAndFolders.Clear();
+                foreach (ListedItem li in searchItems)
+                {
+                    filesAndFolders.Add(li);
+                }
             }
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
@@ -2290,7 +2298,8 @@ namespace Files.Uwp.ViewModels
 
             CancelSearch();
             searchCancellationToken = new CancellationTokenSource();
-            filesAndFolders.Clear();
+            using (var _ = fileListLock.ObtainWriteLock())
+                filesAndFolders.Clear();
             IsLoadingItems = true;
             IsSearchResults = true;
             await ApplyFilesAndFoldersChangesAsync();
@@ -2301,13 +2310,15 @@ namespace Files.Uwp.ViewModels
             var results = new List<ListedItem>();
             search.SearchTick += async (s, e) =>
             {
-                filesAndFolders = new List<ListedItem>(results);
+                using (var _ = fileListLock.ObtainWriteLock())
+                    filesAndFolders = new List<ListedItem>(results);
                 await OrderFilesAndFoldersAsync();
                 await ApplyFilesAndFoldersChangesAsync();
             };
             await search.SearchAsync(results, searchCancellationToken.Token);
 
-            filesAndFolders = new List<ListedItem>(results);
+            using (var _ = fileListLock.ObtainWriteLock())
+                filesAndFolders = new List<ListedItem>(results);
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
 
