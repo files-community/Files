@@ -26,12 +26,12 @@ namespace Files.Uwp.UserControls
             if (panelWidth > 700)
             {
                 Position = PanePositions.Right;
-                (MinWidth, MinHeight) = (150, 0);
+                (MinWidth, MaxWidth, MinHeight, MaxHeight) = (150, 500, 0, double.MaxValue);
             }
             else
             {
                 Position = PanePositions.Bottom;
-                (MinWidth, MinHeight) = (0, 140);
+                (MinWidth, MaxWidth, MinHeight, MaxHeight) = (0, double.MaxValue, 140, double.MaxValue);
             }
         }
 
