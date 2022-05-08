@@ -380,22 +380,39 @@ namespace Files.Uwp.ViewModels
 
         private async void FolderSizeProvider_FolderSizeChanged(object sender, FolderSizeChangedEventArgs e)
         {
-            var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath == e.Folder);
-            if (matchingItem != null)
+            try
             {
-                await dispatcherQueue.EnqueueAsync(() =>
+                await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+
+            try
+            {
+                var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath == e.Folder);
+                if (matchingItem != null)
                 {
-                    if (e.Size < 0)
+                    await dispatcherQueue.EnqueueAsync(() =>
                     {
-                        matchingItem.FileSizeBytes = 0;
-                        matchingItem.FileSize = "ItemSizeNotCalculated".GetLocalized();
-                    }
-                    else if (!e.Intermediate || e.Size > matchingItem.FileSizeBytes)
-                    {
-                        matchingItem.FileSizeBytes = e.Size;
-                        matchingItem.FileSize = e.Size.ToSizeString();
-                    }
-                }, DispatcherQueuePriority.Low);
+                        if (e.Size < 0)
+                        {
+                            matchingItem.FileSizeBytes = 0;
+                            matchingItem.FileSize = "ItemSizeNotCalculated".GetLocalized();
+                        }
+                        else if (!e.Intermediate || e.Size > matchingItem.FileSizeBytes)
+                        {
+                            matchingItem.FileSizeBytes = e.Size;
+                            matchingItem.FileSize = e.Size.ToSizeString();
+                        }
+                        DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
+                    }, DispatcherQueuePriority.Low);
+                }
+            }
+            finally
+            {
+                enumFolderSemaphore.Release();
             }
         }
 
