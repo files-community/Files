@@ -8,34 +8,32 @@ namespace Files.Uwp.UserControls
 {
     public sealed partial class PaneControl : UserControl, IPane
     {
-        public PanePositions Position { get; private set; } = PanePositions.None;
-
-        private IPaneSettingsService PaneService { get; } = Ioc.Default.GetService<IPaneSettingsService>();
+        private readonly IPaneSettingsService paneService = Ioc.Default.GetService<IPaneSettingsService>();
 
         private PaneContents content;
-        private Control pane;
+
+        public PanePositions Position => Panel.Content is IPane pane ? pane.Position : PanePositions.Right;
 
         public PaneControl()
         {
             InitializeComponent();
 
-            PaneService.PropertyChanged += PaneService_PropertyChanged;
+            paneService.PropertyChanged += PaneService_PropertyChanged;
             Update();
         }
 
         public void UpdatePosition(double panelWidth, double panelHeight)
         {
-            if (pane is IPane p)
+            if (Panel.Content is IPane pane)
             {
-                p.UpdatePosition(panelWidth, panelHeight);
-                Position = p.Position;
+                pane.UpdatePosition(panelWidth, panelHeight);
             }
-            if (pane is not null)
+            if (Panel.Content is Control control)
             {
-                MinWidth = pane.MinWidth;
-                MaxWidth = pane.MaxWidth;
-                MinHeight = pane.MinHeight;
-                MaxHeight = pane.MaxHeight;
+                MinWidth = control.MinWidth;
+                MaxWidth = control.MaxWidth;
+                MinHeight = control.MinHeight;
+                MaxHeight = control.MaxHeight;
             }
         }
 
@@ -49,17 +47,11 @@ namespace Files.Uwp.UserControls
 
         private void Update()
         {
-            var newContent = PaneService.Content;
+            var newContent = paneService.Content;
             if (content != newContent)
             {
                 content = newContent;
-                pane = GetPane(content);
-
-                Panel.Children.Clear();
-                if (pane is not null)
-                {
-                    Panel.Children.Add(pane);
-                }
+                Panel.Content = GetPane(content);
             }
         }
 

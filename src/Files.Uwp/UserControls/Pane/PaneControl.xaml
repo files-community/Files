@@ -6,6 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignWidth="400" d:DesignHeight="300" mc:Ignorable="d">
 
-    <Grid x:Name="Panel" />
+    <ContentControl x:Name="Panel" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
 
 </UserControl>
