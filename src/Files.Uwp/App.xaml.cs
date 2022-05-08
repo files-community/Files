@@ -495,6 +495,21 @@ namespace Files.Uwp
                         }
                         break;
 
+                    case ParsedCommandType.TagFiles:
+                        var tagService = Ioc.Default.GetService<IFileTagsSettingsService>();
+                        var tag = tagService.GetTagsByName(command.Payload).FirstOrDefault();
+                        foreach (var file in command.Args.Skip(1))
+                        {
+                            var fileFRN = await FilesystemTasks.Wrap(() => StorageHelpers.ToStorageItem<IStorageItem>(file))
+                                .OnSuccess(item => FileTagsHelper.GetFileFRN(item));
+                            if (fileFRN is not null)
+                            {
+                                FileTagsHelper.DbInstance.SetTag(file, fileFRN, tag?.Uid);
+                                FileTagsHelper.WriteFileTag(file, tag?.Uid);
+                            }
+                        }
+                        break;
+
                     case ParsedCommandType.Unknown:
                         if (command.Payload.Equals("."))
                         {
