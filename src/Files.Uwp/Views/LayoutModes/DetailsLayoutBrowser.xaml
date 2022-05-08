@@ -252,7 +252,7 @@
                                     <MenuFlyout>
                                         <MenuFlyoutItem
                                             Click="SizeAllColumnsToFit_Click"
-                                            Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_SizeAllColumnsToFit/Text}" />
+                                            Text="{helpers:ResourceString Name=SizeAllColumnsToFit}" />
                                         <MenuFlyoutSeparator />
                                         <ToggleMenuFlyoutItem
                                             Click="ToggleMenuFlyoutItem_Click"
