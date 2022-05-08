@@ -222,7 +222,7 @@ namespace Files.Uwp.Filesystem
         public async static Task<IList<StorageFileWithPath>> GetFilesWithPathAsync
             (this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
                 => (await parentFolder.Item.GetFilesAsync(CommonFileQuery.DefaultQuery, 0, maxNumberOfItems))
-                    .Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
+                    .Select(x => new StorageFileWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
 
         public async static Task<BaseStorageFolder> DangerousGetFolderFromPathAsync
             (string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
