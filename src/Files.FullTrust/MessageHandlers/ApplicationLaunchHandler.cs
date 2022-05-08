@@ -1,4 +1,5 @@
 ﻿using Files.Shared.Extensions;
+using Files.FullTrust.Helpers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -134,7 +135,7 @@ namespace Files.FullTrust.MessageHandlers
                 {
                     try
                     {
-                        return await Win32API.StartSTATask(() =>
+                        var opened = await Win32API.StartSTATask(() =>
                         {
                             var split = application.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => GetMtpPath(x));
                             if (split.Count() == 1)
@@ -161,6 +162,20 @@ namespace Files.FullTrust.MessageHandlers
                             }
                             return true;
                         });
+                        if (!opened)
+                        {
+                            if (application.StartsWith(@"\\SHELL\", StringComparison.Ordinal))
+                            {
+                                opened = await Win32API.StartSTATask(() =>
+                                {
+                                    using var si = ShellFolderExtensions.GetShellItemFromPathOrPidl(application);
+                                    using var cMenu = ContextMenu.GetContextMenuForFiles(new[] { si }, Shell32.CMF.CMF_DEFAULTONLY);
+                                    cMenu?.InvokeItem(cMenu?.Items.FirstOrDefault().ID ?? -1);
+                                    return true;
+                                });
+                            }
+                        }
+                        return opened;
                     }
                     catch (Win32Exception)
                     {

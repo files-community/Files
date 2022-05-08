@@ -11,16 +11,13 @@ using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Files.Uwp.UserControls;
 using Files.Uwp.ViewModels;
-using Files.Uwp.ViewModels.Previews;
 using Files.Uwp.Views;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -39,9 +36,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using static Files.Uwp.Helpers.PathNormalization;
-using System.Collections.Specialized;
-using System.Runtime.InteropServices;
-using Windows.Storage.FileProperties;
 
 namespace Files.Uwp
 {
@@ -55,8 +49,6 @@ namespace Files.Uwp
         protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
-
-        protected IFolderSizeProvider FolderSizeProvider { get; } = Ioc.Default.GetService<IFolderSizeProvider>();
 
         protected Task<NamedPipeAsAppServiceConnection> Connection => AppServiceConnectionHelper.Instance;
 
@@ -322,13 +314,11 @@ namespace Files.Uwp
         private void HookBaseEvents()
         {
             ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
-            FolderSizeProvider.FolderSizeChanged += FolderSizeProvider_FolderSizeChanged;
         }
 
         private void UnhookBaseEvents()
         {
             ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
-            FolderSizeProvider.FolderSizeChanged -= FolderSizeProvider_FolderSizeChanged;
         }
 
         public ItemManipulationModel ItemManipulationModel { get; private set; }
@@ -547,23 +537,6 @@ namespace Files.Uwp
             await ParentShellPageInstance.FilesystemViewModel.ReloadItemGroupHeaderImagesAsync();
         }
 
-        private async void FolderSizeProvider_FolderSizeChanged(object sender, FolderSizeChangedEventArgs e)
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-            {
-                if (e.Folder is null)
-                {
-                    SelectedItemsPropertiesViewModel.ItemSizeBytes = 0;
-                    SelectedItemsPropertiesViewModel.ItemSize = string.Empty;
-                    SelectedItemsPropertiesViewModel.ItemSizeVisibility = false;
-                }
-                else
-                {
-                    UpdateSelectionSize();
-                }
-            });
-        }
-
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
@@ -644,7 +617,7 @@ namespace Files.Uwp
             }
         }
 
-        private void UpdateSelectionSize()
+        public void UpdateSelectionSize()
         {
             var items = (selectedItems?.Any() ?? false) ? selectedItems : GetAllItems();
             if (items is not null)

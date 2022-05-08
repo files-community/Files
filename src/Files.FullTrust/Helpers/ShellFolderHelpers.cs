@@ -42,6 +42,11 @@ namespace Files.FullTrust.Helpers
             }
             var parsingPath = folderItem.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing);
             parsingPath ??= folderItem.FileSystemPath; // True path on disk
+            if (parsingPath == null || !Path.IsPathRooted(parsingPath))
+            {
+                // Use PIDL as path
+                parsingPath = $@"\\SHELL\{string.Join("\\", folderItem.PIDL.Select(x => x.GetBytes()).Select(x => Convert.ToBase64String(x, 0, x.Length)))}";
+            }
             folderItem.Properties.TryGetValue<string>(
                 Ole32.PROPERTYKEY.System.ItemNameDisplay, out var fileName);
             fileName ??= Path.GetFileName(folderItem.Name); // Original file name
@@ -102,6 +107,32 @@ namespace Files.FullTrust.Helpers
                 return null;
             }
             return item.IsFileSystem ? item.FileSystemPath : item.ParsingName;
+        }
+
+        public static bool GetStringAsPidl(string pathOrPidl, out Shell32.PIDL pidl)
+        {
+            if (pathOrPidl.StartsWith(@"\\SHELL\", StringComparison.Ordinal))
+            {
+                pidl = pathOrPidl.Replace(@"\\SHELL\", "", StringComparison.Ordinal)
+                    .Split('\\', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(x => new Shell32.PIDL(Convert.FromBase64String(x)))
+                    .Aggregate((x, y) => Shell32.PIDL.Combine(x, y));
+                return true;
+            }
+            else
+            {
+                pidl = Shell32.PIDL.Null;
+                return false;
+            }
+        }
+
+        public static ShellItem GetShellItemFromPathOrPidl(string pathOrPidl)
+        {
+            if (GetStringAsPidl(pathOrPidl, out var pidl))
+            {
+                return ShellItem.Open(pidl);
+            }
+            return ShellItem.Open(pathOrPidl);
         }
     }
 }

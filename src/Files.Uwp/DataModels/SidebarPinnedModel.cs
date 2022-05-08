@@ -10,14 +10,15 @@ using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
-using System.Collections.Specialized;
 
 namespace Files.Uwp.DataModels
 {
@@ -26,6 +27,8 @@ namespace Files.Uwp.DataModels
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         private SidebarPinnedController controller;
+
+        private SemaphoreSlim addSyncSemaphore;
 
         [JsonIgnore]
         public MainViewModel MainViewModel => App.MainViewModel;
@@ -54,6 +57,7 @@ namespace Files.Uwp.DataModels
 
         public SidebarPinnedModel()
         {
+            addSyncSemaphore = new SemaphoreSlim(1, 1);
         }
 
         /// <summary>
@@ -82,11 +86,21 @@ namespace Files.Uwp.DataModels
         /// <param name="item">Item to remove</param>
         public async void AddItem(string item)
         {
-            if (!string.IsNullOrEmpty(item) && !FavoriteItems.Contains(item))
+            // add to `FavoriteItems` and `favoritesList` must be atomic
+            await addSyncSemaphore.WaitAsync();
+
+            try
             {
-                FavoriteItems.Add(item);
-                await AddItemToSidebarAsync(item);
-                Save();
+                if (!string.IsNullOrEmpty(item) && !FavoriteItems.Contains(item))
+                {
+                    FavoriteItems.Add(item);
+                    await AddItemToSidebarAsync(item);
+                    Save();
+                }
+            }
+            finally
+            {
+                addSyncSemaphore.Release();
             }
         }
 
@@ -245,7 +259,7 @@ namespace Files.Uwp.DataModels
         public void Save() => controller?.SaveModel();
 
         /// <summary>
-        /// Adds the item do the navigation sidebar
+        /// Adds the item (from a path) to the navigation sidebar
         /// </summary>
         /// <param name="path">The path which to save</param>
         /// <returns>Task</returns>
@@ -299,6 +313,15 @@ namespace Files.Uwp.DataModels
                 Debug.WriteLine($"Pinned item was invalid {res.ErrorCode}, item: {path}");
             }
 
+            AddLocationItemToSidebar(locationItem);
+        }
+
+        /// <summary>
+        /// Adds the location item to the navigation sidebar
+        /// </summary>
+        /// <param name="locationItem">The location item which to save</param>
+        private void AddLocationItemToSidebar(LocationItem locationItem)
+        {
             int insertIndex = -1;
             lock (favoriteList)
             {
@@ -311,26 +334,6 @@ namespace Files.Uwp.DataModels
                 favoriteList.Insert(insertIndex, locationItem);
             }
             controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
-        }
-
-        /// <summary>
-        /// Adds the item to sidebar asynchronous.
-        /// </summary>
-        /// <param name="section">The section.</param>
-        private void AddLocationItemToSidebar(LocationItem section)
-        {
-            int insertIndex = -1;
-            lock (favoriteList)
-            {
-                if (favoriteList.Any(x => x.Section == section.Section))
-                {
-                    return;
-                }
-                var lastItem = favoriteList.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(CommonPaths.RecycleBinPath));
-                insertIndex = lastItem != null ? favoriteList.IndexOf(lastItem) + 1 : 0;
-                favoriteList.Insert(insertIndex, section);
-            }
-            controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, section, insertIndex));
         }
 
         /// <summary>

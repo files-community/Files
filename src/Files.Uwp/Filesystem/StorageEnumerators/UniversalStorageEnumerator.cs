@@ -160,31 +160,54 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
             return tempList;
         }
 
-        private static async Task<ListedItem> AddFolderAsync(BaseStorageFolder folder, StorageFolderWithPath currentStorageFolder, string dateReturnFormat, CancellationToken cancellationToken)
+        public static async Task<ListedItem> AddFolderAsync(BaseStorageFolder folder, StorageFolderWithPath currentStorageFolder, string dateReturnFormat, CancellationToken cancellationToken)
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
             if (!cancellationToken.IsCancellationRequested)
             {
-                return new ListedItem(folder.FolderRelativeId, dateReturnFormat)
+                if (folder is BinStorageFolder binFolder)
                 {
-                    PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemNameRaw = folder.DisplayName,
-                    ItemDateModifiedReal = basicProperties.DateModified,
-                    ItemDateCreatedReal = folder.DateCreated,
-                    ItemType = folder.DisplayType,
-                    IsHiddenItem = false,
-                    Opacity = 1,
-                    FileImage = null,
-                    LoadFileIcon = false,
-                    ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
-                    FileSize = null,
-                    FileSizeBytes = 0
-                };
+                    return new RecycleBinItem(folder.FolderRelativeId, dateReturnFormat)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.Folder,
+                        ItemNameRaw = folder.DisplayName,
+                        ItemDateModifiedReal = basicProperties.DateModified,
+                        ItemDateCreatedReal = folder.DateCreated,
+                        ItemType = folder.DisplayType,
+                        IsHiddenItem = false,
+                        Opacity = 1,
+                        FileImage = null,
+                        LoadFileIcon = false,
+                        ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
+                        FileSize = null,
+                        FileSizeBytes = 0,
+                        ItemDateDeletedReal = binFolder.DateDeleted,
+                        ItemOriginalPath = binFolder.OriginalPath,
+                    };
+                }
+                else
+                {
+                    return new ListedItem(folder.FolderRelativeId, dateReturnFormat)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.Folder,
+                        ItemNameRaw = folder.DisplayName,
+                        ItemDateModifiedReal = basicProperties.DateModified,
+                        ItemDateCreatedReal = folder.DateCreated,
+                        ItemType = folder.DisplayType,
+                        IsHiddenItem = false,
+                        Opacity = 1,
+                        FileImage = null,
+                        LoadFileIcon = false,
+                        ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
+                        FileSize = null,
+                        FileSizeBytes = 0
+                    };
+                }
             }
             return null;
         }
 
-        private static async Task<ListedItem> AddFileAsync(
+        public static async Task<ListedItem> AddFileAsync(
             BaseStorageFile file,
             StorageFolderWithPath currentStorageFolder,
             string dateReturnFormat,
@@ -224,22 +247,46 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
             }
             else
             {
-                return new ListedItem(file.FolderRelativeId, dateReturnFormat)
+                if (file is BinStorageFile binFile)
                 {
-                    PrimaryItemAttribute = StorageItemTypes.File,
-                    FileExtension = itemFileExtension,
-                    IsHiddenItem = false,
-                    Opacity = 1,
-                    FileImage = null,
-                    LoadFileIcon = itemThumbnailImgVis,
-                    ItemNameRaw = itemName,
-                    ItemDateModifiedReal = itemModifiedDate,
-                    ItemDateCreatedReal = itemCreatedDate,
-                    ItemType = itemType,
-                    ItemPath = itemPath,
-                    FileSize = itemSize,
-                    FileSizeBytes = (long)itemSizeBytes,
-                };
+                    return new RecycleBinItem(file.FolderRelativeId, dateReturnFormat)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.File,
+                        FileExtension = itemFileExtension,
+                        IsHiddenItem = false,
+                        Opacity = 1,
+                        FileImage = null,
+                        LoadFileIcon = itemThumbnailImgVis,
+                        ItemNameRaw = itemName,
+                        ItemDateModifiedReal = itemModifiedDate,
+                        ItemDateCreatedReal = itemCreatedDate,
+                        ItemType = itemType,
+                        ItemPath = itemPath,
+                        FileSize = itemSize,
+                        FileSizeBytes = (long)itemSizeBytes,
+                        ItemDateDeletedReal = binFile.DateDeleted,
+                        ItemOriginalPath = binFile.OriginalPath
+                    };
+                }
+                else
+                {
+                    return new ListedItem(file.FolderRelativeId, dateReturnFormat)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.File,
+                        FileExtension = itemFileExtension,
+                        IsHiddenItem = false,
+                        Opacity = 1,
+                        FileImage = null,
+                        LoadFileIcon = itemThumbnailImgVis,
+                        ItemNameRaw = itemName,
+                        ItemDateModifiedReal = itemModifiedDate,
+                        ItemDateCreatedReal = itemCreatedDate,
+                        ItemType = itemType,
+                        ItemPath = itemPath,
+                        FileSize = itemSize,
+                        FileSizeBytes = (long)itemSizeBytes,
+                    };
+                }
             }
             return null;
         }

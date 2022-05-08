@@ -18,6 +18,7 @@ namespace Files.Uwp.Filesystem
 
         Task CleanCacheAsync();
         Task UpdateFolderAsync(string folderPath, CancellationToken cancellationToken);
+        bool GetCachedSize(string folderPath, out long cachedSize);
     }
 
     public class FolderSizeChangedEventArgs : EventArgs
@@ -63,6 +64,17 @@ namespace Files.Uwp.Filesystem
             return Task.CompletedTask;
         }
 
+        public bool GetCachedSize(string folderPath, out long cachedSize)
+        {
+            if (!preferencesSettingsService.ShowFolderSize)
+            {
+                cachedSize = default;
+                return false;
+            }
+
+            return cacheSizes.TryGetValue(folderPath, out cachedSize);
+        }
+
         public async Task UpdateFolderAsync(string folderPath, CancellationToken cancellationToken)
         {
             if (!preferencesSettingsService.ShowFolderSize)
@@ -71,9 +83,8 @@ namespace Files.Uwp.Filesystem
             }
 
             await Task.Yield();
-            if (cacheSizes.ContainsKey(folderPath))
+            if (cacheSizes.TryGetValue(folderPath, out var cachedSize))
             {
-                long cachedSize = cacheSizes[folderPath];
                 RaiseSizeChanged(folderPath, cachedSize);
             }
             else
