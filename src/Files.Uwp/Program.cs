@@ -1,4 +1,5 @@
 ﻿using Files.Uwp.CommandLine;
+using Files.Shared;
 using Files.Uwp.Helpers;
 using Files.Shared.Extensions;
 using System;
