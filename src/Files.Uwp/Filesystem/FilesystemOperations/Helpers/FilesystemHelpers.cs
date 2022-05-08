@@ -341,21 +341,20 @@ namespace Files.Uwp.Filesystem
             ((IProgress<float>)banner.Progress).Report(100.0f);
             await Task.Yield();
 
-            foreach (var item in history.Source.Zip(history.Destination, (k, v) => new { Key = k, Value = v }).ToDictionary(k => k.Key, v => v.Value))
+            if (registerHistory && history != null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
             {
-                foreach (var item2 in itemsResult)
+                foreach (var item in history.Source.Zip(history.Destination, (k, v) => new { Key = k, Value = v }).ToDictionary(k => k.Key, v => v.Value))
                 {
-                    if (!string.IsNullOrEmpty(item2.CustomName) && item2.SourcePath == item.Key.Path)
+                    foreach (var item2 in itemsResult)
                     {
-                        var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ErrorCode, token);
+                        if (!string.IsNullOrEmpty(item2.CustomName) && item2.SourcePath == item.Key.Path)
+                        {
+                            var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ErrorCode, token);
 
-                        history.Destination[history.Source.IndexOf(item.Key)] = renameHistory.Destination[0];
+                            history.Destination[history.Source.IndexOf(item.Key)] = renameHistory.Destination[0];
+                        }
                     }
                 }
-            }
-
-            if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
-            {
                 App.HistoryWrapper.AddHistory(history);
             }
             var itemsCopied = history?.Source.Count() ?? 0;
@@ -497,21 +496,20 @@ namespace Files.Uwp.Filesystem
             ((IProgress<float>)banner.Progress).Report(100.0f);
             await Task.Yield();
 
-            foreach (var item in history.Source.Zip(history.Destination, (k, v) => new { Key = k, Value = v }).ToDictionary(k => k.Key, v => v.Value))
+            if (registerHistory && history != null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
             {
-                foreach (var item2 in itemsResult)
+                foreach (var item in history.Source.Zip(history.Destination, (k, v) => new { Key = k, Value = v }).ToDictionary(k => k.Key, v => v.Value))
                 {
-                    if (!string.IsNullOrEmpty(item2.CustomName) && item2.SourcePath == item.Key.Path)
+                    foreach (var item2 in itemsResult)
                     {
-                        var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ErrorCode, token);
+                        if (!string.IsNullOrEmpty(item2.CustomName) && item2.SourcePath == item.Key.Path)
+                        {
+                            var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ErrorCode, token);
 
-                        history.Destination[history.Source.IndexOf(item.Key)] = renameHistory.Destination[0];
+                            history.Destination[history.Source.IndexOf(item.Key)] = renameHistory.Destination[0];
+                        }
                     }
                 }
-            }
-
-            if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
-            {
                 App.HistoryWrapper.AddHistory(history);
             }
             int itemsMoved = history?.Source.Count() ?? 0;
