@@ -211,7 +211,7 @@ namespace Files.Uwp.Filesystem
                 }
             }
 
-            if (parentFolder is not null && !Path.IsPathRooted(value))
+            if (parentFolder is not null && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value)) // "::{" not a valid root
             {
                 // Relative path
                 var fullPath = Path.GetFullPath(Path.Combine(parentFolder.Path, value));
@@ -222,7 +222,7 @@ namespace Files.Uwp.Filesystem
         public async static Task<IList<StorageFileWithPath>> GetFilesWithPathAsync
             (this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
                 => (await parentFolder.Item.GetFilesAsync(CommonFileQuery.DefaultQuery, 0, maxNumberOfItems))
-                    .Select(x => new StorageFileWithPath(x, PathNormalization.Combine(parentFolder.Path, x.Name))).ToList();
+                    .Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
 
         public async static Task<BaseStorageFolder> DangerousGetFolderFromPathAsync
             (string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
@@ -263,7 +263,7 @@ namespace Files.Uwp.Filesystem
                 }
             }
 
-            if (parentFolder is not null && !Path.IsPathRooted(value))
+            if (parentFolder is not null && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value)) // "::{" not a valid root
             {
                 // Relative path
                 var fullPath = Path.GetFullPath(Path.Combine(parentFolder.Path, value));
@@ -277,7 +277,7 @@ namespace Files.Uwp.Filesystem
         public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync
             (this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
                 => (await parentFolder.Item.GetFoldersAsync(CommonFolderQuery.DefaultQuery, 0, maxNumberOfItems))
-                    .Select(x => new StorageFolderWithPath(x, PathNormalization.Combine(parentFolder.Path, x.Name))).ToList();
+                    .Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
         public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync
             (this StorageFolderWithPath parentFolder, string nameFilter, uint maxNumberOfItems = uint.MaxValue)
         {
@@ -292,7 +292,8 @@ namespace Files.Uwp.Filesystem
             };
             BaseStorageFolderQueryResult queryResult = parentFolder.Item.CreateFolderQueryWithOptions(queryOptions);
 
-            return (await queryResult.GetFoldersAsync(0, maxNumberOfItems)).Select(x => new StorageFolderWithPath(x, PathNormalization.Combine(parentFolder.Path, x.Name))).ToList();
+            return (await queryResult.GetFoldersAsync(0, maxNumberOfItems))
+                .Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
         }
 
         private static PathBoxItem GetPathItem(string component, string path)
