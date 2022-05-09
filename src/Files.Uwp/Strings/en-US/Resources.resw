@@ -2768,4 +2768,13 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="Custom" xml:space="preserve">
     <value>Custom</value>
   </data>
+  <data name="Adaptive" xml:space="preserve">
+    <value>Adaptive</value>
+  </data>
+  <data name="AdaptiveShortcutTooltip" xml:space="preserve">
+    <value>Adaptive (Ctrl+Shift+7)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+7</value>
+  </data>
 </root>

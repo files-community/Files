@@ -6,12 +6,9 @@ namespace Files.Uwp.EventArguments
     {
         public readonly LayoutPreferences LayoutPreference;
 
-        public readonly bool IsAdaptiveLayoutUpdateRequired;
-
-        internal LayoutPreferenceEventArgs(LayoutPreferences layoutPref, bool isAdaptiveLayoutUpdateRequired = false)
+        internal LayoutPreferenceEventArgs(LayoutPreferences layoutPref)
         {
             LayoutPreference = layoutPref;
-            IsAdaptiveLayoutUpdateRequired = isAdaptiveLayoutUpdateRequired;
         }
     }
 }

@@ -119,7 +119,6 @@ namespace Files.Uwp.Helpers
                             ShowInFtpPage = true,
                             ShowInZipPage = true,
                             Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeDetailsViewCommand,
-                            CommandParameter = true,
                             KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutDetails/KeyboardAcceleratorTextOverride".GetLocalized(),
                             KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number1, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
                         },
@@ -133,7 +132,6 @@ namespace Files.Uwp.Helpers
                             ShowInFtpPage = true,
                             ShowInZipPage = true,
                             Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeTilesCommand,
-                            CommandParameter = true,
                             KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutTiles/KeyboardAcceleratorTextOverride".GetLocalized(),
                             KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number2, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
                         },
@@ -147,7 +145,6 @@ namespace Files.Uwp.Helpers
                             ShowInFtpPage = true,
                             ShowInZipPage = true,
                             Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmallCommand,
-                            CommandParameter = true,
                             KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutSmallIcons/KeyboardAcceleratorTextOverride".GetLocalized(),
                             KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number3, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
                         },
@@ -161,7 +158,6 @@ namespace Files.Uwp.Helpers
                             ShowInFtpPage = true,
                             ShowInZipPage = true,
                             Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMediumCommand,
-                            CommandParameter = true,
                             KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutMediumIcons/KeyboardAcceleratorTextOverride".GetLocalized(),
                             KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number4, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
                         },
@@ -175,7 +171,6 @@ namespace Files.Uwp.Helpers
                             ShowInFtpPage = true,
                             ShowInZipPage = true,
                             Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLargeCommand,
-                            CommandParameter = true,
                             KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutLargeIcons/KeyboardAcceleratorTextOverride".GetLocalized(),
                             KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number5, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
                         },
@@ -190,9 +185,21 @@ namespace Files.Uwp.Helpers
                             ShowInFtpPage = true,
                             ShowInZipPage = true,
                             Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeColumnViewCommand,
-                            CommandParameter = true,
                             KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutColumn/KeyboardAcceleratorTextOverride".GetLocalized(),
                             KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number6, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
+                        },
+                        // Column view
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "Adaptive".GetLocalized(),
+                            Glyph = "\uF576",
+                            ShowInRecycleBin = true,
+                            ShowInSearchPage = true,
+                            ShowInFtpPage = true,
+                            ShowInZipPage = true,
+                            Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeAdaptiveCommand,
+                            KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutAdaptive/KeyboardAcceleratorTextOverride".GetLocalized(),
+                            KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number7, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
                         },
                     }
                 },

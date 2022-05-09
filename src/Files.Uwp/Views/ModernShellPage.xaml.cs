@@ -275,10 +275,7 @@ namespace Files.Uwp.Views
             if (FilesystemViewModel != null)
             {
                 (sender as FolderSettingsViewModel).UpdateLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
-                if (e.IsAdaptiveLayoutUpdateRequired)
-                {
-                    AdaptiveLayoutHelpers.PredictLayoutMode(InstanceViewModel.FolderSettings, FilesystemViewModel);
-                }
+                AdaptiveLayoutHelpers.PredictLayoutMode(InstanceViewModel.FolderSettings, FilesystemViewModel);
             }
         }
 
@@ -815,27 +812,31 @@ namespace Files.Uwp.Views
                     break;
 
                 case (true, true, false, _, VirtualKey.Number1): // ctrl+shift+1, details view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView();
                     break;
 
                 case (true, true, false, _, VirtualKey.Number2): // ctrl+shift+2, tiles view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeTiles(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeTiles();
                     break;
 
                 case (true, true, false, _, VirtualKey.Number3): // ctrl+shift+3, grid small view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall();
                     break;
 
                 case (true, true, false, _, VirtualKey.Number4): // ctrl+shift+4, grid medium view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium();
                     break;
 
                 case (true, true, false, _, VirtualKey.Number5): // ctrl+shift+5, grid large view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge();
                     break;
 
                 case (true, true, false, _, VirtualKey.Number6): // ctrl+shift+6, column view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView(true);
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView();
+                    break;
+
+                case (true, true, false, _, VirtualKey.Number7): // ctrl+shift+7, adaptive
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeAdaptive();
                     break;
             }
 

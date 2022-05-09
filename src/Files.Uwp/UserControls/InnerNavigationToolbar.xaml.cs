@@ -184,16 +184,18 @@ namespace Files.Uwp.UserControls
         }
 
         private void NavToolbarDetailsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView(true);
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView();
         private void NavToolbarTilesHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles(true);
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles();
         private void NavToolbarSmallIconsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall(true);
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall();
         private void NavToolbarMediumIconsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium(true);
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium();
         private void NavToolbarLargeIconsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge(true);
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge();
         private void NavToolbarColumnsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView(true);
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView();
+        private void NavToolbarAdaptiveHeader_Tapped(object sender, TappedRoutedEventArgs e)
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeAdaptive();
     }
 }

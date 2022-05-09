@@ -66,11 +66,6 @@ namespace Files.Backend.Services.Settings
         bool AreLayoutPreferencesPerFolder { get; set; }
 
         /// <summary>
-        /// Enables adaptive layout that adjusts layout mode based on the context of the directory
-        /// </summary>
-        bool AdaptiveLayoutEnabled { get; set; }
-
-        /// <summary>
         /// Gets or sets a value indicating whether or not to enable file tags feature.
         /// </summary>
         bool AreFileTagsEnabled { get; set; }

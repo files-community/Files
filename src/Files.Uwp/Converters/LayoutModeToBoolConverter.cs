@@ -9,16 +9,22 @@ namespace Files.Uwp.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if ((App.Current.Resources[parameter as string] as FolderLayoutInformation) is FolderLayoutInformation param
-                && value is FolderLayoutInformation layoutModeValue && layoutModeValue.Mode == param.Mode)
+            if (parameter is FolderLayoutInformation param && value is FolderLayoutInformation layoutModeValue)
             {
-                if (layoutModeValue.Mode != FolderLayoutModes.GridView)
+                if (param.Mode == FolderLayoutModes.Adaptive)
                 {
-                    return true;
+                    return layoutModeValue.IsAdaptive;
+                }
+                else if (layoutModeValue.Mode != FolderLayoutModes.GridView)
+                {
+                    return layoutModeValue.Mode == param.Mode
+                        && !layoutModeValue.IsAdaptive;
                 }
                 else
                 {
-                    return param.SizeKind == layoutModeValue.SizeKind;
+                    return layoutModeValue.Mode == param.Mode
+                        && param.SizeKind == layoutModeValue.SizeKind
+                        && !layoutModeValue.IsAdaptive;
                 }
             }
             else
