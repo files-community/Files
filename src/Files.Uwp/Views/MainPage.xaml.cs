@@ -1,15 +1,15 @@
-﻿using Files.Uwp.DataModels.NavigationControlItems;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
-using Files.Uwp.EventArguments;
+using Files.Shared.EventArguments;
+using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
-using Files.Backend.Services.Settings;
 using Files.Uwp.UserControls;
 using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.ViewModels;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.ComponentModel;
@@ -23,7 +23,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using Files.Shared.EventArguments;
 
 namespace Files.Uwp.Views
 {
@@ -350,6 +349,21 @@ namespace Files.Uwp.Views
             }
         }
 
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            switch (Pane?.Position)
+            {
+                case PanePositions.Right when ContentColumn.ActualWidth == ContentColumn.MinWidth:
+                    UserSettingsService.PaneSettingsService.VerticalSizePx += e.NewSize.Width - e.PreviousSize.Width;
+                    UpdatePositioning();
+                    break;
+                case PanePositions.Bottom when ContentRow.ActualHeight == ContentRow.MinHeight:
+                    UserSettingsService.PaneSettingsService.HorizontalSizePx += e.NewSize.Height - e.PreviousSize.Height;
+                    UpdatePositioning();
+                    break;
+            }
+        }
+
         private void ToggleFullScreenAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
             ApplicationView view = ApplicationView.GetForCurrentView();
@@ -439,17 +453,14 @@ namespace Files.Uwp.Views
 
         private void PaneSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            if (Pane is IPane p)
+            switch (Pane?.Position)
             {
-                switch (p.Position)
-                {
-                    case PanePositions.Right:
-                        UserSettingsService.PaneSettingsService.VerticalSizePx = Pane.ActualWidth;
-                        break;
-                    case PanePositions.Bottom:
-                        UserSettingsService.PaneSettingsService.HorizontalSizePx = Pane.ActualHeight;
-                        break;
-                }
+                case PanePositions.Right:
+                    UserSettingsService.PaneSettingsService.VerticalSizePx = Pane.ActualWidth;
+                    break;
+                case PanePositions.Bottom:
+                    UserSettingsService.PaneSettingsService.HorizontalSizePx = Pane.ActualHeight;
+                    break;
             }
         }
 
