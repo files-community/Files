@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Windows.Input;
+using Windows.Storage;
 using static Files.Uwp.ViewModels.FolderLayoutInformation;
 
 namespace Files.Uwp.ViewModels
@@ -343,7 +344,7 @@ namespace Files.Uwp.ViewModels
         public void UpdateLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-            if (false && userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder) // TODO: enable
+            if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
             {
                 // Sanitize the folderPath by removing the trailing '\\'. This has to be performed because paths to drives
                 // include an '\\' at the end (unlike paths to folders)
@@ -523,7 +524,7 @@ namespace Files.Uwp.ViewModels
                     GridViewSize = (int)compositeValue[nameof(GridViewSize)],
                     DirectorySortOption = (SortOption)(int)compositeValue[nameof(DirectorySortOption)],
                     DirectorySortDirection = (SortDirection)(int)compositeValue[nameof(DirectorySortDirection)],
-                    IsAdaptiveLayoutOverridden = compositeValue[nameof(IsAdaptiveLayoutOverridden)] is bool val ? val : false,
+                    IsAdaptiveLayoutEnabled = compositeValue[nameof(IsAdaptiveLayoutEnabled)] is bool val ? val : false,
                 };
 
                 if (compositeValue.TryGetValue(nameof(DirectoryGroupOption), out var gpOption))
@@ -554,7 +555,7 @@ namespace Files.Uwp.ViewModels
                     { nameof(DirectorySortOption), (int)this.DirectorySortOption },
                     { nameof(DirectoryGroupOption), (int)this.DirectoryGroupOption },
                     { nameof(DirectorySortDirection), (int)this.DirectorySortDirection },
-                    { nameof(IsAdaptiveLayoutOverridden), (bool)this.IsAdaptiveLayoutOverridden },
+                    { nameof(IsAdaptiveLayoutEnabled), (bool)this.IsAdaptiveLayoutEnabled },
                     { nameof(ColumnsViewModel), JsonConvert.SerializeObject(this.ColumnsViewModel) }
                 };
             }
