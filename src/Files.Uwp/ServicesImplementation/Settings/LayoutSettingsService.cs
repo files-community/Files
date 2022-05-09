@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services.Settings;
+﻿using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Files.Uwp.Serialization;
 
@@ -7,12 +6,14 @@ namespace Files.Uwp.ServicesImplementation.Settings
 {
     internal sealed class LayoutSettingsService : BaseObservableJsonSettings, ILayoutSettingsService
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private readonly IUserSettingsService userSettingsService;
 
         public LayoutSettingsService(ISettingsSharingContext settingsSharingContext)
         {
             // Register root
             RegisterSettingsContext(settingsSharingContext);
+
+            userSettingsService = settingsSharingContext as IUserSettingsService;
         }
 
         public bool ShowDateColumn
@@ -71,7 +72,7 @@ namespace Files.Uwp.ServicesImplementation.Settings
         
         public bool DefaultSortDirectoriesAlongsideFiles
         {
-            get => Get(UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles);
+            get => Get(userSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles);
             set => Set(value);
         }
 
