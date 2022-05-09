@@ -364,7 +364,7 @@ namespace Files.Uwp.ViewModels
 
         public bool AreDirectoriesSortedAlongsideFiles
         {
-            get => !IsSortedAscending;
+            get => folderSettings.SortDirectoriesAlongsideFiles;
             set
             {
                 folderSettings.SortDirectoriesAlongsideFiles = value;
