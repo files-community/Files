@@ -498,10 +498,8 @@ namespace Files.Uwp.ViewModels
                             // get the item that immediately follows matching item to be removed
                             // if the matching item is the last item, try to get the previous item; otherwise, null
                             // case must be ignored since $Recycle.Bin != $RECYCLE.BIN
-                            var nextOfMatchingItem = filesAndFolders
-                                .SkipWhile((x) => !x.ItemPath.Equals(itemPath, StringComparison.OrdinalIgnoreCase)).Skip(1)
-                                .DefaultIfEmpty(filesAndFolders.TakeWhile((x) => !x.ItemPath.Equals(itemPath, StringComparison.OrdinalIgnoreCase)).LastOrDefault())
-                                .FirstOrDefault();
+                            var itemRemovedIndex = filesAndFolders.FindIndex(x => x.ItemPath.Equals(itemPath, StringComparison.OrdinalIgnoreCase));
+                            var nextOfMatchingItem = filesAndFolders.ElementAtOrDefault(itemRemovedIndex + 1 < filesAndFolders.Count() ? itemRemovedIndex + 1 : itemRemovedIndex - 1);
                             var removedItem = await RemoveFileOrFolderAsync(itemPath);
                             if (removedItem != null)
                             {
@@ -2027,17 +2025,21 @@ namespace Files.Uwp.ViewModels
                                     case FILE_ACTION_REMOVED:
                                         // get the item that immediately follows matching item to be removed
                                         // if the matching item is the last item, try to get the previous item; otherwise, null
-                                        nextOfLastItemRemoved = filesAndFolders
-                                            .SkipWhile(x => !x.ItemPath.Equals(operation.FileName)).Skip(1)
-                                            .DefaultIfEmpty(filesAndFolders.TakeWhile(x => !x.ItemPath.Equals(operation.FileName)).LastOrDefault())
-                                            .FirstOrDefault();
-                                        await RemoveFileOrFolderAsync(operation.FileName);
-                                        anyEdits = true;
+                                        var itemRemovedIndex = filesAndFolders.FindIndex(x => x.ItemPath.Equals(operation.FileName));
+                                        nextOfLastItemRemoved = filesAndFolders.ElementAtOrDefault(itemRemovedIndex + 1 < filesAndFolders.Count() ? itemRemovedIndex + 1 : itemRemovedIndex - 1);
+                                        var itemRemoved = await RemoveFileOrFolderAsync(operation.FileName);
+                                        if (itemRemoved != null)
+                                        {
+                                            anyEdits = true;
+                                        }
                                         break;
 
                                     case FILE_ACTION_RENAMED_OLD_NAME:
-                                        await RemoveFileOrFolderAsync(operation.FileName);
-                                        anyEdits = true;
+                                        var itemRenamedOld = await RemoveFileOrFolderAsync(operation.FileName);
+                                        if (itemRenamedOld != null)
+                                        {
+                                            anyEdits = true;
+                                        }
                                         break;
                                 }
                             }
