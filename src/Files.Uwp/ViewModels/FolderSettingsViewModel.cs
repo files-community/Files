@@ -642,19 +642,4 @@ namespace Files.Uwp.ViewModels
 
         private void ChangeGroupOption(GroupOption option) => DirectoryGroupOption = option;
     }
-
-    public class FolderLayoutInformation
-    {
-        public FolderLayoutModes Mode { get; set; }
-        public GridViewSizeKind SizeKind { get; set; }
-
-        public enum GridViewSizeKind
-        {
-            Small,
-            Medium,
-            Large
-        }
-
-        public bool IsAdaptive { get; set; }
-    }
 }
