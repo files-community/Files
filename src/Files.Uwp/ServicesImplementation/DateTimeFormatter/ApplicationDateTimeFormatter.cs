@@ -9,41 +9,24 @@ namespace Files.Uwp.ServicesImplementation.DateTimeFormatter
 
         public override string ToShortLabel(DateTimeOffset offset)
         {
-            var elapsed = DateTimeOffset.Now - offset;
-
-            if (offset.Year <= 1601 || offset.Year >= 9999)
+            if (offset.Year is <= 1601 or >= 9999)
             {
                 return " ";
             }
-            if (elapsed.TotalDays >= 7)
+
+            var elapsed = DateTimeOffset.Now - offset;
+
+            return elapsed switch
             {
-                return offset.ToLocalTime().ToString("D");
-            }
-            if (elapsed.TotalDays >= 2)
-            {
-                return string.Format("DaysAgo".GetLocalized(), elapsed.Days);
-            }
-            if (elapsed.TotalDays >= 1)
-            {
-                return string.Format("DayAgo".GetLocalized(), elapsed.Days);
-            }
-            if (elapsed.TotalHours >= 2)
-            {
-                return string.Format("HoursAgo".GetLocalized(), elapsed.Hours);
-            }
-            if (elapsed.TotalHours >= 1)
-            {
-                return string.Format("HourAgo".GetLocalized(), elapsed.Hours);
-            }
-            if (elapsed.TotalMinutes >= 2)
-            {
-                return string.Format("MinutesAgo".GetLocalized(), elapsed.Minutes);
-            }
-            if (elapsed.TotalMinutes >= 1)
-            {
-                return string.Format("MinuteAgo".GetLocalized(), elapsed.Minutes);
-            }
-            return string.Format("SecondsAgo".GetLocalized(), elapsed.Seconds);
+                { TotalDays: >= 7 } => offset.ToLocalTime().ToString("D"),
+                { TotalDays: >= 2 } => string.Format("DaysAgo".GetLocalized(), elapsed.Days),
+                { TotalDays: >= 1 } => string.Format("DayAgo".GetLocalized(), elapsed.Days),
+                { TotalHours: >= 2 } => string.Format("HoursAgo".GetLocalized(), elapsed.Hours),
+                { TotalHours: >= 1 } => string.Format("HourAgo".GetLocalized(), elapsed.Hours),
+                { TotalMinutes: >= 2 } => string.Format("MinutesAgo".GetLocalized(), elapsed.Minutes),
+                { TotalMinutes: >= 1 } => string.Format("MinuteAgo".GetLocalized(), elapsed.Minutes),
+                _ => string.Format("SecondsAgo".GetLocalized(), elapsed.Seconds),
+            };
         }
 
         public override string ToLongLabel(DateTimeOffset offset)

@@ -42,7 +42,7 @@ namespace Files.Uwp.ServicesImplementation.DateTimeFormatter
             return calendar.GetWeekOfYear(t.DateTime, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
         }
 
-        internal class Label : ITimeSpanLabel
+        private class Label : ITimeSpanLabel
         {
             public string Text { get; }
             public string Glyph { get; }
