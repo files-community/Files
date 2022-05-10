@@ -15,7 +15,7 @@
     d:DesignHeight="40"
     d:DesignWidth="400"
     mc:Ignorable="d"
-    DataContext="{x:Bind ViewModel}">
+    DataContext="{x:Bind ViewModel, Mode=OneWay}">
     <UserControl.Resources>
         <ResourceDictionary>
             <Style x:Key="AccentColorFontIconStyle" TargetType="FontIcon" />
@@ -656,7 +656,7 @@
                                 <Border
                                     Grid.RowSpan="4"
                                     Grid.Column="2"
-                                    Height="100"
+                                    Height="120"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     BorderBrush="{ThemeResource ControlStrokeColorDefault}"
