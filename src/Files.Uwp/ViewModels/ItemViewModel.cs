@@ -1975,6 +1975,24 @@ namespace Files.Uwp.ViewModels
             ListedItem nextOfLastItemRemoved = null;
             var rand = Guid.NewGuid();
 
+            // call when any edits have occurred
+            async Task HandleChangesOccurredAsync()
+            {
+                await OrderFilesAndFoldersAsync();
+                await ApplyFilesAndFoldersChangesAsync();
+                if (lastItemAdded != null)
+                {
+                    await RequestSelectionAsync(new List<ListedItem>() { lastItemAdded });
+                    lastItemAdded = null;
+                }
+                if (nextOfLastItemRemoved != null)
+                {
+                    await RequestSelectionAsync(new List<ListedItem>() { nextOfLastItemRemoved });
+                    nextOfLastItemRemoved = null;
+                }
+                anyEdits = false;
+            }
+
             try
             {
                 while (!cancellationToken.IsCancellationRequested)
@@ -2030,19 +2048,7 @@ namespace Files.Uwp.ViewModels
 
                             if (anyEdits && sampler.CheckNow())
                             {
-                                await OrderFilesAndFoldersAsync();
-                                await ApplyFilesAndFoldersChangesAsync();
-                                if (lastItemAdded != null)
-                                {
-                                    await RequestSelectionAsync(new List<ListedItem>() { lastItemAdded });
-                                    lastItemAdded = null;
-                                }
-                                if (nextOfLastItemRemoved != null)
-                                {
-                                    await RequestSelectionAsync(new List<ListedItem>() { nextOfLastItemRemoved });
-                                    nextOfLastItemRemoved = null;
-                                }
-                                anyEdits = false;
+                                await HandleChangesOccurredAsync();
                             }
                         }
 
@@ -2069,19 +2075,7 @@ namespace Files.Uwp.ViewModels
 
                     if (anyEdits && sampler.CheckNow())
                     {
-                        await OrderFilesAndFoldersAsync();
-                        await ApplyFilesAndFoldersChangesAsync();
-                        if (lastItemAdded != null)
-                        {
-                            await RequestSelectionAsync(new List<ListedItem>() { lastItemAdded });
-                            lastItemAdded = null;
-                        }
-                        if (nextOfLastItemRemoved != null)
-                        {
-                            await RequestSelectionAsync(new List<ListedItem>() { nextOfLastItemRemoved });
-                            nextOfLastItemRemoved = null;
-                        }
-                        anyEdits = false;
+                        await HandleChangesOccurredAsync();
                     }
                 }
             }
