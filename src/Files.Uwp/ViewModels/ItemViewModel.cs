@@ -1991,16 +1991,12 @@ namespace Files.Uwp.ViewModels
                                 switch (operation.Action)
                                 {
                                     case FILE_ACTION_ADDED:
+                                    case FILE_ACTION_RENAMED_NEW_NAME:
                                         lastItemAdded = await AddFileOrFolderAsync(operation.FileName, returnformat);
                                         if (lastItemAdded != null)
                                         {
                                             anyEdits = true;
                                         }
-                                        break;
-
-                                    case FILE_ACTION_RENAMED_NEW_NAME:
-                                        await AddFileOrFolderAsync(operation.FileName, returnformat);
-                                        anyEdits = true;
                                         break;
 
                                     case FILE_ACTION_MODIFIED:
