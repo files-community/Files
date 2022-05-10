@@ -562,10 +562,10 @@ namespace Files.Uwp.Views.LayoutModes
                     case FolderLayoutModes.ColumnView:
                         break;
                     case FolderLayoutModes.DetailsView:
-                        parent.FolderSettings.ToggleLayoutModeDetailsView();
+                        parent.FolderSettings.ToggleLayoutModeDetailsView(true);
                         break;
                     case FolderLayoutModes.TilesView:
-                        parent.FolderSettings.ToggleLayoutModeTiles();
+                        parent.FolderSettings.ToggleLayoutModeTiles(true);
                         break;
                     case FolderLayoutModes.GridView:
                         parent.FolderSettings.ToggleLayoutModeGridView(e.GridViewSize);

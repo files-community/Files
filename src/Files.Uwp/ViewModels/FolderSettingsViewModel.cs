@@ -27,13 +27,13 @@ namespace Files.Uwp.ViewModels
         {
             LayoutPreference = new LayoutPreferences();
 
-            ToggleLayoutModeGridViewLargeCommand = new RelayCommand(ToggleLayoutModeGridViewLarge);
-            ToggleLayoutModeColumnViewCommand = new RelayCommand(ToggleLayoutModeColumnView);
-            ToggleLayoutModeGridViewMediumCommand = new RelayCommand(ToggleLayoutModeGridViewMedium);
-            ToggleLayoutModeGridViewSmallCommand = new RelayCommand(ToggleLayoutModeGridViewSmall);
+            ToggleLayoutModeGridViewLargeCommand = new RelayCommand<bool>(ToggleLayoutModeGridViewLarge);
+            ToggleLayoutModeColumnViewCommand = new RelayCommand<bool>(ToggleLayoutModeColumnView);
+            ToggleLayoutModeGridViewMediumCommand = new RelayCommand<bool>(ToggleLayoutModeGridViewMedium);
+            ToggleLayoutModeGridViewSmallCommand = new RelayCommand<bool>(ToggleLayoutModeGridViewSmall);
             ToggleLayoutModeGridViewCommand = new RelayCommand<int>(ToggleLayoutModeGridView);
-            ToggleLayoutModeTilesCommand = new RelayCommand(ToggleLayoutModeTiles);
-            ToggleLayoutModeDetailsViewCommand = new RelayCommand(ToggleLayoutModeDetailsView);
+            ToggleLayoutModeTilesCommand = new RelayCommand<bool>(ToggleLayoutModeTiles);
+            ToggleLayoutModeDetailsViewCommand = new RelayCommand<bool>(ToggleLayoutModeDetailsView);
             ToggleLayoutModeAdaptiveCommand = new RelayCommand(ToggleLayoutModeAdaptive);
 
             ChangeGroupOptionCommand = new RelayCommand<GroupOption>(ChangeGroupOption);
@@ -48,10 +48,10 @@ namespace Files.Uwp.ViewModels
 
         public bool IsAdaptiveLayoutEnabled
         {
-            get => LayoutPreference.IsAdaptiveLayoutEnabled;
+            get => UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder && !LayoutPreference.IsAdaptiveLayoutOverridden;
             set
             {
-                if (SetProperty(ref LayoutPreference.IsAdaptiveLayoutEnabled, value, nameof(IsAdaptiveLayoutEnabled)))
+                if (SetProperty(ref LayoutPreference.IsAdaptiveLayoutOverridden, !value, nameof(IsAdaptiveLayoutEnabled)))
                 {
                     LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
                 }
@@ -208,13 +208,13 @@ namespace Files.Uwp.ViewModels
                 {
                     if (LayoutMode == FolderLayoutModes.TilesView) // Size down from tiles to list
                     {
-                        LayoutPreference.IsAdaptiveLayoutEnabled = false;
+                        LayoutPreference.IsAdaptiveLayoutOverridden = true;
                         LayoutMode = FolderLayoutModes.DetailsView;
                         LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
                     }
                     else if (LayoutMode == FolderLayoutModes.GridView && value < Constants.Browser.GridViewBrowser.GridViewSizeSmall) // Size down from grid to tiles
                     {
-                        LayoutPreference.IsAdaptiveLayoutEnabled = false;
+                        LayoutPreference.IsAdaptiveLayoutOverridden = true;
                         LayoutMode = FolderLayoutModes.TilesView;
                         LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
                     }
@@ -225,7 +225,7 @@ namespace Files.Uwp.ViewModels
 
                         if (LayoutMode != FolderLayoutModes.GridView) // Only update layout mode if it isn't already in grid view
                         {
-                            LayoutPreference.IsAdaptiveLayoutEnabled = false;
+                            LayoutPreference.IsAdaptiveLayoutOverridden = true;
                             LayoutMode = FolderLayoutModes.GridView;
                             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
                         }
@@ -241,7 +241,7 @@ namespace Files.Uwp.ViewModels
                 {
                     if (LayoutMode == FolderLayoutModes.DetailsView) // Size up from list to tiles
                     {
-                        LayoutPreference.IsAdaptiveLayoutEnabled = false;
+                        LayoutPreference.IsAdaptiveLayoutOverridden = true;
                         LayoutMode = FolderLayoutModes.TilesView;
                         LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
                     }
@@ -252,7 +252,7 @@ namespace Files.Uwp.ViewModels
 
                         if (LayoutMode != FolderLayoutModes.GridView) // Only update layout mode if it isn't already in grid view
                         {
-                            LayoutPreference.IsAdaptiveLayoutEnabled = false;
+                            LayoutPreference.IsAdaptiveLayoutOverridden = true;
                             LayoutMode = FolderLayoutModes.GridView;
                             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
                         }
@@ -493,7 +493,7 @@ namespace Files.Uwp.ViewModels
             public GroupOption DirectoryGroupOption;
             public FolderLayoutModes LayoutMode;
             public int GridViewSize;
-            public bool IsAdaptiveLayoutEnabled;
+            public bool IsAdaptiveLayoutOverridden;
 
             public ColumnsViewModel ColumnsViewModel;
 
@@ -506,7 +506,7 @@ namespace Files.Uwp.ViewModels
                 this.DirectorySortOption = UserSettingsService.LayoutSettingsService.DefaultDirectorySortOption;
                 this.DirectoryGroupOption = UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption;
                 this.DirectorySortDirection = UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection;
-                this.IsAdaptiveLayoutEnabled = true;
+                this.IsAdaptiveLayoutOverridden = false;
 
                 this.ColumnsViewModel = new ColumnsViewModel();
                 this.ColumnsViewModel.DateCreatedColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn;
@@ -524,7 +524,7 @@ namespace Files.Uwp.ViewModels
                     GridViewSize = (int)compositeValue[nameof(GridViewSize)],
                     DirectorySortOption = (SortOption)(int)compositeValue[nameof(DirectorySortOption)],
                     DirectorySortDirection = (SortDirection)(int)compositeValue[nameof(DirectorySortDirection)],
-                    IsAdaptiveLayoutEnabled = compositeValue[nameof(IsAdaptiveLayoutEnabled)] is bool val ? val : false,
+                    IsAdaptiveLayoutOverridden = compositeValue[nameof(IsAdaptiveLayoutOverridden)] is bool val ? val : false,
                 };
 
                 if (compositeValue.TryGetValue(nameof(DirectoryGroupOption), out var gpOption))
@@ -555,7 +555,7 @@ namespace Files.Uwp.ViewModels
                     { nameof(DirectorySortOption), (int)this.DirectorySortOption },
                     { nameof(DirectoryGroupOption), (int)this.DirectoryGroupOption },
                     { nameof(DirectorySortDirection), (int)this.DirectorySortDirection },
-                    { nameof(IsAdaptiveLayoutEnabled), (bool)this.IsAdaptiveLayoutEnabled },
+                    { nameof(IsAdaptiveLayoutOverridden), (bool)this.IsAdaptiveLayoutOverridden },
                     { nameof(ColumnsViewModel), JsonConvert.SerializeObject(this.ColumnsViewModel) }
                 };
             }
@@ -577,7 +577,7 @@ namespace Files.Uwp.ViewModels
                         prefs.GridViewSize == this.GridViewSize &&
                         prefs.DirectorySortOption == this.DirectorySortOption &&
                         prefs.DirectorySortDirection == this.DirectorySortDirection &&
-                        prefs.IsAdaptiveLayoutEnabled == this.IsAdaptiveLayoutEnabled &&
+                        prefs.IsAdaptiveLayoutOverridden == this.IsAdaptiveLayoutOverridden &&
                         prefs.ColumnsViewModel == this.ColumnsViewModel);
                 }
                 return base.Equals(obj);
@@ -589,8 +589,10 @@ namespace Files.Uwp.ViewModels
             }
         }
 
-        public void ToggleLayoutModeGridViewLarge()
+        public void ToggleLayoutModeGridViewLarge(bool manuallySet)
         {
+            IsAdaptiveLayoutEnabled &= !manuallySet;
+
             LayoutMode = FolderLayoutModes.GridView; // Grid View
 
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Size
@@ -598,15 +600,19 @@ namespace Files.Uwp.ViewModels
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.GridView, GridViewSize));
         }
 
-        public void ToggleLayoutModeColumnView()
+        public void ToggleLayoutModeColumnView(bool manuallySet)
         {
+            IsAdaptiveLayoutEnabled &= !manuallySet;
+
             LayoutMode = FolderLayoutModes.ColumnView; // Column View
 
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.ColumnView, GridViewSize));
         }
 
-        public void ToggleLayoutModeGridViewMedium()
+        public void ToggleLayoutModeGridViewMedium(bool manuallySet)
         {
+            IsAdaptiveLayoutEnabled &= !manuallySet;
+
             LayoutMode = FolderLayoutModes.GridView; // Grid View
 
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeMedium; // Size
@@ -614,8 +620,10 @@ namespace Files.Uwp.ViewModels
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.GridView, GridViewSize));
         }
 
-        public void ToggleLayoutModeGridViewSmall()
+        public void ToggleLayoutModeGridViewSmall(bool manuallySet)
         {
+            IsAdaptiveLayoutEnabled &= !manuallySet;
+
             LayoutMode = FolderLayoutModes.GridView; // Grid View
 
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Size
@@ -632,15 +640,19 @@ namespace Files.Uwp.ViewModels
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
         }
 
-        public void ToggleLayoutModeTiles()
+        public void ToggleLayoutModeTiles(bool manuallySet)
         {
+            IsAdaptiveLayoutEnabled &= !manuallySet;
+
             LayoutMode = FolderLayoutModes.TilesView; // Tiles View
 
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.TilesView, GridViewSize));
         }
 
-        public void ToggleLayoutModeDetailsView()
+        public void ToggleLayoutModeDetailsView(bool manuallySet)
         {
+            IsAdaptiveLayoutEnabled &= !manuallySet;
+
             LayoutMode = FolderLayoutModes.DetailsView; // Details View
 
             LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.DetailsView, GridViewSize));

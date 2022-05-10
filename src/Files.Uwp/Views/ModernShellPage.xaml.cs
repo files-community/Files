@@ -812,27 +812,27 @@ namespace Files.Uwp.Views
                     break;
 
                 case (true, true, false, _, VirtualKey.Number1): // ctrl+shift+1, details view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView();
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number2): // ctrl+shift+2, tiles view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeTiles();
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeTiles(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number3): // ctrl+shift+3, grid small view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall();
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number4): // ctrl+shift+4, grid medium view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium();
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number5): // ctrl+shift+5, grid large view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge();
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number6): // ctrl+shift+6, column view
-                    InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView();
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView(true);
                     break;
 
                 case (true, true, false, _, VirtualKey.Number7): // ctrl+shift+7, adaptive

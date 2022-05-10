@@ -18,8 +18,8 @@ namespace Files.Uwp.Helpers
                 && folderSettings.IsAdaptiveLayoutEnabled
                 && !folderSettings.IsLayoutModeFixed)
             {
-                Action layoutDetails = () => folderSettings.ToggleLayoutModeDetailsView();
-                Action layoutTiles = () => folderSettings.ToggleLayoutModeTiles();
+                Action layoutDetails = () => folderSettings.ToggleLayoutModeDetailsView(false);
+                Action layoutTiles = () => folderSettings.ToggleLayoutModeTiles(false);
                 Action layoutGridView = () => folderSettings.ToggleLayoutModeGridView(folderSettings.GridViewSize);
 
                 bool desktopIniFound = false;
