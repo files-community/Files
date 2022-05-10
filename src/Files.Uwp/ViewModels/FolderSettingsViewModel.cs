@@ -11,7 +11,6 @@ using System;
 using System.Linq;
 using System.Windows.Input;
 using Windows.Storage;
-using static Files.Uwp.ViewModels.FolderLayoutInformation;
 
 namespace Files.Uwp.ViewModels
 {

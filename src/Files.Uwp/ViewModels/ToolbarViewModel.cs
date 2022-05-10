@@ -223,15 +223,15 @@ namespace Files.Uwp.ViewModels
 
         public bool IsLayoutGridViewSmall
             => InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.GridView 
-            && InstanceViewModel.FolderSettings.GridViewSizeKind == FolderLayoutInformation.GridViewSizeKind.Small && !IsLayoutAdaptive;
+            && InstanceViewModel.FolderSettings.GridViewSizeKind == GridViewSizeKind.Small && !IsLayoutAdaptive;
 
         public bool IsLayoutGridViewMedium
             => InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.GridView 
-            && InstanceViewModel.FolderSettings.GridViewSizeKind == FolderLayoutInformation.GridViewSizeKind.Medium && !IsLayoutAdaptive;
+            && InstanceViewModel.FolderSettings.GridViewSizeKind == GridViewSizeKind.Medium && !IsLayoutAdaptive;
 
         public bool IsLayoutGridViewLarge
             => InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.GridView 
-            && InstanceViewModel.FolderSettings.GridViewSizeKind == FolderLayoutInformation.GridViewSizeKind.Large && !IsLayoutAdaptive;
+            && InstanceViewModel.FolderSettings.GridViewSizeKind == GridViewSizeKind.Large && !IsLayoutAdaptive;
 
         public bool IsLayoutColumnsView
             => InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.ColumnView && !IsLayoutAdaptive;
