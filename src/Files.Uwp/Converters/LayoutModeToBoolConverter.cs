@@ -9,7 +9,8 @@ namespace Files.Uwp.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (parameter is FolderLayoutInformation param && value is FolderLayoutInformation layoutModeValue)
+            if (App.Current.Resources[parameter as string] is FolderLayoutInformation param
+                && value is FolderLayoutInformation layoutModeValue)
             {
                 if (param.Mode == FolderLayoutModes.Adaptive)
                 {

@@ -9,13 +9,11 @@
     xmlns:converters="using:Files.Uwp.Converters"
     xmlns:helpers="using:Files.Uwp.Helpers"
     xmlns:xh="using:Files.Uwp.Helpers.XamlHelpers"
-    xmlns:fsvm="using:Files.Uwp.ViewModels"
     xmlns:local="using:Files.Uwp.UserControls"
     xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     d:DesignHeight="40"
     d:DesignWidth="400"
-    mc:Ignorable="d"
-    DataContext="{x:Bind ViewModel, Mode=OneWay}">
+    mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <Style x:Key="AccentColorFontIconStyle" TargetType="FontIcon" />
@@ -30,22 +28,6 @@
             <converters:IntToSortDirection x:Key="IntToSortDirection" />
             <x:Boolean x:Key="True">True</x:Boolean>
             <x:Boolean x:Key="False">False</x:Boolean>
-            <fsvm:FolderLayoutInformation x:Key="DetailsInfo" Mode="DetailsView" />
-            <fsvm:FolderLayoutInformation x:Key="TilesInfo" Mode="TilesView" />
-            <fsvm:FolderLayoutInformation x:Key="ColumnInfo" Mode="ColumnView" />
-            <fsvm:FolderLayoutInformation x:Key="AdaptiveInfo" Mode="Adaptive" />
-            <fsvm:FolderLayoutInformation
-                x:Key="SmallGridInfo"
-                Mode="GridView"
-                SizeKind="Small" />
-            <fsvm:FolderLayoutInformation
-                x:Key="MediumGridInfo"
-                Mode="GridView"
-                SizeKind="Medium" />
-            <fsvm:FolderLayoutInformation
-                x:Key="LargeGridInfo"
-                Mode="GridView"
-                SizeKind="Large" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/PathIcons.xaml" />
                 <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
@@ -558,7 +540,7 @@
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsViewCommand, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{Binding InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter={StaticResource DetailsInfo}}"
+                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=DetailsInfo}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
                                     ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarDetails/ToolTipService/ToolTip}">
                                     <FontIcon FontSize="16" Glyph="&#xE179;" />
@@ -585,7 +567,7 @@
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeTilesCommand, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{Binding InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter={StaticResource TilesInfo}}"
+                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=TilesInfo}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
                                     ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarTiles/ToolTipService/ToolTip}">
                                     <FontIcon FontSize="16" Glyph="&#xE15C;" />
@@ -612,7 +594,7 @@
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmallCommand, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{Binding InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter={StaticResource SmallGridInfo}}"
+                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
                                     ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarSmallIcons/ToolTipService/ToolTip}">
                                     <FontIcon FontSize="16" Glyph="&#xE80A;" />
@@ -639,7 +621,7 @@
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMediumCommand, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{Binding InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter={StaticResource MediumGridInfo}}"
+                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
                                     ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarMediumIcons/ToolTipService/ToolTip}">
                                     <FontIcon FontSize="16" Glyph="&#xF0E2;" />
@@ -675,7 +657,7 @@
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLargeCommand, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{Binding InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter={StaticResource LargeGridInfo}}"
+                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=LargeGridInfo}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
                                     ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarLargeIcons/ToolTipService/ToolTip}">
                                     <FontIcon FontSize="16" Glyph="&#xE739;" />
@@ -702,7 +684,7 @@
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnViewCommand, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{Binding InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter={StaticResource ColumnInfo}}"
+                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
                                     ToolTipService.ToolTip="{helpers:ResourceString Name=ColumnsShortcutTooltip}">
                                     <FontIcon
@@ -731,7 +713,7 @@
                                     AutomationProperties.Name="{helpers:ResourceString Name=Adaptive}"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeAdaptiveCommand, Mode=OneWay}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{Binding InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter={StaticResource AdaptiveInfo}}"
+                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=AdaptiveInfo}"
                                     IsEnabled="{x:Bind UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder, Mode=OneWay}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
                                     ToolTipService.ToolTip="{helpers:ResourceString Name=AdaptiveShortcutTooltip}">
