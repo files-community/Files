@@ -141,7 +141,6 @@
     <Compile Include="Converters\WidthToRightMargin.cs" />
     <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="Converters\VisibilityInvertConverter.cs" />
-    <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
     <Compile Include="DataModels\NavigationControlItems\FileTagItem.cs" />
     <Compile Include="DataModels\NavigationControlItems\WslDistroItem.cs" />
     <Compile Include="Extensions\ShellNewEntryExtensions.cs" />
