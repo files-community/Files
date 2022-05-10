@@ -37,8 +37,6 @@ namespace Files.Uwp.ViewModels
             ToggleLayoutModeAdaptiveCommand = new RelayCommand(ToggleLayoutModeAdaptive);
 
             ChangeGroupOptionCommand = new RelayCommand<GroupOption>(ChangeGroupOption);
-
-            SetLayoutInformation();
         }
         public FolderSettingsViewModel(FolderLayoutModes modeOverride) : this() => rootLayoutMode = modeOverride;
 
@@ -48,7 +46,7 @@ namespace Files.Uwp.ViewModels
 
         public bool IsAdaptiveLayoutEnabled
         {
-            get => UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder && !LayoutPreference.IsAdaptiveLayoutOverridden;
+            get => !LayoutPreference.IsAdaptiveLayoutOverridden;
             set
             {
                 if (SetProperty(ref LayoutPreference.IsAdaptiveLayoutOverridden, !value, nameof(IsAdaptiveLayoutEnabled)))
@@ -65,7 +63,6 @@ namespace Files.Uwp.ViewModels
             {
                 if (SetProperty(ref LayoutPreference.LayoutMode, value, nameof(LayoutMode)))
                 {
-                    SetLayoutInformation();
                     LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
                 }
             }
@@ -101,24 +98,6 @@ namespace Files.Uwp.ViewModels
             {
                 return Constants.Browser.GridViewBrowser.GridViewSizeMax; // Extra large thumbnail
             }
-        }
-
-        private FolderLayoutInformation layoutModeInformation;
-
-        public FolderLayoutInformation LayoutModeInformation
-        {
-            get => layoutModeInformation;
-            set => SetProperty(ref layoutModeInformation, value);
-        }
-
-        public void SetLayoutInformation()
-        {
-            LayoutModeInformation = new FolderLayoutInformation()
-            {
-                Mode = LayoutMode,
-                SizeKind = GridViewSizeKind,
-                IsAdaptive = IsAdaptiveLayoutEnabled
-            };
         }
 
         private bool isLayoutModeChanging;
@@ -267,8 +246,6 @@ namespace Files.Uwp.ViewModels
                         }
                     }
                 }
-
-                SetLayoutInformation();
             }
         }
 
