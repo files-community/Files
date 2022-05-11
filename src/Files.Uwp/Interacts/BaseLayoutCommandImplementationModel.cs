@@ -805,15 +805,23 @@ namespace Files.Uwp.Interacts
 
         public async Task RotateImageLeft()
         {
-            await BitmapHelper.Rotate(PathNormalization.NormalizePath(SlimContentPage?.SelectedItems.First().ItemPath), BitmapRotation.Clockwise270Degrees);
-            SlimContentPage?.ItemManipulationModel.RefreshItemsThumbnail();
+            foreach (var image in SlimContentPage.SelectedItems)
+            {
+                await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise270Degrees);
+            }
+
+            SlimContentPage.ItemManipulationModel.RefreshItemsThumbnail();
             App.PreviewPaneViewModel.UpdateSelectedItemPreview();
         }
 
         public async Task RotateImageRight()
         {
-            await BitmapHelper.Rotate(PathNormalization.NormalizePath(SlimContentPage?.SelectedItems.First().ItemPath), BitmapRotation.Clockwise90Degrees);
-            SlimContentPage?.ItemManipulationModel.RefreshItemsThumbnail();
+            foreach (var image in SlimContentPage.SelectedItems)
+            {
+                await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise90Degrees);
+            }
+
+            SlimContentPage.ItemManipulationModel.RefreshItemsThumbnail();
             App.PreviewPaneViewModel.UpdateSelectedItemPreview();
         }
 
