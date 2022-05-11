@@ -436,11 +436,17 @@ namespace Files.Uwp.ViewModels
                 case nameof(UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden):
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowDotFiles):
+                case nameof(UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles):
+                case nameof(UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled):
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFolderSize):
                     await dispatcherQueue.EnqueueAsync(() =>
                     {
                         shouldDisplayThumbnails = UserSettingsService.PreferencesSettingsService.ShowThumbnails;
+                        if (!UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
+                        {
+                            folderSettings.SortDirectoriesAlongsideFiles = UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles;
+                        }
                         if (WorkingDirectory != "Home".GetLocalized())
                         {
                             RefreshItems(null);

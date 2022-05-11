@@ -322,13 +322,22 @@ namespace Files.Uwp.ViewModels
 
         public bool SortDirectoriesAlongsideFiles
         {
-            get => LayoutPreference.SortDirectoriesAlongsideFiles;
+            get
+            {
+                return UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder ?                
+                LayoutPreference.SortDirectoriesAlongsideFiles : 
+                UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles;
+            }
             set
             {
                 if (SetProperty(ref LayoutPreference.SortDirectoriesAlongsideFiles, value, nameof(SortDirectoriesAlongsideFiles)))
                 {
-                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
-                    SortDirectoriesAlongsideFilesPreferenceUpdated?.Invoke(this, SortDirectoriesAlongsideFiles);
+                   LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
+                   SortDirectoriesAlongsideFilesPreferenceUpdated?.Invoke(this, SortDirectoriesAlongsideFiles);
+                   if (!UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
+                   {
+                       UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles = value;
+                   }
                 }
             }
         }
