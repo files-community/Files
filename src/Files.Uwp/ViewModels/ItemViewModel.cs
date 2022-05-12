@@ -216,6 +216,13 @@ namespace Files.Uwp.ViewModels
             await ApplyFilesAndFoldersChangesAsync();
         }
 
+        public async void UpdateSortDirectoriesAlongsideFiles()
+        {
+            OnPropertyChanged(nameof(AreDirectoriesSortedAlongsideFiles));
+            await OrderFilesAndFoldersAsync();
+            await ApplyFilesAndFoldersChangesAsync();
+        }
+
         public bool IsSortedByName
         {
             get => folderSettings.DirectorySortOption == SortOption.Name;
@@ -355,6 +362,16 @@ namespace Files.Uwp.ViewModels
             }
         }
 
+        public bool AreDirectoriesSortedAlongsideFiles
+        {
+            get => folderSettings.SortDirectoriesAlongsideFiles;
+            set
+            {
+                folderSettings.SortDirectoriesAlongsideFiles = value;
+                OnPropertyChanged(nameof(AreDirectoriesSortedAlongsideFiles));
+            }
+        }
+
         public ItemViewModel(FolderSettingsViewModel folderSettingsViewModel)
         {
             folderSettings = folderSettingsViewModel;
@@ -436,11 +453,17 @@ namespace Files.Uwp.ViewModels
                 case nameof(UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden):
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowDotFiles):
+                case nameof(UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles):
+                case nameof(UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled):
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFolderSize):
                     await dispatcherQueue.EnqueueAsync(() =>
                     {
                         shouldDisplayThumbnails = UserSettingsService.PreferencesSettingsService.ShowThumbnails;
+                        if (!UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
+                        {
+                            folderSettings.SortDirectoriesAlongsideFiles = UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles;
+                        }
                         if (WorkingDirectory != "Home".GetLocalized())
                         {
                             RefreshItems(null);
@@ -576,7 +599,7 @@ namespace Files.Uwp.ViewModels
                     var group = FilesAndFolders.GroupedCollection?.FirstOrDefault(x => x.Model.Key == key);
                     if (group != null)
                     {
-                        group.OrderOne(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection), item);
+                        group.OrderOne(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles), item);
                     }
                 }
                 UpdateEmptyTextType();
@@ -738,7 +761,7 @@ namespace Files.Uwp.ViewModels
                     return;
                 }
 
-                filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection).ToList();
+                filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles).ToList();
             }
 
             if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
@@ -766,7 +789,7 @@ namespace Files.Uwp.ViewModels
                     return;
                 }
 
-                gp.Order(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection));
+                gp.Order(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles));
             }
             if (!FilesAndFolders.GroupedCollection.IsSorted)
             {
