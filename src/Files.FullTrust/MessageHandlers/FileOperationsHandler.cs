@@ -682,7 +682,7 @@ namespace Files.FullTrust.MessageHandlers
                         var targetPath = (string)message["targetpath"];
 
                         bool success = false;
-                        if (linkSavePath.EndsWith(".lnk", StringComparison.Ordinal))
+                        if (linkSavePath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
                         {
                             var arguments = (string)message["arguments"];
                             var workingDirectory = (string)message["workingdir"];
@@ -692,7 +692,7 @@ namespace Files.FullTrust.MessageHandlers
                             newLink.SaveAs(linkSavePath); // Overwrite if exists
                             success = true;
                         }
-                        else if (linkSavePath.EndsWith(".url", StringComparison.Ordinal))
+                        else if (linkSavePath.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
                         {
                             success = await Win32API.StartSTATask(() =>
                             {

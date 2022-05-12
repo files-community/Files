@@ -112,7 +112,7 @@ namespace Files.Uwp.Helpers
 
         public static async Task<byte[]> LoadIconFromPathAsync(string filePath, uint thumbnailSize, ThumbnailMode thumbnailMode)
         {
-            if (!filePath.EndsWith(".lnk", StringComparison.Ordinal) && !filePath.EndsWith(".url", StringComparison.Ordinal))
+            if (!filePath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase) && !filePath.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
             {
                 var item = await StorageHelpers.ToStorageItem<IStorageItem>(filePath);
                 if (item != null)
