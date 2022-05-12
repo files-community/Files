@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO.Pipes;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Files.Shared.Extensions;
 using Newtonsoft.Json.Linq;
@@ -27,9 +25,6 @@ namespace Files.FullTrust.MessageHandlers
             return Task.CompletedTask;
         }
 
-        [DllImport("Shell32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        private static extern IntPtr ILCreateFromPath([MarshalAs(UnmanagedType.LPWStr)]string pszPath);
-
         private static void SetSlideshow(PipeStream connection, Dictionary<string, object> message)
         {
             switch (message.Get("wallpaperop", ""))
@@ -45,7 +40,7 @@ namespace Files.FullTrust.MessageHandlers
                     }
 
                     // Create IShellItemArray
-                    var idList = filePaths.Select(ILCreateFromPath).ToArray();
+                    var idList = filePaths.Select(Shell32.IntILCreateFromPath).ToArray();
                     Shell32.SHCreateShellItemArrayFromIDLists((uint)idList.Length, idList.ToArray(), out var shellItemArray);
 
                     // Set SlideShow
