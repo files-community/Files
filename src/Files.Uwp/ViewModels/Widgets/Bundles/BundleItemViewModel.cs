@@ -47,7 +47,7 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
             {
                 string fileName = System.IO.Path.GetFileName(this.Path);
 
-                if (fileName.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase) || fileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
+                if (fileName.EndsWith(".lnk", StringComparison.Ordinal) || fileName.EndsWith(".url", StringComparison.Ordinal))
                 {
                     fileName = fileName.Remove(fileName.Length - 4);
                 }

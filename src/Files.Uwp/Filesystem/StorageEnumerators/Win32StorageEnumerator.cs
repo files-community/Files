@@ -262,7 +262,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                     IsSymLink = true
                 };
             }
-            else if (findData.cFileName.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase) || findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
+            else if (findData.cFileName.EndsWith(".lnk", StringComparison.Ordinal) || findData.cFileName.EndsWith(".url", StringComparison.Ordinal))
             {
                 if (connection != null)
                 {

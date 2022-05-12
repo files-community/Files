@@ -149,7 +149,7 @@ namespace Files.Uwp.Helpers
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
             bool isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory);
             bool isReparsePoint = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.ReparsePoint);
-            bool isShortcutItem = path.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase) || path.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
+            bool isShortcutItem = path.EndsWith(".lnk", StringComparison.Ordinal) || path.EndsWith(".url", StringComparison.Ordinal);
             FilesystemResult opened = (FilesystemResult)false;
 
             var shortcutInfo = new ShellLinkItem();
@@ -283,7 +283,7 @@ namespace Files.Uwp.Helpers
 
             var opened = (FilesystemResult)false;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
-            bool isShortcutItem = path.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase) || path.EndsWith(".url", StringComparison.OrdinalIgnoreCase); // Determine
+            bool isShortcutItem = path.EndsWith(".lnk", StringComparison.Ordinal) || path.EndsWith(".url", StringComparison.Ordinal); // Determine
 
             if (isShortcutItem)
             {
@@ -375,7 +375,7 @@ namespace Files.Uwp.Helpers
         {
             var opened = (FilesystemResult)false;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
-            bool isShortcutItem = path.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase) || path.EndsWith(".url", StringComparison.OrdinalIgnoreCase) || !string.IsNullOrEmpty(shortcutInfo.TargetPath);
+            bool isShortcutItem = path.EndsWith(".lnk", StringComparison.Ordinal) || path.EndsWith(".url", StringComparison.Ordinal) || !string.IsNullOrEmpty(shortcutInfo.TargetPath);
             if (isShortcutItem)
             {
                 if (string.IsNullOrEmpty(shortcutInfo.TargetPath))
