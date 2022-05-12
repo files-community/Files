@@ -18,6 +18,30 @@ using Storage = Windows.Storage;
 
 namespace Files.Uwp.Filesystem.StorageItems
 {
+    public class ShortcutStorageFolder : ShellStorageFolder, IShortcutStorageItem
+    {
+        public string TargetPath { get; }
+        public string Arguments { get; }
+        public string WorkingDirectory { get; }
+        public bool RunAsAdmin { get; }
+
+        public ShortcutStorageFolder(ShellLinkItem item) : base(item)
+        {
+            TargetPath = item.TargetPath;
+            Arguments = item.Arguments;
+            WorkingDirectory = item.WorkingDirectory;
+            RunAsAdmin = item.RunAsAdmin;
+        }
+    }
+
+    public interface IShortcutStorageItem : IStorageItem
+    {
+        string TargetPath { get; }
+        string Arguments { get; }
+        string WorkingDirectory { get; }
+        bool RunAsAdmin { get; }
+    }
+
     public class BinStorageFolder : ShellStorageFolder, IBinStorageItem
     {
         public string OriginalPath { get; }
@@ -66,11 +90,18 @@ namespace Files.Uwp.Filesystem.StorageItems
 
         public static ShellStorageFolder FromShellItem(ShellFileItem item)
         {
-            if (item.RecyclePath != item.FilePath)
+            if (item is ShellLinkItem linkItem)
+            {
+                return new ShortcutStorageFolder(linkItem);
+            }
+            else if (item.RecyclePath.Contains("$Recycle.Bin", StringComparison.Ordinal))
             {
                 return new BinStorageFolder(item);
             }
-            return new ShellStorageFolder(item);
+            else
+            {
+                return new ShellStorageFolder(item);
+            }
         }
 
         public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)
@@ -106,7 +137,10 @@ namespace Files.Uwp.Filesystem.StorageItems
                 if (status == AppServiceResponseStatus.Success)
                 {
                     var folder = JsonConvert.DeserializeObject<ShellFileItem>(response.Get("Folder", ""));
-                    var items = JsonConvert.DeserializeObject<List<ShellFileItem>>(response.Get("Enumerate", ""));
+                    var items = JsonConvert.DeserializeObject<List<ShellFileItem>>(response.Get("Enumerate", ""), new JsonSerializerSettings()
+                    {
+                        TypeNameHandling = TypeNameHandling.All
+                    });
                     return (folder, items);
                 }
             }
