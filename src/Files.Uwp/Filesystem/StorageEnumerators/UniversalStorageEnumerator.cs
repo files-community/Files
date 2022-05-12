@@ -231,6 +231,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                 return null;
             }
 
+            // TODO: is this needed to be handled here?
             if (App.LibraryManager.TryGetLibrary(file.Path, out LibraryLocationItem library))
             {
                 return new LibraryItem(library)
