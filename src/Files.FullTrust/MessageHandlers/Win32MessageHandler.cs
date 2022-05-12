@@ -167,7 +167,7 @@ namespace Files.FullTrust.MessageHandlers
                     sfResponseEnum.Add("Folder", JsonConvert.SerializeObject(folder));
                     sfResponseEnum.Add("Enumerate", JsonConvert.SerializeObject(folderContentsList, new JsonSerializerSettings
                     {
-                        TypeNameHandling = TypeNameHandling.All
+                        TypeNameHandling = TypeNameHandling.Objects
                     }));
                     await Win32API.SendMessageAsync(connection, sfResponseEnum, message.Get("RequestID", (string)null));
                     break;

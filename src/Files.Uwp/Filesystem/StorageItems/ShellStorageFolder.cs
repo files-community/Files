@@ -82,8 +82,8 @@ namespace Files.Uwp.Filesystem.StorageItems
 
         public static bool IsShellPath(string path)
         {
-            return path is not null && 
-                path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || 
+            return path is not null &&
+                path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) ||
                 path.StartsWith("::{", StringComparison.Ordinal) ||
                 path.StartsWith(@"\\SHELL\", StringComparison.Ordinal);
         }
@@ -139,7 +139,8 @@ namespace Files.Uwp.Filesystem.StorageItems
                     var folder = JsonConvert.DeserializeObject<ShellFileItem>(response.Get("Folder", ""));
                     var items = JsonConvert.DeserializeObject<List<ShellFileItem>>(response.Get("Enumerate", ""), new JsonSerializerSettings()
                     {
-                        TypeNameHandling = TypeNameHandling.All
+                        TypeNameHandling = TypeNameHandling.Objects,
+                        SerializationBinder = new KnownTypesBinder() { KnownTypes = { typeof(ShellFileItem), typeof(ShellLinkItem) } }
                     });
                     return (folder, items);
                 }
