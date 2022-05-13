@@ -5,7 +5,6 @@ namespace Files.Shared.Enums
     /// <summary>
     /// Type of operation on Files filesystem that took place
     /// </summary>
-    [Flags]
     public enum FileOperationType : byte
     {
         /// <summary>
