@@ -175,7 +175,8 @@ namespace Files.Uwp.Views
             ToolbarViewModel.ForwardRequested += ColumnShellPage_ForwardNavRequested;
             ToolbarViewModel.UpRequested += ColumnShellPage_UpNavRequested;
             ToolbarViewModel.GoHomeRequested += ColumnShellPage_GoHomeRequested;
-            ToolbarViewModel.RefreshRequested += ColumnShellPage_RefreshRequested;            ToolbarViewModel.EditModeEnabled += NavigationToolbar_EditModeEnabled;
+            ToolbarViewModel.RefreshRequested += ColumnShellPage_RefreshRequested;
+            ToolbarViewModel.EditModeEnabled += NavigationToolbar_EditModeEnabled;
             ToolbarViewModel.ItemDraggedOverPathItem += ColumnShellPage_NavigationRequested;
             ToolbarViewModel.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
             ToolbarViewModel.SearchBox.TextChanged += ColumnShellPage_TextChanged;
@@ -995,7 +996,7 @@ namespace Files.Uwp.Views
 
         public void NavigateHome()
         {
-            throw new NotImplementedException("Can't show Home page in Column View");
+            NavigateToPath("Home".GetLocalized());
         }
 
         public void RemoveLastPageFromBackStack()

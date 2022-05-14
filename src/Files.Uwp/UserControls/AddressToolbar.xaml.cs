@@ -1,7 +1,10 @@
 using Files.Uwp.Helpers.XamlHelpers;
 using Files.Uwp.ViewModels;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Devices.Input;
 using Windows.System;
+using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -66,9 +69,9 @@ namespace Files.Uwp.UserControls
 
         private void ManualPathEntryItem_Click(object sender, PointerRoutedEventArgs e)
         {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            if (e.Pointer.PointerDeviceType is PointerDeviceType.Mouse)
             {
-                Windows.UI.Input.PointerPoint ptrPt = e.GetCurrentPoint(NavToolbar);
+                PointerPoint ptrPt = e.GetCurrentPoint(NavToolbar);
                 if (ptrPt.Properties.IsMiddleButtonPressed)
                 {
                     return;
@@ -125,6 +128,18 @@ namespace Files.Uwp.UserControls
 
         public void SetShellCommandBarContextItems()
         {
+        }
+
+        private async void Home_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType is PointerDeviceType.Mouse)
+            {
+                PointerPoint ptrPt = e.GetCurrentPoint(NavToolbar);
+                if (ptrPt.Properties.IsMiddleButtonPressed)
+                {
+                    await MainPageViewModel.AddNewTabAsync();
+                }
+            }
         }
 
         public bool ShowSearchBox

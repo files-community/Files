@@ -410,11 +410,10 @@
                     Width="36"
                     Height="32"
                     x:FieldModifier="public"
-                    AccessKey="R"
                     AutomationProperties.Name="{helpers:ResourceString Name=Home}"
                     Background="Transparent"
+                    PointerPressed="Home_PointerPressed"
                     Command="{x:Bind ViewModel.GoHomeCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=Home}">
                     <FontIcon FontSize="14" Glyph="&#xE80F;" />
