@@ -7,7 +7,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using System;
-using System.Linq;
 using System.Windows.Input;
 using Windows.Storage;
 using System.Threading.Tasks;
@@ -24,11 +23,8 @@ namespace Files.Uwp.ViewModels
 
         private static string LayoutSettingsDbPath => IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "layoutsettings.db");
 
-        private static readonly Lazy<LiteDatabase> dbInstance = new(() => new LiteDatabase(new ConnectionString(LayoutSettingsDbPath)
-        {
-            Mode = FileMode.Shared
-        }, new BsonMapper() { IncludeFields = true }));
-        private static LiteDatabase DbInstance => dbInstance.Value;
+        private static readonly Lazy<LayoutPrefsDb> dbInstance = new(() => new LayoutPrefsDb(LayoutSettingsDbPath, true));
+        private static LayoutPrefsDb DbInstance => dbInstance.Value;
 
         public event EventHandler<LayoutPreferenceEventArgs> LayoutPreferencesUpdateRequired;
 
@@ -378,9 +374,9 @@ namespace Files.Uwp.ViewModels
 
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 
-            if (FindPreferences(folderPath, frn) is LayoutDbPrefs storedPrefs)
+            if (DbInstance.GetPreferences(folderPath, frn) is LayoutPreferences storedPrefs)
             {
-                return storedPrefs.Prefs;
+                return storedPrefs;
             }
             else if (folderPath == CommonPaths.DownloadsPath)
             {
@@ -423,85 +419,14 @@ namespace Files.Uwp.ViewModels
                 return;
             }
 
-            if (FindPreferences(folderPath, frn) is null)
+            if (DbInstance.GetPreferences(folderPath, frn) is null)
             {
                 if (prefs.Equals(LayoutPreferences.DefaultLayoutPreferences))
                 {
                     return; // Do not create setting if it's default
                 }
             }
-            SetPreferences(folderPath, frn, prefs);
-        }
-
-        private static void SetPreferences(string filePath, ulong? frn, LayoutPreferences prefs)
-        {
-            // Get a collection (or create, if doesn't exist)
-            var col = DbInstance.GetCollection<LayoutDbPrefs>("layoutprefs");
-
-            var tmp = FindPreferences(filePath, frn);
-            if (tmp == null)
-            {
-                if (prefs != null)
-                {
-                    // Insert new tagged file (Id will be auto-incremented)
-                    var newPref = new LayoutDbPrefs
-                    {
-                        FilePath = filePath,
-                        Frn = frn,
-                        Prefs = prefs
-                    };
-                    col.Insert(newPref);
-                }
-            }
-            else
-            {
-                if (prefs != null)
-                {
-                    // Update file tag
-                    tmp.Prefs = prefs;
-                    col.Update(tmp);
-                }
-                else
-                {
-                    // Remove file tag
-                    col.Delete(tmp.Id);
-                }
-            }
-        }
-
-        private static LayoutDbPrefs FindPreferences(string filePath = null, ulong? frn = null)
-        {
-            // Get a collection (or create, if doesn't exist)
-            var col = DbInstance.GetCollection<LayoutDbPrefs>("layoutprefs");
-            if (filePath != null)
-            {
-                var tmp = col.FindOne(x => x.FilePath == filePath);
-                if (tmp != null)
-                {
-                    if (frn != null)
-                    {
-                        // Keep entry updated
-                        tmp.Frn = frn;
-                        col.Update(tmp);
-                    }
-                    return tmp;
-                }
-            }
-            if (frn != null)
-            {
-                var tmp = col.FindOne(x => x.Frn == frn);
-                if (tmp != null)
-                {
-                    if (filePath != null)
-                    {
-                        // Keep entry updated
-                        tmp.FilePath = filePath;
-                        col.Update(tmp);
-                    }
-                    return tmp;
-                }
-            }
-            return null;
+            DbInstance.SetPreferences(folderPath, frn, prefs);
         }
 
         private LayoutPreferences layoutPreference;
@@ -521,15 +446,6 @@ namespace Files.Uwp.ViewModels
             }
         }
 
-        public class LayoutDbPrefs
-        {
-            [BsonId]
-            public int Id { get; set; }
-            public ulong? Frn { get; set; }
-            public string FilePath { get; set; }
-            public LayoutPreferences Prefs { get; set; }
-        }
-
         public class LayoutPreferences
         {
             private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
@@ -544,6 +460,7 @@ namespace Files.Uwp.ViewModels
 
             public ColumnsViewModel ColumnsViewModel;
 
+            [BsonIgnore]
             public static LayoutPreferences DefaultLayoutPreferences => new LayoutPreferences();
 
             public LayoutPreferences()
@@ -669,5 +586,108 @@ namespace Files.Uwp.ViewModels
         }
 
         private void ChangeGroupOption(GroupOption option) => DirectoryGroupOption = option;
+    }
+
+    public class LayoutPrefsDb : IDisposable
+    {
+        private readonly LiteDatabase db;
+
+        public LayoutPrefsDb(string connection, bool shared = false)
+        {
+            db = new LiteDatabase(new ConnectionString(connection)
+            {
+                Mode = shared ? FileMode.Shared : FileMode.Exclusive
+            }, new BsonMapper() { IncludeFields = true });
+        }
+
+        public void SetPreferences(string filePath, ulong? frn, FolderSettingsViewModel.LayoutPreferences prefs)
+        {
+            // Get a collection (or create, if doesn't exist)
+            var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
+
+            var tmp = _FindPreferences(filePath, frn);
+            if (tmp == null)
+            {
+                if (prefs != null)
+                {
+                    // Insert new tagged file (Id will be auto-incremented)
+                    var newPref = new LayoutDbPrefs
+                    {
+                        FilePath = filePath,
+                        Frn = frn,
+                        Prefs = prefs
+                    };
+                    col.Insert(newPref);
+                }
+            }
+            else
+            {
+                if (prefs != null)
+                {
+                    // Update file tag
+                    tmp.Prefs = prefs;
+                    col.Update(tmp);
+                }
+                else
+                {
+                    // Remove file tag
+                    col.Delete(tmp.Id);
+                }
+            }
+        }
+
+        public FolderSettingsViewModel.LayoutPreferences GetPreferences(string filePath = null, ulong? frn = null)
+        {
+            return _FindPreferences(filePath, frn)?.Prefs;
+        }
+
+        private LayoutDbPrefs _FindPreferences(string filePath = null, ulong? frn = null)
+        {
+            // Get a collection (or create, if doesn't exist)
+            var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
+            if (filePath != null)
+            {
+                var tmp = col.FindOne(x => x.FilePath == filePath);
+                if (tmp != null)
+                {
+                    if (frn != null)
+                    {
+                        // Keep entry updated
+                        tmp.Frn = frn;
+                        col.Update(tmp);
+                    }
+                    return tmp;
+                }
+            }
+            if (frn != null)
+            {
+                var tmp = col.FindOne(x => x.Frn == frn);
+                if (tmp != null)
+                {
+                    if (filePath != null)
+                    {
+                        // Keep entry updated
+                        tmp.FilePath = filePath;
+                        col.Update(tmp);
+                    }
+                    return tmp;
+                }
+            }
+            return null;
+        }
+
+        public void Dispose()
+        {
+            db.Dispose();
+        }
+
+        public class LayoutDbPrefs
+        {
+            [BsonId]
+            public int Id { get; set; }
+            public ulong? Frn { get; set; }
+            public string FilePath { get; set; }
+            public FolderSettingsViewModel.LayoutPreferences Prefs { get; set; }
+        }
     }
 }

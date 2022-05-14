@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Newtonsoft.Json;
 using Windows.UI.Xaml;
 
 namespace Files.Uwp.ViewModels
@@ -12,7 +11,7 @@ namespace Files.Uwp.ViewModels
             IsResizeable = false,
         };
 
-        [JsonIgnore]
+        [LiteDB.BsonIgnore]
         public ColumnViewModel IconColumn
         {
             get => iconColumn;
@@ -166,14 +165,14 @@ namespace Files.Uwp.ViewModels
     {
         private bool isHidden;
 
-        [JsonIgnore]
+        [LiteDB.BsonIgnore]
         public bool IsHidden
         {
             get => isHidden;
             set => SetProperty(ref isHidden, value);
         }
 
-        [JsonIgnore]
+        [LiteDB.BsonIgnore]
         public double MaxLength
         {
             get => IsHidden || UserCollapsed ? 0 : NormalMaxLength;
@@ -181,7 +180,7 @@ namespace Files.Uwp.ViewModels
 
         private double normalMaxLength = 800;
 
-        [JsonIgnore]
+        [LiteDB.BsonIgnore]
         public double NormalMaxLength
         {
             get => normalMaxLength;
@@ -190,7 +189,7 @@ namespace Files.Uwp.ViewModels
 
         private double normalMinLength = 50;
 
-        [JsonIgnore]
+        [LiteDB.BsonIgnore]
         public double NormalMinLength
         {
             get => normalMinLength;
@@ -203,10 +202,10 @@ namespace Files.Uwp.ViewModels
             }
         }
 
-        [JsonIgnore]
+        [LiteDB.BsonIgnore]
         public double MinLength => IsHidden || UserCollapsed ? 0 : NormalMinLength;
 
-        [JsonIgnore]
+        [LiteDB.BsonIgnore]
         public Visibility Visibility => IsHidden || UserCollapsed ? Visibility.Collapsed : Visibility.Visible;
 
         private bool userCollapsed;
@@ -235,7 +234,7 @@ namespace Files.Uwp.ViewModels
             get => IsHidden || UserCollapsed ? new GridLength(0) : new GridLength(UserLength.Value + (IsResizeable ? gridSplitterWidth : 0));
         }
 
-        [JsonIgnore]
+        [LiteDB.BsonIgnore]
         public bool IsResizeable { get; set; } = true;
 
         private GridLength userLength = new GridLength(200, GridUnitType.Pixel);
