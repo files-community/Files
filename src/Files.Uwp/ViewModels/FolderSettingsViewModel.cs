@@ -107,42 +107,20 @@ namespace Files.Uwp.ViewModels
             set => SetProperty(ref isLayoutModeChanging, value);
         }
 
-        public Type GetLayoutType(string folderPath, bool isPageNavigationInProgress = true)
+        public Type GetLayoutType(string folderPath)
         {
             var prefsForPath = GetLayoutPreferencesForPath(folderPath);
-            if (isPageNavigationInProgress)
+            IsLayoutModeChanging = LayoutPreference.LayoutMode != prefsForPath.LayoutMode;
+            LayoutPreference = prefsForPath;
+
+            return (prefsForPath.LayoutMode) switch
             {
-                if (LayoutPreference.LayoutMode != prefsForPath.LayoutMode)
-                {
-                    IsLayoutModeChanging = true;
-                }
-                LayoutPreference = prefsForPath;
-            }
-
-            Type type = null;
-            switch (prefsForPath.LayoutMode)
-            {
-                case FolderLayoutModes.DetailsView:
-                    type = typeof(DetailsLayoutBrowser);
-                    break;
-
-                case FolderLayoutModes.TilesView:
-                    type = typeof(GridViewBrowser);
-                    break;
-
-                case FolderLayoutModes.GridView:
-                    type = typeof(GridViewBrowser);
-                    break;
-
-                case FolderLayoutModes.ColumnView:
-                    type = typeof(ColumnViewBrowser);
-                    break;
-
-                default:
-                    type = typeof(DetailsLayoutBrowser);
-                    break;
-            }
-            return type;
+                FolderLayoutModes.DetailsView => typeof(DetailsLayoutBrowser),
+                FolderLayoutModes.TilesView => typeof(GridViewBrowser),
+                FolderLayoutModes.GridView => typeof(GridViewBrowser),
+                FolderLayoutModes.ColumnView => typeof(ColumnViewBrowser),
+                _ => typeof(DetailsLayoutBrowser)
+            };
         }
 
         public event EventHandler<LayoutModeEventArgs> LayoutModeChangeRequested;

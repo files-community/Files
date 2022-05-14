@@ -376,11 +376,10 @@ namespace Files.Uwp
         {
             if (ParentShellPageInstance.SlimContentPage != null)
             {
-                var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, false);
+                var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
 
                 if (layoutType != ParentShellPageInstance.CurrentPageType)
                 {
-                    FolderSettings.IsLayoutModeChanging = true;
                     ParentShellPageInstance.NavigateWithArguments(layoutType, new NavigationArguments()
                     {
                         NavPathParam = navigationArguments.NavPathParam,
