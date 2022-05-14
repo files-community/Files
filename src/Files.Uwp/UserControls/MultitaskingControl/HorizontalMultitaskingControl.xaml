@@ -560,6 +560,8 @@
         <muxc:TabView
             x:Name="HorizontalTabView"
             VerticalAlignment="Stretch"
+            Padding="0"
+            Margin="0,10,0,0"
             AddTabButtonClick="TabView_AddTabButtonClick"
             AllowDropTabs="True"
             Background="{x:Null}"

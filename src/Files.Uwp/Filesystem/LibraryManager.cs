@@ -63,11 +63,12 @@ namespace Files.Uwp.Filesystem
             // library is null in case it was deleted
             if (library is not null && !Libraries.Any(x => x.Path == library.FullPath))
             {
+                var libItem = new LibraryLocationItem(library);
                 lock (libraries)
                 {
-                    libraries.Add(new LibraryLocationItem(library));
+                    libraries.Add(libItem);
                 }
-                DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, library));
+                DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, libItem));
             }
             return Task.CompletedTask;
         }

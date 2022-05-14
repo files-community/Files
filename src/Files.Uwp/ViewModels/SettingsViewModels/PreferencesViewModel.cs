@@ -104,7 +104,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                     string mruToken = entry.Token;
                     var added = await FilesystemTasks.Wrap(async () =>
                     {
-                        IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
+                        IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly | AccessCacheOptions.SuppressAccessTimeUpdate);
                         if (item.IsOfType(StorageItemTypes.Folder))
                         {
                             menu.Items.Add(new MenuFlyoutItemViewModel(item.Name, string.IsNullOrEmpty(item.Path) ? entry.Metadata : item.Path, AddPageCommand));

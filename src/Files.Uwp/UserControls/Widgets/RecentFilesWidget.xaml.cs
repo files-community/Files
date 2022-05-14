@@ -81,7 +81,7 @@ namespace Files.Uwp.UserControls.Widgets
                     string mruToken = entry.Token;
                     var added = await FilesystemTasks.Wrap(async () =>
                     {
-                        IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
+                        IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly | AccessCacheOptions.SuppressAccessTimeUpdate);
                         await AddItemToRecentListAsync(item, entry);
                     });
                     if (added == FileSystemStatusCode.Unauthorized)
