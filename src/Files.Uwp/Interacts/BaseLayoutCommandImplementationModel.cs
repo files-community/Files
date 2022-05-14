@@ -228,7 +228,7 @@ namespace Files.Uwp.Interacts
 
             if (destFolder)
             {
-                associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
+                associatedInstance.NavigateWithArguments(await associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
                 {
                     NavPathParam = folderPath,
                     SelectItems = new[] { Path.GetFileName(item.TargetPath.TrimPath()) },
@@ -246,11 +246,11 @@ namespace Files.Uwp.Interacts
             }
         }
 
-        public virtual void OpenParentFolder(RoutedEventArgs e)
+        public virtual async void OpenParentFolder(RoutedEventArgs e)
         {
             var item = SlimContentPage.SelectedItem;
             var folderPath = Path.GetDirectoryName(item.ItemPath.TrimEnd('\\'));
-            associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
+            associatedInstance.NavigateWithArguments(await associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
             {
                 NavPathParam = folderPath,
                 SelectItems = new[] { item.ItemNameRaw },

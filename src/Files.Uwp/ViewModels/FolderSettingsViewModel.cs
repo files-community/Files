@@ -11,6 +11,7 @@ using System;
 using System.Linq;
 using System.Windows.Input;
 using Windows.Storage;
+using System.Threading.Tasks;
 
 namespace Files.Uwp.ViewModels
 {
@@ -107,9 +108,9 @@ namespace Files.Uwp.ViewModels
             set => SetProperty(ref isLayoutModeChanging, value);
         }
 
-        public Type GetLayoutType(string folderPath)
+        public async Task<Type> GetLayoutType(string folderPath)
         {
-            var prefsForPath = GetLayoutPreferencesForPath(folderPath);
+            var prefsForPath = await GetLayoutPreferencesForPath(folderPath);
             IsLayoutModeChanging = LayoutPreference.LayoutMode != prefsForPath.LayoutMode;
             LayoutPreference = prefsForPath;
 
@@ -307,8 +308,10 @@ namespace Files.Uwp.ViewModels
             }
         }
 
-        public static LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
+        public static async Task<LayoutPreferences> GetLayoutPreferencesForPath(string folderPath)
         {
+            await Task.Yield();
+
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
             if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
             {

@@ -372,11 +372,11 @@ namespace Files.Uwp
 
         protected abstract bool CanGetItemFromElement(object element);
 
-        protected virtual void BaseFolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
+        protected virtual async void BaseFolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
         {
             if (ParentShellPageInstance.SlimContentPage != null)
             {
-                var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
+                var layoutType = await FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
 
                 if (layoutType != ParentShellPageInstance.CurrentPageType)
                 {
