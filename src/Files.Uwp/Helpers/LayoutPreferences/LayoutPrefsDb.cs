@@ -1,5 +1,6 @@
 ﻿using LiteDB;
 using System;
+using System.Linq;
 
 namespace Files.Uwp.Helpers.LayoutPreferences
 {
@@ -94,6 +95,18 @@ namespace Files.Uwp.Helpers.LayoutPreferences
         public void Dispose()
         {
             db.Dispose();
+        }
+
+        public void Import(string json)
+        {
+            var dataValues = JsonSerializer.DeserializeArray(json);
+            db.Engine.Delete("layoutprefs", Query.All());
+            db.Engine.InsertBulk("layoutprefs", dataValues.Select(x => x.AsDocument));
+        }
+
+        public string Export()
+        {
+            return JsonSerializer.Serialize(new BsonArray(db.Engine.FindAll("layoutprefs")));
         }
 
         public class LayoutDbPrefs

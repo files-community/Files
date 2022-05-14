@@ -21,10 +21,10 @@ namespace Files.Uwp.ViewModels
     {
         private static readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
-        private static string LayoutSettingsDbPath => IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "layoutsettings.db");
+        public static string LayoutSettingsDbPath => IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "layoutsettings.db");
 
         private static readonly Lazy<LayoutPrefsDb> dbInstance = new(() => new LayoutPrefsDb(LayoutSettingsDbPath, true));
-        private static LayoutPrefsDb DbInstance => dbInstance.Value;
+        public static LayoutPrefsDb DbInstance => dbInstance.Value;
 
         public event EventHandler<LayoutPreferenceEventArgs> LayoutPreferencesUpdateRequired;
 
