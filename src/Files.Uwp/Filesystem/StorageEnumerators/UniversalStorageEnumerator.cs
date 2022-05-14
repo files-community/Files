@@ -231,13 +231,8 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                 return null;
             }
 
-            if (file.Name.EndsWith(".lnk", StringComparison.Ordinal) || file.Name.EndsWith(".url", StringComparison.Ordinal))
-            {
-                // This shouldn't happen, StorageFile api does not support shortcuts
-                Debug.WriteLine("Something strange: StorageFile api returned a shortcut");
-            }
             // TODO: is this needed to be handled here?
-            else if (App.LibraryManager.TryGetLibrary(file.Path, out LibraryLocationItem library))
+            if (App.LibraryManager.TryGetLibrary(file.Path, out LibraryLocationItem library))
             {
                 return new LibraryItem(library)
                 {

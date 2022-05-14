@@ -176,18 +176,19 @@ namespace Files.Uwp
         private static async Task InitializeAppComponentsAsync()
         {
             var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+            var appearanceSettingsService = userSettingsService.AppearanceSettingsService;
 
             // Start off a list of tasks we need to run before we can continue startup
             await Task.Run(async () =>
             {
                 await Task.WhenAll(
                     StartAppCenter(),
-                    DrivesManager.EnumerateDrivesAsync(),
-                    CloudDrivesManager.EnumerateDrivesAsync(),
-                    LibraryManager.EnumerateLibrariesAsync(),
-                    NetworkDrivesManager.EnumerateDrivesAsync(),
-                    WSLDistroManager.EnumerateDrivesAsync(),
-                    FileTagsManager.EnumerateFileTagsAsync(),
+                    DrivesManager.UpdateDrivesAsync(),
+                    OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), appearanceSettingsService.ShowCloudDrivesSection),
+                    LibraryManager.UpdateLibrariesAsync(),
+                    OptionalTask(NetworkDrivesManager.UpdateDrivesAsync(), appearanceSettingsService.ShowNetworkDrivesSection),
+                    OptionalTask(WSLDistroManager.UpdateDrivesAsync(), appearanceSettingsService.ShowWslSection),
+                    OptionalTask(FileTagsManager.UpdateFileTagsAsync(), appearanceSettingsService.ShowFileTagsSection),
                     SidebarPinnedController.InitializeAsync()
                 );
                 await Task.WhenAll(
@@ -205,6 +206,14 @@ namespace Files.Uwp
             var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
             await updateService.CheckForUpdates();
             await updateService.DownloadMandatoryUpdates();
+
+            static async Task OptionalTask(Task task, bool condition)
+            {
+                if (condition)
+                {
+                    await task;
+                }
+            }
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
