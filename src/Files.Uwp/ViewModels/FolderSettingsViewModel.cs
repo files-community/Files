@@ -6,18 +6,29 @@ using Files.Uwp.Views.LayoutModes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Windows.Input;
 using Windows.Storage;
 using System.Threading.Tasks;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Filesystem;
+using LiteDB;
+using IO = System.IO;
 
 namespace Files.Uwp.ViewModels
 {
     public class FolderSettingsViewModel : ObservableObject
     {
         private static readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+
+        private static string LayoutSettingsDbPath => IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "layoutsettings.db");
+
+        private static readonly Lazy<LiteDatabase> dbInstance = new(() => new LiteDatabase(new ConnectionString(LayoutSettingsDbPath)
+        {
+            Mode = FileMode.Shared
+        }, new BsonMapper() { IncludeFields = true }));
+        private static LiteDatabase DbInstance => dbInstance.Value;
 
         public event EventHandler<LayoutPreferenceEventArgs> LayoutPreferencesUpdateRequired;
 
@@ -232,7 +243,7 @@ namespace Files.Uwp.ViewModels
         public event EventHandler<GroupOption> GroupOptionPreferenceUpdated;
 
         public event EventHandler<SortDirection> SortDirectionPreferenceUpdated;
-        
+
         public event EventHandler<bool> SortDirectoriesAlongsideFilesPreferenceUpdated;
 
         public SortOption DirectorySortOption
@@ -280,20 +291,20 @@ namespace Files.Uwp.ViewModels
         {
             get
             {
-                return UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder ?                
-                LayoutPreference.SortDirectoriesAlongsideFiles : 
+                return UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder ?
+                LayoutPreference.SortDirectoriesAlongsideFiles :
                 UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles;
             }
             set
             {
                 if (SetProperty(ref LayoutPreference.SortDirectoriesAlongsideFiles, value, nameof(SortDirectoriesAlongsideFiles)))
                 {
-                   LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
-                   SortDirectoriesAlongsideFilesPreferenceUpdated?.Invoke(this, SortDirectoriesAlongsideFiles);
-                   if (!UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
-                   {
-                       UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles = value;
-                   }
+                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
+                    SortDirectoriesAlongsideFilesPreferenceUpdated?.Invoke(this, SortDirectoriesAlongsideFiles);
+                    if (!UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
+                    {
+                        UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles = value;
+                    }
                 }
             }
         }
@@ -310,82 +321,55 @@ namespace Files.Uwp.ViewModels
 
         public static async Task<LayoutPreferences> GetLayoutPreferencesForPath(string folderPath)
         {
-            await Task.Yield();
-
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
             if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
             {
-                var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath.TrimEnd('\\'));
-                return layoutPrefs ?? ReadLayoutPreferencesFromSettings(folderPath.TrimEnd('\\').Replace('\\', '_'));
+                var folder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(folderPath);
+                var folderFRN = await FileTagsHelper.GetFileFRN(folder);
+                return ReadLayoutPreferencesFromDb(folderPath.TrimPath(), folderFRN);
             }
 
             return LayoutPreferences.DefaultLayoutPreferences;
         }
 
-        public void UpdateLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
+        public static async Task SetLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
             if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
             {
-                // Sanitize the folderPath by removing the trailing '\\'. This has to be performed because paths to drives
-                // include an '\\' at the end (unlike paths to folders)
-                if (!WriteLayoutPreferencesToAds(folderPath.TrimEnd('\\'), prefs))
-                {
-                    WriteLayoutPreferencesToSettings(folderPath.TrimEnd('\\').Replace('\\', '_'), prefs);
-                }
+                var folder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(folderPath);
+                var folderFRN = await FileTagsHelper.GetFileFRN(folder);
+                WriteLayoutPreferencesToDb(folderPath.TrimPath(), folderFRN, prefs);
             }
             else
             {
-                UserSettingsService.LayoutSettingsService.DefaultLayoutMode = prefs.LayoutMode;
-                UserSettingsService.LayoutSettingsService.DefaultGridViewSize = prefs.GridViewSize;
+                userSettingsService.LayoutSettingsService.DefaultLayoutMode = prefs.LayoutMode;
+                userSettingsService.LayoutSettingsService.DefaultGridViewSize = prefs.GridViewSize;
                 // Do not save OriginalPath as global sort option (only works in recycle bin)
                 if (prefs.DirectorySortOption != SortOption.OriginalFolder &&
                     prefs.DirectorySortOption != SortOption.DateDeleted &&
                     prefs.DirectorySortOption != SortOption.SyncStatus)
                 {
-                    UserSettingsService.LayoutSettingsService.DefaultDirectorySortOption = prefs.DirectorySortOption;
+                    userSettingsService.LayoutSettingsService.DefaultDirectorySortOption = prefs.DirectorySortOption;
                 }
                 if (prefs.DirectoryGroupOption != GroupOption.OriginalFolder &&
                     prefs.DirectoryGroupOption != GroupOption.DateDeleted &&
                     prefs.DirectoryGroupOption != GroupOption.FolderPath &&
                     prefs.DirectoryGroupOption != GroupOption.SyncStatus)
                 {
-                    UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption = prefs.DirectoryGroupOption;
+                    userSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption = prefs.DirectoryGroupOption;
                 }
-                UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
-                UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
-                UserSettingsService.LayoutSettingsService.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
-                UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn = !prefs.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
-                UserSettingsService.LayoutSettingsService.ShowTypeColumn = !prefs.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
-                UserSettingsService.LayoutSettingsService.ShowSizeColumn = !prefs.ColumnsViewModel.SizeColumn.UserCollapsed;
-                UserSettingsService.LayoutSettingsService.ShowFileTagColumn = !prefs.ColumnsViewModel.TagColumn.UserCollapsed;
+                userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
+                userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
+                userSettingsService.LayoutSettingsService.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
+                userSettingsService.LayoutSettingsService.ShowDateCreatedColumn = !prefs.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
+                userSettingsService.LayoutSettingsService.ShowTypeColumn = !prefs.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
+                userSettingsService.LayoutSettingsService.ShowSizeColumn = !prefs.ColumnsViewModel.SizeColumn.UserCollapsed;
+                userSettingsService.LayoutSettingsService.ShowFileTagColumn = !prefs.ColumnsViewModel.TagColumn.UserCollapsed;
             }
         }
 
-        private static LayoutPreferences ReadLayoutPreferencesFromAds(string folderPath)
-        {
-            var str = NativeFileOperationsHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
-            try
-            {
-                return string.IsNullOrEmpty(str) ? null : JsonConvert.DeserializeObject<LayoutPreferences>(str);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        private static bool WriteLayoutPreferencesToAds(string folderPath, LayoutPreferences prefs)
-        {
-            if (LayoutPreferences.DefaultLayoutPreferences.Equals(prefs))
-            {
-                NativeFileOperationsHelper.DeleteFileFromApp($"{folderPath}:files_layoutmode");
-                return false;
-            }
-            return NativeFileOperationsHelper.WriteStringToFile($"{folderPath}:files_layoutmode", JsonConvert.SerializeObject(prefs));
-        }
-
-        private static LayoutPreferences ReadLayoutPreferencesFromSettings(string folderPath)
+        private static LayoutPreferences ReadLayoutPreferencesFromDb(string folderPath, ulong? frn)
         {
             if (string.IsNullOrEmpty(folderPath))
             {
@@ -393,12 +377,10 @@ namespace Files.Uwp.ViewModels
             }
 
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-            ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
-            folderPath = new string(folderPath.TakeLast(254).ToArray());
-            if (dataContainer.Values.ContainsKey(folderPath))
+
+            if (FindPreferences(folderPath, frn) is LayoutDbPrefs storedPrefs)
             {
-                ApplicationDataCompositeValue adcv = (ApplicationDataCompositeValue)dataContainer.Values[folderPath];
-                return LayoutPreferences.FromCompositeValue(adcv);
+                return storedPrefs.Prefs;
             }
             else if (folderPath == CommonPaths.DownloadsPath)
             {
@@ -434,22 +416,92 @@ namespace Files.Uwp.ViewModels
             }
         }
 
-        private static void WriteLayoutPreferencesToSettings(string folderPath, LayoutPreferences prefs)
+        private static void WriteLayoutPreferencesToDb(string folderPath, ulong? frn, LayoutPreferences prefs)
         {
             if (string.IsNullOrEmpty(folderPath))
             {
                 return;
             }
-            ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
-            folderPath = new string(folderPath.TakeLast(254).ToArray());
-            if (!dataContainer.Values.ContainsKey(folderPath))
+
+            if (FindPreferences(folderPath, frn) is null)
             {
-                if (prefs == LayoutPreferences.DefaultLayoutPreferences)
+                if (prefs.Equals(LayoutPreferences.DefaultLayoutPreferences))
                 {
                     return; // Do not create setting if it's default
                 }
             }
-            dataContainer.Values[folderPath] = prefs.ToCompositeValue();
+            SetPreferences(folderPath, frn, prefs);
+        }
+
+        private static void SetPreferences(string filePath, ulong? frn, LayoutPreferences prefs)
+        {
+            // Get a collection (or create, if doesn't exist)
+            var col = DbInstance.GetCollection<LayoutDbPrefs>("layoutprefs");
+
+            var tmp = FindPreferences(filePath, frn);
+            if (tmp == null)
+            {
+                if (prefs != null)
+                {
+                    // Insert new tagged file (Id will be auto-incremented)
+                    var newPref = new LayoutDbPrefs
+                    {
+                        FilePath = filePath,
+                        Frn = frn,
+                        Prefs = prefs
+                    };
+                    col.Insert(newPref);
+                }
+            }
+            else
+            {
+                if (prefs != null)
+                {
+                    // Update file tag
+                    tmp.Prefs = prefs;
+                    col.Update(tmp);
+                }
+                else
+                {
+                    // Remove file tag
+                    col.Delete(tmp.Id);
+                }
+            }
+        }
+
+        private static LayoutDbPrefs FindPreferences(string filePath = null, ulong? frn = null)
+        {
+            // Get a collection (or create, if doesn't exist)
+            var col = DbInstance.GetCollection<LayoutDbPrefs>("layoutprefs");
+            if (filePath != null)
+            {
+                var tmp = col.FindOne(x => x.FilePath == filePath);
+                if (tmp != null)
+                {
+                    if (frn != null)
+                    {
+                        // Keep entry updated
+                        tmp.Frn = frn;
+                        col.Update(tmp);
+                    }
+                    return tmp;
+                }
+            }
+            if (frn != null)
+            {
+                var tmp = col.FindOne(x => x.Frn == frn);
+                if (tmp != null)
+                {
+                    if (filePath != null)
+                    {
+                        // Keep entry updated
+                        tmp.FilePath = filePath;
+                        col.Update(tmp);
+                    }
+                    return tmp;
+                }
+            }
+            return null;
         }
 
         private LayoutPreferences layoutPreference;
@@ -467,6 +519,15 @@ namespace Files.Uwp.ViewModels
                     OnPropertyChanged(nameof(SortDirectoriesAlongsideFiles));
                 }
             }
+        }
+
+        public class LayoutDbPrefs
+        {
+            [BsonId]
+            public int Id { get; set; }
+            public ulong? Frn { get; set; }
+            public string FilePath { get; set; }
+            public LayoutPreferences Prefs { get; set; }
         }
 
         public class LayoutPreferences
@@ -501,52 +562,6 @@ namespace Files.Uwp.ViewModels
                 this.ColumnsViewModel.ItemTypeColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowTypeColumn;
                 this.ColumnsViewModel.SizeColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowSizeColumn;
                 this.ColumnsViewModel.TagColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowFileTagColumn;
-            }
-
-            public static LayoutPreferences FromCompositeValue(ApplicationDataCompositeValue compositeValue)
-            {
-                var pref = new LayoutPreferences
-                {
-                    LayoutMode = (FolderLayoutModes)(int)compositeValue[nameof(LayoutMode)],
-                    GridViewSize = (int)compositeValue[nameof(GridViewSize)],
-                    DirectorySortOption = (SortOption)(int)compositeValue[nameof(DirectorySortOption)],
-                    DirectorySortDirection = (SortDirection)(int)compositeValue[nameof(DirectorySortDirection)],
-                    SortDirectoriesAlongsideFiles = compositeValue[nameof(SortDirectoriesAlongsideFiles)] is bool val ? val : false,
-                    IsAdaptiveLayoutOverridden = compositeValue[nameof(IsAdaptiveLayoutOverridden)] is bool val2 ? val2 : false,
-                };
-
-                if (compositeValue.TryGetValue(nameof(DirectoryGroupOption), out var gpOption))
-                {
-                    pref.DirectoryGroupOption = (GroupOption)(int)gpOption;
-                }
-
-                try
-                {
-                    pref.ColumnsViewModel = JsonConvert.DeserializeObject<ColumnsViewModel>(compositeValue[nameof(ColumnsViewModel)] as string, new JsonSerializerSettings()
-                    {
-                        NullValueHandling = NullValueHandling.Ignore
-                    });
-                }
-                catch (Exception)
-                {
-                }
-
-                return pref;
-            }
-
-            public ApplicationDataCompositeValue ToCompositeValue()
-            {
-                return new ApplicationDataCompositeValue()
-                {
-                    { nameof(LayoutMode), (int)this.LayoutMode },
-                    { nameof(GridViewSize), this.GridViewSize },
-                    { nameof(DirectorySortOption), (int)this.DirectorySortOption },
-                    { nameof(DirectoryGroupOption), (int)this.DirectoryGroupOption },
-                    { nameof(DirectorySortDirection), (int)this.DirectorySortDirection },
-                    { nameof(SortDirectoriesAlongsideFiles), this.SortDirectoriesAlongsideFiles },
-                    { nameof(IsAdaptiveLayoutOverridden), this.IsAdaptiveLayoutOverridden },
-                    { nameof(ColumnsViewModel), JsonConvert.SerializeObject(this.ColumnsViewModel) }
-                };
             }
 
             public override bool Equals(object obj)
