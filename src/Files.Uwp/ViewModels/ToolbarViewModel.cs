@@ -3,12 +3,12 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
-using Files.Uwp.Filesystem;
-using Files.Uwp.Filesystem.StorageItems;
-using Files.Uwp.Helpers;
 using Files.Shared.Enums;
 using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using Files.Uwp.UserControls;
 using Files.Uwp.Views;
 using Microsoft.Toolkit.Uwp;
@@ -73,6 +73,8 @@ namespace Files.Uwp.ViewModels
 
         public event EventHandler UpRequested;
 
+        public event EventHandler GoHomeRequested;
+
         public event EventHandler RefreshRequested;
 
         public event EventHandler RefreshWidgetsRequested;
@@ -90,7 +92,7 @@ namespace Files.Uwp.ViewModels
             get => InstanceViewModel?.FolderSettings.DirectorySortDirection == SortDirection.Descending;
             set { if (value) InstanceViewModel.FolderSettings.DirectorySortDirection = SortDirection.Descending; }
         }
-        
+
         public bool AreDirectoriesSortedAlongsideFiles
         {
             get => InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFiles;
@@ -339,10 +341,11 @@ namespace Files.Uwp.ViewModels
 
         public ToolbarViewModel()
         {
-            BackClickCommand = new RelayCommand<RoutedEventArgs>(e => BackRequested?.Invoke(this, EventArgs.Empty));
-            ForwardClickCommand = new RelayCommand<RoutedEventArgs>(e => ForwardRequested?.Invoke(this, EventArgs.Empty));
-            UpClickCommand = new RelayCommand<RoutedEventArgs>(e => UpRequested?.Invoke(this, EventArgs.Empty));
-            RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
+            BackCommand = new RelayCommand<RoutedEventArgs>(e => BackRequested?.Invoke(this, EventArgs.Empty));
+            ForwardCommand = new RelayCommand<RoutedEventArgs>(e => ForwardRequested?.Invoke(this, EventArgs.Empty));
+            UpCommand = new RelayCommand<RoutedEventArgs>(e => UpRequested?.Invoke(this, EventArgs.Empty));
+            GoHomeCommand = new RelayCommand<RoutedEventArgs>(e => GoHomeRequested?.Invoke(this, EventArgs.Empty));
+            RefreshCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
 
             dispatcherQueue = DispatcherQueue.GetForCurrentThread();
             dragOverTimer = dispatcherQueue.CreateTimer();
@@ -380,7 +383,6 @@ namespace Files.Uwp.ViewModels
         public SearchBoxViewModel SearchBoxViewModel => SearchBox as SearchBoxViewModel;
 
         public bool IsSingleItemOverride { get; set; } = false;
-
         private string dragOverPath = null;
 
         public void UpdateSortAndGroupOptions()
@@ -409,7 +411,7 @@ namespace Files.Uwp.ViewModels
             OnPropertyChanged(nameof(IsSortedByDateDeleted));
             OnPropertyChanged(nameof(IsSortedByFileTag));
         }
-        
+
         private void FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(object sender, bool e)
         {
             OnPropertyChanged(nameof(AreDirectoriesSortedAlongsideFiles));
@@ -608,10 +610,11 @@ namespace Files.Uwp.ViewModels
             set => SetProperty(ref pathControlDisplayText, value);
         }
 
-        public ICommand BackClickCommand { get; }
-        public ICommand ForwardClickCommand { get; }
-        public ICommand UpClickCommand { get; }
-        public ICommand RefreshClickCommand { get; }
+        public ICommand BackCommand { get; }
+        public ICommand ForwardCommand { get; }
+        public ICommand UpCommand { get; }
+        public ICommand GoHomeCommand { get; }
+        public ICommand RefreshCommand { get; }
 
         public void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {

@@ -1,18 +1,21 @@
-﻿using Files.Shared;
-using Files.Uwp.Dialogs;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Enums;
+using Files.Backend.Services;
+using Files.Backend.Services.Settings;
+using Files.Backend.ViewModels.Dialogs.AddItemDialog;
+using Files.Shared;
 using Files.Shared.Enums;
+using Files.Uwp.Dialogs;
 using Files.Uwp.EventArguments;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.FilesystemHistory;
 using Files.Uwp.Filesystem.Search;
 using Files.Uwp.Helpers;
-using Files.Backend.Services.Settings;
 using Files.Uwp.UserControls;
 using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.ViewModels;
 using Files.Uwp.Views.LayoutModes;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -33,9 +36,6 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using SortDirection = Files.Shared.Enums.SortDirection;
-using Files.Backend.Enums;
-using Files.Backend.Services;
-using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 
 namespace Files.Uwp.Views
 {
@@ -174,9 +174,10 @@ namespace Files.Uwp.Views
             ToolbarViewModel.AddressBarTextEntered += ModernShellPage_AddressBarTextEntered;
             ToolbarViewModel.PathBoxItemDropped += ModernShellPage_PathBoxItemDropped;
             ToolbarViewModel.BackRequested += ModernShellPage_BackNavRequested;
-            ToolbarViewModel.UpRequested += ModernShellPage_UpNavRequested;
-            ToolbarViewModel.RefreshRequested += ModernShellPage_RefreshRequested;
             ToolbarViewModel.ForwardRequested += ModernShellPage_ForwardNavRequested;
+            ToolbarViewModel.UpRequested += ModernShellPage_UpNavRequested;
+            ToolbarViewModel.GoHomeRequested += ModernShellPage_GoHomeRequested;
+            ToolbarViewModel.RefreshRequested += ModernShellPage_RefreshRequested;
             ToolbarViewModel.EditModeEnabled += NavigationToolbar_EditModeEnabled;
             ToolbarViewModel.ItemDraggedOverPathItem += ModernShellPage_NavigationRequested;
             ToolbarViewModel.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
@@ -362,25 +363,11 @@ namespace Files.Uwp.Views
             });
         }
 
-        private void ModernShellPage_RefreshRequested(object sender, EventArgs e)
-        {
-            Refresh_Click();
-        }
-
-        private void ModernShellPage_UpNavRequested(object sender, EventArgs e)
-        {
-            Up_Click();
-        }
-
-        private void ModernShellPage_ForwardNavRequested(object sender, EventArgs e)
-        {
-            Forward_Click();
-        }
-
-        private void ModernShellPage_BackNavRequested(object sender, EventArgs e)
-        {
-            Back_Click();
-        }
+        private void ModernShellPage_BackNavRequested(object sender, EventArgs e) => Back_Click();
+        private void ModernShellPage_ForwardNavRequested(object sender, EventArgs e) => Forward_Click();
+        private void ModernShellPage_UpNavRequested(object sender, EventArgs e) => Up_Click();
+        private void ModernShellPage_GoHomeRequested(object sender, EventArgs e) => NavigateHome();
+        private void ModernShellPage_RefreshRequested(object sender, EventArgs e) => Refresh_Click();
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
@@ -404,7 +391,7 @@ namespace Files.Uwp.Views
         {
             FilesystemViewModel?.UpdateSortOptionStatus();
         }
-        
+
         private void AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(object sender, bool e)
         {
             FilesystemViewModel?.UpdateSortDirectoriesAlongsideFiles();
@@ -681,7 +668,7 @@ namespace Files.Uwp.Views
             var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
             var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
             var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
-            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) || 
+            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
                               CurrentPageType == typeof(GridViewBrowser);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
@@ -992,9 +979,10 @@ namespace Files.Uwp.Views
             ToolbarViewModel.AddressBarTextEntered -= ModernShellPage_AddressBarTextEntered;
             ToolbarViewModel.PathBoxItemDropped -= ModernShellPage_PathBoxItemDropped;
             ToolbarViewModel.BackRequested -= ModernShellPage_BackNavRequested;
-            ToolbarViewModel.UpRequested -= ModernShellPage_UpNavRequested;
-            ToolbarViewModel.RefreshRequested -= ModernShellPage_RefreshRequested;
             ToolbarViewModel.ForwardRequested -= ModernShellPage_ForwardNavRequested;
+            ToolbarViewModel.UpRequested -= ModernShellPage_UpNavRequested;
+            ToolbarViewModel.GoHomeRequested -= ModernShellPage_GoHomeRequested;
+            ToolbarViewModel.RefreshRequested -= ModernShellPage_RefreshRequested;
             ToolbarViewModel.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
             ToolbarViewModel.ItemDraggedOverPathItem -= ModernShellPage_NavigationRequested;
             ToolbarViewModel.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;

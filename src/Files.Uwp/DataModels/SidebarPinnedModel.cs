@@ -1,11 +1,11 @@
-﻿using Files.Shared.Extensions;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
 using Files.Uwp.Controllers;
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
-using Files.Backend.Services.Settings;
 using Files.Uwp.ViewModels;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -18,7 +18,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Uwp.DataModels
 {
@@ -345,21 +344,6 @@ namespace Files.Uwp.DataModels
             {
                 return;
             }
-
-            var homeSection = new LocationItem()
-            {
-                Text = "Home".GetLocalized(),
-                Section = SectionType.Home,
-                MenuOptions = new ContextMenuOptions
-                {
-                    IsLocationItem = true
-                },
-                Font = MainViewModel.FontName,
-                IsDefaultLocation = true,
-                Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"))),
-                Path = "Home".GetLocalized()
-            };
-            AddLocationItemToSidebar(homeSection);
 
             for (int i = 0; i < FavoriteItems.Count; i++)
             {

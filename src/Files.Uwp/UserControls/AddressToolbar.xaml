@@ -356,7 +356,7 @@
                     AccessKey="B"
                     AutomationProperties.Name="{helpers:ResourceString Name=NavBackButton/AutomationProperties/Name}"
                     Background="Transparent"
-                    Command="{x:Bind ViewModel.BackClickCommand, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.BackCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=NavBackButton/ToolTipService/ToolTip}">
@@ -376,7 +376,7 @@
                     AccessKey="F"
                     AutomationProperties.Name="{helpers:ResourceString Name=NavForwardButton/AutomationProperties/Name}"
                     Background="Transparent"
-                    Command="{x:Bind ViewModel.ForwardClickCommand, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.ForwardCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanGoForward, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=NavForwardButton/ToolTipService/ToolTip}">
@@ -395,7 +395,7 @@
                     AccessKey="U"
                     AutomationProperties.Name="{helpers:ResourceString Name=NavUpButton/AutomationProperties/Name}"
                     Background="Transparent"
-                    Command="{x:Bind ViewModel.UpClickCommand, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.UpCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanNavigateToParent, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=NavUpButton/ToolTipService/ToolTip}">
@@ -406,6 +406,21 @@
                 </Button>
 
                 <Button
+                    x:Name="Home"
+                    Width="36"
+                    Height="32"
+                    x:FieldModifier="public"
+                    AccessKey="R"
+                    AutomationProperties.Name="{helpers:ResourceString Name=Home}"
+                    Background="Transparent"
+                    Command="{x:Bind ViewModel.GoHomeCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=Home}">
+                    <FontIcon FontSize="14" Glyph="&#xE80F;" />
+                </Button>
+
+                <Button
                     x:Name="Refresh"
                     Width="36"
                     Height="32"
@@ -413,7 +428,7 @@
                     AccessKey="R"
                     AutomationProperties.Name="{helpers:ResourceString Name=NavRefreshButton/AutomationProperties/Name}"
                     Background="Transparent"
-                    Command="{x:Bind ViewModel.RefreshClickCommand, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.RefreshCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanRefresh, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=NavRefreshButton/ToolTipService/ToolTip}">
