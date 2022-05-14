@@ -129,6 +129,37 @@ namespace Files.Uwp.ViewModels
             SizeColumn.TryMultiplySize(factor);
             StatusColumn.TryMultiplySize(factor);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (obj == this)
+            {
+                return true;
+            }
+            if (obj is ColumnsViewModel model)
+            {
+                return (
+                    model.DateCreatedColumn.Equals(this.DateCreatedColumn) &&
+                    model.DateDeletedColumn.Equals(this.DateDeletedColumn) &&
+                    model.DateModifiedColumn.Equals(this.DateModifiedColumn) &&
+                    model.ItemTypeColumn.Equals(this.ItemTypeColumn) &&
+                    model.NameColumn.Equals(this.NameColumn) &&
+                    model.OriginalPathColumn.Equals(this.OriginalPathColumn) &&
+                    model.SizeColumn.Equals(this.SizeColumn) &&
+                    model.StatusColumn.Equals(this.StatusColumn) &&
+                    model.TagColumn.Equals(this.TagColumn));
+            }
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 
     public class ColumnViewModel : ObservableObject
@@ -268,6 +299,32 @@ namespace Files.Uwp.ViewModels
             }
 
             UserLength = new GridLength(setLength);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (obj == this)
+            {
+                return true;
+            }
+            if (obj is ColumnViewModel model)
+            {
+                return (
+                    model.UserCollapsed == this.UserCollapsed &&
+                    model.Length.Value == this.Length.Value &&
+                    model.LengthIncludingGridSplitter.Value == this.LengthIncludingGridSplitter.Value &&
+                    model.UserLength.Value == this.UserLength.Value);
+            }
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

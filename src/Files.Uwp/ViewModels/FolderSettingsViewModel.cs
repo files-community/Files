@@ -587,7 +587,7 @@ namespace Files.Uwp.ViewModels
                         prefs.DirectorySortDirection == this.DirectorySortDirection &&
                         prefs.SortDirectoriesAlongsideFiles == this.SortDirectoriesAlongsideFiles &&
                         prefs.IsAdaptiveLayoutOverridden == this.IsAdaptiveLayoutOverridden &&
-                        prefs.ColumnsViewModel == this.ColumnsViewModel);
+                        prefs.ColumnsViewModel.Equals(this.ColumnsViewModel));
                 }
                 return base.Equals(obj);
             }
