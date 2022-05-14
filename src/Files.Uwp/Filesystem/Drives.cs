@@ -101,7 +101,7 @@ namespace Files.Uwp.Filesystem
             return null;
         }
 
-        public async Task EnumerateDrivesAsync()
+        public async Task UpdateDrivesAsync()
         {
             isDriveEnumInProgress = true;
 

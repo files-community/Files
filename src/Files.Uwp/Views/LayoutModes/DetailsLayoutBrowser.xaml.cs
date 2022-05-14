@@ -692,6 +692,21 @@ namespace Files.Uwp.Views.LayoutModes
             e.Handled = true;
         }
 
+        private void SizeAllColumnsToFit_Click(object sender, RoutedEventArgs e)
+        {
+            if (!FileList.Items.Any())
+            {
+                return;
+            }
+
+            // for scalability, just count the # of public `ColumnViewModel` properties in ColumnsViewModel
+            int totalColumnCount = ColumnsViewModel.GetType().GetProperties().Count(prop => prop.PropertyType == typeof(ColumnViewModel));
+            for (int columnIndex = 1; columnIndex <= totalColumnCount; columnIndex++)
+            {
+                ResizeColumnToFit(columnIndex);
+            }
+        }
+
         private void ResizeColumnToFit(int columnToResize)
         {
             if (!FileList.Items.Any())
@@ -703,16 +718,24 @@ namespace Files.Uwp.Views.LayoutModes
             {
                 1 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemName?.Length ?? 0).Max(), // file name column
                 2 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagUI?.TagName?.Length ?? 0).Max(), // file tag column
-                3 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemOriginalPath?.Length ?? 0).Max(), // original path column
-                4 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
+                3 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(), // original path column
+                4 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
                 5 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
                 6 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
                 7 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
                 8 => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
                 _ => 20 // cloud status column
             };
-            var colunmSizeToFit = new[] { 9 }.Contains(columnToResize) ? maxItemLength : MeasureTextColumn(columnToResize, 5, maxItemLength);
-            if (colunmSizeToFit > 0)
+
+            // if called programmatically, the column could be hidden
+            // in this case, resizing doesn't need to be done at all
+            if (maxItemLength == 0)
+            {
+                return;
+            }
+
+            var columnSizeToFit = new[] { 9 }.Contains(columnToResize) ? maxItemLength : MeasureTextColumnEstimate(columnToResize, 5, maxItemLength);
+            if (columnSizeToFit > 0)
             {
                 var column = columnToResize switch
                 {
@@ -726,29 +749,57 @@ namespace Files.Uwp.Views.LayoutModes
                     8 => ColumnsViewModel.SizeColumn,
                     _ => ColumnsViewModel.StatusColumn
                 };
-                if (columnToResize == 1)
+
+                if (columnToResize == 1) // file name column
                 {
-                    colunmSizeToFit += UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled ? 20 : 0;
+                    columnSizeToFit += UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled ? 20 : 0;
                 }
-                column.UserLength = new GridLength(Math.Min(colunmSizeToFit + 30, column.NormalMaxLength), GridUnitType.Pixel);
+
+                var minFitLength = Math.Max(columnSizeToFit, column.NormalMinLength);
+                var maxFitLength = Math.Min(minFitLength + 36, column.NormalMaxLength); // 36 to account for SortIcon & padding
+
+                column.UserLength = new GridLength(maxFitLength, GridUnitType.Pixel);
             }
 
             ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel = ColumnsViewModel;
         }
 
-        private double MeasureTextColumn(int columnIndex, int measureItems, int maxItemLength)
+        private double MeasureTextColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
         {
-            var tbs = DependencyObjectHelpers.FindChildren<TextBlock>(FileList.ItemsPanelRoot).Where(x => x.Parent is Grid && Grid.GetColumn((Grid)x.Parent) == columnIndex);
-            var widthPerLetter = tbs.Where(tb => !string.IsNullOrEmpty(tb.Text)).Take(measureItems).Select(tb =>
+            var tbs = DependencyObjectHelpers.FindChildren<TextBlock>(FileList.ItemsPanelRoot).Where(tb =>
             {
-                tb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
-                return tb.DesiredSize.Width / Math.Max(1, tb.Text.Length);
+                // isolated <TextBlock Grid.Column=...>
+                if (tb.ReadLocalValue(Grid.ColumnProperty) != DependencyProperty.UnsetValue)
+                {
+                    return Grid.GetColumn(tb) == columnIndex;
+                }
+                // <TextBlock> nested in <Grid Grid.Column=...>
+                else if (tb.Parent is Grid parentGrid)
+                {
+                    return Grid.GetColumn(parentGrid) == columnIndex;
+                }
+
+                return false;
             });
+
+            // heuristic: usually, text with more letters are wider than shorter text with wider letters
+            // with this, we can calculate avg width using longest text(s) to avoid overshooting the width
+            var widthPerLetter = tbs.OrderByDescending(x => x.Text.Length).Where(tb => !string.IsNullOrEmpty(tb.Text)).Take(measureItemsCount).Select(tb =>
+            {
+                var sampleTb = new TextBlock { Text = tb.Text, FontSize = tb.FontSize, FontFamily = tb.FontFamily };
+                sampleTb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+
+                return sampleTb.DesiredSize.Width / Math.Max(1, tb.Text.Length);
+            });
+
             if (!widthPerLetter.Any())
             {
                 return 0;
             }
-            return widthPerLetter.Average() * maxItemLength;
+
+            // take weighted avg between mean and max since width is an estimate
+            var weightedAvg = (widthPerLetter.Average() + widthPerLetter.Max()) / 2;
+            return weightedAvg * maxItemLength;
         }
 
         private void FileList_Loaded(object sender, RoutedEventArgs e)
