@@ -630,6 +630,7 @@ namespace Files.Uwp.Views
                 {
                     ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemsCount/Text".GetLocalized()}";
                 }
+                ContentPage.UpdateSelectionSize();
             }
         }
 

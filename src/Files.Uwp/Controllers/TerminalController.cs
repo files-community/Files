@@ -22,8 +22,6 @@ namespace Files.Uwp.Controllers
 
         private StorageFileQueryResult query;
 
-        private bool suppressChangeEvent;
-
         private string configContent;
 
         public TerminalFileModel Model { get; set; }
@@ -103,12 +101,6 @@ namespace Files.Uwp.Controllers
 
         private async void Query_ContentsChanged(IStorageQueryResultBase sender, object args)
         {
-            if (suppressChangeEvent)
-            {
-                suppressChangeEvent = false;
-                return;
-            }
-
             try
             {
                 var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json"));
@@ -201,7 +193,6 @@ namespace Files.Uwp.Controllers
 
         public void SaveModel()
         {
-            suppressChangeEvent = true;
             try
             {
                 using (var file = File.CreateText(Path.Combine(folderPath, JsonFileName)))
@@ -209,10 +200,14 @@ namespace Files.Uwp.Controllers
                     JsonSerializer serializer = new JsonSerializer();
                     serializer.Formatting = Formatting.Indented;
                     serializer.Serialize(file, Model);
+
+                    // update local configContent to avoid unnecessary refreshes
+                    configContent = JsonConvert.SerializeObject(Model, Formatting.Indented);
                 }
             }
             catch
             {
+                // ignored
             }
         }
     }

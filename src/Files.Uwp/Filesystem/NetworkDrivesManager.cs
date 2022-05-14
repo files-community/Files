@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services.Settings;
-using Files.Shared;
+﻿using Files.Shared;
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
@@ -17,8 +15,6 @@ namespace Files.Uwp.Filesystem
 {
     public class NetworkDrivesManager
     {
-        private readonly IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-
         public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
         private readonly List<DriveItem> drives = new();
@@ -58,13 +54,8 @@ namespace Files.Uwp.Filesystem
             DataChanged?.Invoke(SectionType.Network, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, networkItem));
         }
 
-        public async Task EnumerateDrivesAsync()
+        public async Task UpdateDrivesAsync()
         {
-            if (!userSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
-            {
-                return;
-            }
-
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection is not null)
             {

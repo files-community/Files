@@ -1,24 +1,24 @@
-﻿using Files.Uwp.DataModels.NavigationControlItems;
-using Files.Uwp.Filesystem;
-using Files.Uwp.Helpers;
-using Files.Backend.Services.Settings;
-using Files.Uwp.UserControls;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
+using Files.Shared.EventArguments;
+using Files.Shared.Extensions;
+using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
+using Files.Uwp.UserControls;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
-using System.Windows.Input;
-using Windows.UI.Xaml;
-using Files.Shared.EventArguments;
-using Files.Shared.Extensions;
-using System.Collections.Specialized;
-using Windows.System;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Windows.System;
+using Windows.UI.Xaml;
 
 namespace Files.Uwp.ViewModels
 {
@@ -531,14 +531,16 @@ namespace Files.Uwp.ViewModels
         {
             if (show)
             {
+                var appearanceSettingsService = UserSettingsService.AppearanceSettingsService;
+
                 Func<Task> action = sectionType switch
                 {
-                    SectionType.CloudDrives => App.CloudDrivesManager.EnumerateDrivesAsync,
-                    SectionType.Drives => App.DrivesManager.EnumerateDrivesAsync,
-                    SectionType.Network => App.NetworkDrivesManager.EnumerateDrivesAsync,
-                    SectionType.WSL => App.WSLDistroManager.EnumerateDrivesAsync,
-                    SectionType.FileTag => App.FileTagsManager.EnumerateFileTagsAsync,
-                    SectionType.Library => App.LibraryManager.EnumerateLibrariesAsync,
+                    SectionType.CloudDrives when appearanceSettingsService.ShowCloudDrivesSection => App.CloudDrivesManager.UpdateDrivesAsync,
+                    SectionType.Drives => App.DrivesManager.UpdateDrivesAsync,
+                    SectionType.Network when appearanceSettingsService.ShowNetworkDrivesSection => App.NetworkDrivesManager.UpdateDrivesAsync,
+                    SectionType.WSL when appearanceSettingsService.ShowWslSection => App.WSLDistroManager.UpdateDrivesAsync,
+                    SectionType.FileTag when appearanceSettingsService.ShowFileTagsSection => App.FileTagsManager.UpdateFileTagsAsync,
+                    SectionType.Library => App.LibraryManager.UpdateLibrariesAsync,
                     SectionType.Favorites => App.SidebarPinnedController.Model.AddAllItemsToSidebar,
                     _ => () => Task.CompletedTask
                 };
