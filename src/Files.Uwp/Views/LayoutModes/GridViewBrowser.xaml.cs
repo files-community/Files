@@ -9,9 +9,13 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI;
 using Windows.UI.Core;
+using Windows.UI.Input.Inking;
+using Windows.UI.Input.Inking.Analysis;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -568,6 +572,96 @@ namespace Files.Uwp.Views.LayoutModes
         private void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args)
         {
             ParentShellPageInstance.FilesystemViewModel.RefreshItems(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, SetSelectedItemsOnNavigation);
+        }
+
+
+        private void InkingLayer_Loading(FrameworkElement sender, object args)
+        {
+            //(sender as InkCanvas).InkPresenter.InputDeviceTypes = Windows.UI.Core.CoreInputDeviceTypes.Pen;
+            //(sender as InkCanvas).InkPresenter.InputProcessingConfiguration.RightDragAction = Windows.UI.Input.Inking.InkInputRightDragAction.LeaveUnprocessed;
+            (sender as InkCanvas).InkPresenter.StrokesCollected += InkPresenter_StrokesCollected;
+
+            var presenter = (sender as InkCanvas).InkPresenter;
+            var defaultAttributes = presenter.CopyDefaultDrawingAttributes();
+            defaultAttributes.Color = Colors.Blue;
+            presenter.UpdateDefaultDrawingAttributes(defaultAttributes);
+        }
+
+        InkAnalyzer inkAnalyzer = new InkAnalyzer();
+
+        private async void InkPresenter_StrokesCollected(
+            Windows.UI.Input.Inking.InkPresenter sender,
+            Windows.UI.Input.Inking.InkStrokesCollectedEventArgs args)
+        {
+            InkStroke stroke = InkingLayer.InkPresenter.StrokeContainer.GetStrokes().Last();
+            inkAnalyzer.AddDataForStrokes(new List<InkStroke>() { stroke });
+            inkAnalyzer.SetStrokeDataKind(stroke.Id, InkAnalysisStrokeKind.Drawing);
+            var inkAnalysisResults = await inkAnalyzer.AnalyzeAsync();
+
+            var inkShapeNodes =
+                inkAnalyzer.AnalysisRoot.FindNodes(
+                    InkAnalysisNodeKind.InkDrawing);
+
+            if (!inkShapeNodes.Any())
+            {
+                return;
+            }
+
+            InkAnalysisInkDrawing inkShape = inkShapeNodes.First() as InkAnalysisInkDrawing;
+
+            var points = stroke.GetInkPoints();
+            var inkTransform = InkingLayer.TransformToVisual(Window.Current.Content);
+            switch (inkShape.DrawingKind)
+            {
+                case InkAnalysisDrawingKind.Drawing:
+                    if (points.Count > 200)
+                    {
+                        var element = VisualTreeHelper.FindElementsInHostCoordinates(inkTransform.TransformBounds(stroke.BoundingRect), RootGrid).Where(x => x is SelectorItem).Cast<SelectorItem>().FirstOrDefault();
+                        if (element != null && stroke.BoundingRect.Width <= element.ActualWidth)
+                        {
+                            //FileList.SelectedItems.Clear();
+                            var item = element.DataContext as ListedItem;
+                            if (item != null)
+                            {
+                                var file = StorageHelpers.FromPathAndType(item.ItemPath, item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory);
+                                _ = ParentShellPageInstance.FilesystemHelpers.DeleteItemAsync(file, true, false, true);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var element = VisualTreeHelper.FindElementsInHostCoordinates(inkTransform.TransformBounds(stroke.BoundingRect), RootGrid).Where(x => x is SelectorItem).Cast<SelectorItem>().FirstOrDefault();
+                        if (element != null)
+                        {
+                            element.IsSelected = !element.IsSelected;
+                        }
+                    }
+                    break;
+                case InkAnalysisDrawingKind.Circle:
+                case InkAnalysisDrawingKind.Ellipse:
+                default:
+                    IEnumerable<SelectorItem> elements = VisualTreeHelper.FindElementsInHostCoordinates(inkTransform.TransformBounds(stroke.BoundingRect), this)
+                        .Where(x => x is SelectorItem)
+                        .Where(x =>
+                        {
+                            var pos = x.TransformToVisual(RootGrid).TransformBounds(new Rect(0, 0, x.ActualSize.X, x.ActualSize.Y));
+
+                            return points.Any(p => pos.Left + (pos.Width / 2) < p.Position.X)
+                                && points.Any(p => pos.Left + (pos.Width / 2) > p.Position.X)
+                                && points.Any(p => pos.Top + (pos.Height / 2) < p.Position.Y)
+                                && points.Any(p => pos.Top + (pos.Height / 2) > p.Position.Y);
+                        }).Cast<SelectorItem>();
+
+                    foreach (var item in elements)
+                    {
+                        item.IsSelected = true;
+                    }
+                    break;
+            }
+
+            inkAnalyzer.ClearDataForAllStrokes();
+
+            InkingLayer.InkPresenter.StrokeContainer.Clear();
         }
     }
 }

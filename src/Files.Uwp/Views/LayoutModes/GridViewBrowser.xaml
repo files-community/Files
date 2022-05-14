@@ -721,6 +721,13 @@
                     Stroke="{ThemeResource SystemAccentColorLight1}"
                     StrokeThickness="1" />
             </Canvas>
+
+            <InkCanvas
+                x:Name="InkingLayer"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                IsHitTestVisible="False"
+                Loading="InkingLayer_Loading" />
         </Grid>
     </RefreshContainer>
 </local:BaseLayout>
