@@ -1,6 +1,7 @@
 ﻿using Files.Shared.Enums;
 using Files.Uwp.EventArguments;
 using Files.Uwp.Helpers;
+using Files.Uwp.Helpers.LayoutPreferences;
 using Files.Backend.Services.Settings;
 using Files.Uwp.Views.LayoutModes;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -12,7 +13,6 @@ using Windows.Storage;
 using System.Threading.Tasks;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Filesystem;
-using LiteDB;
 using IO = System.IO;
 
 namespace Files.Uwp.ViewModels
@@ -446,71 +446,6 @@ namespace Files.Uwp.ViewModels
             }
         }
 
-        public class LayoutPreferences
-        {
-            private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
-
-            public SortOption DirectorySortOption;
-            public SortDirection DirectorySortDirection;
-            public bool SortDirectoriesAlongsideFiles;
-            public GroupOption DirectoryGroupOption;
-            public FolderLayoutModes LayoutMode;
-            public int GridViewSize;
-            public bool IsAdaptiveLayoutOverridden;
-
-            public ColumnsViewModel ColumnsViewModel;
-
-            [BsonIgnore]
-            public static LayoutPreferences DefaultLayoutPreferences => new LayoutPreferences();
-
-            public LayoutPreferences()
-            {
-                this.LayoutMode = UserSettingsService.LayoutSettingsService.DefaultLayoutMode;
-                this.GridViewSize = UserSettingsService.LayoutSettingsService.DefaultGridViewSize;
-                this.DirectorySortOption = UserSettingsService.LayoutSettingsService.DefaultDirectorySortOption;
-                this.DirectoryGroupOption = UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption;
-                this.DirectorySortDirection = UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection;
-                this.SortDirectoriesAlongsideFiles = UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
-                this.IsAdaptiveLayoutOverridden = false;
-
-                this.ColumnsViewModel = new ColumnsViewModel();
-                this.ColumnsViewModel.DateCreatedColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn;
-                this.ColumnsViewModel.DateModifiedColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowDateColumn;
-                this.ColumnsViewModel.ItemTypeColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowTypeColumn;
-                this.ColumnsViewModel.SizeColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowSizeColumn;
-                this.ColumnsViewModel.TagColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowFileTagColumn;
-            }
-
-            public override bool Equals(object obj)
-            {
-                if (obj == null)
-                {
-                    return false;
-                }
-                if (obj == this)
-                {
-                    return true;
-                }
-                if (obj is LayoutPreferences prefs)
-                {
-                    return (
-                        prefs.LayoutMode == this.LayoutMode &&
-                        prefs.GridViewSize == this.GridViewSize &&
-                        prefs.DirectorySortOption == this.DirectorySortOption &&
-                        prefs.DirectorySortDirection == this.DirectorySortDirection &&
-                        prefs.SortDirectoriesAlongsideFiles == this.SortDirectoriesAlongsideFiles &&
-                        prefs.IsAdaptiveLayoutOverridden == this.IsAdaptiveLayoutOverridden &&
-                        prefs.ColumnsViewModel.Equals(this.ColumnsViewModel));
-                }
-                return base.Equals(obj);
-            }
-
-            public override int GetHashCode()
-            {
-                return base.GetHashCode();
-            }
-        }
-
         public void ToggleLayoutModeGridViewLarge(bool manuallySet)
         {
             IsAdaptiveLayoutEnabled &= !manuallySet;
@@ -586,108 +521,5 @@ namespace Files.Uwp.ViewModels
         }
 
         private void ChangeGroupOption(GroupOption option) => DirectoryGroupOption = option;
-    }
-
-    public class LayoutPrefsDb : IDisposable
-    {
-        private readonly LiteDatabase db;
-
-        public LayoutPrefsDb(string connection, bool shared = false)
-        {
-            db = new LiteDatabase(new ConnectionString(connection)
-            {
-                Mode = shared ? FileMode.Shared : FileMode.Exclusive
-            }, new BsonMapper() { IncludeFields = true });
-        }
-
-        public void SetPreferences(string filePath, ulong? frn, FolderSettingsViewModel.LayoutPreferences prefs)
-        {
-            // Get a collection (or create, if doesn't exist)
-            var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
-
-            var tmp = _FindPreferences(filePath, frn);
-            if (tmp == null)
-            {
-                if (prefs != null)
-                {
-                    // Insert new tagged file (Id will be auto-incremented)
-                    var newPref = new LayoutDbPrefs
-                    {
-                        FilePath = filePath,
-                        Frn = frn,
-                        Prefs = prefs
-                    };
-                    col.Insert(newPref);
-                }
-            }
-            else
-            {
-                if (prefs != null)
-                {
-                    // Update file tag
-                    tmp.Prefs = prefs;
-                    col.Update(tmp);
-                }
-                else
-                {
-                    // Remove file tag
-                    col.Delete(tmp.Id);
-                }
-            }
-        }
-
-        public FolderSettingsViewModel.LayoutPreferences GetPreferences(string filePath = null, ulong? frn = null)
-        {
-            return _FindPreferences(filePath, frn)?.Prefs;
-        }
-
-        private LayoutDbPrefs _FindPreferences(string filePath = null, ulong? frn = null)
-        {
-            // Get a collection (or create, if doesn't exist)
-            var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
-            if (filePath != null)
-            {
-                var tmp = col.FindOne(x => x.FilePath == filePath);
-                if (tmp != null)
-                {
-                    if (frn != null)
-                    {
-                        // Keep entry updated
-                        tmp.Frn = frn;
-                        col.Update(tmp);
-                    }
-                    return tmp;
-                }
-            }
-            if (frn != null)
-            {
-                var tmp = col.FindOne(x => x.Frn == frn);
-                if (tmp != null)
-                {
-                    if (filePath != null)
-                    {
-                        // Keep entry updated
-                        tmp.FilePath = filePath;
-                        col.Update(tmp);
-                    }
-                    return tmp;
-                }
-            }
-            return null;
-        }
-
-        public void Dispose()
-        {
-            db.Dispose();
-        }
-
-        public class LayoutDbPrefs
-        {
-            [BsonId]
-            public int Id { get; set; }
-            public ulong? Frn { get; set; }
-            public string FilePath { get; set; }
-            public FolderSettingsViewModel.LayoutPreferences Prefs { get; set; }
-        }
-    }
+    }    
 }
