@@ -13,6 +13,8 @@ using Windows.Storage;
 using System.Threading.Tasks;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Filesystem;
+using Files.Shared.Extensions;
+using Newtonsoft.Json;
 using IO = System.IO;
 
 namespace Files.Uwp.ViewModels
@@ -320,9 +322,12 @@ namespace Files.Uwp.ViewModels
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
             if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
             {
+                folderPath = folderPath.TrimPath();
                 var folder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(folderPath);
                 var folderFRN = await FileTagsHelper.GetFileFRN(folder);
-                return ReadLayoutPreferencesFromDb(folderPath.TrimPath(), folderFRN);
+                return ReadLayoutPreferencesFromDb(folderPath, folderFRN) 
+                    ?? ReadLayoutPreferencesFromAds(folderPath, folderFRN) 
+                    ?? GetDefaultLayoutPreferences(folderPath);
             }
 
             return LayoutPreferences.DefaultLayoutPreferences;
@@ -365,7 +370,27 @@ namespace Files.Uwp.ViewModels
             }
         }
 
+        private static LayoutPreferences ReadLayoutPreferencesFromAds(string folderPath, ulong? frn)
+        {
+            var str = NativeFileOperationsHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
+            var adsPrefs = SafetyExtensions.IgnoreExceptions(() =>
+                string.IsNullOrEmpty(str) ? null : JsonConvert.DeserializeObject<LayoutPreferences>(str));
+            WriteLayoutPreferencesToDb(folderPath, frn, adsPrefs); // Port settings to DB, delete ADS
+            NativeFileOperationsHelper.DeleteFileFromApp($"{folderPath}:files_layoutmode");
+            return adsPrefs;
+        }
+
         private static LayoutPreferences ReadLayoutPreferencesFromDb(string folderPath, ulong? frn)
+        {
+            if (string.IsNullOrEmpty(folderPath))
+            {
+                return null;
+            }
+
+            return DbInstance.GetPreferences(folderPath, frn);
+        }
+
+        private static LayoutPreferences GetDefaultLayoutPreferences(string folderPath)
         {
             if (string.IsNullOrEmpty(folderPath))
             {
@@ -374,11 +399,7 @@ namespace Files.Uwp.ViewModels
 
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 
-            if (DbInstance.GetPreferences(folderPath, frn) is LayoutPreferences storedPrefs)
-            {
-                return storedPrefs;
-            }
-            else if (folderPath == CommonPaths.DownloadsPath)
+            if (folderPath == CommonPaths.DownloadsPath)
             {
                 // Default for downloads folder is to group by date created
                 return new LayoutPreferences
@@ -421,7 +442,7 @@ namespace Files.Uwp.ViewModels
 
             if (DbInstance.GetPreferences(folderPath, frn) is null)
             {
-                if (prefs.Equals(LayoutPreferences.DefaultLayoutPreferences))
+                if (LayoutPreferences.DefaultLayoutPreferences.Equals(prefs))
                 {
                     return; // Do not create setting if it's default
                 }
@@ -521,5 +542,5 @@ namespace Files.Uwp.ViewModels
         }
 
         private void ChangeGroupOption(GroupOption option) => DirectoryGroupOption = option;
-    }    
+    }
 }
