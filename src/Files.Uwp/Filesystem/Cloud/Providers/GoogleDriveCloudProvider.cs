@@ -1,4 +1,5 @@
 ﻿using Files.Shared;
+using Files.Uwp.Extensions;
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
@@ -80,6 +81,13 @@ namespace Files.Uwp.Filesystem.Cloud.Providers
 
                         string title = reader["name"]?.ToString() ?? folder.Name;
                         googleCloud.Name = title;
+
+                        var iconPath = Path.Combine(Environment.GetEnvironmentVariable("ProgramFiles"), "Google", "Drive File Stream", "drive_fs.ico");
+                        StorageFile iconFile = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(iconPath).AsTask());
+                        if (iconFile != null)
+                        {
+                            googleCloud.IconData = await iconFile.ToByteArrayAsync();
+                        }
 
                         results.Add(googleCloud);
                     }
