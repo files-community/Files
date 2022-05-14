@@ -1355,7 +1355,7 @@ namespace Files.Uwp.ViewModels
             else
             {
                 var isRecycleBin = path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
-                var enumerated = await EnumerateItemsFromStandardFolderAsync(path, folderSettings.GetLayoutType(path, false), addFilesCTS.Token, library);
+                var enumerated = await EnumerateItemsFromStandardFolderAsync(path, addFilesCTS.Token, library);
                 IsLoadingItems = false; // Hide progressbar after enumeration
                 switch (enumerated)
                 {
@@ -1528,7 +1528,7 @@ namespace Files.Uwp.ViewModels
             }
         }
 
-        public async Task<int> EnumerateItemsFromStandardFolderAsync(string path, Type sourcePageType, CancellationToken cancellationToken, LibraryItem library = null)
+        public async Task<int> EnumerateItemsFromStandardFolderAsync(string path, CancellationToken cancellationToken, LibraryItem library = null)
         {
             // Flag to use FindFirstFileExFromApp or StorageFolder enumeration
             var isBoxFolder = App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder ?
@@ -1624,7 +1624,7 @@ namespace Files.Uwp.ViewModels
                     currentFolder.ItemDateCreatedReal = rootFolder.DateCreated;
                 }
                 CurrentFolder = currentFolder;
-                await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationToken);
+                await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, cancellationToken);
                 return isBoxFolder || isNetworkFolder ? 2 : 1; // Workaround for #7428
             }
             else
@@ -1683,7 +1683,7 @@ namespace Files.Uwp.ViewModels
                 }
                 else if (hFile.ToInt64() == -1)
                 {
-                    await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationToken);
+                    await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, cancellationToken);
                     return 1;
                 }
                 else
@@ -1707,7 +1707,7 @@ namespace Files.Uwp.ViewModels
             }
         }
 
-        private async Task EnumFromStorageFolderAsync(string path, ListedItem currentFolder, BaseStorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, Type sourcePageType, CancellationToken cancellationToken)
+        private async Task EnumFromStorageFolderAsync(string path, ListedItem currentFolder, BaseStorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
         {
             if (rootFolder == null)
             {
@@ -1725,7 +1725,6 @@ namespace Files.Uwp.ViewModels
                     rootFolder,
                     currentStorageFolder,
                     returnformat,
-                    sourcePageType,
                     cancellationToken,
                     -1,
                     async (intermediateList) =>

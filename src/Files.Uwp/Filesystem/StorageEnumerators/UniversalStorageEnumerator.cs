@@ -21,7 +21,6 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
             BaseStorageFolder rootFolder,
             StorageFolderWithPath currentStorageFolder,
             string returnformat,
-            Type sourcePageType,
             CancellationToken cancellationToken,
             int countLimit,
             Func<List<ListedItem>, Task> intermediateAction,
