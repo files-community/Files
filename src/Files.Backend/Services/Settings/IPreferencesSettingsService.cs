@@ -34,7 +34,7 @@ namespace Files.Backend.Services.Settings
         /// Gets or sets a value indicating whether or not system items should be visible.
         /// </summary>
         bool AreSystemItemsHidden { get; set; }
-        
+
         /// <summary>
         /// Gets or sets a value indicating whether or not to display dot files.
         /// </summary>
