@@ -507,8 +507,8 @@
                         <MenuFlyoutSeparator />
                         <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedAscending, Mode=TwoWay}" Text="{helpers:ResourceString Name=Ascending}" />
                         <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedDescending, Mode=TwoWay}" Text="{helpers:ResourceString Name=Descending}" />
-                         <MenuFlyoutSeparator />
-                         <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.AreDirectoriesSortedAlongsideFiles, Mode=TwoWay}" Text="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}" />
+                        <MenuFlyoutSeparator />
+                        <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.AreDirectoriesSortedAlongsideFiles, Mode=TwoWay}" Text="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}" />
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>

@@ -324,9 +324,7 @@ namespace Files.Uwp.ViewModels
         {
             get
             {
-                return UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder ?                
-                LayoutPreference.SortDirectoriesAlongsideFiles : 
-                UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles;
+                return LayoutPreference.SortDirectoriesAlongsideFiles;
             }
             set
             {
@@ -334,10 +332,6 @@ namespace Files.Uwp.ViewModels
                 {
                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
                    SortDirectoriesAlongsideFilesPreferenceUpdated?.Invoke(this, SortDirectoriesAlongsideFiles);
-                   if (!UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
-                   {
-                       UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles = value;
-                   }
                 }
             }
         }
@@ -792,6 +786,20 @@ namespace Files.Uwp.ViewModels
         }
 
         private void ChangeGroupOption(GroupOption option) => DirectoryGroupOption = option;
+
+        public void OnDefaultPreferencesChanged(string folderPath, string settingsName)
+        {
+            var prefs = GetLayoutPreferencesForPath(folderPath);
+            switch (settingsName)
+            {
+                case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
+                    SortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
+                    break;
+                case nameof(UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder):
+                    LayoutPreference = prefs;
+                    break;
+            }
+        }
     }
 
     public class FolderLayoutInformation
