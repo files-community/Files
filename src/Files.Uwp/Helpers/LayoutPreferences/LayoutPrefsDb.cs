@@ -1,6 +1,7 @@
 ﻿using LiteDB;
 using System;
 using System.Linq;
+using Files.Shared.Extensions;
 
 namespace Files.Uwp.Helpers.LayoutPreferences
 {
@@ -90,6 +91,27 @@ namespace Files.Uwp.Helpers.LayoutPreferences
                 }
             }
             return null;
+        }
+
+        public void ResetAll(Func<LayoutDbPrefs, bool> predicate = null)
+        {
+            var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
+            if (predicate is null)
+            {
+                col.Delete(Query.All());
+            }
+            else
+            {
+                col.Delete(x => predicate(x));
+            }
+        }
+
+        public void ApplyToAll(Action<LayoutDbPrefs> updateAction, Func<LayoutDbPrefs, bool> predicate = null)
+        {
+            var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
+            var allDocs = predicate is null ? col.FindAll() : col.Find(x => predicate(x));
+            allDocs.ForEach(x => updateAction(x));
+            col.Update(allDocs);
         }
 
         public void Dispose()
