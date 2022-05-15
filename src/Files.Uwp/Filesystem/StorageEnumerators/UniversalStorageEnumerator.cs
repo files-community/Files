@@ -20,7 +20,6 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
         public static async Task<List<ListedItem>> ListEntries(
             BaseStorageFolder rootFolder,
             StorageFolderWithPath currentStorageFolder,
-            string returnformat,
             CancellationToken cancellationToken,
             int countLimit,
             Func<List<ListedItem>, Task> intermediateAction,

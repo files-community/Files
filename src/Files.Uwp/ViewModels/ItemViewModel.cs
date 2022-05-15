@@ -1738,7 +1738,6 @@ namespace Files.Uwp.ViewModels
                 List<ListedItem> finalList = await UniversalStorageEnumerator.ListEntries(
                     rootFolder,
                     currentStorageFolder,
-                    returnformat,
                     cancellationToken,
                     -1,
                     async (intermediateList) =>
