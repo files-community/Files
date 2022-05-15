@@ -186,8 +186,12 @@ namespace Files.Uwp.UserControls
         {
             ContextMenuOptions options = item.MenuOptions;
 
-            bool showMoveItemUp = options.IsItemMovable && App.SidebarPinnedController.Model.IndexOfItem(item) > 1;
-            bool showMoveItemDown = options.IsItemMovable && App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count;
+            var model = App.SidebarPinnedController.Model;
+            int index = model.IndexOfItem(item);
+            int count = model.FavoriteItems.Count;
+
+            bool showMoveItemUp = options.IsItemMovable && index > 0;
+            bool showMoveItemDown = options.IsItemMovable && index < count - 1;
 
             return new List<ContextMenuFlyoutItemViewModel>()
             {
