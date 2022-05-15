@@ -67,7 +67,10 @@ namespace Files.Uwp
         {
             AlwaysExpanded = true,
         };
-        public Microsoft.UI.Xaml.Controls.CommandBarFlyout BaseContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
+        public Microsoft.UI.Xaml.Controls.CommandBarFlyout BaseContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout()
+        {
+            AlwaysExpanded = true,
+        };
 
         public BaseLayoutCommandsViewModel CommandsViewModel { get; protected set; }
 

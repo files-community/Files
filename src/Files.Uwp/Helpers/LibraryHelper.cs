@@ -1,6 +1,6 @@
 ﻿using Files.Shared;
-using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
+using Files.Uwp.Dialogs;
 using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp;
@@ -166,7 +166,7 @@ namespace Files.Uwp.Helpers
                             { "Verb", "restorelibraries" }
                         });
                     }
-                    await App.LibraryManager.EnumerateLibrariesAsync();
+                    await App.LibraryManager.UpdateLibrariesAsync();
                 },
                 CloseButtonAction = (vm, e) => vm.HideDialog(),
                 KeyDownAction = (vm, e) =>

@@ -158,7 +158,6 @@
     </Compile>
     <Compile Include="EventArguments\Bundles\BundlesOpenPathEventArgs.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
-    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ImageSourceExtensions.cs" />
     <Compile Include="Extensions\KeyboardAcceleratorExtensions.cs" />
@@ -246,6 +245,12 @@
     <Compile Include="Serialization\Implementation\DefaultSettingsSerializer.cs" />
     <Compile Include="Serialization\ISettingsSerializer.cs" />
     <Compile Include="Serialization\ISettingsSharingContext.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\AbstractDateTimeFormatter.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\ApplicationDateTimeFormatter.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\DateTimeFormatterFactory.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\UniversalDateTimeFormatter.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\SystemDateTimeFormatter.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\UserDateTimeFormatter.cs" />
     <Compile Include="ServicesImplementation\DialogService.cs" />
     <Compile Include="ServicesImplementation\ImagingService.cs" />
     <Compile Include="ServicesImplementation\LocalizationService.cs" />
@@ -1510,7 +1515,7 @@
       <Version>4.5.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Data.Sqlite.Core">
-      <Version>6.0.4</Version>
+      <Version>6.0.5</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection">
       <Version>6.0.0</Version>

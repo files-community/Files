@@ -39,7 +39,7 @@ namespace Files.Backend.Services.Settings
         /// Gets or sets a value indicating whether or not to display dot files.
         /// </summary>
         bool ShowDotFiles{ get; set; }
-        
+
         /// <summary>
         /// Gets or sets a value indicating whether or not files should be sorted together with folders.
         /// </summary>

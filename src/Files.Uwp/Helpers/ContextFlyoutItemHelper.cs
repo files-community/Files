@@ -497,6 +497,7 @@ namespace Files.Uwp.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutPaste/Text".GetLocalized(),
+                    IsPrimary = true,
                     // Glyph = "\uF16D",
                     ShowInFtpPage = true,
                     ShowInZipPage = true,
@@ -581,6 +582,7 @@ namespace Files.Uwp.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalized(),
+                    IsPrimary = true,
                     ColoredIcon = new ColoredIconModel()
                     {
                         BaseLayerGlyph = "\uF031",

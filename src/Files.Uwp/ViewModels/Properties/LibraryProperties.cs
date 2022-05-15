@@ -1,4 +1,6 @@
-﻿using Files.Uwp.Extensions;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Shared.Services.DateTimeFormatter;
+using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
@@ -13,6 +15,8 @@ namespace Files.Uwp.ViewModels.Properties
 {
     internal class LibraryProperties : BaseProperties
     {
+        private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
+
         public LibraryItem Library { get; private set; }
 
         public LibraryProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, LibraryItem item, IShellPage instance)
@@ -64,8 +68,7 @@ namespace Files.Uwp.ViewModels.Properties
             BaseStorageFile libraryFile = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(Library.ItemPath);
             if (libraryFile != null)
             {
-                string returnformat = DateTimeExtensions.GetDateFormat();
-                ViewModel.ItemCreatedTimestamp = libraryFile.DateCreated.GetFriendlyDateFromFormat(returnformat);
+                ViewModel.ItemCreatedTimestamp = dateTimeFormatter.ToShortLabel(libraryFile.DateCreated);
                 if (libraryFile.Properties != null)
                 {
                     GetOtherProperties(libraryFile.Properties);
