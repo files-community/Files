@@ -3,6 +3,10 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.Dialogs;
+using Files.Shared;
+using Files.Shared.Enums;
+using Files.Shared.EventArguments;
+using Files.Shared.Extensions;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.Cloud;
@@ -11,10 +15,6 @@ using Files.Uwp.Filesystem.StorageEnumerators;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using Files.Uwp.Helpers.FileListCache;
-using Files.Shared;
-using Files.Shared.Enums;
-using Files.Shared.EventArguments;
-using Files.Shared.Extensions;
 using Files.Uwp.UserControls;
 using Files.Uwp.ViewModels.Previews;
 using FluentFTP;
@@ -38,10 +38,10 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
+using Windows.System;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.System;
 using static Files.Uwp.Helpers.NativeDirectoryChangesHelper;
 using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
@@ -1183,10 +1183,10 @@ namespace Files.Uwp.ViewModels
                             cts.Token.ThrowIfCancellationRequested();
                             await SafetyExtensions.IgnoreExceptions(
                                 () => dispatcherQueue.EnqueueAsync(() =>
-                            {
-                                gp.Model.ImageSource = groupImage;
-                                gp.InitializeExtendedGroupHeaderInfoAsync();
-                            }));
+                                {
+                                    gp.Model.ImageSource = groupImage;
+                                    gp.InitializeExtendedGroupHeaderInfoAsync();
+                                }));
                         }
                     }
                 }, cts.Token);
@@ -1435,10 +1435,9 @@ namespace Files.Uwp.ViewModels
 
         public async Task EnumerateItemsFromSpecialFolderAsync(string path)
         {
-            string returnformat = DateTimeExtensions.GetDateFormat();
             bool isFtp = FtpHelpers.IsFtpPath(path);
 
-            CurrentFolder = new ListedItem(null, returnformat)
+            CurrentFolder = new ListedItem(null)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
                 ItemPropertiesInitialized = true,
@@ -1516,7 +1515,7 @@ namespace Files.Uwp.ViewModels
 
                         for (var i = 0; i < list.Length; i++)
                         {
-                            filesAndFolders.Add(new FtpItem(list[i], path, returnformat));
+                            filesAndFolders.Add(new FtpItem(list[i], path));
 
                             if (i == list.Length - 1 || sampler.CheckNow())
                             {
@@ -1591,8 +1590,6 @@ namespace Files.Uwp.ViewModels
                 }
             }
 
-            string returnformat = DateTimeExtensions.GetDateFormat();
-
             if (Path.IsPathRooted(path) && Path.GetPathRoot(path) == path)
             {
                 rootFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
@@ -1612,7 +1609,7 @@ namespace Files.Uwp.ViewModels
             if (enumFromStorageFolder)
             {
                 var basicProps = await rootFolder.GetBasicPropertiesAsync();
-                var currentFolder = library ?? new ListedItem(rootFolder.FolderRelativeId, returnformat)
+                var currentFolder = library ?? new ListedItem(rootFolder.FolderRelativeId)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemPropertiesInitialized = true,
@@ -1664,7 +1661,7 @@ namespace Files.Uwp.ViewModels
                     opacity = Constants.UI.DimItemOpacity;
                 }
 
-                var currentFolder = library ?? new ListedItem(null, returnformat)
+                var currentFolder = library ?? new ListedItem(null)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemPropertiesInitialized = true,
@@ -1696,7 +1693,7 @@ namespace Files.Uwp.ViewModels
                 {
                     await Task.Run(async () =>
                     {
-                        List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, returnformat, hFile, findData, Connection, cancellationToken, -1, intermediateAction: async (intermediateList) =>
+                        List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, hFile, findData, Connection, cancellationToken, -1, intermediateAction: async (intermediateList) =>
                         {
                             filesAndFolders.AddRange(intermediateList);
                             await OrderFilesAndFoldersAsync();
@@ -1723,23 +1720,20 @@ namespace Files.Uwp.ViewModels
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            string returnformat = DateTimeExtensions.GetDateFormat();
-
             await Task.Run(async () =>
             {
                 List<ListedItem> finalList = await UniversalStorageEnumerator.ListEntries(
                     rootFolder,
                     currentStorageFolder,
-                    returnformat,
                     sourcePageType,
                     cancellationToken,
                     -1,
                     async (intermediateList) =>
-                {
-                    filesAndFolders.AddRange(intermediateList);
-                    await OrderFilesAndFoldersAsync();
-                    await ApplyFilesAndFoldersChangesAsync();
-                }, defaultIconPairs: DefaultIcons);
+                    {
+                        filesAndFolders.AddRange(intermediateList);
+                        await OrderFilesAndFoldersAsync();
+                        await ApplyFilesAndFoldersChangesAsync();
+                    }, defaultIconPairs: DefaultIcons);
                 filesAndFolders.AddRange(finalList);
                 await OrderFilesAndFoldersAsync();
                 await ApplyFilesAndFoldersChangesAsync();
@@ -1979,8 +1973,6 @@ namespace Files.Uwp.ViewModels
 
         private async Task ProcessOperationQueue(CancellationToken cancellationToken, bool hasSyncStatus)
         {
-            string returnformat = DateTimeExtensions.GetDateFormat();
-
             const uint FILE_ACTION_ADDED = 0x00000001;
             const uint FILE_ACTION_REMOVED = 0x00000002;
             const uint FILE_ACTION_MODIFIED = 0x00000003;
@@ -2031,7 +2023,7 @@ namespace Files.Uwp.ViewModels
                                 {
                                     case FILE_ACTION_ADDED:
                                     case FILE_ACTION_RENAMED_NEW_NAME:
-                                        lastItemAdded = await AddFileOrFolderAsync(operation.FileName, returnformat);
+                                        lastItemAdded = await AddFileOrFolderAsync(operation.FileName);
                                         if (lastItemAdded != null)
                                         {
                                             anyEdits = true;
@@ -2112,17 +2104,15 @@ namespace Files.Uwp.ViewModels
             Debug.WriteLine("aProcessQueueAction done: {0}", rand);
         }
 
-        public async Task<ListedItem> AddFileOrFolderFromShellFile(ShellFileItem item, string dateReturnFormat = null)
+        public async Task<ListedItem> AddFileOrFolderFromShellFile(ShellFileItem item)
         {
-            dateReturnFormat ??= DateTimeExtensions.GetDateFormat();
-
             if (item.IsFolder)
             {
-                return await UniversalStorageEnumerator.AddFolderAsync(ShellStorageFolder.FromShellItem(item), currentStorageFolder, dateReturnFormat, addFilesCTS.Token);
+                return await UniversalStorageEnumerator.AddFolderAsync(ShellStorageFolder.FromShellItem(item), currentStorageFolder, addFilesCTS.Token);
             }
             else
             {
-                return await UniversalStorageEnumerator.AddFileAsync(ShellStorageFile.FromShellItem(item), currentStorageFolder, dateReturnFormat, addFilesCTS.Token);
+                return await UniversalStorageEnumerator.AddFileAsync(ShellStorageFile.FromShellItem(item), currentStorageFolder, addFilesCTS.Token);
             }
         }
 
@@ -2150,7 +2140,7 @@ namespace Files.Uwp.ViewModels
             enumFolderSemaphore.Release();
         }
 
-        private async Task<ListedItem> AddFileOrFolderAsync(string fileOrFolderPath, string dateReturnFormat)
+        private async Task<ListedItem> AddFileOrFolderAsync(string fileOrFolderPath)
         {
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
             int additionalFlags = FIND_FIRST_EX_CASE_SENSITIVE;
@@ -2181,11 +2171,11 @@ namespace Files.Uwp.ViewModels
             ListedItem listedItem;
             if ((findData.dwFileAttributes & 0x10) > 0) // FILE_ATTRIBUTE_DIRECTORY
             {
-                listedItem = await Win32StorageEnumerator.GetFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat, addFilesCTS.Token);
+                listedItem = await Win32StorageEnumerator.GetFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, addFilesCTS.Token);
             }
             else
             {
-                listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat, Connection, addFilesCTS.Token);
+                listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, Connection, addFilesCTS.Token);
             }
 
             await AddFileOrFolderAsync(listedItem);
