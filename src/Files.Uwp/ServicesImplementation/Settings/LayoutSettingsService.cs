@@ -78,12 +78,6 @@ namespace Files.Uwp.ServicesImplementation.Settings
             set => Set((long)value);
         }
 
-        public bool IsAdaptiveLayoutEnabled
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
         public void ReportToAppCenter()
         {
         }

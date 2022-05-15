@@ -41,7 +41,5 @@ namespace Files.Backend.Services.Settings
         bool DefaultSortDirectoriesAlongsideFiles { get; set; }
 
         GroupOption DefaultDirectoryGroupOption { get; set; }
-
-        bool IsAdaptiveLayoutEnabled { get; set; }
     }
 }
