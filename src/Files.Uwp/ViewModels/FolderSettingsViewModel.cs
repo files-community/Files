@@ -546,15 +546,6 @@ namespace Files.Uwp.ViewModels
             var prefs = await GetLayoutPreferencesForPath(folderPath);
             switch (settingsName)
             {
-                case nameof(UserSettingsService.LayoutSettingsService.DefaultDirectorySortOption):
-                    DirectorySortOption = prefs.DirectorySortOption;
-                    break;
-                case nameof(UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection):
-                    DirectorySortDirection = prefs.DirectorySortDirection;
-                    break;
-                case nameof(UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption):
-                    DirectoryGroupOption = prefs.DirectoryGroupOption;
-                    break;
                 case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
                     SortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
                     break;
