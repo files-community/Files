@@ -41,11 +41,6 @@ namespace Files.Backend.Services.Settings
         bool ShowDotFiles{ get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not files should be sorted together with folders.
-        /// </summary>
-        bool ListAndSortDirectoriesAlongsideFiles { get; set; }
-
-        /// <summary>
         /// Gets or sets a value indicating whether or not files should open with one click.
         /// </summary>
         bool OpenFilesWithOneClick { get; set; }

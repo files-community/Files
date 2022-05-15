@@ -6,14 +6,10 @@ namespace Files.Uwp.ServicesImplementation.Settings
 {
     internal sealed class LayoutSettingsService : BaseObservableJsonSettings, ILayoutSettingsService
     {
-        private readonly IUserSettingsService userSettingsService;
-
         public LayoutSettingsService(ISettingsSharingContext settingsSharingContext)
         {
             // Register root
             RegisterSettingsContext(settingsSharingContext);
-
-            userSettingsService = settingsSharingContext as IUserSettingsService;
         }
 
         public bool ShowDateColumn
@@ -72,7 +68,7 @@ namespace Files.Uwp.ServicesImplementation.Settings
         
         public bool DefaultSortDirectoriesAlongsideFiles
         {
-            get => Get(userSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles);
+            get => Get(false);
             set => Set(value);
         }
 
@@ -80,6 +76,12 @@ namespace Files.Uwp.ServicesImplementation.Settings
         {
             get => (GroupOption)Get((long)GroupOption.None);
             set => Set((long)value);
+        }
+
+        public bool IsAdaptiveLayoutEnabled
+        {
+            get => Get(true);
+            set => Set(value);
         }
 
         public void ReportToAppCenter()

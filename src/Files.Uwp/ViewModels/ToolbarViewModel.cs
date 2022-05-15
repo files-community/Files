@@ -90,7 +90,7 @@ namespace Files.Uwp.ViewModels
             get => InstanceViewModel?.FolderSettings.DirectorySortDirection == SortDirection.Descending;
             set { if (value) InstanceViewModel.FolderSettings.DirectorySortDirection = SortDirection.Descending; }
         }
-        
+
         public bool AreDirectoriesSortedAlongsideFiles
         {
             get => InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFiles;
@@ -228,15 +228,15 @@ namespace Files.Uwp.ViewModels
             => InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.TilesView && !IsLayoutAdaptive;
 
         public bool IsLayoutGridViewSmall
-            => InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.GridView 
+            => InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.GridView
             && InstanceViewModel.FolderSettings.GridViewSizeKind == GridViewSizeKind.Small && !IsLayoutAdaptive;
 
         public bool IsLayoutGridViewMedium
-            => InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.GridView 
+            => InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.GridView
             && InstanceViewModel.FolderSettings.GridViewSizeKind == GridViewSizeKind.Medium && !IsLayoutAdaptive;
 
         public bool IsLayoutGridViewLarge
-            => InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.GridView 
+            => InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.GridView
             && InstanceViewModel.FolderSettings.GridViewSizeKind == GridViewSizeKind.Large && !IsLayoutAdaptive;
 
         public bool IsLayoutColumnsView
@@ -443,7 +443,7 @@ namespace Files.Uwp.ViewModels
             OnPropertyChanged(nameof(IsSortedByDateDeleted));
             OnPropertyChanged(nameof(IsSortedByFileTag));
         }
-        
+
         private void FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(object sender, bool e)
         {
             OnPropertyChanged(nameof(AreDirectoriesSortedAlongsideFiles));

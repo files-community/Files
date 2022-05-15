@@ -21,8 +21,6 @@ namespace Files.Uwp.ViewModels
 {
     public class FolderSettingsViewModel : ObservableObject
     {
-        private static readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-
         public static string LayoutSettingsDbPath => IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "layoutsettings.db");
 
         private static readonly Lazy<LayoutPrefsDb> dbInstance = new(() => new LayoutPrefsDb(LayoutSettingsDbPath, true));
@@ -289,9 +287,7 @@ namespace Files.Uwp.ViewModels
         {
             get
             {
-                return UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder ?
-                LayoutPreference.SortDirectoriesAlongsideFiles :
-                UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles;
+                return LayoutPreference.SortDirectoriesAlongsideFiles;
             }
             set
             {
@@ -299,10 +295,6 @@ namespace Files.Uwp.ViewModels
                 {
                     LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
                     SortDirectoriesAlongsideFilesPreferenceUpdated?.Invoke(this, SortDirectoriesAlongsideFiles);
-                    if (!UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
-                    {
-                        UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles = value;
-                    }
                 }
             }
         }
@@ -325,8 +317,8 @@ namespace Files.Uwp.ViewModels
                 folderPath = folderPath.TrimPath();
                 var folder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(folderPath);
                 var folderFRN = await FileTagsHelper.GetFileFRN(folder);
-                return ReadLayoutPreferencesFromDb(folderPath, folderFRN) 
-                    ?? ReadLayoutPreferencesFromAds(folderPath, folderFRN) 
+                return ReadLayoutPreferencesFromDb(folderPath, folderFRN)
+                    ?? ReadLayoutPreferencesFromAds(folderPath, folderFRN)
                     ?? GetDefaultLayoutPreferences(folderPath);
             }
 
@@ -336,6 +328,7 @@ namespace Files.Uwp.ViewModels
         public static async Task SetLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+
             if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
             {
                 var folder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(folderPath);
@@ -459,10 +452,15 @@ namespace Files.Uwp.ViewModels
             {
                 if (SetProperty(ref layoutPreference, value))
                 {
+                    OnPropertyChanged(nameof(LayoutMode));
+                    OnPropertyChanged(nameof(GridViewSize));
+                    OnPropertyChanged(nameof(GridViewSizeKind));
+                    OnPropertyChanged(nameof(IsAdaptiveLayoutEnabled));
                     OnPropertyChanged(nameof(DirectoryGroupOption));
                     OnPropertyChanged(nameof(DirectorySortOption));
                     OnPropertyChanged(nameof(DirectorySortDirection));
                     OnPropertyChanged(nameof(SortDirectoriesAlongsideFiles));
+                    OnPropertyChanged(nameof(ColumnsViewModel));
                 }
             }
         }
@@ -542,5 +540,29 @@ namespace Files.Uwp.ViewModels
         }
 
         private void ChangeGroupOption(GroupOption option) => DirectoryGroupOption = option;
+
+        public async Task OnDefaultPreferencesChanged(string folderPath, string settingsName)
+        {
+            var prefs = await GetLayoutPreferencesForPath(folderPath);
+            switch (settingsName)
+            {
+                case nameof(UserSettingsService.LayoutSettingsService.DefaultDirectorySortOption):
+                    DirectorySortOption = prefs.DirectorySortOption;
+                    break;
+                case nameof(UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection):
+                    DirectorySortDirection = prefs.DirectorySortDirection;
+                    break;
+                case nameof(UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption):
+                    DirectoryGroupOption = prefs.DirectoryGroupOption;
+                    break;
+                case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
+                    SortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
+                    break;
+                case nameof(UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder):
+                    LayoutPreference = prefs;
+                    // TODO: update layout
+                    break;
+            }
+        }
     }
 }

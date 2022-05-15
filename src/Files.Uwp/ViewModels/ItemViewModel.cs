@@ -68,8 +68,6 @@ namespace Files.Uwp.ViewModels
         public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
         private string folderTypeTextLocalized = "FileFolderListItem".GetLocalized();
         private FolderSettingsViewModel folderSettings = null;
-        private bool shouldDisplayFileExtensions = false;
-        private bool shouldDisplayThumbnails = false;
         private DispatcherQueue dispatcherQueue;
 
         public ListedItem CurrentFolder { get; private set; }
@@ -220,6 +218,22 @@ namespace Files.Uwp.ViewModels
             OnPropertyChanged(nameof(AreDirectoriesSortedAlongsideFiles));
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
+        }
+
+        private void UpdateSortAndGroupOptions()
+        {
+            OnPropertyChanged(nameof(IsSortedByName));
+            OnPropertyChanged(nameof(IsSortedByDate));
+            OnPropertyChanged(nameof(IsSortedByType));
+            OnPropertyChanged(nameof(IsSortedBySize));
+            OnPropertyChanged(nameof(IsSortedByOriginalPath));
+            OnPropertyChanged(nameof(IsSortedByDateDeleted));
+            OnPropertyChanged(nameof(IsSortedByDateCreated));
+            OnPropertyChanged(nameof(IsSortedBySyncStatus));
+            OnPropertyChanged(nameof(IsSortedByFileTag));
+            OnPropertyChanged(nameof(IsSortedAscending));
+            OnPropertyChanged(nameof(IsSortedDescending));
+            OnPropertyChanged(nameof(AreDirectoriesSortedAlongsideFiles));
         }
 
         public bool IsSortedByName
@@ -384,8 +398,6 @@ namespace Files.Uwp.ViewModels
             watcherCTS = new CancellationTokenSource();
             operationEvent = new AsyncManualResetEvent();
             enumFolderSemaphore = new SemaphoreSlim(1, 1);
-            shouldDisplayFileExtensions = UserSettingsService.PreferencesSettingsService.ShowFileExtensions;
-            shouldDisplayThumbnails = UserSettingsService.PreferencesSettingsService.ShowThumbnails;
             dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -452,22 +464,28 @@ namespace Files.Uwp.ViewModels
                 case nameof(UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden):
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowDotFiles):
-                case nameof(UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles):
-                case nameof(UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled):
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFolderSize):
                     await dispatcherQueue.EnqueueAsync(() =>
                     {
-                        shouldDisplayThumbnails = UserSettingsService.PreferencesSettingsService.ShowThumbnails;
-                        if (!UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
-                        {
-                            folderSettings.SortDirectoriesAlongsideFiles = UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles;
-                        }
                         if (WorkingDirectory != "Home".GetLocalized())
                         {
                             RefreshItems(null);
                         }
                     });
+                    break;
+                case nameof(UserSettingsService.LayoutSettingsService.DefaultDirectorySortOption):
+                case nameof(UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection):
+                case nameof(UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption):
+                case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
+                case nameof(UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder):
+                    await dispatcherQueue.EnqueueAsync(async () =>
+                    {
+                        await folderSettings.OnDefaultPreferencesChanged(WorkingDirectory, e.SettingName);
+                        UpdateSortAndGroupOptions();
+                    });
+                    await OrderFilesAndFoldersAsync();
+                    await ApplyFilesAndFoldersChangesAsync();
                     break;
             }
         }
@@ -914,7 +932,8 @@ namespace Files.Uwp.ViewModels
             var wasIconLoaded = false;
             if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
             {
-                if (shouldDisplayThumbnails && !item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
+                if (UserSettingsService.PreferencesSettingsService.ShowThumbnails && 
+                    !item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
                 {
                     var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
                     if (matchingStorageFile != null)
