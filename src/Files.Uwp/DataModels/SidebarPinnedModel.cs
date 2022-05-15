@@ -172,41 +172,34 @@ namespace Files.Uwp.DataModels
         /// <returns>True if the move was successful</returns>
         public bool MoveItem(INavigationControlItem locationItem, int oldIndex, int newIndex)
         {
-            if (locationItem == null)
+            if (locationItem is null || newIndex > FavoriteItems.Count)
             {
                 return false;
             }
 
-            if (oldIndex >= 1 && newIndex >= 1 && newIndex <= FavoriteItems.Count)
+            // A backup of the items, because the swapping of items requires removing and inserting them in the correct position
+            var sidebarItemsBackup = new List<string>(FavoriteItems);
+
+            try
             {
-                // A backup of the items, because the swapping of items requires removing and inserting them in the correct position
-                var sidebarItemsBackup = new List<string>(FavoriteItems);
-
-                try
+                (FavoriteItems[oldIndex], FavoriteItems[newIndex]) = (FavoriteItems[newIndex], FavoriteItems[oldIndex]);
+                lock (favoriteList)
                 {
-                    FavoriteItems.RemoveAt(oldIndex - 1);
-                    FavoriteItems.Insert(newIndex - 1, locationItem.Path);
-                    lock (favoriteList)
-                    {
-                        favoriteList.RemoveAt(oldIndex);
-                        favoriteList.Insert(newIndex, locationItem);
-                    }
-                    controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, locationItem, newIndex, oldIndex));
-                    Save();
+                    (favoriteList[oldIndex], favoriteList[newIndex]) = (favoriteList[newIndex], favoriteList[oldIndex]);
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"An error occurred while moving pinned items in the Favorites sidebar section. {ex.Message}");
-                    FavoriteItems = sidebarItemsBackup;
-                    RemoveStaleSidebarItems();
-                    _ = AddAllItemsToSidebar();
-                    return false;
-                }
-
+                var e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, locationItem, newIndex, oldIndex);
+                controller.DataChanged?.Invoke(SectionType.Favorites, e);
+                Save();
                 return true;
             }
-
-            return false;
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"An error occurred while moving pinned items in the Favorites sidebar section. {ex.Message}");
+                FavoriteItems = sidebarItemsBackup;
+                RemoveStaleSidebarItems();
+                _ = AddAllItemsToSidebar();
+                return false;
+            }
         }
 
         /// <summary>
