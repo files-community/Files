@@ -612,12 +612,12 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
         public bool ListAndSortDirectoriesAlongsideFiles
         {
-            get => UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles;
+            get => UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
             set
             {
-                if (value != UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles)
+                if (value != UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles)
                 {
-                    UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles = value;
+                    UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = value;
                     OnPropertyChanged();
                 }
             }
