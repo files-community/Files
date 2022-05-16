@@ -193,7 +193,7 @@ namespace Files.Uwp.UserControls
             bool showMoveItemUp = options.IsItemMovable && index > 0;
             bool showMoveItemDown = options.IsItemMovable && index < count - 1;
 
-            return new List<ContextMenuFlyoutItemViewModel>()
+            var items = new List<ContextMenuFlyoutItemViewModel>()
             {
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -280,13 +280,6 @@ namespace Files.Uwp.UserControls
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = string.Format("SideBarHideSectionFromSideBar/Text".GetLocalized(), rightClickedItem.Text),
-                    Glyph = "\uE77A",
-                    Command = HideSectionCommand,
-                    ShowItem = options.ShowHideSection
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
                     Text = "SideBarEjectDevice/Text".GetLocalized(),
                     Glyph = "\uF10B",
                     GlyphFontFamilyName = "CustomGlyph",
@@ -310,6 +303,44 @@ namespace Files.Uwp.UserControls
                     IsHidden = true,
                 }
             }.Where(x => x.ShowItem).ToList();
+
+            if (options.ShowHideSection)
+            {
+                if (items.Any())
+                {
+                    items.Add(new ContextMenuFlyoutItemViewModel { ItemType = ItemType.Separator });
+                }
+                items.Add(GetToggleItem("SidebarFavorites", ViewModel.ShowFavoritesSection,
+                    () => ViewModel.ShowFavoritesSection = !ViewModel.ShowFavoritesSection));
+                items.Add(GetToggleItem("SidebarLibraries", ViewModel.ShowLibrarySection,
+                    () => ViewModel.ShowLibrarySection = !ViewModel.ShowLibrarySection));
+                items.Add(GetToggleItem("Drives", ViewModel.ShowDrivesSection,
+                    () => ViewModel.ShowDrivesSection = !ViewModel.ShowDrivesSection));
+                items.Add(GetToggleItem("SidebarCloudDrives", ViewModel.ShowCloudDrivesSection,
+                    () => ViewModel.ShowCloudDrivesSection = !ViewModel.ShowCloudDrivesSection));
+                items.Add(GetToggleItem("SidebarNetworkDrives", ViewModel.ShowNetworkDrivesSection,
+                    () => ViewModel.ShowNetworkDrivesSection = !ViewModel.ShowNetworkDrivesSection));
+                items.Add(GetToggleItem("WSL", ViewModel.ShowWslSection,
+                    () => ViewModel.ShowWslSection = !ViewModel.ShowWslSection));
+                if (ViewModel.AreFileTagsEnabled)
+                {
+                    items.Add(GetToggleItem("FileTags", ViewModel.ShowFileTagsSection,
+                        () => ViewModel.ShowFileTagsSection = !ViewModel.ShowFileTagsSection));
+                }
+            }
+
+            return items;
+
+            static ContextMenuFlyoutItemViewModel GetToggleItem(string textKey, bool isEnabled, Action action)
+            {
+                return new()
+                {
+                    ItemType = ItemType.Toggle,
+                    Text = textKey.GetLocalized(),
+                    IsChecked = isEnabled,
+                    Command = new RelayCommand(action),
+                };
+            }
         }
 
         private void HideSection()
