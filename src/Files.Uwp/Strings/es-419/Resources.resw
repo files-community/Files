@@ -2529,4 +2529,10 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
   </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Sistema</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Reintentar</value>
+  </data>
 </root>

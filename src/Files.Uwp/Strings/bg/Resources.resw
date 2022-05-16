@@ -642,6 +642,12 @@
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
     <value>Отвори раздели</value>
   </data>
+  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
+    <value>Многозадачен режим</value>
+  </data>
+  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
+    <value>Многозадачен режим</value>
+  </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Задай като</value>
   </data>
@@ -2485,5 +2491,50 @@
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Изчисляването на размерите на папките е ресурсоемко и може да доведе до увеличаване на използването на вашия процесор.</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Завърти наляво</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Завърти надясно</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Инсталирай</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Затваряне на раздели вдясно</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Затвори другите раздели</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Музика</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Картини</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Видеоклипове</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Копирането е неуспешно.</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Преместването е неуспешно.</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Маркери</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Система</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Универсално</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Покажи миниатюри</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Опитай пак</value>
   </data>
 </root>

@@ -2457,4 +2457,115 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
     <value>Koristi DPI postavke glavnog monitora</value>
   </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Isprazni Koš za smeće</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Bočna traka</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Datoteke i mape</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Očisti sve</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Stupci</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Velike ikone</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Srednje ikone</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Male ikone</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Pločice</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Stvaranje biblioteke</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Preskoči</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Atributi:</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Skriveno</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>Više pojedinosti</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Samo za čitanje</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Tip:</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Bajtovi</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Izdvajanje</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Pokreni skriptu</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Postavi kao pozadinu radne površine</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Otvori u:</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Rotiraj ulijevo</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Rotiraj udesno</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Instaliraj</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Zatvori kartice zdesna</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Zatvori ostale kartice</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Glazba</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Slike</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videozapisi</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Kopiranje nije uspjelo.</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Premještanje nije uspjelo.</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Oznake</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Sustav</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Univerzalno</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Prikaži minijature</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Pokušaj ponovno</value>
+  </data>
 </root>

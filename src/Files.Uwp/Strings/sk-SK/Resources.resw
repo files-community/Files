@@ -2543,4 +2543,64 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
   <data name="Bytes" xml:space="preserve">
     <value>bajtov</value>
   </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Extrakcia</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Spustiť skript</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Nastaviť ako pozadie pracovnej plochy</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Otvoriť v aplikácii</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Otočiť doľava</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Otočiť doprava</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Inštalovať</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Zavrieť karty napravo</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Zavrieť ostatné karty</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Hudba</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Obrázky</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videá</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Kopírovanie zlyhalo</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Premiestnenie zlyhalo.</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Značky</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Systém</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Univerzálne</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Zobraziť miniatúry</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Znova</value>
+  </data>
 </root>

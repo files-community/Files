@@ -3547,6 +3547,18 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
           <source>Move operation is not supported in this context. Do you want to copy the items instead?</source>
           <target state="translated">Operasi pemindahan tidak didukung dalam konteks ini. Apakah Anda ingin menyalin item ini?</target>
         </trans-unit>
+        <trans-unit id="HiddenFilesAndFolders" translate="yes" xml:space="preserve">
+          <source>Hidden files and folders</source>
+          <target state="new">Hidden files and folders</target>
+        </trans-unit>
+        <trans-unit id="Custom" translate="yes" xml:space="preserve">
+          <source>Custom</source>
+          <target state="new">Custom</target>
+        </trans-unit>
+        <trans-unit id="SizeAllColumnsToFit" translate="yes" xml:space="preserve">
+          <source>Size All Columns to Fit</source>
+          <target state="new">Size All Columns to Fit</target>
+        </trans-unit>
       </group>
     </body>
   </file>

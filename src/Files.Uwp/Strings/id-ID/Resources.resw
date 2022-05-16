@@ -2632,4 +2632,34 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Tampilkan bagian penanda</value>
   </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Sistem</value>
+  </data>
+  <data name="FileInUseByDialog.Text" xml:space="preserve">
+    <value>Berkas yang Anda coba akses sedang digunakan oleh {0}</value>
+  </data>
+  <data name="FileInUseDialog.Text" xml:space="preserve">
+    <value>Berkas yang Anda coba buka sedang digunakan oleh aplikasi lain</value>
+  </data>
+  <data name="FileInUseDialog.Title" xml:space="preserve">
+    <value>Berkas sedang di gunakan</value>
+  </data>
+  <data name="UseCompactStyles" xml:space="preserve">
+    <value>Gunakan gaya fleksibel di dalam penataan detail</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Universal</value>
+  </data>
+  <data name="DateFormatSample" xml:space="preserve">
+    <value>mis: {0}, {1}</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Tampilkan Gambar kecil</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Coba Lagi</value>
+  </data>
+  <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
+    <value>Operasi pemindahan tidak didukung dalam konteks ini. Apakah Anda ingin menyalin item ini?</value>
+  </data>
 </root>

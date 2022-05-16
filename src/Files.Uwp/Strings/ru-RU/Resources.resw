@@ -2626,4 +2626,16 @@
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Показывать Секцию Меток</value>
   </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>система</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Универсальная</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Показать эскизы</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Повторить</value>
+  </data>
 </root>
