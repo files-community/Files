@@ -220,16 +220,6 @@ namespace Files.Uwp.DataModels
             {
                 RemoveItem(CommonPaths.RecycleBinPath);
             }
-
-            if (show)
-            {
-                var item = favoriteList.FirstOrDefault(x => x.Path == CommonPaths.RecycleBinPath);
-                if (item is not null)
-                {
-                    item.MenuOptions.ShowShellItems = true;
-                    item.MenuOptions.ShowEmptyRecycleBin = true;
-                }
-            }
         }
 
         /// <summary>
