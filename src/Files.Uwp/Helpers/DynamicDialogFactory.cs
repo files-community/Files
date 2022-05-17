@@ -5,7 +5,6 @@ using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp;
 using System;
-using Windows.ApplicationModel.Core;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 using System.Collections.Generic;
@@ -21,7 +20,7 @@ namespace Files.Uwp.Helpers
             {
                 TitleText = "PropertySaveErrorDialog/Title".GetLocalized(),
                 SubtitleText = "PropertySaveErrorMessage/Text".GetLocalized(), // We can use subtitle here as our content
-                PrimaryButtonText = "PropertySaveErrorDialog/PrimaryButtonText".GetLocalized(),
+                PrimaryButtonText = "Retry".GetLocalized(),
                 SecondaryButtonText = "PropertySaveErrorDialog/SecondaryButtonText".GetLocalized(),
                 CloseButtonText = "Cancel".GetLocalized(),
                 DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary | DynamicDialogButtons.Cancel
@@ -93,7 +92,8 @@ namespace Files.Uwp.Helpers
             inputText.Loaded += (s, e) =>
             {
                 // dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
-                _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => inputText.Focus(Windows.UI.Xaml.FocusState.Programmatic));
+                _ = inputText.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, 
+                    () => inputText.Focus(Windows.UI.Xaml.FocusState.Programmatic));
             };
 
             dialog = new DynamicDialog(new DynamicDialogViewModel()
@@ -134,10 +134,10 @@ namespace Files.Uwp.Helpers
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
                 TitleText = "FileInUseDialog/Title".GetLocalized(),
-                SubtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalized() : 
-                    string.Format("FileInUseByDialog/Text".GetLocalized(), string.Join(", ", lockingProcess.Select(x => $"{x.Name}.exe (pid: {x.Pid})"))),
+                SubtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalized() :
+                    string.Format("FileInUseByDialog/Text".GetLocalized(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})"))),
                 PrimaryButtonText = "OK",
-                DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary
+                DynamicButtons = DynamicDialogButtons.Primary
             });
             return dialog;
         }

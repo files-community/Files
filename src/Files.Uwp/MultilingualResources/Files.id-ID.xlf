@@ -282,10 +282,6 @@
           <source>Application</source>
           <target state="translated">Aplikasi</target>
         </trans-unit>
-        <trans-unit id="SystemTimeStye" translate="yes" xml:space="preserve">
-          <source>System</source>
-          <target state="translated">Sistem</target>
-        </trans-unit>
         <trans-unit id="NewFolder" translate="yes" xml:space="preserve">
           <source>New Folder</source>
           <target state="translated">Folder Baru</target>
@@ -389,22 +385,6 @@
         <trans-unit id="FolderNotFoundDialog.Title" translate="yes" xml:space="preserve">
           <source>Did you delete this folder?</source>
           <target state="translated">Apakah Anda menghapus folder ini?</target>
-        </trans-unit>
-        <trans-unit id="FileInUseDeleteDialog.Text" translate="yes" xml:space="preserve">
-          <source>The file you're trying to delete is currently being used by an another application.</source>
-          <target state="translated">Berkas yang Anda coba hapus sedang digunakan oleh aplikasi lain.</target>
-        </trans-unit>
-        <trans-unit id="FileInUseDeleteDialog.Title" translate="yes" xml:space="preserve">
-          <source>File is in use</source>
-          <target state="translated">Berkas sedang digunakan</target>
-        </trans-unit>
-        <trans-unit id="FileInUseDeleteDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Try again</source>
-          <target state="translated">Coba lagi</target>
-        </trans-unit>
-        <trans-unit id="FileInUseDeleteDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>OK</source>
-          <target state="translated">Iya</target>
         </trans-unit>
         <trans-unit id="NavToolbarLayout.Text" translate="yes" xml:space="preserve">
           <source>Layout</source>
@@ -881,10 +861,6 @@
         <trans-unit id="PropertySaveErrorDialog.Title" translate="yes" xml:space="preserve">
           <source>Error</source>
           <target state="translated">Kesalahan</target>
-        </trans-unit>
-        <trans-unit id="PropertySaveErrorDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Retry</source>
-          <target state="translated">Coba lagi</target>
         </trans-unit>
         <trans-unit id="PropertySaveErrorDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Close anyway</source>
@@ -3530,6 +3506,58 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
         <trans-unit id="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show Tags section</source>
           <target state="translated">Tampilkan bagian penanda</target>
+        </trans-unit>
+        <trans-unit id="SystemTimeStyle" translate="yes" xml:space="preserve">
+          <source>System</source>
+          <target state="translated">Sistem</target>
+        </trans-unit>
+        <trans-unit id="FileInUseByDialog.Text" translate="yes" xml:space="preserve">
+          <source>The file you are attempting to access is currently being used by {0}</source>
+          <target state="translated">Berkas yang Anda coba akses sedang digunakan oleh {0}</target>
+        </trans-unit>
+        <trans-unit id="FileInUseDialog.Text" translate="yes" xml:space="preserve">
+          <source>The file you are attempting to access is currently being used by an another application</source>
+          <target state="translated">Berkas yang Anda coba buka sedang digunakan oleh aplikasi lain</target>
+        </trans-unit>
+        <trans-unit id="FileInUseDialog.Title" translate="yes" xml:space="preserve">
+          <source>File is in use</source>
+          <target state="translated">Berkas sedang di gunakan</target>
+        </trans-unit>
+        <trans-unit id="UseCompactStyles" translate="yes" xml:space="preserve">
+          <source>Use compact styles in the details layout</source>
+          <target state="translated">Gunakan gaya fleksibel di dalam penataan detail</target>
+        </trans-unit>
+        <trans-unit id="Universal" translate="yes" xml:space="preserve">
+          <source>Universal</source>
+          <target state="translated">Universal</target>
+        </trans-unit>
+        <trans-unit id="DateFormatSample" translate="yes" xml:space="preserve">
+          <source>ex: {0}, {1}</source>
+          <target state="translated">mis: {0}, {1}</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowThumbnails" translate="yes" xml:space="preserve">
+          <source>Show thumbnails</source>
+          <target state="translated">Tampilkan Gambar kecil</target>
+        </trans-unit>
+        <trans-unit id="Retry" translate="yes" xml:space="preserve">
+          <source>Retry</source>
+          <target state="translated">Coba Lagi</target>
+        </trans-unit>
+        <trans-unit id="ErrorDialogUnsupportedMoveOperation" translate="yes" xml:space="preserve">
+          <source>Move operation is not supported in this context. Do you want to copy the items instead?</source>
+          <target state="translated">Operasi pemindahan tidak didukung dalam konteks ini. Apakah Anda ingin menyalin item ini?</target>
+        </trans-unit>
+        <trans-unit id="HiddenFilesAndFolders" translate="yes" xml:space="preserve">
+          <source>Hidden files and folders</source>
+          <target state="new">Hidden files and folders</target>
+        </trans-unit>
+        <trans-unit id="Custom" translate="yes" xml:space="preserve">
+          <source>Custom</source>
+          <target state="new">Custom</target>
+        </trans-unit>
+        <trans-unit id="SizeAllColumnsToFit" translate="yes" xml:space="preserve">
+          <source>Size All Columns to Fit</source>
+          <target state="new">Size All Columns to Fit</target>
         </trans-unit>
       </group>
     </body>

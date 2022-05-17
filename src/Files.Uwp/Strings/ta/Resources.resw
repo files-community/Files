@@ -207,9 +207,6 @@
   <data name="Application" xml:space="preserve">
     <value>பயன்பாடு</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>முறைமை</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>புதியக் கோப்புறை</value>
   </data>
@@ -284,18 +281,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>நீங்கள் இந்தக் கோப்புறையை நீக்கீவிட்டீர்களா?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>நீங்கள் நீக்க முயற்சிக்கும் கோப்பானது தற்போது பயன்பாட்டில் உள்ளது.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>கோப்புப் பயன்பாட்டில் உள்ளது</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>மீண்டும் முயலவும்</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>சரி</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>மறுசுழற்சிக் கூடையைக் காலியாக்கு</value>
@@ -790,9 +775,6 @@
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>பிழை</value>
   </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>மறுமுயற்சி</value>
-  </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>எப்படியாயினும் மூடு</value>
   </data>
@@ -835,11 +817,20 @@
   <data name="Folders" xml:space="preserve">
     <value>கோப்புறைகள்</value>
   </data>
+  <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
+    <value>பெரிய படவுருக்கள்</value>
+  </data>
+  <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
+    <value>நடுத்தரக் குறும்படங்கள்</value>
+  </data>
+  <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
+    <value>சிறிய படவுருக்கள்</value>
+  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>தேதி நீக்கப்பட்டது</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>Rename "{0}"</value>
+    <value>{0}"-ஐ மறுபெயரிடு	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={0} is the publication name which is to be renamed}	Pre-Approved	Yes	Yes\r\nFrom	தொடக்கம்	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Label for team name, for the team from where this publication will be published}	Pre-Approved	Yes	Yes\r\nSave	சேமி	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={save the rename of the publication }	Pre-Approved	Yes	Yes\r\nSaving	சேமிக்கிறது	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={saving the renaming of the publication}	Pre-Approved	Yes	Yes\r\nTitle	தலைப்பு	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Label for publication title}	Pre-Approved	Yes	Yes\r\nAssigned	ஒதுக்கப்பட்டது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nCompleted	முடிந்தது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nTeam status report	குழு நிலை அறிக்கை	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nTeam name	குழுப் பெயர்	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nLoading team name…	குழுப் பெயரை ஏற்றுகிறது…	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nAssigned	ஒதுக்கப்பட்டது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nClosed	மூடப்பட்டது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nCompleted	முடிந்தது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nTask status report	பணி நிலை அறிக்கை	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nStore name	ஸ்டோர் பெயர்	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nTask title	பணித் தலைப்பு	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nRefresh the list	பட்டியலைப் புதுப்பி	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Label for the button in the command bar that refreshes the task list from the server.}	Pre-Approved	Yes	Yes\r\nRefreshing the list from the server.	சேவையகத்திலிருந்து பட்டியலைப் புதுப்பிக்கிறது.	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Message read to screenreaders after the sync button is clicked.}	Pre-Approved	Yes	Yes\r\nMore actions, press space to open menu options	மேலும் செயல்கள், மெனு விருப்பங்களைத் திறக்க space-ஐ அழுத்தவும்	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Accessible label for the more actions button for a task in the task grid}	Pre-Approved	Yes	Yes\r\nActions	செயல்கள்	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Accessible label for the column header for the column in the task grid containing the more actions button}	Pre-Approved	Yes	Yes\r\nError uploading	பதிவேற்றுவதில் பிழை	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Error shown in attachment chicklet when an attachment couldn't be uploaded. Prefer short strings.}	Pre-Approved	Yes	Yes\r\nChannel is required.	சேனல் தேவை.	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Error message shown if the user hasn't selected a Teams channel to associate the task with when saving}	Pre-Approved	Yes	Yes\r\nDiscard	நிராகரி	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Discard button label for the unsaved changes confirmation dialog}	Pre-Approved	Yes	Yes\r\nAny changes you've made will be lost.	நீங்கள் செய்துள்ள மாற்றங்களை இழப்பீர்கள்.	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Text of the dialog shown when the user has unsaved changes and attempts to close or navigate away from the editing session.}	Pre-Approved	Yes	Yes\r\nDiscard changes?	மாற்றங்களை நிராகரிக்கவா?	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Title of the dialog shown when the user has unsaved changes and attempts to close or navigate away from the editing session.}	Pre-Approved	Yes	Yes\r\nSelected due date is too far in the past.	தேர்ந்தெடுக்கப்பட்ட கெடு தேதி, கடந்த காலத்தில் மிகவும் பழையதாக உள்ளது.	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Error message shown if the user attempts to save a task with a due date too far in the </value>
   </data>
   <data name="Confirm" xml:space="preserve">
     <value>உறுதிசெய்</value>
@@ -1300,7 +1291,181 @@
   <data name="FileTagUnknown" xml:space="preserve">
     <value>அறியாதது</value>
   </data>
+  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
+    <value>குறிக்குழு</value>
+  </data>
+  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+    <value>குறிக்குழுக்களைத் திருத்து</value>
+  </data>
+  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
+    <value>குறிச்சொற்களைச் செயல்படுத்து</value>
+  </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>வட்டைச் செருகவும்</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>அனைத்திற்கும் பயன்படுத்து</value>
+  </data>
+  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
+    <value>சரி</value>
+  </data>
+  <data name="AskCredentialDialog.Title" xml:space="preserve">
+    <value>தேவையான நற்சான்று</value>
+  </data>
+  <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
+    <value>பெயரிலா</value>
+  </data>
+  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
+    <value>கடவுச்சொல்</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>உருப்படிகள் எதுவும் காணப்படவில்லை.</value>
+  </data>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>கோப்பு நீட்டிப்புகளைக் காண்பி</value>
+  </data>
+  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
+    <value>கோப்பு நீட்டிப்புகளைக் காண்பி</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>மொழி</value>
+  </data>
+  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
+    <value>கடைசிக்கு நகர்த்து</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
+    <value>மேலே நகர்த்து</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>குறிக்குழு</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>கோப்புறை பாதை</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>அமைப்புகளை நிர்வகி</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>தனிப்பயனாக்கம்</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>இயல்புநிலைக்கு மீட்டெடு</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>இணக்கத்தன்மை</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>ஏதுமில்லை</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>முறைமை</value>
+  </data>
+  <data name="Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>விருப்பங்கள்</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>நிர்வாகியாக இயக்கு</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>காலி மறுசுழற்சி கூடை</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>துணைப்பட்டி</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>கோப்புகள் மற்றும் கோப்புறைகள்</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>எல்லாம் அழி</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>நெடுவரிசைகள்</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>பெரிய படவுருக்கள்</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>நடுத்தரக் குறும்படங்கள்</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>சிறிய படவுருக்கள்</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>டைல்கள்</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>தவிர்</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>பண்புக் கூறுகள்:</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>மறைந்த</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>மேலும் விவரங்கள்</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>படிக்க மட்டும்</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>வகை:</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>பைட்கள்</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>பிரித்தெடு</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>திரைப்பலகப் பின்புலமாக அமை</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>இதில் திற...</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>இடதுபுறம் சுழற்று</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>வலதுபுறம் சுழற்று</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>இது புரிந்தது!</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>வலது பக்கம் உள்ள தாவல்களை மூடு</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>மற்ற தாவல்களை மூடு</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>இசை</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>படங்கள்</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>வீடியோக்கள்</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>நகலெடுக்க முடியவில்லை</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>குறிச்சொற்கள்</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>முறைமை</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>மறுமுயற்சி</value>
   </data>
 </root>

@@ -1,10 +1,12 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using System;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Files.Backend.Extensions;
+using Files.Backend.Messages;
 using Files.Backend.Services;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -13,13 +15,28 @@ using System.Threading.Tasks;
 
 namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 {
-    public sealed class FileSystemDialogViewModel : BaseDialogViewModel
+    public sealed class FileSystemDialogViewModel : BaseDialogViewModel, IRecipient<FileSystemDialogOptionChangedMessage>
     {
         private readonly CancellationTokenSource _dialogClosingCts;
+
+        private readonly IMessenger _messenger;
 
         public ObservableCollection<BaseFileSystemDialogItemViewModel> Items { get; }
 
         public FileSystemDialogMode FileSystemDialogMode { get; }
+
+        private FileNameConflictResolveOptionType _AggregatedResolveOption;
+        public FileNameConflictResolveOptionType AggregatedResolveOption
+        {
+            get => _AggregatedResolveOption;
+            set
+            {
+                if (SetProperty(ref _AggregatedResolveOption, value))
+                {
+                    ApplyConflictOptionToAll(value);
+                }
+            }
+        }
 
         private string? _Description;
         public string? Description
@@ -42,24 +59,35 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
             set => SetProperty(ref _IsDeletePermanentlyEnabled, value);
         }
 
-        internal FileSystemDialogViewModel(FileSystemDialogMode fileSystemDialogMode, IEnumerable<BaseFileSystemDialogItemViewModel> items)
+        private FileSystemDialogViewModel(FileSystemDialogMode fileSystemDialogMode, IEnumerable<BaseFileSystemDialogItemViewModel> items)
         {
             this.FileSystemDialogMode = fileSystemDialogMode;
-            _dialogClosingCts = new();
-            Items = new(items);
+            this._dialogClosingCts = new();
+            this._messenger = new WeakReferenceMessenger();
+            this._messenger.Register<FileSystemDialogOptionChangedMessage>(this);
+            foreach (var item in items)
+            {
+                item.Messenger = _messenger;
+            }
+            this.Items = new(items);
 
             SecondaryButtonClickCommand = new RelayCommand(SecondaryButtonClick);
         }
 
+        public bool IsNameAvailableForItem(BaseFileSystemDialogItemViewModel item, string name)
+        {
+            return Items.Where(x => !x.SourcePath!.Equals(item.SourcePath)).Cast<FileSystemDialogConflictItemViewModel>().All(x => x.DestinationDisplayName != name);
+        }
+
         public void ApplyConflictOptionToAll(FileNameConflictResolveOptionType e)
         {
-            if (!FileSystemDialogMode.IsInDeleteMode)
+            if (!FileSystemDialogMode.IsInDeleteMode && e != FileNameConflictResolveOptionType.None)
             {
                 foreach (var item in Items)
                 {
                     if (item is FileSystemDialogConflictItemViewModel conflictItem)
                     {
-                        conflictItem.TakeAction(e);
+                        conflictItem.ConflictResolveOption = e;
                     }
                 }
 
@@ -72,34 +100,37 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
             return Items.Cast<IFileSystemDialogConflictItemViewModel>();
         }
 
+        public void Receive(FileSystemDialogOptionChangedMessage message)
+        {
+            if (Items.Count == 1)
+            {
+                AggregatedResolveOption = message.Value.ConflictResolveOption;
+            }
+            else
+            {
+                // If all items have the same resolve option -- set the aggregated option to that choice
+                var first = (Items.First() as FileSystemDialogConflictItemViewModel)!.ConflictResolveOption;
+                AggregatedResolveOption = Items.All(x => (x as FileSystemDialogConflictItemViewModel)!.ConflictResolveOption == first) ? first : FileNameConflictResolveOptionType.None;
+            }
+        }
+
         public void CancelCts()
         {
             _dialogClosingCts.Cancel();
-            _dialogClosingCts.Dispose();
         }
 
         private void SecondaryButtonClick()
         {
-            if (FileSystemDialogMode.ConflictsExist)
-            {
-                foreach (var item in Items)
-                {
-                    // Don't do anything, skip
-                    if (item is FileSystemDialogConflictItemViewModel conflictItem)
-                    {
-                        conflictItem.ConflictResolveOption = FileNameConflictResolveOptionType.Skip;
-                    }
-                }
-            }
+            ApplyConflictOptionToAll(FileNameConflictResolveOptionType.Skip);
         }
 
         public static FileSystemDialogViewModel GetDialogViewModel(FileSystemDialogMode dialogMode, (bool deletePermanently, bool IsDeletePermanentlyEnabled) deleteOption, FilesystemOperationType operationType, List<BaseFileSystemDialogItemViewModel> nonConflictingItems, List<BaseFileSystemDialogItemViewModel> conflictingItems)
         {
-            string titleText = string.Empty;
-            string descriptionText = string.Empty;
-            string primaryButtonText = string.Empty;
-            string secondaryButtonText = string.Empty;
-            bool isInDeleteMode = false;
+            var titleText = string.Empty;
+            var descriptionText = string.Empty;
+            var primaryButtonText = string.Empty;
+            var secondaryButtonText = string.Empty;
+            var isInDeleteMode = false;
 
             if (dialogMode.ConflictsExist)
             {
@@ -184,6 +215,23 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
             return viewModel;
         }
 
+        public static FileSystemDialogViewModel GetDialogViewModel(List<BaseFileSystemDialogItemViewModel> nonConflictingItems, string titleText, string descriptionText, string primaryButtonText, string secondaryButtonText)
+        {
+            var viewModel = new FileSystemDialogViewModel(new() { IsInDeleteMode = false, ConflictsExist = false }, nonConflictingItems)
+            {
+                Title = titleText,
+                Description = descriptionText,
+                PrimaryButtonText = primaryButtonText,
+                SecondaryButtonText = secondaryButtonText,
+                DeletePermanently = false,
+                IsDeletePermanentlyEnabled = false
+            };
+
+            _ = LoadItemsIcon(viewModel.Items, viewModel._dialogClosingCts.Token);
+
+            return viewModel;
+        }
+
         private static async Task LoadItemsIcon(IEnumerable<BaseFileSystemDialogItemViewModel> items, CancellationToken token)
         {
             var imagingService = Ioc.Default.GetRequiredService<IImagingService>();
@@ -200,15 +248,24 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
                         item.ItemIcon = await imagingService.GetImageModelFromPathAsync(item.SourcePath!, 64u);
                     });
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    _ = ex;
+                }
             }, 10, token);
         }
     }
 
     public sealed class FileSystemDialogMode
     {
+        /// <summary>
+        /// Determines whether to show delete options for the dialog.
+        /// </summary>
         public bool IsInDeleteMode { get; init; }
 
+        /// <summary>
+        /// Determines whether conflicts are visible.
+        /// </summary>
         public bool ConflictsExist { get; init; }
     }
 }

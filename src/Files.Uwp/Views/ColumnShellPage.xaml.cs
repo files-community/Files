@@ -22,7 +22,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System;
@@ -190,6 +189,7 @@ namespace Files.Uwp.Views
 
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated += AppSettings_SortDirectionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
+            InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated += AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
 
             Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested += ColumnShellPage_BackRequested;
@@ -386,6 +386,11 @@ namespace Files.Uwp.Views
             FilesystemViewModel?.UpdateSortOptionStatus();
         }
 
+        private void AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(object sender, bool e)
+        {
+            FilesystemViewModel?.UpdateSortDirectoriesAlongsideFiles();
+        }
+
         private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
         {
             if (IsCurrentInstance)
@@ -459,10 +464,10 @@ namespace Files.Uwp.Views
         private async Task<BaseLayout> GetContentOrNullAsync()
         {
             BaseLayout FrameContent = null;
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             () =>
             {
-                FrameContent = (ItemDisplayFrame.Content as BaseLayout);
+                FrameContent = ItemDisplayFrame.Content as BaseLayout;
             });
             return FrameContent;
         }
@@ -591,6 +596,7 @@ namespace Files.Uwp.Views
                 {
                     ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemsCount/Text".GetLocalized()}";
                 }
+                ContentPage.UpdateSelectionSize();
             }
         }
 
@@ -786,25 +792,19 @@ namespace Files.Uwp.Views
 
             if (InstanceViewModel.IsPageTypeSearchResults)
             {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                var searchInstance = new FolderSearch
                 {
-                    var searchInstance = new FolderSearch
-                    {
-                        Query = InstanceViewModel.CurrentSearchQuery,
-                        Folder = FilesystemViewModel.WorkingDirectory,
-                        ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
-                        SearchUnindexedItems = InstanceViewModel.SearchedUnindexedItems
-                    };
-                    await FilesystemViewModel.SearchAsync(searchInstance);
-                });
+                    Query = InstanceViewModel.CurrentSearchQuery,
+                    Folder = FilesystemViewModel.WorkingDirectory,
+                    ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
+                    SearchUnindexedItems = InstanceViewModel.SearchedUnindexedItems
+                };
+                await FilesystemViewModel.SearchAsync(searchInstance);
             }
             else
             {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    var ContentOwnedViewModelInstance = FilesystemViewModel;
-                    ContentOwnedViewModelInstance?.RefreshItems(null);
-                });
+                var ContentOwnedViewModelInstance = FilesystemViewModel;
+                ContentOwnedViewModelInstance?.RefreshItems(null);
             }
         }
 
@@ -899,6 +899,7 @@ namespace Files.Uwp.Views
             InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired -= FolderSettings_LayoutPreferencesUpdateRequired;
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= AppSettings_SortDirectionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= AppSettings_SortOptionPreferenceUpdated;
+            InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated -= AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
 
             if (FilesystemViewModel != null)    // Prevent weird case of this being null when many tabs are opened/closed quickly
             {

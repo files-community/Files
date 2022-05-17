@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
   <file datatype="xml" source-language="en-US" target-language="pt-BR" original="FILES.UWP/STRINGS/EN-US/RESOURCES.RESW" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
     <header>
@@ -270,10 +270,6 @@
           <source>Application</source>
           <target state="translated">Aplicativo</target>
         </trans-unit>
-        <trans-unit id="SystemTimeStye" translate="yes" xml:space="preserve">
-          <source>System</source>
-          <target state="translated">Sistema</target>
-        </trans-unit>
         <trans-unit id="NewFolder" translate="yes" xml:space="preserve">
           <source>New Folder</source>
           <target state="translated">Nova pasta</target>
@@ -373,22 +369,6 @@
         <trans-unit id="FolderNotFoundDialog.Title" translate="yes" xml:space="preserve">
           <source>Did you delete this folder?</source>
           <target state="translated">Você excluiu esta pasta?</target>
-        </trans-unit>
-        <trans-unit id="FileInUseDeleteDialog.Text" translate="yes" xml:space="preserve">
-          <source>The file you're trying to delete is currently being used by an another application.</source>
-          <target state="translated">O arquivo que você está tentando excluir está sendo usado por outro aplicativo.</target>
-        </trans-unit>
-        <trans-unit id="FileInUseDeleteDialog.Title" translate="yes" xml:space="preserve">
-          <source>File is in use</source>
-          <target state="translated">O arquivo está sendo usado</target>
-        </trans-unit>
-        <trans-unit id="FileInUseDeleteDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Try again</source>
-          <target state="translated">Tentar novamente</target>
-        </trans-unit>
-        <trans-unit id="FileInUseDeleteDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>OK</source>
-          <target state="translated">OK</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
@@ -1261,10 +1241,6 @@
         <trans-unit id="PropertySaveErrorDialog.Title" translate="yes" xml:space="preserve">
           <source>Error</source>
           <target state="translated">Erro</target>
-        </trans-unit>
-        <trans-unit id="PropertySaveErrorDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Retry</source>
-          <target state="translated">Repetir</target>
         </trans-unit>
         <trans-unit id="PropertySaveErrorDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Close anyway</source>
@@ -3517,6 +3493,58 @@ Usamos o App Center para rastrear quais configurações estão sendo usadas, enc
         <trans-unit id="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show Tags section</source>
           <target state="translated">Mostrar a seção de Etiquetas</target>
+        </trans-unit>
+        <trans-unit id="SystemTimeStyle" translate="yes" xml:space="preserve">
+          <source>System</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Sistema</target>
+        </trans-unit>
+        <trans-unit id="FileInUseByDialog.Text" translate="yes" xml:space="preserve">
+          <source>The file you are attempting to access is currently being used by {0}</source>
+          <target state="new">The file you are attempting to access is currently being used by {0}</target>
+        </trans-unit>
+        <trans-unit id="FileInUseDialog.Text" translate="yes" xml:space="preserve">
+          <source>The file you are attempting to access is currently being used by an another application</source>
+          <target state="new">The file you are attempting to access is currently being used by an another application</target>
+        </trans-unit>
+        <trans-unit id="FileInUseDialog.Title" translate="yes" xml:space="preserve">
+          <source>File is in use</source>
+          <target state="new">File is in use</target>
+        </trans-unit>
+        <trans-unit id="UseCompactStyles" translate="yes" xml:space="preserve">
+          <source>Use compact styles in the details layout</source>
+          <target state="new">Use compact styles in the details layout</target>
+        </trans-unit>
+        <trans-unit id="Universal" translate="yes" xml:space="preserve">
+          <source>Universal</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Universal</target>
+        </trans-unit>
+        <trans-unit id="DateFormatSample" translate="yes" xml:space="preserve">
+          <source>ex: {0}, {1}</source>
+          <target state="new">ex: {0}, {1}</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowThumbnails" translate="yes" xml:space="preserve">
+          <source>Show thumbnails</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Mostrar miniaturas</target>
+        </trans-unit>
+        <trans-unit id="Retry" translate="yes" xml:space="preserve">
+          <source>Retry</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Tentar Novamente</target>
+        </trans-unit>
+        <trans-unit id="ErrorDialogUnsupportedMoveOperation" translate="yes" xml:space="preserve">
+          <source>Move operation is not supported in this context. Do you want to copy the items instead?</source>
+          <target state="new">Move operation is not supported in this context. Do you want to copy the items instead?</target>
+        </trans-unit>
+        <trans-unit id="HiddenFilesAndFolders" translate="yes" xml:space="preserve">
+          <source>Hidden files and folders</source>
+          <target state="new">Hidden files and folders</target>
+        </trans-unit>
+        <trans-unit id="Custom" translate="yes" xml:space="preserve">
+          <source>Custom</source>
+          <target state="new">Custom</target>
+        </trans-unit>
+        <trans-unit id="SizeAllColumnsToFit" translate="yes" xml:space="preserve">
+          <source>Size All Columns to Fit</source>
+          <target state="new">Size All Columns to Fit</target>
         </trans-unit>
       </group>
     </body>

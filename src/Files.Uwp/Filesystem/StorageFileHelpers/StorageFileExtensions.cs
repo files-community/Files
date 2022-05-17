@@ -33,7 +33,7 @@ namespace Files.Uwp.Filesystem
             }
             else if (component.Contains(":", StringComparison.Ordinal))
             {
-                var allDrives = SidebarControl.SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => (x as LocationItem).ChildItems);
+                var allDrives = App.DrivesManager.Drives.Concat(App.NetworkDrivesManager.Drives).Concat(App.CloudDrivesManager.Drives);
                 return new PathBoxItem()
                 {
                     Title = allDrives.FirstOrDefault(y => y.ItemType == NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase)) != null ?
@@ -128,7 +128,7 @@ namespace Files.Uwp.Filesystem
                 }
             }
 
-            if (parentFolder != null && !Path.IsPathRooted(value))
+            if (parentFolder != null && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value)) // "::{" not a valid root
             {
                 // Relative path
                 var fullPath = Path.GetFullPath(Path.Combine(parentFolder.Path, value));
@@ -184,7 +184,7 @@ namespace Files.Uwp.Filesystem
                 }
             }
 
-            if (parentFolder != null && !Path.IsPathRooted(value))
+            if (parentFolder != null && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value)) // "::{" not a valid root
             {
                 // Relative path
                 var fullPath = Path.GetFullPath(Path.Combine(parentFolder.Path, value));
@@ -206,13 +206,13 @@ namespace Files.Uwp.Filesystem
         public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync(this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
         {
             return (await parentFolder.Item.GetFoldersAsync(CommonFolderQuery.DefaultQuery, 0, maxNumberOfItems))
-                .Select(x => new StorageFolderWithPath(x, PathNormalization.Combine(parentFolder.Path, x.Name))).ToList();
+                .Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
         }
 
         public async static Task<IList<StorageFileWithPath>> GetFilesWithPathAsync(this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
         {
             return (await parentFolder.Item.GetFilesAsync(CommonFileQuery.DefaultQuery, 0, maxNumberOfItems))
-                .Select(x => new StorageFileWithPath(x, PathNormalization.Combine(parentFolder.Path, x.Name))).ToList();
+                .Select(x => new StorageFileWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
         }
 
         public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync(this StorageFolderWithPath parentFolder, string nameFilter, uint maxNumberOfItems = uint.MaxValue)
@@ -226,7 +226,7 @@ namespace Files.Uwp.Filesystem
             queryOptions.ApplicationSearchFilter = $"System.FileName:{nameFilter}*";
             BaseStorageFolderQueryResult queryResult = parentFolder.Item.CreateFolderQueryWithOptions(queryOptions);
 
-            return (await queryResult.GetFoldersAsync(0, maxNumberOfItems)).Select(x => new StorageFolderWithPath(x, PathNormalization.Combine(parentFolder.Path, x.Name))).ToList();
+            return (await queryResult.GetFoldersAsync(0, maxNumberOfItems)).Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
         }
 
         public static string GetPathWithoutEnvironmentVariable(string path)

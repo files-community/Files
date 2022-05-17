@@ -207,9 +207,6 @@
   <data name="Application" xml:space="preserve">
     <value>アプリ</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>システム</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>新しいフォルダー</value>
   </data>
@@ -284,18 +281,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>このフォルダーを削除しましたか?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>削除しようとしているファイルは他のプログラムによって使用されています。</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>ファイルは使用中です</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>再試行</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>ごみ箱を空にする</value>
@@ -953,9 +938,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>エラー</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>再試行</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>閉じる</value>
@@ -2623,5 +2605,26 @@
   </data>
   <data name="PrepareInProgress" xml:space="preserve">
     <value>ファイルを準備中</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>コピーに失敗しました</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>移動に失敗しました</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>タグ</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>システム</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>ユニバーサル</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>縮小版を表示する</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>再試行</value>
   </data>
 </root>

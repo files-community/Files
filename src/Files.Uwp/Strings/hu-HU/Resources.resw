@@ -210,9 +210,6 @@
   <data name="Application" xml:space="preserve">
     <value>Alkalmazás</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>Rendszer</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Új mappa</value>
   </data>
@@ -287,18 +284,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Ön törölte ezt a mappát?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>A törölni kívánt fájl jelenleg használatban van.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>A fájl használatban van</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Újra</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Lomtár ürítése</value>
@@ -953,9 +938,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Hiba</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Újra</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Bezárás mindenképpen</value>
@@ -2608,5 +2590,38 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>Többi lap bezárása</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Zene</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Képek</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videók</value>
+  </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Frissítésfájlok</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>A másolás sikertelen</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Áthelyezés sikertelen.</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Címkék</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Rendszer</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Univerzális</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Miniatűrök megjelenítése</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Újra</value>
   </data>
 </root>

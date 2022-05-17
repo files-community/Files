@@ -13,12 +13,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.System;
-using Windows.UI.Core;
 
 namespace Files.Uwp.Helpers
 {
@@ -226,11 +224,7 @@ namespace Files.Uwp.Helpers
             {
                 await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 associatedInstance.ToolbarViewModel.CanRefresh = false;
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    var ContentOwnedViewModelInstance = associatedInstance.FilesystemViewModel;
-                    ContentOwnedViewModelInstance?.RefreshItems(previousDir);
-                });
+                associatedInstance.FilesystemViewModel?.RefreshItems(previousDir);
             }
 
             return opened;
@@ -368,6 +362,10 @@ namespace Files.Uwp.Helpers
                             SelectItems = selectItems
                         });
                     }
+                }
+                else
+                {
+                    await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance);
                 }
             }
             return opened;
@@ -512,7 +510,11 @@ namespace Files.Uwp.Helpers
                                 }
 
                                 // Now launch file with options.
-                                launchSuccess = await Launcher.LaunchFileAsync(await childFile.Item.ToStorageFileAsync(), options);
+                                var storageItem = (StorageFile)await FilesystemTasks.Wrap(() => childFile.Item.ToStorageFileAsync().AsTask());
+                                if (storageItem != null)
+                                {
+                                    launchSuccess = await Launcher.LaunchFileAsync(storageItem, options);
+                                }
                             }
 
                             if (!launchSuccess)

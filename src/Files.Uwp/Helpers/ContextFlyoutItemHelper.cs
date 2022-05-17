@@ -484,6 +484,7 @@ namespace Files.Uwp.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutPaste/Text".GetLocalized(),
+                    IsPrimary = true,
                     // Glyph = "\uF16D",
                     ShowInFtpPage = true,
                     ShowInZipPage = true,
@@ -568,6 +569,7 @@ namespace Files.Uwp.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalized(),
+                    IsPrimary = true,
                     ColoredIcon = new ColoredIconModel()
                     {
                         BaseLayerGlyph = "\uF031",
@@ -1004,6 +1006,7 @@ namespace Files.Uwp.Helpers
                 {
                     ItemType = ItemType.Separator,
                     Tag = "OverflowSeparator",
+                    ShowInSearchPage = true,
                     IsHidden = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -1013,6 +1016,7 @@ namespace Files.Uwp.Helpers
                     Items = new List<ContextMenuFlyoutItemViewModel>(),
                     ID = "ItemOverflow",
                     Tag = "ItemOverflow",
+                    ShowInSearchPage = true,
                     IsHidden = true,
                 },
             };

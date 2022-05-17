@@ -1,15 +1,13 @@
 using Files.Uwp.Extensions;
 using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
+using System.Collections.Concurrent;
 using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
 
 namespace Files.Uwp.Filesystem
@@ -19,21 +17,25 @@ namespace Files.Uwp.Filesystem
         public event EventHandler<FolderSizeChangedEventArgs> FolderSizeChanged;
 
         Task CleanCacheAsync();
-        void UpdateFolder(ListedItem folder, CancellationToken cancellationToken);
+        Task UpdateFolderAsync(string folderPath, CancellationToken cancellationToken);
+        bool GetCachedSize(string folderPath, out long cachedSize);
     }
 
     public class FolderSizeChangedEventArgs : EventArgs
     {
-        public ListedItem Folder { get; }
+        public string Folder { get; }
+        public long Size { get; }
+        public bool Intermediate { get; }
 
-        public FolderSizeChangedEventArgs(ListedItem folder) => Folder = folder;
+        public FolderSizeChangedEventArgs(string folderPath, long newSize, bool intermediate)
+            => (Folder, Size, Intermediate) = (folderPath, newSize, intermediate);
     }
 
-    internal class FolderSizeProvider : IFolderSizeProvider, IDisposable
+    public class FolderSizeProvider : IFolderSizeProvider, IDisposable
     {
         private readonly IPreferencesSettingsService preferencesSettingsService = Ioc.Default.GetService<IPreferencesSettingsService>();
 
-        private readonly IDictionary<string, long> cacheSizes = new Dictionary<string, long>();
+        private readonly ConcurrentDictionary<string, long> cacheSizes = new ConcurrentDictionary<string, long>();
 
         public event EventHandler<FolderSizeChangedEventArgs> FolderSizeChanged;
 
@@ -45,60 +47,55 @@ namespace Files.Uwp.Filesystem
             preferencesSettingsService.PropertyChanged += PreferencesSettingsService_PropertyChanged;
         }
 
-        public async Task CleanCacheAsync()
+        public Task CleanCacheAsync()
         {
             if (!showFolderSize)
             {
-                return; // The cache is already empty.
+                return Task.CompletedTask; // The cache is already empty.
             }
 
             var drives = DriveInfo.GetDrives().Select(drive => drive.Name).ToArray();
-
-            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+            var oldPaths = cacheSizes.Keys.Where(path => !drives.Any(drive => path.StartsWith(drive))); // Keys return a snapshot
+            foreach (var oldPath in oldPaths)
             {
-                var oldPaths = cacheSizes.Keys.Where(path => !drives.Any(drive => path.StartsWith(drive))).ToList();
-                foreach (var oldPath in oldPaths)
-                {
-                    cacheSizes.Remove(oldPath);
-                }
-            }, Windows.System.DispatcherQueuePriority.Low);
+                cacheSizes.TryRemove(oldPath, out _);
+            }
+
+            return Task.CompletedTask;
         }
 
-        public async void UpdateFolder(ListedItem folder, CancellationToken cancellationToken)
+        public bool GetCachedSize(string folderPath, out long cachedSize)
+        {
+            if (!preferencesSettingsService.ShowFolderSize)
+            {
+                cachedSize = default;
+                return false;
+            }
+
+            return cacheSizes.TryGetValue(folderPath, out cachedSize);
+        }
+
+        public async Task UpdateFolderAsync(string folderPath, CancellationToken cancellationToken)
         {
             if (!preferencesSettingsService.ShowFolderSize)
             {
                 return;
             }
 
-            if (folder.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && folder.ContainsFilesOrFolders)
+            await Task.Yield();
+            if (cacheSizes.TryGetValue(folderPath, out var cachedSize))
             {
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
-                {
-                    if (cacheSizes.ContainsKey(folder.ItemPath))
-                    {
-                        long size = cacheSizes[folder.ItemPath];
-                        folder.FileSizeBytes = size;
-                        folder.FileSize = size.ToSizeString();
-                    }
-                    else
-                    {
-                        folder.FileSizeBytes = 0;
-                        folder.FileSize = "ItemSizeNotCalculated".GetLocalized();
-                        RaiseSizeChanged(folder);
-                    }
-                }, Windows.System.DispatcherQueuePriority.Low);
-
-                long size = await Calculate(folder.ItemPath);
-
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
-                {
-                    cacheSizes[folder.ItemPath] = size;
-                    folder.FileSizeBytes = size;
-                    folder.FileSize = size.ToSizeString();
-                    RaiseSizeChanged(folder);
-                }, Windows.System.DispatcherQueuePriority.Low);
+                RaiseSizeChanged(folderPath, cachedSize);
             }
+            else
+            {
+                RaiseSizeChanged(folderPath, -1);
+            }
+
+            long size = await Calculate(folderPath);
+
+            cacheSizes[folderPath] = size;
+            RaiseSizeChanged(folderPath, size);
 
             async Task<long> Calculate(string folderPath, int level = 0)
             {
@@ -132,17 +129,12 @@ namespace Files.Uwp.Filesystem
 
                         if (level <= 3)
                         {
-                            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
-                            {
-                                cacheSizes[localPath] = localSize;
-
-                                if (size > folder.FileSizeBytes)
-                                {
-                                    folder.FileSizeBytes = size;
-                                    folder.FileSize = size.ToSizeString();
-                                    RaiseSizeChanged(folder);
-                                };
-                            }, Windows.System.DispatcherQueuePriority.Low);
+                            await Task.Yield();
+                            cacheSizes[localPath] = localSize;
+                        }
+                        if (level == 0)
+                        {
+                            RaiseSizeChanged(folderPath, size, true);
                         }
 
                         if (cancellationToken.IsCancellationRequested)
@@ -156,8 +148,8 @@ namespace Files.Uwp.Filesystem
             }
         }
 
-        private void RaiseSizeChanged(ListedItem folder)
-            => FolderSizeChanged?.Invoke(this, new FolderSizeChangedEventArgs(folder));
+        private void RaiseSizeChanged(string folderPath, long newSize, bool intermediate = false)
+            => FolderSizeChanged?.Invoke(this, new FolderSizeChangedEventArgs(folderPath, newSize, intermediate));
 
         private void PreferencesSettingsService_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -168,7 +160,7 @@ namespace Files.Uwp.Filesystem
                 {
                     cacheSizes.Clear();
                 }
-                RaiseSizeChanged(null);
+                RaiseSizeChanged(null, -1);
             }
         }
 

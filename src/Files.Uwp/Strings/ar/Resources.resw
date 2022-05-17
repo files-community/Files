@@ -213,9 +213,6 @@
   <data name="Application" xml:space="preserve">
     <value>التطبيق</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>النظام</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>مجلد جديد</value>
   </data>
@@ -290,18 +287,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>هل قمت بحذف هذا الملف؟</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>الملف الذي تحاول حذفه يتم حاليا استخذامه عبر برنامج اخر</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>الملف قيد الاستخدام</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>حاول مرة أخرى</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>موافق</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>للقراءة فقط</value>
@@ -650,9 +635,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>خطأ</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>إعادة المحاولة</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>إغلاق على أي حال</value>
@@ -1809,7 +1791,223 @@
   <data name="FileTagUnknown" xml:space="preserve">
     <value>غير معروف</value>
   </data>
+  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
+    <value>علامة</value>
+  </data>
+  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+    <value>تحرير العلامات</value>
+  </data>
+  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
+    <value>تمكين العلامات</value>
+  </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>إدخال قرص</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>تطبيق على الكل</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>‏‏جزء من المجموعة</value>
+  </data>
+  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
+    <value>موافق</value>
+  </data>
+  <data name="AskCredentialDialog.Title" xml:space="preserve">
+    <value>‏‏مطلوب بيانات الاعتماد</value>
+  </data>
+  <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
+    <value>مجهول</value>
+  </data>
+  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
+    <value>كلمة مرور</value>
+  </data>
+  <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
+    <value>اسم المستخدم</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>لم يتم العثور على أصناف</value>
+  </data>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>إظهار ملحقات الملفات</value>
+  </data>
+  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
+    <value>إظهار ملحقات الملفات</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>اللغة</value>
+  </data>
+  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
+    <value>تحريك إلى الأسفل</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
+    <value>تحريك إلى الأعلى</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>علامة</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>مسار المجلد:</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>إعدادات التصدير</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>إعدادات الاستيراد</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>إدارة الإعدادات</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>تخصيص</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>استعادة الافتراضي</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>‏‏التوافق</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>بلا</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>النظام</value>
+  </data>
+  <data name="Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>وضع التوافق</value>
+  </data>
+  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+    <value>تعطيل تحسينات وضع ملء الشاشة</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>خيارات</value>
+  </data>
+  <data name="ReducedColorMode" xml:space="preserve">
+    <value>وضع الألوان المنخفض</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>تشغيل كمسؤول</value>
+  </data>
+  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+    <value>تشغيل مستكشف أخطاء التوافق ومصلحها</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>إفراغ سلة المحذوفات</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>شريط جانبي</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>ملفات ومجلدات</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>مسح الكل</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>الأعمدة</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>أيقونات كبيرة</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>أيقونات متوسطة</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>أيقونات صغيرة</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>لوحات</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>إنشاء مكتبة</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>‏‏تخطي</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>‏‏سمات</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>مخفية</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>مزيد من التفاصيل</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>للقراءة فقط</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>النوع</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>بايت</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Extract</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>تشغيل البرنامج النصي</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>تعيين كخلفية سطح المكتب</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>فتح في</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>تدوير لليمين</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>استدارة إلى اليمين</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>‏‏التثبيت</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>إغلاق علامات التبويب على اليسار</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>إغلاق علامات التبويب الأخرى</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>موسيقى</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>صور</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>مقاطع الفيديو</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>‏‏فشل النسخ.</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>‏‏فشل النقل.</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>العلامات</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>النظام</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>عام</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>إظهار الصور المصغرة</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>إعادة المحاولة</value>
   </data>
 </root>

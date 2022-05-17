@@ -174,9 +174,6 @@
   <data name="Application" xml:space="preserve">
     <value>Uygulama</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>Sistem</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Yeni Klasör</value>
   </data>
@@ -284,18 +281,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Bu klasörü sildiniz mi?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>Silmeye çalıştığınız dosya şu anda başka bir uygulama tarafından kullanılıyor.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>Dosya kullanılıyor</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Yeniden dene</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Tamam</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Geri dönüşüm kutusunu boşalt</value>
@@ -953,9 +938,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Hata</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Yeniden Dene</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Yine de kapat</value>
@@ -2421,6 +2403,15 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
     <value>Sistem (gelişmiş)</value>
   </data>
+  <data name="Windows7" xml:space="preserve">
+    <value>Windows XP</value>
+  </data>
+  <data name="Windows8" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
   <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
     <value>16 Bit Renkler (65536)</value>
   </data>
@@ -2535,6 +2526,12 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   <data name="DiskCleanup" xml:space="preserve">
     <value>Disk temizleme</value>
   </data>
+  <data name="Type" xml:space="preserve">
+    <value>Türü:</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Bayt</value>
+  </data>
   <data name="Extract" xml:space="preserve">
     <value>Ayıkla</value>
   </data>
@@ -2543,6 +2540,9 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   </data>
   <data name="ExtractHere" xml:space="preserve">
     <value>Buraya ayıkla</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+R</value>
   </data>
   <data name="ExtractToChildFolder" xml:space="preserve">
     <value>Şuraya ayıkla {0}</value>
@@ -2600,5 +2600,26 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   </data>
   <data name="PrepareInProgress" xml:space="preserve">
     <value>Dosyalar Hazırlanıyor</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Kopyalama başarısız oldu</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Taşıma başarısız oldu.</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Etiketler</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Sistem</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Evrensel</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Küçük resimleri göster</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Yeniden Dene</value>
   </data>
 </root>

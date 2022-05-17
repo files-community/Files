@@ -216,9 +216,6 @@
   <data name="Application" xml:space="preserve">
     <value>App</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>System</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Ny mapp</value>
   </data>
@@ -296,18 +293,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Tog du bort den här mappen?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>Filen som du försöker ta bort används av ett annat program.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>Filen används</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Försök igen</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Skrivskyddad</value>
@@ -656,9 +641,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Fel</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Försök igen</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Stäng ändå</value>
@@ -1212,6 +1194,9 @@
   <data name="DateCreated" xml:space="preserve">
     <value>Skapad</value>
   </data>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>Nätverksenheter:</value>
+  </data>
   <data name="Network" xml:space="preserve">
     <value>Prickar</value>
   </data>
@@ -1728,7 +1713,229 @@
   <data name="FileTagUnknown" xml:space="preserve">
     <value>Okänd</value>
   </data>
+  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
+    <value>Tagg</value>
+  </data>
+  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+    <value>Redigera taggar</value>
+  </data>
+  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
+    <value>Aktivera taggar</value>
+  </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Sätt in en skiva</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>Använd för alla</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>Del av uppsättning</value>
+  </data>
+  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
+    <value>OK-knappen</value>
+  </data>
+  <data name="AskCredentialDialog.Title" xml:space="preserve">
+    <value>Autentiseringsuppgifter krävs</value>
+  </data>
+  <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
+    <value>Anonym</value>
+  </data>
+  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
+    <value>Losenord</value>
+  </data>
+  <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
+    <value>Användarnamn</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>Inga objekt hittades</value>
+  </data>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>Visa filnamnstillägg</value>
+  </data>
+  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
+    <value>Visa filnamnstillägg</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Språk</value>
+  </data>
+  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
+    <value>Flytta längst ned</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
+    <value>Flytta högst upp</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tagg</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>Mappsökväg:</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>Exportera inställningar</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>Importinställningar</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>Hantera inställningar</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Anpassning</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>Återställ standard</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>Kompatibilitet</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Ingen</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>systemet</value>
+  </data>
+  <data name="Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="OSCompatibility_WindowsVistaSP1" xml:space="preserve">
+    <value>Windows Vista SP1</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Kompatibilitetsläge</value>
+  </data>
+  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+    <value>Inaktivera helskärmsoptimering</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>alternativ</value>
+  </data>
+  <data name="ReducedColorMode" xml:space="preserve">
+    <value>Reducerat färgläge</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>Kör som administratör</value>
+  </data>
+  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+    <value>Kör felsökaren för programkompatibilitet</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Töm papperskorgen</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Sidofält</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Filer och mappar</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Rensa alla</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Kolumner</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Stora ikoner</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Medelstora ikoner</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Små ikoner</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Paneler</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Skapa bibliotek</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Hoppa över</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Attribut</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Dold</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>Mer information</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Skrivskyddad</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type:</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Byte</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Extrahera</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+B</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Kör skript</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Använd som bakgrund</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Öppna i %@</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Rotera åt vänster</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Rotera åt höger</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Installera</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Stäng flikar till höger</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Stäng övriga flikar</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Musik</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Bilder</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videor</value>
+  </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Uppdateringsfiler</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Kopieringen misslyckades.</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Det gick inte att flytta.</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Taggar</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>systemet</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Universell</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Visa miniatyrer</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Försök igen</value>
   </data>
 </root>

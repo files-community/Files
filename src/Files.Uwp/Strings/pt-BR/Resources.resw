@@ -210,9 +210,6 @@
   <data name="Application" xml:space="preserve">
     <value>Aplicativo</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>Sistema</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Nova pasta</value>
   </data>
@@ -287,18 +284,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Você excluiu esta pasta?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>O arquivo que você está tentando excluir está sendo usado por outro aplicativo.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>O arquivo está sendo usado</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Tentar novamente</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Esvaziar lixeira</value>
@@ -953,9 +938,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Erro</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Repetir</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Fechar mesmo assim</value>
@@ -2201,12 +2183,7 @@
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
-*Coleta de informações pessoais* 
-O Files não coleta, armazena, compartilha ou publica qualquer informação pessoal.
-
-*Coleta de informações não pessoais*
-
-Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigir falhas. Todas as informações enviadas para o App Center são anônimas e livres de qualquer dado de usuário ou contextual.
+Usamos o App Center para rastrear quais configurações estão sendo usadas, encontrar bugs e corrigir falhas. As informações enviadas ao App Center são anônimas e livres de quaisquer dados do usuário ou contextuais.
   </value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
@@ -2237,13 +2214,13 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
     <value>Desconhecida</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>Etiqueta de arquivo</value>
+    <value>Etiqueta</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
-    <value>Editar etiquetas de arquivo</value>
+    <value>Editar etiquetas</value>
   </data>
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Habilitar etiquetas de arquivo</value>
+    <value>Habilitar etiquetas</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>Abrir Drive</value>
@@ -2318,7 +2295,7 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
     <value>Fixar lixeira nos Favoritos</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar seção de Unidades na Nuvem</value>
+    <value>Mostrar seção de Unidades em Nuvem</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar seção de Unidades</value>
@@ -2501,7 +2478,7 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
     <value>Licenças de terceiros</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Esta configuração modifica arquivos do sistema e pode ter efeitos colaterais inesperados no seu dispositivo. Os desenvolvedores não assumem nenhuma responsabilidade no caso de um problema ocorrer como resultado. Continuar com essa opção é um reconhecimento dos riscos envolvidos com essa ação. Observe que a desinstalação de arquivos não desinstalará essas alterações e poderá impedi-lo de abrir o explorador de arquivos, a menos que você desligue esta configuração antes de remover arquivos do seu dispositivo.</value>
+    <value>Esta opção modifica o registro do sistema e pode causar efeitos colaterais inesperados no seu dispositivo. Continue por sua conta e risco.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Limpar todos</value>
@@ -2559,5 +2536,107 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Extrair</value>
+  </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>Extrair arquivos</value>
+  </data>
+  <data name="ExtractHere" xml:space="preserve">
+    <value>Extrair aqui</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="ExtractToChildFolder" xml:space="preserve">
+    <value>Extrair para {0}</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Executar script</value>
+  </data>
+  <data name="RunWithPowerShell" xml:space="preserve">
+    <value>Executar com o PowerShell</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Definir como fundo da área de trabalho</value>
+  </data>
+  <data name="ShowFolderSizesWarning" xml:space="preserve">
+    <value>O cálculo do tamanho de pastas consome muitos recursos e pode causar aumento no consumo de CPU e energia.</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Abrir com</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Girar para a esquerda</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Girar para a direita</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Instalar</value>
+  </data>
+  <data name="CloseTabsToTheLeft" xml:space="preserve">
+    <value>Fechar guias à esquerda</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Fechar guias à direita</value>
+  </data>
+  <data name="ShowDotFiles" xml:space="preserve">
+    <value>Mostrar arquivos "."</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Fechar demais guias</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Músicas</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Imagens</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Vídeos</value>
+  </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Atualizar Arquivos</value>
+  </data>
+  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
+    <value>Preparando {0} itens</value>
+  </data>
+  <data name="PrepareInProgress" xml:space="preserve">
+    <value>Preparando itens</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Falha ao copiar</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
+    <value>Falha ao copiar {0} itens de {1} para {2}</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
+    <value>Falha ao copiar {0} item de {1} para {2}</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Falha ao mover</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Etiquetas</value>
+  </data>
+  <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
+    <value>Mostrar a seção de Etiquetas</value>
+  </data>
+  <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar a seção de Etiquetas</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Sistema</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Universal</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Mostrar miniaturas</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Tentar Novamente</value>
   </data>
 </root>

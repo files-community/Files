@@ -16,7 +16,7 @@
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewBitmapImage.Text" translate="yes" xml:space="preserve">
           <source>Bitmap Image</source>
-          <target state="translated">Imagem de Bitmap</target>
+          <target state="translated">Imagem de Mapa de Bits</target>
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewTextDocument.Text" translate="yes" xml:space="preserve">
           <source>Text Document</source>
@@ -44,7 +44,7 @@
         </trans-unit>
         <trans-unit id="PropertiesItemPath.Text" translate="yes" xml:space="preserve">
           <source>Path:</source>
-          <target state="translated">Localização:</target>
+          <target state="translated">Caminho:</target>
         </trans-unit>
         <trans-unit id="PropertiesItemSize.Text" translate="yes" xml:space="preserve">
           <source>Size:</source>
@@ -88,7 +88,7 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarVisiblePath.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter a path</source>
-          <target state="translated">Insira uma localização</target>
+          <target state="translated">Insira um caminho</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarSearchRegion.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Search</source>
@@ -236,11 +236,11 @@
         </trans-unit>
         <trans-unit id="WelcomeDialogTextBlock.Text" translate="yes" xml:space="preserve">
           <source>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </source>
-          <target state="translated">Para começar, precisa conceder-nos permissão para exibir os seus ficheiros. Isto irá abrir uma página de definições onde poderá conceder-nos essa permissão. Necessitará de reabrir a aplicação depois de concluído este passo. </target>
+          <target state="translated">Para começar, terá de nos conceder permissão para exibir os seus ficheiros. Isto abrirá uma página de Definições onde nos poderá conceder esta permissão. Terá de reabrir a aplicação assim que tiver completado esta etapa. </target>
         </trans-unit>
         <trans-unit id="FileFolderListItem" translate="yes" xml:space="preserve">
           <source>File folder</source>
-          <target state="translated">Pasta de ficheiro</target>
+          <target state="translated">Pasta de ficheiros</target>
         </trans-unit>
         <trans-unit id="ItemTypeFile" translate="yes" xml:space="preserve">
           <source>File</source>
@@ -269,10 +269,6 @@
         <trans-unit id="Application" translate="yes" xml:space="preserve">
           <source>Application</source>
           <target state="translated">Aplicação</target>
-        </trans-unit>
-        <trans-unit id="SystemTimeStye" translate="yes" xml:space="preserve">
-          <source>System</source>
-          <target state="translated">Sistema</target>
         </trans-unit>
         <trans-unit id="NewFolder" translate="yes" xml:space="preserve">
           <source>New Folder</source>
@@ -356,7 +352,7 @@
         </trans-unit>
         <trans-unit id="FileNotFoundDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to access may have been moved or deleted.</source>
-          <target state="translated">O ficheiro que está a tentar ser acedido pode ter sido movido ou apagado.</target>
+          <target state="translated">O ficheiro que está a tentar aceder pode ter sido movido ou apagado.</target>
         </trans-unit>
         <trans-unit id="FileNotFoundDialog.Title" translate="yes" xml:space="preserve">
           <source>File Not Found</source>
@@ -373,22 +369,6 @@
         <trans-unit id="FolderNotFoundDialog.Title" translate="yes" xml:space="preserve">
           <source>Did you delete this folder?</source>
           <target state="translated">Pretende eliminar esta pasta?</target>
-        </trans-unit>
-        <trans-unit id="FileInUseDeleteDialog.Text" translate="yes" xml:space="preserve">
-          <source>The file you're trying to delete is currently being used by an another application.</source>
-          <target state="translated">O ficheiro que você está tentando eliminar está sendo utilizado por uma aplicação.</target>
-        </trans-unit>
-        <trans-unit id="FileInUseDeleteDialog.Title" translate="yes" xml:space="preserve">
-          <source>File is in use</source>
-          <target state="translated">O ficheiro está em uso</target>
-        </trans-unit>
-        <trans-unit id="FileInUseDeleteDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Try again</source>
-          <target state="translated">Tentar novamente</target>
-        </trans-unit>
-        <trans-unit id="FileInUseDeleteDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>OK</source>
-          <target state="translated">OK</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
@@ -676,7 +656,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
           <source>Release notes</source>
-          <target state="translated">Notas de Atualização</target>
+          <target state="translated">Notas de lançamento</target>
         </trans-unit>
         <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
           <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</source>
@@ -800,7 +780,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
-          <target state="translated">Modo de layout</target>
+          <target state="translated">Modo de esquema</target>
         </trans-unit>
         <trans-unit id="NavBackButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Navigate backwards</source>
@@ -836,7 +816,7 @@
         </trans-unit>
         <trans-unit id="RecycleBinItemAutomation" translate="yes" xml:space="preserve">
           <source>Recycle bin item</source>
-          <target state="translated">Item da Reciclagem</target>
+          <target state="translated">Item da reciclagem</target>
         </trans-unit>
         <trans-unit id="ShortcutItemAutomation" translate="yes" xml:space="preserve">
           <source>Shortcut item</source>
@@ -1112,7 +1092,7 @@
         </trans-unit>
         <trans-unit id="PropertyThumbnailLargePath" translate="yes" xml:space="preserve">
           <source>Thumbnail Large Path</source>
-          <target state="translated">Localização da Miniatura Grande</target>
+          <target state="translated">Caminho da Miniatura Grande</target>
         </trans-unit>
         <trans-unit id="PropertyThumbnailLargeUri" translate="yes" xml:space="preserve">
           <source>Thumbnail Large Uri</source>
@@ -1120,7 +1100,7 @@
         </trans-unit>
         <trans-unit id="PropertyThumbnailSmallPath" translate="yes" xml:space="preserve">
           <source>Thumbnail Small Path</source>
-          <target state="translated">Localização da Miniatura Pequena</target>
+          <target state="translated">Caminho da Miniatura Pequena</target>
         </trans-unit>
         <trans-unit id="PropertyThumbnailSmallUri" translate="yes" xml:space="preserve">
           <source>Thumbnail Small Uri</source>
@@ -1262,10 +1242,6 @@
           <source>Error</source>
           <target state="translated">Erro</target>
         </trans-unit>
-        <trans-unit id="PropertySaveErrorDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Retry</source>
-          <target state="translated">Tentar Novamente</target>
-        </trans-unit>
         <trans-unit id="PropertySaveErrorDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Close anyway</source>
           <target state="translated">Fechar mesmo assim</target>
@@ -1360,11 +1336,11 @@
         </trans-unit>
         <trans-unit id="originalPathColumn.Header" translate="yes" xml:space="preserve">
           <source>Original path</source>
-          <target state="translated">Localização original</target>
+          <target state="translated">Caminho original</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByOriginalPath.Text" translate="yes" xml:space="preserve">
           <source>Original path</source>
-          <target state="translated">Localização original</target>
+          <target state="translated">Caminho original</target>
         </trans-unit>
         <trans-unit id="Add" translate="yes" xml:space="preserve">
           <source>Add</source>
@@ -1512,7 +1488,7 @@
         </trans-unit>
         <trans-unit id="PropertyItemPathDisplay" translate="yes" xml:space="preserve">
           <source>Item Path</source>
-          <target state="translated">Localização do Item</target>
+          <target state="translated">Caminho do Item</target>
         </trans-unit>
         <trans-unit id="PreviewPaneToggle.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Toggle the preview pane (Ctrl+P)</source>
@@ -2256,15 +2232,15 @@
         </trans-unit>
         <trans-unit id="NavToolbarLayoutOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Layout</source>
-          <target state="translated">Layout</target>
+          <target state="translated">Esquema</target>
         </trans-unit>
         <trans-unit id="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Layout</source>
-          <target state="translated">Layout</target>
+          <target state="translated">Esquema</target>
         </trans-unit>
         <trans-unit id="NavToolbarLayoutOptionsButton.Label" translate="yes" xml:space="preserve">
           <source>Layout</source>
-          <target state="translated">Layout</target>
+          <target state="translated">Esquema</target>
         </trans-unit>
         <trans-unit id="PreviewPaneToggle.Label" translate="yes" xml:space="preserve">
           <source>Preview</source>
@@ -2284,7 +2260,7 @@
         </trans-unit>
         <trans-unit id="NavToolbarLayout.Text" translate="yes" xml:space="preserve">
           <source>Layout</source>
-          <target state="translated">Layout</target>
+          <target state="translated">Esquema</target>
         </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
@@ -3160,7 +3136,7 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionFolderPath.Text" translate="yes" xml:space="preserve">
           <source>Folder path</source>
-          <target state="translated">Localização da pasta</target>
+          <target state="translated">Caminho da pasta</target>
         </trans-unit>
         <trans-unit id="ExportSettings" translate="yes" xml:space="preserve">
           <source>Export Settings</source>
@@ -3308,7 +3284,7 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
         </trans-unit>
         <trans-unit id="OpenNewInstance" translate="yes" xml:space="preserve">
           <source>Open new instance when opening directories from the taskbar jumplist</source>
-          <target state="translated">Abrir nova instância ao abrir diretórios na jumplist da barra de tarefas</target>
+          <target state="translated">Abrir nova instância ao abrir diretórios na lista de atalhos da barra de tarefas</target>
         </trans-unit>
         <trans-unit id="StartupSettings" translate="yes" xml:space="preserve">
           <source>Startup settings</source>
@@ -3344,7 +3320,7 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
         </trans-unit>
         <trans-unit id="Tiles" translate="yes" xml:space="preserve">
           <source>Tiles</source>
-          <target state="translated">Títulos</target>
+          <target state="translated">Mosaicos</target>
         </trans-unit>
         <trans-unit id="FolderWidgetCreateNewLibraryDialogTitleText" translate="yes" xml:space="preserve">
           <source>Create Library</source>
@@ -3356,7 +3332,7 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
         </trans-unit>
         <trans-unit id="ShowFolderSize" translate="yes" xml:space="preserve">
           <source>Show folder size</source>
-          <target state="translated">Mostrar tamanho da paasta</target>
+          <target state="translated">Mostrar tamanho da pasta</target>
         </trans-unit>
         <trans-unit id="Skip" translate="yes" xml:space="preserve">
           <source>Skip</source>
@@ -3517,6 +3493,58 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
         <trans-unit id="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show Tags section</source>
           <target state="translated">Mostrar secção Tags</target>
+        </trans-unit>
+        <trans-unit id="SystemTimeStyle" translate="yes" xml:space="preserve">
+          <source>System</source>
+          <target state="translated">Sistema</target>
+        </trans-unit>
+        <trans-unit id="FileInUseByDialog.Text" translate="yes" xml:space="preserve">
+          <source>The file you are attempting to access is currently being used by {0}</source>
+          <target state="translated">O ficheiro que está a tentar aceder está atualmente a ser utilizado por {0}</target>
+        </trans-unit>
+        <trans-unit id="FileInUseDialog.Text" translate="yes" xml:space="preserve">
+          <source>The file you are attempting to access is currently being used by an another application</source>
+          <target state="translated">O ficheiro que está a tentar aceder está atualmente a ser utilizado por uma outra aplicação</target>
+        </trans-unit>
+        <trans-unit id="FileInUseDialog.Title" translate="yes" xml:space="preserve">
+          <source>File is in use</source>
+          <target state="translated">Ficheiro está em uso</target>
+        </trans-unit>
+        <trans-unit id="UseCompactStyles" translate="yes" xml:space="preserve">
+          <source>Use compact styles in the details layout</source>
+          <target state="translated">Utilizar estilos compacto no esquema detalhes</target>
+        </trans-unit>
+        <trans-unit id="Universal" translate="yes" xml:space="preserve">
+          <source>Universal</source>
+          <target state="translated">Universal</target>
+        </trans-unit>
+        <trans-unit id="DateFormatSample" translate="yes" xml:space="preserve">
+          <source>ex: {0}, {1}</source>
+          <target state="translated">ex: {0}, {1}</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowThumbnails" translate="yes" xml:space="preserve">
+          <source>Show thumbnails</source>
+          <target state="translated">Mostrar miniaturas</target>
+        </trans-unit>
+        <trans-unit id="Retry" translate="yes" xml:space="preserve">
+          <source>Retry</source>
+          <target state="translated">Tentar novamente</target>
+        </trans-unit>
+        <trans-unit id="ErrorDialogUnsupportedMoveOperation" translate="yes" xml:space="preserve">
+          <source>Move operation is not supported in this context. Do you want to copy the items instead?</source>
+          <target state="translated">A operação mover não é suportada neste contexto. Quer antes copiar os itens?</target>
+        </trans-unit>
+        <trans-unit id="HiddenFilesAndFolders" translate="yes" xml:space="preserve">
+          <source>Hidden files and folders</source>
+          <target state="translated">Ocultar ficheiros e pastas</target>
+        </trans-unit>
+        <trans-unit id="Custom" translate="yes" xml:space="preserve">
+          <source>Custom</source>
+          <target state="translated">Personalizado</target>
+        </trans-unit>
+        <trans-unit id="SizeAllColumnsToFit" translate="yes" xml:space="preserve">
+          <source>Size All Columns to Fit</source>
+          <target state="translated">Dimensionar Todas as Colunas para Encaixar</target>
         </trans-unit>
       </group>
     </body>

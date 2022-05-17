@@ -174,9 +174,6 @@
   <data name="Application" xml:space="preserve">
     <value>По умолчанию</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>Как в системе</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Новая папка</value>
   </data>
@@ -284,18 +281,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Вы удалили эту папку?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>Файл, который Вы пытаетесь удалить, в настоящее время используется другим приложением.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>Файл используется</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Повторить</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Очистить корзину</value>
@@ -953,9 +938,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Ошибка</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Повторить</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Закрыть</value>
@@ -2643,5 +2625,17 @@
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Показывать Секцию Меток</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>система</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Универсальная</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Показать эскизы</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Повторить</value>
   </data>
 </root>

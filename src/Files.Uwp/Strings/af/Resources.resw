@@ -258,9 +258,6 @@
   <data name="Application" xml:space="preserve">
     <value>Toepassing</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>Stelsel</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Nuwe Omslag</value>
   </data>
@@ -338,18 +335,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Het jy hierdie omslag geskrap?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>Die lêer wat jy probeer skrap word tans deur 'n ander toepassing gebruik.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>Lêer is in gebruik</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Probeer weer</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Uitleg</value>
@@ -731,9 +716,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Fout</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Probeer weer</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Sluit in elk geval</value>
@@ -2498,5 +2480,92 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Hierdie instelling verander stelsellêers en kan onverwagte newe-effekte op jou toestel hê. Die ontwikkelaars neem geen verantwoordelikheid in die geval dat 'n probleem as gevolg daarvan plaasvind nie. Om voort te gaan met hierdie opsie is 'n erkenning van die risiko's wat by hierdie aksie betrokke is. Let asseblief daarop dat die deïnstalleer van Files nie hierdie veranderinge sal ongedaan maak nie en kan verhoed dat jy File Explorer oopmaak, tensy jy hierdie instelling afskakel voordat jy Files van jou toestel verwyder.</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Kolomme</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Groot ikone</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Klein ikone</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Teëls</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Maak alles skoon</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Slaan oor</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Kenmerke:</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Versteek</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>Meer besonderhede</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Leesalleen</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Tipe:</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Grepe</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Ekstraheer</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Stel as werkskermagtergrond</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Maak oop in</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Roteer linksom</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Roteer regsom</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Installeer:</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Sluit duimgidse na regs</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Sluit ander duimgidse</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Musiek</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Prente</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Video's</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Kopiëring het misluk</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Merkers</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Stelsel</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Universeel</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Herprobeer</value>
   </data>
 </root>

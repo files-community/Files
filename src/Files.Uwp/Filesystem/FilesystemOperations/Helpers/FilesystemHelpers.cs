@@ -1,13 +1,13 @@
-﻿using Files.Shared;
-using Files.Uwp.DataModels;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
+using Files.Backend.Services.Settings;
+using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
+using Files.Shared;
 using Files.Shared.Enums;
-using Files.Uwp.Extensions;
+using Files.Shared.Extensions;
 using Files.Uwp.Filesystem.FilesystemHistory;
 using Files.Uwp.Helpers;
 using Files.Uwp.Interacts;
-using Files.Backend.Services.Settings;
-using Files.Uwp.ViewModels.Dialogs;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -21,10 +21,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
-using Files.Shared.Extensions;
-using Files.Backend.Extensions;
-using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
-using Files.Backend.Services;
 
 namespace Files.Uwp.Filesystem
 {
@@ -87,9 +83,9 @@ namespace Files.Uwp.Filesystem
 
         public async Task<(ReturnResult, IStorageItem)> CreateAsync(IStorageItemWithPath source, bool registerHistory)
         {
-            var returnCode = FileSystemStatusCode.InProgress;
+            var returnStatus = ReturnResult.InProgress;
             var errorCode = new Progress<FileSystemStatusCode>();
-            errorCode.ProgressChanged += (s, e) => returnCode = e;
+            errorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
 
             var result = await filesystemOperations.CreateAsync(source, errorCode, cancellationToken);
 
@@ -99,7 +95,7 @@ namespace Files.Uwp.Filesystem
             }
 
             await Task.Yield();
-            return (returnCode.ToStatus(), result.Item2);
+            return (returnStatus, result.Item2);
         }
 
         #endregion Create
@@ -118,14 +114,17 @@ namespace Files.Uwp.Filesystem
             if (((!permanently && !canBeSentToBin) || UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog) && showDialog) // Check if the setting to show a confirmation dialog is on
             {
                 var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
-
+                List<ShellFileItem> binItems = null;
                 foreach (var src in source)
                 {
                     if (recycleBinHelpers.IsPathUnderRecycleBin(src.Path))
                     {
-                        var binItems = associatedInstance.FilesystemViewModel.FilesAndFolders;
-                        var matchingItem = binItems.FirstOrDefault(x => x.ItemPath == src.Path); // Get original file name
-                        incomingItems.Add(new FileSystemDialogDefaultItemViewModel() { SourcePath = src.Path, DisplayName = matchingItem?.ItemName });
+                        binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+                        if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
+                        {
+                            var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == src.Path); // Get original file name
+                            incomingItems.Add(new FileSystemDialogDefaultItemViewModel() { SourcePath = src.Path, DisplayName = matchingItem?.FileName ?? src.Name });
+                        }
                     }
                     else
                     {
@@ -133,7 +132,8 @@ namespace Files.Uwp.Filesystem
                     }
                 }
 
-                var dialogViewModel = FileSystemDialogViewModel.GetDialogViewModel(new() { IsInDeleteMode = true },
+                var dialogViewModel = FileSystemDialogViewModel.GetDialogViewModel(
+                    new() { IsInDeleteMode = true },
                     (canBeSentToBin ? permanently : true, canBeSentToBin),
                     FilesystemOperationType.Delete,
                     incomingItems,
@@ -152,7 +152,7 @@ namespace Files.Uwp.Filesystem
 
             // post the status banner
             var banner = PostBannerHelpers.PostBanner_Delete(source, returnStatus, permanently, false, 0);
-            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
+            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
 
             var token = banner.CancellationToken;
 
@@ -205,7 +205,7 @@ namespace Files.Uwp.Filesystem
 
         public async Task<ReturnResult> RestoreItemsFromTrashAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
         {
-            return await RestoreItemsFromTrashAsync(source.Select((item) => item.FromStorageItem()), destination, registerHistory); 
+            return await RestoreItemsFromTrashAsync(source.Select((item) => item.FromStorageItem()), destination, registerHistory);
         }
 
         public async Task<ReturnResult> RestoreItemFromTrashAsync(IStorageItemWithPath source, string destination, bool registerHistory)
@@ -218,9 +218,9 @@ namespace Files.Uwp.Filesystem
             source = await source.ToListAsync();
             destination = await destination.ToListAsync();
 
-            var returnCode = FileSystemStatusCode.InProgress;
+            var returnStatus = ReturnResult.InProgress;
             var errorCode = new Progress<FileSystemStatusCode>();
-            errorCode.ProgressChanged += (s, e) => returnCode = e;
+            errorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
 
             var sw = new Stopwatch();
             sw.Start();
@@ -236,7 +236,7 @@ namespace Files.Uwp.Filesystem
 
             sw.Stop();
 
-            return returnCode.ToStatus();
+            return returnStatus;
         }
 
         #endregion Restore
@@ -256,6 +256,7 @@ namespace Files.Uwp.Filesystem
                 }
                 if (destination.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
                 {
+                    showDialog |= UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog;
                     return await RecycleItemsFromClipboard(packageView, destination, showDialog, registerHistory);
                 }
                 else if (operation.HasFlag(DataPackageOperation.Copy))
@@ -319,11 +320,11 @@ namespace Files.Uwp.Filesystem
             var returnStatus = ReturnResult.InProgress;
 
             var banner = PostBannerHelpers.PostBanner_Copy(source, destination, returnStatus, false, 0);
-            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
+            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
 
             var token = banner.CancellationToken;
-            
-            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Copy, source, destination, showDialog);
+
+            var (collisions, cancelOperation, itemsResult) = await GetCollision(FilesystemOperationType.Copy, source, destination, showDialog);
 
             if (cancelOperation)
             {
@@ -340,8 +341,20 @@ namespace Files.Uwp.Filesystem
             ((IProgress<float>)banner.Progress).Report(100.0f);
             await Task.Yield();
 
-            if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+            if (registerHistory && history != null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
             {
+                foreach (var item in history.Source.Zip(history.Destination, (k, v) => new { Key = k, Value = v }).ToDictionary(k => k.Key, v => v.Value))
+                {
+                    foreach (var item2 in itemsResult)
+                    {
+                        if (!string.IsNullOrEmpty(item2.CustomName) && item2.SourcePath == item.Key.Path)
+                        {
+                            var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ErrorCode, token);
+
+                            history.Destination[history.Source.IndexOf(item.Key)] = renameHistory.Destination[0];
+                        }
+                    }
+                }
                 App.HistoryWrapper.AddHistory(history);
             }
             var itemsCopied = history?.Source.Count() ?? 0;
@@ -462,11 +475,11 @@ namespace Files.Uwp.Filesystem
             var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
 
             var banner = PostBannerHelpers.PostBanner_Move(source, destination, returnStatus, false, 0);
-            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
+            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
 
             var token = banner.CancellationToken;
 
-            var (collisions, cancelOperation) = await GetCollision(FilesystemOperationType.Move, source, destination, showDialog);
+            var (collisions, cancelOperation, itemsResult) = await GetCollision(FilesystemOperationType.Move, source, destination, showDialog);
 
             if (cancelOperation)
             {
@@ -483,8 +496,20 @@ namespace Files.Uwp.Filesystem
             ((IProgress<float>)banner.Progress).Report(100.0f);
             await Task.Yield();
 
-            if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+            if (registerHistory && history != null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
             {
+                foreach (var item in history.Source.Zip(history.Destination, (k, v) => new { Key = k, Value = v }).ToDictionary(k => k.Key, v => v.Value))
+                {
+                    foreach (var item2 in itemsResult)
+                    {
+                        if (!string.IsNullOrEmpty(item2.CustomName) && item2.SourcePath == item.Key.Path)
+                        {
+                            var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ErrorCode, token);
+
+                            history.Destination[history.Source.IndexOf(item.Key)] = renameHistory.Destination[0];
+                        }
+                    }
+                }
                 App.HistoryWrapper.AddHistory(history);
             }
             int itemsMoved = history?.Source.Count() ?? 0;
@@ -558,9 +583,9 @@ namespace Files.Uwp.Filesystem
 
         public async Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory)
         {
-            var returnCode = FileSystemStatusCode.InProgress;
+            var returnStatus = ReturnResult.InProgress;
             var errorCode = new Progress<FileSystemStatusCode>();
-            errorCode.ProgressChanged += (s, e) => returnCode = e;
+            errorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
 
             IStorageHistory history = null;
 
@@ -602,7 +627,7 @@ namespace Files.Uwp.Filesystem
             App.JumpList.RemoveFolder(source.Path); // Remove items from jump list
 
             await Task.Yield();
-            return returnCode.ToStatus();
+            return returnStatus;
         }
 
         #endregion Rename
@@ -624,9 +649,9 @@ namespace Files.Uwp.Filesystem
                 return ReturnResult.Failed;
             }
 
-            var returnCode = FileSystemStatusCode.InProgress;
+            var returnStatus = ReturnResult.InProgress;
             var errorCode = new Progress<FileSystemStatusCode>();
-            errorCode.ProgressChanged += (s, e) => returnCode = e;
+            errorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
 
             source = source.Where(x => !string.IsNullOrEmpty(x.Path));
             var dest = source.Select(x => Path.Combine(destination,
@@ -643,7 +668,7 @@ namespace Files.Uwp.Filesystem
             }
 
             await Task.Yield();
-            return returnCode.ToStatus();
+            return returnStatus;
         }
 
         public async Task<ReturnResult> RecycleItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
@@ -673,7 +698,7 @@ namespace Files.Uwp.Filesystem
 
         #endregion IFilesystemHelpers
 
-        private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation)> GetCollision(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
+        private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation, IEnumerable<IFileSystemDialogConflictItemViewModel>)> GetCollision(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
         {
             var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
             var conflictingItems = new List<BaseFileSystemDialogItemViewModel>();
@@ -682,7 +707,7 @@ namespace Files.Uwp.Filesystem
             foreach (var item in source.Zip(destination, (src, dest, index) => new { src, dest, index }))
             {
                 var itemPathOrName = string.IsNullOrEmpty(item.src.Path) ? item.src.Item.Name : item.src.Path;
-                incomingItems.Add(new FileSystemDialogConflictItemViewModel() { SourcePath = itemPathOrName, DestinationPath = item.dest, DestinationDisplayName = Path.GetFileName(item.dest) });
+                incomingItems.Add(new FileSystemDialogConflictItemViewModel() { ConflictResolveOption = FileNameConflictResolveOptionType.None, SourcePath = itemPathOrName, DestinationPath = item.dest, DestinationDisplayName = Path.GetFileName(item.dest) });
                 if (collisions.ContainsKey(incomingItems.ElementAt(item.index).SourcePath))
                 {
                     // Something strange happened, log
@@ -696,33 +721,38 @@ namespace Files.Uwp.Filesystem
                 {
                     if (StorageHelpers.Exists(item.dest)) // Same item names in both directories
                     {
+                        (incomingItems[item.index] as FileSystemDialogConflictItemViewModel)!.ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName;
                         conflictingItems.Add(incomingItems.ElementAt(item.index));
                     }
                 }
             }
+
+            IEnumerable<IFileSystemDialogConflictItemViewModel>? itemsResult = null;
 
             var mustResolveConflicts = !conflictingItems.IsEmpty();
             if (mustResolveConflicts || forceDialog)
             {
                 var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
-                var dialogViewModel = FileSystemDialogViewModel.GetDialogViewModel(new() { ConflictsExist = mustResolveConflicts },
+                var dialogViewModel = FileSystemDialogViewModel.GetDialogViewModel(
+                    new() { ConflictsExist = mustResolveConflicts },
                     (false, false),
                     operationType,
                     incomingItems.Except(conflictingItems).ToList(), // TODO: Could be optimized
                     conflictingItems);
 
                 var result = await dialogService.ShowDialogAsync(dialogViewModel);
+                itemsResult = dialogViewModel.GetItemsResult();
                 if (mustResolveConflicts) // If there were conflicts, result buttons are different
                 {
                     if (result != DialogResult.Primary) // Operation was cancelled
                     {
-                        return (new(), true);
+                        return (new(), true, itemsResult);
                     }
                 }
 
                 collisions.Clear();
-                foreach (var item in dialogViewModel.GetItemsResult())
+                foreach (var item in itemsResult)
                 {
                     collisions.AddIfNotPresent(item.SourcePath, item.ConflictResolveOption);
                 }
@@ -745,7 +775,7 @@ namespace Files.Uwp.Filesystem
                 }
             }
 
-            return (newCollisions, false);
+            return (newCollisions, false, itemsResult ?? new List<IFileSystemDialogConflictItemViewModel>());
         }
 
         #region Public Helpers

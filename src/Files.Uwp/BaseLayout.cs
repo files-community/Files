@@ -11,16 +11,13 @@ using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Files.Uwp.UserControls;
 using Files.Uwp.ViewModels;
-using Files.Uwp.ViewModels.Previews;
 using Files.Uwp.Views;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -53,8 +50,6 @@ namespace Files.Uwp
 
         protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
 
-        protected IFolderSizeProvider FolderSizeProvider { get; } = Ioc.Default.GetService<IFolderSizeProvider>();
-
         protected Task<NamedPipeAsAppServiceConnection> Connection => AppServiceConnectionHelper.Instance;
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
@@ -72,7 +67,10 @@ namespace Files.Uwp
         {
             AlwaysExpanded = true,
         };
-        public Microsoft.UI.Xaml.Controls.CommandBarFlyout BaseContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
+        public Microsoft.UI.Xaml.Controls.CommandBarFlyout BaseContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout()
+        {
+            AlwaysExpanded = true,
+        };
 
         public BaseLayoutCommandsViewModel CommandsViewModel { get; protected set; }
 
@@ -213,11 +211,6 @@ namespace Files.Uwp
             }
             internal set
             {
-                foreach (var item in selectedItems)
-                {
-                    item.PropertyChanged -= SelectedItem_PropertyChanged;
-                }
-
                 //if (!(value?.All(x => selectedItems?.Contains(x) ?? false) ?? value == selectedItems)) // check if the new list is different then the old one
                 if (value != selectedItems) // check if the new list is different then the old one
                 {
@@ -253,12 +246,14 @@ namespace Files.Uwp
                         SelectedItem = null;
                         SelectedItemsPropertiesViewModel.IsItemSelected = false;
                         ResetRenameDoubleClick();
+                        UpdateSelectionSize();
                     }
                     else
                     {
                         IsItemSelected = true;
                         SelectedItem = selectedItems.First();
                         SelectedItemsPropertiesViewModel.IsItemSelected = true;
+                        UpdateSelectionSize();
 
                         if (SelectedItems.Count >= 1)
                         {
@@ -268,7 +263,6 @@ namespace Files.Uwp
                         if (SelectedItems.Count == 1)
                         {
                             SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemSelected/Text".GetLocalized()}";
-                            SelectedItemsPropertiesViewModel.ItemSize = SelectedItem.FileSize;
                             DispatcherQueue.GetForCurrentThread().EnqueueAsync(async () =>
                             {
                                 await Task.Delay(50); // Tapped event must be executed first
@@ -279,17 +273,11 @@ namespace Files.Uwp
                         {
                             SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemsSelected/Text".GetLocalized()}";
                             ResetRenameDoubleClick();
-                            UpdateSelectionSize();
                         }
                     }
 
                     NotifyPropertyChanged(nameof(SelectedItems));
                     //ItemManipulationModel.SetDragModeForItems();
-                }
-
-                foreach (var item in selectedItems)
-                {
-                    item.PropertyChanged += SelectedItem_PropertyChanged;
                 }
 
                 ParentShellPageInstance.ToolbarViewModel.SelectedItems = value;
@@ -329,13 +317,11 @@ namespace Files.Uwp
         private void HookBaseEvents()
         {
             ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
-            FolderSizeProvider.FolderSizeChanged += FolderSizeProvider_FolderSizeChanged;
         }
 
         private void UnhookBaseEvents()
         {
             ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
-            FolderSizeProvider.FolderSizeChanged -= FolderSizeProvider_FolderSizeChanged;
         }
 
         public ItemManipulationModel ItemManipulationModel { get; private set; }
@@ -367,7 +353,7 @@ namespace Files.Uwp
                 return;
             }
 
-            foreach (var item in items.ToList()) // ToList() is necessary
+            foreach (var item in items)
             {
                 if (item != null)
                 {
@@ -376,7 +362,7 @@ namespace Files.Uwp
             }
         }
 
-        protected ListedItem GetItemFromElement(object element) 
+        protected ListedItem GetItemFromElement(object element)
         {
             var item = element as ContentControl;
             if (item == null || !CanGetItemFromElement(element))
@@ -476,17 +462,19 @@ namespace Files.Uwp
             else
             {
                 ParentShellPageInstance.ToolbarViewModel.CanRefresh = true;
+                await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.SearchPathParam);
+
                 ParentShellPageInstance.ToolbarViewModel.CanGoForward = false;
                 ParentShellPageInstance.ToolbarViewModel.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
                 ParentShellPageInstance.ToolbarViewModel.CanNavigateToParent = false;
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = false;
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = false;
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = false;
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
 
-                await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.SearchPathParam);
+                var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory ?? string.Empty;
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\", StringComparison.Ordinal);
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = LibraryHelper.IsLibraryPath(workingDir);
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
 
                 if (!navigationArguments.IsLayoutSwitch)
                 {
@@ -552,22 +540,6 @@ namespace Files.Uwp
             await ParentShellPageInstance.FilesystemViewModel.ReloadItemGroupHeaderImagesAsync();
         }
 
-        private void FolderSizeProvider_FolderSizeChanged(object sender, FolderSizeChangedEventArgs e)
-        {
-            if (e.Folder is null)
-            {
-                SelectedItemsPropertiesViewModel.ItemSizeBytes = 0;
-                SelectedItemsPropertiesViewModel.ItemSize = string.Empty;
-                SelectedItemsPropertiesViewModel.ItemSizeVisibility = false;
-            }
-
-            var items = (selectedItems?.Any() ?? false) ? selectedItems : GetAllItems();
-            if (items.Contains(e.Folder))
-            {
-                UpdateSelectionSize();
-            }
-        }
-
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
@@ -577,11 +549,6 @@ namespace Files.Uwp
             FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
             ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
             BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
-
-            foreach (var item in selectedItems)
-            {
-                item.PropertyChanged -= SelectedItem_PropertyChanged;
-            }
 
             var parameter = e.Parameter as NavigationArguments;
             if (!parameter.IsLayoutSwitch)
@@ -637,18 +604,14 @@ namespace Files.Uwp
                 secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
                 secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
 
-                if (!InstanceViewModel.IsPageTypeSearchResults)
+                if (!InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder)
                 {
                     var shellMenuItems = await ContextFlyoutItemHelper.GetBaseContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false);
                     if (shellContextMenuItemCancellationToken.IsCancellationRequested)
                     {
                         return;
                     }
-
-                    if (!InstanceViewModel.IsPageTypeZipFolder)
-                    {
-                        AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
-                    }
+                    AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
                 }
             }
             catch (Exception error)
@@ -657,15 +620,7 @@ namespace Files.Uwp
             }
         }
 
-        private void SelectedItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(ListedItem.FileSize))
-            {
-                UpdateSelectionSize();
-            }
-        }
-
-        private void UpdateSelectionSize()
+        public void UpdateSelectionSize()
         {
             var items = (selectedItems?.Any() ?? false) ? selectedItems : GetAllItems();
             if (items is not null)
@@ -708,19 +663,18 @@ namespace Files.Uwp
             secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
             secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
 
-            if (UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled && !InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeRecycleBin && !InstanceViewModel.IsPageTypeFtp && !InstanceViewModel.IsPageTypeZipFolder)
+            if (UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled && InstanceViewModel.CanTagFilesInPage)
             {
                 AddFileTagsItemToMenu(ItemContextMenuFlyout);
             }
 
-            var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, shiftPressed: shiftPressed, showOpenMenu: false);
-            if (shellContextMenuItemCancellationToken.IsCancellationRequested)
-            {
-                return;
-            }
-
             if (!InstanceViewModel.IsPageTypeZipFolder)
             {
+                var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, shiftPressed: shiftPressed, showOpenMenu: false);
+                if (shellContextMenuItemCancellationToken.IsCancellationRequested)
+                {
+                    return;
+                }
                 AddShellItemsToMenu(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
             }
         }
@@ -859,101 +813,17 @@ namespace Files.Uwp
             }
         }
 
-        protected async void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+        protected void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
-            ConcurrentBag<IStorageItem> selectedStorageItems = new ConcurrentBag<IStorageItem>();
-
             e.Items.OfType<ListedItem>().ForEach(item => SelectedItems.Add(item));
-
-            var itemsCount = e.Items.Count;
-            PostedStatusBanner banner = itemsCount > 50 ? App.OngoingTasksViewModel.PostOperationBanner(
-                string.Empty,
-                string.Format("StatusPreparingItemsDetails_Plural".GetLocalized(), itemsCount),
-                0,
-                ReturnResult.InProgress,
-                FileOperationType.Prepare, new CancellationTokenSource()) : null;
 
             try
             {
-                await e.Items.OfType<ListedItem>().ParallelForEachAsync(async item =>
-                {
-                    if (banner != null)
-                    {
-                        ((IProgress<float>)banner.Progress).Report(selectedStorageItems.Count / (float)itemsCount * 100);
-                    }
-
-                    if (item is FtpItem ftpItem)
-                    {
-                        if (item.PrimaryItemAttribute == StorageItemTypes.File)
-                        {
-                            selectedStorageItems.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
-                        }
-                        else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                        {
-                            selectedStorageItems.Add(new FtpStorageFolder(ftpItem));
-                        }
-                    }
-                    else if (item.PrimaryItemAttribute == StorageItemTypes.File || item is ZipItem)
-                    {
-                        var result = await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
-                            .OnSuccess(t => selectedStorageItems.Add(t));
-                        if (!result)
-                        {
-                            throw new IOException($"Failed to process {item.ItemPath}.", (int)result.ErrorCode);
-                        }
-                    }
-                    else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                    {
-                        var result = await ParentShellPageInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
-                            .OnSuccess(t => selectedStorageItems.Add(t));
-                        if (!result)
-                        {
-                            throw new IOException($"Failed to process {item.ItemPath}.", (int)result.ErrorCode);
-                        }
-                    }
-                }, 10, banner?.CancellationToken ?? default);
+                // Only support IStorageItem capable paths
+                var itemList = e.Items.OfType<ListedItem>().Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcutItem)).Select(x => VirtualStorageItem.FromListedItem(x));
+                e.Data.SetStorageItems(itemList, false);
             }
-            catch (Exception ex)
-            {
-                if (ex.HResult == (int)FileSystemStatusCode.Unauthorized)
-                {
-                    var itemList = e.Items.OfType<ListedItem>().Select(x => StorageHelpers.FromPathAndType(
-                        x.ItemPath, x.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-                    e.Data.Properties["FileDrop"] = itemList.ToList();
-                }
-                else
-                {
-                    e.Cancel = true;
-                }
-                banner?.Remove();
-                return;
-            }
-
-            banner?.Remove();
-
-            var onlyStandard = selectedStorageItems.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);
-            if (onlyStandard)
-            {
-                selectedStorageItems = new ConcurrentBag<IStorageItem>(await selectedStorageItems.ToStandardStorageItemsAsync());
-            }
-            if (selectedStorageItems.Count == 1)
-            {
-                if (selectedStorageItems.Single() is IStorageFile file)
-                {
-                    var itemExtension = Path.GetExtension(file.Name);
-                    if (ImagePreviewViewModel.Extensions.Any((ext) => ext.Equals(itemExtension, StringComparison.OrdinalIgnoreCase)))
-                    {
-                        var streamRef = Windows.Storage.Streams.RandomAccessStreamReference.CreateFromFile(file);
-                        e.Data.SetBitmap(streamRef);
-                    }
-                }
-                e.Data.SetStorageItems(selectedStorageItems, false);
-            }
-            else if (selectedStorageItems.Count > 1)
-            {
-                e.Data.SetStorageItems(selectedStorageItems, false);
-            }
-            else
+            catch (Exception)
             {
                 e.Cancel = true;
             }
@@ -1008,61 +878,58 @@ namespace Files.Uwp
                     var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
                     var draggedItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-                    if (draggedItems.IsEmpty())
+                    if (draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+                    {
+                        e.AcceptedOperation = DataPackageOperation.None;
+                    }
+                    else if (handledByFtp)
+                    {
+                        e.DragUIOverride.IsCaptionVisible = true;
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
+                        e.AcceptedOperation = DataPackageOperation.Copy;
+                    }
+                    else if (!draggedItems.Any())
                     {
                         e.AcceptedOperation = DataPackageOperation.None;
                     }
                     else
                     {
-                        if (draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+                        e.DragUIOverride.IsCaptionVisible = true;
+                        if (item.IsExecutable)
                         {
-                            e.AcceptedOperation = DataPackageOperation.None;
+                            e.DragUIOverride.Caption = $"{"OpenItemsWithCaptionText".GetLocalized()} {item.ItemName}";
+                            e.AcceptedOperation = DataPackageOperation.Link;
+                        } // Items from the same drive as this folder are dragged into this folder, so we move the items instead of copy
+                        else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
+                        {
+                            e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.AcceptedOperation = DataPackageOperation.Link;
                         }
-                        else if (handledByFtp)
+                        else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
                         {
-                            e.DragUIOverride.IsCaptionVisible = true;
                             e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
                             e.AcceptedOperation = DataPackageOperation.Copy;
                         }
+                        else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
+                        {
+                            e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.AcceptedOperation = DataPackageOperation.Move;
+                        }
+                        else if (draggedItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
+                            || ZipStorageFolder.IsZipPath(item.ItemPath))
+                        {
+                            e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.AcceptedOperation = DataPackageOperation.Copy;
+                        }
+                        else if (draggedItems.AreItemsInSameDrive(item.ItemPath))
+                        {
+                            e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.AcceptedOperation = DataPackageOperation.Move;
+                        }
                         else
                         {
-                            e.DragUIOverride.IsCaptionVisible = true;
-                            if (item.IsExecutable)
-                            {
-                                e.DragUIOverride.Caption = $"{"OpenItemsWithCaptionText".GetLocalized()} {item.ItemName}";
-                                e.AcceptedOperation = DataPackageOperation.Link;
-                            } // Items from the same drive as this folder are dragged into this folder, so we move the items instead of copy
-                            else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
-                            {
-                                e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), item.ItemName);
-                                e.AcceptedOperation = DataPackageOperation.Link;
-                            }
-                            else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
-                            {
-                                e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
-                                e.AcceptedOperation = DataPackageOperation.Copy;
-                            }
-                            else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
-                            {
-                                e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), item.ItemName);
-                                e.AcceptedOperation = DataPackageOperation.Move;
-                            }
-                            else if (draggedItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
-                                || ZipStorageFolder.IsZipPath(item.ItemPath))
-                            {
-                                e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
-                                e.AcceptedOperation = DataPackageOperation.Copy;
-                            }
-                            else if (draggedItems.AreItemsInSameDrive(item.ItemPath))
-                            {
-                                e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), item.ItemName);
-                                e.AcceptedOperation = DataPackageOperation.Move;
-                            }
-                            else
-                            {
-                                e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
-                                e.AcceptedOperation = DataPackageOperation.Copy;
-                            }
+                            e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.AcceptedOperation = DataPackageOperation.Copy;
                         }
                     }
                 }

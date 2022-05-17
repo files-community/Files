@@ -9,7 +9,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:ts="using:Files.Uwp.TemplateSelectors"
+    xmlns:tvc="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:vc="using:Files.Uwp.ValueConverters"
+    xmlns:vc2="using:Files.Uwp.ValueConverters.EnumConverters"
+    xmlns:vc3="using:Files.Uwp.Converters"
     xmlns:vm="using:Files.Backend.ViewModels.Dialogs.FileSystemDialog"
     x:Name="RootDialog"
     Title="{x:Bind ViewModel.Title, Mode=OneWay}"
@@ -17,6 +20,7 @@
     CornerRadius="{StaticResource OverlayCornerRadius}"
     DefaultButton="Primary"
     IsPrimaryButtonEnabled="{x:Bind ViewModel.PrimaryButtonEnabled, Mode=OneWay}"
+    Opened="FilesystemOperationDialog_Opened"
     PrimaryButtonText="{x:Bind ViewModel.PrimaryButtonText, Mode=OneWay}"
     RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
     SecondaryButtonCommand="{x:Bind ViewModel.SecondaryButtonClickCommand, Mode=OneWay}"
@@ -26,6 +30,7 @@
 
     <ContentDialog.Resources>
         <x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
+
         <MenuFlyout
             x:Name="ItemContextFlyout"
             Opening="MenuFlyout_Opening"
@@ -51,15 +56,19 @@
         </MenuFlyout>
 
         <vc:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
+        <vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
         <vc:GenericEnumConverter x:Key="GenericEnumConverter" />
+        <vc2:ConflictResolveOptionToIndexConverter x:Key="ConflictResolveOptionToIndexConverter" />
+        <vc3:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
+        <tvc:BoolNegationConverter x:Key="BoolNegationConverter" />
 
         <DataTemplate x:Key="ConflictItemDataTemplate" x:DataType="vm:FileSystemDialogConflictItemViewModel">
             <Grid ColumnSpacing="12">
                 <Grid.ColumnDefinitions>
                     <!--  Icon  -->
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="48" />
                     <!--  Content  -->
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="*" />
                     <!--  Options  -->
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
@@ -67,41 +76,70 @@
                 <!--  Icon  -->
                 <Image
                     Grid.Column="0"
-                    HorizontalAlignment="Left"
+                    Width="48"
+                    Height="48"
                     VerticalAlignment="Center"
                     Source="{x:Bind ItemIcon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
 
                 <!--  Content  -->
-                <StackPanel
-                    Grid.Column="1"
-                    VerticalAlignment="Center"
-                    Spacing="4">
-                    <StackPanel Orientation="Horizontal" Spacing="16">
-                        <TextBlock Text="{x:Bind DisplayName, Mode=OneWay}" />
-                        <FontIcon FontSize="14" Glyph="&#xE72A;" />
-                        <TextBlock Text="{x:Bind DestinationDisplayName, Mode=OneWay}" />
+                <Grid Grid.Column="1">
+                    <!--  Names  -->
+                    <StackPanel
+                        VerticalAlignment="Center"
+                        Background="Transparent"
+                        Spacing="4"
+                        Tapped="NameStackPanel_Tapped"
+                        Visibility="{x:Bind IsTextBoxVisible, Mode=OneWay, Converter={StaticResource VisibilityInvertConverter}}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock
+                                FontSize="14"
+                                Text="{x:Bind DisplayName, Mode=OneWay}"
+                                ToolTipService.ToolTip="{x:Bind DisplayName, Mode=OneWay}" />
+                            <FontIcon FontSize="10" Glyph="&#xE72A;" />
+                            <TextBlock
+                                FontSize="14"
+                                Text="{x:Bind DestinationDisplayName, Mode=OneWay}"
+                                TextTrimming="CharacterEllipsis"
+                                ToolTipService.ToolTip="{x:Bind DestinationDisplayName, Mode=OneWay}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock
+                                FontSize="13"
+                                Foreground="{ThemeResource SystemAccentColor}"
+                                Text="{x:Bind SourceDirectoryDisplayName}"
+                                ToolTipService.ToolTip="{x:Bind SourcePath}" />
+                            <FontIcon
+                                FontSize="10"
+                                Foreground="{ThemeResource SystemAccentColor}"
+                                Glyph="&#xE72A;" />
+                            <TextBlock
+                                FontSize="13"
+                                Foreground="{ThemeResource SystemAccentColor}"
+                                Text="{x:Bind DestinationDirectoryDisplayName}"
+                                ToolTipService.ToolTip="{x:Bind DestinationPath, Mode=OneWay}" />
+                        </StackPanel>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Spacing="16">
-                        <TextBlock
-                            Foreground="{ThemeResource SystemAccentColor}"
-                            Text="{x:Bind SourceDirectoryDisplayName}"
-                            ToolTipService.ToolTip="{x:Bind SourcePath}" />
-                        <FontIcon
-                            FontSize="14"
-                            Foreground="{ThemeResource SystemAccentColor}"
-                            Glyph="&#xE72A;" />
-                        <TextBlock
-                            Foreground="{ThemeResource SystemAccentColor}"
-                            Text="{x:Bind DestinationDirectoryDisplayName}"
-                            ToolTipService.ToolTip="{x:Bind DestinationPath, Mode=OneWay}" />
-                    </StackPanel>
-                </StackPanel>
+
+                    <!--  Name edit box  -->
+                    <TextBox
+                        x:Name="NameEdit"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        x:Load="{x:Bind IsTextBoxVisible, Mode=OneWay}"
+                        Loaded="NameEdit_Loaded"
+                        LostFocus="NameEdit_LostFocus"
+                        Text="{x:Bind CustomName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
 
                 <!--  Options  -->
                 <ComboBox
+                    x:Name="ConflictOptions"
                     Grid.Column="2"
+                    Width="200"
+                    HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    SelectedIndex="{x:Bind ConflictResolveOption, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}}">
+                    x:Load="{x:Bind IsConflict, Mode=OneWay}"
+                    SelectedIndex="{x:Bind ConflictResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource ConflictResolveOptionToIndexConverter}}">
                     <ComboBox.Items>
                         <ComboBoxItem Content="{helpers:ResourceString Name=GenerateNewName}" />
                         <ComboBoxItem Content="{helpers:ResourceString Name=ConflictingItemsDialogItemOptionReplaceExisting/Text}" />
@@ -123,6 +161,8 @@
                 <!--  Icon  -->
                 <Image
                     Grid.Column="0"
+                    Width="48"
+                    Height="48"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Source="{x:Bind ItemIcon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
@@ -135,44 +175,88 @@
                     <TextBlock Text="{x:Bind DisplayName}" />
                     <TextBlock
                         Opacity="0.8"
-                        Text="{x:Bind SourceDirectoryDisplayName}"
+                        Text="{x:Bind SourcePath}"
                         ToolTipService.ToolTip="{x:Bind SourcePath}" />
                 </StackPanel>
             </Grid>
         </DataTemplate>
     </ContentDialog.Resources>
 
-    <Grid Width="452">
-        <StackPanel Spacing="12">
-            <TextBlock Text="{x:Bind ViewModel.Description, Mode=OneWay}" />
+    <Grid x:Name="ContainerGrid">
+        <StackPanel Spacing="16">
+            <Grid x:Name="ApplyToAll" x:Load="{x:Bind ViewModel.FileSystemDialogMode.ConflictsExist}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Text="Apply this action to all conflicting items"
+                    TextWrapping="Wrap" />
+
+                <ComboBox
+                    Grid.Column="1"
+                    Width="200"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    SelectedIndex="{x:Bind ViewModel.AggregatedResolveOption, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource GenericEnumConverter}, ConverterParameter='4-0,0-1,1-2,2-3'}">
+                    <ComboBox.Items>
+                        <ComboBoxItem Content="{helpers:ResourceString Name=Custom}" />
+                        <ComboBoxItem Content="{helpers:ResourceString Name=GenerateNewName}" />
+                        <ComboBoxItem Content="{helpers:ResourceString Name=ConflictingItemsDialogOptionReplaceExisting/Text}" />
+                        <ComboBoxItem Content="{helpers:ResourceString Name=Skip}" />
+                    </ComboBox.Items>
+                </ComboBox>
+            </Grid>
+
+            <TextBlock
+                x:Name="DescriptionText"
+                Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                Text="{x:Bind ViewModel.Description, Mode=OneWay}"
+                TextWrapping="WrapWholeWords" />
+
+            <Border
+                x:Name="SeparatorLine"
+                Height="1"
+                HorizontalAlignment="Stretch"
+                Background="{ThemeResource SystemBaseLowColor}"
+                Opacity="0.8"
+                Visibility="{x:Bind ViewModel.FileSystemDialogMode.ConflictsExist}" />
+
             <CheckBox
                 x:Name="chkPermanentlyDelete"
                 x:Load="{x:Bind ViewModel.FileSystemDialogMode.IsInDeleteMode, Mode=OneWay}"
                 Content="{helpers:ResourceString Name=DeleteItemsDialogPermanentlyDeleteCheckBox/Content}"
                 IsChecked="{x:Bind ViewModel.DeletePermanently, Mode=TwoWay}"
-                IsEnabled="False" />
+                IsEnabled="{x:Bind ViewModel.IsDeletePermanentlyEnabled, Mode=OneWay}" />
 
-            <Grid>
-                <ListView
-                    x:Name="DetailsGrid"
-                    Grid.Row="1"
-                    MaxHeight="200"
-                    IsEnabled="False"
-                    IsItemClickEnabled="False"
-                    ItemsSource="{x:Bind ViewModel.Items}"
-                    SelectionMode="{x:Bind ItemSelectionMode, Mode=OneWay}">
+            <ListView
+                x:Name="DetailsGrid"
+                MaxHeight="200"
+                IsItemClickEnabled="False"
+                ItemsSource="{x:Bind ViewModel.Items}"
+                SelectionMode="None">
 
-                    <ListView.ItemTemplateSelector>
-                        <ts:FileSystemDialogItemSelector ConflictItemDataTemplate="{StaticResource ConflictItemDataTemplate}" DefaultItemDataTemplate="{StaticResource DefaultItemDataTemplate}" />
-                    </ListView.ItemTemplateSelector>
+                <ListView.ItemTemplateSelector>
+                    <ts:FileSystemDialogItemSelector ConflictItemDataTemplate="{StaticResource ConflictItemDataTemplate}" DefaultItemDataTemplate="{StaticResource DefaultItemDataTemplate}" />
+                </ListView.ItemTemplateSelector>
 
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <ItemsStackPanel HorizontalAlignment="Stretch" Orientation="Vertical" />
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                </ListView>
-            </Grid>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel HorizontalAlignment="Stretch" Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Padding" Value="0,12" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
         </StackPanel>
     </Grid>
 </ContentDialog>

@@ -1,13 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
 using Files.Uwp.DataModels;
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using Files.Uwp.Helpers.ContextFlyouts;
-using Files.Shared.Extensions;
 using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -33,10 +32,6 @@ namespace Files.Uwp.UserControls
     public sealed partial class SidebarControl : Microsoft.UI.Xaml.Controls.NavigationView, INotifyPropertyChanged
     {
         public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
-
-        public static SemaphoreSlim SideBarItemsSemaphore = new SemaphoreSlim(1, 1);
-
-        public static BulkConcurrentObservableCollection<INavigationControlItem> SideBarItems { get; private set; } = new BulkConcurrentObservableCollection<INavigationControlItem>();
 
         public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
 
@@ -191,8 +186,12 @@ namespace Files.Uwp.UserControls
         {
             ContextMenuOptions options = item.MenuOptions;
 
-            bool showMoveItemUp = options.IsItemMovable ? App.SidebarPinnedController.Model.IndexOfItem(item) > 1 : false;
-            bool showMoveItemDown = options.IsItemMovable ? App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count : false;
+            var model = App.SidebarPinnedController.Model;
+            int index = model.IndexOfItem(item);
+            int count = model.FavoriteItems.Count;
+
+            bool showMoveItemUp = options.IsItemMovable && index > 0;
+            bool showMoveItemDown = options.IsItemMovable && index < count - 1;
 
             return new List<ContextMenuFlyoutItemViewModel>()
             {
@@ -319,31 +318,24 @@ namespace Files.Uwp.UserControls
             {
                 case SectionType.Favorites:
                     UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = false;
-                    App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
                     break;
                 case SectionType.Library:
                     UserSettingsService.AppearanceSettingsService.ShowLibrarySection = false;
-                    App.LibraryManager.UpdateLibrariesSectionVisibility();
                     break;
                 case SectionType.CloudDrives:
                     UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = false;
-                    App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
                     break;
                 case SectionType.Drives:
                     UserSettingsService.AppearanceSettingsService.ShowDrivesSection = false;
-                    App.DrivesManager.UpdateDrivesSectionVisibility();
                     break;
                 case SectionType.Network:
                     UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = false;
-                    App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
                     break;
                 case SectionType.WSL:
                     UserSettingsService.AppearanceSettingsService.ShowWslSection = false;
-                    App.WSLDistroManager.UpdateWslSectionVisibility();
                     break;
                 case SectionType.FileTag:
                     UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = false;
-                    App.FileTagsManager.UpdateFileTagsSectionVisibility();
                     break;
             }
         }
@@ -1234,7 +1226,7 @@ namespace Files.Uwp.UserControls
         private void NavigationView_PaneOpened(Microsoft.UI.Xaml.Controls.NavigationView sender, object args)
         {
             // Restore expanded state when pane is opened
-            foreach (var loc in SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems != null))
+            foreach (var loc in ViewModel.SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems != null))
             {
                 loc.IsExpanded = App.AppSettings.Get(loc.Text == "SidebarFavorites".GetLocalized(), $"section:{loc.Text.Replace('\\', '_')}");
             }
@@ -1243,18 +1235,9 @@ namespace Files.Uwp.UserControls
         private void NavigationView_PaneClosed(Microsoft.UI.Xaml.Controls.NavigationView sender, object args)
         {
             // Collapse all sections but do not store the state when pane is closed
-            foreach (var loc in SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems != null))
+            foreach (var loc in ViewModel.SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems != null))
             {
                 loc.IsExpanded = false;
-            }
-        }
-
-        private void NavigationViewItem_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
-        {
-            // Restore expanded state when section is loaded
-            if (args.NewValue is LocationItem loc && loc.ChildItems != null)
-            {
-                loc.IsExpanded = App.AppSettings.Get(loc.Text == "SidebarFavorites".GetLocalized(), $"section:{loc.Text.Replace('\\', '_')}");
             }
         }
 
@@ -1328,9 +1311,6 @@ namespace Files.Uwp.UserControls
 
                     case NavigationControlItemType.FileTag:
                         return FileTagNavItemTemplate;
-
-                    case NavigationControlItemType.Header:
-                        return HeaderNavItemTemplate;
                 }
             }
             return null;

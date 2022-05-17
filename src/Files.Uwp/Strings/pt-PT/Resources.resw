@@ -210,9 +210,6 @@
   <data name="Application" xml:space="preserve">
     <value>Aplicação</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>Sistema</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Nova Pasta</value>
   </data>
@@ -287,18 +284,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Pretende eliminar esta pasta?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>O ficheiro que você está tentando eliminar está sendo utilizado por uma aplicação.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>O ficheiro está em uso</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Tentar novamente</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Esvaziar Reciclagem</value>
@@ -954,9 +939,6 @@
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Erro</value>
   </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Tentar Novamente</value>
-  </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Fechar mesmo assim</value>
   </data>
@@ -1000,7 +982,7 @@
     <value>Envie aos desenvolvedores um relatório de problema com mais informações</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Apoie-nos no PayPal</value>
+    <value>Apoie-nos no GitHub</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Detalhes</value>
@@ -2068,13 +2050,13 @@
     <value>Ocultar ficheiros protegidos do sistema operativo (Recomendado)</value>
   </data>
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Abrir itens com um clique único</value>
+    <value>Abrir ficheiros com um clique único</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>Listar e ordenar diretórios ao lado dos ficheiros</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Mostrar itens não indexados ao pesquisar ficheiros e pastas (as pesquisas podem demorar mais)</value>
+    <value>Mostrar itens não indexados ao pesquisar ficheiros e pastas</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
     <value>Ligar preferências individuais para diretórios individuais</value>
@@ -2201,13 +2183,7 @@
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
-*Recolha de Informação Pessoal*
-
-Files não recolhe, guarda, partilha ou publica qualquer informação pessoal.
-
-*Recolha de Informação Não-pessoal*
-
-Nós utilizamos o App Center para acompanhar a utilização da aplicação, encontrar bugs, e corrigir falhas. Toda a informação enviada ao App Center é anónima e livre de qualquer utilizador ou dados contextuais.
+Utilizamos o App Center para localizar as definições que estão a ser utilizadas, encontrar bugs, e corrigir falhas. A informação enviada para o App Center é anónima e livre de qualquer utilizador ou dados contextuais.
   </value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
@@ -2238,13 +2214,13 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
     <value>Desconhecido</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>Tag do ficheiro</value>
+    <value>Tag</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
-    <value>Editar tags dos ficheiros</value>
+    <value>Editar tags</value>
   </data>
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Ativar tags dos ficheiros</value>
+    <value>Ativar tags</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>Abrir Unidade</value>
@@ -2502,7 +2478,7 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
     <value>Licenças de terceiros</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Esta definição modifica os ficheiros do sistema e pode ter efeitos secundários inesperados no seu dispositivo. Os programadores não assumem qualquer responsabilidade no caso de ocorrer um problema como resultado. A continuação desta opção é um reconhecimento dos riscos envolvidos com esta ação. Note que a desinstalação de Files não desfaz estas alterações e pode impedi-lo de abrir o explorador de ficheiros, a menos que desligue esta definição antes de remover o Files do seu dispositivo.</value>
+    <value>Esta opção modifica o registo do sistema e pode ter efeitos secundários inesperados no seu dispositivo. Continue por sua conta e risco.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Limpar tudo</value>
@@ -2529,12 +2505,156 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
     <value>Insira o nome da Biblioteca</value>
   </data>
   <data name="ShowFolderSize" xml:space="preserve">
-    <value>Mostrar tamanho da paasta</value>
+    <value>Mostrar tamanho da pasta</value>
   </data>
   <data name="Skip" xml:space="preserve">
     <value>Ignorar</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Abrir Files no Início do Windows</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Atributos</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Oculto</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>Mais detalhes</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Só de leitura</value>
+  </data>
+  <data name="CleanupDrive" xml:space="preserve">
+    <value>Limpe o conteúdo da sua unidade</value>
+  </data>
+  <data name="DiskCleanup" xml:space="preserve">
+    <value>Limpeza do disco</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Tipo:</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Bytes</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Extrair</value>
+  </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>Extrair ficheiros</value>
+  </data>
+  <data name="ExtractHere" xml:space="preserve">
+    <value>Extrair aqui</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="ExtractToChildFolder" xml:space="preserve">
+    <value>Extrair para {0}</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Executar script</value>
+  </data>
+  <data name="RunWithPowerShell" xml:space="preserve">
+    <value>Executar com PowerShell</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Definir como fundo do ambiente de trabalho</value>
+  </data>
+  <data name="ShowFolderSizesWarning" xml:space="preserve">
+    <value>O cálculo do tamanho das pastas exige muitos recursos e pode fazer aumentar a utilização da sua CPU.</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Aberto no</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Rodar para a esquerda</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Rodar para a direita</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Instalar</value>
+  </data>
+  <data name="CloseTabsToTheLeft" xml:space="preserve">
+    <value>Fechar separadores à esquerda</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Fechar separadores à direita</value>
+  </data>
+  <data name="ShowDotFiles" xml:space="preserve">
+    <value>Mostrar ficheiros ponto</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Fechar outros separadores</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Música</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Imagens</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Vídeos</value>
+  </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Atualizar Files</value>
+  </data>
+  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
+    <value>Preparando {0} itens</value>
+  </data>
+  <data name="PrepareInProgress" xml:space="preserve">
+    <value>Preparando itens</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Cópia falhada</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
+    <value>Falha em copiar {0} itens de {1} a {2}</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
+    <value>Falha em copiar {0} item de {1} para {2}</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Mover falhou</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
+    <value>Mostrar secção Tags</value>
+  </data>
+  <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar secção Tags</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Sistema</value>
+  </data>
+  <data name="FileInUseByDialog.Text" xml:space="preserve">
+    <value>O ficheiro que está a tentar aceder está atualmente a ser utilizado por {0}</value>
+  </data>
+  <data name="FileInUseDialog.Text" xml:space="preserve">
+    <value>O ficheiro que está a tentar aceder está atualmente a ser utilizado por uma outra aplicação</value>
+  </data>
+  <data name="FileInUseDialog.Title" xml:space="preserve">
+    <value>Ficheiro está em uso</value>
+  </data>
+  <data name="UseCompactStyles" xml:space="preserve">
+    <value>Utilizar estilos compacto no layout detalhes</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Universal</value>
+  </data>
+  <data name="DateFormatSample" xml:space="preserve">
+    <value>ex: {0}, {1}</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Mostrar miniaturas</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Tentar novamente</value>
+  </data>
+  <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
+    <value>A operação mover não é suportada neste contexto. Quer antes copiar os itens?</value>
   </data>
 </root>

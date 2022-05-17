@@ -2,11 +2,12 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
+using Files.Shared.Extensions;
+using Files.Shared.Services.DateTimeFormatter;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem.Cloud;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
-using Files.Shared.Extensions;
 using Files.Uwp.ViewModels.Properties;
 using FluentFTP;
 using Microsoft.Toolkit.Uwp;
@@ -15,6 +16,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -27,6 +29,8 @@ namespace Files.Uwp.Filesystem
         protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         protected static IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
+
+        protected static IDateTimeFormatter DateTimeFormatter { get; } = Ioc.Default.GetService<IDateTimeFormatter>();
 
         public bool IsHiddenItem { get; set; } = false;
 
@@ -317,7 +321,7 @@ namespace Files.Uwp.Filesystem
             get => itemDateModifiedReal;
             set
             {
-                ItemDateModified = value.GetFriendlyDateFromFormat(DateReturnFormat);
+                ItemDateModified = DateTimeFormatter.ToShortLabel(value);
                 itemDateModifiedReal = value;
                 OnPropertyChanged(nameof(ItemDateModified));
             }
@@ -329,7 +333,7 @@ namespace Files.Uwp.Filesystem
             get => itemDateCreatedReal;
             set
             {
-                ItemDateCreated = value.GetFriendlyDateFromFormat(DateReturnFormat);
+                ItemDateCreated = DateTimeFormatter.ToShortLabel(value);
                 itemDateCreatedReal = value;
                 OnPropertyChanged(nameof(ItemDateCreated));
             }
@@ -341,7 +345,7 @@ namespace Files.Uwp.Filesystem
             get => itemDateAccessedReal;
             set
             {
-                ItemDateAccessed = value.GetFriendlyDateFromFormat(DateReturnFormat);
+                ItemDateAccessed = DateTimeFormatter.ToShortLabel(value);
                 itemDateAccessedReal = value;
                 OnPropertyChanged(nameof(ItemDateAccessed));
             }
@@ -355,20 +359,13 @@ namespace Files.Uwp.Filesystem
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ListedItem" /> class, optionally with an explicitly-specified dateReturnFormat.
+        /// Initializes a new instance of the <see cref="ListedItem" /> class.
         /// </summary>
         /// <param name="folderRelativeId"></param>
-        /// <param name="dateReturnFormat">Specify a date return format to reduce redundant checks of this setting.</param>
-        public ListedItem(string folderRelativeId, string dateReturnFormat = null)
-        {
-            FolderRelativeId = folderRelativeId;
-            DateReturnFormat = dateReturnFormat ?? DateTimeExtensions.GetDateFormat();
-        }
+        public ListedItem(string folderRelativeId) => FolderRelativeId = folderRelativeId;
 
         // Parameterless constructor for JsonConvert
-        public ListedItem() { }
-
-        protected string DateReturnFormat { get; }
+        public ListedItem() {}
 
         private ObservableCollection<FileProperty> fileDetails;
         public ObservableCollection<FileProperty> FileDetails
@@ -440,7 +437,7 @@ namespace Files.Uwp.Filesystem
 
     public class RecycleBinItem : ListedItem
     {
-        public RecycleBinItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
+        public RecycleBinItem(string folderRelativeId) : base(folderRelativeId)
         {
         }
 
@@ -451,7 +448,7 @@ namespace Files.Uwp.Filesystem
             get => itemDateDeletedReal;
             set
             {
-                ItemDateDeleted = value.GetFriendlyDateFromFormat(DateReturnFormat);
+                ItemDateDeleted = DateTimeFormatter.ToShortLabel(value);
                 itemDateDeletedReal = value;
             }
         }
@@ -469,7 +466,7 @@ namespace Files.Uwp.Filesystem
 
     public class FtpItem : ListedItem
     {
-        public FtpItem(FtpListItem item, string folder, string dateReturnFormat = null) : base(null, dateReturnFormat)
+        public FtpItem(FtpListItem item, string folder) : base(null)
         {
             var isFile = item.Type == FtpFileSystemObjectType.File;
             ItemDateCreatedReal = item.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawCreated;
@@ -494,11 +491,18 @@ namespace Files.Uwp.Filesystem
             Opacity = 1;
             IsHiddenItem = false;
         }
+
+        public async Task<IStorageItem> ToStorageItem() => PrimaryItemAttribute switch
+        {
+            StorageItemTypes.File => await new FtpStorageFile(ItemPath, ItemNameRaw, ItemDateCreatedReal).ToStorageFileAsync(),
+            StorageItemTypes.Folder => new FtpStorageFolder(ItemPath, ItemNameRaw, ItemDateCreatedReal),
+            _ => throw new InvalidDataException(),
+        };
     }
 
     public class ShortcutItem : ListedItem
     {
-        public ShortcutItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
+        public ShortcutItem(string folderRelativeId) : base(folderRelativeId)
         {
         }
 
@@ -533,7 +537,7 @@ namespace Files.Uwp.Filesystem
 
     public class ZipItem : ListedItem
     {
-        public ZipItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
+        public ZipItem(string folderRelativeId) : base(folderRelativeId)
         {
         }
 
@@ -557,7 +561,7 @@ namespace Files.Uwp.Filesystem
 
     public class LibraryItem : ListedItem
     {
-        public LibraryItem(LibraryLocationItem lib, string returnFormat = null) : base(null, returnFormat)
+        public LibraryItem(LibraryLocationItem lib) : base(null)
         {
             ItemPath = lib.Path;
             ItemNameRaw = lib.Text;

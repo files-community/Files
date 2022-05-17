@@ -196,10 +196,10 @@
     <value>Untuk memulai, Anda harus memberi kami izin untuk menampilkan file Anda. Ini akan membuka halaman Pengaturan di mana Anda dapat memberi kami izin ini. Anda harus membuka kembali aplikasi setelah menyelesaikan langkah ini. </value>
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
-    <value>Folder file</value>
+    <value>Folder berkas</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
-    <value>File</value>
+    <value>Berkas</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>Masukkan nama benda</value>
@@ -218,9 +218,6 @@
   </data>
   <data name="Application" xml:space="preserve">
     <value>Aplikasi</value>
-  </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>Sistem</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Folder Baru</value>
@@ -253,7 +250,7 @@
     <value>Properti</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
-    <value>Item dengan nama ini sudah ada di direktori ini.</value>
+    <value>Item dengan nama ini sudah ada di katalog ini.</value>
   </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>Ganti item yang sudah ada</value>
@@ -274,7 +271,7 @@
     <value>Ikon Kecil</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
-    <value>Oke</value>
+    <value>Iya</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Kami tidak dapat menghapus item ini</value>
@@ -299,18 +296,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Apakah Anda menghapus folder ini?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>Berkas yang Anda coba hapus sedang digunakan oleh aplikasi lain.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>Berkas sedang digunakan</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Coba lagi</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Oke</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Tata letak</value>
@@ -367,7 +352,7 @@
     <value>Nama item tidak boleh mengandung karakter berikut: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
-    <value>Oke</value>
+    <value>Iya</value>
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Nama item tidak boleh mengandung karakter berikut: \ / : * ? " &lt; &gt; |</value>
@@ -511,7 +496,7 @@
     <value>Jenis pintasan:</value>
   </data>
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
-    <value>Direktori kerja:</value>
+    <value>Katalog kerja:</value>
   </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>Berkas</value>
@@ -658,19 +643,16 @@
     <value>Target maju</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Segarkan direktori</value>
+    <value>Segarkan katalog</value>
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Naik satu tingkat direktori</value>
+    <value>Naik satu tingkat dari katalog</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Terjadi masalah saat menyimpan beberapa properti.</value>
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Kesalahan</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Coba lagi</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Tetap tutup</value>
@@ -946,7 +928,7 @@
     <value>Audio</value>
   </data>
   <data name="PropertySectionMusic" xml:space="preserve">
-    <value>Musik</value>
+    <value>Lagu</value>
   </data>
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Tontonan</value>
@@ -1276,7 +1258,7 @@
     <value>Tidak diketahui</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
-    <value>Penyimpanan Maya (Virtual)</value>
+    <value>Penyimpanan Maya</value>
   </data>
   <data name="DateCreated" xml:space="preserve">
     <value>Tanggal dibuat</value>
@@ -1756,7 +1738,7 @@
     <value>Kontrol penuh</value>
   </data>
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
-    <value>Daftar konten direktori</value>
+    <value>Daftar konten katalog</value>
   </data>
   <data name="SecurityModifyLabel.Text" xml:space="preserve">
     <value>Ubah</value>
@@ -1915,7 +1897,7 @@
     <value>Hapus</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
-    <value>Hapus subdirektori dan berkas</value>
+    <value>Hapus subkatalog dan berkas</value>
   </data>
   <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
     <value>Eksekusi berkas</value>
@@ -2059,7 +2041,7 @@
     <value>Bahasa</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value>Tampilkan ekstensi file pada file yang sudah diketahui</value>
+    <value>Tampilkan ekstensi pada berkas yang sudah diketahui</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Tampilkan berkas dan folder tersembunyi</value>
@@ -2071,13 +2053,13 @@
     <value>Buka menu dengan sekali klik</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Daftar dan urutkan direktori berdampingan dengan berkas</value>
+    <value>Daftar dan urutkan katalog berdampingan dengan berkas</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Tampilkan item yang tidak terindeks ketika mencari berkas dan direktori (pencarian mungkin lebih lama)</value>
+    <value>Tampilkan item yang tidak terindeks ketika mencari berkas dan katalog (pencarian mungkin lebih lama)</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
-    <value>Aktifkan preferensi individu untuk setiap direktori individu</value>
+    <value>Aktifkan preferensi individu untuk setiap katalog individu</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>Tautan yang berguna</value>
@@ -2261,7 +2243,7 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
     <value>Bagian dari set</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Oke</value>
+    <value>Iya</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Kredensial Diperlukan</value>
@@ -2477,7 +2459,7 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
     <value>Gunakan pengaturan DPI monitor utama</value>
   </data>
   <data name="SettingsDefaultFilesManager" xml:space="preserve">
-    <value>Pengelola file bawaan</value>
+    <value>Pengelola berkas bawaan</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
     <value>Setel Files sebagai pengelola berkas bawaan</value>
@@ -2492,7 +2474,7 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
     <value>Berkas dan folder</value>
   </data>
   <data name="OpenNewInstance" xml:space="preserve">
-    <value>Buka instance baru saat membuka direktori dari jumplist taskbar</value>
+    <value>Buka instance baru saat membuka katalog dari jumplist taskbar</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Pengaturan startup</value>
@@ -2612,7 +2594,7 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
     <value>Tutup halaman lainnya</value>
   </data>
   <data name="Music" xml:space="preserve">
-    <value>Musik</value>
+    <value>Lagu</value>
   </data>
   <data name="Pictures" xml:space="preserve">
     <value>Gambar</value>
@@ -2649,5 +2631,35 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Tampilkan bagian penanda</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Sistem</value>
+  </data>
+  <data name="FileInUseByDialog.Text" xml:space="preserve">
+    <value>Berkas yang Anda coba akses sedang digunakan oleh {0}</value>
+  </data>
+  <data name="FileInUseDialog.Text" xml:space="preserve">
+    <value>Berkas yang Anda coba buka sedang digunakan oleh aplikasi lain</value>
+  </data>
+  <data name="FileInUseDialog.Title" xml:space="preserve">
+    <value>Berkas sedang di gunakan</value>
+  </data>
+  <data name="UseCompactStyles" xml:space="preserve">
+    <value>Gunakan gaya fleksibel di dalam penataan detail</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Universal</value>
+  </data>
+  <data name="DateFormatSample" xml:space="preserve">
+    <value>mis: {0}, {1}</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Tampilkan Gambar kecil</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Coba Lagi</value>
+  </data>
+  <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
+    <value>Operasi pemindahan tidak didukung dalam konteks ini. Apakah Anda ingin menyalin item ini?</value>
   </data>
 </root>

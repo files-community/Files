@@ -174,9 +174,6 @@
   <data name="Application" xml:space="preserve">
     <value>Toepassing</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>Systeem</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Nieuwe map</value>
   </data>
@@ -284,18 +281,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Is deze map verwijderd?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>Het bestand dat u probeert te verwijderen, wordt momenteel gebruikt door een andere toepassing.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>Bestand in gebruik</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Opnieuw proberen</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Prullenbak leegmaken</value>
@@ -953,9 +938,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Foutmelding</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Opnieuw</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Toch sluiten</value>
@@ -2559,5 +2541,68 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Uitpakken</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Script uitvoeren</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Als bureaubladachtergrond gebruiken</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Openen in %@</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Linksom draaien</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Rechtsom draaien</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Installeren</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Tabbladen rechts sluiten</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Andere tabbladen sluiten</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Muziek</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Afbeeldingen</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Video's</value>
+  </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Updatebestanden</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Kan niet kopiëren</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Verplaatsen is mislukt.</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Labels</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Systeem</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Universeel</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Miniaturen weergeven</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Opnieuw</value>
   </data>
 </root>

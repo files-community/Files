@@ -231,9 +231,6 @@
   <data name="Application" xml:space="preserve">
     <value>Aplicación</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>Sistema</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Nueva Carpeta</value>
   </data>
@@ -311,18 +308,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>¿Ha eliminado esta carpeta?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>La acción no se puede completar porque otro programa tiene abierto el archivo.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>Archivo en uso</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Reintentar</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Aceptar</value>
   </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opciones de selección</value>
@@ -677,9 +662,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Error</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Reintentar</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Cerrar de todos modos</value>
@@ -2546,5 +2528,11 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Sistema</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Reintentar</value>
   </data>
 </root>

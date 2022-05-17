@@ -1238,10 +1238,6 @@
           <source>Error</source>
           <target state="translated">Erreur</target>
         </trans-unit>
-        <trans-unit id="PropertySaveErrorDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Retry</source>
-          <target state="translated">Réessayer</target>
-        </trans-unit>
         <trans-unit id="PropertySaveErrorDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Close anyway</source>
           <target state="translated" state-qualifier="tm-suggestion">Fermer quand même</target>
@@ -3527,6 +3523,26 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         <trans-unit id="SettingsFilesAndFoldersShowThumbnails" translate="yes" xml:space="preserve">
           <source>Show thumbnails</source>
           <target state="translated">Afficher les vignettes</target>
+        </trans-unit>
+        <trans-unit id="Retry" translate="yes" xml:space="preserve">
+          <source>Retry</source>
+          <target state="translated">Réessayer</target>
+        </trans-unit>
+        <trans-unit id="ErrorDialogUnsupportedMoveOperation" translate="yes" xml:space="preserve">
+          <source>Move operation is not supported in this context. Do you want to copy the items instead?</source>
+          <target state="translated">L'opération de déplacement n'est pas prise en charge dans ce contexte. Voulez-vous copier les éléments ?</target>
+        </trans-unit>
+        <trans-unit id="HiddenFilesAndFolders" translate="yes" xml:space="preserve">
+          <source>Hidden files and folders</source>
+          <target state="translated">Fichiers et dossiers cachés</target>
+        </trans-unit>
+        <trans-unit id="Custom" translate="yes" xml:space="preserve">
+          <source>Custom</source>
+          <target state="translated">Personnalisé</target>
+        </trans-unit>
+        <trans-unit id="SizeAllColumnsToFit" translate="yes" xml:space="preserve">
+          <source>Size All Columns to Fit</source>
+          <target state="new">Size All Columns to Fit</target>
         </trans-unit>
       </group>
     </body>
