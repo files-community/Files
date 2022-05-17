@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
-using Files.Shared.Extensions;
 using Files.Uwp.Controllers;
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Filesystem;
@@ -95,57 +94,16 @@ namespace Files.Uwp.DataModels
                     FavoriteItems.Add(item);
                     await AddItemToSidebarAsync(item);
                     Save();
+
+                    if (item == CommonPaths.RecycleBinPath)
+                    {
+                        UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = true;
+                    }
                 }
             }
             finally
             {
                 addSyncSemaphore.Release();
-            }
-        }
-
-        public async Task ShowHideRecycleBinItemAsync(bool show)
-        {
-            if (show)
-            {
-                var recycleBinItem = new LocationItem
-                {
-                    Text = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
-                    IsDefaultLocation = true,
-                    MenuOptions = new ContextMenuOptions
-                    {
-                        IsLocationItem = true,
-                        ShowUnpinItem = true,
-                        ShowShellItems = true,
-                        ShowEmptyRecycleBin = true
-                    },
-                    Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.RecycleBin)),
-                    Path = CommonPaths.RecycleBinPath
-                };
-                // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
-                // TODO: the very first time the app is launched localized name not available
-                lock (favoriteList)
-                {
-                    if (favoriteList.Any(x => x.Path == CommonPaths.RecycleBinPath))
-                    {
-                        return;
-                    }
-                    favoriteList.Add(recycleBinItem);
-                }
-                controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, recycleBinItem));
-            }
-            else
-            {
-                foreach (INavigationControlItem item in Favorites)
-                {
-                    if (item is LocationItem && item.Path == CommonPaths.RecycleBinPath)
-                    {
-                        lock (favoriteList)
-                        {
-                            favoriteList.Remove(item);
-                        }
-                        controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
-                    }
-                }
             }
         }
 
@@ -160,6 +118,11 @@ namespace Files.Uwp.DataModels
                 FavoriteItems.Remove(item);
                 RemoveStaleSidebarItems();
                 Save();
+
+                if (item == CommonPaths.RecycleBinPath)
+                {
+                    UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = false;
+                }
             }
         }
 
@@ -245,6 +208,30 @@ namespace Files.Uwp.DataModels
             return collection.IndexOf(locationItem);
         }
 
+        public void ShowHideRecycleBinItem(bool show)
+        {
+            bool isPinned = favoriteList.Any(x => x.Path == CommonPaths.RecycleBinPath);
+
+            if (show && !isPinned)
+            {
+                AddItem(CommonPaths.RecycleBinPath);
+            }
+            else if (!show && isPinned)
+            {
+                RemoveItem(CommonPaths.RecycleBinPath);
+            }
+
+            if (show)
+            {
+                var item = favoriteList.FirstOrDefault(x => x.Path == CommonPaths.RecycleBinPath);
+                if (item is not null)
+                {
+                    item.MenuOptions.ShowShellItems = true;
+                    item.MenuOptions.ShowEmptyRecycleBin = true;
+                }
+            }
+        }
+
         /// <summary>
         /// Saves the model
         /// </summary>
@@ -270,7 +257,7 @@ namespace Files.Uwp.DataModels
                     ShowProperties = true,
                     ShowUnpinItem = true,
                     ShowShellItems = true,
-                    IsItemMovable = true
+                    ShowEmptyRecycleBin = path == CommonPaths.RecycleBinPath,
                 },
                 IsDefaultLocation = false,
                 Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
@@ -344,7 +331,7 @@ namespace Files.Uwp.DataModels
                 await AddItemToSidebarAsync(path);
             }
 
-            await ShowHideRecycleBinItemAsync(UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar);
+            ShowHideRecycleBinItem(UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar);
         }
 
         /// <summary>
