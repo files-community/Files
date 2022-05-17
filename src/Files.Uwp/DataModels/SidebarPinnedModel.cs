@@ -298,8 +298,8 @@ namespace Files.Uwp.DataModels
                 {
                     return;
                 }
-                var lastItem = favoriteList.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(CommonPaths.RecycleBinPath));
-                insertIndex = lastItem != null ? favoriteList.IndexOf(lastItem) + 1 : 0;
+                var lastItem = favoriteList.LastOrDefault(x => x.ItemType is NavigationControlItemType.Location);
+                insertIndex = lastItem is not null ? favoriteList.IndexOf(lastItem) + 1 : 0;
                 favoriteList.Insert(insertIndex, locationItem);
             }
             controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
@@ -310,18 +310,14 @@ namespace Files.Uwp.DataModels
         /// </summary>
         public async Task AddAllItemsToSidebar()
         {
-            if (!UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
+            if (UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
             {
-                return;
+                foreach (string path in FavoriteItems)
+                {
+                    await AddItemToSidebarAsync(path);
+                }
+                ShowHideRecycleBinItem(UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar);
             }
-
-            for (int i = 0; i < FavoriteItems.Count; i++)
-            {
-                string path = FavoriteItems[i];
-                await AddItemToSidebarAsync(path);
-            }
-
-            ShowHideRecycleBinItem(UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar);
         }
 
         /// <summary>
