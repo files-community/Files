@@ -1162,10 +1162,23 @@ namespace Files.Uwp.ViewModels
                     OnPropertyChanged(nameof(IsImage));
                     OnPropertyChanged(nameof(IsFont));
                     OnPropertyChanged(nameof(HasAdditionalAction));
+                    OnPropertyChanged(nameof(SetAsText));
                 }
             }
         }
 
+        public string SetAsText
+        {
+            get
+            {
+                if (SelectedItems is not null && SelectedItems.Count > 1 && IsImage)
+                {
+                    return "SetAsSlideshow".GetLocalized();
+                }
+
+                return "SetAsBackground".GetLocalized();
+            }
+        }
         public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
 
         public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
