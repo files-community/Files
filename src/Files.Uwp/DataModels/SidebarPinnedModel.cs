@@ -1,11 +1,11 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services.Settings;
-using Files.Shared.Extensions;
+﻿using Files.Shared.Extensions;
 using Files.Uwp.Controllers;
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
+using Files.Backend.Services.Settings;
 using Files.Uwp.ViewModels;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -18,6 +18,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Uwp.DataModels
 {
@@ -172,34 +173,41 @@ namespace Files.Uwp.DataModels
         /// <returns>True if the move was successful</returns>
         public bool MoveItem(INavigationControlItem locationItem, int oldIndex, int newIndex)
         {
-            if (locationItem is null || newIndex > FavoriteItems.Count)
+            if (locationItem == null)
             {
                 return false;
             }
 
-            // A backup of the items, because the swapping of items requires removing and inserting them in the correct position
-            var sidebarItemsBackup = new List<string>(FavoriteItems);
-
-            try
+            if (oldIndex >= 1 && newIndex >= 1 && newIndex <= FavoriteItems.Count)
             {
-                (FavoriteItems[oldIndex], FavoriteItems[newIndex]) = (FavoriteItems[newIndex], FavoriteItems[oldIndex]);
-                lock (favoriteList)
+                // A backup of the items, because the swapping of items requires removing and inserting them in the correct position
+                var sidebarItemsBackup = new List<string>(FavoriteItems);
+
+                try
                 {
-                    (favoriteList[oldIndex], favoriteList[newIndex]) = (favoriteList[newIndex], favoriteList[oldIndex]);
+                    FavoriteItems.RemoveAt(oldIndex - 1);
+                    FavoriteItems.Insert(newIndex - 1, locationItem.Path);
+                    lock (favoriteList)
+                    {
+                        favoriteList.RemoveAt(oldIndex);
+                        favoriteList.Insert(newIndex, locationItem);
+                    }
+                    controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, locationItem, newIndex, oldIndex));
+                    Save();
                 }
-                var e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, locationItem, newIndex, oldIndex);
-                controller.DataChanged?.Invoke(SectionType.Favorites, e);
-                Save();
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"An error occurred while moving pinned items in the Favorites sidebar section. {ex.Message}");
+                    FavoriteItems = sidebarItemsBackup;
+                    RemoveStaleSidebarItems();
+                    _ = AddAllItemsToSidebar();
+                    return false;
+                }
+
                 return true;
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"An error occurred while moving pinned items in the Favorites sidebar section. {ex.Message}");
-                FavoriteItems = sidebarItemsBackup;
-                RemoveStaleSidebarItems();
-                _ = AddAllItemsToSidebar();
-                return false;
-            }
+
+            return false;
         }
 
         /// <summary>
@@ -337,6 +345,21 @@ namespace Files.Uwp.DataModels
             {
                 return;
             }
+
+            var homeSection = new LocationItem()
+            {
+                Text = "Home".GetLocalized(),
+                Section = SectionType.Home,
+                MenuOptions = new ContextMenuOptions
+                {
+                    IsLocationItem = true
+                },
+                Font = MainViewModel.FontName,
+                IsDefaultLocation = true,
+                Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"))),
+                Path = "Home".GetLocalized()
+            };
+            AddLocationItemToSidebar(homeSection);
 
             for (int i = 0; i < FavoriteItems.Count; i++)
             {

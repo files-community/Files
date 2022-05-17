@@ -17,10 +17,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.ApplicationModel.Core;
 using Windows.System;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Uwp.ViewModels
 {
@@ -229,7 +227,6 @@ namespace Files.Uwp.ViewModels
             SideBarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
             EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(EmptyRecycleBin);
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-            CreateItemHome();
 
             Manager_DataChanged(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             Manager_DataChanged(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -246,12 +243,6 @@ namespace Files.Uwp.ViewModels
             App.NetworkDrivesManager.DataChanged += Manager_DataChanged;
             App.WSLDistroManager.DataChanged += Manager_DataChanged;
             App.FileTagsManager.DataChanged += Manager_DataChanged;
-        }
-
-        private async void CreateItemHome()
-        {
-            var home = await GetOrCreateSection(SectionType.Home);
-            SideBarItems.Add(home);
         }
 
         private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -366,24 +357,9 @@ namespace Files.Uwp.ViewModels
 
         private async Task<LocationItem> GetOrCreateSection(SectionType sectionType)
         {
-            var sectionOrder = new[] { SectionType.Home, SectionType.Favorites, SectionType.Library,
-                SectionType.Drives, SectionType.CloudDrives, SectionType.Network, SectionType.WSL, SectionType.FileTag };
+            var sectionOrder = new[] { SectionType.Favorites, SectionType.Library, SectionType.Drives, SectionType.CloudDrives, SectionType.Network, SectionType.WSL, SectionType.FileTag };
             switch (sectionType)
             {
-                case SectionType.Home:
-                    return new LocationItem()
-                    {
-                        Text = "Home".GetLocalized(),
-                        Section = SectionType.Home,
-                        MenuOptions = new ContextMenuOptions
-                        {
-                            IsLocationItem = true
-                        },
-                        Font = App.MainViewModel.FontName,
-                        IsDefaultLocation = true,
-                        Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"))),
-                        Path = "Home".GetLocalized()
-                    };
                 case SectionType.Favorites:
                     {
                         var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarFavorites".GetLocalized()) as LocationItem;
