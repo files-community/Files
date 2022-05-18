@@ -174,18 +174,6 @@ jobs:
         }
       failOnStderr: true
 
- # The packageManagement rescap is used for auto updating the sideload package. 
- # We remove it from the store build to prevent certification issues.
-  - task: PowerShell@2
-    displayName: 'Remove packageManagement rescap'
-    inputs:
-      targetType: 'inline'
-      script: |
-        gci $(Build.SourcesDirectory)\src -Include *.appxmanifest -recurse | ForEach -Process {
-        (Get-Content $_ -Raw | ForEach -Process {$_ -replace '<rescap:Capability Name="packageManagement"/>', ""}) | Set-Content $_ -NoNewline
-        }
-      failOnStderr: true
-
 # Adds the Bing maps token to the project
   - task: DownloadSecureFile@1
     name: mapsDevKey
