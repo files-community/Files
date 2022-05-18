@@ -182,7 +182,7 @@ jobs:
       targetType: 'inline'
       script: |
         gci $(Build.SourcesDirectory)\src -Include *.appxmanifest -recurse | ForEach -Process {
-        (Get-Content $_ -Raw | ForEach -Process {$_ -replace ""<rescap:Capability Name="packageManagement"/>"", ""}) | Set-Content $_ -NoNewline
+        (Get-Content $_ -Raw | ForEach -Process {$_ -replace '<rescap:Capability Name="packageManagement"/>', ""}) | Set-Content $_ -NoNewline
         }
       failOnStderr: true
 
