@@ -57,6 +57,7 @@ jobs:
         $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest')
       failOnStderr: true
 
+ # This replaces references to the dev icon with the regular release icon 
   - task: PowerShell@2
     displayName: 'Use Correct Logo'
     inputs:
@@ -73,6 +74,7 @@ jobs:
     inputs:
       secureFile: 'BingMapsKey.txt'
 
+# Adds the Bing maps token to the project
   - task: CopyFiles@2
     inputs:
       SourceFolder: '$(Agent.TempDirectory)'
@@ -86,6 +88,7 @@ jobs:
     inputs:
       secureFile: 'AppCenterKey.txt'
 
+# Adds the AppCenter token to the project
   - task: CopyFiles@2
     inputs:
       SourceFolder: '$(Agent.TempDirectory)'
@@ -160,6 +163,7 @@ jobs:
         $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest')
       failOnStderr: true
 
+ # This replaces references to the dev icon with the regular release icon 
   - task: PowerShell@2
     displayName: 'Use Release Logo'
     inputs:
@@ -170,6 +174,19 @@ jobs:
         }
       failOnStderr: true
 
+ # The packageManagement rescap is used for auto updating the sideload package. 
+ # We remove it from the store build to prevent certification issues.
+  - task: PowerShell@2
+    displayName: 'Remove packageManagement rescap'
+    inputs:
+      targetType: 'inline'
+      script: |
+        gci $(Build.SourcesDirectory)\src -Include *.appxmanifest -recurse | ForEach -Process {
+        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "<rescap:Capability Name="packageManagement"/>", ""}) | Set-Content $_ -NoNewline
+        }
+      failOnStderr: true
+
+# Adds the Bing maps token to the project
   - task: DownloadSecureFile@1
     name: mapsDevKey
     displayName: 'Download Bing Maps Dev Key'
@@ -183,6 +200,7 @@ jobs:
       TargetFolder: '$(Build.SourcesDirectory)\src\Files.Uwp\Resources'
       overWrite: true
 
+# Adds the AppCenter token to the project
   - task: DownloadSecureFile@1
     name: appCenterDevKey
     displayName: 'Download AppCenter Dev Key'
