@@ -3532,6 +3532,18 @@ We use App Center to track which settings are being used, find bugs, and fix cra
           <source>Move operation is not supported in this context. Do you want to copy the items instead?</source>
           <target state="translated">当前无法执行移动操作。要复制此项目吗？</target>
         </trans-unit>
+        <trans-unit id="HiddenFilesAndFolders" translate="yes" xml:space="preserve">
+          <source>Hidden files and folders</source>
+          <target state="new">Hidden files and folders</target>
+        </trans-unit>
+        <trans-unit id="Custom" translate="yes" xml:space="preserve">
+          <source>Custom</source>
+          <target state="new">Custom</target>
+        </trans-unit>
+        <trans-unit id="SizeAllColumnsToFit" translate="yes" xml:space="preserve">
+          <source>Size All Columns to Fit</source>
+          <target state="new">Size All Columns to Fit</target>
+        </trans-unit>
       </group>
     </body>
   </file>

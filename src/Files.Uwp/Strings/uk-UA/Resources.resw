@@ -1668,7 +1668,223 @@
   <data name="FileTagUnknown" xml:space="preserve">
     <value>Невідомо</value>
   </data>
+  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
+    <value>Тег</value>
+  </data>
+  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+    <value>Редагувати позначки</value>
+  </data>
+  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
+    <value>Увімкніть мітки</value>
+  </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Вставте диск</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>Застосувати до всіх</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>Фрагмент</value>
+  </data>
+  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="AskCredentialDialog.Title" xml:space="preserve">
+    <value>Необхідні облікові дані</value>
+  </data>
+  <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
+    <value>Анонімний</value>
+  </data>
+  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
+    <value>Пароль:</value>
+  </data>
+  <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
+    <value>Ім’я користувача</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>Немає елементів</value>
+  </data>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>Відображати розширення файлів</value>
+  </data>
+  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
+    <value>Відображати розширення файлів</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Мови</value>
+  </data>
+  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
+    <value>До кінця</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
+    <value>До початку</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Тег</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>Шлях до папки:</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>Настройки експорту</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>Настройки імпорту</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>Керування параметрами</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Настроювання</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>Відновити значення за замовчуванням</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>Сумісність</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Немає</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>Система</value>
+  </data>
+  <data name="Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Режим сумісності</value>
+  </data>
+  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+    <value>Вимкнути оптимізацію повноекранного режиму</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Параметри</value>
+  </data>
+  <data name="ReducedColorMode" xml:space="preserve">
+    <value>Режим обмеження кольорів</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>У режимі адміністратора</value>
+  </data>
+  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+    <value>Запустити засіб усунення неполадок, пов'язаних із сумісністю</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Очистити кошик</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Бічна панель</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Файли та папки</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Очистити все</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Стовпці</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Великі піктограми</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Середні піктограми</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Дрібні піктограми</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Плитки</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Створити бібліотеку</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Пропустити</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Атрибути:</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Прихований</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>Докладно</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Лише читання</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>байт</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Вилучити</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Виконати сценарій</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Установити як тло робочого стола</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Відкрити в</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Повернути ліворуч</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Повернути праворуч</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Інсталювати</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Закрити вкладки праворуч</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Закрити інші вкладки</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Музика</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Зображення</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Відео</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Не вдалося скопіювати</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Не вдалося перемістити.</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>теги</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Система</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Універсальний</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Відображати ескізи</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Повторити</value>
   </data>
 </root>

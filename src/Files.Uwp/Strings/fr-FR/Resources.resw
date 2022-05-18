@@ -2649,4 +2649,16 @@
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
     <value>Afficher les vignettes</value>
   </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Réessayer</value>
+  </data>
+  <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
+    <value>L'opération de déplacement n'est pas prise en charge dans ce contexte. Voulez-vous copier les éléments ?</value>
+  </data>
+  <data name="HiddenFilesAndFolders" xml:space="preserve">
+    <value>Fichiers et dossiers cachés</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Personnalisé</value>
+  </data>
 </root>

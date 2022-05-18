@@ -340,7 +340,7 @@
     <value>目標資料夾可能已被移動或刪除。</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>您把資料夾刪除了嗎?</value>
+    <value>您把資料夾刪除了嗎？</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>檢視</value>
@@ -421,13 +421,13 @@
     <value>正在貼上檔案</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>正在將檔案丟進資源回收桶</value>
+    <value>正在將檔案丟進資源回收筒</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>確定</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>您確定要永久刪除這些檔案?</value>
+    <value>您確定要永久刪除這些檔案？</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>清理資源回收筒</value>
@@ -712,7 +712,7 @@
     <value>將溢出的選項移至子選單中</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>將資源回收桶釘選至快速存取選項中</value>
+    <value>將資源回收筒釘選至快速存取選項中</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
     <value>刪除檔案或資料夾時顯示確認畫面</value>
@@ -1021,7 +1021,7 @@
     <value>檔案</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
-    <value>資源回收桶項目</value>
+    <value>資源回收筒項目</value>
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>捷徑項目</value>
@@ -1048,22 +1048,22 @@
     <value>退出</value>
   </data>
   <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
-    <value>複製分頁</value>
+    <value>複製索引標籤</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
-    <value>將分頁移到新視窗</value>
+    <value>將索引標籤移到新視窗</value>
   </data>
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
-    <value>新分頁</value>
+    <value>新索引標籤</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>新分頁（Ctrl + T）</value>
+    <value>新索引標籤（Ctrl + T）</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
-    <value>新分頁（Ctrl + T）</value>
+    <value>新索引標籤（Ctrl + T）</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>關閉分頁（Ctrl + W）</value>
+    <value>關閉索引標籤（Ctrl + W）</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>部分屬性可能會包含個資。</value>
@@ -1228,7 +1228,7 @@
     <value>此欄位不可留白！</value>
   </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
-    <value>在新分頁中開啟</value>
+    <value>在新索引標籤中開啟</value>
   </data>
   <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
     <value>開啟項目位置</value>
@@ -1429,7 +1429,7 @@
     <value>此次操作已完成。</value>
   </data>
   <data name="StatusRecycleComplete" xml:space="preserve">
-    <value>成功丟入資源回收桶</value>
+    <value>成功丟入資源回收筒</value>
   </data>
   <data name="StatusMoveComplete" xml:space="preserve">
     <value>移動成功</value>
@@ -1726,7 +1726,7 @@
     <value>{0} 個項目</value>
   </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
-    <value>重新開啟已關閉的分頁</value>
+    <value>重新開啟已關閉的索引標籤</value>
   </data>
   <data name="SettingsAboutPrivacyPolicy.Text" xml:space="preserve">
     <value>隱私權政策</value>
@@ -1819,7 +1819,7 @@
     <value>無法從 {1} 刪除 {0} 個項目</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
-    <value>資源回收桶</value>
+    <value>資源回收筒</value>
   </data>
   <data name="MoveInProgress" xml:space="preserve">
     <value>正在移動檔案</value>
@@ -1828,10 +1828,10 @@
     <value>正在複製項目</value>
   </data>
   <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>無法將項目丟入資源回收桶</value>
+    <value>無法將項目丟入資源回收筒</value>
   </data>
   <data name="StatusRecycleCancelled" xml:space="preserve">
-    <value>已取消丟入資源回收桶</value>
+    <value>已取消丟入資源回收筒</value>
   </data>
   <data name="canceling" xml:space="preserve">
     <value>取消中</value>
@@ -2071,7 +2071,7 @@
     <value>關閉畫面</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
-    <value>保持在最上層</value>
+    <value></value>
   </data>
   <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
     <value>返回完整檢視</value>
@@ -2110,7 +2110,7 @@
     <value>本機硬碟專區</value>
   </data>
   <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>WSL專區</value>
+    <value>WSL 專區</value>
   </data>
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
     <value>網路探索專區</value>
@@ -2149,7 +2149,7 @@
     <value>首頁</value>
   </data>
   <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
-    <value>新分頁</value>
+    <value>新索引標籤</value>
   </data>
   <data name="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl + A</value>
@@ -2247,7 +2247,7 @@
     <value>開啟該磁碟機</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
-    <value>請將光碟放入 磁碟機 {0} 中</value>
+    <value>請將光碟放入磁碟機 {0} 中</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>插入光碟</value>
@@ -2322,7 +2322,7 @@
     <value>在新索引標籤開啟資料夾</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>將資源回收桶釘選至快速存取選項中</value>
+    <value>將資源回收筒釘選至快速存取選項中</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>語言</value>
@@ -2343,7 +2343,7 @@
     <value>網路探索專區</value>
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>WSL專區</value>
+    <value>WSL 專區</value>
   </data>
   <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>終端機應用程式</value>
@@ -2373,7 +2373,7 @@
     <value>預設的檔案總管</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>將Files設為預設的檔案總管</value>
+    <value>將 Files 設為預設的檔案總管</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>將 Files 設定為檔案開啟之預設應用程式</value>
@@ -2403,7 +2403,7 @@
     <value>發生錯誤，無法匯出設定</value>
   </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>清空資源回收桶</value>
+    <value>清空資源回收筒</value>
   </data>
   <data name="Sidebar" xml:space="preserve">
     <value>側邊欄</value>
@@ -2508,7 +2508,7 @@
     <value>建立媒體庫</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>鍵入媒體庫名稱</value>
+    <value>輸入媒體庫名稱</value>
   </data>
   <data name="ShowFolderSize" xml:space="preserve">
     <value>顯示資料夾大小</value>
@@ -2517,7 +2517,7 @@
     <value>最近使用過的檔案</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Windows啟動時開啟Files</value>
+    <value>Windows 啟動時開啟 Files</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>屬性</value>
@@ -2562,13 +2562,13 @@
     <value>執行腳本</value>
   </data>
   <data name="RunWithPowerShell" xml:space="preserve">
-    <value>以PowerShell執行</value>
+    <value>以 PowerShell 執行</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>設定為桌面背景</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>計算資料夾大小消耗較多資源，可能會導致CPU使用率上升。</value>
+    <value>計算資料夾大小會消耗較多資源，可能會導致 CPU 使用率上升。</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>向左旋轉</value>
@@ -2598,12 +2598,60 @@
     <value>影片</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
-    <value>更新Files</value>
+    <value>更新 Files</value>
   </data>
   <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
     <value>正在準備 {0} 個項目</value>
   </data>
   <data name="PrepareInProgress" xml:space="preserve">
     <value>正在準備項目</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>複製失敗</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
+    <value>無法從 {1} 複製 {0} 個項目到 {2}</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
+    <value>無法從 {1} 複製 {0} 個項目到 {2}</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>移動失敗</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>標籤</value>
+  </data>
+  <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
+    <value>顯示標籤區塊</value>
+  </data>
+  <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>顯示標籤區塊</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>系統</value>
+  </data>
+  <data name="FileInUseByDialog.Text" xml:space="preserve">
+    <value>您試圖存取的檔案正在被 {0} 使用</value>
+  </data>
+  <data name="FileInUseDialog.Text" xml:space="preserve">
+    <value>您試圖存取的檔案正在被其他應用程式使用</value>
+  </data>
+  <data name="FileInUseDialog.Title" xml:space="preserve">
+    <value>檔案正在被使用</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>通用</value>
+  </data>
+  <data name="DateFormatSample" xml:space="preserve">
+    <value>例如：{0}、{1}</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>顯示縮圖</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>重試</value>
+  </data>
+  <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
+    <value>此情境不支援移動。要改為複製此項目嗎？</value>
   </data>
 </root>

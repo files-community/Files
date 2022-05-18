@@ -90,6 +90,12 @@ namespace Files.Uwp.ViewModels
             get => InstanceViewModel?.FolderSettings.DirectorySortDirection == SortDirection.Descending;
             set { if (value) InstanceViewModel.FolderSettings.DirectorySortDirection = SortDirection.Descending; }
         }
+        
+        public bool AreDirectoriesSortedAlongsideFiles
+        {
+            get => InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFiles;
+            set { InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFiles = value; }
+        }
 
         // Sort by
 
@@ -312,6 +318,7 @@ namespace Files.Uwp.ViewModels
                     {
                         InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
                         InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
+                        InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated -= FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
                         InstanceViewModel.FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
                     }
 
@@ -321,6 +328,7 @@ namespace Files.Uwp.ViewModels
                     {
                         InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
                         InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
+                        InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated += FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
                         InstanceViewModel.FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
                     }
                 }
@@ -379,6 +387,7 @@ namespace Files.Uwp.ViewModels
         {
             FolderSettings_SortDirectionPreferenceUpdated(null, 0);
             FolderSettings_SortOptionPreferenceUpdated(null, 0);
+            FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(null, true);
             FolderSettings_GroupOptionPreferenceUpdated(null, 0);
         }
 
@@ -399,6 +408,11 @@ namespace Files.Uwp.ViewModels
             OnPropertyChanged(nameof(IsSortedByOriginalFolder));
             OnPropertyChanged(nameof(IsSortedByDateDeleted));
             OnPropertyChanged(nameof(IsSortedByFileTag));
+        }
+        
+        private void FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(object sender, bool e)
+        {
+            OnPropertyChanged(nameof(AreDirectoriesSortedAlongsideFiles));
         }
 
         private void FolderSettings_GroupOptionPreferenceUpdated(object sender, GroupOption e)
@@ -1208,6 +1222,7 @@ namespace Files.Uwp.ViewModels
 
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
+            InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated -= FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
             InstanceViewModel.FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
         }
     }

@@ -276,6 +276,8 @@ namespace Files.Uwp.ViewModels
         public event EventHandler<GroupOption> GroupOptionPreferenceUpdated;
 
         public event EventHandler<SortDirection> SortDirectionPreferenceUpdated;
+        
+        public event EventHandler<bool> SortDirectoriesAlongsideFilesPreferenceUpdated;
 
         public SortOption DirectorySortOption
         {
@@ -314,6 +316,22 @@ namespace Files.Uwp.ViewModels
                 {
                     LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
                     SortDirectionPreferenceUpdated?.Invoke(this, DirectorySortDirection);
+                }
+            }
+        }
+
+        public bool SortDirectoriesAlongsideFiles
+        {
+            get
+            {
+                return LayoutPreference.SortDirectoriesAlongsideFiles;
+            }
+            set
+            {
+                if (SetProperty(ref LayoutPreference.SortDirectoriesAlongsideFiles, value, nameof(SortDirectoriesAlongsideFiles)))
+                {
+                   LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
+                   SortDirectoriesAlongsideFilesPreferenceUpdated?.Invoke(this, SortDirectoriesAlongsideFiles);
                 }
             }
         }
@@ -371,6 +389,7 @@ namespace Files.Uwp.ViewModels
                     UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption = prefs.DirectoryGroupOption;
                 }
                 UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
+                UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
                 UserSettingsService.LayoutSettingsService.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
                 UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn = !prefs.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
                 UserSettingsService.LayoutSettingsService.ShowTypeColumn = !prefs.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
@@ -426,6 +445,7 @@ namespace Files.Uwp.ViewModels
                     GridViewSize = userSettingsService.LayoutSettingsService.DefaultGridViewSize,
                     DirectorySortOption = userSettingsService.LayoutSettingsService.DefaultDirectorySortOption,
                     DirectorySortDirection = userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection,
+                    SortDirectoriesAlongsideFiles = userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles,
                     ColumnsViewModel = new ColumnsViewModel(),
                     DirectoryGroupOption = GroupOption.DateCreated,
                 };
@@ -439,6 +459,7 @@ namespace Files.Uwp.ViewModels
                     GridViewSize = userSettingsService.LayoutSettingsService.DefaultGridViewSize,
                     DirectorySortOption = userSettingsService.LayoutSettingsService.DefaultDirectorySortOption,
                     DirectorySortDirection = userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection,
+                    SortDirectoriesAlongsideFiles = userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles,
                     ColumnsViewModel = new ColumnsViewModel(),
                     DirectoryGroupOption = GroupOption.FolderPath,
                 };
@@ -479,6 +500,7 @@ namespace Files.Uwp.ViewModels
                     OnPropertyChanged(nameof(DirectoryGroupOption));
                     OnPropertyChanged(nameof(DirectorySortOption));
                     OnPropertyChanged(nameof(DirectorySortDirection));
+                    OnPropertyChanged(nameof(SortDirectoriesAlongsideFiles));
                 }
             }
         }
@@ -489,6 +511,7 @@ namespace Files.Uwp.ViewModels
 
             public SortOption DirectorySortOption;
             public SortDirection DirectorySortDirection;
+            public bool SortDirectoriesAlongsideFiles;
             public GroupOption DirectoryGroupOption;
             public FolderLayoutModes LayoutMode;
             public int GridViewSize;
@@ -506,6 +529,7 @@ namespace Files.Uwp.ViewModels
                 this.DirectorySortOption = UserSettingsService.LayoutSettingsService.DefaultDirectorySortOption;
                 this.DirectoryGroupOption = UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption;
                 this.DirectorySortDirection = UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection;
+                this.SortDirectoriesAlongsideFiles = UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
 
                 this.ColumnsViewModel = new ColumnsViewModel();
                 this.ColumnsViewModel.DateCreatedColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn;
@@ -525,7 +549,8 @@ namespace Files.Uwp.ViewModels
                     GridViewSize = (int)compositeValue[nameof(GridViewSize)],
                     DirectorySortOption = (SortOption)(int)compositeValue[nameof(DirectorySortOption)],
                     DirectorySortDirection = (SortDirection)(int)compositeValue[nameof(DirectorySortDirection)],
-                    IsAdaptiveLayoutOverridden = compositeValue[nameof(IsAdaptiveLayoutOverridden)] is bool val ? val : false,
+                    SortDirectoriesAlongsideFiles = compositeValue[nameof(SortDirectoriesAlongsideFiles)] is bool val ? val : false,
+                    IsAdaptiveLayoutOverridden = compositeValue[nameof(IsAdaptiveLayoutOverridden)] is bool val2 ? val2 : false,
                 };
 
                 if (compositeValue.TryGetValue(nameof(DirectoryGroupOption), out var gpOption))
@@ -556,7 +581,8 @@ namespace Files.Uwp.ViewModels
                     { nameof(DirectorySortOption), (int)this.DirectorySortOption },
                     { nameof(DirectoryGroupOption), (int)this.DirectoryGroupOption },
                     { nameof(DirectorySortDirection), (int)this.DirectorySortDirection },
-                    { nameof(IsAdaptiveLayoutOverridden), (bool)this.IsAdaptiveLayoutOverridden },
+                    { nameof(SortDirectoriesAlongsideFiles), this.SortDirectoriesAlongsideFiles },
+                    { nameof(IsAdaptiveLayoutOverridden), this.IsAdaptiveLayoutOverridden },
                     { nameof(ColumnsViewModel), JsonConvert.SerializeObject(this.ColumnsViewModel) }
                 };
             }
@@ -578,6 +604,7 @@ namespace Files.Uwp.ViewModels
                         prefs.GridViewSize == this.GridViewSize &&
                         prefs.DirectorySortOption == this.DirectorySortOption &&
                         prefs.DirectorySortDirection == this.DirectorySortDirection &&
+                        prefs.SortDirectoriesAlongsideFiles == this.SortDirectoriesAlongsideFiles &&
                         prefs.IsAdaptiveLayoutOverridden == this.IsAdaptiveLayoutOverridden &&
                         prefs.ColumnsViewModel == this.ColumnsViewModel);
                 }
@@ -759,6 +786,20 @@ namespace Files.Uwp.ViewModels
         }
 
         private void ChangeGroupOption(GroupOption option) => DirectoryGroupOption = option;
+
+        public void OnDefaultPreferencesChanged(string folderPath, string settingsName)
+        {
+            var prefs = GetLayoutPreferencesForPath(folderPath);
+            switch (settingsName)
+            {
+                case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
+                    SortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
+                    break;
+                case nameof(UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder):
+                    LayoutPreference = prefs;
+                    break;
+            }
+        }
     }
 
     public class FolderLayoutInformation

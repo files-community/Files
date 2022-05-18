@@ -3,12 +3,14 @@ using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Shared;
 using Files.Shared.Extensions;
+using Files.Shared.Services.DateTimeFormatter;
 using Files.Uwp.CommandLine;
 using Files.Uwp.Controllers;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.FilesystemHistory;
 using Files.Uwp.Helpers;
 using Files.Uwp.ServicesImplementation;
+using Files.Uwp.ServicesImplementation.DateTimeFormatter;
 using Files.Uwp.ServicesImplementation.Settings;
 using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.ViewModels;
@@ -121,6 +123,8 @@ namespace Files.Uwp
                 .AddSingleton<IThreadingService, ThreadingService>()
                 .AddSingleton<ILocalizationService, LocalizationService>()
                 .AddSingleton<IUpdateService, UpdateService>()
+                .AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
+                .AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
 
                 // TODO(i): FileSystem operations:
                 // (IFilesystemHelpersService, IFilesystemOperationsService)
