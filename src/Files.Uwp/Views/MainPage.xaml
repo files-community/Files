@@ -1,0 +1,485 @@
+﻿<Page
+    x:Class="Files.Uwp.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
+    xmlns:controls="using:Files.Uwp.UserControls"
+    xmlns:converters="using:Files.Uwp.Converters"
+    xmlns:helpers="using:Files.Uwp.Helpers"
+    xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:usercontrols="using:Files.Uwp.UserControls.MultitaskingControl"
+    xmlns:viewmodels="using:Files.Uwp.ViewModels"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="False"
+    Background="Transparent"
+    KeyboardAcceleratorPlacementMode="Hidden"
+    Loaded="Page_Loaded"
+    NavigationCacheMode="Required"
+    mc:Ignorable="d">
+    <Page.DataContext>
+        <viewmodels:MainPageViewModel />
+    </Page.DataContext>
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <Thickness x:Key="NavigationViewContentGridBorderThickness">1,0,0,0</Thickness>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <Thickness x:Key="NavigationViewContentGridBorderThickness">1,0,0,0</Thickness>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="HighContrast">
+                    <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <Thickness x:Key="NavigationViewContentGridBorderThickness">1,0,0,0</Thickness>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+
+            <x:Boolean x:Key="True">True</x:Boolean>
+            <x:Boolean x:Key="False">False</x:Boolean>
+
+            <converters:WidthToRightMargin x:Key="WidthToRightMarginConverter" />
+            <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
+        </ResourceDictionary>
+    </Page.Resources>
+    <Page.KeyboardAccelerators>
+        <KeyboardAccelerator Key="Number1" Modifiers="Control">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator Key="Number2" Modifiers="Control">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator Key="Number3" Modifiers="Control">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator Key="Number4" Modifiers="Control">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator Key="Number5" Modifiers="Control">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator Key="Number6" Modifiers="Control">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator Key="Number7" Modifiers="Control">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator Key="Number8" Modifiers="Control">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator Key="Number9" Modifiers="Control">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator Key="Tab" Modifiers="Control,Shift">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator Key="Tab" Modifiers="Control">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator Key="N" Modifiers="Control">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.OpenNewWindowAcceleratorCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator Key="F4" Modifiers="Control">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.CloseSelectedTabKeyboardAcceleratorCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator Key="W" Modifiers="Control">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.CloseSelectedTabKeyboardAcceleratorCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator Key="T" Modifiers="Control">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.AddNewInstanceAcceleratorCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator Key="T" Modifiers="Control,Shift">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.ReopenClosedTabAcceleratorCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator Key="K" Modifiers="Control,Shift">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ViewModel.AddNewInstanceAcceleratorCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator Key="F11">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ToggleFullScreenAcceleratorCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator Key="F12">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ToggleCompactOverlayCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator
+            Key="Up"
+            x:Name="EnterCompactOverlayKeyboardAccelerator"
+            Modifiers="Menu,Control">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind SetCompactOverlayCommand}" CommandParameter="{StaticResource True}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator
+            Key="Down"
+            x:Name="ExitCompactOverlayKeyboardAccelerator"
+            Modifiers="Menu,Control">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind SetCompactOverlayCommand}" CommandParameter="{StaticResource False}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+        <KeyboardAccelerator
+            Key="S"
+            x:Name="ToggleSidebarVisibilityKeyboardAcceleretor"
+            Modifiers="Control,Menu">
+            <i:Interaction.Behaviors>
+                <icore:EventTriggerBehavior EventName="Invoked">
+                    <icore:InvokeCommandAction Command="{x:Bind ToggleSidebarCollapsedStateCommand}" />
+                </icore:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </KeyboardAccelerator>
+    </Page.KeyboardAccelerators>
+
+    <Border>
+        <controls:SidebarControl
+            x:Name="SidebarControl"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            Background="{ThemeResource RootBackgroundBrush}"
+            CanOpenInNewPane="{x:Bind SidebarAdaptiveViewModel.PaneHolder.IsMultiPaneEnabled, Mode=OneWay}"
+            DisplayModeChanged="{x:Bind SidebarAdaptiveViewModel.SidebarControl_DisplayModeChanged}"
+            EmptyRecycleBinCommand="{x:Bind SidebarAdaptiveViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
+            IsPaneOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
+            IsPaneToggleButtonVisible="False"
+            Loaded="SidebarControl_Loaded"
+            PaneDisplayMode="Left"
+            SelectedSidebarItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
+            ViewModel="{x:Bind SidebarAdaptiveViewModel}">
+            <controls:SidebarControl.TabContent>
+                <Grid
+                    x:Name="RightMarginGrid"
+                    VerticalAlignment="Top"
+                    BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+                    BorderThickness="0,0,0,1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition x:Name="RightPaddingColumn" Width="0" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--  This defines the drag area for the title bar  -->
+                    <Grid
+                        x:Name="DragArea"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Height="40"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        Background="Transparent"
+                        Loaded="DragArea_Loaded" />
+
+                    <usercontrols:HorizontalMultitaskingControl
+                        x:Name="horizontalMultitaskingControl"
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        x:FieldModifier="public"
+                        x:Load="False"
+                        Loaded="HorizontalMultitaskingControl_Loaded"
+                        TabIndex="0"
+                        TabStripVisibility="Visible"
+                        Visibility="Visible">
+                        <usercontrols:HorizontalMultitaskingControl.ActionsControl>
+                            <StackPanel
+                                x:Name="ActionButtonsPanel"
+                                Grid.Column="1"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Orientation="Horizontal"
+                                Spacing="4">
+                                <Button
+                                    x:Name="HorizontalMultitaskingControlAddButton"
+                                    Width="32"
+                                    Height="32"
+                                    Padding="8"
+                                    AutomationProperties.Name="{helpers:ResourceString Name=HorizontalMultitaskingControlAddButton/AutomationProperties/Name}"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    Click="{x:Bind ViewModel.AddNewTab, Mode=OneWay}"
+                                    ToolTipService.ToolTip="{helpers:ResourceString Name=HorizontalMultitaskingControlAddButton/ToolTipService/ToolTip}">
+                                    <Button.Content>
+                                        <FontIcon
+                                            x:Name="HorizontalMultitaskingControlAddButtonIcon"
+                                            FontSize="12"
+                                            Glyph="&#xE710;" />
+                                    </Button.Content>
+                                </Button>
+                                <Button
+                                    x:Name="VerticalTabStripInvokeButton"
+                                    Width="32"
+                                    Height="32"
+                                    Padding="8"
+                                    HorizontalAlignment="Right"
+                                    x:Load="{x:Bind IsVerticalTabFlyoutEnabled, Mode=OneWay}"
+                                    AccessKey="T"
+                                    AllowDrop="True"
+                                    AutomationProperties.Name="{helpers:ResourceString Name=VerticalTabFlyout/AutomationProperties/Name}"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    DragEnter="VerticalTabStripInvokeButton_DragEnter"
+                                    IsTapEnabled="True"
+                                    Loaded="VerticalTabStripInvokeButton_Loaded"
+                                    Tapped="VerticalTabStrip_Tapped"
+                                    ToolTipService.ToolTip="{helpers:ResourceString Name=VerticalTabFlyout/ToolTipService/ToolTip}">
+                                    <Button.Content>
+                                        <FontIcon
+                                            x:Name="VerticalTabStripInvokeButtonIcon"
+                                            FontSize="12"
+                                            Glyph="&#xF5ED;" />
+                                    </Button.Content>
+                                    <Button.Flyout>
+                                        <Flyout
+                                            x:Name="VerticalTabViewFlyout"
+                                            contract8Present:ShouldConstrainToRootBounds="False"
+                                            Placement="Bottom">
+                                            <usercontrols:VerticalTabViewControl
+                                                x:Name="VerticalTabs"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                x:FieldModifier="public" />
+                                        </Flyout>
+                                    </Button.Flyout>
+                                </Button>
+                            </StackPanel>
+                        </usercontrols:HorizontalMultitaskingControl.ActionsControl>
+                    </usercontrols:HorizontalMultitaskingControl>
+
+                    <Grid
+                        x:Name="TabBorder"
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Bottom"
+                        BorderBrush="{ThemeResource CardStrokeColorDefault}"
+                        BorderThickness="0,0,0,1" />
+
+                    <controls:AddressToolbar
+                        x:Name="NavToolbar"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        x:Load="False"
+                        Loaded="NavToolbar_Loaded"
+                        OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
+                        SettingsButtonCommand="{x:Bind MainViewModel.OpenSettingsCommand}"
+                        ShowOngoingTasks="True"
+                        ShowSearchBox="True"
+                        ShowSettingsButton="{x:Bind IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                        TabIndex="1" />
+                </Grid>
+            </controls:SidebarControl.TabContent>
+
+            <Grid
+                x:Name="RootGrid"
+                PreviewKeyDown="RootGrid_PreviewKeyDown"
+                SizeChanged="RootGrid_SizeChanged">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" MinHeight="100" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition x:Name="PaneRow" Height="Auto" />
+                    <RowDefinition Height="32" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" MinWidth="100" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition x:Name="PaneColumn" Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <controls:InnerNavigationToolbar
+                    x:Name="InnerNavigationToolbar"
+                    Grid.ColumnSpan="3"
+                    x:Load="False"
+                    IsCompactOverlay="{x:Bind IsCompactOverlay, Mode=OneWay}"
+                    Loaded="NavToolbar_Loaded"
+                    SetCompactOverlayCommand="{x:Bind SetCompactOverlayCommand}"
+                    ShowPreviewPaneButton="{x:Bind IsPreviewPaneEnabled, Mode=OneWay}"
+                    TabIndex="2" />
+
+                <ContentPresenter
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
+
+                <custom:GridSplitter
+                    x:Name="PaneSplitter"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    x:Load="{x:Bind IsPaneEnabled, Mode=OneWay}"
+                    ManipulationCompleted="PaneSplitter_ManipulationCompleted"
+                    ResizeBehavior="BasedOnAlignment"
+                    Style="{StaticResource DefaultGridSplitterStyle}" />
+
+                <controls:PaneControl
+                    x:Name="Pane"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HorizontalContentAlignment="Stretch"
+                    x:Load="{x:Bind IsPaneEnabled, Mode=OneWay}"
+                    Visibility="{x:Bind IsPaneEnabled, Mode=OneWay}" />
+
+                <controls:StatusBarControl
+                    x:Name="StatusBarControl"
+                    Grid.Row="4"
+                    Grid.ColumnSpan="3"
+                    x:Load="False"
+                    ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
+            </Grid>
+        </controls:SidebarControl>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="MultitaskingControlStates">
+                <VisualState x:Name="NormalWindowWidth">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger x:Name="CollapseHorizontalTabViewTrigger" MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="HorizontalTabViewCollapsed">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="horizontalMultitaskingControl.TabStripVisibility" Value="Collapsed" />
+
+                        <!--  Update the button size to match the pane toggle button size  -->
+                        <Setter Target="VerticalTabStripInvokeButton.Height" Value="36" />
+                        <Setter Target="VerticalTabStripInvokeButton.Width" Value="36" />
+                        <Setter Target="HorizontalMultitaskingControlAddButton.Visibility" Value="Collapsed" />
+                        <Setter Target="VerticalTabStripInvokeButtonIcon.FontSize" Value="16" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger x:Name="CollapseSearchBoxAdaptiveTrigger" MinWindowWidth="750" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="CollapseSearchBoxState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="NavToolbar.ShowSearchBox" Value="False" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger x:Name="MinimalSidebarAdaptiveTrigger" MinWindowWidth="641" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="MinimalSidebarState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SidebarControl.PaneDisplayMode" Value="LeftMinimal" />
+                        <Setter Target="SidebarControl.IsPaneToggleButtonVisible" Value="True" />
+                        <Setter Target="horizontalMultitaskingControl.Margin" Value="48,0,0,0" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Border>
+</Page>

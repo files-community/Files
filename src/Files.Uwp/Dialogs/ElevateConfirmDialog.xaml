@@ -1,0 +1,33 @@
+﻿<ContentDialog
+    x:Class="Files.Uwp.Dialogs.ElevateConfirmDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:helpers="using:Files.Uwp.Helpers"
+    x:Name="ConfirmElevationDialog"
+    Title="{helpers:ResourceString Name=ElevateConfirmDialog/Title}"
+    Content="{helpers:ResourceString Name=ElevateConfirmDialog/Content}"
+    DefaultButton="None"
+    PrimaryButtonText="{helpers:ResourceString Name=Yes}"
+    CloseButtonText="{helpers:ResourceString Name=No}"
+    CornerRadius="{StaticResource OverlayCornerRadius}"
+    RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+    Style="{StaticResource DefaultContentDialogStyle}"
+    mc:Ignorable="d">
+
+    <ContentDialog.PrimaryButtonStyle>
+        <Style BasedOn="{StaticResource AccentButtonStyle}" TargetType="Button">
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate x:DataType="Button">
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <FontIcon FontSize="14" Glyph="&#xEA18;" />
+                            <TextBlock Text="{Binding PrimaryButtonText, ElementName=ConfirmElevationDialog}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </ContentDialog.PrimaryButtonStyle>
+</ContentDialog>
