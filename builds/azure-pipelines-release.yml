@@ -35,6 +35,8 @@ variables:
   value: 'x86|x64|arm64'
 - name: buildConfiguration
   value: 'Release'
+- name: sideloadBuildConfiguration
+  value: 'Sideload'
 - name: appxPackageDir
   value: '$(build.artifactStagingDirectory)\AppxPackages\\'
 
@@ -114,7 +116,7 @@ jobs:
     inputs:
       solution: '**/*.wapproj'
       platform: 'x86'
-      configuration: '$(buildConfiguration)'
+      configuration: '$(sideloadBuildConfiguration)'
       msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxLogTelemetryFromSideloadingScript=False /p:GenerateAppInstallerFile=True /p:AppInstallerUri=https://cdn.files.community/files/${{parameters.releaseBranch}}/ /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=Sideload /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="$(caCertificate.secureFilePath)" /p:PackageCertificatePassword="$(signingCert.password)" /p:PackageCertificateThumbprint=""'
       maximumCpuCount: true
 
@@ -122,7 +124,7 @@ jobs:
     displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
     inputs:
       SourceFolder: '$(system.defaultworkingdirectory)'
-      Contents: '**\bin\$(BuildConfiguration)\**'
+      Contents: '**\bin\$(sideloadBuildConfiguration)\**'
       TargetFolder: '$(build.artifactstagingdirectory)'
 
   - task: PublishBuildArtifacts@1
