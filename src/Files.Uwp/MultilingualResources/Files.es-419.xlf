@@ -3556,6 +3556,10 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
           <source>Size All Columns to Fit</source>
           <target state="new">Size All Columns to Fit</target>
         </trans-unit>
+        <trans-unit id="Contributors" translate="yes" xml:space="preserve">
+          <source>Contributors</source>
+          <target state="new">Contributors</target>
+        </trans-unit>
       </group>
     </body>
   </file>
