@@ -246,7 +246,7 @@
 						<HyperlinkButton Content="dependabot[bot]" NavigateUri="https://github.com/apps/dependabot" />
 						<HyperlinkButton Content="bebeyaco" NavigateUri="https://github.com/bebeyaco" />
 						<HyperlinkButton Content="lukeblevins" NavigateUri="https://github.com/lukeblevins" />
-						<HyperlinkButton Content="d2dyno1" NavigateUri="https://github.com/d2dyno1" />
+						<HyperlinkButton Content="d2dyno" NavigateUri="https://github.com/d2dyno1" />
 						<HyperlinkButton Content="somnisomni" NavigateUri="https://github.com/somnisomni" />
 						<HyperlinkButton Content="xlifi" NavigateUri="https://github.com/xlifi" />
 						<HyperlinkButton Content="konradsikorski" NavigateUri="https://github.com/konradsikorski" />
