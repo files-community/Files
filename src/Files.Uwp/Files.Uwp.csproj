@@ -1163,6 +1163,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Themes\Nightshade.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Themes\Red Wave.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
