@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -11,7 +12,14 @@ namespace Files.Uwp.ServicesImplementation
 {
     public class SideloadUpdateService : ObservableObject, IUpdateService
     {
-        private const string SideloadUri = "https://cdn.files.community/files/preview/Files.Package.appinstaller";
+        private const string SideloadStable = "https://cdn.files.community/files/stable/Files.Package.appinstaller";
+        private const string SideloadPreview = "https://cdn.files.community/files/preview/Files.Package.appinstaller";
+
+        private readonly Dictionary<string, string> _sideloadVersion = new()
+        {
+            { "Files", SideloadStable },
+            { "FilesPreview", SideloadPreview }
+        };
 
         private Uri DownloadUri { get; set; }
 
@@ -55,7 +63,7 @@ namespace Files.Uwp.ServicesImplementation
 
         public async Task CheckForUpdates()
         {
-            await CheckForRemoteUpdate(SideloadUri);
+            await CheckForRemoteUpdate(_sideloadVersion[Package.Current.Id.Name]);
         }
 
         private async Task CheckForRemoteUpdate(string uri)
@@ -68,15 +76,15 @@ namespace Files.Uwp.ServicesImplementation
             var appInstaller = (AppInstaller)xml.Deserialize(stream);
 
             // Get version and package details.
-            var packageVersion = Package.Current.Id.Version;
-            var packageName = Package.Current.Id.Name;
+            var currentPackageVersion = Package.Current.Id.Version;
+            var currentPackageName = Package.Current.Id.Name;
 
-            var currentVersion = new Version(packageVersion.Major, packageVersion.Minor, packageVersion.Build, packageVersion.Revision);
+            var currentVersion = new Version(currentPackageVersion.Major, currentPackageVersion.Minor,
+                currentPackageVersion.Build, currentPackageVersion.Revision);
             var remoteVersion = new Version(appInstaller.Version);
 
             // Check details and version number.
-            // We need to check that the package names match. i.e. FilesPreview, Files
-            if (appInstaller.MainBundle.Name.Equals(packageName) && currentVersion.CompareTo(remoteVersion) > 0)
+            if (appInstaller.MainBundle.Name.Equals(currentPackageName) && currentVersion.CompareTo(remoteVersion) > 0)
             {
                 DownloadUri = new Uri(appInstaller.MainBundle.Uri);
                 IsUpdateAvailable = true;
