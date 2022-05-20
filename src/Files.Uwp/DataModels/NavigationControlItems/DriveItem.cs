@@ -12,6 +12,8 @@ using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 using Files.Shared.Extensions;
+using Windows.Foundation.Collections;
+using Windows.ApplicationModel.AppService;
 
 namespace Files.Uwp.DataModels.NavigationControlItems
 {
@@ -138,6 +140,13 @@ namespace Files.Uwp.DataModels.NavigationControlItems
             set => SetProperty(ref showStorageSense, value);
         }
 
+        private Guid driveGuid = Guid.Empty;
+        public Guid DriveGuid
+        {
+            get => driveGuid;
+            private set => SetProperty(ref driveGuid, value);
+        }
+
         public DriveItem()
         {
             ItemType = NavigationControlItemType.CloudDrive;
@@ -217,6 +226,9 @@ namespace Files.Uwp.DataModels.NavigationControlItems
                 SpaceText = "DriveCapacityUnknown".GetLocalized();
                 MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
             }
+
+            string name = PathNormalization.NormalizePath(Path);
+            DriveGuid = await GetDriveGuid(name);
         }
 
         public int CompareTo(INavigationControlItem other)
@@ -244,6 +256,42 @@ namespace Files.Uwp.DataModels.NavigationControlItems
                 }
             }
             Icon = await IconData.ToBitmapAsync();
+        }
+
+        private static async Task<Guid> GetDriveGuid(string driveName)
+        {
+            string volumeID = await GetVolumeID(driveName); // \\?\Volume{GUID}\"
+            if (string.IsNullOrEmpty(volumeID) || !volumeID.StartsWith(@"\\?\Volume"))
+            {
+                return Guid.Empty;
+            }
+
+            int guidLength = Guid.Empty.ToString().Length;
+            string guid = volumeID.Substring(@"\\?\Volume".Length, guidLength);
+            return Guid.Parse(guid);
+        }
+
+        private static async Task<string> GetVolumeID(string driveName)
+        {
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection is null)
+            {
+                return string.Empty;
+            }
+
+            var parameter = new ValueSet
+            {
+                { "Arguments", "VolumeID" },
+                { "DriveName", driveName }
+            };
+
+            var (status, response) = await connection.SendMessageForResponseAsync(parameter);
+            if (status is AppServiceResponseStatus.Success && response.ContainsKey("VolumeID"))
+            {
+                return (string)response["VolumeID"];
+            }
+
+            return string.Empty;
         }
     }
 
