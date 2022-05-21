@@ -404,7 +404,6 @@ namespace Files.Uwp.ViewModels
                             var index = sectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
                             SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
                             section.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Favorites.png"))); // After insert
-
                         }
                         return section;
                     }
