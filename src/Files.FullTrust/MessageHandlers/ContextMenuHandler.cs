@@ -75,7 +75,7 @@ namespace Files.FullTrust.MessageHandlers
                 case "GetNewContextMenuEntryForType":
                     var fileExtension = (string)message["extension"];
                     var entry = await SafetyExtensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntryForType(fileExtension), Program.Logger);
-                    await Win32API.SendMessageAsync (connection, new ValueSet() { { "Entry", JsonConvert.SerializeObject(entry) } }, message.Get("RequestID", (string)null));
+                    await Win32API.SendMessageAsync(connection, new ValueSet() { { "Entry", JsonConvert.SerializeObject(entry) } }, message.Get("RequestID", (string)null));
                     break;
             }
         }

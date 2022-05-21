@@ -26,8 +26,8 @@ namespace Files.Uwp.ServicesImplementation
 
             var parameter = new ValueSet
             {
-                { "Arguments", "VolumeID" },
-                { "DriveName", driveName }
+                ["Arguments"] = "VolumeID",
+                ["DriveName"] = driveName,
             };
 
             var (status, response) = await connection.SendMessageForResponseAsync(parameter);
