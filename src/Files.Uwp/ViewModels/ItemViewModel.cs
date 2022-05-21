@@ -476,9 +476,9 @@ namespace Files.Uwp.ViewModels
                     break;
                 case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder):
-                    await dispatcherQueue.EnqueueAsync(async () =>
+                    await dispatcherQueue.EnqueueAsync(() =>
                     {
-                        await folderSettings.OnDefaultPreferencesChanged(WorkingDirectory, e.SettingName);
+                        folderSettings.OnDefaultPreferencesChanged(WorkingDirectory, e.SettingName);
                         UpdateSortAndGroupOptions();
                     });
                     await OrderFilesAndFoldersAsync();

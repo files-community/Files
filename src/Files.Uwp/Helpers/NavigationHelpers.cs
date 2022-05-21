@@ -245,7 +245,7 @@ namespace Files.Uwp.Helpers
                 else
                 {
                     associatedInstance.ToolbarViewModel.PathControlDisplayText = path;
-                    associatedInstance.NavigateWithArguments(await associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                    associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                     {
                         NavPathParam = path,
                         AssociatedTabInstance = associatedInstance
@@ -265,7 +265,7 @@ namespace Files.Uwp.Helpers
                     else
                     {
                         associatedInstance.ToolbarViewModel.PathControlDisplayText = library.Text;
-                        associatedInstance.NavigateWithArguments(await associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                        associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                         {
                             NavPathParam = path,
                             AssociatedTabInstance = associatedInstance,
@@ -301,7 +301,7 @@ namespace Files.Uwp.Helpers
                     else
                     {
                         associatedInstance.ToolbarViewModel.PathControlDisplayText = shortcutInfo.TargetPath;
-                        associatedInstance.NavigateWithArguments(await associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(shortcutInfo.TargetPath), new NavigationArguments()
+                        associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(shortcutInfo.TargetPath), new NavigationArguments()
                         {
                             NavPathParam = shortcutInfo.TargetPath,
                             AssociatedTabInstance = associatedInstance,
@@ -321,7 +321,7 @@ namespace Files.Uwp.Helpers
                 else
                 {
                     associatedInstance.ToolbarViewModel.PathControlDisplayText = path;
-                    associatedInstance.NavigateWithArguments(await associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                    associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                     {
                         NavPathParam = path,
                         AssociatedTabInstance = associatedInstance
@@ -355,7 +355,7 @@ namespace Files.Uwp.Helpers
                     else
                     {
                         associatedInstance.ToolbarViewModel.PathControlDisplayText = path;
-                        associatedInstance.NavigateWithArguments(await associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                        associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                         {
                             NavPathParam = path,
                             AssociatedTabInstance = associatedInstance,

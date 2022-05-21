@@ -249,6 +249,84 @@ namespace Files.Uwp.Helpers
         [DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern bool SetFileTime([In] IntPtr hFile, in FILETIME lpCreationTime, in FILETIME lpLastAccessTime, in FILETIME lpLastWriteTime);
 
+        private enum FILE_INFO_BY_HANDLE_CLASS
+        {
+            FileBasicInfo = 0,
+            FileStandardInfo = 1,
+            FileNameInfo = 2,
+            FileRenameInfo = 3,
+            FileDispositionInfo = 4,
+            FileAllocationInfo = 5,
+            FileEndOfFileInfo = 6,
+            FileStreamInfo = 7,
+            FileCompressionInfo = 8,
+            FileAttributeTagInfo = 9,
+            FileIdBothDirectoryInfo = 10,// 0x0A
+            FileIdBothDirectoryRestartInfo = 11, // 0xB
+            FileIoPriorityHintInfo = 12, // 0xC
+            FileRemoteProtocolInfo = 13, // 0xD
+            FileFullDirectoryInfo = 14, // 0xE
+            FileFullDirectoryRestartInfo = 15, // 0xF
+            FileStorageInfo = 16, // 0x10
+            FileAlignmentInfo = 17, // 0x11
+            FileIdInfo = 18, // 0x12
+            FileIdExtdDirectoryInfo = 19, // 0x13
+            FileIdExtdDirectoryRestartInfo = 20, // 0x14
+            MaximumFileInfoByHandlesClass
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        private struct FILE_ID_BOTH_DIR_INFO
+        {
+            public uint NextEntryOffset;
+            public uint FileIndex;
+            public LargeInteger CreationTime;
+            public LargeInteger LastAccessTime;
+            public LargeInteger LastWriteTime;
+            public LargeInteger ChangeTime;
+            public LargeInteger EndOfFile;
+            public LargeInteger AllocationSize;
+            public uint FileAttributes;
+            public uint FileNameLength;
+            public uint EaSize;
+            public char ShortNameLength;
+            [MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = 12)]
+            public string ShortName;
+            public LargeInteger FileId;
+            [MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = 1)]
+            public string FileName;
+        }
+
+        [StructLayout(LayoutKind.Explicit)]
+        private struct LargeInteger
+        {
+            [FieldOffset(0)]
+            public int Low;
+            [FieldOffset(4)]
+            public int High;
+            [FieldOffset(0)]
+            public long QuadPart;
+
+            // use only when QuadPart canot be passed
+            public long ToInt64()
+            {
+                return ((long)this.High << 32) | (uint)this.Low;
+            }
+
+            // just for demonstration
+            public static LargeInteger FromInt64(long value)
+            {
+                return new LargeInteger
+                {
+                    Low = (int)(value),
+                    High = (int)((value >> 32))
+                };
+            }
+        }
+
+        [DllImport("api-ms-win-core-file-l2-1-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
+        private static extern bool GetFileInformationByHandleEx(IntPtr hFile, FILE_INFO_BY_HANDLE_CLASS infoClass, out FILE_ID_BOTH_DIR_INFO dirInfo, uint dwBufferSize);
+
         public static bool GetFileDateModified(string filePath, out FILETIME dateModified)
         {
             using var hFile = new SafeFileHandle(CreateFileFromApp(filePath, GENERIC_READ, FILE_SHARE_READ, IntPtr.Zero, OPEN_EXISTING, (uint)File_Attributes.BackupSemantics, IntPtr.Zero), true);
@@ -379,6 +457,21 @@ namespace Files.Uwp.Helpers
             }
 
             return result;
+        }
+
+        // https://www.pinvoke.net/default.aspx/kernel32/GetFileInformationByHandleEx.html
+        public static ulong? GetFolderFRN(string folderPath)
+        {
+            using var handle = OpenFileForRead(folderPath);
+            if (!handle.IsInvalid)
+            {
+                var fileStruct = new FILE_ID_BOTH_DIR_INFO();
+                if (GetFileInformationByHandleEx(handle.DangerousGetHandle(), FILE_INFO_BY_HANDLE_CLASS.FileIdBothDirectoryInfo, out fileStruct, (uint)Marshal.SizeOf(fileStruct)))
+                {
+                    return (ulong)fileStruct.FileId.QuadPart;
+                }
+            }
+            return null;
         }
 
         public static async Task<SafeFileHandle> OpenProtectedFileForRead(string filePath, bool readWrite = false)

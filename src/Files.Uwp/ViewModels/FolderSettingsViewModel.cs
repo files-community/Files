@@ -115,9 +115,9 @@ namespace Files.Uwp.ViewModels
             set => SetProperty(ref isLayoutModeChanging, value);
         }
 
-        public async Task<Type> GetLayoutType(string folderPath)
+        public Type GetLayoutType(string folderPath)
         {
-            var prefsForPath = await GetLayoutPreferencesForPath(folderPath);
+            var prefsForPath = GetLayoutPreferencesForPath(folderPath);
             IsLayoutModeChanging = LayoutPreference.LayoutMode != prefsForPath.LayoutMode;
             LayoutPreference = prefsForPath;
 
@@ -309,14 +309,13 @@ namespace Files.Uwp.ViewModels
             }
         }
 
-        public static async Task<LayoutPreferences> GetLayoutPreferencesForPath(string folderPath)
+        private LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
             if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
             {
                 folderPath = folderPath.TrimPath();
-                var folder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(folderPath);
-                var folderFRN = await FileTagsHelper.GetFileFRN(folder);
+                var folderFRN = NativeFileOperationsHelper.GetFolderFRN(folderPath);
                 return ReadLayoutPreferencesFromDb(folderPath, folderFRN)
                     ?? ReadLayoutPreferencesFromAds(folderPath, folderFRN)
                     ?? GetDefaultLayoutPreferences(folderPath);
@@ -325,14 +324,13 @@ namespace Files.Uwp.ViewModels
             return LayoutPreferences.DefaultLayoutPreferences;
         }
 
-        public static async Task SetLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
+        public static void SetLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 
             if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
             {
-                var folder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(folderPath);
-                var folderFRN = await FileTagsHelper.GetFileFRN(folder);
+                var folderFRN = NativeFileOperationsHelper.GetFolderFRN(folderPath);
                 WriteLayoutPreferencesToDb(folderPath.TrimPath(), folderFRN, prefs);
             }
             else
@@ -541,9 +539,9 @@ namespace Files.Uwp.ViewModels
 
         private void ChangeGroupOption(GroupOption option) => DirectoryGroupOption = option;
 
-        public async Task OnDefaultPreferencesChanged(string folderPath, string settingsName)
+        public void OnDefaultPreferencesChanged(string folderPath, string settingsName)
         {
-            var prefs = await GetLayoutPreferencesForPath(folderPath);
+            var prefs = GetLayoutPreferencesForPath(folderPath);
             switch (settingsName)
             {
                 case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):

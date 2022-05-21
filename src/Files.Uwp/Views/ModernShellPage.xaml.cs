@@ -271,11 +271,11 @@ namespace Files.Uwp.Views
             }
         }
 
-        private async void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
+        private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
         {
             if (FilesystemViewModel != null)
             {
-                await FolderSettingsViewModel.SetLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
+                FolderSettingsViewModel.SetLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
                 AdaptiveLayoutHelpers.PredictLayoutMode(InstanceViewModel.FolderSettings, FilesystemViewModel.WorkingDirectory, FilesystemViewModel.FilesAndFolders);
             }
         }
@@ -344,12 +344,12 @@ namespace Files.Uwp.Views
             }
         }
 
-        public async void SubmitSearch(string query, bool searchUnindexedItems)
+        public void SubmitSearch(string query, bool searchUnindexedItems)
         {
             FilesystemViewModel.CancelSearch();
             InstanceViewModel.CurrentSearchQuery = query;
             InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
-            ItemDisplayFrame.Navigate(await InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
+            ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
             {
                 AssociatedTabInstance = this,
                 IsSearchResultPage = true,
@@ -443,9 +443,9 @@ namespace Files.Uwp.Views
             await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, (e.OpenedFlyout.Target as FontIcon).DataContext as PathBoxItem, this);
         }
 
-        private async void ModernShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
+        private void ModernShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
         {
-            ItemDisplayFrame.Navigate(await InstanceViewModel.FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+            ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
             {
                 NavPathParam = e.ItemPath,
                 AssociatedTabInstance = this
@@ -532,7 +532,7 @@ namespace Files.Uwp.Views
             }
         }
 
-        private async void OnNavigationParamsChanged()
+        private void OnNavigationParamsChanged()
         {
             if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home".GetLocalized())
             {
@@ -545,7 +545,7 @@ namespace Files.Uwp.Views
             }
             else
             {
-                ItemDisplayFrame.Navigate(await InstanceViewModel.FolderSettings.GetLayoutType(NavParams.NavPath),
+                ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(NavParams.NavPath),
                     new NavigationArguments()
                     {
                         NavPathParam = NavParams.NavPath,
@@ -883,7 +883,7 @@ namespace Files.Uwp.Views
             }
         }
 
-        public async void Back_Click()
+        public void Back_Click()
         {
             ToolbarViewModel.CanGoBack = false;
             if (ItemDisplayFrame.CanGoBack)
@@ -894,7 +894,7 @@ namespace Files.Uwp.Views
                 if (previousPageContent.SourcePageType != typeof(WidgetsPage))
                 {
                     // Update layout type
-                    await InstanceViewModel.FolderSettings.GetLayoutType(previousPageNavPath.IsSearchResultPage ? previousPageNavPath.SearchPathParam : previousPageNavPath.NavPathParam);
+                    InstanceViewModel.FolderSettings.GetLayoutType(previousPageNavPath.IsSearchResultPage ? previousPageNavPath.SearchPathParam : previousPageNavPath.NavPathParam);
                 }
                 SelectSidebarItemFromPath(previousPageContent.SourcePageType);
 
@@ -909,7 +909,7 @@ namespace Files.Uwp.Views
             }
         }
 
-        public async void Forward_Click()
+        public void Forward_Click()
         {
             ToolbarViewModel.CanGoForward = false;
             if (ItemDisplayFrame.CanGoForward)
@@ -920,14 +920,14 @@ namespace Files.Uwp.Views
                 if (incomingPageContent.SourcePageType != typeof(WidgetsPage))
                 {
                     // Update layout type
-                    await InstanceViewModel.FolderSettings.GetLayoutType(incomingPageNavPath.IsSearchResultPage ? incomingPageNavPath.SearchPathParam : incomingPageNavPath.NavPathParam);
+                    InstanceViewModel.FolderSettings.GetLayoutType(incomingPageNavPath.IsSearchResultPage ? incomingPageNavPath.SearchPathParam : incomingPageNavPath.NavPathParam);
                 }
                 SelectSidebarItemFromPath(incomingPageContent.SourcePageType);
                 ItemDisplayFrame.GoForward();
             }
         }
 
-        public async void Up_Click()
+        public void Up_Click()
         {
             ToolbarViewModel.CanNavigateToParent = false;
             if (string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory))
@@ -962,7 +962,7 @@ namespace Files.Uwp.Views
                 }
 
                 SelectSidebarItemFromPath();
-                ItemDisplayFrame.Navigate(await InstanceViewModel.FolderSettings.GetLayoutType(parentDirectoryOfPath),
+                ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(parentDirectoryOfPath),
                                               new NavigationArguments()
                                               {
                                                   NavPathParam = parentDirectoryOfPath,
@@ -1112,16 +1112,16 @@ namespace Files.Uwp.Views
             NavigateToPath(navArgs.NavPathParam, sourcePageType, navArgs);
         }
 
-        public async void NavigateToPath(string navigationPath, NavigationArguments navArgs = null)
+        public void NavigateToPath(string navigationPath, NavigationArguments navArgs = null)
         {
-            NavigateToPath(navigationPath, await FolderSettings.GetLayoutType(navigationPath), navArgs);
+            NavigateToPath(navigationPath, FolderSettings.GetLayoutType(navigationPath), navArgs);
         }
 
-        public async void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
+        public void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
         {
             if (sourcePageType == null && !string.IsNullOrEmpty(navigationPath))
             {
-                sourcePageType = await InstanceViewModel.FolderSettings.GetLayoutType(navigationPath);
+                sourcePageType = InstanceViewModel.FolderSettings.GetLayoutType(navigationPath);
             }
 
             if (navArgs != null && navArgs.AssociatedTabInstance != null)

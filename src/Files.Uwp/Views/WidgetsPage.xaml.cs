@@ -136,7 +136,7 @@ namespace Files.Uwp.Views
             {
                 if (new DirectoryInfo(e.ItemPath).Root.ToString().Contains(@"C:\", StringComparison.Ordinal))
                 {
-                    AppInstance.NavigateWithArguments(await FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+                    AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
                     {
                         NavPathParam = e.ItemPath
                     });
@@ -147,7 +147,7 @@ namespace Files.Uwp.Views
                     {
                         if (drive.Path == new DirectoryInfo(e.ItemPath).Root.ToString())
                         {
-                            AppInstance.NavigateWithArguments(await FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+                            AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
                             {
                                 NavPathParam = e.ItemPath
                             });
@@ -164,9 +164,9 @@ namespace Files.Uwp.Views
             }
         }
 
-        private async void RecentFilesWidget_RecentFilesOpenLocationInvoked(object sender, UserControls.PathNavigationEventArgs e)
+        private void RecentFilesWidget_RecentFilesOpenLocationInvoked(object sender, UserControls.PathNavigationEventArgs e)
         {
-            AppInstance.NavigateWithArguments(await FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+            AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
             {
                 NavPathParam = e.ItemPath,
                 SelectItems = new[] { e.ItemName },
@@ -174,9 +174,9 @@ namespace Files.Uwp.Views
             });
         }
 
-        private async void FolderWidget_LibraryCardInvoked(object sender, LibraryCardInvokedEventArgs e)
+        private void FolderWidget_LibraryCardInvoked(object sender, LibraryCardInvokedEventArgs e)
         {
-            AppInstance.NavigateWithArguments(await FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
+            AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
             {
                 NavPathParam = e.Path
             });
@@ -198,9 +198,9 @@ namespace Files.Uwp.Views
             AppInstance.PaneHolder?.OpenPathInNewPane(e.Path);
         }
 
-        private async void DrivesWidget_DrivesWidgetInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
+        private void DrivesWidget_DrivesWidgetInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
         {
-            AppInstance.NavigateWithArguments(await FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
+            AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
             {
                 NavPathParam = e.Path
             });
