@@ -3509,43 +3509,59 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
         </trans-unit>
         <trans-unit id="SystemTimeStyle" translate="yes" xml:space="preserve">
           <source>System</source>
-          <target state="new">System</target>
+          <target state="translated">Sistem</target>
         </trans-unit>
         <trans-unit id="FileInUseByDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to access is currently being used by {0}</source>
-          <target state="new">The file you are attempting to access is currently being used by {0}</target>
+          <target state="translated">Berkas yang Anda coba akses sedang digunakan oleh {0}</target>
         </trans-unit>
         <trans-unit id="FileInUseDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to access is currently being used by an another application</source>
-          <target state="new">The file you are attempting to access is currently being used by an another application</target>
+          <target state="translated">Berkas yang Anda coba buka sedang digunakan oleh aplikasi lain</target>
         </trans-unit>
         <trans-unit id="FileInUseDialog.Title" translate="yes" xml:space="preserve">
           <source>File is in use</source>
-          <target state="new">File is in use</target>
+          <target state="translated">Berkas sedang di gunakan</target>
         </trans-unit>
         <trans-unit id="UseCompactStyles" translate="yes" xml:space="preserve">
           <source>Use compact styles in the details layout</source>
-          <target state="new">Use compact styles in the details layout</target>
+          <target state="translated">Gunakan gaya fleksibel di dalam penataan detail</target>
         </trans-unit>
         <trans-unit id="Universal" translate="yes" xml:space="preserve">
           <source>Universal</source>
-          <target state="new">Universal</target>
+          <target state="translated">Universal</target>
         </trans-unit>
         <trans-unit id="DateFormatSample" translate="yes" xml:space="preserve">
           <source>ex: {0}, {1}</source>
-          <target state="new">ex: {0}, {1}</target>
+          <target state="translated">mis: {0}, {1}</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowThumbnails" translate="yes" xml:space="preserve">
           <source>Show thumbnails</source>
-          <target state="new">Show thumbnails</target>
+          <target state="translated">Tampilkan Gambar kecil</target>
         </trans-unit>
         <trans-unit id="Retry" translate="yes" xml:space="preserve">
           <source>Retry</source>
-          <target state="new">Retry</target>
+          <target state="translated">Coba Lagi</target>
         </trans-unit>
         <trans-unit id="ErrorDialogUnsupportedMoveOperation" translate="yes" xml:space="preserve">
           <source>Move operation is not supported in this context. Do you want to copy the items instead?</source>
-          <target state="new">Move operation is not supported in this context. Do you want to copy the items instead?</target>
+          <target state="translated">Operasi pemindahan tidak didukung dalam konteks ini. Apakah Anda ingin menyalin item ini?</target>
+        </trans-unit>
+        <trans-unit id="HiddenFilesAndFolders" translate="yes" xml:space="preserve">
+          <source>Hidden files and folders</source>
+          <target state="new">Hidden files and folders</target>
+        </trans-unit>
+        <trans-unit id="Custom" translate="yes" xml:space="preserve">
+          <source>Custom</source>
+          <target state="new">Custom</target>
+        </trans-unit>
+        <trans-unit id="SizeAllColumnsToFit" translate="yes" xml:space="preserve">
+          <source>Size All Columns to Fit</source>
+          <target state="new">Size All Columns to Fit</target>
+        </trans-unit>
+        <trans-unit id="Contributors" translate="yes" xml:space="preserve">
+          <source>Contributors</source>
+          <target state="new">Contributors</target>
         </trans-unit>
       </group>
     </body>

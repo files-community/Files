@@ -2610,4 +2610,25 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
   <data name="PrepareInProgress" xml:space="preserve">
     <value>Preparando elementos</value>
   </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Error al copiar</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Error al mover</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Etiquetas</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Sistema</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Universal</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Mostrar miniaturas</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Reintentar</value>
+  </data>
 </root>

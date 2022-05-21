@@ -2632,4 +2632,19 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Tags anzeigen</value>
   </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Systemmenü</value>
+  </data>
+  <data name="FileInUseDialog.Title" xml:space="preserve">
+    <value>Datei wird bereits verwendet.</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Universell</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Miniaturansichten anzeigen</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Wiederholen</value>
+  </data>
 </root>

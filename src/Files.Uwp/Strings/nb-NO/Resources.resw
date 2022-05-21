@@ -2542,4 +2542,67 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
   </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Pakk ut</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Kjør skript</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Bruk som skrivebordsbakgrunn</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Åpne i %@</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Roter mot venstre</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Roter mot høyre</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Installer</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Lukk faner til høyre</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Lukk andre faner</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Musikk</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Bilder</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videoer</value>
+  </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Oppdater filer</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Kopiering mislyktes</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Flytting mislyktes.</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Merker</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>systemet</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Universell</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Vis miniatyrbilder</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Prøv på nytt</value>
+  </data>
 </root>

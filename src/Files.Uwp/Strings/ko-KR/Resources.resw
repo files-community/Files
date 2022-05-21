@@ -2627,4 +2627,16 @@
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>태그 섹션 보이기</value>
   </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>시스템</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>유니버설</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>축소판 그림 표시</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>다시 시도</value>
+  </data>
 </root>

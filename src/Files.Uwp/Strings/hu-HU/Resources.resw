@@ -2591,4 +2591,37 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>Többi lap bezárása</value>
   </data>
+  <data name="Music" xml:space="preserve">
+    <value>Zene</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Képek</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videók</value>
+  </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Frissítésfájlok</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>A másolás sikertelen</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Áthelyezés sikertelen.</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Címkék</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Rendszer</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Univerzális</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Miniatűrök megjelenítése</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Újra</value>
+  </data>
 </root>
