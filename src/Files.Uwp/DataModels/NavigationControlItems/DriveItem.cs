@@ -1,8 +1,11 @@
-﻿using ByteSizeLib;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Models;
+using Files.Backend.Services;
+using Files.Shared.Extensions;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
-using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Threading.Tasks;
@@ -11,9 +14,6 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
-using Files.Shared.Extensions;
-using Windows.Foundation.Collections;
-using Windows.ApplicationModel.AppService;
 
 namespace Files.Uwp.DataModels.NavigationControlItems
 {
@@ -50,23 +50,23 @@ namespace Files.Uwp.DataModels.NavigationControlItems
         public bool IsRemovable => Type == DriveType.Removable || Type == DriveType.CDRom;
         public bool IsNetwork => Type == DriveType.Network;
 
-        private ByteSize maxSpace;
-        private ByteSize freeSpace;
-        private ByteSize spaceUsed;
+        private ByteSizeLib.ByteSize maxSpace;
+        private ByteSizeLib.ByteSize freeSpace;
+        private ByteSizeLib.ByteSize spaceUsed;
 
-        public ByteSize MaxSpace
+        public ByteSizeLib.ByteSize MaxSpace
         {
             get => maxSpace;
             set => SetProperty(ref maxSpace, value);
         }
 
-        public ByteSize FreeSpace
+        public ByteSizeLib.ByteSize FreeSpace
         {
             get => freeSpace;
             set => SetProperty(ref freeSpace, value);
         }
 
-        public ByteSize SpaceUsed
+        public ByteSizeLib.ByteSize SpaceUsed
         {
             get => spaceUsed;
             set => SetProperty(ref spaceUsed, value);
@@ -140,11 +140,11 @@ namespace Files.Uwp.DataModels.NavigationControlItems
             set => SetProperty(ref showStorageSense, value);
         }
 
-        private Guid driveGuid = Guid.Empty;
-        public Guid DriveGuid
+        private VolumeInfo volumeInfo = VolumeInfo.Empty;
+        public VolumeInfo VolumeInfo
         {
-            get => driveGuid;
-            private set => SetProperty(ref driveGuid, value);
+            get => volumeInfo;
+            private set => SetProperty(ref volumeInfo, value);
         }
 
         public DriveItem()
@@ -201,8 +201,8 @@ namespace Files.Uwp.DataModels.NavigationControlItems
 
                 if (properties != null && properties["System.Capacity"] != null && properties["System.FreeSpace"] != null)
                 {
-                    MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
-                    FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
+                    MaxSpace = ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.Capacity"]);
+                    FreeSpace = ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
                     SpaceUsed = MaxSpace - FreeSpace;
 
                     SpaceText = string.Format(
@@ -218,17 +218,25 @@ namespace Files.Uwp.DataModels.NavigationControlItems
                 else
                 {
                     SpaceText = "DriveCapacityUnknown".GetLocalized();
-                    MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
+                    MaxSpace = SpaceUsed = FreeSpace = ByteSizeLib.ByteSize.FromBytes(0);
                 }
             }
             catch (Exception)
             {
                 SpaceText = "DriveCapacityUnknown".GetLocalized();
-                MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
+                MaxSpace = SpaceUsed = FreeSpace = ByteSizeLib.ByteSize.FromBytes(0);
             }
 
-            string name = PathNormalization.NormalizePath(Path);
-            DriveGuid = await GetDriveGuid(name);
+            var volumeInfoFactory = Ioc.Default.GetService<IVolumeInfoFactory>();
+            if (volumeInfoFactory is not null)
+            {
+                string name = PathNormalization.NormalizePath(Path);
+                VolumeInfo = await volumeInfoFactory.BuildVolumeInfo(name);
+            }
+            else
+            {
+                VolumeInfo = VolumeInfo.Empty;
+            }
         }
 
         public int CompareTo(INavigationControlItem other)
@@ -256,42 +264,6 @@ namespace Files.Uwp.DataModels.NavigationControlItems
                 }
             }
             Icon = await IconData.ToBitmapAsync();
-        }
-
-        private static async Task<Guid> GetDriveGuid(string driveName)
-        {
-            string volumeID = await GetVolumeID(driveName); // \\?\Volume{GUID}\"
-            if (string.IsNullOrEmpty(volumeID) || !volumeID.StartsWith(@"\\?\Volume"))
-            {
-                return Guid.Empty;
-            }
-
-            int guidLength = Guid.Empty.ToString().Length;
-            string guid = volumeID.Substring(@"\\?\Volume".Length, guidLength);
-            return Guid.Parse(guid);
-        }
-
-        private static async Task<string> GetVolumeID(string driveName)
-        {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection is null)
-            {
-                return string.Empty;
-            }
-
-            var parameter = new ValueSet
-            {
-                { "Arguments", "VolumeID" },
-                { "DriveName", driveName }
-            };
-
-            var (status, response) = await connection.SendMessageForResponseAsync(parameter);
-            if (status is AppServiceResponseStatus.Success && response.ContainsKey("VolumeID"))
-            {
-                return (string)response["VolumeID"];
-            }
-
-            return string.Empty;
         }
     }
 

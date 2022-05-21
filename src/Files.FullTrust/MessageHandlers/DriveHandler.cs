@@ -15,12 +15,12 @@ namespace Files.FullTrust.MessageHandlers
 
         public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
         {
-            if (arguments == "VolumeID")
+            if (arguments is "VolumeID")
             {
                 string driveName = message["DriveName"].ToString();
-                string volumeID = DriveHelpers.GetVolumeID(driveName);
+                var volumeId = DriveHelpers.GetVolumeId(driveName);
 
-                var response = new ValueSet { ["VolumeID"] = volumeID };
+                var response = new ValueSet{ ["VolumeID"] = volumeId };
                 await Win32API.SendMessageAsync(connection, response, message.Get("RequestID", (string)null));
             }
         }

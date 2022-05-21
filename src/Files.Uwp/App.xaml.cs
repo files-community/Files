@@ -125,6 +125,7 @@ namespace Files.Uwp
                 .AddSingleton<IUpdateService, UpdateService>()
                 .AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
                 .AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
+                .AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
 
                 // TODO(i): FileSystem operations:
                 // (IFilesystemHelpersService, IFilesystemOperationsService)
