@@ -1,7 +1,9 @@
 ﻿using Files.Shared.Extensions;
 using Microsoft.Win32.SafeHandles;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
@@ -249,6 +251,46 @@ namespace Files.Uwp.Helpers
         [DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern bool SetFileTime([In] IntPtr hFile, in FILETIME lpCreationTime, in FILETIME lpLastAccessTime, in FILETIME lpLastWriteTime);
 
+        public enum FILE_INFO_BY_HANDLE_CLASS
+        {
+            FileBasicInfo = 0,
+            FileStandardInfo = 1,
+            FileNameInfo = 2,
+            FileRenameInfo = 3,
+            FileDispositionInfo = 4,
+            FileAllocationInfo = 5,
+            FileEndOfFileInfo = 6,
+            FileStreamInfo = 7,
+            FileCompressionInfo = 8,
+            FileAttributeTagInfo = 9,
+            FileIdBothDirectoryInfo = 10,// 0x0A
+            FileIdBothDirectoryRestartInfo = 11, // 0xB
+            FileIoPriorityHintInfo = 12, // 0xC
+            FileRemoteProtocolInfo = 13, // 0xD
+            FileFullDirectoryInfo = 14, // 0xE
+            FileFullDirectoryRestartInfo = 15, // 0xF
+            FileStorageInfo = 16, // 0x10
+            FileAlignmentInfo = 17, // 0x11
+            FileIdInfo = 18, // 0x12
+            FileIdExtdDirectoryInfo = 19, // 0x13
+            FileIdExtdDirectoryRestartInfo = 20, // 0x14
+            MaximumFileInfoByHandlesClass
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 8)]
+        public struct FILE_STREAM_INFO
+        {
+            public uint NextEntryOffset;
+            public uint StreamNameLength;
+            public long StreamSize;
+            public long StreamAllocationSize;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 1024)]
+            public string StreamName;
+        }
+
+        [DllImport("api-ms-win-core-file-l2-1-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
+        public static extern bool GetFileInformationByHandleEx(IntPtr hFile, FILE_INFO_BY_HANDLE_CLASS infoClass, IntPtr dirInfo, uint dwBufferSize);
+
         public static bool GetFileDateModified(string filePath, out FILETIME dateModified)
         {
             using var hFile = new SafeFileHandle(CreateFileFromApp(filePath, GENERIC_READ, FILE_SHARE_READ, IntPtr.Zero, OPEN_EXISTING, (uint)File_Attributes.BackupSemantics, IntPtr.Zero), true);
@@ -434,6 +476,30 @@ namespace Files.Uwp.Helpers
                 }
             }
             return null;
+        }
+
+        public static List<string> GetAlternateStreams(string path)
+        {
+            using var handle = OpenFileForRead(path);
+            var streams = new List<string>();
+            if (!handle.IsInvalid)
+            {
+                var bufferSize = Marshal.SizeOf(typeof(FILE_STREAM_INFO)) * 10;
+                var mem = Marshal.AllocHGlobal(bufferSize);
+                if (GetFileInformationByHandleEx(handle.DangerousGetHandle(), FILE_INFO_BY_HANDLE_CLASS.FileStreamInfo, mem, (uint)bufferSize))
+                {
+                    uint offset = 0;
+                    FILE_STREAM_INFO fileStruct;
+                    do
+                    {
+                        fileStruct = Marshal.PtrToStructure<FILE_STREAM_INFO>(new IntPtr(mem.ToInt64() + offset));
+                        streams.Add(fileStruct.StreamName.Substring(0, (int)fileStruct.StreamNameLength / 2));
+                        offset += fileStruct.NextEntryOffset;
+                    } while (fileStruct.NextEntryOffset != 0);
+                }
+                Marshal.FreeHGlobal(mem);
+            }
+            return streams;
         }
     }
 }

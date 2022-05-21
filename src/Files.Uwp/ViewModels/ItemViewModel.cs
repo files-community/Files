@@ -1881,7 +1881,6 @@ namespace Files.Uwp.ViewModels
             {
                 byte[] buff = new byte[4096];
                 var rand = Guid.NewGuid();
-                buff = new byte[4096];
                 int notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE;
 
                 if (hasSyncStatus)
