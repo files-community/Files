@@ -90,7 +90,7 @@ namespace Files.Uwp.ViewModels
             get => InstanceViewModel?.FolderSettings.DirectorySortDirection == SortDirection.Descending;
             set { if (value) InstanceViewModel.FolderSettings.DirectorySortDirection = SortDirection.Descending; }
         }
-        
+
         public bool AreDirectoriesSortedAlongsideFiles
         {
             get => InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFiles;
@@ -409,7 +409,7 @@ namespace Files.Uwp.ViewModels
             OnPropertyChanged(nameof(IsSortedByDateDeleted));
             OnPropertyChanged(nameof(IsSortedByFileTag));
         }
-        
+
         private void FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(object sender, bool e)
         {
             OnPropertyChanged(nameof(AreDirectoriesSortedAlongsideFiles));
@@ -915,6 +915,11 @@ namespace Files.Uwp.ViewModels
 
         public async Task CheckPathInput(string currentInput, string currentSelectedPath, IShellPage shellPage)
         {
+            if (currentInput.Contains("/"))
+            {
+                currentInput = currentInput.Replace("/", "\\", StringComparison.Ordinal);
+            }
+
             currentInput = currentInput.Replace("\\\\", "\\", StringComparison.Ordinal);
 
             if (currentInput.StartsWith('\\') && !currentInput.StartsWith("\\\\", StringComparison.Ordinal))
