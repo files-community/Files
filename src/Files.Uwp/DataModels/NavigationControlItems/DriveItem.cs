@@ -227,11 +227,15 @@ namespace Files.Uwp.DataModels.NavigationControlItems
                 MaxSpace = SpaceUsed = FreeSpace = ByteSizeLib.ByteSize.FromBytes(0);
             }
 
-            var volumeInfoFactory = Ioc.Default.GetService<IVolumeInfoFactory>();
-            if (volumeInfoFactory is not null)
+        }
+
+        public async Task UpdateVolumeInfoAsync()
+        {
+            var factory = Ioc.Default.GetService<IVolumeInfoFactory>();
+            if (factory is not null)
             {
                 string name = PathNormalization.NormalizePath(Path);
-                VolumeInfo = await volumeInfoFactory.BuildVolumeInfo(name);
+                VolumeInfo = await factory.BuildVolumeInfo(name);
             }
             else
             {
