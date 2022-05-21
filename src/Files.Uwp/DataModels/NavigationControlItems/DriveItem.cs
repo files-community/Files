@@ -1,11 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Models;
-using Files.Backend.Services;
-using Files.Shared.Extensions;
+﻿using ByteSizeLib;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Threading.Tasks;
@@ -14,6 +11,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
+using Files.Shared.Extensions;
 
 namespace Files.Uwp.DataModels.NavigationControlItems
 {
@@ -50,23 +48,23 @@ namespace Files.Uwp.DataModels.NavigationControlItems
         public bool IsRemovable => Type == DriveType.Removable || Type == DriveType.CDRom;
         public bool IsNetwork => Type == DriveType.Network;
 
-        private ByteSizeLib.ByteSize maxSpace;
-        private ByteSizeLib.ByteSize freeSpace;
-        private ByteSizeLib.ByteSize spaceUsed;
+        private ByteSize maxSpace;
+        private ByteSize freeSpace;
+        private ByteSize spaceUsed;
 
-        public ByteSizeLib.ByteSize MaxSpace
+        public ByteSize MaxSpace
         {
             get => maxSpace;
             set => SetProperty(ref maxSpace, value);
         }
 
-        public ByteSizeLib.ByteSize FreeSpace
+        public ByteSize FreeSpace
         {
             get => freeSpace;
             set => SetProperty(ref freeSpace, value);
         }
 
-        public ByteSizeLib.ByteSize SpaceUsed
+        public ByteSize SpaceUsed
         {
             get => spaceUsed;
             set => SetProperty(ref spaceUsed, value);
@@ -140,13 +138,6 @@ namespace Files.Uwp.DataModels.NavigationControlItems
             set => SetProperty(ref showStorageSense, value);
         }
 
-        private VolumeInfo volumeInfo = VolumeInfo.Empty;
-        public VolumeInfo VolumeInfo
-        {
-            get => volumeInfo;
-            private set => SetProperty(ref volumeInfo, value);
-        }
-
         public DriveItem()
         {
             ItemType = NavigationControlItemType.CloudDrive;
@@ -201,8 +192,8 @@ namespace Files.Uwp.DataModels.NavigationControlItems
 
                 if (properties != null && properties["System.Capacity"] != null && properties["System.FreeSpace"] != null)
                 {
-                    MaxSpace = ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.Capacity"]);
-                    FreeSpace = ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
+                    MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
+                    FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
                     SpaceUsed = MaxSpace - FreeSpace;
 
                     SpaceText = string.Format(
@@ -218,28 +209,13 @@ namespace Files.Uwp.DataModels.NavigationControlItems
                 else
                 {
                     SpaceText = "DriveCapacityUnknown".GetLocalized();
-                    MaxSpace = SpaceUsed = FreeSpace = ByteSizeLib.ByteSize.FromBytes(0);
+                    MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
                 }
             }
             catch (Exception)
             {
                 SpaceText = "DriveCapacityUnknown".GetLocalized();
-                MaxSpace = SpaceUsed = FreeSpace = ByteSizeLib.ByteSize.FromBytes(0);
-            }
-
-        }
-
-        public async Task UpdateVolumeInfoAsync()
-        {
-            var factory = Ioc.Default.GetService<IVolumeInfoFactory>();
-            if (factory is not null)
-            {
-                string name = PathNormalization.NormalizePath(Path);
-                VolumeInfo = await factory.BuildVolumeInfo(name);
-            }
-            else
-            {
-                VolumeInfo = VolumeInfo.Empty;
+                MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
             }
         }
 
