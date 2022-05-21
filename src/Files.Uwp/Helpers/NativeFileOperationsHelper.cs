@@ -478,10 +478,9 @@ namespace Files.Uwp.Helpers
             return null;
         }
 
-        public static List<string> GetAlternateStreams(string path)
+        public static IEnumerable<(string name, long size)> GetAlternateStreams(string path)
         {
             using var handle = OpenFileForRead(path);
-            var streams = new List<string>();
             if (!handle.IsInvalid)
             {
                 var bufferSize = Marshal.SizeOf(typeof(FILE_STREAM_INFO)) * 10;
@@ -493,13 +492,16 @@ namespace Files.Uwp.Helpers
                     do
                     {
                         fileStruct = Marshal.PtrToStructure<FILE_STREAM_INFO>(new IntPtr(mem.ToInt64() + offset));
-                        streams.Add(fileStruct.StreamName.Substring(0, (int)fileStruct.StreamNameLength / 2));
+                        var name = fileStruct.StreamName.Substring(0, (int)fileStruct.StreamNameLength / 2);
+                        if (name.EndsWith(":$DATA") && name != "::$DATA")
+                        {
+                            yield return (name.Substring(1, name.Length - 7), fileStruct.StreamSize);
+                        }
                         offset += fileStruct.NextEntryOffset;
                     } while (fileStruct.NextEntryOffset != 0);
                 }
                 Marshal.FreeHGlobal(mem);
             }
-            return streams;
         }
     }
 }

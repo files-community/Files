@@ -76,6 +76,8 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                             }
                             tempList.Add(file);
                             ++count;
+
+                            tempList.AddRange(EnumAdsForPath(file.ItemPath, file));
                         }
                     }
                     else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
@@ -92,6 +94,8 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                                 }
                                 tempList.Add(folder);
                                 ++count;
+
+                                tempList.AddRange(EnumAdsForPath(folder.ItemPath, folder));
 
                                 if (showFolderSize)
                                 {
@@ -122,6 +126,38 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
 
             FindClose(hFile);
             return tempList;
+        }
+
+        private static IEnumerable<ListedItem> EnumAdsForPath(string itemPath, ListedItem main)
+        {
+            foreach (var ads in NativeFileOperationsHelper.GetAlternateStreams(itemPath))
+            {
+                string itemType = "ItemTypeFile".GetLocalized();
+                string itemFileExtension = null;
+                if (ads.name.Contains('.'))
+                {
+                    itemFileExtension = Path.GetExtension(ads.name);
+                    itemType = itemFileExtension.Trim('.') + " " + itemType;
+                }
+
+                yield return new ListedItem(null)
+                {
+                    PrimaryItemAttribute = StorageItemTypes.File,
+                    FileExtension = itemFileExtension,
+                    FileImage = null,
+                    LoadFileIcon = false,
+                    ItemNameRaw = ads.name,
+                    IsHiddenItem = true,
+                    Opacity = Constants.UI.DimItemOpacity,
+                    ItemDateModifiedReal = main.ItemDateModifiedReal,
+                    ItemDateAccessedReal = main.ItemDateAccessedReal,
+                    ItemDateCreatedReal = main.ItemDateCreatedReal,
+                    ItemType = itemType,
+                    ItemPath = $"{main.ItemPath}:{ads.name}",
+                    FileSize = ads.size.ToSizeString(),
+                    FileSizeBytes = ads.size
+                };
+            }
         }
 
         public static async Task<ListedItem> GetFolder(
