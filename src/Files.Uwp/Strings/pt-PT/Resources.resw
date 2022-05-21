@@ -2505,7 +2505,7 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
     <value>Insira o nome da Biblioteca</value>
   </data>
   <data name="ShowFolderSize" xml:space="preserve">
-    <value>Mostrar tamanho da paasta</value>
+    <value>Mostrar tamanho da pasta</value>
   </data>
   <data name="Skip" xml:space="preserve">
     <value>Ignorar</value>
@@ -2626,5 +2626,35 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar secção Tags</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Sistema</value>
+  </data>
+  <data name="FileInUseByDialog.Text" xml:space="preserve">
+    <value>O ficheiro que está a tentar aceder está atualmente a ser utilizado por {0}</value>
+  </data>
+  <data name="FileInUseDialog.Text" xml:space="preserve">
+    <value>O ficheiro que está a tentar aceder está atualmente a ser utilizado por uma outra aplicação</value>
+  </data>
+  <data name="FileInUseDialog.Title" xml:space="preserve">
+    <value>Ficheiro está em uso</value>
+  </data>
+  <data name="UseCompactStyles" xml:space="preserve">
+    <value>Utilizar estilos compacto no layout detalhes</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Universal</value>
+  </data>
+  <data name="DateFormatSample" xml:space="preserve">
+    <value>ex: {0}, {1}</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Mostrar miniaturas</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Tentar novamente</value>
+  </data>
+  <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
+    <value>A operação mover não é suportada neste contexto. Quer antes copiar os itens?</value>
   </data>
 </root>

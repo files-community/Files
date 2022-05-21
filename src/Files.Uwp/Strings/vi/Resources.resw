@@ -2572,4 +2572,49 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   <data name="OpenIn" xml:space="preserve">
     <value>Mở trong</value>
   </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Xoay trái</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Xoay phải</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Cài đặt</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Đóng các tab bên phải</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Đóng các tab Khác</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Âm nhạc</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>ảnh</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Không sao chép được</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Di chuyển không thành công.</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Thẻ</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Hệ thống</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Toàn diện</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Hiển thị Hình ảnh thu nhỏ</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Thử lại</value>
+  </data>
 </root>

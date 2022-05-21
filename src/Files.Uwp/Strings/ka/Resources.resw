@@ -2334,4 +2334,139 @@
   <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
     <value>მხოლოდ გადახედვის ჩვენება</value>
   </data>
+  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
+    <value>გადაადგილება ბოლოში</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
+    <value>გადაადგილება დასაწყისში</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>ტეგი</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>საქაღალდის მდებარეობა</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>პარამეტრების მართვა</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>მორგება</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>თავსებადობა</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>არცერთი</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>სისტემა</value>
+  </data>
+  <data name="Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>ვარიანტები</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>ადმინისტრატორის სახელით გაშვება</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>სანაგვე ურნის გასუფთავება</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>გვერდითი ზოლი</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>ფაილები და საქაღალდეები</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>ყველას გასუფთავება</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>სვეტები</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>დიდი ხატულები</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>პატარა ხატულები</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>მოზაიკა</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>გამოტოვება</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>ატრიბუტები:</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>დამალული</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>დამატებითი დეტალები</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>მხოლოდ წაკითხვადი</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>ტიპი</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>ბაიტი:</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>ამოღება...</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>სამუშაო დაფის ფონად დაყენება</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>&amp;გახსნა</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>შეტრიალება მარცხნივ</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>შეტრიალება მარჯვნივ</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>დაინსტალირება</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>მარჯვენა გრაფების დახურვა</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>სხვა ჩანართების დახურვა</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>მუსიკა</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>სურათები</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>ვიდეოები</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>ვერ დაკოპირდა</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>ტეგები</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>სისტემა</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>უნივერსალური</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>ხელახლა ცდა</value>
+  </data>
 </root>

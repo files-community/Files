@@ -3538,6 +3538,22 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
           <source>Move operation is not supported in this context. Do you want to copy the items instead?</source>
           <target state="translated">L'operazione di spostamento non è supportata in questo contesto. Vuoi copiare gli elementi?</target>
         </trans-unit>
+        <trans-unit id="HiddenFilesAndFolders" translate="yes" xml:space="preserve">
+          <source>Hidden files and folders</source>
+          <target state="new">Hidden files and folders</target>
+        </trans-unit>
+        <trans-unit id="Custom" translate="yes" xml:space="preserve">
+          <source>Custom</source>
+          <target state="new">Custom</target>
+        </trans-unit>
+        <trans-unit id="SizeAllColumnsToFit" translate="yes" xml:space="preserve">
+          <source>Size All Columns to Fit</source>
+          <target state="new">Size All Columns to Fit</target>
+        </trans-unit>
+        <trans-unit id="Contributors" translate="yes" xml:space="preserve">
+          <source>Contributors</source>
+          <target state="new">Contributors</target>
+        </trans-unit>
       </group>
     </body>
   </file>

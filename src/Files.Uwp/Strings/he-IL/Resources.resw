@@ -234,6 +234,15 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>הפריט כבר קיים.</value>
   </data>
+  <data name="BaseLayoutContextFlyoutLargeIcons.Text" xml:space="preserve">
+    <value>סמלים גדולים</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutMediumIcons.Text" xml:space="preserve">
+    <value>סמלים בינוניים</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
+    <value>סמלים קטנים</value>
+  </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>אישור</value>
   </data>
@@ -870,6 +879,15 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>תצוגת פרטים</value>
   </data>
+  <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
+    <value>סמלים גדולים</value>
+  </data>
+  <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
+    <value>סמלים בינוניים</value>
+  </data>
+  <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
+    <value>סמלים קטנים</value>
+  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>תאריך מחיקה</value>
   </data>
@@ -996,20 +1014,137 @@
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>בטל הצמדה לתפריט ההתחלה</value>
   </data>
+  <data name="ItemTypeLibrary" xml:space="preserve">
+    <value>ספריה</value>
+  </data>
+  <data name="LibraryItemAutomation" xml:space="preserve">
+    <value>ספריה</value>
+  </data>
+  <data name="Library" xml:space="preserve">
+    <value>ספריה</value>
+  </data>
+  <data name="LibraryLocations.Text" xml:space="preserve">
+    <value>מיקומים</value>
+  </data>
+  <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
+    <value>הסר</value>
+  </data>
+  <data name="DialogCreateLibraryButtonText" xml:space="preserve">
+    <value>‏‏צור</value>
+  </data>
+  <data name="PropertyISO" xml:space="preserve">
+    <value>‏‏מהירות ISO</value>
+  </data>
   <data name="Copy" xml:space="preserve">
     <value>העתק</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>העבר</value>
   </data>
+  <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>{0} פריטים יימחקו.</value>
+  </data>
+  <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>המשך</value>
+  </data>
   <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
     <value>פריט אחד יועתק</value>
+  </data>
+  <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
+    <value>‏‏מחק לצמיתות</value>
+  </data>
+  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
+    <value>לא מצאת את מה שחיפשת?</value>
+  </data>
+  <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
+    <value>בטל</value>
+  </data>
+  <data name="ToolTipDescriptionName" xml:space="preserve">
+    <value>שם</value>
+  </data>
+  <data name="ToolTipDescriptionType" xml:space="preserve">
+    <value>סוג</value>
+  </data>
+  <data name="ToolTipDescriptionDate" xml:space="preserve">
+    <value>תאריך שינוי</value>
   </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>אפשרויות בחירה</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>אפשרויות בחירה</value>
+  </data>
+  <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>כרטיסיה חדשה	Ctrl+T</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>סגירת כרטיסיה (Ctrl+W)</value>
+  </data>
+  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+    <value>פתיחה באמצעות</value>
+  </data>
+  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
+    <value>קבץ לפי</value>
+  </data>
+  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
+    <value>מיין לפי</value>
+  </data>
+  <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
+    <value>כיוון המיון</value>
+  </data>
+  <data name="ItemSizeText_Huge" xml:space="preserve">
+    <value>ענק</value>
+  </data>
+  <data name="ItemSizeText_Large" xml:space="preserve">
+    <value>גדול</value>
+  </data>
+  <data name="ItemSizeText_Medium" xml:space="preserve">
+    <value>בינוני</value>
+  </data>
+  <data name="ItemSizeText_Small" xml:space="preserve">
+    <value>קטן</value>
+  </data>
+  <data name="ItemSizeText_Tiny" xml:space="preserve">
+    <value>&amp;זעיר</value>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>היום</value>
+  </data>
+  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+    <value>אתמול</value>
+  </data>
+  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+    <value>‏‏מוקדם יותר השבוע</value>
+  </data>
+  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+    <value>בשבוע שעבר</value>
+  </data>
+  <data name="ItemTimeText_ThisMonth" xml:space="preserve">
+    <value>החודש</value>
+  </data>
+  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+    <value>בחודש שעבר</value>
+  </data>
+  <data name="ItemTimeText_ThisYear" xml:space="preserve">
+    <value>‏‏השנה</value>
+  </data>
+  <data name="ItemTimeText_Older" xml:space="preserve">
+    <value>ישן יותר</value>
+  </data>
+  <data name="ItemTimeText_Before" xml:space="preserve">
+    <value>לפני "|0"</value>
+  </data>
+  <data name="GroupItemsCount_Singular" xml:space="preserve">
+    <value>פריט {0}</value>
+  </data>
+  <data name="GroupItemsCount_Plural" xml:space="preserve">
+    <value>{0} פריטים</value>
+  </data>
+  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+    <value>פתח מחדש כרטיסיה שנסגרה</value>
+  </data>
+  <data name="SettingsAboutPrivacyPolicy.Text" xml:space="preserve">
+    <value>מדיניות פרטיות</value>
   </data>
   <data name="RenameFileDialogTitle" xml:space="preserve">
     <value>שנה שם</value>
@@ -1023,11 +1158,62 @@
   <data name="StatusCopyCanceled" xml:space="preserve">
     <value>העתקה בוטלה</value>
   </data>
+  <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
+    <value>מעתיק פריט {0} אל {1}</value>
+  </data>
+  <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
+    <value>מעתיק {0} פריטים אל {1}</value>
+  </data>
+  <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
+    <value>מוחק פריט {0} מתוך {1}</value>
+  </data>
+  <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
+    <value>מוחק {0} פריטים מתוך {1}</value>
+  </data>
   <data name="MoveInProgress" xml:space="preserve">
     <value>מעביר פריטים</value>
   </data>
   <data name="CopyInProgress.Title" xml:space="preserve">
     <value>מעתיק פריטים</value>
+  </data>
+  <data name="canceling" xml:space="preserve">
+    <value>מבטל</value>
+  </data>
+  <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
+    <value>התעלם</value>
+  </data>
+  <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>התעלם</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
+    <value>בחר</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>פריסה</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>פריסה</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
+    <value>פריסה</value>
+  </data>
+  <data name="PreviewPaneToggle.Label" xml:space="preserve">
+    <value>תצוגה מקדימה</value>
+  </data>
+  <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>מיין</value>
+  </data>
+  <data name="NavToolbarSortOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>מיין</value>
+  </data>
+  <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
+    <value>מיין</value>
+  </data>
+  <data name="NavToolbarLayout.Text" xml:space="preserve">
+    <value>פריסה</value>
+  </data>
+  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+    <value>חלון חדש</value>
   </data>
   <data name="CopyLocation" xml:space="preserve">
     <value>העתק מיקום</value>
@@ -1035,14 +1221,170 @@
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>הדבק</value>
   </data>
+  <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
+    <value>חדשות</value>
+  </data>
+  <data name="Security" xml:space="preserve">
+    <value>אבטחה</value>
+  </data>
+  <data name="AdvancedPermissions" xml:space="preserve">
+    <value>הרשאות מתקדמות:</value>
+  </data>
+  <data name="Allow" xml:space="preserve">
+    <value>אפשר</value>
+  </data>
+  <data name="SecurityDenyLabel.Text" xml:space="preserve">
+    <value>דחה</value>
+  </data>
+  <data name="SecurityFullControlLabel.Text" xml:space="preserve">
+    <value>שליטה מלאה</value>
+  </data>
+  <data name="SecurityModifyLabel.Text" xml:space="preserve">
+    <value>שנה</value>
+  </data>
+  <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
+    <value>הרשאות ל</value>
+  </data>
+  <data name="SecurityReadLabel.Text" xml:space="preserve">
+    <value>קריאה</value>
+  </data>
+  <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
+    <value>שמות קבוצות או משתמשים:</value>
+  </data>
+  <data name="Write" xml:space="preserve">
+    <value>כתיבה</value>
+  </data>
+  <data name="SecurityUnknownAccount" xml:space="preserve">
+    <value>חשבון לא ידוע</value>
+  </data>
+  <data name="SecurityOwnerLabel.Text" xml:space="preserve">
+    <value>בעלים</value>
+  </data>
   <data name="Default" xml:space="preserve">
     <value>ברירת מחדל</value>
+  </data>
+  <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
+    <value>כרטיסיה חדשה	Ctrl+T</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
     <value>יצירת ספריה חדשה</value>
   </data>
   <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
     <value>שחזור ספריות ברירת המחדל</value>
+  </data>
+  <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
+    <value>שחזר</value>
+  </data>
+  <data name="RecentFiles" xml:space="preserve">
+    <value>קבצים אחרונים</value>
+  </data>
+  <data name="PropertyFileOwner" xml:space="preserve">
+    <value>בעלים</value>
+  </data>
+  <data name="SecuritySpecialLabel.Text" xml:space="preserve">
+    <value>מיוחד</value>
+  </data>
+  <data name="Access" xml:space="preserve">
+    <value>גישה</value>
+  </data>
+  <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
+    <value>חל על</value>
+  </data>
+  <data name="SecurityAdvancedEntityLabel.Text" xml:space="preserve">
+    <value>ישות</value>
+  </data>
+  <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
+    <value>קבצים</value>
+  </data>
+  <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
+    <value>תיקיות משנה</value>
+  </data>
+  <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
+    <value>עבר בירושה</value>
+  </data>
+  <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
+    <value>הרשאות</value>
+  </data>
+  <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
+    <value>סוג</value>
+  </data>
+  <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
+    <value>מיוחד</value>
+  </data>
+  <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
+    <value>תיקיה זו וקבצים</value>
+  </data>
+  <data name="SecurityAdvancedFolderSubfoldersFiles.Text" xml:space="preserve">
+    <value>תיקיה זו, תיקיות משנה וקבצים</value>
+  </data>
+  <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
+    <value>תיקיה זו ותיקיות משנה</value>
+  </data>
+  <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
+    <value>שנה הרשאה</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>מחק</value>
+  </data>
+  <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
+    <value>קריאת תכונות</value>
+  </data>
+  <data name="SecurityReadExtendedAttributesLabel.Text" xml:space="preserve">
+    <value>קריאת תכונות מורחבות</value>
+  </data>
+  <data name="SecurityReadPermissionsLabel.Text" xml:space="preserve">
+    <value>הרשאות קריאה</value>
+  </data>
+  <data name="SecurityTakeOwnershipLabel.Text" xml:space="preserve">
+    <value>קבל בעלות</value>
+  </data>
+  <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
+    <value>כתיבת תכונות</value>
+  </data>
+  <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
+    <value>כתיבת תכונות מורחבות</value>
+  </data>
+  <data name="SecurityAdvancedInheritedEnable.Text" xml:space="preserve">
+    <value>הפוך ירושה לזמינה</value>
+  </data>
+  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
+    <value>סגור חלונית</value>
+  </data>
+  <data name="PropertyFileDescription" xml:space="preserve">
+    <value>‏‏תיאור קובץ</value>
+  </data>
+  <data name="PropertyCompany" xml:space="preserve">
+    <value>חברה</value>
+  </data>
+  <data name="PropertyLanguage" xml:space="preserve">
+    <value>שפה</value>
+  </data>
+  <data name="PropertyTrademarks" xml:space="preserve">
+    <value>סימנים מסחריים</value>
+  </data>
+  <data name="PropertyFileVersion" xml:space="preserve">
+    <value>גירסת קובץ:</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
+    <value>חלץ</value>
+  </data>
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
+    <value>בחר את הצבע שלך</value>
+  </data>
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
+    <value>ערכות נושא מותאמות אישית</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
+    <value>שפה</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
+    <value>‏‏הצג קבצים ותיקיות מוסתרים</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
+    <value>‏‏הסתר קבצים מוגנים של מערכת ההפעלה (מומלץ)</value>
+  </data>
+  <data name="SettingsUsefulLinks.Title" xml:space="preserve">
+    <value>קישורים שימושיים</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>הצמד למועדפים</value>
@@ -1064,5 +1406,287 @@
   </data>
   <data name="Close" xml:space="preserve">
     <value>סגירה</value>
+  </data>
+  <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>עדכן</value>
+  </data>
+  <data name="AddFile" xml:space="preserve">
+    <value>הוסף קובץ</value>
+  </data>
+  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
+    <value>הוסף תיקיה</value>
+  </data>
+  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
+    <value>&amp;הוסף פריט</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>בית</value>
+  </data>
+  <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
+    <value>כרטיסיה חדשה</value>
+  </data>
+  <data name="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+A</value>
+  </data>
+  <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Alt + Shift</value>
+  </data>
+  <data name="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+W</value>
+  </data>
+  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+N</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+T</value>
+  </data>
+  <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+T</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+N</value>
+  </data>
+  <data name="DateFormat" xml:space="preserve">
+    <value>תבנית תאריך.</value>
+  </data>
+  <data name="SettingsPrivacy.Title" xml:space="preserve">
+    <value>מדיניות פרטיות</value>
+  </data>
+  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
+    <value>שם</value>
+  </data>
+  <data name="DateModifiedLowerCase" xml:space="preserve">
+    <value>תאריך שינוי</value>
+  </data>
+  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
+    <value>סוג</value>
+  </data>
+  <data name="Descending" xml:space="preserve">
+    <value>סדר יורד</value>
+  </data>
+  <data name="SyncStatus" xml:space="preserve">
+    <value>‏‏מצב סינכרון</value>
+  </data>
+  <data name="FileTagUnknown" xml:space="preserve">
+    <value>לא ידוע</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
+    <value>תגית</value>
+  </data>
+  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+    <value>ערוך תגיות</value>
+  </data>
+  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
+    <value>הפוך תגיות לזמינות</value>
+  </data>
+  <data name="InsertDiscDialog.Title" xml:space="preserve">
+    <value>‏‏הכנס דיסק</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>החל על הכל</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>חלק מסט</value>
+  </data>
+  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
+    <value>אישור</value>
+  </data>
+  <data name="AskCredentialDialog.Title" xml:space="preserve">
+    <value>‏‏נדרש אישור</value>
+  </data>
+  <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
+    <value>אנונימי</value>
+  </data>
+  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
+    <value>סיסמה</value>
+  </data>
+  <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
+    <value>שם משתמש</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>לא נמצאו פריטים</value>
+  </data>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>הצג סיומות קבצים</value>
+  </data>
+  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
+    <value>הצג סיומות קבצים</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>שפה</value>
+  </data>
+  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
+    <value>הזז לתחתית הרשימה</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
+    <value>הזז לראש הרשימה</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>תגית</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>נתיב תיקיה:</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>יצא הגדרות</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>ייבא הגדרות</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>&amp;נהל הגדרות</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>התאמה אישית</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>שחזר ברירת מחדל</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>תאימות</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>ללא</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>מערכת</value>
+  </data>
+  <data name="Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>מצב תאימות</value>
+  </data>
+  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+    <value>בטל מיטובי מסך מלא</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>אפשרויות</value>
+  </data>
+  <data name="ReducedColorMode" xml:space="preserve">
+    <value>מצב צבע מופחת</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>הפעל כמנהל</value>
+  </data>
+  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+    <value>הפעל את פותר בעיות התאימות</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>רוקן את סל המיחזור</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>סרגל צידי</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>קבצים ותיקיות</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>נקה הכל</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>עמודות</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>סמלים גדולים</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>סמלים בינוניים</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>סמלים קטנים</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>אריחים</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>‏‏צור ספריה</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>דלג</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>תכונות</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>מוסתר</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>פרטים נוספים</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>לקריאה בלבד</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>סוג</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>בתים</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>חלץ</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>הפעל קובץ Script</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>קבע כרקע שולחן העבודה</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>פתח באמצעות</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>סובב שמאלה</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>סובב ימינה</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>‏‏התקן את</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>סגור כרטיסיות משמאל</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>סגור כרטיסיות אחרות</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>מוסיקה</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>תמונות</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>סרטוני וידאו</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>ההעתקה נכשלה.</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>ההעברה נכשלה.</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>תגיות</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>מערכת</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>אוניברסלי</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>הצג תמונות ממוזערות</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>נסה שנית</value>
   </data>
 </root>

@@ -3387,7 +3387,7 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
         </trans-unit>
         <trans-unit id="Extract" translate="yes" xml:space="preserve">
           <source>Extract</source>
-          <target state="new">Extract</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Pakk ut</target>
         </trans-unit>
         <trans-unit id="ExtractFiles" translate="yes" xml:space="preserve">
           <source>Extract files</source>
@@ -3399,7 +3399,7 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
         </trans-unit>
         <trans-unit id="ExtractKeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+E</source>
-          <target state="new">Ctrl+E</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ctrl+E</target>
         </trans-unit>
         <trans-unit id="ExtractToChildFolder" translate="yes" xml:space="preserve">
           <source>Extract to {0}</source>
@@ -3407,7 +3407,7 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
         </trans-unit>
         <trans-unit id="RunScript" translate="yes" xml:space="preserve">
           <source>Run script</source>
-          <target state="new">Run script</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Kjør skript</target>
         </trans-unit>
         <trans-unit id="RunWithPowerShell" translate="yes" xml:space="preserve">
           <source>Run with PowerShell</source>
@@ -3415,7 +3415,7 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
         </trans-unit>
         <trans-unit id="SetAsBackground" translate="yes" xml:space="preserve">
           <source>Set as desktop background</source>
-          <target state="new">Set as desktop background</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Bruk som skrivebordsbakgrunn</target>
         </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
@@ -3423,19 +3423,19 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
         </trans-unit>
         <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
           <source>Open in</source>
-          <target state="new">Open in</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Åpne i %@</target>
         </trans-unit>
         <trans-unit id="RotateLeft" translate="yes" xml:space="preserve">
           <source>Rotate left</source>
-          <target state="new">Rotate left</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Roter mot venstre</target>
         </trans-unit>
         <trans-unit id="RotateRight" translate="yes" xml:space="preserve">
           <source>Rotate right</source>
-          <target state="new">Rotate right</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Roter mot høyre</target>
         </trans-unit>
         <trans-unit id="Install" translate="yes" xml:space="preserve">
           <source>Install</source>
-          <target state="new">Install</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Installer</target>
         </trans-unit>
         <trans-unit id="CloseTabsToTheLeft" translate="yes" xml:space="preserve">
           <source>Close tabs to the left</source>
@@ -3443,7 +3443,7 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
         </trans-unit>
         <trans-unit id="CloseTabsToTheRight" translate="yes" xml:space="preserve">
           <source>Close tabs to the right</source>
-          <target state="new">Close tabs to the right</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Lukk faner til høyre</target>
         </trans-unit>
         <trans-unit id="ShowDotFiles" translate="yes" xml:space="preserve">
           <source>Show dot files</source>
@@ -3451,23 +3451,23 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
         </trans-unit>
         <trans-unit id="CloseOtherTabs" translate="yes" xml:space="preserve">
           <source>Close other tabs</source>
-          <target state="new">Close other tabs</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Lukk andre faner</target>
         </trans-unit>
         <trans-unit id="Music" translate="yes" xml:space="preserve">
           <source>Music</source>
-          <target state="new">Music</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Musikk</target>
         </trans-unit>
         <trans-unit id="Pictures" translate="yes" xml:space="preserve">
           <source>Pictures</source>
-          <target state="new">Pictures</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Bilder</target>
         </trans-unit>
         <trans-unit id="Videos" translate="yes" xml:space="preserve">
           <source>Videos</source>
-          <target state="new">Videos</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Videoer</target>
         </trans-unit>
         <trans-unit id="UpdateFiles" translate="yes" xml:space="preserve">
           <source>Update Files</source>
-          <target state="new">Update Files</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Oppdater filer</target>
         </trans-unit>
         <trans-unit id="StatusPreparingItemsDetails_Plural" translate="yes" xml:space="preserve">
           <source>Preparing {0} items</source>
@@ -3479,7 +3479,7 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
         </trans-unit>
         <trans-unit id="StatusCopyFailed" translate="yes" xml:space="preserve">
           <source>Copy failed</source>
-          <target state="new">Copy failed</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Kopiering mislyktes</target>
         </trans-unit>
         <trans-unit id="StatusCopyFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to copy {0} items from {1} to {2}</source>
@@ -3491,11 +3491,11 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
         </trans-unit>
         <trans-unit id="StatusMoveFailed" translate="yes" xml:space="preserve">
           <source>Move failed</source>
-          <target state="new">Move failed</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Flytting mislyktes.</target>
         </trans-unit>
         <trans-unit id="FileTags" translate="yes" xml:space="preserve">
           <source>Tags</source>
-          <target state="new">Tags</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Merker</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileTagsSection.Title" translate="yes" xml:space="preserve">
           <source>Show Tags section</source>
@@ -3507,7 +3507,7 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
         </trans-unit>
         <trans-unit id="SystemTimeStyle" translate="yes" xml:space="preserve">
           <source>System</source>
-          <target state="new">System</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">systemet</target>
         </trans-unit>
         <trans-unit id="FileInUseByDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to access is currently being used by {0}</source>
@@ -3527,7 +3527,7 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
         </trans-unit>
         <trans-unit id="Universal" translate="yes" xml:space="preserve">
           <source>Universal</source>
-          <target state="new">Universal</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Universell</target>
         </trans-unit>
         <trans-unit id="DateFormatSample" translate="yes" xml:space="preserve">
           <source>ex: {0}, {1}</source>
@@ -3535,15 +3535,31 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowThumbnails" translate="yes" xml:space="preserve">
           <source>Show thumbnails</source>
-          <target state="new">Show thumbnails</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Vis miniatyrbilder</target>
         </trans-unit>
         <trans-unit id="Retry" translate="yes" xml:space="preserve">
           <source>Retry</source>
-          <target state="new">Retry</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Prøv på nytt</target>
         </trans-unit>
         <trans-unit id="ErrorDialogUnsupportedMoveOperation" translate="yes" xml:space="preserve">
           <source>Move operation is not supported in this context. Do you want to copy the items instead?</source>
           <target state="new">Move operation is not supported in this context. Do you want to copy the items instead?</target>
+        </trans-unit>
+        <trans-unit id="HiddenFilesAndFolders" translate="yes" xml:space="preserve">
+          <source>Hidden files and folders</source>
+          <target state="new">Hidden files and folders</target>
+        </trans-unit>
+        <trans-unit id="Custom" translate="yes" xml:space="preserve">
+          <source>Custom</source>
+          <target state="new">Custom</target>
+        </trans-unit>
+        <trans-unit id="SizeAllColumnsToFit" translate="yes" xml:space="preserve">
+          <source>Size All Columns to Fit</source>
+          <target state="new">Size All Columns to Fit</target>
+        </trans-unit>
+        <trans-unit id="Contributors" translate="yes" xml:space="preserve">
+          <source>Contributors</source>
+          <target state="new">Contributors</target>
         </trans-unit>
       </group>
     </body>
