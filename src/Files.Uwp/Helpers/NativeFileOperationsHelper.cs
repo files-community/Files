@@ -87,7 +87,7 @@ namespace Files.Uwp.Helpers
         public static SafeFileHandle OpenFileForRead(string filePath, bool readWrite = false, uint flags = 0)
         {
             return new SafeFileHandle(CreateFileFromApp(filePath,
-                GENERIC_READ | (readWrite ? GENERIC_WRITE : 0), FILE_SHARE_READ | FILE_SHARE_WRITE, IntPtr.Zero, OPEN_ALWAYS, (uint)File_Attributes.BackupSemantics | flags, IntPtr.Zero), true);
+                GENERIC_READ | (readWrite ? GENERIC_WRITE : 0), FILE_SHARE_READ | (readWrite ? 0 : FILE_SHARE_WRITE), IntPtr.Zero, OPEN_EXISTING, (uint)File_Attributes.BackupSemantics | flags, IntPtr.Zero), true);
         }
 
         private const int MAXIMUM_REPARSE_DATA_BUFFER_SIZE = 16 * 1024;
