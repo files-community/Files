@@ -16,7 +16,7 @@ namespace Files.Uwp.Helpers
         {
             return directorySortOption switch
             {
-                SortOption.Name => item => item.ItemName,
+                SortOption.Name => item => item is AlternateStreamItem ads ? $"{ads.MainStreamName}:{ads.ItemName}" : item.ItemName,
                 SortOption.DateModified => item => item.ItemDateModifiedReal,
                 SortOption.DateCreated => item => item.ItemDateCreatedReal,
                 SortOption.FileType => item => item.ItemType,
