@@ -788,10 +788,9 @@ namespace Files.Uwp.Views
 
         public async void Refresh_Click()
         {
-            ToolbarViewModel.CanRefresh = false;
-
             if (InstanceViewModel.IsPageTypeSearchResults)
             {
+                ToolbarViewModel.CanRefresh = false;
                 var searchInstance = new FolderSearch
                 {
                     Query = InstanceViewModel.CurrentSearchQuery,
@@ -803,6 +802,7 @@ namespace Files.Uwp.Views
             }
             else if (CurrentPageType != typeof(WidgetsPage))
             {
+                ToolbarViewModel.CanRefresh = false;
                 FilesystemViewModel?.RefreshItems(null);
             }
         }
