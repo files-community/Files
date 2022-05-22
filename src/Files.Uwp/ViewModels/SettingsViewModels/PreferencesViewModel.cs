@@ -545,6 +545,19 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             }
         }
 
+        public bool AreAlternateStreamsVisible
+        {
+            get => UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
+                {
+                    UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public bool ShowDotFiles
         {
             get => UserSettingsService.PreferencesSettingsService.ShowDotFiles;

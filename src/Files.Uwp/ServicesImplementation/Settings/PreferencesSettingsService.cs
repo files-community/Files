@@ -52,7 +52,7 @@ namespace Files.Uwp.ServicesImplementation.Settings
 
         public bool AreAlternateStreamsVisible
         {
-            get => Get(true); // TODO: false
+            get => Get(false);
             set => Set(value);
         }
 

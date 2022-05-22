@@ -2657,4 +2657,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
     <value>L'operazione di spostamento non è supportata in questo contesto. Vuoi copiare gli elementi?</value>
   </data>
+  <data name="ShowAlternateStreams" xml:space="preserve">
+    <value>Mostra i flussi di file alternativi (ADS)</value>
+  </data>
 </root>

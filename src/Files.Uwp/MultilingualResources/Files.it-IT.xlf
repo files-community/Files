@@ -3554,6 +3554,10 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
           <source>Contributors</source>
           <target state="new">Contributors</target>
         </trans-unit>
+        <trans-unit id="ShowAlternateStreams" translate="yes" xml:space="preserve">
+          <source>Show Alternate Data Streams</source>
+          <target state="translated">Mostra i flussi di file alternativi (ADS)</target>
+        </trans-unit>
       </group>
     </body>
   </file>
