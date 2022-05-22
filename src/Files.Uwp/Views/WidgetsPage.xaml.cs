@@ -3,6 +3,7 @@ using Files.Uwp.Dialogs;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
 using Files.Uwp.UserControls.Widgets;
 using Files.Uwp.ViewModels;
 using Files.Uwp.ViewModels.Pages;
@@ -220,10 +221,13 @@ namespace Files.Uwp.Views
             AppInstance.InstanceViewModel.IsPageTypeFtp = false;
             AppInstance.InstanceViewModel.IsPageTypeZipFolder = false;
             AppInstance.InstanceViewModel.IsPageTypeLibrary = false;
-            AppInstance.ToolbarViewModel.CanRefresh = false;
+            AppInstance.ToolbarViewModel.CanRefresh = true;
             AppInstance.ToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
             AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
             AppInstance.ToolbarViewModel.CanNavigateToParent = false;
+
+            AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
+            AppInstance.ToolbarViewModel.RefreshRequested += ToolbarViewModel_RefreshRequested;
 
             // Set path of working directory empty
             await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home".GetLocalized());
@@ -240,12 +244,24 @@ namespace Files.Uwp.Views
             AppInstance.ToolbarViewModel.PathComponents.Add(item);
         }
 
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
+        }
+
+        private void ToolbarViewModel_RefreshRequested(object sender, EventArgs e)
+        {
+            Widgets.ViewModel.Widgets.ForEach(w => w.WidgetItemModel.RefreshWidget());
+        }
+
         #region IDisposable
 
         public void Dispose()
         {
             ViewModel.YourHomeLoadedInvoked -= ViewModel_YourHomeLoadedInvoked;
             Widgets.ViewModel.WidgetListRefreshRequestedInvoked -= ViewModel_WidgetListRefreshRequestedInvoked;
+            AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
             ViewModel?.Dispose();
         }
 

@@ -1,7 +1,6 @@
 ﻿using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.Uwp.ViewModels;
 using Files.Uwp.ViewModels.Widgets;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
@@ -20,7 +19,6 @@ using Windows.UI.Xaml.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.Core;
-using Files.Uwp.UserControls.Widgets;
 using System.Collections.Specialized;
 
 namespace Files.Uwp.UserControls.Widgets
@@ -284,6 +282,14 @@ namespace Files.Uwp.UserControls.Widgets
                 }
             }
             return false;
+        }
+
+        public async Task RefreshWidget()
+        {
+            foreach (var item in ItemsAdded)
+            {
+                await item.Item.UpdatePropertiesAsync();
+            }
         }
 
         public void Dispose()

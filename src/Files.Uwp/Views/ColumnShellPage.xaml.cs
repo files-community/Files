@@ -801,10 +801,9 @@ namespace Files.Uwp.Views
                 };
                 await FilesystemViewModel.SearchAsync(searchInstance);
             }
-            else
+            else if (CurrentPageType != typeof(WidgetsPage))
             {
-                var ContentOwnedViewModelInstance = FilesystemViewModel;
-                ContentOwnedViewModelInstance?.RefreshItems(null);
+                FilesystemViewModel?.RefreshItems(null);
             }
         }
 

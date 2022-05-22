@@ -79,6 +79,11 @@ namespace Files.Uwp.ViewModels.Pages
             widgetsViewModel?.Dispose();
         }
 
+        internal void RefreshWidgets()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion IDisposable
     }
 }
