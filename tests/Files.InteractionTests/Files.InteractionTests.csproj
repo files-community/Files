@@ -6,7 +6,7 @@
 
     <IsPackable>false</IsPackable>
 
-    <Configurations>Debug;Release</Configurations>
+    <Configurations>Debug;Release;Sideload</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
