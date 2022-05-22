@@ -46,14 +46,17 @@ namespace Files.Uwp.UserControls.Widgets
         {
             if (thumbnailData == null || thumbnailData.Length == 0)
             {
+                // Try load thumbnail using ListView mode
                 thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(overrideThumbnailSize), Windows.Storage.FileProperties.ThumbnailMode.ListView);
             }
             if (thumbnailData == null || thumbnailData.Length == 0)
             {
+                // Thumbnail is still null, use DriveItem icon (loaded using SingleItem mode)
                 thumbnailData = Item.IconData;
             }
             if (thumbnailData != null && thumbnailData.Length > 0)
             {
+                // Thumbnail data is valid, set the item icon
                 Thumbnail = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(overrideThumbnailSize));
             }
         }
