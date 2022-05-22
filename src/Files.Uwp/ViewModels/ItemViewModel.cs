@@ -2077,7 +2077,7 @@ namespace Files.Uwp.ViewModels
                             itemsToUpdate.Add(updateQueue.Dequeue());
                         }
 
-                        anyEdits |= await UpdateFilesOrFoldersAsync(itemsToUpdate, hasSyncStatus);
+                        await UpdateFilesOrFoldersAsync(itemsToUpdate, hasSyncStatus);
                     }
 
                     if (updateQueue.Count > 0)
@@ -2088,7 +2088,7 @@ namespace Files.Uwp.ViewModels
                             itemsToUpdate.Add(updateQueue.Dequeue());
                         }
 
-                        anyEdits |= await UpdateFilesOrFoldersAsync(itemsToUpdate, hasSyncStatus);
+                        await UpdateFilesOrFoldersAsync(itemsToUpdate, hasSyncStatus);
                     }
 
                     if (anyEdits && sampler.CheckNow())
@@ -2231,7 +2231,7 @@ namespace Files.Uwp.ViewModels
             return null;
         }
 
-        private async Task<bool> UpdateFilesOrFoldersAsync(IEnumerable<string> paths, bool hasSyncStatus)
+        private async Task UpdateFilesOrFoldersAsync(IEnumerable<string> paths, bool hasSyncStatus)
         {
             try
             {
@@ -2239,7 +2239,7 @@ namespace Files.Uwp.ViewModels
             }
             catch (OperationCanceledException)
             {
-                return false;
+                return;
             }
 
             try
@@ -2270,53 +2270,11 @@ namespace Files.Uwp.ViewModels
                         }
                     }
                 }, DispatcherQueuePriority.Low);
-
-                if (UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
-                {
-                    var needsListUpdate = await Task.WhenAll(matchingItems.Select(x => UpdateAlternateStreams(x)));
-                    return needsListUpdate.Any();
-                }
             }
             finally
             {
                 enumFolderSemaphore.Release();
             }
-
-            return false;
-        }
-
-        private async Task<bool> UpdateAlternateStreams(ListedItem item)
-        {
-            bool anyEdits = false;
-
-            var altStreams = NativeFileOperationsHelper.GetAlternateStreams(item.ItemPath).ToList();
-
-            foreach (var adsItem in filesAndFolders.Where(x => x is AlternateStreamItem ads && ads.MainStreamPath == item.ItemPath).ToList())
-            {
-                if (!altStreams.Any(x => x.Name == $":{adsItem.ItemNameRaw}:$DATA"))
-                {
-                    anyEdits |= filesAndFolders.Remove(adsItem);
-                }
-            }
-            foreach (var ads in altStreams)
-            {
-                var adsItem = Win32StorageEnumerator.GetAlternateStream(ads, item);
-                var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath == adsItem.ItemPath);
-                if (matchingItem is null)
-                {
-                    filesAndFolders.Add(adsItem);
-                    anyEdits = true;
-                }
-                else
-                {
-                    await dispatcherQueue.EnqueueAsync(() =>
-                    {
-                        matchingItem.FileSizeBytes = ads.Size;
-                        matchingItem.FileSize = ads.Size.ToSizeString();
-                    }, DispatcherQueuePriority.Low);
-                }
-            }
-            return anyEdits;
         }
 
         public async Task<ListedItem> RemoveFileOrFolderAsync(string path)
