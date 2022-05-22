@@ -31,6 +31,8 @@ namespace Files.Uwp.Filesystem.StorageItems
             => value is not null ? new SystemStorageFolder(value) : null;
 
         public abstract IAsyncOperation<StorageFolder> ToStorageFolderAsync();
+        public virtual IAsyncOperation<IStorageItem> ToStorageItemAsync()
+            => AsyncInfo.Run<IStorageItem>(async (cancellationToken) => await ToStorageFolderAsync());
 
         public abstract bool IsEqual(IStorageItem item);
         public abstract bool IsOfType(StorageItemTypes type);
@@ -42,7 +44,7 @@ namespace Files.Uwp.Filesystem.StorageItems
 
         public abstract IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync();
         IAsyncOperation<BasicProperties> IStorageItem.GetBasicPropertiesAsync()
-            => AsyncInfo.Run(async (cancellationToken) => await (await ToStorageFolderAsync()).GetBasicPropertiesAsync());
+            => AsyncInfo.Run(async (cancellationToken) => await (await ToStorageItemAsync()).GetBasicPropertiesAsync());
 
         public abstract IAsyncOperation<IStorageItem> GetItemAsync(string name);
         public abstract IAsyncOperation<IStorageItem> TryGetItemAsync(string name);
