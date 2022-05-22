@@ -3,7 +3,6 @@ using Files.Uwp.Dialogs;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.Shared.Extensions;
 using Files.Uwp.UserControls.Widgets;
 using Files.Uwp.ViewModels;
 using Files.Uwp.ViewModels.Pages;
@@ -15,6 +14,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using System.Threading.Tasks;
 
 namespace Files.Uwp.Views
 {
@@ -250,9 +250,11 @@ namespace Files.Uwp.Views
             AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
         }
 
-        private void ToolbarViewModel_RefreshRequested(object sender, EventArgs e)
+        private async void ToolbarViewModel_RefreshRequested(object sender, EventArgs e)
         {
-            Widgets.ViewModel.Widgets.ForEach(w => w.WidgetItemModel.RefreshWidget());
+            AppInstance.ToolbarViewModel.CanRefresh = false;
+            await Task.WhenAll(Widgets.ViewModel.Widgets.Select(w => w.WidgetItemModel.RefreshWidget()));
+            AppInstance.ToolbarViewModel.CanRefresh = true;
         }
 
         #region IDisposable
