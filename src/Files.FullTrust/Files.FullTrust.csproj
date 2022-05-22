@@ -9,14 +9,13 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <LangVersion>9</LangVersion>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Configurations>Debug;Release;Sideload</Configurations>
+    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Sideload'" />
   <PropertyGroup>
     <StartupObject />
     <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
