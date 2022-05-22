@@ -2244,7 +2244,7 @@ namespace Files.Uwp.ViewModels
 
             try
             {
-                var matchingItems = filesAndFolders.Where(x => paths.Any(p => p.Equals(x.ItemPath, StringComparison.OrdinalIgnoreCase))).ToList();
+                var matchingItems = filesAndFolders.Where(x => paths.Any(p => p.Equals(x.ItemPath, StringComparison.OrdinalIgnoreCase)));
                 var results = await Task.WhenAll(matchingItems.Select(x => GetFileOrFolderUpdateInfoAsync(x, hasSyncStatus)));
 
                 await dispatcherQueue.EnqueueAsync(() =>
