@@ -782,7 +782,7 @@ namespace Files.Uwp.Filesystem
 
         public static bool HasDraggedStorageItems(DataPackageView packageView)
         {
-            return packageView != null && (packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out var data)));
+            return packageView != null && (packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out _)));
         }
 
         public static async Task<bool> CheckDragNeedsFulltrust(DataPackageView packageView)

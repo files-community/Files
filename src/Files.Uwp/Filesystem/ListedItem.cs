@@ -365,7 +365,7 @@ namespace Files.Uwp.Filesystem
         public ListedItem(string folderRelativeId) => FolderRelativeId = folderRelativeId;
 
         // Parameterless constructor for JsonConvert
-        public ListedItem() {}
+        public ListedItem() { }
 
         private ObservableCollection<FileProperty> fileDetails;
         public ObservableCollection<FileProperty> FileDetails
@@ -591,5 +591,19 @@ namespace Files.Uwp.Filesystem
     {
         public string MainStreamPath => ItemPath.Substring(0, ItemPath.LastIndexOf(":"));
         public string MainStreamName => Path.GetFileName(MainStreamPath);
+
+        public override string ItemName
+        {
+            get
+            {
+                var nameWithoutExtension = Path.GetFileNameWithoutExtension(ItemNameRaw);
+                var mainStramNameWithoutExtension = Path.GetFileNameWithoutExtension(MainStreamName);
+                if (!UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+                {
+                    return $"{(string.IsNullOrEmpty(mainStramNameWithoutExtension) ? MainStreamName : mainStramNameWithoutExtension)}:{(string.IsNullOrEmpty(nameWithoutExtension) ? ItemNameRaw : nameWithoutExtension)}";
+                }
+                return $"{MainStreamName}:{ItemNameRaw}";
+            }
+        }
     }
 }

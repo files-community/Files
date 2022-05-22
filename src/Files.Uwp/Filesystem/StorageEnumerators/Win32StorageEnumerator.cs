@@ -140,11 +140,12 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
             {
                 string itemType = "ItemTypeFile".GetLocalized();
                 string itemFileExtension = null;
-                if (ads.name.Contains('.'))
+                if (ads.Name.Contains('.'))
                 {
-                    itemFileExtension = Path.GetExtension(ads.name);
+                    itemFileExtension = Path.GetExtension(ads.Name);
                     itemType = itemFileExtension.Trim('.') + " " + itemType;
                 }
+                string adsName = ads.Name.Substring(1, ads.Name.Length - 7); // Remove ":" and ":$DATA"
 
                 yield return new AlternateStreamItem()
                 {
@@ -152,16 +153,16 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                     FileExtension = itemFileExtension,
                     FileImage = null,
                     LoadFileIcon = false,
-                    ItemNameRaw = ads.name,
+                    ItemNameRaw = adsName,
                     IsHiddenItem = false,
                     Opacity = Constants.UI.DimItemOpacity,
                     ItemDateModifiedReal = main.ItemDateModifiedReal,
                     ItemDateAccessedReal = main.ItemDateAccessedReal,
                     ItemDateCreatedReal = main.ItemDateCreatedReal,
                     ItemType = itemType,
-                    ItemPath = $"{main.ItemPath}:{ads.name}",
-                    FileSize = ads.size.ToSizeString(),
-                    FileSizeBytes = ads.size
+                    ItemPath = $"{main.ItemPath}:{adsName}",
+                    FileSize = ads.Size.ToSizeString(),
+                    FileSizeBytes = ads.Size
                 };
             }
         }

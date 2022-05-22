@@ -196,6 +196,17 @@ namespace Files.Uwp.Filesystem
                 {
                     await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
                 }
+                else if (copyResult.Items.All(x => x.HResult == -1)) // ADS
+                {
+                    // Retry with StorageFile API
+                    var failedSources = copyResult.Items.Where(x => !x.Succeeded);
+                    var copyZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
+                    var sourceMatch = await failedSources.Select(x => copyZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
+                    return await filesystemOperations.CopyItemsAsync(
+                        await sourceMatch.Select(x => x.src).ToListAsync(),
+                        await sourceMatch.Select(x => x.dest).ToListAsync(),
+                        await sourceMatch.Select(x => x.coll).ToListAsync(), progress, errorCode, cancellationToken);
+                }
                 errorCode?.Report(CopyEngineResult.Convert(copyResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return null;
             }
@@ -448,13 +459,17 @@ namespace Files.Uwp.Filesystem
                 else if (deleteResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
                 {
                     // Abort, path is too long for recycle bin
-                    //var failedSources = deleteResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong);
-                    //var sourceMatch = await failedSources.Select(x => source.DistinctBy(x => x.Path).SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
-                    //return await filesystemOperations.DeleteItemsAsync(sourceMatch, progress, errorCode, permanently, cancellationToken);
                 }
                 else if (deleteResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
+                }
+                else if (deleteResult.Items.All(x => x.HResult == -1) && permanently) // ADS
+                {
+                    // Retry with StorageFile API
+                    var failedSources = deleteResult.Items.Where(x => !x.Succeeded);
+                    var sourceMatch = await failedSources.Select(x => source.DistinctBy(x => x.Path).SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
+                    return await filesystemOperations.DeleteItemsAsync(sourceMatch, progress, errorCode, permanently, cancellationToken);
                 }
                 errorCode?.Report(CopyEngineResult.Convert(deleteResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return null;
@@ -615,6 +630,17 @@ namespace Files.Uwp.Filesystem
                 {
                     await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
                 }
+                else if (moveResult.Items.All(x => x.HResult == -1)) // ADS
+                {
+                    // Retry with StorageFile API
+                    var failedSources = moveResult.Items.Where(x => !x.Succeeded);
+                    var moveZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
+                    var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
+                    return await filesystemOperations.MoveItemsAsync(
+                        await sourceMatch.Select(x => x.src).ToListAsync(),
+                        await sourceMatch.Select(x => x.dest).ToListAsync(),
+                        await sourceMatch.Select(x => x.coll).ToListAsync(), progress, errorCode, cancellationToken);
+                }
                 errorCode?.Report(CopyEngineResult.Convert(moveResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return null;
             }
@@ -695,6 +721,11 @@ namespace Files.Uwp.Filesystem
                 else if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
+                }
+                else if (renameResult.Items.All(x => x.HResult == -1)) // ADS
+                {
+                    // Retry with StorageFile API
+                    return await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
                 }
                 errorCode?.Report(CopyEngineResult.Convert(renameResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return null;

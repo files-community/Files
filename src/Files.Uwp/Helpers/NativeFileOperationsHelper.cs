@@ -478,7 +478,7 @@ namespace Files.Uwp.Helpers
             return null;
         }
 
-        public static IEnumerable<(string name, long size)> GetAlternateStreams(string path)
+        public static IEnumerable<(string Name, long Size)> GetAlternateStreams(string path)
         {
             using var handle = OpenFileForRead(path);
             if (!handle.IsInvalid)
@@ -495,7 +495,7 @@ namespace Files.Uwp.Helpers
                         var name = fileStruct.StreamName.Substring(0, (int)fileStruct.StreamNameLength / 2);
                         if (name.EndsWith(":$DATA") && name != "::$DATA")
                         {
-                            yield return (name.Substring(1, name.Length - 7), fileStruct.StreamSize);
+                            yield return (name, fileStruct.StreamSize);
                         }
                         offset += fileStruct.NextEntryOffset;
                     } while (fileStruct.NextEntryOffset != 0);
