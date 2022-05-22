@@ -1008,6 +1008,7 @@
     <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-400.png" />
     <Content Include="Assets\error.png" />
     <Content Include="Assets\FluentIcons\CloudDrive.png" />
+    <Content Include="Assets\FluentIcons\Favorites.png" />
     <Content Include="Assets\FluentIcons\FileTags.png" />
     <Content Include="Assets\FluentIcons\Home.png" />
     <Content Include="Assets\FolderIcon2.svg" />
