@@ -214,7 +214,7 @@ namespace Files.Uwp
             var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
             await updateService.CheckForUpdates();
 #if SIDELOAD
-            await updateService.DownloadUpdates();
+            //await updateService.DownloadUpdates();
 #else
             await updateService.DownloadMandatoryUpdates();
 #endif
