@@ -138,33 +138,38 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
         {
             foreach (var ads in NativeFileOperationsHelper.GetAlternateStreams(itemPath))
             {
-                string itemType = "ItemTypeFile".GetLocalized();
-                string itemFileExtension = null;
-                if (ads.Name.Contains('.'))
-                {
-                    itemFileExtension = Path.GetExtension(ads.Name);
-                    itemType = itemFileExtension.Trim('.') + " " + itemType;
-                }
-                string adsName = ads.Name.Substring(1, ads.Name.Length - 7); // Remove ":" and ":$DATA"
-
-                yield return new AlternateStreamItem()
-                {
-                    PrimaryItemAttribute = StorageItemTypes.File,
-                    FileExtension = itemFileExtension,
-                    FileImage = null,
-                    LoadFileIcon = false,
-                    ItemNameRaw = adsName,
-                    IsHiddenItem = false,
-                    Opacity = Constants.UI.DimItemOpacity,
-                    ItemDateModifiedReal = main.ItemDateModifiedReal,
-                    ItemDateAccessedReal = main.ItemDateAccessedReal,
-                    ItemDateCreatedReal = main.ItemDateCreatedReal,
-                    ItemType = itemType,
-                    ItemPath = $"{main.ItemPath}:{adsName}",
-                    FileSize = ads.Size.ToSizeString(),
-                    FileSizeBytes = ads.Size
-                };
+                yield return GetAlternateStream(ads, main);
             }
+        }
+
+        public static ListedItem GetAlternateStream((string Name, long Size) ads, ListedItem main)
+        {
+            string itemType = "ItemTypeFile".GetLocalized();
+            string itemFileExtension = null;
+            if (ads.Name.Contains('.'))
+            {
+                itemFileExtension = Path.GetExtension(ads.Name);
+                itemType = itemFileExtension.Trim('.') + " " + itemType;
+            }
+            string adsName = ads.Name.Substring(1, ads.Name.Length - 7); // Remove ":" and ":$DATA"
+
+            return new AlternateStreamItem()
+            {
+                PrimaryItemAttribute = StorageItemTypes.File,
+                FileExtension = itemFileExtension,
+                FileImage = null,
+                LoadFileIcon = false,
+                ItemNameRaw = adsName,
+                IsHiddenItem = false,
+                Opacity = Constants.UI.DimItemOpacity,
+                ItemDateModifiedReal = main.ItemDateModifiedReal,
+                ItemDateAccessedReal = main.ItemDateAccessedReal,
+                ItemDateCreatedReal = main.ItemDateCreatedReal,
+                ItemType = itemType,
+                ItemPath = $"{main.ItemPath}:{adsName}",
+                FileSize = ads.Size.ToSizeString(),
+                FileSizeBytes = ads.Size
+            };
         }
 
         public static async Task<ListedItem> GetFolder(
