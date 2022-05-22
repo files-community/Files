@@ -152,7 +152,8 @@ namespace Files.Uwp.Filesystem.StorageItems
                 {
                     if (CheckAccess(path))
                     {
-                        return new NativeStorageFile(path, IO.Path.GetFileName(path), DateTime.Now);
+                        var name = IO.Path.GetFileName(path);
+                        return new NativeStorageFile(path, name.Substring(name.LastIndexOf(":") + 1), DateTime.Now);
                     }
                 }
                 return null;
@@ -267,6 +268,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                         await inStream.CopyToAsync(outStream);
                         await outStream.FlushAsync();
                     }
+                    await DeleteAsync();
                 }
             });
         }

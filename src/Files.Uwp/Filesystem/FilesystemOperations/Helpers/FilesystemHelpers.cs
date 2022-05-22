@@ -42,7 +42,19 @@ namespace Files.Uwp.Filesystem
 
         #region Helpers Members
 
-        private static readonly char[] RestrictedCharacters = new[] { '\\', '/', ':', '*', '?', '"', '<', '>', '|' };
+        private static char[] RestrictedCharacters
+        {
+            get
+            {
+                var userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+                if (userSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
+                {
+                    // Allow ":" char
+                    return new[] { '\\', '/', '*', '?', '"', '<', '>', '|' };
+                }
+                return new[] { '\\', '/', ':', '*', '?', '"', '<', '>', '|' };
+            }
+        }
 
         private static readonly string[] RestrictedFileNames = new string[]
         {
