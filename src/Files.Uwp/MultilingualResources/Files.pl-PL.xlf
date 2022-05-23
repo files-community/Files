@@ -3550,6 +3550,10 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
           <source>Size All Columns to Fit</source>
           <target state="new">Size All Columns to Fit</target>
         </trans-unit>
+        <trans-unit id="Contributors" translate="yes" xml:space="preserve">
+          <source>Contributors</source>
+          <target state="new">Contributors</target>
+        </trans-unit>
       </group>
     </body>
   </file>

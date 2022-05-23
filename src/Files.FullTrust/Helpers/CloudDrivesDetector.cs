@@ -49,26 +49,27 @@ namespace Files.FullTrust.Helpers
         {
             var results = new List<CloudProvider>();
             using var clsidKey = Registry.ClassesRoot.OpenSubKey(@"CLSID");
-            foreach (var subKeyName in clsidKey.GetSubKeyNames())
+            using var namespaceKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace");
+            foreach (var subKeyName in namespaceKey.GetSubKeyNames())
             {
-                using var subKey = SafetyExtensions.IgnoreExceptions(() => clsidKey.OpenSubKey(subKeyName));
-                if (subKey != null && (int?)subKey.GetValue("System.IsPinnedToNameSpaceTree") == 1)
+                using var clsidSubKey = SafetyExtensions.IgnoreExceptions(() => clsidKey.OpenSubKey(subKeyName));
+                if (clsidSubKey != null && (int?)clsidSubKey.GetValue("System.IsPinnedToNameSpaceTree") == 1)
                 {
-                    using var namespaceKey = Registry.CurrentUser.OpenSubKey($@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{subKeyName}");
-                    var driveType = (string)namespaceKey?.GetValue("");
+                    using var namespaceSubKey = namespaceKey.OpenSubKey(subKeyName);
+                    var driveType = (string)namespaceSubKey?.GetValue("");
                     if (driveType == null)
                     {
                         continue;
                     }
 
                     //Nextcloud specific
-                    var appName = (string)namespaceKey?.GetValue("ApplicationName");
+                    var appName = (string)namespaceSubKey?.GetValue("ApplicationName");
                     if (!string.IsNullOrEmpty(appName) && appName == "Nextcloud")
                     {
                         driveType = appName;
                     }
 
-                    using var bagKey = subKey.OpenSubKey(@"Instance\InitPropertyBag");
+                    using var bagKey = clsidSubKey.OpenSubKey(@"Instance\InitPropertyBag");
                     var syncedFolder = (string)bagKey?.GetValue("TargetFolderPath");
                     if (syncedFolder == null)
                     {
@@ -96,7 +97,7 @@ namespace Files.FullTrust.Helpers
                         {
                             CloudProviders.Mega => $"MEGA ({Path.GetFileName(syncedFolder.TrimEnd('\\'))})",
                             CloudProviders.AmazonDrive => $"Amazon Drive",
-                            CloudProviders.Nextcloud => $"{ (!string.IsNullOrEmpty((string)namespaceKey?.GetValue("")) ? (string)namespaceKey?.GetValue(""):"Nextcloud")}",
+                            CloudProviders.Nextcloud => $"{ (!string.IsNullOrEmpty((string)namespaceSubKey?.GetValue("")) ? (string)namespaceSubKey?.GetValue(""):"Nextcloud")}",
                             CloudProviders.Jottacloud => $"Jottacloud",
                             _ => null
                         },

@@ -3555,6 +3555,10 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Size All Columns to Fit</source>
           <target state="new">Size All Columns to Fit</target>
         </trans-unit>
+        <trans-unit id="Contributors" translate="yes" xml:space="preserve">
+          <source>Contributors</source>
+          <target state="new">Contributors</target>
+        </trans-unit>
       </group>
     </body>
   </file>

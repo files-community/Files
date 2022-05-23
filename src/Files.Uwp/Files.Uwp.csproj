@@ -57,6 +57,18 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|x86'">
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|arm64'">
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
@@ -82,6 +94,18 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|arm64'">
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>arm64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
@@ -96,6 +120,18 @@
     <UseAppLocalCoreFramework>true</UseAppLocalCoreFramework>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|x64'">
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
@@ -264,6 +300,7 @@
     <Compile Include="ServicesImplementation\Settings\PaneSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\UserSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\WidgetsSettingsService.cs" />
+    <Compile Include="ServicesImplementation\SideloadUpdateService.cs" />
     <Compile Include="ServicesImplementation\ThreadingService.cs" />
     <Compile Include="ServicesImplementation\UpdateService.cs" />
     <Compile Include="TemplateSelectors\BaseTemplateSelector.cs" />
@@ -1007,6 +1044,7 @@
     <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-400.png" />
     <Content Include="Assets\error.png" />
     <Content Include="Assets\FluentIcons\CloudDrive.png" />
+    <Content Include="Assets\FluentIcons\Favorites.png" />
     <Content Include="Assets\FluentIcons\FileTags.png" />
     <Content Include="Assets\FluentIcons\Home.png" />
     <Content Include="Assets\FolderIcon2.svg" />
@@ -1629,6 +1667,64 @@
   <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '17.0' ">
     <VisualStudioVersion>17.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|x86'">
+    <OutputPath>bin\x86\Sideload\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN;CODE_ANALYSIS</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>9.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|arm64'">
+    <OutputPath>bin\arm64\Sideload\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN;CODE_ANALYSIS</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>arm64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>9.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|x64'">
+    <OutputPath>bin\x64\Sideload\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN;CODE_ANALYSIS</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>9.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|Win32'">
+    <OutputPath>bin\Win32\Sideload\</OutputPath>
+    <DefineConstants>;CODE_ANALYSIS</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>9.0</LangVersion>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|AnyCPU'">
+    <OutputPath>bin\Sideload\</OutputPath>
+    <DefineConstants>;CODE_ANALYSIS</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>9.0</LangVersion>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.PriResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\v$(MultilingualAppToolkitVersion)\Microsoft.Multilingual.PriResources.targets')" />
