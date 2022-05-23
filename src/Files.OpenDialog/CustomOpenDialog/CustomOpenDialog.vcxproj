@@ -26,15 +26,15 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Sideload|x64">
-      <Configuration>Release</Configuration>
+      <Configuration>Sideload</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Sideload|Win32">
-      <Configuration>Release</Configuration>
+      <Configuration>Sideload</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Sideload|arm64">
-      <Configuration>Release</Configuration>
+      <Configuration>Sideload</Configuration>
       <Platform>arm64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
