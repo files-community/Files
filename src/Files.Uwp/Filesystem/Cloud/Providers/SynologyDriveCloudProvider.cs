@@ -10,11 +10,21 @@ namespace Files.Uwp.Filesystem.Cloud.Providers
 {
     public class SynologyDriveCloudProvider : ICloudProviderDetector
     {
+        private class SynologyDriveConnection
+        {
+            public string ConnectionType { get; set; }
+
+            public string HostName { get; set; }
+        }
+
         public async Task<IList<CloudProvider>> DetectAsync()
         {
             /* Synology Drive stores its information on some files, but we only need sys.sqlite, which is placed on %LocalAppData%\SynologyDrive\data\db
-             * In this database we just need "session_table" table, and the fields:
-             * "conn_id", which has the value 1 for backups and value 2 for sync tasks
+             * In this database we need "connection_table" and "session_table" tables:
+             * connection_table has the ids of each connection in the field "id", and the type of connection in the field "conn_type" (1 for sync tasks and 2 for backups)
+             * Also it has "host_name" field where it's placed the name of each server.
+             * session_table has the next fields:
+             * "conn_id", which has the id that we check on connection_table to see if it's a sync or backup task
              * "remote_path", which has the server folder. Currently it's not needed, just adding in case in the future is needed.
              * "sync_folder", which has the local folder to sync.
             */
@@ -29,20 +39,34 @@ namespace Files.Uwp.Filesystem.Cloud.Providers
                 // Build the connection and sql command
                 SQLitePCL.Batteries_V2.Init();
                 using (var con = new SqliteConnection($"Data Source='{syncDbPath}'"))
-                using (var cmd = new SqliteCommand("select * from session_table", con))
+                using (var cmd = new SqliteCommand("select * from connection_table", con))
+                using (var cmd2 = new SqliteCommand("select * from session_table", con))
                 {
                     // Open the connection and execute the command
                     con.Open();
                     var reader = cmd.ExecuteReader();
-                    var results = new List<CloudProvider>();
+                    var connections = new Dictionary<string, SynologyDriveConnection>();
 
                     while (reader.Read())
                     {
-                        // Extract the data from the reader
-                        var isSyncTask = reader["conn_id"]?.ToString() == "2";
-                        if (isSyncTask)
+                        var connection = new SynologyDriveConnection()
                         {
-                            string path = reader["sync_folder"]?.ToString();
+                            ConnectionType = reader["conn_type"]?.ToString(),
+                            HostName = reader["host_name"]?.ToString()
+                        };
+
+                        connections.Add(reader["id"]?.ToString(), connection);
+                    }
+
+                    var reader2 = cmd2.ExecuteReader();
+                    var results = new List<CloudProvider>();
+
+                    while (reader2.Read())
+                    {
+                        // Extract the data from the reader
+                        if (connections[reader2["conn_id"]?.ToString()].ConnectionType == "1")
+                        {
+                            string path = reader2["sync_folder"]?.ToString();
                             if (string.IsNullOrWhiteSpace(path))
                             {
                                 return Array.Empty<CloudProvider>();
@@ -53,7 +77,7 @@ namespace Files.Uwp.Filesystem.Cloud.Providers
                             {
                                 ID = CloudProviders.SynologyDrive,
                                 SyncFolder = path,
-                                Name = $"Synology Drive ({folder.Name})"
+                                Name = $"Synology Drive - {connections[reader2["conn_id"]?.ToString()].HostName} ({folder.Name})"
                             };
 
                             results.Add(synologyDriveCloud);
