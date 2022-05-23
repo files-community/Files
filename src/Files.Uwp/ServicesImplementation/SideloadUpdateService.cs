@@ -84,7 +84,7 @@ namespace Files.Uwp.ServicesImplementation
             var remoteVersion = new Version(appInstaller.Version);
 
             // Check details and version number.
-            if (appInstaller.MainBundle.Name.Equals(currentPackageName) && currentVersion.CompareTo(remoteVersion) > 0)
+            if (appInstaller.MainBundle.Name.Equals(currentPackageName) && remoteVersion.CompareTo(currentVersion) > 0)
             {
                 DownloadUri = new Uri(appInstaller.MainBundle.Uri);
                 IsUpdateAvailable = true;
