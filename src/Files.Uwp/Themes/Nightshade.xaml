@@ -7,7 +7,6 @@
         <ResourceDictionary x:Key="Default">
             <!--  Background Resources  -->
             <SolidColorBrush x:Key="RootBackgroundBrush" Color="#2c303b" />
-            <Color x:Key="SolidBackgroundAcrylic">#535b70</Color>
             <Color x:Key="SolidBackgroundFillColorBase">#2c303b</Color>
             <Color x:Key="SolidBackgroundFillColorSecondary">#373c4a</Color>
             <Color x:Key="SolidBackgroundFillColorTertiary">#373c4a</Color>
@@ -16,6 +15,7 @@
             <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
             <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
             <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{ThemeResource SolidBackgroundFillColorQuarternary}" />
+            <Color x:Key="SolidBackgroundAcrylic">#535b70</Color>
             <!--  Accent Color  -->
             <Color x:Key="SystemAccentColor">#0f7b6e</Color>
             <Color x:Key="SystemAccentColorDark1">#0f7b6e</Color>
@@ -28,7 +28,6 @@
         <ResourceDictionary x:Key="Light">
             <!--  Background Resources  -->
             <SolidColorBrush x:Key="RootBackgroundBrush" Color="#eaefff" />
-            <Color x:Key="SolidBackgroundAcrylic">#eaefff</Color>
             <Color x:Key="SolidBackgroundFillColorBase">#aaeaefff</Color>
             <Color x:Key="SolidBackgroundFillColorSecondary">#aaeaefff</Color>
             <Color x:Key="SolidBackgroundFillColorTertiary">#eaefff</Color>
@@ -37,6 +36,7 @@
             <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
             <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
             <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{ThemeResource SolidBackgroundFillColorQuarternary}" />
+            <Color x:Key="SolidBackgroundAcrylic">#eaefff</Color>
             <!--  Accent Color  -->
             <Color x:Key="SystemAccentColor">#16ae9d</Color>
             <Color x:Key="SystemAccentColorDark1">#0f7b6e</Color>
