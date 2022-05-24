@@ -761,14 +761,7 @@ namespace Files.Uwp.ViewModels
                     return;
                 }
 
-                if (CurrentFolder.ItemPath == CommonPaths.DownloadsPath)
-                {
-                    filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, SortOption.DateModified, SortDirection.Descending, folderSettings.SortDirectoriesAlongsideFiles).ToList();
-                }
-                else
-                {
-                    filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles).ToList();
-                }
+                filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles).ToList();
             }
 
             if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)

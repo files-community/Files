@@ -436,7 +436,7 @@ namespace Files.Uwp.ViewModels
                 ApplicationDataCompositeValue adcv = (ApplicationDataCompositeValue)dataContainer.Values[folderPath];
                 return LayoutPreferences.FromCompositeValue(adcv);
             }
-            else if (folderPath == CommonPaths.DownloadsPath)
+            else if (folderPath.Replace('_', '\\') == CommonPaths.DownloadsPath)
             {
                 // Default for downloads folder is to group by date created
                 return new LayoutPreferences
