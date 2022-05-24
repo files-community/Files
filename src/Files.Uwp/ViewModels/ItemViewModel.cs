@@ -1401,6 +1401,13 @@ namespace Files.Uwp.ViewModels
 
             stopwatch.Stop();
             Debug.WriteLine($"Loading of items in {path} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
+
+            var folder = await StorageFolder.GetFolderFromPathAsync(WorkingDirectory);
+            var extra = await folder.Properties.RetrievePropertiesAsync(new string[] { "System.FileFRN", "System.VolumeId" });
+            await DialogDisplayHelper.ShowDialogAsync(WorkingDirectory, 
+                string.Join(Environment.NewLine, new[] { 
+                    $"Folder ID: {(ulong?)extra["System.FileFRN"]}",
+                    $"Volume ID: {(Guid)extra["System.VolumeId"]}" }));
         }
 
         private void AssignDefaultIcons()
