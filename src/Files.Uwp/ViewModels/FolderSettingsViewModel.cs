@@ -352,7 +352,9 @@ namespace Files.Uwp.ViewModels
             if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
             {
                 var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath.TrimEnd('\\'));
-                return layoutPrefs ?? ReadLayoutPreferencesFromSettings(folderPath.TrimEnd('\\').Replace('\\', '_'));
+                return layoutPrefs ??
+                    ReadLayoutPreferencesFromSettings(folderPath.TrimEnd('\\').Replace('\\', '_')) ??
+                    GetDefaultPreferences(folderPath.TrimEnd('\\'));
             }
 
             return LayoutPreferences.DefaultLayoutPreferences;
@@ -428,7 +430,6 @@ namespace Files.Uwp.ViewModels
                 return LayoutPreferences.DefaultLayoutPreferences;
             }
 
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
             ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
             folderPath = new string(folderPath.TakeLast(254).ToArray());
             if (dataContainer.Values.ContainsKey(folderPath))
@@ -437,8 +438,12 @@ namespace Files.Uwp.ViewModels
                 return LayoutPreferences.FromCompositeValue(adcv);
             }
 
-            folderPath.Replace('_', '\\');
+            return null;
+        }
 
+        private static LayoutPreferences GetDefaultPreferences(string folderPath)
+        {
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
             if (folderPath == CommonPaths.DownloadsPath)
             {
                 // Default for downloads folder is to group by date created
