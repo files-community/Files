@@ -1407,7 +1407,7 @@ namespace Files.Uwp.ViewModels
             await DialogDisplayHelper.ShowDialogAsync(WorkingDirectory, 
                 string.Join(Environment.NewLine, new[] { 
                     $"Folder ID: {(ulong?)extra["System.FileFRN"]}",
-                    $"Volume ID: {(Guid)extra["System.VolumeId"]}" }));
+                    $"Volume ID: {(Guid?)extra["System.VolumeId"]}" }));
         }
 
         private void AssignDefaultIcons()
