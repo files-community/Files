@@ -83,6 +83,7 @@ namespace Files.Uwp.ServicesImplementation
             {
                 if (await ShowDialogAsync())
                 {
+                    App.Logger.Info("STORE: Downloading updates...");
                     OnUpdateInProgress();
                     await DownloadAndInstall();
                     OnUpdateCompleted();
@@ -92,10 +93,13 @@ namespace Files.Uwp.ServicesImplementation
 
         public async Task CheckForUpdates()
         {
+            App.Logger.Info("STORE: Checking for updates...");
+
             await GetUpdatePackages();
 
             if (_updatePackages is not null && _updatePackages.Count > 0)
             {
+                App.Logger.Info("STORE: Update found.");
                 IsUpdateAvailable = true;
             }
         }
