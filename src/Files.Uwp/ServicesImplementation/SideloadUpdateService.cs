@@ -47,10 +47,11 @@ namespace Files.Uwp.ServicesImplementation
 
             IsUpdating = true;
 
+            App.Logger.Info($"Updating: {DownloadUri.AbsoluteUri}");
             PackageManager pm = new PackageManager();
-
             // Use DeploymentOptions.ForceApplicationShutdown to force shutdown.
             await pm.UpdatePackageAsync(DownloadUri, null, DeploymentOptions.None);
+            App.Logger.Info($"Finished updating: {DownloadUri.AbsoluteUri}");
 
             IsUpdating = false;
             IsUpdateAvailable = false;
@@ -63,7 +64,10 @@ namespace Files.Uwp.ServicesImplementation
 
         public async Task CheckForUpdates()
         {
-            await CheckForRemoteUpdate(_sideloadVersion[Package.Current.Id.Name]);
+            var sideloadVersion = _sideloadVersion[Package.Current.Id.Name];
+            App.Logger.Info($"Checking for updates: {sideloadVersion}");
+
+            await CheckForRemoteUpdate(sideloadVersion);
         }
 
         private async Task CheckForRemoteUpdate(string uri)
@@ -83,14 +87,21 @@ namespace Files.Uwp.ServicesImplementation
                 currentPackageVersion.Build, currentPackageVersion.Revision);
             var remoteVersion = new Version(appInstaller.Version);
 
+            App.Logger.Info($"Package Name: {currentPackageName}");
+            App.Logger.Info($"Remote Package Name: {appInstaller.MainBundle.Name}");
+            App.Logger.Info($"Current Version: {currentVersion}");
+            App.Logger.Info($"Remote Version: {remoteVersion}");
+
             // Check details and version number.
             if (appInstaller.MainBundle.Name.Equals(currentPackageName) && remoteVersion.CompareTo(currentVersion) > 0)
             {
+                App.Logger.Info("Update available.");
                 DownloadUri = new Uri(appInstaller.MainBundle.Uri);
                 IsUpdateAvailable = true;
             }
             else
             {
+                App.Logger.Warn("Update not available.");
                 IsUpdateAvailable = false;
             }
         }
