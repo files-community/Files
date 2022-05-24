@@ -763,7 +763,7 @@ namespace Files.Uwp.ViewModels
 
                 if (CurrentFolder.ItemPath == CommonPaths.DownloadsPath)
                 {
-                    filesAndFolders = SortingHelper.OrderFileList(fileAndFolders, SortOption.DateModified, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles).ToList();
+                    filesAndFolders = SortingHelper.OrderFileList(fileAndFolders, SortOption.DateModified, SortDirection.Descending, folderSettings.SortDirectoriesAlongsideFiles).ToList();
                 }
                 else
                 {
