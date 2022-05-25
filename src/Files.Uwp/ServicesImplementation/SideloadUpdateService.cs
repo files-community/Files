@@ -69,9 +69,11 @@ namespace Files.Uwp.ServicesImplementation
                     }
                 });
 
+                var currentPackageName = Package.Current.Id.Name;
+
                 // Have to use ForceTargetAppShutdown flag as the appinstaller won't update while it's being used.
                 deploymentResult = await pm.RequestAddPackageByAppInstallerFileAsync(
-                    DownloadUri,
+                    new Uri(_sideloadVersion[currentPackageName]),
                     AddPackageByAppInstallerOptions.ForceTargetAppShutdown,
                     pm.GetDefaultPackageVolume()).AsTask(progress);
 
