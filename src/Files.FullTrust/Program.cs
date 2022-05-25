@@ -16,10 +16,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using dorkbox.peParser;
-using dorkbox.peParser.misc;
-using dorkbox.peParser.headers.resources;
-using System.Runtime.InteropServices;
 
 namespace Files.FullTrust
 {
@@ -29,68 +25,9 @@ namespace Files.FullTrust
         public static ILogger Logger { get; private set; }
         private static readonly LogWriter logWriter = new LogWriter();
 
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 2)]
-        struct IconDirResEntry
-        {
-            public byte Width;
-            public byte Height;
-            public byte Colors;
-            public byte Reserved;
-            public short Planes;
-            public short BitsPerPixel;
-            public int ImageSize;
-            public short ResourceID;
-        }
-
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 2)]
-        struct GroupIcon
-        {
-            public short Reserved;
-            public short ResourceType;
-            public short ImageCount;
-        }
-
         [STAThread]
         private static async Task Main()
         {
-            using var instream = new FileStream("C:\\Users\\Marco Gavelli\\Downloads\\shell32.dll.mun", FileMode.Open, FileAccess.Read);
-            var pe = new PeFile(instream);
-            var mainEntry = pe.optionalHeader.tables.First(x => x.Type == DirEntry.RESOURCE);
-            var root = (ResourceDirectoryHeader)mainEntry.data;
-            var icons = root.entries.First(x => x.NAME.get() == "Icon").directory;
-            var gricons = root.entries.First(x => x.NAME.get() == "Group Icon").directory;
-            var generic_group = gricons.entries.First(x => x.NAME.get() == "1").directory;
-            var generic_group_data = Array.ConvertAll(generic_group.entries[0].resourceDataEntry.getData(pe.fileBytes), x => unchecked((byte)(x)));
-
-            var icos = new List<IconDirResEntry>();
-            GCHandle handle = GCHandle.Alloc(generic_group_data, GCHandleType.Pinned);
-            try
-            {
-                var baseAddr = handle.AddrOfPinnedObject();
-                var header = (GroupIcon)Marshal.PtrToStructure(baseAddr, typeof(GroupIcon));
-                var sizeof_gi = Marshal.SizeOf(typeof(GroupIcon));
-                var sizeof_idre = Marshal.SizeOf(typeof(IconDirResEntry));
-                while (icos.Count < header.ImageCount)
-                {
-                    var ico = Marshal.PtrToStructure<IconDirResEntry>(new IntPtr(baseAddr.ToInt64() + sizeof_gi + icos.Count * sizeof_idre));
-                    icos.Add(ico);
-                }
-            }
-            finally
-            {
-                handle.Free();
-            }
-
-            var biggest_icon = icos.MaxBy(x => x.Width == 0 && x.Height == 0 ? int.MaxValue : x.ImageSize);
-            var generic_icon = icons.entries.First(x => Convert.ToInt32(x.NAME.get(), 16) == biggest_icon.ResourceID).directory;
-            byte[] data = Array.ConvertAll(generic_icon.entries[0].resourceDataEntry.getData(pe.fileBytes), x => unchecked((byte)(x)));
-
-            using (var fos = new FileStream("C:\\Users\\Marco Gavelli\\Downloads\\test.png", FileMode.Create, FileAccess.Write))
-            {
-                fos.Write(data);
-            }
-            return;
-
             Logger = new Logger(logWriter);
             await logWriter.InitializeAsync("debug_fulltrust.log");
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
