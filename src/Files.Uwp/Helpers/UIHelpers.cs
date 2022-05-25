@@ -71,7 +71,7 @@ namespace Files.Uwp.Helpers
         private static async Task<IEnumerable<IconFileInfo>> LoadSidebarIconResources()
         {
             const string imageres = @"C:\Windows\SystemResources\imageres.dll.mun";
-            var imageResList = await UIHelpers.LoadSelectedIconsAsync(imageres, new[] {
+            var imageResList = await UIHelpers.LoadSelectedIconsAsync(imageres, new int[] {
                     Constants.ImageRes.RecycleBin,
                     Constants.ImageRes.NetworkDrives,
                     Constants.ImageRes.Libraries,
@@ -81,8 +81,7 @@ namespace Files.Uwp.Helpers
                 }, 32);
 
             const string shell32 = @"C:\Windows\SystemResources\shell32.dll.mun";
-            var shell32List = await UIHelpers.LoadSelectedIconsAsync(shell32, new[] {
-                    Constants.Shell32.QuickAccess
+            var shell32List = await UIHelpers.LoadSelectedIconsAsync(shell32, new int[] {
                 }, 32);
 
             if (shell32List != null && imageResList != null)

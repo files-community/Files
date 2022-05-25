@@ -455,6 +455,22 @@ namespace Files.Uwp.Helpers
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 2)]
+        struct IcoHeader
+        {
+            public short Reserved1;
+            public short ResourceType;
+            public short ImageCount;
+            public byte Width;
+            public byte Height;
+            public byte Colors;
+            public byte Reserved2;
+            public short Planes;
+            public short BitsPerPixel;
+            public int ImageSize;
+            public int Offset;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 2)]
         struct GroupIcon
         {
             public short Reserved;
@@ -465,6 +481,8 @@ namespace Files.Uwp.Helpers
         public static IList<Shared.IconFileInfo> GetSelectedIconsFromDLL(string iconFile, int requestedSize, int[] iconIndexes)
         {
             var icons = new List<Shared.IconFileInfo>();
+            if (iconIndexes.IsEmpty())
+                return icons;
 
             using var hFile = OpenFileForRead(iconFile);
             if (hFile.IsInvalid)
@@ -486,7 +504,7 @@ namespace Files.Uwp.Helpers
 
             foreach (var idx in iconIndexes)
             {
-                var group = iconsGroupDir.entries.FirstOrDefault(x => Convert.ToInt32(x.NAME.get(), 16) == idx)?.directory;
+                var group = iconsGroupDir.entries.FirstOrDefault(x => x.NAME.get() == Convert.ToString(idx, 16))?.directory;
                 if (group is null)
                     continue;
                 var group_data = Array.ConvertAll(group.entries[0].resourceDataEntry.getData(pe.fileBytes), x => unchecked((byte)(x)));
@@ -496,7 +514,7 @@ namespace Files.Uwp.Helpers
                 try
                 {
                     var baseAddr = handle.AddrOfPinnedObject();
-                    var header = (GroupIcon)Marshal.PtrToStructure(baseAddr, typeof(GroupIcon));
+                    var header = Marshal.PtrToStructure<GroupIcon>(baseAddr);
                     while (icos.Count < header.ImageCount)
                     {
                         var ico = Marshal.PtrToStructure<IconDirResEntry>(new IntPtr(baseAddr.ToInt64() + sizeof_gi + icos.Count * sizeof_idre));
@@ -510,16 +528,53 @@ namespace Files.Uwp.Helpers
 
                 if (icos.Count is 0)
                     continue;
-                icos.ForEach(x => x.Height = x.Height == 0 ? byte.MaxValue : x.Height);
-                var sortedIcos = icos.OrderBy(x => x.Height);
-                var closest_icon_id = sortedIcos.Last().Height >= requestedSize ? sortedIcos.First(x => x.Height >= requestedSize) : sortedIcos.Last();
+                var sortedIcos = icos.OrderBy(x => x.Height == 0 ? 256 : x.Height);
+                var biggest = sortedIcos.Last().Height == 0 ? 256 : sortedIcos.Last().Height;
+                var closest_icon_id = biggest >= requestedSize ? sortedIcos.First(x => x.Height >= requestedSize) : sortedIcos.Last();
                 var icon = iconDir.entries.FirstOrDefault(x => Convert.ToInt32(x.NAME.get(), 16) == closest_icon_id.ResourceID)?.directory;
                 if (icon is null)
                     continue;
 
                 byte[] data = Array.ConvertAll(icon.entries[0].resourceDataEntry.getData(pe.fileBytes), x => unchecked((byte)(x)));
-                icons.Add(new Shared.IconFileInfo(null, idx) { IconDataBytes = data });
+                if (data.Take(4).Select(x => (int)x).SequenceEqual(new[] { 137, 80, 78, 71 })) // PNG
+                {
+                    icons.Add(new Shared.IconFileInfo(null, idx) { IconDataBytes = data });
+                }
+                else
+                {
+                    var header = new IcoHeader()
+                    {
+                        Reserved1 = 0,
+                        ResourceType = 1,
+                        ImageCount = 1,
+                        Width = closest_icon_id.Width,
+                        Height = closest_icon_id.Height,
+                        Colors = closest_icon_id.Colors,
+                        Reserved2 = 0,
+                        Planes = closest_icon_id.Planes,
+                        BitsPerPixel = closest_icon_id.BitsPerPixel,
+                        ImageSize = closest_icon_id.ImageSize,
+                        Offset = Marshal.SizeOf(typeof(IcoHeader))
+                    };
+
+                    byte[] icoHeader = new byte[header.Offset];
+                    GCHandle handle2 = GCHandle.Alloc(icoHeader, GCHandleType.Pinned);
+                    try
+                    {
+                        Marshal.StructureToPtr<IcoHeader>(header, handle2.AddrOfPinnedObject(), true);
+                    }
+                    finally
+                    {
+                        handle2.Free();
+                    }
+
+                    icons.Add(new Shared.IconFileInfo(null, idx) { IconDataBytes = icoHeader.Concat(data).ToArray() });
+                }
             }
+
+            using var hFile2 = CreateFileForWrite(@$"C:\Users\Marco Gavelli\Downloads\test_{iconIndexes[0]}.ico");
+            using var outstream = new FileStream(hFile2, FileAccess.Write);
+            outstream.Write(icons[0].IconDataBytes, 0, icons[0].IconDataBytes.Length);
 
             return icons;
         }
