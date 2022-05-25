@@ -276,7 +276,7 @@ namespace Files.Uwp.ViewModels
         public event EventHandler<GroupOption> GroupOptionPreferenceUpdated;
 
         public event EventHandler<SortDirection> SortDirectionPreferenceUpdated;
-        
+
         public event EventHandler<bool> SortDirectoriesAlongsideFilesPreferenceUpdated;
 
         public SortOption DirectorySortOption
@@ -330,8 +330,8 @@ namespace Files.Uwp.ViewModels
             {
                 if (SetProperty(ref LayoutPreference.SortDirectoriesAlongsideFiles, value, nameof(SortDirectoriesAlongsideFiles)))
                 {
-                   LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
-                   SortDirectoriesAlongsideFilesPreferenceUpdated?.Invoke(this, SortDirectoriesAlongsideFiles);
+                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
+                    SortDirectoriesAlongsideFilesPreferenceUpdated?.Invoke(this, SortDirectoriesAlongsideFiles);
                 }
             }
         }
@@ -351,10 +351,11 @@ namespace Files.Uwp.ViewModels
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
             if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
             {
-                var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath.TrimEnd('\\'));
+                folderPath = folderPath.TrimEnd('\\');
+                var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath);
                 return layoutPrefs ??
-                    ReadLayoutPreferencesFromSettings(folderPath.TrimEnd('\\').Replace('\\', '_')) ??
-                    GetDefaultPreferences(folderPath.TrimEnd('\\'));
+                    ReadLayoutPreferencesFromSettings(folderPath.Replace('\\', '_')) ??
+                    GetDefaultPreferences(folderPath);
             }
 
             return LayoutPreferences.DefaultLayoutPreferences;
