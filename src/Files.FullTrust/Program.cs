@@ -16,6 +16,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using dorkbox.peParser;
+using dorkbox.peParser.misc;
+using dorkbox.peParser.headers.resources;
 
 namespace Files.FullTrust
 {
@@ -28,6 +31,24 @@ namespace Files.FullTrust
         [STAThread]
         private static async Task Main()
         {
+            using var instream = new FileStream("C:\\Users\\Marco Gavelli\\Downloads\\shell32.dll.mun", FileMode.Open, FileAccess.Read);
+            var pe = new PeFile(instream);
+            foreach (var mainEntry in pe.optionalHeader.tables)
+            {
+                if (mainEntry.Type == DirEntry.RESOURCE)
+                {
+                    var root = (ResourceDirectoryHeader)mainEntry.data;
+                    byte[] data = Array.ConvertAll(root.entries[11].directory.entries[64].directory.entries[0].resourceDataEntry.getData(pe.fileBytes), x => unchecked((byte)(x)));
+                    Debug.WriteLine(data.Length);
+                    using (var fos = new FileStream("C:\\Users\\Marco Gavelli\\Downloads\\test.ico", FileMode.Create, FileAccess.Write))
+                    {
+                        fos.Write(data);
+                    }
+                    break;
+                }
+            }
+            return;
+
             Logger = new Logger(logWriter);
             await logWriter.InitializeAsync("debug_fulltrust.log");
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
