@@ -38,6 +38,8 @@ namespace Files.Uwp.ServicesImplementation
             private set => SetProperty(ref _isUpdating, value);
         }
 
+        public uint DownloadPercentage { get; private set; }
+
         public async Task DownloadUpdates()
         {
             if (!IsUpdateAvailable)
@@ -48,18 +50,47 @@ namespace Files.Uwp.ServicesImplementation
             IsUpdating = true;
 
             App.Logger.Info($"SIDELOAD: Updating: {DownloadUri.AbsoluteUri}");
-            PackageManager pm = new PackageManager();
-            // Use DeploymentOptions.ForceApplicationShutdown to force shutdown.
-            await pm.UpdatePackageAsync(DownloadUri, null, DeploymentOptions.None);
-            App.Logger.Info($"SIDELOAD: Finished updating: {DownloadUri.AbsoluteUri}");
 
-            IsUpdating = false;
-            IsUpdateAvailable = false;
+            PackageManager pm = new PackageManager();
+            DeploymentResult deploymentResult = null;
+
+            try
+            {
+                var progress = new Progress<DeploymentProgress>(report =>
+                {
+                    DownloadPercentage = report.percentage;
+                    // UNDONE: Removed as it floods the log files.
+                    // App.Logger.Info($"SIDELOAD: Download State: {report.state}");
+                    // App.Logger.Info($"SIDELOAD: Download Percentage: {report.percentage}%");
+
+                    if (DownloadPercentage == 100)
+                    {
+                        App.Logger.Info($"SIDELOAD: Finished updating: {DownloadUri.AbsoluteUri}");
+                    }
+                });
+
+                // Have to use ForceTargetAppShutdown flag as the appinstaller won't update while it's being used.
+                deploymentResult = await pm.RequestAddPackageByAppInstallerFileAsync(
+                    DownloadUri,
+                    AddPackageByAppInstallerOptions.ForceTargetAppShutdown,
+                    pm.GetDefaultPackageVolume()).AsTask(progress);
+
+            }
+            catch (Exception e)
+            {
+                App.Logger.Error(e, e.Message);
+                App.Logger.Info(deploymentResult?.ErrorText ?? "No error message from deploymentResult.");
+            }
+            finally
+            {
+                IsUpdating = false;
+                IsUpdateAvailable = false;
+            }
         }
 
         public Task DownloadMandatoryUpdates()
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("This method is not supported by this service.");
         }
 
         public async Task CheckForUpdates()
