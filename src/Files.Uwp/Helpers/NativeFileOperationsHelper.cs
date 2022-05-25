@@ -510,10 +510,10 @@ namespace Files.Uwp.Helpers
                 var group_data = Array.ConvertAll(group.entries[0].resourceDataEntry.getData(pe.fileBytes), x => unchecked((byte)(x)));
 
                 var icos = new List<IconDirResEntry>();
-                GCHandle handle = GCHandle.Alloc(group_data, GCHandleType.Pinned);
+                GCHandle iconHandle = GCHandle.Alloc(group_data, GCHandleType.Pinned);
                 try
                 {
-                    var baseAddr = handle.AddrOfPinnedObject();
+                    var baseAddr = iconHandle.AddrOfPinnedObject();
                     var header = Marshal.PtrToStructure<GroupIcon>(baseAddr);
                     while (icos.Count < header.ImageCount)
                     {
@@ -523,7 +523,7 @@ namespace Files.Uwp.Helpers
                 }
                 finally
                 {
-                    handle.Free();
+                    iconHandle.Free();
                 }
 
                 if (icos.Count is 0)
@@ -536,11 +536,11 @@ namespace Files.Uwp.Helpers
                     continue;
 
                 byte[] data = Array.ConvertAll(icon.entries[0].resourceDataEntry.getData(pe.fileBytes), x => unchecked((byte)(x)));
-                if (data.Take(4).Select(x => (int)x).SequenceEqual(new[] { 137, 80, 78, 71 })) // PNG
+                if (data.Take(4).Select(x => (int)x).SequenceEqual(new[] { 137, 80, 78, 71 })) // PNG, ok
                 {
                     icons.Add(new Shared.IconFileInfo(null, idx) { IconDataBytes = data });
                 }
-                else
+                else // BMP, header is missing
                 {
                     var header = new IcoHeader()
                     {
@@ -558,23 +558,19 @@ namespace Files.Uwp.Helpers
                     };
 
                     byte[] icoHeader = new byte[header.Offset];
-                    GCHandle handle2 = GCHandle.Alloc(icoHeader, GCHandleType.Pinned);
+                    GCHandle headerHandle = GCHandle.Alloc(icoHeader, GCHandleType.Pinned);
                     try
                     {
-                        Marshal.StructureToPtr<IcoHeader>(header, handle2.AddrOfPinnedObject(), true);
+                        Marshal.StructureToPtr(header, headerHandle.AddrOfPinnedObject(), true);
                     }
                     finally
                     {
-                        handle2.Free();
+                        headerHandle.Free();
                     }
 
                     icons.Add(new Shared.IconFileInfo(null, idx) { IconDataBytes = icoHeader.Concat(data).ToArray() });
                 }
             }
-
-            using var hFile2 = CreateFileForWrite(@$"C:\Users\Marco Gavelli\Downloads\test_{iconIndexes[0]}.ico");
-            using var outstream = new FileStream(hFile2, FileAccess.Write);
-            outstream.Write(icons[0].IconDataBytes, 0, icons[0].IconDataBytes.Length);
 
             return icons;
         }
