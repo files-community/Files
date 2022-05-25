@@ -1,7 +1,12 @@
-﻿using Files.Shared.Extensions;
+﻿using dorkbox.peParser;
+using dorkbox.peParser.headers.resources;
+using dorkbox.peParser.misc;
+using Files.Shared.Extensions;
 using Microsoft.Win32.SafeHandles;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
@@ -434,6 +439,89 @@ namespace Files.Uwp.Helpers
                 }
             }
             return null;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 2)]
+        struct IconDirResEntry
+        {
+            public byte Width;
+            public byte Height;
+            public byte Colors;
+            public byte Reserved;
+            public short Planes;
+            public short BitsPerPixel;
+            public int ImageSize;
+            public short ResourceID;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 2)]
+        struct GroupIcon
+        {
+            public short Reserved;
+            public short ResourceType;
+            public short ImageCount;
+        }
+
+        public static IList<Shared.IconFileInfo> GetSelectedIconsFromDLL(string iconFile, int requestedSize, int[] iconIndexes)
+        {
+            var icons = new List<Shared.IconFileInfo>();
+
+            using var hFile = OpenFileForRead(iconFile);
+            if (hFile.IsInvalid)
+                return icons;
+            using var instream = new FileStream(hFile, FileAccess.Read);
+            var pe = new PeFile(instream);
+
+            var mainEntry = pe.optionalHeader.tables.FirstOrDefault(x => x.Type == DirEntry.RESOURCE);
+            if (mainEntry is null)
+                return icons;
+            var root = (ResourceDirectoryHeader)mainEntry.data;
+            var iconDir = root.entries.FirstOrDefault(x => x.NAME.get() == "Icon")?.directory;
+            var iconsGroupDir = root.entries.FirstOrDefault(x => x.NAME.get() == "Group Icon")?.directory;
+            if (iconDir is null || iconsGroupDir is null)
+                return icons;
+
+            var sizeof_gi = Marshal.SizeOf(typeof(GroupIcon));
+            var sizeof_idre = Marshal.SizeOf(typeof(IconDirResEntry));
+
+            foreach (var idx in iconIndexes)
+            {
+                var group = iconsGroupDir.entries.FirstOrDefault(x => Convert.ToInt32(x.NAME.get(), 16) == idx)?.directory;
+                if (group is null)
+                    continue;
+                var group_data = Array.ConvertAll(group.entries[0].resourceDataEntry.getData(pe.fileBytes), x => unchecked((byte)(x)));
+
+                var icos = new List<IconDirResEntry>();
+                GCHandle handle = GCHandle.Alloc(group_data, GCHandleType.Pinned);
+                try
+                {
+                    var baseAddr = handle.AddrOfPinnedObject();
+                    var header = (GroupIcon)Marshal.PtrToStructure(baseAddr, typeof(GroupIcon));
+                    while (icos.Count < header.ImageCount)
+                    {
+                        var ico = Marshal.PtrToStructure<IconDirResEntry>(new IntPtr(baseAddr.ToInt64() + sizeof_gi + icos.Count * sizeof_idre));
+                        icos.Add(ico);
+                    }
+                }
+                finally
+                {
+                    handle.Free();
+                }
+
+                if (icos.Count is 0)
+                    continue;
+                icos.ForEach(x => x.Height = x.Height == 0 ? byte.MaxValue : x.Height);
+                var sortedIcos = icos.OrderBy(x => x.Height);
+                var closest_icon_id = sortedIcos.Last().Height >= requestedSize ? sortedIcos.First(x => x.Height >= requestedSize) : sortedIcos.Last();
+                var icon = iconDir.entries.FirstOrDefault(x => Convert.ToInt32(x.NAME.get(), 16) == closest_icon_id.ResourceID)?.directory;
+                if (icon is null)
+                    continue;
+
+                byte[] data = Array.ConvertAll(icon.entries[0].resourceDataEntry.getData(pe.fileBytes), x => unchecked((byte)(x)));
+                icons.Add(new Shared.IconFileInfo(null, idx) { IconDataBytes = data });
+            }
+
+            return icons;
         }
     }
 }

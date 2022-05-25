@@ -1,4 +1,5 @@
 ﻿using Files.Shared;
+using Files.Shared.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -40,34 +41,9 @@ namespace Files.Uwp.Helpers
             }
         }
 
-        private static async Task<IList<IconFileInfo>> LoadSelectedIconsAsync(string filePath, IList<int> indexes, int iconSize = 48)
+        private static async Task<IList<IconFileInfo>> LoadSelectedIconsAsync(string filePath, int[] indexes, int iconSize = 48)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var value = new ValueSet
-                {
-                    { "Arguments", "GetSelectedIconsFromDLL" },
-                    { "iconFile", filePath },
-                    { "requestedIconSize", iconSize },
-                    { "iconIndexes", JsonConvert.SerializeObject(indexes) }
-                };
-                var (status, response) = await connection.SendMessageForResponseAsync(value);
-                if (status == AppServiceResponseStatus.Success)
-                {
-                    var icons = JsonConvert.DeserializeObject<IList<IconFileInfo>>((string)response["IconInfos"]);
-                    if (icons != null)
-                    {
-                        foreach (IconFileInfo iFInfo in icons)
-                        {
-                            iFInfo.IconDataBytes = Convert.FromBase64String(iFInfo.IconData);
-                        }
-                    }
-
-                    return icons;
-                }
-            }
-            return null;
+            return await Task.Run(() => SafetyExtensions.IgnoreExceptions(() => NativeFileOperationsHelper.GetSelectedIconsFromDLL(filePath, iconSize, indexes), App.Logger));
         }
 
         private static Task<IEnumerable<IconFileInfo>> IconResources = UIHelpers.LoadSidebarIconResources();
@@ -94,8 +70,8 @@ namespace Files.Uwp.Helpers
 
         private static async Task<IEnumerable<IconFileInfo>> LoadSidebarIconResources()
         {
-            const string imageres = @"C:\Windows\System32\imageres.dll";
-            var imageResList = await UIHelpers.LoadSelectedIconsAsync(imageres, new List<int>() {
+            const string imageres = @"C:\Windows\SystemResources\imageres.dll.mun";
+            var imageResList = await UIHelpers.LoadSelectedIconsAsync(imageres, new[] {
                     Constants.ImageRes.RecycleBin,
                     Constants.ImageRes.NetworkDrives,
                     Constants.ImageRes.Libraries,
@@ -104,8 +80,8 @@ namespace Files.Uwp.Helpers
                     Constants.ImageRes.Folder
                 }, 32);
 
-            const string shell32 = @"C:\Windows\System32\shell32.dll";
-            var shell32List = await UIHelpers.LoadSelectedIconsAsync(shell32, new List<int>() {
+            const string shell32 = @"C:\Windows\SystemResources\shell32.dll.mun";
+            var shell32List = await UIHelpers.LoadSelectedIconsAsync(shell32, new[] {
                     Constants.Shell32.QuickAccess
                 }, 32);
 
