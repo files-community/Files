@@ -1658,6 +1658,10 @@
       <Project>{4cfe0bbc-8d07-49a0-8b10-4edd61abcf57}</Project>
       <Name>Files.Backend</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PeParser\PeParser.csproj">
+      <Project>{FA48CB8A-2925-46B4-AF56-D4D92BC179E8}</Project>
+      <Name>PeParser</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="WindowsDesktop, Version=10.0.22000.0">
