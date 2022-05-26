@@ -695,10 +695,6 @@
           <source>Contributors</source>
           <target state="translated">Bidragydere</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutNotes.Text" translate="yes" xml:space="preserve">
-          <source> notes</source>
-          <target state="translated">Udgivelsesnoter</target>
-        </trans-unit>
         <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
           <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</source>
           <target state="translated">Emnet er enten ugyldig eller utilgængelig. {0} Fejlmeddelelse: {0} {1}</target>
@@ -1044,10 +1040,6 @@
           <source>Content Distributor</source>
           <target state="translated">Indholdsdistributør</target>
         </trans-unit>
-        <trans-unit id="PropertyDated" translate="yes" xml:space="preserve">
-          <source>Date d</source>
-          <target state="translated">Udgivelsesdato</target>
-        </trans-unit>
         <trans-unit id="PropertySeriesName" translate="yes" xml:space="preserve">
           <source>Series Name</source>
           <target state="translated">Serienavn</target>
@@ -1317,10 +1309,6 @@
         <trans-unit id="SettingsAboutContributorsListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>See who contributed to Files</source>
           <target state="translated">Se, hvem der har bidraget til Files</target>
-        </trans-unit>
-        <trans-unit id="SettingsAboutNotesListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Find out what's new in Files</source>
-          <target state="translated">Find ud af, hvad der er nyt i Files</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Send the developers an issue report with more information</source>
@@ -3577,6 +3565,19 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         <trans-unit id="Contributors" translate="yes" xml:space="preserve">
           <source>Contributors</source>
           <target state="new">Contributors</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
+          <source>Release notes</source>
+          <target state="new">Release notes</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="PropertyDateReleased" translate="yes" xml:space="preserve">
+          <source>Date Released</source>
+          <target state="new">Date Released</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Find out what's new in Files</source>
+          <target state="new">Find out what's new in Files</target>
         </trans-unit>
       </group>
     </body>
