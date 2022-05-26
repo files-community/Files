@@ -122,7 +122,7 @@ namespace Files.Uwp
                 .AddSingleton<IImagingService, ImagingService>()
                 .AddSingleton<IThreadingService, ThreadingService>()
                 .AddSingleton<ILocalizationService, LocalizationService>()
-#if SIDELOAD || DEBUG
+#if SIDELOAD
                 .AddSingleton<IUpdateService, SideloadUpdateService>()
 #else
                 .AddSingleton<IUpdateService, UpdateService>()

@@ -36,6 +36,9 @@ namespace Files.Uwp.ServicesImplementation
 
         private string PackageName { get; } = Package.Current.Id.Name;
 
+        private Version PackageVersion { get; } = new(Package.Current.Id.Version.Major,
+            Package.Current.Id.Version.Minor, Package.Current.Id.Version.Build, Package.Current.Id.Version.Revision);
+
         private Uri DownloadUri { get; set; }
 
         public bool IsUpdateAvailable
@@ -69,77 +72,84 @@ namespace Files.Uwp.ServicesImplementation
         public async Task CheckForUpdates()
         {
             Logger.Info($"SIDELOAD: Checking for updates...");
-#if DEBUG
-            // Use DEBUG to for testing purposes.
-            await CheckForRemoteUpdate(_sideloadVersion["FilesPreview"]);
-#else
             await CheckForRemoteUpdate(_sideloadVersion[PackageName]);
-#endif
         }
 
         private async Task CheckForRemoteUpdate(string uri)
         {
-            using var client = new WebClient();
-            using var stream = await client.OpenReadTaskAsync(uri);
-
-            // Deserialize AppInstaller.
-            XmlSerializer xml = new XmlSerializer(typeof(AppInstaller));
-            var appInstaller = (AppInstaller)xml.Deserialize(stream);
-
-            // Get version and package details.
-            // Using DEBUG directive to test downloads and updating packages.
-#if DEBUG
-            var currentPackageVersion = "1.0.0.0";
-            var currentPackageName = "FilesPreview";
-            var currentVersion = new Version(currentPackageVersion);
-#else
-            var currentPackageVersion = Package.Current.Id.Version;
-            var currentPackageName = Package.Current.Id.Name;
-            var currentVersion = new Version(currentPackageVersion.Major, currentPackageVersion.Minor,
-                currentPackageVersion.Build, currentPackageVersion.Revision);
-#endif
-
-            var remoteVersion = new Version(appInstaller.Version);
-
-            Logger.Info($"SIDELOAD: Current Package Name: {currentPackageName}");
-            Logger.Info($"SIDELOAD: Remote Package Name: {appInstaller.MainBundle.Name}");
-            Logger.Info($"SIDELOAD: Current Version: {currentVersion}");
-            Logger.Info($"SIDELOAD: Remote Version: {remoteVersion}");
-
-            // Check details and version number.
-            if (appInstaller.MainBundle.Name.Equals(currentPackageName) && remoteVersion.CompareTo(currentVersion) > 0)
+            if (string.IsNullOrEmpty(uri))
             {
-                Logger.Info("SIDELOAD: Update found.");
-                Logger.Info("SIDELOAD: Starting background download.");
-                DownloadUri = new Uri(appInstaller.MainBundle.Uri);
-                await StartBackgroundDownload();
+                throw new ArgumentNullException(nameof(uri));
             }
-            else
+
+            try
             {
-                Logger.Warn("SIDELOAD: Update not available.");
-                IsUpdateAvailable = false;
+                using var client = new WebClient();
+                using var stream = await client.OpenReadTaskAsync(uri);
+
+                // Deserialize AppInstaller.
+                XmlSerializer xml = new XmlSerializer(typeof(AppInstaller));
+                var appInstaller = (AppInstaller)xml.Deserialize(stream);
+
+                if (appInstaller == null)
+                {
+                    throw new ArgumentNullException(nameof(appInstaller));
+                }
+
+                var remoteVersion = new Version(appInstaller.Version);
+
+                Logger.Info($"SIDELOAD: Current Package Name: {PackageName}");
+                Logger.Info($"SIDELOAD: Remote Package Name: {appInstaller.MainBundle.Name}");
+                Logger.Info($"SIDELOAD: Current Version: {PackageVersion}");
+                Logger.Info($"SIDELOAD: Remote Version: {remoteVersion}");
+
+                // Check details and version number.
+                if (appInstaller.MainBundle.Name.Equals(PackageName) && remoteVersion.CompareTo(PackageVersion) > 0)
+                {
+                    Logger.Info("SIDELOAD: Update found.");
+                    Logger.Info("SIDELOAD: Starting background download.");
+                    DownloadUri = new Uri(appInstaller.MainBundle.Uri);
+                    await StartBackgroundDownload();
+                }
+                else
+                {
+                    Logger.Warn("SIDELOAD: Update not found.");
+                    IsUpdateAvailable = false;
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, e.Message);
             }
         }
 
         private async Task StartBackgroundDownload()
         {
-            using var client = new WebClient();
-            client.DownloadFileCompleted += BackgroundDownloadCompleted;
-            client.DownloadProgressChanged += BackgroundDownloadProgressChanged;
+            try
+            {
+                using var client = new WebClient();
+                client.DownloadFileCompleted += BackgroundDownloadCompleted;
+                client.DownloadProgressChanged += BackgroundDownloadProgressChanged;
 
-            var tempDownloadPath = ApplicationData.Current.LocalFolder.Path + "\\" + TemporaryUpdatePackageName;
+                // Use temp folder instead?
+                var tempDownloadPath = ApplicationData.Current.LocalFolder.Path + "\\" + TemporaryUpdatePackageName;
 
-            Stopwatch timer = Stopwatch.StartNew();
+                Stopwatch timer = Stopwatch.StartNew();
 
-            await client.DownloadFileTaskAsync(DownloadUri, tempDownloadPath);
+                await client.DownloadFileTaskAsync(DownloadUri, tempDownloadPath);
 
-            timer.Stop();
-            var timespan = timer.Elapsed;
+                timer.Stop();
+                var timespan = timer.Elapsed;
 
-            Logger.Info($"Download time taken: {timespan.Hours:00}:{timespan.Minutes:00}:{timespan.Seconds:00}");
+                Logger.Info($"Download time taken: {timespan.Hours:00}:{timespan.Minutes:00}:{timespan.Seconds:00}");
 
-            client.DownloadFileCompleted -= BackgroundDownloadCompleted;
-            client.DownloadProgressChanged -= BackgroundDownloadProgressChanged;
+                client.DownloadFileCompleted -= BackgroundDownloadCompleted;
+                client.DownloadProgressChanged -= BackgroundDownloadProgressChanged;
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, e.Message);
+            }
         }
 
         private void BackgroundDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
@@ -183,17 +193,20 @@ namespace Files.Uwp.ServicesImplementation
             }
             catch (Exception e)
             {
-                Logger.Error(e, e.Message);
-
                 if (result?.ExtendedErrorCode != null)
                 {
                     Logger.Info(result.ErrorText);
                 }
+
+                Logger.Error(e, e.Message);
             }
             finally
             {
+                // Reset fields.
                 IsUpdating = false;
                 IsUpdateAvailable = false;
+                DownloadPercentage = 0;
+                DownloadUri = null;
             }
         }
     }
