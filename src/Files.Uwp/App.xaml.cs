@@ -122,7 +122,7 @@ namespace Files.Uwp
                 .AddSingleton<IImagingService, ImagingService>()
                 .AddSingleton<IThreadingService, ThreadingService>()
                 .AddSingleton<ILocalizationService, LocalizationService>()
-#if SIDELOAD
+#if SIDELOAD || DEBUG
                 .AddSingleton<IUpdateService, SideloadUpdateService>()
 #else
                 .AddSingleton<IUpdateService, UpdateService>()
@@ -213,9 +213,7 @@ namespace Files.Uwp
             // Check for required updates
             var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
             await updateService.CheckForUpdates();
-#if !SIDELOAD
             await updateService.DownloadMandatoryUpdates();
-#endif
 
             static async Task OptionalTask(Task task, bool condition)
             {
