@@ -11,6 +11,7 @@
         <Setter Property="IsFocusEngagementEnabled" Value="True" />
         <Setter Property="MinWidth" Value="2" />
         <Setter Property="MinHeight" Value="2" />
+        <Setter Property="BorderBrush" Value="{ThemeResource SplitterBorderBrush}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="GripperForeground" Value="Transparent" />
         <Setter Property="Template">
@@ -19,19 +20,12 @@
                     <Grid
                         x:Name="RootGrid"
                         Background="Transparent"
-                        BorderBrush="{TemplateBinding BorderBrush}">
-                        
-                        <Border 
-                            Width="1"
-                            Background="{ThemeResource SplitterBorderBrush}"
-                            HorizontalAlignment="Center" />
-                        
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="1,0,0,0">
                         <ContentPresenter
-                            HorizontalContentAlignment="Left"
-                            VerticalContentAlignment="Top"
-                            Content="{TemplateBinding Element}"
-                            Visibility="Collapsed" />
-                        
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            Content="{TemplateBinding Element}" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="GridSplitterStates">
                                 <VisualState x:Name="Normal" />
