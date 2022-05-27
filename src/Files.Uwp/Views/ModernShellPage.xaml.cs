@@ -404,7 +404,7 @@ namespace Files.Uwp.Views
         {
             FilesystemViewModel?.UpdateSortOptionStatus();
         }
-        
+
         private void AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(object sender, bool e)
         {
             FilesystemViewModel?.UpdateSortDirectoriesAlongsideFiles();
@@ -681,7 +681,7 @@ namespace Files.Uwp.Views
             var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
             var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
             var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
-            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) || 
+            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
                               CurrentPageType == typeof(GridViewBrowser);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
@@ -862,10 +862,9 @@ namespace Files.Uwp.Views
 
         public async void Refresh_Click()
         {
-            ToolbarViewModel.CanRefresh = false;
-
             if (InstanceViewModel.IsPageTypeSearchResults)
             {
+                ToolbarViewModel.CanRefresh = false;
                 var searchInstance = new FolderSearch
                 {
                     Query = InstanceViewModel.CurrentSearchQuery,
@@ -875,10 +874,10 @@ namespace Files.Uwp.Views
                 };
                 await FilesystemViewModel.SearchAsync(searchInstance);
             }
-            else
+            else if (CurrentPageType != typeof(WidgetsPage))
             {
-                var ContentOwnedViewModelInstance = FilesystemViewModel;
-                ContentOwnedViewModelInstance?.RefreshItems(null);
+                ToolbarViewModel.CanRefresh = false;
+                FilesystemViewModel?.RefreshItems(null);
             }
         }
 
@@ -958,6 +957,10 @@ namespace Files.Uwp.Views
                 if (lastSlashIndex != -1)
                 {
                     parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.Remove(lastSlashIndex);
+                }
+                if (parentDirectoryOfPath.EndsWith(":"))
+                {
+                    parentDirectoryOfPath += '\\';
                 }
 
                 SelectSidebarItemFromPath();

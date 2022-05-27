@@ -3542,7 +3542,11 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="SizeAllColumnsToFit" translate="yes" xml:space="preserve">
           <source>Size All Columns to Fit</source>
-          <target state="new">Size All Columns to Fit</target>
+          <target state="translated">Adapter la largeur des colonnes</target>
+        </trans-unit>
+        <trans-unit id="Contributors" translate="yes" xml:space="preserve">
+          <source>Contributors</source>
+          <target state="new">Contributors</target>
         </trans-unit>
       </group>
     </body>

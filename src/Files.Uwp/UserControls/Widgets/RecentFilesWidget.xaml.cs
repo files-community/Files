@@ -49,7 +49,7 @@ namespace Files.Uwp.UserControls.Widgets
 
             recentItemsCollection.Clear();
 
-            PopulateRecentsList();
+            _ = PopulateRecentsList();
         }
 
         private void OpenFileLocation_Click(object sender, RoutedEventArgs e)
@@ -68,7 +68,7 @@ namespace Files.Uwp.UserControls.Widgets
             }
         }
 
-        private async void PopulateRecentsList()
+        private async Task PopulateRecentsList()
         {
             Empty.Visibility = Visibility.Collapsed;
 
@@ -220,6 +220,12 @@ namespace Files.Uwp.UserControls.Widgets
             var mru = StorageApplicationPermissions.MostRecentlyUsedList;
             mru.Clear();
             Empty.Visibility = Visibility.Visible;
+        }
+
+        public async Task RefreshWidget()
+        {
+            recentItemsCollection.Clear();
+            await PopulateRecentsList();
         }
 
         public void Dispose()
