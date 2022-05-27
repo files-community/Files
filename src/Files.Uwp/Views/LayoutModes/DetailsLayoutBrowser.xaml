@@ -57,9 +57,8 @@
                 TargetType="controls:GridSplitter">
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="Margin" Value="0,4" />
-                <Setter Property="Width" Value="16" />
+                <Setter Property="Width" Value="12" />
                 <Setter Property="Opacity" Value="0.8" />
-                <Setter Property="Canvas.ZIndex" Value="1" />
             </Style>
 
             <Style TargetType="ListViewHeaderItem">
@@ -152,7 +151,6 @@
 
             <Style TargetType="uc:DataGridHeader">
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                <Setter Property="Margin" Value="-4,0,-4,0" />
             </Style>
 
             <Style
