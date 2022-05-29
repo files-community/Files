@@ -14,10 +14,10 @@ namespace Files.Backend.Services.SizeProvider
 
         public event EventHandler<SizeChangedEventArgs>? SizeChanged;
 
-        public async Task CleanAsync()
+        public Task CleanAsync()
         {
             sizes.Clear();
-            await Task.Yield();
+            return Task.CompletedTask;
         }
 
         public async Task UpdateAsync(string path, CancellationToken cancellationToken)

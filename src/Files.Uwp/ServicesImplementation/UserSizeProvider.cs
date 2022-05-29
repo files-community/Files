@@ -24,11 +24,11 @@ namespace Files.Uwp.ServicesImplementation
             preferences.PropertyChanged += Preferences_PropertyChanged;
         }
 
-        public async Task CleanAsync()
-            => await provider.CleanAsync();
+        public Task CleanAsync()
+            => provider.CleanAsync();
 
-        public async Task UpdateAsync(string path, CancellationToken cancellationToken)
-            => await provider.UpdateAsync(path, cancellationToken);
+        public Task UpdateAsync(string path, CancellationToken cancellationToken)
+            => provider.UpdateAsync(path, cancellationToken);
 
         public bool TryGetSize(string path, out ulong size)
             => provider.TryGetSize(path, out size);
@@ -36,7 +36,7 @@ namespace Files.Uwp.ServicesImplementation
         public void Dispose()
         {
             provider.Dispose();
-            preferences.PropertyChanged += Preferences_PropertyChanged;
+            preferences.PropertyChanged -= Preferences_PropertyChanged;
         }
 
         private ISizeProvider GetProvider()

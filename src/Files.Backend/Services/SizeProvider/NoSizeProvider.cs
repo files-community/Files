@@ -8,11 +8,11 @@ namespace Files.Backend.Services.SizeProvider
     {
         public event EventHandler<SizeChangedEventArgs>? SizeChanged;
 
-        public async Task CleanAsync()
-            => await Task.Yield();
+        public Task CleanAsync()
+            => Task.CompletedTask;
 
-        public async Task UpdateAsync(string path, CancellationToken cancellationToken)
-            => await Task.Yield();
+        public Task UpdateAsync(string path, CancellationToken cancellationToken)
+            => Task.CompletedTask;
 
         public bool TryGetSize(string path, out ulong size)
         {
