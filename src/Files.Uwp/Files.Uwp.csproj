@@ -483,7 +483,6 @@
     <Compile Include="Helpers\JumpListManager.cs" />
     <Compile Include="Helpers\NativeDirectoryChangesHelper.cs" />
     <Compile Include="Helpers\NativeFileOperationsHelper.cs" />
-    <Compile Include="Helpers\NativeFindStorageItemHelper.cs" />
     <Compile Include="Helpers\NativeIoDeviceControlHelper.cs" />
     <Compile Include="Helpers\NativeWinApiHelper.cs" />
     <Compile Include="Helpers\NaturalStringComparer.cs" />
@@ -494,7 +493,6 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\BulkConcurrentObservableCollection.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
-    <Compile Include="Extensions\Win32FindDataExtensions.cs" />
     <Compile Include="Interacts\RemovableDevice.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="IAddressToolbar.cs" />

@@ -1,14 +1,14 @@
-using Files.Uwp.Extensions;
-using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Extensions;
+using Files.Backend.Services.Settings;
 using System;
+using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Collections.Concurrent;
-using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
+using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 
 namespace Files.Uwp.Filesystem
 {

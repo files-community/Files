@@ -42,8 +42,8 @@ using Windows.System;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using static Files.Uwp.Helpers.NativeDirectoryChangesHelper;
-using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Uwp.ViewModels
