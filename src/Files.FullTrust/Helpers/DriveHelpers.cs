@@ -1,4 +1,4 @@
-﻿using System.Management;
+﻿using Microsoft.Management.Infrastructure;
 using System.Runtime.Versioning;
 
 namespace Files.FullTrust.Helpers
@@ -11,10 +11,10 @@ namespace Files.FullTrust.Helpers
             string name = driveName.ToUpperInvariant();
             string query = $"SELECT DeviceID FROM Win32_Volume WHERE DriveLetter = '{name}'";
 
-            using var searcher = new ManagementObjectSearcher(query);
-            foreach (ManagementObject item in searcher.Get()) // max 1 result because DriveLetter is unique.
+            using var cimSession = CimSession.Create(null);
+            foreach (var item in cimSession.QueryInstances(@"root\cimv2", "WQL", query)) // max 1 result because DriveLetter is unique.
             {
-                return (string)item?.GetPropertyValue("DeviceID") ?? string.Empty;
+                return (string)item.CimInstanceProperties["DeviceID"]?.Value ?? string.Empty;
             }
 
             return string.Empty;
