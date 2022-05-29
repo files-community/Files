@@ -266,7 +266,9 @@
     <Compile Include="ServicesImplementation\Settings\WidgetsSettingsService.cs" />
     <Compile Include="ServicesImplementation\ThreadingService.cs" />
     <Compile Include="ServicesImplementation\UpdateService.cs" />
-    <Compile Include="ServicesImplementation\VolumeInfoFactory.cs" />
+    <Compile Include="ServicesImplementation\VolumeInfoFactory\VolumeInfoFactory.cs" />
+    <Compile Include="ServicesImplementation\VolumeInfoFactory\StorageVolumeInfoFactory.cs" />
+    <Compile Include="ServicesImplementation\VolumeInfoFactory\FullTrustVolumeInfoFactory.cs" />
     <Compile Include="TemplateSelectors\BaseTemplateSelector.cs" />
     <Compile Include="TemplateSelectors\FileSystemDialogItemSelector.cs" />
     <Compile Include="UserControls\ColoredIcon.xaml.cs">

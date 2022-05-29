@@ -8,7 +8,7 @@ using Windows.Foundation.Collections;
 
 namespace Files.Uwp.ServicesImplementation
 {
-    internal class VolumeInfoFactory : IVolumeInfoFactory
+    internal class FullTrustVolumeInfoFactory : IVolumeInfoFactory
     {
         public async Task<VolumeInfo> BuildVolumeInfo(string driveName)
         {
