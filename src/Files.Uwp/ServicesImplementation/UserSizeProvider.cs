@@ -33,7 +33,11 @@ namespace Files.Uwp.ServicesImplementation
         public bool TryGetSize(string path, out ulong size)
             => provider.TryGetSize(path, out size);
 
-        public void Dispose() => preferences.PropertyChanged += Preferences_PropertyChanged;
+        public void Dispose()
+        {
+            provider.Dispose();
+            preferences.PropertyChanged += Preferences_PropertyChanged;
+        }
 
         private ISizeProvider GetProvider()
             => preferences.ShowFolderSize ? new DrivesSizeProvider() : new NoSizeProvider();
