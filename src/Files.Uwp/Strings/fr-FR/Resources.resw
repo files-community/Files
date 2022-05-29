@@ -2661,4 +2661,7 @@
   <data name="Custom" xml:space="preserve">
     <value>Personnalisé</value>
   </data>
+  <data name="SizeAllColumnsToFit" xml:space="preserve">
+    <value>Adapter la largeur des colonnes</value>
+  </data>
 </root>
