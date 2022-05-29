@@ -201,7 +201,6 @@
     <Compile Include="Filesystem\FilesystemOperations\ShellFilesystemOperations.cs" />
     <Compile Include="Filesystem\FileTagsHelper.cs" />
     <Compile Include="Filesystem\FileTagsManager.cs" />
-    <Compile Include="Filesystem\FolderSizeProvider.cs" />
     <Compile Include="Filesystem\FtpManager.cs" />
     <Compile Include="Filesystem\Permissions\FilePermissionsManager.cs" />
     <Compile Include="Filesystem\Permissions\FileSystemAccessRule.cs" />

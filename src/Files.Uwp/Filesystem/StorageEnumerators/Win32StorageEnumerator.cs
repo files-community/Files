@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Extensions;
 using Files.Backend.Services.Settings;
+using Files.Backend.Services.SizeProvider;
 using Files.Shared;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem.StorageItems;
@@ -25,7 +26,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
 {
     public static class Win32StorageEnumerator
     {
-        private static readonly IFolderSizeProvider folderSizeProvider = Ioc.Default.GetService<IFolderSizeProvider>();
+        private static readonly ISizeProvider folderSizeProvider = Ioc.Default.GetService<ISizeProvider>();
 
         private static readonly string folderTypeTextLocalized = "FileFolderListItem".GetLocalized();
         private static readonly IFileListCache fileListCache = FileListCacheController.GetInstance();
@@ -96,12 +97,12 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
 
                                 if (showFolderSize)
                                 {
-                                    if (folderSizeProvider.GetCachedSize(folder.ItemPath, out var size))
+                                    if (folderSizeProvider.TryGetSize(folder.ItemPath, out var size))
                                     {
-                                        folder.FileSizeBytes = size;
+                                        folder.FileSizeBytes = (long)size;
                                         folder.FileSize = size.ToSizeString();
                                     }
-                                    _ = folderSizeProvider.UpdateFolderAsync(folder.ItemPath, cancellationToken);
+                                    _ = folderSizeProvider.UpdateAsync(folder.ItemPath, cancellationToken);
                                 }
                             }
                         }

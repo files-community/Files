@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
+using Files.Backend.Services.SizeProvider;
 using Files.Backend.ViewModels.Dialogs;
 using Files.Shared;
 using Files.Shared.Enums;
@@ -62,7 +63,7 @@ namespace Files.Uwp.ViewModels
         private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
         private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
-        private IFolderSizeProvider FolderSizeProvider { get; } = Ioc.Default.GetService<IFolderSizeProvider>();
+        private ISizeProvider FolderSizeProvider { get; } = Ioc.Default.GetService<ISizeProvider>();
 
         // only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
         public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
@@ -391,11 +392,11 @@ namespace Files.Uwp.ViewModels
 
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
             FileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingImportedEvent;
-            FolderSizeProvider.FolderSizeChanged += FolderSizeProvider_FolderSizeChanged;
+            FolderSizeProvider.SizeChanged += FolderSizeProvider_SizeChanged;
             AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
         }
 
-        private async void FolderSizeProvider_FolderSizeChanged(object sender, FolderSizeChangedEventArgs e)
+        private async void FolderSizeProvider_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             try
             {
@@ -408,20 +409,20 @@ namespace Files.Uwp.ViewModels
 
             try
             {
-                var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath == e.Folder);
-                if (matchingItem != null)
+                var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath == e.Path);
+                if (matchingItem is not null)
                 {
                     await dispatcherQueue.EnqueueAsync(() =>
                     {
-                        if (e.Size < 0)
+                        if (e.ValueState is SizeChangedValueState.None)
                         {
                             matchingItem.FileSizeBytes = 0;
                             matchingItem.FileSize = "ItemSizeNotCalculated".GetLocalized();
                         }
-                        else if (!e.Intermediate || e.Size > matchingItem.FileSizeBytes)
+                        else if (e.ValueState is SizeChangedValueState.Final || (long)e.NewSize > matchingItem.FileSizeBytes)
                         {
-                            matchingItem.FileSizeBytes = e.Size;
-                            matchingItem.FileSize = e.Size.ToSizeString();
+                            matchingItem.FileSizeBytes = (long)e.NewSize;
+                            matchingItem.FileSize = e.NewSize.ToSizeString();
                         }
                         DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
                     }, DispatcherQueuePriority.Low);
@@ -2353,7 +2354,7 @@ namespace Files.Uwp.ViewModels
             }
             UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
             FileTagsSettingsService.OnSettingImportedEvent -= FileTagsSettingsService_OnSettingImportedEvent;
-            FolderSizeProvider.FolderSizeChanged -= FolderSizeProvider_FolderSizeChanged;
+            FolderSizeProvider.SizeChanged -= FolderSizeProvider_SizeChanged;
             AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
             DefaultIcons.Clear();
         }

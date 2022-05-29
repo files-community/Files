@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
+using Files.Backend.Services.SizeProvider;
 using Files.Shared;
 using Files.Shared.Extensions;
 using Files.Shared.Services.DateTimeFormatter;
@@ -133,7 +134,7 @@ namespace Files.Uwp
                 // TODO(i): FileSystem operations:
                 // (IFilesystemHelpersService, IFilesystemOperationsService)
                 // (IStorageEnumerator, IFallbackStorageEnumerator)
-                .AddSingleton<IFolderSizeProvider, FolderSizeProvider>()
+                .AddSingleton<ISizeProvider, UserSizeProvider>()
 
                 ; // End of service configuration
 
