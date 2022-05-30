@@ -1987,6 +1987,7 @@ namespace Files.Uwp.ViewModels
 
             bool anyEdits = false;
             ListedItem lastItemAdded = null;
+            List<ListedItem> itemsAdded = new();
             ListedItem nextOfLastItemRemoved = null;
             var rand = Guid.NewGuid();
 
@@ -1997,7 +1998,7 @@ namespace Files.Uwp.ViewModels
                 await ApplyFilesAndFoldersChangesAsync();
                 if (lastItemAdded != null)
                 {
-                    await RequestSelectionAsync(new List<ListedItem>() { lastItemAdded });
+                    await RequestSelectionAsync(itemsAdded);
                     lastItemAdded = null;
                 }
                 if (nextOfLastItemRemoved != null)
@@ -2026,6 +2027,7 @@ namespace Files.Uwp.ViewModels
                                     case FILE_ACTION_ADDED:
                                     case FILE_ACTION_RENAMED_NEW_NAME:
                                         lastItemAdded = await AddFileOrFolderAsync(operation.FileName);
+                                        itemsAdded.Add(lastItemAdded);
                                         if (lastItemAdded != null)
                                         {
                                             anyEdits = true;
