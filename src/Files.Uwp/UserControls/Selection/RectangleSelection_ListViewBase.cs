@@ -21,6 +21,7 @@ namespace Files.Uwp.UserControls.Selection
         private Point originDragPoint;
         private Dictionary<object, System.Drawing.Rectangle> itemsPosition;
         private List<object> prevSelectedItems;
+        private List<object> prevSelectedItemsDrag;
         private ItemSelectionStrategy selectionStrategy;
 
         public RectangleSelection_ListViewBase(ListViewBase uiElement, Rectangle selectionRectangle, SelectionChangedEventHandler selectionChanged = null)
@@ -91,6 +92,17 @@ namespace Files.Uwp.UserControls.Selection
                     // Scroll up the list if pointer is at the top
                     var scrollIncrement = Math.Min(20 - currentPoint.Position.Y, 40);
                     scrollViewer.ChangeView(null, verticalOffset - scrollIncrement, null, false);
+                }
+
+                if (selectionChanged != null)
+                {
+                    var currentSelectedItemsDrag = uiElement.SelectedItems.Cast<object>().ToList();
+                    if (prevSelectedItemsDrag == null || !prevSelectedItemsDrag.SequenceEqual(currentSelectedItemsDrag))
+                    {
+                        // Trigger SelectionChanged event if the selection has changed
+                        selectionChanged(sender, null);
+                        prevSelectedItemsDrag = currentSelectedItemsDrag;
+                    }
                 }
             }
         }
@@ -194,6 +206,8 @@ namespace Files.Uwp.UserControls.Selection
 
             selectionStrategy = null;
             selectionState = SelectionState.Inactive;
+
+            prevSelectedItemsDrag = null;
 
             e.Handled = true;
         }
