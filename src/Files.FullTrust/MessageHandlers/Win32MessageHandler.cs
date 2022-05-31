@@ -143,7 +143,9 @@ namespace Files.FullTrust.MessageHandlers
                                 {
                                     try
                                     {
-                                        var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
+                                        var shellFileItem = folderItem is ShellLink link ?
+                                            ShellFolderExtensions.GetShellLinkItem(link) :
+                                            ShellFolderExtensions.GetShellFileItem(folderItem);
                                         flc.Add(shellFileItem);
                                     }
                                     catch (FileNotFoundException)
@@ -163,7 +165,10 @@ namespace Files.FullTrust.MessageHandlers
                         return (folder, flc);
                     });
                     sfResponseEnum.Add("Folder", JsonConvert.SerializeObject(folder));
-                    sfResponseEnum.Add("Enumerate", JsonConvert.SerializeObject(folderContentsList));
+                    sfResponseEnum.Add("Enumerate", JsonConvert.SerializeObject(folderContentsList, new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.Objects
+                    }));
                     await Win32API.SendMessageAsync(connection, sfResponseEnum, message.Get("RequestID", (string)null));
                     break;
 

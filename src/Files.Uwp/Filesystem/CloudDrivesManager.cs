@@ -52,7 +52,7 @@ namespace Files.Uwp.Filesystem
                     ShowShellItems = true,
                     ShowProperties = true,
                 };
-                var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, 24);
+                var iconData = provider.IconData ?? await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, 24);
                 if (iconData is not null)
                 {
                     cloudProviderItem.IconData = iconData;

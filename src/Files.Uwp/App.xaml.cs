@@ -130,6 +130,7 @@ namespace Files.Uwp
 #endif
                 .AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
                 .AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
+                .AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
 
                 // TODO(i): FileSystem operations:
                 // (IFilesystemHelpersService, IFilesystemOperationsService)
@@ -214,9 +215,7 @@ namespace Files.Uwp
             // Check for required updates
             var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
             await updateService.CheckForUpdates();
-#if !SIDELOAD
             await updateService.DownloadMandatoryUpdates();
-#endif
 
             static async Task OptionalTask(Task task, bool condition)
             {

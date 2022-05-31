@@ -229,6 +229,7 @@
     <Compile Include="Helpers\CommonPaths.cs" />
     <Compile Include="Helpers\FileExtensionHelpers.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\BlockingListEnumerator.cs" />
+    <Compile Include="Helpers\KnownTypesBinder.cs" />
     <Compile Include="Helpers\LocalizedEnumHelper.cs" />
     <Compile Include="Helpers\ResourceHelpers.cs" />
     <Compile Include="Helpers\FtpHelpers.cs" />
@@ -303,6 +304,7 @@
     <Compile Include="ServicesImplementation\ThreadingService.cs" />
     <Compile Include="ServicesImplementation\UpdateService.cs" />
     <Compile Include="ServicesImplementation\UserSizeProvider.cs" />
+    <Compile Include="ServicesImplementation\VolumeInfoFactory.cs" />
     <Compile Include="TemplateSelectors\BaseTemplateSelector.cs" />
     <Compile Include="TemplateSelectors\FileSystemDialogItemSelector.cs" />
     <Compile Include="UserControls\ColoredIcon.xaml.cs">

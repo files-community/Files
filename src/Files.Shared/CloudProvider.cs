@@ -10,6 +10,8 @@ namespace Files.Shared
 
         public string SyncFolder { get; set; }
 
+        public byte[] IconData { get; set; }
+
         public override int GetHashCode()
         {
             return $"{ID}|{SyncFolder}".GetHashCode();
