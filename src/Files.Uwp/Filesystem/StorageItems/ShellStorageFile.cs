@@ -16,6 +16,22 @@ using Storage = Windows.Storage;
 
 namespace Files.Uwp.Filesystem.StorageItems
 {
+    public class ShortcutStorageFile : ShellStorageFile, IShortcutStorageItem
+    {
+        public string TargetPath { get; }
+        public string Arguments { get; }
+        public string WorkingDirectory { get; }
+        public bool RunAsAdmin { get; }
+
+        public ShortcutStorageFile(ShellLinkItem item) : base(item)
+        {
+            TargetPath = item.TargetPath;
+            Arguments = item.Arguments;
+            WorkingDirectory = item.WorkingDirectory;
+            RunAsAdmin = item.RunAsAdmin;
+        }
+    }
+
     public class BinStorageFile : ShellStorageFile, IBinStorageItem
     {
         public string OriginalPath { get; }
@@ -58,11 +74,18 @@ namespace Files.Uwp.Filesystem.StorageItems
 
         public static ShellStorageFile FromShellItem(ShellFileItem item)
         {
-            if (item.RecyclePath != item.FilePath)
+            if (item is ShellLinkItem linkItem)
+            {
+                return new ShortcutStorageFile(linkItem);
+            }
+            else if (item.RecyclePath.Contains("$Recycle.Bin", StringComparison.Ordinal))
             {
                 return new BinStorageFile(item);
             }
-            return new ShellStorageFile(item);
+            else
+            {
+                return new ShellStorageFile(item);
+            }
         }
 
         public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)

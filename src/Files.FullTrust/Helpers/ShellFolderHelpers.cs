@@ -50,8 +50,10 @@ namespace Files.FullTrust.Helpers
             folderItem.Properties.TryGetValue<string>(
                 Ole32.PROPERTYKEY.System.ItemNameDisplay, out var fileName);
             fileName ??= Path.GetFileName(folderItem.Name); // Original file name
+            fileName ??= folderItem.GetDisplayName(ShellItemDisplayString.ParentRelativeParsing);
+            var itemNameOrOriginalPath = folderItem.Name ?? fileName;
             string filePath = string.IsNullOrEmpty(Path.GetDirectoryName(parsingPath)) ? // Null if root
-                parsingPath : Path.Combine(Path.GetDirectoryName(parsingPath), folderItem.Name); // In recycle bin "Name" contains original file path + name
+                parsingPath : Path.Combine(Path.GetDirectoryName(parsingPath), itemNameOrOriginalPath); // In recycle bin "Name" contains original file path + name
             if (!isFolder && !string.IsNullOrEmpty(parsingPath) && Path.GetExtension(parsingPath) is string realExtension && !string.IsNullOrEmpty(realExtension))
             {
                 if (!string.IsNullOrEmpty(fileName) && !fileName.EndsWith(realExtension, StringComparison.OrdinalIgnoreCase))
