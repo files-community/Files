@@ -47,6 +47,10 @@ to group your changes into a small number of commits which we can review one at 
 When completing a pull request, we will generally squash your changes into a single commit. Please
 let us know if your pull request needs to be merged as separate commits.
 
+## Translation
+
+Help us translate the Files - [Crowdin project](https://crowdin.com/project/files-demo)
+
 ## Running interaction tests (optional)
 First, you will need to install WinAppDriver. You can download the latest version from [here](https://github.com/microsoft/WinAppDriver/releases).
 After installing WinAppDriver, you will need to run the Files.Package at least once to have the debug version be registered on your machine.

@@ -1,0 +1,40 @@
+# This workflow will run Crowdin Action that will upload new texts to Crowdin, download the newest translations and create a PR
+# For more information see: https://github.com/crowdin/github-action
+
+name: Crowdin Action
+
+# Controls when the action will run.
+on:
+  schedule:
+    - cron: '0 */6 * * *' # Every 6 hours - https://crontab.guru/#0_*/6_*_*_*
+  push: #temporary
+    branches: [ main ]
+
+jobs:
+  synchronize-with-crowdin:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: crowdin action
+        uses: crowdin/github-action@1.4.9
+        with:
+          # Upload sources to Crowdin
+          upload_sources: true
+          # Upload translations to Crowdin, only use true at initial run
+          upload_translations: true
+          # Make pull request of Crowdin translations
+          download_translations: true
+          # To download translations to the specified version branch
+          localization_branch_name: l10n_crowdin_translations
+          # Create pull request after pushing to branch
+          create_pull_request: true
+          pull_request_title: 'New Crowdin translations'
+          pull_request_body: 'New Crowdin pull request with translations'
+          pull_request_base_branch_name: 'main'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
