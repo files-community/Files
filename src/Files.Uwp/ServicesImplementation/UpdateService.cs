@@ -43,7 +43,7 @@ namespace Files.Uwp.ServicesImplementation
         }
 
         // TODO: This needs to be implemented in this service.
-        public uint DownloadPercentage { get; }
+        public int DownloadPercentage { get; }
 
         public UpdateService()
         {

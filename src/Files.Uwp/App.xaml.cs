@@ -214,9 +214,7 @@ namespace Files.Uwp
             // Check for required updates
             var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
             await updateService.CheckForUpdates();
-#if !SIDELOAD
             await updateService.DownloadMandatoryUpdates();
-#endif
 
             static async Task OptionalTask(Task task, bool condition)
             {
