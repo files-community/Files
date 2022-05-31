@@ -129,6 +129,7 @@ namespace Files.Uwp
 #endif
                 .AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
                 .AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
+                .AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
 
                 // TODO(i): FileSystem operations:
                 // (IFilesystemHelpersService, IFilesystemOperationsService)
