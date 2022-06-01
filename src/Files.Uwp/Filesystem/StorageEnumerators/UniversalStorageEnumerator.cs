@@ -166,7 +166,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
             {
                 if (folder is ShortcutStorageFolder linkFolder)
                 {
-                    return new ShortcutItem(folder.FolderRelativeId, dateReturnFormat)
+                    return new ShortcutItem(folder.FolderRelativeId)
                     {
                         PrimaryItemAttribute = StorageItemTypes.Folder,
                         IsHiddenItem = false,
@@ -265,7 +265,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                 if (file is ShortcutStorageFile linkFile)
                 {
                     var isUrl = linkFile.Name.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
-                    return new ShortcutItem(file.FolderRelativeId, dateReturnFormat)
+                    return new ShortcutItem(file.FolderRelativeId)
                     {
                         PrimaryItemAttribute = StorageItemTypes.File,
                         FileExtension = itemFileExtension,
